@@ -1,0 +1,728 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
+    <StartAction>Project</StartAction>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>yupi.ico</ApplicationIcon>
+    <ProjectGuid>{4F3B6B3F-7754-40C9-B3DD-8D83BFA59FE5}</ProjectGuid>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+    <NoStdLib>False</NoStdLib>
+    <OutputType>Exe</OutputType>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <WarningLevel>4</WarningLevel>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publicar\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>Yupi</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
+    <BaseAddress>4194304</BaseAddress>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <FileAlignment>4096</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>Custom</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>false</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <OutputPath>bin\Debug\x86\</OutputPath>
+    <Prefer32Bit>true</Prefer32Bit>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <Optimize>true</Optimize>
+    <ErrorReport>prompt</ErrorReport>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\x64\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <Optimize>false</Optimize>
+    <FileAlignment>2048</FileAlignment>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <LangVersion>6</LangVersion>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DebugSymbols>false</DebugSymbols>
+    <OutputPath>bin\Release\x86\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <Optimize>true</Optimize>
+    <FileAlignment>4096</FileAlignment>
+    <DebugType>none</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <ErrorReport>none</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+    <LangVersion>default</LangVersion>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DebugSymbols>false</DebugSymbols>
+    <OutputPath>bin\Release\x64\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <Optimize>true</Optimize>
+    <FileAlignment>4096</FileAlignment>
+    <DebugType>none</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <ErrorReport>none</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+    <LangVersion>default</LangVersion>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\AnyCPU\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>false</Optimize>
+    <FileAlignment>4096</FileAlignment>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <LangVersion>default</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\AnyCPU\</OutputPath>
+    <Optimize>true</Optimize>
+    <FileAlignment>4096</FileAlignment>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <LangVersion>default</LangVersion>
+    <ErrorReport>none</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Yupi.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyName>Yupi</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FirebirdSql.Data.FirebirdClient">
+      <HintPath>Building\Lib\Database\FirebirdSql.Data.FirebirdClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Ingres.Stereo">
+      <HintPath>Building\Lib\Database\Ingres.Stereo.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MySql.Data">
+      <HintPath>Building\Lib\Database\MySql.Data.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Npgsql">
+      <HintPath>Building\Lib\Database\Npgsql.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Reflection" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\Algorithms\GameField\Algorithm\GametileUpdate.cs" />
+    <Compile Include="Core\Algorithms\GameField\GameField.cs" />
+    <Compile Include="Core\Algorithms\GameField\PointField.cs" />
+    <Compile Include="Core\Algorithms\Astar\AStar.cs" />
+    <Compile Include="Core\Algorithms\Astar\AStarHeuristicType.cs" />
+    <Compile Include="Core\Algorithms\Astar\IIndexedObject.cs" />
+    <Compile Include="Core\Algorithms\Astar\IPathNode.cs" />
+    <Compile Include="Core\Algorithms\Astar\IWeightAddable.cs" />
+    <Compile Include="Core\Algorithms\Astar\PriorityQueue.cs" />
+    <Compile Include="Coord.cs" />
+    <Compile Include="Core\Encryption\Crypto\KeyExchange\DiffieHellman.cs" />
+    <Compile Include="Core\Encryption\Handler.cs" />
+    <Compile Include="Core\Encryption\Hurlant\Crypto\Prng\ARC4.cs" />
+    <Compile Include="Core\Encryption\Hurlant\Crypto\Rsa\DoCalculateionDelegate.cs" />
+    <Compile Include="Core\Encryption\Hurlant\Crypto\Rsa\Pkcs1PadType.cs" />
+    <Compile Include="Core\Encryption\Hurlant\Crypto\Rsa\RsaKey.cs" />
+    <Compile Include="Core\Encryption\PrimeCalculator.cs" />
+    <Compile Include="Core\Encryption\Properties\AssemblyInfo.cs" />
+    <Compile Include="Core\Encryption\Utils\Converter.cs" />
+    <Compile Include="Core\Encryption\Utils\Randomizer.cs" />
+    <Compile Include="Data\Base\Connections\ConnectionManager.cs" />
+    <Compile Include="Data\Base\Connections\DatabaseConnection.cs" />
+    <Compile Include="Data\Base\DatabaseManager.cs" />
+    <Compile Include="Data\Base\DatabaseServer.cs" />
+    <Compile Include="Data\Base\Exceptions\DatabaseException.cs" />
+    <Compile Include="Data\Base\Exceptions\QueryException.cs" />
+    <Compile Include="Data\Base\Exceptions\TransactionException.cs" />
+    <Compile Include="Data\Base\MySqlClient.cs" />
+    <Compile Include="Data\Base\Sessions\Interfaces\IDatabaseClient.cs" />
+    <Compile Include="Data\Base\Sessions\Interfaces\IQueryAdapter.cs" />
+    <Compile Include="Data\Base\Sessions\Interfaces\IRegularQueryAdapter.cs" />
+    <Compile Include="Data\Base\Sessions\NormalQueryReactor.cs" />
+    <Compile Include="Data\Base\Sessions\QueryAdapter.cs" />
+    <Compile Include="Data\Base\Sessions\TransactionQueryReactor.cs" />
+    <Compile Include="Data\Collections\OnCycleDoneDelegate.cs" />
+    <Compile Include="Data\Collections\QueuedDictionary.cs" />
+    <Compile Include="Game\RoomBots\Interfaces\BotCommand.cs" />
+    <Compile Include="Game\RoomBots\Interfaces\CatalogBot.cs" />
+    <Compile Include="Game\RoomBots\Models\BaseBot.cs" />
+    <Compile Include="Core\Io\AbstractBar.cs" />
+    <Compile Include="Core\Io\AnimatedBar.cs" />
+    <Compile Include="Core\Io\ConsoleFlashMode.cs" />
+    <Compile Include="Core\Io\ConsoleOutputWriter.cs" />
+    <Compile Include="Core\Io\LogMessage.cs" />
+    <Compile Include="Core\Io\ServerUserChatTextHandler.cs" />
+    <Compile Include="Core\Io\Writer.cs" />
+    <Compile Include="Net\Web\WebManager.cs" />
+    <Compile Include="Data\FurnitureDataManager.cs" />
+    <Compile Include="Data\Structs\FurnitureData.cs" />
+    <Compile Include="Core\Settings\ServerLanguageSettings.cs" />
+    <Compile Include="Net\Connection\ConnectionData.cs" />
+    <Compile Include="Net\Sockets\SocketConnectionSettings.cs" />
+    <Compile Include="Net\Sockets\SocketConnectionCheck.cs" />
+    <Compile Include="Net\Sockets\SocketConnectionManager.cs" />
+    <Compile Include="Game\Catalogs\Composers\TargetedOfferComposer.cs" />
+    <Compile Include="Game\Catalogs\TargetedOfferManager.cs" />
+    <Compile Include="Game\Catalogs\Interfaces\TargetedOffer.cs" />
+    <Compile Include="Game\Commands\Interfaces\Command.cs" />
+    <Compile Include="Game\Commands\CommandsManager.cs" />
+    <Compile Include="Game\Commands\Controllers\AddVideo.cs" />
+    <Compile Include="Game\Commands\Controllers\DisableEvent.cs" />
+    <Compile Include="Game\Commands\Controllers\DisablePush.cs" />
+    <Compile Include="Game\Commands\Controllers\DisconnectUser.cs" />
+    <Compile Include="Game\Commands\Controllers\FloodUser.cs" />
+    <Compile Include="Game\Commands\Controllers\HideInRoom.cs" />
+    <Compile Include="Game\Commands\Controllers\DisablePull.cs" />
+    <Compile Include="Game\Commands\Controllers\Offline.cs" />
+    <Compile Include="Game\Commands\Controllers\GiveRank.cs" />
+    <Compile Include="Game\Commands\Controllers\GoInvisible.cs" />
+    <Compile Include="Game\Commands\Controllers\HotelAlertLink.cs" />
+    <Compile Include="Game\Commands\Controllers\LTD.cs" />
+    <Compile Include="Game\Commands\Controllers\MakePrivate.cs" />
+    <Compile Include="Game\Commands\Controllers\MakePublic.cs" />
+    <Compile Include="Game\Commands\Controllers\SayAll.cs" />
+    <Compile Include="Game\Commands\Controllers\StartQuestion.cs" />
+    <Compile Include="Game\Commands\Controllers\AddBlackWord.cs" />
+    <Compile Include="Game\Commands\Controllers\DeleteBlackWord.cs" />
+    <Compile Include="Game\Commands\Controllers\Developer.cs" />
+    <Compile Include="Game\Commands\Controllers\Disco.cs" />
+    <Compile Include="Game\Commands\Controllers\EventAlert.cs" />
+    <Compile Include="Game\Commands\Controllers\Friends.cs" />
+    <Compile Include="Game\Commands\Controllers\MutePets.cs" />
+    <Compile Include="Game\Commands\Controllers\Override.cs" />
+    <Compile Include="Game\Commands\Controllers\RefreshExtraThings.cs" />
+    <Compile Include="Game\Commands\Controllers\RefreshPromos.cs" />
+    <Compile Include="Game\Commands\Controllers\MassCredits.cs" />
+    <Compile Include="Game\Commands\Controllers\Restart.cs" />
+    <Compile Include="Game\Commands\Controllers\SpullUser.cs" />
+    <Compile Include="Game\Commands\Controllers\StaffAlert.cs" />
+    <Compile Include="Game\Commands\Controllers\WhisperHotel.cs" />
+    <Compile Include="Game\Commands\Controllers\WhisperRoom.cs" />
+    <Compile Include="Game\Items\Datas\HighscoreData.cs" />
+    <Compile Include="Game\Items\Interactions\Enums\GlobalInteractions.cs" />
+    <Compile Include="Game\Items\Interactions\Enums\Interaction.cs" />
+    <Compile Include="Game\Items\Interfaces\HighScoreLine.cs" />
+    <Compile Include="Game\Items\Handlers\HopperHandler.cs" />
+    <Compile Include="Game\Items\Interactions\Models\IFurniInteractorModel.cs" />
+    <Compile Include="Game\Items\Interactions\Interfaces\IFurniInteractor.cs" />
+    <Compile Include="Game\Items\Interactions\Controllers\InteractorAlert.cs" />
+    <Compile Include="Game\Items\Interactions\Controllers\InteractorBanzaiScoreCounter.cs" />
+    <Compile Include="Game\Items\Interactions\Controllers\InteractorBanzaiTimer.cs" />
+    <Compile Include="Game\Items\Interactions\Controllers\InteractorCannon.cs" />
+    <Compile Include="Game\Items\Interactions\Controllers\InteractorRoller.cs" />
+    <Compile Include="Game\Items\Interactions\Controllers\InteractorWalkInternalLink.cs" />
+    <Compile Include="Game\Items\Interactions\Controllers\InteractorSwitch.cs" />
+    <Compile Include="Game\Items\Interactions\Controllers\InteractorDice.cs" />
+    <Compile Include="Game\Items\Interactions\Controllers\InteractorCrackableEgg.cs" />
+    <Compile Include="Game\Items\Interactions\Controllers\InteractorFireworks.cs" />
+    <Compile Include="Game\Items\Interactions\Controllers\InteractorFootball.cs" />
+    <Compile Include="Game\Items\Interactions\Controllers\InteractorFreezeScoreCounter.cs" />
+    <Compile Include="Game\Items\Interactions\Controllers\InteractorFreezeTile.cs" />
+    <Compile Include="Game\Items\Interactions\Controllers\InteractorFreezeTimer.cs" />
+    <Compile Include="Game\Items\Interactions\Controllers\InteractorGate.cs" />
+    <Compile Include="Game\Items\Interactions\Controllers\InteractorGenericSwitch.cs" />
+    <Compile Include="Game\Items\Interactions\Controllers\InteractorGroupForumTerminal.cs" />
+    <Compile Include="Game\Items\Interactions\Controllers\InteractorGroupGate.cs" />
+    <Compile Include="Game\Items\Interactions\Controllers\InteractorHabboWheel.cs" />
+    <Compile Include="Game\Items\Interactions\Controllers\InteractorHCGate.cs" />
+    <Compile Include="Game\Items\Interactions\Controllers\InteractorHopper.cs" />
+    <Compile Include="Game\Items\Interactions\Controllers\InteractorJukebox.cs" />
+    <Compile Include="Game\Items\Interactions\Controllers\InteractorLoveShuffler.cs" />
+    <Compile Include="Game\Items\Interactions\Controllers\InteractorMannequin.cs" />
+    <Compile Include="Game\Items\Interactions\Controllers\InteractorOneWayGate.cs" />
+    <Compile Include="Game\Items\Interactions\Controllers\InteractorPuzzleBox.cs" />
+    <Compile Include="Game\Items\Interactions\Controllers\InteractorQuickTeleport.cs" />
+    <Compile Include="Game\Items\Interactions\Controllers\InteractorScoreboard.cs" />
+    <Compile Include="Game\Items\Interactions\Controllers\InteractorScoreCounter.cs" />
+    <Compile Include="Game\Items\Interactions\Controllers\InteractorSpinningBottle.cs" />
+    <Compile Include="Game\Items\Interactions\Controllers\InteractorTeleport.cs" />
+    <Compile Include="Game\Items\Interactions\Controllers\InteractorVendor.cs" />
+    <Compile Include="Game\Items\Interactions\Controllers\InteractorFxBox.cs" />
+    <Compile Include="Game\Items\Interactions\Controllers\InteractorVikingCotie.cs" />
+    <Compile Include="Game\Items\Interactions\Controllers\InteractorWired.cs" />
+    <Compile Include="Game\Items\Interactions\InteractionTypes.cs" />
+    <Compile Include="Game\Items\Interfaces\Item.cs" />
+    <Compile Include="Game\Items\ItemManager.cs" />
+    <Compile Include="Game\Items\Datas\MoodlightData.cs" />
+    <Compile Include="Game\Items\Interfaces\MoodlightPreset.cs" />
+    <Compile Include="Game\Items\OnItemTrigger.cs" />
+    <Compile Include="Game\Items\ClothingManager.cs" />
+    <Compile Include="Game\Items\Handlers\CrackableEggHandler.cs" />
+    <Compile Include="Game\Items\Handlers\PinataHandler.cs" />
+    <Compile Include="Game\Items\Interfaces\ClothingItem.cs" />
+    <Compile Include="Game\Items\Interfaces\PinataItem.cs" />
+    <Compile Include="Game\Items\Interfaces\RoomItem.cs" />
+    <Compile Include="Game\Items\Handlers\TeleHandler.cs" />
+    <Compile Include="Game\Items\Datas\TonerData.cs" />
+    <Compile Include="Game\Items\Interfaces\UserItem.cs" />
+    <Compile Include="Game\Items\WallCoordinate.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Conditions\TimerTrigger.cs" />
+    <Compile Include="Core\Security\ServerMutantManager.cs" />
+    <Compile Include="Game\Users\ExchangeManager.cs" />
+    <Compile Include="Game\Commands\Controllers\About.cs" />
+    <Compile Include="Game\Commands\Controllers\Alert.cs" />
+    <Compile Include="Game\Commands\Controllers\BanUser.cs" />
+    <Compile Include="Game\Commands\Controllers\BanUserIp.cs" />
+    <Compile Include="Game\Commands\Controllers\CommandList.cs" />
+    <Compile Include="Game\Commands\Controllers\CopyLook.cs" />
+    <Compile Include="Game\Commands\Controllers\Dance.cs" />
+    <Compile Include="Game\Commands\Controllers\DisableDiagonal.cs" />
+    <Compile Include="Game\Commands\Controllers\Empty.cs" />
+    <Compile Include="Game\Commands\Controllers\EmptyUser.cs" />
+    <Compile Include="Game\Commands\Controllers\Enable.cs" />
+    <Compile Include="Game\Commands\Controllers\FaceLess.cs" />
+    <Compile Include="Game\Commands\Controllers\FastWalk.cs" />
+    <Compile Include="Game\Commands\Controllers\Freeze.cs" />
+    <Compile Include="Game\Commands\Controllers\GiveBadge.cs" />
+    <Compile Include="Game\Commands\Controllers\UserFaq.cs" />
+    <Compile Include="Game\Commands\Controllers\GiveCredits.cs" />
+    <Compile Include="Game\Commands\Controllers\GiveDiamonds.cs" />
+    <Compile Include="Game\Commands\Controllers\GiveDuckets.cs" />
+    <Compile Include="Game\Commands\Controllers\GoBoom.cs" />
+    <Compile Include="Game\Commands\Controllers\HabNam.cs" />
+    <Compile Include="Game\Commands\Controllers\HandItem.cs" />
+    <Compile Include="Game\Commands\Controllers\HotelAlert.cs" />
+    <Compile Include="Game\Commands\Controllers\Kick.cs" />
+    <Compile Include="Game\Commands\Controllers\Kill.cs" />
+    <Compile Include="Game\Commands\Controllers\Lay.cs" />
+    <Compile Include="Game\Commands\Controllers\MakeSay.cs" />
+    <Compile Include="Game\Commands\Controllers\MassBadge.cs" />
+    <Compile Include="Game\Commands\Controllers\MassDance.cs" />
+    <Compile Include="Game\Commands\Controllers\MassDiamonds.cs" />
+    <Compile Include="Game\Commands\Controllers\MassEnable.cs" />
+    <Compile Include="Game\Commands\Controllers\MoonWalk.cs" />
+    <Compile Include="Game\Commands\Controllers\Mute.cs" />
+    <Compile Include="Game\Commands\Controllers\MuteBots.cs" />
+    <Compile Include="Game\Commands\Controllers\PickAll.cs" />
+    <Compile Include="Game\Commands\Controllers\PickPets.cs" />
+    <Compile Include="Game\Commands\Controllers\PullUser.cs" />
+    <Compile Include="Game\Commands\Controllers\PushUser.cs" />
+    <Compile Include="Game\Commands\Controllers\RedeemCredits.cs" />
+    <Compile Include="Game\Commands\Controllers\RefreshAchievements.cs" />
+    <Compile Include="Game\Commands\Controllers\RefreshBannedHotels.cs" />
+    <Compile Include="Game\Commands\Controllers\RefreshCatalogue.cs" />
+    <Compile Include="Game\Commands\Controllers\RefreshGroups.cs" />
+    <Compile Include="Game\Commands\Controllers\RefreshItems.cs" />
+    <Compile Include="Game\Commands\Controllers\RefreshNavigator.cs" />
+    <Compile Include="Game\Commands\Controllers\RefreshPolls.cs" />
+    <Compile Include="Game\Commands\Controllers\RefreshQuests.cs" />
+    <Compile Include="Game\Commands\Controllers\RefreshRanks.cs" />
+    <Compile Include="Game\Commands\Controllers\RefreshSettings.cs" />
+    <Compile Include="Game\Commands\Controllers\RefreshSongs.cs" />
+    <Compile Include="Game\Commands\Controllers\RemoveBadge.cs" />
+    <Compile Include="Game\Commands\Controllers\RoomAlert.cs" />
+    <Compile Include="Game\Commands\Controllers\RoomBadge.cs" />
+    <Compile Include="Game\Commands\Controllers\RoomKick.cs" />
+    <Compile Include="Game\Commands\Controllers\RoomMute.cs" />
+    <Compile Include="Game\Commands\Controllers\RoomUnMute.cs" />
+    <Compile Include="Game\Commands\Controllers\SetMax.cs" />
+    <Compile Include="Game\Commands\Controllers\SetSpeed.cs" />
+    <Compile Include="Game\Commands\Controllers\SetVideos.cs" />
+    <Compile Include="Game\Commands\Controllers\Shutdown.cs" />
+    <Compile Include="Game\Commands\Controllers\Sit.cs" />
+    <Compile Include="Game\Commands\Controllers\FollowUser.cs" />
+    <Compile Include="Game\Commands\Controllers\Stand.cs" />
+    <Compile Include="Game\Commands\Controllers\Summon.cs" />
+    <Compile Include="Game\Commands\Controllers\SummonAll.cs" />
+    <Compile Include="Game\Commands\Controllers\SuperBan.cs" />
+    <Compile Include="Game\Commands\Controllers\TelePort.cs" />
+    <Compile Include="Game\Commands\Controllers\UnBanUser.cs" />
+    <Compile Include="Game\Commands\Controllers\Unload.cs" />
+    <Compile Include="Game\Commands\Controllers\UnMute.cs" />
+    <Compile Include="Game\Commands\Controllers\UserInfo.cs" />
+    <Compile Include="Core\Security\CrossDomainSettings.cs" />
+    <Compile Include="Game\Users\Figures\AvatarFigureParts.cs" />
+    <Compile Include="Data\ServerCPULowPriorityWorker.cs" />
+    <Compile Include="Game\Browser\Interfaces\NavigatorHeader.cs" />
+    <Compile Include="Game\Browser\Interfaces\UserSearchLog.cs" />
+    <Compile Include="Game\Browser\Interfaces\PromoCategory.cs" />
+    <Compile Include="Game\Browser\SearchResultList.cs" />
+    <Compile Include="Game\Pathfinding\ThreeDCoord.cs" />
+    <Compile Include="Game\Pets\PetBreeding.cs" />
+    <Compile Include="Game\Pets\Structs\PetCommand.cs" />
+    <Compile Include="Game\Polls\Enums\PollAnswerType.cs" />
+    <Compile Include="Game\Polls\Enums\PollType.cs" />
+    <Compile Include="Game\Rooms\Items\ByteToItemEffectEnum.cs" />
+    <Compile Include="Game\Rooms\Chat\Chatlog.cs" />
+    <Compile Include="Game\Rooms\Data\DynamicRoomModel.cs" />
+    <Compile Include="Game\Rooms\Items\Games\Handlers\GameItemHandler.cs" />
+    <Compile Include="Game\Rooms\User\Path\Gamemap.cs" />
+    <Compile Include="Game\Rooms\Items\Games\Types\Banzai\BattleBanzai.cs" />
+    <Compile Include="Game\Rooms\Items\Games\Types\Soccer\ComeDirection.cs" />
+    <Compile Include="Game\Rooms\Items\Games\Types\Freeze\Freeze.cs" />
+    <Compile Include="Game\Rooms\Items\Games\Types\Freeze\Enum\FreezePowerUp.cs" />
+    <Compile Include="Game\Rooms\Items\Games\GameManager.cs" />
+    <Compile Include="Game\Rooms\Items\Games\Types\Soccer\Enums\IComeDirection.cs" />
+    <Compile Include="Game\Rooms\Items\Games\Types\Soccer\Soccer.cs" />
+    <Compile Include="Game\Rooms\Items\Games\Teams\Enums\Team.cs" />
+    <Compile Include="Game\Rooms\Items\Games\Teams\TeamManager.cs" />
+    <Compile Include="Game\Rooms\Chat\Interfaces\InvokedChatMessage.cs" />
+    <Compile Include="Game\Rooms\Items\Enums\ItemEffectType.cs" />
+    <Compile Include="Game\Rooms\Items\ItemTriggeredArgs.cs" />
+    <Compile Include="Game\Rooms\Room.cs" />
+    <Compile Include="Game\Rooms\Data\RoomData.cs" />
+    <Compile Include="Game\Rooms\Data\RoomEvent.cs" />
+    <Compile Include="Game\Rooms\Data\RoomEventDelegate.cs" />
+    <Compile Include="Game\Rooms\Data\RoomEvents.cs" />
+    <Compile Include="Game\Rooms\RoomInvokedItems\RoomAlert.cs" />
+    <Compile Include="Game\Rooms\RoomInvokedItems\RoomKick.cs" />
+    <Compile Include="Game\Rooms\Items\Handlers\RoomItemHandler.cs" />
+    <Compile Include="Game\Rooms\RoomManager.cs" />
+    <Compile Include="Game\Rooms\RoomModel.cs" />
+    <Compile Include="Game\Rooms\User\RoomUser.cs" />
+    <Compile Include="Game\Rooms\Data\RoomCompetitionManager.cs" />
+    <Compile Include="Game\Rooms\User\RoomUserManager.cs" />
+    <Compile Include="Game\Rooms\User\RoomUserSaysDelegate.cs" />
+    <Compile Include="Game\Rooms\Chat\Enums\SquareState.cs" />
+    <Compile Include="Game\Rooms\Items\Games\Teams\TeamScoreChangedArgs.cs" />
+    <Compile Include="Game\Rooms\Items\Games\Teams\TeamScoreChangedDelegate.cs" />
+    <Compile Include="Game\Rooms\Items\Teleports\TeleUserData.cs" />
+    <Compile Include="Game\Rooms\User\Trade\Trade.cs" />
+    <Compile Include="Game\Rooms\User\Trade\TradeUser.cs" />
+    <Compile Include="Game\Rooms\Chat\UserSaysArgs.cs" />
+    <Compile Include="Game\Rooms\User\Path\UserWalksFurniDelegate.cs" />
+    <Compile Include="Game\Rooms\User\Path\UserWalksOnArgs.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Conditions\DateRangeActive.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Conditions\FurniHasFurni.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Conditions\FurniHasNotFurni.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Conditions\FurniHasNotUsers.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Conditions\FurniHasUsers.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Conditions\HowManyUsers.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Conditions\TimeLessThan.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Conditions\TimeMoreThan.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Conditions\IsGroupMember.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Conditions\IsNotGroupMember.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Conditions\ItemsCoincide.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Conditions\ItemsNotCoincide.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Conditions\ItemsTypeDontMatch.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Conditions\ItemsTypeMatches.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Conditions\NotHowManyUsersInRoom.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Conditions\TriggererNotOnFurni.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Conditions\UserHasHanditem.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Conditions\TriggererOnFurni.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Conditions\UserHasFurni.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Conditions\UserIsNotWearingBadge.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Conditions\UserIsNotWearingEffect.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Conditions\UserIsWearingBadge.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Conditions\UserIsWearingEffect.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Effects\Chase.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Effects\EffectUser.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Effects\GiveReward.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Effects\GiveScore.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Effects\KickUser.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Effects\MoveRotateFurni.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Effects\MoveToDir.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Effects\MuteUser.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Effects\ResetPosition.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Effects\ResetTimers.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Effects\ShowMessage.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Effects\TeleportToFurni.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Effects\LeaveTeam.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Effects\JoinTeam.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Effects\BotFollowAvatar.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Effects\BotTalkToAvatar.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Effects\BotTalk.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Effects\BotMove.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Effects\BotTeleport.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Effects\BotGiveHanditem.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Effects\BotClothes.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Effects\CallStacks.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Effects\Template.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Effects\ToggleFurniState.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Movement.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Triggers\Collision.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Triggers\FurniStateToggled.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Triggers\GameEnds.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Triggers\BotReachedAvatar.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Triggers\BotReachedStuff.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Triggers\GameStarts.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Triggers\LongRepeater.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Triggers\Repeater.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Triggers\SaysKeyword.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Triggers\ScoreAchieved.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Triggers\TemplateTrigger.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Triggers\UserEntersRoom.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Triggers\WalksOffFurni.cs" />
+    <Compile Include="Game\Items\Wired\Handlers\Triggers\WalksOnFurni.cs" />
+    <Compile Include="Game\Items\Wired\Interfaces\IWiredCycler.cs" />
+    <Compile Include="Game\Items\Wired\Interfaces\IWiredItem.cs" />
+    <Compile Include="Game\Items\Wired\WiredHandler.cs" />
+    <Compile Include="Game\Items\Wired\WiredSaver.cs" />
+    <Compile Include="Game\Users\EmoticonManager.cs" />
+    <Compile Include="Game\Users\YoutubeManager.cs" />
+    <Compile Include="Game\Users\HallOfFame.cs" />
+    <Compile Include="Game\Users\UserPreferences.cs" />
+    <Compile Include="Game\Users\Inventory\UserClothesManager.cs" />
+    <Compile Include="Data\CacheManager.cs" />
+    <Compile Include="Messages\Factorys\ClientMessageFactory.cs" />
+    <Compile Include="Messages\Handlers\Catalogs.cs" />
+    <Compile Include="Messages\Handlers\GameCenter.cs" />
+    <Compile Include="Messages\Handlers\Groups.cs" />
+    <Compile Include="Messages\Handlers\Guides.cs" />
+    <Compile Include="Messages\Handlers\Help.cs" />
+    <Compile Include="Messages\Handlers\Inventory.cs" />
+    <Compile Include="Messages\Handlers\Items.cs" />
+    <Compile Include="Messages\Handlers\Messenger.cs" />
+    <Compile Include="Messages\Handlers\Music.cs" />
+    <Compile Include="Messages\Handlers\Navigator.cs" />
+    <Compile Include="Messages\Handlers\Rooms.cs" />
+    <Compile Include="Messages\Handlers\Users.cs" />
+    <Compile Include="Net\Sockets\Exceptions\SocketInitializationException.cs" />
+    <Compile Include="Messages\Parsers\LibraryParser.cs" />
+    <Compile Include="Messages\Enums\StaticMessages.cs" />
+    <Compile Include="Core\Security\BlackWords\Structs\BlackWord.cs" />
+    <Compile Include="Core\Security\BlackWords\BlackWordsManager.cs" />
+    <Compile Include="Core\Security\BlackWords\Enums\BlackWordType.cs" />
+    <Compile Include="Core\Security\BlackWords\Structs\BlackWordTypeSettings.cs" />
+    <Compile Include="Core\Security\ServerSecurityChatFilter.cs" />
+    <Compile Include="Core\Security\UserChatInputFilter.cs" />
+    <Compile Include="Core\Settings\ServerDatabaseSettings.cs" />
+    <Compile Include="Core\Settings\ServerConfigurationSettings.cs" />
+    <Compile Include="Net\Connection\ConnectionHandler.cs" />
+    <Compile Include="Core\Settings\ConsoleCommandHandler.cs" />
+    <Compile Include="Core\Settings\ServerExtraSettings.cs" />
+    <Compile Include="Data\ServerLogManager.cs" />
+    <Compile Include="Game\Achievements\Structs\Achievement.cs" />
+    <Compile Include="Game\Achievements\Structs\AchievementLevel.cs" />
+    <Compile Include="Game\Achievements\Factories\AchievementLevelFactory.cs" />
+    <Compile Include="Game\Achievements\AchievementManager.cs" />
+    <Compile Include="Game\Achievements\Composers\AchievementListComposer.cs" />
+    <Compile Include="Game\Achievements\Composers\AchievementProgressComposer.cs" />
+    <Compile Include="Game\Achievements\Composers\AchievementScoreUpdateComposer.cs" />
+    <Compile Include="Game\Achievements\Composers\AchievementUnlockedComposer.cs" />
+    <Compile Include="Game\Achievements\Structs\Talent.cs" />
+    <Compile Include="Game\Achievements\TalentManager.cs" />
+    <Compile Include="Game\Achievements\Structs\UserAchievement.cs" />
+    <Compile Include="Game\Achievements\Structs\UserTalent.cs" />
+    <Compile Include="Game\Catalogs\CatalogManager.cs" />
+    <Compile Include="Game\Catalogs\Interfaces\CatalogItem.cs" />
+    <Compile Include="Game\Catalogs\Composers\CatalogPageComposer.cs" />
+    <Compile Include="Game\Catalogs\Interfaces\CatalogPage.cs" />
+    <Compile Include="Game\Catalogs\Interfaces\EcotronReward.cs" />
+    <Compile Include="Game\Catalogs\Wrappers\GiftWrapper.cs" />
+    <Compile Include="Game\Events\Interfaces\EventCategory.cs" />
+    <Compile Include="Game\Events\EventManager.cs" />
+    <Compile Include="Game\Game.cs" />
+    <Compile Include="Game\GameClients\Interfaces\GameClient.cs" />
+    <Compile Include="Game\GameClients\GameClientManager.cs" />
+    <Compile Include="Game\Groups\Interfaces\GroupBackGroundColours.cs" />
+    <Compile Include="Game\Groups\Interfaces\GroupBaseColours.cs" />
+    <Compile Include="Game\Groups\Interfaces\GroupBases.cs" />
+    <Compile Include="Game\Groups\Interfaces\GroupForumPost.cs" />
+    <Compile Include="Game\Groups\GroupManager.cs" />
+    <Compile Include="Game\Groups\Interfaces\GroupSymbolColours.cs" />
+    <Compile Include="Game\Groups\Interfaces\GroupSymbols.cs" />
+    <Compile Include="Game\Groups\Interfaces\GroupMember.cs" />
+    <Compile Include="Game\Groups\Interfaces\Guild.cs" />
+    <Compile Include="Game\Browser\Interfaces\PublicCategory.cs" />
+    <Compile Include="Game\Browser\HotelLandingManager.cs" />
+    <Compile Include="Game\Browser\HotelBrowserManager.cs" />
+    <Compile Include="Game\Browser\Enums\PublicImageType.cs" />
+    <Compile Include="Game\Browser\Interfaces\PublicItem.cs" />
+    <Compile Include="Game\Browser\Enums\PublicItemType.cs" />
+    <Compile Include="Game\Browser\HotelLandingPromos.cs" />
+    <Compile Include="Game\Pathfinding\MinHeap.cs" />
+    <Compile Include="Game\Pathfinding\PathFinder.cs" />
+    <Compile Include="Game\Pathfinding\PathFinderNode.cs" />
+    <Compile Include="Game\Pathfinding\Rotation.cs" />
+    <Compile Include="Game\Pathfinding\Vector2D.cs" />
+    <Compile Include="Game\Pets\Enums\DatabaseUpdateState.cs" />
+    <Compile Include="Game\Pets\MoplaBreed.cs" />
+    <Compile Include="Game\Pets\Enums\MoplaState.cs" />
+    <Compile Include="Game\Pets\Pet.cs" />
+    <Compile Include="Game\Pets\PetCommandHandler.cs" />
+    <Compile Include="Game\Pets\PetLocale.cs" />
+    <Compile Include="Game\Pets\PetRace.cs" />
+    <Compile Include="Game\Polls\Poll.cs" />
+    <Compile Include="Game\Polls\PollManager.cs" />
+    <Compile Include="Game\Polls\PollQuestion.cs" />
+    <Compile Include="Game\Quests\Composers\QuestAbortedComposer.cs" />
+    <Compile Include="Game\Quests\Composers\QuestCompletedComposer.cs" />
+    <Compile Include="Game\Quests\Composers\QuestListComposer.cs" />
+    <Compile Include="Game\Quests\Composers\QuestRewardType.cs" />
+    <Compile Include="Game\Quests\Composers\QuestStartedComposer.cs" />
+    <Compile Include="Game\Quests\Quest.cs" />
+    <Compile Include="Game\Quests\QuestManager.cs" />
+    <Compile Include="Game\Quests\QuestType.cs" />
+    <Compile Include="Game\Quests\QuestTypeUtillity.cs" />
+    <Compile Include="Game\Users\Fuses\RoleManager.cs" />
+    <Compile Include="Game\RoomBots\Enumerators\AIType.cs" />
+    <Compile Include="Game\RoomBots\Interfaces\BotAi.cs" />
+    <Compile Include="Game\RoomBots\BotManager.cs" />
+    <Compile Include="Game\RoomBots\Models\GenericBot.cs" />
+    <Compile Include="Game\RoomBots\Models\PetBot.cs" />
+    <Compile Include="Game\RoomBots\RoomBot.cs" />
+    <Compile Include="Game\SoundMachine\Composers\SoundMachineComposer.cs" />
+    <Compile Include="Game\SoundMachine\SoundMachineManager.cs" />
+    <Compile Include="Game\SoundMachine\Songs\SongData.cs" />
+    <Compile Include="Game\SoundMachine\Songs\SongInstance.cs" />
+    <Compile Include="Game\SoundMachine\Songs\SongItem.cs" />
+    <Compile Include="Game\SoundMachine\SoundMachineSongManager.cs" />
+    <Compile Include="Game\Support\HelperSession.cs" />
+    <Compile Include="Game\Support\ModerationBan.cs" />
+    <Compile Include="Game\Support\ModerationBanManager.cs" />
+    <Compile Include="Game\Support\ModerationBanType.cs" />
+    <Compile Include="Game\Support\ModerationTemplate.cs" />
+    <Compile Include="Game\Support\ModerationTool.cs" />
+    <Compile Include="Game\Support\SupportTicket.cs" />
+    <Compile Include="Game\Support\TicketStatus.cs" />
+    <Compile Include="Game\Users\Factories\HabboFactory.cs" />
+    <Compile Include="Game\Users\Badges\Models\Badge.cs" />
+    <Compile Include="Game\Users\Badges\UserBadgeManager.cs" />
+    <Compile Include="Game\Users\Habbo.cs" />
+    <Compile Include="Game\Users\Guides\GuideManager.cs" />
+    <Compile Include="Game\Users\Inventory\AvatarEffect.cs" />
+    <Compile Include="Game\Users\Inventory\Components\AvatarEffectComponent.cs" />
+    <Compile Include="Game\Users\Inventory\Components\InventoryComponent.cs" />
+    <Compile Include="Game\Users\Messenger\HabboMessenger.cs" />
+    <Compile Include="Game\Users\Messenger\Structs\MessengerBuddy.cs" />
+    <Compile Include="Game\Users\Messenger\Structs\MessengerRequest.cs" />
+    <Compile Include="Game\Users\Messenger\Structs\OfflineMessage.cs" />
+    <Compile Include="Game\Users\Messenger\Structs\SearchResult.cs" />
+    <Compile Include="Game\Users\Messenger\SearchResultFactory.cs" />
+    <Compile Include="Game\Users\Relationships\Relationship.cs" />
+    <Compile Include="Game\Users\Subscriptions\Subscription.cs" />
+    <Compile Include="Game\Users\Subscriptions\SubscriptionManager.cs" />
+    <Compile Include="Game\Users\Data\Models\UserData.cs" />
+    <Compile Include="Game\Users\Factories\UserDataFactory.cs" />
+    <Compile Include="Game\Users\Data\Exceptions\UserDataNotFoundException.cs" />
+    <Compile Include="Yupi.cs" />
+    <Compile Include="Messages\ClientMessage.cs" />
+    <Compile Include="Messages\Handlers\Others.cs" />
+    <Compile Include="Messages\HabboEncoding.cs" />
+    <Compile Include="Messages\QueuedServerMessage.cs" />
+    <Compile Include="Messages\ServerMessage.cs" />
+    <Compile Include="Messages\Parsers\PacketLibrary.cs" />
+    <Compile Include="Net\Packets\ServerPacketParser.cs" />
+    <Compile Include="Net\Packets\InitialPacketParser.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.cs" />
+    <Compile Include="Messages\Parsers\IDataParser.cs" />
+    <Compile Include="Data\Structs\PluginData.cs" />
+    <Compile Include="Core\Util\Enumerators\TextEndingTypes.cs" />
+    <Compile Include="Data\ServerMemoryContainer.cs" />
+    <Compile Include="Core\Util\Coordinates\CoordinatesFormatter.cs" />
+    <Compile Include="Data\Base\Queries\ChunkQuery.cs" />
+    <Compile Include="Core\Util\Math\RandomNumberGenerator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.1 %28x86 y x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\app.config" />
+    <None Include="Properties\app.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="yupi.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Game\Users\Inventory\Structs\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'x64' ">
+    <BaseAddress>4194304</BaseAddress>
+    <RegisterForComInterop>False</RegisterForComInterop>
+  </PropertyGroup>
+</Project>
