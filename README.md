@@ -1,6 +1,6 @@
-# Azure Emulator
+# Yupi
 
-Coming soon here would have another name.
+This Markdwon File will be improved hehe.
 
 ### Habbo Release
 PRODUCTION-201510201205-42435347
