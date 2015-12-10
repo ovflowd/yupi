@@ -31,7 +31,7 @@ namespace Yupi.Game.Commands.Controllers
                 session.SendWhisper(Yupi.GetLanguage().GetVar("user_not_found"));
                 return true;
             }
-            client.SendNotif(string.Format("{0} \r\r-{1}", msg, session.GetHabbo().UserName));
+            client.SendNotif($"{msg} \r\r-{session.GetHabbo().UserName}");
             return true;
         }
     }

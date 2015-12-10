@@ -188,9 +188,9 @@ namespace Yupi.Messages.Handlers
             if (item == null)
                 return;
 
-            var extraData = string.Format("state{0}0", Convert.ToChar(9));
+            var extraData = $"state{Convert.ToChar(9)}0";
             for (uint i = 1; i <= count; i++)
-                extraData = string.Format("{0}{1}{2}", extraData, Convert.ToChar(9), Request.GetString());
+                extraData = $"{extraData}{Convert.ToChar(9)}{Request.GetString()}";
 
             item.ExtraData = extraData;
             room.GetRoomItemHandler()
@@ -744,8 +744,7 @@ namespace Yupi.Messages.Handlers
             DataTable table;
             using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery(string.Format("SELECT user_id FROM rooms_rights WHERE room_id={0}",
-                    room.RoomId));
+                queryReactor.SetQuery($"SELECT user_id FROM rooms_rights WHERE room_id={room.RoomId}");
                 table = queryReactor.GetTable();
             }
             Response.Init(LibraryParser.OutgoingRequest("LoadRoomRightsListMessageComposer"));
@@ -951,7 +950,7 @@ namespace Yupi.Messages.Handlers
                 }
                 UsersWithRights();
                 using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                    queryReactor.RunFastQuery(string.Format("DELETE FROM rooms_rights WHERE {0}", stringBuilder));
+                    queryReactor.RunFastQuery($"DELETE FROM rooms_rights WHERE {stringBuilder}");
             }
         }
 
@@ -963,7 +962,7 @@ namespace Yupi.Messages.Handlers
             DataTable table;
             using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery(string.Format("SELECT user_id FROM rooms_rights WHERE room_id={0}", room.RoomId));
+                queryReactor.SetQuery($"SELECT user_id FROM rooms_rights WHERE room_id={room.RoomId}");
                 table = queryReactor.GetTable();
             }
             foreach (DataRow dataRow in table.Rows)
@@ -983,7 +982,7 @@ namespace Yupi.Messages.Handlers
                 roomUserByHabbo.UpdateNeeded = true;
             }
             using (var queryreactor2 = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryreactor2.RunFastQuery(string.Format("DELETE FROM rooms_rights WHERE room_id = {0}", room.RoomId));
+                queryreactor2.RunFastQuery($"DELETE FROM rooms_rights WHERE room_id = {room.RoomId}");
             room.UsersWithRights.Clear();
             UsersWithRights();
         }
@@ -1076,18 +1075,17 @@ namespace Yupi.Messages.Handlers
                 return;
             using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.RunFastQuery(string.Format("DELETE FROM rooms_data WHERE id = {0}", roomId));
-                queryReactor.RunFastQuery(string.Format("DELETE FROM users_favorites WHERE room_id = {0}", roomId));
-                queryReactor.RunFastQuery(string.Format("DELETE FROM items_rooms WHERE room_id = {0}", roomId));
-                queryReactor.RunFastQuery(string.Format("DELETE FROM rooms_rights WHERE room_id = {0}", roomId));
-                queryReactor.RunFastQuery(string.Format("UPDATE users SET home_room = '0' WHERE home_room = {0}",
-                    roomId));
+                queryReactor.RunFastQuery($"DELETE FROM rooms_data WHERE id = {roomId}");
+                queryReactor.RunFastQuery($"DELETE FROM users_favorites WHERE room_id = {roomId}");
+                queryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE room_id = {roomId}");
+                queryReactor.RunFastQuery($"DELETE FROM rooms_rights WHERE room_id = {roomId}");
+                queryReactor.RunFastQuery($"UPDATE users SET home_room = '0' WHERE home_room = {roomId}");
             }
             if (Session.GetHabbo().Rank > 5u && Session.GetHabbo().UserName != roomData.Owner)
                 Yupi.GetGame()
                     .GetModerationTool()
                     .LogStaffEntry(Session.GetHabbo().UserName, roomData.Name, "Room deletion",
-                        string.Format("Deleted room ID {0}", roomData.Id));
+                        $"Deleted room ID {roomData.Id}");
             var roomData2 = (
                 from p in Session.GetHabbo().UsersRooms
                 where p.Id == roomId
@@ -1419,7 +1417,7 @@ namespace Yupi.Messages.Handlers
                 queryReactor.SetQuery(string.Concat("UPDATE rooms_data SET ", type, " = @extradata WHERE id = ", room.RoomId));
                 queryReactor.AddParameter("extradata", item.ExtraData);
                 queryReactor.RunQuery();
-                queryReactor.RunFastQuery(string.Format("DELETE FROM items_rooms WHERE id={0} LIMIT 1", item.Id));
+                queryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1");
             }
             Session.GetHabbo().GetInventoryComponent().RemoveItem(item.Id, false);
             var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("RoomSpacesMessageComposer"));
@@ -1629,9 +1627,7 @@ namespace Yupi.Messages.Handlers
                     Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(Session, "ACH_RoomDecoHoleFurniCount", 1);
 
                     queryReactor.RunFastQuery(
-                        string.Format(
-                            "UPDATE rooms_data SET model_name = 'custom', wallthick = '{0}', floorthick = '{1}', walls_height = '{2}' WHERE id = {3};",
-                            wallThickness, floorThickness, wallHeight, room.RoomId));
+                        $"UPDATE rooms_data SET model_name = 'custom', wallthick = '{wallThickness}', floorthick = '{floorThickness}', walls_height = '{wallHeight}' WHERE id = {room.RoomId};");
                     RoomModel roomModel = new RoomModel(doorX, doorY, doorZ, doorOrientation, heightMap, "", false, "");
                     Yupi.GetGame().GetRoomManager().UpdateCustomModel(room.RoomId, roomModel);
                     room.ResetGameMap("custom", wallHeight, wallThickness, floorThickness);
@@ -1677,7 +1673,7 @@ namespace Yupi.Messages.Handlers
 
             using (var queryreactor2 = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryreactor2.RunFastQuery(string.Format("DELETE FROM items_rooms WHERE id = {0}", mopla.Id));
+                queryreactor2.RunFastQuery($"DELETE FROM items_rooms WHERE id = {mopla.Id}");
                 room.GetRoomUserManager().SavePets(queryreactor2);
             }
         }

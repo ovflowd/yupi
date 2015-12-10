@@ -366,7 +366,8 @@ namespace Yupi.Messages.Handlers
             /*var two = */
             using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery(string.Format("SELECT * FROM cms_stories_photos_preview WHERE user_id = {0} AND type = 'PHOTO' ORDER BY id DESC LIMIT 1", Session.GetHabbo().Id));
+                queryReactor.SetQuery(
+                    $"SELECT * FROM cms_stories_photos_preview WHERE user_id = {Session.GetHabbo().Id} AND type = 'PHOTO' ORDER BY id DESC LIMIT 1");
                 DataTable table = queryReactor.GetTable();
                 foreach (DataRow dataRow in table.Rows)
                 {

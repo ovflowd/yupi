@@ -368,8 +368,8 @@ namespace Yupi.Messages.Handlers
         {
             Session.GetHabbo().GetBadgeComponent().ResetSlots();
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery(string.Format("UPDATE users_badges SET badge_slot = 0 WHERE user_id = {0}",
-                    Session.GetHabbo().Id));
+                queryReactor.RunFastQuery(
+                    $"UPDATE users_badges SET badge_slot = 0 WHERE user_id = {Session.GetHabbo().Id}");
             for (int i = 0; i < 5; i++)
             {
                 int slot = Request.GetInteger();
@@ -532,8 +532,8 @@ namespace Yupi.Messages.Handlers
             Session.GetHabbo().Gender = text.ToLower() == "f" ? "f" : "m";
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery(string.Format("UPDATE users SET look = @look, gender = @gender WHERE id = {0}",
-                    Session.GetHabbo().Id));
+                queryReactor.SetQuery(
+                    $"UPDATE users SET look = @look, gender = @gender WHERE id = {Session.GetHabbo().Id}");
                 queryReactor.AddParameter("look", text2);
                 queryReactor.AddParameter("gender", text);
                 queryReactor.RunQuery();
@@ -587,8 +587,7 @@ namespace Yupi.Messages.Handlers
             Session.GetHabbo().Motto = text;
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery(string.Format("UPDATE users SET motto = @motto WHERE id = '{0}'",
-                    Session.GetHabbo().Id));
+                queryReactor.SetQuery($"UPDATE users SET motto = @motto WHERE id = '{Session.GetHabbo().Id}'");
                 queryReactor.AddParameter("motto", text);
                 queryReactor.RunQuery();
             }
@@ -623,8 +622,7 @@ namespace Yupi.Messages.Handlers
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery(
-                    string.Format("SELECT slot_id, look, gender FROM users_wardrobe WHERE user_id = {0}",
-                        Session.GetHabbo().Id));
+                    $"SELECT slot_id, look, gender FROM users_wardrobe WHERE user_id = {Session.GetHabbo().Id}");
                 DataTable table = queryReactor.GetTable();
                 if (table == null)
                     GetResponse().AppendInteger(0);
@@ -771,7 +769,7 @@ namespace Yupi.Messages.Handlers
                     Response.AppendString(text);
                     Response.AppendInteger(table.Rows.Count);
                     foreach (DataRow dataRow in table.Rows)
-                        Response.AppendString(string.Format("{0}{1}", text, dataRow[0]));
+                        Response.AppendString($"{text}{dataRow[0]}");
                     SendResponse();
                 }
             }

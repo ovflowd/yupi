@@ -1,16 +1,33 @@
-#region
+/**
+     Because i love chocolat...                                      
+                                    88 88  
+                                    "" 88  
+                                       88  
+8b       d8 88       88 8b,dPPYba,  88 88  
+`8b     d8' 88       88 88P'    "8a 88 88  
+ `8b   d8'  88       88 88       d8 88 ""  
+  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa  
+    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88  
+    d8'                 88                 
+   d8'                  88     
+   
+   Private Habbo Hotel Emulating System
+   @author Claudio A. Santoro W.
+   @author Kessiler R.
+   @version dev-beta
+   @license MIT
+   @copyright Sulake Corporation Oy
+   @observation All Rights of Habbo, Habbo Hotel, and all Habbo contents and it's names, is copyright from Sulake
+   Corporation Oy. Yupi! has nothing linked with Sulake. 
+   This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
+*/
 
 using System;
 using System.Data;
-using FirebirdSql.Data.FirebirdClient;
-using Ingres.Client;
 using MySql.Data.MySqlClient;
-using Npgsql;
 using Yupi.Core.Io;
 using Yupi.Data.Base.Connections;
 using Yupi.Data.Base.Sessions.Interfaces;
-
-#endregion
 
 namespace Yupi.Data.Base.Sessions
 {
@@ -18,38 +35,19 @@ namespace Yupi.Data.Base.Sessions
     {
         protected IDatabaseClient Client;
         protected MySqlCommand CommandMySql;
-        protected FbCommand CommandFireBird;
-        protected IngresCommand CommandIngress;
-        protected NpgsqlCommand CommandPgSql;
 
         public QueryAdapter(IDatabaseClient client)
         {
             Client = client;
         }
 
-        private static bool DbEnabled
-        {
-            get { return ConnectionManager.DbEnabled; }
-        }
+        private static bool DbEnabled => ConnectionManager.DbEnabled;
 
         public void AddParameter(string name, byte[] data)
         {
             switch (ConnectionManager.DatabaseConnectionType.ToLower())
             {
-                case "firebird":
-                    CommandFireBird.Parameters.Add(new FbParameter(name, FbDbType.Text, data.Length));
-                    break;
-
-                case "ingres":
-                case "ingress":
-                    CommandIngress.Parameters.Add(new IngresParameter(name, DbType.String, data.Length));
-                    break;
-
-                case "pgsql":
-                    CommandPgSql.Parameters.Add(new NpgsqlParameter(name, DbType.String, data.Length));
-                    break;
-
-                default: // mySql
+                default: // MySQL
                     CommandMySql.Parameters.Add(new MySqlParameter(name, MySqlDbType.Blob, data.Length));
                     break;
             }
@@ -59,20 +57,7 @@ namespace Yupi.Data.Base.Sessions
         {
             switch (ConnectionManager.DatabaseConnectionType.ToLower())
             {
-                case "firebird":
-                    CommandFireBird.Parameters.AddWithValue(parameterName, val);
-                    break;
-
-                case "ingres":
-                case "ingress":
-                    CommandIngress.Parameters.Add(parameterName, val);
-                    break;
-
-                case "pgsql":
-                    CommandPgSql.Parameters.AddWithValue(parameterName, val);
-                    break;
-
-                default: // mySql
+                default: // MySQL
                     CommandMySql.Parameters.AddWithValue(parameterName, val);
                     break;
             }
@@ -82,60 +67,21 @@ namespace Yupi.Data.Base.Sessions
         {
             if (!DbEnabled)
                 return false;
-            var hasRows = false;
+
+            bool hasRows;
 
             switch (ConnectionManager.DatabaseConnectionType.ToLower())
             {
-                case "firebird":
-                    try
-                    {
-                        using (var reader = CommandFireBird.ExecuteReader())
-                            hasRows = reader.HasRows;
-                    }
-                    catch (Exception exception)
-                    {
-                        Writer.LogQueryError(exception, CommandFireBird.CommandText);
-                        throw exception;
-                    }
-                    break;
-
-                case "ingres":
-                case "ingress":
-                    try
-                    {
-                        using (var reader = CommandIngress.ExecuteReader())
-                            hasRows = reader.HasRows;
-                    }
-                    catch (Exception exception)
-                    {
-                        Writer.LogQueryError(exception, CommandIngress.CommandText);
-                        throw exception;
-                    }
-                    break;
-
-                case "pgsql":
-                    try
-                    {
-                        using (var reader = CommandPgSql.ExecuteReader())
-                            hasRows = reader.HasRows;
-                    }
-                    catch (Exception exception)
-                    {
-                        Writer.LogQueryError(exception, CommandPgSql.CommandText);
-                        throw exception;
-                    }
-                    break;
-
                 default:
                     try
                     {
-                        using (var reader = CommandMySql.ExecuteReader())
+                        using (MySqlDataReader reader = CommandMySql.ExecuteReader())
                             hasRows = reader.HasRows;
                     }
                     catch (Exception exception)
                     {
                         Writer.LogQueryError(exception, CommandMySql.CommandText);
-                        throw exception;
+                        throw;
                     }
                     break;
             }
@@ -147,19 +93,8 @@ namespace Yupi.Data.Base.Sessions
         {
             if (!DbEnabled)
                 return 0;
-            var result = 0;
-            try
-            {
-                var obj2 = CommandMySql.ExecuteScalar();
-                if (obj2 != null)
-                    int.TryParse(obj2.ToString(), out result);
-            }
-            catch (Exception exception)
-            {
-                Writer.LogQueryError(exception, CommandMySql.CommandText);
-                throw exception;
-            }
-            return result;
+
+            return int.Parse(CommandMySql.ExecuteScalar().ToString());
         }
 
         public DataRow GetRow()
@@ -168,71 +103,26 @@ namespace Yupi.Data.Base.Sessions
                 return null;
 
             DataRow row = null;
+
             switch (ConnectionManager.DatabaseConnectionType.ToLower())
             {
-                case "firebird":
-                    try
-                    {
-                        var dataSet = new DataSet();
-                        using (var adapter = new FbDataAdapter(CommandFireBird))
-                            adapter.Fill(dataSet);
-                        if ((dataSet.Tables.Count > 0) && (dataSet.Tables[0].Rows.Count == 1))
-                            row = dataSet.Tables[0].Rows[0];
-                    }
-                    catch (Exception exception)
-                    {
-                        Writer.LogQueryError(exception, CommandFireBird.CommandText);
-                        throw exception;
-                    }
-                    break;
-
-                case "ingres":
-                case "ingress":
-                    try
-                    {
-                        var dataSet = new DataSet();
-                        using (var adapter = new IngresDataAdapter(CommandIngress))
-                            adapter.Fill(dataSet);
-                        if ((dataSet.Tables.Count > 0) && (dataSet.Tables[0].Rows.Count == 1))
-                            row = dataSet.Tables[0].Rows[0];
-                    }
-                    catch (Exception exception)
-                    {
-                        Writer.LogQueryError(exception, CommandIngress.CommandText);
-                        throw exception;
-                    }
-                    break;
-
-                case "pgsql":
-                    try
-                    {
-                        var dataSet = new DataSet();
-                        using (var adapter = new NpgsqlDataAdapter(CommandPgSql))
-                            adapter.Fill(dataSet);
-                        if ((dataSet.Tables.Count > 0) && (dataSet.Tables[0].Rows.Count == 1))
-                            row = dataSet.Tables[0].Rows[0];
-                    }
-                    catch (Exception exception)
-                    {
-                        Writer.LogQueryError(exception, CommandPgSql.CommandText);
-                        throw exception;
-                    }
-                    break;
-
                 default:
                     try
                     {
-                        var dataSet = new DataSet();
-                        using (var adapter = new MySqlDataAdapter(CommandMySql))
+                        DataSet dataSet = new DataSet();
+
+                        using (MySqlDataAdapter adapter = new MySqlDataAdapter(CommandMySql))
                             adapter.Fill(dataSet);
-                        if ((dataSet.Tables.Count > 0) && (dataSet.Tables[0].Rows.Count == 1))
+
+                        if (dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count == 1)
                             row = dataSet.Tables[0].Rows[0];
                     }
                     catch (Exception exception)
                     {
                         Writer.LogQueryError(exception, CommandMySql.CommandText);
-                        throw exception;
+                        throw;
                     }
+
                     break;
             }
 
@@ -243,132 +133,33 @@ namespace Yupi.Data.Base.Sessions
         {
             if (!DbEnabled)
                 return string.Empty;
-            var str = string.Empty;
 
-            switch (ConnectionManager.DatabaseConnectionType.ToLower())
-            {
-                case "firebird":
-                    try
-                    {
-                        var obj2 = CommandFireBird.ExecuteScalar();
-                        if (obj2 != null)
-                            str = obj2.ToString();
-                    }
-                    catch (Exception exception)
-                    {
-                        Writer.LogQueryError(exception, CommandFireBird.CommandText);
-                        throw exception;
-                    }
-                    break;
-
-                case "ingres":
-                case "ingress":
-                    try
-                    {
-                        var obj2 = CommandIngress.ExecuteScalar();
-                        if (obj2 != null)
-                            str = obj2.ToString();
-                    }
-                    catch (Exception exception)
-                    {
-                        Writer.LogQueryError(exception, CommandIngress.CommandText);
-                        throw exception;
-                    }
-                    break;
-
-                case "pgsql":
-                    try
-                    {
-                        var obj2 = CommandPgSql.ExecuteScalar();
-                        if (obj2 != null)
-                            str = obj2.ToString();
-                    }
-                    catch (Exception exception)
-                    {
-                        Writer.LogQueryError(exception, CommandPgSql.CommandText);
-                        throw exception;
-                    }
-                    break;
-
-                default:
-                    try
-                    {
-                        var obj2 = CommandMySql.ExecuteScalar();
-                        if (obj2 != null)
-                            str = obj2.ToString();
-                    }
-                    catch (Exception exception)
-                    {
-                        Writer.LogQueryError(exception, CommandMySql.CommandText);
-                        throw exception;
-                    }
-                    break;
-            }
-
-            return str;
+            return CommandMySql.ExecuteScalar().ToString();
         }
 
         public DataTable GetTable()
         {
-            var dataTable = new DataTable();
+            DataTable dataTable = new DataTable();
+
             if (!DbEnabled)
                 return dataTable;
 
             switch (ConnectionManager.DatabaseConnectionType.ToLower())
             {
-                case "firebird":
-                    try
-                    {
-                        using (var adapter = new FbDataAdapter(CommandFireBird))
-                            adapter.Fill(dataTable);
-                    }
-                    catch (Exception exception)
-                    {
-                        Writer.LogQueryError(exception, CommandFireBird.CommandText);
-                        throw exception;
-                    }
-                    break;
-
-                case "ingres":
-                case "ingress":
-                    try
-                    {
-                        using (var adapter = new IngresDataAdapter(CommandIngress))
-                            adapter.Fill(dataTable);
-                    }
-                    catch (Exception exception)
-                    {
-                        Writer.LogQueryError(exception, CommandIngress.CommandText);
-                        throw exception;
-                    }
-                    break;
-
-                case "pgsql":
-                    try
-                    {
-                        using (var adapter = new NpgsqlDataAdapter(CommandPgSql))
-                            adapter.Fill(dataTable);
-                    }
-                    catch (Exception exception)
-                    {
-                        Writer.LogQueryError(exception, CommandPgSql.CommandText);
-                        throw exception;
-                    }
-                    break;
-
                 default:
                     try
                     {
-                        using (var adapter = new MySqlDataAdapter(CommandMySql))
+                        using (MySqlDataAdapter adapter = new MySqlDataAdapter(CommandMySql))
                             adapter.Fill(dataTable);
                     }
                     catch (Exception exception)
                     {
                         Writer.LogQueryError(exception, CommandMySql.CommandText);
-                        throw exception;
+                        throw;
                     }
                     break;
             }
+
             return dataTable;
         }
 
@@ -376,69 +167,19 @@ namespace Yupi.Data.Base.Sessions
         {
             if (!DbEnabled)
                 return 0L;
-            var lastInsertedId = 0L;
 
-            switch (ConnectionManager.DatabaseConnectionType.ToLower())
-            {
-                case "firebird":
-                    try
-                    {
-                        CommandFireBird.ExecuteScalar();
-                    }
-                    catch (Exception exception)
-                    {
-                        Writer.LogQueryError(exception, CommandFireBird.CommandText);
-                        throw exception;
-                    }
-                    break;
+            CommandMySql.ExecuteScalar();
 
-                case "ingres":
-                case "ingress":
-                    try
-                    {
-                        CommandIngress.ExecuteScalar();
-                    }
-                    catch (Exception exception)
-                    {
-                        Writer.LogQueryError(exception, CommandIngress.CommandText);
-                        throw exception;
-                    }
-                    break;
-
-                case "pgsql":
-                    try
-                    {
-                        CommandPgSql.ExecuteScalar();
-                    }
-                    catch (Exception exception)
-                    {
-                        Writer.LogQueryError(exception, CommandPgSql.CommandText);
-                        throw exception;
-                    }
-                    break;
-
-                default:
-                    try
-                    {
-                        CommandMySql.ExecuteScalar();
-                        lastInsertedId = CommandMySql.LastInsertedId;
-                    }
-                    catch (Exception exception)
-                    {
-                        Writer.LogQueryError(exception, CommandMySql.CommandText);
-                        throw exception;
-                    }
-                    break;
-            }
-
-            return lastInsertedId;
+            return CommandMySql.LastInsertedId;
         }
 
         public void RunFastQuery(string query)
         {
             if (!DbEnabled)
                 return;
+
             SetQuery(query);
+
             RunQuery();
         }
 
@@ -449,44 +190,6 @@ namespace Yupi.Data.Base.Sessions
 
             switch (ConnectionManager.DatabaseConnectionType.ToLower())
             {
-                case "firebird":
-                case "FireBird":
-                    try
-                    {
-                        CommandFireBird.ExecuteNonQuery();
-                    }
-                    catch (Exception exception)
-                    {
-                        Writer.LogQueryError(exception, CommandFireBird.CommandText);
-                        throw exception;
-                    }
-                    break;
-
-                case "ingres":
-                case "ingress":
-                    try
-                    {
-                        CommandIngress.ExecuteNonQuery();
-                    }
-                    catch (Exception exception)
-                    {
-                        Writer.LogQueryError(exception, CommandIngress.CommandText);
-                        throw exception;
-                    }
-                    break;
-
-                case "pgsql":
-                    try
-                    {
-                        CommandPgSql.ExecuteNonQuery();
-                    }
-                    catch (Exception exception)
-                    {
-                        Writer.LogQueryError(exception, CommandPgSql.CommandText);
-                        throw exception;
-                    }
-                    break;
-
                 default:
                     try
                     {
@@ -495,7 +198,7 @@ namespace Yupi.Data.Base.Sessions
                     catch (Exception exception)
                     {
                         Writer.LogQueryError(exception, CommandMySql.CommandText);
-                        throw exception;
+                        throw;
                     }
                     break;
             }
@@ -505,24 +208,7 @@ namespace Yupi.Data.Base.Sessions
         {
             switch (ConnectionManager.DatabaseConnectionType.ToLower())
             {
-                case "firebird":
-                case "FireBird":
-                    CommandFireBird.Parameters.Clear();
-                    CommandFireBird.CommandText = query;
-                    break;
-
-                case "ingres":
-                case "ingress":
-                    CommandIngress.Parameters.Clear();
-                    CommandIngress.CommandText = query;
-                    break;
-
-                case "pgsql":
-                    CommandPgSql.Parameters.Clear();
-                    CommandPgSql.CommandText = query;
-                    break;
-
-                default: // mySql
+                default: // MySQL
                     CommandMySql.Parameters.Clear();
                     CommandMySql.CommandText = query;
                     break;

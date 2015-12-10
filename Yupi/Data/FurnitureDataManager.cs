@@ -1,4 +1,28 @@
-﻿using System;
+﻿/**
+     Because i love chocolat...                                      
+                                    88 88  
+                                    "" 88  
+                                       88  
+8b       d8 88       88 8b,dPPYba,  88 88  
+`8b     d8' 88       88 88P'    "8a 88 88  
+ `8b   d8'  88       88 88       d8 88 ""  
+  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa  
+    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88  
+    d8'                 88                 
+   d8'                  88     
+   
+   Private Habbo Hotel Emulating System
+   @author Claudio A. Santoro W.
+   @author Kessiler R.
+   @version dev-beta
+   @license MIT
+   @copyright Sulake Corporation Oy
+   @observation All Rights of Habbo, Habbo Hotel, and all Habbo contents and it's names, is copyright from Sulake
+   Corporation Oy. Yupi! has nothing linked with Sulake. 
+   This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
+*/
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -35,11 +59,14 @@ namespace Yupi.Data
             try
             {
                 string xmlFileContent;
+                string cacheDirectory = $"{Yupi.YupiVariablesDirectory}\\Cache";
 
-                if (File.Exists($"{Environment.CurrentDirectory}\\Cache\\FurniDataCache.xml"))
-                    xmlFileContent = File.ReadAllText($"{Environment.CurrentDirectory}\\Cache\\FurniDataCache.xml");
+                Directory.CreateDirectory(cacheDirectory);
+
+                if (File.Exists($"{cacheDirectory}\\FurniDataCache.xml"))
+                    xmlFileContent = File.ReadAllText($"{cacheDirectory}\\FurniDataCache.xml");
                 else
-                    File.WriteAllText($"{Environment.CurrentDirectory}\\Cache\\FurniDataCache.xml", xmlFileContent = wC.DownloadString(ServerExtraSettings.FurnitureDataUrl));
+                    File.WriteAllText($"{cacheDirectory}\\FurniDataCache.xml", xmlFileContent = wC.DownloadString(ServerExtraSettings.FurnitureDataUrl));
 
                 xmlParser.LoadXml(xmlFileContent);
 

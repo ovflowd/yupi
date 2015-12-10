@@ -1,47 +1,45 @@
-#region
+/**
+     Because i love chocolat...                                      
+                                    88 88  
+                                    "" 88  
+                                       88  
+8b       d8 88       88 8b,dPPYba,  88 88  
+`8b     d8' 88       88 88P'    "8a 88 88  
+ `8b   d8'  88       88 88       d8 88 ""  
+  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa  
+    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88  
+    d8'                 88                 
+   d8'                  88     
+   
+   Private Habbo Hotel Emulating System
+   @author Claudio A. Santoro W.
+   @author Kessiler R.
+   @version dev-beta
+   @license MIT
+   @copyright Sulake Corporation Oy
+   @observation All Rights of Habbo, Habbo Hotel, and all Habbo contents and it's names, is copyright from Sulake
+   Corporation Oy. Yupi! has nothing linked with Sulake. 
+   This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
+*/
 
 using System;
-using FirebirdSql.Data.FirebirdClient;
-using Ingres.Client;
 using MySql.Data.MySqlClient;
-using Npgsql;
 using Yupi.Data.Base.Connections;
 using Yupi.Data.Base.Sessions;
 using Yupi.Data.Base.Sessions.Interfaces;
-
-#endregion
 
 namespace Yupi.Data.Base
 {
     public class MySqlClient : IDatabaseClient, IDisposable
     {
         private readonly MySqlConnection _mySqlConnection;
-        private readonly FbConnection _fireBirdConnection;
-        private readonly IngresConnection _inGressConnection;
-        private readonly NpgsqlConnection _pgSqlConnection;
-        private readonly ConnectionManager _dbManager;
         private IQueryAdapter _info;
 
         public MySqlClient(ConnectionManager dbManager)
         {
-            _dbManager = dbManager;
-
             switch (ConnectionManager.DatabaseConnectionType.ToLower())
             {
-                case "pgsql":
-                    _pgSqlConnection = new NpgsqlConnection(dbManager.GetConnectionString());
-                    break;
-
-                case "ingress":
-                case "ingres":
-                    _inGressConnection = new IngresConnection(dbManager.GetConnectionString());
-                    break;
-
-                case "firebird":
-                    _fireBirdConnection = new FbConnection(dbManager.GetConnectionString());
-                    break;
-
-                default: // mySql
+                default: // MySQL
                     _mySqlConnection = new MySqlConnection(dbManager.GetConnectionString());
                     break;
             }
@@ -51,20 +49,7 @@ namespace Yupi.Data.Base
         {
             switch (ConnectionManager.DatabaseConnectionType.ToLower())
             {
-                case "pgsql":
-                    _pgSqlConnection.Open();
-                    break;
-
-                case "ingress":
-                case "ingres":
-                    _inGressConnection.Open();
-                    break;
-
-                case "firebird":
-                    _fireBirdConnection.Open();
-                    break;
-
-                default: // mySql
+                default: // MySQL
                     _mySqlConnection.Open();
                     break;
             }
@@ -76,79 +61,29 @@ namespace Yupi.Data.Base
             {
                 switch (ConnectionManager.DatabaseConnectionType.ToLower())
                 {
-                    case "pgsql":
-                        _pgSqlConnection.Close();
-                        break;
-
-                    case "ingress":
-                    case "ingres":
-                        _inGressConnection.Close();
-                        break;
-
-                    case "firebird":
-                        _fireBirdConnection.Close();
-                        break;
-
-                    default: // mySql
+                    default: // MySQL
                         _mySqlConnection.Close();
                         break;
                 }
             }
             catch
             {
+                // ignored
             }
         }
 
         public void Dispose()
         {
             _info = null;
+
             Disconnect();
         }
 
-        public MySqlCommand GetNewCommandMySql()
-        {
-            return _mySqlConnection.CreateCommand();
-        }
+        public MySqlCommand GetNewCommandMySql() => _mySqlConnection.CreateCommand();
 
-        public FbCommand GetNewCommandFireBird()
-        {
-            return _fireBirdConnection.CreateCommand();
-        }
+        public IQueryAdapter GetQueryReactor() => _info;
 
-        public IngresCommand GetNewCommandIngress()
-        {
-            return _inGressConnection.CreateCommand();
-        }
-
-        public NpgsqlCommand GetNewCommandPgSql()
-        {
-            return _pgSqlConnection.CreateCommand();
-        }
-
-        public IQueryAdapter GetQueryReactor()
-        {
-            return _info;
-        }
-
-        public MySqlTransaction GetTransactionMySql()
-        {
-            return _mySqlConnection.BeginTransaction();
-        }
-
-        public NpgsqlTransaction GetTransactionPgSql()
-        {
-            return _pgSqlConnection.BeginTransaction();
-        }
-
-        public IngresTransaction GetTransactionIngress()
-        {
-            return _inGressConnection.BeginTransaction();
-        }
-
-        public FbTransaction GetTransactionFireBird()
-        {
-            return _fireBirdConnection.BeginTransaction();
-        }
+        public MySqlTransaction GetTransactionMySql() => _mySqlConnection.BeginTransaction();
 
         public bool IsAvailable()
         {
@@ -165,61 +100,11 @@ namespace Yupi.Data.Base
             Dispose();
         }
 
-        public MySqlCommand CreateNewCommandMySql()
-        {
-            return _mySqlConnection.CreateCommand();
-        }
-
-        public FbCommand CreateNewCommandFireBird()
-        {
-            return _fireBirdConnection.CreateCommand();
-        }
-
-        public IngresCommand CreateNewCommandIngress()
-        {
-            return _inGressConnection.CreateCommand();
-        }
-
-        public NpgsqlCommand CreateNewCommandPgSql()
-        {
-            return _pgSqlConnection.CreateCommand();
-        }
-
+        public MySqlCommand CreateNewCommandMySql() => _mySqlConnection.CreateCommand();
         MySqlCommand IDatabaseClient.CreateNewCommandMySql()
         {
             throw new NotImplementedException();
         }
-
-        FbCommand IDatabaseClient.CreateNewCommandFireBird()
-        {
-            throw new NotImplementedException();
-        }
-
-        IngresCommand IDatabaseClient.CreateNewCommandIngress()
-        {
-            throw new NotImplementedException();
-        }
-
-        IngresTransaction IDatabaseClient.GetTransactionIngress()
-        {
-            throw new NotImplementedException();
-        }
-
-        NpgsqlCommand IDatabaseClient.CreateNewCommandPgSql()
-        {
-            throw new NotImplementedException();
-        }
-
-        NpgsqlTransaction IDatabaseClient.GetTransactionPgSql()
-        {
-            throw new NotImplementedException();
-        }
-
-        FbTransaction IDatabaseClient.GetTransactionFireBird()
-        {
-            throw new NotImplementedException();
-        }
-
         MySqlTransaction IDatabaseClient.GetTransactionMySql()
         {
             throw new NotImplementedException();

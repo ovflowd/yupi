@@ -1,3 +1,27 @@
+/**
+     Because i love chocolat...                                      
+                                    88 88  
+                                    "" 88  
+                                       88  
+8b       d8 88       88 8b,dPPYba,  88 88  
+`8b     d8' 88       88 88P'    "8a 88 88  
+ `8b   d8'  88       88 88       d8 88 ""  
+  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa  
+    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88  
+    d8'                 88                 
+   d8'                  88     
+   
+   Private Habbo Hotel Emulating System
+   @author Claudio A. Santoro W.
+   @author Kessiler R.
+   @version dev-beta
+   @license MIT
+   @copyright Sulake Corporation Oy
+   @observation All Rights of Habbo, Habbo Hotel, and all Habbo contents and it's names, is copyright from Sulake
+   Corporation Oy. Yupi! has nothing linked with Sulake. 
+   This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
+*/
+
 using System;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
@@ -13,6 +37,7 @@ namespace Yupi
         /// </summary>
         /// <param name="args">The arguments.</param>
         [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.ControlAppDomain)]
+        [STAThread]
         public static void Main(string[] args)
         {
             StartEverything();
@@ -33,9 +58,7 @@ namespace Yupi
 
         public static void StartConsoleWindow()
         {
-            //Console.BackgroundColor = ConsoleColor.White;
             Console.Clear();
-            //Console.SetWindowSize(Console.LargestWindowWidth > 149 ? 150 : Console.WindowWidth, Console.LargestWindowHeight > 49 ? 50 : Console.WindowHeight);
             Console.SetCursorPosition(0, 0);
 
             Console.ForegroundColor = ConsoleColor.White;
@@ -55,7 +78,6 @@ namespace Yupi
             Console.WriteLine(@"     " + @"  .NET Framework " + Environment.Version + "     C# 6 Roslyn");
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.White;
-            //Console.WriteLine(Console.LargestWindowWidth > 149 ? "---------------------------------------------------------------------------------------------------------------------------------------------------" : "-------------------------------------------------------------------------");
         }
 
         /// <summary>
@@ -67,7 +89,9 @@ namespace Yupi
                 return;
 
             Console.CursorVisible = false;
+
             var currentDomain = AppDomain.CurrentDomain;
+
             currentDomain.UnhandledException += ExceptionHandler;
             Yupi.Initialize();
         }
@@ -80,7 +104,9 @@ namespace Yupi
         private static void ExceptionHandler(object sender, UnhandledExceptionEventArgs args)
         {
             ServerLogManager.DisablePrimaryWriting(true);
+
             var ex = (Exception)args.ExceptionObject;
+
             ServerLogManager.LogCriticalException($"SYSTEM CRITICAL EXCEPTION: {ex}");
         }
 

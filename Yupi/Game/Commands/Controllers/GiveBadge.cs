@@ -32,7 +32,7 @@ namespace Yupi.Game.Commands.Controllers
             Yupi.GetGame()
                 .GetModerationTool()
                 .LogStaffEntry(session.GetHabbo().UserName, client.GetHabbo().UserName,
-                    "Badge", string.Format("Badge given to user [{0}]", pms[1]));
+                    "Badge", $"Badge given to user [{pms[1]}]");
             return true;
         }
     }

@@ -1,5 +1,0 @@
-The user {0} (Id: {1}) maybe he is advertising of other hotels <i>(If not, ignore this alert)</i><br />
-The advertising method of {0} is:  <b>{4}</b><br />
-The message said this person was  <b>{3}</b><br />
-The word that is not allowed:  <b>{2}</b><br />
-- System.
