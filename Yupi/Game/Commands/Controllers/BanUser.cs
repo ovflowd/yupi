@@ -48,7 +48,7 @@ namespace Yupi.Game.Commands.Controllers
                     Yupi.GetGame()
                         .GetModerationTool()
                         .LogStaffEntry(session.GetHabbo().UserName, user.GetHabbo().UserName, "Ban",
-                            string.Format("USER:{0} TIME:{1} REASON:{2}", pms[0], pms[1], pms[2]));
+                            $"USER:{pms[0]} TIME:{pms[1]} REASON:{pms[2]}");
                 }
                 catch
                 {

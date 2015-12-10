@@ -99,7 +99,7 @@ namespace Yupi.Messages.Parsers
         {
             CountReleases = 0;
 
-            var filePaths = Directory.GetFiles($"{Environment.CurrentDirectory}\\Packets", "*.incoming");
+            var filePaths = Directory.GetFiles($"{Yupi.YupiVariablesDirectory}\\Packets", "*.incoming");
 
             foreach (var fileContents in filePaths.Select(currentFile => File.ReadAllLines(currentFile, Encoding.UTF8)))
             {
@@ -136,7 +136,7 @@ namespace Yupi.Messages.Parsers
 
         internal static void RegisterConfig()
         {
-            var filePaths = Directory.GetFiles($"{Environment.CurrentDirectory}\\Packets", "*.inf");
+            var filePaths = Directory.GetFiles($"{Yupi.YupiVariablesDirectory}\\Packets", "*.inf");
             foreach (var fields in filePaths.Select(File.ReadAllLines).SelectMany(fileContents => fileContents.Where(line => !string.IsNullOrEmpty(line) && !line.StartsWith("[")).Select(line => line.Split('='))))
             {
                 if (fields[1].Contains('/'))
@@ -150,7 +150,7 @@ namespace Yupi.Messages.Parsers
         {
             _registeredOutoings = new List<uint>();
 
-            var filePaths = Directory.GetFiles($"{Environment.CurrentDirectory}\\Packets", "*.outgoing");
+            var filePaths = Directory.GetFiles($"{Yupi.YupiVariablesDirectory}\\Packets", "*.outgoing");
             foreach (var fields in filePaths.Select(File.ReadAllLines).SelectMany(fileContents => fileContents.Where(line => !string.IsNullOrEmpty(line) && !line.StartsWith("[")).Select(line => line.Replace(" ", string.Empty).Split('='))))
             {
                 if (fields[1].Contains('/'))
@@ -175,7 +175,7 @@ namespace Yupi.Messages.Parsers
 
         internal static void RegisterLibrary()
         {
-            var filePaths = Directory.GetFiles($"{Environment.CurrentDirectory}\\Packets", "*.library");
+            var filePaths = Directory.GetFiles($"{Yupi.YupiVariablesDirectory}\\Packets", "*.library");
             foreach (var fields in filePaths.Select(File.ReadAllLines).SelectMany(fileContents => fileContents.Select(line => line.Split('='))))
             {
                 if (fields[1].Contains('/'))

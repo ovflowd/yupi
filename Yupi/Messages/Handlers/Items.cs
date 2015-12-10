@@ -620,8 +620,8 @@ namespace Yupi.Messages.Handlers
                         room.SendMessage(message);
                         item.UpdateState();
                         using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                            queryReactor.RunFastQuery(string.Format("UPDATE items_toners SET enabled = '{0}' LIMIT 1",
-                                room.TonerData.Enabled));
+                            queryReactor.RunFastQuery(
+                                $"UPDATE items_toners SET enabled = '{room.TonerData.Enabled}' LIMIT 1");
                         return;
                     }
                 case Interaction.LoveLock:
@@ -697,7 +697,7 @@ namespace Yupi.Messages.Handlers
             string a;
             if ((a = text) == null || (a != "FFFF33" && a != "FF9CFF" && a != "9CCEFF" && a != "9CFF9C"))
                 return;
-            item.ExtraData = string.Format("{0} {1}", text, text2);
+            item.ExtraData = $"{text} {text2}";
             item.UpdateState(true, true);
         }
 
@@ -1099,8 +1099,7 @@ namespace Yupi.Messages.Handlers
                     using (
                         var queryReactor =
                             Yupi.GetDatabaseManager().GetQueryReactor())
-                        queryReactor.RunFastQuery(string.Format("DELETE FROM items_rooms WHERE id={0} LIMIT 1",
-                            item.Id));
+                        queryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1");
                     i++;
                 }
                 var randomEcotronReward =
@@ -1159,7 +1158,8 @@ namespace Yupi.Messages.Handlers
                 Session.GetHabbo().UpdateCreditsBalance();
             }
 
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor()) queryReactor.RunFastQuery(string.Format("DELETE FROM items_rooms WHERE id={0} LIMIT 1;", item.Id));
+            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor()) queryReactor.RunFastQuery(
+                $"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1;");
             room.GetRoomItemHandler().RemoveFurniture(null, item.Id, false);
             Session.GetHabbo().GetInventoryComponent().RemoveItem(item.Id, false);
             Response.Init(LibraryParser.OutgoingRequest("UpdateInventoryMessageComposer"));
@@ -1416,9 +1416,7 @@ namespace Yupi.Messages.Handlers
                     using (
                         var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                         queryReactor.RunFastQuery(
-                            string.Format(
-                                "UPDATE users_stats SET daily_pet_respect_points = daily_pet_respect_points - 1 WHERE id = {0} LIMIT 1",
-                                Session.GetHabbo().Id));
+                            $"UPDATE users_stats SET daily_pet_respect_points = daily_pet_respect_points - 1 WHERE id = {Session.GetHabbo().Id} LIMIT 1");
                 }
             }
         }
@@ -1432,15 +1430,13 @@ namespace Yupi.Messages.Handlers
             if (pet.PetData.AnyoneCanRide == 1)
             {
                 using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                    queryReactor.RunFastQuery(string.Format("UPDATE pets_data SET anyone_ride=0 WHERE id={0} LIMIT 1",
-                        num));
+                    queryReactor.RunFastQuery($"UPDATE pets_data SET anyone_ride=0 WHERE id={num} LIMIT 1");
                 pet.PetData.AnyoneCanRide = 0;
             }
             else
             {
                 using (var queryreactor2 = Yupi.GetDatabaseManager().GetQueryReactor())
-                    queryreactor2.RunFastQuery(string.Format("UPDATE pets_data SET anyone_ride=1 WHERE id={0} LIMIT 1",
-                        num));
+                    queryreactor2.RunFastQuery($"UPDATE pets_data SET anyone_ride=1 WHERE id={num} LIMIT 1");
                 pet.PetData.AnyoneCanRide = 1;
             }
             var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("PetInfoMessageComposer"));
@@ -1541,7 +1537,7 @@ namespace Yupi.Messages.Handlers
                         var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
                         queryReactor.RunFastQuery("UPDATE pets_data SET race = '" + pet.PetData.Race + "' WHERE id = " + pet.PetData.PetId);
-                        queryReactor.RunFastQuery(string.Format("DELETE FROM items_rooms WHERE id={0} LIMIT 1", item.Id));
+                        queryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1");
                         goto IL_40C;
                     }
                 }
@@ -1555,7 +1551,7 @@ namespace Yupi.Messages.Handlers
                         var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
                         queryReactor.RunFastQuery("UPDATE pets_data SET pethair = '" + pet.PetData.PetHair + "' WHERE id = " + pet.PetData.PetId);
-                        queryReactor.RunFastQuery(string.Format("DELETE FROM items_rooms WHERE id={0} LIMIT 1", item.Id));
+                        queryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1");
                         goto IL_40C;
                     }
                 }
@@ -1565,9 +1561,8 @@ namespace Yupi.Messages.Handlers
                     using (
                         var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
-                        queryReactor.RunFastQuery(string.Format("UPDATE pets_data SET have_saddle = 1 WHERE id = {0}",
-                            pet.PetData.PetId));
-                        queryReactor.RunFastQuery(string.Format("DELETE FROM items_rooms WHERE id={0} LIMIT 1", item.Id));
+                        queryReactor.RunFastQuery($"UPDATE pets_data SET have_saddle = 1 WHERE id = {pet.PetData.PetId}");
+                        queryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1");
                     }
                     goto IL_40C;
                 }
@@ -1580,7 +1575,7 @@ namespace Yupi.Messages.Handlers
                     pet.PetData.MoplaBreed.UpdateInDb();
                     using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
-                        queryReactor.RunFastQuery(string.Format("DELETE FROM items_rooms WHERE id={0} LIMIT 1", item.Id));
+                        queryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1");
                     }
                 }
                 IL_40C:

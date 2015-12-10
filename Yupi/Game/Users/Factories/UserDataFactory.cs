@@ -72,7 +72,7 @@ namespace Yupi.Game.Users.Factories
                 if (dataRow == null)
                     return null;
 
-                userId = (uint)dataRow["id"];
+                userId = Convert.ToUInt32(dataRow["id"]);
                 userName = dataRow["username"].ToString();
                 userLook = dataRow["look"].ToString();
 

@@ -255,11 +255,11 @@ namespace Yupi.Game.Items.Interfaces
             _mRoom = pRoom;
 
             if (GetBaseItem() == null)
-                ServerLogManager.LogException(string.Format("Unknown Base Item (By Name): {0}", baseName));
+                ServerLogManager.LogException($"Unknown Base Item (By Name): {baseName}");
 
             using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery(string.Format("SELECT * FROM items_limited WHERE item_id='{0}' LIMIT 1", id));
+                queryReactor.SetQuery($"SELECT * FROM items_limited WHERE item_id='{id}' LIMIT 1");
                 var row = queryReactor.GetRow();
                 if (row != null)
                 {
@@ -1282,7 +1282,7 @@ namespace Yupi.Game.Items.Interfaces
                             var clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(InteractingUser);
                             {
                                 if (!clientByUserId.GetHabbo().Look.Contains("ha"))
-                                    text = string.Format("{0}.ha-1006-1326", clientByUserId.GetHabbo().Look);
+                                    text = $"{clientByUserId.GetHabbo().Look}.ha-1006-1326";
                                 else
                                 {
                                     var array = clientByUserId.GetHabbo().Look.Split('.');
@@ -1291,7 +1291,7 @@ namespace Yupi.Game.Items.Interfaces
                                     {
                                         var str = text2;
                                         if (text2.Contains("ha")) str = "ha-1006-1326";
-                                        text = string.Format("{0}{1}.", text, str);
+                                        text = $"{text}{str}.";
                                     }
                                 }
                                 if (text.EndsWith(".")) text = text.TrimEnd('.');
@@ -1419,7 +1419,7 @@ namespace Yupi.Game.Items.Interfaces
             {
                 using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    queryReactor.SetQuery(string.Format("SELECT extra_data FROM items_rooms WHERE id={0} LIMIT 1", Id));
+                    queryReactor.SetQuery($"SELECT extra_data FROM items_rooms WHERE id={Id} LIMIT 1");
                     ExtraData = queryReactor.GetString();
                 }
                 if (ExtraData.Contains(Convert.ToChar(5).ToString()))

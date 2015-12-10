@@ -1,5 +1,30 @@
+/**
+     Because i love chocolat...                                      
+                                    88 88  
+                                    "" 88  
+                                       88  
+8b       d8 88       88 8b,dPPYba,  88 88  
+`8b     d8' 88       88 88P'    "8a 88 88  
+ `8b   d8'  88       88 88       d8 88 ""  
+  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa  
+    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88  
+    d8'                 88                 
+   d8'                  88     
+   
+   Private Habbo Hotel Emulating System
+   @author Claudio A. Santoro W.
+   @author Kessiler R.
+   @version dev-beta
+   @license MIT
+   @copyright Sulake Corporation Oy
+   @observation All Rights of Habbo, Habbo Hotel, and all Habbo contents and it's names, is copyright from Sulake
+   Corporation Oy. Yupi! has nothing linked with Sulake. 
+   This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
+*/
+
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -8,12 +33,25 @@ namespace Yupi.Messages
     /// <summary>
     /// Class ServerMessage.
     /// </summary>
+    /// <summary>
+    /// Class ServerMessage.
+    /// </summary>
     internal class ServerMessage : IDisposable
     {
         /// <summary>
-        /// The _message
+        /// The buffer for the ServerMessage.
         /// </summary>
-        private List<byte> _message = new List<byte>(), _messageArray, _messageArrayJunk;
+        private readonly MemoryStream _buffer;
+
+        /// <summary>
+        /// The buffer for the Arrays.
+        /// </summary>
+        private MemoryStream _arrayBuffer;
+
+        /// <summary>
+        /// The current buffer for the Arrays.
+        /// </summary>
+        private MemoryStream _arrayCurrentBuffer;
 
         /// <summary>
         /// The _on array
@@ -31,6 +69,7 @@ namespace Yupi.Messages
         public ServerMessage()
         {
             Id = 0;
+            _buffer = new MemoryStream();
         }
 
         /// <summary>
@@ -38,8 +77,8 @@ namespace Yupi.Messages
         /// </summary>
         /// <param name="header">The header.</param>
         public ServerMessage(int header)
+            : this()
         {
-            Id = 0;
             Init(header);
         }
 
@@ -50,17 +89,16 @@ namespace Yupi.Messages
         public int Id { get; private set; }
 
         /// <summary>
-        /// Gets or sets the c message.
+        /// Get the current message.
+        /// 
+        /// When StartArray is called, it'll return _arrayCurrentBuffer. Else it will return _buffer.
         /// </summary>
         /// <value>The c message.</value>
-        private List<byte> CMessage
+        private MemoryStream CurrentMessage
         {
             get
             {
-                if (_onArray)
-                    return _messageArrayJunk;
-
-                return _message;
+                return _onArray ? _arrayCurrentBuffer : _buffer;
             }
         }
 
@@ -70,7 +108,7 @@ namespace Yupi.Messages
         /// <param name="header">The header.</param>
         public void Init(int header)
         {
-            _message = new List<byte>();
+            _buffer.SetLength(0);
             Id = header;
             AppendShort(header);
         }
@@ -80,11 +118,16 @@ namespace Yupi.Messages
         /// </summary>
         public void StartArray()
         {
+            if (_onArray)
+            {
+                throw new InvalidOperationException("The array has already started.");
+            }
+
             _onArray = true;
             _arrayCount = 0;
 
-            _messageArray = new List<byte>();
-            _messageArrayJunk = new List<byte>();
+            _arrayBuffer = new MemoryStream();
+            _arrayCurrentBuffer = new MemoryStream();
         }
 
         /// <summary>
@@ -93,12 +136,11 @@ namespace Yupi.Messages
         /// </summary>
         public void SaveArray()
         {
-            if (_onArray == false || !_messageArrayJunk.Any())
+            if (_onArray == false || _arrayCurrentBuffer.Length == 0)
                 return;
 
-            _messageArray.AddRange(_messageArrayJunk);
-            _messageArrayJunk.Clear();
-
+            _arrayCurrentBuffer.WriteTo(_arrayBuffer);
+            _arrayCurrentBuffer.SetLength(0);
             _arrayCount++;
         }
 
@@ -110,7 +152,7 @@ namespace Yupi.Messages
             if (_onArray == false)
                 return;
 
-            _messageArrayJunk.Clear();
+            _arrayCurrentBuffer.SetLength(0);
         }
 
         /// <summary>
@@ -125,11 +167,13 @@ namespace Yupi.Messages
             _onArray = false;
 
             AppendInteger(_arrayCount);
-            _message.AddRange(_messageArray);
 
-            _messageArray.Clear();
-            _messageArrayJunk.Clear();
-            _messageArray = _messageArrayJunk = null;
+            _arrayBuffer.WriteTo(_buffer);
+            _arrayBuffer.Dispose();
+            _arrayBuffer = null;
+
+            _arrayCurrentBuffer.Dispose();
+            _arrayCurrentBuffer = null;
         }
 
         /// <summary>
@@ -148,7 +192,9 @@ namespace Yupi.Messages
         public void AppendServerMessages(List<ServerMessage> messages)
         {
             foreach (ServerMessage message in messages)
+            {
                 AppendServerMessage(message);
+            }
         }
 
         /// <summary>
@@ -157,7 +203,7 @@ namespace Yupi.Messages
         /// <param name="i">The i.</param>
         public void AppendShort(int i)
         {
-            short value = (short)i;
+            Int16 value = (short)i;
 
             AppendBytes(BitConverter.GetBytes(value), true);
         }
@@ -192,14 +238,18 @@ namespace Yupi.Messages
         public void AppendIntegersArray(string str, char delimiter, int lenght, int defaultValue = 0, int maxValue = 0)
         {
             if (string.IsNullOrEmpty(str))
+            {
                 throw new Exception("String is null or empty");
+            }
 
             string[] array = str.Split(delimiter);
 
             if (array.Length == 0)
+            {
                 return;
+            }
 
-            uint i = 0u;
+            uint i = 0;
 
             foreach (string text in array.TakeWhile(text => i != lenght))
             {
@@ -222,7 +272,7 @@ namespace Yupi.Messages
         /// <param name="b">if set to <c>true</c> [b].</param>
         public void AppendBool(bool b)
         {
-            AppendBytes(new[] { (byte)(b ? 1 : 0) }, false);
+            AppendByte(b ? 1 : 0);
         }
 
         /// <summary>
@@ -232,10 +282,11 @@ namespace Yupi.Messages
         /// <param name="isUtf8">If string is UTF8</param>
         public void AppendString(string s, bool isUtf8 = false)
         {
-            var toAdd = isUtf8 ? Yupi.GetDefaultEncoding().GetBytes(s) : Encoding.UTF8.GetBytes(s);
+            Encoding encoding = isUtf8 ? Encoding.UTF8 : Yupi.GetDefaultEncoding();
 
-            AppendShort(toAdd.Length);
-            AppendBytes(toAdd, false);
+            byte[] bytes = encoding.GetBytes(s);
+            AppendShort(bytes.Length);
+            AppendBytes(bytes, false);
         }
 
         /// <summary>
@@ -247,11 +298,10 @@ namespace Yupi.Messages
         {
             if (isInt)
             {
-                for (var i = (b.Length - 1); i > -1; i--)
-                    CMessage.Add(b[i]);
+                Array.Reverse(b);
             }
-            else
-                CMessage.AddRange(b);
+
+            CurrentMessage.Write(b, 0, b.Length);
         }
 
         /// <summary>
@@ -260,14 +310,14 @@ namespace Yupi.Messages
         /// <param name="number">The number.</param>
         public void AppendByte(int number)
         {
-            AppendBytes(new[] { (byte)number }, false);
+            CurrentMessage.WriteByte((byte)number);
         }
 
         /// <summary>
         /// Gets the bytes.
         /// </summary>
         /// <returns>System.Byte[].</returns>
-        public byte[] GetBytes() => CMessage.ToArray();
+        public byte[] GetBytes() => CurrentMessage.ToArray();
 
         /// <summary>
         /// Gets the reversed bytes.
@@ -275,10 +325,19 @@ namespace Yupi.Messages
         /// <returns>System.Byte[].</returns>
         public byte[] GetReversedBytes()
         {
-            List<byte> final = new List<byte>();
-            final.AddRange(BitConverter.GetBytes(CMessage.Count));
-            final.Reverse();
-            final.AddRange(_message);
+            byte[] bytes;
+
+            using (MemoryStream finalBuffer = new MemoryStream())
+            {
+
+                byte[] length = BitConverter.GetBytes((int)CurrentMessage.Length);
+                Array.Reverse(length);
+                finalBuffer.Write(length, 0, length.Length);
+
+                CurrentMessage.WriteTo(finalBuffer);
+
+                bytes = finalBuffer.ToArray();
+            }
 
             if (Yupi.DebugMode)
             {
@@ -288,11 +347,11 @@ namespace Yupi.Messages
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Console.Write("PREPARED ");
                 Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write(Id + Environment.NewLine + HabboEncoding.GetCharFilter(Yupi.GetDefaultEncoding().GetString(final.ToArray())));
+                Console.Write(Id + Environment.NewLine + HabboEncoding.GetCharFilter(Yupi.GetDefaultEncoding().GetString(bytes)));
                 Console.WriteLine();
             }
 
-            return final.ToArray();
+            return bytes;
         }
 
         /// <summary>
@@ -309,15 +368,13 @@ namespace Yupi.Messages
             if (_disposed)
                 return;
 
-            _message.Clear();
+            _buffer.Dispose();
 
             if (_onArray)
             {
-                _messageArray.Clear();
-                _messageArrayJunk.Clear();
+                _arrayBuffer.Dispose();
             }
 
-            _message = _messageArray = _messageArrayJunk = null;
             _disposed = true;
         }
     }

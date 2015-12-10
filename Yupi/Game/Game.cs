@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Yupi.Core.Io;
+using Yupi.Core.Io.Interfaces;
 using Yupi.Core.Security;
 using Yupi.Core.Security.BlackWords;
 using Yupi.Data;
@@ -530,7 +531,7 @@ namespace Yupi.Game
                 }
                 catch (Exception ex)
                 {
-                    ServerLogManager.LogCriticalException(string.Format("Exception in Game Loop!: {0}", ex));
+                    ServerLogManager.LogCriticalException($"Exception in Game Loop!: {ex}");
                 }
                 Thread.Sleep(GameLoopSleepTimeExt);
             }

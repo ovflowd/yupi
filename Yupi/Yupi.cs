@@ -17,6 +17,7 @@ using Yupi.Core.Settings;
 using Yupi.Core.Util.Math;
 using Yupi.Data;
 using Yupi.Data.Base;
+using Yupi.Data.Interfaces;
 using Yupi.Data.Structs;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Groups.Interfaces;
@@ -145,6 +146,10 @@ namespace Yupi
 
         public static bool ContainsAny(this string haystack, params string[] needles) => needles.Any(haystack.Contains);
 
+        internal static string YupiVariablesDirectory = string.Empty;
+
+        internal static string YupiRootDirectory = string.Empty;
+
         /// <summary>
         /// Start the Plugin System
         /// </summary>
@@ -258,10 +263,15 @@ namespace Yupi
             ChatEmotions.Initialize();
 
             CultureInfo = CultureInfo.CreateSpecificCulture("en-GB");
+
+            YupiRootDirectory = Directory.GetParent(Directory.GetParent(Environment.CurrentDirectory).FullName).FullName;
+
+            YupiVariablesDirectory = Path.Combine(YupiRootDirectory, "Variables");
+
             try
             {
-                ServerConfigurationSettings.Load(Path.Combine(Application.StartupPath, "Settings/main.ini"));
-                ServerConfigurationSettings.Load(Path.Combine(Application.StartupPath, "Settings/Welcome/settings.ini"), true);
+                ServerConfigurationSettings.Load(Path.Combine(YupiVariablesDirectory, "Settings/main.ini"));
+                ServerConfigurationSettings.Load(Path.Combine(YupiVariablesDirectory, "Settings/Welcome/settings.ini"), true);
 
                 DatabaseConnectionType = ServerConfigurationSettings.Data["db.type"];
 

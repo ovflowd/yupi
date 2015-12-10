@@ -324,8 +324,8 @@ namespace Yupi.Game.Commands.Controllers
                     }
                 case "items":
                     {
-                        text.AppendLine(string.Format("Displaying info of coordinates: (X/Y)  {0}/{1}", user.LastSelectedX,
-                            user.LastSelectedY));
+                        text.AppendLine(
+                            $"Displaying info of coordinates: (X/Y)  {user.LastSelectedX}/{user.LastSelectedY}");
 
                         foreach (
                             var item in
@@ -333,21 +333,17 @@ namespace Yupi.Game.Commands.Controllers
                                     .CurrentRoom.GetGameMap()
                                     .GetAllRoomItemForSquare(user.LastSelectedX, user.LastSelectedY))
                         {
-                            text.Append(string.Format("## itemId: {0}  itemBaseId: {1} \r", item.Id,
-                                item.GetBaseItem().ItemId));
-                            text.Append(string.Format("itemName: {0}  itemSpriteId: {1} \r", item.GetBaseItem().Name,
-                                item.GetBaseItem().SpriteId));
-                            text.Append(string.Format("itemInteraction: {0} \r", item.GetBaseItem().InteractionType));
-                            text.Append(string.Format("itemInteractionCount: {0} \r", item.GetBaseItem().Modes));
-                            text.Append(string.Format("itemPublicName: {0} \r", item.GetBaseItem().PublicName));
-                            text.Append(string.Format("X/Y/Z/Rot:  {0}/{1}/{2}/{3}  Height: {4} \r", item.X, item.Y, item.Z,
-                                item.Rot, item.Height));
+                            text.Append($"## itemId: {item.Id}  itemBaseId: {item.GetBaseItem().ItemId} \r");
+                            text.Append(
+                                $"itemName: {item.GetBaseItem().Name}  itemSpriteId: {item.GetBaseItem().SpriteId} \r");
+                            text.Append($"itemInteraction: {item.GetBaseItem().InteractionType} \r");
+                            text.Append($"itemInteractionCount: {item.GetBaseItem().Modes} \r");
+                            text.Append($"itemPublicName: {item.GetBaseItem().PublicName} \r");
+                            text.Append($"X/Y/Z/Rot:  {item.X}/{item.Y}/{item.Z}/{item.Rot}  Height: {item.Height} \r");
                             if (item.GetBaseItem().StackMultipler)
                                 text.Append("Heights: " + string.Join("  -  ", item.GetBaseItem().ToggleHeight) + '\r');
-                            text.AppendLine(string.Format("Can: {0}  {1}  {2}",
-                                item.GetBaseItem().Walkable ? "walk" : string.Empty,
-                                item.GetBaseItem().IsSeat ? "sit" : string.Empty,
-                                item.GetBaseItem().Stackable ? "stack" : string.Empty));
+                            text.AppendLine(
+                                $"Can: {(item.GetBaseItem().Walkable ? "walk" : string.Empty)}  {(item.GetBaseItem().IsSeat ? "sit" : string.Empty)}  {(item.GetBaseItem().Stackable ? "stack" : string.Empty)}");
                         }
 
                         session.SendNotifWithScroll(text.ToString());
@@ -360,13 +356,13 @@ namespace Yupi.Game.Commands.Controllers
 
         private static void AppendUserInfo(RoomUser user, StringBuilder text)
         {
-            text.Append(string.Format("## userId: {0}  name: {1} rank: {2} \r", user.UserId, user.GetUserName(),
-                user.GetClient().GetHabbo().Rank));
+            text.Append(
+                $"## userId: {user.UserId}  name: {user.GetUserName()} rank: {user.GetClient().GetHabbo().Rank} \r");
             if (user.IsDancing) text.Append("actions: dancing \r");
             if (user.IsLyingDown) text.Append("actions: lying \r");
             if (user.IsSitting) text.Append("actions: sitting \r");
             if (user.CurrentEffect > 0) text.Append("actions: effect." + user.CurrentEffect);
-            if (user.IsWalking) text.Append(string.Format(" walking.To(X/Y  {0}/{1})", user.GoalX, user.GoalY));
+            if (user.IsWalking) text.Append($" walking.To(X/Y  {user.GoalX}/{user.GoalY})");
             text.Append("\r");
 
             text.Append("room rights: ");
@@ -384,7 +380,7 @@ namespace Yupi.Game.Commands.Controllers
             if (user.GetClient().GetHabbo().Muted) text.Append(" chat");
             text.Append("\r");
 
-            text.AppendLine(string.Format("X/Y/Z/Rot:  {0}/{1}/{2}/{3}", user.X, user.Y, user.Z, user.RotBody));
+            text.AppendLine($"X/Y/Z/Rot:  {user.X}/{user.Y}/{user.Z}/{user.RotBody}");
         }
     }
 }

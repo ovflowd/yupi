@@ -88,7 +88,7 @@ namespace Yupi.Data.Base.Connections
             catch (MySqlException ex)
             {
                 _isConnected = false;
-                throw new Exception(string.Format("Could not connect the clients to the database: {0}", ex.Message));
+                throw new Exception($"Could not connect the clients to the database: {ex.Message}");
             }
             _isConnected = true;
         }

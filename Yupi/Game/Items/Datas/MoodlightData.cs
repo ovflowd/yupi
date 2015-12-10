@@ -42,9 +42,7 @@ namespace Yupi.Game.Items.Datas
             using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery(
-                    string.Format(
-                        "SELECT enabled,current_preset,preset_one,preset_two,preset_three FROM items_moodlight WHERE item_id='{0}'",
-                        itemId));
+                    $"SELECT enabled,current_preset,preset_one,preset_two,preset_three FROM items_moodlight WHERE item_id='{itemId}'");
                 row = queryReactor.GetRow();
             }
             if (row != null)
@@ -114,8 +112,7 @@ namespace Yupi.Game.Items.Datas
         {
             Enabled = true;
             using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery(string.Format("UPDATE items_moodlight SET enabled = '1' WHERE item_id = {0}",
-                    ItemId));
+                queryReactor.RunFastQuery($"UPDATE items_moodlight SET enabled = '1' WHERE item_id = {ItemId}");
         }
 
         /// <summary>
@@ -125,8 +122,7 @@ namespace Yupi.Game.Items.Datas
         {
             Enabled = false;
             using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery(string.Format("UPDATE items_moodlight SET enabled = '0' WHERE item_id = {0}",
-                    ItemId));
+                queryReactor.RunFastQuery($"UPDATE items_moodlight SET enabled = '0' WHERE item_id = {ItemId}");
         }
 
         /// <summary>
@@ -161,8 +157,7 @@ namespace Yupi.Game.Items.Datas
             using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery(
-                    string.Format("UPDATE items_moodlight SET preset_{0}='{1},{2},{3}' WHERE item_id='{4}'", text, color,
-                        intensity, Yupi.BoolToEnum(bgOnly), ItemId));
+                    $"UPDATE items_moodlight SET preset_{text}='{color},{intensity},{Yupi.BoolToEnum(bgOnly)}' WHERE item_id='{ItemId}'");
                 queryReactor.RunQuery();
             }
 

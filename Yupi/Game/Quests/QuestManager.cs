@@ -144,8 +144,8 @@ namespace Yupi.Game.Quests
                     queryReactor.RunFastQuery(string.Concat("UPDATE users_quests_data SET progress = ", num,
                         " WHERE user_id = ", session.GetHabbo().Id, " AND quest_id =  ", quest.Id));
                     if (flag)
-                        queryReactor.RunFastQuery(string.Format("UPDATE users_stats SET quest_id = 0 WHERE id = {0}",
-                            session.GetHabbo().Id));
+                        queryReactor.RunFastQuery(
+                            $"UPDATE users_stats SET quest_id = 0 WHERE id = {session.GetHabbo().Id}");
                 }
                 session.GetHabbo().Quests[session.GetHabbo().CurrentQuestId] = num;
                 session.SendMessage(QuestStartedComposer.Compose(session, quest));

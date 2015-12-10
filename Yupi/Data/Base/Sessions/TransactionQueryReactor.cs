@@ -1,24 +1,39 @@
-#region
+/**
+     Because i love chocolat...                                      
+                                    88 88  
+                                    "" 88  
+                                       88  
+8b       d8 88       88 8b,dPPYba,  88 88  
+`8b     d8' 88       88 88P'    "8a 88 88  
+ `8b   d8'  88       88 88       d8 88 ""  
+  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa  
+    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88  
+    d8'                 88                 
+   d8'                  88     
+   
+   Private Habbo Hotel Emulating System
+   @author Claudio A. Santoro W.
+   @author Kessiler R.
+   @version dev-beta
+   @license MIT
+   @copyright Sulake Corporation Oy
+   @observation All Rights of Habbo, Habbo Hotel, and all Habbo contents and it's names, is copyright from Sulake
+   Corporation Oy. Yupi! has nothing linked with Sulake. 
+   This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
+*/
 
-using FirebirdSql.Data.FirebirdClient;
-using Ingres.Client;
 using MySql.Data.MySqlClient;
-using Npgsql;
 using Yupi.Data.Base.Connections;
 using Yupi.Data.Base.Exceptions;
 using Yupi.Data.Base.Sessions.Interfaces;
-
-#endregion
 
 namespace Yupi.Data.Base.Sessions
 {
     public class TransactionQueryReactor : QueryAdapter, IQueryAdapter
     {
         private bool _finishedTransaction;
+
         private MySqlTransaction _transactionmysql;
-        private NpgsqlTransaction _transactionpgsql;
-        private FbTransaction _transactionfirebird;
-        private IngresTransaction _transactioningress;
 
         public TransactionQueryReactor(IDatabaseClient client) : base(client)
         {
@@ -28,27 +43,15 @@ namespace Yupi.Data.Base.Sessions
         public void Dispose()
         {
             if (!_finishedTransaction)
-                throw new TransactionException(
-                    "The transaction needs to be completed by commit() or rollback() before you can dispose this item.");
+                throw new TransactionException("The transaction needs to be completed by commit() or rollback() before you can dispose this item.");
+
             switch (ConnectionManager.DatabaseConnectionType.ToLower())
             {
-                case "firebird":
-                    CommandFireBird.Dispose();
-                    break;
-
-                case "ingres":
-                case "ingress":
-                    CommandIngress.Dispose();
-                    break;
-
-                case "pgsql":
-                    CommandPgSql.Dispose();
-                    break;
-
-                default: // mySql
+                default: // MySQL
                     CommandMySql.Dispose();
                     break;
             }
+
             Client.ReportDone();
         }
 
@@ -58,23 +61,11 @@ namespace Yupi.Data.Base.Sessions
             {
                 switch (ConnectionManager.DatabaseConnectionType.ToLower())
                 {
-                    case "pgsql":
-                        _transactionpgsql.Commit();
-                        break;
-
-                    case "ingress":
-                    case "ingres":
-                        _transactioningress.Commit();
-                        break;
-
-                    case "firebird":
-                        _transactionfirebird.Commit();
-                        break;
-
-                    default: // mySql
+                    default: // MySQL
                         _transactionmysql.Commit();
                         break;
                 }
+
                 _finishedTransaction = true;
             }
             catch (MySqlException ex)
@@ -87,48 +78,11 @@ namespace Yupi.Data.Base.Sessions
         {
             switch (ConnectionManager.DatabaseConnectionType.ToLower())
             {
-                case "firebird":
-                case "FireBird":
-                    try
-                    {
-                        _transactionfirebird.Rollback();
-                        _finishedTransaction = true;
-                    }
-                    catch (FbException ex)
-                    {
-                        throw new TransactionException(ex.Message);
-                    }
-                    break;
-
-                case "ingres":
-                case "ingress":
-                    try
-                    {
-                        _transactioningress.Rollback();
-                        _finishedTransaction = true;
-                    }
-                    catch (IngresException ex)
-                    {
-                        throw new TransactionException(ex.Message);
-                    }
-                    break;
-
-                case "pgsql":
-                    try
-                    {
-                        _transactionpgsql.Rollback();
-                        _finishedTransaction = true;
-                    }
-                    catch (NpgsqlException ex)
-                    {
-                        throw new TransactionException(ex.Message);
-                    }
-                    break;
-
                 default:
                     try
                     {
                         _transactionmysql.Rollback();
+
                         _finishedTransaction = true;
                     }
                     catch (MySqlException ex)
@@ -139,36 +93,12 @@ namespace Yupi.Data.Base.Sessions
             }
         }
 
-        public bool GetAutoCommit()
-        {
-            return false;
-        }
+        public bool GetAutoCommit() => false;
 
         private void InitTransaction()
         {
             switch (ConnectionManager.DatabaseConnectionType.ToLower())
             {
-                case "firebird":
-                    CommandFireBird = Client.CreateNewCommandFireBird();
-                    _transactionfirebird = Client.GetTransactionFireBird();
-                    CommandFireBird.Transaction = _transactionfirebird;
-                    CommandFireBird.Connection = _transactionfirebird.Connection;
-                    break;
-
-                case "ingres":
-                case "ingress":
-                    CommandIngress = Client.CreateNewCommandIngress();
-                    _transactioningress = Client.GetTransactionIngress();
-                    CommandIngress.Transaction = _transactioningress;
-                    break;
-
-                case "pgsql":
-                    CommandPgSql = Client.CreateNewCommandPgSql();
-                    _transactionpgsql = Client.GetTransactionPgSql();
-                    CommandPgSql.Transaction = _transactionpgsql;
-                    CommandPgSql.Connection = _transactionpgsql.Connection;
-                    break;
-
                 default:
                     CommandMySql = Client.CreateNewCommandMySql();
                     _transactionmysql = Client.GetTransactionMySql();

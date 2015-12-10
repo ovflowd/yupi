@@ -1,10 +1,30 @@
-#region
+/**
+Because i love chocolat...
+                                    88 88  
+                                    "" 88  
+                                       88  
+8b d8 88       88 8b, dPPYba,  88 88  
+`8b d8' 88       88 88P'    "8a 88 88  
+ `8b d8'  88       88 88       d8 88 ""  
+  `8b, d8'   "8a,   ,a88 88b,   ,a8" 88 aa  
+    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88  
+    d8'                 88                 
+   d8'                  88     
+
+Private Habbo Hotel Emulating System
+@author Claudio A. Santoro W.
+   @author Kessiler R.
+@version dev-beta
+@license MIT
+@copyright Sulake Corporation Oy
+@observation All Rights of Habbo, Habbo Hotel, and all Habbo contents and it's names, is copyright from Sulake
+   Corporation Oy. Yupi! has nothing linked with Sulake.
+This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
+*/
 
 using Yupi.Data.Base.Connections;
 using Yupi.Data.Base.Exceptions;
 using Yupi.Data.Base.Sessions.Interfaces;
-
-#endregion
 
 namespace Yupi.Data.Base.Sessions
 {
@@ -14,20 +34,7 @@ namespace Yupi.Data.Base.Sessions
         {
             switch (ConnectionManager.DatabaseConnectionType.ToLower())
             {
-                case "firebird":
-                    CommandFireBird = client.CreateNewCommandFireBird();
-                    break;
-
-                case "ingres":
-                case "ingress":
-                    CommandIngress = client.CreateNewCommandIngress();
-                    break;
-
-                case "pgsql":
-                    CommandPgSql = client.CreateNewCommandPgSql();
-                    break;
-
-                default: // mySql
+                default: // MySQL
                     CommandMySql = client.CreateNewCommandMySql();
                     break;
             }
@@ -37,23 +44,7 @@ namespace Yupi.Data.Base.Sessions
         {
             switch (ConnectionManager.DatabaseConnectionType.ToLower())
             {
-                case "firebird":
-                    CommandFireBird.Dispose();
-                    Client.ReportDone();
-                    break;
-
-                case "ingres":
-                case "ingress":
-                    CommandIngress.Dispose();
-                    Client.ReportDone();
-                    break;
-
-                case "pgsql":
-                    CommandPgSql.Dispose();
-                    Client.ReportDone();
-                    break;
-
-                default: // mySql
+                default: // MySQL
                     CommandMySql.Dispose();
                     Client.ReportDone();
                     break;
@@ -62,12 +53,12 @@ namespace Yupi.Data.Base.Sessions
 
         public void DoCommit()
         {
-            new TransactionException("Can't use rollback on a non-transactional Query reactor");
+            throw new TransactionException("Can't use rollback on a non-transactional Query reactor");
         }
 
         public void DoRollBack()
         {
-            new TransactionException("Can't use rollback on a non-transactional Query reactor");
+           throw new TransactionException("Can't use rollback on a non-transactional Query reactor");
         }
     }
 }

@@ -1,4 +1,28 @@
-﻿using System;
+﻿/**
+     Because i love chocolat...                                      
+                                    88 88  
+                                    "" 88  
+                                       88  
+8b       d8 88       88 8b,dPPYba,  88 88  
+`8b     d8' 88       88 88P'    "8a 88 88  
+ `8b   d8'  88       88 88       d8 88 ""  
+  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa  
+    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88  
+    d8'                 88                 
+   d8'                  88     
+   
+   Private Habbo Hotel Emulating System
+   @author Claudio A. Santoro W.
+   @author Kessiler R.
+   @version dev-beta
+   @license MIT
+   @copyright Sulake Corporation Oy
+   @observation All Rights of Habbo, Habbo Hotel, and all Habbo contents and it's names, is copyright from Sulake
+   Corporation Oy. Yupi! has nothing linked with Sulake. 
+   This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
+*/
+
+using System;
 using System.Collections;
 using System.Globalization;
 using System.IO;
@@ -64,7 +88,7 @@ namespace Yupi.Core.Io
         /// <param name="logText">The log text.</param>
         public static void LogException(string logText)
         {
-            WriteToFile(@"Logs\ExceptionsLog.txt", logText + "\r\n\r\n");
+            WriteToFile($"{Yupi.YupiVariablesDirectory}\\Logs\\ExceptionsLog.txt", logText + "\r\n\r\n");
             WriteLine("An exception was registered.", ConsoleColor.Red);
         }
 
@@ -74,7 +98,7 @@ namespace Yupi.Core.Io
         /// <param name="logText">The log text.</param>
         public static void LogCriticalException(string logText)
         {
-            WriteToFile(@"Logs\ExceptionsLog.txt", logText + "\r\n\r\n");
+            WriteToFile($"{Yupi.YupiVariablesDirectory}\\Logs\\ExceptionsLog.txt", logText + "\r\n\r\n");
             WriteLine("A critical exception was registered.", ConsoleColor.Red);
         }
 
@@ -84,7 +108,7 @@ namespace Yupi.Core.Io
         /// <param name="logText">The log text.</param>
         public static void LogCacheError(string logText)
         {
-            WriteToFile(@"Logs\ErrorLog.txt", logText + "\r\n\r\n");
+            WriteToFile($"{Yupi.YupiVariablesDirectory}\\Logs\\ErrorLog.txt", logText + "\r\n\r\n");
             WriteLine("A caching error was registered.", ConsoleColor.Red);
         }
 
@@ -95,7 +119,7 @@ namespace Yupi.Core.Io
         /// <param name="output">if set to <c>true</c> [output].</param>
         public static void LogMessage(string logText, bool output = true)
         {
-            WriteToFile(@"Logs\CommonLog.txt", logText + "\r\n\r\n");
+            WriteToFile($"{Yupi.YupiVariablesDirectory}\\Logs\\CommonLog.txt", logText + "\r\n\r\n");
 
             if (output)
                 Console.WriteLine(logText);
@@ -107,7 +131,7 @@ namespace Yupi.Core.Io
         /// <param name="logText">The log text.</param>
         public static void LogDdos(string logText)
         {
-            WriteToFile(@"Logs\DDosLog.txt", logText + "\r\n\r\n");
+            WriteToFile($"{Yupi.YupiVariablesDirectory}\\Logs\\DDosLog.txt", logText + "\r\n\r\n");
             WriteLine(logText, ConsoleColor.Red);
         }
 
@@ -118,7 +142,7 @@ namespace Yupi.Core.Io
         /// <param name="threadName">Name of the thread.</param>
         public static void LogThreadException(string exception, string threadName)
         {
-            WriteToFile(@"Logs\ErrorLog.txt", string.Concat("Error en thread ", threadName, ": \r\n", exception, "\r\n\r\n"));
+            WriteToFile($"{Yupi.YupiVariablesDirectory}\\Logs\\ErrorLog.txt", string.Concat("Error en thread ", threadName, ": \r\n", exception, "\r\n\r\n"));
             WriteLine("An thread error was registered, in thread: " + threadName, ConsoleColor.Red);
         }
 
@@ -129,7 +153,7 @@ namespace Yupi.Core.Io
         /// <param name="query">The query.</param>
         public static void LogQueryError(Exception exception, string query)
         {
-            WriteToFile(@"Logs\MySQLErrors.txt", string.Concat("The query error was in: \r\n", query, "\r\n", exception, "\r\n\r\n"));
+            WriteToFile($"{Yupi.YupiVariablesDirectory}\\Logs\\MySQLErrors.txt", string.Concat("The query error was in: \r\n", query, "\r\n", exception, "\r\n\r\n"));
             WriteLine("A MySQL exception was registered.", ConsoleColor.Red);
         }
 
@@ -140,7 +164,7 @@ namespace Yupi.Core.Io
         /// <param name="exception">The exception.</param>
         public static void LogPacketException(string packet, string exception)
         {
-            WriteToFile(@"Logs\PacketLogError.txt", "Error in packet " + packet + ": \r\n" + exception + "\r\n\r\n");
+            WriteToFile($"{Yupi.YupiVariablesDirectory}\\Logs\\PacketLogError.txt", "Error in packet " + packet + ": \r\n" + exception + "\r\n\r\n");
             WriteLine("A packet exception was registered.", ConsoleColor.Red);
         }
 
@@ -208,7 +232,7 @@ namespace Yupi.Core.Io
         /// <param name="builder">The builder.</param>
         public static void LogShutdown(StringBuilder builder)
         {
-            WriteToFile(@"Logs\shutdownlog.txt", builder.ToString());
+            WriteToFile($"{Yupi.YupiVariablesDirectory}\\Logs\\shutdownlog.txt", builder.ToString());
         }
 
         /// <summary>
