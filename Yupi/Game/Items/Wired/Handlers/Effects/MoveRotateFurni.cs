@@ -41,7 +41,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
 
             _cycles++;
 
-            if (_cycles <= (Delay / 500))
+            if (_cycles <= Delay / 500)
                 return true;
 
             _cycles = 0;

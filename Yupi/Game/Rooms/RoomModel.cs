@@ -164,7 +164,7 @@ namespace Yupi.Game.Rooms
                             SqState[x][y] = SquareState.Open;
 
                             if (SqFloorHeight[x][y] > 9)
-                                SqChar[x][y] = Letters[(SqFloorHeight[x][y] - 10)];
+                                SqChar[x][y] = Letters[SqFloorHeight[x][y] - 10];
                             else
                                 SqChar[x][y] = char.Parse(DoorZ.ToString(CultureInfo.InvariantCulture));
                         }

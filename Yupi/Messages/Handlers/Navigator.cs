@@ -1,6 +1,6 @@
 ﻿using Yupi.Game.Browser;
 using Yupi.Game.Browser.Enums;
-using Yupi.Game.Browser.Interfaces;
+using Yupi.Game.Browser.Models;
 using Yupi.Game.Rooms.Data;
 using Yupi.Messages.Parsers;
 

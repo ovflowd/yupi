@@ -68,7 +68,7 @@ namespace Yupi.Game.Users
 
             if (iqs != -1)
             {
-                string querystring = (iqs < args.Length - 1) ? args.Substring(iqs + 1) : string.Empty;
+                string querystring = iqs < args.Length - 1 ? args.Substring(iqs + 1) : string.Empty;
                 NameValueCollection nvcArgs = HttpUtility.ParseQueryString(querystring);
                 return nvcArgs[key];
             }

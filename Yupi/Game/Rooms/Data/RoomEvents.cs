@@ -169,7 +169,7 @@ namespace Yupi.Game.Rooms.Data
             serverMessage.AppendString(@event.Description);
             serverMessage.AppendInteger(0);
             serverMessage.AppendInteger(
-                ((int) Math.Floor((@event.Time - Yupi.GetUnixTimeStamp())/60.0)));
+                (int) Math.Floor((@event.Time - Yupi.GetUnixTimeStamp())/60.0));
 
             serverMessage.AppendInteger(@event.Category);
             room.SendMessage(serverMessage);

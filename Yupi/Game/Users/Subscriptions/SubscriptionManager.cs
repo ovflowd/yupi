@@ -50,7 +50,7 @@ namespace Yupi.Game.Users.Subscriptions
         /// <param name="dayLength">Length of the day.</param>
         internal void AddSubscription(double dayLength)
         {
-            var num = ((int) Math.Round(dayLength));
+            var num = (int) Math.Round(dayLength);
 
             var clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(_userId);
             DateTime target;

@@ -9,7 +9,7 @@ using Yupi.Core.Io;
 using Yupi.Data;
 using Yupi.Data.Base.Queries;
 using Yupi.Data.Base.Sessions.Interfaces;
-using Yupi.Game.Browser.Interfaces;
+using Yupi.Game.Browser.Models;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Items.Interactions.Enums;
 using Yupi.Game.Pathfinding;
@@ -133,7 +133,7 @@ namespace Yupi.Game.Rooms.User
         /// <returns>System.Int32.</returns>
         internal int GetRoomUserCount()
         {
-            return (UserList.Count - _bots.Count - _pets.Count);
+            return UserList.Count - _bots.Count - _pets.Count;
         }
 
         /// <summary>
@@ -713,7 +713,7 @@ namespace Yupi.Game.Rooms.User
                 var itemsOnSquare = roomMap.GetCoordinatedItems(userPoint);
 
                 var newZ = _userRoom.GetGameMap().SqAbsoluteHeight(user.X, user.Y, itemsOnSquare) +
-                           ((user.RidingHorse && user.IsPet == false) ? 1 : 0);
+                           (user.RidingHorse && user.IsPet == false ? 1 : 0);
 
                 if (Math.Abs(newZ - user.Z) > 0)
                 {
@@ -1002,7 +1002,7 @@ namespace Yupi.Game.Rooms.User
 
         internal void UserRoomTimeCycles(RoomUser roomUsers)
         {
-            if ((!roomUsers.IsAsleep) && (roomUsers.IdleTime >= 600) && (!roomUsers.IsBot) && (!roomUsers.IsPet))
+            if (!roomUsers.IsAsleep && (roomUsers.IdleTime >= 600) && !roomUsers.IsBot && !roomUsers.IsPet)
             {
                 roomUsers.IsAsleep = true;
 
@@ -1012,7 +1012,7 @@ namespace Yupi.Game.Rooms.User
                 _userRoom.SendMessage(sleepEffectMessage);
             }
 
-            if ((!roomUsers.IsOwner()) && (roomUsers.IdleTime >= 300) && (!roomUsers.IsBot) && (!roomUsers.IsPet))
+            if (!roomUsers.IsOwner() && (roomUsers.IdleTime >= 300) && !roomUsers.IsBot && !roomUsers.IsPet)
             {
                 try
                 {
@@ -1033,9 +1033,8 @@ namespace Yupi.Game.Rooms.User
 
         internal void RoomUserBreedInteraction(RoomUser roomUsers)
         {
-            if ((roomUsers.IsPet) && ((roomUsers.PetData.Type == 3) || (roomUsers.PetData.Type == 4)) &&
-                (roomUsers.PetData.WaitingForBreading > 0) &&
-                ((roomUsers.PetData.BreadingTile.X == roomUsers.X) && (roomUsers.PetData.BreadingTile.Y == roomUsers.Y)))
+            if (roomUsers.IsPet && ((roomUsers.PetData.Type == 3) || (roomUsers.PetData.Type == 4)) &&
+                (roomUsers.PetData.WaitingForBreading > 0) && (roomUsers.PetData.BreadingTile.X == roomUsers.X) && (roomUsers.PetData.BreadingTile.Y == roomUsers.Y))
             {
                 roomUsers.Freezed = true;
                 _userRoom.GetGameMap().RemoveUserFromMap(roomUsers, roomUsers.Coordinate);
@@ -1083,10 +1082,8 @@ namespace Yupi.Game.Rooms.User
 
                 UpdateUserStatus(roomUsers, false);
             }
-            else if ((roomUsers.IsPet) && ((roomUsers.PetData.Type == 3) || (roomUsers.PetData.Type == 4)) &&
-                     (roomUsers.PetData.WaitingForBreading > 0) &&
-                     ((roomUsers.PetData.BreadingTile.X != roomUsers.X) &&
-                      (roomUsers.PetData.BreadingTile.Y != roomUsers.Y)))
+            else if (roomUsers.IsPet && ((roomUsers.PetData.Type == 3) || (roomUsers.PetData.Type == 4)) &&
+                     (roomUsers.PetData.WaitingForBreading > 0) && (roomUsers.PetData.BreadingTile.X != roomUsers.X) && (roomUsers.PetData.BreadingTile.Y != roomUsers.Y))
             {
                 roomUsers.Freezed = false;
                 roomUsers.PetData.WaitingForBreading = 0;
@@ -1098,7 +1095,7 @@ namespace Yupi.Game.Rooms.User
         internal void UserSetPositionData(RoomUser roomUsers, Vector2D nextStep)
         {
             // Check if the User is in a Horse or Not..
-            if ((roomUsers.RidingHorse) && (!roomUsers.IsPet))
+            if (roomUsers.RidingHorse && !roomUsers.IsPet)
             {
                 var horseRidingPet = GetRoomUserByVirtualId(Convert.ToInt32(roomUsers.HorseId));
 
@@ -1111,7 +1108,7 @@ namespace Yupi.Game.Rooms.User
 
                     roomUsers.SetX = nextStep.X;
                     roomUsers.SetY = nextStep.Y;
-                    roomUsers.SetZ = (_userRoom.GetGameMap().SqAbsoluteHeight(nextStep.X, nextStep.Y) + 1);
+                    roomUsers.SetZ = _userRoom.GetGameMap().SqAbsoluteHeight(nextStep.X, nextStep.Y) + 1;
 
                     horseRidingPet.SetX = roomUsers.SetX;
                     horseRidingPet.SetY = roomUsers.SetY;
@@ -1146,7 +1143,7 @@ namespace Yupi.Game.Rooms.User
             }
 
             // User is Sitting Down..
-            if ((roomUsers.Statusses.ContainsKey("sit") || roomUsers.IsSitting) && (!roomUsers.RidingHorse))
+            if ((roomUsers.Statusses.ContainsKey("sit") || roomUsers.IsSitting) && !roomUsers.RidingHorse)
             {
                 roomUsers.Statusses.Remove("sit");
                 roomUsers.IsSitting = false;
@@ -1157,8 +1154,8 @@ namespace Yupi.Game.Rooms.User
         internal void UserGoToTile(RoomUser roomUsers, bool invalidStep)
         {
             // If The Tile that the user want to Walk is Invalid!
-            if (((invalidStep) || (roomUsers.PathStep >= roomUsers.Path.Count) ||
-                 ((roomUsers.GoalX == roomUsers.X) && (roomUsers.GoalY == roomUsers.Y))))
+            if (invalidStep || (roomUsers.PathStep >= roomUsers.Path.Count) ||
+                ((roomUsers.GoalX == roomUsers.X) && (roomUsers.GoalY == roomUsers.Y)))
             {
                 // Erase all Movement Data..
                 roomUsers.IsWalking = false;
@@ -1167,7 +1164,7 @@ namespace Yupi.Game.Rooms.User
                 RoomUserBreedInteraction(roomUsers);
 
                 // Check if he is in a Horse, and if if Erase Horse and User Movement Data
-                if ((roomUsers.RidingHorse) && (!roomUsers.IsPet))
+                if (roomUsers.RidingHorse && !roomUsers.IsPet)
                 {
                     var horseStopWalkRidingPet = GetRoomUserByVirtualId(Convert.ToInt32(roomUsers.HorseId));
 
@@ -1191,7 +1188,7 @@ namespace Yupi.Game.Rooms.User
 
             // Ins't a Invalid Step.. Continuing.
             // Region Set Variables
-            var pathDataCount = ((roomUsers.Path.Count - roomUsers.PathStep) - 1);
+            var pathDataCount = roomUsers.Path.Count - roomUsers.PathStep - 1;
             var nextStep = roomUsers.Path[pathDataCount];
 
             // Increase Step Data...
@@ -1200,11 +1197,11 @@ namespace Yupi.Game.Rooms.User
             // Check Against if is a Valid Step...
             if (_userRoom.GetGameMap()
                 .IsValidStep3(roomUsers, new Vector2D(roomUsers.X, roomUsers.Y), new Vector2D(nextStep.X, nextStep.Y),
-                    ((roomUsers.GoalX == nextStep.X) && (roomUsers.GoalY == nextStep.Y)), roomUsers.AllowOverride,
+                    (roomUsers.GoalX == nextStep.X) && (roomUsers.GoalY == nextStep.Y), roomUsers.AllowOverride,
                     roomUsers.GetClient()))
             {
                 // If is a PET Must Give the Time Tick In Syncrony with User..
-                if ((roomUsers.RidingHorse) && (!roomUsers.IsPet))
+                if (roomUsers.RidingHorse && !roomUsers.IsPet)
                 {
                     var horsePetAi = GetRoomUserByVirtualId(Convert.ToInt32(roomUsers.HorseId));
 
@@ -1225,7 +1222,7 @@ namespace Yupi.Game.Rooms.User
                 }
 
                 // Check if User is Ridding in Horse, if if Let's Update Ride Data.
-                if ((roomUsers.RidingHorse) && (!roomUsers.IsPet))
+                if (roomUsers.RidingHorse && !roomUsers.IsPet)
                 {
                     var horseRidingPet = GetRoomUserByVirtualId(Convert.ToInt32(roomUsers.HorseId));
 
@@ -1247,7 +1244,7 @@ namespace Yupi.Game.Rooms.User
                         horseRidingPet.RotHead = roomUsers.RotBody;
                         horseRidingPet.SetX = roomUsers.SetX;
                         horseRidingPet.SetY = roomUsers.SetY;
-                        horseRidingPet.SetZ = (roomUsers.SetZ - 1);
+                        horseRidingPet.SetZ = roomUsers.SetZ - 1;
                         horseRidingPet.SetStep = true;
 
                         UpdateUserEffect(horseRidingPet, horseRidingPet.SetX, horseRidingPet.SetY);
@@ -1290,15 +1287,15 @@ namespace Yupi.Game.Rooms.User
                 roomUsers.ClearMovement();
 
             // If user isn't pet and Bot, we have serious Problems. Let Recalculate Path!
-            if ((!roomUsers.IsPet) && (!roomUsers.IsBot))
+            if (!roomUsers.IsPet && !roomUsers.IsBot)
                 roomUsers.PathRecalcNeeded = true;
         }
 
         internal bool UserCanWalkInTile(RoomUser roomUsers)
         {
             // Check if User CanWalk...
-            if ((_userRoom.GetGameMap().CanWalk(roomUsers.SetX, roomUsers.SetY, roomUsers.AllowOverride)) ||
-                (roomUsers.RidingHorse))
+            if (_userRoom.GetGameMap().CanWalk(roomUsers.SetX, roomUsers.SetY, roomUsers.AllowOverride) ||
+                roomUsers.RidingHorse)
             {
                 // Let's Update his Movement...
                 _userRoom.GetGameMap()
@@ -1409,8 +1406,8 @@ namespace Yupi.Game.Rooms.User
                 lock (_removeUsers)
                 {
                     if ((roomUsers.SetX == _userRoom.GetGameMap().Model.DoorX) &&
-                        (roomUsers.SetY == _userRoom.GetGameMap().Model.DoorY) && (!_removeUsers.Contains(roomUsers)) &&
-                        (!roomUsers.IsBot) && (!roomUsers.IsPet))
+                        (roomUsers.SetY == _userRoom.GetGameMap().Model.DoorY) && !_removeUsers.Contains(roomUsers) &&
+                        !roomUsers.IsBot && !roomUsers.IsPet)
                     {
                         _removeUsers.Add(roomUsers);
                         return;
@@ -1425,8 +1422,8 @@ namespace Yupi.Game.Rooms.User
             }
 
             // Pet Must Stop Too!
-            if (((roomUsers.GoalX == roomUsers.X) && (roomUsers.GoalY == roomUsers.Y)) && (roomUsers.RidingHorse) &&
-                (!roomUsers.IsPet))
+            if ((roomUsers.GoalX == roomUsers.X) && (roomUsers.GoalY == roomUsers.Y) && roomUsers.RidingHorse &&
+                !roomUsers.IsPet)
             {
                 var horseStopWalkRidingPet = GetRoomUserByVirtualId(Convert.ToInt32(roomUsers.HorseId));
 
@@ -1444,7 +1441,7 @@ namespace Yupi.Game.Rooms.User
             }
 
             // User Reached Goal Need Stop.
-            if (((roomUsers.GoalX == roomUsers.X) && (roomUsers.GoalY == roomUsers.Y)) || (roomUsers.Freezed))
+            if (((roomUsers.GoalX == roomUsers.X) && (roomUsers.GoalY == roomUsers.Y)) || roomUsers.Freezed)
             {
                 roomUsers.IsWalking = false;
                 roomUsers.ClearMovement();
@@ -1474,7 +1471,7 @@ namespace Yupi.Game.Rooms.User
             }
 
             // If user Isn't Walking, Let's go Back..
-            if ((!roomUsers.IsWalking) || (roomUsers.Freezed))
+            if (!roomUsers.IsWalking || roomUsers.Freezed)
             {
                 if (roomUsers.Statusses.ContainsKey("mv"))
                     roomUsers.ClearMovement();
@@ -1512,7 +1509,7 @@ namespace Yupi.Game.Rooms.User
             try
             {
                 // Check Disco Procedure...
-                if ((_userRoom != null) && (_userRoom.DiscoMode) && (_userRoom.TonerData != null) &&
+                if ((_userRoom != null) && _userRoom.DiscoMode && (_userRoom.TonerData != null) &&
                     (_userRoom.TonerData.Enabled == 1))
                 {
                     var tonerItem = _userRoom.GetRoomItemHandler().GetItem(_userRoom.TonerData.ItemId);
@@ -1542,7 +1539,7 @@ namespace Yupi.Game.Rooms.User
                 UserCycleOnRoom(roomUsers);
 
                 // If is a Valid user, We must increase the User Count..
-                if ((!roomUsers.IsPet) && (!roomUsers.IsBot))
+                if (!roomUsers.IsPet && !roomUsers.IsBot)
                 {
                     userInRoomCount++;
                 }

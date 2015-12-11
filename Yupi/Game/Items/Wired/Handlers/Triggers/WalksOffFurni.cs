@@ -117,7 +117,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Triggers
                 OnCycle();
             else
             {
-                _mNext = (Yupi.Now() + (Delay));
+                _mNext = Yupi.Now() + Delay;
 
                 Room.GetWiredHandler().EnqueueCycle(this);
             }

@@ -39,7 +39,7 @@ namespace Yupi.Game.Commands.Controllers
                         session.SendWhisper(Yupi.GetLanguage().GetVar("user_not_found"));
                         return true;
                     }
-                    session.SendNotif(string.Format((Yupi.GetLanguage().GetVar("user_info_all")), userName, row[1],
+                    session.SendNotif(string.Format(Yupi.GetLanguage().GetVar("user_info_all"), userName, row[1],
                         row[3], row[4], row[5]));
                 }
                 return true;

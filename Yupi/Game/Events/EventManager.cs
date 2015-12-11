@@ -63,10 +63,7 @@ namespace Yupi.Game.Events
         ///     Gets the rooms.
         /// </summary>
         /// <returns>KeyValuePair&lt;RoomData, System.UInt32&gt;[].</returns>
-        internal KeyValuePair<RoomData, uint>[] GetRooms()
-        {
-            return _orderedEventRooms.ToArray();
-        }
+        internal KeyValuePair<RoomData, uint>[] GetRooms() => _orderedEventRooms.ToArray();
 
         /// <summary>
         ///     Called when [cycle].
@@ -160,10 +157,7 @@ namespace Yupi.Game.Events
             lock (_removeQueue.SyncRoot)
             {
                 while (_removeQueue.Count > 0)
-                {
-                    var key = (RoomData)_removeQueue.Dequeue();
-                    _events.Remove(key);
-                }
+                    _events.Remove((RoomData)_removeQueue.Dequeue());
             }
         }
 

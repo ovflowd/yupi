@@ -50,8 +50,8 @@ namespace Yupi.Core.Encryption.Hurlant.Crypto.Rsa
             Dmq1 = dmq1;
             Coeff = coeff;
 
-            CanEncrypt = (N != 0 && E != 0);
-            CanDecrypt = (CanEncrypt && D != 0);
+            CanEncrypt = N != 0 && E != 0;
+            CanDecrypt = CanEncrypt && D != 0;
         }
 
         public int E { get; }

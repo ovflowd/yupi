@@ -595,7 +595,7 @@ namespace Yupi.Messages.Handlers
             if (!roomUserByHabbo.RidingHorse)
                 return;
 
-            RoomUser roomUserByVirtualId = currentRoom.GetRoomUserManager().GetRoomUserByVirtualId((int)(roomUserByHabbo.HorseId));
+            RoomUser roomUserByVirtualId = currentRoom.GetRoomUserManager().GetRoomUserByVirtualId((int)roomUserByHabbo.HorseId);
 
             roomUserByVirtualId.MoveTo(targetX, targetY);
         }
@@ -615,7 +615,7 @@ namespace Yupi.Messages.Handlers
                 Session.SendNotif(Yupi.GetLanguage().GetVar("user_has_more_then_75_rooms"));
                 return;
             }
-            if ((Yupi.GetUnixTimeStamp() - Session.GetHabbo().LastSqlQuery) < 20)
+            if (Yupi.GetUnixTimeStamp() - Session.GetHabbo().LastSqlQuery < 20)
             {
                 Session.SendNotif(Yupi.GetLanguage().GetVar("user_create_room_flood_error"));
                 return;
@@ -655,7 +655,7 @@ namespace Yupi.Messages.Handlers
             GetResponse().AppendInteger(room.RoomData.Category);
             GetResponse().AppendInteger(room.RoomData.UsersMax);
             GetResponse()
-                .AppendInteger(((room.RoomData.Model.MapSizeX * room.RoomData.Model.MapSizeY) > 200) ? 50 : 25);
+                .AppendInteger(room.RoomData.Model.MapSizeX * room.RoomData.Model.MapSizeY > 200 ? 50 : 25);
 
             GetResponse().AppendInteger(room.TagCount);
             foreach (var s in room.RoomData.Tags)
@@ -858,7 +858,7 @@ namespace Yupi.Messages.Handlers
             {
                 var habboForId = Yupi.GetHabboById(current);
                 Response.AppendInteger(current);
-                Response.AppendString((habboForId == null) ? "Undefined" : habboForId.UserName);
+                Response.AppendString(habboForId == null ? "Undefined" : habboForId.UserName);
             }
             SendResponse();
         }
@@ -1211,7 +1211,7 @@ namespace Yupi.Messages.Handlers
             var value = Request.GetInteger();
             roomUserByHabbo.AddStatus("sign", Convert.ToString(value));
             roomUserByHabbo.UpdateNeeded = true;
-            roomUserByHabbo.SignTime = (Yupi.GetUnixTimeStamp() + 5);
+            roomUserByHabbo.SignTime = Yupi.GetUnixTimeStamp() + 5;
         }
 
         internal void InitRoomGroupBadges()
@@ -1817,8 +1817,7 @@ namespace Yupi.Messages.Handlers
                                     (!speech.ToLower().Contains("update") || !speech.ToLower().Contains("set")))
                                 .Aggregate(string.Empty,
                                     (current, speech) =>
-                                        current +
-                                        (ServerUserChatTextHandler.FilterHtml(speech, Session.GetHabbo().GotCommand("ha")) + ";"));
+                                        current + ServerUserChatTextHandler.FilterHtml(speech, Session.GetHabbo().GotCommand("ha")) + ";");
                         using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                         {
                             queryReactor.SetQuery(
@@ -2147,7 +2146,7 @@ namespace Yupi.Messages.Handlers
             if (Yupi.GetUnixTimeStamp() < Session.GetHabbo().FloodTime && Session.GetHabbo().FloodTime != 0)
             {
                 var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("FloodFilterMessageComposer"));
-                serverMessage.AppendInteger((Session.GetHabbo().FloodTime - Yupi.GetUnixTimeStamp()));
+                serverMessage.AppendInteger(Session.GetHabbo().FloodTime - Yupi.GetUnixTimeStamp());
 
                 Session.SendMessage(serverMessage);
             }
@@ -2217,7 +2216,7 @@ namespace Yupi.Messages.Handlers
 
             foreach (var current in poll.Questions)
             {
-                var questionNumber = (poll.Questions.IndexOf(current) + 1);
+                var questionNumber = poll.Questions.IndexOf(current) + 1;
 
                 current.Serialize(serverMessage, questionNumber);
             }
@@ -2379,7 +2378,7 @@ namespace Yupi.Messages.Handlers
             if (span.Seconds > 4)
                 _floodCount = 0;
 
-            if (((span.Seconds < 4) && (_floodCount > 5)) && (Session.GetHabbo().Rank < 5))
+            if ((span.Seconds < 4) && (_floodCount > 5) && (Session.GetHabbo().Rank < 5))
                 return;
 
             _floodTime = DateTime.Now;

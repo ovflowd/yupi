@@ -400,7 +400,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
 
                 var client = Yupi.GetGame().GetClientManager().GetClientByUserId(item.UserId);
 
-                if ((item.GetBaseItem().InteractionType != Interaction.PostIt))
+                if (item.GetBaseItem().InteractionType != Interaction.PostIt)
                 {
                     if (!toUpdate.Contains(client))
                         toUpdate.Add(client);
@@ -472,7 +472,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
 
                         var locationData = item.Type == 'i' && string.IsNullOrWhiteSpace(dataRow["wall_pos"].ToString()) ? ":w=0,2 l=11,53 l" : dataRow["wall_pos"].ToString();
 
-                        var extraData = (DBNull.Value.Equals(dataRow["extra_data"])) ? string.Empty : dataRow["extra_data"].ToString();
+                        var extraData = DBNull.Value.Equals(dataRow["extra_data"]) ? string.Empty : dataRow["extra_data"].ToString();
 
                         var songCode = DBNull.Value.Equals(dataRow["songcode"]) ? string.Empty : (string) dataRow["songcode"];
 

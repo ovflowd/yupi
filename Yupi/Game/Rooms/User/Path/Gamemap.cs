@@ -156,7 +156,7 @@ namespace Yupi.Game.Rooms.User.Path
                         {
                             pointList.Add(x++, new ThreeDCoord(posX, posY + i, i));
                             for (var j = 1; j < width; j++)
-                                pointList.Add(x++, new ThreeDCoord(posX + j, posY + i, (i < j) ? j : i));
+                                pointList.Add(x++, new ThreeDCoord(posX + j, posY + i, i < j ? j : i));
                         }
                         break;
 
@@ -166,7 +166,7 @@ namespace Yupi.Game.Rooms.User.Path
                         {
                             pointList.Add(x++, new ThreeDCoord(posX + i, posY, i));
                             for (var j = 1; j < width; j++)
-                                pointList.Add(x++, new ThreeDCoord(posX + i, posY + j, (i < j) ? j : i));
+                                pointList.Add(x++, new ThreeDCoord(posX + i, posY + j, i < j ? j : i));
                         }
                         break;
                 }
@@ -180,7 +180,7 @@ namespace Yupi.Game.Rooms.User.Path
                     {
                         pointList.Add(x++, new ThreeDCoord(posX + i, posY, i));
                         for (var j = 1; j < length; j++)
-                            pointList.Add(x++, new ThreeDCoord(posX + i, posY + j, (i < j) ? j : i));
+                            pointList.Add(x++, new ThreeDCoord(posX + i, posY + j, i < j ? j : i));
                     }
                     break;
 
@@ -190,7 +190,7 @@ namespace Yupi.Game.Rooms.User.Path
                     {
                         pointList.Add(x++, new ThreeDCoord(posX, posY + i, i));
                         for (var j = 1; j < length; j++)
-                            pointList.Add(x++, new ThreeDCoord(posX + j, posY + i, (i < j) ? j : i));
+                            pointList.Add(x++, new ThreeDCoord(posX + j, posY + i, i < j ? j : i));
                     }
                     break;
             }
@@ -221,7 +221,7 @@ namespace Yupi.Game.Rooms.User.Path
         /// <returns>System.Int32.</returns>
         internal static int TileDistance(int x1, int y1, int x2, int y2)
         {
-            return (Math.Abs(x1 - x2) + Math.Abs(y1 - y2));
+            return Math.Abs(x1 - x2) + Math.Abs(y1 - y2);
         }
 
         /// <summary>
@@ -861,7 +861,7 @@ namespace Yupi.Game.Rooms.User.Path
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         internal bool SquareIsOpen(int x, int y, bool pOverride)
         {
-            return (Model.MapSizeX - 1 >= x && Model.MapSizeY - 1 >= y) && CanWalk(GameMap[x, y], pOverride);
+            return Model.MapSizeX - 1 >= x && Model.MapSizeY - 1 >= y && CanWalk(GameMap[x, y], pOverride);
         }
 
         /// <summary>
@@ -901,8 +901,8 @@ namespace Yupi.Game.Rooms.User.Path
             if (Override)
                 return true;
 
-            if (((GameMap[to.X, to.Y] == 3 && !endOfPath) || GameMap[to.X, to.Y] == 0 ||
-                 (GameMap[to.X, to.Y] == 2 && !endOfPath)))
+            if ((GameMap[to.X, to.Y] == 3 && !endOfPath) || GameMap[to.X, to.Y] == 0 ||
+                (GameMap[to.X, to.Y] == 2 && !endOfPath))
             {
                 user.Path.Clear();
                 user.PathRecalcNeeded = false;
@@ -990,7 +990,7 @@ namespace Yupi.Game.Rooms.User.Path
         {
             RoomUser roomUser;
             _room.GetRoomUserManager().ToSet.TryGetValue(new Point(x, y), out roomUser);
-            return (roomUser == null || roomUser == user);
+            return roomUser == null || roomUser == user;
         }
 
         /// <summary>
@@ -1090,7 +1090,7 @@ namespace Yupi.Game.Rooms.User.Path
             bool result;
             try
             {
-                result = (Model.SqState[x][y] == SquareState.Open);
+                result = Model.SqState[x][y] == SquareState.Open;
             }
             catch
             {
@@ -1107,7 +1107,7 @@ namespace Yupi.Game.Rooms.User.Path
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         internal bool ItemCanBePlacedHere(int x, int y)
         {
-            return (Model.MapSizeX - 1 >= x && Model.MapSizeY - 1 >= y) && (x != Model.DoorX || y != Model.DoorY) &&
+            return Model.MapSizeX - 1 >= x && Model.MapSizeY - 1 >= y && (x != Model.DoorX || y != Model.DoorY) &&
                    GameMap[x, y] == 1;
         }
 
@@ -1160,7 +1160,7 @@ namespace Yupi.Game.Rooms.User.Path
                 foreach (
                     var item in
                         itemsOnSquare.Where(
-                            item => (item?.GetBaseItem() != null && item.TotalHeight > highestStack[0])))
+                            item => item?.GetBaseItem() != null && item.TotalHeight > highestStack[0]))
                 {
                     if (item.GetBaseItem().IsSeat || item.GetBaseItem().InteractionType == Interaction.Bed)
                         deductable = item.GetBaseItem().Height;

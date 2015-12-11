@@ -49,7 +49,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Soccer
 
                 default:
                     if (i != 5)
-                        return ((i != 6) ? 200 : 350);
+                        return i != 6 ? 200 : 350;
                     return 200;
             }
         }

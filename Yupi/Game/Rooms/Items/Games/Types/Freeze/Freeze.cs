@@ -108,10 +108,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
                     _freezeBlocks.Values.Where(
                         roomItem =>
                             !string.IsNullOrEmpty(roomItem.ExtraData) &&
-                            !roomItem.GetBaseItem().InteractionType.Equals(Interaction.FreezeBlueGate) &&
-                            (!roomItem.GetBaseItem().InteractionType.Equals(Interaction.FreezeRedGate) &&
-                             !roomItem.GetBaseItem().InteractionType.Equals(Interaction.FreezeGreenGate)) &&
-                            !roomItem.GetBaseItem().InteractionType.Equals(Interaction.FreezeYellowGate)))
+                            !roomItem.GetBaseItem().InteractionType.Equals(Interaction.FreezeBlueGate) && !roomItem.GetBaseItem().InteractionType.Equals(Interaction.FreezeRedGate) && !roomItem.GetBaseItem().InteractionType.Equals(Interaction.FreezeGreenGate) && !roomItem.GetBaseItem().InteractionType.Equals(Interaction.FreezeYellowGate)))
             {
                 roomItem.ExtraData = string.Empty;
                 roomItem.UpdateState(false, true);
@@ -129,7 +126,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
                     var roomItem in
                         _freezeTiles.Values.Where(
                             roomItem =>
-                                roomItem.InteractionCountHelper == 0 && (roomItem.X == user.X && roomItem.Y == user.Y)))
+                                roomItem.InteractionCountHelper == 0 && roomItem.X == user.X && roomItem.Y == user.Y))
                 {
                     roomItem.InteractionCountHelper = 1;
                     roomItem.ExtraData = "1000";
@@ -439,7 +436,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
             Point point;
             while (num1 < length)
             {
-                point = new Point((x + num1), y);
+                point = new Point(x + num1, y);
 
                 var itemsForSquare = GetItemsForSquare(point);
                 if (SquareGotFreezeTile(itemsForSquare))
@@ -454,7 +451,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
             var num2 = 1;
             while (num2 < length)
             {
-                point = new Point(x, (y + num2));
+                point = new Point(x, y + num2);
 
                 var itemsForSquare = GetItemsForSquare(point);
                 if (SquareGotFreezeTile(itemsForSquare))
@@ -469,7 +466,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
             var num3 = 1;
             while (num3 < length)
             {
-                point = new Point((x - num3), y);
+                point = new Point(x - num3, y);
 
                 var itemsForSquare = GetItemsForSquare(point);
                 if (SquareGotFreezeTile(itemsForSquare))
@@ -484,7 +481,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
             var num4 = 1;
             while (num4 < length)
             {
-                point = new Point(x, (y - num4));
+                point = new Point(x, y - num4);
 
                 var itemsForSquare = GetItemsForSquare(point);
                 if (SquareGotFreezeTile(itemsForSquare))
@@ -506,7 +503,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
             Point point;
             while (num1 < length)
             {
-                point = new Point((x + num1), checked(y + num1));
+                point = new Point(x + num1, checked(y + num1));
 
                 var itemsForSquare = GetItemsForSquare(point);
                 if (SquareGotFreezeTile(itemsForSquare))
@@ -521,7 +518,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
             var num2 = 0;
             while (num2 < length)
             {
-                point = new Point((x - num2), checked(y - num2));
+                point = new Point(x - num2, checked(y - num2));
 
                 var itemsForSquare = GetItemsForSquare(point);
                 if (SquareGotFreezeTile(itemsForSquare))
@@ -536,7 +533,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
             var num3 = 0;
             while (num3 < length)
             {
-                point = new Point((x - num3), checked(y + num3));
+                point = new Point(x - num3, checked(y + num3));
 
                 var itemsForSquare = GetItemsForSquare(point);
                 if (SquareGotFreezeTile(itemsForSquare))
@@ -551,7 +548,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
             var num4 = 0;
             while (num4 < length)
             {
-                point = new Point((x + num4), checked(y - num4));
+                point = new Point(x + num4, checked(y - num4));
 
                 var itemsForSquare = GetItemsForSquare(point);
                 if (SquareGotFreezeTile(itemsForSquare))

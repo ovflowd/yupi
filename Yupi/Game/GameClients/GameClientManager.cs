@@ -100,10 +100,7 @@ namespace Yupi.Game.GameClients
         /// </summary>
         /// <param name="clientId">The client identifier.</param>
         /// <returns>GameClient.</returns>
-        internal GameClient GetClient(uint clientId)
-        {
-            return Clients.ContainsKey(clientId) ? Clients[clientId] : null;
-        }
+        internal GameClient GetClient(uint clientId) => Clients.ContainsKey(clientId) ? Clients[clientId] : null;
 
         /// <summary>
         ///     Gets the name by identifier.
@@ -117,15 +114,16 @@ namespace Yupi.Game.GameClients
             if (clientByUserId != null)
                 return clientByUserId.GetHabbo().UserName;
 
-            string String;
+            string userName;
 
             using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery("SELECT username FROM users WHERE id = " + id);
-                String = queryReactor.GetString();
+
+                userName = queryReactor.GetString();
             }
 
-            return string.IsNullOrEmpty(String) ? "Unknown User" : String;
+            return string.IsNullOrEmpty(userName) ? "Unknown User" : userName;
         }
 
         /// <summary>
@@ -192,6 +190,7 @@ namespace Yupi.Game.GameClients
             if (broadCast)
             {
                 QueueBroadcaseMessage(serverMessage);
+
                 return;
             }
 
@@ -209,6 +208,7 @@ namespace Yupi.Game.GameClients
                 RemoveClients();
                 GiveBadges();
                 BroadcastPackets();
+
                 Yupi.GetGame().ClientManagerCycleEnded = true;
             }
             catch (Exception ex)
@@ -251,7 +251,7 @@ namespace Yupi.Game.GameClients
         {
             var bytes = message.GetReversedBytes();
 
-            foreach (var current in Clients.Values.Where(current => current?.GetHabbo() != null).Where(current => (current.GetHabbo().Rank == 4u || current.GetHabbo().Rank == 5u) || current.GetHabbo().Rank == 6u))
+            foreach (var current in Clients.Values.Where(current => current?.GetHabbo() != null).Where(current => current.GetHabbo().Rank == 4u || current.GetHabbo().Rank == 5u || current.GetHabbo().Rank == 6u))
                 current.GetConnection().SendData(bytes);
         }
 
@@ -275,6 +275,7 @@ namespace Yupi.Game.GameClients
         internal void DisposeConnection(uint clientId)
         {
             var client = GetClient(clientId);
+
             _clientsToRemove.Enqueue(client);
         }
 
@@ -396,6 +397,7 @@ namespace Yupi.Game.GameClients
             }
 
             Clients.Clear();
+
             Writer.WriteLine("Connections closed", "Yupi.Conn", ConsoleColor.DarkYellow);
         }
 
@@ -436,6 +438,7 @@ namespace Yupi.Game.GameClients
                     if (client != null)
                     {
                         client.Stop();
+
                         Clients.TryRemove(client.ConnectionId, out client);
                     }
                 }

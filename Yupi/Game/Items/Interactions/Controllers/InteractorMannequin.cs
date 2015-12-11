@@ -18,7 +18,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
 
             var array = item.ExtraData.Split(Convert.ToChar(5));
 
-            session.GetHabbo().Gender = (array[0].ToUpper() == "F" ? "F" : "M");
+            session.GetHabbo().Gender = array[0].ToUpper() == "F" ? "F" : "M";
 
             var dictionary = new Dictionary<string, string>();
 

@@ -286,7 +286,7 @@ namespace Yupi.Game.Users.Inventory.Components
             using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery("SELECT * FROM items_rooms WHERE user_id=@userid AND room_id='0' LIMIT 8000;");
-                queryReactor.AddParameter("userid", ((int) UserId));
+                queryReactor.AddParameter("userid", (int) UserId);
 
                 table = queryReactor.GetTable();
             }
@@ -500,7 +500,7 @@ namespace Yupi.Game.Users.Inventory.Components
                         queryReactor.SetQuery($"INSERT INTO items_rooms (item_name, user_id, group_id) VALUES ('{baseName}', '{UserId}', '{thGroup}');");
 
                         if (id == 0)
-                            id = ((uint) queryReactor.InsertQuery());
+                            id = (uint) queryReactor.InsertQuery();
 
                         SendNewItems(id);
 
@@ -588,7 +588,7 @@ namespace Yupi.Game.Users.Inventory.Components
         /// <returns>ServerMessage.</returns>
         internal ServerMessage SerializeFloorItemInventory()
         {
-            var i = (_floorItems.Count + SongDisks.Count + _wallItems.Count);
+            var i = _floorItems.Count + SongDisks.Count + _wallItems.Count;
 
             if (i > 2800)
                 _mClient.SendMessage(StaticMessage.AdviceMaxItems);

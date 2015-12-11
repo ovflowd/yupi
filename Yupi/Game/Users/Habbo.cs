@@ -7,9 +7,9 @@ using Yupi.Core.Io;
 using Yupi.Core.Settings;
 using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Game.Achievements.Structs;
-using Yupi.Game.Browser.Interfaces;
+using Yupi.Game.Browser.Models;
 using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Groups.Interfaces;
+using Yupi.Game.Groups.Structs;
 using Yupi.Game.Rooms;
 using Yupi.Game.Rooms.Data;
 using Yupi.Game.Users.Badges;
@@ -591,7 +591,7 @@ namespace Yupi.Game.Users
         public bool CanChangeName => (ServerExtraSettings.ChangeNameStaff && HasFuse("fuse_can_change_name")) ||
                                      (ServerExtraSettings.ChangeNameVip && Vip) ||
                                      (ServerExtraSettings.ChangeNameEveryone &&
-                                      Yupi.GetUnixTimeStamp() > (LastChange + 604800));
+                                      Yupi.GetUnixTimeStamp() > LastChange + 604800);
 
         /// <summary>
         ///     Gets the head part.
@@ -1256,7 +1256,7 @@ namespace Yupi.Game.Users
         /// </summary>
         /// <param name="pollId">The poll identifier.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool GotPollData(uint pollId) => (AnsweredPolls.Contains(pollId));
+        internal bool GotPollData(uint pollId) => AnsweredPolls.Contains(pollId);
 
         /// <summary>
         ///     Checks the trading.

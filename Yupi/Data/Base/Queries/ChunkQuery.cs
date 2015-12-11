@@ -118,7 +118,7 @@ namespace Yupi.Data.Base.Queries
             if (_queryCount == 0)
                 return;
 
-            _queries = _queries.Remove((_queries.Length - 1), 1);
+            _queries = _queries.Remove(_queries.Length - 1, 1);
 
             dbClient.SetQuery(_queries.ToString());
 

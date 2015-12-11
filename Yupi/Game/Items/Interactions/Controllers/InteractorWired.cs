@@ -177,7 +177,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                         serverMessage7.AppendInteger(item.Id);
                         serverMessage7.AppendString("");
                         serverMessage7.AppendInteger(1);
-                        serverMessage7.AppendInteger((string.IsNullOrWhiteSpace(extraInfo)) ? 100 : int.Parse(extraInfo));
+                        serverMessage7.AppendInteger(string.IsNullOrWhiteSpace(extraInfo) ? 100 : int.Parse(extraInfo));
                         serverMessage7.AppendInteger(0);
                         serverMessage7.AppendInteger(10);
                         serverMessage7.AppendInteger(0);

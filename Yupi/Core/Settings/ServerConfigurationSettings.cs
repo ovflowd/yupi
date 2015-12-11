@@ -72,7 +72,7 @@ namespace Yupi.Core.Settings
                             continue;
 
                         var key = text.Substring(0, num);
-                        var value = text.Substring((num + 1));
+                        var value = text.Substring(num + 1);
 
                         Data.Add(key, value);
                     }

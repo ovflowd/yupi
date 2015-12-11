@@ -3,7 +3,7 @@ using System.Data;
 using System.Linq;
 using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Game.Catalogs.Composers;
-using Yupi.Game.Groups.Interfaces;
+using Yupi.Game.Groups.Structs;
 using Yupi.Game.Rooms;
 using Yupi.Game.Rooms.Data;
 using Yupi.Game.Rooms.User;
@@ -118,14 +118,14 @@ namespace Yupi.Messages.Handlers
             if (roomData.Owner != Session.GetHabbo().UserName)
                 return;
 
-            for (var i = 0; i < (num6 * 3); i++)
+            for (var i = 0; i < num6 * 3; i++)
                 gStates.Add(Request.GetInteger());
 
             var image = Yupi.GetGame().GetGroupManager().GenerateGuildImage(guildBase, guildBaseColor, gStates);
 
             Guild theGroup;
 
-            Yupi.GetGame().GetGroupManager().CreateGroup(name, description, roomid, image, Session, (!Yupi.GetGame().GetGroupManager().SymbolColours.Contains(color)) ? 1 : color, (!Yupi.GetGame().GetGroupManager().BackGroundColours.Contains(num3)) ? 1 : num3, out theGroup);
+            Yupi.GetGame().GetGroupManager().CreateGroup(name, description, roomid, image, Session, !Yupi.GetGame().GetGroupManager().SymbolColours.Contains(color) ? 1 : color, !Yupi.GetGame().GetGroupManager().BackGroundColours.Contains(num3) ? 1 : num3, out theGroup);
 
             Session.SendMessage(CatalogPageComposer.PurchaseOk(0u, "CREATE_GUILD", 10));
             Response.Init(LibraryParser.OutgoingRequest("GroupRoomMessageComposer"));
@@ -564,7 +564,7 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         internal void PublishForumThread()
         {
-            if ((Yupi.GetUnixTimeStamp() - Session.GetHabbo().LastSqlQuery) < 20)
+            if (Yupi.GetUnixTimeStamp() - Session.GetHabbo().LastSqlQuery < 20)
                 return;
 
             uint groupId = Request.GetUInteger();
@@ -626,13 +626,13 @@ namespace Yupi.Messages.Handlers
                 message.AppendString(content);
                 message.AppendBool(false);
                 message.AppendBool(false);
-                message.AppendInteger((Yupi.GetUnixTimeStamp() - timestamp));
+                message.AppendInteger(Yupi.GetUnixTimeStamp() - timestamp);
                 message.AppendInteger(1);
                 message.AppendInteger(0);
                 message.AppendInteger(0);
                 message.AppendInteger(1);
                 message.AppendString("");
-                message.AppendInteger((Yupi.GetUnixTimeStamp() - timestamp));
+                message.AppendInteger(Yupi.GetUnixTimeStamp() - timestamp);
                 message.AppendByte(1);
                 message.AppendInteger(1);
                 message.AppendString("");
@@ -649,7 +649,7 @@ namespace Yupi.Messages.Handlers
                 message.AppendInteger(Session.GetHabbo().Id);
                 message.AppendString(Session.GetHabbo().UserName);
                 message.AppendString(Session.GetHabbo().Look);
-                message.AppendInteger((Yupi.GetUnixTimeStamp() - timestamp));
+                message.AppendInteger(Yupi.GetUnixTimeStamp() - timestamp);
                 message.AppendString(content);
                 message.AppendByte(0);
                 message.AppendInteger(0);
@@ -681,8 +681,8 @@ namespace Yupi.Messages.Handlers
                     if ((uint)row["poster_id"] == Session.GetHabbo().Id || theGroup.Admins.ContainsKey(Session.GetHabbo().Id))
                     {
                         dbClient.SetQuery($"UPDATE groups_forums_posts SET pinned = @pin , locked = @lock WHERE id = {threadId};");
-                        dbClient.AddParameter("pin", (pin) ? "1" : "0");
-                        dbClient.AddParameter("lock", (Lock) ? "1" : "0");
+                        dbClient.AddParameter("pin", pin ? "1" : "0");
+                        dbClient.AddParameter("lock", Lock ? "1" : "0");
                         dbClient.RunQuery();
                     }
                 }
@@ -693,7 +693,7 @@ namespace Yupi.Messages.Handlers
                 {
                     var notif = new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
 
-                    notif.AppendString((pin) ? "forums.thread.pinned" : "forums.thread.unpinned");
+                    notif.AppendString(pin ? "forums.thread.pinned" : "forums.thread.unpinned");
                     notif.AppendInteger(0);
                     Session.SendMessage(notif);
                 }
@@ -702,7 +702,7 @@ namespace Yupi.Messages.Handlers
                 {
                     var notif2 = new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
 
-                    notif2.AppendString((Lock) ? "forums.thread.locked" : "forums.thread.unlocked");
+                    notif2.AppendString(Lock ? "forums.thread.locked" : "forums.thread.unlocked");
                     notif2.AppendInteger(0);
                     Session.SendMessage(notif2);
                 }
@@ -718,14 +718,14 @@ namespace Yupi.Messages.Handlers
                 message.AppendString(thread.Subject);
                 message.AppendBool(pin);
                 message.AppendBool(Lock);
-                message.AppendInteger((Yupi.GetUnixTimeStamp() - thread.Timestamp));
+                message.AppendInteger(Yupi.GetUnixTimeStamp() - thread.Timestamp);
                 message.AppendInteger(thread.MessageCount + 1);
                 message.AppendInteger(0);
                 message.AppendInteger(0);
                 message.AppendInteger(1);
                 message.AppendString("");
-                message.AppendInteger((Yupi.GetUnixTimeStamp() - thread.Timestamp));
-                message.AppendByte((thread.Hidden) ? 10 : 1);
+                message.AppendInteger(Yupi.GetUnixTimeStamp() - thread.Timestamp);
+                message.AppendByte(thread.Hidden ? 10 : 1);
                 message.AppendInteger(1);
                 message.AppendString(thread.Hider);
                 message.AppendInteger(0);
@@ -755,7 +755,7 @@ namespace Yupi.Messages.Handlers
                     if ((uint)row["poster_id"] == Session.GetHabbo().Id || theGroup.Admins.ContainsKey(Session.GetHabbo().Id))
                     {
                         dbClient.SetQuery($"UPDATE groups_forums_posts SET hidden = @hid WHERE id = {threadId};");
-                        dbClient.AddParameter("hid", (stateToSet == 20) ? "1" : "0");
+                        dbClient.AddParameter("hid", stateToSet == 20 ? "1" : "0");
                         dbClient.RunQuery();
                     }
                 }
@@ -763,7 +763,7 @@ namespace Yupi.Messages.Handlers
                 var thread = new GroupForumPost(row);
                 var notif = new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
 
-                notif.AppendString((stateToSet == 20) ? "forums.thread.hidden" : "forums.thread.restored");
+                notif.AppendString(stateToSet == 20 ? "forums.thread.hidden" : "forums.thread.restored");
                 notif.AppendInteger(0);
                 Session.SendMessage(notif);
 
@@ -778,13 +778,13 @@ namespace Yupi.Messages.Handlers
                 message.AppendString(thread.Subject);
                 message.AppendBool(thread.Pinned);
                 message.AppendBool(thread.Locked);
-                message.AppendInteger((Yupi.GetUnixTimeStamp() - thread.Timestamp));
+                message.AppendInteger(Yupi.GetUnixTimeStamp() - thread.Timestamp);
                 message.AppendInteger(thread.MessageCount + 1);
                 message.AppendInteger(0);
                 message.AppendInteger(0);
                 message.AppendInteger(0);
                 message.AppendString(string.Empty);
-                message.AppendInteger((Yupi.GetUnixTimeStamp() - thread.Timestamp));
+                message.AppendInteger(Yupi.GetUnixTimeStamp() - thread.Timestamp);
                 message.AppendByte(stateToSet);
                 message.AppendInteger(0);
                 message.AppendString(thread.Hider);
@@ -819,7 +819,7 @@ namespace Yupi.Messages.Handlers
                 if (table == null)
                     return;
 
-                int b = (table.Rows.Count <= 20) ? table.Rows.Count : 20;
+                int b = table.Rows.Count <= 20 ? table.Rows.Count : 20;
 
                 var posts = new List<GroupForumPost>();
 
@@ -893,7 +893,7 @@ namespace Yupi.Messages.Handlers
                 dbClient.AddParameter("totalPerPage", TotalPerPage);
 
                 DataTable table = dbClient.GetTable();
-                int threadCount = (table.Rows.Count <= TotalPerPage) ? table.Rows.Count : TotalPerPage;
+                int threadCount = table.Rows.Count <= TotalPerPage ? table.Rows.Count : TotalPerPage;
 
                 var threads = (from DataRow row in table.Rows select new GroupForumPost(row)).ToList();
 
@@ -910,14 +910,14 @@ namespace Yupi.Messages.Handlers
                     message.AppendString(thread.Subject);
                     message.AppendBool(thread.Pinned);
                     message.AppendBool(thread.Locked);
-                    message.AppendInteger((Yupi.GetUnixTimeStamp() - thread.Timestamp));
+                    message.AppendInteger(Yupi.GetUnixTimeStamp() - thread.Timestamp);
                     message.AppendInteger(thread.MessageCount + 1);
                     message.AppendInteger(0);
                     message.AppendInteger(0);
                     message.AppendInteger(0);
                     message.AppendString(string.Empty);
-                    message.AppendInteger((Yupi.GetUnixTimeStamp() - thread.Timestamp));
-                    message.AppendByte((thread.Hidden) ? 10 : 1);
+                    message.AppendInteger(Yupi.GetUnixTimeStamp() - thread.Timestamp);
+                    message.AppendByte(thread.Hidden ? 10 : 1);
                     message.AppendInteger(0);
                     message.AppendString(thread.Hider);
                     message.AppendInteger(0);
@@ -1040,15 +1040,15 @@ namespace Yupi.Messages.Handlers
 
             Response.AppendInteger(5);
 
-            var num = (5 - array.Length);
+            var num = 5 - array.Length;
 
             var num2 = 0;
             var array2 = array;
 
             foreach (var text in array2)
             {
-                Response.AppendInteger((text.Length >= 6) ? uint.Parse(text.Substring(0, 3)) : uint.Parse(text.Substring(0, 2)));
-                Response.AppendInteger((text.Length >= 6) ? uint.Parse(text.Substring(3, 2)) : uint.Parse(text.Substring(2, 2)));
+                Response.AppendInteger(text.Length >= 6 ? uint.Parse(text.Substring(0, 3)) : uint.Parse(text.Substring(0, 2)));
+                Response.AppendInteger(text.Length >= 6 ? uint.Parse(text.Substring(3, 2)) : uint.Parse(text.Substring(2, 2)));
 
                 if (text.Length < 5)
                     Response.AppendInteger(0);

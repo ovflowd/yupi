@@ -61,7 +61,7 @@ namespace Yupi.Core.Security
                     if (session.GetHabbo().BobbaFiltered == 3)
                     {
                         session.GetHabbo().BobbaFiltered = 4;
-                        Yupi.MutedUsersByFilter.Add(session.GetHabbo().Id, uint.Parse((Yupi.GetUnixTimeStamp() + (300 * 60)).ToString()));
+                        Yupi.MutedUsersByFilter.Add(session.GetHabbo().Id, uint.Parse((Yupi.GetUnixTimeStamp() + 300 * 60).ToString()));
 
                         return false;
                     }

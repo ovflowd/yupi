@@ -1,3 +1,27 @@
+/**
+     Because i love chocolat...                                      
+                                    88 88  
+                                    "" 88  
+                                       88  
+8b       d8 88       88 8b,dPPYba,  88 88  
+`8b     d8' 88       88 88P'    "8a 88 88  
+ `8b   d8'  88       88 88       d8 88 ""  
+  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa  
+    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88  
+    d8'                 88                 
+   d8'                  88     
+   
+   Private Habbo Hotel Emulating System
+   @author Claudio A. Santoro W.
+   @author Kessiler R.
+   @version dev-beta
+   @license MIT
+   @copyright Sulake Corporation Oy
+   @observation All Rights of Habbo, Habbo Hotel, and all Habbo contents and it's names, is copyright from Sulake
+   Corporation Oy. Yupi! has nothing linked with Sulake. 
+   This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
+*/
+
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -5,7 +29,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Groups.Interfaces;
+using Yupi.Game.Groups.Structs;
 using Yupi.Game.Rooms;
 using Yupi.Game.Users;
 using Yupi.Messages;
@@ -231,7 +255,7 @@ namespace Yupi.Game.Groups
                     (int)row["who_can_read"], (int)row["who_can_post"], (int)row["who_can_thread"],
                     (int)row["who_can_mod"]);
 
-                Groups.Add((uint)row[0], group);
+                Groups.Add(row[0], group);
 
                 return group;
             }
@@ -319,7 +343,7 @@ namespace Yupi.Game.Groups
             {
                 response.AppendInteger(theGroup.Admins.Count);
 
-                var paging = (page <= list.Count) ? list[page] : null;
+                var paging = page <= list.Count ? list[page] : null;
 
                 if ((theGroup.Admins.Count > 0) && (list.Count > 0) && paging != null)
                 {
@@ -446,14 +470,14 @@ namespace Yupi.Game.Groups
             response.AppendString(group.Description);
             response.AppendString(group.Badge);
             response.AppendInteger(group.RoomId);
-            response.AppendString((Yupi.GetGame().GetRoomManager().GenerateRoomData(group.RoomId) == null) ? "No room found.." : Yupi.GetGame().GetRoomManager().GenerateRoomData(@group.RoomId).Name);
-            response.AppendInteger((group.CreatorId == session.GetHabbo().Id) ? 3 : (group.Requests.ContainsKey(session.GetHabbo().Id) ? 2 : (group.Members.ContainsKey(session.GetHabbo().Id) ? 1 : 0)));
+            response.AppendString(Yupi.GetGame().GetRoomManager().GenerateRoomData(@group.RoomId) == null ? "No room found.." : Yupi.GetGame().GetRoomManager().GenerateRoomData(@group.RoomId).Name);
+            response.AppendInteger(@group.CreatorId == session.GetHabbo().Id ? 3 : (group.Requests.ContainsKey(session.GetHabbo().Id) ? 2 : (group.Members.ContainsKey(session.GetHabbo().Id) ? 1 : 0)));
             response.AppendInteger(group.Members.Count);
             response.AppendBool(session.GetHabbo().FavouriteGroup == group.Id);
             response.AppendString($"{dateTime2.Day.ToString("00")}-{dateTime2.Month.ToString("00")}-{dateTime2.Year}");
             response.AppendBool(group.CreatorId == session.GetHabbo().Id);
             response.AppendBool(group.Admins.ContainsKey(session.GetHabbo().Id));
-            response.AppendString((Yupi.GetHabboById(group.CreatorId) == null) ? string.Empty : Yupi.GetHabboById(group.CreatorId).UserName);
+            response.AppendString(Yupi.GetHabboById(@group.CreatorId) == null ? string.Empty : Yupi.GetHabboById(group.CreatorId).UserName);
             response.AppendBool(newWindow);
             response.AppendBool(group.AdminOnlyDeco == 0u);
             response.AppendInteger(group.Requests.Count);
@@ -486,14 +510,14 @@ namespace Yupi.Game.Groups
             response.AppendString(group.Description);
             response.AppendString(group.Badge);
             response.AppendInteger(group.RoomId);
-            response.AppendString((Yupi.GetGame().GetRoomManager().GenerateRoomData(group.RoomId) == null) ? "No room found.." : Yupi.GetGame().GetRoomManager().GenerateRoomData(group.RoomId).Name);
-            response.AppendInteger((group.CreatorId == session.GetHabbo().Id) ? 3 : (group.Requests.ContainsKey(session.GetHabbo().Id) ? 2 : (group.Members.ContainsKey(session.GetHabbo().Id) ? 1 : 0)));
+            response.AppendString(Yupi.GetGame().GetRoomManager().GenerateRoomData(@group.RoomId) == null ? "No room found.." : Yupi.GetGame().GetRoomManager().GenerateRoomData(group.RoomId).Name);
+            response.AppendInteger(@group.CreatorId == session.GetHabbo().Id ? 3 : (group.Requests.ContainsKey(session.GetHabbo().Id) ? 2 : (group.Members.ContainsKey(session.GetHabbo().Id) ? 1 : 0)));
             response.AppendInteger(group.Members.Count);
             response.AppendBool(session.GetHabbo().FavouriteGroup == group.Id);
             response.AppendString($"{dateTime2.Day.ToString("00")}-{dateTime2.Month.ToString("00")}-{dateTime2.Year}");
             response.AppendBool(group.CreatorId == session.GetHabbo().Id);
             response.AppendBool(group.Admins.ContainsKey(session.GetHabbo().Id));
-            response.AppendString((Yupi.GetHabboById(group.CreatorId) == null) ? string.Empty : Yupi.GetHabboById(group.CreatorId).UserName);
+            response.AppendString(Yupi.GetHabboById(@group.CreatorId) == null ? string.Empty : Yupi.GetHabboById(group.CreatorId).UserName);
             response.AppendBool(newWindow);
             response.AppendBool(group.AdminOnlyDeco == 0u);
             response.AppendInteger(group.Requests.Count);

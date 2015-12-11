@@ -3,7 +3,7 @@ using System.Linq;
 using Yupi.Game.Catalogs;
 using Yupi.Game.Catalogs.Composers;
 using Yupi.Game.Catalogs.Wrappers;
-using Yupi.Game.Groups.Interfaces;
+using Yupi.Game.Groups.Structs;
 using Yupi.Messages.Enums;
 using Yupi.Messages.Parsers;
 

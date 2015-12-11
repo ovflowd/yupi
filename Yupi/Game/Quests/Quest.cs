@@ -86,7 +86,7 @@ namespace Yupi.Game.Quests
             DataBit = dataBit;
             RewardType = rewardType;
             TimeUnlock = timeUnlock;
-            HasEnded = (timeLock >= Yupi.GetUnixTimeStamp() && timeLock > 0);
+            HasEnded = timeLock >= Yupi.GetUnixTimeStamp() && timeLock > 0;
         }
 
         /// <summary>

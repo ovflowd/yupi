@@ -433,7 +433,7 @@ namespace Yupi.Game.Support
                                             return null;
 
                                         serverMessage.AppendInteger(
-                                            ((int) (Yupi.GetUnixTimeStamp() - (double) dataRow2["timestamp"])));
+                                            (int) (Yupi.GetUnixTimeStamp() - (double) dataRow2["timestamp"]));
 
                                         serverMessage.AppendInteger(habboForId.Id);
                                         serverMessage.AppendString(habboForId.UserName);
@@ -589,7 +589,7 @@ namespace Yupi.Game.Support
                 {
                     var template = enumerator3.Current;
                     IEnumerable<ModerationTemplate> enumerable2 =
-                        (from x in ModerationTemplates.Values where x.Category == (long) ((ulong) template.Id) select x)
+                        (from x in ModerationTemplates.Values where x.Category == (long) (ulong) template.Id select x)
                             .ToArray();
                     serverMessage.AppendString(template.CName);
                     serverMessage.AppendBool(first);
@@ -894,7 +894,7 @@ namespace Yupi.Game.Support
                 senderClient.GetMessageHandler().GetResponse().AppendInteger(ticket.ModeratorId);
                 senderClient.GetMessageHandler()
                     .GetResponse()
-                    .AppendString((Yupi.GetHabboById(ticket.ModeratorId) != null)
+                    .AppendString(Yupi.GetHabboById(ticket.ModeratorId) != null
                         ? Yupi.GetHabboById(ticket.ModeratorId).UserName
                         : "Undefined");
                 senderClient.GetMessageHandler().GetResponse().AppendBool(false);

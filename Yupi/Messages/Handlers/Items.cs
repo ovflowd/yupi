@@ -142,7 +142,7 @@ namespace Yupi.Messages.Handlers
             }
 
             var pet = CatalogManager.CreatePet(Session.GetHabbo().Id, petName,
-                ((item.GetBaseItem().InteractionType == Interaction.BreedingTerrier) ? 25 : 24), petType.ToString(),
+                item.GetBaseItem().InteractionType == Interaction.BreedingTerrier ? 25 : 24, petType.ToString(),
                 "ffffff");
             if (pet == null)
                 return;
@@ -994,7 +994,7 @@ namespace Yupi.Messages.Handlers
             else
             {
                 if (heightToSet > 10000) heightToSet = 10000;
-                totalZ = (heightToSet / 100.0);
+                totalZ = heightToSet / 100.0;
 
                 if (totalZ < room.RoomData.Model.SqFloorHeight[item.X][item.Y])
                 {
@@ -1303,7 +1303,7 @@ namespace Yupi.Messages.Handlers
         {
             var room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
-            if ((room == null) || (!room.CheckRights(Session)))
+            if ((room == null) || !room.CheckRights(Session))
             {
                 Session.SendNotif(Yupi.GetLanguage().GetVar("monsterplant_error_6"));
                 return;
@@ -1375,7 +1375,7 @@ namespace Yupi.Messages.Handlers
                 {
                     roomUserByVirtualId.RidingHorse = false;
                     roomUserByVirtualId.ApplyEffect(-1);
-                    roomUserByVirtualId.MoveTo((new Point(roomUserByVirtualId.X + 1, roomUserByVirtualId.Y + 1)));
+                    roomUserByVirtualId.MoveTo(new Point(roomUserByVirtualId.X + 1, roomUserByVirtualId.Y + 1));
                 }
             }
             if (pet.PetData.DbState != DatabaseUpdateState.NeedsInsert)
@@ -1410,7 +1410,7 @@ namespace Yupi.Messages.Handlers
                         .GetAchievementManager()
                         .ProgressUserAchievement(Session, "ACH_PetRespectGiver", 1);
                     var value = PetLocale.GetValue("pet.respected");
-                    var message = value[new Random().Next(0, (value.Length - 1))];
+                    var message = value[new Random().Next(0, value.Length - 1)];
 
                     pet.Chat(null, message, false, 0);
                     using (
@@ -1801,7 +1801,7 @@ namespace Yupi.Messages.Handlers
                 {
                     var value = PetLocale.GetValue("pet.alreadymounted");
                     var random = new Random();
-                    pet.Chat(null, value[random.Next(0, (value.Length - 1))], false, 0);
+                    pet.Chat(null, value[random.Next(0, value.Length - 1)], false, 0);
                 }
                 else if (!roomUserByHabbo.RidingHorse)
                 {
@@ -1821,7 +1821,7 @@ namespace Yupi.Messages.Handlers
                     pet.ClearMovement();
                     roomUserByHabbo.RidingHorse = true;
                     pet.RidingHorse = true;
-                    pet.HorseId = ((uint)roomUserByHabbo.VirtualId);
+                    pet.HorseId = (uint)roomUserByHabbo.VirtualId;
                     roomUserByHabbo.HorseId = Convert.ToUInt32(pet.VirtualId);
                     roomUserByHabbo.ApplyEffect(77);
                     roomUserByHabbo.Z += 1.0;
@@ -1841,7 +1841,7 @@ namespace Yupi.Messages.Handlers
                 roomUserByHabbo.HorseId = 0u;
                 pet.RidingHorse = false;
                 pet.HorseId = 0u;
-                roomUserByHabbo.MoveTo((new Point(roomUserByHabbo.X + 2, roomUserByHabbo.Y + 2)));
+                roomUserByHabbo.MoveTo(new Point(roomUserByHabbo.X + 2, roomUserByHabbo.Y + 2));
 
                 roomUserByHabbo.ApplyEffect(-1);
                 roomUserByHabbo.UpdateNeeded = true;
@@ -2253,7 +2253,7 @@ namespace Yupi.Messages.Handlers
                     {
                         newFigures[0] = look;
 
-                        newFigures[1] = (figures.Length > 1) ? figures[1] : "hd-99999-99999.ch-630-62.lg-695-62";
+                        newFigures[1] = figures.Length > 1 ? figures[1] : "hd-99999-99999.ch-630-62.lg-695-62";
 
                         item.ExtraData = string.Join(",", newFigures);
                     }

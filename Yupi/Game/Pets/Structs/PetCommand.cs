@@ -1,4 +1,30 @@
-﻿namespace Yupi.Game.Pets.Structs
+﻿/**
+     Because i love chocolat...                                      
+                                    88 88  
+                                    "" 88  
+                                       88  
+8b       d8 88       88 8b,dPPYba,  88 88  
+`8b     d8' 88       88 88P'    "8a 88 88  
+ `8b   d8'  88       88 88       d8 88 ""  
+  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa  
+    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88  
+    d8'                 88                 
+   d8'                  88     
+   
+   Private Habbo Hotel Emulating System
+   @author Claudio A. Santoro W.
+   @author Kessiler R.
+   @version dev-beta
+   @license MIT
+   @copyright Sulake Corporation Oy
+   @observation All Rights of Habbo, Habbo Hotel, and all Habbo contents and it's names, is copyright from Sulake
+   Corporation Oy. Yupi! has nothing linked with Sulake. 
+   This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
+*/
+
+using System.Data;
+
+namespace Yupi.Game.Pets.Structs
 {
     /// <summary>
     ///     Struct PetCommand
@@ -8,29 +34,44 @@
         /// <summary>
         ///     The command identifier
         /// </summary>
-        internal readonly int CommandId;
+        internal int CommandId;
 
         /// <summary>
         ///     The command input
         /// </summary>
-        internal readonly string CommandInput;
+        internal string[] CommandInput;
+
+        internal string CommandAction;
 
         /// <summary>
         ///     The minimum rank
         /// </summary>
-        internal readonly int MinRank;
+        internal int MinLevel;
+
+        internal string PetStatus;
+
+        internal string PetGesture;
+
+        internal uint GainedExperience;
+
+        internal uint LostEnergy;
+
+        internal string[] PetTypes;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="PetCommand" /> struct.
         /// </summary>
-        /// <param name="commandId">The command identifier.</param>
-        /// <param name="commandInput">The command input.</param>
-        /// <param name="minRank">The minimum rank.</param>
-        public PetCommand(int commandId, string commandInput, int minRank = 0)
+        public PetCommand(DataRow row)
         {
-            CommandId = commandId;
-            CommandInput = commandInput;
-            MinRank = minRank;
+            CommandAction = row["action"].ToString();
+            CommandId = int.Parse(row["id"].ToString());
+            CommandInput = row["input"].ToString().Split(';');
+            MinLevel = int.Parse(row["level"].ToString());
+            PetStatus = row["status"].ToString();
+            PetGesture = row["gesture"].ToString();
+            GainedExperience = uint.Parse(row["experience"].ToString());
+            LostEnergy = uint.Parse(row["energy"].ToString());
+            PetTypes = row["pet_type"].ToString().Split(',');
         }
     }
 }

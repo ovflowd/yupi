@@ -453,7 +453,7 @@ namespace Yupi.Game.Rooms
                     var pet = CatalogManager.GeneratePetFromRow(dataRow, row);
 
                     var bot = new RoomBot(pet.PetId, Convert.ToUInt32(RoomData.OwnerId), AiType.Pet, "");
-                    bot.Update(RoomId, "freeroam", pet.Name, "", pet.Look, pet.X, pet.Y, ((int) pet.Z), 4, 0, 0, 0, 0,
+                    bot.Update(RoomId, "freeroam", pet.Name, "", pet.Look, pet.X, pet.Y, (int) pet.Z, 4, 0, 0, 0, 0,
                         null, null, "", 0, 0, false, false);
                     _roomUserManager.DeployBot(bot, pet);
                 }
@@ -1004,7 +1004,7 @@ namespace Yupi.Game.Rooms
         internal void AddBan(int userId, long time)
         {
             if (!Bans.ContainsKey(Convert.ToInt32(userId)))
-                Bans.Add(userId, ((Yupi.GetUnixTimeStamp()) + time));
+                Bans.Add(userId, Yupi.GetUnixTimeStamp() + time);
 
             using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 queryReactor.RunFastQuery("REPLACE INTO rooms_bans VALUES (" + userId + ", " + RoomId + ", '" +

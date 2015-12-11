@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Yupi.Game.Browser.Interfaces;
-using Yupi.Game.Groups.Interfaces;
+using Yupi.Game.Browser.Models;
+using Yupi.Game.Groups.Structs;
 
 namespace Yupi.Game.Users.Factories
 {

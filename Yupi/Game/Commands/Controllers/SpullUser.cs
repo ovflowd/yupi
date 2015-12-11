@@ -44,7 +44,7 @@ namespace Yupi.Game.Commands.Controllers
                 return true;
             }
 
-            if ((user.RotBody % 2) != 0) user.RotBody--;
+            if (user.RotBody % 2 != 0) user.RotBody--;
             switch (user.RotBody)
             {
                 case 0:

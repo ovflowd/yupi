@@ -75,7 +75,7 @@ namespace Yupi.Game.Items.Interfaces
                 }
             }
 
-            IsWallItem = (BaseItem.Type == 'i');
+            IsWallItem = BaseItem.Type == 'i';
             SongCode = songCode;
         }
 
@@ -132,7 +132,7 @@ namespace Yupi.Game.Items.Interfaces
                     int ribbon, color;
                     int.TryParse(split[2], out ribbon);
                     int.TryParse(split[3], out color);
-                    extraParam = (ribbon * 1000) + color;
+                    extraParam = ribbon * 1000 + color;
                 }
             }
             catch

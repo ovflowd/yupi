@@ -1,3 +1,27 @@
+/**
+     Because i love chocolat...                                      
+                                    88 88  
+                                    "" 88  
+                                       88  
+8b       d8 88       88 8b,dPPYba,  88 88  
+`8b     d8' 88       88 88P'    "8a 88 88  
+ `8b   d8'  88       88 88       d8 88 ""  
+  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa  
+    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88  
+    d8'                 88                 
+   d8'                  88     
+   
+   Private Habbo Hotel Emulating System
+   @author Claudio A. Santoro W.
+   @author Kessiler R.
+   @version dev-beta
+   @license MIT
+   @copyright Sulake Corporation Oy
+   @observation All Rights of Habbo, Habbo Hotel, and all Habbo contents and it's names, is copyright from Sulake
+   Corporation Oy. Yupi! has nothing linked with Sulake. 
+   This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
+*/
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -214,7 +238,7 @@ namespace Yupi.Game.Achievements
                 Habbo user = session.GetHabbo();
 
                 // Get UserAchievementData, if the user doesn't has the Achievement, create a new.
-                UserAchievement userAchievement = (user.Achievements.ContainsKey(achievementGroup) ? user.GetAchievementData(achievementGroup) : new UserAchievement(achievementGroup, 0, 0));
+                UserAchievement userAchievement = user.Achievements.ContainsKey(achievementGroup) ? user.GetAchievementData(achievementGroup) : new UserAchievement(achievementGroup, 0, 0);
 
                 // If is a New Achievement is fromZero
                 if (!user.Achievements.ContainsKey(achievementGroup))
@@ -237,7 +261,7 @@ namespace Yupi.Game.Achievements
                 int achievementCurrentProgress = userAchievement.Progress;
 
                 // If the next Level is the last level must set to Levels.Count (Ex: 38 Levels => .Count = 37 (Max Level in the Array, but .Count 37 == 38, Soo need put Level - 1)
-                int achievementNextLevel = ((achievementCurrentLevel + 1) > achievementLevelsCount) ? achievementLevelsCount : (achievementCurrentLevel + 1);
+                int achievementNextLevel = achievementCurrentLevel + 1 > achievementLevelsCount ? achievementLevelsCount : achievementCurrentLevel + 1;
 
                 // Set Achievement Progress
                 int achievementProgress = achievementCurrentProgress + progressAmount;

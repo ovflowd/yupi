@@ -41,7 +41,7 @@ namespace Yupi.Core.Io
         public static void Split(double k, out int a, out int b)
         {
             b = (int)System.Math.Round(k % 1 * 100);
-            a = (((int)System.Math.Round(k * 100) - b) / 100);
+            a = ((int)System.Math.Round(k * 100) - b) / 100;
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace Yupi.Core.Io
         /// <param name="a">a.</param>
         /// <param name="b">The b.</param>
         /// <returns>System.Double.</returns>
-        public static double Combine(int a, int b) => (a + ((float)b / 100));
+        public static double Combine(int a, int b) => a + (float)b / 100;
 
         /// <summary>
         /// Parses the specified a.

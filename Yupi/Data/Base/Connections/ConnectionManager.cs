@@ -83,7 +83,7 @@ namespace Yupi.Data.Base.Connections
             try
             {
                 CreateNewConnectionString();
-                _databaseClients = new List<MySqlClient>(((int)_maxPoolSize));
+                _databaseClients = new List<MySqlClient>((int)_maxPoolSize);
             }
             catch (MySqlException ex)
             {

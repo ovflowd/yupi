@@ -60,7 +60,7 @@ namespace Yupi.Core.Util.Math
             lock (GlobalRandom)
                 seed = GlobalRandom.Next();
 
-            random = (_localRandom = new Random(seed));
+            random = _localRandom = new Random(seed);
 
             return random.Next(min, max);
         }

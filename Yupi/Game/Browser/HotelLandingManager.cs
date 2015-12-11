@@ -1,6 +1,31 @@
+/**
+     Because i love chocolat...                                      
+                                    88 88  
+                                    "" 88  
+                                       88  
+8b       d8 88       88 8b,dPPYba,  88 88  
+`8b     d8' 88       88 88P'    "8a 88 88  
+ `8b   d8'  88       88 88       d8 88 ""  
+  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa  
+    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88  
+    d8'                 88                 
+   d8'                  88     
+   
+   Private Habbo Hotel Emulating System
+   @author Claudio A. Santoro W.
+   @author Kessiler R.
+   @version dev-beta
+   @license MIT
+   @copyright Sulake Corporation Oy
+   @observation All Rights of Habbo, Habbo Hotel, and all Habbo contents and it's names, is copyright from Sulake
+   Corporation Oy. Yupi! has nothing linked with Sulake. 
+   This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
+*/
+
 using System;
 using System.Collections.Generic;
 using System.Data;
+using Yupi.Game.Browser.Models;
 using Yupi.Messages;
 
 namespace Yupi.Game.Browser
@@ -49,14 +74,12 @@ namespace Yupi.Game.Browser
         {
             using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery(
-                    "SELECT hotelview_promos.`index`,hotelview_promos.header,hotelview_promos.body,hotelview_promos.button,hotelview_promos.in_game_promo,hotelview_promos.special_action,hotelview_promos.image,hotelview_promos.enabled FROM hotelview_promos WHERE hotelview_promos.`index` = @x LIMIT 1");
+                queryReactor.SetQuery("SELECT hotelview_promos.`index`,hotelview_promos.header,hotelview_promos.body,hotelview_promos.button,hotelview_promos.in_game_promo,hotelview_promos.special_action,hotelview_promos.image,hotelview_promos.enabled FROM hotelview_promos WHERE hotelview_promos.`index` = @x LIMIT 1");
                 queryReactor.AddParameter("x", index);
 
                 var row = queryReactor.GetRow();
 
-                return new HotelLandingPromos(index, (string) row[1], (string) row[2], (string) row[3], Convert.ToInt32(row[4]),
-                    (string) row[5], (string) row[6]);
+                return new HotelLandingPromos(index, (string) row[1], (string) row[2], (string) row[3], Convert.ToInt32(row[4]), (string) row[5], (string) row[6]);
             }
         }
 
@@ -80,8 +103,10 @@ namespace Yupi.Game.Browser
         internal ServerMessage SmallPromoComposer(ServerMessage message)
         {
             message.AppendInteger(HotelViewPromosIndexers.Count);
+
             foreach (var current in HotelViewPromosIndexers)
                 current.Serialize(message);
+
             return message;
         }
 
@@ -92,8 +117,8 @@ namespace Yupi.Game.Browser
         {
             using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery(
-                    "SELECT hotelview_rewards_promos.furni_id, hotelview_rewards_promos.furni_name FROM hotelview_rewards_promos WHERE hotelview_rewards_promos.enabled = 1 LIMIT 1");
+                queryReactor.SetQuery("SELECT hotelview_rewards_promos.furni_id, hotelview_rewards_promos.furni_name FROM hotelview_rewards_promos WHERE hotelview_rewards_promos.enabled = 1 LIMIT 1");
+
                 var row = queryReactor.GetRow();
 
                 if (row == null)
@@ -111,14 +136,11 @@ namespace Yupi.Game.Browser
         {
             using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery(
-                    "SELECT * from hotelview_promos WHERE hotelview_promos.enabled = '1' ORDER BY hotelview_promos.`index` DESC");
+                queryReactor.SetQuery("SELECT * from hotelview_promos WHERE hotelview_promos.enabled = '1' ORDER BY hotelview_promos.`index` DESC");
                 var table = queryReactor.GetTable();
 
                 foreach (DataRow dataRow in table.Rows)
-                    HotelViewPromosIndexers.Add(new HotelLandingPromos(Convert.ToInt32(dataRow[0]), (string) dataRow[1],
-                        (string) dataRow[2], (string) dataRow[3], Convert.ToInt32(dataRow[4]), (string) dataRow[5],
-                        (string) dataRow[6]));
+                    HotelViewPromosIndexers.Add(new HotelLandingPromos(Convert.ToInt32(dataRow[0]), (string) dataRow[1], (string) dataRow[2], (string) dataRow[3], Convert.ToInt32(dataRow[4]), (string) dataRow[5], (string) dataRow[6]));
             }
         }
 
@@ -127,6 +149,7 @@ namespace Yupi.Game.Browser
             using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery("SELECT * FROM hotelview_badges WHERE enabled = '1'");
+
                 var table = queryReactor.GetTable();
 
                 foreach (DataRow dataRow in table.Rows)

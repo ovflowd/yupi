@@ -791,11 +791,11 @@ namespace Yupi.Game.Rooms.User
                         GetClient().SendMessage(message);
                         return;
                     }
-                    if (((span.TotalSeconds < 4.0) && (_floodCount > 5)) && (rank < 5))
+                    if ((span.TotalSeconds < 4.0) && (_floodCount > 5) && (rank < 5))
                     {
                         message = new ServerMessage(LibraryParser.OutgoingRequest("FloodFilterMessageComposer"));
                         habbo.SpamProtectionCount++;
-                        if ((habbo.SpamProtectionCount%2) == 0)
+                        if (habbo.SpamProtectionCount%2 == 0)
                             habbo.SpamProtectionTime = 10*habbo.SpamProtectionCount;
                         else
                             habbo.SpamProtectionTime = 10*(habbo.SpamProtectionCount - 1);
@@ -934,14 +934,13 @@ namespace Yupi.Game.Rooms.User
                 if (
                     allRoomItemForSquare.Any(
                         current =>
-                            (current.GetBaseItem().IsSeat ||
-                             current.GetBaseItem().InteractionType == Interaction.LowPool ||
-                             current.GetBaseItem().InteractionType == Interaction.Pool ||
-                             current.GetBaseItem().InteractionType == Interaction.HaloweenPool ||
-                             current.GetBaseItem().InteractionType == Interaction.Bed ||
-                             current.GetBaseItem().InteractionType == Interaction.PressurePadBed ||
-                             current.GetBaseItem().InteractionType == Interaction.Guillotine
-                                )))
+                            current.GetBaseItem().IsSeat ||
+                            current.GetBaseItem().InteractionType == Interaction.LowPool ||
+                            current.GetBaseItem().InteractionType == Interaction.Pool ||
+                            current.GetBaseItem().InteractionType == Interaction.HaloweenPool ||
+                            current.GetBaseItem().InteractionType == Interaction.Bed ||
+                            current.GetBaseItem().InteractionType == Interaction.PressurePadBed ||
+                            current.GetBaseItem().InteractionType == Interaction.Guillotine))
                     return;
 
             UnIdle();
@@ -1167,18 +1166,18 @@ namespace Yupi.Game.Rooms.User
             message.AppendInteger(Y);
             message.AppendString(ServerUserChatTextHandler.GetString(Z));
             message.AppendInteger(0);
-            message.AppendInteger((BotData.AiType == AiType.Generic) ? 4 : 2);
+            message.AppendInteger(BotData.AiType == AiType.Generic ? 4 : 2);
             if (BotData.AiType == AiType.Pet)
             {
                 message.AppendInteger(PetData.Type);
                 message.AppendInteger(PetData.OwnerId);
                 message.AppendString(PetData.OwnerName);
-                message.AppendInteger((PetData.Type == 16u) ? 0 : 1);
+                message.AppendInteger(PetData.Type == 16u ? 0 : 1);
                 message.AppendBool(PetData.HaveSaddle);
                 message.AppendBool(RidingHorse);
                 message.AppendInteger(0);
-                message.AppendInteger((PetData.Type == 16u) ? 1 : 0);
-                message.AppendString((PetData.Type == 16u) ? PetData.MoplaBreed.GrowStatus : "");
+                message.AppendInteger(PetData.Type == 16u ? 1 : 0);
+                message.AppendString(PetData.Type == 16u ? PetData.MoplaBreed.GrowStatus : "");
                 return;
             }
             message.AppendString(BotData.Gender.ToLower());
@@ -1207,7 +1206,7 @@ namespace Yupi.Game.Rooms.User
             var stringBuilder = new StringBuilder();
             stringBuilder.Append("/");
             if (IsPet && PetData.Type == 16u)
-                stringBuilder.AppendFormat("/{0}{1}", PetData.MoplaBreed.GrowStatus, (Statusses.Count >= 1) ? "/" : "");
+                stringBuilder.AppendFormat("/{0}{1}", PetData.MoplaBreed.GrowStatus, Statusses.Count >= 1 ? "/" : "");
             lock (Statusses)
             {
                 foreach (var current in Statusses)

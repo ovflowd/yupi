@@ -1,10 +1,34 @@
+/**
+     Because i love chocolat...                                      
+                                    88 88  
+                                    "" 88  
+                                       88  
+8b       d8 88       88 8b,dPPYba,  88 88  
+`8b     d8' 88       88 88P'    "8a 88 88  
+ `8b   d8'  88       88 88       d8 88 ""  
+  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa  
+    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88  
+    d8'                 88                 
+   d8'                  88     
+   
+   Private Habbo Hotel Emulating System
+   @author Claudio A. Santoro W.
+   @author Kessiler R.
+   @version dev-beta
+   @license MIT
+   @copyright Sulake Corporation Oy
+   @observation All Rights of Habbo, Habbo Hotel, and all Habbo contents and it's names, is copyright from Sulake
+   Corporation Oy. Yupi! has nothing linked with Sulake. 
+   This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
+*/
+
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using Yupi.Messages;
 using Yupi.Messages.Parsers;
 
-namespace Yupi.Game.Groups.Interfaces
+namespace Yupi.Game.Groups.Structs
 {
     /// <summary>
     ///     Class Guild.
@@ -166,8 +190,8 @@ namespace Yupi.Game.Groups.Interfaces
             Badge = badge;
             CreateTime = create;
             CreatorId = creator;
-            Colour1 = ((colour1 == 0) ? 1 : colour1);
-            Colour2 = ((colour2 == 0) ? 1 : colour2);
+            Colour1 = colour1 == 0 ? 1 : colour1;
+            Colour2 = colour2 == 0 ? 1 : colour2;
             Members = members;
             Requests = requests;
             Admins = admins;
@@ -191,7 +215,7 @@ namespace Yupi.Game.Groups.Interfaces
         ///     Gets the forum last post time.
         /// </summary>
         /// <value>The forum last post time.</value>
-        internal int ForumLastPostTime => (Yupi.GetUnixTimeStamp() - ForumLastPosterTimestamp);
+        internal int ForumLastPostTime => Yupi.GetUnixTimeStamp() - ForumLastPosterTimestamp;
 
         /// <summary>
         ///     Forums the data message.

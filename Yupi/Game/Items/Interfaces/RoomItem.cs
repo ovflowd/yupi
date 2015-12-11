@@ -367,8 +367,8 @@ namespace Yupi.Game.Items.Interfaces
                     break;
             }
 
-            IsWallItem = (GetBaseItem().Type.ToString().ToLower() == "i");
-            IsFloorItem = (GetBaseItem().Type.ToString().ToLower() == "s");
+            IsWallItem = GetBaseItem().Type.ToString().ToLower() == "i";
+            IsFloorItem = GetBaseItem().Type.ToString().ToLower() == "s";
             AffectedTiles = Gamemap.GetAffectedTiles(GetBaseItem().Length, GetBaseItem().Width, X, Y, rot);
         }
 
@@ -853,7 +853,7 @@ namespace Yupi.Game.Items.Interfaces
 
                                 var drink =
                                     GetBaseItem().VendingIds[
-                                        Yupi.GetRandomNumber(0, (GetBaseItem().VendingIds.Count - 1))];
+                                        Yupi.GetRandomNumber(0, GetBaseItem().VendingIds.Count - 1)];
                                 user.CarryItem(drink);
 
                                 /*if (GetBaseItem().VendingIds.Count > 0)
@@ -1472,7 +1472,7 @@ namespace Yupi.Game.Items.Interfaces
                         }
                         else
                         {
-                            serverMessage.AppendString((int.Parse(ExtraData) == 100) ? "8" : "6");
+                            serverMessage.AppendString(int.Parse(ExtraData) == 100 ? "8" : "6");
                             serverMessage.AppendInteger(int.Parse(ExtraData));
                             serverMessage.AppendInteger(100);
                         }
@@ -1614,10 +1614,10 @@ namespace Yupi.Game.Items.Interfaces
                             catch
                             {
                             }
-                            var ribbonAndColor = (giftRibbon * 1000) + giftColor;
+                            var ribbonAndColor = giftRibbon * 1000 + giftColor;
                             message.AppendInteger(ribbonAndColor);
                             message.AppendInteger(1);
-                            message.AppendInteger((showGiver) ? 6 : 4);
+                            message.AppendInteger(showGiver ? 6 : 4);
                             message.AppendString("EXTRA_PARAM");
                             message.AppendString("");
                             message.AppendString("MESSAGE");
@@ -1639,7 +1639,7 @@ namespace Yupi.Game.Items.Interfaces
                     case Interaction.Pinata:
                         message.AppendInteger(0);
                         message.AppendInteger(7);
-                        message.AppendString((ExtraData == "100") ? "8" : "6");
+                        message.AppendString(ExtraData == "100" ? "8" : "6");
                         if (ExtraData.Length <= 0)
                         {
                             message.AppendInteger(0);
@@ -1760,7 +1760,7 @@ namespace Yupi.Game.Items.Interfaces
                         }
                         else
                         {
-                            message.AppendInteger((GetBaseItem().InteractionType == Interaction.TileStackMagic)
+                            message.AppendInteger(GetBaseItem().InteractionType == Interaction.TileStackMagic
                                 ? 0
                                 : 1);
                             message.AppendInteger(0);
@@ -1770,12 +1770,12 @@ namespace Yupi.Game.Items.Interfaces
                 }
 
                 message.AppendInteger(-1);
-                message.AppendInteger((GetBaseItem().InteractionType == Interaction.MysteryBox ||
-                                       GetBaseItem().InteractionType == Interaction.YoutubeTv ||
-                                       GetBaseItem().InteractionType == Interaction.Background)
+                message.AppendInteger(GetBaseItem().InteractionType == Interaction.MysteryBox ||
+                                      GetBaseItem().InteractionType == Interaction.YoutubeTv ||
+                                      GetBaseItem().InteractionType == Interaction.Background
                     ? 2
-                    : (((GetBaseItem().InteractionType == Interaction.Moplaseed ||
-                         GetBaseItem().InteractionType == Interaction.RareMoplaSeed) || GetBaseItem().Modes > 1)
+                    : (GetBaseItem().InteractionType == Interaction.Moplaseed ||
+                       GetBaseItem().InteractionType == Interaction.RareMoplaSeed || GetBaseItem().Modes > 1
                         ? 1
                         : 0));
                 message.AppendInteger(IsBuilder ? -12345678 : Convert.ToInt32(UserId)); //-12345678 for bc

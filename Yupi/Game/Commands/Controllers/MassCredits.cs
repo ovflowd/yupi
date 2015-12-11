@@ -34,7 +34,7 @@ namespace Yupi.Game.Commands.Controllers
                 client.GetHabbo().Credits += amount;
                 client.GetHabbo().UpdateCreditsBalance();
                 client.SendNotif(Yupi.GetLanguage().GetVar("command_mass_credits_one_give") + amount +
-                                 (Yupi.GetLanguage().GetVar("command_mass_credits_two_give")));
+                                 Yupi.GetLanguage().GetVar("command_mass_credits_two_give"));
             }
             return true;
         }

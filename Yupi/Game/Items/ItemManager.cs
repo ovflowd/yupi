@@ -139,7 +139,7 @@ namespace Yupi.Game.Items
                         stackHeight = double.Parse(stackHeightStr, CultureInfo.InvariantCulture);
 
                     // If Can Walk
-                    if (InteractionTypes.AreFamiliar(GlobalInteractions.Gate, typeFromString) || (typeFromString == Interaction.BanzaiPyramid) || (name.StartsWith("hole")))
+                    if (InteractionTypes.AreFamiliar(GlobalInteractions.Gate, typeFromString) || (typeFromString == Interaction.BanzaiPyramid) || name.StartsWith("hole"))
                         canWalk = false;
 
                     // Add Item

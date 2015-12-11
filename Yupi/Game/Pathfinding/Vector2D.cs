@@ -85,7 +85,7 @@ namespace Yupi.Game.Pathfinding
         /// <param name="one">The one.</param>
         /// <param name="two">The two.</param>
         /// <returns>The result of the operator.</returns>
-        public static Vector2D operator +(Vector2D one, Vector2D two) => (new Vector2D(one.X + two.X, one.Y + two.Y));
+        public static Vector2D operator +(Vector2D one, Vector2D two) => new Vector2D(one.X + two.X, one.Y + two.Y);
 
         /// <summary>
         ///     Implements the -.
@@ -93,7 +93,7 @@ namespace Yupi.Game.Pathfinding
         /// <param name="one">The one.</param>
         /// <param name="two">The two.</param>
         /// <returns>The result of the operator.</returns>
-        public static Vector2D operator -(Vector2D one, Vector2D two) => (new Vector2D(one.X - two.X, one.Y - two.Y));
+        public static Vector2D operator -(Vector2D one, Vector2D two) => new Vector2D(one.X - two.X, one.Y - two.Y);
 
         public static implicit operator List<object>(Vector2D v)
         {

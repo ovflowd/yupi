@@ -71,7 +71,7 @@ namespace Yupi.Game.Items.Wired
                         var otherString2 = request.GetString();
                         var wired3 = wiredHandler.GetWired(item);
                         wired3.OtherString = otherString2;
-                        wired3.OtherBool = (num == 1);
+                        wired3.OtherBool = num == 1;
                         wiredHandler.ReloadWired(wired3);
                         break;
                     }
@@ -238,13 +238,13 @@ namespace Yupi.Game.Items.Wired
                             {
                                 // Why have a RETURN here?
                                 dataToSave += string.Format("0|0|0|0,0,0", aItem.Id, aItem.ExtraData, aItem.Rot, aItem.X, aItem.Y, aItem.Z);
-                                extraStringForWi += $"{aItem.Id},{((actualExtraData) ? aItem.ExtraData : "N")},{((actualRot) ? aItem.Rot.ToString() : "N")},{((actualPosition) ? aItem.X.ToString() : "N")},{((actualPosition) ? aItem.Y.ToString() : "N")}";
+                                extraStringForWi += $"{aItem.Id},{(actualExtraData ? aItem.ExtraData : "N")},{(actualRot ? aItem.Rot.ToString() : "N")},{(actualPosition ? aItem.X.ToString() : "N")},{(actualPosition ? aItem.Y.ToString() : "N")}";
 
                                 return;
                             }
 
                             dataToSave += $"{aItem.Id}|{aItem.ExtraData}|{aItem.Rot}|{aItem.X},{aItem.Y},{aItem.Z}";
-                            extraStringForWi += $"{aItem.Id},{((actualExtraData) ? aItem.ExtraData : "N")},{((actualRot) ? aItem.Rot.ToString() : "N")},{((actualPosition) ? aItem.X.ToString() : "N")},{((actualPosition) ? aItem.Y.ToString() : "N")}";
+                            extraStringForWi += $"{aItem.Id},{(actualExtraData ? aItem.ExtraData : "N")},{(actualRot ? aItem.Rot.ToString() : "N")},{(actualPosition ? aItem.X.ToString() : "N")},{(actualPosition ? aItem.Y.ToString() : "N")}";
 
                             if (aItem == items.Last())
                                 continue;

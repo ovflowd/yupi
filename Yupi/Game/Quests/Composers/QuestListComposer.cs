@@ -35,7 +35,7 @@ namespace Yupi.Game.Quests.Composers
                         var questProgress = session.GetHabbo().GetQuestProgress(current.Id);
                         if (session.GetHabbo().CurrentQuestId != current.Id && questProgress >= current.GoalData)
                         {
-                            dictionary[current.Category] = (current.Number + 1);
+                            dictionary[current.Category] = current.Number + 1;
                         }
                     }
                 }
@@ -88,24 +88,24 @@ namespace Yupi.Game.Quests.Composers
             var amountOfQuestsInCategory = Yupi.GetGame().GetQuestManager().GetAmountOfQuestsInCategory(category);
 
             {
-                var num = (quest == null) ? amountOfQuestsInCategory : (quest.Number - 1);
-                var num2 = (quest == null) ? 0 : session.GetHabbo().GetQuestProgress(quest.Id);
+                var num = quest == null ? amountOfQuestsInCategory : quest.Number - 1;
+                var num2 = quest == null ? 0 : session.GetHabbo().GetQuestProgress(quest.Id);
                 if (quest != null && quest.IsCompleted(num2))
                 {
                     num++;
                 }
                 message.AppendString(category);
-                message.AppendInteger((quest == null) ? 0 : (quest.Category.Contains("xmas2012") ? 0 : num));
-                message.AppendInteger((quest == null)
+                message.AppendInteger(quest == null ? 0 : (quest.Category.Contains("xmas2012") ? 0 : num));
+                message.AppendInteger(quest == null
                     ? 0
                     : (quest.Category.Contains("xmas2012") ? 0 : amountOfQuestsInCategory));
                 message.AppendInteger(quest?.RewardType ?? 3);
                 message.AppendInteger(quest?.Id ?? 0);
                 message.AppendBool(quest != null && session.GetHabbo().CurrentQuestId == quest.Id);
-                message.AppendString((quest == null) ? string.Empty : quest.ActionName);
-                message.AppendString((quest == null) ? string.Empty : quest.DataBit);
+                message.AppendString(quest == null ? string.Empty : quest.ActionName);
+                message.AppendString(quest == null ? string.Empty : quest.DataBit);
                 message.AppendInteger(quest?.Reward ?? 0);
-                message.AppendString((quest == null) ? string.Empty : quest.Name);
+                message.AppendString(quest == null ? string.Empty : quest.Name);
                 message.AppendInteger(num2);
                 message.AppendInteger(quest?.GoalData ?? 0u);
                 message.AppendInteger(quest?.TimeUnlock ?? 0);

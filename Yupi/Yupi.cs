@@ -20,7 +20,7 @@ using Yupi.Data.Base;
 using Yupi.Data.Interfaces;
 using Yupi.Data.Structs;
 using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Groups.Interfaces;
+using Yupi.Game.Groups.Structs;
 using Yupi.Game.Pets;
 using Yupi.Game.Users;
 using Yupi.Game.Users.Data.Models;
@@ -277,18 +277,18 @@ namespace Yupi
 
                 var mySqlConnectionStringBuilder = new MySqlConnectionStringBuilder
                 {
-                    Server = (ServerConfigurationSettings.Data["db.hostname"]),
-                    Port = (uint.Parse(ServerConfigurationSettings.Data["db.port"])),
-                    UserID = (ServerConfigurationSettings.Data["db.username"]),
-                    Password = (ServerConfigurationSettings.Data["db.password"]),
-                    Database = (ServerConfigurationSettings.Data["db.name"]),
-                    MinimumPoolSize = (uint.Parse(ServerConfigurationSettings.Data["db.pool.minsize"])),
-                    MaximumPoolSize = (uint.Parse(ServerConfigurationSettings.Data["db.pool.maxsize"])),
-                    Pooling = (true),
-                    AllowZeroDateTime = (true),
-                    ConvertZeroDateTime = (true),
-                    DefaultCommandTimeout = (300u),
-                    ConnectionTimeout = (10u)
+                    Server = ServerConfigurationSettings.Data["db.hostname"],
+                    Port = uint.Parse(ServerConfigurationSettings.Data["db.port"]),
+                    UserID = ServerConfigurationSettings.Data["db.username"],
+                    Password = ServerConfigurationSettings.Data["db.password"],
+                    Database = ServerConfigurationSettings.Data["db.name"],
+                    MinimumPoolSize = uint.Parse(ServerConfigurationSettings.Data["db.pool.minsize"]),
+                    MaximumPoolSize = uint.Parse(ServerConfigurationSettings.Data["db.pool.maxsize"]),
+                    Pooling = true,
+                    AllowZeroDateTime = true,
+                    ConvertZeroDateTime = true,
+                    DefaultCommandTimeout = 300u,
+                    ConnectionTimeout = 10u
                 };
 
                 Manager = new DatabaseManager(mySqlConnectionStringBuilder.ToString(), DatabaseConnectionType);
@@ -302,9 +302,9 @@ namespace Yupi
                     OfflineMessage.InitOfflineMessages(queryReactor);
                 }
 
-                ConsoleTimer = (int.Parse(ServerConfigurationSettings.Data["console.clear.time"]));
-                ConsoleTimerOn = (bool.Parse(ServerConfigurationSettings.Data["console.clear.enabled"]));
-                FriendRequestLimit = ((uint)int.Parse(ServerConfigurationSettings.Data["client.maxrequests"]));
+                ConsoleTimer = int.Parse(ServerConfigurationSettings.Data["console.clear.time"]);
+                ConsoleTimerOn = bool.Parse(ServerConfigurationSettings.Data["console.clear.enabled"]);
+                FriendRequestLimit = (uint)int.Parse(ServerConfigurationSettings.Data["client.maxrequests"]);
 
                 LibraryParser.Incoming = new Dictionary<int, LibraryParser.StaticRequestHandler>();
                 LibraryParser.Library = new Dictionary<string, string>();
@@ -339,7 +339,7 @@ namespace Yupi
                 _game.ContinueLoading();
                 FurnitureDataManager.Clear();
 
-                ServerLanguage = (Convert.ToString(ServerConfigurationSettings.Data["system.lang"]));
+                ServerLanguage = Convert.ToString(ServerConfigurationSettings.Data["system.lang"]);
                 _languages = new ServerLanguageSettings(ServerLanguage);
                 Writer.WriteLine("Loaded " + _languages.Count() + " Languages Vars", "Yupi.Interpreters");
 
@@ -378,8 +378,8 @@ namespace Yupi
                     Timer.Start();
                 }
 
-                if (ServerConfigurationSettings.Data.ContainsKey("StaffAlert.MinRank"))
-                    StaffAlertMinRank = uint.Parse(ServerConfigurationSettings.Data["StaffAlert.MinRank"]);
+                if (ServerConfigurationSettings.Data.ContainsKey("StaffAlert.MinLevel"))
+                    StaffAlertMinRank = uint.Parse(ServerConfigurationSettings.Data["StaffAlert.MinLevel"]);
 
                 if (ServerConfigurationSettings.Data.ContainsKey("SeparatedTasksInMainLoops.enabled") && ServerConfigurationSettings.Data["SeparatedTasksInMainLoops.enabled"] == "true")
                     SeparatedTasksInMainLoops = true;
@@ -456,9 +456,9 @@ namespace Yupi
         /// </summary>
         /// <param name="unixTimeStamp">The unix time stamp.</param>
         /// <returns>DateTime.</returns>
-        internal static DateTime UnixToDateTime(double unixTimeStamp) => (new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Local)).AddSeconds(unixTimeStamp).ToLocalTime();
+        internal static DateTime UnixToDateTime(double unixTimeStamp) => new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Local).AddSeconds(unixTimeStamp).ToLocalTime();
 
-        internal static DateTime UnixToDateTime(int unixTimeStamp) => (new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Local)).AddSeconds(unixTimeStamp).ToLocalTime();
+        internal static DateTime UnixToDateTime(int unixTimeStamp) => new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Local).AddSeconds(unixTimeStamp).ToLocalTime();
 
         /// <summary>
         /// Convert timestamp to GroupJoin String
@@ -483,7 +483,7 @@ namespace Yupi
         /// Get the Actual Time
         /// </summary>
         /// <returns>System.Int64.</returns>
-        internal static long Now() => ((long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds);
+        internal static long Now() => (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
 
         internal static int DifferenceInMilliSeconds(DateTime time, DateTime tFrom)
         {

@@ -78,8 +78,8 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Banzai
 
                 if (differenceX > 1 || differenceX < -1 || differenceY > 1 || differenceY < -1)
                     continue;
-                var newX = (differenceX*-1) + roomItem.X;
-                var newY = (differenceY*-1) + roomItem.Y;
+                var newX = differenceX*-1 + roomItem.X;
+                var newY = differenceY*-1 + roomItem.Y;
 
                 if (roomItem.InteractingBallUser == user.UserId && _room.GetGameMap().ValidTile(newX, newY))
                 {
@@ -255,8 +255,8 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Banzai
 
             for (var i = 1; i < length; i++)
             {
-                newX = (differenceX*-i) + item.X;
-                newY = (differenceY*-i) + item.Y;
+                newX = differenceX*-i + item.X;
+                newY = differenceY*-i + item.Y;
                 if (!_room.GetGameMap().ItemCanBePlacedHere(newX, newY))
                 {
                     if (i == 1) break;
@@ -307,7 +307,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Banzai
                 item.Value = 3;
                 item.Team = team;
             }
-            var num = item.Value + ((int) item.Team)*3 - 1;
+            var num = item.Value + (int) item.Team*3 - 1;
 
             item.ExtraData = num.ToString();
         }
@@ -347,7 +347,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Banzai
                 }
             }
 
-            var newColor = item.Value + ((int) item.Team*3) - 1;
+            var newColor = item.Value + (int) item.Team*3 - 1;
             item.ExtraData = newColor.ToString();
         }
 
@@ -392,8 +392,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Banzai
                     BanzaiTiles.Values.Cast<RoomItem>()
                         .Where(
                             roomItem =>
-                                roomItem.GetBaseItem().InteractionType == Interaction.BanzaiFloor &&
-                                (roomItem.X == coord.X && roomItem.Y == coord.Y)))
+                                roomItem.GetBaseItem().InteractionType == Interaction.BanzaiFloor && roomItem.X == coord.X && roomItem.Y == coord.Y))
             {
                 SetMaxForTile(roomItem, team, user);
                 _room.GetGameManager().AddPointToTeam(team, user);

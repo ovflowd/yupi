@@ -6,7 +6,7 @@ using Yupi.Core.Settings;
 using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Game.Achievements.Structs;
 using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Groups.Interfaces;
+using Yupi.Game.Groups.Structs;
 using Yupi.Game.Quests;
 using Yupi.Game.Quests.Composers;
 using Yupi.Game.Rooms;
@@ -258,7 +258,7 @@ namespace Yupi.Messages.Handlers
             }
             currentRoom.MutedUsers.Add(num,
                 uint.Parse(
-                    ((Yupi.GetUnixTimeStamp()) + unchecked(checked(num2 * 60u))).ToString()));
+                    (Yupi.GetUnixTimeStamp() + unchecked(checked(num2 * 60u))).ToString()));
 
             roomUserByHabbo.GetClient().SendNotif(string.Format(Yupi.GetLanguage().GetVar("room_owner_has_mute_user"), num2));
         }
@@ -495,9 +495,9 @@ namespace Yupi.Messages.Handlers
             if (habbo.PreviousOnline == 0)
                 Response.AppendInteger(-1);
             else if (Yupi.GetGame().GetClientManager().GetClientByUserId(habbo.Id) == null)
-                Response.AppendInteger((Yupi.GetUnixTimeStamp() - habbo.PreviousOnline));
+                Response.AppendInteger(Yupi.GetUnixTimeStamp() - habbo.PreviousOnline);
             else
-                Response.AppendInteger((Yupi.GetUnixTimeStamp() - habbo.LastOnline));
+                Response.AppendInteger(Yupi.GetUnixTimeStamp() - habbo.LastOnline);
 
             Response.AppendBool(true);
             SendResponse();
@@ -881,7 +881,7 @@ namespace Yupi.Messages.Handlers
                 else
                 {
                     Response.AppendInteger(current.Type);
-                    Response.AppendInteger((current.Type == 1) ? num : ((current.Type == 2) ? num2 : num3));
+                    Response.AppendInteger(current.Type == 1 ? num : (current.Type == 2 ? num2 : num3));
                     Response.AppendInteger(current.UserId);
                     Response.AppendString(habboForId2.UserName);
                     Response.AppendString(habboForId2.Look);
@@ -1107,7 +1107,7 @@ namespace Yupi.Messages.Handlers
             {
                 Response.AppendInteger(current.Level);
 
-                int nm = (failLevel == -1) ? 1 : 0;
+                int nm = failLevel == -1 ? 1 : 0;
                 Response.AppendInteger(nm);
 
                 List<Talent> talents2 = Yupi.GetGame().GetTalentManager().GetTalents(trackType, current.Id);
@@ -1119,14 +1119,14 @@ namespace Yupi.Messages.Handlers
                     if (current2.GetAchievement() == null)
                         throw new NullReferenceException($"The following talent achievement can't be found: {current2.AchievementGroup}");
 
-                    int num = (failLevel != -1 && failLevel < current2.Level) ? 0 : (Session.GetHabbo().GetAchievementData(current2.AchievementGroup) == null) ? 1 : (Session.GetHabbo().GetAchievementData(current2.AchievementGroup).Level >= current2.AchievementLevel) ? 2 : 1;
+                    int num = failLevel != -1 && failLevel < current2.Level ? 0 : Session.GetHabbo().GetAchievementData(current2.AchievementGroup) == null ? 1 : Session.GetHabbo().GetAchievementData(current2.AchievementGroup).Level >= current2.AchievementLevel ? 2 : 1;
 
                     Response.AppendInteger(current2.GetAchievement().Id);
                     Response.AppendInteger(0);
                     Response.AppendString($"{current2.AchievementGroup}{current2.AchievementLevel}");
                     Response.AppendInteger(num);
-                    Response.AppendInteger((Session.GetHabbo().GetAchievementData(current2.AchievementGroup) != null) ? Session.GetHabbo().GetAchievementData(current2.AchievementGroup).Progress : 0);
-                    Response.AppendInteger((current2.GetAchievement() == null) ? 0 : current2.GetAchievement().Levels[current2.AchievementLevel].Requirement);
+                    Response.AppendInteger(Session.GetHabbo().GetAchievementData(current2.AchievementGroup) != null ? Session.GetHabbo().GetAchievementData(current2.AchievementGroup).Progress : 0);
+                    Response.AppendInteger(current2.GetAchievement() == null ? 0 : current2.GetAchievement().Levels[current2.AchievementLevel].Requirement);
 
                     if (num != 2 && failLevel == -1)
                         failLevel = current2.Level;

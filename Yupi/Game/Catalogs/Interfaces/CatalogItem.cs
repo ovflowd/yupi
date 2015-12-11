@@ -148,10 +148,10 @@ namespace Yupi.Game.Catalogs.Interfaces
 
             LimitedSelled = (int)row["limited_sells"];
             LimitedStack = (int)row["limited_stack"];
-            IsLimited = (LimitedStack > 0);
+            IsLimited = LimitedStack > 0;
             Badge = (string)row["badge"];
-            HaveOffer = ((string)row["offer_active"] == "1");
-            ClubOnly = ((string)row["club_only"] == "1");
+            HaveOffer = (string)row["offer_active"] == "1";
+            ClubOnly = (string)row["club_only"] == "1";
             ExtraData = (string)row["extradata"];
             SongId = (uint)row["song_id"];
         }

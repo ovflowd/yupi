@@ -273,7 +273,7 @@ namespace Yupi.Messages.Handlers
             Response.AppendInteger(2);
             SendResponse();
             var tradeLocked = Session.GetHabbo().CheckTrading();
-            var canUseFloorEditor = (ServerExtraSettings.EveryoneUseFloor || Session.GetHabbo().Vip || Session.GetHabbo().Rank >= 4);
+            var canUseFloorEditor = ServerExtraSettings.EveryoneUseFloor || Session.GetHabbo().Vip || Session.GetHabbo().Rank >= 4;
             Response.Init(LibraryParser.OutgoingRequest("SendPerkAllowancesMessageComposer"));
             Response.AppendInteger(11);
             Response.AppendString("BUILDER_AT_WORK");

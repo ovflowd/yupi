@@ -124,7 +124,7 @@ namespace Yupi.Net.Packets
                             break; 
                         }
 
-                        if (_currentPacketLength == ((length - pos) + _bufferPos)) 
+                        if (_currentPacketLength == length - pos + _bufferPos) 
                         {
                             if (_bufferPos != 0) 
                             {
@@ -147,7 +147,7 @@ namespace Yupi.Net.Packets
                         }
                         else 
                         {
-                            int remainder = ((length - pos)) - (_currentPacketLength - _bufferPos);
+                            int remainder = length - pos - (_currentPacketLength - _bufferPos);
 
                             if (_bufferPos != 0)
                             {
@@ -173,7 +173,7 @@ namespace Yupi.Net.Packets
 
                             _currentPacketLength = -1;
 
-                            pos = (length - remainder);
+                            pos = length - remainder;
                         }
                     }
                 }
@@ -207,7 +207,7 @@ namespace Yupi.Net.Packets
         /// <param name="offset">The offset.</param>
         private void BufferCopy(byte[] data, int bytes, int offset = 0)
         {
-            for (int i = 0; i < (bytes - offset); i++)
+            for (int i = 0; i < bytes - offset; i++)
                 _bufferedData[_bufferPos++] = data[i + offset];
         }
 

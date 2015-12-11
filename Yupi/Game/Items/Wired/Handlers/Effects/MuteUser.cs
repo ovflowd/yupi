@@ -62,7 +62,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
             if (Room.MutedUsers.ContainsKey(userId))
                 Room.MutedUsers.Remove(userId);
 
-            Room.MutedUsers.Add(userId, Convert.ToUInt32((Yupi.GetUnixTimeStamp() + (minutes * 60))));
+            Room.MutedUsers.Add(userId, Convert.ToUInt32(Yupi.GetUnixTimeStamp() + minutes * 60));
 
             if (!string.IsNullOrEmpty(OtherString))
                 roomUser.GetClient().SendWhisper(OtherString);

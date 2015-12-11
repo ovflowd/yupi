@@ -60,7 +60,7 @@ namespace Yupi.Messages
             stringValue += Encoding.Default.GetString(_body);
 
             for (int i = 0; i < 13; i++)
-                stringValue = stringValue.Replace(char.ToString((char)(i)), $"[{i}]");
+                stringValue = stringValue.Replace(char.ToString((char)i), $"[{i}]");
 
             return stringValue;
         }
@@ -156,7 +156,7 @@ namespace Yupi.Messages
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         internal bool GetBool()
         {
-            return (_body[_position++] == 1);
+            return _body[_position++] == 1;
         }
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace Yupi.Messages
         internal uint GetUInteger()
         {
             int value = GetInteger();
-            return (value < 0 ? 0 : (uint)value);
+            return value < 0 ? 0 : (uint)value;
         }
 
         /// <summary>

@@ -22,7 +22,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Triggers
             Room.GetWiredHandler().EnqueueCycle(this);
 
             if (_mNext == 0L || _mNext < Yupi.Now())
-                _mNext = (Yupi.Now() + (Delay));
+                _mNext = Yupi.Now() + Delay;
         }
 
         public Queue ToWork
@@ -63,7 +63,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Triggers
                 }
             }
 
-            _mNext = (Yupi.Now() + (Delay));
+            _mNext = Yupi.Now() + Delay;
             return false;
         }
 
@@ -108,7 +108,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Triggers
         public bool Execute(params object[] stuff)
         {
             if (_mNext == 0L || _mNext < Yupi.Now())
-                _mNext = (Yupi.Now() + (Delay));
+                _mNext = Yupi.Now() + Delay;
 
             if (!Room.GetWiredHandler().IsCycleQueued(this))
                 Room.GetWiredHandler().EnqueueCycle(this);

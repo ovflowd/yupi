@@ -64,6 +64,6 @@ namespace Yupi.Game.SoundMachine.Songs
         ///     Gets the length miliseconds.
         /// </summary>
         /// <value>The length miliseconds.</value>
-        public int LengthMiliseconds => ((int) (LengthSeconds*1000.0));
+        public int LengthMiliseconds => (int) (LengthSeconds*1000.0);
     }
 }

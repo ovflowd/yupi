@@ -5,7 +5,7 @@ using System.Linq;
 using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Game.Achievements.Structs;
 using Yupi.Game.Catalogs;
-using Yupi.Game.Groups.Interfaces;
+using Yupi.Game.Groups.Structs;
 using Yupi.Game.Items.Interfaces;
 using Yupi.Game.Pets;
 using Yupi.Game.RoomBots;

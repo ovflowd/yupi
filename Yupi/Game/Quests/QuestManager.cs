@@ -130,7 +130,7 @@ namespace Yupi.Game.Quests
                         case QuestType.XmasParty:
                         case QuestType.FurniMove:
                             num++;
-                            if ((num >= quest.GoalData))
+                            if (num >= quest.GoalData)
                                 flag = true;
                             goto IL_DC;
                     }
@@ -181,7 +181,7 @@ namespace Yupi.Game.Quests
         {
             return
                 _quests.Values.Where(
-                    current => current.Category.Contains(season) && (current.TimeUnlock - Yupi.GetUnixTimeStamp()) < 0)
+                    current => current.Category.Contains(season) && current.TimeUnlock - Yupi.GetUnixTimeStamp() < 0)
                     .ToList();
         }
 
@@ -227,7 +227,7 @@ namespace Yupi.Game.Quests
             if (!session.GetHabbo().InRoom)
                 return;
             var quest = GetQuest(session.GetHabbo().LastQuestCompleted);
-            var nextQuestInSeries = GetNextQuestInSeries(quest.Category, (quest.Number + 1));
+            var nextQuestInSeries = GetNextQuestInSeries(quest.Category, quest.Number + 1);
 
             if (nextQuestInSeries == null)
                 return;
@@ -271,7 +271,7 @@ namespace Yupi.Game.Quests
             int num;
             if (_count.TryGetValue(category, out num))
             {
-                _count[category] = (num + 1);
+                _count[category] = num + 1;
 
                 return;
             }

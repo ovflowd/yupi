@@ -72,14 +72,14 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
                 if (fItem == null)
                     continue;
 
-                var extraDataToSet = (extraData) ? innerData[1] : fItem.ExtraData;
-                var rotationToSet = (rot) ? int.Parse(innerData[2]) : fItem.Rot;
+                var extraDataToSet = extraData ? innerData[1] : fItem.ExtraData;
+                var rotationToSet = rot ? int.Parse(innerData[2]) : fItem.Rot;
 
                 var positions = innerData[3].Split(',');
 
-                var xToSet = (position) ? int.Parse(positions[0]) : fItem.X;
-                var yToSet = (position) ? int.Parse(positions[1]) : fItem.Y;
-                var zToSet = (position) ? double.Parse(positions[2]) : fItem.Z;
+                var xToSet = position ? int.Parse(positions[0]) : fItem.X;
+                var yToSet = position ? int.Parse(positions[1]) : fItem.Y;
+                var zToSet = position ? double.Parse(positions[2]) : fItem.Z;
 
 
                 var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("ItemAnimationMessageComposer"));

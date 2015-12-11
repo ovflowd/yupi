@@ -75,7 +75,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                     break;
             }
 
-            item.ExtraData = (item.ExtraData == "0") ? "1" : "0";
+            item.ExtraData = item.ExtraData == "0" ? "1" : "0";
             item.UpdateState();
 
             _mItem = item;

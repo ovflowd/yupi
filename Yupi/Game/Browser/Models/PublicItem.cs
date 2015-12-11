@@ -1,9 +1,32 @@
-using System;
+/**
+     Because i love chocolat...                                      
+                                    88 88  
+                                    "" 88  
+                                       88  
+8b       d8 88       88 8b,dPPYba,  88 88  
+`8b     d8' 88       88 88P'    "8a 88 88  
+ `8b   d8'  88       88 88       d8 88 ""  
+  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa  
+    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88  
+    d8'                 88                 
+   d8'                  88     
+   
+   Private Habbo Hotel Emulating System
+   @author Claudio A. Santoro W.
+   @author Kessiler R.
+   @version dev-beta
+   @license MIT
+   @copyright Sulake Corporation Oy
+   @observation All Rights of Habbo, Habbo Hotel, and all Habbo contents and it's names, is copyright from Sulake
+   Corporation Oy. Yupi! has nothing linked with Sulake. 
+   This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
+*/
+
 using Yupi.Game.Browser.Enums;
 using Yupi.Game.Rooms.Data;
 using Yupi.Messages;
 
-namespace Yupi.Game.Browser.Interfaces
+namespace Yupi.Game.Browser.Models
 {
     /// <summary>
     ///     Class PublicItem.
@@ -97,30 +120,20 @@ namespace Yupi.Game.Browser.Interfaces
             switch (typeOfData)
             {
                 case 1:
-                {
                     ItemType = PublicItemType.Tag;
                     break;
-                }
                 case 2:
-                {
                     ItemType = PublicItemType.Flat;
                     break;
-                }
                 case 3:
-                {
                     ItemType = PublicItemType.PublicFlat;
                     break;
-                }
                 case 4:
-                {
                     ItemType = PublicItemType.Category;
                     break;
-                }
                 default:
-                {
                     ItemType = PublicItemType.None;
                     break;
-                }
             }
         }
 
@@ -135,41 +148,13 @@ namespace Yupi.Game.Browser.Interfaces
         /// </summary>
         /// <value>The room data.</value>
         /// <exception cref="System.NullReferenceException"></exception>
-        internal RoomData RoomData
-        {
-            get
-            {
-                if (RoomId == 0u) return new RoomData();
-
-                if (Yupi.GetGame() == null || Yupi.GetGame().GetRoomManager() == null)
-                    throw new NullReferenceException();
-
-                return Yupi.GetGame().GetRoomManager().GenerateRoomData(RoomId);
-            }
-        }
+        internal RoomData RoomData => RoomId == 0u ? new RoomData() : Yupi.GetGame().GetRoomManager().GenerateRoomData(RoomId);
 
         /// <summary>
         ///     Gets the room information.
         /// </summary>
         /// <value>The room information.</value>
-        internal RoomData RoomInfo
-        {
-            get
-            {
-                RoomData result;
-
-                try
-                {
-                    result = RoomId > 0u ? Yupi.GetGame().GetRoomManager().GenerateRoomData(RoomId) : null;
-                }
-                catch
-                {
-                    result = null;
-                }
-
-                return result;
-            }
-        }
+        internal RoomData RoomInfo => RoomId > 0u ? Yupi.GetGame().GetRoomManager().GenerateRoomData(RoomId) : null;
 
         /// <summary>
         ///     Serializes the specified message.
@@ -177,56 +162,38 @@ namespace Yupi.Game.Browser.Interfaces
         /// <param name="message">The message.</param>
         internal void Serialize(ServerMessage message)
         {
-            try
-            {
-                message.AppendInteger(Id);
-                message.AppendString(Caption);
-                message.AppendString(Description);
-                message.AppendInteger(Type);
-                message.AppendString(Caption);
-                message.AppendString(Image);
-                message.AppendInteger(ParentId);
-                message.AppendInteger(RoomInfo?.UsersNow ?? 0);
-                message.AppendInteger((ItemType == PublicItemType.None)
-                    ? 0
-                    : ((ItemType == PublicItemType.Tag)
-                        ? 1
-                        : ((ItemType == PublicItemType.Flat)
+            message.AppendInteger(Id);
+            message.AppendString(Caption);
+            message.AppendString(Description);
+            message.AppendInteger(Type);
+            message.AppendString(Caption);
+            message.AppendString(Image);
+            message.AppendInteger(ParentId);
+            message.AppendInteger(RoomInfo?.UsersNow ?? 0);
+            message.AppendInteger(ItemType == PublicItemType.None
+                ? 0
+                : (ItemType == PublicItemType.Tag
+                    ? 1
+                    : (ItemType == PublicItemType.Flat
+                        ? 2
+                        : (ItemType == PublicItemType.PublicFlat
                             ? 2
-                            : ((ItemType == PublicItemType.PublicFlat)
-                                ? 2
-                                : ((ItemType != PublicItemType.Category) ? 0 : 4)))));
-                switch (ItemType)
-                {
-                    case PublicItemType.Tag:
-                    {
-                        message.AppendString(TagsToSearch);
-                        break;
-                    }
-                    case PublicItemType.Category:
-                    {
-                        message.AppendBool(false);
-                        break;
-                    }
-                    case PublicItemType.Flat:
-                    {
-                        RoomInfo?.Serialize(message);
-                        break;
-                    }
-                    case PublicItemType.PublicFlat:
-                    {
-                        RoomInfo?.Serialize(message);
-                        break;
-                    }
-                    default:
-                    {
-                        break;
-                    }
-                }
-            }
-            catch (Exception ex)
+                            : (ItemType != PublicItemType.Category ? 0 : 4)))));
+
+            switch (ItemType)
             {
-                Console.WriteLine("Exception on publicitems composing: {0}", ex);
+                case PublicItemType.Tag:
+                    message.AppendString(TagsToSearch);
+                    break;
+                case PublicItemType.Category:
+                    message.AppendBool(false);
+                    break;
+                case PublicItemType.Flat:
+                    RoomInfo?.Serialize(message);
+                    break;
+                case PublicItemType.PublicFlat:
+                    RoomInfo?.Serialize(message);
+                    break;
             }
         }
 

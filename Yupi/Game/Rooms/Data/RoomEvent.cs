@@ -43,7 +43,7 @@ namespace Yupi.Game.Rooms.Data
             RoomId = roomId;
             Name = name;
             Description = description;
-            Time = ((time == 0) ? (Yupi.GetUnixTimeStamp() + 7200) : time);
+            Time = time == 0 ? Yupi.GetUnixTimeStamp() + 7200 : time;
 
             Category = category;
         }

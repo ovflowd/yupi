@@ -1,3 +1,27 @@
+/**
+     Because i love chocolat...                                      
+                                    88 88  
+                                    "" 88  
+                                       88  
+8b       d8 88       88 8b,dPPYba,  88 88  
+`8b     d8' 88       88 88P'    "8a 88 88  
+ `8b   d8'  88       88 88       d8 88 ""  
+  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa  
+    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88  
+    d8'                 88                 
+   d8'                  88     
+   
+   Private Habbo Hotel Emulating System
+   @author Claudio A. Santoro W.
+   @author Kessiler R.
+   @version dev-beta
+   @license MIT
+   @copyright Sulake Corporation Oy
+   @observation All Rights of Habbo, Habbo Hotel, and all Habbo contents and it's names, is copyright from Sulake
+   Corporation Oy. Yupi! has nothing linked with Sulake. 
+   This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
+*/
+
 using System;
 using System.Data;
 using Yupi.Game.Pets.Enums;
@@ -135,7 +159,7 @@ namespace Yupi.Game.Pets
             switch (rarity)
             {
                 case 1:
-                    if ((random.Next(0, 4)%2) != 0)
+                    if (random.Next(0, 4)%2 != 0)
                     {
                         if (random.Next(0, 2) == 0)
                         {
@@ -168,7 +192,7 @@ namespace Yupi.Game.Pets
                     break;
 
                 case 2:
-                    if ((random.Next(0, 4)%2) != 0)
+                    if (random.Next(0, 4)%2 != 0)
                     {
                         if (random.Next(0, 2) == 0)
                         {
@@ -202,7 +226,7 @@ namespace Yupi.Game.Pets
                     break;
 
                 case 3:
-                    if ((random.Next(0, 4)%2) != 0)
+                    if (random.Next(0, 4)%2 != 0)
                     {
                         if (random.Next(0, 7) == 5)
                         {
@@ -231,7 +255,7 @@ namespace Yupi.Game.Pets
                         num2 = 2;
                         str = $"{str}Wailzor";
                     }
-                    else if ((random.Next(0, 5)%2) == 0)
+                    else if (random.Next(0, 5)%2 == 0)
                     {
                         num2 = 6;
                         str = $"{str}Shroomer";
@@ -245,7 +269,7 @@ namespace Yupi.Game.Pets
                     break;
 
                 case 4:
-                    if ((random.Next(0, 4)%2) != 0)
+                    if (random.Next(0, 4)%2 != 0)
                     {
                         if (random.Next(0, 7) == 5)
                         {
@@ -284,7 +308,7 @@ namespace Yupi.Game.Pets
                         num2 = 7;
                         str = $"{str}Zuchinu";
                     }
-                    else if ((random.Next(0, 5)%2) == 0)
+                    else if (random.Next(0, 5)%2 == 0)
                     {
                         num2 = 6;
                         str = $"{str}Shroomer";
@@ -298,7 +322,7 @@ namespace Yupi.Game.Pets
                     break;
 
                 case 5:
-                    if ((random.Next(0, 4)%2) != 0)
+                    if (random.Next(0, 4)%2 != 0)
                     {
                         if (random.Next(0, 7) == 5)
                         {
@@ -327,7 +351,7 @@ namespace Yupi.Game.Pets
                         num2 = 7;
                         str = $"{str}Zuchinu";
                     }
-                    else if ((random.Next(0, 5)%2) == 2)
+                    else if (random.Next(0, 5)%2 == 2)
                     {
                         num2 = 11;
                         str = $"{str}Hairbullis";
@@ -341,7 +365,7 @@ namespace Yupi.Game.Pets
                     break;
 
                 case 6:
-                    if ((random.Next(0, 4)%2) != 0)
+                    if (random.Next(0, 4)%2 != 0)
                     {
                         if (random.Next(0, 7) == 5)
                         {
@@ -370,7 +394,7 @@ namespace Yupi.Game.Pets
                         num2 = 10;
                         str = $"{str}Wystique";
                     }
-                    else if ((random.Next(0, 5)%2) == 2)
+                    else if (random.Next(0, 5)%2 == 2)
                     {
                         num2 = 11;
                         str = $"{str}Hairbullis";
@@ -384,7 +408,7 @@ namespace Yupi.Game.Pets
                     break;
 
                 case 7:
-                    if ((random.Next(0, 4)%2) != 0)
+                    if (random.Next(0, 4)%2 != 0)
                     {
                         if (random.Next(0, 7) == 5)
                         {
@@ -413,7 +437,7 @@ namespace Yupi.Game.Pets
                         num2 = 2;
                         str = $"{str}Wailzor";
                     }
-                    else if ((random.Next(0, 5)%2) == 2)
+                    else if (random.Next(0, 5)%2 == 2)
                     {
                         num2 = 4;
                         str = $"{str}Sunspike";
@@ -432,7 +456,7 @@ namespace Yupi.Game.Pets
                     break;
 
                 case 8:
-                    if ((random.Next(0, 4)%2) != 0)
+                    if (random.Next(0, 4)%2 != 0)
                     {
                         if (random.Next(0, 7) == 5)
                         {
@@ -444,7 +468,7 @@ namespace Yupi.Game.Pets
                             num = 10;
                             str = $"{str}Cinereus ";
                         }
-                        else if ((random.Next(12, 0x13) % 2) == 1)
+                        else if (random.Next(12, 0x13) % 2 == 1)
                         {
                             num = 6;
                             str = $"{str}Azureus ";
@@ -466,7 +490,7 @@ namespace Yupi.Game.Pets
                         num2 = 11;
                         str = $"{str}Hairbullis";
                     }
-                    else if ((random.Next(0, 5)%2) == 2)
+                    else if (random.Next(0, 5)%2 == 2)
                     {
                         num2 = 10;
                         str = $"{str}Wystique";
@@ -485,7 +509,7 @@ namespace Yupi.Game.Pets
                     break;
 
                 case 9:
-                    if ((random.Next(0, 4)%2) != 0)
+                    if (random.Next(0, 4)%2 != 0)
                     {
                         if (random.Next(0, 7) == 5)
                         {
@@ -509,7 +533,7 @@ namespace Yupi.Game.Pets
                         num2 = 11;
                         str = $"{str}Hairbullis";
                     }
-                    else if ((random.Next(0, 5)%2) == 2)
+                    else if (random.Next(0, 5)%2 == 2)
                     {
                         num2 = 10;
                         str = $"{str}Wystique";
@@ -537,7 +561,7 @@ namespace Yupi.Game.Pets
                     break;
 
                 default:
-                    if ((random.Next(0, 4)%2) == 0)
+                    if (random.Next(0, 4)%2 == 0)
                     {
                         num = 9;
                         str = $"{str}Fulvus ";

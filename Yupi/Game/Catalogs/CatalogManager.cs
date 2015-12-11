@@ -1,4 +1,28 @@
-﻿using System;
+﻿/**
+     Because i love chocolat...                                      
+                                    88 88  
+                                    "" 88  
+                                       88  
+8b       d8 88       88 8b,dPPYba,  88 88  
+`8b     d8' 88       88 88P'    "8a 88 88  
+ `8b   d8'  88       88 88       d8 88 ""  
+  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa  
+    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88  
+    d8'                 88                 
+   d8'                  88     
+   
+   Private Habbo Hotel Emulating System
+   @author Claudio A. Santoro W.
+   @author Kessiler R.
+   @version dev-beta
+   @license MIT
+   @copyright Sulake Corporation Oy
+   @observation All Rights of Habbo, Habbo Hotel, and all Habbo contents and it's names, is copyright from Sulake
+   Corporation Oy. Yupi! has nothing linked with Sulake. 
+   This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data;
@@ -8,7 +32,7 @@ using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Game.Catalogs.Composers;
 using Yupi.Game.Catalogs.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Groups.Interfaces;
+using Yupi.Game.Groups.Structs;
 using Yupi.Game.Items.Interactions;
 using Yupi.Game.Items.Interactions.Enums;
 using Yupi.Game.Items.Interfaces;
@@ -164,7 +188,7 @@ namespace Yupi.Game.Catalogs
             if (FlatOffers.ContainsKey(offerId))
                 result = (CatalogItem)Offers[FlatOffers[offerId]];
 
-            return result ?? (Yupi.GetGame().GetCatalog().GetItem(Convert.ToUInt32(offerId)));
+            return result ?? Yupi.GetGame().GetCatalog().GetItem(Convert.ToUInt32(offerId));
         }
 
         /// <summary>
@@ -783,7 +807,7 @@ namespace Yupi.Game.Catalogs
 
                     if (clientByUserId != null)
                     {
-                        clientByUserId.GetHabbo().GetInventoryComponent().AddNewItem(insertId, itemBySprite.Name,  string.Concat(session.GetHabbo().Id, (char)9, giftMessage, (char)9, giftLazo, (char)9, giftColor, (char)9, ((undef) ? "1" : "0"), (char)9, session.GetHabbo().UserName, (char)9, session.GetHabbo().Look, (char)9, item.Name), 0u, false, false, 0, 0);
+                        clientByUserId.GetHabbo().GetInventoryComponent().AddNewItem(insertId, itemBySprite.Name,  string.Concat(session.GetHabbo().Id, (char)9, giftMessage, (char)9, giftLazo, (char)9, giftColor, (char)9, undef ? "1" : "0", (char)9, session.GetHabbo().UserName, (char)9, session.GetHabbo().Look, (char)9, item.Name), 0u, false, false, 0, 0);
 
                         if (clientByUserId.GetHabbo().Id != session.GetHabbo().Id)
                             Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(clientByUserId, "ACH_GiftReceiver", 1, true);
@@ -1046,7 +1070,7 @@ namespace Yupi.Game.Catalogs
 
             List<EcotronReward> ecotronRewardsForLevel = GetEcotronRewardsForLevel(level);
 
-            return ecotronRewardsForLevel[Yupi.GetRandomNumber(0, (ecotronRewardsForLevel.Count - 1))];
+            return ecotronRewardsForLevel[Yupi.GetRandomNumber(0, ecotronRewardsForLevel.Count - 1)];
         }
 
         /// <summary>

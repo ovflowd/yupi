@@ -37,6 +37,6 @@ namespace Yupi.Net.Sockets
         /// <summary>
         /// The maximum packet size
         /// </summary>
-        public static readonly int MaxPacketSize = (BufferSize - 4);
+        public static readonly int MaxPacketSize = BufferSize - 4;
     }
 }

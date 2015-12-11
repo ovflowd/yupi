@@ -8,7 +8,7 @@ using System.Linq;
 using Yupi.Core.Io;
 using Yupi.Data;
 using Yupi.Data.Base.Sessions.Interfaces;
-using Yupi.Game.Browser.Interfaces;
+using Yupi.Game.Browser.Models;
 using Yupi.Game.Events;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Rooms.Data;

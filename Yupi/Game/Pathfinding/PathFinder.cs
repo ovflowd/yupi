@@ -92,7 +92,7 @@ namespace Yupi.Game.Pathfinding
                 {
                     var realEndPosition = pathFinderStart.Position + (whatIsDiag ? DiagMovePoints[index] : NoDiagMovePoints[index]);
 
-                    var isEndOfPath = ((realEndPosition.X == endMap.X) && (realEndPosition.Y == endMap.Y));
+                    var isEndOfPath = (realEndPosition.X == endMap.X) && (realEndPosition.Y == endMap.Y);
 
                     if (gameLocalMap.IsValidStep(roomUserable, new Vector2D(pathFinderStart.Position.X, pathFinderStart.Position.Y), realEndPosition, isEndOfPath, roomUserable.AllowOverride))
                     {

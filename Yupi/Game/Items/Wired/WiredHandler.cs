@@ -64,7 +64,7 @@ namespace Yupi.Game.Items.Wired
                 }
 
                 fItem.OtherString = row["string"].ToString();
-                fItem.OtherBool = (row["bool"].ToString() == "1");
+                fItem.OtherBool = row["bool"].ToString() == "1";
                 fItem.Delay = (int) row["delay"];
                 fItem.OtherExtraString = row["extra_string"].ToString();
                 fItem.OtherExtraString2 = row["extra_string_2"].ToString();

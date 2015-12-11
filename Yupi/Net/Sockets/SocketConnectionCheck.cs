@@ -60,7 +60,7 @@ namespace Yupi.Net.Sockets
             if (iP == _mLastIpBlocked)
                 return false;
 
-            if ((GetConnectionAmount(iP) > maxIpConnectionCount))
+            if (GetConnectionAmount(iP) > maxIpConnectionCount)
             {
                 Writer.WriteLine(iP + " was banned by Anti-DDoS system.", "Yupi.Security", ConsoleColor.Blue);
 

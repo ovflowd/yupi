@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using Yupi.Data;
 using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Groups.Interfaces;
+using Yupi.Game.Groups.Structs;
 using Yupi.Game.Rooms.Chat;
 using Yupi.Messages;
 using Yupi.Messages.Parsers;

@@ -259,7 +259,7 @@ namespace Yupi.Game.Support
             message.AppendString(_senderName);
             message.AppendInteger(ReportedId);
             message.AppendString(_reportedName);
-            message.AppendInteger((Status == TicketStatus.Picked) ? ModeratorId : 0);
+            message.AppendInteger(Status == TicketStatus.Picked ? ModeratorId : 0);
             message.AppendString(_modName);
             message.AppendString(Message);
             message.AppendInteger(0);

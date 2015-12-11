@@ -343,7 +343,7 @@ namespace Yupi.Messages.Handlers
 
             var userId = Request.GetUInteger();
             var message = Request.GetString();
-            var length = (Request.GetInteger() * 3600);
+            var length = Request.GetInteger() * 3600;
 
             ModerationTool.LockTrade(Session, userId, message, length);
         }
@@ -372,7 +372,7 @@ namespace Yupi.Messages.Handlers
 
             var userId = Request.GetUInteger();
             var message = Request.GetString();
-            var length = (Request.GetInteger() * 3600);
+            var length = Request.GetInteger() * 3600;
 
             ModerationTool.BanUser(Session, userId, length, message);
         }
