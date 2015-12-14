@@ -1,5 +1,30 @@
+/**
+     Because i love chocolat...                                      
+                                    88 88  
+                                    "" 88  
+                                       88  
+8b       d8 88       88 8b,dPPYba,  88 88  
+`8b     d8' 88       88 88P'    "8a 88 88  
+ `8b   d8'  88       88 88       d8 88 ""  
+  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa  
+    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88  
+    d8'                 88                 
+   d8'                  88     
+   
+   Private Habbo Hotel Emulating System
+   @author Claudio A. Santoro W.
+   @author Kessiler R.
+   @version dev-beta
+   @license MIT
+   @copyright Sulake Corporation Oy
+   @observation All Rights of Habbo, Habbo Hotel, and all Habbo contents and it's names, is copyright from Sulake
+   Corporation Oy. Yupi! has nothing linked with Sulake. 
+   This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
+*/
+
 using System;
 using System.Collections.Generic;
+using Yupi.Game.Pathfinding.Vectors;
 using Yupi.Game.Rooms.User;
 using Yupi.Game.Rooms.User.Path;
 
@@ -47,18 +72,16 @@ namespace Yupi.Game.Pathfinding
         /// <returns>List&lt;Vector2D&gt;.</returns>
         public static List<Vector2D> FindPath(RoomUser user, bool diag, Gamemap map, Vector2D start, Vector2D end)
         {
-            var list = new List<Vector2D>();
-            var pathFinderNode = FindPathReversed(user, diag, map, start, end);
+            List<Vector2D> list = new List<Vector2D>();
+
+            PathFinderNode pathFinderNode = FindPathReversed(user, diag, map, start, end);
 
             if (pathFinderNode != null)
             {
                 list.Add(end);
 
-                while (pathFinderNode.Next != null)
-                {
+                while ((pathFinderNode = pathFinderNode.Next) != null)
                     list.Add(pathFinderNode.Next.Position);
-                    pathFinderNode = pathFinderNode.Next;
-                }
             }
 
             return list;
@@ -75,10 +98,10 @@ namespace Yupi.Game.Pathfinding
         /// <returns>PathFinderNode.</returns>
         public static PathFinderNode FindPathReversed(RoomUser roomUserable, bool whatIsDiag, Gamemap gameLocalMap, Vector2D startMap, Vector2D endMap)
         {
-            var minSpanTreeCost = new MinHeap<PathFinderNode>(256);
-            var pathFinderMap = new PathFinderNode[gameLocalMap.Model.MapSizeX, gameLocalMap.Model.MapSizeY];
-            var pathFinderStart = new PathFinderNode(startMap) {Cost = 0};
-            var pathFinderEnd = new PathFinderNode(endMap);
+            MinHeap<PathFinderNode> minSpanTreeCost = new MinHeap<PathFinderNode>(256);
+            PathFinderNode[,] pathFinderMap = new PathFinderNode[gameLocalMap.Model.MapSizeX, gameLocalMap.Model.MapSizeY];
+            PathFinderNode pathFinderStart = new PathFinderNode(startMap) {Cost = 0};
+            PathFinderNode pathFinderEnd = new PathFinderNode(endMap);
 
             pathFinderMap[pathFinderStart.Position.X, pathFinderStart.Position.Y] = pathFinderStart;
             minSpanTreeCost.Add(pathFinderStart);
@@ -88,11 +111,11 @@ namespace Yupi.Game.Pathfinding
                 pathFinderStart = minSpanTreeCost.ExtractFirst();
                 pathFinderStart.InClosed = true;
 
-                for (var index = 0; (whatIsDiag ? (index < DiagMovePoints.Length ? 1 : 0) : (index < NoDiagMovePoints.Length ? 1 : 0)) != 0; index++)
+                for (int index = 0; (whatIsDiag ? (index < DiagMovePoints.Length ? 1 : 0) : (index < NoDiagMovePoints.Length ? 1 : 0)) != 0; index++)
                 {
-                    var realEndPosition = pathFinderStart.Position + (whatIsDiag ? DiagMovePoints[index] : NoDiagMovePoints[index]);
+                    Vector2D realEndPosition = pathFinderStart.Position + (whatIsDiag ? DiagMovePoints[index] : NoDiagMovePoints[index]);
 
-                    var isEndOfPath = (realEndPosition.X == endMap.X) && (realEndPosition.Y == endMap.Y);
+                    bool isEndOfPath = (realEndPosition.X == endMap.X) && (realEndPosition.Y == endMap.Y);
 
                     if (gameLocalMap.IsValidStep(roomUserable, new Vector2D(pathFinderStart.Position.X, pathFinderStart.Position.Y), realEndPosition, isEndOfPath, roomUserable.AllowOverride))
                     {
@@ -108,13 +131,15 @@ namespace Yupi.Game.Pathfinding
 
                         if (!pathFinderSecondNodeCalculation.InClosed)
                         {
-                            var internalSpanTreeCost = 0;
+                            int internalSpanTreeCost = 0;
 
-                            if (pathFinderStart.Position.X != pathFinderSecondNodeCalculation.Position.X) internalSpanTreeCost++;
+                            if (pathFinderStart.Position.X != pathFinderSecondNodeCalculation.Position.X)
+                                internalSpanTreeCost++;
 
-                            if (pathFinderStart.Position.Y != pathFinderSecondNodeCalculation.Position.Y) internalSpanTreeCost++;
+                            if (pathFinderStart.Position.Y != pathFinderSecondNodeCalculation.Position.Y)
+                                internalSpanTreeCost++;
 
-                            var loopTotalCost = pathFinderStart.Cost + internalSpanTreeCost + pathFinderSecondNodeCalculation.Position.GetDistanceSquared(endMap);
+                            int loopTotalCost = pathFinderStart.Cost + internalSpanTreeCost + pathFinderSecondNodeCalculation.Position.GetDistanceSquared(endMap);
 
                             if (loopTotalCost < pathFinderSecondNodeCalculation.Cost)
                             {
@@ -153,10 +178,10 @@ namespace Yupi.Game.Pathfinding
         /// <returns>System.Int32.</returns>
         internal static int CalculateRotation(int x1, int y1, int x2, int y2)
         {
-            var dX = x2 - x1;
-            var dY = y2 - y1;
+            int dX = x2 - x1, dY = y2 - y1;
 
-            var d = Math.Atan2(dY, dX)*180/Math.PI;
+            double d = Math.Atan2(dY, dX) * 180 / Math.PI;
+
             return ((int) d + 90)/45;
         }
 

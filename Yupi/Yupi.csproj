@@ -173,7 +173,6 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Algorithms\Astar\PathNode.cs" />
@@ -186,7 +185,7 @@
     <Compile Include="Core\Algorithms\Astar\Interfaces\IPathNode.cs" />
     <Compile Include="Core\Algorithms\Astar\Interfaces\IWeightAddable.cs" />
     <Compile Include="Core\Algorithms\Astar\PriorityQueue.cs" />
-    <Compile Include="Coord.cs" />
+    <Compile Include="Game\Pathfinding\Vectors\Coord.cs" />
     <Compile Include="Core\Encryption\Crypto\KeyExchange\DiffieHellman.cs" />
     <Compile Include="Core\Encryption\Handler.cs" />
     <Compile Include="Core\Encryption\Hurlant\Crypto\Prng\ARC4.cs" />
@@ -406,7 +405,7 @@
     <Compile Include="Game\Browser\Models\UserSearchLog.cs" />
     <Compile Include="Game\Browser\Models\PromoCategory.cs" />
     <Compile Include="Game\Browser\SearchResultList.cs" />
-    <Compile Include="Game\Pathfinding\ThreeDCoord.cs" />
+    <Compile Include="Game\Pathfinding\Vectors\ThreeDCoord.cs" />
     <Compile Include="Game\Pets\PetBreeding.cs" />
     <Compile Include="Game\Pets\Structs\PetCommand.cs" />
     <Compile Include="Game\Polls\Enums\PollAnswerType.cs" />
@@ -594,7 +593,7 @@
     <Compile Include="Game\Pathfinding\PathFinder.cs" />
     <Compile Include="Game\Pathfinding\PathFinderNode.cs" />
     <Compile Include="Game\Pathfinding\Rotation.cs" />
-    <Compile Include="Game\Pathfinding\Vector2D.cs" />
+    <Compile Include="Game\Pathfinding\Vectors\Vector2D.cs" />
     <Compile Include="Game\Pets\Enums\DatabaseUpdateState.cs" />
     <Compile Include="Game\Pets\MoplaBreed.cs" />
     <Compile Include="Game\Pets\Enums\MoplaState.cs" />

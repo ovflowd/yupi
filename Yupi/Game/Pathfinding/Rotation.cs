@@ -1,3 +1,27 @@
+/**
+     Because i love chocolat...                                      
+                                    88 88  
+                                    "" 88  
+                                       88  
+8b       d8 88       88 8b,dPPYba,  88 88  
+`8b     d8' 88       88 88P'    "8a 88 88  
+ `8b   d8'  88       88 88       d8 88 ""  
+  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa  
+    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88  
+    d8'                 88                 
+   d8'                  88     
+   
+   Private Habbo Hotel Emulating System
+   @author Claudio A. Santoro W.
+   @author Kessiler R.
+   @version dev-beta
+   @license MIT
+   @copyright Sulake Corporation Oy
+   @observation All Rights of Habbo, Habbo Hotel, and all Habbo contents and it's names, is copyright from Sulake
+   Corporation Oy. Yupi! has nothing linked with Sulake. 
+   This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
+*/
+
 namespace Yupi.Game.Pathfinding
 {
     /// <summary>
@@ -15,7 +39,7 @@ namespace Yupi.Game.Pathfinding
         /// <returns>System.Int32.</returns>
         internal static int Calculate(int x1, int y1, int x2, int y2)
         {
-            var result = 0;
+            int result = 0;
 
             if (x1 > x2 && y1 > y2)
                 result = 7;
@@ -46,26 +70,13 @@ namespace Yupi.Game.Pathfinding
         /// <param name="y2">The y2.</param>
         /// <param name="moonwalk">if set to <c>true</c> [moonwalk].</param>
         /// <returns>System.Int32.</returns>
-        internal static int Calculate(int x1, int y1, int x2, int y2, bool moonwalk)
-        {
-            var num = Calculate(x1, y1, x2, y2);
-
-            return !moonwalk ? num : RotationIverse(num);
-        }
+        internal static int Calculate(int x1, int y1, int x2, int y2, bool moonwalk) => !moonwalk ? Calculate(x1, y1, x2, y2) : RotationIverse(Calculate(x1, y1, x2, y2));
 
         /// <summary>
         ///     Rotations the iverse.
         /// </summary>
         /// <param name="rot">The rot.</param>
         /// <returns>System.Int32.</returns>
-        internal static int RotationIverse(int rot)
-        {
-            if (rot > 3)
-                rot -= 4;
-            else
-                rot += 4;
-
-            return rot;
-        }
+        internal static int RotationIverse(int rot) => (rot > 3) ? rot - 4 : rot + 4;
     }
 }

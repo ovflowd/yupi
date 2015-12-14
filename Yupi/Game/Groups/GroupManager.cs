@@ -100,10 +100,10 @@ namespace Yupi.Game.Groups
                     switch (row["type"].ToString().ToLower())
                     {
                         case "base":
-                            Bases.Add(new GroupBases(int.Parse(row["id"].ToString()), row["code"].ToString(), row["code2"].ToString()));
+                            Bases.Add(new GroupBases(int.Parse(row["id"].ToString()), row["code"].ToString(), row["second_code"].ToString()));
                             break;
                         case "symbol":
-                            Symbols.Add(new GroupSymbols(int.Parse(row["id"].ToString()), row["code"].ToString(), row["code2"].ToString()));
+                            Symbols.Add(new GroupSymbols(int.Parse(row["id"].ToString()), row["code"].ToString(), row["second_code"].ToString()));
                             break;
                         case "base_color":
                             BaseColours.Add(new GroupBaseColours(int.Parse(row["id"].ToString()), row["code"].ToString()));
@@ -149,7 +149,7 @@ namespace Yupi.Game.Groups
 
             using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery($"INSERT INTO groups_data (`name`, `desc`,`badge`,`owner_id`,`created`,`room_id`,`colour1`,`colour2`) VALUES(@name,@desc,@badge,'{session.GetHabbo().Id}',UNIX_TIMESTAMP(),'{roomId}','{colour1}','{colour2}')");
+                queryReactor.SetQuery($"INSERT INTO groups_data (group_name, group_description, group_badge, owner_id, created, room_id, colour1, colour2) VALUES(@name,@desc,@badge,'{session.GetHabbo().Id}',UNIX_TIMESTAMP(),'{roomId}','{colour1}','{colour2}')");
                 queryReactor.AddParameter("name", name);
                 queryReactor.AddParameter("desc", desc);
                 queryReactor.AddParameter("badge", badge);
@@ -245,9 +245,9 @@ namespace Yupi.Game.Groups
                         requests.Add(userId, membGroup);
                 }
 
-                var group = new Guild((int) row[0], row[1].ToString(), row[2].ToString(), (uint)row[6],
-                    row[3].ToString(), (int)row[5], (uint)row[4], (int)row[8], (int)row[9], members, requests,
-                    admins, Convert.ToUInt16(row[7]), Convert.ToUInt16(row[10]), row["has_forum"].ToString() == "1",
+                var group = new Guild((int) row["id"], row["group_name"].ToString(), row["group_description"].ToString(), (uint)row["room_id"],
+                    row["group_badge"].ToString(), (int)row["created"], (uint)row["owner_id"], (int)row["colour1"], (int)row["colour2"], members, requests,
+                    admins, Convert.ToUInt16(row["state"]), Convert.ToUInt16(row["admindeco"]), row["has_forum"].ToString() == "1",
                     row["forum_name"].ToString(), row["forum_description"].ToString(),
                     uint.Parse(row["forum_messages_count"].ToString()), double.Parse(row["forum_score"].ToString()),
                     uint.Parse(row["forum_lastposter_id"].ToString()), row["forum_lastposter_name"].ToString(),
@@ -255,7 +255,7 @@ namespace Yupi.Game.Groups
                     (int)row["who_can_read"], (int)row["who_can_post"], (int)row["who_can_thread"],
                     (int)row["who_can_mod"]);
 
-                Groups.Add(row[0], group);
+                Groups.Add(row["id"], group);
 
                 return group;
             }

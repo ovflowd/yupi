@@ -47,10 +47,10 @@ namespace Yupi.Game.Pets
             _values = new Dictionary<string, string[]>();
 
             dbClient.SetQuery("SELECT * FROM pets_speech");
-            var table = dbClient.GetTable();
+            DataTable table = dbClient.GetTable();
 
             foreach (DataRow dataRow in table.Rows)
-                _values.Add(dataRow[0].ToString(), dataRow[1].ToString().Split(';'));
+                _values.Add(dataRow["pet_id"].ToString(), dataRow["responses"].ToString().Split(';'));
         }
 
         /// <summary>

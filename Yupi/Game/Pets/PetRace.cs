@@ -100,18 +100,6 @@ namespace Yupi.Game.Pets
         /// <param name="type">The type.</param>
         /// <param name="packet">The packet.</param>
         /// <returns>System.Int32.</returns>
-        public static int GetPetId(string type, out string packet)
-        {
-            int petId;
-
-            int.TryParse(type.Replace("a0 pet", string.Empty).ToString(CultureInfo.InvariantCulture), out petId);
-
-            packet = type;
-
-            if (petId >= 0 && petId <= 26)
-                return petId;
-
-            return petId;
-        }
+        public static int GetPetId(string type, out string packet) => int.Parse(packet = type.Replace("a0 pet", string.Empty).ToString(CultureInfo.InvariantCulture));
     }
 }

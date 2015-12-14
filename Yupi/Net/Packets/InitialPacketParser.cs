@@ -65,6 +65,7 @@ namespace Yupi.Net.Packets
 
             if (packet[0] == 60 && PolicyRequest != null)
                 PolicyRequest();
+
             else if (packet[0] != 67 || SwitchParserRequest == null)
                 SwitchParserRequest?.Invoke(packet, amountOfBytes);
         }

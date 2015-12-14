@@ -14,6 +14,7 @@ using Yupi.Game.Commands;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Items.Interactions.Enums;
 using Yupi.Game.Pathfinding;
+using Yupi.Game.Pathfinding.Vectors;
 using Yupi.Game.Pets;
 using Yupi.Game.RoomBots;
 using Yupi.Game.RoomBots.Enumerators;

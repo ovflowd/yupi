@@ -144,33 +144,30 @@ namespace Yupi.Game.Catalogs
         /// <summary>
         ///     Generates the pet from row.
         /// </summary>
-        /// <param name="Row">The row.</param>
+        /// <param name="row">The row.</param>
         /// <param name="mRow">The m row.</param>
         /// <returns>Pet.</returns>
-        internal static Pet GeneratePetFromRow(DataRow Row, DataRow mRow)
+        internal static Pet GeneratePetFromRow(DataRow row, DataRow mRow)
         {
-            if (Row == null)
-                return null;
-
             MoplaBreed moplaBreed = null;
 
             if (Convert.ToUInt32(mRow["type"]) == 16u)
             {
                 using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    queryReactor.SetQuery($"SELECT * FROM pets_plants WHERE pet_id = {Convert.ToUInt32(Row["id"])}");
+                    queryReactor.SetQuery($"SELECT * FROM pets_plants WHERE pet_id = {Convert.ToUInt32(row["id"])}");
 
-                    DataRow row = queryReactor.GetRow();
+                    DataRow sRow = queryReactor.GetRow();
 
-                    moplaBreed = new MoplaBreed(row);
+                    moplaBreed = new MoplaBreed(sRow);
                 }
             }
 
-            return new Pet(Convert.ToUInt32(Row["id"]), Convert.ToUInt32(Row["user_id"]),
-                Convert.ToUInt32(Row["room_id"]), (string)Row["name"], Convert.ToUInt32(mRow["type"]),
+            return new Pet(Convert.ToUInt32(row["id"]), Convert.ToUInt32(row["user_id"]),
+                Convert.ToUInt32(row["room_id"]), (string)row["name"], Convert.ToUInt32(mRow["type"]),
                 (string)mRow["race"], (string)mRow["color"], (int)mRow["experience"], (int)mRow["energy"],
-                (int)mRow["nutrition"], (int)mRow["respect"], Convert.ToDouble(mRow["createstamp"]), (int)Row["x"],
-                (int)Row["y"], Convert.ToDouble(Row["z"]), (int)mRow["have_saddle"] == 1, (int)mRow["anyone_ride"],
+                (int)mRow["nutrition"], (int)mRow["respect"], Convert.ToDouble(mRow["createstamp"]), (int)row["x"],
+                (int)row["y"], Convert.ToDouble(row["z"]), (int)mRow["have_saddle"] == 1, (int)mRow["anyone_ride"],
                 (int)mRow["hairdye"], (int)mRow["pethair"], (int)mRow["rarity"],
                 Yupi.UnixToDateTime((int)mRow["lasthealth_stamp"]),
                 Yupi.UnixToDateTime((int)mRow["untilgrown_stamp"]), moplaBreed);
@@ -241,8 +238,8 @@ namespace Yupi.Game.Catalogs
                         continue;
 
                     int num = !source.Contains(';') ? item.FlatId : -1;
-                    if (!dataRow.IsNull("specialName"))
-                        item.PublicName = (string)dataRow["specialName"];
+                    if (!dataRow.IsNull("special_name"))
+                        item.PublicName = (string)dataRow["special_name"];
 
                     CatalogItem catalogItem = new CatalogItem(dataRow, item.PublicName);
 
@@ -297,7 +294,7 @@ namespace Yupi.Game.Catalogs
             {
                 foreach (DataRow row in table4.Rows)
                     HabboClubItems.Add(new CatalogItem(row,
-                        row.IsNull("specialName") ? "Habbo VIP" : (string)row["specialName"]));
+                        row.IsNull("special_name") ? "Habbo VIP" : (string)row["specialName"]));
             }
         }
 
@@ -1000,20 +997,20 @@ namespace Yupi.Game.Catalogs
 
                                 int.TryParse(extraData, out groupId);
 
-                                Guild group = Yupi.GetGame().GetGroupManager().GetGroup((int) groupId);
+                                Guild group = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
 
                                 if (@group != null)
                                 {
                                     if (@group.CreatorId == session.GetHabbo().Id)
                                     {
-                                        session.GetMessageHandler().GetResponse().Init(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
+                                        /*session.GetMessageHandler().GetResponse().Init(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
                                         session.GetMessageHandler().GetResponse().AppendString("forums.delivered");
                                         session.GetMessageHandler().GetResponse().AppendInteger(2);
                                         session.GetMessageHandler().GetResponse().AppendString("groupId");
                                         session.GetMessageHandler().GetResponse().AppendString(extraData);
                                         session.GetMessageHandler().GetResponse().AppendString("groupName");
                                         session.GetMessageHandler().GetResponse().AppendString(@group.Name);
-                                        session.GetMessageHandler().SendResponse();
+                                        session.GetMessageHandler().SendResponse();*/
 
                                         if (!@group.HasForum)
                                         {

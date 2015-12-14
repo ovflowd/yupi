@@ -958,11 +958,11 @@ namespace Yupi.Messages.Handlers
                 case 1:
                     using (IQueryAdapter dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
-                        dbClient.SetQuery("SELECT count(id) FROM groups_data WHERE has_forum = '1' AND forum_Messages_count > 0");
+                        dbClient.SetQuery("SELECT count(id) FROM groups_data WHERE has_forum = '1' AND forum_messages_count > 0");
 
                         int qtdForums = dbClient.GetInteger();
 
-                        dbClient.SetQuery("SELECT id FROM groups_data WHERE has_forum = '1' AND forum_Messages_count > 0 ORDER BY forum_Messages_count DESC LIMIT @startIndex, @totalPerPage;");
+                        dbClient.SetQuery("SELECT id FROM groups_data WHERE has_forum = '1' AND forum_messages_count > 0 ORDER BY forum_messages_count DESC LIMIT @startIndex, @totalPerPage;");
 
                         dbClient.AddParameter("startIndex", startIndex);
                         dbClient.AddParameter("totalPerPage", TotalPerPage);
@@ -1088,7 +1088,7 @@ namespace Yupi.Messages.Handlers
 
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery($"UPDATE groups_data SET `name`=@name, `desc`=@desc WHERE id={num} LIMIT 1");
+                queryReactor.SetQuery($"UPDATE groups_data SET group_name = @name, group_description = @desc WHERE id={num} LIMIT 1");
                 queryReactor.AddParameter("name", text);
                 queryReactor.AddParameter("desc", text2);
 
@@ -1147,8 +1147,8 @@ namespace Yupi.Messages.Handlers
 
                     using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
-                        queryReactor.SetQuery($"UPDATE groups_data SET badge = @badgi WHERE id = {guildId}");
-                        queryReactor.AddParameter("badgi", badge);
+                        queryReactor.SetQuery($"UPDATE groups_data SET group_badge = @badge WHERE id = {guildId}");
+                        queryReactor.AddParameter("badge", badge);
                         queryReactor.RunQuery();
                     }
 
@@ -1211,7 +1211,7 @@ namespace Yupi.Messages.Handlers
                 return;
 
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery(string.Concat("UPDATE groups_data SET state='", num, "', admindeco='", num2, "' WHERE id=", theGroup.Id, " LIMIT 1"));
+                queryReactor.RunFastQuery(string.Concat("UPDATE groups_data SET state ='", num, "', admindeco='", num2, "' WHERE id =", theGroup.Id, " LIMIT 1"));
 
             theGroup.State = num;
             theGroup.AdminOnlyDeco = num2;

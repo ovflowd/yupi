@@ -56,6 +56,8 @@ namespace Yupi.Game.Pets
                 _petCommands.Add(uint.Parse(dataRow["id"].ToString()), new PetCommand(dataRow));
         }
 
+        internal static Dictionary<uint, PetCommand> GetAllPetCommands() => _petCommands.ToDictionary(p => p.Key, p => p.Value);
+
         internal static Dictionary<uint, PetCommand> GetPetCommandByPetType(uint petType) => _petCommands.Where(p => p.Value.PetTypes.Contains(petType.ToString())).ToDictionary(p => p.Key, p => p.Value);
 
         internal static int GetPetCommandCountByPetType(uint petType) => _petCommands.Count(p => p.Value.PetTypes.Contains(petType.ToString()));

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: 11-Dez-2015 às 16:49
+-- Generation Time: 14-Dez-2015 às 14:07
 -- Versão do servidor: 5.5.42
 -- PHP Version: 5.6.10
 
@@ -29,13 +29,13 @@ SET time_zone = "+00:00";
 DROP TABLE IF EXISTS `achievements_data`;
 CREATE TABLE `achievements_data` (
   `id` int(11) unsigned NOT NULL,
-  `achievement_name` varchar(64) NOT NULL DEFAULT 'ACH_',
-  `achievement_category` enum('identity','explore','music','social','games','room_builder','pets') NOT NULL DEFAULT 'identity',
-  `achievement_level` int(11) NOT NULL DEFAULT '1',
-  `reward_pixels` int(11) NOT NULL DEFAULT '100',
-  `reward_points` int(11) DEFAULT '10',
-  `progress_needed` int(11) NOT NULL DEFAULT '1'
-) ENGINE=MyISAM AUTO_INCREMENT=295 DEFAULT CHARSET=utf8;
+  `achievement_name` varchar(64) CHARACTER SET utf8mb4 NOT NULL DEFAULT 'ACH_',
+  `achievement_category` enum('identity','explore','music','social','games','room_builder','pets') CHARACTER SET utf8mb4 NOT NULL DEFAULT 'identity',
+  `achievement_level` int(11) unsigned NOT NULL DEFAULT '1',
+  `reward_pixels` int(11) unsigned NOT NULL DEFAULT '100',
+  `reward_points` int(11) unsigned DEFAULT '10',
+  `progress_needed` int(11) unsigned NOT NULL DEFAULT '1'
+) ENGINE=InnoDB AUTO_INCREMENT=295 DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `achievements_data`
@@ -122,9 +122,9 @@ INSERT INTO `achievements_data` (`id`, `achievement_name`, `achievement_category
 (78, 'ACH_PetRespectGiver', 'pets', 8, 100, 10, 173),
 (79, 'ACH_PetRespectGiver', 'pets', 9, 100, 10, 203),
 (80, 'ACH_PetRespectGiver', 'pets', 10, 100, 10, 261),
-(86, 'ACH_PetLover', 'pets', 3, 100, 10, 3),
-(85, 'ACH_PetLover', 'pets', 2, 100, 10, 1),
 (84, 'ACH_PetLover', 'pets', 1, 100, 10, 1),
+(85, 'ACH_PetLover', 'pets', 2, 100, 10, 1),
+(86, 'ACH_PetLover', 'pets', 3, 100, 10, 3),
 (87, 'ACH_PetLover', 'pets', 4, 100, 10, 4),
 (88, 'ACH_PetLover', 'pets', 5, 100, 10, 5),
 (89, 'ACH_PetLover', 'pets', 6, 100, 10, 10),
@@ -272,16 +272,16 @@ INSERT INTO `achievements_data` (`id`, `achievement_name`, `achievement_category
 
 DROP TABLE IF EXISTS `bots_commands`;
 CREATE TABLE `bots_commands` (
-  `id` int(11) NOT NULL,
-  `bot_type` varchar(255) NOT NULL,
-  `speech_input` varchar(255) NOT NULL,
-  `speech_input_alias` varchar(255) DEFAULT NULL,
-  `speech_output` varchar(255) DEFAULT NULL,
-  `speech_is_from_speeches` enum('1','0') NOT NULL DEFAULT '0',
-  `speech_speeches_id` int(11) DEFAULT '0',
-  `action_command` varchar(255) DEFAULT NULL,
-  `action_command_parameters` varchar(255) DEFAULT NULL,
-  `action_bot` enum('bot_move_to_user','bot_sit','bot_lay','bot_stand','bot_freeze') DEFAULT NULL
+  `id` int(11) unsigned NOT NULL,
+  `bot_type` varchar(191) CHARACTER SET utf8mb4 NOT NULL,
+  `speech_input` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+  `speech_input_alias` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `speech_output` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `speech_is_from_speeches` enum('1','0') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
+  `speech_speeches_id` int(11) unsigned DEFAULT '0',
+  `action_command` varchar(100) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `action_command_parameters` varchar(100) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `action_bot` enum('bot_move_to_user','bot_sit','bot_lay','bot_stand','bot_freeze') CHARACTER SET utf8mb4 DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
@@ -300,35 +300,27 @@ INSERT INTO `bots_commands` (`id`, `bot_type`, `speech_input`, `speech_input_ali
 
 DROP TABLE IF EXISTS `bots_data`;
 CREATE TABLE `bots_data` (
-  `id` int(10) unsigned NOT NULL,
-  `room_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `user_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `ai_type` enum('generic','guide','pet') CHARACTER SET latin1 NOT NULL DEFAULT 'generic',
-  `name` varchar(100) CHARACTER SET latin1 NOT NULL,
-  `motto` varchar(120) CHARACTER SET latin1 NOT NULL DEFAULT 'Beep Beep',
-  `look` varchar(1000) CHARACTER SET latin1 NOT NULL DEFAULT '',
+  `id` int(11) unsigned NOT NULL,
+  `room_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `user_id` int(11) unsigned NOT NULL,
+  `ai_type` enum('generic','guide','pet') CHARACTER SET utf8mb4 NOT NULL DEFAULT 'generic',
+  `name` varchar(100) CHARACTER SET utf8mb4 NOT NULL,
+  `motto` varchar(120) CHARACTER SET utf8mb4 NOT NULL DEFAULT 'Beep Beep',
+  `look` varchar(1000) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
   `x` int(11) NOT NULL DEFAULT '0',
   `y` int(11) NOT NULL DEFAULT '0',
   `z` int(11) NOT NULL DEFAULT '0',
   `rotation` int(11) NOT NULL DEFAULT '0',
-  `walk_mode` enum('stand','freeroam','specified_range') CHARACTER SET latin1 NOT NULL DEFAULT 'stand',
-  `effect` int(2) NOT NULL DEFAULT '0',
-  `gender` varchar(255) CHARACTER SET latin1 NOT NULL DEFAULT '0',
-  `dance` int(11) NOT NULL DEFAULT '0',
+  `walk_mode` enum('stand','freeroam','specified_range') CHARACTER SET utf8mb4 NOT NULL DEFAULT 'stand',
+  `effect` int(2) unsigned NOT NULL DEFAULT '0',
+  `gender` enum('f','m') CHARACTER SET utf8mb4 NOT NULL DEFAULT 'm',
+  `dance` int(11) unsigned NOT NULL DEFAULT '0',
   `automatic_chat` tinyint(1) NOT NULL DEFAULT '0',
-  `speaking_interval` int(8) NOT NULL DEFAULT '7',
+  `speaking_interval` int(8) unsigned NOT NULL DEFAULT '7',
   `mix_phrases` tinyint(1) NOT NULL DEFAULT '0',
-  `speech` text,
-  `bot_type` varchar(255) DEFAULT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-
---
--- Extraindo dados da tabela `bots_data`
---
-
-INSERT INTO `bots_data` (`id`, `room_id`, `user_id`, `ai_type`, `name`, `motto`, `look`, `x`, `y`, `z`, `rotation`, `walk_mode`, `effect`, `gender`, `dance`, `automatic_chat`, `speaking_interval`, `mix_phrases`, `speech`, `bot_type`) VALUES
-(5, 1, 1, 'pet', 'KOKO', 'Beep Beep', '', 0, 0, 0, 0, 'stand', 0, '0', 0, 0, 7, 0, NULL, NULL),
-(4, 0, 1, 'generic', 'Mahw', 'Sacia a sede e você pode dançar!', 'hr-9534-39.hd-600-1.ch-819-92.lg-3058-64.sh-3064-110.wa-2005', 9, 7, 0, 0, 'freeroam', 0, 'f', 0, 1, 7, 1, 'HALLLOIU;DELICIA;', 'bot_bartender');
+  `speech` text CHARACTER SET utf8mb4,
+  `bot_type` varchar(191) CHARACTER SET utf8mb4 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -338,11 +330,11 @@ INSERT INTO `bots_data` (`id`, `room_id`, `user_id`, `ai_type`, `name`, `motto`,
 
 DROP TABLE IF EXISTS `catalog_bots`;
 CREATE TABLE `catalog_bots` (
-  `bot_type` varchar(255) NOT NULL,
-  `bot_name` varchar(255) NOT NULL,
-  `bot_look` varchar(255) NOT NULL,
-  `bot_mission` varchar(255) NOT NULL,
-  `bot_gender` enum('f','m') NOT NULL DEFAULT 'm'
+  `bot_type` varchar(191) CHARACTER SET utf8mb4 NOT NULL,
+  `bot_name` varchar(100) CHARACTER SET utf8mb4 NOT NULL,
+  `bot_look` varchar(1000) CHARACTER SET utf8mb4 NOT NULL,
+  `bot_mission` varchar(120) CHARACTER SET utf8mb4 NOT NULL,
+  `bot_gender` enum('f','m') CHARACTER SET utf8mb4 NOT NULL DEFAULT 'm'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -361,11 +353,11 @@ INSERT INTO `catalog_bots` (`bot_type`, `bot_name`, `bot_look`, `bot_mission`, `
 
 DROP TABLE IF EXISTS `catalog_ecotron_items`;
 CREATE TABLE `catalog_ecotron_items` (
-  `id` int(10) unsigned NOT NULL,
-  `display_id` int(10) unsigned NOT NULL,
-  `item_id` int(10) unsigned NOT NULL,
+  `id` int(11) unsigned NOT NULL,
+  `display_id` int(11) unsigned NOT NULL,
+  `item_id` int(11) unsigned NOT NULL,
   `reward_level` int(11) unsigned NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -377,21 +369,21 @@ DROP TABLE IF EXISTS `catalog_furnitures`;
 CREATE TABLE `catalog_furnitures` (
   `id` int(11) unsigned NOT NULL,
   `flat_id` int(11) NOT NULL DEFAULT '-1',
-  `item_name` varchar(100) NOT NULL,
-  `type` enum('s','i','e','h','v','b','r') NOT NULL DEFAULT 's',
-  `stack_height` varchar(255) NOT NULL DEFAULT '1',
-  `can_stack` enum('0','1') NOT NULL DEFAULT '1',
-  `allow_recycle` enum('0','1') NOT NULL DEFAULT '1',
-  `allow_trade` enum('0','1') NOT NULL DEFAULT '1',
-  `allow_marketplace_sell` enum('0','1') NOT NULL DEFAULT '1',
-  `allow_gift` enum('0','1') NOT NULL DEFAULT '1',
-  `allow_inventory_stack` enum('0','1') NOT NULL DEFAULT '1',
-  `interaction_type` varchar(255) NOT NULL DEFAULT 'default',
-  `interaction_modes_count` int(11) NOT NULL DEFAULT '1',
-  `vending_ids` varchar(100) NOT NULL DEFAULT '0',
-  `subscriber` enum('0','1') NOT NULL DEFAULT '0',
-  `effectid` int(11) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=5153 DEFAULT CHARSET=latin1;
+  `item_name` varchar(100) CHARACTER SET utf8mb4 NOT NULL,
+  `type` enum('s','i','e','h','v','b','r') CHARACTER SET utf8mb4 NOT NULL DEFAULT 's',
+  `stack_height` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '1',
+  `can_stack` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '1',
+  `allow_recycle` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '1',
+  `allow_trade` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '1',
+  `allow_marketplace_sell` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '1',
+  `allow_gift` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '1',
+  `allow_inventory_stack` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '1',
+  `interaction_type` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT 'default',
+  `interaction_modes_count` int(11) unsigned NOT NULL DEFAULT '1',
+  `vending_ids` varchar(100) CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
+  `subscriber` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
+  `effectid` int(11) unsigned NOT NULL DEFAULT '0'
+) ENGINE=InnoDB AUTO_INCREMENT=5153 DEFAULT CHARSET=latin1;
 
 --
 -- Extraindo dados da tabela `catalog_furnitures`
@@ -2373,7 +2365,6 @@ INSERT INTO `catalog_furnitures` (`id`, `flat_id`, `item_name`, `type`, `stack_h
 (1970, -1, 'avatar_effect1', 'e', '1', '0', '0', '0', '0', '0', '1', 'default', 1, '0', '0', 0),
 (1971, -1, 'avatar_effect13', 'e', '1', '0', '0', '0', '0', '0', '1', 'default', 1, '0', '0', 0),
 (1972, -1, 'wallpaper', 'i', '1', '0', '0', '0', '0', '1', '0', 'roomeffect', 1, '0', '0', 0),
-(5065, -1, 'DEAL_HC_3', 'h', '0', '0', '0', '0', '0', '0', '0', 'default', 0, '0', '0', 0),
 (1974, -1, 'hween09_floor', 's', '0', '1', '0', '0', '0', '1', '1', 'default', 1, '0', '0', 0),
 (1975, -1, 'hween09_jar', 's', '1', '0', '0', '0', '0', '1', '1', 'default', 2, '0', '0', 0),
 (1976, -1, 'urban_bench_plain', 's', '1', '0', '0', '1', '0', '1', '1', 'default', 1, '0', '0', 0),
@@ -5471,6 +5462,7 @@ INSERT INTO `catalog_furnitures` (`id`, `flat_id`, `item_name`, `type`, `stack_h
 (5062, -1, 'a0 pet2', 's', '1', '0', '0', '0', '0', '0', '0', 'pet2', 0, '0', '0', 0),
 (5063, -1, 'a0 pet22', 's', '1', '0', '0', '0', '0', '0', '0', 'pet22', 0, '0', '0', 0),
 (5064, -1, 'a0 pet12', 's', '1', '0', '0', '0', '0', '0', '0', 'pet0', 0, '0', '0', 0),
+(5065, -1, 'DEAL_HC_3', 'h', '0', '0', '0', '0', '0', '0', '0', 'default', 0, '0', '0', 0),
 (5066, -1, 'DEAL_HC_6', 'h', '0', '0', '0', '0', '0', '0', '0', 'default', 0, '0', '0', 0),
 (5067, -1, 'external_image_wallitem_poster', 'i', '0', '1', '1', '1', '1', '1', '1', 'default', 1, '0', '0', 0),
 (5068, -1, 'room_ad_plus_badge', 'b', '0', '0', '0', '0', '0', '0', '0', 'default', 1, '0', '0', 0),
@@ -5567,31 +5559,31 @@ INSERT INTO `catalog_furnitures` (`id`, `flat_id`, `item_name`, `type`, `stack_h
 
 DROP TABLE IF EXISTS `catalog_items`;
 CREATE TABLE `catalog_items` (
-  `id` int(6) unsigned NOT NULL,
-  `page_id` int(3) NOT NULL DEFAULT '0',
-  `item_names` varchar(255) DEFAULT '',
-  `specialName` varchar(50) DEFAULT NULL,
-  `cost_credits` int(11) NOT NULL,
-  `cost_diamonds` int(11) NOT NULL,
-  `cost_loyalty` int(11) NOT NULL DEFAULT '0',
-  `cost_duckets` int(11) NOT NULL,
-  `amounts` varchar(120) NOT NULL,
+  `id` int(11) unsigned NOT NULL,
+  `page_id` int(3) unsigned NOT NULL,
+  `item_names` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `special_name` varchar(50) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `cost_credits` int(11) unsigned NOT NULL,
+  `cost_diamonds` int(11) unsigned NOT NULL,
+  `cost_loyalty` int(11) unsigned NOT NULL DEFAULT '0',
+  `cost_duckets` int(11) unsigned NOT NULL,
+  `amounts` varchar(120) CHARACTER SET utf8mb4 NOT NULL,
   `achievement` int(4) unsigned NOT NULL DEFAULT '0',
   `song_id` int(11) unsigned NOT NULL DEFAULT '0',
   `limited_sells` int(11) NOT NULL DEFAULT '0',
   `limited_stack` int(11) NOT NULL DEFAULT '0',
-  `offer_active` enum('0','1') NOT NULL DEFAULT '1',
-  `club_only` enum('1','0') NOT NULL DEFAULT '0',
-  `extradata` varchar(255) NOT NULL,
-  `badge` varchar(20) NOT NULL DEFAULT '',
-  `order_num` int(11) DEFAULT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=4846 DEFAULT CHARSET=latin1;
+  `offer_active` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '1',
+  `club_only` enum('1','0') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
+  `extradata` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+  `badge` varchar(20) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
+  `order_num` int(11) unsigned DEFAULT '1'
+) ENGINE=InnoDB AUTO_INCREMENT=4846 DEFAULT CHARSET=latin1;
 
 --
 -- Extraindo dados da tabela `catalog_items`
 --
 
-INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `specialName`, `cost_credits`, `cost_diamonds`, `cost_loyalty`, `cost_duckets`, `amounts`, `achievement`, `song_id`, `limited_sells`, `limited_stack`, `offer_active`, `club_only`, `extradata`, `badge`, `order_num`) VALUES
+INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `special_name`, `cost_credits`, `cost_diamonds`, `cost_loyalty`, `cost_duckets`, `amounts`, `achievement`, `song_id`, `limited_sells`, `limited_stack`, `offer_active`, `club_only`, `extradata`, `badge`, `order_num`) VALUES
 (1, 13, 'landscape', 'landscape_single_1.1', 3, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2, 74, 'byesw_hand', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (3, 121, 'byesw_hotel', NULL, 15000, 0, 0, 500, '1', 0, 0, 99, 0, '0', '0', '', '', NULL),
@@ -6174,7 +6166,7 @@ INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `specialName`, `cost
 (581, 52, 'bolly_tile1', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (582, 52, 'bolly_drapea', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (583, 52, 'bolly_wdw_wd', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL);
-INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `specialName`, `cost_credits`, `cost_diamonds`, `cost_loyalty`, `cost_duckets`, `amounts`, `achievement`, `song_id`, `limited_sells`, `limited_stack`, `offer_active`, `club_only`, `extradata`, `badge`, `order_num`) VALUES
+INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `special_name`, `cost_credits`, `cost_diamonds`, `cost_loyalty`, `cost_duckets`, `amounts`, `achievement`, `song_id`, `limited_sells`, `limited_stack`, `offer_active`, `club_only`, `extradata`, `badge`, `order_num`) VALUES
 (584, 51, 'SF_reactor', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (585, 51, 'SF_crate_2', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (586, 51, 'SF_chair_blue', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
@@ -6759,7 +6751,7 @@ INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `specialName`, `cost
 (1165, 6, 'hcc_table', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '1', '', '', NULL),
 (1166, 6, 'hcc_shelf', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '1', '', '', NULL),
 (1167, 6, 'hcc_sofa', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '1', '', '', NULL);
-INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `specialName`, `cost_credits`, `cost_diamonds`, `cost_loyalty`, `cost_duckets`, `amounts`, `achievement`, `song_id`, `limited_sells`, `limited_stack`, `offer_active`, `club_only`, `extradata`, `badge`, `order_num`) VALUES
+INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `special_name`, `cost_credits`, `cost_diamonds`, `cost_loyalty`, `cost_duckets`, `amounts`, `achievement`, `song_id`, `limited_sells`, `limited_stack`, `offer_active`, `club_only`, `extradata`, `badge`, `order_num`) VALUES
 (1168, 6, 'hcc_minibar', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '1', '', '', NULL),
 (1169, 6, 'hcc_chair', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '1', '', '', NULL),
 (1170, 6, 'hcc_stool', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '1', '', '', NULL),
@@ -7335,7 +7327,7 @@ INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `specialName`, `cost
 (1744, 24, 'env_tree4', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (1745, 24, 'env_tree2', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (1746, 24, 'env_tree1', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL);
-INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `specialName`, `cost_credits`, `cost_diamonds`, `cost_loyalty`, `cost_duckets`, `amounts`, `achievement`, `song_id`, `limited_sells`, `limited_stack`, `offer_active`, `club_only`, `extradata`, `badge`, `order_num`) VALUES
+INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `special_name`, `cost_credits`, `cost_diamonds`, `cost_loyalty`, `cost_duckets`, `amounts`, `achievement`, `song_id`, `limited_sells`, `limited_stack`, `offer_active`, `club_only`, `extradata`, `badge`, `order_num`) VALUES
 (1747, 24, 'env_bushes_gate', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (1748, 24, 'env_bushes', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (1749, 24, 'env_tree3', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
@@ -7892,7 +7884,7 @@ INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `specialName`, `cost
 (2301, 13, 'floor', 'floor_single_103', 2, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2302, 13, 'floor', 'floor_single_104', 2, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2303, 13, 'floor', 'floor_single_105', 2, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL);
-INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `specialName`, `cost_credits`, `cost_diamonds`, `cost_loyalty`, `cost_duckets`, `amounts`, `achievement`, `song_id`, `limited_sells`, `limited_stack`, `offer_active`, `club_only`, `extradata`, `badge`, `order_num`) VALUES
+INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `special_name`, `cost_credits`, `cost_diamonds`, `cost_loyalty`, `cost_duckets`, `amounts`, `achievement`, `song_id`, `limited_sells`, `limited_stack`, `offer_active`, `club_only`, `extradata`, `badge`, `order_num`) VALUES
 (2304, 13, 'floor', 'floor_single_106', 2, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2305, 13, 'floor', 'floor_single_107', 0, 100, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2306, 13, 'floor', 'floor_single_108', 2, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
@@ -8464,7 +8456,7 @@ INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `specialName`, `cost
 (2873, 44, 'cine_bench_b', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2874, 44, 'theatre_seat_b', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2875, 44, 'cine_roof', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL);
-INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `specialName`, `cost_credits`, `cost_diamonds`, `cost_loyalty`, `cost_duckets`, `amounts`, `achievement`, `song_id`, `limited_sells`, `limited_stack`, `offer_active`, `club_only`, `extradata`, `badge`, `order_num`) VALUES
+INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `special_name`, `cost_credits`, `cost_diamonds`, `cost_loyalty`, `cost_duckets`, `amounts`, `achievement`, `song_id`, `limited_sells`, `limited_stack`, `offer_active`, `club_only`, `extradata`, `badge`, `order_num`) VALUES
 (2876, 44, 'cine_popcorn', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2877, 44, 'cine_bench', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2878, 44, 'cine_bench_g', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
@@ -9034,7 +9026,7 @@ INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `specialName`, `cost
 (3444, 58, 'prizetrophy7*3', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (3445, 58, 'prizetrophy9*1', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (3446, 58, 'prizetrophy8*1', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL);
-INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `specialName`, `cost_credits`, `cost_diamonds`, `cost_loyalty`, `cost_duckets`, `amounts`, `achievement`, `song_id`, `limited_sells`, `limited_stack`, `offer_active`, `club_only`, `extradata`, `badge`, `order_num`) VALUES
+INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `special_name`, `cost_credits`, `cost_diamonds`, `cost_loyalty`, `cost_duckets`, `amounts`, `achievement`, `song_id`, `limited_sells`, `limited_stack`, `offer_active`, `club_only`, `extradata`, `badge`, `order_num`) VALUES
 (3447, 31, 'greektrophy*1', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (3448, 58, 'greektrophy*2', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (3449, 58, 'greektrophy*3', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
@@ -9610,7 +9602,7 @@ INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `specialName`, `cost
 (4026, 101, 'bc_block_redbrick*3', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (4027, 101, 'bc_block_redbrick*4', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (4028, 101, 'bc_block_redbrick*5', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL);
-INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `specialName`, `cost_credits`, `cost_diamonds`, `cost_loyalty`, `cost_duckets`, `amounts`, `achievement`, `song_id`, `limited_sells`, `limited_stack`, `offer_active`, `club_only`, `extradata`, `badge`, `order_num`) VALUES
+INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `special_name`, `cost_credits`, `cost_diamonds`, `cost_loyalty`, `cost_duckets`, `amounts`, `achievement`, `song_id`, `limited_sells`, `limited_stack`, `offer_active`, `club_only`, `extradata`, `badge`, `order_num`) VALUES
 (4029, 101, 'bc_block_redbrick*6', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (4030, 101, 'bc_block_redbrick*7', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (4031, 101, 'bc_block_artdeco1*1', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
@@ -10161,7 +10153,7 @@ INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `specialName`, `cost
 (4599, 156, 'wf_act_move_furni_to', NULL, 6, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (4600, 156, 'wf_act_toggle_to_rnd', NULL, 6, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (4601, 121, 'wf_act_give_reward', NULL, 6, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL);
-INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `specialName`, `cost_credits`, `cost_diamonds`, `cost_loyalty`, `cost_duckets`, `amounts`, `achievement`, `song_id`, `limited_sells`, `limited_stack`, `offer_active`, `club_only`, `extradata`, `badge`, `order_num`) VALUES
+INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `special_name`, `cost_credits`, `cost_diamonds`, `cost_loyalty`, `cost_duckets`, `amounts`, `achievement`, `song_id`, `limited_sells`, `limited_stack`, `offer_active`, `club_only`, `extradata`, `badge`, `order_num`) VALUES
 (4602, 156, 'wf_act_kick_user', NULL, 6, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (4603, 155, 'wf_trg_period_long', NULL, 6, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (4605, 156, 'wf_act_chase', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
@@ -10262,7 +10254,6 @@ INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `specialName`, `cost
 (4700, 121, 'prizetrophy_room2*3', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '0', '0', '', '', NULL),
 (4741, 256, 'pet_breeding_bear', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (4742, 256, 'pet_breeding_terrier', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
-(4757, 257, 'song_disk', 'SONG WhoDaresStacks', 5, 0, 0, 0, '1', 0, 2, 0, 0, '1', '0', 'who_dares_stacks', '', NULL),
 (4745, 5, 'DEAL_HC_1', 'HABBO_CLUB_VIP_1_MONTH', 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (4746, 5, 'DEAL_HC_1', 'HABBO_CLUB_VIP_6_MONTHS', 27, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (4747, 5, 'DEAL_HC_1', 'HABBO_CLUB_VIP_3_MONTHS', 14, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
@@ -10275,6 +10266,7 @@ INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `specialName`, `cost
 (4754, 88, 'a0 pet2', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (4755, 87, 'a0 pet22', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (4756, 96, 'a0 pet12', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
+(4757, 257, 'song_disk', 'SONG WhoDaresStacks', 5, 0, 0, 0, '1', 0, 2, 0, 0, '1', '0', 'who_dares_stacks', '', NULL),
 (4758, 257, 'song_disk', 'SONG ElectricPixels', 5, 0, 0, 0, '1', 0, 3, 0, 0, '1', '0', 'electric_pixels', '', NULL),
 (4759, 257, 'song_disk', 'SONG GalacticDisco', 5, 0, 0, 0, '1', 0, 4, 0, 0, '1', '0', 'galactic_disco', '', NULL),
 (4760, 257, 'song_disk', 'SONG LostMyTapesAtWhoa', 5, 0, 0, 0, '1', 0, 5, 0, 0, '1', '0', 'lost_my_tapes_at_goa', '', NULL),
@@ -10374,26 +10366,26 @@ DROP TABLE IF EXISTS `catalog_pages`;
 CREATE TABLE `catalog_pages` (
   `id` int(3) unsigned NOT NULL,
   `parent_id` int(3) NOT NULL DEFAULT '-1',
-  `code_name` varchar(255) NOT NULL DEFAULT '',
-  `caption` varchar(100) NOT NULL,
+  `code_name` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
+  `caption` varchar(100) CHARACTER SET utf8mb4 NOT NULL,
   `icon_image` int(11) NOT NULL DEFAULT '1',
-  `visible` enum('0','1') NOT NULL DEFAULT '1',
-  `enabled` enum('0','1') NOT NULL DEFAULT '1',
-  `min_rank` int(10) unsigned NOT NULL DEFAULT '1',
-  `club_only` enum('0','1') NOT NULL DEFAULT '0',
-  `order_num` int(11) NOT NULL,
-  `page_layout` varchar(225) NOT NULL DEFAULT 'default_3x3',
-  `page_headline` text NOT NULL,
-  `page_teaser` text NOT NULL,
-  `page_special` text NOT NULL,
-  `page_text1` text NOT NULL,
-  `page_text2` text NOT NULL,
-  `page_text_details` text NOT NULL,
-  `page_text_teaser` text NOT NULL,
-  `vip_only` enum('1','0') NOT NULL DEFAULT '0',
-  `page_link_description` text NOT NULL,
-  `page_link_pagename` text NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=258 DEFAULT CHARSET=latin1;
+  `visible` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '1',
+  `enabled` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '1',
+  `min_rank` int(3) unsigned NOT NULL DEFAULT '1',
+  `club_only` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
+  `order_num` int(11) unsigned NOT NULL,
+  `page_layout` varchar(100) CHARACTER SET utf8mb4 NOT NULL DEFAULT 'default_3x3',
+  `page_headline` text CHARACTER SET utf8mb4 NOT NULL,
+  `page_teaser` text CHARACTER SET utf8mb4 NOT NULL,
+  `page_special` text CHARACTER SET utf8mb4 NOT NULL,
+  `page_text1` text CHARACTER SET utf8mb4 NOT NULL,
+  `page_text2` text CHARACTER SET utf8mb4 NOT NULL,
+  `page_text_details` text CHARACTER SET utf8mb4 NOT NULL,
+  `page_text_teaser` text CHARACTER SET utf8mb4 NOT NULL,
+  `vip_only` enum('1','0') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
+  `page_link_description` text CHARACTER SET utf8mb4 NOT NULL,
+  `page_link_pagename` text CHARACTER SET utf8mb4 NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=258 DEFAULT CHARSET=latin1;
 
 --
 -- Extraindo dados da tabela `catalog_pages`
@@ -10639,18 +10631,18 @@ INSERT INTO `catalog_pages` (`id`, `parent_id`, `code_name`, `caption`, `icon_im
 DROP TABLE IF EXISTS `catalog_targeted_offers`;
 CREATE TABLE `catalog_targeted_offers` (
   `id` int(11) NOT NULL,
-  `identifier` varchar(255) NOT NULL,
-  `cost_credits` int(11) NOT NULL DEFAULT '0',
-  `cost_duckets` int(11) NOT NULL DEFAULT '0',
-  `cost_diamonds` int(11) NOT NULL DEFAULT '0',
-  `purchase_limit` int(11) NOT NULL DEFAULT '1',
-  `expiration_time` int(11) NOT NULL DEFAULT '60',
-  `title` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  `image` varchar(255) NOT NULL,
-  `products` varchar(255) NOT NULL,
-  `enabled` enum('0','1') NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  `identifier` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+  `cost_credits` int(11) unsigned NOT NULL DEFAULT '0',
+  `cost_duckets` int(11) unsigned NOT NULL DEFAULT '0',
+  `cost_diamonds` int(11) unsigned NOT NULL DEFAULT '0',
+  `purchase_limit` int(11) unsigned NOT NULL DEFAULT '1',
+  `expiration_time` int(11) unsigned NOT NULL DEFAULT '60',
+  `title` varchar(120) CHARACTER SET utf8mb4 NOT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+  `image` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+  `products` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+  `enabled` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -10660,10 +10652,10 @@ CREATE TABLE `catalog_targeted_offers` (
 
 DROP TABLE IF EXISTS `catalog_wearables`;
 CREATE TABLE `catalog_wearables` (
-  `id` int(11) NOT NULL,
-  `item_name` varchar(255) NOT NULL,
-  `clothings` varchar(255) NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=53 DEFAULT CHARSET=latin1;
+  `id` int(11) unsigned NOT NULL,
+  `item_name` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+  `clothings` varchar(255) CHARACTER SET utf8mb4 NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=latin1;
 
 --
 -- Extraindo dados da tabela `catalog_wearables`
@@ -10770,16 +10762,16 @@ CREATE TABLE `cms_stories_photos_preview` (
 DROP TABLE IF EXISTS `groups_badges_parts`;
 CREATE TABLE `groups_badges_parts` (
   `id` int(255) NOT NULL,
-  `code` varchar(255) NOT NULL,
-  `code2` varchar(255) NOT NULL DEFAULT '',
-  `type` varchar(255) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `code` varchar(100) CHARACTER SET utf8mb4 NOT NULL,
+  `second_code` varchar(100) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
+  `type` varchar(100) CHARACTER SET utf8mb4 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `groups_badges_parts`
 --
 
-INSERT INTO `groups_badges_parts` (`id`, `code`, `code2`, `type`) VALUES
+INSERT INTO `groups_badges_parts` (`id`, `code`, `second_code`, `type`) VALUES
 (1, 'base_basic_1.gif', '', 'base'),
 (2, 'base_basic_2.gif', '', 'base'),
 (3, 'base_basic_3.gif', '', 'base'),
@@ -11270,29 +11262,29 @@ INSERT INTO `groups_badges_parts` (`id`, `code`, `code2`, `type`) VALUES
 DROP TABLE IF EXISTS `groups_data`;
 CREATE TABLE `groups_data` (
   `id` int(11) unsigned NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `desc` varchar(255) NOT NULL,
-  `badge` varchar(50) NOT NULL,
+  `group_name` varchar(50) CHARACTER SET utf8mb4 NOT NULL,
+  `group_description` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+  `group_badge` varchar(50) CHARACTER SET utf8mb4 NOT NULL,
   `owner_id` int(11) unsigned NOT NULL,
   `created` int(50) NOT NULL,
   `room_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `state` enum('0','1','2') NOT NULL DEFAULT '0',
+  `state` enum('0','1','2') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
   `colour1` int(11) NOT NULL DEFAULT '242424',
   `colour2` int(11) NOT NULL DEFAULT '242424',
-  `admindeco` enum('0','1') DEFAULT '1',
-  `has_forum` enum('0','1') NOT NULL DEFAULT '0',
-  `forum_name` varchar(255) NOT NULL DEFAULT '',
-  `forum_description` varchar(4096) NOT NULL DEFAULT '',
+  `admindeco` enum('0','1') CHARACTER SET utf8mb4 DEFAULT '1' COMMENT 'Administrators can Decorate',
+  `has_forum` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
+  `forum_name` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
+  `forum_description` text CHARACTER SET utf8mb4 NOT NULL,
   `forum_messages_count` int(11) unsigned NOT NULL DEFAULT '0',
-  `forum_score` varchar(255) NOT NULL DEFAULT '0',
+  `forum_score` int(255) unsigned NOT NULL DEFAULT '0',
   `forum_lastposter_id` int(11) unsigned NOT NULL DEFAULT '0',
-  `forum_lastposter_name` varchar(255) NOT NULL DEFAULT '0',
-  `forum_lastposter_timestamp` int(11) NOT NULL DEFAULT '0',
-  `who_can_read` int(11) NOT NULL DEFAULT '0',
-  `who_can_post` int(11) NOT NULL DEFAULT '1',
-  `who_can_thread` int(11) NOT NULL DEFAULT '1',
-  `who_can_mod` int(11) NOT NULL DEFAULT '2'
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  `forum_lastposter_name` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
+  `forum_lastposter_timestamp` int(11) unsigned NOT NULL DEFAULT '0',
+  `who_can_read` int(2) unsigned NOT NULL DEFAULT '0',
+  `who_can_post` int(2) unsigned NOT NULL DEFAULT '1',
+  `who_can_thread` int(2) unsigned NOT NULL DEFAULT '1',
+  `who_can_mod` int(2) unsigned NOT NULL DEFAULT '2'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -11306,16 +11298,16 @@ CREATE TABLE `groups_forums_posts` (
   `parent_id` int(11) unsigned NOT NULL DEFAULT '0',
   `group_id` int(11) unsigned NOT NULL,
   `timestamp` int(11) NOT NULL,
-  `pinned` enum('0','1') NOT NULL DEFAULT '0',
-  `locked` enum('0','1') NOT NULL DEFAULT '0',
-  `hidden` enum('0','1') NOT NULL DEFAULT '0',
+  `pinned` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
+  `locked` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
+  `hidden` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
   `poster_id` int(11) unsigned NOT NULL,
-  `poster_name` varchar(255) NOT NULL,
-  `poster_look` varchar(1024) NOT NULL,
-  `subject` varchar(1024) NOT NULL,
-  `post_content` text NOT NULL,
-  `post_hider` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `poster_name` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+  `poster_look` varchar(1024) CHARACTER SET utf8mb4 NOT NULL,
+  `subject` varchar(1024) CHARACTER SET utf8mb4 NOT NULL,
+  `post_content` text CHARACTER SET utf8mb4 NOT NULL,
+  `post_hider` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -12148,20 +12140,24 @@ CREATE TABLE `pets_plants` (
 
 DROP TABLE IF EXISTS `pets_speech`;
 CREATE TABLE `pets_speech` (
-  `pet_id` varchar(255) NOT NULL,
+  `pet_id` varchar(255) NOT NULL DEFAULT '0' COMMENT 'Pet Type Id',
   `responses` text NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Extraindo dados da tabela `pets_speech`
 --
 
 INSERT INTO `pets_speech` (`pet_id`, `responses`) VALUES
+('pet.done', '*Happy*;This is so fun!*-*;I love it!*;*Feeling happy*;I like it!'),
 ('pet.lazy', 'No thanks.;No and no.;Better no..'),
 ('pet.playful', 'Feeling like.. wanna play;Come on, play with me.;Ya know, I feel bored... so let''s play'),
 ('pet.respected', 'You have that touch! You have the power!;*Feeling so happy*'),
-('tired', 'ZzZ...;Zzz... *This feels so good*;ZzZ... yay sleeping..;*Dreaming...*;I really need to sleep.'),
+('pet.thirsty', 'I feel so thirsty!;I want to drink something please!;Pleeeease, water pleeease!'),
 ('pet.unknowncommand', 'No way!;I don''t understand you;Your language is weird.;If I only knew what you''re saying...'),
+('pet.while.drink', '*drinking*'),
+('pet.while.eat', 'This is delicious;I feel like having dinner with the kings!'),
+('speech.pet.26', 'I''m having fun!;Once upon a time I was happy... and it was horrid.;Let''s sing the Jingle Bells!;Are you really going to wear that?;Let''s play something!;Who called me ''ugly''?'),
 ('speech.pet0', 'Woof woof!;Woooof!;Woof woof woof!'),
 ('speech.pet1', 'Meow;Meow meow;Meeow!;Meow meow meow...'),
 ('speech.pet10', 'Grrr;'),
@@ -12170,6 +12166,7 @@ INSERT INTO `pets_speech` (`pet_id`, `responses`) VALUES
 ('speech.pet13', 'I''m your best friend!;So... wanna take a ride?;Hmm... *I feel very bored*;Let''s ride together!;Hello!'),
 ('speech.pet14', 'Grrr;'),
 ('speech.pet15', 'neiiigh;*trots around*;Neeeigh;*looks at*;*flicks tail*;'),
+('speech.pet16', '*Fart*;*Burp*;I''m not Mr. Lordi''s small brother;Ya know what''d be great? Having legs!;I used to be George Michael''s double.;You''re so special...;Choo choo!;Someday I''ll be huge and everyone will love me!;*poking my nose*;*grr?*;Hey hey hey!;OMG! How are you?;I would like to play the bass, but I haven''t got any hands.'),
 ('speech.pet2', 'Grrrr...;Rrrr...;*hmm*;*sneeze*;*wanting to sleep*'),
 ('speech.pet3', 'Â¡Woof, woof!;Guau, guau;Guauuu'),
 ('speech.pet4', '*pack of fresh salmon please*;Rawrrr!;*sniff sniff*;Yawnnnn..;Rawr! ... Rawrrrrr?;snf;'),
@@ -12178,13 +12175,8 @@ INSERT INTO `pets_speech` (`pet_id`, `responses`) VALUES
 ('speech.pet7', 'Grrr;'),
 ('speech.pet8', 'Grrr;'),
 ('speech.pet9', 'Grrr;'),
-('speech.pet16', '*Fart*;*Burp*;I''m not Mr. Lordi''s small brother;Ya know what''d be great? Having legs!;I used to be George Michael''s double.;You''re so special...;Choo choo!;Someday I''ll be huge and everyone will love me!;*poking my nose*;*grr?*;Hey hey hey!;OMG! How are you?;I would like to play the bass, but I haven''t got any hands.'),
-('speech.pet.26', 'I''m having fun!;Once upon a time I was happy... and it was horrid.;Let''s sing the Jingle Bells!;Are you really going to wear that?;Let''s play something!;Who called me ''ugly''?'),
-('pet.thirsty', 'I feel so thirsty!;I want to drink something please!;Pleeeease, water pleeease!'),
-('pet.while.drink', '*drinking*'),
-('pet.while.eat', 'This is delicious;I feel like having dinner with the kings!'),
-('welcome.speech.pet', 'Long time no see, ;Hi, '),
-('pet.done', '*Happy*;This is so fun!*-*;I love it!*;*Feeling happy*;I like it!');
+('tired', 'ZzZ...;Zzz... *This feels so good*;ZzZ... yay sleeping..;*Dreaming...*;I really need to sleep.'),
+('welcome.speech.pet', 'Long time no see, ;Hi, ');
 
 -- --------------------------------------------------------
 
@@ -13457,13 +13449,15 @@ CREATE TABLE `wordfilter` (
 -- Indexes for table `achievements_data`
 --
 ALTER TABLE `achievements_data`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id` (`id`);
 
 --
 -- Indexes for table `bots_commands`
 --
 ALTER TABLE `bots_commands`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `bot_type` (`bot_type`);
 
 --
 -- Indexes for table `bots_data`
@@ -13471,13 +13465,15 @@ ALTER TABLE `bots_commands`
 ALTER TABLE `bots_data`
   ADD PRIMARY KEY (`id`),
   ADD KEY `room_id` (`room_id`) USING BTREE,
-  ADD KEY `user_id` (`user_id`) USING BTREE;
+  ADD KEY `user_id` (`user_id`) USING BTREE,
+  ADD KEY `bot_type` (`bot_type`);
 
 --
 -- Indexes for table `catalog_bots`
 --
 ALTER TABLE `catalog_bots`
-  ADD PRIMARY KEY (`bot_type`);
+  ADD PRIMARY KEY (`bot_type`),
+  ADD KEY `bot_type` (`bot_type`);
 
 --
 -- Indexes for table `catalog_ecotron_items`
@@ -13489,19 +13485,22 @@ ALTER TABLE `catalog_ecotron_items`
 -- Indexes for table `catalog_furnitures`
 --
 ALTER TABLE `catalog_furnitures`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `item_name` (`item_name`);
 
 --
 -- Indexes for table `catalog_items`
 --
 ALTER TABLE `catalog_items`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `page_id` (`page_id`);
 
 --
 -- Indexes for table `catalog_pages`
 --
 ALTER TABLE `catalog_pages`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id` (`id`);
 
 --
 -- Indexes for table `catalog_targeted_offers`
@@ -13532,7 +13531,10 @@ ALTER TABLE `cms_stories_photos_preview`
 --
 ALTER TABLE `groups_data`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id` (`id`) USING BTREE;
+  ADD KEY `id` (`id`) USING BTREE,
+  ADD KEY `id_2` (`id`),
+  ADD KEY `owner_id` (`owner_id`),
+  ADD KEY `room_id` (`room_id`);
 
 --
 -- Indexes for table `groups_forums_posts`
@@ -14049,17 +14051,17 @@ ALTER TABLE `achievements_data`
 -- AUTO_INCREMENT for table `bots_commands`
 --
 ALTER TABLE `bots_commands`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `bots_data`
 --
 ALTER TABLE `bots_data`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `catalog_ecotron_items`
 --
 ALTER TABLE `catalog_ecotron_items`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `catalog_furnitures`
 --
@@ -14069,7 +14071,7 @@ ALTER TABLE `catalog_furnitures`
 -- AUTO_INCREMENT for table `catalog_items`
 --
 ALTER TABLE `catalog_items`
-  MODIFY `id` int(6) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4846;
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4846;
 --
 -- AUTO_INCREMENT for table `catalog_pages`
 --
@@ -14084,7 +14086,7 @@ ALTER TABLE `catalog_targeted_offers`
 -- AUTO_INCREMENT for table `catalog_wearables`
 --
 ALTER TABLE `catalog_wearables`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=53;
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=53;
 --
 -- AUTO_INCREMENT for table `cms_stories_photos`
 --
@@ -14320,6 +14322,23 @@ ALTER TABLE `users_videos_youtube`
 --
 ALTER TABLE `wordfilter`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id';
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Limitadores para a tabela `bots_commands`
+--
+ALTER TABLE `bots_commands`
+  ADD CONSTRAINT `bots_commands_bot_type` FOREIGN KEY (`bot_type`) REFERENCES `catalog_bots` (`bot_type`);
+
+--
+-- Limitadores para a tabela `bots_data`
+--
+ALTER TABLE `bots_data`
+  ADD CONSTRAINT `bots_data_bot_type` FOREIGN KEY (`bot_type`) REFERENCES `catalog_bots` (`bot_type`),
+  ADD CONSTRAINT `bots_data_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

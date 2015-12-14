@@ -12,6 +12,7 @@ using Yupi.Game.Items.Interfaces;
 using Yupi.Game.Items.Wired;
 using Yupi.Game.Pets;
 using Yupi.Game.Pets.Enums;
+using Yupi.Game.Pets.Structs;
 using Yupi.Game.Quests;
 using Yupi.Game.RoomBots;
 using Yupi.Game.RoomBots.Enumerators;
@@ -217,28 +218,32 @@ namespace Yupi.Messages.Handlers
         internal void GetTrainerPanel()
         {
             var petId = Request.GetUInteger();
+
             var currentRoom = Session.GetHabbo().CurrentRoom;
+
             if (currentRoom == null)
                 return;
+
             Pet petData;
+
             if ((petData = currentRoom.GetRoomUserManager().GetPet(petId).PetData) == null)
                 return;
-            //var arg_3F_0 = petData.Level;
+
             Response.Init(LibraryParser.OutgoingRequest("PetTrainerPanelMessageComposer"));
             Response.AppendInteger(petData.PetId);
 
-            var availableCommands = new List<short>();
+            Dictionary<uint, PetCommand> totalPetCommands = PetCommandHandler.GetAllPetCommands();
 
-            Response.AppendInteger(petData.PetCommands.Count);
-            foreach (short sh in petData.PetCommands.Keys)
-            {
+            Dictionary<uint, PetCommand> petCommands = PetCommandHandler.GetPetCommandByPetType(petData.Type);
+
+            Response.AppendInteger(totalPetCommands.Count);
+
+            foreach (var sh in totalPetCommands.Keys)
                 Response.AppendInteger(sh);
-                if (petData.PetCommands[sh])
-                    availableCommands.Add(sh);
-            }
 
-            Response.AppendInteger(availableCommands.Count);
-            foreach (short sh in availableCommands)
+            Response.AppendInteger(petCommands.Count);
+
+            foreach (var sh in petCommands.Keys)
                 Response.AppendInteger(sh);
 
             SendResponse();

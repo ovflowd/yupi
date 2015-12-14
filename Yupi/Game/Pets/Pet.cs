@@ -341,10 +341,10 @@ namespace Yupi.Game.Pets
             {
                 Respect++;
                 var ownerSession = Yupi.GetGame().GetClientManager().GetClientByUserId(OwnerId);
+
                 if (ownerSession != null)
-                    Yupi.GetGame()
-                        .GetAchievementManager()
-                        .ProgressUserAchievement(ownerSession, "ACH_PetRespectReceiver", 1);
+                    Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(ownerSession, "ACH_PetRespectReceiver", 1);
+
                 var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("RespectPetMessageComposer"));
                 serverMessage.AppendInteger(VirtualId);
                 serverMessage.AppendBool(true);
@@ -358,10 +358,13 @@ namespace Yupi.Game.Pets
 
                 if (DbState != DatabaseUpdateState.NeedsInsert)
                     DbState = DatabaseUpdateState.NeedsUpdate;
+
                 if (Type != 16 && Experience <= 51900)
                     AddExperience(10);
+
                 if (Type == 16)
                     Energy = 100;
+
                 LastHealth = DateTime.Now.AddSeconds(129600.0);
             }
         }
@@ -397,6 +400,8 @@ namespace Yupi.Game.Pets
 
             var ownerSession = Yupi.GetGame().GetClientManager().GetClientByUserId(OwnerId);
 
+            Dictionary<uint, PetCommand> totalPetCommands = PetCommandHandler.GetAllPetCommands();
+
             Dictionary<uint, PetCommand> petCommands = PetCommandHandler.GetPetCommandByPetType(Type);
 
             if (ownerSession == null)
@@ -405,15 +410,18 @@ namespace Yupi.Game.Pets
             var levelNotify = new ServerMessage(LibraryParser.OutgoingRequest("NotifyNewPetLevelMessageComposer"));
 
             SerializeInventory(levelNotify, true);
+
             ownerSession.SendMessage(levelNotify);
 
             var tp = new ServerMessage();
+
             tp.Init(LibraryParser.OutgoingRequest("PetTrainerPanelMessageComposer"));
+
             tp.AppendInteger(PetId);
 
-            tp.AppendInteger(petCommands.Count);
+            tp.AppendInteger(totalPetCommands.Count);
 
-            foreach (var sh in petCommands.Keys)
+            foreach (var sh in totalPetCommands.Keys)
                 tp.AppendInteger(sh);
 
             tp.AppendInteger(petCommands.Count);

@@ -8,7 +8,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Timers;
-using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using Yupi.Core.Encryption;
 using Yupi.Core.Io;
@@ -156,7 +155,7 @@ namespace Yupi
         /// <returns>ICollection&lt;IPlugin&gt;.</returns>
         public static ICollection<IPlugin> LoadPlugins()
         {
-            string path = Application.StartupPath + "Plugins";
+            string path = Path.Combine(YupiVariablesDirectory, "Plugins");
 
             if (!Directory.Exists(path))
                 return null;
@@ -256,7 +255,7 @@ namespace Yupi
         /// </summary>
         internal static void Initialize()
         {
-            Console.Title = "Yupi Emulator | Loading [...]";
+            Console.Title = "Yupi Emulator | Starting [...]";
             ServerStarted = DateTime.Now;
             _defaultEncoding = Encoding.Default;
             MutedUsersByFilter = new Dictionary<uint, uint>();
