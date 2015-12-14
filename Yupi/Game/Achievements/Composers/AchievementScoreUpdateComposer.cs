@@ -37,9 +37,10 @@ namespace Yupi.Game.Achievements.Composers
         /// </summary>
         /// <param name="score">The score.</param>
         /// <returns>ServerMessage.</returns>
-        internal static ServerMessage Compose(int score)
+        internal static ServerMessage Compose(uint score)
         {
             var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("AchievementPointsMessageComposer"));
+
             serverMessage.AppendInteger(score);
 
             return serverMessage;

@@ -99,7 +99,6 @@ namespace Yupi.Game.Commands
 
             CommandsDictionary.Add("refresh_navigator", new RefreshNavigator());
             CommandsDictionary.Add("ltd", new Ltd());
-            CommandsDictionary.Add("refresh_quests", new RefreshQuests());
             CommandsDictionary.Add("refresh_polls", new RefreshPolls());
             CommandsDictionary.Add("refresh_achievements", new RefreshAchievements());
             CommandsDictionary.Add("refresh_groups", new RefreshGroups());

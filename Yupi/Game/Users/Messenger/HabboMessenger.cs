@@ -7,7 +7,6 @@ using Yupi.Core.Security.BlackWords.Enums;
 using Yupi.Core.Security.BlackWords.Structs;
 using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Quests;
 using Yupi.Game.Rooms.Data;
 using Yupi.Game.Users.Messenger.Structs;
 using Yupi.Messages;
@@ -373,8 +372,6 @@ namespace Yupi.Game.Users.Messenger
 
             using (IQueryAdapter queryreactor2 = Yupi.GetDatabaseManager().GetQueryReactor())
                 queryreactor2.RunFastQuery(string.Concat("REPLACE INTO messenger_requests (from_id,to_id) VALUES (", _userId, ",", userId, ")"));
-
-            Yupi.GetGame().GetQuestManager().ProgressUserQuest(client, QuestType.AddFriends);
 
             Habbo fromUser = client.GetHabbo();
 

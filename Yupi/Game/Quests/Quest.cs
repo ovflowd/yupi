@@ -48,7 +48,7 @@ namespace Yupi.Game.Quests
         /// <summary>
         ///     The reward
         /// </summary>
-        internal readonly int Reward;
+        internal readonly uint Reward;
 
         /// <summary>
         ///     The reward type

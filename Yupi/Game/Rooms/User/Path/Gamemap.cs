@@ -11,7 +11,6 @@ using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Items.Interactions.Enums;
 using Yupi.Game.Items.Interfaces;
 using Yupi.Game.Items.Wired.Handlers;
-using Yupi.Game.Pathfinding;
 using Yupi.Game.Pathfinding.Vectors;
 using Yupi.Game.Rooms.Chat.Enums;
 using Yupi.Game.Rooms.Data;

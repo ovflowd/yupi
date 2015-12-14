@@ -13,7 +13,6 @@ using Yupi.Game.Items.Interactions.Controllers;
 using Yupi.Game.Items.Interactions.Enums;
 using Yupi.Game.Items.Interactions.Interfaces;
 using Yupi.Game.Items.Wired.Handlers;
-using Yupi.Game.Pathfinding;
 using Yupi.Game.Pathfinding.Vectors;
 using Yupi.Game.Pets;
 using Yupi.Game.Rooms;

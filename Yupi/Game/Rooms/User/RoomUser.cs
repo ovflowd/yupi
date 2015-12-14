@@ -13,7 +13,6 @@ using Yupi.Core.Security.BlackWords.Structs;
 using Yupi.Game.Commands;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Items.Interactions.Enums;
-using Yupi.Game.Pathfinding;
 using Yupi.Game.Pathfinding.Vectors;
 using Yupi.Game.Pets;
 using Yupi.Game.RoomBots;
@@ -236,7 +235,7 @@ namespace Yupi.Game.Rooms.User
         /// <summary>
         ///     The locked tiles count
         /// </summary>
-        internal int LockedTilesCount;
+        internal uint LockedTilesCount;
 
         /// <summary>
         ///     The love lock partner

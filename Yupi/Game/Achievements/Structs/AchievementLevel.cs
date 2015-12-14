@@ -32,22 +32,22 @@ namespace Yupi.Game.Achievements.Structs
         /// <summary>
         ///     The level
         /// </summary>
-        internal readonly int Level;
+        internal readonly uint Level;
 
         /// <summary>
         ///     The reward pixels
         /// </summary>
-        internal readonly int RewardPixels;
+        internal readonly uint RewardPixels;
 
         /// <summary>
         ///     The reward points
         /// </summary>
-        internal readonly int RewardPoints;
+        internal readonly uint RewardPoints;
 
         /// <summary>
         ///     The requirement
         /// </summary>
-        internal readonly int Requirement;
+        internal readonly uint Requirement;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="AchievementLevel" /> struct.
@@ -56,7 +56,7 @@ namespace Yupi.Game.Achievements.Structs
         /// <param name="rewardPixels">The reward pixels.</param>
         /// <param name="rewardPoints">The reward points.</param>
         /// <param name="requirement">The requirement.</param>
-        public AchievementLevel(int level, int rewardPixels, int rewardPoints, int requirement)
+        public AchievementLevel(uint level, uint rewardPixels, uint rewardPoints, uint requirement)
         {
             Level = level;
             RewardPixels = rewardPixels;

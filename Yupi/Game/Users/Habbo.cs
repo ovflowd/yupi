@@ -87,7 +87,7 @@ namespace Yupi.Game.Users
         /// <summary>
         ///     The credits
         /// </summary>
-        internal int ActivityPoints;
+        internal uint ActivityPoints;
 
         /// <summary>
         ///     The answered polls
@@ -135,7 +135,7 @@ namespace Yupi.Game.Users
         /// <summary>
         ///     The credits
         /// </summary>
-        internal int Credits, AchievementPoints;
+        internal uint Credits, AchievementPoints;
 
         /// <summary>
         ///     The current quest identifier
@@ -475,10 +475,10 @@ namespace Yupi.Game.Users
         /// <param name="dailyCompetitionVotes"></param>
         /// <param name="dutyLevel"></param>
         internal Habbo(uint id, string userName, string realName, uint rank, string motto, string look, string gender,
-            int credits, int activityPoints, double lastActivityPointsUpdate, bool muted, uint homeRoom, int respect,
+            uint credits, uint activityPoints, double lastActivityPointsUpdate, bool muted, uint homeRoom, int respect,
             int dailyRespectPoints, int dailyPetRespectPoints, bool hasFriendRequestsDisabled, int currentQuestId,
-            int currentQuestProgress, int achievementPoints, int regTimestamp, int lastOnline, bool appearOffline,
-            bool hideInRoom, bool vip, double createDate, bool online, string citizenShip, int diamonds,
+            int currentQuestProgress, uint achievementPoints, int regTimestamp, int lastOnline, bool appearOffline,
+            bool hideInRoom, bool vip, double createDate, bool online, string citizenShip, uint diamonds,
             HashSet<GroupMember> groups, int favId, int lastChange, bool tradeLocked, int tradeLockExpire,
             bool nuxPassed,
             int buildersExpire, int buildersItemsMax, int buildersItemsUsed, int releaseVersion, bool onDuty,
@@ -566,15 +566,15 @@ namespace Yupi.Game.Users
             DisableEventAlert = false;
         }
 
-        internal int Diamonds
+        internal uint Diamonds
         {
             get
             {
                 using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
                     queryReactor.SetQuery($"SELECT diamonds FROM users WHERE id = {Id}");
-                    var diamonds = queryReactor.GetInteger();
-                    return diamonds;
+
+                    return (uint)queryReactor.GetInteger();
                 }
             }
             set
@@ -763,15 +763,6 @@ namespace Yupi.Game.Users
             LoadFavorites(data.FavouritedRooms);
             LoadMutedUsers(data.Ignores);
             LoadTags(data.Tags);
-        }
-
-        /// <summary>
-        ///     Serializes the quests.
-        /// </summary>
-        /// <param name="response">The response.</param>
-        internal void SerializeQuests(ref QueuedServerMessage response)
-        {
-            Yupi.GetGame().GetQuestManager().GetList(_mClient, null);
         }
 
         /// <summary>
@@ -1065,7 +1056,7 @@ namespace Yupi.Game.Users
         ///     Notifies the new pixels.
         /// </summary>
         /// <param name="change">The change.</param>
-        internal void NotifyNewPixels(int change)
+        internal void NotifyNewPixels(uint change)
         {
             if (_mClient?.GetMessageHandler() == null || _mClient.GetMessageHandler().GetResponse() == null)
                 return;

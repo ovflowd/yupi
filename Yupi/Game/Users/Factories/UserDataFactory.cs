@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using Yupi.Core.Io;
 using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Game.Achievements.Structs;
 using Yupi.Game.Catalogs;
@@ -72,12 +73,12 @@ namespace Yupi.Game.Users.Factories
                 if (dataRow == null)
                     return null;
 
-                userId = Convert.ToUInt32(dataRow["id"]);
+                userId = (uint)dataRow["id"];
                 userName = dataRow["username"].ToString();
                 userLook = dataRow["look"].ToString();
 
                 int regDate = (int) dataRow["account_created"] == 0 ? Yupi.GetUnixTimeStamp() : (int) dataRow["account_created"];
-
+            
                 // Check Register Date
                 if ((int) dataRow["account_created"] == 0)
                     queryReactor.RunFastQuery($"UPDATE users SET account_created = {regDate} WHERE id = {userId}");
@@ -173,8 +174,7 @@ namespace Yupi.Game.Users.Factories
             foreach (DataRow row in achievementsTable.Rows)
             {
                 string text = (string) row["group"];
-                int level = (int) row["level"];
-                int progress = (int) row["progress"];
+                uint level = (uint) row["level"], progress = (uint) row["progress"];
 
                 achievements.Add(text, new UserAchievement(text, level, progress));
             }

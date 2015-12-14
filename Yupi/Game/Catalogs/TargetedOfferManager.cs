@@ -50,8 +50,8 @@ namespace Yupi.Game.Catalogs
                 if (row == null)
                     return;
 
-                CurrentOffer = new TargetedOffer((int)row["id"], (string)row["identifier"], (int)row["cost_credits"],
-                    (int)row["cost_duckets"], (int)row["cost_diamonds"], (int)row["purchase_limit"],
+                CurrentOffer = new TargetedOffer((int)row["id"], (string)row["identifier"], (uint)row["cost_credits"],
+                    (uint)row["cost_duckets"], (uint)row["cost_diamonds"], (int)row["purchase_limit"],
                     (int)row["expiration_time"], (string)row["title"], (string)row["description"],
                     (string)row["image"], (string)row["products"]);
             }

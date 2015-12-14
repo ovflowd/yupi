@@ -102,22 +102,22 @@ namespace Yupi.Data
             }
             catch (WebException e)
             {
-                Writer.WriteLine($"Error downloading furnidata.xml: {Environment.NewLine + e}", "Yupi.XML", ConsoleColor.Red);
+                Writer.WriteLine($"Impossible to reach remote host to download FurniData content. Details: \n {Environment.NewLine + e}", "Yupi.Data", ConsoleColor.Red);
                 Writer.WriteLine("Type a key to close");
                 Console.ReadKey();
                 Environment.Exit(e.HResult);
             }
             catch (XmlException e)
             {
-                Writer.WriteLine($"Error parsing furnidata.xml: {Environment.NewLine + e}", "Yupi.XML",
-                    ConsoleColor.Red);
+                Writer.WriteLine($"The XML content of the FurniData is in an invalid XML format, Details: \n {Environment.NewLine + e}", "Yupi.Data",
+                   ConsoleColor.Red);
                 Writer.WriteLine("Type a key to close");
                 Console.ReadKey();
                 Environment.Exit(e.HResult);
             }
             catch (NullReferenceException e)
             {
-                Writer.WriteLine($"Error parsing value null of furnidata.xml: {Environment.NewLine + e}", "Yupi.XML", ConsoleColor.Red);
+                Writer.WriteLine($"The content of the FurniData file is empty, impossible to parse, Detials: \n {Environment.NewLine + e}", "Yupi.XML", ConsoleColor.Red);
                 Writer.WriteLine("Type a key to close");
                 Console.ReadKey();
                 Environment.Exit(e.HResult);

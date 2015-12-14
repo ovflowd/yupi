@@ -667,7 +667,7 @@ namespace Yupi.Messages.Parsers
         /// <param name="handler">The handler.</param>
         internal static void InitMessenger(GameClientMessageHandler handler)
         {
-            handler.InitMessenger();
+            //handler.InitMessenger();
         }
 
         /// <summary>
@@ -1855,7 +1855,7 @@ namespace Yupi.Messages.Parsers
         /// <param name="handler">The handler.</param>
         internal static void OpenQuests(GameClientMessageHandler handler)
         {
-            handler.OpenQuests();
+            //handler.OpenQuests();
         }
 
         /// <summary>
@@ -1864,7 +1864,7 @@ namespace Yupi.Messages.Parsers
         /// <param name="handler">The handler.</param>
         internal static void StartQuest(GameClientMessageHandler handler)
         {
-            handler.StartQuest();
+            //handler.StartQuest();
         }
 
         /// <summary>
@@ -1873,7 +1873,7 @@ namespace Yupi.Messages.Parsers
         /// <param name="handler">The handler.</param>
         internal static void StopQuest(GameClientMessageHandler handler)
         {
-            handler.StopQuest();
+            //handler.StopQuest();
         }
 
         /// <summary>
@@ -1882,7 +1882,7 @@ namespace Yupi.Messages.Parsers
         /// <param name="handler">The handler.</param>
         internal static void GetCurrentQuest(GameClientMessageHandler handler)
         {
-            handler.GetCurrentQuest();
+            //handler.GetCurrentQuest();
         }
 
         /// <summary>
@@ -1945,7 +1945,7 @@ namespace Yupi.Messages.Parsers
         /// <param name="handler">The handler.</param>
         internal static void StartSeasonalQuest(GameClientMessageHandler handler)
         {
-            handler.StartSeasonalQuest();
+            //handler.StartSeasonalQuest();
         }
 
         /// <summary>

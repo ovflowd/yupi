@@ -49,7 +49,7 @@ namespace Yupi.Game.Achievements.Structs
         /// <summary>
         ///     The levels
         /// </summary>
-        internal readonly Dictionary<int, AchievementLevel> Levels;
+        internal readonly Dictionary<uint, AchievementLevel> Levels;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Achievement" /> class.
@@ -63,7 +63,7 @@ namespace Yupi.Game.Achievements.Structs
             GroupName = groupName;
             Category = category;
 
-            Levels = new Dictionary<int, AchievementLevel>();
+            Levels = new Dictionary<uint, AchievementLevel>();
         }
 
         /// <summary>

@@ -16,7 +16,6 @@ using Yupi.Game.Pathfinding;
 using Yupi.Game.Pathfinding.Vectors;
 using Yupi.Game.Pets;
 using Yupi.Game.Pets.Enums;
-using Yupi.Game.Quests;
 using Yupi.Game.RoomBots;
 using Yupi.Game.RoomBots.Enumerators;
 using Yupi.Game.Rooms.Data;
@@ -1753,9 +1752,6 @@ namespace Yupi.Game.Rooms.User
                     }
                     if (_userRoom.RoomData.Owner != client.GetHabbo().UserName)
                     {
-                        Yupi.GetGame()
-                            .GetQuestManager()
-                            .ProgressUserQuest(client, QuestType.SocialVisit);
                         Yupi.GetGame()
                             .GetAchievementManager()
                             .ProgressUserAchievement(client, "ACH_RoomEntry", 1);

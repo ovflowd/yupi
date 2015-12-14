@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using Yupi.Core.Io;
 using Yupi.Game.Browser.Models;
 using Yupi.Game.Groups.Structs;
 
@@ -23,10 +24,13 @@ namespace Yupi.Game.Users.Factories
             Dictionary<int, UserSearchLog> navilogs = new Dictionary<int, UserSearchLog>();
 
             #region User Basic Data
-            // Positive Integers
+            // Positive Integers (Unsigned)
             uint id = (uint)dRow["id"];
             uint ras = (uint)dRow["rank"];
             uint homeRoom = (uint)dRow["home_room"];
+            uint credits = (uint)dRow["credits"];
+            uint activityPoints = (uint)dRow["activity_points"];
+            uint diamonds = (uint)dRow["diamonds"];
 
             // Strings
             string userName = dRow["username"].ToString();
@@ -38,10 +42,7 @@ namespace Yupi.Game.Users.Factories
 
             // Integers
             int lastOnline = (int)dRow["last_online"];
-            int credits = (int)dRow["credits"];
-            int activityPoints = (int)dRow["activity_points"];
             int createDate = (int)dRow["account_created"];
-            int diamonds = (int)dRow["diamonds"];
             int lastChange = (int)dRow["last_name_change"];
             int regTimestamp = (int)dRow["account_created"];
             int tradeLockExpire = (int)dRow["trade_lock_expire"];
@@ -71,11 +72,13 @@ namespace Yupi.Game.Users.Factories
             int respect = (int)mRow["respect"];
             int dailyRespectPoints = (int)mRow["daily_respect_points"];
             int dailyPetRespectPoints = (int)mRow["daily_pet_respect_points"];
-            int currentQuestId = (int)mRow["quest_id"];
+            int currentQuestId = 0;//(uint)mRow["quest_id"];
             int currentQuestProgress = (int)mRow["quest_progress"];
-            int achievementPoints = (int)mRow["achievement_score"];
             int favId = (int)mRow["favourite_group"];
             int dailyCompetitionVotes = (int)mRow["daily_competition_votes"];
+
+            // Positive Integers (Unsigned)
+            uint achievementPoints = (uint)mRow["achievement_score"];
             #endregion
 
             #region Navigator Logs

@@ -41,7 +41,7 @@ namespace Yupi.Game.Achievements.Composers
         /// <param name="pointReward">The point reward.</param>
         /// <param name="pixelReward">The pixel reward.</param>
         /// <returns>ServerMessage.</returns>
-        internal static ServerMessage Compose(Achievement achievement, int level, int pointReward, int pixelReward)
+        internal static ServerMessage Compose(Achievement achievement, uint level, uint pointReward, uint pixelReward)
         {
             var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("UnlockAchievementMessageComposer"));
 

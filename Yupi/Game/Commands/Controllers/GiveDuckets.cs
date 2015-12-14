@@ -22,21 +22,26 @@ namespace Yupi.Game.Commands.Controllers
         public override bool Execute(GameClient session, string[] pms)
         {
             var client = Yupi.GetGame().GetClientManager().GetClientByUserName(pms[0]);
+
             if (client == null)
             {
                 session.SendNotif(Yupi.GetLanguage().GetVar("user_not_found"));
                 return true;
             }
-            int amount;
-            if (!int.TryParse(pms[1], out amount))
+
+            uint amount;
+
+            if (!uint.TryParse(pms[1], out amount))
             {
                 session.SendNotif(Yupi.GetLanguage().GetVar("enter_numbers"));
                 return true;
             }
+
             client.GetHabbo().ActivityPoints += amount;
             client.GetHabbo().UpdateActivityPointsBalance();
-            client.SendNotif(string.Format(Yupi.GetLanguage().GetVar("staff_gives_duckets"),
-                session.GetHabbo().UserName, amount));
+
+            client.SendNotif(string.Format(Yupi.GetLanguage().GetVar("staff_gives_duckets"), session.GetHabbo().UserName, amount));
+
             return true;
         }
     }

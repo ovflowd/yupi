@@ -17,7 +17,6 @@ using Yupi.Core.Util.Math;
 using Yupi.Data;
 using Yupi.Data.Base;
 using Yupi.Data.Interfaces;
-using Yupi.Data.Structs;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Groups.Structs;
 using Yupi.Game.Pets;

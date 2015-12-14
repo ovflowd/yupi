@@ -7,8 +7,6 @@ using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Game.Achievements.Structs;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Groups.Structs;
-using Yupi.Game.Quests;
-using Yupi.Game.Quests.Composers;
 using Yupi.Game.Rooms;
 using Yupi.Game.Rooms.Data;
 using Yupi.Game.Rooms.User;
@@ -53,7 +51,10 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         public void OpenQuests()
         {
-            Yupi.GetGame().GetQuestManager().GetList(Session, Request);
+            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("QuestListMessageComposer"));
+            serverMessage.AppendInteger(0);
+            serverMessage.AppendBool(Request != null);
+            Session.SendMessage(serverMessage);
         }
 
         /// <summary>
@@ -162,35 +163,33 @@ namespace Yupi.Messages.Handlers
         internal void GiveRespect()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
+
             if (room == null || Session.GetHabbo().DailyRespectPoints <= 0)
                 return;
+
             RoomUser roomUserByHabbo = room.GetRoomUserManager().GetRoomUserByHabbo(Request.GetUInteger());
-            if (roomUserByHabbo == null || roomUserByHabbo.GetClient().GetHabbo().Id == Session.GetHabbo().Id ||
-                roomUserByHabbo.IsBot)
+
+            if (roomUserByHabbo == null || roomUserByHabbo.GetClient().GetHabbo().Id == Session.GetHabbo().Id || roomUserByHabbo.IsBot)
                 return;
-            Yupi.GetGame().GetQuestManager().ProgressUserQuest(Session, QuestType.SocialRespect);
+
             Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(Session, "ACH_RespectGiven", 1, true);
-            Yupi.GetGame()
-                .GetAchievementManager()
-                .ProgressUserAchievement(roomUserByHabbo.GetClient(), "ACH_RespectEarned", 1, true);
+            Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(roomUserByHabbo.GetClient(), "ACH_RespectEarned", 1, true);
 
-            {
-                Session.GetHabbo().DailyRespectPoints--;
-                roomUserByHabbo.GetClient().GetHabbo().Respect++;
-                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                    queryReactor.RunFastQuery("UPDATE users_stats SET respect = respect + 1 WHERE id = " + roomUserByHabbo.GetClient().GetHabbo().Id + " LIMIT 1;UPDATE users_stats SET daily_respect_points = daily_respect_points - 1 WHERE id= " + Session.GetHabbo().Id + " LIMIT 1");
-                ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("GiveRespectsMessageComposer"));
-                serverMessage.AppendInteger(roomUserByHabbo.GetClient().GetHabbo().Id);
-                serverMessage.AppendInteger(roomUserByHabbo.GetClient().GetHabbo().Respect);
-                room.SendMessage(serverMessage);
+            Session.GetHabbo().DailyRespectPoints--;
+            roomUserByHabbo.GetClient().GetHabbo().Respect++;
 
-                ServerMessage thumbsUp = new ServerMessage();
-                thumbsUp.Init(LibraryParser.OutgoingRequest("RoomUserActionMessageComposer"));
-                thumbsUp.AppendInteger(
-                    room.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().UserName).VirtualId);
-                thumbsUp.AppendInteger(7);
-                room.SendMessage(thumbsUp);
-            }
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.RunFastQuery("UPDATE users_stats SET respect = respect + 1 WHERE id = " + roomUserByHabbo.GetClient().GetHabbo().Id + " LIMIT 1;UPDATE users_stats SET daily_respect_points = daily_respect_points - 1 WHERE id= " + Session.GetHabbo().Id + " LIMIT 1");
+
+            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("GiveRespectsMessageComposer"));
+            serverMessage.AppendInteger(roomUserByHabbo.GetClient().GetHabbo().Id);
+            serverMessage.AppendInteger(roomUserByHabbo.GetClient().GetHabbo().Respect);
+            room.SendMessage(serverMessage);
+
+            ServerMessage thumbsUp = new ServerMessage(LibraryParser.OutgoingRequest("RoomUserActionMessageComposer"));
+            thumbsUp.AppendInteger(room.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().UserName).VirtualId);
+            thumbsUp.AppendInteger(7);
+            room.SendMessage(thumbsUp);
         }
 
         /// <summary>
@@ -367,53 +366,49 @@ namespace Yupi.Messages.Handlers
         internal void UpdateBadges()
         {
             Session.GetHabbo().GetBadgeComponent().ResetSlots();
+
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery(
-                    $"UPDATE users_badges SET badge_slot = 0 WHERE user_id = {Session.GetHabbo().Id}");
+                queryReactor.RunFastQuery($"UPDATE users_badges SET badge_slot = 0 WHERE user_id = {Session.GetHabbo().Id}");
+
             for (int i = 0; i < 5; i++)
             {
                 int slot = Request.GetInteger();
                 string code = Request.GetString();
-                if (code.Length == 0) continue;
-                if (!Session.GetHabbo().GetBadgeComponent().HasBadge(code) || slot < 1 || slot > 5) return;
+
+                if (code.Length == 0)
+                    continue;
+
+                if (!Session.GetHabbo().GetBadgeComponent().HasBadge(code) || slot < 1 || slot > 5)
+                    return;
+
                 Session.GetHabbo().GetBadgeComponent().GetBadge(code).Slot = slot;
+
                 using (IQueryAdapter queryreactor2 = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    queryreactor2.SetQuery("UPDATE users_badges SET badge_slot = " + slot +
-                                           " WHERE badge_id = @badge AND user_id = " + Session.GetHabbo().Id);
+                    queryreactor2.SetQuery("UPDATE users_badges SET badge_slot = " + slot + " WHERE badge_id = @badge AND user_id = " + Session.GetHabbo().Id);
                     queryreactor2.AddParameter("badge", code);
                     queryreactor2.RunQuery();
                 }
             }
-            Yupi.GetGame().GetQuestManager().ProgressUserQuest(Session, QuestType.ProfileBadge);
+
             ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("UserBadgesMessageComposer"));
             serverMessage.AppendInteger(Session.GetHabbo().Id);
 
             serverMessage.StartArray();
-            foreach (
-                Badge badge in
-                    Session.GetHabbo()
-                        .GetBadgeComponent()
-                        .BadgeList.Values.Cast<Badge>()
-                        .Where(badge => badge.Slot > 0))
+
+            foreach (Badge badge in Session.GetHabbo().GetBadgeComponent().BadgeList.Values.Cast<Badge>().Where(badge => badge.Slot > 0))
             {
                 serverMessage.AppendInteger(badge.Slot);
                 serverMessage.AppendString(badge.Code);
-
                 serverMessage.SaveArray();
             }
 
             serverMessage.EndArray();
-            if (Session.GetHabbo().InRoom &&
-                Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId) != null)
-            {
-                Yupi.GetGame()
-                    .GetRoomManager()
-                    .GetRoom(Session.GetHabbo().CurrentRoomId)
-                    .SendMessage(serverMessage);
-                return;
-            }
-            Session.SendMessage(serverMessage);
+
+            if (Session.GetHabbo().InRoom && Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId) != null)
+                Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId).SendMessage(serverMessage);
+            else
+                Session.SendMessage(serverMessage);
         }
 
         /// <summary>
@@ -525,55 +520,55 @@ namespace Yupi.Messages.Handlers
         {
             string text = Request.GetString().ToUpper();
             string text2 = Request.GetString();
+
             text2 = Yupi.FilterFigure(text2);
 
-            Yupi.GetGame().GetQuestManager().ProgressUserQuest(Session, QuestType.ProfileChangeLook);
             Session.GetHabbo().Look = text2;
             Session.GetHabbo().Gender = text.ToLower() == "f" ? "f" : "m";
+
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery(
-                    $"UPDATE users SET look = @look, gender = @gender WHERE id = {Session.GetHabbo().Id}");
+                queryReactor.SetQuery($"UPDATE users SET look = @look, gender = @gender WHERE id = {Session.GetHabbo().Id}");
                 queryReactor.AddParameter("look", text2);
                 queryReactor.AddParameter("gender", text);
                 queryReactor.RunQuery();
             }
+
             Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(Session, "ACH_AvatarLooks", 1);
-            if (Session.GetHabbo().Look.Contains("ha-1006"))
-                Yupi.GetGame().GetQuestManager().ProgressUserQuest(Session, QuestType.WearHat);
-            Session.GetMessageHandler()
-                .GetResponse()
-                .Init(LibraryParser.OutgoingRequest("UpdateAvatarAspectMessageComposer"));
+
+            Session.GetMessageHandler().GetResponse().Init(LibraryParser.OutgoingRequest("UpdateAvatarAspectMessageComposer"));
             Session.GetMessageHandler().GetResponse().AppendString(Session.GetHabbo().Look);
             Session.GetMessageHandler().GetResponse().AppendString(Session.GetHabbo().Gender.ToUpper());
             Session.GetMessageHandler().SendResponse();
-            Session.GetMessageHandler()
-                .GetResponse()
-                .Init(LibraryParser.OutgoingRequest("UpdateUserDataMessageComposer"));
+
+            Session.GetMessageHandler().GetResponse().Init(LibraryParser.OutgoingRequest("UpdateUserDataMessageComposer"));
             Session.GetMessageHandler().GetResponse().AppendInteger(-1);
             Session.GetMessageHandler().GetResponse().AppendString(Session.GetHabbo().Look);
             Session.GetMessageHandler().GetResponse().AppendString(Session.GetHabbo().Gender.ToLower());
             Session.GetMessageHandler().GetResponse().AppendString(Session.GetHabbo().Motto);
             Session.GetMessageHandler().GetResponse().AppendInteger(Session.GetHabbo().AchievementPoints);
             Session.GetMessageHandler().SendResponse();
+
             if (!Session.GetHabbo().InRoom)
                 return;
+
             Room currentRoom = Session.GetHabbo().CurrentRoom;
-            if (currentRoom == null)
-                return;
-            RoomUser roomUserByHabbo = currentRoom.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().Id);
+
+            RoomUser roomUserByHabbo = currentRoom?.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().Id);
+
             if (roomUserByHabbo == null)
                 return;
+
             ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("UpdateUserDataMessageComposer"));
-            serverMessage.AppendInteger(roomUserByHabbo.VirtualId); //BUGG
-            //serverMessage.AppendInt32(-1);
+            serverMessage.AppendInteger(roomUserByHabbo.VirtualId); //serverMessage.AppendInt32(-1);
             serverMessage.AppendString(Session.GetHabbo().Look);
             serverMessage.AppendString(Session.GetHabbo().Gender.ToLower());
             serverMessage.AppendString(Session.GetHabbo().Motto);
             serverMessage.AppendInteger(Session.GetHabbo().AchievementPoints);
             currentRoom.SendMessage(serverMessage);
 
-            if (Session.GetHabbo().GetMessenger() != null) Session.GetHabbo().GetMessenger().OnStatusChanged(true);
+            if (Session.GetHabbo().GetMessenger() != null)
+                Session.GetHabbo().GetMessenger().OnStatusChanged(true);
         }
 
         /// <summary>
@@ -582,33 +577,36 @@ namespace Yupi.Messages.Handlers
         internal void ChangeMotto()
         {
             string text = Request.GetString();
+
             if (text == Session.GetHabbo().Motto)
                 return;
+
             Session.GetHabbo().Motto = text;
+
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery($"UPDATE users SET motto = @motto WHERE id = '{Session.GetHabbo().Id}'");
                 queryReactor.AddParameter("motto", text);
                 queryReactor.RunQuery();
             }
-            Yupi.GetGame().GetQuestManager().ProgressUserQuest(Session, QuestType.ProfileChangeMotto);
+
             if (Session.GetHabbo().InRoom)
             {
                 Room currentRoom = Session.GetHabbo().CurrentRoom;
-                if (currentRoom == null)
-                    return;
-                RoomUser roomUserByHabbo = currentRoom.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().Id);
+                RoomUser roomUserByHabbo = currentRoom?.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().Id);
+
                 if (roomUserByHabbo == null)
                     return;
+
                 ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("UpdateUserDataMessageComposer"));
-                serverMessage.AppendInteger(roomUserByHabbo.VirtualId); //BUGG
-                //serverMessage.AppendInt32(-1);
+                serverMessage.AppendInteger(roomUserByHabbo.VirtualId);//serverMessage.AppendInt32(-1);
                 serverMessage.AppendString(Session.GetHabbo().Look);
                 serverMessage.AppendString(Session.GetHabbo().Gender.ToLower());
                 serverMessage.AppendString(Session.GetHabbo().Motto);
                 serverMessage.AppendInteger(Session.GetHabbo().AchievementPoints);
                 currentRoom.SendMessage(serverMessage);
             }
+
             Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(Session, "ACH_Motto", 1);
         }
 
@@ -671,9 +669,6 @@ namespace Yupi.Messages.Handlers
                     queryReactor.RunQuery();
                 }
             }
-            Yupi.GetGame()
-                .GetQuestManager()
-                .ProgressUserQuest(Session, QuestType.ProfileChangeLook);
         }
 
         /// <summary>
@@ -683,6 +678,7 @@ namespace Yupi.Messages.Handlers
         {
             if (Session.GetHabbo().GetInventoryComponent() == null)
                 return;
+
             Session.SendMessage(Session.GetHabbo().GetInventoryComponent().SerializePetInventory());
         }
 
@@ -941,63 +937,11 @@ namespace Yupi.Messages.Handlers
                         int num3 = (int)queryReactor.InsertQuery();
                         Session.GetHabbo().Relationships.Add(num3, new Relationship(num3, (int)num, num2));
                     }
+
                     GameClient clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(num);
                     Session.GetHabbo().GetMessenger().UpdateFriend(num, clientByUserId, true);
                 }
             }
-        }
-
-        /// <summary>
-        /// Starts the quest.
-        /// </summary>
-        public void StartQuest()
-        {
-            Yupi.GetGame().GetQuestManager().ActivateQuest(Session, Request);
-        }
-
-        /// <summary>
-        /// Stops the quest.
-        /// </summary>
-        public void StopQuest()
-        {
-            Yupi.GetGame().GetQuestManager().CancelQuest(Session, Request);
-        }
-
-        /// <summary>
-        /// Gets the current quest.
-        /// </summary>
-        public void GetCurrentQuest()
-        {
-            Yupi.GetGame().GetQuestManager().GetCurrentQuest(Session, Request);
-        }
-
-        /// <summary>
-        /// Starts the seasonal quest.
-        /// </summary>
-        public void StartSeasonalQuest()
-        {
-            RoomData roomData;
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-            {
-                Quest quest = Yupi.GetGame().GetQuestManager().GetQuest((int) Request.GetUInteger());
-                if (quest == null)
-                    return;
-                queryReactor.RunFastQuery(string.Concat("REPLACE INTO users_quests_data(user_id,quest_id) VALUES (", Session.GetHabbo().Id, ", ", quest.Id, ")"));
-                queryReactor.RunFastQuery(string.Concat("UPDATE users_stats SET quest_id = ", quest.Id, " WHERE id = ", Session.GetHabbo().Id));
-                Session.GetHabbo().CurrentQuestId = quest.Id;
-                Session.SendMessage(QuestStartedComposer.Compose(Session, quest));
-                Yupi.GetGame().GetQuestManager().ActivateQuest(Session, Request);
-                queryReactor.SetQuery("SELECT id FROM rooms_data WHERE state='open' ORDER BY users_now DESC LIMIT 1");
-                string @string = queryReactor.GetString();
-                roomData = Yupi.GetGame().GetRoomManager().GenerateRoomData(uint.Parse(@string));
-            }
-            if (roomData != null)
-            {
-                roomData.SerializeRoomData(Response, Session, true);
-                Session.GetMessageHandler().PrepareRoomForUser(roomData.Id, "");
-                return;
-            }
-            Session.SendNotif(Yupi.GetLanguage().GetVar("start_quest_need_room"));
         }
 
         /// <summary>

@@ -147,7 +147,8 @@ namespace Yupi.Messages.Handlers
             int pageId = Request.GetInteger();
             uint itemId = Request.GetUInteger();
             string extraData = Request.GetString();
-            int priceAmount = Request.GetInteger();
+            uint priceAmount = Request.GetUInteger();
+
             Yupi.GetGame().GetCatalog().HandlePurchase(Session, pageId, itemId, extraData, priceAmount, false, string.Empty, string.Empty, 0, 0, 0, false, 0u);
         }
 

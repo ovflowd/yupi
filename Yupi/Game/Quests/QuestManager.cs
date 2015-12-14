@@ -139,6 +139,7 @@ namespace Yupi.Game.Quests
                 num = (int) quest.GoalData;
                 flag = true;
                 IL_DC:
+
                 using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
                     queryReactor.RunFastQuery(string.Concat("UPDATE users_quests_data SET progress = ", num,
@@ -147,8 +148,10 @@ namespace Yupi.Game.Quests
                         queryReactor.RunFastQuery(
                             $"UPDATE users_stats SET quest_id = 0 WHERE id = {session.GetHabbo().Id}");
                 }
+
                 session.GetHabbo().Quests[session.GetHabbo().CurrentQuestId] = num;
                 session.SendMessage(QuestStartedComposer.Compose(session, quest));
+
                 if (!flag)
                     return;
                 session.GetHabbo().CurrentQuestId = 0;

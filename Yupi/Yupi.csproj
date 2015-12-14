@@ -373,7 +373,6 @@
     <Compile Include="Game\Commands\Controllers\RefreshItems.cs" />
     <Compile Include="Game\Commands\Controllers\RefreshNavigator.cs" />
     <Compile Include="Game\Commands\Controllers\RefreshPolls.cs" />
-    <Compile Include="Game\Commands\Controllers\RefreshQuests.cs" />
     <Compile Include="Game\Commands\Controllers\RefreshRanks.cs" />
     <Compile Include="Game\Commands\Controllers\RefreshSettings.cs" />
     <Compile Include="Game\Commands\Controllers\RefreshSongs.cs" />
@@ -604,15 +603,6 @@
     <Compile Include="Game\Polls\Poll.cs" />
     <Compile Include="Game\Polls\PollManager.cs" />
     <Compile Include="Game\Polls\PollQuestion.cs" />
-    <Compile Include="Game\Quests\Composers\QuestAbortedComposer.cs" />
-    <Compile Include="Game\Quests\Composers\QuestCompletedComposer.cs" />
-    <Compile Include="Game\Quests\Composers\QuestListComposer.cs" />
-    <Compile Include="Game\Quests\Composers\QuestRewardType.cs" />
-    <Compile Include="Game\Quests\Composers\QuestStartedComposer.cs" />
-    <Compile Include="Game\Quests\Quest.cs" />
-    <Compile Include="Game\Quests\QuestManager.cs" />
-    <Compile Include="Game\Quests\QuestType.cs" />
-    <Compile Include="Game\Quests\QuestTypeUtillity.cs" />
     <Compile Include="Game\Users\Fuses\RoleManager.cs" />
     <Compile Include="Game\RoomBots\Enumerators\AIType.cs" />
     <Compile Include="Game\RoomBots\Interfaces\BotAi.cs" />

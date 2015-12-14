@@ -58,8 +58,10 @@ namespace Yupi.Game.Items
 
             dbClient.SetQuery("SELECT * FROM catalog_furnitures");
 
-            var table = dbClient.GetTable();
-            if (table == null) return;
+            DataTable table = dbClient.GetTable();
+
+            if (table == null)
+                return;
 
             List<double> heights = null;
 
@@ -67,30 +69,43 @@ namespace Yupi.Game.Items
             {
                 try
                 {
-                    var id = Convert.ToUInt32(dataRow["id"]);
-                    var type = Convert.ToChar(dataRow["type"]);
-                    var name = Convert.ToString(dataRow["item_name"]);
-                    var flatId = Convert.ToInt32(dataRow["flat_id"]);
-                    var stackHeightStr = dataRow["stack_height"].ToString();
-                    double stackHeight;
-                    uint modes;
-                    uint.TryParse(dataRow["interaction_modes_count"].ToString(), out modes);
-                    var vendingIds = (string)dataRow["vending_ids"];
-                    var sub = Yupi.EnumToBool(dataRow["subscriber"].ToString());
-                    var effect = (int)dataRow["effectid"];
-                    var stackable = Convert.ToInt32(dataRow["can_stack"]) == 1;
-                    var allowRecycle = Convert.ToInt32(dataRow["allow_recycle"]) == 1;
-                    var allowTrade = Convert.ToInt32(dataRow["allow_trade"]) == 1;
-                    var allowMarketplaceSell = Convert.ToInt32(dataRow["allow_marketplace_sell"]) == 1;
-                    var allowGift = Convert.ToInt32(dataRow["allow_gift"]) == 1;
-                    var allowInventoryStack = Convert.ToInt32(dataRow["allow_inventory_stack"]) == 1;
-                    var typeFromString = InteractionTypes.GetTypeFromString((string)dataRow["interaction_type"]);
+                    uint id = (uint)dataRow["id"];
+                    uint modes = (uint)dataRow["interaction_modes_count"];
+                    uint effect = (uint)dataRow["effectid"];
 
-                    var sprite = 0;
+                    char type = char.Parse((string)dataRow["type"]);
+
+                    int flatId = (int)dataRow["flat_id"];
+                    int sprite = 0;
+
+                    string name = (string)dataRow["item_name"];
+                    string publicName = (string)dataRow["item_name"];
+                    string stackHeightStr = (string)dataRow["stack_height"];
+                    string vendingIds = (string)dataRow["vending_ids"];
+
+                    bool sub = (string)dataRow["subscriber"] == "1";
+                    bool stackable = (string)dataRow["can_stack"] == "1";
+                    bool allowRecycle = (string)dataRow["allow_recycle"] == "1";
+                    bool allowTrade = (string)dataRow["allow_trade"] == "1";
+                    bool allowMarketplaceSell = (string)dataRow["allow_marketplace_sell"] == "1";
+                    bool allowGift = (string)dataRow["allow_gift"] == "1";
+                    bool allowInventoryStack = (string)dataRow["allow_inventory_stack"] == "1";
+                    bool canWalk = false, canSit = false, stackMultiple = false;
 
                     ushort x = ushort.MinValue, y = ushort.MinValue;
-                    var publicName = Convert.ToString(dataRow["item_name"]);
-                    bool canWalk = false, canSit = false, stackMultiple = false;
+
+                    double stackHeight;
+
+                    Interaction typeFromString = InteractionTypes.GetTypeFromString((string)dataRow["interaction_type"]);
+
+                    if (stackHeightStr.Contains(';'))
+                    {
+                        heights = stackHeightStr.Split(';').Select(heightStr => double.Parse(heightStr, CultureInfo.InvariantCulture)).ToList();
+                        stackHeight = heights[0];
+                        stackMultiple = true;
+                    }  
+                    else
+                        stackHeight = double.Parse(stackHeightStr, CultureInfo.InvariantCulture);
 
                     if (name == "landscape" || name == "floor" || name == "wallpaper")
                     {
@@ -126,24 +141,12 @@ namespace Yupi.Game.Items
                     else if (name.StartsWith("present_wrap*"))
                         GiftWrapper.Add(sprite);
 
-                    if (stackHeightStr.Contains(';'))
-                    {
-                        var heightsStr = stackHeightStr.Split(';');
-
-                        heights = heightsStr.Select(heightStr => double.Parse(heightStr, CultureInfo.InvariantCulture)).ToList();
-
-                        stackHeight = heights[0];
-                        stackMultiple = true;
-                    }
-                    else
-                        stackHeight = double.Parse(stackHeightStr, CultureInfo.InvariantCulture);
-
                     // If Can Walk
                     if (InteractionTypes.AreFamiliar(GlobalInteractions.Gate, typeFromString) || (typeFromString == Interaction.BanzaiPyramid) || name.StartsWith("hole"))
                         canWalk = false;
 
                     // Add Item
-                    var value = new Item(id, sprite, publicName, name, type, x, y, stackHeight, stackable, canWalk,
+                    Item value = new Item(id, sprite, publicName, name, type, x, y, stackHeight, stackable, canWalk,
                         canSit, allowRecycle, allowTrade, allowMarketplaceSell, allowGift, allowInventoryStack,
                         typeFromString, modes, vendingIds, sub, effect, stackMultiple,
                         heights?.ToArray(), flatId);

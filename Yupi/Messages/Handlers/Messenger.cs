@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Yupi.Game.Quests;
 using Yupi.Messages.Parsers;
 
 namespace Yupi.Messages.Handlers
@@ -11,13 +10,6 @@ namespace Yupi.Messages.Handlers
     /// </summary>
     internal partial class GameClientMessageHandler
     {
-        /// <summary>
-        /// Initializes the messenger.
-        /// </summary>
-        internal void InitMessenger()
-        {
-        }
-
         /// <summary>
         /// Friendses the list update.
         /// </summary>
@@ -94,8 +86,10 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         internal void RequestBuddy()
         {
-            if (Session.GetHabbo().GetMessenger() == null) return;
-            if (Session.GetHabbo().GetMessenger().RequestBuddy(Request.GetString())) Yupi.GetGame().GetQuestManager().ProgressUserQuest(Session, QuestType.SocialFriend);
+            if (Session.GetHabbo().GetMessenger() == null)
+                return;
+
+            Session.GetHabbo().GetMessenger().RequestBuddy(Request.GetString());
         }
 
         /// <summary>

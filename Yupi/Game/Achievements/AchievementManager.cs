@@ -83,7 +83,7 @@ namespace Yupi.Game.Achievements
                 AchievementDataCached.AppendString(ach.GroupName.Replace("ACH_", string.Empty));
                 AchievementDataCached.AppendInteger(ach.Levels.Count);
 
-                for (int i = 1; i < ach.Levels.Count + 1; i++)
+                for (uint i = 1; i < ach.Levels.Count + 1; i++)
                 {
                     AchievementDataCached.AppendInteger(i);
                     AchievementDataCached.AppendInteger(ach.Levels[i].Requirement);
@@ -143,12 +143,12 @@ namespace Yupi.Game.Achievements
 
                 double sinceMember = Yupi.GetUnixTimeStamp() - (int)session.GetHabbo().CreateDate;
 
-                int daysSinceMember = Convert.ToInt32(Math.Round(sinceMember / 86400));
+                uint daysSinceMember = Convert.ToUInt32(Math.Round(sinceMember / 86400));
 
                 if (daysSinceMember == regAch.Progress)
                     return;
 
-                int days = daysSinceMember - regAch.Progress;
+                uint days = daysSinceMember - regAch.Progress;
 
                 if (days < 1)
                     return;
@@ -229,7 +229,7 @@ namespace Yupi.Game.Achievements
         /// <param name="progressAmount">The progress amount.</param>
         /// <param name="fromZero">if set to <c>true</c> [from zero].</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool ProgressUserAchievement(GameClient session, string achievementGroup, int progressAmount, bool fromZero = false)
+        internal bool ProgressUserAchievement(GameClient session, string achievementGroup, uint progressAmount, bool fromZero = false)
         {
             if (Achievements.ContainsKey(achievementGroup) && session?.GetHabbo() != null)
             {
@@ -252,19 +252,19 @@ namespace Yupi.Game.Achievements
                 userAchievement = user.Achievements[achievementGroup];
 
                 // Total Levels from this Achievement
-                int achievementLevelsCount = achievement.Levels.Count;
+                uint achievementLevelsCount = (uint)achievement.Levels.Count;
 
                 // Get User Achievement Level
-                int achievementCurrentLevel = userAchievement.Level;
+                uint achievementCurrentLevel = userAchievement.Level;
 
                 // Get User Achievement Progress
-                int achievementCurrentProgress = userAchievement.Progress;
+                uint achievementCurrentProgress = userAchievement.Progress;
 
                 // If the next Level is the last level must set to Levels.Count (Ex: 38 Levels => .Count = 37 (Max Level in the Array, but .Count 37 == 38, Soo need put Level - 1)
-                int achievementNextLevel = achievementCurrentLevel + 1 > achievementLevelsCount ? achievementLevelsCount : achievementCurrentLevel + 1;
+                uint achievementNextLevel = achievementCurrentLevel + 1 > achievementLevelsCount ? achievementLevelsCount : achievementCurrentLevel + 1;
 
                 // Set Achievement Progress
-                int achievementProgress = achievementCurrentProgress + progressAmount;
+                uint achievementProgress = achievementCurrentProgress + progressAmount;
 
                 // If he has already the Max, something is wrong.
                 if (achievementCurrentLevel == achievementLevelsCount)

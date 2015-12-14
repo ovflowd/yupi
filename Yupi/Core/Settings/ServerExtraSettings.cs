@@ -170,7 +170,7 @@ namespace Yupi.Core.Settings
             if (!File.Exists(Path.Combine(Yupi.YupiVariablesDirectory, "Settings/other.ini")))
                 return false;
 
-            foreach (var settingsParameters in from line in File.ReadAllLines("Settings/other.ini", Encoding.Default) where !string.IsNullOrWhiteSpace(line) && line.Contains("=") select line.Split('='))
+            foreach (var settingsParameters in from line in File.ReadAllLines(Path.Combine(Yupi.YupiVariablesDirectory, "Settings/other.ini"), Encoding.Default) where !string.IsNullOrWhiteSpace(line) && line.Contains("=") select line.Split('='))
             {
                 switch (settingsParameters[0])
                 {

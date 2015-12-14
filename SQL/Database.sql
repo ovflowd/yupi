@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: 14-Dez-2015 às 14:07
+-- Generation Time: 14-Dez-2015 às 22:35
 -- Versão do servidor: 5.5.42
 -- PHP Version: 5.6.10
 
@@ -5570,8 +5570,8 @@ CREATE TABLE `catalog_items` (
   `amounts` varchar(120) CHARACTER SET utf8mb4 NOT NULL,
   `achievement` int(4) unsigned NOT NULL DEFAULT '0',
   `song_id` int(11) unsigned NOT NULL DEFAULT '0',
-  `limited_sells` int(11) NOT NULL DEFAULT '0',
-  `limited_stack` int(11) NOT NULL DEFAULT '0',
+  `limited_sells` int(11) unsigned NOT NULL DEFAULT '0',
+  `limited_stack` int(11) unsigned NOT NULL DEFAULT '0',
   `offer_active` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '1',
   `club_only` enum('1','0') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
   `extradata` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
@@ -10373,7 +10373,7 @@ CREATE TABLE `catalog_pages` (
   `enabled` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '1',
   `min_rank` int(3) unsigned NOT NULL DEFAULT '1',
   `club_only` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
-  `order_num` int(11) unsigned NOT NULL,
+  `order_num` int(11) NOT NULL,
   `page_layout` varchar(100) CHARACTER SET utf8mb4 NOT NULL DEFAULT 'default_3x3',
   `page_headline` text CHARACTER SET utf8mb4 NOT NULL,
   `page_teaser` text CHARACTER SET utf8mb4 NOT NULL,
@@ -12813,7 +12813,7 @@ CREATE TABLE `server_status` (
 --
 
 INSERT INTO `server_status` (`id`, `status`, `users_online`, `rooms_loaded`, `server_ver`, `stamp`, `minutesuptime`, `userpeak`, `bannerdata`) VALUES
-(1, '1', 0, 0, 'Azure Emulator', 1447683446, 0, 2, '114670925920269957593299136150366957983142588366300079186349531:1589935137502239924254699078669119674538324391752663931735947');
+(1, '1', 0, 0, 'Yupi Emulator', 1450128924, 0, 2, '114670925920269957593299136150366957983142588366300079186349531:1589935137502239924254699078669119674538324391752663931735947');
 
 -- --------------------------------------------------------
 
@@ -12824,15 +12824,15 @@ INSERT INTO `server_status` (`id`, `status`, `users_online`, `rooms_loaded`, `se
 DROP TABLE IF EXISTS `talents_data`;
 CREATE TABLE `talents_data` (
   `id` int(11) NOT NULL,
-  `type` enum('citizenship','status') NOT NULL DEFAULT 'citizenship',
+  `type` enum('citizenship','status') CHARACTER SET utf8mb4 NOT NULL DEFAULT 'citizenship',
   `parent_category` int(11) NOT NULL DEFAULT '-1',
   `level` int(11) NOT NULL,
   `order_num` int(11) NOT NULL,
-  `achievement_group` varchar(255) NOT NULL DEFAULT 'ACH_',
-  `achievement_level` int(11) NOT NULL DEFAULT '1',
-  `prize` varchar(255) NOT NULL DEFAULT 'A1 KUMIANKKA',
+  `achievement_group` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT 'ACH_',
+  `achievement_level` int(11) unsigned NOT NULL DEFAULT '1',
+  `prize` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT 'A1 KUMIANKKA',
   `prize_baseitem` int(11) unsigned NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
 
 --
 -- Extraindo dados da tabela `talents_data`
@@ -12878,54 +12878,54 @@ INSERT INTO `talents_data` (`id`, `type`, `parent_category`, `level`, `order_num
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(11) unsigned NOT NULL,
-  `username` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `real_name` varchar(100) CHARACTER SET latin1 NOT NULL DEFAULT '',
-  `password` varchar(255) NOT NULL DEFAULT '',
-  `auth_ticket` varchar(240) CHARACTER SET latin1 NOT NULL DEFAULT '',
+  `username` varchar(100) CHARACTER SET utf8mb4 NOT NULL,
+  `real_name` varchar(100) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
+  `password` varchar(100) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
+  `auth_ticket` varchar(100) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
   `rank` int(11) unsigned NOT NULL DEFAULT '1',
-  `credits` int(11) NOT NULL DEFAULT '50000',
-  `activity_points` int(11) NOT NULL DEFAULT '0',
+  `credits` int(11) unsigned NOT NULL DEFAULT '50000',
+  `activity_points` int(11) unsigned NOT NULL DEFAULT '0',
   `activity_points_lastupdate` double NOT NULL DEFAULT '0',
-  `diamonds` int(11) NOT NULL DEFAULT '0',
-  `look` varchar(160) CHARACTER SET latin1 NOT NULL DEFAULT 'hr-115-42.hd-190-1.ch-215-62.lg-285-91.sh-290-62',
-  `gender` enum('M','F') CHARACTER SET latin1 NOT NULL DEFAULT 'M',
-  `motto` varchar(50) CHARACTER SET latin1 NOT NULL DEFAULT '',
-  `mail` varchar(255) NOT NULL DEFAULT 'undefined',
-  `account_created` double(50,0) NOT NULL DEFAULT '0',
+  `diamonds` int(11) unsigned NOT NULL DEFAULT '0',
+  `look` varchar(160) CHARACTER SET utf8mb4 NOT NULL DEFAULT 'hr-115-42.hd-190-1.ch-215-62.lg-285-91.sh-290-62',
+  `gender` enum('M','F') CHARACTER SET utf8mb4 NOT NULL DEFAULT 'M',
+  `motto` varchar(50) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
+  `mail` varchar(191) CHARACTER SET utf8mb4 NOT NULL DEFAULT 'undefined',
+  `account_created` int(11) NOT NULL DEFAULT '0',
   `last_online` int(11) NOT NULL DEFAULT '0',
-  `online` enum('0','1') CHARACTER SET latin1 NOT NULL DEFAULT '0',
-  `ip_last` varchar(120) CHARACTER SET latin1 NOT NULL DEFAULT '',
-  `ip_reg` varchar(120) CHARACTER SET latin1 NOT NULL DEFAULT '',
+  `online` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
+  `ip_last` varchar(120) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
+  `ip_reg` varchar(120) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
   `home_room` int(10) unsigned NOT NULL DEFAULT '0',
   `newbie_status` int(11) NOT NULL DEFAULT '0',
-  `is_muted` enum('0','1') CHARACTER SET latin1 NOT NULL DEFAULT '0',
-  `mutant_penalty` enum('0','1','2') CHARACTER SET latin1 NOT NULL DEFAULT '0',
+  `is_muted` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
+  `mutant_penalty` enum('0','1','2') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
   `mutant_penalty_expire` int(11) NOT NULL DEFAULT '0',
-  `trade_lock` enum('0','1') NOT NULL DEFAULT '0',
+  `trade_lock` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
   `trade_lock_expire` int(11) NOT NULL DEFAULT '0',
-  `block_newfriends` enum('0','1') CHARACTER SET latin1 NOT NULL DEFAULT '0',
-  `hide_online` enum('0','1') CHARACTER SET latin1 NOT NULL DEFAULT '0',
-  `hide_inroom` enum('0','1') CHARACTER SET latin1 NOT NULL DEFAULT '0',
-  `vip` enum('0','1') CHARACTER SET latin1 NOT NULL DEFAULT '0',
+  `block_newfriends` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
+  `hide_online` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
+  `hide_inroom` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
+  `vip` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
   `talent_status` enum('citizenship','helper') NOT NULL DEFAULT 'citizenship',
   `last_name_change` int(11) NOT NULL DEFAULT '0',
-  `nux_passed` enum('0','1') NOT NULL DEFAULT '0',
+  `nux_passed` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
   `builders_expire` int(11) DEFAULT '3700',
   `builders_items_max` int(11) NOT NULL DEFAULT '100',
   `builders_items_used` int(11) NOT NULL DEFAULT '0',
   `release_version` int(11) NOT NULL DEFAULT '2',
-  `on_duty` varchar(255) NOT NULL DEFAULT 'false',
+  `on_duty` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT 'false',
   `duty_level` int(11) NOT NULL DEFAULT '0',
-  `navigator_logs` varchar(255) CHARACTER SET latin1 DEFAULT '1,official-root,;2,popular,;3,my,;4,favorites,',
+  `navigator_logs` varchar(255) CHARACTER SET utf8mb4 DEFAULT '1,official-root,;2,popular,;3,my,;4,favorites,',
   `respect` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `users`
 --
 
 INSERT INTO `users` (`id`, `username`, `real_name`, `password`, `auth_ticket`, `rank`, `credits`, `activity_points`, `activity_points_lastupdate`, `diamonds`, `look`, `gender`, `motto`, `mail`, `account_created`, `last_online`, `online`, `ip_last`, `ip_reg`, `home_room`, `newbie_status`, `is_muted`, `mutant_penalty`, `mutant_penalty_expire`, `trade_lock`, `trade_lock_expire`, `block_newfriends`, `hide_online`, `hide_inroom`, `vip`, `talent_status`, `last_name_change`, `nux_passed`, `builders_expire`, `builders_items_max`, `builders_items_used`, `release_version`, `on_duty`, `duty_level`, `navigator_logs`, `respect`) VALUES
-(1, 'Claudio', '', '', 'chocolate', 10, 49962, 1330, 0, 83, 'ch-215-62.hd-190-19.lg-285-91.sh-290-62.hr-115-42', 'M', '', 'undefined', 0, 1447683446, '0', '172.16.9.115', '', 0, 0, '0', '0', 0, '0', 0, '0', '0', '0', '0', 'citizenship', 0, '0', 3700, 100, 0, 2, 'false', 0, '1,official-root,;2,popular,;3,my,;4,favorites,', NULL);
+(2, 'Kioi', '', '', 'chocolate', 1, 50000, 0, 0, 0, 'hr-115-42.hd-190-1.ch-215-62.lg-285-91.sh-290-62', 'M', '', 'undefined', 1450124463, 0, '0', '172.16.9.69', '', 0, 0, '0', '0', 0, '0', 0, '0', '0', '0', '0', 'citizenship', 0, '0', 3700, 100, 0, 2, 'false', 0, '1,official-root,;2,popular,;3,my,;4,favorites,', NULL);
 
 -- --------------------------------------------------------
 
@@ -12954,7 +12954,9 @@ INSERT INTO `users_achievements` (`userid`, `group`, `level`, `progress`) VALUES
 (1, 'ACH_AvatarLooks', 1, 0),
 (1, 'ACH_SafetyQuizGraduate', 1, 0),
 (1, 'ACH_PetLover', 2, 0),
-(1, 'ACH_PetRespectGiver', 1, 3);
+(1, 'ACH_PetRespectGiver', 1, 3),
+(2, 'ACH_RegistrationDuration', 1, 0),
+(2, 'ACH_Login', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -12968,7 +12970,7 @@ CREATE TABLE `users_badges` (
   `user_id` int(10) unsigned NOT NULL,
   `badge_id` varchar(100) NOT NULL,
   `badge_slot` int(11) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 
 --
 -- Extraindo dados da tabela `users_badges`
@@ -12983,7 +12985,9 @@ INSERT INTO `users_badges` (`id`, `user_id`, `badge_id`, `badge_slot`) VALUES
 (8, 1, 'ACH_AvatarLooks1', 0),
 (10, 1, 'ACH_SafetyQuizGraduate1', 0),
 (14, 1, 'ACH_PetLover2', 0),
-(15, 1, 'ACH_PetRespectGiver1', 0);
+(15, 1, 'ACH_PetRespectGiver1', 0),
+(16, 2, 'ACH_RegistrationDuration1', 0),
+(17, 2, 'ACH_Login1', 0);
 
 -- --------------------------------------------------------
 
@@ -13127,7 +13131,8 @@ CREATE TABLE `users_info` (
 --
 
 INSERT INTO `users_info` (`user_id`, `bans`, `cautions`, `reg_timestamp`, `login_timestamp`, `cfhs`, `cfhs_abusive`) VALUES
-(1, 0, 0, 0, 1447683346, 0, 0);
+(1, 0, 0, 0, 1447683346, 0, 0),
+(2, 0, 0, 0, 1450128847, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -13169,7 +13174,8 @@ CREATE TABLE `users_preferences` (
 --
 
 INSERT INTO `users_preferences` (`userid`, `volume`, `prefer_old_chat`, `ignore_room_invite`, `disable_camera_follow`, `newnavi_x`, `newnavi_y`, `newnavi_width`, `newnavi_height`, `chat_color`) VALUES
-(1, '100,100,100', '0', '0', '0', 348, 42, 425, 600, 0);
+(1, '100,100,100', '0', '0', '0', 348, 42, 425, 600, 0),
+(2, '100,100,100', '0', '0', '0', 0, 0, 580, 600, 0);
 
 -- --------------------------------------------------------
 
@@ -13320,7 +13326,7 @@ CREATE TABLE `users_rooms_visits` (
 
 DROP TABLE IF EXISTS `users_stats`;
 CREATE TABLE `users_stats` (
-  `id` int(7) NOT NULL,
+  `id` int(11) unsigned NOT NULL,
   `online_seconds` int(7) NOT NULL,
   `room_visits` int(7) NOT NULL DEFAULT '0',
   `respect` int(6) NOT NULL DEFAULT '0',
@@ -13328,20 +13334,20 @@ CREATE TABLE `users_stats` (
   `gifts_received` int(6) NOT NULL DEFAULT '0',
   `daily_respect_points` int(1) NOT NULL DEFAULT '3',
   `daily_pet_respect_points` int(1) NOT NULL DEFAULT '3',
-  `achievement_score` int(7) NOT NULL DEFAULT '0',
+  `achievement_score` int(7) unsigned NOT NULL DEFAULT '0',
   `quest_id` int(10) unsigned NOT NULL DEFAULT '0',
   `quest_progress` int(10) NOT NULL DEFAULT '0',
   `favourite_group` int(11) NOT NULL DEFAULT '0',
   `tickets_answered` int(11) NOT NULL DEFAULT '0',
   `daily_competition_votes` int(11) NOT NULL DEFAULT '3'
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Extraindo dados da tabela `users_stats`
 --
 
 INSERT INTO `users_stats` (`id`, `online_seconds`, `room_visits`, `respect`, `gifts_given`, `gifts_received`, `daily_respect_points`, `daily_pet_respect_points`, `achievement_score`, `quest_id`, `quest_progress`, `favourite_group`, `tickets_answered`, `daily_competition_votes`) VALUES
-(1, 14, 0, 0, 0, 0, 3, 0, 515, 0, 0, 0, 0, 3);
+(2, 0, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 0, 3);
 
 -- --------------------------------------------------------
 
@@ -13880,7 +13886,11 @@ ALTER TABLE `talents_data`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `mail_2` (`mail`),
+  ADD KEY `id` (`id`),
+  ADD KEY `username` (`username`),
+  ADD KEY `mail` (`mail`);
 
 --
 -- Indexes for table `users_achievements`
@@ -13997,7 +14007,8 @@ ALTER TABLE `users_rooms_visits`
 -- Indexes for table `users_stats`
 --
 ALTER TABLE `users_stats`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id` (`id`);
 
 --
 -- Indexes for table `users_subscriptions`
@@ -14261,12 +14272,12 @@ ALTER TABLE `talents_data`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `users_badges`
 --
 ALTER TABLE `users_badges`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `users_bans`
 --
@@ -14338,6 +14349,12 @@ ALTER TABLE `bots_commands`
 ALTER TABLE `bots_data`
   ADD CONSTRAINT `bots_data_bot_type` FOREIGN KEY (`bot_type`) REFERENCES `catalog_bots` (`bot_type`),
   ADD CONSTRAINT `bots_data_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Limitadores para a tabela `users_stats`
+--
+ALTER TABLE `users_stats`
+  ADD CONSTRAINT `users_stats_user_id` FOREIGN KEY (`id`) REFERENCES `users` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

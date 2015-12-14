@@ -175,8 +175,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Banzai
                 {
                     Yupi.GetGame()
                         .GetAchievementManager()
-                        .ProgressUserAchievement(avatar.GetClient(), "ACH_BattleBallTilesLocked",
-                            avatar.LockedTilesCount);
+                        .ProgressUserAchievement(avatar.GetClient(), "ACH_BattleBallTilesLocked", avatar.LockedTilesCount);
                     Yupi.GetGame()
                         .GetAchievementManager()
                         .ProgressUserAchievement(avatar.GetClient(), "ACH_BattleBallPlayer", 1);

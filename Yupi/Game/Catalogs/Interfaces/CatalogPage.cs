@@ -170,6 +170,7 @@ namespace Yupi.Game.Catalogs.Interfaces
             TextDetails = textDetails;
             TextTeaser = textTeaser;
             OrderNum = orderNum;
+
             if (layout.StartsWith("frontpage"))
                 OrderNum = -2;
 

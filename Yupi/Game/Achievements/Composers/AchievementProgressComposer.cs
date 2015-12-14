@@ -42,7 +42,7 @@ namespace Yupi.Game.Achievements.Composers
         /// <param name="totalLevels">The total levels.</param>
         /// <param name="userData">The user data.</param>
         /// <returns>ServerMessage.</returns>
-        internal static ServerMessage Compose(Achievement achievement, int targetLevel, AchievementLevel targetLevelData, int totalLevels, UserAchievement userData)
+        internal static ServerMessage Compose(Achievement achievement, uint targetLevel, AchievementLevel targetLevelData, uint totalLevels, UserAchievement userData)
         {
             var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("AchievementProgressMessageComposer"));
 

@@ -57,7 +57,7 @@ namespace Yupi.Game.Achievements.Structs
         /// <summary>
         ///     The achievement level
         /// </summary>
-        internal int AchievementLevel;
+        internal uint AchievementLevel;
 
         /// <summary>
         ///     The prize
@@ -80,7 +80,7 @@ namespace Yupi.Game.Achievements.Structs
         /// <param name="achLevel">The ach level.</param>
         /// <param name="prize">The prize.</param>
         /// <param name="prizeBaseItem">The prize base item.</param>
-        internal Talent(int id, string type, int parentCategory, int level, string achId, int achLevel, string prize, uint prizeBaseItem)
+        internal Talent(int id, string type, int parentCategory, int level, string achId, uint achLevel, string prize, uint prizeBaseItem)
         {
             Id = id;
             Type = type;

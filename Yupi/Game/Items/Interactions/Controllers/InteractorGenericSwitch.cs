@@ -3,7 +3,6 @@ using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Items.Interactions.Enums;
 using Yupi.Game.Items.Interactions.Models;
 using Yupi.Game.Items.Interfaces;
-using Yupi.Game.Quests;
 
 namespace Yupi.Game.Items.Interactions.Controllers
 {
@@ -15,8 +14,6 @@ namespace Yupi.Game.Items.Interactions.Controllers
 
             if (session == null || !hasRights || num <= 0 || item.GetBaseItem().InteractionType == Interaction.Pinata)
                 return;
-
-            Yupi.GetGame().GetQuestManager().ProgressUserQuest(session, QuestType.FurniSwitch);
 
             int num2;
             int.TryParse(item.ExtraData, out num2);

@@ -540,8 +540,8 @@ namespace Yupi.Game.Catalogs.Composers
             Dictionary<Item, uint> items = null, int clubLevel = 1,
             uint diamondsCost = 0,
             uint activityPointsCost = 0, bool isLimited = false,
-            int limitedStack = 0,
-            int limitedSelled = 0)
+            uint limitedStack = 0,
+            uint limitedSelled = 0)
         {
             var message = new ServerMessage(LibraryParser.OutgoingRequest("PurchaseOKMessageComposer"));
             message.AppendInteger(itemId);
@@ -571,7 +571,9 @@ namespace Yupi.Game.Catalogs.Composers
                     message.AppendInteger(itemDic.Value); //productCount
                     message.AppendBool(isLimited);
 
-                    if (!isLimited) continue;
+                    if (!isLimited)
+                        continue;
+
                     message.AppendInteger(limitedStack);
                     message.AppendInteger(limitedSelled);
                 }
@@ -579,6 +581,7 @@ namespace Yupi.Game.Catalogs.Composers
 
             message.AppendInteger(clubLevel); //clubLevel
             message.AppendBool(false); //window.visible?
+
             return message;
         }
 

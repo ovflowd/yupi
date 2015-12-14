@@ -51,9 +51,9 @@ namespace Yupi.Game.Achievements.Composers
             {
                 UserAchievement achievementData = session.GetHabbo().GetAchievementData(achievement.GroupName);
 
-                int i = achievementData?.Level + 1 ?? 1;
+                uint i = achievementData?.Level + 1 ?? 1;
 
-                int count = achievement.Levels.Count;
+                uint count = (uint)achievement.Levels.Count;
 
                 if (i > count)
                     i = count;

@@ -59,7 +59,7 @@ namespace Yupi.Game.Catalogs.Interfaces
         /// <summary>
         ///     The limited stack
         /// </summary>
-        internal readonly int LimitedStack;
+        internal readonly uint LimitedStack;
 
         /// <summary>
         ///     The name
@@ -69,7 +69,7 @@ namespace Yupi.Game.Catalogs.Interfaces
         /// <summary>
         ///     The page identifier
         /// </summary>
-        internal readonly int PageId;
+        internal readonly uint PageId;
 
         /// <summary>
         ///     The song identifier
@@ -104,7 +104,7 @@ namespace Yupi.Game.Catalogs.Interfaces
         /// <summary>
         ///     The limited selled
         /// </summary>
-        internal int LimitedSelled;
+        internal uint LimitedSelled;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="CatalogItem" /> class.
@@ -113,20 +113,24 @@ namespace Yupi.Game.Catalogs.Interfaces
         /// <param name="name">The name.</param>
         internal CatalogItem(DataRow row, string name)
         {
-            Id = Convert.ToUInt32(row["id"]);
+            // Item Id
+            Id = (uint)row["id"];
+
+            // Item Name
             Name = name;
 
-            ItemNamesString = row["item_names"].ToString();
-
+            // Multiple Items
+            ItemNamesString = (string)row["item_names"];
             Items = new Dictionary<Item, uint>();
 
-            var itemNames = ItemNamesString.Split(';');
+            // String Arrays
+            string[] itemNames = ItemNamesString.Split(';');
+            string[] amounts = row["amounts"].ToString().Split(';');
 
-            var amounts = row["amounts"].ToString().Split(';');
-
-            for (var i = 0; i < itemNames.Length; i++)
+            for (int i = 0; i < itemNames.Length; i++)
             {
                 uint amount;
+
                 Item item;
 
                 if (!Yupi.GetGame().GetItemManager().GetItem(itemNames[i], out item))
@@ -137,23 +141,26 @@ namespace Yupi.Game.Catalogs.Interfaces
                 Items.Add(item, amount);
             }
 
+            // Strings
             BaseName = Items.Keys.First().Name;
-            BaseId = Items.Keys.First().ItemId;
-            FirstAmount = Items.Values.First();
-            PageId = (int)row["page_id"];
-
-            uint.TryParse(row["cost_credits"].ToString(), out CreditsCost);
-            uint.TryParse(row["cost_diamonds"].ToString(), out DiamondsCost);
-            uint.TryParse(row["cost_duckets"].ToString(), out DucketsCost);
-
-            LimitedSelled = (int)row["limited_sells"];
-            LimitedStack = (int)row["limited_stack"];
-            IsLimited = LimitedStack > 0;
             Badge = (string)row["badge"];
             HaveOffer = (string)row["offer_active"] == "1";
             ClubOnly = (string)row["club_only"] == "1";
             ExtraData = (string)row["extradata"];
+
+            // Positive Integers (Unsigned)
+            PageId = (uint)row["page_id"];
+            CreditsCost = (uint)row["cost_credits"];
+            DiamondsCost = (uint)row["cost_diamonds"];
+            DucketsCost = (uint)row["cost_duckets"];
+            LimitedSelled = (uint)row["limited_sells"];
+            LimitedStack = (uint)row["limited_stack"];
+            BaseId = Items.Keys.First().ItemId;
+            FirstAmount = Items.Values.First();
             SongId = (uint)row["song_id"];
+
+            // Booleans
+            IsLimited = LimitedStack > 0;      
         }
 
         /// <summary>

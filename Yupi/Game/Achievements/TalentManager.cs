@@ -59,7 +59,7 @@ namespace Yupi.Game.Achievements
                 (int)dataRow["parent_category"],
                 (int)dataRow["level"], 
                 (string)dataRow["achievement_group"], 
-                (int)dataRow["achievement_level"],
+                (uint)dataRow["achievement_level"],
                 (string)dataRow["prize"], 
                 (uint)dataRow["prize_baseitem"]))
                 Talents.Add(talent.Id, talent);

@@ -17,7 +17,6 @@ using Yupi.Game.Items;
 using Yupi.Game.Items.Handlers;
 using Yupi.Game.Pets;
 using Yupi.Game.Polls;
-using Yupi.Game.Quests;
 using Yupi.Game.RoomBots;
 using Yupi.Game.Rooms;
 using Yupi.Game.Rooms.Data;
@@ -128,11 +127,6 @@ namespace Yupi.Game
         private readonly PollManager _pollManager;
 
         /// <summary>
-        ///     The _quest manager
-        /// </summary>
-        private readonly QuestManager _questManager;
-
-        /// <summary>
         ///     The _role manager
         /// </summary>
         private readonly RoleManager _roleManager;
@@ -235,18 +229,12 @@ namespace Yupi.Game
                 Progress(bar, wait, end, "Loading Bots...");
                 _botManager = new BotManager();
 
-                Progress(bar, wait, end, "Loading Quests...");
-                _questManager = new QuestManager();
-                _questManager.Initialize(queryReactor);
-
                 Progress(bar, wait, end, "Loading Events...");
                 _events = new RoomEvents();
 
                 Progress(bar, wait, end, "Loading Talents...");
                 _talentManager = new TalentManager();
                 _talentManager.Initialize(queryReactor);
-
-                //this.SnowStormManager = new SnowStormManager();
 
                 Progress(bar, wait, end, "Loading Pinata...");
                 _pinataHandler = new PinataHandler();
@@ -411,12 +399,6 @@ namespace Yupi.Game
         /// </summary>
         /// <returns>BotManager.</returns>
         internal BotManager GetBotManager() => _botManager;
-
-        /// <summary>
-        ///     Gets the quest manager.
-        /// </summary>
-        /// <returns>QuestManager.</returns>
-        internal QuestManager GetQuestManager() => _questManager;
 
         /// <summary>
         ///     Gets the group manager.

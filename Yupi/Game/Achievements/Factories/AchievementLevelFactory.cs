@@ -51,7 +51,7 @@ namespace Yupi.Game.Achievements.Factories
             {
                 string achievementName = dataRow["achievement_name"].ToString();
 
-                AchievementLevel level = new AchievementLevel((int)dataRow["achievement_level"], (int)dataRow["reward_pixels"], (int)dataRow["reward_points"], (int)dataRow["progress_needed"]);
+                AchievementLevel level = new AchievementLevel((uint)dataRow["achievement_level"], (uint)dataRow["reward_pixels"], (uint)dataRow["reward_points"], (uint)dataRow["progress_needed"]);
 
                 if (!achievements.ContainsKey(achievementName))
                     achievements.Add(achievementName, new Achievement((uint)dataRow["id"], achievementName, dataRow["achievement_category"].ToString()));        
