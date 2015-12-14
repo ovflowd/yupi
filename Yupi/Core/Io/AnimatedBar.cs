@@ -43,11 +43,8 @@ namespace Yupi.Core.Io
         /// </summary>
         public override void Step()
         {
-            System.Console.Write("{0}\b", _animation[_counter]);
+            System.Console.Write("{0}\b", _animation[_counter % _animation.Count]);
             _counter++;
-
-            if (_counter == _animation.Count)
-                _counter = 0;
         }
     }
 }
