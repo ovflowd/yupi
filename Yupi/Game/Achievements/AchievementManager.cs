@@ -98,10 +98,7 @@ namespace Yupi.Game.Achievements
         /// </summary>
         /// <param name="session">The session.</param>
         /// <param name="message">The message.</param>
-        internal void GetList(GameClient session, ClientMessage message)
-        {
-            session.SendMessage(AchievementListComposer.Compose(session, Achievements.Values.ToList()));
-        }
+        internal void GetList(GameClient session, ClientMessage message) => session.SendMessage(AchievementListComposer.Compose(session, Achievements.Values.ToList()));
 
         /// <summary>
         ///     Tries the progress login achievements.

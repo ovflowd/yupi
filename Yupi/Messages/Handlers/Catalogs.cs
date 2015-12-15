@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Yupi.Core.Io;
 using Yupi.Game.Catalogs;
 using Yupi.Game.Catalogs.Composers;
+using Yupi.Game.Catalogs.Interfaces;
 using Yupi.Game.Catalogs.Wrappers;
 using Yupi.Game.Groups.Structs;
 using Yupi.Messages.Enums;
@@ -19,7 +21,7 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         public void CatalogueIndex()
         {
-            var rank = Session.GetHabbo().Rank;
+            uint rank = Session.GetHabbo().Rank;
 
             if (rank < 1)
                 rank = 1;
@@ -33,11 +35,11 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         public void CataloguePage()
         {
-            var pageId = Request.GetInteger();
+            uint pageId = Request.GetUInteger();
 
             Request.GetInteger();
 
-            var cPage = Yupi.GetGame().GetCatalog().GetPage(pageId);
+            CatalogPage cPage = Yupi.GetGame().GetCatalog().GetPage(pageId);
 
             if (cPage == null || !cPage.Enabled || !cPage.Visible || cPage.MinRank > Session.GetHabbo().Rank)
                 return;
@@ -50,7 +52,7 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         public void CatalogueClubPage()
         {
-            var requestType = Request.GetInteger();
+            int requestType = Request.GetInteger();
 
             Session.SendMessage(CatalogPageComposer.ComposeClubPurchasePage(Session, requestType));
         }
@@ -76,22 +78,22 @@ namespace Yupi.Messages.Handlers
             Response.AppendInteger(1);
             Response.AppendInteger(GiftWrapper.GiftWrappersList.Count);
 
-            foreach (var i in GiftWrapper.GiftWrappersList)
+            foreach (int i in GiftWrapper.GiftWrappersList)
                 Response.AppendInteger(i);
 
             Response.AppendInteger(8);
 
-            for (var i = 0u; i != 8; i++)
+            for (uint i = 0u; i != 8; i++)
                 Response.AppendInteger(i);
 
             Response.AppendInteger(11);
 
-            for (var i = 0u; i != 11; i++)
+            for (uint i = 0u; i != 11; i++)
                 Response.AppendInteger(i);
 
             Response.AppendInteger(GiftWrapper.OldGiftWrappers.Count);
 
-            foreach (var i in GiftWrapper.OldGiftWrappers)
+            foreach (int i in GiftWrapper.OldGiftWrappers)
                 Response.AppendInteger(i);
 
             SendResponse();
@@ -104,20 +106,20 @@ namespace Yupi.Messages.Handlers
         {
             Response.Init(LibraryParser.OutgoingRequest("RecyclerRewardsMessageComposer"));
 
-            var ecotronRewardsLevels = Yupi.GetGame().GetCatalog().GetEcotronRewardsLevels();
+            List<int> ecotronRewardsLevels = Yupi.GetGame().GetCatalog().GetEcotronRewardsLevels();
 
             Response.AppendInteger(ecotronRewardsLevels.Count);
 
-            foreach (var current in ecotronRewardsLevels)
+            foreach (int current in ecotronRewardsLevels)
             {
                 Response.AppendInteger(current);
                 Response.AppendInteger(current);
 
-                var ecotronRewardsForLevel = Yupi.GetGame().GetCatalog().GetEcotronRewardsForLevel(uint.Parse(current.ToString()));
+                List<EcotronReward> ecotronRewardsForLevel = Yupi.GetGame().GetCatalog().GetEcotronRewardsForLevel(uint.Parse(current.ToString()));
 
                 Response.AppendInteger(ecotronRewardsForLevel.Count);
 
-                foreach (var current2 in ecotronRewardsForLevel)
+                foreach (EcotronReward current2 in ecotronRewardsForLevel)
                 {
                     Response.AppendString(current2.GetBaseItem().PublicName);
                     Response.AppendInteger(1);
@@ -144,7 +146,7 @@ namespace Yupi.Messages.Handlers
                 return;
             }
 
-            int pageId = Request.GetInteger();
+            uint pageId = Request.GetUInteger();
             uint itemId = Request.GetUInteger();
             string extraData = Request.GetString();
             uint priceAmount = Request.GetUInteger();
@@ -157,7 +159,7 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         public void PurchaseGift()
         {
-            int pageId = Request.GetInteger();
+            uint pageId = Request.GetUInteger();
             uint itemId = Request.GetUInteger();
             string extraData = Request.GetString();
             string giftUser = Request.GetString();
@@ -165,7 +167,7 @@ namespace Yupi.Messages.Handlers
             int giftSpriteId = Request.GetInteger();
             int giftLazo = Request.GetInteger();
             int giftColor = Request.GetInteger();
-            var undef = Request.GetBool();
+            bool undef = Request.GetBool();
 
             Yupi.GetGame().GetCatalog().HandlePurchase(Session, pageId, itemId, extraData, 1, true, giftUser, giftMessage, giftSpriteId, giftLazo, giftColor, undef, 0u);
         }
@@ -175,8 +177,8 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         public void CheckPetName()
         {
-            var petName = Request.GetString();
-            var i = 0;
+            string petName = Request.GetString();
+            int i = 0;
 
             if (petName.Length > 15)
                 i = 1;
@@ -196,15 +198,16 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         public void CatalogueOffer()
         {
-            var num = Request.GetInteger();
-            var catalogItem = Yupi.GetGame().GetCatalog().GetItemFromOffer(num);
+            uint num = Request.GetUInteger();
+
+            CatalogItem catalogItem = Yupi.GetGame().GetCatalog().GetItemFromOffer(num);
 
             if (catalogItem == null || CatalogManager.LastSentOffer == num)
                 return;
 
             CatalogManager.LastSentOffer = num;
 
-            var message = new ServerMessage(LibraryParser.OutgoingRequest("CatalogOfferMessageComposer"));
+            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("CatalogOfferMessageComposer"));
 
             CatalogPageComposer.ComposeItem(catalogItem, message);
             Session.SendMessage(message);
@@ -231,13 +234,13 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         internal void SerializeGroupFurniPage()
         {
-            var userGroups = Yupi.GetGame().GetGroupManager().GetUserGroups(Session.GetHabbo().Id);
+            HashSet<GroupMember> userGroups = Yupi.GetGame().GetGroupManager().GetUserGroups(Session.GetHabbo().Id);
 
             Response.Init(LibraryParser.OutgoingRequest("GroupFurniturePageMessageComposer"));
 
-            var responseList = new List<ServerMessage>();
+            List<ServerMessage> responseList = new List<ServerMessage>();
 
-            foreach (var habboGroup in userGroups.Where(current => current != null).Select(current => Yupi.GetGame().GetGroupManager().GetGroup(current.GroupId)))
+            foreach (Guild habboGroup in userGroups.Where(current => current != null).Select(current => Yupi.GetGame().GetGroupManager().GetGroup(current.GroupId)))
             {
                 if (habboGroup == null)
                     continue;

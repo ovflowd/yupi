@@ -32,23 +32,13 @@ namespace Yupi.Data.Base.Sessions
     {
         public NormalQueryReactor(IDatabaseClient client) : base(client)
         {
-            switch (ConnectionManager.DatabaseConnectionType.ToLower())
-            {
-                default: // MySQL
                     CommandMySql = client.CreateNewCommandMySql();
-                    break;
-            }
         }
 
         public void Dispose()
         {
-            switch (ConnectionManager.DatabaseConnectionType.ToLower())
-            {
-                default: // MySQL
                     CommandMySql.Dispose();
                     Client.ReportDone();
-                    break;
-            }
         }
 
         public void DoCommit()

@@ -968,7 +968,7 @@ namespace Yupi.Messages.Handlers
             if (item != null)
                 Session.GetHabbo().GetInventoryComponent().SendNewItems(item.Id);
 
-            using (IQueryAdapter dbClient = Azure.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
                 if (Session.GetHabbo().Vip)
                     dbClient.RunFastQuery(
                         string.Format(

@@ -28,6 +28,7 @@ using System.Collections.Specialized;
 using System.Data;
 using System.Globalization;
 using System.Linq;
+using Yupi.Core.Io;
 using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Game.Catalogs.Composers;
 using Yupi.Game.Catalogs.Interfaces;
@@ -54,7 +55,7 @@ namespace Yupi.Game.Catalogs
         /// <summary>
         ///     The last sent offer
         /// </summary>
-        internal static int LastSentOffer;
+        internal static uint LastSentOffer;
 
         /// <summary>
         ///     The categories
@@ -74,7 +75,7 @@ namespace Yupi.Game.Catalogs
         /// <summary>
         ///     The flat offers
         /// </summary>
-        internal Dictionary<int, uint> FlatOffers;
+        internal Dictionary<uint, uint> FlatOffers;
 
         /// <summary>
         ///     The habbo club items
@@ -177,14 +178,14 @@ namespace Yupi.Game.Catalogs
         /// </summary>
         /// <param name="offerId">The offer identifier.</param>
         /// <returns>CatalogItem.</returns>
-        internal CatalogItem GetItemFromOffer(int offerId)
+        internal CatalogItem GetItemFromOffer(uint offerId)
         {
             CatalogItem result = null;
 
             if (FlatOffers.ContainsKey(offerId))
                 result = (CatalogItem)Offers[FlatOffers[offerId]];
 
-            return result ?? Yupi.GetGame().GetCatalog().GetItem(Convert.ToUInt32(offerId));
+            return result ?? Yupi.GetGame().GetCatalog().GetItem(offerId);
         }
 
         /// <summary>
@@ -192,10 +193,10 @@ namespace Yupi.Game.Catalogs
         /// </summary>
         /// <param name="dbClient">The database client.</param>
         /// <param name="pageLoaded">The page loaded.</param>
-        internal void Initialize(IQueryAdapter dbClient, out uint pageLoaded)
+        internal void Initialize(IQueryAdapter dbClient, out int pageLoaded)
         {
             Initialize(dbClient);
-            pageLoaded = (uint)Categories.Count;
+            pageLoaded = Categories.Count;
         }
 
         /// <summary>
@@ -206,14 +207,14 @@ namespace Yupi.Game.Catalogs
         {
             Categories = new HybridDictionary();
             Offers = new HybridDictionary();
-            FlatOffers = new Dictionary<int, uint>();
+            FlatOffers = new Dictionary<uint, uint>();
             EcotronRewards = new List<EcotronReward>();
             EcotronLevels = new List<int>();
             HabboClubItems = new List<CatalogItem>();
 
-            dbClient.SetQuery("SELECT * FROM catalog_items ORDER BY order_num ASC");
+            dbClient.SetQuery("SELECT * FROM catalog_items ORDER BY id ASC");
             DataTable table = dbClient.GetTable();
-            dbClient.SetQuery("SELECT * FROM catalog_pages ORDER BY order_num ASC");
+            dbClient.SetQuery("SELECT * FROM catalog_pages ORDER BY id ASC");
             DataTable table2 = dbClient.GetTable();
             dbClient.SetQuery("SELECT * FROM catalog_ecotron_items ORDER BY reward_level ASC");
             DataTable table3 = dbClient.GetTable();
@@ -236,7 +237,7 @@ namespace Yupi.Game.Catalogs
                     if (!Yupi.GetGame().GetItemManager().GetItem(firstItem, out item))
                         continue;
 
-                    int num = !source.Contains(';') ? item.FlatId : -1;
+                    uint num = !source.Contains(';') ? item.FlatId : 0;
 
                     if (!dataRow.IsNull("special_name"))
                         item.PublicName = (string)dataRow["special_name"];
@@ -248,7 +249,7 @@ namespace Yupi.Game.Catalogs
 
                     Offers.Add(catalogItem.Id, catalogItem);
 
-                    if (num != -1 && !FlatOffers.ContainsKey(num))
+                    if (!FlatOffers.ContainsKey(num))
                         FlatOffers.Add(num, catalogItem.Id);
                 }
             }
@@ -311,7 +312,7 @@ namespace Yupi.Game.Catalogs
         /// </summary>
         /// <param name="page">The page.</param>
         /// <returns>CatalogPage.</returns>
-        internal CatalogPage GetPage(int page) => !Categories.Contains(page) ? null : (CatalogPage)Categories[page];
+        internal CatalogPage GetPage(uint page) => Categories.Contains(page) ? (CatalogPage)Categories[page] : null;
 
         /// <summary>
         ///     Handles the purchase.
@@ -329,7 +330,7 @@ namespace Yupi.Game.Catalogs
         /// <param name="giftColor">Color of the gift.</param>
         /// <param name="undef">if set to <c>true</c> [undef].</param>
         /// <param name="theGroup">The theGroup.</param>
-        internal void HandlePurchase(GameClient session, int pageId, uint itemId, string extraData, uint priceAmount, bool isGift, string giftUser, string giftMessage, int giftSpriteId, int giftLazo, int giftColor, bool undef, uint theGroup)
+        internal void HandlePurchase(GameClient session, uint pageId, uint itemId, string extraData, uint priceAmount, bool isGift, string giftUser, string giftMessage, int giftSpriteId, int giftLazo, int giftColor, bool undef, uint theGroup)
         {
             priceAmount = priceAmount < 1 || priceAmount > 100 ? 1 : priceAmount;
 
@@ -341,7 +342,7 @@ namespace Yupi.Game.Catalogs
             if (!Categories.Contains(pageId))
                 return;
 
-            CatalogPage catalogPage = (CatalogPage)Categories[pageId];
+            CatalogPage catalogPage = GetPage(pageId);
 
             if (catalogPage == null || !catalogPage.Enabled || !catalogPage.Visible || session?.GetHabbo() == null)
                 return;
@@ -353,11 +354,13 @@ namespace Yupi.Game.Catalogs
 
             if (item == null)
                 return;
-
+        
             if (session.GetHabbo().Credits < item.CreditsCost)
                 return;
+
             if (session.GetHabbo().ActivityPoints < item.DucketsCost)
                 return;
+
             if (session.GetHabbo().Diamonds < item.DiamondsCost)
                 return;
 
@@ -387,11 +390,13 @@ namespace Yupi.Game.Catalogs
                     session.GetHabbo().Credits -= item.CreditsCost * totalPrice;
                     session.GetHabbo().UpdateCreditsBalance();
                 }
+
                 if (item.DucketsCost > 0)
                 {
                     session.GetHabbo().ActivityPoints -= item.DucketsCost * totalPrice;
                     session.GetHabbo().UpdateActivityPointsBalance();
                 }
+
                 if (item.DiamondsCost > 0)
                 {
                     session.GetHabbo().Diamonds -= item.DiamondsCost * totalPrice;
@@ -412,11 +417,9 @@ namespace Yupi.Game.Catalogs
             }
             #endregion
 
-            #region Check of Multiplier Items Price
+            #region Check if is a Pet. If is we have problem.
 
-            bool flag = item.Items.Keys.Any(current => InteractionTypes.AreFamiliar(GlobalInteractions.Pet, current.InteractionType));
-
-            if (!flag)
+            if (item.Items.Keys.Any(current => InteractionTypes.AreFamiliar(GlobalInteractions.Pet, current.InteractionType)))
                 return;
 
             #endregion
@@ -443,7 +446,7 @@ namespace Yupi.Game.Catalogs
                     limtot = item.LimitedStack;
                 }
             }
-            else if (isGift & priceAmount > 1)
+            else if (isGift && priceAmount > 1)
             {
                 totalPrice = 1;
                 priceAmount = 1;
@@ -454,8 +457,10 @@ namespace Yupi.Game.Catalogs
 
             if (session.GetHabbo().Credits < item.CreditsCost * totalPrice)
                 return;
+
             if (session.GetHabbo().ActivityPoints < item.DucketsCost * totalPrice)
                 return;
+
             if (session.GetHabbo().Diamonds < item.DiamondsCost * totalPrice)
                 return;
 
@@ -504,21 +509,17 @@ namespace Yupi.Game.Catalogs
 
                     if (row == null)
                     {
-                        session.GetMessageHandler()
-                            .GetResponse()
-                            .Init(LibraryParser.OutgoingRequest("GiftErrorMessageComposer"));
+                        session.GetMessageHandler().GetResponse().Init(LibraryParser.OutgoingRequest("GiftErrorMessageComposer"));
                         session.GetMessageHandler().GetResponse().AppendString(giftUser);
                         session.GetMessageHandler().SendResponse();
                         return;
                     }
 
-                    toUserId = Convert.ToUInt32(row["id"]);
+                    toUserId = (uint)row["id"];
 
                     if (toUserId == 0u)
                     {
-                        session.GetMessageHandler()
-                            .GetResponse()
-                            .Init(LibraryParser.OutgoingRequest("GiftErrorMessageComposer"));
+                        session.GetMessageHandler().GetResponse().Init(LibraryParser.OutgoingRequest("GiftErrorMessageComposer"));
                         session.GetMessageHandler().GetResponse().AppendString(giftUser);
                         session.GetMessageHandler().SendResponse();
                         return;
@@ -529,17 +530,20 @@ namespace Yupi.Game.Catalogs
                         session.GetHabbo().Credits -= item.CreditsCost * totalPrice;
                         session.GetHabbo().UpdateCreditsBalance();
                     }
+
                     if (item.DucketsCost > 0 && isGift)
                     {
                         session.GetHabbo().ActivityPoints -= item.DucketsCost * totalPrice;
                         session.GetHabbo().UpdateActivityPointsBalance();
                     }
+
                     if (item.DiamondsCost > 0 && isGift)
                     {
                         session.GetHabbo().Diamonds -= item.DiamondsCost * totalPrice;
                         session.GetHabbo().UpdateSeasonalCurrencyBalance();
                     }
                 }
+
                 if (isGift && baseItem.Type == 'e')
                 {
                     session.SendNotif(Yupi.GetLanguage().GetVar("user_send_gift_effect"));

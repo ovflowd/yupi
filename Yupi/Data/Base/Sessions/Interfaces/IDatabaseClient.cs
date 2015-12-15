@@ -41,8 +41,6 @@ namespace Yupi.Data.Base.Sessions.Interfaces
 
         bool IsAvailable();
 
-        void Prepare();
-
         void ReportDone();
     }
 }

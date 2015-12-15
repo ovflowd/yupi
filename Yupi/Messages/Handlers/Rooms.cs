@@ -1429,7 +1429,7 @@ namespace Yupi.Messages.Handlers
 
         internal void PromoteRoom()
         {
-            int pageId = Request.GetInteger();
+            uint pageId = Request.GetUInteger();
             uint item = Request.GetUInteger();
 
             CatalogPage page2 = Yupi.GetGame().GetCatalog().GetPage(pageId);
@@ -1443,15 +1443,7 @@ namespace Yupi.Messages.Handlers
 
             Request.GetBool();
 
-            string text2 = string.Empty;
-
-            try
-            {
-                text2 = Request.GetString();
-            }
-            catch (Exception)
-            {
-            }
+            string text2 = Request.GetString();
 
             int category = Request.GetInteger();
 

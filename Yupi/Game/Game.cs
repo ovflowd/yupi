@@ -164,7 +164,7 @@ namespace Yupi.Game
             //Console.WriteLine();
 
             _clientManager = new GameClientManager();
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 AbstractBar bar = new AnimatedBar();
                 const int wait = 15, end = 5;
@@ -297,7 +297,7 @@ namespace Yupi.Game
         public static void Progress(AbstractBar bar, int wait, int end, string message)
         {
             bar.PrintMessage(message);
-            for (var cont = 0; cont < end; cont++)
+            for (int cont = 0; cont < end; cont++)
                 bar.Step();
         }
 
@@ -437,20 +437,28 @@ namespace Yupi.Game
         /// </summary>
         internal void ContinueLoading()
         {
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                uint catalogPageLoaded;
+                int catalogPageLoaded;
+
                 PetRace.Init(queryReactor);
+
                 _catalog.Initialize(queryReactor, out catalogPageLoaded);
+
                 UserChatInputFilter.Load();
                 ServerSecurityChatFilter.InitSwearWord();
                 BlackWordsManager.Load();
                 SoundMachineSongManager.Initialize();
+
                 ServerCpuLowPriorityWorker.Init(queryReactor);
+
                 _roomManager.InitVotedRooms(queryReactor);
+
                 _roomManager.LoadCompetitionManager();
             }
+
             StartGameLoop();
+
             _pixelManager.StartTimer();
         }
 
@@ -479,7 +487,7 @@ namespace Yupi.Game
         /// </summary>
         internal void Destroy()
         {
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 DatabaseCleanup(queryReactor);
             GetClientManager();
             Writer.WriteLine("Client Manager destroyed", "Yupi.Game", ConsoleColor.DarkYellow);
@@ -490,7 +498,7 @@ namespace Yupi.Game
         /// </summary>
         internal void ReloadItems()
         {
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 _itemManager.LoadItems(queryReactor);
             }

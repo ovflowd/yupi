@@ -185,6 +185,7 @@
     <Compile Include="Core\Algorithms\Astar\Interfaces\IPathNode.cs" />
     <Compile Include="Core\Algorithms\Astar\Interfaces\IWeightAddable.cs" />
     <Compile Include="Core\Algorithms\Astar\PriorityQueue.cs" />
+    <Compile Include="Game\Achievements\Composers\AchievementTalentComposer.cs" />
     <Compile Include="Game\Pathfinding\Vectors\Coord.cs" />
     <Compile Include="Core\Encryption\Crypto\KeyExchange\DiffieHellman.cs" />
     <Compile Include="Core\Encryption\Handler.cs" />

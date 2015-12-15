@@ -1,11 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Linq;
 using Yupi.Core.Io;
 using Yupi.Core.Settings;
 using Yupi.Core.Util.Math;
 using Yupi.Data;
+using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Game.GameClients.Interfaces;
+using Yupi.Game.Groups.Structs;
 using Yupi.Game.Items.Datas;
 using Yupi.Game.Items.Handlers;
 using Yupi.Game.Items.Interactions;
@@ -215,7 +219,7 @@ namespace Yupi.Game.Items.Interfaces
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="roomId">The room identifier.</param>
-        /// <param name="baseItem">The base item.</param>
+        /// <param name="baseName"></param>
         /// <param name="extraData">The extra data.</param>
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
@@ -227,8 +231,7 @@ namespace Yupi.Game.Items.Interfaces
         /// <param name="flatId">The flat identifier.</param>
         /// <param name="songCode">The song code.</param>
         /// <param name="isBuilder">if set to <c>true</c> [is builder].</param>
-        internal RoomItem(uint id, uint roomId, string baseName, string extraData, int x, int y, double z, int rot,
-            Room pRoom, uint userid, uint eGroup, int flatId, string songCode, bool isBuilder)
+        internal RoomItem(uint id, uint roomId, string baseName, string extraData, int x, int y, double z, int rot, Room pRoom, uint userid, uint eGroup, string songCode, bool isBuilder)
         {
             Id = id;
             RoomId = roomId;
@@ -257,10 +260,12 @@ namespace Yupi.Game.Items.Interfaces
             if (GetBaseItem() == null)
                 ServerLogManager.LogException($"Unknown Base Item (By Name): {baseName}");
 
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery($"SELECT * FROM items_limited WHERE item_id='{id}' LIMIT 1");
-                var row = queryReactor.GetRow();
+
+                DataRow row = queryReactor.GetRow();
+
                 if (row != null)
                 {
                     LimitedNo = int.Parse(row[1].ToString());
@@ -377,16 +382,14 @@ namespace Yupi.Game.Items.Interfaces
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="roomId">The room identifier.</param>
-        /// <param name="baseItem">The base item.</param>
+        /// <param name="baseName"></param>
         /// <param name="extraData">The extra data.</param>
         /// <param name="wallCoord">The wall coord.</param>
         /// <param name="pRoom">The p room.</param>
         /// <param name="userid">The userid.</param>
         /// <param name="eGroup">The group.</param>
-        /// <param name="flatId">The flat identifier.</param>
         /// <param name="isBuilder">if set to <c>true</c> [is builder].</param>
-        internal RoomItem(uint id, uint roomId, string baseName, string extraData, WallCoordinate wallCoord, Room pRoom,
-            uint userid, uint eGroup, int flatId, bool isBuilder)
+        internal RoomItem(uint id, uint roomId, string baseName, string extraData, WallCoordinate wallCoord, Room pRoom,  uint userid, uint eGroup,  bool isBuilder)
         {
             BaseName = baseName;
 
@@ -484,7 +487,7 @@ namespace Yupi.Game.Items.Interfaces
         {
             get
             {
-                var list = new List<Point> { Coordinate };
+                List<Point> list = new List<Point> { Coordinate };
                 list.AddRange(AffectedTiles.Values.Select(current => new Point(current.X, current.Y)));
                 return list;
             }
@@ -561,7 +564,7 @@ namespace Yupi.Game.Items.Interfaces
         {
             get
             {
-                var result = new Point(X, Y);
+                Point result = new Point(X, Y);
                 {
                     switch (Rot)
                     {
@@ -594,7 +597,7 @@ namespace Yupi.Game.Items.Interfaces
         {
             get
             {
-                var result = new Point(X, Y);
+                Point result = new Point(X, Y);
                 {
                     switch (Rot)
                     {
@@ -628,7 +631,7 @@ namespace Yupi.Game.Items.Interfaces
             get
             {
                 if (IsWired) return new InteractorWired();
-                var interactionType = GetBaseItem().InteractionType;
+                Interaction interactionType = GetBaseItem().InteractionType;
                 switch (interactionType)
                 {
                     case Interaction.Gate:
@@ -814,14 +817,14 @@ namespace Yupi.Game.Items.Interfaces
                 UpdateNeeded = false;
                 UpdateCounter = 0;
 
-                var interactionType = GetBaseItem().InteractionType;
+                Interaction interactionType = GetBaseItem().InteractionType;
 
                 switch (interactionType)
                 {
                     case Interaction.ScoreBoard:
                         {
                             if (string.IsNullOrEmpty(ExtraData)) return;
-                            var num = 0;
+                            int num = 0;
                             int.TryParse(ExtraData, out num);
                             if (num > 0)
                             {
@@ -845,13 +848,13 @@ namespace Yupi.Game.Items.Interfaces
 
                         if (ExtraData == "1")
                         {
-                            var user = GetRoom().GetRoomUserManager().GetRoomUserByHabbo(InteractingUser);
+                            RoomUser user = GetRoom().GetRoomUserManager().GetRoomUserByHabbo(InteractingUser);
 
                             if (user != null)
                             {
                                 user.UnlockWalking();
 
-                                var drink =
+                                int drink =
                                     GetBaseItem().VendingIds[
                                         Yupi.GetRandomNumber(0, GetBaseItem().VendingIds.Count - 1)];
                                 user.CarryItem(drink);
@@ -937,10 +940,10 @@ namespace Yupi.Game.Items.Interfaces
                     case Interaction.Hopper:
                         {
                             bool flag = false, flag2 = false;
-                            var num2 = 0;
+                            int num2 = 0;
                             if (InteractingUser > 0u)
                             {
-                                var roomUser4 = GetRoom().GetRoomUserManager().GetRoomUserByHabbo(InteractingUser);
+                                RoomUser roomUser4 = GetRoom().GetRoomUserManager().GetRoomUserByHabbo(InteractingUser);
                                 if (roomUser4 != null)
                                 {
                                     if (roomUser4.Coordinate == Coordinate)
@@ -948,15 +951,15 @@ namespace Yupi.Game.Items.Interfaces
                                         roomUser4.AllowOverride = false;
                                         if (roomUser4.TeleDelay == 0)
                                         {
-                                            var aHopper = HopperHandler.GetAHopper(roomUser4.RoomId);
-                                            var hopperId = HopperHandler.GetHopperId(aHopper);
+                                            uint aHopper = HopperHandler.GetAHopper(roomUser4.RoomId);
+                                            uint hopperId = HopperHandler.GetHopperId(aHopper);
                                             if (!roomUser4.IsBot && roomUser4.GetClient() != null &&
                                                 roomUser4.GetClient().GetHabbo() != null &&
                                                 roomUser4.GetClient().GetMessageHandler() != null)
                                             {
                                                 roomUser4.GetClient().GetHabbo().IsHopping = true;
                                                 roomUser4.GetClient().GetHabbo().HopperId = hopperId;
-                                                var roomFwd =
+                                                ServerMessage roomFwd =
                                                     new ServerMessage(
                                                         LibraryParser.OutgoingRequest("RoomForwardMessageComposer"));
                                                 roomFwd.AppendInteger(aHopper);
@@ -986,7 +989,7 @@ namespace Yupi.Game.Items.Interfaces
                             }
                             if (InteractingUser2 > 0u)
                             {
-                                var roomUserByHabbo = GetRoom().GetRoomUserManager().GetRoomUserByHabbo(InteractingUser2);
+                                RoomUser roomUserByHabbo = GetRoom().GetRoomUserManager().GetRoomUserByHabbo(InteractingUser2);
                                 if (roomUserByHabbo != null)
                                 {
                                     flag2 = true;
@@ -1029,7 +1032,7 @@ namespace Yupi.Game.Items.Interfaces
                             bool keepDoorOpen = false, showTeleEffect = false;
                             if (InteractingUser > 0)
                             {
-                                var user = GetRoom().GetRoomUserManager().GetRoomUserByHabbo(InteractingUser);
+                                RoomUser user = GetRoom().GetRoomUserManager().GetRoomUserByHabbo(InteractingUser);
                                 if (user != null)
                                 {
                                     if (user.Coordinate == Coordinate)
@@ -1039,11 +1042,11 @@ namespace Yupi.Game.Items.Interfaces
                                         if (TeleHandler.IsTeleLinked(Id, _mRoom))
                                         {
                                             showTeleEffect = true;
-                                            var linkedTele = TeleHandler.GetLinkedTele(Id, _mRoom);
-                                            var teleRoomId = TeleHandler.GetTeleRoomId(linkedTele, _mRoom);
+                                            uint linkedTele = TeleHandler.GetLinkedTele(Id, _mRoom);
+                                            uint teleRoomId = TeleHandler.GetTeleRoomId(linkedTele, _mRoom);
                                             if (teleRoomId == RoomId)
                                             {
-                                                var item = GetRoom().GetRoomItemHandler().GetItem(linkedTele);
+                                                RoomItem item = GetRoom().GetRoomItemHandler().GetItem(linkedTele);
                                                 if (item == null)
                                                 {
                                                     user.UnlockWalking();
@@ -1102,7 +1105,7 @@ namespace Yupi.Game.Items.Interfaces
                             }
                             if (InteractingUser2 > 0)
                             {
-                                var user2 = GetRoom().GetRoomUserManager().GetRoomUserByHabbo(InteractingUser2);
+                                RoomUser user2 = GetRoom().GetRoomUserManager().GetRoomUserByHabbo(InteractingUser2);
                                 if (user2 != null)
                                 {
                                     keepDoorOpen = true;
@@ -1243,7 +1246,7 @@ namespace Yupi.Game.Items.Interfaces
                     case Interaction.FreezeTimer:
                         {
                             if (string.IsNullOrEmpty(ExtraData)) return;
-                            var num5 = 0;
+                            int num5 = 0;
                             int.TryParse(ExtraData, out num5);
                             if (num5 > 0)
                             {
@@ -1278,18 +1281,18 @@ namespace Yupi.Game.Items.Interfaces
                         {
                             ExtraData = "1";
                             UpdateState();
-                            var text = string.Empty;
-                            var clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(InteractingUser);
+                            string text = string.Empty;
+                            GameClient clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(InteractingUser);
                             {
                                 if (!clientByUserId.GetHabbo().Look.Contains("ha"))
                                     text = $"{clientByUserId.GetHabbo().Look}.ha-1006-1326";
                                 else
                                 {
-                                    var array = clientByUserId.GetHabbo().Look.Split('.');
-                                    var array2 = array;
-                                    foreach (var text2 in array2)
+                                    string[] array = clientByUserId.GetHabbo().Look.Split('.');
+                                    string[] array2 = array;
+                                    foreach (string text2 in array2)
                                     {
-                                        var str = text2;
+                                        string str = text2;
                                         if (text2.Contains("ha")) str = "ha-1006-1326";
                                         text = $"{text}{str}.";
                                     }
@@ -1313,7 +1316,7 @@ namespace Yupi.Game.Items.Interfaces
                                     .GetResponse()
                                     .AppendInteger(clientByUserId.GetHabbo().AchievementPoints);
                                 clientByUserId.GetMessageHandler().SendResponse();
-                                var serverMessage = new ServerMessage();
+                                ServerMessage serverMessage = new ServerMessage();
                                 serverMessage.Init(LibraryParser.OutgoingRequest("UpdateUserDataMessageComposer"));
                                 serverMessage.AppendInteger(InteractingUser2);
                                 serverMessage.AppendString(clientByUserId.GetHabbo().Look);
@@ -1414,10 +1417,10 @@ namespace Yupi.Game.Items.Interfaces
         internal void UpdateState(bool inDb, bool inRoom)
         {
             if (GetRoom() == null) return;
-            var s = ExtraData;
+            string s = ExtraData;
             if (GetBaseItem().InteractionType == Interaction.MysteryBox)
             {
-                using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
                     queryReactor.SetQuery($"SELECT extra_data FROM items_rooms WHERE id={Id} LIMIT 1");
                     ExtraData = queryReactor.GetString();
@@ -1431,7 +1434,7 @@ namespace Yupi.Game.Items.Interfaces
             }
             if (inDb) GetRoom().GetRoomItemHandler().AddOrUpdateItem(Id);
             if (!inRoom) return;
-            var serverMessage = new ServerMessage(0);
+            ServerMessage serverMessage = new ServerMessage(0);
             if (IsFloorItem)
             {
                 serverMessage.Init(LibraryParser.OutgoingRequest("UpdateFloorItemExtraDataMessageComposer"));
@@ -1443,7 +1446,7 @@ namespace Yupi.Game.Items.Interfaces
                         serverMessage.AppendInteger(3);
                         if (ExtraData.Contains(Convert.ToChar(5).ToString()))
                         {
-                            var array = ExtraData.Split(Convert.ToChar(5));
+                            string[] array = ExtraData.Split(Convert.ToChar(5));
                             serverMessage.AppendString("GENDER");
                             serverMessage.AppendString(array[0]);
                             serverMessage.AppendString("FIGURE");
@@ -1531,7 +1534,7 @@ namespace Yupi.Game.Items.Interfaces
                     case Interaction.GroupForumTerminal:
                     case Interaction.GuildForum:
                         {
-                            var group2 = Yupi.GetGame().GetGroupManager().GetGroup((int) GroupId);
+                            Guild group2 = Yupi.GetGame().GetGroupManager().GetGroup((int) GroupId);
                             if (group2 == null)
                             {
                                 message.AppendInteger(1);
@@ -1585,7 +1588,7 @@ namespace Yupi.Game.Items.Interfaces
                         if (ExtraData != "")
                         {
                             message.AppendInteger(ExtraData.Split(Convert.ToChar(9)).Length / 2);
-                            for (var i = 0; i <= ExtraData.Split(Convert.ToChar(9)).Length - 1; i++)
+                            for (int i = 0; i <= ExtraData.Split(Convert.ToChar(9)).Length - 1; i++)
                                 message.AppendString(ExtraData.Split(Convert.ToChar(9))[i]);
                         }
                         else message.AppendInteger(0);
@@ -1593,14 +1596,14 @@ namespace Yupi.Game.Items.Interfaces
 
                     case Interaction.Gift:
                         {
-                            var split = ExtraData.Split((char)9);
-                            var giftMessage = string.Empty;
-                            var giftRibbon = 1;
-                            var giftColor = 2;
-                            var showGiver = false;
-                            var giverName = string.Empty;
-                            var giverLook = string.Empty;
-                            var product = "A1 PIZ";
+                            string[] split = ExtraData.Split((char)9);
+                            string giftMessage = string.Empty;
+                            int giftRibbon = 1;
+                            int giftColor = 2;
+                            bool showGiver = false;
+                            string giverName = string.Empty;
+                            string giverLook = string.Empty;
+                            string product = "A1 PIZ";
                             try
                             {
                                 giftMessage = split[1];
@@ -1614,7 +1617,7 @@ namespace Yupi.Game.Items.Interfaces
                             catch
                             {
                             }
-                            var ribbonAndColor = giftRibbon * 1000 + giftColor;
+                            int ribbonAndColor = giftRibbon * 1000 + giftColor;
                             message.AppendInteger(ribbonAndColor);
                             message.AppendInteger(1);
                             message.AppendInteger(showGiver ? 6 : 4);
@@ -1658,7 +1661,7 @@ namespace Yupi.Game.Items.Interfaces
                         message.AppendInteger(3);
                         if (ExtraData.Contains(Convert.ToChar(5).ToString()))
                         {
-                            var array = ExtraData.Split((char)5);
+                            string[] array = ExtraData.Split((char)5);
                             message.AppendString("GENDER");
                             message.AppendString(array[0]);
                             message.AppendString("FIGURE");
@@ -1678,7 +1681,7 @@ namespace Yupi.Game.Items.Interfaces
                         break;
 
                     case Interaction.BadgeDisplay:
-                        var extra = ExtraData.Split('|');
+                        string[] extra = ExtraData.Split('|');
                         message.AppendInteger(0);
                         message.AppendInteger(2);
                         message.AppendInteger(4);
@@ -1689,11 +1692,11 @@ namespace Yupi.Game.Items.Interfaces
                         break;
 
                     case Interaction.LoveLock:
-                        var data = ExtraData.Split((char)5);
+                        string[] data = ExtraData.Split((char)5);
                         message.AppendInteger(0);
                         message.AppendInteger(2);
                         message.AppendInteger(data.Length);
-                        foreach (var datak in data) message.AppendString(datak);
+                        foreach (string datak in data) message.AppendString(datak);
                         break;
 
                     case Interaction.Moplaseed:
@@ -1715,9 +1718,9 @@ namespace Yupi.Game.Items.Interfaces
                         message.AppendInteger(1);
                         if (!string.IsNullOrEmpty(ExtraData) && ExtraData.Contains((char)9))
                         {
-                            var arrayData = ExtraData.Split((char)9);
+                            string[] arrayData = ExtraData.Split((char)9);
                             message.AppendInteger(arrayData.Length / 2);
-                            foreach (var dataStr in arrayData) message.AppendString(dataStr);
+                            foreach (string dataStr in arrayData) message.AppendString(dataStr);
                         }
                         else message.AppendInteger(0);
                         break;
@@ -1727,8 +1730,8 @@ namespace Yupi.Game.Items.Interfaces
                         message.AppendInteger(0);
                         if (ExtraData.Contains(Convert.ToChar(5).ToString()))
                         {
-                            var num3 = int.Parse(ExtraData.Split((char)5)[0]);
-                            var num4 = int.Parse(ExtraData.Split((char)5)[1]);
+                            int num3 = int.Parse(ExtraData.Split((char)5)[0]);
+                            int num4 = int.Parse(ExtraData.Split((char)5)[1]);
                             message.AppendString((3 * num3 - num4).ToString());
                         }
                         else
@@ -1790,7 +1793,7 @@ namespace Yupi.Game.Items.Interfaces
             message.AppendInteger(GetBaseItem().SpriteId);
             message.AppendString(WallCoord?.ToString() ?? string.Empty);
 
-            var interactionType = GetBaseItem().InteractionType;
+            Interaction interactionType = GetBaseItem().InteractionType;
 
             message.AppendString(interactionType == Interaction.PostIt ? ExtraData.Split(' ')[0] : ExtraData);
             message.AppendInteger(-1);

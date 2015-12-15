@@ -41,7 +41,7 @@ namespace Yupi.Game.Items.Interfaces
         /// <summary>
         ///     The flat identifier
         /// </summary>
-        internal int FlatId;
+        internal uint FlatId;
 
         /// <summary>
         ///     The height
@@ -160,7 +160,7 @@ namespace Yupi.Game.Items.Interfaces
             bool allowMarketplaceSell, bool allowGift, bool allowInventoryStack,
             Interaction interactionType,
             uint modes, string vendingIds, bool sub, uint effect, bool stackMultiple, double[] toggle,
-            int flatId)
+            uint flatId)
         {
             ItemId = id;
             SpriteId = sprite;

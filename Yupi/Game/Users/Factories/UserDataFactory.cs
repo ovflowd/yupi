@@ -93,7 +93,7 @@ namespace Yupi.Game.Users.Factories
                                           $"REPLACE INTO users_stats (id) VALUES ('{userId}');");
 
                 // Get User Achievements Data
-                queryReactor.SetQuery($"SELECT * FROM users_achievements WHERE userid = {userId}");
+                queryReactor.SetQuery($"SELECT * FROM users_achievements WHERE user_id = {userId}");
                 achievementsTable = queryReactor.GetTable();
 
                 // Get User Talent Data
@@ -173,8 +173,8 @@ namespace Yupi.Game.Users.Factories
 
             foreach (DataRow row in achievementsTable.Rows)
             {
-                string text = (string) row["group"];
-                uint level = (uint) row["level"], progress = (uint) row["progress"];
+                string text = (string) row["achievement_group"];
+                uint level = (uint) row["achievement_level"], progress = (uint) row["user_progress"];
 
                 achievements.Add(text, new UserAchievement(text, level, progress));
             }

@@ -167,7 +167,6 @@ namespace Yupi.Core.Settings
                 switch (strArray[1])
                 {
                     case "database":
-                        Yupi.GetDatabaseManager().Destroy();
                         Console.WriteLine("Database destroyed");
                         Console.WriteLine();
                         break;

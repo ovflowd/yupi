@@ -482,13 +482,13 @@ namespace Yupi.Game.Rooms.Items.Handlers
                         {
                             var wallCoord = new WallCoordinate(':' + locationData.Split(':')[1]);
 
-                            var value = new RoomItem(id, _room.RoomId, baseItemName, extraData, wallCoord, _room, ownerId, groupId, item.FlatId, Yupi.EnumToBool((string)dataRow["builders"]));
+                            var value = new RoomItem(id, _room.RoomId, baseItemName, extraData, wallCoord, _room, ownerId, groupId, Yupi.EnumToBool((string)dataRow["builders"]));
 
                             WallItems.TryAdd(id, value);
                         }
                         else
                         {
-                            var roomItem = new RoomItem(id, _room.RoomId, baseItemName, extraData, x, y, z, rot, _room, ownerId, groupId, item.FlatId, songCode, Yupi.EnumToBool((string)dataRow["builders"]));
+                            var roomItem = new RoomItem(id, _room.RoomId, baseItemName, extraData, x, y, z, rot, _room, ownerId, groupId, songCode, Yupi.EnumToBool((string)dataRow["builders"]));
 
                             if (!_room.GetGameMap().ValidTile(x, y))
                             {

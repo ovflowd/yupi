@@ -80,8 +80,11 @@ namespace Yupi.Game.Pathfinding
             {
                 list.Add(end);
 
-                while ((pathFinderNode = pathFinderNode.Next) != null)
+                while (pathFinderNode.Next != null)
+                {
                     list.Add(pathFinderNode.Next.Position);
+                    pathFinderNode = pathFinderNode.Next;
+                }
             }
 
             return list;

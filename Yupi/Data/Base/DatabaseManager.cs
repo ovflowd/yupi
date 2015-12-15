@@ -27,30 +27,22 @@ using Yupi.Data.Base.Sessions.Interfaces;
 
 namespace Yupi.Data.Base
 {
-    public sealed class DatabaseManager
+    public class DatabaseManager
     {
         private readonly string _connectionStr;
-        private readonly string _typer;
 
-        public DatabaseManager(string connectionStr, string connType)
+        public DatabaseManager(string connectionStr)
         {
             _connectionStr = connectionStr;
-            _typer = connType;
         }
 
         public IQueryAdapter GetQueryReactor()
         {
-            IDatabaseClient databaseClient = new DatabaseConnection(_connectionStr, _typer);
+            IDatabaseClient databaseClient = new DatabaseConnection(_connectionStr);
 
             databaseClient.Connect();
-            databaseClient.Prepare();
 
             return databaseClient.GetQueryReactor();
-        }
-        
-        public void Destroy()
-        {
-            // Nothing Implemented
         }
     }
 }

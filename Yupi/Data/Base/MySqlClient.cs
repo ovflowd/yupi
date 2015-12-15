@@ -30,46 +30,25 @@ using Yupi.Data.Base.Sessions.Interfaces;
 
 namespace Yupi.Data.Base
 {
-    public class MySqlClient : IDatabaseClient, IDisposable
+    public class MySqlClient : IDatabaseClient
     {
         private readonly MySqlConnection _mySqlConnection;
+
         private IQueryAdapter _info;
 
         public MySqlClient(ConnectionManager dbManager)
         {
-            switch (ConnectionManager.DatabaseConnectionType.ToLower())
-            {
-                default: // MySQL
-                    _mySqlConnection = new MySqlConnection(dbManager.GetConnectionString());
-                    break;
-            }
+            _mySqlConnection = new MySqlConnection(dbManager.GetConnectionString());
         }
 
         public void Connect()
         {
-            switch (ConnectionManager.DatabaseConnectionType.ToLower())
-            {
-                default: // MySQL
-                    _mySqlConnection.Open();
-                    break;
-            }
+            _mySqlConnection.Open();
         }
 
         public void Disconnect()
         {
-            try
-            {
-                switch (ConnectionManager.DatabaseConnectionType.ToLower())
-                {
-                    default: // MySQL
-                        _mySqlConnection.Close();
-                        break;
-                }
-            }
-            catch
-            {
-                // ignored
-            }
+            _mySqlConnection.Close();
         }
 
         public void Dispose()
@@ -85,26 +64,19 @@ namespace Yupi.Data.Base
 
         public MySqlTransaction GetTransactionMySql() => _mySqlConnection.BeginTransaction();
 
-        public bool IsAvailable()
-        {
-            return _info == null;
-        }
+        public bool IsAvailable() => _info == null;
 
-        public void Prepare()
-        {
-            _info = new NormalQueryReactor(this);
-        }
+        public void Prepare() => _info = new NormalQueryReactor(this);
 
-        public void ReportDone()
-        {
-            Dispose();
-        }
+        public void ReportDone() => Dispose();
 
         public MySqlCommand CreateNewCommandMySql() => _mySqlConnection.CreateCommand();
+
         MySqlCommand IDatabaseClient.CreateNewCommandMySql()
         {
             throw new NotImplementedException();
         }
+
         MySqlTransaction IDatabaseClient.GetTransactionMySql()
         {
             throw new NotImplementedException();
@@ -126,11 +98,6 @@ namespace Yupi.Data.Base
         }
 
         bool IDatabaseClient.IsAvailable()
-        {
-            throw new NotImplementedException();
-        }
-
-        void IDatabaseClient.Prepare()
         {
             throw new NotImplementedException();
         }

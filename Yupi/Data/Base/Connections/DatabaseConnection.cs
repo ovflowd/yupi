@@ -33,80 +33,43 @@ namespace Yupi.Data.Base.Connections
     {
         private readonly MySqlConnection _mysqlConnection;
         private readonly IQueryAdapter _adapter;
-        private readonly int _type;
 
-        public DatabaseConnection(string connectionStr, string connType)
+        public DatabaseConnection(string connectionStr)
         {
-            switch (connType.ToLower())
-            {
-                default: // MySQL
-                    _mysqlConnection = new MySqlConnection(connectionStr);
-                    _adapter = new NormalQueryReactor(this);
-                    _type = 1;
-                    break;
-            }
+            _mysqlConnection = new MySqlConnection(connectionStr);
+            _adapter = new NormalQueryReactor(this);
         }
 
         public void Open()
         {
-            if (_type == 1 && _mysqlConnection.State == ConnectionState.Closed)
+            if (_mysqlConnection.State == ConnectionState.Closed)
                 _mysqlConnection.Open();
         }
 
         public void Close()
         {
-            if (_type == 1 && _mysqlConnection.State == ConnectionState.Open)
+            if (_mysqlConnection.State == ConnectionState.Open)
                 _mysqlConnection.Close();
         }
 
         public void Dispose()
         {
-            switch (_type)
-            {
-                case 1:
-                    if (_mysqlConnection.State == ConnectionState.Open)
-                        _mysqlConnection.Close();
-                    break;
-            }
+            if (_mysqlConnection.State == ConnectionState.Open)
+                _mysqlConnection.Close();
         }
 
-        public void Connect()
-        {
-            Open();
-        }
+        public void Connect() => Open();
 
-        public void Disconnect()
-        {
-            Close();
-        }
+        public void Disconnect() => Close();
 
-        public IQueryAdapter GetQueryReactor()
-        {
-            return _adapter;
-        }
+        public IQueryAdapter GetQueryReactor() => _adapter;
 
-        public bool IsAvailable()
-        {
-            return false;
-        }
+        public bool IsAvailable() => _mysqlConnection.State == ConnectionState.Open;
 
-        public void Prepare()
-        {
-        }
+        public void ReportDone() => Dispose();
 
-        public void ReportDone()
-        {
-            Dispose();
-        }
+        public MySqlCommand CreateNewCommandMySql() => _mysqlConnection.CreateCommand();
 
-        public MySqlCommand CreateNewCommandMySql()
-        {
-            return _mysqlConnection.CreateCommand();
-        }
-
-        public MySqlTransaction GetTransactionMySql()
-        {
-            return _mysqlConnection.BeginTransaction();
-        }
+        public MySqlTransaction GetTransactionMySql() => _mysqlConnection.BeginTransaction();
     }
 }

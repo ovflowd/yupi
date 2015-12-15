@@ -75,7 +75,7 @@ namespace Yupi.Game.Items
 
                     char type = char.Parse((string)dataRow["type"]);
 
-                    int flatId = (int)dataRow["flat_id"];
+                    uint flatId = (uint)dataRow["flat_id"];
                     int sprite = 0;
 
                     string name = (string)dataRow["item_name"];

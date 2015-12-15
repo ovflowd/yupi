@@ -3,9 +3,11 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using Yupi.Core.Io;
+using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Game.Commands.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Items.Interfaces;
+using Yupi.Game.Rooms;
 using Yupi.Game.Rooms.User;
 
 namespace Yupi.Game.Commands.Controllers
@@ -28,7 +30,7 @@ namespace Yupi.Game.Commands.Controllers
 
         public override bool Execute(GameClient session, string[] pms)
         {
-            var mode = pms[0];
+            string mode = pms[0];
             pms = pms.Skip(1).ToArray();
 
             switch (mode.ToLower())
@@ -71,15 +73,15 @@ namespace Yupi.Game.Commands.Controllers
 
         private static bool Delete(GameClient session)
         {
-            var room = session.GetHabbo().CurrentRoom;
+            Room room = session.GetHabbo().CurrentRoom;
 
-            var user = room.GetRoomUserManager()
+            RoomUser user = room.GetRoomUserManager()
                 .GetRoomUserByHabbo(session.GetHabbo().UserName);
 
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 foreach (
-                    var item in
+                    RoomItem item in
                         room.GetGameMap()
                             .GetAllRoomItemForSquare(user.LastSelectedX, user.LastSelectedY))
                 {
@@ -95,9 +97,9 @@ namespace Yupi.Game.Commands.Controllers
 
         private static bool Paste(GameClient session)
         {
-            var room = session.GetHabbo().CurrentRoom;
+            Room room = session.GetHabbo().CurrentRoom;
 
-            var user = room.GetRoomUserManager()
+            RoomUser user = room.GetRoomUserManager()
                 .GetRoomUserByHabbo(session.GetHabbo().UserName);
 
             if (user.CopyX == 0 || user.CopyY == 0)
@@ -105,10 +107,10 @@ namespace Yupi.Game.Commands.Controllers
                 session.SendWhisper("First usage :developer copy");
                 return true;
             }
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 foreach (
-                    var item in
+                    RoomItem item in
                         room.GetGameMap()
                             .GetAllRoomItemForSquare(user.CopyX, user.CopyY))
                 {
@@ -120,12 +122,11 @@ namespace Yupi.Game.Commands.Controllers
                     queryReactor.AddParameter("extraData", item.ExtraData);
                     queryReactor.AddParameter("height", ServerUserChatTextHandler.GetString(item.Z));
 
-                    var insertId = (uint)queryReactor.InsertQuery();
+                    uint insertId = (uint)queryReactor.InsertQuery();
 
-                    var roomItem = new RoomItem(insertId, user.RoomId, item.GetBaseItem().Name, item.ExtraData,
+                    RoomItem roomItem = new RoomItem(insertId, user.RoomId, item.GetBaseItem().Name, item.ExtraData,
                         user.LastSelectedX, user.LastSelectedY, item.Z, item.Rot, session.GetHabbo().CurrentRoom,
-                        user.UserId, item.GroupId,
-                        Yupi.GetGame().GetItemManager().GetItem(item.GetBaseItem().ItemId).FlatId, item.SongCode,
+                        user.UserId, item.GroupId, item.SongCode,
                         item.IsBuilder);
                     room.GetRoomItemHandler().DeveloperSetFloorItem(session, roomItem);
                 }
@@ -136,7 +137,7 @@ namespace Yupi.Game.Commands.Controllers
 
         private static bool Copy(GameClient session)
         {
-            var user =
+            RoomUser user =
                 session.GetHabbo()
                     .CurrentRoom.GetRoomUserManager()
                     .GetRoomUserByHabbo(session.GetHabbo().UserName);
@@ -149,8 +150,8 @@ namespace Yupi.Game.Commands.Controllers
 
         private static bool Set(GameClient session, IReadOnlyList<string> pms)
         {
-            var type = pms[0];
-            var id = uint.Parse(pms[1]);
+            string type = pms[0];
+            uint id = uint.Parse(pms[1]);
 
             switch (type.ToLower())
             {
@@ -162,7 +163,7 @@ namespace Yupi.Game.Commands.Controllers
                             break;
                         }
 
-                        var item = session.GetHabbo().CurrentRoom.GetRoomItemHandler().GetItem(id);
+                        RoomItem item = session.GetHabbo().CurrentRoom.GetRoomItemHandler().GetItem(id);
                         if (item == null)
                         {
                             session.SendWhisper("Item no encontrado");
@@ -170,9 +171,9 @@ namespace Yupi.Game.Commands.Controllers
                         }
 
                         int x = item.X, y = item.Y;
-                        var z = item.Z;
+                        double z = item.Z;
 
-                        var i = 2;
+                        int i = 2;
                         while (pms.Count >= i + 2)
                         {
                             switch (pms[i].ToLower())
@@ -215,14 +216,14 @@ namespace Yupi.Game.Commands.Controllers
                             break;
                         }
 
-                        var item = Yupi.GetGame().GetItemManager().GetItem(id);
+                        Item item = Yupi.GetGame().GetItemManager().GetItem(id);
                         if (item == null)
                         {
                             session.SendWhisper("Item no encontrado");
                             return false;
                         }
 
-                        var i = 2;
+                        int i = 2;
                         while (pms.Count >= i + 2)
                         {
                             switch (pms[i].ToLower())
@@ -244,10 +245,10 @@ namespace Yupi.Game.Commands.Controllers
                                     }
                                 case "height":
                                     {
-                                        var stackHeightStr = pms[i + 1].Replace(',', '.');
+                                        string stackHeightStr = pms[i + 1].Replace(',', '.');
                                         if (stackHeightStr.Contains(';'))
                                         {
-                                            var heightsStr = stackHeightStr.Split(';');
+                                            string[] heightsStr = stackHeightStr.Split(';');
                                             item.ToggleHeight =
                                                 heightsStr.Select(
                                                     heightStr => double.Parse(heightStr, CultureInfo.InvariantCulture))
@@ -277,13 +278,13 @@ namespace Yupi.Game.Commands.Controllers
 
         private static bool GetInfo(GameClient session, IReadOnlyList<string> pms)
         {
-            var type = pms[0];
+            string type = pms[0];
 
-            var user =
+            RoomUser user =
                 session.GetHabbo()
                     .CurrentRoom.GetRoomUserManager()
                     .GetRoomUserByHabbo(session.GetHabbo().UserName);
-            var text = new StringBuilder();
+            StringBuilder text = new StringBuilder();
             switch (type)
             {
                 case "cache":
@@ -303,7 +304,7 @@ namespace Yupi.Game.Commands.Controllers
                     {
                         text.AppendLine("Displaying info of all users of this room");
 
-                        foreach (var roomUser in session.GetHabbo().CurrentRoom.GetRoomUserManager().GetRoomUsers())
+                        foreach (RoomUser roomUser in session.GetHabbo().CurrentRoom.GetRoomUserManager().GetRoomUsers())
                             AppendUserInfo(roomUser, text);
 
                         session.SendNotifWithScroll(text.ToString());
@@ -311,7 +312,7 @@ namespace Yupi.Game.Commands.Controllers
                     }
                 case "user":
                     {
-                        var roomUser =
+                        RoomUser roomUser =
                             session.GetHabbo()
                                 .CurrentRoom.GetRoomUserManager()
                                 .GetRoomUserByHabbo(session.GetHabbo().LastSelectedUser);
@@ -328,7 +329,7 @@ namespace Yupi.Game.Commands.Controllers
                             $"Displaying info of coordinates: (X/Y)  {user.LastSelectedX}/{user.LastSelectedY}");
 
                         foreach (
-                            var item in
+                            RoomItem item in
                                 session.GetHabbo()
                                     .CurrentRoom.GetGameMap()
                                     .GetAllRoomItemForSquare(user.LastSelectedX, user.LastSelectedY))

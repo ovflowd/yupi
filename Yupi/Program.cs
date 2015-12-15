@@ -33,7 +33,7 @@ namespace Yupi
     internal class Program
     {
         /// <summary>
-        /// Main Void of Azure.Emulator
+        /// Main Void of Yupi.Emulator
         /// </summary>
         /// <param name="args">The arguments.</param>
         [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.ControlAppDomain)]

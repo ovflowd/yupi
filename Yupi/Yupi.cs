@@ -16,6 +16,7 @@ using Yupi.Core.Settings;
 using Yupi.Core.Util.Math;
 using Yupi.Data;
 using Yupi.Data.Base;
+using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Data.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Groups.Structs;
@@ -32,7 +33,7 @@ using Yupi.Net.Connection;
 namespace Yupi
 {
     /// <summary>
-    /// Class Azure.
+    /// Class Yupi.
     /// </summary>
     public static class Yupi
     {
@@ -41,12 +42,12 @@ namespace Yupi
         /// Contains Initialize: Responsible of the Emulator Loadings
         /// </summary>
 
-        internal static string DatabaseConnectionType = "MySQL", ServerLanguage = "english";
+        internal static string ServerLanguage = "english";
 
         /// <summary>
         /// The build of the server
         /// </summary>
-        internal static readonly string Build = "100", Version = "2.0";
+        internal static readonly string Build = "200", Version = "1.0";
 
         /// <summary>
         /// The live currency type
@@ -91,7 +92,7 @@ namespace Yupi
         /// <summary>
         /// The timer
         /// </summary>
-        internal static System.Timers.Timer Timer;
+        internal static Timer Timer;
 
         /// <summary>
         /// The culture information
@@ -164,19 +165,16 @@ namespace Yupi
             if (files.Length == 0)
                 return null;
 
-            List<Assembly> assemblies =
-                files.Select(AssemblyName.GetAssemblyName)
-                    .Select(Assembly.Load)
-                    .Where(assembly => assembly != null)
-                    .ToList();
+            List<Assembly> assemblies = files.Select(AssemblyName.GetAssemblyName).Select(Assembly.Load).Where(assembly => assembly != null).ToList();
 
             Type pluginType = typeof(IPlugin);
-            var pluginTypes = new List<Type>();
 
-            foreach (var types in from assembly in assemblies where assembly != null select assembly.GetTypes())
+            List<Type> pluginTypes = new List<Type>();
+
+            foreach (Type[] types in from assembly in assemblies where assembly != null select assembly.GetTypes())
                 pluginTypes.AddRange(types.Where(type => type != null && !type.IsInterface && !type.IsAbstract).Where(type => type.GetInterface(pluginType.FullName) != null));
 
-            var plugins = new List<IPlugin>(pluginTypes.Count);
+            List<IPlugin> plugins = new List<IPlugin>(pluginTypes.Count);
 
             plugins.AddRange(pluginTypes.Select(type => (IPlugin)Activator.CreateInstance(type)).Where(plugin => plugin != null));
 
@@ -191,43 +189,38 @@ namespace Yupi
         /// Table: users.id
         internal static Habbo GetHabboById(uint userId)
         {
-            try
+            GameClient clientByUserId = GetGame().GetClientManager().GetClientByUserId(userId);
+
+            if (clientByUserId != null)
             {
-                GameClient clientByUserId = GetGame().GetClientManager().GetClientByUserId(userId);
+                Habbo habbo = clientByUserId.GetHabbo();
 
-                if (clientByUserId != null)
+                if (habbo != null && habbo.Id > 0)
                 {
-                    Habbo habbo = clientByUserId.GetHabbo();
+                    UsersCached.AddOrUpdate(userId, habbo, (key, value) => habbo);
 
-                    if (habbo != null && habbo.Id > 0)
-                    {
-                        UsersCached.AddOrUpdate(userId, habbo, (key, value) => habbo);
-                        return habbo;
-                    }
-                }
-                else
-                {
-                    if (UsersCached.ContainsKey(userId))
-                        return UsersCached[userId];
-
-                    UserData userData = UserDataFactory.GetUserData((int)userId);
-
-                    if (UsersCached.ContainsKey(userId))
-                        return UsersCached[userId];
-
-                    if (userData?.User == null)
-                        return null;
-
-                    UsersCached.TryAdd(userId, userData.User);
-                    userData.User.InitInformation(userData);
-
-                    return userData.User;
+                    return habbo;
                 }
             }
-            catch (Exception e)
+            else
             {
-                Writer.LogException("Habbo GetHabboForId: " + e);
+                if (UsersCached.ContainsKey(userId))
+                    return UsersCached[userId];
+
+                UserData userData = UserDataFactory.GetUserData((int) userId);
+
+                if (UsersCached.ContainsKey(userId))
+                    return UsersCached[userId];
+
+                if (userData?.User == null)
+                    return null;
+
+                UsersCached.TryAdd(userId, userData.User);
+                userData.User.InitInformation(userData);
+
+                return userData.User;
             }
+
             return null;
         }
 
@@ -255,9 +248,11 @@ namespace Yupi
         internal static void Initialize()
         {
             Console.Title = "Yupi Emulator | Starting [...]";
+
             ServerStarted = DateTime.Now;
             _defaultEncoding = Encoding.Default;
             MutedUsersByFilter = new Dictionary<uint, uint>();
+
             ChatEmotions.Initialize();
 
             CultureInfo = CultureInfo.CreateSpecificCulture("en-GB");
@@ -271,9 +266,7 @@ namespace Yupi
                 ServerConfigurationSettings.Load(Path.Combine(YupiVariablesDirectory, "Settings/main.ini"));
                 ServerConfigurationSettings.Load(Path.Combine(YupiVariablesDirectory, "Settings/Welcome/settings.ini"), true);
 
-                DatabaseConnectionType = ServerConfigurationSettings.Data["db.type"];
-
-                var mySqlConnectionStringBuilder = new MySqlConnectionStringBuilder
+                MySqlConnectionStringBuilder mySqlConnectionStringBuilder = new MySqlConnectionStringBuilder
                 {
                     Server = ServerConfigurationSettings.Data["db.hostname"],
                     Port = uint.Parse(ServerConfigurationSettings.Data["db.port"]),
@@ -289,9 +282,9 @@ namespace Yupi
                     ConnectionTimeout = 10u
                 };
 
-                Manager = new DatabaseManager(mySqlConnectionStringBuilder.ToString(), DatabaseConnectionType);
+                Manager = new DatabaseManager(mySqlConnectionStringBuilder.ToString());
 
-                using (var queryReactor = GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter queryReactor = GetDatabaseManager().GetQueryReactor())
                 {
                     ConfigData = new ServerDatabaseSettings(queryReactor);
                     PetCommandHandler.Init(queryReactor);
@@ -320,7 +313,7 @@ namespace Yupi
 
                 if (plugins != null)
                 {
-                    foreach (var item in plugins.Where(item => item != null))
+                    foreach (IPlugin item in plugins.Where(item => item != null))
                     {
                         Plugins.Add(item.PluginName, item);
 
@@ -342,7 +335,7 @@ namespace Yupi
                 Writer.WriteLine("Loaded " + _languages.Count() + " Languages Vars", "Yupi.Interpreters");
 
                 if (plugins != null)
-                    foreach (var itemTwo in plugins)
+                    foreach (IPlugin itemTwo in plugins)
                         itemTwo?.message_void();
 
                 if (ConsoleTimerOn)
@@ -485,8 +478,8 @@ namespace Yupi
 
         internal static int DifferenceInMilliSeconds(DateTime time, DateTime tFrom)
         {
-            var time1 = tFrom.Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
-            var time2 = time.Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
+            double time1 = tFrom.Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
+            double time2 = time.Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
 
             if ((time1 >= double.MaxValue) || (time1 <= double.MinValue) || time1 <= 0.0)
                 time1 = 0.0;
@@ -521,7 +514,7 @@ namespace Yupi
         {
             try
             {
-                using (var queryReactor = GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter queryReactor = GetDatabaseManager().GetQueryReactor())
                 {
                     queryReactor.SetQuery("SELECT id FROM users WHERE username = @user");
 
@@ -635,7 +628,7 @@ namespace Yupi
 
             ShutdownStarted = true;
 
-            var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
             serverMessage.AppendString("disconnection");
             serverMessage.AppendInteger(2);
             serverMessage.AppendString("title");
@@ -656,7 +649,7 @@ namespace Yupi
 
             foreach (Guild group in _game.GetGroupManager().Groups.Values) group.UpdateForum();
 
-            using (var queryReactor = Manager.GetQueryReactor())
+            using (IQueryAdapter queryReactor = Manager.GetQueryReactor())
             {
                 queryReactor.RunFastQuery("UPDATE users SET online = '0'");
                 queryReactor.RunFastQuery("UPDATE rooms_data SET users_now = 0");
@@ -666,15 +659,8 @@ namespace Yupi
             _connectionManager.Destroy();
             _game.Destroy();
 
-            try
-            {
-                Manager.Destroy();
-                Writer.WriteLine("Game Manager destroyed", "Yupi.Game", ConsoleColor.DarkYellow);
-            }
-            catch (Exception e)
-            {
-                Writer.LogException("Yupi.cs PerformShutDown GameManager" + e);
-            }
+
+            Writer.WriteLine("Game Manager destroyed", "Yupi.Game", ConsoleColor.DarkYellow);
 
             TimeSpan span = DateTime.Now - now;
 

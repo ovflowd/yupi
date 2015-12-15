@@ -23,8 +23,7 @@ namespace Yupi.Game.Catalogs.Composers
         /// <returns>ServerMessage.</returns>
         internal static ServerMessage ComposeIndex(uint rank, string type)
         {
-            IEnumerable<CatalogPage> pages =
-                Yupi.GetGame().GetCatalog().Categories.Values.OfType<CatalogPage>().ToList();
+            IEnumerable<CatalogPage> pages = Yupi.GetGame().GetCatalog().Categories.Values.OfType<CatalogPage>().ToList();
 
             var sortedPages = pages.Where(x => x.ParentId == -2 && x.MinRank <= rank).OrderBy(x => x.OrderNum);
 

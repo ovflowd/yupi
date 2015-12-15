@@ -362,8 +362,8 @@ namespace Yupi.Game.Rooms.User
                 var userId = session.GetHabbo().Id;
 
                 session.GetHabbo().GetAvatarEffectsInventoryComponent().OnRoomExit();
-                //using (var queryReactor = Azure.GetDatabaseManager().GetQueryReactor())
-                //    queryReactor.RunFastQuery("UPDATE users_rooms_visits SET exit_timestamp = '" + Azure.GetUnixTimeStamp() + "' WHERE room_id = '" + _room.RoomId + "' AND user_id = '" + session.GetHabbo().Id + "' ORDER BY entry_timestamp DESC LIMIT 1");
+                //using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                //    queryReactor.RunFastQuery("UPDATE users_rooms_visits SET exit_timestamp = '" + Yupi.GetUnixTimeStamp() + "' WHERE room_id = '" + _room.RoomId + "' AND user_id = '" + session.GetHabbo().Id + "' ORDER BY entry_timestamp DESC LIMIT 1");
 
                 var roomUserByHabbo = GetRoomUserByHabbo(userId);
                 if (roomUserByHabbo == null)
@@ -1762,7 +1762,7 @@ namespace Yupi.Game.Rooms.User
                 client.GetMessageHandler().OnRoomUserAdd();
 
                 //if (client.GetHabbo().HasFuse("fuse_mod")) client.GetHabbo().GetAvatarEffectsInventoryComponent().ActivateCustomEffect(102);
-                //if (client.GetHabbo().Rank == Convert.ToUInt32(Azure.GetDbConfig().DbData["ambassador.minrank"])) client.GetHabbo().GetAvatarEffectsInventoryComponent().ActivateCustomEffect(178);
+                //if (client.GetHabbo().Rank == Convert.ToUInt32(Yupi.GetDbConfig().DbData["ambassador.minrank"])) client.GetHabbo().GetAvatarEffectsInventoryComponent().ActivateCustomEffect(178);
 
                 if (OnUserEnter != null)
                     OnUserEnter(user, null);

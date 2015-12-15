@@ -45,67 +45,31 @@ namespace Yupi.Data.Base.Sessions
             if (!_finishedTransaction)
                 throw new TransactionException("The transaction needs to be completed by commit() or rollback() before you can dispose this item.");
 
-            switch (ConnectionManager.DatabaseConnectionType.ToLower())
-            {
-                default: // MySQL
-                    CommandMySql.Dispose();
-                    break;
-            }
+            CommandMySql.Dispose();
 
             Client.ReportDone();
         }
 
         public void DoCommit()
         {
-            try
-            {
-                switch (ConnectionManager.DatabaseConnectionType.ToLower())
-                {
-                    default: // MySQL
-                        _transactionmysql.Commit();
-                        break;
-                }
-
-                _finishedTransaction = true;
-            }
-            catch (MySqlException ex)
-            {
-                throw new TransactionException(ex.Message);
-            }
+            _transactionmysql.Commit();
+            _finishedTransaction = true;
         }
 
         public void DoRollBack()
         {
-            switch (ConnectionManager.DatabaseConnectionType.ToLower())
-            {
-                default:
-                    try
-                    {
-                        _transactionmysql.Rollback();
-
-                        _finishedTransaction = true;
-                    }
-                    catch (MySqlException ex)
-                    {
-                        throw new TransactionException(ex.Message);
-                    }
-                    break;
-            }
+            _transactionmysql.Rollback();
+            _finishedTransaction = true;
         }
 
         public bool GetAutoCommit() => false;
 
         private void InitTransaction()
         {
-            switch (ConnectionManager.DatabaseConnectionType.ToLower())
-            {
-                default:
-                    CommandMySql = Client.CreateNewCommandMySql();
-                    _transactionmysql = Client.GetTransactionMySql();
-                    CommandMySql.Transaction = _transactionmysql;
-                    CommandMySql.Connection = _transactionmysql.Connection;
-                    break;
-            }
+            CommandMySql = Client.CreateNewCommandMySql();
+            _transactionmysql = Client.GetTransactionMySql();
+            CommandMySql.Transaction = _transactionmysql;
+            CommandMySql.Connection = _transactionmysql.Connection;
 
             _finishedTransaction = false;
         }

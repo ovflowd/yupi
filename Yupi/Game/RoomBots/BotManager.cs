@@ -156,21 +156,21 @@ namespace Yupi.Game.RoomBots
         /// Gets the catalog bot.
         /// </summary>
         /// <param name="botType">Type of the bot.</param>
-        /// <returns>Azure.Game.RoomBots.Interfaces.CatalogBot.</returns>
+        /// <returns>Yupi.Game.RoomBots.Interfaces.CatalogBot.</returns>
         internal static CatalogBot GetCatalogBot(string botType) => CatalogBots.FirstOrDefault(p => p.Key == botType).Value;
 
         /// <summary>
         /// Gets the bot command by identifier.
         /// </summary>
         /// <param name="commandId">The command identifier.</param>
-        /// <returns>Azure.Game.RoomBots.Interfaces.BotCommand.</returns>
+        /// <returns>Yupi.Game.RoomBots.Interfaces.BotCommand.</returns>
         internal static BotCommand GetBotCommandById(uint commandId) => BotCommands.FirstOrDefault(p => p.Key == commandId).Value;
 
         /// <summary>
         /// Gets the bot command by input.
         /// </summary>
         /// <param name="userInput">The user input.</param>
-        /// <returns>Azure.Game.RoomBots.Interfaces.BotCommand.</returns>
+        /// <returns>Yupi.Game.RoomBots.Interfaces.BotCommand.</returns>
         internal static BotCommand GetBotCommandByInput(string userInput) => BotCommands.FirstOrDefault(p => p.Value.SpeechInput == userInput || p.Value.SpeechInputAlias.Contains(userInput)).Value;
     }
 }

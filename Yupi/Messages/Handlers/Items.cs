@@ -258,7 +258,7 @@ namespace Yupi.Messages.Handlers
             {
                 WallCoordinate wallCoord = new WallCoordinate(":" + locationData.Split(':')[1]);
 
-                RoomItem item2 = new RoomItem(item.Id, room.RoomId, item.BaseItem.Name, item.ExtraData, wallCoord, room, Session.GetHabbo().Id, item.GroupId, item.BaseItem.FlatId, false);
+                RoomItem item2 = new RoomItem(item.Id, room.RoomId, item.BaseItem.Name, item.ExtraData, wallCoord, room, Session.GetHabbo().Id, item.GroupId, false);
 
                 if (room.GetRoomItemHandler().SetWallItem(Session, item2))
                     Session.GetHabbo().GetInventoryComponent().RemoveItem(id, true);
@@ -336,7 +336,7 @@ namespace Yupi.Messages.Handlers
                                 case Interaction.BreedingBear:
                                     {
                                         RoomItem roomItemBreed = new RoomItem(item.Id, room.RoomId, item.BaseItem.Name, item.ExtraData,
-                                            x, y, z, rot, room, Session.GetHabbo().Id, 0, 0, string.Empty, false);
+                                            x, y, z, rot, room, Session.GetHabbo().Id, 0, string.Empty, false);
 
                                         if (item.BaseItem.InteractionType == Interaction.BreedingTerrier)
                                             if (!room.GetRoomItemHandler().BreedingTerrier.ContainsKey(roomItemBreed.Id))
@@ -403,7 +403,7 @@ namespace Yupi.Messages.Handlers
                 WallCoordinate coordinate = new WallCoordinate(":" + placementData.Split(':')[1]);
 
                 RoomItem roomItemWall = new RoomItem(item.Id, room.RoomId, item.BaseItem.Name, item.ExtraData,
-                    coordinate, room, Session.GetHabbo().Id, item.GroupId, 0, false);
+                    coordinate, room, Session.GetHabbo().Id, item.GroupId, false);
 
                 if (room.GetRoomItemHandler().SetWallItem(Session, roomItemWall))
                     Session.GetHabbo().GetInventoryComponent().RemoveItem(itemId, true);
@@ -412,7 +412,7 @@ namespace Yupi.Messages.Handlers
 
                 PlaceFloor:
 
-                RoomItem roomItem = new RoomItem(item.Id, room.RoomId, item.BaseItem.Name, item.ExtraData, x, y, z, rot, room, Session.GetHabbo().Id, item.GroupId, item.BaseItem.FlatId, item.SongCode, false);
+                RoomItem roomItem = new RoomItem(item.Id, room.RoomId, item.BaseItem.Name, item.ExtraData, x, y, z, rot, room, Session.GetHabbo().Id, item.GroupId, item.SongCode, false);
 
                 if (room.GetRoomItemHandler().SetFloorItem(Session, roomItem, x, y, rot, true, false, true))
                 {
@@ -1422,7 +1422,7 @@ namespace Yupi.Messages.Handlers
 
                 uint itemId = (uint)dbClient.InsertQuery();
 
-                RoomItem roomItem = new RoomItem(itemId, room.RoomId, compostItem.Name, "0", x, y, z, 0, room, Session.GetHabbo().Id, 0, -1, "", false);
+                RoomItem roomItem = new RoomItem(itemId, room.RoomId, compostItem.Name, "0", x, y, z, 0, room, Session.GetHabbo().Id, 0, string.Empty, false);
 
                 if (!room.GetRoomItemHandler().SetFloorItem(Session, roomItem, x, y, 0, true, false, true))
                 {
@@ -2216,7 +2216,7 @@ namespace Yupi.Messages.Handlers
 
                 uint insertId = (uint)adapter.InsertQuery();
 
-                RoomItem newItem = new RoomItem(insertId, actualRoom.RoomId, item.BaseName, extradata, x, y, z, dir, actualRoom, Session.GetHabbo().Id, 0, item.GetFirstBaseItem().FlatId, "", true);
+                RoomItem newItem = new RoomItem(insertId, actualRoom.RoomId, item.BaseName, extradata, x, y, z, dir, actualRoom, Session.GetHabbo().Id, 0, string.Empty, true);
 
                 Session.GetHabbo().BuildersItemsUsed++;
 
@@ -2254,7 +2254,7 @@ namespace Yupi.Messages.Handlers
 
                 uint insertId = (uint)adapter.InsertQuery();
 
-                RoomItem newItem = new RoomItem(insertId, actualRoom.RoomId, item.BaseName, extradata, new WallCoordinate(wallcoords), actualRoom, Session.GetHabbo().Id, 0, item.GetFirstBaseItem().FlatId, true);
+                RoomItem newItem = new RoomItem(insertId, actualRoom.RoomId, item.BaseName, extradata, new WallCoordinate(wallcoords), actualRoom, Session.GetHabbo().Id, 0, true);
 
                 actualRoom.GetRoomItemHandler().WallItems.TryAdd(newItem.Id, newItem);
 

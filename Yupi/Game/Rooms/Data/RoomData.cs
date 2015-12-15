@@ -122,7 +122,7 @@ namespace Yupi.Game.Rooms.Data
         /// <summary>
         ///     The owner identifier
         /// </summary>
-        internal int OwnerId;
+        internal uint OwnerId;
 
         /// <summary>
         ///     The pass word
@@ -277,13 +277,13 @@ namespace Yupi.Game.Rooms.Data
         {
             try
             {
-                Id = Convert.ToUInt32(row["id"]);
+                Id = (uint)row["id"];
                 Name = (string) row["caption"];
                 PassWord = (string) row["password"];
                 Description = (string) row["description"];
                 Type = (string) row["roomtype"];
                 Owner = string.Empty;
-                OwnerId = (int)row["owner"];
+                OwnerId = (uint)row["owner"];
                 RoomChat = new ConcurrentStack<Chatlog>();
                 WordFilter = new List<string>();
 
@@ -360,44 +360,8 @@ namespace Yupi.Game.Rooms.Data
                 _model = Yupi.GetGame().GetRoomManager().GetModel(ModelName, Id);
                 CompetitionStatus = 0;
 
-                /*
-                var dictionary = new Dictionary<int, int>();
-                if (!string.IsNullOrEmpty(row["icon_items"].ToString()))
-                {
-                    string[] array = row["icon_items"].ToString().Split('|');
-                    foreach (string text in array)
-                    {
-                        if (string.IsNullOrEmpty(text))
-                        {
-                            continue;
-                        }
-                        string[] array2 = text.Replace('.', ',').Split(',');
-                        int key = 0;
-                        int value = 0;
-                        int.TryParse(array2[0], out key);
-                        if (array2.Length > 1)
-                        {
-                            int.TryParse(array2[1], out value);
-                        }
-                        try
-                        {
-                            if (!dictionary.ContainsKey(key))
-                            {
-                                dictionary.Add(key, value);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Logging.LogException("Exception: " + ex + "[" + text + "]");
-                        }
-                    }
-                }
-                 */
-
                 Tags = new List<string>();
 
-                //if (row.IsNull("tags") || !string.IsNullOrEmpty(row["tags"].ToString()))
-                // @issue 96
                 if (row.IsNull("tags") || string.IsNullOrEmpty(row["tags"].ToString()))
                     return;
 

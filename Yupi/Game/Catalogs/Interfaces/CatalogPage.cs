@@ -39,7 +39,7 @@ namespace Yupi.Game.Catalogs.Interfaces
         /// <summary>
         ///     The flat offers
         /// </summary>
-        internal Dictionary<int, uint> FlatOffers;
+        internal Dictionary<uint, uint> FlatOffers;
 
         /// <summary>
         ///     The icon image
@@ -175,14 +175,15 @@ namespace Yupi.Game.Catalogs.Interfaces
                 OrderNum = -2;
 
             Items = new HybridDictionary();
-            FlatOffers = new Dictionary<int, uint>();
-            foreach (
-                var catalogItem in
-                    cataItems.Values.OfType<CatalogItem>().Where(x => x.PageId == id && x.GetFirstBaseItem() != null))
+            FlatOffers = new Dictionary<uint, uint>();
+
+            foreach (CatalogItem catalogItem in cataItems.Values.OfType<CatalogItem>().Where(x => x.PageId == id && x.GetFirstBaseItem() != null))
             {
                 Items.Add(catalogItem.Id, catalogItem);
-                var flatId = catalogItem.GetFirstBaseItem().FlatId;
-                if (flatId != -1 && !FlatOffers.ContainsKey(flatId))
+
+                uint flatId = catalogItem.GetFirstBaseItem().FlatId;
+
+                if (!FlatOffers.ContainsKey(flatId))
                     FlatOffers.Add(catalogItem.GetFirstBaseItem().FlatId, catalogItem.Id);
             }
 
@@ -202,12 +203,15 @@ namespace Yupi.Game.Catalogs.Interfaces
         /// <returns>CatalogItem.</returns>
         internal CatalogItem GetItem(uint pId)
         {
-            var num = pId;
-            var flatInt = (int)pId;
+            uint num = pId;
+            uint flatInt = pId;
+
             if (FlatOffers.ContainsKey(flatInt))
                 return (CatalogItem)Items[FlatOffers[flatInt]];
+
             if (Items.Contains(num))
                 return (CatalogItem)Items[num];
+
             return null;
         }
     }

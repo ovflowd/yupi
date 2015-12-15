@@ -22,10 +22,8 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-using System;
 using System.Data;
 using MySql.Data.MySqlClient;
-using Yupi.Core.Io;
 using Yupi.Data.Base.Connections;
 using Yupi.Data.Base.Sessions.Interfaces;
 
@@ -43,25 +41,9 @@ namespace Yupi.Data.Base.Sessions
 
         private static bool DbEnabled => ConnectionManager.DbEnabled;
 
-        public void AddParameter(string name, byte[] data)
-        {
-            switch (ConnectionManager.DatabaseConnectionType.ToLower())
-            {
-                default: // MySQL
-                    CommandMySql.Parameters.Add(new MySqlParameter(name, MySqlDbType.Blob, data.Length));
-                    break;
-            }
-        }
+        public void AddParameter(string name, byte[] data) => CommandMySql.Parameters.Add(new MySqlParameter(name, MySqlDbType.Blob, data.Length));
 
-        public void AddParameter(string parameterName, object val)
-        {
-            switch (ConnectionManager.DatabaseConnectionType.ToLower())
-            {
-                default: // MySQL
-                    CommandMySql.Parameters.AddWithValue(parameterName, val);
-                    break;
-            }
-        }
+        public void AddParameter(string parameterName, object val) => CommandMySql.Parameters.AddWithValue(parameterName, val);
 
         public bool FindsResult()
         {
@@ -70,21 +52,8 @@ namespace Yupi.Data.Base.Sessions
 
             bool hasRows;
 
-            switch (ConnectionManager.DatabaseConnectionType.ToLower())
-            {
-                default:
-                    try
-                    {
-                        using (MySqlDataReader reader = CommandMySql.ExecuteReader())
-                            hasRows = reader.HasRows;
-                    }
-                    catch (Exception exception)
-                    {
-                        Writer.LogQueryError(exception, CommandMySql.CommandText);
-                        throw;
-                    }
-                    break;
-            }
+            using (MySqlDataReader reader = CommandMySql.ExecuteReader())
+                hasRows = reader.HasRows;
 
             return hasRows;
         }
@@ -103,28 +72,13 @@ namespace Yupi.Data.Base.Sessions
                 return null;
 
             DataRow row = null;
+            DataSet dataSet = new DataSet();
 
-            switch (ConnectionManager.DatabaseConnectionType.ToLower())
-            {
-                default:
-                    try
-                    {
-                        DataSet dataSet = new DataSet();
+            using (MySqlDataAdapter adapter = new MySqlDataAdapter(CommandMySql))
+                adapter.Fill(dataSet);
 
-                        using (MySqlDataAdapter adapter = new MySqlDataAdapter(CommandMySql))
-                            adapter.Fill(dataSet);
-
-                        if (dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count == 1)
-                            row = dataSet.Tables[0].Rows[0];
-                    }
-                    catch (Exception exception)
-                    {
-                        Writer.LogQueryError(exception, CommandMySql.CommandText);
-                        throw;
-                    }
-
-                    break;
-            }
+            if (dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count == 1)
+                row = dataSet.Tables[0].Rows[0];
 
             return row;
         }
@@ -139,26 +93,13 @@ namespace Yupi.Data.Base.Sessions
 
         public DataTable GetTable()
         {
+            if (!DbEnabled)
+                return null;
+
             DataTable dataTable = new DataTable();
 
-            if (!DbEnabled)
-                return dataTable;
-
-            switch (ConnectionManager.DatabaseConnectionType.ToLower())
-            {
-                default:
-                    try
-                    {
-                        using (MySqlDataAdapter adapter = new MySqlDataAdapter(CommandMySql))
-                            adapter.Fill(dataTable);
-                    }
-                    catch (Exception exception)
-                    {
-                        Writer.LogQueryError(exception, CommandMySql.CommandText);
-                        throw;
-                    }
-                    break;
-            }
+            using (MySqlDataAdapter adapter = new MySqlDataAdapter(CommandMySql))
+                adapter.Fill(dataTable);
 
             return dataTable;
         }
@@ -179,7 +120,6 @@ namespace Yupi.Data.Base.Sessions
                 return;
 
             SetQuery(query);
-
             RunQuery();
         }
 
@@ -188,31 +128,13 @@ namespace Yupi.Data.Base.Sessions
             if (!DbEnabled)
                 return;
 
-            switch (ConnectionManager.DatabaseConnectionType.ToLower())
-            {
-                default:
-                    try
-                    {
-                        CommandMySql.ExecuteNonQuery();
-                    }
-                    catch (Exception exception)
-                    {
-                        Writer.LogQueryError(exception, CommandMySql.CommandText);
-                        throw;
-                    }
-                    break;
-            }
+            CommandMySql.ExecuteNonQuery();
         }
 
         public void SetQuery(string query)
         {
-            switch (ConnectionManager.DatabaseConnectionType.ToLower())
-            {
-                default: // MySQL
-                    CommandMySql.Parameters.Clear();
-                    CommandMySql.CommandText = query;
-                    break;
-            }
+            CommandMySql.Parameters.Clear();
+            CommandMySql.CommandText = query;
         }
     }
 }
