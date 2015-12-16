@@ -1534,7 +1534,7 @@ namespace Yupi.Game.Items.Interfaces
                     case Interaction.GroupForumTerminal:
                     case Interaction.GuildForum:
                         {
-                            Guild group2 = Yupi.GetGame().GetGroupManager().GetGroup((int) GroupId);
+                            Group group2 = Yupi.GetGame().GetGroupManager().GetGroup(GroupId);
                             if (group2 == null)
                             {
                                 message.AppendInteger(1);

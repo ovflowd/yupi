@@ -240,7 +240,7 @@ namespace Yupi.Messages.Handlers
 
             List<ServerMessage> responseList = new List<ServerMessage>();
 
-            foreach (Guild habboGroup in userGroups.Where(current => current != null).Select(current => Yupi.GetGame().GetGroupManager().GetGroup(current.GroupId)))
+            foreach (Group habboGroup in userGroups.Where(current => current != null).Select(current => Yupi.GetGame().GetGroupManager().GetGroup(current.GroupId)))
             {
                 if (habboGroup == null)
                     continue;
@@ -260,7 +260,7 @@ namespace Yupi.Messages.Handlers
                     : "4f8a00");
                 subResponse.AppendBool(habboGroup.CreatorId == Session.GetHabbo().Id);
                 subResponse.AppendInteger(habboGroup.CreatorId);
-                subResponse.AppendBool(habboGroup.HasForum);
+                subResponse.AppendBool(habboGroup.Forum.Id != 0);
 
                 responseList.Add(subResponse);
             }

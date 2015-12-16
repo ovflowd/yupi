@@ -463,7 +463,7 @@ namespace Yupi.Messages.Handlers
             Response.AppendBool(Yupi.GetGame().GetClientManager().GetClientByUserId(habbo.Id) != null);
             HashSet<GroupMember> groups = Yupi.GetGame().GetGroupManager().GetUserGroups(habbo.Id);
             Response.AppendInteger(groups.Count);
-            foreach (Guild @group in groups.Select(groupUs => Yupi.GetGame().GetGroupManager().GetGroup(groupUs.GroupId))
+            foreach (Group @group in groups.Select(groupUs => Yupi.GetGame().GetGroupManager().GetGroup(groupUs.GroupId))
                 )
                 if (@group != null)
                 {
@@ -474,7 +474,7 @@ namespace Yupi.Messages.Handlers
                     Response.AppendString(Yupi.GetGame().GetGroupManager().GetGroupColour(@group.Colour2, false));
                     Response.AppendBool(@group.Id == habbo.FavouriteGroup);
                     Response.AppendInteger(-1);
-                    Response.AppendBool(@group.HasForum);
+                    Response.AppendBool(@group.Forum.Id != 0);
                 }
                 else
                 {

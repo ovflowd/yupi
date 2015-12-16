@@ -169,7 +169,7 @@ namespace Yupi.Game.Users
         /// <summary>
         ///     The favourite group
         /// </summary>
-        internal int FavouriteGroup;
+        internal uint FavouriteGroup;
 
         /// <summary>
         ///     The flood time
@@ -548,7 +548,7 @@ namespace Yupi.Game.Users
             _currentQuestProgress = currentQuestProgress;
             IsHopping = false;
 
-            FavouriteGroup = Yupi.GetGame().GetGroupManager().GetGroup(favId) != null ? favId : 0;
+            FavouriteGroup = Yupi.GetGame().GetGroupManager().GetGroup((uint) favId) != null ? (uint)favId : 0;
 
             UserGroups = groups;
 

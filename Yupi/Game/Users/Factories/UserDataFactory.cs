@@ -297,7 +297,7 @@ namespace Yupi.Game.Users.Factories
             HashSet<GroupMember> groups = new HashSet<GroupMember>();
 
             foreach (DataRow row in groupsTable.Rows)
-                groups.Add(new GroupMember(userId, userName, userLook, (int) row["group_id"], Convert.ToInt16(row["rank"]), (int) row["date_join"]));
+                groups.Add(new GroupMember(userId, userName, userLook, (uint) row["group_id"], Convert.ToInt16(row["rank"]), (int) row["date_join"]));
 
             Dictionary<int, Relationship> relationShips = relationShipsTable.Rows.Cast<DataRow>().ToDictionary(row => (int) row[0], row => new Relationship((int) row[0], (int) row[2], Convert.ToInt32(row[3].ToString())));
 

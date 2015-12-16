@@ -37,7 +37,7 @@ namespace Yupi.Game.Groups.Structs
         /// <summary>
         ///     The group identifier
         /// </summary>
-        internal int GroupId;
+        internal uint GroupId;
 
         /// <summary>
         ///     The identifier
@@ -68,7 +68,7 @@ namespace Yupi.Game.Groups.Structs
         /// <param name="rank">The rank.</param>
         /// <param name="name"></param>
         /// <param name="dateJoin"></param>
-        internal GroupMember(uint id, string name, string look, int groupId, int rank, int dateJoin)
+        internal GroupMember(uint id, string name, string look, uint groupId, int rank, int dateJoin)
         {
             Id = id;
             Name = name;

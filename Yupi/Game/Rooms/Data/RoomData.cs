@@ -85,12 +85,12 @@ namespace Yupi.Game.Rooms.Data
         /// <summary>
         ///     The group
         /// </summary>
-        internal Guild Group;
+        internal Group Group;
 
         /// <summary>
         ///     The group identifier
         /// </summary>
-        internal int GroupId;
+        internal uint GroupId;
 
         /// <summary>
         ///     The identifier
@@ -342,7 +342,7 @@ namespace Yupi.Game.Rooms.Data
 
                 uint.TryParse(row["users_now"].ToString(), out UsersNow);
                 uint.TryParse(row["users_max"].ToString(), out UsersMax);
-                int.TryParse(row["group_id"].ToString(), out GroupId);
+                uint.TryParse(row["group_id"].ToString(), out GroupId);
                 uint.TryParse(row["chat_balloon"].ToString(), out ChatBalloon);
                 uint.TryParse(row["chat_speed"].ToString(), out ChatSpeed);
                 uint.TryParse(row["chat_max_distance"].ToString(), out ChatMaxDistance);

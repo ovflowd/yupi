@@ -271,7 +271,7 @@ namespace Yupi.Game.Browser
 
                         foreach (uint xGroupId in session.GetHabbo().MyGroups)
                         {
-                            Guild xGroup = Yupi.GetGame().GetGroupManager().GetGroup((int) xGroupId);
+                            Group xGroup = Yupi.GetGame().GetGroupManager().GetGroup(xGroupId);
 
                             if (xGroup != null)
                             {

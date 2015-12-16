@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using Yupi.Core.Io;
 using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Game.Catalogs.Composers;
+using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Groups.Structs;
+using Yupi.Game.Items.Interfaces;
 using Yupi.Game.Rooms;
 using Yupi.Game.Rooms.Data;
 using Yupi.Game.Rooms.User;
@@ -24,7 +27,7 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         internal void SerializeGroupPurchasePage()
         {
-            var list = new HashSet<RoomData>(Session.GetHabbo().UsersRooms.Where(x => x.Group == null));
+            HashSet<RoomData> list = new HashSet<RoomData>(Session.GetHabbo().UsersRooms.Where(x => x.Group == null));
 
             Response.Init(LibraryParser.OutgoingRequest("GroupPurchasePageMessageComposer"));
             Response.AppendInteger(10);
@@ -101,36 +104,36 @@ namespace Yupi.Messages.Handlers
             if (Session == null || Session.GetHabbo().Credits < 10)
                 return;
 
-            var gStates = new List<int>();
-            var name = Request.GetString();
-            var description = Request.GetString();
-            var roomid = Request.GetUInteger();
-            var color = Request.GetInteger();
-            var num3 = Request.GetInteger();
+            List<int> gStates = new List<int>();
+            string name = Request.GetString();
+            string description = Request.GetString();
+            uint roomid = Request.GetUInteger();
+            int color = Request.GetInteger();
+            int num3 = Request.GetInteger();
 
             Request.GetInteger();
 
-            var guildBase = Request.GetInteger();
-            var guildBaseColor = Request.GetInteger();
-            var num6 = Request.GetInteger();
-            var roomData = Yupi.GetGame().GetRoomManager().GenerateRoomData(roomid);
+            int guildBase = Request.GetInteger();
+            int guildBaseColor = Request.GetInteger();
+            int num6 = Request.GetInteger();
+            RoomData roomData = Yupi.GetGame().GetRoomManager().GenerateRoomData(roomid);
 
             if (roomData.Owner != Session.GetHabbo().UserName)
                 return;
 
-            for (var i = 0; i < num6 * 3; i++)
+            for (int i = 0; i < num6 * 3; i++)
                 gStates.Add(Request.GetInteger());
 
-            var image = Yupi.GetGame().GetGroupManager().GenerateGuildImage(guildBase, guildBaseColor, gStates);
+            string image = Yupi.GetGame().GetGroupManager().GenerateGuildImage(guildBase, guildBaseColor, gStates);
 
-            Guild theGroup;
+            Group theGroup;
 
             Yupi.GetGame().GetGroupManager().CreateGroup(name, description, roomid, image, Session, !Yupi.GetGame().GetGroupManager().SymbolColours.Contains(color) ? 1 : color, !Yupi.GetGame().GetGroupManager().BackGroundColours.Contains(num3) ? 1 : num3, out theGroup);
 
             Session.SendMessage(CatalogPageComposer.PurchaseOk(0u, "CREATE_GUILD", 10));
             Response.Init(LibraryParser.OutgoingRequest("GroupRoomMessageComposer"));
             Response.AppendInteger(roomid);
-            Response.AppendInteger((uint) theGroup.Id);
+            Response.AppendInteger(theGroup.Id);
             SendResponse();
             roomData.Group = theGroup;
             roomData.GroupId = theGroup.Id;
@@ -142,19 +145,19 @@ namespace Yupi.Messages.Handlers
                 Session.GetHabbo().CurrentRoomId = roomData.Id;
             }
 
-            if (Session.GetHabbo().CurrentRoom != null && !Session.GetHabbo().CurrentRoom.LoadedGroups.ContainsKey((uint) theGroup.Id))
-                Session.GetHabbo().CurrentRoom.LoadedGroups.Add((uint) theGroup.Id, theGroup.Badge);
+            if (Session.GetHabbo().CurrentRoom != null && !Session.GetHabbo().CurrentRoom.LoadedGroups.ContainsKey(theGroup.Id))
+                Session.GetHabbo().CurrentRoom.LoadedGroups.Add(theGroup.Id, theGroup.Badge);
 
-            if (CurrentLoadingRoom != null && !CurrentLoadingRoom.LoadedGroups.ContainsKey((uint) theGroup.Id))
-                CurrentLoadingRoom.LoadedGroups.Add((uint) theGroup.Id, theGroup.Badge);
+            if (CurrentLoadingRoom != null && !CurrentLoadingRoom.LoadedGroups.ContainsKey(theGroup.Id))
+                CurrentLoadingRoom.LoadedGroups.Add(theGroup.Id, theGroup.Badge);
 
             if (CurrentLoadingRoom != null)
             {
-                var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("RoomGroupMessageComposer"));
+                ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("RoomGroupMessageComposer"));
 
                 serverMessage.AppendInteger(CurrentLoadingRoom.LoadedGroups.Count);
 
-                foreach (var current in CurrentLoadingRoom.LoadedGroups)
+                foreach (KeyValuePair<uint, string> current in CurrentLoadingRoom.LoadedGroups)
                 {
                     serverMessage.AppendInteger(current.Key);
                     serverMessage.AppendString(current.Value);
@@ -166,10 +169,10 @@ namespace Yupi.Messages.Handlers
             if (CurrentLoadingRoom == null || Session.GetHabbo().FavouriteGroup != theGroup.Id)
                 return;
 
-            var serverMessage2 = new ServerMessage(LibraryParser.OutgoingRequest("ChangeFavouriteGroupMessageComposer"));
+            ServerMessage serverMessage2 = new ServerMessage(LibraryParser.OutgoingRequest("ChangeFavouriteGroupMessageComposer"));
 
             serverMessage2.AppendInteger(CurrentLoadingRoom.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().Id).VirtualId);
-            serverMessage2.AppendInteger((uint) theGroup.Id);
+            serverMessage2.AppendInteger(theGroup.Id);
             serverMessage2.AppendInteger(3);
             serverMessage2.AppendString(theGroup.Name);
 
@@ -184,7 +187,7 @@ namespace Yupi.Messages.Handlers
             uint groupId = Request.GetUInteger();
             bool newWindow = Request.GetBool();
 
-            Guild group = Yupi.GetGame().GetGroupManager().GetGroup((int) groupId);
+            Group group = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
 
             if (group == null)
                 return;
@@ -202,7 +205,7 @@ namespace Yupi.Messages.Handlers
             string searchVal = Request.GetString();
             uint reqType = Request.GetUInteger();
 
-            Guild group = Yupi.GetGame().GetGroupManager().GetGroup((int) groupId);
+            Group group = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
 
             Response.Init(LibraryParser.OutgoingRequest("GroupMembersMessageComposer"));
 
@@ -216,10 +219,10 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         internal void MakeGroupAdmin()
         {
-            int num = Request.GetInteger();
+            uint num = Request.GetUInteger();
             uint num2 = Request.GetUInteger();
 
-            Guild group = Yupi.GetGame().GetGroupManager().GetGroup(num);
+            Group group = Yupi.GetGame().GetGroupManager().GetGroup(num);
 
             if (Session.GetHabbo().Id != group.CreatorId || !group.Members.ContainsKey(num2) || group.Admins.ContainsKey(num2))
                 return;
@@ -257,10 +260,10 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         internal void RemoveGroupAdmin()
         {
-            int num = Request.GetInteger();
+            uint num = Request.GetUInteger();
             uint num2 = Request.GetUInteger();
 
-            Guild group = Yupi.GetGame().GetGroupManager().GetGroup(num);
+            Group group = Yupi.GetGame().GetGroupManager().GetGroup(num);
 
             if (Session.GetHabbo().Id != group.CreatorId || !group.Members.ContainsKey(num2) || !group.Admins.ContainsKey(num2))
                 return;
@@ -298,7 +301,7 @@ namespace Yupi.Messages.Handlers
             uint groupId = Request.GetUInteger();
             uint userId = Request.GetUInteger();
 
-            Guild group = Yupi.GetGame().GetGroupManager().GetGroup((int) groupId);
+            Group group = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
 
             if (Session.GetHabbo().Id != group.CreatorId && !group.Admins.ContainsKey(Session.GetHabbo().Id) && !group.Requests.ContainsKey(userId))
                 return;
@@ -336,10 +339,10 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         internal void DeclineMembership()
         {
-            var groupId = Request.GetUInteger();
-            var userId = Request.GetUInteger();
+            uint groupId = Request.GetUInteger();
+            uint userId = Request.GetUInteger();
 
-            var group = Yupi.GetGame().GetGroupManager().GetGroup((int) groupId);
+            Group group = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
 
             if (Session.GetHabbo().Id != group.CreatorId && !group.Admins.ContainsKey(Session.GetHabbo().Id) && !group.Requests.ContainsKey(userId))
                 return;
@@ -350,9 +353,9 @@ namespace Yupi.Messages.Handlers
             Yupi.GetGame().GetGroupManager().SerializeGroupMembers(Response, group, 2u, Session);
             SendResponse();
 
-            var room = Yupi.GetGame().GetRoomManager().GetRoom(group.RoomId);
+            Room room = Yupi.GetGame().GetRoomManager().GetRoom(group.RoomId);
 
-            var roomUserByHabbo = room?.GetRoomUserManager().GetRoomUserByHabbo(Yupi.GetHabboById(userId).UserName);
+            RoomUser roomUserByHabbo = room?.GetRoomUserManager().GetRoomUserByHabbo(Yupi.GetHabboById(userId).UserName);
 
             if (roomUserByHabbo != null)
             {
@@ -364,7 +367,7 @@ namespace Yupi.Messages.Handlers
 
             Yupi.GetGame().GetGroupManager().SerializeGroupInfo(group, Response, Session);
 
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 queryReactor.RunFastQuery("DELETE FROM groups_requests WHERE group_id=" + groupId + " AND user_id=" + userId);
         }
 
@@ -375,7 +378,7 @@ namespace Yupi.Messages.Handlers
         {
             uint groupId = Request.GetUInteger();
 
-            Guild group = Yupi.GetGame().GetGroupManager().GetGroup((int) groupId);
+            Group group = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
             Habbo user = Session.GetHabbo();
 
             if (!group.Members.ContainsKey(user.Id))
@@ -414,10 +417,10 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         internal void RemoveMember()
         {
-            int num = Request.GetInteger();
+            uint num = Request.GetUInteger();
             uint num2 = Request.GetUInteger();
 
-            Guild group = Yupi.GetGame().GetGroupManager().GetGroup(num);
+            Group group = Yupi.GetGame().GetGroupManager().GetGroup(num);
 
             if (num2 == Session.GetHabbo().Id)
             {
@@ -491,7 +494,7 @@ namespace Yupi.Messages.Handlers
         {
             uint groupId = Request.GetUInteger();
 
-            Guild theGroup = Yupi.GetGame().GetGroupManager().GetGroup((int) groupId);
+            Group theGroup = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
 
             if (theGroup == null)
                 return;
@@ -511,9 +514,9 @@ namespace Yupi.Messages.Handlers
 
             if (Session.GetHabbo().CurrentRoom != null)
             {
-                if (!Session.GetHabbo().CurrentRoom.LoadedGroups.ContainsKey((uint) theGroup.Id))
+                if (!Session.GetHabbo().CurrentRoom.LoadedGroups.ContainsKey(theGroup.Id))
                 {
-                    Session.GetHabbo().CurrentRoom.LoadedGroups.Add((uint) theGroup.Id, theGroup.Badge);
+                    Session.GetHabbo().CurrentRoom.LoadedGroups.Add(theGroup.Id, theGroup.Badge);
                     Response.Init(LibraryParser.OutgoingRequest("RoomGroupMessageComposer"));
                     Response.AppendInteger(Session.GetHabbo().CurrentRoom.LoadedGroups.Count);
 
@@ -529,7 +532,7 @@ namespace Yupi.Messages.Handlers
 
             Response.Init(LibraryParser.OutgoingRequest("ChangeFavouriteGroupMessageComposer"));
             Response.AppendInteger(0);
-            Response.AppendInteger((uint) theGroup.Id);
+            Response.AppendInteger(theGroup.Id);
             Response.AppendInteger(3);
             Response.AppendString(theGroup.Name);
 
@@ -572,9 +575,9 @@ namespace Yupi.Messages.Handlers
             string subject = Request.GetString();
             string content = Request.GetString();
 
-            Guild group = Yupi.GetGame().GetGroupManager().GetGroup((int) groupId);
+            Group group = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
 
-            if (group == null || !group.HasForum)
+            if (group == null || group.Forum.Id == 0)
                 return;
 
             int timestamp = Yupi.GetUnixTimeStamp();
@@ -586,7 +589,7 @@ namespace Yupi.Messages.Handlers
                     dbClient.SetQuery($"SELECT * FROM groups_forums_posts WHERE id = {threadId}");
 
                     DataRow row = dbClient.GetRow();
-                    var post = new GroupForumPost(row);
+                    GroupForumPost post = new GroupForumPost(row);
 
                     if (post.Locked || post.Hidden)
                     {
@@ -606,19 +609,19 @@ namespace Yupi.Messages.Handlers
                 dbClient.AddParameter("subjc", subject);
                 dbClient.AddParameter("content", content);
 
-                threadId = (uint)dbClient.GetInteger();
+                threadId = (uint)dbClient.InsertQuery();
             }
 
-            group.ForumScore += 0.25;
-            group.ForumLastPosterName = Session.GetHabbo().UserName;
-            group.ForumLastPosterId = Session.GetHabbo().Id;
-            group.ForumLastPosterTimestamp = timestamp;
-            group.ForumMessagesCount++;
+            group.Forum.ForumScore += 0.25;
+            group.Forum.ForumLastPosterName = Session.GetHabbo().UserName;
+            group.Forum.ForumLastPosterId = Session.GetHabbo().Id;
+            group.Forum.ForumLastPosterTimestamp = (uint)timestamp;
+            group.Forum.ForumMessagesCount++;
             group.UpdateForum();
 
             if (threadId == 0)
             {
-                var message = new ServerMessage(LibraryParser.OutgoingRequest("GroupForumNewThreadMessageComposer"));
+                ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("GroupForumNewThreadMessageComposer"));
                 message.AppendInteger(groupId);
                 message.AppendInteger(threadId);
                 message.AppendInteger(Session.GetHabbo().Id);
@@ -631,20 +634,20 @@ namespace Yupi.Messages.Handlers
                 message.AppendInteger(0);
                 message.AppendInteger(0);
                 message.AppendInteger(1);
-                message.AppendString("");
+                message.AppendString(string.Empty);
                 message.AppendInteger(Yupi.GetUnixTimeStamp() - timestamp);
                 message.AppendByte(1);
                 message.AppendInteger(1);
-                message.AppendString("");
+                message.AppendString(string.Empty);
                 message.AppendInteger(42);
                 Session.SendMessage(message);
             }
             else
             {
-                var message = new ServerMessage(LibraryParser.OutgoingRequest("GroupForumNewResponseMessageComposer"));
+                ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("GroupForumNewResponseMessageComposer"));
                 message.AppendInteger(groupId);
                 message.AppendInteger(threadId);
-                message.AppendInteger(group.ForumMessagesCount);
+                message.AppendInteger(group.Forum.ForumMessagesCount);
                 message.AppendInteger(0);
                 message.AppendInteger(Session.GetHabbo().Id);
                 message.AppendString(Session.GetHabbo().UserName);
@@ -653,7 +656,7 @@ namespace Yupi.Messages.Handlers
                 message.AppendString(content);
                 message.AppendByte(0);
                 message.AppendInteger(0);
-                message.AppendString("");
+                message.AppendString(string.Empty);
                 message.AppendInteger(0);
                 Session.SendMessage(message);
             }
@@ -674,7 +677,7 @@ namespace Yupi.Messages.Handlers
                 dbClient.SetQuery($"SELECT * FROM groups_forums_posts WHERE group_id = '{groupId}' AND id = '{threadId}' LIMIT 1;");
                 DataRow row = dbClient.GetRow();
 
-                Guild theGroup = Yupi.GetGame().GetGroupManager().GetGroup((int) groupId);
+                Group theGroup = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
 
                 if (row != null)
                 {
@@ -687,11 +690,11 @@ namespace Yupi.Messages.Handlers
                     }
                 }
 
-                var thread = new GroupForumPost(row);
+                GroupForumPost thread = new GroupForumPost(row);
 
                 if (thread.Pinned != pin)
                 {
-                    var notif = new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
+                    ServerMessage notif = new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
 
                     notif.AppendString(pin ? "forums.thread.pinned" : "forums.thread.unpinned");
                     notif.AppendInteger(0);
@@ -700,7 +703,7 @@ namespace Yupi.Messages.Handlers
 
                 if (thread.Locked != Lock)
                 {
-                    var notif2 = new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
+                    ServerMessage notif2 = new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
 
                     notif2.AppendString(Lock ? "forums.thread.locked" : "forums.thread.unlocked");
                     notif2.AppendInteger(0);
@@ -710,7 +713,7 @@ namespace Yupi.Messages.Handlers
                 if (thread.ParentId != 0)
                     return;
 
-                var message = new ServerMessage(LibraryParser.OutgoingRequest("GroupForumThreadUpdateMessageComposer"));
+                ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("GroupForumThreadUpdateMessageComposer"));
                 message.AppendInteger(groupId);
                 message.AppendInteger(thread.Id);
                 message.AppendInteger(thread.PosterId);
@@ -723,7 +726,7 @@ namespace Yupi.Messages.Handlers
                 message.AppendInteger(0);
                 message.AppendInteger(0);
                 message.AppendInteger(1);
-                message.AppendString("");
+                message.AppendString(string.Empty);
                 message.AppendInteger(Yupi.GetUnixTimeStamp() - thread.Timestamp);
                 message.AppendByte(thread.Hidden ? 10 : 1);
                 message.AppendInteger(1);
@@ -748,7 +751,7 @@ namespace Yupi.Messages.Handlers
                 dbClient.SetQuery($"SELECT * FROM groups_forums_posts WHERE group_id = '{groupId}' AND id = '{threadId}' LIMIT 1;");
 
                 DataRow row = dbClient.GetRow();
-                Guild theGroup = Yupi.GetGame().GetGroupManager().GetGroup((int) groupId);
+                Group theGroup = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
 
                 if (row != null)
                 {
@@ -760,8 +763,8 @@ namespace Yupi.Messages.Handlers
                     }
                 }
 
-                var thread = new GroupForumPost(row);
-                var notif = new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
+                GroupForumPost thread = new GroupForumPost(row);
+                ServerMessage notif = new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
 
                 notif.AppendString(stateToSet == 20 ? "forums.thread.hidden" : "forums.thread.restored");
                 notif.AppendInteger(0);
@@ -770,7 +773,7 @@ namespace Yupi.Messages.Handlers
                 if (thread.ParentId != 0)
                     return;
 
-                var message = new ServerMessage(LibraryParser.OutgoingRequest("GroupForumThreadUpdateMessageComposer"));
+                ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("GroupForumThreadUpdateMessageComposer"));
                 message.AppendInteger(groupId);
                 message.AppendInteger(thread.Id);
                 message.AppendInteger(thread.PosterId);
@@ -805,9 +808,9 @@ namespace Yupi.Messages.Handlers
 
             Request.GetInteger();
 
-            Guild theGroup = Yupi.GetGame().GetGroupManager().GetGroup((int) groupId);
+            Group theGroup = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
 
-            if (theGroup == null || !theGroup.HasForum)
+            if (theGroup == null || theGroup.Forum.Id == 0)
                 return;
 
             using (IQueryAdapter dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
@@ -821,7 +824,7 @@ namespace Yupi.Messages.Handlers
 
                 int b = table.Rows.Count <= 20 ? table.Rows.Count : 20;
 
-                var posts = new List<GroupForumPost>();
+                List<GroupForumPost> posts = new List<GroupForumPost>();
 
                 int i = 1;
 
@@ -835,7 +838,7 @@ namespace Yupi.Messages.Handlers
                         continue;
                     }
 
-                    var thread = new GroupForumPost(row);
+                    GroupForumPost thread = new GroupForumPost(row);
 
                     if (thread.ParentId == 0 && thread.Hidden)
                         return;
@@ -845,7 +848,7 @@ namespace Yupi.Messages.Handlers
                     i++;
                 }
 
-                var message = new ServerMessage(LibraryParser.OutgoingRequest("GroupForumReadThreadMessageComposer"));
+                ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("GroupForumReadThreadMessageComposer"));
 
                 message.AppendInteger(groupId);
                 message.AppendInteger(threadId);
@@ -895,9 +898,9 @@ namespace Yupi.Messages.Handlers
                 DataTable table = dbClient.GetTable();
                 int threadCount = table.Rows.Count <= TotalPerPage ? table.Rows.Count : TotalPerPage;
 
-                var threads = (from DataRow row in table.Rows select new GroupForumPost(row)).ToList();
+                List<GroupForumPost> threads = (from DataRow row in table.Rows select new GroupForumPost(row)).ToList();
 
-                var message = new ServerMessage(LibraryParser.OutgoingRequest("GroupForumThreadRootMessageComposer"));
+                ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("GroupForumThreadRootMessageComposer"));
                 message.AppendInteger(groupId);
                 message.AppendInteger(startIndex);
                 message.AppendInteger(threadCount);
@@ -934,9 +937,9 @@ namespace Yupi.Messages.Handlers
         {
             uint groupId = Request.GetUInteger();
 
-            Guild theGroup = Yupi.GetGame().GetGroupManager().GetGroup((int) groupId);
+            Group theGroup = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
 
-            if (theGroup != null && theGroup.HasForum)
+            if (theGroup != null && theGroup.Forum.Id != 0)
                 Session.SendMessage(theGroup.ForumDataMessage(Session.GetHabbo().Id));
         }
 
@@ -948,9 +951,9 @@ namespace Yupi.Messages.Handlers
             int selectType = Request.GetInteger();
             int startIndex = Request.GetInteger();
 
-            var message = new ServerMessage(LibraryParser.OutgoingRequest("GroupForumListingsMessageComposer"));
+            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("GroupForumListingsMessageComposer"));
             message.AppendInteger(selectType);
-            var groupList = new List<Guild>();
+            List<Group> groupList = new List<Group>();
 
             switch (selectType)
             {
@@ -958,11 +961,11 @@ namespace Yupi.Messages.Handlers
                 case 1:
                     using (IQueryAdapter dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
-                        dbClient.SetQuery("SELECT count(id) FROM groups_data WHERE has_forum = '1' AND forum_messages_count > 0");
+                        dbClient.SetQuery("SELECT count(id) FROM groups_forums_data WHERE forum_messages_count > 0");
 
                         int qtdForums = dbClient.GetInteger();
 
-                        dbClient.SetQuery("SELECT id FROM groups_data WHERE has_forum = '1' AND forum_messages_count > 0 ORDER BY forum_messages_count DESC LIMIT @startIndex, @totalPerPage;");
+                        dbClient.SetQuery("SELECT group_id FROM groups_forums_data WHERE forum_messages_count > 0 ORDER BY forum_messages_count DESC LIMIT @startIndex, @totalPerPage;");
 
                         dbClient.AddParameter("startIndex", startIndex);
                         dbClient.AddParameter("totalPerPage", TotalPerPage);
@@ -972,11 +975,11 @@ namespace Yupi.Messages.Handlers
                         message.AppendInteger(qtdForums == 0 ? 1 : qtdForums);
                         message.AppendInteger(startIndex);
 
-                        groupList.AddRange(from DataRow rowGroupData in table.Rows select uint.Parse(rowGroupData["id"].ToString()) into groupId select Yupi.GetGame().GetGroupManager().GetGroup((int) groupId));
+                        groupList.AddRange(from DataRow rowGroupData in table.Rows select uint.Parse(rowGroupData["group_id"].ToString()) into groupId select Yupi.GetGame().GetGroupManager().GetGroup(groupId));
 
                         message.AppendInteger(table.Rows.Count);
 
-                        foreach (Guild theGroup in groupList)
+                        foreach (Group theGroup in groupList)
                             theGroup.SerializeForumRoot(message);
 
                         Session.SendMessage(message);
@@ -984,16 +987,16 @@ namespace Yupi.Messages.Handlers
                     break;
 
                 case 2:
-                    groupList.AddRange(Session.GetHabbo().UserGroups.Select(groupUser => Yupi.GetGame().GetGroupManager().GetGroup(groupUser.GroupId)).Where(aGroup => aGroup != null && aGroup.HasForum));
+                    groupList.AddRange(Session.GetHabbo().UserGroups.Select(groupUser => Yupi.GetGame().GetGroupManager().GetGroup(groupUser.GroupId)).Where(aGroup => aGroup != null && aGroup.Forum.Id != 0));
 
                     message.AppendInteger(groupList.Count == 0 ? 1 : groupList.Count);
 
-                    groupList = groupList.OrderByDescending(x => x.ForumMessagesCount).Skip(startIndex).Take(20).ToList();
+                    groupList = groupList.OrderByDescending(x => x.Forum.ForumMessagesCount).Skip(startIndex).Take(20).ToList();
 
                     message.AppendInteger(startIndex);
                     message.AppendInteger(groupList.Count);
 
-                    foreach (Guild theGroup in groupList)
+                    foreach (Group theGroup in groupList)
                         theGroup.SerializeForumRoot(message);
 
                     Session.SendMessage(message);
@@ -1013,8 +1016,8 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         internal void ManageGroup()
         {
-            var groupId = Request.GetUInteger();
-            var theGroup = Yupi.GetGame().GetGroupManager().GetGroup((int) groupId);
+            uint groupId = Request.GetUInteger();
+            Group theGroup = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
 
             if (theGroup == null)
                 return;
@@ -1025,7 +1028,7 @@ namespace Yupi.Messages.Handlers
             Response.Init(LibraryParser.OutgoingRequest("GroupDataEditMessageComposer"));
             Response.AppendInteger(0);
             Response.AppendBool(true);
-            Response.AppendInteger((uint) theGroup.Id);
+            Response.AppendInteger(theGroup.Id);
             Response.AppendString(theGroup.Name);
             Response.AppendString(theGroup.Description);
             Response.AppendInteger(theGroup.RoomId);
@@ -1036,16 +1039,16 @@ namespace Yupi.Messages.Handlers
             Response.AppendBool(false);
             Response.AppendString(string.Empty);
 
-            var array = theGroup.Badge.Replace("b", string.Empty).Split('s');
+            string[] array = theGroup.Badge.Replace("b", string.Empty).Split('s');
 
             Response.AppendInteger(5);
 
-            var num = 5 - array.Length;
+            int num = 5 - array.Length;
 
-            var num2 = 0;
-            var array2 = array;
+            int num2 = 0;
+            string[] array2 = array;
 
-            foreach (var text in array2)
+            foreach (string text in array2)
             {
                 Response.AppendInteger(text.Length >= 6 ? uint.Parse(text.Substring(0, 3)) : uint.Parse(text.Substring(0, 2)));
                 Response.AppendInteger(text.Length >= 6 ? uint.Parse(text.Substring(3, 2)) : uint.Parse(text.Substring(2, 2)));
@@ -1077,11 +1080,11 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         internal void UpdateGroupName()
         {
-            int num = Request.GetInteger();
+            uint num = Request.GetUInteger();
             string text = Request.GetString();
             string text2 = Request.GetString();
 
-            Guild theGroup = Yupi.GetGame().GetGroupManager().GetGroup(num);
+            Group theGroup = Yupi.GetGame().GetGroupManager().GetGroup(num);
 
             if (theGroup?.CreatorId != Session.GetHabbo().Id)
                 return;
@@ -1108,7 +1111,7 @@ namespace Yupi.Messages.Handlers
         {
             uint guildId = Request.GetUInteger();
 
-            Guild guild = Yupi.GetGame().GetGroupManager().GetGroup((int) guildId);
+            Group guild = Yupi.GetGame().GetGroupManager().GetGroup(guildId);
 
             if (guild != null)
             {
@@ -1123,7 +1126,7 @@ namespace Yupi.Messages.Handlers
 
                     Request.GetInteger();
 
-                    var guildStates = new List<int>();
+                    List<int> guildStates = new List<int>();
 
                     for (int i = 0; i < 12; i++)
                         guildStates.Add(Request.GetInteger());
@@ -1182,7 +1185,7 @@ namespace Yupi.Messages.Handlers
             int num = Request.GetInteger();
             int num2 = Request.GetInteger();
 
-            Guild theGroup = Yupi.GetGame().GetGroupManager().GetGroup((int) groupId);
+            Group theGroup = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
 
             if (theGroup?.CreatorId != Session.GetHabbo().Id)
                 return;
@@ -1205,7 +1208,7 @@ namespace Yupi.Messages.Handlers
             uint num = Request.GetUInteger();
             uint num2 = Request.GetUInteger();
 
-            Guild theGroup = Yupi.GetGame().GetGroupManager().GetGroup((int) groupId);
+            Group theGroup = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
 
             if (theGroup?.CreatorId != Session.GetHabbo().Id)
                 return;
@@ -1235,7 +1238,7 @@ namespace Yupi.Messages.Handlers
                         {
                             if (num2 == 0u && !current.Statusses.ContainsKey("flatctrl 1"))
                             {
-                                current.AddStatus("flatctrl 1", "");
+                                current.AddStatus("flatctrl 1", string.Empty);
                                 Response.Init(LibraryParser.OutgoingRequest("RoomRightsLevelMessageComposer"));
                                 Response.AppendInteger(1);
                                 current.GetClient().SendMessage(GetResponse());
@@ -1258,7 +1261,7 @@ namespace Yupi.Messages.Handlers
             uint groupId = Request.GetUInteger();
             uint userId = Request.GetUInteger();
 
-            Guild guild = Yupi.GetGame().GetGroupManager().GetGroup((int) groupId);
+            Group guild = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
 
             if (guild == null || guild.CreatorId == userId)
                 return;
@@ -1277,10 +1280,10 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         internal void ConfirmLeaveGroup()
         {
-            int guild = Request.GetInteger();
+            uint guild = Request.GetUInteger();
             uint userId = Request.GetUInteger();
 
-            Guild byeGuild = Yupi.GetGame().GetGroupManager().GetGroup(guild);
+            Group byeGuild = Yupi.GetGame().GetGroupManager().GetGroup(guild);
 
             if (byeGuild == null)
                 return;
@@ -1295,7 +1298,7 @@ namespace Yupi.Messages.Handlers
             {
                 GroupMember memberShip;
 
-                var type = 3;
+                int type = 3;
 
                 if (byeGuild.Members.ContainsKey(userId))
                 {
@@ -1370,25 +1373,25 @@ namespace Yupi.Messages.Handlers
 
         internal void UpdateForumSettings()
         {
-            int guild = Request.GetInteger();
-            int whoCanRead = Request.GetInteger();
-            int whoCanPost = Request.GetInteger();
-            int whoCanThread = Request.GetInteger();
-            int whoCanMod = Request.GetInteger();
+            uint guild = Request.GetUInteger();
+            uint whoCanRead = Request.GetUInteger();
+            uint whoCanPost = Request.GetUInteger();
+            uint whoCanThread = Request.GetUInteger();
+            uint whoCanMod = Request.GetUInteger();
 
-            Guild group = Yupi.GetGame().GetGroupManager().GetGroup(guild);
+            Group group = Yupi.GetGame().GetGroupManager().GetGroup(guild);
 
             if (group == null)
                 return;
 
-            group.WhoCanRead = whoCanRead;
-            group.WhoCanPost = whoCanPost;
-            group.WhoCanThread = whoCanThread;
-            group.WhoCanMod = whoCanMod;
+            group.Forum.WhoCanRead = whoCanRead;
+            group.Forum.WhoCanPost = whoCanPost;
+            group.Forum.WhoCanThread = whoCanThread;
+            group.Forum.WhoCanMod = whoCanMod;
 
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery("UPDATE groups_data SET who_can_read = @who_can_read, who_can_post = @who_can_post, who_can_thread = @who_can_thread, who_can_mod = @who_can_mod WHERE id = @group_id");
+                queryReactor.SetQuery("UPDATE groups_forums_data SET who_can_read = @who_can_read, who_can_post = @who_can_post, who_can_thread = @who_can_thread, who_can_mod = @who_can_mod WHERE group_id = @group_id");
                 queryReactor.AddParameter("group_id", group.Id);
                 queryReactor.AddParameter("who_can_read", whoCanRead);
                 queryReactor.AddParameter("who_can_post", whoCanPost);
@@ -1403,16 +1406,17 @@ namespace Yupi.Messages.Handlers
         internal void DeleteGroup()
         {
             uint groupId = Request.GetUInteger();
-            var group = Yupi.GetGame().GetGroupManager().GetGroup((int) groupId);
-            var room = Yupi.GetGame().GetRoomManager().GetRoom(group.RoomId);
+
+            Group group = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
+            Room room = Yupi.GetGame().GetRoomManager().GetRoom(group.RoomId);
 
             if (room?.RoomData?.Group == null)
                 Session.SendNotif(Yupi.GetLanguage().GetVar("command_group_has_no_room"));
             else
             {
-                foreach (var user in group.Members.Values)
+                foreach (GroupMember user in group.Members.Values)
                 {
-                    var clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(user.Id);
+                    GameClient clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(user.Id);
 
                     if (clientByUserId == null)
                         continue;
@@ -1428,20 +1432,20 @@ namespace Yupi.Messages.Handlers
 
                 Yupi.GetGame().GetGroupManager().DeleteGroup((uint) @group.Id);
 
-                var deleteGroup = new ServerMessage(LibraryParser.OutgoingRequest("GroupDeletedMessageComposer"));
+                ServerMessage deleteGroup = new ServerMessage(LibraryParser.OutgoingRequest("GroupDeletedMessageComposer"));
 
                 deleteGroup.AppendInteger(groupId);
                 room.SendMessage(deleteGroup);
 
-                var roomItemList = room.GetRoomItemHandler().RemoveAllFurniture(Session);
+                List<RoomItem> roomItemList = room.GetRoomItemHandler().RemoveAllFurniture(Session);
                 room.GetRoomItemHandler().RemoveItemsByOwner(ref roomItemList, ref Session);
-                var roomData = room.RoomData;
-                var roomId = room.RoomData.Id;
+                RoomData roomData = room.RoomData;
+                uint roomId = room.RoomData.Id;
 
                 Yupi.GetGame().GetRoomManager().UnloadRoom(room, "Delete room");
                 Yupi.GetGame().GetRoomManager().QueueVoteRemove(roomData);
 
-                using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
                     queryReactor.RunFastQuery($"DELETE FROM rooms_data WHERE id = {roomId}");
                     queryReactor.RunFastQuery($"DELETE FROM users_favorites WHERE room_id = {roomId}");
@@ -1450,7 +1454,7 @@ namespace Yupi.Messages.Handlers
                     queryReactor.RunFastQuery($"UPDATE users SET home_room = '0' WHERE home_room = {roomId}");
                 }
 
-                var roomData2 = (from p in Session.GetHabbo().UsersRooms where p.Id == roomId select p).SingleOrDefault();
+                RoomData roomData2 = (from p in Session.GetHabbo().UsersRooms where p.Id == roomId select p).SingleOrDefault();
 
                 if (roomData2 != null)
                     Session.GetHabbo().UsersRooms.Remove(roomData2);

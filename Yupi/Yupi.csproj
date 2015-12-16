@@ -186,6 +186,9 @@
     <Compile Include="Core\Algorithms\Astar\Interfaces\IWeightAddable.cs" />
     <Compile Include="Core\Algorithms\Astar\PriorityQueue.cs" />
     <Compile Include="Game\Achievements\Composers\AchievementTalentComposer.cs" />
+    <Compile Include="Game\Groups\Composers\ForumRootMessageComposer.cs" />
+    <Compile Include="Game\Groups\Composers\ForumDataMessageComposer.cs" />
+    <Compile Include="Game\Groups\Structs\GroupForum.cs" />
     <Compile Include="Game\Pathfinding\Vectors\Coord.cs" />
     <Compile Include="Core\Encryption\Crypto\KeyExchange\DiffieHellman.cs" />
     <Compile Include="Core\Encryption\Handler.cs" />
@@ -581,7 +584,7 @@
     <Compile Include="Game\Groups\Structs\GroupSymbolColours.cs" />
     <Compile Include="Game\Groups\Structs\GroupSymbols.cs" />
     <Compile Include="Game\Groups\Structs\GroupMember.cs" />
-    <Compile Include="Game\Groups\Structs\Guild.cs" />
+    <Compile Include="Game\Groups\Structs\Group.cs" />
     <Compile Include="Game\Browser\Models\PublicCategory.cs" />
     <Compile Include="Game\Browser\HotelLandingManager.cs" />
     <Compile Include="Game\Browser\HotelBrowserManager.cs" />

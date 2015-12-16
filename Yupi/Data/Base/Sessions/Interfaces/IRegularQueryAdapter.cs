@@ -34,6 +34,8 @@ namespace Yupi.Data.Base.Sessions.Interfaces
 
         int GetInteger();
 
+        uint GetUInteger();
+
         DataRow GetRow();
 
         string GetString();

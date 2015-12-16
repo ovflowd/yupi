@@ -66,6 +66,14 @@ namespace Yupi.Data.Base.Sessions
             return int.Parse(CommandMySql.ExecuteScalar().ToString());
         }
 
+        public uint GetUInteger()
+        {
+            if (!DbEnabled)
+                return 0;
+
+            return uint.Parse(CommandMySql.ExecuteScalar().ToString());
+        }
+
         public DataRow GetRow()
         {
             if (!DbEnabled)

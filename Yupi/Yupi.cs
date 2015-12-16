@@ -647,7 +647,7 @@ namespace Yupi
 
             GetConnectionManager().Destroy();
 
-            foreach (Guild group in _game.GetGroupManager().Groups.Values) group.UpdateForum();
+            foreach (Group group in _game.GetGroupManager().Groups.Values) group.UpdateForum();
 
             using (IQueryAdapter queryReactor = Manager.GetQueryReactor())
             {

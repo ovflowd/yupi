@@ -999,31 +999,16 @@ namespace Yupi.Game.Catalogs
                                 break;
 
                             case Interaction.GuildForum:
-                                int groupId;
+                                uint groupId;
 
-                                int.TryParse(extraData, out groupId);
+                                uint.TryParse(extraData, out groupId);
 
-                                Guild group = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
+                                Group group = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
 
-                                if (@group != null)
+                                if (group != null)
                                 {
-                                    if (@group.CreatorId == session.GetHabbo().Id)
-                                    {
-                                        /*session.GetMessageHandler().GetResponse().Init(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
-                                        session.GetMessageHandler().GetResponse().AppendString("forums.delivered");
-                                        session.GetMessageHandler().GetResponse().AppendInteger(2);
-                                        session.GetMessageHandler().GetResponse().AppendString("groupId");
-                                        session.GetMessageHandler().GetResponse().AppendString(extraData);
-                                        session.GetMessageHandler().GetResponse().AppendString("groupName");
-                                        session.GetMessageHandler().GetResponse().AppendString(@group.Name);
-                                        session.GetMessageHandler().SendResponse();*/
-
-                                        if (!@group.HasForum)
-                                        {
-                                            @group.HasForum = true;
-                                            @group.UpdateForum();
-                                        }
-                                    }
+                                    if (group.CreatorId == session.GetHabbo().Id)
+                                        group.UpdateForum(true);
                                     else
                                         session.SendNotif(Yupi.GetLanguage().GetVar("user_group_owner_error"));
                                 }
