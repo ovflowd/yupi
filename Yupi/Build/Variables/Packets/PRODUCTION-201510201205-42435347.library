@@ -294,3 +294,4 @@ GetCameraRequest=GetCameraRequest
 DeleteGroupMessageEvent=DeleteGroup
 SaveRoomThumbnailMessageEvent=SaveRoomThumbnail
 FriendRequestListLoad=FriendRequestListLoad
+UpdateForumSettingsMessageEvent=UpdateForumSettings

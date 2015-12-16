@@ -609,7 +609,7 @@ namespace Yupi.Messages.Handlers
                 dbClient.AddParameter("subjc", subject);
                 dbClient.AddParameter("content", content);
 
-                threadId = (uint)dbClient.InsertQuery();
+                threadId = dbClient.GetUInteger();
             }
 
             group.Forum.ForumScore += 0.25;
@@ -869,6 +869,7 @@ namespace Yupi.Messages.Handlers
                     message.AppendByte(0);
                     message.AppendInteger(0);
                     message.AppendString(post.Hider);
+                    message.AppendInteger(0);
                     message.AppendInteger(0);
                 }
 

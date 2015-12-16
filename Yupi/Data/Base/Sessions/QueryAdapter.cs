@@ -63,7 +63,14 @@ namespace Yupi.Data.Base.Sessions
             if (!DbEnabled)
                 return 0;
 
-            return int.Parse(CommandMySql.ExecuteScalar().ToString());
+            int result = 0;
+
+            object obj2 = CommandMySql.ExecuteScalar();
+
+            if (obj2 != null)
+                int.TryParse(obj2.ToString(), out result);
+
+            return result;
         }
 
         public uint GetUInteger()
@@ -71,7 +78,14 @@ namespace Yupi.Data.Base.Sessions
             if (!DbEnabled)
                 return 0;
 
-            return uint.Parse(CommandMySql.ExecuteScalar().ToString());
+            uint result = 0;
+
+            object obj2 = CommandMySql.ExecuteScalar();
+
+            if (obj2 != null)
+                uint.TryParse(obj2.ToString(), out result);
+
+            return result;
         }
 
         public DataRow GetRow()

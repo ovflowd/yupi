@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: 15-Dez-2015 às 22:39
+-- Generation Time: 16-Dez-2015 às 23:51
 -- Versão do servidor: 5.5.42
 -- PHP Version: 5.6.10
 
@@ -11271,14 +11271,32 @@ CREATE TABLE `groups_data` (
   `state` enum('0','1','2') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
   `colour1` int(11) NOT NULL DEFAULT '242424',
   `colour2` int(11) NOT NULL DEFAULT '242424',
-  `admindeco` enum('0','1') CHARACTER SET utf8mb4 DEFAULT '1' COMMENT 'Administrators can Decorate',
-  `has_forum` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
-  `forum_name` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
-  `forum_description` text CHARACTER SET utf8mb4 NOT NULL,
+  `admindeco` enum('0','1') CHARACTER SET utf8mb4 DEFAULT '1' COMMENT 'Administrators can Decorate'
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `groups_data`
+--
+
+INSERT INTO `groups_data` (`id`, `group_name`, `group_description`, `group_badge`, `owner_id`, `created`, `room_id`, `state`, `colour1`, `colour2`, `admindeco`) VALUES
+(1, 'zaaaa', 'aaaaaa', 'b1003s25175s25173s29114s00000', 2, 1450215291, 3, '0', 1, 13, '1');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `groups_forums_data`
+--
+
+DROP TABLE IF EXISTS `groups_forums_data`;
+CREATE TABLE `groups_forums_data` (
+  `id` int(11) unsigned NOT NULL,
+  `group_id` int(11) unsigned NOT NULL,
+  `forum_name` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+  `forum_description` text NOT NULL,
   `forum_messages_count` int(11) unsigned NOT NULL DEFAULT '0',
-  `forum_score` int(255) unsigned NOT NULL DEFAULT '0',
+  `forum_score` int(11) unsigned NOT NULL DEFAULT '0',
   `forum_lastposter_id` int(11) unsigned NOT NULL DEFAULT '0',
-  `forum_lastposter_name` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
+  `forum_lastposter_name` varchar(255) NOT NULL DEFAULT '',
   `forum_lastposter_timestamp` int(11) unsigned NOT NULL DEFAULT '0',
   `who_can_read` int(2) unsigned NOT NULL DEFAULT '0',
   `who_can_post` int(2) unsigned NOT NULL DEFAULT '1',
@@ -11287,11 +11305,11 @@ CREATE TABLE `groups_data` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
--- Extraindo dados da tabela `groups_data`
+-- Extraindo dados da tabela `groups_forums_data`
 --
 
-INSERT INTO `groups_data` (`id`, `group_name`, `group_description`, `group_badge`, `owner_id`, `created`, `room_id`, `state`, `colour1`, `colour2`, `admindeco`, `has_forum`, `forum_name`, `forum_description`, `forum_messages_count`, `forum_score`, `forum_lastposter_id`, `forum_lastposter_name`, `forum_lastposter_timestamp`, `who_can_read`, `who_can_post`, `who_can_thread`, `who_can_mod`) VALUES
-(1, 'zaaaa', 'aaaaaa', 'b1003s25175s25173s29114s00000', 2, 1450215291, 3, '0', 1, 13, '1', '0', '', '', 0, 0, 0, '0', 0, 0, 1, 1, 2);
+INSERT INTO `groups_forums_data` (`id`, `group_id`, `forum_name`, `forum_description`, `forum_messages_count`, `forum_score`, `forum_lastposter_id`, `forum_lastposter_name`, `forum_lastposter_timestamp`, `who_can_read`, `who_can_post`, `who_can_thread`, `who_can_mod`) VALUES
+(1, 1, '', '', 4, 0, 2, 'Kioi', 1450306221, 2, 2, 2, 2);
 
 -- --------------------------------------------------------
 
@@ -11314,7 +11332,19 @@ CREATE TABLE `groups_forums_posts` (
   `subject` varchar(1024) CHARACTER SET utf8mb4 NOT NULL,
   `post_content` text CHARACTER SET utf8mb4 NOT NULL,
   `post_hider` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `groups_forums_posts`
+--
+
+INSERT INTO `groups_forums_posts` (`id`, `parent_id`, `group_id`, `timestamp`, `pinned`, `locked`, `hidden`, `poster_id`, `poster_name`, `poster_look`, `subject`, `post_content`, `post_hider`) VALUES
+(1, 0, 1, 1450274329, '0', '0', '0', 2, 'Kioi', 'sh-290-62.hr-115-42.hd-3093-18.ch-215-62.lg-285-91', 'aaaaaaaaaaaaaaa', 'aaaaaaaaaaaaaaaaa', ''),
+(2, 0, 1, 1450274662, '0', '0', '0', 2, 'Kioi', 'sh-290-62.hr-115-42.hd-3093-18.ch-215-62.lg-285-91', 'fffffffffffffffff', 'fffffffffffffff', ''),
+(3, 0, 1, 1450301446, '0', '0', '0', 2, 'Kioi', 'sh-290-62.hr-115-42.hd-3093-18.ch-215-62.lg-285-91', 'kkkkkkkkkkkk', 'kkkkkkkkkkkk', ''),
+(4, 2, 1, 1450305586, '0', '0', '0', 2, 'Kioi', 'sh-290-62.hr-115-42.hd-3093-18.ch-215-62.lg-285-91', '', 'ffffffffffffff', ''),
+(5, 2, 1, 1450305828, '0', '0', '0', 2, 'Kioi', 'sh-290-62.hr-115-42.hd-3093-18.ch-215-62.lg-285-91', '', 'iiiiiiiiiiiiii', ''),
+(6, 0, 1, 1450306221, '0', '0', '0', 2, 'Kioi', 'sh-290-62.hr-115-42.hd-3093-18.ch-215-62.lg-285-91', 'hhhhhhhhhhhhhh', 'hhhhhhhhhhhhhh', '');
 
 -- --------------------------------------------------------
 
@@ -11514,7 +11544,7 @@ CREATE TABLE `items_rooms` (
   `songcode` varchar(255) NOT NULL DEFAULT '',
   `group_id` int(11) unsigned NOT NULL DEFAULT '0',
   `builders` enum('0','1') NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 
 --
 -- Extraindo dados da tabela `items_rooms`
@@ -11536,7 +11566,9 @@ INSERT INTO `items_rooms` (`id`, `user_id`, `room_id`, `item_name`, `extra_data`
 (18, 2, 3, 'cine_teleport4', '0', 9, 9, 0.000, 0, '', 0, '', 0, '0'),
 (19, 0, 0, 'song_disk', 'Kioi\n2015\n12\n15\n212\nElectric Pixels', 0, 0, 0.000, 0, '', 0, 'electric_pixels', 0, '0'),
 (20, 2, 3, 'jukebox_big', '0', 6, 4, 0.000, 0, '', 0, '', 0, '0'),
-(21, 2, 0, 'duck', '', 0, 0, 0.000, 0, '', 0, '', 0, '0');
+(21, 2, 0, 'duck', '', 0, 0, 0.000, 0, '', 0, '', 0, '0'),
+(22, 2, 0, 'guild_forum', '0', 0, 0, 0.000, 0, '', 0, '', 1, '0'),
+(23, 2, 0, 'guild_forum', '0', 0, 0, 0.000, 0, '', 0, '', 1, '0');
 
 -- --------------------------------------------------------
 
@@ -12845,7 +12877,7 @@ CREATE TABLE `server_status` (
 --
 
 INSERT INTO `server_status` (`id`, `status`, `users_online`, `rooms_loaded`, `server_ver`, `stamp`, `minutesuptime`, `userpeak`, `bannerdata`) VALUES
-(1, '1', 0, 0, 'Yupi Emulator', 1450215547, 0, 2, '114670925920269957593299136150366957983142588366300079186349531:1589935137502239924254699078669119674538324391752663931735947');
+(1, '1', 1, 0, 'Yupi Emulator', 1450306217, 0, 2, '114670925920269957593299136150366957983142588366300079186349531:1589935137502239924254699078669119674538324391752663931735947');
 
 -- --------------------------------------------------------
 
@@ -12957,7 +12989,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `real_name`, `password`, `auth_ticket`, `rank`, `credits`, `activity_points`, `activity_points_lastupdate`, `diamonds`, `look`, `gender`, `motto`, `mail`, `account_created`, `last_online`, `online`, `ip_last`, `ip_reg`, `home_room`, `newbie_status`, `is_muted`, `mutant_penalty`, `mutant_penalty_expire`, `trade_lock`, `trade_lock_expire`, `block_newfriends`, `hide_online`, `hide_inroom`, `vip`, `talent_status`, `last_name_change`, `nux_passed`, `builders_expire`, `builders_items_max`, `builders_items_used`, `release_version`, `on_duty`, `duty_level`, `navigator_logs`, `respect`) VALUES
-(2, 'Kioi', '', '', 'chocolate', 1, 49974, 180, 0, 0, 'sh-290-62.hr-115-42.hd-3093-18.ch-215-62.lg-285-91', 'M', 'a', 'undefined', 1450124463, 1450215547, '0', '172.16.9.84', '', 0, 0, '0', '0', 0, '0', 0, '0', '0', '0', '0', 'citizenship', 0, '0', 3700, 100, 0, 2, 'false', 0, '1,official-root,;2,popular,;3,my,;4,favorites,', NULL);
+(2, 'Kioi', '', '', 'chocolate', 1, 49974, 180, 0, 0, 'sh-290-62.hr-115-42.hd-3093-18.ch-215-62.lg-285-91', 'M', 'a', 'undefined', 1450124463, 1450306093, '0', '172.16.9.92', '', 0, 0, '0', '0', 0, '0', 0, '0', '0', '0', '0', 'citizenship', 0, '0', 3700, 100, 0, 2, 'false', 0, '1,official-root,;2,popular,;3,my,;4,favorites,', NULL);
 
 -- --------------------------------------------------------
 
@@ -12987,12 +13019,12 @@ INSERT INTO `users_achievements` (`user_id`, `achievement_group`, `achievement_l
 (1, 'ACH_RegistrationDuration', 5, 0),
 (1, 'ACH_SafetyQuizGraduate', 1, 0),
 (1, 'ACH_VipHC', 1, 0),
-(2, 'ACH_AllTimeHotelPresence', 1, 46),
+(2, 'ACH_AllTimeHotelPresence', 2, 37),
 (2, 'ACH_AvatarLooks', 1, 0),
 (2, 'ACH_BasicClub', 1, 0),
-(2, 'ACH_Login', 1, 0),
+(2, 'ACH_Login', 2, 4),
 (2, 'ACH_Motto', 1, 0),
-(2, 'ACH_RegistrationDuration', 1, 1),
+(2, 'ACH_RegistrationDuration', 1, 2),
 (2, 'ACH_SafetyQuizGraduate', 1, 0),
 (2, 'ACH_VipHC', 1, 0);
 
@@ -13008,7 +13040,7 @@ CREATE TABLE `users_badges` (
   `user_id` int(10) unsigned NOT NULL,
   `badge_id` varchar(100) NOT NULL,
   `badge_slot` int(11) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 
 --
 -- Extraindo dados da tabela `users_badges`
@@ -13025,8 +13057,8 @@ INSERT INTO `users_badges` (`id`, `user_id`, `badge_id`, `badge_slot`) VALUES
 (14, 1, 'ACH_PetLover2', 0),
 (15, 1, 'ACH_PetRespectGiver1', 0),
 (16, 2, 'ACH_RegistrationDuration1', 0),
-(17, 2, 'ACH_Login1', 0),
-(18, 2, 'ACH_AllTimeHotelPresence1', 0),
+(24, 2, 'ACH_Login2', 0),
+(25, 2, 'ACH_AllTimeHotelPresence2', 0),
 (19, 2, 'ACH_Motto1', 0),
 (20, 2, 'ACH_VipHC1', 0),
 (21, 2, 'ACH_BasicClub1', 0),
@@ -13176,7 +13208,7 @@ CREATE TABLE `users_info` (
 
 INSERT INTO `users_info` (`user_id`, `bans`, `cautions`, `reg_timestamp`, `login_timestamp`, `cfhs`, `cfhs_abusive`) VALUES
 (1, 0, 0, 0, 1447683346, 0, 0),
-(2, 0, 0, 0, 1450215212, 0, 0);
+(2, 0, 0, 0, 1450306127, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -13391,7 +13423,7 @@ CREATE TABLE `users_stats` (
 --
 
 INSERT INTO `users_stats` (`id`, `online_seconds`, `room_visits`, `respect`, `gifts_given`, `gifts_received`, `daily_respect_points`, `daily_pet_respect_points`, `achievement_score`, `quest_id`, `quest_progress`, `favourite_group`, `tickets_answered`, `daily_competition_votes`) VALUES
-(2, 0, 0, 0, 0, 0, 3, 3, 330, 0, 0, 1, 0, 3);
+(2, 0, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 0, 3);
 
 -- --------------------------------------------------------
 
@@ -13595,7 +13627,14 @@ ALTER TABLE `groups_data`
   ADD KEY `id` (`id`) USING BTREE,
   ADD KEY `id_2` (`id`),
   ADD KEY `owner_id` (`owner_id`),
-  ADD KEY `room_id` (`room_id`);
+  ADD KEY `room_id` (`room_id`),
+  ADD KEY `id_3` (`id`);
+
+--
+-- Indexes for table `groups_forums_data`
+--
+ALTER TABLE `groups_forums_data`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `groups_forums_posts`
@@ -13856,7 +13895,8 @@ ALTER TABLE `rooms_data`
   ADD KEY `tags` (`tags`) USING BTREE,
   ADD KEY `category` (`category`) USING BTREE,
   ADD KEY `password` (`password`) USING BTREE,
-  ADD KEY `owner_2` (`owner`);
+  ADD KEY `owner_2` (`owner`),
+  ADD KEY `group_id` (`group_id`);
 
 --
 -- Indexes for table `rooms_events`
@@ -14170,10 +14210,15 @@ ALTER TABLE `cms_stories_photos_preview`
 ALTER TABLE `groups_data`
   MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
+-- AUTO_INCREMENT for table `groups_forums_data`
+--
+ALTER TABLE `groups_forums_data`
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
 -- AUTO_INCREMENT for table `groups_forums_posts`
 --
 ALTER TABLE `groups_forums_posts`
-  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `groups_members`
 --
@@ -14208,7 +14253,7 @@ ALTER TABLE `items_hopper`
 -- AUTO_INCREMENT for table `items_rooms`
 --
 ALTER TABLE `items_rooms`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=24;
 --
 -- AUTO_INCREMENT for table `items_songs_data`
 --
@@ -14333,7 +14378,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users_badges`
 --
 ALTER TABLE `users_badges`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
 --
 -- AUTO_INCREMENT for table `users_bans`
 --
@@ -14410,6 +14455,7 @@ ALTER TABLE `bots_data`
 -- Limitadores para a tabela `rooms_data`
 --
 ALTER TABLE `rooms_data`
+  ADD CONSTRAINT `rooms_data_group_id` FOREIGN KEY (`group_id`) REFERENCES `groups_data` (`id`),
   ADD CONSTRAINT `rooms_data_user_id` FOREIGN KEY (`owner`) REFERENCES `users` (`id`);
 
 --
