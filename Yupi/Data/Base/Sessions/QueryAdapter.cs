@@ -110,7 +110,12 @@ namespace Yupi.Data.Base.Sessions
             if (!DbEnabled)
                 return string.Empty;
 
-            return CommandMySql.ExecuteScalar().ToString();
+            object obj = CommandMySql.ExecuteScalar();
+
+            if(obj != null)
+                return obj.ToString();
+
+            return string.Empty;
         }
 
         public DataTable GetTable()

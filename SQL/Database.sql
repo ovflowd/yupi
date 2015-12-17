@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: 16-Dez-2015 às 23:51
+-- Generation Time: 17-Dez-2015 às 20:04
 -- Versão do servidor: 5.5.42
 -- PHP Version: 5.6.10
 
@@ -320,7 +320,14 @@ CREATE TABLE `bots_data` (
   `mix_phrases` tinyint(1) NOT NULL DEFAULT '0',
   `speech` text CHARACTER SET utf8mb4,
   `bot_type` varchar(191) CHARACTER SET utf8mb4 NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `bots_data`
+--
+
+INSERT INTO `bots_data` (`id`, `room_id`, `user_id`, `ai_type`, `name`, `motto`, `look`, `x`, `y`, `z`, `rotation`, `walk_mode`, `effect`, `gender`, `dance`, `automatic_chat`, `speaking_interval`, `mix_phrases`, `speech`, `bot_type`) VALUES
+(1, 3, 2, 'generic', 'Mah', 'Sacia a sede e você pode dançar!', 'hr-9534-39.hd-600-1.ch-819-92.lg-3058-64.sh-3064-110.wa-2005', 9, 6, 0, 0, 'freeroam', 0, 'f', 0, 1, 7, 1, 'aaaaaaaa;', 'bot_bartender');
 
 -- --------------------------------------------------------
 
@@ -11267,7 +11274,7 @@ CREATE TABLE `groups_data` (
   `group_badge` varchar(50) CHARACTER SET utf8mb4 NOT NULL,
   `owner_id` int(11) unsigned NOT NULL,
   `created` int(50) NOT NULL,
-  `room_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `room_id` int(11) unsigned DEFAULT NULL,
   `state` enum('0','1','2') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
   `colour1` int(11) NOT NULL DEFAULT '242424',
   `colour2` int(11) NOT NULL DEFAULT '242424',
@@ -11340,7 +11347,7 @@ CREATE TABLE `groups_forums_posts` (
 
 INSERT INTO `groups_forums_posts` (`id`, `parent_id`, `group_id`, `timestamp`, `pinned`, `locked`, `hidden`, `poster_id`, `poster_name`, `poster_look`, `subject`, `post_content`, `post_hider`) VALUES
 (1, 0, 1, 1450274329, '0', '0', '0', 2, 'Kioi', 'sh-290-62.hr-115-42.hd-3093-18.ch-215-62.lg-285-91', 'aaaaaaaaaaaaaaa', 'aaaaaaaaaaaaaaaaa', ''),
-(2, 0, 1, 1450274662, '0', '0', '0', 2, 'Kioi', 'sh-290-62.hr-115-42.hd-3093-18.ch-215-62.lg-285-91', 'fffffffffffffffff', 'fffffffffffffff', ''),
+(2, 0, 1, 1450274662, '0', '0', '1', 2, 'Kioi', 'sh-290-62.hr-115-42.hd-3093-18.ch-215-62.lg-285-91', 'fffffffffffffffff', 'fffffffffffffff', ''),
 (3, 0, 1, 1450301446, '0', '0', '0', 2, 'Kioi', 'sh-290-62.hr-115-42.hd-3093-18.ch-215-62.lg-285-91', 'kkkkkkkkkkkk', 'kkkkkkkkkkkk', ''),
 (4, 2, 1, 1450305586, '0', '0', '0', 2, 'Kioi', 'sh-290-62.hr-115-42.hd-3093-18.ch-215-62.lg-285-91', '', 'ffffffffffffff', ''),
 (5, 2, 1, 1450305828, '0', '0', '0', 2, 'Kioi', 'sh-290-62.hr-115-42.hd-3093-18.ch-215-62.lg-285-91', '', 'iiiiiiiiiiiiii', ''),
@@ -11359,7 +11366,7 @@ CREATE TABLE `groups_members` (
   `user_id` int(11) unsigned NOT NULL,
   `rank` enum('0','1','2') NOT NULL DEFAULT '0',
   `date_join` int(50) NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Extraindo dados da tabela `groups_members`
@@ -11544,7 +11551,7 @@ CREATE TABLE `items_rooms` (
   `songcode` varchar(255) NOT NULL DEFAULT '',
   `group_id` int(11) unsigned NOT NULL DEFAULT '0',
   `builders` enum('0','1') NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
 
 --
 -- Extraindo dados da tabela `items_rooms`
@@ -11568,7 +11575,10 @@ INSERT INTO `items_rooms` (`id`, `user_id`, `room_id`, `item_name`, `extra_data`
 (20, 2, 3, 'jukebox_big', '0', 6, 4, 0.000, 0, '', 0, '', 0, '0'),
 (21, 2, 0, 'duck', '', 0, 0, 0.000, 0, '', 0, '', 0, '0'),
 (22, 2, 0, 'guild_forum', '0', 0, 0, 0.000, 0, '', 0, '', 1, '0'),
-(23, 2, 0, 'guild_forum', '0', 0, 0, 0.000, 0, '', 0, '', 1, '0');
+(23, 2, 0, 'guild_forum', '0', 0, 0, 0.000, 0, '', 0, '', 1, '0'),
+(24, 4, 3, 'duck', '', 9, 11, 0.000, 0, '', 0, '', 0, '0'),
+(25, 4, 3, 'duck', '', 5, 12, 0.000, 0, '', 0, '', 0, '0'),
+(26, 4, 0, 'jp_irori', '', 0, 0, 0.000, 0, '', 0, '', 0, '0');
 
 -- --------------------------------------------------------
 
@@ -11803,7 +11813,16 @@ CREATE TABLE `moderation_tickets` (
   `room_id` int(10) unsigned NOT NULL,
   `room_name` varchar(100) NOT NULL,
   `timestamp` double NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `moderation_tickets`
+--
+
+INSERT INTO `moderation_tickets` (`id`, `score`, `type`, `status`, `sender_id`, `reported_id`, `moderator_id`, `message`, `room_id`, `room_name`, `timestamp`) VALUES
+(1, 1, 104, 'open', 4, 0, 0, '', 3, 'aaaa', 1450378012),
+(2, 1, 104, 'deleted', 4, 0, 2, '', 3, 'aaaa', 1450378477),
+(3, 1, 104, 'invalid', 4, 0, 2, '', 3, 'aaaa', 1450378575);
 
 -- --------------------------------------------------------
 
@@ -12343,7 +12362,7 @@ CREATE TABLE `rooms_competitions_entries` (
 
 DROP TABLE IF EXISTS `rooms_data`;
 CREATE TABLE `rooms_data` (
-  `id` int(10) unsigned NOT NULL,
+  `id` int(11) unsigned NOT NULL,
   `roomtype` enum('public','private') NOT NULL DEFAULT 'private',
   `caption` varchar(100) NOT NULL DEFAULT 'Room',
   `owner` int(11) unsigned NOT NULL,
@@ -12371,7 +12390,7 @@ CREATE TABLE `rooms_data` (
   `wallthick` int(1) NOT NULL DEFAULT '0',
   `floorthick` int(1) NOT NULL DEFAULT '0',
   `achievement` int(11) NOT NULL DEFAULT '0',
-  `group_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `group_id` int(11) unsigned DEFAULT NULL,
   `game_id` int(11) NOT NULL DEFAULT '0',
   `mute_settings` int(3) NOT NULL DEFAULT '0',
   `ban_settings` int(3) NOT NULL DEFAULT '0',
@@ -12383,14 +12402,16 @@ CREATE TABLE `rooms_data` (
   `chat_flood_protection` int(3) NOT NULL DEFAULT '0',
   `walls_height` int(3) NOT NULL DEFAULT '-1',
   `image_thumb` varchar(255) DEFAULT ''
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
 -- Extraindo dados da tabela `rooms_data`
 --
 
 INSERT INTO `rooms_data` (`id`, `roomtype`, `caption`, `owner`, `description`, `category`, `state`, `trade_state`, `users_now`, `users_max`, `model_name`, `public_ccts`, `score`, `tags`, `icon_bg`, `icon_fg`, `icon_items`, `password`, `wallpaper`, `floor`, `landscape`, `allow_pets`, `allow_pets_eat`, `allow_walkthrough`, `hidewall`, `wallthick`, `floorthick`, `achievement`, `group_id`, `game_id`, `mute_settings`, `ban_settings`, `kick_settings`, `chat_type`, `chat_balloon`, `chat_speed`, `chat_max_distance`, `chat_flood_protection`, `walls_height`, `image_thumb`) VALUES
-(3, 'private', 'aaaa', 2, 'aaaaaa', 1, 'open', '0', 0, 10, 'model_a', '', 0, '', 1, 0, '', '', '0.0', '0.0', '0.0', '1', '0', '0', '0', 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 14, 0, -1, '');
+(3, 'private', 'aaaa', 2, 'aaaaaa', 1, 'open', '0', 0, 10, 'model_a', '', 2, '', 1, 0, '', '', '0.0', '0.0', '0.0', '1', '0', '0', '0', 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 14, 0, -1, ''),
+(5, 'private', 'aaaaaaaa', 4, 'aaaaaa', 1, 'open', '0', 0, 10, 'model_a', '', 0, '', 1, 0, '', '', '0.0', '0.0', '0.0', '1', '0', '0', '0', 0, 0, 0, NULL, 0, 0, 0, 0, 0, 0, 0, 14, 0, -1, ''),
+(6, 'private', 'dddd', 2, '', 1, 'open', '0', 2, 10, 'model_a', '', 0, '', 1, 0, '', '', '0.0', '0.0', '0.0', '1', '0', '0', '0', 0, 0, 0, NULL, 0, 0, 0, 0, 0, 0, 0, 14, 0, -1, '');
 
 -- --------------------------------------------------------
 
@@ -12877,7 +12898,7 @@ CREATE TABLE `server_status` (
 --
 
 INSERT INTO `server_status` (`id`, `status`, `users_online`, `rooms_loaded`, `server_ver`, `stamp`, `minutesuptime`, `userpeak`, `bannerdata`) VALUES
-(1, '1', 1, 0, 'Yupi Emulator', 1450306217, 0, 2, '114670925920269957593299136150366957983142588366300079186349531:1589935137502239924254699078669119674538324391752663931735947');
+(1, '1', 2, 1, 'Yupi Emulator', 1450379081, 0, 2, '114670925920269957593299136150366957983142588366300079186349531:1589935137502239924254699078669119674538324391752663931735947');
 
 -- --------------------------------------------------------
 
@@ -12982,14 +13003,15 @@ CREATE TABLE `users` (
   `duty_level` int(11) NOT NULL DEFAULT '0',
   `navigator_logs` varchar(255) CHARACTER SET utf8mb4 DEFAULT '1,official-root,;2,popular,;3,my,;4,favorites,',
   `respect` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `users`
 --
 
 INSERT INTO `users` (`id`, `username`, `real_name`, `password`, `auth_ticket`, `rank`, `credits`, `activity_points`, `activity_points_lastupdate`, `diamonds`, `look`, `gender`, `motto`, `mail`, `account_created`, `last_online`, `online`, `ip_last`, `ip_reg`, `home_room`, `newbie_status`, `is_muted`, `mutant_penalty`, `mutant_penalty_expire`, `trade_lock`, `trade_lock_expire`, `block_newfriends`, `hide_online`, `hide_inroom`, `vip`, `talent_status`, `last_name_change`, `nux_passed`, `builders_expire`, `builders_items_max`, `builders_items_used`, `release_version`, `on_duty`, `duty_level`, `navigator_logs`, `respect`) VALUES
-(2, 'Kioi', '', '', 'chocolate', 1, 49974, 180, 0, 0, 'sh-290-62.hr-115-42.hd-3093-18.ch-215-62.lg-285-91', 'M', 'a', 'undefined', 1450124463, 1450306093, '0', '172.16.9.92', '', 0, 0, '0', '0', 0, '0', 0, '0', '0', '0', '0', 'citizenship', 0, '0', 3700, 100, 0, 2, 'false', 0, '1,official-root,;2,popular,;3,my,;4,favorites,', NULL);
+(2, 'Kioi', '', '', 'chocolate', 10, 49974, 180, 0, 95, 'sh-290-62.hr-115-42.hd-3093-18.ch-215-62.lg-285-91', 'M', 'a', 'undefined', 1450124463, 1450376899, '0', '172.16.9.102', '', 0, 0, '0', '0', 0, '0', 0, '0', '0', '0', '0', 'citizenship', 0, '0', 3700, 100, 0, 2, 'false', 0, '1,official-root,;2,popular,;3,my,;4,favorites,', NULL),
+(4, 'Kusi', '', '', 'pessego', 2, 53000, 420, 0, 1, 'hr-115-42.hd-190-1.ch-215-62.lg-285-91.sh-290-62', 'M', '', 'pesso', 1450376919, 1450378935, '0', '172.16.9.102', '', 0, 0, '0', '0', 0, '0', 0, '0', '0', '0', '0', 'citizenship', 0, '0', 3700, 100, 0, 2, 'false', 0, '1,official-root,;2,popular,;3,my,;4,favorites,', NULL);
 
 -- --------------------------------------------------------
 
@@ -13019,14 +13041,19 @@ INSERT INTO `users_achievements` (`user_id`, `achievement_group`, `achievement_l
 (1, 'ACH_RegistrationDuration', 5, 0),
 (1, 'ACH_SafetyQuizGraduate', 1, 0),
 (1, 'ACH_VipHC', 1, 0),
-(2, 'ACH_AllTimeHotelPresence', 2, 37),
+(2, 'ACH_AllTimeHotelPresence', 3, 79),
 (2, 'ACH_AvatarLooks', 1, 0),
 (2, 'ACH_BasicClub', 1, 0),
-(2, 'ACH_Login', 2, 4),
+(2, 'ACH_Login', 2, 5),
 (2, 'ACH_Motto', 1, 0),
-(2, 'ACH_RegistrationDuration', 1, 2),
+(2, 'ACH_RegistrationDuration', 1, 3),
+(2, 'ACH_RoomEntry', 1, 1),
 (2, 'ACH_SafetyQuizGraduate', 1, 0),
-(2, 'ACH_VipHC', 1, 0);
+(2, 'ACH_VipHC', 1, 0),
+(4, 'ACH_AllTimeHotelPresence', 2, 49),
+(4, 'ACH_Login', 1, 0),
+(4, 'ACH_RegistrationDuration', 1, 0),
+(4, 'ACH_RoomEntry', 1, 6);
 
 -- --------------------------------------------------------
 
@@ -13040,7 +13067,7 @@ CREATE TABLE `users_badges` (
   `user_id` int(10) unsigned NOT NULL,
   `badge_id` varchar(100) NOT NULL,
   `badge_slot` int(11) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
 
 --
 -- Extraindo dados da tabela `users_badges`
@@ -13057,13 +13084,18 @@ INSERT INTO `users_badges` (`id`, `user_id`, `badge_id`, `badge_slot`) VALUES
 (14, 1, 'ACH_PetLover2', 0),
 (15, 1, 'ACH_PetRespectGiver1', 0),
 (16, 2, 'ACH_RegistrationDuration1', 0),
-(24, 2, 'ACH_Login2', 0),
-(25, 2, 'ACH_AllTimeHotelPresence2', 0),
+(24, 2, 'ACH_Login2', 1),
+(29, 2, 'ACH_AllTimeHotelPresence3', 0),
 (19, 2, 'ACH_Motto1', 0),
 (20, 2, 'ACH_VipHC1', 0),
 (21, 2, 'ACH_BasicClub1', 0),
 (22, 2, 'ACH_AvatarLooks1', 0),
-(23, 2, 'ACH_SafetyQuizGraduate1', 0);
+(23, 2, 'ACH_SafetyQuizGraduate1', 0),
+(26, 4, 'ACH_RegistrationDuration1', 0),
+(27, 4, 'ACH_Login1', 0),
+(32, 4, 'ACH_AllTimeHotelPresence2', 0),
+(30, 2, 'ACH_RoomEntry1', 0),
+(31, 4, 'ACH_RoomEntry1', 0);
 
 -- --------------------------------------------------------
 
@@ -13208,7 +13240,8 @@ CREATE TABLE `users_info` (
 
 INSERT INTO `users_info` (`user_id`, `bans`, `cautions`, `reg_timestamp`, `login_timestamp`, `cfhs`, `cfhs_abusive`) VALUES
 (1, 0, 0, 0, 1447683346, 0, 0),
-(2, 0, 0, 0, 1450306127, 0, 0);
+(2, 0, 0, 0, 1450378373, 0, 0),
+(4, 0, 0, 0, 1450378938, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -13251,7 +13284,8 @@ CREATE TABLE `users_preferences` (
 
 INSERT INTO `users_preferences` (`userid`, `volume`, `prefer_old_chat`, `ignore_room_invite`, `disable_camera_follow`, `newnavi_x`, `newnavi_y`, `newnavi_width`, `newnavi_height`, `chat_color`) VALUES
 (1, '100,100,100', '0', '0', '0', 348, 42, 425, 600, 0),
-(2, '100,100,100', '0', '0', '0', 444, 0, 425, 600, 0);
+(2, '100,100,100', '0', '0', '0', 356, 37, 425, 600, 0),
+(4, '100,100,100', '0', '0', '0', 0, 0, 580, 600, 0);
 
 -- --------------------------------------------------------
 
@@ -13423,7 +13457,8 @@ CREATE TABLE `users_stats` (
 --
 
 INSERT INTO `users_stats` (`id`, `online_seconds`, `room_visits`, `respect`, `gifts_given`, `gifts_received`, `daily_respect_points`, `daily_pet_respect_points`, `achievement_score`, `quest_id`, `quest_progress`, `favourite_group`, `tickets_answered`, `daily_competition_votes`) VALUES
-(2, 0, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 0, 3);
+(2, 0, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 2, 3),
+(4, 0, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 0, 3);
 
 -- --------------------------------------------------------
 
@@ -13484,7 +13519,9 @@ INSERT INTO `users_talents` (`userid`, `talent_id`, `talent_state`) VALUES
 (1, 2, 1),
 (2, 7, 1),
 (2, 6, 1),
-(2, 2, 1);
+(2, 2, 1),
+(4, 7, 1),
+(4, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -13624,17 +13661,15 @@ ALTER TABLE `cms_stories_photos_preview`
 --
 ALTER TABLE `groups_data`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id` (`id`) USING BTREE,
-  ADD KEY `id_2` (`id`),
   ADD KEY `owner_id` (`owner_id`),
-  ADD KEY `room_id` (`room_id`),
-  ADD KEY `id_3` (`id`);
+  ADD KEY `room_id` (`room_id`);
 
 --
 -- Indexes for table `groups_forums_data`
 --
 ALTER TABLE `groups_forums_data`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `group_id` (`group_id`);
 
 --
 -- Indexes for table `groups_forums_posts`
@@ -14163,7 +14198,7 @@ ALTER TABLE `bots_commands`
 -- AUTO_INCREMENT for table `bots_data`
 --
 ALTER TABLE `bots_data`
-  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `catalog_ecotron_items`
 --
@@ -14223,7 +14258,7 @@ ALTER TABLE `groups_forums_posts`
 -- AUTO_INCREMENT for table `groups_members`
 --
 ALTER TABLE `groups_members`
-  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `hotelview_promos`
 --
@@ -14253,7 +14288,7 @@ ALTER TABLE `items_hopper`
 -- AUTO_INCREMENT for table `items_rooms`
 --
 ALTER TABLE `items_rooms`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=24;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=27;
 --
 -- AUTO_INCREMENT for table `items_songs_data`
 --
@@ -14283,7 +14318,7 @@ ALTER TABLE `moderation_templates`
 -- AUTO_INCREMENT for table `moderation_tickets`
 --
 ALTER TABLE `moderation_tickets`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `navigator_flatcats`
 --
@@ -14338,7 +14373,7 @@ ALTER TABLE `rooms_competitions_entries`
 -- AUTO_INCREMENT for table `rooms_data`
 --
 ALTER TABLE `rooms_data`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `server_blackwords`
 --
@@ -14373,12 +14408,12 @@ ALTER TABLE `talents_data`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `users_badges`
 --
 ALTER TABLE `users_badges`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=33;
 --
 -- AUTO_INCREMENT for table `users_bans`
 --
@@ -14452,10 +14487,23 @@ ALTER TABLE `bots_data`
   ADD CONSTRAINT `bots_data_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
+-- Limitadores para a tabela `groups_data`
+--
+ALTER TABLE `groups_data`
+  ADD CONSTRAINT `groups_data_room_id` FOREIGN KEY (`room_id`) REFERENCES `rooms_data` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
+  ADD CONSTRAINT `groups_data_owner_id` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`);
+
+--
+-- Limitadores para a tabela `groups_forums_data`
+--
+ALTER TABLE `groups_forums_data`
+  ADD CONSTRAINT `groups_forums_data_group_id` FOREIGN KEY (`group_id`) REFERENCES `groups_data` (`id`) ON DELETE NO ACTION;
+
+--
 -- Limitadores para a tabela `rooms_data`
 --
 ALTER TABLE `rooms_data`
-  ADD CONSTRAINT `rooms_data_group_id` FOREIGN KEY (`group_id`) REFERENCES `groups_data` (`id`),
+  ADD CONSTRAINT `rooms_data_group_id` FOREIGN KEY (`group_id`) REFERENCES `groups_data` (`id`) ON UPDATE SET NULL,
   ADD CONSTRAINT `rooms_data_user_id` FOREIGN KEY (`owner`) REFERENCES `users` (`id`);
 
 --
