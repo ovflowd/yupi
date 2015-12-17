@@ -25,7 +25,6 @@
 using System;
 using Yupi.Game.Groups.Structs;
 using Yupi.Messages;
-using Yupi.Messages.Parsers;
 
 namespace Yupi.Game.Groups.Composers
 {

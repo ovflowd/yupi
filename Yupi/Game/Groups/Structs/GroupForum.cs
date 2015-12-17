@@ -22,12 +22,6 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using Yupi.Messages;
-using Yupi.Messages.Parsers;
-
 namespace Yupi.Game.Groups.Structs
 {
     /// <summary>

@@ -1,9 +1,7 @@
 #region
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using MySql.Data.MySqlClient;
 using Yupi.Data.Base.Exceptions;
 using Yupi.Data.Base.Sessions.Interfaces;

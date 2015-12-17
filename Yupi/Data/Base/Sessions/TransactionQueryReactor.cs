@@ -23,7 +23,6 @@
 */
 
 using MySql.Data.MySqlClient;
-using Yupi.Data.Base.Connections;
 using Yupi.Data.Base.Exceptions;
 using Yupi.Data.Base.Sessions.Interfaces;
 

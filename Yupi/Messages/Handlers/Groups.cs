@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Yupi.Core.Io;
 using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Game.Catalogs.Composers;
 using Yupi.Game.GameClients.Interfaces;
@@ -62,37 +61,47 @@ namespace Yupi.Messages.Handlers
         {
             Response.Init(LibraryParser.OutgoingRequest("GroupPurchasePartsMessageComposer"));
             Response.AppendInteger(Yupi.GetGame().GetGroupManager().Bases.Count);
+
             foreach (GroupBases current in Yupi.GetGame().GetGroupManager().Bases)
             {
                 Response.AppendInteger(current.Id);
                 Response.AppendString(current.Value1);
                 Response.AppendString(current.Value2);
             }
+
             Response.AppendInteger(Yupi.GetGame().GetGroupManager().Symbols.Count);
+
             foreach (GroupSymbols current2 in Yupi.GetGame().GetGroupManager().Symbols)
             {
                 Response.AppendInteger(current2.Id);
                 Response.AppendString(current2.Value1);
                 Response.AppendString(current2.Value2);
             }
+
             Response.AppendInteger(Yupi.GetGame().GetGroupManager().BaseColours.Count);
+
             foreach (GroupBaseColours current3 in Yupi.GetGame().GetGroupManager().BaseColours)
             {
                 Response.AppendInteger(current3.Id);
                 Response.AppendString(current3.Colour);
             }
+
             Response.AppendInteger(Yupi.GetGame().GetGroupManager().SymbolColours.Count);
+
             foreach (GroupSymbolColours current4 in Yupi.GetGame().GetGroupManager().SymbolColours.Values)
             {
                 Response.AppendInteger(current4.Id);
                 Response.AppendString(current4.Colour);
             }
+
             Response.AppendInteger(Yupi.GetGame().GetGroupManager().BackGroundColours.Count);
+
             foreach (GroupBackGroundColours current5 in Yupi.GetGame().GetGroupManager().BackGroundColours.Values)
             {
                 Response.AppendInteger(current5.Id);
                 Response.AppendString(current5.Colour);
             }
+
             SendResponse();
         }
 
@@ -445,11 +454,13 @@ namespace Yupi.Messages.Handlers
                     Response.Init(LibraryParser.OutgoingRequest("FavouriteGroupMessageComposer"));
                     Response.AppendInteger(Session.GetHabbo().Id);
                     Session.GetHabbo().CurrentRoom.SendMessage(Response);
+
                     Response.Init(LibraryParser.OutgoingRequest("ChangeFavouriteGroupMessageComposer"));
                     Response.AppendInteger(0);
                     Response.AppendInteger(-1);
                     Response.AppendInteger(-1);
-                    Response.AppendString("");
+                    Response.AppendString(string.Empty);
+
                     Session.GetHabbo().CurrentRoom.SendMessage(Response);
 
                     if (group.AdminOnlyDeco == 0u)

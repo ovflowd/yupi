@@ -22,14 +22,12 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Game.Groups.Composers;
 using Yupi.Messages;
-using Yupi.Messages.Parsers;
 
 namespace Yupi.Game.Groups.Structs
 {

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Yupi.Core.Io;
 using Yupi.Game.Browser.Models;
 using Yupi.Game.Groups.Structs;
 

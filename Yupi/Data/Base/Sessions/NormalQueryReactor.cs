@@ -22,7 +22,6 @@ Private Habbo Hotel Emulating System
 This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-using Yupi.Data.Base.Connections;
 using Yupi.Data.Base.Exceptions;
 using Yupi.Data.Base.Sessions.Interfaces;
 

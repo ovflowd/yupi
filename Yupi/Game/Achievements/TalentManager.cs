@@ -29,8 +29,6 @@ using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Game.Achievements.Composers;
 using Yupi.Game.Achievements.Structs;
 using Yupi.Game.GameClients.Interfaces;
-using Yupi.Messages;
-using Yupi.Messages.Parsers;
 
 namespace Yupi.Game.Achievements
 {
