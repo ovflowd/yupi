@@ -1,0 +1,5 @@
+language: csharp
+solution: Yupi.sln
+
+install:
+  - nuget restore Yupi.sln
