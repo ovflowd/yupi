@@ -1,5 +1,7 @@
 # Yupi
 
+[![Build Status](https://travis-ci.org/sant0ro/Yupi.svg?branch=master)](https://travis-ci.org/sant0ro/Yupi)
+
 This Markdwon File will be improved hehe.
 
 ## To Debug the Emulator
