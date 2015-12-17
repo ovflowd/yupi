@@ -1,4 +1,5 @@
 ﻿using Yupi.Data;
+using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Game.Commands.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Messages;
@@ -24,7 +25,7 @@ namespace Yupi.Game.Commands.Controllers
 
         public override bool Execute(GameClient session, string[] pms)
         {
-            using (var adapter = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter adapter = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 FurnitureDataManager.SetCache();
                 Yupi.GetGame().GetItemManager().LoadItems(adapter);

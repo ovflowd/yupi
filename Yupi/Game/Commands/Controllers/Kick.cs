@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Yupi.Game.Commands.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
+using Yupi.Game.Rooms;
 
 namespace Yupi.Game.Commands.Controllers
 {
@@ -22,8 +23,8 @@ namespace Yupi.Game.Commands.Controllers
 
         public override bool Execute(GameClient session, string[] pms)
         {
-            var userName = pms[0];
-            var userSession = Yupi.GetGame().GetClientManager().GetClientByUserName(userName);
+            string userName = pms[0];
+            GameClient userSession = Yupi.GetGame().GetClientManager().GetClientByUserName(userName);
             if (userSession == null)
             {
                 session.SendWhisper(Yupi.GetLanguage().GetVar("user_not_found"));
@@ -39,7 +40,7 @@ namespace Yupi.Game.Commands.Controllers
                 session.SendNotif(Yupi.GetLanguage().GetVar("command_kick_user_not_in_room"));
                 return true;
             }
-            var room = Yupi.GetGame().GetRoomManager().GetRoom(userSession.GetHabbo().CurrentRoomId);
+            Room room = Yupi.GetGame().GetRoomManager().GetRoom(userSession.GetHabbo().CurrentRoomId);
             if (room == null) return true;
 
             room.GetRoomUserManager().RemoveUserFromRoom(userSession, true, false);

@@ -1,5 +1,6 @@
 ﻿using Yupi.Game.Commands.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
+using Yupi.Game.Rooms;
 using Yupi.Messages;
 using Yupi.Messages.Parsers;
 
@@ -17,11 +18,11 @@ namespace Yupi.Game.Commands.Controllers
 
         public override bool Execute(GameClient session, string[] pms)
         {
-            var room = session.GetHabbo().CurrentRoom;
-            var message = string.Join(" ", pms);
-            foreach (var client in Yupi.GetGame().GetClientManager().Clients.Values)
+            Room room = session.GetHabbo().CurrentRoom;
+            string message = string.Join(" ", pms);
+            foreach (GameClient client in Yupi.GetGame().GetClientManager().Clients.Values)
             {
-                var serverMessage = new ServerMessage();
+                ServerMessage serverMessage = new ServerMessage();
                 serverMessage.Init(LibraryParser.OutgoingRequest("WhisperMessageComposer"));
                 serverMessage.AppendInteger(room.RoomId);
                 serverMessage.AppendString(message);

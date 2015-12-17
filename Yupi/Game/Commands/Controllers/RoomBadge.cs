@@ -1,5 +1,7 @@
 ﻿using Yupi.Game.Commands.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
+using Yupi.Game.Rooms;
+using Yupi.Game.Rooms.User;
 
 namespace Yupi.Game.Commands.Controllers
 {
@@ -22,8 +24,8 @@ namespace Yupi.Game.Commands.Controllers
         public override bool Execute(GameClient session, string[] pms)
         {
             if (pms[0].Length < 2) return true;
-            var room = session.GetHabbo().CurrentRoom;
-            foreach (var current in room.GetRoomUserManager().UserList.Values)
+            Room room = session.GetHabbo().CurrentRoom;
+            foreach (RoomUser current in room.GetRoomUserManager().UserList.Values)
             {
                 try
                 {

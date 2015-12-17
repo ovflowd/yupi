@@ -99,27 +99,27 @@ namespace Yupi.Messages.Parsers
         {
             CountReleases = 0;
 
-            var filePaths = Directory.GetFiles($"{Yupi.YupiVariablesDirectory}\\Packets", "*.incoming");
+            string[] filePaths = Directory.GetFiles($"{Yupi.YupiVariablesDirectory}\\Packets", "*.incoming");
 
-            foreach (var fileContents in filePaths.Select(currentFile => File.ReadAllLines(currentFile, Encoding.UTF8)))
+            foreach (string[] fileContents in filePaths.Select(currentFile => File.ReadAllLines(currentFile, Encoding.UTF8)))
             {
                 CountReleases++;
 
-                foreach (var fields in fileContents.Where(line => !string.IsNullOrEmpty(line) && !line.StartsWith("[")).Select(line => line.Replace(" ", string.Empty).Split('=')))
+                foreach (string[] fields in fileContents.Where(line => !string.IsNullOrEmpty(line) && !line.StartsWith("[")).Select(line => line.Replace(" ", string.Empty).Split('=')))
                 {
-                    var packetName = fields[0];
+                    string packetName = fields[0];
 
                     if (fields[1].Contains('/'))
                         fields[1] = fields[1].Split('/')[0];
 
-                    var packetId = fields[1].ToLower().Contains('x') ? Convert.ToInt32(fields[1], 16) : Convert.ToInt32(fields[1]);
+                    int packetId = fields[1].ToLower().Contains('x') ? Convert.ToInt32(fields[1], 16) : Convert.ToInt32(fields[1]);
 
                     if (!Library.ContainsKey(packetName))
                         continue;
 
-                    var libValue = Library[packetName];
+                    string libValue = Library[packetName];
 
-                    var del = (PacketLibrary.GetProperty)Delegate.CreateDelegate(typeof(PacketLibrary.GetProperty), typeof(PacketLibrary), libValue);
+                    PacketLibrary.GetProperty del = (PacketLibrary.GetProperty)Delegate.CreateDelegate(typeof(PacketLibrary.GetProperty), typeof(PacketLibrary), libValue);
 
                     if (Incoming.ContainsKey(packetId))
                     {
@@ -136,8 +136,8 @@ namespace Yupi.Messages.Parsers
 
         internal static void RegisterConfig()
         {
-            var filePaths = Directory.GetFiles($"{Yupi.YupiVariablesDirectory}\\Packets", "*.inf");
-            foreach (var fields in filePaths.Select(File.ReadAllLines).SelectMany(fileContents => fileContents.Where(line => !string.IsNullOrEmpty(line) && !line.StartsWith("[")).Select(line => line.Split('='))))
+            string[] filePaths = Directory.GetFiles($"{Yupi.YupiVariablesDirectory}\\Packets", "*.inf");
+            foreach (string[] fields in filePaths.Select(File.ReadAllLines).SelectMany(fileContents => fileContents.Where(line => !string.IsNullOrEmpty(line) && !line.StartsWith("[")).Select(line => line.Split('='))))
             {
                 if (fields[1].Contains('/'))
                     fields[1] = fields[1].Split('/')[0];
@@ -150,14 +150,14 @@ namespace Yupi.Messages.Parsers
         {
             _registeredOutoings = new List<uint>();
 
-            var filePaths = Directory.GetFiles($"{Yupi.YupiVariablesDirectory}\\Packets", "*.outgoing");
-            foreach (var fields in filePaths.Select(File.ReadAllLines).SelectMany(fileContents => fileContents.Where(line => !string.IsNullOrEmpty(line) && !line.StartsWith("[")).Select(line => line.Replace(" ", string.Empty).Split('='))))
+            string[] filePaths = Directory.GetFiles($"{Yupi.YupiVariablesDirectory}\\Packets", "*.outgoing");
+            foreach (string[] fields in filePaths.Select(File.ReadAllLines).SelectMany(fileContents => fileContents.Where(line => !string.IsNullOrEmpty(line) && !line.StartsWith("[")).Select(line => line.Replace(" ", string.Empty).Split('='))))
             {
                 if (fields[1].Contains('/'))
                     fields[1] = fields[1].Split('/')[0];
 
-                var packetName = fields[0];
-                var packetId = int.Parse(fields[1]);
+                string packetName = fields[0];
+                int packetId = int.Parse(fields[1]);
 
                 if (packetId != -1)
                 {
@@ -175,14 +175,14 @@ namespace Yupi.Messages.Parsers
 
         internal static void RegisterLibrary()
         {
-            var filePaths = Directory.GetFiles($"{Yupi.YupiVariablesDirectory}\\Packets", "*.library");
-            foreach (var fields in filePaths.Select(File.ReadAllLines).SelectMany(fileContents => fileContents.Select(line => line.Split('='))))
+            string[] filePaths = Directory.GetFiles($"{Yupi.YupiVariablesDirectory}\\Packets", "*.library");
+            foreach (string[] fields in filePaths.Select(File.ReadAllLines).SelectMany(fileContents => fileContents.Select(line => line.Split('='))))
             {
                 if (fields[1].Contains('/'))
                     fields[1] = fields[1].Split('/')[0];
 
-                var incomingName = fields[0];
-                var libraryName = fields[1];
+                string incomingName = fields[0];
+                string libraryName = fields[1];
                 Library.Add(incomingName, libraryName);
             }
         }

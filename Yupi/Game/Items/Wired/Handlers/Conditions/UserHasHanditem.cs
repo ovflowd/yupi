@@ -52,8 +52,8 @@ namespace Yupi.Game.Items.Wired.Handlers.Conditions
 
         public bool Execute(params object[] stuff)
         {
-            var roomUser = (RoomUser)stuff[0];
-            var handitem = Delay / 500;
+            RoomUser roomUser = (RoomUser)stuff[0];
+            int handitem = Delay / 500;
 
             if (handitem < 0)
                 return false;

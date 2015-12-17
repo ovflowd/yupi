@@ -3,6 +3,7 @@ using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Items.Interactions.Models;
 using Yupi.Game.Items.Interfaces;
 using Yupi.Game.Pathfinding;
+using Yupi.Game.Rooms.User;
 using Yupi.Game.Rooms.User.Path;
 
 namespace Yupi.Game.Items.Interactions.Controllers
@@ -16,7 +17,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
 
             if (item.InteractingUser > 0u)
             {
-                var roomUserByHabbo = item.GetRoom().GetRoomUserManager().GetRoomUserByHabbo(item.InteractingUser);
+                RoomUser roomUserByHabbo = item.GetRoom().GetRoomUserManager().GetRoomUserByHabbo(item.InteractingUser);
 
                 if (roomUserByHabbo != null)
                     roomUserByHabbo.CanWalk = true;
@@ -30,7 +31,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
             if (item.InteractingUser <= 0u)
                 return;
 
-            var roomUserByHabbo = item.GetRoom().GetRoomUserManager().GetRoomUserByHabbo(item.InteractingUser);
+            RoomUser roomUserByHabbo = item.GetRoom().GetRoomUserManager().GetRoomUserByHabbo(item.InteractingUser);
 
             if (roomUserByHabbo != null)
                 roomUserByHabbo.CanWalk = true;
@@ -42,7 +43,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 session == null)
                 return;
 
-            var roomUserByHabbo = item.GetRoom().GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().Id);
+            RoomUser roomUserByHabbo = item.GetRoom().GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().Id);
 
             if (roomUserByHabbo == null)
                 return;

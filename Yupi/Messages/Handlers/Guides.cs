@@ -1,5 +1,7 @@
 ﻿using System;
 using Yupi.Game.GameClients.Interfaces;
+using Yupi.Game.Rooms;
+using Yupi.Game.Users.Guides;
 using Yupi.Messages.Parsers;
 
 namespace Yupi.Messages.Handlers
@@ -16,10 +18,10 @@ namespace Yupi.Messages.Handlers
         {
             Request.GetBool();
 
-            var userId = Request.GetIntegerFromString();
-            var message = Request.GetString();
+            int userId = Request.GetIntegerFromString();
+            string message = Request.GetString();
 
-            var guideManager = Yupi.GetGame().GetGuideManager();
+            GuideManager guideManager = Yupi.GetGame().GetGuideManager();
 
             if (guideManager.GuidesCount <= 0)
             {
@@ -29,7 +31,7 @@ namespace Yupi.Messages.Handlers
                 return;
             }
 
-            var guide = guideManager.GetRandomGuide();
+            GameClient guide = guideManager.GetRandomGuide();
 
             if (guide == null)
             {
@@ -39,14 +41,14 @@ namespace Yupi.Messages.Handlers
                 return;
             }
 
-            var onGuideSessionAttached = new ServerMessage(LibraryParser.OutgoingRequest("OnGuideSessionAttachedMessageComposer"));
+            ServerMessage onGuideSessionAttached = new ServerMessage(LibraryParser.OutgoingRequest("OnGuideSessionAttachedMessageComposer"));
             onGuideSessionAttached.AppendBool(false);
             onGuideSessionAttached.AppendInteger(userId);
             onGuideSessionAttached.AppendString(message);
             onGuideSessionAttached.AppendInteger(30);
             Session.SendMessage(onGuideSessionAttached);
 
-            var onGuideSessionAttached2 = new ServerMessage(LibraryParser.OutgoingRequest("OnGuideSessionAttachedMessageComposer"));
+            ServerMessage onGuideSessionAttached2 = new ServerMessage(LibraryParser.OutgoingRequest("OnGuideSessionAttachedMessageComposer"));
             onGuideSessionAttached2.AppendBool(true);
             onGuideSessionAttached2.AppendInteger(userId);
             onGuideSessionAttached2.AppendString(message);
@@ -61,13 +63,13 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         internal void AnswerGuideRequest()
         {
-            var state = Request.GetBool();
+            bool state = Request.GetBool();
 
             if (!state)
                 return;
 
-            var requester = Session.GetHabbo().GuideOtherUser;
-            var message = new ServerMessage(LibraryParser.OutgoingRequest("OnGuideSessionStartedMessageComposer"));
+            GameClient requester = Session.GetHabbo().GuideOtherUser;
+            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("OnGuideSessionStartedMessageComposer"));
 
             message.AppendInteger(requester.GetHabbo().Id);
             message.AppendString(requester.GetHabbo().UserName);
@@ -84,8 +86,8 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         internal void OpenGuideTool()
         {
-            var guideManager = Yupi.GetGame().GetGuideManager();
-            var onDuty = Request.GetBool();
+            GuideManager guideManager = Yupi.GetGame().GetGuideManager();
+            bool onDuty = Request.GetBool();
 
             Request.GetBool();
             Request.GetBool();
@@ -110,11 +112,11 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         internal void InviteToRoom()
         {
-            var requester = Session.GetHabbo().GuideOtherUser;
+            GameClient requester = Session.GetHabbo().GuideOtherUser;
 
-            var room = Session.GetHabbo().CurrentRoom;
+            Room room = Session.GetHabbo().CurrentRoom;
 
-            var message = new ServerMessage(LibraryParser.OutgoingRequest("OnGuideSessionInvitedToGuideRoomMessageComposer"));
+            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("OnGuideSessionInvitedToGuideRoomMessageComposer"));
 
             if (room == null)
             {
@@ -139,8 +141,8 @@ namespace Yupi.Messages.Handlers
             if (Session.GetHabbo().GuideOtherUser == null)
                 return;
 
-            var requester = Session.GetHabbo().GuideOtherUser;
-            var visitRoom = new ServerMessage(LibraryParser.OutgoingRequest("RoomForwardMessageComposer"));
+            GameClient requester = Session.GetHabbo().GuideOtherUser;
+            ServerMessage visitRoom = new ServerMessage(LibraryParser.OutgoingRequest("RoomForwardMessageComposer"));
             visitRoom.AppendInteger(requester.GetHabbo().CurrentRoomId);
             Session.SendMessage(visitRoom);
         }
@@ -150,9 +152,9 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         internal void GuideSpeak()
         {
-            var message = Request.GetString();
-            var requester = Session.GetHabbo().GuideOtherUser;
-            var messageC = new ServerMessage(LibraryParser.OutgoingRequest("OnGuideSessionMsgMessageComposer"));
+            string message = Request.GetString();
+            GameClient requester = Session.GetHabbo().GuideOtherUser;
+            ServerMessage messageC = new ServerMessage(LibraryParser.OutgoingRequest("OnGuideSessionMsgMessageComposer"));
             messageC.AppendString(message);
             messageC.AppendInteger(Session.GetHabbo().Id);
             requester.SendMessage(messageC);
@@ -167,24 +169,24 @@ namespace Yupi.Messages.Handlers
         {
             //Request.GetBool();
 
-            var requester = Session.GetHabbo().GuideOtherUser;
-            var message = new ServerMessage(LibraryParser.OutgoingRequest("OnGuideSessionDetachedMessageComposer"));
+            GameClient requester = Session.GetHabbo().GuideOtherUser;
+            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("OnGuideSessionDetachedMessageComposer"));
 
             /* guide - close session  */
             message.AppendInteger(2);
             requester.SendMessage(message);
 
             /* user - close session */
-            var message2 = new ServerMessage(LibraryParser.OutgoingRequest("OnGuideSessionDetachedMessageComposer"));
+            ServerMessage message2 = new ServerMessage(LibraryParser.OutgoingRequest("OnGuideSessionDetachedMessageComposer"));
             message.AppendInteger(0);
             Session.SendMessage(message2);
 
             /* user - detach session */
-            var message3 = new ServerMessage(LibraryParser.OutgoingRequest("OnGuideSessionDetachedMessageComposer"));
+            ServerMessage message3 = new ServerMessage(LibraryParser.OutgoingRequest("OnGuideSessionDetachedMessageComposer"));
             Session.SendMessage(message3);
 
             /* guide - detach session */
-            var message4 = new ServerMessage(LibraryParser.OutgoingRequest("OnGuideSessionDetachedMessageComposer"));
+            ServerMessage message4 = new ServerMessage(LibraryParser.OutgoingRequest("OnGuideSessionDetachedMessageComposer"));
             requester.SendMessage(message4);
 
             Console.WriteLine("The Close was Called");
@@ -202,7 +204,7 @@ namespace Yupi.Messages.Handlers
             //Response.Init(3485);
 
             /* user - cancell session */
-            var message = new ServerMessage(LibraryParser.OutgoingRequest("OnGuideSessionDetachedMessageComposer"));
+            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("OnGuideSessionDetachedMessageComposer"));
             message.AppendInteger(2);
             Session.SendMessage(message);
 
@@ -214,7 +216,7 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         internal void GuideFeedback()
         {
-            var message = new ServerMessage(LibraryParser.OutgoingRequest("OnGuideSessionDetachedMessageComposer"));
+            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("OnGuideSessionDetachedMessageComposer"));
 
             Session.SendMessage(message);
 

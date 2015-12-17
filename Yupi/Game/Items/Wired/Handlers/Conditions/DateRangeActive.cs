@@ -53,9 +53,9 @@ namespace Yupi.Game.Items.Wired.Handlers.Conditions
         public bool Execute(params object[] stuff)
         {
             int date1;
-            var date2 = 0;
+            int date2 = 0;
 
-            var strArray = OtherString.Split(',');
+            string[] strArray = OtherString.Split(',');
 
             if (string.IsNullOrWhiteSpace(strArray[0]))
                 return false;
@@ -68,7 +68,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Conditions
             if (date1 == 0)
                 return false;
 
-            var currentTimestamp = Yupi.GetUnixTimeStamp();
+            int currentTimestamp = Yupi.GetUnixTimeStamp();
 
             return date2 < 1 ? currentTimestamp >= date1 : currentTimestamp >= date1 && currentTimestamp <= date2;
         }

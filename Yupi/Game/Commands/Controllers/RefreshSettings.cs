@@ -1,4 +1,5 @@
 ﻿using Yupi.Core.Settings;
+using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Game.Commands.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 
@@ -22,7 +23,7 @@ namespace Yupi.Game.Commands.Controllers
 
         public override bool Execute(GameClient session, string[] pms)
         {
-            using (var adapter = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter adapter = Yupi.GetDatabaseManager().GetQueryReactor())
                 Yupi.ConfigData = new ServerDatabaseSettings(adapter);
             session.SendNotif(Yupi.GetLanguage().GetVar("command_refresh_settings"));
             return true;

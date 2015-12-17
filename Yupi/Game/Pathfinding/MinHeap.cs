@@ -86,7 +86,7 @@ namespace Yupi.Game.Pathfinding
         /// </summary>
         public void BuildHead()
         {
-            for (var i = Count - 1 >> 1; i >= 0; i--)
+            for (int i = Count - 1 >> 1; i >= 0; i--)
                 MinHeapify(i);
         }
 
@@ -103,8 +103,8 @@ namespace Yupi.Game.Pathfinding
 
             _array[Count - 1] = item;
 
-            var num = Count - 1;
-            var num2 = num - 1 >> 1;
+            int num = Count - 1;
+            int num2 = num - 1 >> 1;
 
             while (num > 0 && _array[num2].CompareTo(_array[num]) > 0)
             {
@@ -155,7 +155,7 @@ namespace Yupi.Game.Pathfinding
         /// <param name="destination">The destination.</param>
         private static void CopyArray(IList<T> source, IList<T> destination)
         {
-            for (var i = 0; i < source.Count; i++)
+            for (int i = 0; i < source.Count; i++)
                 destination[i] = source[i];
         }
 
@@ -178,8 +178,8 @@ namespace Yupi.Game.Pathfinding
         {
             while (true)
             {
-                var num = (position << 1) + 1;
-                var num2 = num + 1;
+                int num = (position << 1) + 1;
+                int num2 = num + 1;
                 int num3;
 
                 if (num < Count && _array[num].CompareTo(_array[position]) < 0)

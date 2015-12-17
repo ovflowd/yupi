@@ -15,12 +15,12 @@ namespace Yupi.Game.Items.Interactions.Controllers
             if (item == null || user == null)
                 return;
 
-            var data = item.ExtraData.Split(Convert.ToChar(9));
+            string[] data = item.ExtraData.Split(Convert.ToChar(9));
 
             if (item.ExtraData == "" || data.Length < 4)
                 return;
 
-            var message = new ServerMessage(LibraryParser.OutgoingRequest("InternalLinkMessageComposer"));
+            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("InternalLinkMessageComposer"));
 
             message.AppendString(data[3]);
             session.SendMessage(message);

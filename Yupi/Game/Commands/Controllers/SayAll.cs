@@ -1,5 +1,7 @@
 ﻿using Yupi.Game.Commands.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
+using Yupi.Game.Rooms;
+using Yupi.Game.Rooms.User;
 
 namespace Yupi.Game.Commands.Controllers
 {
@@ -27,13 +29,13 @@ namespace Yupi.Game.Commands.Controllers
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         public override bool Execute(GameClient session, string[] pms)
         {
-            var room = session.GetHabbo().CurrentRoom;
+            Room room = session.GetHabbo().CurrentRoom;
             if (room == null)
                 return true;
-            var str = string.Join(" ", pms);
+            string str = string.Join(" ", pms);
             if (str == "")
                 return true;
-            foreach (var user in room.GetRoomUserManager().GetRoomUsers())
+            foreach (RoomUser user in room.GetRoomUserManager().GetRoomUsers())
                 user.Chat(user.GetClient(), str, false, 0);
             return true;
         }

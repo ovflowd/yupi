@@ -53,8 +53,8 @@ namespace Yupi.Data
         /// </summary>
         public static void SetCache()
         {
-            var xmlParser = new XmlDocument();       
-            var wC = new WebClient();
+            XmlDocument xmlParser = new XmlDocument();       
+            WebClient wC = new WebClient();
 
             try
             {

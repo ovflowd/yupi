@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Game.Items.Interfaces;
 using Yupi.Messages;
 
@@ -27,13 +28,13 @@ namespace Yupi.Game.Items.Datas
         internal HighscoreData(RoomItem roomItem)
         {
             Lines = new Dictionary<int, HighScoreLine>();
-            var itemId = roomItem.Id;
+            uint itemId = roomItem.Id;
 
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery("SELECT * FROM items_highscores WHERE item_id=" + itemId + " ORDER BY score DESC");
 
-                var table = queryReactor.GetTable();
+                DataTable table = queryReactor.GetTable();
 
                 if (table == null)
                     return;
@@ -67,7 +68,7 @@ namespace Yupi.Game.Items.Datas
             message.AppendInteger(0); //Time : ["alltime", "daily", "weekly", "monthly"]
             message.AppendInteger(Lines.Count); //Count
 
-            foreach (var line in Lines)
+            foreach (KeyValuePair<int, HighScoreLine> line in Lines)
             {
                 message.AppendInteger(line.Value.Score);
                 message.AppendInteger(1);
@@ -85,7 +86,7 @@ namespace Yupi.Game.Items.Datas
         /// <param name="score">The score.</param>
         internal void AddUserScore(RoomItem item, string username, int score)
         {
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 if (item.GetBaseItem().Name.StartsWith("highscore_classic"))
                 {
@@ -104,7 +105,7 @@ namespace Yupi.Game.Items.Datas
                     queryReactor.AddParameter("itemid", item.Id);
                     queryReactor.AddParameter("username", username);
 
-                    var row = queryReactor.GetRow();
+                    DataRow row = queryReactor.GetRow();
 
                     if (row != null)
                     {

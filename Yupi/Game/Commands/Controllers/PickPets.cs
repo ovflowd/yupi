@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using Yupi.Game.Commands.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
+using Yupi.Game.Pets;
+using Yupi.Game.Rooms;
 
 namespace Yupi.Game.Commands.Controllers
 {
@@ -22,9 +24,9 @@ namespace Yupi.Game.Commands.Controllers
 
         public override bool Execute(GameClient session, string[] pms)
         {
-            var room = session.GetHabbo().CurrentRoom;
+            Room room = session.GetHabbo().CurrentRoom;
             foreach (
-                var pet in
+                Pet pet in
                     room.GetRoomUserManager().GetPets().Where(pet => pet.OwnerId == session.GetHabbo().Id))
             {
                 session.GetHabbo().GetInventoryComponent().AddPet(pet);

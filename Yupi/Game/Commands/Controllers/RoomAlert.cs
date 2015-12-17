@@ -15,7 +15,7 @@ namespace Yupi.Game.Commands.Controllers
 
         public override bool Execute(GameClient session, string[] pms)
         {
-            var alert = string.Join(" ", pms);
+            string alert = string.Join(" ", pms);
 
             /*foreach (
                 var user in

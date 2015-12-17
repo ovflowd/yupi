@@ -53,23 +53,23 @@ namespace Yupi.Core.Security
         /// </summary>
         public static void Load()
         {
-            foreach (var line in File.ReadAllLines($"{Yupi.YupiVariablesDirectory}\\Settings\\filter.ini", Encoding.Default).Where(line => !line.StartsWith("#") || !line.StartsWith("//") || line.Contains("=")))
+            foreach (string line in File.ReadAllLines($"{Yupi.YupiVariablesDirectory}\\Settings\\filter.ini", Encoding.Default).Where(line => !line.StartsWith("#") || !line.StartsWith("//") || line.Contains("=")))
             {
-                var array = line.Split('=');
-                var mode = array[0];
+                string[] array = line.Split('=');
+                string mode = array[0];
 
-                var jsonStr = string.Join("=", array.Skip(1));
+                string jsonStr = string.Join("=", array.Skip(1));
 
-                var serializer = new JavaScriptSerializer();
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
 
                 dynamic items = serializer.Deserialize<object[]>(jsonStr);
 
-                var dic = new Dictionary<string, string>();
+                Dictionary<string, string> dic = new Dictionary<string, string>();
 
                 foreach (object[] item in items)
                 {
-                    var key = item[0].ToString();
-                    var value = string.Empty;
+                    string key = item[0].ToString();
+                    string value = string.Empty;
 
                     if (item.Length > 1)
                         value = item[1].ToString();
@@ -113,10 +113,10 @@ namespace Yupi.Core.Security
 
         private static string RemoveDiacritics(this string s)
         {
-            var normalizedString = s.Normalize(NormalizationForm.FormD);
-            var stringBuilder = new StringBuilder();
+            string normalizedString = s.Normalize(NormalizationForm.FormD);
+            StringBuilder stringBuilder = new StringBuilder();
 
-            foreach (var c in normalizedString.Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark))
+            foreach (char c in normalizedString.Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark))
                 stringBuilder.Append(c);
 
             return stringBuilder.ToString().Normalize(NormalizationForm.FormC);

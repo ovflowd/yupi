@@ -31,7 +31,7 @@ namespace Yupi.Game.Commands.Controllers
                 session.SendWhisper(Yupi.GetLanguage().GetVar("command_dance_false"));
                 result = 0;
             }
-            var message = new ServerMessage();
+            ServerMessage message = new ServerMessage();
             message.Init(LibraryParser.OutgoingRequest("DanceStatusMessageComposer"));
             message.AppendInteger(session.CurrentRoomUserId);
             message.AppendInteger(result);

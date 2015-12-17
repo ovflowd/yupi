@@ -74,8 +74,8 @@ namespace Yupi.Game.Pathfinding.Vectors
         /// <returns>System.Int32.</returns>
         public int GetDistanceSquared(Vector2D point)
         {
-            var num = X - point.X;
-            var num2 = Y - point.Y;
+            int num = X - point.X;
+            int num2 = Y - point.Y;
 
             return num * num + num2 * num2;
         }
@@ -87,7 +87,7 @@ namespace Yupi.Game.Pathfinding.Vectors
         /// <returns><c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.</returns>
         public override bool Equals(object obj)
         {
-            var vector2D = obj as Vector2D;
+            Vector2D vector2D = obj as Vector2D;
 
             return vector2D?.X == X && vector2D.Y == Y;
         }

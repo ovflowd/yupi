@@ -22,8 +22,8 @@ namespace Yupi.Game.Commands.Controllers
 
         public override bool Execute(GameClient session, string[] pms)
         {
-            var messageUrl = pms[0];
-            var messageStr = string.Join(" ", pms.Skip(1));
+            string messageUrl = pms[0];
+            string messageStr = string.Join(" ", pms.Skip(1));
 
             Yupi.GetGame()
                 .GetClientManager()

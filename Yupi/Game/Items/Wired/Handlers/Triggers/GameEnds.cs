@@ -59,12 +59,12 @@ namespace Yupi.Game.Items.Wired.Handlers.Triggers
 
         public bool Execute(params object[] stuff)
         {
-            var conditions = Room.GetWiredHandler().GetConditions(this);
-            var effects = Room.GetWiredHandler().GetEffects(this);
+            List<IWiredItem> conditions = Room.GetWiredHandler().GetConditions(this);
+            List<IWiredItem> effects = Room.GetWiredHandler().GetEffects(this);
 
             if (conditions.Any())
             {
-                foreach (var current in conditions)
+                foreach (IWiredItem current in conditions)
                 {
                     if (!current.Execute(null, Type))
                         return false;
@@ -75,7 +75,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Triggers
 
             if (effects.Any())
             {
-                foreach (var current2 in effects)
+                foreach (IWiredItem current2 in effects)
                 {
                     if (current2.Execute(null, Type))
                         WiredHandler.OnEvent(current2);

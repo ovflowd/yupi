@@ -81,7 +81,7 @@ namespace Yupi.Game.Pets
         /// <returns>ServerMessage.</returns>
         internal static ServerMessage GetMessage(uint furniId, Pet pet1, Pet pet2)
         {
-            var message = new ServerMessage(LibraryParser.OutgoingRequest("PetBreedMessageComposer"));
+            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("PetBreedMessageComposer"));
 
             message.AppendInteger(furniId);
             message.AppendInteger(pet1.PetId);
@@ -103,7 +103,7 @@ namespace Yupi.Game.Pets
                 case 3:
                     message.AppendInteger(TerrierEpicRace.Length);
 
-                    foreach (var value in TerrierEpicRace)
+                    foreach (int value in TerrierEpicRace)
                         message.AppendInteger(value);
 
                     break;
@@ -111,7 +111,7 @@ namespace Yupi.Game.Pets
                 case 4:
                     message.AppendInteger(BearEpicRace.Length);
 
-                    foreach (var value in BearEpicRace)
+                    foreach (int value in BearEpicRace)
                         message.AppendInteger(value);
 
                     break;
@@ -124,7 +124,7 @@ namespace Yupi.Game.Pets
                 case 3:
                     message.AppendInteger(TerrierRareRace.Length);
 
-                    foreach (var value in TerrierRareRace)
+                    foreach (int value in TerrierRareRace)
                         message.AppendInteger(value);
 
                     break;
@@ -132,7 +132,7 @@ namespace Yupi.Game.Pets
                 case 4:
                     message.AppendInteger(BearRareRace.Length);
 
-                    foreach (var value in BearRareRace)
+                    foreach (int value in BearRareRace)
                         message.AppendInteger(value);
 
                     break;
@@ -145,7 +145,7 @@ namespace Yupi.Game.Pets
                 case 3:
                     message.AppendInteger(TerrierNoRareRace.Length);
 
-                    foreach (var value in TerrierNoRareRace)
+                    foreach (int value in TerrierNoRareRace)
                         message.AppendInteger(value);
 
                     break;
@@ -153,7 +153,7 @@ namespace Yupi.Game.Pets
                 case 4:
                     message.AppendInteger(BearNoRareRace.Length);
 
-                    foreach (var value in BearNoRareRace)
+                    foreach (int value in BearNoRareRace)
                         message.AppendInteger(value);
 
                     break;
@@ -166,7 +166,7 @@ namespace Yupi.Game.Pets
                 case 3:
                     message.AppendInteger(TerrierNormalRace.Length);
 
-                    foreach (var value in TerrierNormalRace)
+                    foreach (int value in TerrierNormalRace)
                         message.AppendInteger(value);
 
                     break;
@@ -174,7 +174,7 @@ namespace Yupi.Game.Pets
                 case 4:
                     message.AppendInteger(BearNormalRace.Length);
 
-                    foreach (var value in BearNormalRace)
+                    foreach (int value in BearNormalRace)
                         message.AppendInteger(value);
 
                     break;

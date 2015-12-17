@@ -29,6 +29,7 @@ using Yupi.Core.Io;
 using Yupi.Core.Security;
 using Yupi.Core.Security.BlackWords;
 using Yupi.Data;
+using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Messages;
 using Yupi.Messages.Parsers;
 
@@ -61,7 +62,7 @@ namespace Yupi.Core.Settings
                 if (inputData == null)
                     return;
 
-                var strArray = inputData.Split(' ');
+                string[] strArray = inputData.Split(' ');
 
                 switch (strArray[0])
                 {
@@ -90,8 +91,8 @@ namespace Yupi.Core.Settings
 
                     case "alert":
                         {
-                            var str = inputData.Substring(6);
-                            var message = new ServerMessage(LibraryParser.OutgoingRequest("BroadcastNotifMessageComposer"));
+                            string str = inputData.Substring(6);
+                            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("BroadcastNotifMessageComposer"));
                             message.AppendString(str);
                             message.AppendString(string.Empty);
                             GetGame().GetClientManager().QueueBroadcaseMessage(message);
@@ -181,7 +182,7 @@ namespace Yupi.Core.Settings
                     case "shop":
                     case "catalogus":
                         FurnitureDataManager.SetCache();
-                        using (var adapter = Yupi.GetDatabaseManager().GetQueryReactor()) GetGame().GetCatalog().Initialize(adapter);
+                        using (IQueryAdapter adapter = Yupi.GetDatabaseManager().GetQueryReactor()) GetGame().GetCatalog().Initialize(adapter);
                         FurnitureDataManager.Clear();
 
                         GetGame()
@@ -193,13 +194,13 @@ namespace Yupi.Core.Settings
                         break;
 
                     case "modeldata":
-                        using (var adapter2 = Yupi.GetDatabaseManager().GetQueryReactor()) GetGame().GetRoomManager().LoadModels(adapter2);
+                        using (IQueryAdapter adapter2 = Yupi.GetDatabaseManager().GetQueryReactor()) GetGame().GetRoomManager().LoadModels(adapter2);
                         Console.WriteLine("Room models were re-loaded.");
                         Console.WriteLine();
                         break;
 
                     case "bans":
-                        using (var adapter3 = Yupi.GetDatabaseManager().GetQueryReactor()) GetGame().GetBanManager().LoadBans(adapter3);
+                        using (IQueryAdapter adapter3 = Yupi.GetDatabaseManager().GetQueryReactor()) GetGame().GetBanManager().LoadBans(adapter3);
                         Console.WriteLine("Bans were re-loaded");
                         Console.WriteLine();
                         break;

@@ -21,7 +21,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
 
             if (Gamemap.TilesTouching(item.X, item.Y, roomUser.X, roomUser.Y))
             {
-                var num = item.GetBaseItem().Modes - 1;
+                uint num = item.GetBaseItem().Modes - 1;
                 int num2, num3;
                 int.TryParse(item.ExtraData, out num2);
 

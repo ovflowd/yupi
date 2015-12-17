@@ -1,5 +1,6 @@
 ﻿using Yupi.Game.Commands.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
+using Yupi.Game.Rooms.User;
 
 namespace Yupi.Game.Commands.Controllers
 {
@@ -26,7 +27,7 @@ namespace Yupi.Game.Commands.Controllers
             if (!ushort.TryParse(pms[0], out itemId))
                 return true;
 
-            var user = session.GetHabbo().CurrentRoom.GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().UserName);
+            RoomUser user = session.GetHabbo().CurrentRoom.GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().UserName);
 
             if (user.RidingHorse)
             {

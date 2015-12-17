@@ -58,7 +58,7 @@ namespace Yupi.Game.Users.Inventory
                 if (!Activated || TotalDuration == -1)
                     return -1;
 
-                var num = Yupi.GetUnixTimeStamp() - StampActivated;
+                double num = Yupi.GetUnixTimeStamp() - StampActivated;
 
                 if (num >= TotalDuration)
                     return 0;

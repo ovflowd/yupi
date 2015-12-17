@@ -1,4 +1,5 @@
-﻿using Yupi.Game.Commands.Interfaces;
+﻿using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Game.Commands.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 
 namespace Yupi.Game.Commands.Controllers
@@ -21,7 +22,7 @@ namespace Yupi.Game.Commands.Controllers
 
         public override bool Execute(GameClient session, string[] pms)
         {
-            var user = Yupi.GetGame().GetClientManager().GetClientByUserName(pms[0]);
+            GameClient user = Yupi.GetGame().GetClientManager().GetClientByUserName(pms[0]);
 
             if (user == null)
             {
@@ -34,9 +35,9 @@ namespace Yupi.Game.Commands.Controllers
                 return true;
             }
 
-            var userName = pms[0];
-            var rank = pms[1];
-            using (var adapter = Yupi.GetDatabaseManager().GetQueryReactor())
+            string userName = pms[0];
+            string rank = pms[1];
+            using (IQueryAdapter adapter = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 adapter.SetQuery("UPDATE users SET rank=@rank WHERE username=@user LIMIT 1");
                 adapter.AddParameter("user", userName);

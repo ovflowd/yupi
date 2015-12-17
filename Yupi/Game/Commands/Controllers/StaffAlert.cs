@@ -23,9 +23,9 @@ namespace Yupi.Game.Commands.Controllers
 
         public override bool Execute(GameClient session, string[] pms)
         {
-            var msg = string.Join(" ", pms);
+            string msg = string.Join(" ", pms);
 
-            var message =
+            ServerMessage message =
                 new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
             message.AppendString("staffcloud");
             message.AppendInteger(2);

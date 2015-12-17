@@ -90,7 +90,7 @@ namespace Yupi
 
             Console.CursorVisible = false;
 
-            var currentDomain = AppDomain.CurrentDomain;
+            AppDomain currentDomain = AppDomain.CurrentDomain;
 
             currentDomain.UnhandledException += ExceptionHandler;
             Yupi.Initialize();
@@ -105,7 +105,7 @@ namespace Yupi
         {
             ServerLogManager.DisablePrimaryWriting(true);
 
-            var ex = (Exception)args.ExceptionObject;
+            Exception ex = (Exception)args.ExceptionObject;
 
             ServerLogManager.LogCriticalException($"SYSTEM CRITICAL EXCEPTION: {ex}");
         }

@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using Yupi.Game.Commands.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
+using Yupi.Game.Rooms;
+using Yupi.Game.Rooms.User;
 
 namespace Yupi.Game.Commands.Controllers
 {
@@ -25,9 +27,9 @@ namespace Yupi.Game.Commands.Controllers
             ushort effectId;
             if (!ushort.TryParse(pms[0], out effectId)) return true;
 
-            var room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
+            Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
             room.GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().Id);
-            foreach (var user in room.GetRoomUserManager().GetRoomUsers().Where(user => !user.RidingHorse))
+            foreach (RoomUser user in room.GetRoomUserManager().GetRoomUsers().Where(user => !user.RidingHorse))
                 user.ApplyEffect(effectId);
             return true;
         }

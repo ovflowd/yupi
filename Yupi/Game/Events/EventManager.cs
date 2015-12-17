@@ -55,7 +55,7 @@ namespace Yupi.Game.Events
             _removeQueue = new Queue();
             _updateQueue = new Queue();
 
-            for (var i = 0; i < 30; i++)
+            for (int i = 0; i < 30; i++)
                 _eventCategories.Add(i, new EventCategory(i));
         }
 
@@ -75,7 +75,7 @@ namespace Yupi.Game.Events
             WorkUpdate();
             SortCollection();
 
-            foreach (var current in _eventCategories.Values)
+            foreach (EventCategory current in _eventCategories.Values)
                 current.OnCycle();
         }
 
@@ -138,7 +138,7 @@ namespace Yupi.Game.Events
             {
                 while (_addQueue.Count > 0)
                 {
-                    var roomData = (RoomData)_addQueue.Dequeue();
+                    RoomData roomData = (RoomData)_addQueue.Dequeue();
 
                     if (!_events.ContainsKey(roomData))
                         _events.Add(roomData, roomData.UsersNow);
@@ -173,7 +173,7 @@ namespace Yupi.Game.Events
             {
                 while (_removeQueue.Count > 0)
                 {
-                    var roomData = (RoomData)_updateQueue.Dequeue();
+                    RoomData roomData = (RoomData)_updateQueue.Dequeue();
 
                     if (_events.ContainsKey(roomData))
                         _events[roomData] = roomData.UsersNow;

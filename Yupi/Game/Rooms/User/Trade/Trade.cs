@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Yupi.Data;
 using Yupi.Game.Items.Interfaces;
@@ -52,13 +53,13 @@ namespace Yupi.Game.Rooms.User.Trade
             _users[1] = new TradeUser(userTwoId, roomId);
             _tradeStage = 1;
             _roomId = roomId;
-            var users = _users;
-            foreach (var tradeUser in users.Where(tradeUser => !tradeUser.GetRoomUser().Statusses.ContainsKey("trd")))
+            TradeUser[] users = _users;
+            foreach (TradeUser tradeUser in users.Where(tradeUser => !tradeUser.GetRoomUser().Statusses.ContainsKey("trd")))
             {
                 tradeUser.GetRoomUser().AddStatus("trd", "");
                 tradeUser.GetRoomUser().UpdateNeeded = true;
             }
-            var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("TradeStartMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("TradeStartMessageComposer"));
             serverMessage.AppendInteger(userOneId);
             serverMessage.AppendInteger(1);
             serverMessage.AppendInteger(userTwoId);
@@ -111,7 +112,7 @@ namespace Yupi.Game.Rooms.User.Trade
         /// <param name="item">The item.</param>
         internal void OfferItem(uint userId, UserItem item)
         {
-            var tradeUser = GetTradeUser(userId);
+            TradeUser tradeUser = GetTradeUser(userId);
             if (tradeUser == null || item == null || !item.BaseItem.AllowTrade || tradeUser.HasAccepted ||
                 _tradeStage != 1)
             {
@@ -132,7 +133,7 @@ namespace Yupi.Game.Rooms.User.Trade
         /// <param name="item">The item.</param>
         internal void TakeBackItem(uint userId, UserItem item)
         {
-            var tradeUser = GetTradeUser(userId);
+            TradeUser tradeUser = GetTradeUser(userId);
             if (tradeUser == null || item == null || tradeUser.HasAccepted || _tradeStage != 1)
             {
                 return;
@@ -148,13 +149,13 @@ namespace Yupi.Game.Rooms.User.Trade
         /// <param name="userId">The user identifier.</param>
         internal void Accept(uint userId)
         {
-            var tradeUser = GetTradeUser(userId);
+            TradeUser tradeUser = GetTradeUser(userId);
             if (tradeUser == null || _tradeStage != 1)
             {
                 return;
             }
             tradeUser.HasAccepted = true;
-            var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("TradeAcceptMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("TradeAcceptMessageComposer"));
             serverMessage.AppendInteger(userId);
             serverMessage.AppendInteger(1);
             SendMessageToUsers(serverMessage);
@@ -176,13 +177,13 @@ namespace Yupi.Game.Rooms.User.Trade
         /// <param name="userId">The user identifier.</param>
         internal void Unaccept(uint userId)
         {
-            var tradeUser = GetTradeUser(userId);
+            TradeUser tradeUser = GetTradeUser(userId);
             if (tradeUser == null || _tradeStage != 1 || AllUsersAccepted)
             {
                 return;
             }
             tradeUser.HasAccepted = false;
-            var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("TradeAcceptMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("TradeAcceptMessageComposer"));
             serverMessage.AppendInteger(userId);
             serverMessage.AppendInteger(0);
             SendMessageToUsers(serverMessage);
@@ -194,13 +195,13 @@ namespace Yupi.Game.Rooms.User.Trade
         /// <param name="userId">The user identifier.</param>
         internal void CompleteTrade(uint userId)
         {
-            var tradeUser = GetTradeUser(userId);
+            TradeUser tradeUser = GetTradeUser(userId);
             if (tradeUser == null || _tradeStage != 2)
             {
                 return;
             }
             tradeUser.HasAccepted = true;
-            var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("TradeAcceptMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("TradeAcceptMessageComposer"));
             serverMessage.AppendInteger(userId);
             serverMessage.AppendInteger(1);
             SendMessageToUsers(serverMessage);
@@ -217,8 +218,8 @@ namespace Yupi.Game.Rooms.User.Trade
         /// </summary>
         internal void ClearAccepted()
         {
-            var users = _users;
-            foreach (var tradeUser in users)
+            TradeUser[] users = _users;
+            foreach (TradeUser tradeUser in users)
             {
                 tradeUser.HasAccepted = false;
             }
@@ -229,14 +230,14 @@ namespace Yupi.Game.Rooms.User.Trade
         /// </summary>
         internal void UpdateTradeWindow()
         {
-            var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("TradeUpdateMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("TradeUpdateMessageComposer"));
 
             {
-                foreach (var tradeUser in _users.Where(tradeUser => tradeUser != null))
+                foreach (TradeUser tradeUser in _users.Where(tradeUser => tradeUser != null))
                 {
                     serverMessage.AppendInteger(tradeUser.UserId);
                     serverMessage.AppendInteger(tradeUser.OfferedItems.Count);
-                    foreach (var current in tradeUser.OfferedItems)
+                    foreach (UserItem current in tradeUser.OfferedItems)
                     {
                         serverMessage.AppendInteger(current.Id);
                         serverMessage.AppendString(current.BaseItem.Type.ToString().ToLower());
@@ -264,8 +265,8 @@ namespace Yupi.Game.Rooms.User.Trade
         /// </summary>
         internal void DeliverItems()
         {
-            var offeredItems = GetTradeUser(_oneId).OfferedItems;
-            var offeredItems2 = GetTradeUser(_twoId).OfferedItems;
+            List<UserItem> offeredItems = GetTradeUser(_oneId).OfferedItems;
+            List<UserItem> offeredItems2 = GetTradeUser(_twoId).OfferedItems;
             if (
                 offeredItems.Any(
                     current =>
@@ -286,7 +287,7 @@ namespace Yupi.Game.Rooms.User.Trade
             }
             GetTradeUser(_twoId).GetClient().GetHabbo().GetInventoryComponent().RunDbUpdate();
             GetTradeUser(_oneId).GetClient().GetHabbo().GetInventoryComponent().RunDbUpdate();
-            foreach (var current3 in offeredItems)
+            foreach (UserItem current3 in offeredItems)
             {
                 GetTradeUser(_oneId).GetClient().GetHabbo().GetInventoryComponent().RemoveItem(current3.Id, false);
                 GetTradeUser(_twoId)
@@ -299,7 +300,7 @@ namespace Yupi.Game.Rooms.User.Trade
                 GetTradeUser(_oneId).GetClient().GetHabbo().GetInventoryComponent().RunDbUpdate();
                 GetTradeUser(_twoId).GetClient().GetHabbo().GetInventoryComponent().RunDbUpdate();
             }
-            foreach (var current4 in offeredItems2)
+            foreach (UserItem current4 in offeredItems2)
             {
                 GetTradeUser(_twoId).GetClient().GetHabbo().GetInventoryComponent().RemoveItem(current4.Id, false);
                 GetTradeUser(_oneId)
@@ -312,21 +313,21 @@ namespace Yupi.Game.Rooms.User.Trade
                 GetTradeUser(_twoId).GetClient().GetHabbo().GetInventoryComponent().RunDbUpdate();
                 GetTradeUser(_oneId).GetClient().GetHabbo().GetInventoryComponent().RunDbUpdate();
             }
-            var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("NewInventoryObjectMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("NewInventoryObjectMessageComposer"));
             serverMessage.AppendInteger(1);
-            var i = 1;
+            int i = 1;
             if (offeredItems.Any(current5 => current5.BaseItem.Type.ToString().ToLower() != "s"))
             {
                 i = 2;
             }
             serverMessage.AppendInteger(i);
             serverMessage.AppendInteger(offeredItems.Count);
-            foreach (var current6 in offeredItems)
+            foreach (UserItem current6 in offeredItems)
             {
                 serverMessage.AppendInteger(current6.Id);
             }
             GetTradeUser(_twoId).GetClient().SendMessage(serverMessage);
-            var serverMessage2 = new ServerMessage(LibraryParser.OutgoingRequest("NewInventoryObjectMessageComposer"));
+            ServerMessage serverMessage2 = new ServerMessage(LibraryParser.OutgoingRequest("NewInventoryObjectMessageComposer"));
             serverMessage2.AppendInteger(1);
             i = 1;
             if (offeredItems2.Any(current7 => current7.BaseItem.Type.ToString().ToLower() != "s"))
@@ -335,7 +336,7 @@ namespace Yupi.Game.Rooms.User.Trade
             }
             serverMessage2.AppendInteger(i);
             serverMessage2.AppendInteger(offeredItems2.Count);
-            foreach (var current8 in offeredItems2)
+            foreach (UserItem current8 in offeredItems2)
             {
                 serverMessage2.AppendInteger(current8.Id);
             }
@@ -351,7 +352,7 @@ namespace Yupi.Game.Rooms.User.Trade
         {
             {
                 foreach (
-                    var tradeUser in _users.Where(tradeUser => tradeUser != null && tradeUser.GetRoomUser() != null))
+                    TradeUser tradeUser in _users.Where(tradeUser => tradeUser != null && tradeUser.GetRoomUser() != null))
                 {
                     tradeUser.GetRoomUser().RemoveStatus("trd");
                     tradeUser.GetRoomUser().UpdateNeeded = true;
@@ -369,12 +370,12 @@ namespace Yupi.Game.Rooms.User.Trade
         {
             {
                 foreach (
-                    var tradeUser in _users.Where(tradeUser => tradeUser != null && tradeUser.GetRoomUser() != null))
+                    TradeUser tradeUser in _users.Where(tradeUser => tradeUser != null && tradeUser.GetRoomUser() != null))
                 {
                     tradeUser.GetRoomUser().RemoveStatus("trd");
                     tradeUser.GetRoomUser().UpdateNeeded = true;
                 }
-                var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("TradeCloseMessageComposer"));
+                ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("TradeCloseMessageComposer"));
                 serverMessage.AppendInteger(userId);
                 serverMessage.AppendInteger(0);
                 SendMessageToUsers(serverMessage);
@@ -393,7 +394,7 @@ namespace Yupi.Game.Rooms.User.Trade
             }
 
             {
-                foreach (var tradeUser in _users.Where(tradeUser => tradeUser != null && tradeUser.GetClient() != null))
+                foreach (TradeUser tradeUser in _users.Where(tradeUser => tradeUser != null && tradeUser.GetClient() != null))
                 {
                     tradeUser.GetClient().SendMessage(message);
                 }

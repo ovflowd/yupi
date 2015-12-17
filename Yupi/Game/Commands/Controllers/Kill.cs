@@ -2,6 +2,8 @@
 using Yupi.Game.Commands.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Pathfinding;
+using Yupi.Game.Rooms;
+using Yupi.Game.Rooms.User;
 
 namespace Yupi.Game.Commands.Controllers
 {
@@ -23,17 +25,17 @@ namespace Yupi.Game.Commands.Controllers
 
         public override bool Execute(GameClient session, string[] pms)
         {
-            var room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
+            Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
             if (room == null) return true;
 
-            var user2 = room.GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().LastSelectedUser);
+            RoomUser user2 = room.GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().LastSelectedUser);
             if (user2 == null)
             {
                 session.SendWhisper(Yupi.GetLanguage().GetVar("user_not_found"));
                 return true;
             }
 
-            var user =
+            RoomUser user =
                 room.GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().UserName);
             if (PathFinder.GetDistance(user.X, user.Y, user2.X, user2.Y) > 1)
             {

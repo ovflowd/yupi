@@ -24,7 +24,7 @@ namespace Yupi.Game.Commands.Controllers
 
         public override bool Execute(GameClient client, string[] pms)
         {
-            var message =
+            ServerMessage message =
                 new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
 
             message.AppendString("Yupi");
@@ -32,7 +32,7 @@ namespace Yupi.Game.Commands.Controllers
             message.AppendString("title");
             message.AppendString("Yupi");
             message.AppendString("message");
-            var info = new StringBuilder();
+            StringBuilder info = new StringBuilder();
             info.Append("<h5><b>Yupi - Based on Azure Emulator</b><h5></br></br>");
             info.Append("<br />");
             info.AppendFormat(

@@ -119,10 +119,10 @@ namespace Yupi.Game.Rooms.Items.Handlers
         {
             if (!BreedingBear.Any())
                 return new Point();
-            var keys = new List<uint>(BreedingBear.Keys);
-            var size = BreedingBear.Count;
-            var rand = new Random();
-            var randomKey = keys[rand.Next(size)];
+            List<uint> keys = new List<uint>(BreedingBear.Keys);
+            int size = BreedingBear.Count;
+            Random rand = new Random();
+            uint randomKey = keys[rand.Next(size)];
 
             BreedingBear[randomKey].PetsList.Add(pet);
             pet.WaitingForBreading = BreedingBear[randomKey].Id;
@@ -140,10 +140,10 @@ namespace Yupi.Game.Rooms.Items.Handlers
         {
             if (!BreedingTerrier.Any())
                 return new Point();
-            var keys = new List<uint>(BreedingTerrier.Keys);
-            var size = BreedingTerrier.Count;
-            var rand = new Random();
-            var randomKey = keys[rand.Next(size)];
+            List<uint> keys = new List<uint>(BreedingTerrier.Keys);
+            int size = BreedingTerrier.Count;
+            Random rand = new Random();
+            uint randomKey = keys[rand.Next(size)];
 
             BreedingTerrier[randomKey].PetsList.Add(pet);
             pet.WaitingForBreading = BreedingTerrier[randomKey].Id;
@@ -165,22 +165,22 @@ namespace Yupi.Game.Rooms.Items.Handlers
                     _room.GetRoomUserManager().PetCount <= 0)
                     return;
 
-                var queryChunk = new DatabaseQueryChunk();
-                var queryChunk2 = new DatabaseQueryChunk();
+                DatabaseQueryChunk queryChunk = new DatabaseQueryChunk();
+                DatabaseQueryChunk queryChunk2 = new DatabaseQueryChunk();
 
-                foreach (var itemId in _removedItems)
+                foreach (uint itemId in _removedItems)
                 {
                     queryChunk.AddQuery("UPDATE items_rooms SET room_id='0', x='0', y='0', z='0', rot='0' WHERE id = " +
                                         itemId);
                 }
 
-                foreach (var roomItem in _updatedItems.Select(GetItem).Where(roomItem => roomItem != null))
+                foreach (RoomItem roomItem in _updatedItems.Select(GetItem).Where(roomItem => roomItem != null))
                 {
                     if (roomItem.GetBaseItem() != null && roomItem.GetBaseItem().IsGroupItem)
                     {
                         try
                         {
-                            var gD = roomItem.GroupData.Split(';');
+                            string[] gD = roomItem.GroupData.Split(';');
                             roomItem.ExtraData = roomItem.ExtraData + ";" + gD[1] + ";" +
                                                  gD[2] + ";" + gD[3];
                         }
@@ -200,7 +200,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
                         continue;
                     }
 
-                    var query = "UPDATE items_rooms SET room_id = " + roomItem.RoomId;
+                    string query = "UPDATE items_rooms SET room_id = " + roomItem.RoomId;
                     if (!string.IsNullOrEmpty(roomItem.ExtraData))
                     {
                         query += ", extra_data = @extraData" + roomItem.Id;
@@ -257,7 +257,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
         {
             try
             {
-                var dictionary = Gamemap.GetAffectedTiles(rItem.GetBaseItem().Length, rItem.GetBaseItem().Width, newX,
+                Dictionary<int, ThreeDCoord> dictionary = Gamemap.GetAffectedTiles(rItem.GetBaseItem().Length, rItem.GetBaseItem().Width, newX,
                     newY, newRot);
                 if (!_room.GetGameMap().ValidTile(newX, newY))
                     return false;
@@ -286,11 +286,11 @@ namespace Yupi.Game.Rooms.Items.Handlers
                     if (dictionary.Values.Any(coord => _room.GetGameMap().SquareHasUsers(coord.X, coord.Y)))
                         return false;
                 }
-                var furniObjects = GetFurniObjects(newX, newY);
-                var collection = new List<RoomItem>();
-                var list3 = new List<RoomItem>();
+                List<RoomItem> furniObjects = GetFurniObjects(newX, newY);
+                List<RoomItem> collection = new List<RoomItem>();
+                List<RoomItem> list3 = new List<RoomItem>();
                 foreach (
-                    var list4 in
+                    List<RoomItem> list4 in
                         dictionary.Values
                             .Select(coord => GetFurniObjects(coord.X, coord.Y))
                             .Where(list4 => list4 != null))
@@ -326,13 +326,13 @@ namespace Yupi.Game.Rooms.Items.Handlers
         /// <returns>List&lt;RoomItem&gt;.</returns>
         internal List<RoomItem> RemoveAllFurniture(GameClient session)
         {
-            var items = new List<RoomItem>();
-            var roomGamemap = _room.GetGameMap();
-            foreach (var item in FloorItems.Values.ToArray())
+            List<RoomItem> items = new List<RoomItem>();
+            Gamemap roomGamemap = _room.GetGameMap();
+            foreach (RoomItem item in FloorItems.Values.ToArray())
             {
                 item.Interactor.OnRemove(session, item);
                 roomGamemap.RemoveSpecialItem(item);
-                var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("PickUpFloorItemMessageComposer"));
+                ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("PickUpFloorItemMessageComposer"));
                 serverMessage.AppendString(item.Id.ToString());
                 serverMessage.AppendBool(false); //expired
                 serverMessage.AppendInteger(item.UserId); //pickerId
@@ -340,7 +340,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
                 _room.SendMessage(serverMessage);
                 if (item.IsBuilder)
                 {
-                    using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
                         queryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id='{item.Id}'");
                     }
@@ -349,16 +349,16 @@ namespace Yupi.Game.Rooms.Items.Handlers
                 items.Add(item);
             }
 
-            foreach (var item in WallItems.Values.ToArray())
+            foreach (RoomItem item in WallItems.Values.ToArray())
             {
                 item.Interactor.OnRemove(session, item);
-                var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("PickUpWallItemMessageComposer"));
+                ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("PickUpWallItemMessageComposer"));
                 serverMessage.AppendString(item.Id.ToString());
                 serverMessage.AppendInteger(item.UserId);
                 _room.SendMessage(serverMessage);
                 if (item.IsBuilder)
                 {
-                    using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
                         queryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id='{item.Id}'");
                     }
@@ -373,7 +373,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
             FloorItems.Clear();
             Rollers.Clear();
 
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.RunFastQuery($"UPDATE items_rooms SET room_id='0' WHERE room_id='{_room.RoomId}'");
             }
@@ -391,14 +391,14 @@ namespace Yupi.Game.Rooms.Items.Handlers
         /// <param name="session"></param>
         internal void RemoveItemsByOwner(ref List<RoomItem> roomItemList, ref GameClient session)
         {
-            var toUpdate = new List<GameClient>();
+            List<GameClient> toUpdate = new List<GameClient>();
 
-            foreach (var item in roomItemList)
+            foreach (RoomItem item in roomItemList)
             {
                 if (item.UserId == 0)
                     item.UserId = session.GetHabbo().Id;
 
-                var client = Yupi.GetGame().GetClientManager().GetClientByUserId(item.UserId);
+                GameClient client = Yupi.GetGame().GetClientManager().GetClientByUserId(item.UserId);
 
                 if (item.GetBaseItem().InteractionType != Interaction.PostIt)
                 {
@@ -406,14 +406,14 @@ namespace Yupi.Game.Rooms.Items.Handlers
                         toUpdate.Add(client);
 
                     if (client == null)
-                        using (var dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
+                        using (IQueryAdapter dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
                             dbClient.RunFastQuery("UPDATE items_rooms SET room_id = '0' WHERE id = " + item.Id);
                     else
                         client.GetHabbo().GetInventoryComponent().AddItem(item);
                 }
             }
 
-            foreach (var client in toUpdate)
+            foreach (GameClient client in toUpdate)
                 client?.GetHabbo().GetInventoryComponent().UpdateItems(true);
         }
 
@@ -437,15 +437,15 @@ namespace Yupi.Game.Rooms.Items.Handlers
             if (WallItems == null) WallItems = new ConcurrentDictionary<uint, RoomItem>();
             else WallItems.Clear();
 
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.RunFastQuery("SELECT items_rooms.* , COALESCE(items_groups.group_id, 0) AS group_id FROM items_rooms LEFT OUTER JOIN items_groups ON items_rooms.id = items_groups.id WHERE items_rooms.room_id = " + _room.RoomId + " LIMIT 5000");
 
-                var table = queryReactor.GetTable();
+                DataTable table = queryReactor.GetTable();
 
                 if (table.Rows.Count >= 5000)
                 {
-                    var clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId((uint) _room.RoomData.OwnerId);
+                    GameClient clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId((uint) _room.RoomData.OwnerId);
 
                     clientByUserId?.SendNotif("Your room has more than 5000 items in it. The current limit of items per room is 5000.\nTo view the rest, pick some of these items up!");
                 }
@@ -454,15 +454,15 @@ namespace Yupi.Game.Rooms.Items.Handlers
                 {
                     try
                     {
-                        var id = Convert.ToUInt32(dataRow["id"]);
-                        var x = Convert.ToInt32(dataRow["x"]);
-                        var y = Convert.ToInt32(dataRow["y"]);
-                        var z = Convert.ToDouble(dataRow["z"]);
-                        var rot = Convert.ToSByte(dataRow["rot"]);
-                        var ownerId = Convert.ToUInt32(dataRow["user_id"]);
-                        var baseItemName = dataRow["item_name"].ToString();
+                        uint id = Convert.ToUInt32(dataRow["id"]);
+                        int x = Convert.ToInt32(dataRow["x"]);
+                        int y = Convert.ToInt32(dataRow["y"]);
+                        double z = Convert.ToDouble(dataRow["z"]);
+                        sbyte rot = Convert.ToSByte(dataRow["rot"]);
+                        uint ownerId = Convert.ToUInt32(dataRow["user_id"]);
+                        string baseItemName = dataRow["item_name"].ToString();
 
-                        var item = Yupi.GetGame().GetItemManager().GetItemByName(baseItemName);
+                        Item item = Yupi.GetGame().GetItemManager().GetItemByName(baseItemName);
 
                         if (item == null)
                             continue;
@@ -470,29 +470,29 @@ namespace Yupi.Game.Rooms.Items.Handlers
                         if (ownerId == 0)
                             queryReactor.RunFastQuery("UPDATE items_rooms SET user_id = " + _room.RoomData.OwnerId + " WHERE id = " + id);
 
-                        var locationData = item.Type == 'i' && string.IsNullOrWhiteSpace(dataRow["wall_pos"].ToString()) ? ":w=0,2 l=11,53 l" : dataRow["wall_pos"].ToString();
+                        string locationData = item.Type == 'i' && string.IsNullOrWhiteSpace(dataRow["wall_pos"].ToString()) ? ":w=0,2 l=11,53 l" : dataRow["wall_pos"].ToString();
 
-                        var extraData = DBNull.Value.Equals(dataRow["extra_data"]) ? string.Empty : dataRow["extra_data"].ToString();
+                        string extraData = DBNull.Value.Equals(dataRow["extra_data"]) ? string.Empty : dataRow["extra_data"].ToString();
 
-                        var songCode = DBNull.Value.Equals(dataRow["songcode"]) ? string.Empty : (string) dataRow["songcode"];
+                        string songCode = DBNull.Value.Equals(dataRow["songcode"]) ? string.Empty : (string) dataRow["songcode"];
 
-                        var groupId = Convert.ToUInt32(dataRow["group_id"]);
+                        uint groupId = Convert.ToUInt32(dataRow["group_id"]);
 
                         if (item.Type == 'i')
                         {
-                            var wallCoord = new WallCoordinate(':' + locationData.Split(':')[1]);
+                            WallCoordinate wallCoord = new WallCoordinate(':' + locationData.Split(':')[1]);
 
-                            var value = new RoomItem(id, _room.RoomId, baseItemName, extraData, wallCoord, _room, ownerId, groupId, Yupi.EnumToBool((string)dataRow["builders"]));
+                            RoomItem value = new RoomItem(id, _room.RoomId, baseItemName, extraData, wallCoord, _room, ownerId, groupId, Yupi.EnumToBool((string)dataRow["builders"]));
 
                             WallItems.TryAdd(id, value);
                         }
                         else
                         {
-                            var roomItem = new RoomItem(id, _room.RoomId, baseItemName, extraData, x, y, z, rot, _room, ownerId, groupId, songCode, Yupi.EnumToBool((string)dataRow["builders"]));
+                            RoomItem roomItem = new RoomItem(id, _room.RoomId, baseItemName, extraData, x, y, z, rot, _room, ownerId, groupId, songCode, Yupi.EnumToBool((string)dataRow["builders"]));
 
                             if (!_room.GetGameMap().ValidTile(x, y))
                             {
-                                var clientByUserId2 = Yupi.GetGame().GetClientManager().GetClientByUserId(ownerId);
+                                GameClient clientByUserId2 = Yupi.GetGame().GetClientManager().GetClientByUserId(ownerId);
 
                                 if (clientByUserId2 != null)
                                 {
@@ -520,7 +520,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
                     }
                 }
                     
-                foreach (var current in FloorItems.Values)
+                foreach (RoomItem current in FloorItems.Values)
                 {
                     if (current.IsWired)
                         _room.GetWiredHandler().LoadWired(_room.GetWiredHandler().GenerateNewItem(current));
@@ -547,7 +547,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
         /// <param name="wasPicked">if set to <c>true</c> [was picked].</param>
         internal void RemoveFurniture(GameClient session, uint id, bool wasPicked = true)
         {
-            var item = GetItem(id);
+            RoomItem item = GetItem(id);
             if (item == null)
                 return;
             if (item.GetBaseItem().InteractionType == Interaction.FootballGate)
@@ -569,14 +569,14 @@ namespace Yupi.Game.Rooms.Items.Handlers
         {
             if (item.IsWallItem)
             {
-                var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("PickUpWallItemMessageComposer"));
+                ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("PickUpWallItemMessageComposer"));
                 serverMessage.AppendString(item.Id.ToString());
                 serverMessage.AppendInteger(wasPicked ? item.UserId : 0);
                 _room.SendMessage(serverMessage);
             }
             else if (item.IsFloorItem)
             {
-                var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("PickUpFloorItemMessageComposer"));
+                ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("PickUpFloorItemMessageComposer"));
                 serverMessage.AppendString(item.Id.ToString());
                 serverMessage.AppendBool(false); //expired
                 serverMessage.AppendInteger(wasPicked ? item.UserId : 0); //pickerId
@@ -609,7 +609,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
         /// <returns>ServerMessage.</returns>
         internal ServerMessage UpdateItemOnRoller(RoomItem item, Point nextCoord, uint rolledId, double nextZ)
         {
-            var serverMessage = new ServerMessage();
+            ServerMessage serverMessage = new ServerMessage();
             serverMessage.Init(LibraryParser.OutgoingRequest("ItemAnimationMessageComposer"));
             serverMessage.AppendInteger(item.X);
             serverMessage.AppendInteger(item.Y);
@@ -634,7 +634,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
         /// <returns>ServerMessage.</returns>
         internal ServerMessage UpdateUserOnRoller(RoomUser user, Point nextCoord, uint rollerId, double nextZ)
         {
-            var serverMessage = new ServerMessage(0);
+            ServerMessage serverMessage = new ServerMessage(0);
             serverMessage.Init(LibraryParser.OutgoingRequest("ItemAnimationMessageComposer"));
             serverMessage.AppendInteger(user.X);
             serverMessage.AppendInteger(user.Y);
@@ -692,13 +692,13 @@ namespace Yupi.Game.Rooms.Items.Handlers
         internal bool SetFloorItem(GameClient session, RoomItem item, int newX, int newY, int newRot, bool newItem,
             bool onRoller, bool sendMessage, bool updateRoomUserStatuses, bool specialMove, double? customHeight = null)
         {
-            var flag = false;
+            bool flag = false;
             if (!newItem) flag = _room.GetGameMap().RemoveFromMap(item);
 
-            var affectedTiles = Gamemap.GetAffectedTiles(item.GetBaseItem().Length,
+            Dictionary<int, ThreeDCoord> affectedTiles = Gamemap.GetAffectedTiles(item.GetBaseItem().Length,
                 item.GetBaseItem().Width, newX, newY, newRot);
 
-            var oldCoord = item.Coordinate;
+            Point oldCoord = item.Coordinate;
 
             if (!_room.GetGameMap().ValidTile(newX, newY) ||
                 (_room.GetGameMap().SquareHasUsers(newX, newY) && !item.GetBaseItem().IsSeat))
@@ -722,7 +722,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
                 return false;
             }
 
-            var height = customHeight == null ? _room.GetGameMap().Model.SqFloorHeight[newX][newY] : customHeight.Value;
+            double height = customHeight == null ? _room.GetGameMap().Model.SqFloorHeight[newX][newY] : customHeight.Value;
             if (!onRoller)
             {
                 if (_room.GetGameMap().Model.SqState[newX][newY] != SquareState.Open && !item.GetBaseItem().IsSeat)
@@ -755,11 +755,11 @@ namespace Yupi.Game.Rooms.Items.Handlers
                     }
             }
 
-            var furniObjects = GetFurniObjects(newX, newY);
-            var list = new List<RoomItem>();
-            var list2 = new List<RoomItem>();
+            List<RoomItem> furniObjects = GetFurniObjects(newX, newY);
+            List<RoomItem> list = new List<RoomItem>();
+            List<RoomItem> list2 = new List<RoomItem>();
             foreach (
-                var furniObjects2 in
+                List<RoomItem> furniObjects2 in
                     affectedTiles.Values
                         .Select(current4 => GetFurniObjects(current4.X, current4.Y))
                         .Where(furniObjects2 => furniObjects2 != null))
@@ -767,7 +767,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
             list2.AddRange(furniObjects);
             list2.AddRange(list);
 
-            var stackMagic = list2.FirstOrDefault(
+            RoomItem stackMagic = list2.FirstOrDefault(
                 roomItem =>
                     roomItem != null && roomItem.GetBaseItem() != null &&
                     roomItem.GetBaseItem().InteractionType == Interaction.TileStackMagic);
@@ -790,7 +790,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
                 }
 
                 if (item.Rot != newRot && item.X == newX && item.Y == newY) height = item.Z;
-                foreach (var current6 in list2)
+                foreach (RoomItem current6 in list2)
                     if (current6.Id != item.Id && current6.TotalHeight > height) height = current6.TotalHeight;
             }
 
@@ -865,7 +865,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
                 AddOrUpdateItem(item.Id);
                 if (sendMessage)
                 {
-                    var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("AddFloorItemMessageComposer"));
+                    ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("AddFloorItemMessageComposer"));
                     item.Serialize(serverMessage);
                     serverMessage.AppendString(_room.RoomData.Group != null
                         ? session.GetHabbo().UserName
@@ -880,7 +880,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
                 {
                     if (specialMove)
                     {
-                        var message = new ServerMessage(LibraryParser.OutgoingRequest("ItemAnimationMessageComposer"));
+                        ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("ItemAnimationMessageComposer"));
                         message.AppendInteger(oldCoord.X);
                         message.AppendInteger(oldCoord.Y);
                         message.AppendInteger(newX);
@@ -894,7 +894,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
                     }
                     else
                     {
-                        var message = new ServerMessage(LibraryParser.OutgoingRequest("UpdateRoomItemMessageComposer"));
+                        ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("UpdateRoomItemMessageComposer"));
                         item.Serialize(message);
                         _room.SendMessage(message);
                     }
@@ -920,11 +920,11 @@ namespace Yupi.Game.Rooms.Items.Handlers
 
             AddOrUpdateItem(item.Id);
 
-            var affectedTiles = Gamemap.GetAffectedTiles(item.GetBaseItem().Length, item.GetBaseItem().Width, item.X,
+            Dictionary<int, ThreeDCoord> affectedTiles = Gamemap.GetAffectedTiles(item.GetBaseItem().Length, item.GetBaseItem().Width, item.X,
                 item.Y, item.Rot);
             item.SetState(item.X, item.Y, item.Z, affectedTiles);
 
-            var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("AddFloorItemMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("AddFloorItemMessageComposer"));
             item.Serialize(serverMessage);
             serverMessage.AppendString(_room.RoomData.Group != null ? session.GetHabbo().UserName : _room.RoomData.Owner);
             _room.SendMessage(serverMessage);
@@ -938,9 +938,9 @@ namespace Yupi.Game.Rooms.Items.Handlers
         /// <param name="affectedTiles">The affected tiles.</param>
         internal void OnHeightMapUpdate(Dictionary<int, ThreeDCoord> affectedTiles)
         {
-            var message = new ServerMessage(LibraryParser.OutgoingRequest("UpdateFurniStackMapMessageComposer"));
+            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("UpdateFurniStackMapMessageComposer"));
             message.AppendByte((byte) affectedTiles.Count);
-            foreach (var coord in affectedTiles.Values)
+            foreach (ThreeDCoord coord in affectedTiles.Values)
             {
                 message.AppendByte((byte) coord.X);
                 message.AppendByte((byte) coord.Y);
@@ -955,7 +955,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
         /// <param name="affectedTiles">The affected tiles.</param>
         internal void OnHeightMapUpdate(ICollection affectedTiles)
         {
-            var message = new ServerMessage(LibraryParser.OutgoingRequest("UpdateFurniStackMapMessageComposer"));
+            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("UpdateFurniStackMapMessageComposer"));
             message.AppendByte((byte) affectedTiles.Count);
             foreach (Point coord in affectedTiles)
             {
@@ -973,15 +973,15 @@ namespace Yupi.Game.Rooms.Items.Handlers
         /// <param name="newCoords">The new coords.</param>
         internal void OnHeightMapUpdate(List<Point> oldCoords, List<Point> newCoords)
         {
-            var message = new ServerMessage(LibraryParser.OutgoingRequest("UpdateFurniStackMapMessageComposer"));
+            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("UpdateFurniStackMapMessageComposer"));
             message.AppendByte((byte) (oldCoords.Count + newCoords.Count));
-            foreach (var coord in oldCoords)
+            foreach (Point coord in oldCoords)
             {
                 message.AppendByte((byte) coord.X);
                 message.AppendByte((byte) coord.Y);
                 message.AppendShort((short) (_room.GetGameMap().SqAbsoluteHeight(coord.X, coord.Y)*256));
             }
-            foreach (var nCoord in newCoords)
+            foreach (Point nCoord in newCoords)
             {
                 message.AppendByte((byte) nCoord.X);
                 message.AppendByte((byte) nCoord.Y);
@@ -1044,7 +1044,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
             _room.GetGameMap().AddItemToMap(item);
             if (!sendUpdate)
                 return true;
-            var message = new ServerMessage(LibraryParser.OutgoingRequest("UpdateRoomItemMessageComposer"));
+            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("UpdateRoomItemMessageComposer"));
             item.Serialize(message);
             _room.SendMessage(message);
             return true;
@@ -1072,7 +1072,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
             WallItems.TryAdd(item.Id, item);
             AddOrUpdateItem(item.Id);
 
-            var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("AddWallItemMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("AddWallItemMessageComposer"));
             item.Serialize(serverMessage);
             serverMessage.AppendString(_room.RoomData.Owner);
             _room.SendMessage(serverMessage);
@@ -1129,18 +1129,18 @@ namespace Yupi.Game.Rooms.Items.Handlers
             }
             if (_roomItemUpdateQueue.Count > 0)
             {
-                var addItems = new List<RoomItem>();
+                List<RoomItem> addItems = new List<RoomItem>();
                 lock (_roomItemUpdateQueue.SyncRoot)
                 {
                     while (_roomItemUpdateQueue.Count > 0)
                     {
-                        var roomItem = (RoomItem) _roomItemUpdateQueue.Dequeue();
+                        RoomItem roomItem = (RoomItem) _roomItemUpdateQueue.Dequeue();
                         roomItem.ProcessUpdates();
 
                         if (roomItem.IsTrans || roomItem.UpdateCounter > 0)
                             addItems.Add(roomItem);
                     }
-                    foreach (var item in addItems)
+                    foreach (RoomItem item in addItems)
                         _roomItemUpdateQueue.Enqueue(item);
                 }
             }
@@ -1185,21 +1185,21 @@ namespace Yupi.Game.Rooms.Items.Handlers
                 _rollerItemsMoved.Clear();
                 _rollerUsersMoved.Clear();
                 _rollerMessages.Clear();
-                foreach (var current in Rollers.Values)
+                foreach (RoomItem current in Rollers.Values)
                 {
-                    var squareInFront = current.SquareInFront;
-                    var roomItemForSquare = _room.GetGameMap().GetRoomItemForSquare(current.X, current.Y);
-                    var userForSquare = _room.GetRoomUserManager().GetUserForSquare(current.X, current.Y);
+                    Point squareInFront = current.SquareInFront;
+                    List<RoomItem> roomItemForSquare = _room.GetGameMap().GetRoomItemForSquare(current.X, current.Y);
+                    RoomUser userForSquare = _room.GetRoomUserManager().GetUserForSquare(current.X, current.Y);
                     if (!roomItemForSquare.Any() && userForSquare == null)
                         continue;
-                    var coordinatedItems = _room.GetGameMap().GetCoordinatedItems(squareInFront);
-                    var nextZ = 0.0;
-                    var num = 0;
-                    var flag = false;
-                    var num2 = 0.0;
-                    var flag2 = true;
-                    var frontHasItem = false;
-                    foreach (var current2 in coordinatedItems.Where(current2 => current2.IsRoller))
+                    List<RoomItem> coordinatedItems = _room.GetGameMap().GetCoordinatedItems(squareInFront);
+                    double nextZ = 0.0;
+                    int num = 0;
+                    bool flag = false;
+                    double num2 = 0.0;
+                    bool flag2 = true;
+                    bool frontHasItem = false;
+                    foreach (RoomItem current2 in coordinatedItems.Where(current2 => current2.IsRoller))
                     {
                         flag = true;
                         if (current2.TotalHeight > num2)
@@ -1207,11 +1207,11 @@ namespace Yupi.Game.Rooms.Items.Handlers
                     }
                     if (coordinatedItems.Any(item => !item.GetBaseItem().Stackable)) frontHasItem = true;
                     if (flag)
-                        using (var enumerator3 = coordinatedItems.GetEnumerator())
+                        using (List<RoomItem>.Enumerator enumerator3 = coordinatedItems.GetEnumerator())
                         {
                             while (enumerator3.MoveNext())
                             {
-                                var current3 = enumerator3.Current;
+                                RoomItem current3 = enumerator3.Current;
                                 if (current3.TotalHeight > num2)
                                     flag2 = false;
                             }
@@ -1220,11 +1220,11 @@ namespace Yupi.Game.Rooms.Items.Handlers
                     goto IL_17C;
                     IL_192:
                     nextZ = num2;
-                    var flag3 = num > 0 ||
+                    bool flag3 = num > 0 ||
                                 _room.GetRoomUserManager().GetUserForSquare(squareInFront.X, squareInFront.Y) != null;
-                    foreach (var current4 in roomItemForSquare)
+                    foreach (RoomItem current4 in roomItemForSquare)
                     {
-                        var num3 = current4.Z - current.TotalHeight;
+                        double num3 = current4.Z - current.TotalHeight;
                         if (_rollerItemsMoved.Contains(current4.Id) || frontHasItem ||
                             !_room.GetGameMap().CanRollItemHere(squareInFront.X, squareInFront.Y) || !flag2 ||
                             !(current.Z < current4.Z) ||
@@ -1259,7 +1259,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
 
         internal bool HasFurniByItemName(string name)
         {
-            var element = FloorItems.Values.Where(i => i.GetBaseItem().Name == name);
+            IEnumerable<RoomItem> element = FloorItems.Values.Where(i => i.GetBaseItem().Name == name);
             return element.Any();
         }
     }

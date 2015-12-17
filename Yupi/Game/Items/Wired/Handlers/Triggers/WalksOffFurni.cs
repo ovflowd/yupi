@@ -28,7 +28,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Triggers
 
         public bool OnCycle()
         {
-            var num = Yupi.Now();
+            long num = Yupi.Now();
             if (num <= _mNext)
 
                 return false;
@@ -37,14 +37,14 @@ namespace Yupi.Game.Items.Wired.Handlers.Triggers
             {
                 while (ToWork.Count > 0)
                 {
-                    var roomUser = (RoomUser)ToWork.Dequeue();
+                    RoomUser roomUser = (RoomUser)ToWork.Dequeue();
 
-                    var conditions = Room.GetWiredHandler().GetConditions(this);
-                    var effects = Room.GetWiredHandler().GetEffects(this);
+                    List<IWiredItem> conditions = Room.GetWiredHandler().GetConditions(this);
+                    List<IWiredItem> effects = Room.GetWiredHandler().GetEffects(this);
 
                     if (conditions.Any())
                     {
-                        foreach (var current in conditions)
+                        foreach (IWiredItem current in conditions)
                         {
                             if (!current.Execute(roomUser))
                                 return false;
@@ -56,7 +56,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Triggers
                     if (!effects.Any())
                         continue;
 
-                    foreach (var current2 in effects.Where(current2 => current2.Execute(roomUser, Type)))
+                    foreach (IWiredItem current2 in effects.Where(current2 => current2.Execute(roomUser, Type)))
                         WiredHandler.OnEvent(current2);
                 }
             }
@@ -102,8 +102,8 @@ namespace Yupi.Game.Items.Wired.Handlers.Triggers
 
         public bool Execute(params object[] stuff)
         {
-            var roomUser = (RoomUser)stuff[0];
-            var roomItem = (RoomItem)stuff[1];
+            RoomUser roomUser = (RoomUser)stuff[0];
+            RoomItem roomItem = (RoomItem)stuff[1];
 
             if (!Items.Contains(roomItem) || roomUser.LastItem != roomItem.Id)
                 return false;

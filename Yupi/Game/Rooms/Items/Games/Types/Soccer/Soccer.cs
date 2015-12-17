@@ -104,7 +104,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Soccer
 
         private IEnumerable<RoomItem> GetFootballItemsForAllTeams()
         {
-            var items = _room.GetGameManager().GetItems(Team.Red).Values.ToList();
+            List<RoomItem> items = _room.GetGameManager().GetItems(Team.Red).Values.ToList();
             items.AddRange(_room.GetGameManager().GetItems(Team.Green).Values);
 
             items.AddRange(_room.GetGameManager().GetItems(Team.Blue).Values);
@@ -116,7 +116,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Soccer
 
         private bool GameItemOverlaps(RoomItem gameItem)
         {
-            var gameItemCoord = gameItem.Coordinate;
+            Point gameItemCoord = gameItem.Coordinate;
             return
                 GetFootballItemsForAllTeams()
                     .Any(
@@ -130,12 +130,12 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Soccer
             if (user == null)
                 return;
 
-            foreach (var ball in _balls.Values)
+            foreach (RoomItem ball in _balls.Values)
             {
                 if (user.SetX == ball.X && user.SetY == ball.Y && user.GoalX == ball.X && user.GoalY == ball.Y &&
                     user.HandelingBallStatus == 0) // super chute.
                 {
-                    var userPoint = new Point(user.X, user.Y);
+                    Point userPoint = new Point(user.X, user.Y);
                     ball.ExtraData = "55";
                     ball.BallIsMoving = true;
                     ball.BallValue = 1;
@@ -143,7 +143,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Soccer
                 }
                 else if (user.X == ball.X && user.Y == ball.Y && user.HandelingBallStatus == 0)
                 {
-                    var userPoint = new Point(user.SetX, user.SetY);
+                    Point userPoint = new Point(user.SetX, user.SetY);
                     ball.ExtraData = "55";
                     ball.BallIsMoving = true;
                     ball.BallValue = 1;
@@ -158,12 +158,12 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Soccer
                         (user.X == user.GoalX && user.Y == user.GoalY))
                         return;
                     user.HandelingBallStatus = 1;
-                    var comeDirection = ComeDirection.GetComeDirection(new Point(user.X, user.Y), ball.Coordinate);
+                    IComeDirection comeDirection = ComeDirection.GetComeDirection(new Point(user.X, user.Y), ball.Coordinate);
                     if (comeDirection == IComeDirection.Null)
                         return;
 
-                    var newX = user.SetX;
-                    var newY = user.SetY;
+                    int newX = user.SetX;
+                    int newY = user.SetY;
 
                     if (!ball.GetRoom().GetGameMap().ValidTile2(user.SetX, user.SetY) ||
                         !ball.GetRoom().GetGameMap().ItemCanBePlacedHere(user.SetX, user.SetY))
@@ -188,11 +188,11 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Soccer
             if (!_room.GetGameMap().ItemCanBePlacedHere(newX, newY))
                 return false;
 
-            var oldRoomCoord = item.Coordinate;
-            var itemIsOnGameItem = GameItemOverlaps(item);
+            Point oldRoomCoord = item.Coordinate;
+            bool itemIsOnGameItem = GameItemOverlaps(item);
             double newZ = _room.GetGameMap().Model.SqFloorHeight[newX][newY];
 
-            var mMessage = new ServerMessage();
+            ServerMessage mMessage = new ServerMessage();
             mMessage.Init(LibraryParser.OutgoingRequest("ItemAnimationMessageComposer")); // Cf
             mMessage.AppendInteger(item.Coordinate.X);
             mMessage.AppendInteger(item.Coordinate.Y);
@@ -235,17 +235,17 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Soccer
 
         internal async void MoveBallProcess(RoomItem item, GameClient client)
         {
-            var tryes = 0;
-            var newX = item.Coordinate.X;
-            var newY = item.Coordinate.Y;
+            int tryes = 0;
+            int newX = item.Coordinate.X;
+            int newY = item.Coordinate.Y;
 
             //while (tryes < 3)
             {
                 if (_room == null || _room.GetGameMap() == null)
                     return;
 
-                var total = item.ExtraData == "55" ? 6 : 1;
-                for (var i = 0; i != total; i++)
+                int total = item.ExtraData == "55" ? 6 : 1;
+                for (int i = 0; i != total; i++)
                 {
                     if (item.ComeDirection == IComeDirection.Null)
                     {
@@ -253,12 +253,12 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Soccer
                         break;
                     }
 
-                    var resetX = newX;
-                    var resetY = newY;
+                    int resetX = newX;
+                    int resetY = newY;
 
                     ComeDirection.GetNewCoords(item.ComeDirection, ref newX, ref newY);
 
-                    var ignoreUsers = false;
+                    bool ignoreUsers = false;
 
                     if (_room.GetGameMap().SquareHasUsers(newX, newY))
                     {
@@ -370,7 +370,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Soccer
         private void HandleFootballGameItems(Point ballItemCoord, RoomUser user)
         {
             if (user == null || _room == null || _room.GetGameManager() == null) return;
-            var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("RoomUserActionMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("RoomUserActionMessageComposer"));
 
             if (_room.GetGameManager()
                 .GetItems(Team.Red)

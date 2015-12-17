@@ -1,4 +1,5 @@
 using System.Data;
+using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Messages;
 
 namespace Yupi.Game.Items.Datas
@@ -32,7 +33,7 @@ namespace Yupi.Game.Items.Datas
             ItemId = item;
             DataRow row;
 
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery($"SELECT enabled,data1,data2,data3 FROM items_toners WHERE id={ItemId} LIMIT 1");
                 row = queryReactor.GetRow();

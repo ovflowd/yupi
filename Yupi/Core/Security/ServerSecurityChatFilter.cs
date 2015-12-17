@@ -27,6 +27,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Yupi.Core.Io;
+using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 
 namespace Yupi.Core.Security
@@ -104,10 +105,10 @@ namespace Yupi.Core.Security
             Word = new List<string>();
             Word.Clear();
 
-            using (var adapter = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter adapter = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 adapter.SetQuery("SELECT `word` FROM wordfilter");
-                var table = adapter.GetTable();
+                DataTable table = adapter.GetTable();
 
                 if (table == null)
                     return;

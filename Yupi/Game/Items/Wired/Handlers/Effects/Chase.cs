@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using Yupi.Game.Items.Interactions.Enums;
 using Yupi.Game.Items.Interfaces;
 using Yupi.Game.Items.Wired.Interfaces;
 using Yupi.Game.Rooms;
+using Yupi.Game.Rooms.User;
 
 namespace Yupi.Game.Items.Wired.Handlers.Effects
 {
@@ -54,11 +56,11 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
         public bool Execute(params object[] stuff)
         {
             if (Room == null) return false;
-            var toRemove = new Queue<RoomItem>();
+            Queue<RoomItem> toRemove = new Queue<RoomItem>();
 
             if (Items.Any())
             {
-                foreach (var item in Items)
+                foreach (RoomItem item in Items)
                 {
                     if (item == null || Room.GetRoomItemHandler().GetItem(item.Id) == null)
                     {
@@ -73,7 +75,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
 
             while (toRemove.Count > 0)
             {
-                var itemToRemove = toRemove.Dequeue();
+                RoomItem itemToRemove = toRemove.Dequeue();
 
                 if (Items.Contains(itemToRemove))
                     Items.Remove(itemToRemove);
@@ -84,19 +86,19 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
 
         private void HandleMovement(RoomItem item)
         {
-            var movement = Room.GetGameMap().GetChasingMovement(item.X, item.Y);
+            MovementState movement = Room.GetGameMap().GetChasingMovement(item.X, item.Y);
 
             if (movement == MovementState.None)
                 return;
 
-            var newPoint = Movement.HandleMovement(item.Coordinate, movement, item.Rot);
+            Point newPoint = Movement.HandleMovement(item.Coordinate, movement, item.Rot);
 
             if (newPoint == item.Coordinate)
                 return;
 
             if (Room.GetGameMap().SquareHasUsers(newPoint.X, newPoint.Y))
             {
-                var user = Room.GetRoomUserManager().GetUserForSquare(newPoint.X, newPoint.Y);
+                RoomUser user = Room.GetRoomUserManager().GetUserForSquare(newPoint.X, newPoint.Y);
 
                 if (user == null || user.IsBot || user.IsPet)
                     return;

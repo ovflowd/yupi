@@ -58,7 +58,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Conditions
             if (!(stuff?[0] is RoomUser))
                 return false;
 
-            var roomUser = (RoomUser)stuff[0];
+            RoomUser roomUser = (RoomUser)stuff[0];
 
             if (roomUser.IsBot || roomUser.GetClient() == null || roomUser.GetClient().GetHabbo() == null || roomUser.GetClient().GetHabbo().GetBadgeComponent() == null || string.IsNullOrWhiteSpace(OtherString))
                 return false;

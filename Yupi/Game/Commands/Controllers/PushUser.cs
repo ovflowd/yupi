@@ -1,6 +1,8 @@
 ﻿using Yupi.Game.Commands.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Pathfinding;
+using Yupi.Game.Rooms;
+using Yupi.Game.Rooms.User;
 
 namespace Yupi.Game.Commands.Controllers
 {
@@ -22,8 +24,8 @@ namespace Yupi.Game.Commands.Controllers
 
         public override bool Execute(GameClient session, string[] pms)
         {
-            var room = session.GetHabbo().CurrentRoom;
-            var user = room.GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().Id);
+            Room room = session.GetHabbo().CurrentRoom;
+            RoomUser user = room.GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().Id);
             if (user == null) return true;
 
             if (room.RoomData.DisablePush)
@@ -32,7 +34,7 @@ namespace Yupi.Game.Commands.Controllers
                 return true;
             }
 
-            var client = Yupi.GetGame().GetClientManager().GetClientByUserName(pms[0]);
+            GameClient client = Yupi.GetGame().GetClientManager().GetClientByUserName(pms[0]);
             if (client == null)
             {
                 session.SendWhisper(Yupi.GetLanguage().GetVar("user_not_found"));
@@ -43,7 +45,7 @@ namespace Yupi.Game.Commands.Controllers
                 session.SendWhisper(Yupi.GetLanguage().GetVar("command_pull_error_own"));
                 return true;
             }
-            var user2 = room.GetRoomUserManager().GetRoomUserByHabbo(client.GetHabbo().Id);
+            RoomUser user2 = room.GetRoomUserManager().GetRoomUserByHabbo(client.GetHabbo().Id);
             if (user2 == null) return true;
             if (user2.TeleportEnabled)
             {

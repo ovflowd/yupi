@@ -35,30 +35,30 @@ namespace Yupi.Game.Items.Wired.Handlers.Triggers
 
         public bool OnCycle()
         {
-            var num = Yupi.Now();
+            long num = Yupi.Now();
 
             if (_mNext >= num)
                 return false;
 
-            var conditions = Room.GetWiredHandler().GetConditions(this);
-            var effects = Room.GetWiredHandler().GetEffects(this);
+            List<IWiredItem> conditions = Room.GetWiredHandler().GetConditions(this);
+            List<IWiredItem> effects = Room.GetWiredHandler().GetEffects(this);
 
-            foreach (var current in _mUsers)
+            foreach (RoomUser current in _mUsers)
             {
                 if (conditions.Any())
                 {
-                    var current3 = current;
+                    RoomUser current3 = current;
 
-                    foreach (var current2 in conditions.Where(current2 => current2.Execute(current3)))
+                    foreach (IWiredItem current2 in conditions.Where(current2 => current2.Execute(current3)))
                         WiredHandler.OnEvent(current2);
                 }
 
                 if (!effects.Any())
                     continue;
 
-                var current1 = current;
+                RoomUser current1 = current;
 
-                foreach (var current3 in effects.Where(current3 => current3.Execute(current1, Type)))
+                foreach (IWiredItem current3 in effects.Where(current3 => current3.Execute(current1, Type)))
                     WiredHandler.OnEvent(current3);
             }
 
@@ -104,8 +104,8 @@ namespace Yupi.Game.Items.Wired.Handlers.Triggers
 
         public bool Execute(params object[] stuff)
         {
-            var roomUser = (RoomUser)stuff[0];
-            var roomItem = (RoomItem)stuff[1];
+            RoomUser roomUser = (RoomUser)stuff[0];
+            RoomItem roomItem = (RoomItem)stuff[1];
 
             if (roomUser == null || roomItem == null)
                 return false;

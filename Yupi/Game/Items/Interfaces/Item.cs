@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Game.Items.Interactions.Enums;
 
 namespace Yupi.Game.Items.Interfaces
@@ -188,7 +189,7 @@ namespace Yupi.Game.Items.Interfaces
             FlatId = flatId;
             IsGroupItem = Name.ToLower().ContainsAny("gld_", "guild_", "grp");
 
-            if (vendingIds.Contains(",")) foreach (var s in vendingIds.Split(',')) VendingIds.Add(int.Parse(s));
+            if (vendingIds.Contains(",")) foreach (string s in vendingIds.Split(',')) VendingIds.Add(int.Parse(s));
             else if (!vendingIds.Equals(string.Empty) && int.Parse(vendingIds) > 0)
                 VendingIds.Add(int.Parse(vendingIds));
         }
@@ -201,7 +202,7 @@ namespace Yupi.Game.Items.Interfaces
 
         public static void Save(uint id, bool stackable, bool allowTrade, double[] height, uint modes)
         {
-            using (var queryReacter = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReacter = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReacter.SetQuery(
                     "UPDATE LOW_PRIORITY catalog_furnitures SET stack_height = @height, can_stack = @stack, allow_trade = @trade, interaction_modes_count = @modes WHERE id = " +

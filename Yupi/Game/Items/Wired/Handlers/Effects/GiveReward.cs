@@ -55,12 +55,12 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
             if (stuff[0] == null)
                 return false;
 
-            var user = (RoomUser)stuff[0];
+            RoomUser user = (RoomUser)stuff[0];
 
             if (stuff[1] == null)
                 return false;
 
-            var item = (Interaction)stuff[1];
+            Interaction item = (Interaction)stuff[1];
 
             if (_mBanned.Contains(item))
                 return false;
@@ -71,15 +71,15 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
             if (OtherExtraString2 == null)
                 return false;
 
-            var amountLeft = Convert.ToInt32(OtherExtraString2);
+            int amountLeft = Convert.ToInt32(OtherExtraString2);
 
-            var unique = OtherBool;
+            bool unique = OtherBool;
 
-            var premied = false;
+            bool premied = false;
 
             if (amountLeft == 1)
             {
-                var message = new ServerMessage(LibraryParser.OutgoingRequest("WiredRewardAlertMessageComposer"));
+                ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("WiredRewardAlertMessageComposer"));
 
                 message.AppendInteger(0);
                 user.GetClient().SendMessage(message);
@@ -87,17 +87,17 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
                 return true;
             }
 
-            foreach (var dataStr in OtherString.Split(';'))
+            foreach (string dataStr in OtherString.Split(';'))
             {
-                var dataArray = dataStr.Split(',');
+                string[] dataArray = dataStr.Split(',');
 
-                var isbadge = dataArray[0] == "0";
-                var code = dataArray[1];
-                var percentage = int.Parse(dataArray[2]);
+                bool isbadge = dataArray[0] == "0";
+                string code = dataArray[1];
+                int percentage = int.Parse(dataArray[2]);
 
-                var random = Yupi.GetRandomNumber(0, 100);
+                int random = Yupi.GetRandomNumber(0, 100);
 
-                var message =new ServerMessage(LibraryParser.OutgoingRequest("WiredRewardAlertMessageComposer"));
+                ServerMessage message =new ServerMessage(LibraryParser.OutgoingRequest("WiredRewardAlertMessageComposer"));
 
                 if (!unique && percentage < random)
                     continue;
@@ -124,7 +124,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
                 }
                 else //item or effect
                 {
-                    var roomItem = Yupi.GetGame().GetItemManager().GetItem(uint.Parse(code));
+                    Item roomItem = Yupi.GetGame().GetItemManager().GetItem(uint.Parse(code));
 
                     if (roomItem == null)
                         continue;
@@ -144,7 +144,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
 
             if (!premied)
             {
-                var message = new ServerMessage(LibraryParser.OutgoingRequest("WiredRewardAlertMessageComposer"));
+                ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("WiredRewardAlertMessageComposer"));
                 message.AppendInteger(4);
                 user.GetClient().SendMessage(message);
             }

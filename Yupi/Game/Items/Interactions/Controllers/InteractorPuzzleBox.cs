@@ -1,10 +1,13 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Items.Interactions.Models;
 using Yupi.Game.Items.Interfaces;
 using Yupi.Game.Pathfinding;
+using Yupi.Game.Rooms;
+using Yupi.Game.Rooms.User;
 using Yupi.Messages;
 using Yupi.Messages.Parsers;
 
@@ -17,7 +20,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
             if (session == null)
                 return;
 
-            var roomUserByHabbo = item.GetRoom().GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().Id);
+            RoomUser roomUserByHabbo = item.GetRoom().GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().Id);
 
             if (roomUserByHabbo == null)
                 return;
@@ -30,8 +33,8 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 roomUserByHabbo.SetRot(
                     PathFinder.CalculateRotation(roomUserByHabbo.X, roomUserByHabbo.Y, item.X, item.Y), false);
 
-                var room = item.GetRoom();
-                var point = new Point(0, 0);
+                Room room = item.GetRoom();
+                Point point = new Point(0, 0);
 
                 switch (roomUserByHabbo.RotBody)
                 {
@@ -58,14 +61,14 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 if (!room.GetGameMap().ValidTile2(point.X, point.Y))
                     return;
 
-                var coordinatedItems = room.GetGameMap().GetCoordinatedItems(point);
+                List<RoomItem> coordinatedItems = room.GetGameMap().GetCoordinatedItems(point);
 
                 if (coordinatedItems.Any(i => !i.GetBaseItem().Stackable))
                     return;
 
-                var num = item.GetRoom().GetGameMap().SqAbsoluteHeight(point.X, point.Y);
+                double num = item.GetRoom().GetGameMap().SqAbsoluteHeight(point.X, point.Y);
 
-                var serverMessage = new ServerMessage();
+                ServerMessage serverMessage = new ServerMessage();
 
                 serverMessage.Init(LibraryParser.OutgoingRequest("ItemAnimationMessageComposer"));
 

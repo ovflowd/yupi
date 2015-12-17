@@ -68,15 +68,15 @@ namespace Yupi.Data
 
                 try
                 {
-                    var clientCount = Yupi.GetGame().GetClientManager().ClientCount();
-                    var loadedRoomsCount = Yupi.GetGame().GetRoomManager().LoadedRoomsCount;
-                    var dateTime = new DateTime((DateTime.Now - Yupi.ServerStarted).Ticks);
+                    int clientCount = Yupi.GetGame().GetClientManager().ClientCount();
+                    int loadedRoomsCount = Yupi.GetGame().GetRoomManager().LoadedRoomsCount;
+                    DateTime dateTime = new DateTime((DateTime.Now - Yupi.ServerStarted).Ticks);
 
                     Console.Title = string.Concat("Yupi | UpTime: ",
                         int.Parse(dateTime.ToString("dd")) - 1 + dateTime.ToString(":HH:mm:ss"), " | Users: ",
                         clientCount, " | Rooms: ", loadedRoomsCount);
 
-                    using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
                         if (clientCount > _userPeak)
                             _userPeak = clientCount;

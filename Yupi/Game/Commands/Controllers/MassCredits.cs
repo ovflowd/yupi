@@ -29,7 +29,7 @@ namespace Yupi.Game.Commands.Controllers
                 return true;
             }
 
-            foreach (var client in Yupi.GetGame().GetClientManager().Clients.Values)
+            foreach (GameClient client in Yupi.GetGame().GetClientManager().Clients.Values)
             {
                 if (client?.GetHabbo() == null)
                     continue;

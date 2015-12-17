@@ -44,14 +44,14 @@ namespace Yupi.Game.Users.Messenger.Structs
         internal static void InitOfflineMessages(IQueryAdapter dbClient)
         {
             dbClient.SetQuery("SELECT * FROM messenger_offline_messages");
-            var table = dbClient.GetTable();
+            DataTable table = dbClient.GetTable();
 
             foreach (DataRow dataRow in table.Rows)
             {
-                var key = (uint) dataRow[1];
-                var id = (uint) dataRow[2];
-                var msg = dataRow[3].ToString();
-                var ts = (double) dataRow[4];
+                uint key = (uint) dataRow[1];
+                uint id = (uint) dataRow[2];
+                string msg = dataRow[3].ToString();
+                double ts = (double) dataRow[4];
 
                 if (!Yupi.OfflineMessages.ContainsKey(key))
                     Yupi.OfflineMessages.Add(key, new List<OfflineMessage>());

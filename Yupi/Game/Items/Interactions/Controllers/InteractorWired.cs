@@ -1,8 +1,11 @@
+using System.Collections.Generic;
 using System.Linq;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Items.Interactions.Enums;
 using Yupi.Game.Items.Interactions.Models;
 using Yupi.Game.Items.Interfaces;
+using Yupi.Game.Items.Wired.Interfaces;
+using Yupi.Game.Rooms;
 using Yupi.Messages;
 using Yupi.Messages.Parsers;
 
@@ -12,7 +15,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
     {
         public override void OnRemove(GameClient session, RoomItem item)
         {
-            var room = item.GetRoom();
+            Room room = item.GetRoom();
             room.GetWiredHandler().RemoveWired(item);
         }
 
@@ -21,27 +24,27 @@ namespace Yupi.Game.Items.Interactions.Controllers
             if (session == null || item?.GetRoom() == null || !hasRights)
                 return;
 
-            var wired = item.GetRoom().GetWiredHandler().GetWired(item);
+            IWiredItem wired = item.GetRoom().GetWiredHandler().GetWired(item);
 
             if (wired == null)
                 return;
 
-            var extraInfo = wired.OtherString;
-            var flag = wired.OtherBool;
-            var delay = wired.Delay / 500;
-            var list = wired.Items.Where(roomItem => roomItem != null).ToList();
-            var extraString = wired.OtherExtraString;
-            var extraString2 = wired.OtherExtraString2;
+            string extraInfo = wired.OtherString;
+            bool flag = wired.OtherBool;
+            int delay = wired.Delay / 500;
+            List<RoomItem> list = wired.Items.Where(roomItem => roomItem != null).ToList();
+            string extraString = wired.OtherExtraString;
+            string extraString2 = wired.OtherExtraString2;
 
             switch (item.GetBaseItem().InteractionType)
             {
                 case Interaction.TriggerTimer:
                     {
-                        var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
+                        ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
                         serverMessage.AppendBool(false);
                         serverMessage.AppendInteger(5);
                         serverMessage.AppendInteger(list.Count);
-                        foreach (var current in list) serverMessage.AppendInteger(current.Id);
+                        foreach (RoomItem current in list) serverMessage.AppendInteger(current.Id);
                         serverMessage.AppendInteger(item.GetBaseItem().SpriteId);
                         serverMessage.AppendInteger(item.Id);
                         serverMessage.AppendString(extraInfo);
@@ -56,11 +59,11 @@ namespace Yupi.Game.Items.Interactions.Controllers
                     }
                 case Interaction.TriggerRoomEnter:
                     {
-                        var serverMessage2 = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
+                        ServerMessage serverMessage2 = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
                         serverMessage2.AppendBool(false);
                         serverMessage2.AppendInteger(0);
                         serverMessage2.AppendInteger(list.Count);
-                        foreach (var current2 in list) serverMessage2.AppendInteger(current2.Id);
+                        foreach (RoomItem current2 in list) serverMessage2.AppendInteger(current2.Id);
                         serverMessage2.AppendInteger(item.GetBaseItem().SpriteId);
                         serverMessage2.AppendInteger(item.Id);
                         serverMessage2.AppendString(extraInfo);
@@ -75,11 +78,11 @@ namespace Yupi.Game.Items.Interactions.Controllers
                     }
                 case Interaction.TriggerGameEnd:
                     {
-                        var serverMessage3 = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
+                        ServerMessage serverMessage3 = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
                         serverMessage3.AppendBool(false);
                         serverMessage3.AppendInteger(0);
                         serverMessage3.AppendInteger(list.Count);
-                        foreach (var current3 in list) serverMessage3.AppendInteger(current3.Id);
+                        foreach (RoomItem current3 in list) serverMessage3.AppendInteger(current3.Id);
                         serverMessage3.AppendInteger(item.GetBaseItem().SpriteId);
                         serverMessage3.AppendInteger(item.Id);
                         serverMessage3.AppendString(extraInfo);
@@ -94,11 +97,11 @@ namespace Yupi.Game.Items.Interactions.Controllers
                     }
                 case Interaction.TriggerGameStart:
                     {
-                        var serverMessage4 = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
+                        ServerMessage serverMessage4 = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
                         serverMessage4.AppendBool(false);
                         serverMessage4.AppendInteger(0);
                         serverMessage4.AppendInteger(list.Count);
-                        foreach (var current4 in list) serverMessage4.AppendInteger(current4.Id);
+                        foreach (RoomItem current4 in list) serverMessage4.AppendInteger(current4.Id);
                         serverMessage4.AppendInteger(item.GetBaseItem().SpriteId);
                         serverMessage4.AppendInteger(item.Id);
                         serverMessage4.AppendString(extraInfo);
@@ -113,7 +116,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                     }
                 case Interaction.TriggerLongRepeater:
                     {
-                        var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
+                        ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
                         serverMessage.AppendBool(false);
                         serverMessage.AppendInteger(5);
                         serverMessage.AppendInteger(0);
@@ -131,11 +134,11 @@ namespace Yupi.Game.Items.Interactions.Controllers
 
                 case Interaction.TriggerRepeater:
                     {
-                        var serverMessage5 = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
+                        ServerMessage serverMessage5 = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
                         serverMessage5.AppendBool(false);
                         serverMessage5.AppendInteger(5);
                         serverMessage5.AppendInteger(list.Count);
-                        foreach (var current5 in list) serverMessage5.AppendInteger(current5.Id);
+                        foreach (RoomItem current5 in list) serverMessage5.AppendInteger(current5.Id);
                         serverMessage5.AppendInteger(item.GetBaseItem().SpriteId);
                         serverMessage5.AppendInteger(item.Id);
                         serverMessage5.AppendString(extraInfo);
@@ -150,11 +153,11 @@ namespace Yupi.Game.Items.Interactions.Controllers
                     }
                 case Interaction.TriggerOnUserSay:
                     {
-                        var serverMessage6 = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
+                        ServerMessage serverMessage6 = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
                         serverMessage6.AppendBool(false);
                         serverMessage6.AppendInteger(0);
                         serverMessage6.AppendInteger(list.Count);
-                        foreach (var current6 in list) serverMessage6.AppendInteger(current6.Id);
+                        foreach (RoomItem current6 in list) serverMessage6.AppendInteger(current6.Id);
                         serverMessage6.AppendInteger(item.GetBaseItem().SpriteId);
                         serverMessage6.AppendInteger(item.Id);
                         serverMessage6.AppendString(extraInfo);
@@ -169,7 +172,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                     }
                 case Interaction.TriggerScoreAchieved:
                     {
-                        var serverMessage7 = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
+                        ServerMessage serverMessage7 = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
                         serverMessage7.AppendBool(false);
                         serverMessage7.AppendInteger(5);
                         serverMessage7.AppendInteger(0);
@@ -187,11 +190,11 @@ namespace Yupi.Game.Items.Interactions.Controllers
                     }
                 case Interaction.TriggerStateChanged:
                     {
-                        var serverMessage8 = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
+                        ServerMessage serverMessage8 = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
                         serverMessage8.AppendBool(false);
                         serverMessage8.AppendInteger(5);
                         serverMessage8.AppendInteger(list.Count);
-                        foreach (var current8 in list) serverMessage8.AppendInteger(current8.Id);
+                        foreach (RoomItem current8 in list) serverMessage8.AppendInteger(current8.Id);
                         serverMessage8.AppendInteger(item.GetBaseItem().SpriteId);
                         serverMessage8.AppendInteger(item.Id);
                         serverMessage8.AppendString(extraInfo);
@@ -206,11 +209,11 @@ namespace Yupi.Game.Items.Interactions.Controllers
                     }
                 case Interaction.TriggerWalkOnFurni:
                     {
-                        var serverMessage9 = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
+                        ServerMessage serverMessage9 = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
                         serverMessage9.AppendBool(false);
                         serverMessage9.AppendInteger(5);
                         serverMessage9.AppendInteger(list.Count);
-                        foreach (var current9 in list) serverMessage9.AppendInteger(current9.Id);
+                        foreach (RoomItem current9 in list) serverMessage9.AppendInteger(current9.Id);
                         serverMessage9.AppendInteger(item.GetBaseItem().SpriteId);
                         serverMessage9.AppendInteger(item.Id);
                         serverMessage9.AppendString(extraInfo);
@@ -225,7 +228,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                     }
                 case Interaction.ActionMuteUser:
                     {
-                        var serverMessage18 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                        ServerMessage serverMessage18 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
                         serverMessage18.AppendBool(false);
                         serverMessage18.AppendInteger(5);
                         serverMessage18.AppendInteger(0);
@@ -243,11 +246,11 @@ namespace Yupi.Game.Items.Interactions.Controllers
                     }
                 case Interaction.TriggerWalkOffFurni:
                     {
-                        var serverMessage10 = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
+                        ServerMessage serverMessage10 = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
                         serverMessage10.AppendBool(false);
                         serverMessage10.AppendInteger(5);
                         serverMessage10.AppendInteger(list.Count);
-                        foreach (var current10 in list) serverMessage10.AppendInteger(current10.Id);
+                        foreach (RoomItem current10 in list) serverMessage10.AppendInteger(current10.Id);
                         serverMessage10.AppendInteger(item.GetBaseItem().SpriteId);
                         serverMessage10.AppendInteger(item.Id);
                         serverMessage10.AppendString(extraInfo);
@@ -264,7 +267,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
 
                 case Interaction.TriggerCollision:
                     {
-                        var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
+                        ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
                         serverMessage.AppendBool(false);
                         serverMessage.AppendInteger(5);
                         serverMessage.AppendInteger(0);
@@ -282,7 +285,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 case Interaction.ActionGiveScore:
                     {
                         // Por hacer.
-                        var serverMessage11 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                        ServerMessage serverMessage11 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
                         serverMessage11.AppendBool(false);
                         serverMessage11.AppendInteger(5);
                         serverMessage11.AppendInteger(0);
@@ -297,7 +300,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                         }
                         else
                         {
-                            var integers = extraInfo.Split(',');
+                            string[] integers = extraInfo.Split(',');
                             serverMessage11.AppendInteger(int.Parse(integers[0])); // Puntos a dar
                             serverMessage11.AppendInteger(int.Parse(integers[1])); // Numero de veces por equipo
                         }
@@ -313,7 +316,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 case Interaction.ConditionGroupMember:
                 case Interaction.ConditionNotGroupMember:
                     {
-                        var message = new ServerMessage(LibraryParser.OutgoingRequest("WiredConditionMessageComposer"));
+                        ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("WiredConditionMessageComposer"));
                         message.AppendBool(false);
                         message.AppendInteger(5);
                         message.AppendInteger(0);
@@ -330,12 +333,12 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 case Interaction.ConditionItemsMatches:
                 case Interaction.ConditionItemsDontMatch:
                     {
-                        var serverMessage21 =
+                        ServerMessage serverMessage21 =
                             new ServerMessage(LibraryParser.OutgoingRequest("WiredConditionMessageComposer"));
                         serverMessage21.AppendBool(false);
                         serverMessage21.AppendInteger(5);
                         serverMessage21.AppendInteger(list.Count);
-                        foreach (var current20 in list) serverMessage21.AppendInteger(current20.Id);
+                        foreach (RoomItem current20 in list) serverMessage21.AppendInteger(current20.Id);
                         serverMessage21.AppendInteger(item.GetBaseItem().SpriteId);
                         serverMessage21.AppendInteger(item.Id);
                         serverMessage21.AppendString(extraString2);
@@ -349,9 +352,9 @@ namespace Yupi.Game.Items.Interactions.Controllers
                         }
                         else
                         {
-                            var boolz = extraInfo.Split(',');
+                            string[] boolz = extraInfo.Split(',');
 
-                            foreach (var stringy in boolz)
+                            foreach (string stringy in boolz)
                                 serverMessage21.AppendInteger(stringy.ToLower() == "true" ? 1 : 0);
                         }
                         serverMessage21.AppendInteger(0);
@@ -362,11 +365,11 @@ namespace Yupi.Game.Items.Interactions.Controllers
 
                 case Interaction.ActionPosReset:
                     {
-                        var serverMessage12 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                        ServerMessage serverMessage12 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
                         serverMessage12.AppendBool(false);
                         serverMessage12.AppendInteger(5);
                         serverMessage12.AppendInteger(list.Count);
-                        foreach (var current12 in list) serverMessage12.AppendInteger(current12.Id);
+                        foreach (RoomItem current12 in list) serverMessage12.AppendInteger(current12.Id);
                         serverMessage12.AppendInteger(item.GetBaseItem().SpriteId);
                         serverMessage12.AppendInteger(item.Id);
                         serverMessage12.AppendString(extraString2);
@@ -380,9 +383,9 @@ namespace Yupi.Game.Items.Interactions.Controllers
                         }
                         else
                         {
-                            var boolz = extraInfo.Split(',');
+                            string[] boolz = extraInfo.Split(',');
 
-                            foreach (var stringy in boolz)
+                            foreach (string stringy in boolz)
                                 serverMessage12.AppendInteger(stringy.ToLower() == "true" ? 1 : 0);
                         }
                         serverMessage12.AppendInteger(0);
@@ -394,12 +397,12 @@ namespace Yupi.Game.Items.Interactions.Controllers
                     }
                 case Interaction.ActionMoveRotate:
                     {
-                        var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                        ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
                         serverMessage.AppendBool(false);
                         serverMessage.AppendInteger(5);
 
                         serverMessage.AppendInteger(list.Count(roomItem => roomItem != null));
-                        foreach (var roomItem in list.Where(roomItem => roomItem != null))
+                        foreach (RoomItem roomItem in list.Where(roomItem => roomItem != null))
                             serverMessage.AppendInteger(roomItem.Id);
 
                         serverMessage.AppendInteger(item.GetBaseItem().SpriteId);
@@ -418,12 +421,12 @@ namespace Yupi.Game.Items.Interactions.Controllers
 
                 case Interaction.ActionMoveToDir:
                     {
-                        var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                        ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
                         serverMessage.AppendBool(false);
                         serverMessage.AppendInteger(5);
 
                         serverMessage.AppendInteger(list.Count(roomItem => roomItem != null));
-                        foreach (var roomItem in list.Where(roomItem => roomItem != null))
+                        foreach (RoomItem roomItem in list.Where(roomItem => roomItem != null))
                             serverMessage.AppendInteger(roomItem.Id);
 
                         serverMessage.AppendInteger(item.GetBaseItem().SpriteId);
@@ -442,7 +445,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
 
                 case Interaction.ActionResetTimer:
                     {
-                        var serverMessage14 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                        ServerMessage serverMessage14 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
                         serverMessage14.AppendBool(false);
                         serverMessage14.AppendInteger(0);
                         serverMessage14.AppendInteger(0);
@@ -462,11 +465,11 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 case Interaction.ActionKickUser:
                 case Interaction.ActionEffectUser:
                     {
-                        var serverMessage15 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                        ServerMessage serverMessage15 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
                         serverMessage15.AppendBool(false);
                         serverMessage15.AppendInteger(0);
                         serverMessage15.AppendInteger(list.Count);
-                        foreach (var current15 in list) serverMessage15.AppendInteger(current15.Id);
+                        foreach (RoomItem current15 in list) serverMessage15.AppendInteger(current15.Id);
                         serverMessage15.AppendInteger(item.GetBaseItem().SpriteId);
                         serverMessage15.AppendInteger(item.Id);
                         serverMessage15.AppendString(extraInfo);
@@ -481,12 +484,12 @@ namespace Yupi.Game.Items.Interactions.Controllers
                     }
                 case Interaction.ActionTeleportTo:
                     {
-                        var serverMessage16 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                        ServerMessage serverMessage16 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
                         serverMessage16.AppendBool(false);
                         serverMessage16.AppendInteger(5);
 
                         serverMessage16.AppendInteger(list.Count);
-                        foreach (var roomItem in list) serverMessage16.AppendInteger(roomItem.Id);
+                        foreach (RoomItem roomItem in list) serverMessage16.AppendInteger(roomItem.Id);
 
                         serverMessage16.AppendInteger(item.GetBaseItem().SpriteId);
                         serverMessage16.AppendInteger(item.Id);
@@ -502,11 +505,11 @@ namespace Yupi.Game.Items.Interactions.Controllers
                     }
                 case Interaction.ActionToggleState:
                     {
-                        var serverMessage17 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                        ServerMessage serverMessage17 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
                         serverMessage17.AppendBool(false);
                         serverMessage17.AppendInteger(5);
                         serverMessage17.AppendInteger(list.Count);
-                        foreach (var current17 in list) serverMessage17.AppendInteger(current17.Id);
+                        foreach (RoomItem current17 in list) serverMessage17.AppendInteger(current17.Id);
                         serverMessage17.AppendInteger(item.GetBaseItem().SpriteId);
                         serverMessage17.AppendInteger(item.Id);
                         serverMessage17.AppendString(extraInfo);
@@ -522,7 +525,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 case Interaction.ActionGiveReward:
                     {
                         if (!session.GetHabbo().HasFuse("fuse_use_superwired")) return;
-                        var serverMessage18 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                        ServerMessage serverMessage18 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
                         serverMessage18.AppendBool(false);
                         serverMessage18.AppendInteger(5);
                         serverMessage18.AppendInteger(0);
@@ -544,7 +547,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 case Interaction.ConditionHowManyUsersInRoom:
                 case Interaction.ConditionNegativeHowManyUsers:
                     {
-                        var serverMessage19 =
+                        ServerMessage serverMessage19 =
                             new ServerMessage(LibraryParser.OutgoingRequest("WiredConditionMessageComposer"));
                         serverMessage19.AppendBool(false);
                         serverMessage19.AppendInteger(5);
@@ -559,7 +562,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                             serverMessage19.AppendInteger(50);
                         }
                         else
-                            foreach (var integers in extraInfo.Split(','))
+                            foreach (string integers in extraInfo.Split(','))
                                 serverMessage19.AppendInteger(int.Parse(integers));
                         serverMessage19.AppendBool(false);
                         serverMessage19.AppendInteger(0);
@@ -576,12 +579,12 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 case Interaction.ConditionFurniTypeDontMatch:
                 case Interaction.ConditionTriggererNotOnFurni:
                     {
-                        var serverMessage19 =
+                        ServerMessage serverMessage19 =
                             new ServerMessage(LibraryParser.OutgoingRequest("WiredConditionMessageComposer"));
                         serverMessage19.AppendBool(false);
                         serverMessage19.AppendInteger(5);
                         serverMessage19.AppendInteger(list.Count);
-                        foreach (var current18 in list) serverMessage19.AppendInteger(current18.Id);
+                        foreach (RoomItem current18 in list) serverMessage19.AppendInteger(current18.Id);
                         serverMessage19.AppendInteger(item.GetBaseItem().SpriteId);
                         serverMessage19.AppendInteger(item.Id);
                         serverMessage19.AppendInteger(0);
@@ -595,12 +598,12 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 case Interaction.ConditionFurniHasNotFurni:
                 case Interaction.ConditionFurniHasFurni:
                     {
-                        var serverMessage =
+                        ServerMessage serverMessage =
                             new ServerMessage(LibraryParser.OutgoingRequest("WiredConditionMessageComposer"));
                         serverMessage.AppendBool(false);
                         serverMessage.AppendInteger(5);
                         serverMessage.AppendInteger(list.Count);
-                        foreach (var current18 in list) serverMessage.AppendInteger(current18.Id);
+                        foreach (RoomItem current18 in list) serverMessage.AppendInteger(current18.Id);
                         serverMessage.AppendInteger(item.GetBaseItem().SpriteId);
                         serverMessage.AppendInteger(item.Id);
                         serverMessage.AppendString(string.Empty);
@@ -616,7 +619,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 case Interaction.ConditionTimeLessThan:
                 case Interaction.ConditionTimeMoreThan:
                     {
-                        var serverMessage21 =
+                        ServerMessage serverMessage21 =
                             new ServerMessage(LibraryParser.OutgoingRequest("WiredConditionMessageComposer"));
                         serverMessage21.AppendBool(false);
                         serverMessage21.AppendInteger(0);
@@ -640,7 +643,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                     {
                         int effect;
                         int.TryParse(extraInfo, out effect);
-                        var serverMessage21 =
+                        ServerMessage serverMessage21 =
                             new ServerMessage(LibraryParser.OutgoingRequest("WiredConditionMessageComposer"));
                         serverMessage21.AppendBool(false);
                         serverMessage21.AppendInteger(5);
@@ -660,7 +663,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 case Interaction.ConditionUserNotWearingBadge:
                 case Interaction.ConditionUserHasFurni:
                     {
-                        var serverMessage21 =
+                        ServerMessage serverMessage21 =
                             new ServerMessage(LibraryParser.OutgoingRequest("WiredConditionMessageComposer"));
                         serverMessage21.AppendBool(false);
                         serverMessage21.AppendInteger(5);
@@ -677,12 +680,12 @@ namespace Yupi.Game.Items.Interactions.Controllers
 
                 case Interaction.ConditionDateRangeActive:
                     {
-                        var date1 = 0;
-                        var date2 = 0;
+                        int date1 = 0;
+                        int date2 = 0;
 
                         try
                         {
-                            var strArray = extraInfo.Split(',');
+                            string[] strArray = extraInfo.Split(',');
                             date1 = int.Parse(strArray[0]);
                             date2 = int.Parse(strArray[1]);
                         }
@@ -690,7 +693,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                         {
                         }
 
-                        var serverMessage21 =
+                        ServerMessage serverMessage21 =
                             new ServerMessage(LibraryParser.OutgoingRequest("WiredConditionMessageComposer"));
                         serverMessage21.AppendBool(false);
                         serverMessage21.AppendInteger(5);
@@ -708,7 +711,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                     }
                 case Interaction.ActionJoinTeam:
                     {
-                        var serverMessage15 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                        ServerMessage serverMessage15 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
                         serverMessage15.AppendBool(false);
                         serverMessage15.AppendInteger(0);
                         serverMessage15.AppendInteger(0);
@@ -726,7 +729,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                     }
                 case Interaction.ActionLeaveTeam:
                     {
-                        var serverMessage15 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                        ServerMessage serverMessage15 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
                         serverMessage15.AppendBool(false);
                         serverMessage15.AppendInteger(0);
                         serverMessage15.AppendInteger(0);
@@ -743,11 +746,11 @@ namespace Yupi.Game.Items.Interactions.Controllers
                     }
                 case Interaction.TriggerBotReachedAvatar:
                     {
-                        var serverMessage2 = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
+                        ServerMessage serverMessage2 = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
                         serverMessage2.AppendBool(false);
                         serverMessage2.AppendInteger(0);
                         serverMessage2.AppendInteger(list.Count);
-                        foreach (var current2 in list) serverMessage2.AppendInteger(current2.Id);
+                        foreach (RoomItem current2 in list) serverMessage2.AppendInteger(current2.Id);
                         serverMessage2.AppendInteger(item.GetBaseItem().SpriteId);
                         serverMessage2.AppendInteger(item.Id);
                         serverMessage2.AppendString(extraInfo);
@@ -762,11 +765,11 @@ namespace Yupi.Game.Items.Interactions.Controllers
                     }
                 case Interaction.TriggerBotReachedStuff:
                     {
-                        var serverMessage2 = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
+                        ServerMessage serverMessage2 = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
                         serverMessage2.AppendBool(false);
                         serverMessage2.AppendInteger(5);
                         serverMessage2.AppendInteger(list.Count);
-                        foreach (var current2 in list) serverMessage2.AppendInteger(current2.Id);
+                        foreach (RoomItem current2 in list) serverMessage2.AppendInteger(current2.Id);
                         serverMessage2.AppendInteger(item.GetBaseItem().SpriteId);
                         serverMessage2.AppendInteger(item.Id);
                         serverMessage2.AppendString(extraInfo);
@@ -781,7 +784,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                     }
                 case Interaction.ActionBotClothes:
                     {
-                        var serverMessage15 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                        ServerMessage serverMessage15 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
                         serverMessage15.AppendBool(false);
                         serverMessage15.AppendInteger(0);
                         serverMessage15.AppendInteger(0);
@@ -798,7 +801,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                     }
                 case Interaction.ActionBotFollowAvatar:
                     {
-                        var serverMessage15 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                        ServerMessage serverMessage15 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
                         serverMessage15.AppendBool(false);
                         serverMessage15.AppendInteger(0);
                         serverMessage15.AppendInteger(0);
@@ -815,7 +818,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                     }
                 case Interaction.ActionBotGiveHanditem:
                     {
-                        var serverMessage15 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                        ServerMessage serverMessage15 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
                         serverMessage15.AppendBool(false);
                         serverMessage15.AppendInteger(0);
                         serverMessage15.AppendInteger(0);
@@ -833,11 +836,11 @@ namespace Yupi.Game.Items.Interactions.Controllers
                     }
                 case Interaction.ActionBotMove:
                     {
-                        var serverMessage15 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                        ServerMessage serverMessage15 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
                         serverMessage15.AppendBool(false);
                         serverMessage15.AppendInteger(5);
                         serverMessage15.AppendInteger(list.Count);
-                        foreach (var current2 in list) serverMessage15.AppendInteger(current2.Id);
+                        foreach (RoomItem current2 in list) serverMessage15.AppendInteger(current2.Id);
                         serverMessage15.AppendInteger(item.GetBaseItem().SpriteId);
                         serverMessage15.AppendInteger(item.Id);
                         serverMessage15.AppendString(extraInfo);
@@ -851,7 +854,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                     }
                 case Interaction.ActionBotTalk:
                     {
-                        var serverMessage15 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                        ServerMessage serverMessage15 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
                         serverMessage15.AppendBool(false);
                         serverMessage15.AppendInteger(0);
                         serverMessage15.AppendInteger(0);
@@ -869,7 +872,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                     }
                 case Interaction.ActionBotTalkToAvatar:
                     {
-                        var serverMessage15 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                        ServerMessage serverMessage15 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
                         serverMessage15.AppendBool(false);
                         serverMessage15.AppendInteger(0);
                         serverMessage15.AppendInteger(0);
@@ -887,11 +890,11 @@ namespace Yupi.Game.Items.Interactions.Controllers
                     }
                 case Interaction.ActionBotTeleport:
                     {
-                        var serverMessage15 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                        ServerMessage serverMessage15 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
                         serverMessage15.AppendBool(false);
                         serverMessage15.AppendInteger(5);
                         serverMessage15.AppendInteger(list.Count);
-                        foreach (var current2 in list) serverMessage15.AppendInteger(current2.Id);
+                        foreach (RoomItem current2 in list) serverMessage15.AppendInteger(current2.Id);
                         serverMessage15.AppendInteger(item.GetBaseItem().SpriteId);
                         serverMessage15.AppendInteger(item.Id);
                         serverMessage15.AppendString(extraInfo);
@@ -905,12 +908,12 @@ namespace Yupi.Game.Items.Interactions.Controllers
                     }
                 case Interaction.ActionChase:
                     {
-                        var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                        ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
                         serverMessage.AppendBool(false);
                         serverMessage.AppendInteger(5);
 
                         serverMessage.AppendInteger(list.Count);
-                        foreach (var roomItem in list) serverMessage.AppendInteger(roomItem.Id);
+                        foreach (RoomItem roomItem in list) serverMessage.AppendInteger(roomItem.Id);
 
                         serverMessage.AppendInteger(item.GetBaseItem().SpriteId);
                         serverMessage.AppendInteger(item.Id);
@@ -927,7 +930,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                     }
                 case Interaction.ConditionUserHasHanditem:
                     {
-                        var serverMessage21 =
+                        ServerMessage serverMessage21 =
                             new ServerMessage(LibraryParser.OutgoingRequest("WiredConditionMessageComposer"));
                         serverMessage21.AppendBool(false);
                         serverMessage21.AppendInteger(0);
@@ -943,11 +946,11 @@ namespace Yupi.Game.Items.Interactions.Controllers
                     }
                 case Interaction.ActionCallStacks:
                     {
-                        var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                        ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
                         serverMessage.AppendBool(false);
                         serverMessage.AppendInteger(5);
                         serverMessage.AppendInteger(list.Count);
-                        foreach (var current15 in list) serverMessage.AppendInteger(current15.Id);
+                        foreach (RoomItem current15 in list) serverMessage.AppendInteger(current15.Id);
                         serverMessage.AppendInteger(item.GetBaseItem().SpriteId);
                         serverMessage.AppendInteger(item.Id);
                         serverMessage.AppendString(extraInfo);
@@ -973,11 +976,11 @@ namespace Yupi.Game.Items.Interactions.Controllers
 
                 case Interaction.SpecialRandom:
                     {
-                        var serverMessage24 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                        ServerMessage serverMessage24 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
                         serverMessage24.AppendBool(false);
                         serverMessage24.AppendInteger(5);
                         serverMessage24.AppendInteger(list.Count);
-                        foreach (var current23 in list) serverMessage24.AppendInteger(current23.Id);
+                        foreach (RoomItem current23 in list) serverMessage24.AppendInteger(current23.Id);
                         serverMessage24.AppendInteger(item.GetBaseItem().SpriteId);
                         serverMessage24.AppendInteger(item.Id);
                         serverMessage24.AppendString(extraInfo);
@@ -992,11 +995,11 @@ namespace Yupi.Game.Items.Interactions.Controllers
                     }
                 case Interaction.SpecialUnseen:
                     {
-                        var serverMessage25 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                        ServerMessage serverMessage25 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
                         serverMessage25.AppendBool(false);
                         serverMessage25.AppendInteger(5);
                         serverMessage25.AppendInteger(list.Count);
-                        foreach (var current24 in list) serverMessage25.AppendInteger(current24.Id);
+                        foreach (RoomItem current24 in list) serverMessage25.AppendInteger(current24.Id);
                         serverMessage25.AppendInteger(item.GetBaseItem().SpriteId);
                         serverMessage25.AppendInteger(item.Id);
                         serverMessage25.AppendString(extraInfo);

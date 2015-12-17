@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using Yupi.Game.Items.Interactions.Enums;
+using Yupi.Game.Items.Interfaces;
 using Yupi.Game.Rooms.Items.Games.Teams.Enums;
 using Yupi.Game.Rooms.User;
 
@@ -52,19 +53,19 @@ namespace Yupi.Game.Rooms.Items.Games.Teams
             switch (Game.ToLower())
             {
                 case "banzai":
-                    var currentRoom = user.GetClient().GetHabbo().CurrentRoom;
-                    using (var enumerator = currentRoom.GetRoomItemHandler().FloorItems.Values.GetEnumerator())
+                    Room currentRoom = user.GetClient().GetHabbo().CurrentRoom;
+                    using (IEnumerator<RoomItem> enumerator = currentRoom.GetRoomItemHandler().FloorItems.Values.GetEnumerator())
                     {
                         while (enumerator.MoveNext())
                         {
-                            var current = enumerator.Current;
+                            RoomItem current = enumerator.Current;
                             if (current.GetBaseItem().InteractionType.Equals(Interaction.BanzaiGateBlue))
                             {
                                 current.ExtraData = BlueTeam.Count.ToString();
                                 current.UpdateState();
                                 if (BlueTeam.Count != 5) continue;
                                 foreach (
-                                    var current2 in
+                                    RoomUser current2 in
                                         currentRoom.GetGameMap().GetRoomUsers(new Point(current.X, current.Y)))
                                     current2.SqState = 0;
                                 currentRoom.GetGameMap().GameMap[current.X, current.Y] = 0;
@@ -77,7 +78,7 @@ namespace Yupi.Game.Rooms.Items.Games.Teams
                                     current.UpdateState();
                                     if (RedTeam.Count != 5) continue;
                                     foreach (
-                                        var current3 in
+                                        RoomUser current3 in
                                             currentRoom.GetGameMap().GetRoomUsers(new Point(current.X, current.Y)))
                                         current3.SqState = 0;
                                     currentRoom.GetGameMap().GameMap[current.X, current.Y] = 0;
@@ -90,7 +91,7 @@ namespace Yupi.Game.Rooms.Items.Games.Teams
                                         current.UpdateState();
                                         if (GreenTeam.Count != 5) continue;
                                         foreach (
-                                            var current4 in
+                                            RoomUser current4 in
                                                 currentRoom.GetGameMap().GetRoomUsers(new Point(current.X, current.Y)))
                                             current4.SqState = 0;
                                         currentRoom.GetGameMap().GameMap[current.X, current.Y] = 0;
@@ -103,7 +104,7 @@ namespace Yupi.Game.Rooms.Items.Games.Teams
                                         current.UpdateState();
                                         if (YellowTeam.Count != 5) continue;
                                         foreach (
-                                            var current5 in
+                                            RoomUser current5 in
                                                 currentRoom.GetGameMap().GetRoomUsers(new Point(current.X, current.Y)))
                                             current5.SqState = 0;
                                         currentRoom.GetGameMap().GameMap[current.X, current.Y] = 0;
@@ -115,8 +116,8 @@ namespace Yupi.Game.Rooms.Items.Games.Teams
                     break;
 
                 case "freeze":
-                    var currentRoom2 = user.GetClient().GetHabbo().CurrentRoom;
-                    foreach (var current6 in currentRoom2.GetRoomItemHandler().FloorItems.Values)
+                    Room currentRoom2 = user.GetClient().GetHabbo().CurrentRoom;
+                    foreach (RoomItem current6 in currentRoom2.GetRoomItemHandler().FloorItems.Values)
                     {
                         switch (current6.GetBaseItem().InteractionType)
                         {
@@ -160,24 +161,24 @@ namespace Yupi.Game.Rooms.Items.Games.Teams
             }
             if (string.IsNullOrEmpty(Game)) return;
 
-            var currentRoom = user.GetClient().GetHabbo().CurrentRoom;
+            Room currentRoom = user.GetClient().GetHabbo().CurrentRoom;
             if (currentRoom == null) return;
 
             switch (Game.ToLower())
             {
                 case "banzai":
-                    using (var enumerator = currentRoom.GetRoomItemHandler().FloorItems.Values.GetEnumerator())
+                    using (IEnumerator<RoomItem> enumerator = currentRoom.GetRoomItemHandler().FloorItems.Values.GetEnumerator())
                     {
                         while (enumerator.MoveNext())
                         {
-                            var current = enumerator.Current;
+                            RoomItem current = enumerator.Current;
                             if (current.GetBaseItem().InteractionType.Equals(Interaction.BanzaiGateBlue))
                             {
                                 current.ExtraData = BlueTeam.Count.ToString();
                                 current.UpdateState();
                                 if (currentRoom.GetGameMap().GameMap[current.X, current.Y] != 0) continue;
                                 foreach (
-                                    var current2 in
+                                    RoomUser current2 in
                                         currentRoom.GetGameMap().GetRoomUsers(new Point(current.X, current.Y)))
                                     current2.SqState = 1;
                                 currentRoom.GetGameMap().GameMap[current.X, current.Y] = 1;
@@ -190,7 +191,7 @@ namespace Yupi.Game.Rooms.Items.Games.Teams
                                     current.UpdateState();
                                     if (currentRoom.GetGameMap().GameMap[current.X, current.Y] != 0) continue;
                                     foreach (
-                                        var current3 in
+                                        RoomUser current3 in
                                             currentRoom.GetGameMap().GetRoomUsers(new Point(current.X, current.Y)))
                                         current3.SqState = 1;
                                     currentRoom.GetGameMap().GameMap[current.X, current.Y] = 1;
@@ -203,7 +204,7 @@ namespace Yupi.Game.Rooms.Items.Games.Teams
                                         current.UpdateState();
                                         if (currentRoom.GetGameMap().GameMap[current.X, current.Y] != 0) continue;
                                         foreach (
-                                            var current4 in
+                                            RoomUser current4 in
                                                 currentRoom.GetGameMap().GetRoomUsers(new Point(current.X, current.Y)))
                                             current4.SqState = 1;
                                         currentRoom.GetGameMap().GameMap[current.X, current.Y] = 1;
@@ -216,7 +217,7 @@ namespace Yupi.Game.Rooms.Items.Games.Teams
                                         current.UpdateState();
                                         if (currentRoom.GetGameMap().GameMap[current.X, current.Y] != 0) continue;
                                         foreach (
-                                            var current5 in
+                                            RoomUser current5 in
                                                 currentRoom.GetGameMap().GetRoomUsers(new Point(current.X, current.Y)))
                                             current5.SqState = 1;
                                         currentRoom.GetGameMap().GameMap[current.X, current.Y] = 1;
@@ -228,7 +229,7 @@ namespace Yupi.Game.Rooms.Items.Games.Teams
                     break;
 
                 case "freeze":
-                    foreach (var current6 in currentRoom.GetRoomItemHandler().FloorItems.Values)
+                    foreach (RoomItem current6 in currentRoom.GetRoomItemHandler().FloorItems.Values)
                     {
                         switch (current6.GetBaseItem().InteractionType)
                         {

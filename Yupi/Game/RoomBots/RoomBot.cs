@@ -306,7 +306,7 @@ namespace Yupi.Game.RoomBots
             if (LastSpokenPhrase >= RandomSpeech.Count)
                 LastSpokenPhrase = 1;
 
-            var result = RandomSpeech[LastSpokenPhrase - 1];
+            string result = RandomSpeech[LastSpokenPhrase - 1];
 
             LastSpokenPhrase++;
 
@@ -321,7 +321,7 @@ namespace Yupi.Game.RoomBots
         /// <returns>BotAI.</returns>
         internal BotAi GenerateBotAi(int virtualId, int botId)
         {
-            var aiType = AiType;
+            AiType aiType = AiType;
 
             if (aiType == AiType.Pet)
                 return new PetBot(virtualId);

@@ -1,7 +1,9 @@
 ﻿using System.Data;
 using System.Text;
+using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Game.Commands.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
+using Yupi.Game.Rooms;
 
 namespace Yupi.Game.Commands.Controllers
 {
@@ -23,15 +25,15 @@ namespace Yupi.Game.Commands.Controllers
 
         public override bool Execute(GameClient session, string[] pms)
         {
-            var targetRoom = session.GetHabbo().CurrentRoom;
+            Room targetRoom = session.GetHabbo().CurrentRoom;
             DataTable data;
-            using (var dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 dbClient.SetQuery("SELECT question, answer FROM rooms_faq");
                 data = dbClient.GetTable();
             }
 
-            var builder = new StringBuilder();
+            StringBuilder builder = new StringBuilder();
             builder.Append(" - FAQ - \r\r");
 
             foreach (DataRow row in data.Rows)

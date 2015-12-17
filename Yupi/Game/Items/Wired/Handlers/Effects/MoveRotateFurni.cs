@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using Yupi.Game.Items.Interactions.Enums;
 using Yupi.Game.Items.Interfaces;
@@ -63,7 +64,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
             get { return $"{_dir};{_rot}"; }
             set
             {
-                var array = value.Split(';');
+                string[] array = value.Split(';');
 
                 if (array.Length != 2)
                 {
@@ -120,7 +121,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
             if (Room?.GetRoomItemHandler() == null)
                 return;
 
-            foreach (var item in Items)
+            foreach (RoomItem item in Items)
             {
                 if (item == null || Room.GetRoomItemHandler().GetItem(item.Id) == null)
                 {
@@ -139,8 +140,8 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
 
         private void HandleMovement(RoomItem item)
         {
-            var newPoint = Movement.HandleMovement(item.Coordinate, (MovementState)_dir, item.Rot);
-            var newRotation = Movement.HandleRotation(item.Rot, (RotationState)item.Rot);
+            Point newPoint = Movement.HandleMovement(item.Coordinate, (MovementState)_dir, item.Rot);
+            int newRotation = Movement.HandleRotation(item.Rot, (RotationState)item.Rot);
 
             if (newPoint != item.Coordinate && newRotation == item.Rot)
             {

@@ -12,6 +12,7 @@ using Yupi.Game.Browser.Models;
 using Yupi.Game.Events;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Rooms.Data;
+using Yupi.Game.Rooms.User;
 
 namespace Yupi.Game.Rooms
 {
@@ -160,7 +161,7 @@ namespace Yupi.Game.Rooms
         {
             if (GenerateRoomData(roomId) != null)
                 return GenerateRoomData(roomId);
-            var roomData = new RoomData();
+            RoomData roomData = new RoomData();
             roomData.FillNull(roomId);
             return roomData;
         }
@@ -186,12 +187,12 @@ namespace Yupi.Game.Rooms
             if (IsRoomLoaded(roomId))
                 return GetRoom(roomId).RoomData;
 
-            var roomData = new RoomData();
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            RoomData roomData = new RoomData();
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery($"SELECT * FROM rooms_data WHERE id = {roomId} LIMIT 1");
 
-                var dataRow = queryReactor.GetRow();
+                DataRow dataRow = queryReactor.GetRow();
                 if (dataRow == null)
                     return null;
 
@@ -222,11 +223,11 @@ namespace Yupi.Game.Rooms
             if (IsRoomLoaded(id))
                 return GetRoom(id);
 
-            var roomData = GenerateRoomData(id);
+            RoomData roomData = GenerateRoomData(id);
             if (roomData == null)
                 return null;
 
-            var room = new Room();
+            Room room = new Room();
 
             LoadedRooms.AddOrUpdate(id, room, (key, value) => room);
 
@@ -258,7 +259,7 @@ namespace Yupi.Game.Rooms
                 LoadedRoomData[roomId].LastUsed = DateTime.Now;
                 return LoadedRoomData[roomId];
             }
-            var roomData = new RoomData();
+            RoomData roomData = new RoomData();
             roomData.Fill(dRow);
             LoadedRoomData.TryAdd(roomId, roomData);
             return roomData;
@@ -297,7 +298,7 @@ namespace Yupi.Game.Rooms
             }
 
             uint roomId;
-            using (var dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 dbClient.SetQuery("INSERT INTO rooms_data (roomtype,caption,description,owner,model_name,category,users_max,trade_state) VALUES ('private',@caption,@desc,@UserId,@model,@cat,@usmax,@tstate)");
                 dbClient.AddParameter("caption", name);
@@ -309,7 +310,7 @@ namespace Yupi.Game.Rooms
                 dbClient.AddParameter("tstate", tradeState.ToString());
                 roomId = (uint) dbClient.InsertQuery();
             }
-            var data = GenerateRoomData(roomId);
+            RoomData data = GenerateRoomData(roomId);
             if (data == null) return null;
 
             session.GetHabbo().UsersRooms.Add(data);
@@ -324,9 +325,9 @@ namespace Yupi.Game.Rooms
         {
             dbClient.SetQuery(
                 "SELECT * FROM rooms_data WHERE score > 0 AND roomtype = 'private' ORDER BY score DESC LIMIT 40");
-            var table = dbClient.GetTable();
+            DataTable table = dbClient.GetTable();
             foreach (
-                var data in
+                RoomData data in
                     from DataRow dataRow in table.Rows select FetchRoomData(Convert.ToUInt32(dataRow["id"]), dataRow))
                 QueueVoteAdd(data);
         }
@@ -350,26 +351,26 @@ namespace Yupi.Game.Rooms
         {
             _roomModels.Clear();
             dbClient.SetQuery("SELECT * FROM rooms_models");
-            var table = dbClient.GetTable();
+            DataTable table = dbClient.GetTable();
             if (table == null) return;
             foreach (DataRow dataRow in table.Rows)
             {
-                var key = (string) dataRow["id"];
+                string key = (string) dataRow["id"];
                 if (key.StartsWith("model_floorplan_")) continue;
-                var staticFurniMap = (string) dataRow["public_items"];
+                string staticFurniMap = (string) dataRow["public_items"];
                 _roomModels.Add(key,
                     new RoomModel((int) dataRow["door_x"], (int) dataRow["door_y"], (double) dataRow["door_z"],
                         (int) dataRow["door_dir"], (string) dataRow["heightmap"], staticFurniMap,
                         Yupi.EnumToBool(dataRow["club_only"].ToString()), (string) dataRow["poolmap"]));
             }
             dbClient.SetQuery("SELECT * FROM rooms_models_customs");
-            var dataCustom = dbClient.GetTable();
+            DataTable dataCustom = dbClient.GetTable();
 
             if (dataCustom == null) return;
 
             foreach (DataRow row in dataCustom.Rows)
             {
-                var modelName = $"custom_{row["roomid"]}";
+                string modelName = $"custom_{row["roomid"]}";
                 _roomModels.Add(modelName,
                     new RoomModel((int) row["door_x"], (int) row["door_y"], (double) row["door_z"],
                         (int) row["door_dir"],
@@ -383,7 +384,7 @@ namespace Yupi.Game.Rooms
         /// <param name="model">The model.</param>
         internal void UpdateCustomModel(uint roomId, RoomModel modelData)
         {
-            var modelId = $"custom_{roomId}";
+            string modelId = $"custom_{roomId}";
             if (_roomModels.Contains(modelId))
             {
                 _roomModels[modelId] = modelData;
@@ -401,12 +402,12 @@ namespace Yupi.Game.Rooms
         {
             try
             {
-                var flag = WorkActiveRoomsAddQueue();
-                var flag2 = WorkActiveRoomsRemoveQueue();
-                var flag3 = WorkActiveRoomsUpdateQueue();
+                bool flag = WorkActiveRoomsAddQueue();
+                bool flag2 = WorkActiveRoomsRemoveQueue();
+                bool flag3 = WorkActiveRoomsUpdateQueue();
                 if (flag || flag2 || flag3) SortActiveRooms();
-                var flag4 = WorkVotedRoomsAddQueue();
-                var flag5 = WorkVotedRoomsRemoveQueue();
+                bool flag4 = WorkVotedRoomsAddQueue();
+                bool flag5 = WorkVotedRoomsRemoveQueue();
                 if (flag4 || flag5) SortVotedRooms();
 
                 Yupi.GetGame().RoomManagerCycleEnded = true;
@@ -482,7 +483,7 @@ namespace Yupi.Game.Rooms
         /// </summary>
         internal void RemoveAllRooms()
         {
-            foreach (var current in LoadedRooms.Values)
+            foreach (Room current in LoadedRooms.Values)
                 Yupi.GetGame().GetRoomManager().UnloadRoom(current, "RemoveAllRooms void called");
 
             Writer.WriteLine("RoomManager Destroyed", "Yupi.Rooms", ConsoleColor.DarkYellow);
@@ -507,18 +508,18 @@ namespace Yupi.Game.Rooms
             }
 
             room.RoomData.UsersNow = 0;
-            var state = "open";
+            string state = "open";
 
             if (room.RoomData.State == 1)
                 state = "locked";
             else if (room.RoomData.State > 1)
                 state = "password";
 
-            var roomId = room.RoomId;
+            uint roomId = room.RoomId;
 
             try
             {
-                using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
                     queryReactor.SetQuery(
                         "UPDATE rooms_data SET caption = @caption, description = @description, password = @password, category = " +
@@ -554,9 +555,9 @@ namespace Yupi.Game.Rooms
 
             if (room.GetRoomUserManager() != null && room.GetRoomUserManager().UserList != null)
             {
-                using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    foreach (var current in room.GetRoomUserManager().UserList.Values.Where(current => current != null))
+                    foreach (RoomUser current in room.GetRoomUserManager().UserList.Values.Where(current => current != null))
                     {
                         if (current.IsPet)
                         {
@@ -643,7 +644,7 @@ namespace Yupi.Game.Rooms
             {
                 while (_activeRoomsUpdateQueue.Count > 0)
                 {
-                    var roomData = (RoomData) _activeRoomsUpdateQueue.Dequeue();
+                    RoomData roomData = (RoomData) _activeRoomsUpdateQueue.Dequeue();
                     if (roomData == null || roomData.ModelName.Contains("snowwar")) continue;
                     if (!_activeRooms.ContainsKey(roomData)) _activeRooms.Add(roomData, roomData.UsersNow);
                     else _activeRooms[roomData] = roomData.UsersNow;
@@ -663,7 +664,7 @@ namespace Yupi.Game.Rooms
             {
                 while (_activeRoomsAddQueue.Count > 0)
                 {
-                    var roomData = (RoomData) _activeRoomsAddQueue.Dequeue();
+                    RoomData roomData = (RoomData) _activeRoomsAddQueue.Dequeue();
                     if (!_activeRooms.ContainsKey(roomData) && !roomData.ModelName.Contains("snowwar"))
                         _activeRooms.Add(roomData, roomData.UsersNow);
                 }
@@ -682,7 +683,7 @@ namespace Yupi.Game.Rooms
             {
                 while (ActiveRoomsRemoveQueue.Count > 0)
                 {
-                    var key = (RoomData) ActiveRoomsRemoveQueue.Dequeue();
+                    RoomData key = (RoomData) ActiveRoomsRemoveQueue.Dequeue();
                     _activeRooms.Remove(key);
                 }
             }
@@ -700,7 +701,7 @@ namespace Yupi.Game.Rooms
             {
                 while (_votedRoomsAddQueue.Count > 0)
                 {
-                    var roomData = (RoomData) _votedRoomsAddQueue.Dequeue();
+                    RoomData roomData = (RoomData) _votedRoomsAddQueue.Dequeue();
                     if (!_votedRooms.ContainsKey(roomData)) _votedRooms.Add(roomData, roomData.Score);
                     else _votedRooms[roomData] = roomData.Score;
                 }
@@ -719,7 +720,7 @@ namespace Yupi.Game.Rooms
             {
                 while (_votedRoomsRemoveQueue.Count > 0)
                 {
-                    var key = (RoomData) _votedRoomsRemoveQueue.Dequeue();
+                    RoomData key = (RoomData) _votedRoomsRemoveQueue.Dequeue();
                     _votedRooms.Remove(key);
                 }
             }

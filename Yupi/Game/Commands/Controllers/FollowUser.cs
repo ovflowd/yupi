@@ -23,7 +23,7 @@ namespace Yupi.Game.Commands.Controllers
 
         public override bool Execute(GameClient session, string[] pms)
         {
-            var client = Yupi.GetGame().GetClientManager().GetClientByUserName(pms[0]);
+            GameClient client = Yupi.GetGame().GetClientManager().GetClientByUserName(pms[0]);
             if (client == null || client.GetHabbo() == null)
             {
                 session.SendWhisper(Yupi.GetLanguage().GetVar("user_not_found"));
@@ -32,7 +32,7 @@ namespace Yupi.Game.Commands.Controllers
             if (client.GetHabbo().CurrentRoom == null ||
                 client.GetHabbo().CurrentRoom == session.GetHabbo().CurrentRoom)
                 return false;
-            var roomFwd =
+            ServerMessage roomFwd =
                 new ServerMessage(LibraryParser.OutgoingRequest("RoomForwardMessageComposer"));
             roomFwd.AppendInteger(client.GetHabbo().CurrentRoom.RoomId);
             session.SendMessage(roomFwd);

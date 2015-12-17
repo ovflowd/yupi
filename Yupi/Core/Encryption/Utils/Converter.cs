@@ -51,11 +51,11 @@ namespace Yupi.Core.Encryption.Utils
 
         public static string Deflate(byte[] bytes)
         {
-            using (var stream = new MemoryStream(bytes, 2, bytes.Length - 2))
+            using (MemoryStream stream = new MemoryStream(bytes, 2, bytes.Length - 2))
 
-            using (var inflater = new DeflateStream(stream, CompressionMode.Decompress))
+            using (DeflateStream inflater = new DeflateStream(stream, CompressionMode.Decompress))
 
-            using (var streamReader = new StreamReader(inflater))
+            using (StreamReader streamReader = new StreamReader(inflater))
                 return streamReader.ReadToEnd();
         }
     }

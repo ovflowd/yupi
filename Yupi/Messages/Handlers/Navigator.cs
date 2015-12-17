@@ -1,6 +1,8 @@
-﻿using Yupi.Game.Browser;
+﻿using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Game.Browser;
 using Yupi.Game.Browser.Enums;
 using Yupi.Game.Browser.Models;
+using Yupi.Game.Rooms;
 using Yupi.Game.Rooms.Data;
 using Yupi.Messages.Parsers;
 
@@ -92,10 +94,10 @@ namespace Yupi.Messages.Handlers
             }
             string value1 = Request.GetString();
             string value2 = Request.GetString();
-            var naviLogs = new UserSearchLog(Session.GetHabbo().NavigatorLogs.Count, value1, value2);
+            UserSearchLog naviLogs = new UserSearchLog(Session.GetHabbo().NavigatorLogs.Count, value1, value2);
             if (!Session.GetHabbo().NavigatorLogs.ContainsKey(naviLogs.Id))
                 Session.GetHabbo().NavigatorLogs.Add(naviLogs.Id, naviLogs);
-            var message = new ServerMessage(LibraryParser.OutgoingRequest("NavigatorSavedSearchesComposer"));
+            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("NavigatorSavedSearchesComposer"));
             message.AppendInteger(Session.GetHabbo().NavigatorLogs.Count);
             foreach (UserSearchLog navi in Session.GetHabbo().NavigatorLogs.Values)
             {
@@ -152,7 +154,7 @@ namespace Yupi.Messages.Handlers
             if (!Session.GetHabbo().NavigatorLogs.ContainsKey(searchId))
                 return;
             Session.GetHabbo().NavigatorLogs.Remove(searchId);
-            var message = new ServerMessage(LibraryParser.OutgoingRequest("NavigatorSavedSearchesComposer"));
+            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("NavigatorSavedSearchesComposer"));
             message.AppendInteger(Session.GetHabbo().NavigatorLogs.Count);
             foreach (UserSearchLog navi in Session.GetHabbo().NavigatorLogs.Values)
             {
@@ -376,30 +378,30 @@ namespace Yupi.Messages.Handlers
             if (Session.GetHabbo() == null)
                 return;
 
-            var roomId = Request.GetUInteger();
-            var pWd = Request.GetString();
+            uint roomId = Request.GetUInteger();
+            string pWd = Request.GetString();
 
             PrepareRoomForUser(roomId, pWd);
         }
 
         internal void ToggleStaffPick()
         {
-            var roomId = Request.GetUInteger();
-            var current = Request.GetBool();
-            var room = Yupi.GetGame().GetRoomManager().GetRoom(roomId);
+            uint roomId = Request.GetUInteger();
+            bool current = Request.GetBool();
+            Room room = Yupi.GetGame().GetRoomManager().GetRoom(roomId);
             Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(Session, "ACH_Spr", 1, true);
             if (room == null) return;
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                var pubItem = Yupi.GetGame().GetNavigator().GetPublicItem(roomId);
+                PublicItem pubItem = Yupi.GetGame().GetNavigator().GetPublicItem(roomId);
                 if (pubItem == null) // not picked
                 {
                     queryReactor.SetQuery("INSERT INTO navigator_publics (bannertype, room_id, category_parent_id) VALUES ('0', @roomId, '-2')");
                     queryReactor.AddParameter("roomId", room.RoomId);
                     queryReactor.RunQuery();
                     queryReactor.RunFastQuery("SELECT last_insert_id()");
-                    var publicItemId = (uint)queryReactor.GetInteger();
-                    var publicItem = new PublicItem(publicItemId, 0, string.Empty, string.Empty, string.Empty, PublicImageType.Internal, room.RoomId, 0, -2, false, 1, string.Empty);
+                    uint publicItemId = (uint)queryReactor.GetInteger();
+                    PublicItem publicItem = new PublicItem(publicItemId, 0, string.Empty, string.Empty, string.Empty, PublicImageType.Internal, room.RoomId, 0, -2, false, 1, string.Empty);
                     Yupi.GetGame().GetNavigator().AddPublicItem(publicItem);
                 }
                 else // picked

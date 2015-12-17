@@ -61,7 +61,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Conditions
                 if (string.IsNullOrWhiteSpace(OtherString) || !OtherString.Contains(",") || !OtherExtraString.Contains("|"))
                     return false;
 
-                var booleans = OtherString.ToLower().Split(',');
+                string[] booleans = OtherString.ToLower().Split(',');
                 useExtradata = booleans[0] == "true";
                 useRot = booleans[1] == "true";
                 usePos = booleans[2] == "true";
@@ -74,12 +74,12 @@ namespace Yupi.Game.Items.Wired.Handlers.Conditions
                 return false;
             }
 
-            foreach (var current in Items)
+            foreach (RoomItem current in Items)
             {
                 if (current == null || !itemsOriginalData.ContainsKey(current.Id))
                     return false;
 
-                var originalData = itemsOriginalData[current.Id];
+                string[] originalData = itemsOriginalData[current.Id];
 
                 if (useRot)
                     if (current.Rot != int.Parse(originalData[1]))
@@ -97,7 +97,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Conditions
                 if (!usePos)
                     continue;
 
-                var originalPos = originalData[2].Split(',');
+                string[] originalPos = originalData[2].Split(',');
 
                 if ((current.X != int.Parse(originalPos[0])) || (current.Y != int.Parse(originalPos[1])))
                     return false;

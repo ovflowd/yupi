@@ -50,7 +50,7 @@ namespace Yupi.Core.Util.Math
         /// <returns>System.Int32.</returns>
         public static int Get(int min, int max)
         {
-            var random = _localRandom;
+            Random random = _localRandom;
 
             if (random != null)
                 return random.Next(min, max);

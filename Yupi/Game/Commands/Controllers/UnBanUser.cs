@@ -1,5 +1,7 @@
-﻿using Yupi.Game.Commands.Interfaces;
+﻿using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Game.Commands.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
+using Yupi.Game.Users;
 
 namespace Yupi.Game.Commands.Controllers
 {
@@ -21,7 +23,7 @@ namespace Yupi.Game.Commands.Controllers
 
         public override bool Execute(GameClient session, string[] pms)
         {
-            var user = Yupi.GetHabboForName(pms[0]);
+            Habbo user = Yupi.GetHabboForName(pms[0]);
 
             if (user == null)
             {
@@ -33,7 +35,7 @@ namespace Yupi.Game.Commands.Controllers
                 session.SendWhisper(Yupi.GetLanguage().GetVar("user_is_higher_rank"));
                 return true;
             }
-            using (var adapter = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter adapter = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 adapter.SetQuery("DELETE FROM users_bans WHERE value = @name");
                 adapter.AddParameter("name", user.UserName);

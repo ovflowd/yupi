@@ -82,8 +82,8 @@ namespace Yupi.Core.Algorithms.Astar
 
         private void ResetSearchSpace()
         {
-            for (var y = 0; y < Height; y++)
-                for (var x = 0; x < Width; x++)
+            for (int y = 0; y < Height; y++)
+                for (int x = 0; x < Width; x++)
                     _mSearchSpace[y, x] = new XPathNode(x, y, SearchSpace);
         }
 
@@ -122,7 +122,7 @@ namespace Yupi.Core.Algorithms.Astar
         {
             double dx1 = inStart.X - _endNode.X;
             double dy1 = inStart.Y - _endNode.Y;
-            var cross = Math.Abs(dx1 - dy1);
+            double cross = Math.Abs(dx1 - dy1);
             return Math.Ceiling(Math.Abs(inStart.X - inEnd.X) + (double)Math.Abs(inStart.Y - inEnd.Y)) + cross;
         }
 
@@ -132,7 +132,7 @@ namespace Yupi.Core.Algorithms.Astar
             double dy1 = inStart.Y - _endNode.Y;
             double dx2 = _startNode.X - _endNode.X;
             double dy2 = _startNode.Y - _endNode.Y;
-            var cross = Math.Abs(dx1 * dy2 - dx2 * dy1);
+            double cross = Math.Abs(dx1 * dy2 - dx2 * dy1);
             return Math.Ceiling(Math.Abs(inStart.X - inEnd.X) + (double)Math.Abs(inStart.Y - inEnd.Y)) + cross;
         }
 
@@ -150,8 +150,8 @@ namespace Yupi.Core.Algorithms.Astar
         /// <returns></returns>
         protected virtual double NeighborDistance(XPathNode inStart, XPathNode inEnd)
         {
-            var diffX = Math.Abs(inStart.X - inEnd.X);
-            var diffY = Math.Abs(inStart.Y - inEnd.Y);
+            int diffX = Math.Abs(inStart.X - inEnd.X);
+            int diffY = Math.Abs(inStart.Y - inEnd.Y);
 
             switch (diffX + diffY)
             {
@@ -182,7 +182,7 @@ namespace Yupi.Core.Algorithms.Astar
             if (_startNode == _endNode)
                 return new LinkedList<XPathNode>(new[] { _startNode });
 
-            var neighborNodes = _allowDiagonal ? new XPathNode[8] : new XPathNode[4];
+            XPathNode[] neighborNodes = _allowDiagonal ? new XPathNode[8] : new XPathNode[4];
 
             TieBreaker = 0;
 
@@ -200,7 +200,7 @@ namespace Yupi.Core.Algorithms.Astar
             {
                 if (x == _endNode)
                 {
-                    var result = ReconstructPath(x);
+                    LinkedList<XPathNode> result = ReconstructPath(x);
 
                     result.AddLast(_endNode);
 
@@ -214,9 +214,9 @@ namespace Yupi.Core.Algorithms.Astar
                 else
                     StoreNeighborNodesNoDiagonal(x, neighborNodes);
 
-                foreach (var t in neighborNodes)
+                foreach (XPathNode t in neighborNodes)
                 {
-                    var y = t;
+                    XPathNode y = t;
 
                     if (y == null)
                         continue;
@@ -227,8 +227,8 @@ namespace Yupi.Core.Algorithms.Astar
                     if (_mClosedSet[y.Y, y.X])
                         continue;
 
-                    var trailScore = y.G + 1;
-                    var wasAdded = false;
+                    double trailScore = y.G + 1;
+                    bool wasAdded = false;
 
                     bool scoreResultBetter;
                     if (_mOpenSet[y.Y, y.X] == false)
@@ -269,8 +269,8 @@ namespace Yupi.Core.Algorithms.Astar
 
         private void StoreNeighborNodesDiagonal(XPathNode inAround, XPathNode[] inNeighbors)
         {
-            var x = inAround.X;
-            var y = inAround.Y;
+            int x = inAround.X;
+            int y = inAround.Y;
 
             if ((x > 0) && (y > 0))
                 inNeighbors[0] = _mSearchSpace[y - 1, x - 1];
@@ -315,8 +315,8 @@ namespace Yupi.Core.Algorithms.Astar
 
         private void StoreNeighborNodesNoDiagonal(XPathNode inAround, XPathNode[] inNeighbors)
         {
-            var x = inAround.X;
-            var y = inAround.Y;
+            int x = inAround.X;
+            int y = inAround.Y;
 
             if (y > 0)
                 inNeighbors[0] = _mSearchSpace[y - 1, x];
@@ -341,7 +341,7 @@ namespace Yupi.Core.Algorithms.Astar
 
         private static LinkedList<XPathNode> ReconstructPath(XPathNode currentNode)
         {
-            var result = new LinkedList<XPathNode>();
+            LinkedList<XPathNode> result = new LinkedList<XPathNode>();
 
             ReconstructPathRecursive(currentNode, result);
 
@@ -350,7 +350,7 @@ namespace Yupi.Core.Algorithms.Astar
 
         private static void ReconstructPathRecursive(PathNode currentNode, LinkedList<XPathNode> result)
         {
-            var item = currentNode;
+            PathNode item = currentNode;
 
             result.AddFirst((XPathNode)item);
 

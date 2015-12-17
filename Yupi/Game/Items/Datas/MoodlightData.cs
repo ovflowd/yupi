@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
+using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Game.Items.Interfaces;
 
 namespace Yupi.Game.Items.Datas
@@ -39,7 +40,7 @@ namespace Yupi.Game.Items.Datas
         {
             ItemId = itemId;
             DataRow row;
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery(
                     $"SELECT enabled,current_preset,preset_one,preset_two,preset_three FROM items_moodlight WHERE item_id='{itemId}'");
@@ -65,7 +66,7 @@ namespace Yupi.Game.Items.Datas
         /// <returns>MoodlightPreset.</returns>
         internal static MoodlightPreset GeneratePreset(string data)
         {
-            var array = data.Split(',');
+            string[] array = data.Split(',');
             if (!IsValidColor(array[0]))
             {
                 array[0] = "#000000";
@@ -111,7 +112,7 @@ namespace Yupi.Game.Items.Datas
         internal void Enable()
         {
             Enabled = true;
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 queryReactor.RunFastQuery($"UPDATE items_moodlight SET enabled = '1' WHERE item_id = {ItemId}");
         }
 
@@ -121,7 +122,7 @@ namespace Yupi.Game.Items.Datas
         internal void Disable()
         {
             Enabled = false;
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 queryReactor.RunFastQuery($"UPDATE items_moodlight SET enabled = '0' WHERE item_id = {ItemId}");
         }
 
@@ -138,7 +139,7 @@ namespace Yupi.Game.Items.Datas
             if (!IsValidColor(color) || (!IsValidIntensity(intensity) && !hax))
                 return;
 
-            var text = "one";
+            string text = "one";
             switch (preset)
             {
                 case 2:
@@ -154,7 +155,7 @@ namespace Yupi.Game.Items.Datas
                     break;
             }
 
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery(
                     $"UPDATE items_moodlight SET preset_{text}='{color},{intensity},{Yupi.BoolToEnum(bgOnly)}' WHERE item_id='{ItemId}'");
@@ -185,8 +186,8 @@ namespace Yupi.Game.Items.Datas
         /// <returns>System.String.</returns>
         internal string GenerateExtraData()
         {
-            var preset = GetPreset(CurrentPreset);
-            var stringBuilder = new StringBuilder();
+            MoodlightPreset preset = GetPreset(CurrentPreset);
+            StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append(Enabled ? 2 : 1);
             stringBuilder.Append(",");
             stringBuilder.Append(CurrentPreset);

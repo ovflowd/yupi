@@ -66,8 +66,8 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
             if (stuff[0] == null)
                 return false;
 
-            var roomUser = (RoomUser)stuff[0];
-            var item = (Interaction)stuff[1];
+            RoomUser roomUser = (RoomUser)stuff[0];
+            Interaction item = (Interaction)stuff[1];
 
             if (_mBanned.Contains(item))
                 return false;

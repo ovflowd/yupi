@@ -62,16 +62,16 @@ namespace Yupi.Game.Items
         /// <param name="wallPosition">The wall position.</param>
         public WallCoordinate(string wallPosition)
         {
-            var posD = wallPosition.Split(' ');
+            string[] posD = wallPosition.Split(' ');
 
             _side = posD[2] == "l" ? 'l' : 'r';
 
-            var widD = posD[0].Substring(3).Split(',');
+            string[] widD = posD[0].Substring(3).Split(',');
 
             _widthX = ServerUserChatTextHandler.Parse(widD[0]);
             _widthY = ServerUserChatTextHandler.Parse(widD[1]);
 
-            var lenD = posD[1].Substring(2).Split(',');
+            string[] lenD = posD[1].Substring(2).Split(',');
 
             _lengthX = ServerUserChatTextHandler.Parse(lenD[0]);
             _lengthY = ServerUserChatTextHandler.Parse(lenD[1]);

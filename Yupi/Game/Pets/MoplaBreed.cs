@@ -24,6 +24,7 @@
 
 using System;
 using System.Data;
+using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Game.Pets.Enums;
 
 namespace Yupi.Game.Pets
@@ -126,10 +127,10 @@ namespace Yupi.Game.Pets
             if (pet.Type != 16)
                 return null;
 
-            var tuple = GeneratePlantData(pet.Rarity);
-            var breed = new MoplaBreed(pet, pet.PetId, pet.Rarity, tuple.Item1, tuple.Item2, 0, 1);
+            Tuple<string, string> tuple = GeneratePlantData(pet.Rarity);
+            MoplaBreed breed = new MoplaBreed(pet, pet.PetId, pet.Rarity, tuple.Item1, tuple.Item2, 0, 1);
 
-            using (var adapter = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter adapter = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 adapter.SetQuery("INSERT INTO pets_plants (pet_id, rarity, plant_name, plant_data) VALUES (@petid , @rarity , @plantname , @plantdata)");
                 adapter.AddParameter("petid", pet.PetId);
@@ -149,12 +150,12 @@ namespace Yupi.Game.Pets
         /// <returns>Tuple&lt;System.String, System.String&gt;.</returns>
         internal static Tuple<string, string> GeneratePlantData(int rarity)
         {
-            var str = string.Empty;
+            string str = string.Empty;
 
             int num;
             int num2;
 
-            var random = new Random();
+            Random random = new Random();
 
             switch (rarity)
             {
@@ -607,14 +608,14 @@ namespace Yupi.Game.Pets
             if (LiveState != 0)
                 return;
 
-            var span = lastHealth - DateTime.Now;
+            TimeSpan span = lastHealth - DateTime.Now;
 
             if (span.TotalSeconds <= 0)
                 KillPlant();
 
             else if (GrowingStatus != 7)
             {
-                var span2 = untilGrown - DateTime.Now;
+                TimeSpan span2 = untilGrown - DateTime.Now;
 
                 if (span2.TotalSeconds <= 10 && GrowingStatus == 6)
                 {
@@ -673,7 +674,7 @@ namespace Yupi.Game.Pets
 
         internal void UpdateInDb()
         {
-            using (var adapter = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter adapter = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 adapter.SetQuery(
                     "REPLACE INTO pets_plants (pet_id, rarity, plant_name, plant_data, plant_state, growing_status) VALUES (@petid , @rarity , @plantname , @plantdata , @plantstate , @growing)");

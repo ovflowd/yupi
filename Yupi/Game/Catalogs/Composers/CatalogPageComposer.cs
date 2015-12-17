@@ -25,12 +25,12 @@ namespace Yupi.Game.Catalogs.Composers
         {
             IEnumerable<CatalogPage> pages = Yupi.GetGame().GetCatalog().Categories.Values.OfType<CatalogPage>().ToList();
 
-            var sortedPages = pages.Where(x => x.ParentId == -2 && x.MinRank <= rank).OrderBy(x => x.OrderNum);
+            IOrderedEnumerable<CatalogPage> sortedPages = pages.Where(x => x.ParentId == -2 && x.MinRank <= rank).OrderBy(x => x.OrderNum);
 
             if (type == "NORMAL")
                 sortedPages = pages.Where(x => x.ParentId == -1 && x.MinRank <= rank).OrderBy(x => x.OrderNum);
 
-            var message = new ServerMessage(LibraryParser.OutgoingRequest("CatalogueIndexMessageComposer"));
+            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("CatalogueIndexMessageComposer"));
 
             message.AppendBool(true);
             message.AppendInteger(0);
@@ -40,7 +40,7 @@ namespace Yupi.Game.Catalogs.Composers
             message.AppendInteger(0);
             message.AppendInteger(sortedPages.Count());
 
-            foreach (var cat in sortedPages)
+            foreach (CatalogPage cat in sortedPages)
             {
                 message.AppendBool(cat.Visible);
                 message.AppendInteger(cat.IconImage);
@@ -49,15 +49,15 @@ namespace Yupi.Game.Catalogs.Composers
                 message.AppendString(cat.Caption);
                 message.AppendInteger(cat.FlatOffers.Count);
 
-                foreach (var i in cat.FlatOffers.Keys)
+                foreach (uint i in cat.FlatOffers.Keys)
                     message.AppendInteger(i);
 
-                var sortedSubPages =
+                IOrderedEnumerable<CatalogPage> sortedSubPages =
                     pages.Where(x => x.ParentId == cat.PageId && x.MinRank <= rank).OrderBy(x => x.OrderNum);
 
                 message.AppendInteger(sortedSubPages.Count());
 
-                foreach (var subCat in sortedSubPages)
+                foreach (CatalogPage subCat in sortedSubPages)
                 {
                     message.AppendBool(subCat.Visible);
                     message.AppendInteger(subCat.IconImage);
@@ -66,7 +66,7 @@ namespace Yupi.Game.Catalogs.Composers
                     message.AppendString(subCat.Caption);
                     message.AppendInteger(subCat.FlatOffers.Count);
 
-                    foreach (var i2 in subCat.FlatOffers.Keys)
+                    foreach (uint i2 in subCat.FlatOffers.Keys)
                         message.AppendInteger(i2);
 
                     message.AppendInteger(0);
@@ -86,7 +86,7 @@ namespace Yupi.Game.Catalogs.Composers
         /// <returns>ServerMessage.</returns>
         internal static ServerMessage ComposePage(CatalogPage page)
         {
-            var message = new ServerMessage(LibraryParser.OutgoingRequest("CataloguePageMessageComposer"));
+            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("CataloguePageMessageComposer"));
             message.AppendInteger(page.PageId);
 
             switch (page.Layout)
@@ -463,12 +463,12 @@ namespace Yupi.Game.Catalogs.Composers
         /// <returns>ServerMessage.</returns>
         internal static ServerMessage ComposeClubPurchasePage(GameClient session, int windowId)
         {
-            var message = new ServerMessage(LibraryParser.OutgoingRequest("CatalogueClubPageMessageComposer"));
-            var habboClubItems = Yupi.GetGame().GetCatalog().HabboClubItems;
+            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("CatalogueClubPageMessageComposer"));
+            List<CatalogItem> habboClubItems = Yupi.GetGame().GetCatalog().HabboClubItems;
 
             message.AppendInteger(habboClubItems.Count);
 
-            foreach (var item in habboClubItems)
+            foreach (CatalogItem item in habboClubItems)
             {
                 message.AppendInteger(item.Id);
                 message.AppendString(item.Name);
@@ -487,23 +487,23 @@ namespace Yupi.Game.Catalogs.Composers
                 }
 
                 message.AppendBool(true);
-                var fuckingArray = item.Name.Split('_');
+                string[] fuckingArray = item.Name.Split('_');
                 double dayTime = 31;
 
                 if (item.Name.Contains("DAY"))
                     dayTime = int.Parse(fuckingArray[3]);
                 else if (item.Name.Contains("MONTH"))
                 {
-                    var monthTime = int.Parse(fuckingArray[3]);
+                    int monthTime = int.Parse(fuckingArray[3]);
                     dayTime = monthTime * 31;
                 }
                 else if (item.Name.Contains("YEAR"))
                 {
-                    var yearTimeOmg = int.Parse(fuckingArray[3]);
+                    int yearTimeOmg = int.Parse(fuckingArray[3]);
                     dayTime = yearTimeOmg * 31 * 12;
                 }
 
-                var newExpiryDate = DateTime.Now.AddDays(dayTime);
+                DateTime newExpiryDate = DateTime.Now.AddDays(dayTime);
 
                 if (session.GetHabbo().GetSubscriptionManager().HasSubscription)
                     newExpiryDate =
@@ -542,7 +542,7 @@ namespace Yupi.Game.Catalogs.Composers
             uint limitedStack = 0,
             uint limitedSelled = 0)
         {
-            var message = new ServerMessage(LibraryParser.OutgoingRequest("PurchaseOKMessageComposer"));
+            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("PurchaseOKMessageComposer"));
             message.AppendInteger(itemId);
             message.AppendString(itemName);
             message.AppendBool(false);
@@ -554,9 +554,9 @@ namespace Yupi.Game.Catalogs.Composers
 
             if (items != null)
             {
-                foreach (var itemDic in items)
+                foreach (KeyValuePair<Item, uint> itemDic in items)
                 {
-                    var item = itemDic.Key;
+                    Item item = itemDic.Key;
                     message.AppendString(item.Type.ToString());
 
                     if (item.Type == 'b')
@@ -633,7 +633,7 @@ namespace Yupi.Game.Catalogs.Composers
                     }
                     break;
             }
-            foreach (var baseItem in item.Items.Keys)
+            foreach (Item baseItem in item.Items.Keys)
             {
                 if (item.Name == "g0 group_product" || item.Name.StartsWith("builders_club_addon_") ||
                     item.Name.StartsWith("builders_club_time_"))
@@ -651,7 +651,7 @@ namespace Yupi.Game.Catalogs.Composers
                     if (item.Name.Contains("wallpaper_single") || item.Name.Contains("floor_single") ||
                         item.Name.Contains("landscape_single"))
                     {
-                        var array = item.Name.Split('_');
+                        string[] array = item.Name.Split('_');
                         message.AppendString(array[2]);
                     }
                     else if (item.Name.StartsWith("bot_") || baseItem.InteractionType == Interaction.MusicDisc ||
@@ -659,12 +659,12 @@ namespace Yupi.Game.Catalogs.Composers
                         message.AppendString(item.ExtraData);
                     else if (item.Name.StartsWith("poster_"))
                     {
-                        var array2 = item.Name.Split('_');
+                        string[] array2 = item.Name.Split('_');
                         message.AppendString(array2[1]);
                     }
                     else if (item.Name.StartsWith("poster "))
                     {
-                        var array3 = item.Name.Split(' ');
+                        string[] array3 = item.Name.Split(' ');
                         message.AppendString(array3[1]);
                     }
                     else if (item.SongId > 0u && baseItem.InteractionType == Interaction.MusicDisc)

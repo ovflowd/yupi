@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Messages;
 
 namespace Yupi.Game.Support
@@ -160,7 +161,7 @@ namespace Yupi.Game.Support
             if (!updateInDb)
                 return;
 
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 queryReactor.RunFastQuery(
                     string.Concat("UPDATE moderation_tickets SET status = 'picked', moderator_id = ", pModeratorId,
                         ", timestamp = '", Yupi.GetUnixTimeStamp(), "' WHERE id = ", TicketId));
@@ -178,7 +179,7 @@ namespace Yupi.Game.Support
             if (!updateInDb)
                 return;
 
-            var statusCode = "resolved";
+            string statusCode = "resolved";
 
             switch (newStatus)
             {
@@ -207,7 +208,7 @@ namespace Yupi.Game.Support
                     throw new ArgumentOutOfRangeException(nameof(newStatus), newStatus, null);
             }
 
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 queryReactor.RunFastQuery($"UPDATE moderation_tickets SET status = '{statusCode}' WHERE id = {TicketId}");
         }
 
@@ -222,7 +223,7 @@ namespace Yupi.Game.Support
             if (!updateInDb)
                 return;
 
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 queryReactor.RunFastQuery($"UPDATE moderation_tickets SET status = 'open' WHERE id = {TicketId}");
         }
 
@@ -237,7 +238,7 @@ namespace Yupi.Game.Support
             if (!updateInDb)
                 return;
 
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 queryReactor.RunFastQuery($"UPDATE moderation_tickets SET status = 'deleted' WHERE id = {TicketId}");
         }
 
@@ -266,7 +267,7 @@ namespace Yupi.Game.Support
 
             message.AppendInteger(ReportedChats.Count);
 
-            foreach (var str in ReportedChats)
+            foreach (string str in ReportedChats)
             {
                 message.AppendString(str);
                 message.AppendInteger(-1);

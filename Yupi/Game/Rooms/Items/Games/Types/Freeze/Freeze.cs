@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using Yupi.Game.Items.Interactions.Enums;
 using Yupi.Game.Items.Interfaces;
+using Yupi.Game.Rooms.Items.Games.Teams;
 using Yupi.Game.Rooms.Items.Games.Teams.Enums;
 using Yupi.Game.Rooms.Items.Games.Types.Freeze.Enum;
 using Yupi.Game.Rooms.User;
@@ -75,7 +76,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
             if (ExitTeleport == null) return;
 
             foreach (
-                var user in
+                RoomUser user in
                     _freezeTiles.Values.Select(
                         tile => _room.GetGameMap().GetRoomUsers(new Point(tile.X, tile.Y)))
                         .SelectMany(users => users.Where(user => user != null && user.Team == Team.None)))
@@ -87,14 +88,14 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
             GameStarted = false;
             _room.GetGameManager().UnlockGates();
             _room.GetGameManager().StopGame();
-            var winningTeam = _room.GetGameManager().GetWinningTeam();
-            foreach (var avatar in _room.GetRoomUserManager().UserList.Values)
+            Team winningTeam = _room.GetGameManager().GetWinningTeam();
+            foreach (RoomUser avatar in _room.GetRoomUserManager().UserList.Values)
             {
                 avatar.FreezeLives = 0;
                 if (avatar.Team != winningTeam) continue;
                 avatar.UnIdle();
                 avatar.DanceId = 0;
-                var waveAtWin = new ServerMessage(LibraryParser.OutgoingRequest("RoomUserActionMessageComposer"));
+                ServerMessage waveAtWin = new ServerMessage(LibraryParser.OutgoingRequest("RoomUserActionMessageComposer"));
                 waveAtWin.AppendInteger(avatar.VirtualId);
                 waveAtWin.AppendInteger(1);
                 _room.SendMessage(waveAtWin);
@@ -104,7 +105,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
         internal void ResetGame()
         {
             foreach (
-                var roomItem in
+                RoomItem roomItem in
                     _freezeBlocks.Values.Where(
                         roomItem =>
                             !string.IsNullOrEmpty(roomItem.ExtraData) &&
@@ -123,7 +124,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
             if (user.X == user.GoalX && user.GoalY == user.Y && user.ThrowBallAtGoal)
             {
                 foreach (
-                    var roomItem in
+                    RoomItem roomItem in
                         _freezeTiles.Values.Where(
                             roomItem =>
                                 roomItem.InteractionCountHelper == 0 && roomItem.X == user.X && roomItem.Y == user.Y))
@@ -144,7 +145,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
                 }
             }
             foreach (
-                var roomItem in
+                RoomItem roomItem in
                     _freezeBlocks.Values.Where(
                         roomItem =>
                             roomItem != null && user.X == roomItem.X && user.Y == roomItem.Y &&
@@ -248,7 +249,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
         {
             _room.GetGameManager().Reset();
             foreach (
-                var roomUser in
+                RoomUser roomUser in
                     _room.GetRoomUserManager()
                         .UserList.Values.Where(
                             roomUser => !roomUser.IsBot && roomUser.Team != Team.None && roomUser.GetClient() != null))
@@ -258,7 +259,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
                 roomUser.ShieldActive = false;
                 roomUser.ShieldCounter = 11;
                 _room.GetGameManager().AddPointToTeam(roomUser.Team, 30, null);
-                var serverMessage = new ServerMessage();
+                ServerMessage serverMessage = new ServerMessage();
                 serverMessage.Init(LibraryParser.OutgoingRequest("UpdateFreezeLivesMessageComposer"));
                 serverMessage.AppendInteger(roomUser.InternalRoomId);
                 serverMessage.AppendInteger(roomUser.FreezeLives);
@@ -268,7 +269,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
 
         private void HandleBanzaiFreezeItems(IEnumerable<RoomItem> items)
         {
-            foreach (var roomItem in items)
+            foreach (RoomItem roomItem in items)
             {
                 switch (roomItem.GetBaseItem().InteractionType)
                 {
@@ -352,7 +353,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
                         }
                         _room.GetGameManager().AddPointToTeam(user.Team, 10, user);
                     }
-                    var serverMessage = new ServerMessage();
+                    ServerMessage serverMessage = new ServerMessage();
                     serverMessage.Init(LibraryParser.OutgoingRequest("UpdateFreezeLivesMessageComposer"));
                     serverMessage.AppendInteger(user.InternalRoomId);
                     serverMessage.AppendInteger(user.FreezeLives);
@@ -366,7 +367,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
 
         private void HandleUserFreeze(Point point)
         {
-            var user = _room.GetGameMap().GetRoomUsers(point).FirstOrDefault();
+            RoomUser user = _room.GetGameMap().GetRoomUsers(point).FirstOrDefault();
 
             if (user == null || user.IsWalking && user.SetX != point.X && user.SetY != point.Y)
                 return;
@@ -385,14 +386,14 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
 
             if (user.FreezeLives <= 0)
             {
-                var serverMessage = new ServerMessage();
+                ServerMessage serverMessage = new ServerMessage();
                 serverMessage.Init(LibraryParser.OutgoingRequest("UpdateFreezeLivesMessageComposer"));
                 serverMessage.AppendInteger(user.InternalRoomId);
                 serverMessage.AppendInteger(user.FreezeLives);
                 user.GetClient().SendMessage(serverMessage);
                 user.ApplyEffect(-1);
                 _room.GetGameManager().AddPointToTeam(user.Team, -10, user);
-                var managerForFreeze = _room.GetTeamManagerForFreeze();
+                TeamManager managerForFreeze = _room.GetTeamManagerForFreeze();
                 managerForFreeze.OnUserLeave(user);
                 user.Team = Team.None;
                 if (ExitTeleport != null) _room.GetGameMap().TeleportToItem(user, ExitTeleport);
@@ -421,7 +422,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
             {
                 _room.GetGameManager().AddPointToTeam(user.Team, -10, user);
                 user.ApplyEffect(12);
-                var serverMessage = new ServerMessage();
+                ServerMessage serverMessage = new ServerMessage();
                 serverMessage.Init(LibraryParser.OutgoingRequest("UpdateFreezeLivesMessageComposer"));
                 serverMessage.AppendInteger(user.InternalRoomId);
                 serverMessage.AppendInteger(user.FreezeLives);
@@ -431,14 +432,14 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
 
         private List<RoomItem> GetVerticalItems(int x, int y, int length)
         {
-            var list = new List<RoomItem>();
-            var num1 = 0;
+            List<RoomItem> list = new List<RoomItem>();
+            int num1 = 0;
             Point point;
             while (num1 < length)
             {
                 point = new Point(x + num1, y);
 
-                var itemsForSquare = GetItemsForSquare(point);
+                List<RoomItem> itemsForSquare = GetItemsForSquare(point);
                 if (SquareGotFreezeTile(itemsForSquare))
                 {
                     HandleUserFreeze(point);
@@ -448,12 +449,12 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
                 }
                 else break;
             }
-            var num2 = 1;
+            int num2 = 1;
             while (num2 < length)
             {
                 point = new Point(x, y + num2);
 
-                var itemsForSquare = GetItemsForSquare(point);
+                List<RoomItem> itemsForSquare = GetItemsForSquare(point);
                 if (SquareGotFreezeTile(itemsForSquare))
                 {
                     HandleUserFreeze(point);
@@ -463,12 +464,12 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
                 }
                 else break;
             }
-            var num3 = 1;
+            int num3 = 1;
             while (num3 < length)
             {
                 point = new Point(x - num3, y);
 
-                var itemsForSquare = GetItemsForSquare(point);
+                List<RoomItem> itemsForSquare = GetItemsForSquare(point);
                 if (SquareGotFreezeTile(itemsForSquare))
                 {
                     HandleUserFreeze(point);
@@ -478,12 +479,12 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
                 }
                 else break;
             }
-            var num4 = 1;
+            int num4 = 1;
             while (num4 < length)
             {
                 point = new Point(x, y - num4);
 
-                var itemsForSquare = GetItemsForSquare(point);
+                List<RoomItem> itemsForSquare = GetItemsForSquare(point);
                 if (SquareGotFreezeTile(itemsForSquare))
                 {
                     HandleUserFreeze(point);
@@ -498,14 +499,14 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
 
         private List<RoomItem> GetDiagonalItems(int x, int y, int length)
         {
-            var list = new List<RoomItem>();
-            var num1 = 0;
+            List<RoomItem> list = new List<RoomItem>();
+            int num1 = 0;
             Point point;
             while (num1 < length)
             {
                 point = new Point(x + num1, checked(y + num1));
 
-                var itemsForSquare = GetItemsForSquare(point);
+                List<RoomItem> itemsForSquare = GetItemsForSquare(point);
                 if (SquareGotFreezeTile(itemsForSquare))
                 {
                     HandleUserFreeze(point);
@@ -515,12 +516,12 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
                 }
                 else break;
             }
-            var num2 = 0;
+            int num2 = 0;
             while (num2 < length)
             {
                 point = new Point(x - num2, checked(y - num2));
 
-                var itemsForSquare = GetItemsForSquare(point);
+                List<RoomItem> itemsForSquare = GetItemsForSquare(point);
                 if (SquareGotFreezeTile(itemsForSquare))
                 {
                     HandleUserFreeze(point);
@@ -530,12 +531,12 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
                 }
                 else break;
             }
-            var num3 = 0;
+            int num3 = 0;
             while (num3 < length)
             {
                 point = new Point(x - num3, checked(y + num3));
 
-                var itemsForSquare = GetItemsForSquare(point);
+                List<RoomItem> itemsForSquare = GetItemsForSquare(point);
                 if (SquareGotFreezeTile(itemsForSquare))
                 {
                     HandleUserFreeze(point);
@@ -545,12 +546,12 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
                 }
                 else break;
             }
-            var num4 = 0;
+            int num4 = 0;
             while (num4 < length)
             {
                 point = new Point(x + num4, checked(y - num4));
 
-                var itemsForSquare = GetItemsForSquare(point);
+                List<RoomItem> itemsForSquare = GetItemsForSquare(point);
                 if (SquareGotFreezeTile(itemsForSquare))
                 {
                     HandleUserFreeze(point);

@@ -13,7 +13,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
 
             if (item.InteractingUser != 0u)
             {
-                var roomUserByHabbo = item.GetRoom().GetRoomUserManager().GetRoomUserByHabbo(item.InteractingUser);
+                RoomUser roomUserByHabbo = item.GetRoom().GetRoomUserManager().GetRoomUserByHabbo(item.InteractingUser);
 
                 if (roomUserByHabbo != null)
                 {
@@ -28,7 +28,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
             if (item.InteractingUser2 == 0u)
                 return;
 
-            var roomUserByHabbo2 = item.GetRoom().GetRoomUserManager().GetRoomUserByHabbo(item.InteractingUser2);
+            RoomUser roomUserByHabbo2 = item.GetRoom().GetRoomUserManager().GetRoomUserByHabbo(item.InteractingUser2);
 
             if (roomUserByHabbo2 != null)
             {
@@ -46,7 +46,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
 
             if (item.InteractingUser != 0u)
             {
-                var roomUserByHabbo = item.GetRoom().GetRoomUserManager().GetRoomUserByHabbo(item.InteractingUser);
+                RoomUser roomUserByHabbo = item.GetRoom().GetRoomUserManager().GetRoomUserByHabbo(item.InteractingUser);
 
                 roomUserByHabbo?.UnlockWalking();
 
@@ -56,7 +56,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
             if (item.InteractingUser2 == 0u)
                 return;
 
-            var roomUserByHabbo2 = item.GetRoom().GetRoomUserManager().GetRoomUserByHabbo(item.InteractingUser2);
+            RoomUser roomUserByHabbo2 = item.GetRoom().GetRoomUserManager().GetRoomUserByHabbo(item.InteractingUser2);
 
             roomUserByHabbo2?.UnlockWalking();
 
@@ -68,7 +68,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
             if (item == null || item.GetRoom() == null || session == null || session.GetHabbo() == null)
                 return;
 
-            var roomUserByHabbo = item.GetRoom().GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().Id);
+            RoomUser roomUserByHabbo = item.GetRoom().GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().Id);
 
             if (roomUserByHabbo == null)
                 return;
@@ -90,7 +90,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
             if (item == null || item.GetRoom() == null || session == null || session.GetHabbo() == null)
                 return;
 
-            var roomUserByHabbo = item.GetRoom().GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().Id);
+            RoomUser roomUserByHabbo = item.GetRoom().GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().Id);
 
             if (roomUserByHabbo == null)
                 return;

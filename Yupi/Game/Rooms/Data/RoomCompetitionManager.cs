@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Game.Users;
 using Yupi.Messages;
 using Yupi.Messages.Parsers;
@@ -24,15 +25,15 @@ namespace Yupi.Game.Rooms.Data
             RequiredFurnis = requiredFurnis.Split(';');
             Entries = new Dictionary<uint, RoomData>();
 
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery("SELECT * FROM rooms_competitions_entries WHERE competition_id = " + Id);
-                var table = queryReactor.GetTable();
+                DataTable table = queryReactor.GetTable();
                 if (table == null) return;
                 foreach (DataRow row in table.Rows)
                 {
-                    var roomId = (uint) row["room_id"];
-                    var roomData = Yupi.GetGame().GetRoomManager().GenerateRoomData(roomId);
+                    uint roomId = (uint) row["room_id"];
+                    RoomData roomData = Yupi.GetGame().GetRoomManager().GenerateRoomData(roomId);
                     if (roomData == null) return;
                     roomData.CompetitionStatus = (int) row["status"];
                     roomData.CompetitionVotes = (int) row["votes"];
@@ -68,7 +69,7 @@ namespace Yupi.Game.Rooms.Data
             {
                 message.StartArray();
 
-                foreach (var furni in RequiredFurnis)
+                foreach (string furni in RequiredFurnis)
                 {
                     message.AppendString(furni);
                     message.SaveArray();
@@ -82,7 +83,7 @@ namespace Yupi.Game.Rooms.Data
                 {
                     message.StartArray();
 
-                    foreach (var furni in RequiredFurnis)
+                    foreach (string furni in RequiredFurnis)
                     {
                         if (!room.GetRoomItemHandler().HasFurniByItemName(furni))
                         {
@@ -126,10 +127,10 @@ namespace Yupi.Game.Rooms.Data
         public void RefreshCompetitions()
         {
             Competition = null;
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery("SELECT * FROM rooms_competitions WHERE enabled = '1' LIMIT 1");
-                var row = queryReactor.GetRow();
+                DataRow row = queryReactor.GetRow();
 
                 if (row == null)
                     return;

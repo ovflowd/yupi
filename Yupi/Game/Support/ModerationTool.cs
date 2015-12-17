@@ -1,11 +1,15 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data;
 using System.Linq;
 using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
+using Yupi.Game.Rooms;
+using Yupi.Game.Rooms.Chat;
 using Yupi.Game.Rooms.Data;
+using Yupi.Game.Users;
 using Yupi.Messages;
 using Yupi.Messages.Parsers;
 
@@ -73,7 +77,7 @@ namespace Yupi.Game.Support
         /// <param name="ticket">The ticket.</param>
         internal static void SendTicketToModerators(SupportTicket ticket)
         {
-            var message = new ServerMessage(LibraryParser.OutgoingRequest("ModerationToolIssueMessageComposer"));
+            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("ModerationToolIssueMessageComposer"));
             message = ticket.Serialize(message);
 
             Yupi.GetGame().GetClientManager().StaffAlert(message);
@@ -91,7 +95,7 @@ namespace Yupi.Game.Support
         internal static void PerformRoomAction(GameClient modSession, uint roomId, bool kickUsers, bool lockRoom,
             bool inappropriateRoom, ServerMessage message)
         {
-            var room = Yupi.GetGame().GetRoomManager().GetRoom(roomId);
+            Room room = Yupi.GetGame().GetRoomManager().GetRoom(roomId);
 
             if (room == null)
                 return;
@@ -100,7 +104,7 @@ namespace Yupi.Game.Support
             {
                 room.RoomData.State = 1;
 
-                using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     queryReactor.RunFastQuery($"UPDATE rooms_data SET state = 'locked' WHERE id = {room.RoomId}");
             }
 
@@ -123,7 +127,7 @@ namespace Yupi.Game.Support
         /// <param name="result">if set to <c>true</c> [result].</param>
         internal static void ModActionResult(uint userId, bool result)
         {
-            var clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(userId);
+            GameClient clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(userId);
             clientByUserId.GetMessageHandler()
                 .GetResponse()
                 .Init(LibraryParser.OutgoingRequest("ModerationActionResultMessageComposer"));
@@ -139,9 +143,9 @@ namespace Yupi.Game.Support
         /// <returns>ServerMessage.</returns>
         internal static ServerMessage SerializeRoomTool(RoomData data)
         {
-            var room = Yupi.GetGame().GetRoomManager().GetRoom(data.Id);
+            Room room = Yupi.GetGame().GetRoomManager().GetRoom(data.Id);
 
-            var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("ModerationRoomToolMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("ModerationRoomToolMessageComposer"));
             serverMessage.AppendInteger(data.Id);
             serverMessage.AppendInteger(data.UsersNow);
 
@@ -157,7 +161,7 @@ namespace Yupi.Game.Support
             serverMessage.AppendString(data.Description);
             serverMessage.AppendInteger(data.TagCount);
 
-            foreach (var current in data.Tags)
+            foreach (string current in data.Tags)
                 serverMessage.AppendString(current);
 
             serverMessage.AppendBool(false);
@@ -174,7 +178,7 @@ namespace Yupi.Game.Support
         /// <param name="soft">if set to <c>true</c> [soft].</param>
         internal static void KickUser(GameClient modSession, uint userId, string message, bool soft)
         {
-            var clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(userId);
+            GameClient clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(userId);
 
             if (clientByUserId == null || clientByUserId.GetHabbo().CurrentRoomId < 1 ||
                 clientByUserId.GetHabbo().Id == modSession.GetHabbo().Id)
@@ -189,7 +193,7 @@ namespace Yupi.Game.Support
                 return;
             }
 
-            var room = Yupi.GetGame().GetRoomManager().GetRoom(clientByUserId.GetHabbo().CurrentRoomId);
+            Room room = Yupi.GetGame().GetRoomManager().GetRoom(clientByUserId.GetHabbo().CurrentRoomId);
 
             if (room == null)
                 return;
@@ -202,7 +206,7 @@ namespace Yupi.Game.Support
             if (soft)
                 return;
 
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 queryReactor.RunFastQuery($"UPDATE users_info SET cautions = cautions + 1 WHERE user_id = {userId}");
         }
 
@@ -215,7 +219,7 @@ namespace Yupi.Game.Support
         /// <param name="caution">if set to <c>true</c> [caution].</param>
         internal static void AlertUser(GameClient modSession, uint userId, string message, bool caution)
         {
-            var clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(userId);
+            GameClient clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(userId);
 
             clientByUserId?.SendModeratorMessage(message);
         }
@@ -229,7 +233,7 @@ namespace Yupi.Game.Support
         /// <param name="length">The length.</param>
         internal static void LockTrade(GameClient modSession, uint userId, string message, int length)
         {
-            var clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(userId);
+            GameClient clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(userId);
 
             if (clientByUserId == null)
                 return;
@@ -241,7 +245,7 @@ namespace Yupi.Game.Support
             clientByUserId.GetHabbo().TradeLockExpire = Yupi.GetUnixTimeStamp() + length;
             clientByUserId.SendNotif(message);
 
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 queryReactor.RunFastQuery(
                     $"UPDATE users SET trade_lock = '1', trade_lock_expire = '{clientByUserId.GetHabbo().TradeLockExpire}' WHERE id = '{clientByUserId.GetHabbo().Id}'");
         }
@@ -255,7 +259,7 @@ namespace Yupi.Game.Support
         /// <param name="message">The message.</param>
         internal static void BanUser(GameClient modSession, uint userId, int length, string message)
         {
-            var clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(userId);
+            GameClient clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(userId);
 
             if (clientByUserId == null || clientByUserId.GetHabbo().Id == modSession.GetHabbo().Id)
             {
@@ -282,8 +286,8 @@ namespace Yupi.Game.Support
         /// <exception cref="System.NullReferenceException">User not found in database.</exception>
         internal static ServerMessage SerializeUserInfo(uint userId)
         {
-            var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("ModerationToolUserToolMessageComposer"));
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("ModerationToolUserToolMessageComposer"));
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 if (queryReactor != null)
                 {
@@ -294,15 +298,15 @@ namespace Yupi.Game.Support
                         $"FROM users left join users_info on (users.id = users_info.user_id) WHERE id = '{userId}' LIMIT 1"
                         );
 
-                    var row = queryReactor.GetRow();
+                    DataRow row = queryReactor.GetRow();
 
-                    var id = Convert.ToUInt32(row["id"]);
+                    uint id = Convert.ToUInt32(row["id"]);
                     serverMessage.AppendInteger(id);
                     serverMessage.AppendString(row["username"].ToString());
                     serverMessage.AppendString(row["look"].ToString());
-                    var regTimestamp = (double) row["reg_timestamp"];
-                    var loginTimestamp = (double) row["login_timestamp"];
-                    var unixTimestamp = Yupi.GetUnixTimeStamp();
+                    double regTimestamp = (double) row["reg_timestamp"];
+                    double loginTimestamp = (double) row["login_timestamp"];
+                    int unixTimestamp = Yupi.GetUnixTimeStamp();
                     serverMessage.AppendInteger(
                         (int) (regTimestamp > 0 ? Math.Ceiling((unixTimestamp - regTimestamp)/60.0) : regTimestamp));
                     serverMessage.AppendInteger(
@@ -315,7 +319,7 @@ namespace Yupi.Game.Support
                     serverMessage.AppendInteger(Convert.ToInt32(row["bans"]));
 
                     serverMessage.AppendInteger(0);
-                    var rank = (uint) row["rank"];
+                    uint rank = (uint) row["rank"];
                     serverMessage.AppendString(row["trade_lock"].ToString() == "1"
                         ? Yupi.UnixToDateTime(int.Parse(row["trade_lock_expire"].ToString())).ToLongDateString()
                         : "Not trade-locked");
@@ -337,11 +341,11 @@ namespace Yupi.Game.Support
         /// <returns>ServerMessage.</returns>
         internal static ServerMessage SerializeRoomVisits(uint userId)
         {
-            var serverMessage =
+            ServerMessage serverMessage =
                 new ServerMessage(LibraryParser.OutgoingRequest("ModerationToolRoomVisitsMessageComposer"));
             serverMessage.AppendInteger(userId);
 
-            var user = Yupi.GetGame().GetClientManager().GetClientByUserId(userId);
+            GameClient user = Yupi.GetGame().GetClientManager().GetClientByUserId(userId);
 
             if (user?.GetHabbo() == null)
             {
@@ -354,7 +358,7 @@ namespace Yupi.Game.Support
             serverMessage.StartArray();
 
             foreach (
-                var roomData in
+                RoomData roomData in
                     user.GetHabbo()
                         .RecentlyVisitedRooms.Select(roomId => Yupi.GetGame().GetRoomManager().GenerateRoomData(roomId))
                         .Where(roomData => roomData != null))
@@ -381,12 +385,12 @@ namespace Yupi.Game.Support
         {
             ServerMessage result;
 
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery(
                     $"SELECT DISTINCT room_id FROM users_chatlogs WHERE user_id = '{userId}' ORDER BY timestamp DESC LIMIT 4");
-                var table = queryReactor.GetTable();
-                var serverMessage =
+                DataTable table = queryReactor.GetTable();
+                ServerMessage serverMessage =
                     new ServerMessage(LibraryParser.OutgoingRequest("ModerationToolUserChatlogMessageComposer"));
                 serverMessage.AppendInteger(userId);
                 serverMessage.AppendString(Yupi.GetGame().GetClientManager().GetNameById(userId));
@@ -394,19 +398,19 @@ namespace Yupi.Game.Support
                 if (table != null)
                 {
                     serverMessage.AppendInteger(table.Rows.Count);
-                    var enumerator = table.Rows.GetEnumerator();
+                    IEnumerator enumerator = table.Rows.GetEnumerator();
 
                     try
                     {
                         while (enumerator.MoveNext())
                         {
-                            var dataRow = (DataRow) enumerator.Current;
+                            DataRow dataRow = (DataRow) enumerator.Current;
 
                             queryReactor.SetQuery(
                                 $"SELECT user_id,timestamp,message FROM users_chatlogs WHERE room_id = {dataRow["room_id"]} AND user_id = {userId} ORDER BY timestamp DESC LIMIT 30");
 
-                            var table2 = queryReactor.GetTable();
-                            var roomData = Yupi.GetGame().GetRoomManager().GenerateRoomData((uint) dataRow["room_id"]);
+                            DataTable table2 = queryReactor.GetTable();
+                            RoomData roomData = Yupi.GetGame().GetRoomManager().GenerateRoomData((uint) dataRow["room_id"]);
 
                             if (table2 != null)
                             {
@@ -419,14 +423,14 @@ namespace Yupi.Game.Support
                                 serverMessage.AppendByte(1);
                                 serverMessage.AppendInteger((uint) dataRow["room_id"]);
                                 serverMessage.AppendShort(table2.Rows.Count);
-                                var enumerator2 = table2.Rows.GetEnumerator();
+                                IEnumerator enumerator2 = table2.Rows.GetEnumerator();
                                 try
                                 {
                                     while (enumerator2.MoveNext())
                                     {
-                                        var dataRow2 = (DataRow) enumerator2.Current;
+                                        DataRow dataRow2 = (DataRow) enumerator2.Current;
 
-                                        var habboForId = Yupi.GetHabboById((uint) dataRow2["user_id"]);
+                                        Habbo habboForId = Yupi.GetHabboById((uint) dataRow2["user_id"]);
                                         Yupi.UnixToDateTime((double) dataRow2["timestamp"]);
 
                                         if (habboForId == null)
@@ -444,7 +448,7 @@ namespace Yupi.Game.Support
                                 }
                                 finally
                                 {
-                                    var disposable = enumerator2 as IDisposable;
+                                    IDisposable disposable = enumerator2 as IDisposable;
 
                                     disposable?.Dispose();
                                 }
@@ -460,7 +464,7 @@ namespace Yupi.Game.Support
                     }
                     finally
                     {
-                        var disposable2 = enumerator as IDisposable;
+                        IDisposable disposable2 = enumerator as IDisposable;
 
                         disposable2?.Dispose();
                     }
@@ -482,9 +486,9 @@ namespace Yupi.Game.Support
         /// <exception cref="System.NullReferenceException">No room found.</exception>
         internal static ServerMessage SerializeTicketChatlog(SupportTicket ticket, RoomData roomData, double timestamp)
         {
-            var message = new ServerMessage();
+            ServerMessage message = new ServerMessage();
 
-            var room = Yupi.GetGame().GetRoomManager().GenerateRoomData(ticket.RoomId);
+            RoomData room = Yupi.GetGame().GetRoomManager().GenerateRoomData(ticket.RoomId);
 
             if (room != null)
             {
@@ -504,12 +508,12 @@ namespace Yupi.Game.Support
                 message.AppendByte(1);
                 message.AppendInteger(ticket.RoomId);
 
-                var tempChatlogs =
+                List<Chatlog> tempChatlogs =
                     room.RoomChat.Reverse().Skip(Math.Max(0, room.RoomChat.Count() - 60)).Take(60).ToList();
 
                 message.AppendShort(tempChatlogs.Count);
 
-                foreach (var chatLog in tempChatlogs)
+                foreach (Chatlog chatLog in tempChatlogs)
                     chatLog.Serialize(ref message);
 
                 return message;
@@ -525,9 +529,9 @@ namespace Yupi.Game.Support
         /// <exception cref="System.NullReferenceException">No room found.</exception>
         internal static ServerMessage SerializeRoomChatlog(uint roomId)
         {
-            var message = new ServerMessage();
+            ServerMessage message = new ServerMessage();
 
-            var room = Yupi.GetGame().GetRoomManager().LoadRoom(roomId);
+            Room room = Yupi.GetGame().GetRoomManager().LoadRoom(roomId);
 
             if (room?.RoomData != null)
             {
@@ -541,7 +545,7 @@ namespace Yupi.Game.Support
                 message.AppendByte(1);
                 message.AppendInteger(room.RoomData.Id);
 
-                var tempChatlogs =
+                List<Chatlog> tempChatlogs =
                     room.RoomData.RoomChat.Reverse()
                         .Skip(Math.Max(0, room.RoomData.RoomChat.Count - 60))
                         .Take(60)
@@ -549,7 +553,7 @@ namespace Yupi.Game.Support
 
                 message.AppendShort(tempChatlogs.Count);
 
-                foreach (var chatLog in tempChatlogs)
+                foreach (Chatlog chatLog in tempChatlogs)
                     chatLog.Serialize(ref message);
 
                 return message;
@@ -565,29 +569,29 @@ namespace Yupi.Game.Support
         /// <returns>ServerMessage.</returns>
         internal ServerMessage SerializeTool(GameClient session)
         {
-            var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("LoadModerationToolMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("LoadModerationToolMessageComposer"));
 
             serverMessage.AppendInteger(Tickets.Count);
 
-            foreach (var current in Tickets)
+            foreach (SupportTicket current in Tickets)
                 current.Serialize(serverMessage);
 
             serverMessage.AppendInteger(UserMessagePresets.Count);
 
-            foreach (var current2 in UserMessagePresets)
+            foreach (string current2 in UserMessagePresets)
                 serverMessage.AppendString(current2);
 
             IEnumerable<ModerationTemplate> enumerable =
                 (from x in ModerationTemplates.Values where x.Category == -1 select x).ToArray();
 
             serverMessage.AppendInteger(enumerable.Count());
-            using (var enumerator3 = enumerable.GetEnumerator())
+            using (IEnumerator<ModerationTemplate> enumerator3 = enumerable.GetEnumerator())
             {
-                var first = true;
+                bool first = true;
 
                 while (enumerator3.MoveNext())
                 {
-                    var template = enumerator3.Current;
+                    ModerationTemplate template = enumerator3.Current;
                     IEnumerable<ModerationTemplate> enumerable2 =
                         (from x in ModerationTemplates.Values where x.Category == (long) (ulong) template.Id select x)
                             .ToArray();
@@ -595,7 +599,7 @@ namespace Yupi.Game.Support
                     serverMessage.AppendBool(first);
                     serverMessage.AppendInteger(enumerable2.Count());
 
-                    foreach (var current3 in enumerable2)
+                    foreach (ModerationTemplate current3 in enumerable2)
                     {
                         serverMessage.AppendString(current3.Caption);
                         serverMessage.AppendString(current3.BanMessage);
@@ -622,7 +626,7 @@ namespace Yupi.Game.Support
 
             serverMessage.AppendInteger(RoomMessagePresets.Count);
 
-            foreach (var current4 in RoomMessagePresets)
+            foreach (string current4 in RoomMessagePresets)
                 serverMessage.AppendString(current4);
 
             return serverMessage;
@@ -639,19 +643,19 @@ namespace Yupi.Game.Support
             SupportTicketHints.Clear();
             ModerationTemplates.Clear();
             dbClient.SetQuery("SELECT type,message FROM moderation_presets WHERE enabled = 2");
-            var table = dbClient.GetTable();
+            DataTable table = dbClient.GetTable();
             dbClient.SetQuery("SELECT word,hint FROM moderation_tickethints");
-            var table2 = dbClient.GetTable();
+            DataTable table2 = dbClient.GetTable();
             dbClient.SetQuery("SELECT * FROM moderation_templates");
-            var table3 = dbClient.GetTable();
+            DataTable table3 = dbClient.GetTable();
 
             if (table == null || table2 == null)
                 return;
 
             foreach (DataRow dataRow in table.Rows)
             {
-                var item = (string) dataRow["message"];
-                var a = dataRow["type"].ToString().ToLower();
+                string item = (string) dataRow["message"];
+                string a = dataRow["type"].ToString().ToLower();
 
                 if (a != "message")
                 {
@@ -712,7 +716,7 @@ namespace Yupi.Game.Support
 
             if (session.GetHabbo().CurrentRoomId <= 0)
             {
-                using (var dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
                     dbClient.SetQuery(
                         string.Concat(
@@ -725,7 +729,7 @@ namespace Yupi.Game.Support
                         $"UPDATE users_info SET cfhs = cfhs + 1 WHERE user_id = {session.GetHabbo().Id}");
                 }
 
-                var ticket = new SupportTicket(id, 1, category, type, session.GetHabbo().Id, reportedUser, message, 0u,
+                SupportTicket ticket = new SupportTicket(id, 1, category, type, session.GetHabbo().Id, reportedUser, message, 0u,
                     "", Yupi.GetUnixTimeStamp(), messages);
 
                 Tickets.Add(ticket);
@@ -733,9 +737,9 @@ namespace Yupi.Game.Support
             }
             else
             {
-                var data = Yupi.GetGame().GetRoomManager().GenerateNullableRoomData(session.GetHabbo().CurrentRoomId);
+                RoomData data = Yupi.GetGame().GetRoomManager().GenerateNullableRoomData(session.GetHabbo().CurrentRoomId);
 
-                using (var dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
                     dbClient.SetQuery(
                         string.Concat(
@@ -749,7 +753,7 @@ namespace Yupi.Game.Support
                         $"UPDATE users_info SET cfhs = cfhs + 1 WHERE user_id = {session.GetHabbo().Id}");
                 }
 
-                var ticket2 = new SupportTicket(id, 1, category, type, session.GetHabbo().Id, reportedUser, message,
+                SupportTicket ticket2 = new SupportTicket(id, 1, category, type, session.GetHabbo().Id, reportedUser, message,
                     data.Id, data.Name, Yupi.GetUnixTimeStamp(), messages);
 
                 Tickets.Add(ticket2);
@@ -764,10 +768,10 @@ namespace Yupi.Game.Support
         /// <param name="userId">The user identifier.</param>
         internal void SerializeOpenTickets(ref QueuedServerMessage serverMessages, uint userId)
         {
-            var message = new ServerMessage(LibraryParser.OutgoingRequest("ModerationToolIssueMessageComposer"));
+            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("ModerationToolIssueMessageComposer"));
 
             foreach (
-                var current in
+                SupportTicket current in
                     Tickets.Where(
                         current =>
                             current.Status == TicketStatus.Open ||
@@ -796,7 +800,7 @@ namespace Yupi.Game.Support
         /// <param name="ticketId">The ticket identifier.</param>
         internal void PickTicket(GameClient session, uint ticketId)
         {
-            var ticket = GetTicket(ticketId);
+            SupportTicket ticket = GetTicket(ticketId);
 
             if (ticket == null || ticket.Status != TicketStatus.Open)
                 return;
@@ -812,7 +816,7 @@ namespace Yupi.Game.Support
         /// <param name="ticketId">The ticket identifier.</param>
         internal void ReleaseTicket(GameClient session, uint ticketId)
         {
-            var ticket = GetTicket(ticketId);
+            SupportTicket ticket = GetTicket(ticketId);
 
             if (ticket == null || ticket.Status != TicketStatus.Picked || ticket.ModeratorId != session.GetHabbo().Id)
                 return;
@@ -829,12 +833,12 @@ namespace Yupi.Game.Support
         /// <param name="result">The result.</param>
         internal void CloseTicket(GameClient session, uint ticketId, int result)
         {
-            var ticket = GetTicket(ticketId);
+            SupportTicket ticket = GetTicket(ticketId);
 
             if (ticket == null || ticket.Status != TicketStatus.Picked || ticket.ModeratorId != session.GetHabbo().Id)
                 return;
 
-            var senderUser = Yupi.GetHabboById(ticket.SenderId);
+            Habbo senderUser = Yupi.GetHabboById(ticket.SenderId);
 
             if (senderUser == null)
                 return;
@@ -863,7 +867,7 @@ namespace Yupi.Game.Support
 
             if (statusCode == 2)
             {
-                using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
                     AbusiveCooldown.Add(ticket.SenderId, Yupi.GetUnixTimeStamp() + 600);
                     queryReactor.RunFastQuery(
@@ -871,12 +875,12 @@ namespace Yupi.Game.Support
                 }
             }
 
-            var senderClient = Yupi.GetGame().GetClientManager().GetClientByUserId(senderUser.Id);
+            GameClient senderClient = Yupi.GetGame().GetClientManager().GetClientByUserId(senderUser.Id);
 
             if (senderClient != null)
             {
                 foreach (
-                    var current2 in
+                    SupportTicket current2 in
                         Tickets.FindAll(
                             current => current.ReportedId == ticket.ReportedId && current.Status == TicketStatus.Picked)
                     )
@@ -908,7 +912,7 @@ namespace Yupi.Game.Support
             else
             {
                 foreach (
-                    var current2 in
+                    SupportTicket current2 in
                         Tickets.FindAll(
                             current => current.ReportedId == ticket.ReportedId && current.Status == TicketStatus.Picked)
                     )
@@ -919,7 +923,7 @@ namespace Yupi.Game.Support
                 }
             }
 
-            using (var queryreactor2 = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryreactor2 = Yupi.GetDatabaseManager().GetQueryReactor())
                 queryreactor2.RunFastQuery(
                     $"UPDATE users_stats SET tickets_answered = tickets_answered+1 WHERE id={session.GetHabbo().Id} LIMIT 1");
         }
@@ -941,7 +945,7 @@ namespace Yupi.Game.Support
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         internal bool UsersHasAbusiveCooldown(uint id)
         {
-            foreach (var item in AbusiveCooldown)
+            foreach (KeyValuePair<uint, double> item in AbusiveCooldown)
             {
                 if (AbusiveCooldown.ContainsKey(id) && item.Value - Yupi.GetUnixTimeStamp() > 0)
                     return true;
@@ -958,7 +962,7 @@ namespace Yupi.Game.Support
         /// <param name="id">The identifier.</param>
         internal void DeletePendingTicketForUser(uint id)
         {
-            foreach (var current in Tickets.Where(current => current.SenderId == id))
+            foreach (SupportTicket current in Tickets.Where(current => current.SenderId == id))
             {
                 current.Delete(true);
                 SendTicketToModerators(current);
@@ -985,7 +989,7 @@ namespace Yupi.Game.Support
         /// <param name="description">The description.</param>
         internal void LogStaffEntry(string modName, string target, string type, string description)
         {
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery(
                     "INSERT INTO server_stafflogs (staffuser,target,action_type,description) VALUES (@Username,@target,@type,@desc)");

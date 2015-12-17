@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using Yupi.Core.Io;
+using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Game.Items.Interactions;
 using Yupi.Game.Items.Interactions.Enums;
 using Yupi.Game.Items.Interfaces;
@@ -47,16 +49,16 @@ namespace Yupi.Game.Items.Wired
                 return null;
             }
 
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery("SELECT * FROM items_wireds WHERE id=@id LIMIT 1");
                 queryReactor.AddParameter("id", fItem.Item.Id);
 
-                var row = queryReactor.GetRow();
+                DataRow row = queryReactor.GetRow();
 
                 if (row == null)
                 {
-                    var wiredItem = GenerateNewItem(fItem.Item);
+                    IWiredItem wiredItem = GenerateNewItem(fItem.Item);
                     AddWired(wiredItem);
                     SaveWired(wiredItem);
 
@@ -69,16 +71,16 @@ namespace Yupi.Game.Items.Wired
                 fItem.OtherExtraString = row["extra_string"].ToString();
                 fItem.OtherExtraString2 = row["extra_string_2"].ToString();
 
-                var array = row["items"].ToString().Split(';');
+                string[] array = row["items"].ToString().Split(';');
 
-                foreach (var s in array)
+                foreach (string s in array)
                 {
                     int value;
 
                     if (!int.TryParse(s, out value))
                         continue;
 
-                    var item = _room.GetRoomItemHandler().GetItem(Convert.ToUInt32(value));
+                    RoomItem item = _room.GetRoomItemHandler().GetItem(Convert.ToUInt32(value));
 
                     fItem.Items.Add(item);
                 }
@@ -94,12 +96,12 @@ namespace Yupi.Game.Items.Wired
             if (fItem == null)
                 return;
 
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                var text = string.Empty;
-                var num = 0;
+                string text = string.Empty;
+                int num = 0;
 
-                foreach (var current in fItem.Items)
+                foreach (RoomItem current in fItem.Items)
                 {
                     if (num != 0) text += ";";
                     text += current.Id;
@@ -137,7 +139,7 @@ namespace Yupi.Game.Items.Wired
         {
             lock (_wiredItems)
             {
-                foreach (var current in _wiredItems.Where(current => current != null && current.Type == type))
+                foreach (IWiredItem current in _wiredItems.Where(current => current != null && current.Type == type))
                     current.OtherExtraString = "0";
             }
         }
@@ -150,7 +152,7 @@ namespace Yupi.Game.Items.Wired
                     return false;
 
                 if (type == Interaction.TriggerCollision)
-                    foreach (var wiredItem in _wiredItems.Where(wiredItem => wiredItem != null && wiredItem.Type == type))
+                    foreach (IWiredItem wiredItem in _wiredItems.Where(wiredItem => wiredItem != null && wiredItem.Type == type))
                         wiredItem.Execute(stuff);
                 else if (_wiredItems.Any(current => current != null && current.Type == type && current.Execute(stuff)))
                     return true;
@@ -167,18 +169,18 @@ namespace Yupi.Game.Items.Wired
         {
             try
             {
-                var queue = new Queue();
+                Queue queue = new Queue();
                 lock (_cycleItems.SyncRoot)
                 {
                     while (_cycleItems.Count > 0)
                     {
-                        var wiredItem = (IWiredItem) _cycleItems.Dequeue();
-                        var item = wiredItem as IWiredCycler;
+                        IWiredItem wiredItem = (IWiredItem) _cycleItems.Dequeue();
+                        IWiredCycler item = wiredItem as IWiredCycler;
 
                         if (item == null)
                             continue;
 
-                        var wiredCycler = item;
+                        IWiredCycler wiredCycler = item;
 
                         if (!wiredCycler.OnCycle())
                             if (!queue.Contains(item))
@@ -218,18 +220,18 @@ namespace Yupi.Game.Items.Wired
 
         public void RemoveWired(RoomItem item)
         {
-            foreach (var current in _wiredItems)
+            foreach (IWiredItem current in _wiredItems)
             {
                 if (current?.Item == null || current.Item.Id != item.Id)
                     continue;
 
-                var queue = new Queue();
+                Queue queue = new Queue();
 
                 lock (_cycleItems.SyncRoot)
                 {
                     while (_cycleItems.Count > 0)
                     {
-                        var wiredItem = (IWiredItem) _cycleItems.Dequeue();
+                        IWiredItem wiredItem = (IWiredItem) _cycleItems.Dequeue();
 
                         if (wiredItem.Item.Id != item.Id)
                             queue.Enqueue(wiredItem);
@@ -449,7 +451,7 @@ namespace Yupi.Game.Items.Wired
 
         public void MoveWired(RoomItem item)
         {
-            var wired = GetWired(item);
+            IWiredItem wired = GetWired(item);
 
             if (wired == null)
                 return;

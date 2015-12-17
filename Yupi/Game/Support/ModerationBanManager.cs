@@ -47,15 +47,15 @@ namespace Yupi.Game.Support
             _bannedIPs.Clear();
             _bannedMachines.Clear();
             dbClient.SetQuery("SELECT bantype,value,reason,expire FROM users_bans");
-            var table = dbClient.GetTable();
+            DataTable table = dbClient.GetTable();
             double num = Yupi.GetUnixTimeStamp();
 
             foreach (DataRow dataRow in table.Rows)
             {
-                var text = (string) dataRow["value"];
-                var reasonMessage = (string) dataRow["reason"];
-                var num2 = (double) dataRow["expire"];
-                var a = (string) dataRow["bantype"];
+                string text = (string) dataRow["value"];
+                string reasonMessage = (string) dataRow["reason"];
+                double num2 = (double) dataRow["expire"];
+                string a = (string) dataRow["bantype"];
 
                 ModerationBanType type;
 
@@ -74,7 +74,7 @@ namespace Yupi.Game.Support
                         break;
                 }
 
-                var moderationBan = new ModerationBan(type, text, reasonMessage, num2);
+                ModerationBan moderationBan = new ModerationBan(type, text, reasonMessage, num2);
 
                 if (!(num2 > num))
                     continue;
@@ -107,7 +107,7 @@ namespace Yupi.Game.Support
         {
             if (_bannedUsernames.Contains(userName))
             {
-                var moderationBan = (ModerationBan) _bannedUsernames[userName];
+                ModerationBan moderationBan = (ModerationBan) _bannedUsernames[userName];
 
                 if (!moderationBan.Expired)
                     return moderationBan.ReasonMessage;
@@ -116,7 +116,7 @@ namespace Yupi.Game.Support
             {
                 if (_bannedIPs.Contains(ip))
                 {
-                    var moderationBan2 = (ModerationBan) _bannedIPs[ip];
+                    ModerationBan moderationBan2 = (ModerationBan) _bannedIPs[ip];
 
                     if (!moderationBan2.Expired)
                         return moderationBan2.ReasonMessage;
@@ -126,7 +126,7 @@ namespace Yupi.Game.Support
                     if (!_bannedMachines.ContainsKey(machineid))
                         return string.Empty;
 
-                    var moderationBan3 = _bannedMachines[machineid];
+                    ModerationBan moderationBan3 = _bannedMachines[machineid];
 
                     if (!moderationBan3.Expired)
                         return moderationBan3.ReasonMessage;
@@ -157,16 +157,16 @@ namespace Yupi.Game.Support
         internal void BanUser(GameClient client, string moderator, double lengthSeconds, string reason, bool ipBan,
             bool machine)
         {
-            var type = ModerationBanType.UserName;
-            var text = client.GetHabbo().UserName;
-            var typeStr = "user";
-            var num = Yupi.GetUnixTimeStamp() + lengthSeconds;
+            ModerationBanType type = ModerationBanType.UserName;
+            string text = client.GetHabbo().UserName;
+            string typeStr = "user";
+            double num = Yupi.GetUnixTimeStamp() + lengthSeconds;
 
             if (ipBan)
             {
                 type = ModerationBanType.Ip;
 
-                using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
                     queryReactor.SetQuery("SELECT ip_last FROM users WHERE username = @name LIMIT 1");
                     queryReactor.AddParameter("name", text);
@@ -182,7 +182,7 @@ namespace Yupi.Game.Support
                 text = client.MachineId;
             }
 
-            var moderationBan = new ModerationBan(type, text, reason, num);
+            ModerationBan moderationBan = new ModerationBan(type, text, reason, num);
 
             switch (moderationBan.Type)
             {
@@ -202,7 +202,7 @@ namespace Yupi.Game.Support
                     break;
             }
 
-            using (var queryreactor2 = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryreactor2 = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryreactor2.SetQuery(
                     "INSERT INTO users_bans (bantype,value,reason,expire,added_by,added_date) VALUES (@rawvar,@var,@reason,@num,@mod,@time)");
@@ -219,7 +219,7 @@ namespace Yupi.Game.Support
             {
                 DataTable dataTable;
 
-                using (var queryreactor3 = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter queryreactor3 = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
                     queryreactor3.SetQuery("SELECT id FROM users WHERE ip_last = @var");
                     queryreactor3.AddParameter("var", text);
@@ -228,7 +228,7 @@ namespace Yupi.Game.Support
 
                 if (dataTable != null)
                 {
-                    using (var queryreactor4 = Yupi.GetDatabaseManager().GetQueryReactor())
+                    using (IQueryAdapter queryreactor4 = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
                         foreach (DataRow dataRow in dataTable.Rows)
                             queryreactor4.RunFastQuery(
@@ -240,7 +240,7 @@ namespace Yupi.Game.Support
                 return;
             }
 
-            using (var queryreactor5 = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryreactor5 = Yupi.GetDatabaseManager().GetQueryReactor())
                 queryreactor5.RunFastQuery(
                     $"UPDATE users_info SET bans = bans + 1 WHERE user_id = {client.GetHabbo().Id}");
 
@@ -256,7 +256,7 @@ namespace Yupi.Game.Support
             _bannedUsernames.Remove(userNameOrIp);
             _bannedIPs.Remove(userNameOrIp);
 
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery("DELETE FROM users_bans WHERE value = @userorip");
                 queryReactor.AddParameter("userorip", userNameOrIp);

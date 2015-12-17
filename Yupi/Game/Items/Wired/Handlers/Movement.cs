@@ -139,7 +139,7 @@ namespace Yupi.Game.Items.Wired.Handlers
 
         public static Point HandleMovement(Point newCoordinate, MovementState state, int newRotation)
         {
-            var newPoint = new Point(newCoordinate.X, newCoordinate.Y);
+            Point newPoint = new Point(newCoordinate.X, newCoordinate.Y);
 
             switch (state)
             {
@@ -205,7 +205,7 @@ namespace Yupi.Game.Items.Wired.Handlers
 
         public static Point HandleMovementDir(Point newCoordinate, MovementDirection state, int newRotation)
         {
-            var newPoint = new Point(newCoordinate.X, newCoordinate.Y);
+            Point newPoint = new Point(newCoordinate.X, newCoordinate.Y);
 
             switch (state)
             {
@@ -257,7 +257,7 @@ namespace Yupi.Game.Items.Wired.Handlers
 
         public static int HandleRotation(int oldRotation, RotationState state)
         {
-            var rotation = oldRotation;
+            int rotation = oldRotation;
             switch (state)
             {
                 case RotationState.ClocWise:

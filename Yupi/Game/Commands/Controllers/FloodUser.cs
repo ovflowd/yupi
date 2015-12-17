@@ -24,7 +24,7 @@ namespace Yupi.Game.Commands.Controllers
 
         public override bool Execute(GameClient session, string[] pms)
         {
-            var client = Yupi.GetGame().GetClientManager().GetClientByUserName(pms[0]);
+            GameClient client = Yupi.GetGame().GetClientManager().GetClientByUserName(pms[0]);
             if (client == null)
             {
                 session.SendWhisper(Yupi.GetLanguage().GetVar("user_not_found"));
@@ -43,7 +43,7 @@ namespace Yupi.Game.Commands.Controllers
             }
 
             client.GetHabbo().FloodTime = Yupi.GetUnixTimeStamp() + Convert.ToInt32(pms[1]);
-            var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("FloodFilterMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("FloodFilterMessageComposer"));
             serverMessage.AppendInteger(Convert.ToInt32(pms[1]));
             client.SendMessage(serverMessage);
             return true;

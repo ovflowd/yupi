@@ -155,7 +155,7 @@ namespace Yupi.Net.Sockets
                         socket.NoDelay = _disableNagleAlgorithm;
                         AcceptedConnections++;
 
-                        var connectionInfo = new ConnectionData(socket, _parser.Clone() as IDataParser,
+                        ConnectionData connectionInfo = new ConnectionData(socket, _parser.Clone() as IDataParser,
                             AcceptedConnections) {Disconnected = OnChannelDisconnect};
                         OnClientConnected(connectionInfo);
                     }

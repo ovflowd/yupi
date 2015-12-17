@@ -3,6 +3,7 @@ using Yupi.Game.Items.Interactions.Enums;
 using Yupi.Game.Items.Interfaces;
 using Yupi.Game.Items.Wired.Interfaces;
 using Yupi.Game.Rooms;
+using Yupi.Game.Rooms.User;
 
 namespace Yupi.Game.Items.Wired.Handlers.Effects
 {
@@ -45,7 +46,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
 
         public bool Execute(params object[] stuff)
         {
-            var bot = Room.GetRoomUserManager().GetBotByName(OtherString);
+            RoomUser bot = Room.GetRoomUserManager().GetBotByName(OtherString);
 
             if (bot == null)
                 return false;

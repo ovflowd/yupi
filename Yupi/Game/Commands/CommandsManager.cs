@@ -27,9 +27,11 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Yupi.Core.Io;
+using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Game.Commands.Controllers;
 using Yupi.Game.Commands.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
+using Yupi.Game.Users;
 
 namespace Yupi.Game.Commands
 {
@@ -177,20 +179,20 @@ namespace Yupi.Game.Commands
         /// </summary>
         public static void UpdateInfo()
         {
-            using (var dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 dbClient.SetQuery("SELECT command, description, params, rank, alias FROM server_fuses");
 
-                var commandsTable = dbClient.GetTable();
+                DataTable commandsTable = dbClient.GetTable();
 
                 foreach (DataRow commandRow in commandsTable.Rows)
                 {
-                    var key = commandRow["command"].ToString();
+                    string key = commandRow["command"].ToString();
 
                     if (!CommandsDictionary.ContainsKey(key))
                         continue;
 
-                    var command = CommandsDictionary[key];
+                    Command command = CommandsDictionary[key];
 
                     if (!string.IsNullOrEmpty(commandRow["description"].ToString()))
                         command.Description = commandRow["description"].ToString();
@@ -200,9 +202,9 @@ namespace Yupi.Game.Commands
 
                     if (!string.IsNullOrEmpty(commandRow["alias"].ToString()))
                     {
-                        var aliasStr = commandRow["alias"].ToString().Replace(" ", "").Replace(";", ",");
+                        string aliasStr = commandRow["alias"].ToString().Replace(" ", "").Replace(";", ",");
 
-                        foreach (var alias in aliasStr.Split(',').Where(alias => !string.IsNullOrEmpty(alias)))
+                        foreach (string alias in aliasStr.Split(',').Where(alias => !string.IsNullOrEmpty(alias)))
                         {
                             if (AliasDictionary.ContainsKey(alias))
                             {
@@ -241,9 +243,9 @@ namespace Yupi.Game.Commands
             if (string.IsNullOrEmpty(str) || client.GetHabbo() == null || !client.GetHabbo().InRoom)
                 return false;
 
-            var pms = str.Split(' ');
+            string[] pms = str.Split(' ');
 
-            var commandName = pms[0];
+            string commandName = pms[0];
 
             if (AliasDictionary.ContainsKey(commandName))
                 commandName = AliasDictionary[commandName];
@@ -251,7 +253,7 @@ namespace Yupi.Game.Commands
             if (!CommandsDictionary.ContainsKey(commandName))
                 return false;
 
-            var command = CommandsDictionary[commandName];
+            Command command = CommandsDictionary[commandName];
 
             if (!CanUse(command.MinRank, client))
                 return false;
@@ -276,9 +278,9 @@ namespace Yupi.Game.Commands
             if (string.IsNullOrEmpty(scommand) || string.IsNullOrEmpty(parameters) || client.GetHabbo() == null || !client.GetHabbo().InRoom)
                 return false;
 
-            var pms = parameters.Split(' ');
+            string[] pms = parameters.Split(' ');
 
-            var commandName = scommand;
+            string commandName = scommand;
 
             if (AliasDictionary.ContainsKey(commandName))
                 commandName = AliasDictionary[commandName];
@@ -286,7 +288,7 @@ namespace Yupi.Game.Commands
             if (!CommandsDictionary.ContainsKey(commandName))
                 return false;
 
-            var command = CommandsDictionary[commandName];
+            Command command = CommandsDictionary[commandName];
 
             if (!CanUse(command.MinRank, client))
                 return false;
@@ -307,10 +309,10 @@ namespace Yupi.Game.Commands
         /// <returns><c>true</c> if this instance can use the specified minimum rank; otherwise, <c>false</c>.</returns>
         public static bool CanUse(short minRank, GameClient user)
         {
-            var habbo = user.GetHabbo();
+            Habbo habbo = user.GetHabbo();
 
-            var userRank = habbo.Rank;
-            var staff = habbo.HasFuse("fuse_any_room_controller");
+            uint userRank = habbo.Rank;
+            bool staff = habbo.HasFuse("fuse_any_room_controller");
 
             switch (minRank)
             {
