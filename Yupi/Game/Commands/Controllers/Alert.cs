@@ -22,10 +22,10 @@ namespace Yupi.Game.Commands.Controllers
 
         public override bool Execute(GameClient session, string[] pms)
         {
-            var userName = pms[0];
-            var msg = string.Join(" ", pms.Skip(1));
+            string userName = pms[0];
+            string msg = string.Join(" ", pms.Skip(1));
 
-            var client = Yupi.GetGame().GetClientManager().GetClientByUserName(userName);
+            GameClient client = Yupi.GetGame().GetClientManager().GetClientByUserName(userName);
             if (client == null)
             {
                 session.SendWhisper(Yupi.GetLanguage().GetVar("user_not_found"));

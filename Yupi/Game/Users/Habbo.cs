@@ -570,7 +570,7 @@ namespace Yupi.Game.Users
         {
             get
             {
-                using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
                     queryReactor.SetQuery($"SELECT diamonds FROM users WHERE id = {Id}");
 
@@ -579,7 +579,7 @@ namespace Yupi.Game.Users
             }
             set
             {
-                using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     queryReactor.RunFastQuery(string.Format("UPDATE users SET diamonds = {1} WHERE id = {0}", Id, value));
             }
         }
@@ -601,9 +601,9 @@ namespace Yupi.Game.Users
         {
             get
             {
-                var strtmp = Look.Split('.');
-                var tmp2 = strtmp.FirstOrDefault(x => x.Contains("hd-"));
-                var lookToReturn = tmp2 ?? string.Empty;
+                string[] strtmp = Look.Split('.');
+                string tmp2 = strtmp.FirstOrDefault(x => x.Contains("hd-"));
+                string lookToReturn = tmp2 ?? string.Empty;
 
                 if (Look.Contains("ha-"))
                     lookToReturn += $".{strtmp.FirstOrDefault(x => x.Contains("ha-"))}";
@@ -737,13 +737,13 @@ namespace Yupi.Game.Users
         /// </summary>
         internal void UpdateRooms()
         {
-            using (var dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 UsersRooms.Clear();
                 dbClient.SetQuery("SELECT * FROM rooms_data WHERE owner = @userId ORDER BY id ASC LIMIT 50");
                 dbClient.AddParameter("userId", Id);
 
-                var table = dbClient.GetTable();
+                DataTable table = dbClient.GetTable();
 
                 foreach (DataRow dataRow in table.Rows)
                     UsersRooms.Add(Yupi.GetGame()
@@ -821,21 +821,21 @@ namespace Yupi.Game.Users
         /// </summary>
         internal void SerializeClub()
         {
-            var client = GetClient();
-            var serverMessage = new ServerMessage();
+            GameClient client = GetClient();
+            ServerMessage serverMessage = new ServerMessage();
             serverMessage.Init(LibraryParser.OutgoingRequest("SubscriptionStatusMessageComposer"));
             serverMessage.AppendString("club_habbo");
             if (client.GetHabbo().GetSubscriptionManager().HasSubscription)
             {
                 double num = client.GetHabbo().GetSubscriptionManager().GetSubscription().ExpireTime;
-                var num2 = num - Yupi.GetUnixTimeStamp();
-                var num3 = (int) Math.Ceiling(num2/86400.0);
-                var i =
+                double num2 = num - Yupi.GetUnixTimeStamp();
+                int num3 = (int) Math.Ceiling(num2/86400.0);
+                int i =
                     (int)
                         Math.Ceiling((Yupi.GetUnixTimeStamp() -
                                       (double) client.GetHabbo().GetSubscriptionManager().GetSubscription().ActivateTime)/
                                      86400.0);
-                var num4 = num3/31;
+                int num4 = num3/31;
 
                 if (num4 >= 1)
                     num4--;
@@ -865,7 +865,7 @@ namespace Yupi.Game.Users
 
             client.SendMessage(serverMessage);
 
-            var serverMessage2 = new ServerMessage(LibraryParser.OutgoingRequest("UserClubRightsMessageComposer"));
+            ServerMessage serverMessage2 = new ServerMessage(LibraryParser.OutgoingRequest("UserClubRightsMessageComposer"));
 
             serverMessage2.AppendInteger(GetSubscriptionManager().HasSubscription ? 2 : 0);
             serverMessage2.AppendInteger(Rank);
@@ -908,7 +908,7 @@ namespace Yupi.Game.Users
                 _inventoryComponent.SetIdleState();
             }
 
-            var navilogs = string.Empty;
+            string navilogs = string.Empty;
 
             if (NavigatorLogs.Any())
             {
@@ -921,13 +921,13 @@ namespace Yupi.Game.Users
 
             Writer.WriteLine(UserName + " disconnected from game. Reason: " + reason, "Yupi.Users", ConsoleColor.DarkYellow);
 
-            var getOnlineSeconds = DateTime.Now - TimeLoggedOn;
-            var secondsToGive = getOnlineSeconds.Seconds;
+            TimeSpan getOnlineSeconds = DateTime.Now - TimeLoggedOn;
+            int secondsToGive = getOnlineSeconds.Seconds;
 
             if (!_habboinfoSaved)
             {
                 _habboinfoSaved = true;
-                using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
                     queryReactor.SetQuery("UPDATE users SET activity_points = " + ActivityPoints + ", credits = " +
                                           Credits + ", diamonds = " + Diamonds + ", online='0', last_online = '" +
@@ -971,7 +971,7 @@ namespace Yupi.Game.Users
         /// </summary>
         internal void InitMessenger()
         {
-            var client = GetClient();
+            GameClient client = GetClient();
 
             if (client == null)
                 return;
@@ -982,8 +982,8 @@ namespace Yupi.Game.Users
 
             if (Yupi.OfflineMessages.ContainsKey(Id))
             {
-                var list = Yupi.OfflineMessages[Id];
-                foreach (var current in list)
+                List<OfflineMessage> list = Yupi.OfflineMessages[Id];
+                foreach (OfflineMessage current in list)
                     client.SendMessage(_messenger.SerializeOfflineMessages(current));
                 Yupi.OfflineMessages.Remove(Id);
                 OfflineMessage.RemoveAllMessages(Yupi.GetDatabaseManager().GetQueryReactor(), Id);
@@ -1261,7 +1261,7 @@ namespace Yupi.Game.Users
             if (TradeLockExpire - Yupi.GetUnixTimeStamp() > 0)
                 return false;
 
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 queryReactor.RunFastQuery($"UPDATE users SET trade_lock = '0' WHERE id = {Id}");
 
             TradeLocked = false;

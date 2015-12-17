@@ -2,6 +2,7 @@
 using Yupi.Game.Items.Interactions.Enums;
 using Yupi.Game.Items.Interactions.Models;
 using Yupi.Game.Items.Interfaces;
+using Yupi.Game.Users;
 using Yupi.Messages;
 using Yupi.Messages.Parsers;
 
@@ -11,12 +12,12 @@ namespace Yupi.Game.Items.Interactions.Controllers
     {
         public override void OnTrigger(GameClient session, RoomItem item, int request, bool hasRights)
         {
-            var user = session.GetHabbo();
-            var ishc = user.Vip;
+            Habbo user = session.GetHabbo();
+            bool ishc = user.Vip;
 
             if (!ishc)
             {
-                var message = new ServerMessage(LibraryParser.OutgoingRequest("CustomUserNotificationMessageComposer"));
+                ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("CustomUserNotificationMessageComposer"));
                 message.AppendInteger(3);
                 session.SendMessage(message);
                 return;
@@ -25,7 +26,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
             if (item?.GetBaseItem() == null || item.GetBaseItem().InteractionType != Interaction.HcGate)
                 return;
 
-            var modes = item.GetBaseItem().Modes - 1;
+            uint modes = item.GetBaseItem().Modes - 1;
 
             if (modes <= 0)
                 item.UpdateState(false, true);
@@ -55,7 +56,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
 
         public override void OnWiredTrigger(RoomItem item)
         {
-            var num = item.GetBaseItem().Modes - 1;
+            uint num = item.GetBaseItem().Modes - 1;
 
             if (num <= 0)
                 item.UpdateState(false, true);

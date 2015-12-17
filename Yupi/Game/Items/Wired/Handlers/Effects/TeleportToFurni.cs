@@ -44,8 +44,8 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
             if (Room?.GetRoomItemHandler() == null || Room.GetRoomItemHandler().FloorItems == null)
                 return false;
 
-            var num = Yupi.Now();
-            var toAdd = new List<RoomUser>();
+            long num = Yupi.Now();
+            List<RoomUser> toAdd = new List<RoomUser>();
             RoomUser roomUser;
 
             while (ToWorkConcurrentQueue.TryDequeue(out roomUser))
@@ -67,7 +67,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
                 toAdd.Add(roomUser);
             }
 
-            foreach (var roomUserToAdd in toAdd.Where(roomUserToAdd => !ToWorkConcurrentQueue.Contains(roomUserToAdd)))
+            foreach (RoomUser roomUserToAdd in toAdd.Where(roomUserToAdd => !ToWorkConcurrentQueue.Contains(roomUserToAdd)))
                 ToWorkConcurrentQueue.Enqueue(roomUserToAdd);
 
             toAdd.Clear();
@@ -118,8 +118,8 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
             if (stuff[0] == null)
                 return false;
 
-            var roomUser = (RoomUser)stuff[0];
-            var item = (Interaction)stuff[1];
+            RoomUser roomUser = (RoomUser)stuff[0];
+            Interaction item = (Interaction)stuff[1];
 
             if (_mBanned.Contains(item))
                 return false;
@@ -152,13 +152,13 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
             if (user?.GetClient() == null || user.GetClient().GetHabbo() == null)
                 return true;
 
-            var rnd = new Random();
+            Random rnd = new Random();
 
             Items = (from x in Items orderby rnd.Next() select x).ToList();
 
             RoomItem roomItem = null;
 
-            foreach (var current in Items.Where(current => current != null && Room.GetRoomItemHandler().FloorItems.ContainsKey(current.Id)))
+            foreach (RoomItem current in Items.Where(current => current != null && Room.GetRoomItemHandler().FloorItems.ContainsKey(current.Id)))
                 roomItem = current;
 
             if (roomItem == null)

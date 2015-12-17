@@ -15,7 +15,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
             if (item?.GetBaseItem() == null || item.GetBaseItem().InteractionType != Interaction.Gate)
                 return;
 
-            var modes = item.GetBaseItem().Modes - 1;
+            uint modes = item.GetBaseItem().Modes - 1;
 
             if (modes <= 0)
                 item.UpdateState(false, true);
@@ -49,7 +49,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
 
         public override void OnWiredTrigger(RoomItem item)
         {
-            var num = item.GetBaseItem().Modes - 1;
+            uint num = item.GetBaseItem().Modes - 1;
 
             if (num <= 0)
                 item.UpdateState(false, true);

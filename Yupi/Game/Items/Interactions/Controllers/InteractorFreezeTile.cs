@@ -2,6 +2,7 @@ using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Items.Interactions.Models;
 using Yupi.Game.Items.Interfaces;
 using Yupi.Game.Rooms.Items.Games.Teams.Enums;
+using Yupi.Game.Rooms.User;
 
 namespace Yupi.Game.Items.Interactions.Controllers
 {
@@ -12,8 +13,8 @@ namespace Yupi.Game.Items.Interactions.Controllers
             if (session == null || session.GetHabbo() == null || item.InteractingUser > 0U)
                 return;
 
-            var pName = session.GetHabbo().UserName;
-            var roomUserByHabbo = item.GetRoom().GetRoomUserManager().GetRoomUserByHabbo(pName);
+            string pName = session.GetHabbo().UserName;
+            RoomUser roomUserByHabbo = item.GetRoom().GetRoomUserManager().GetRoomUserByHabbo(pName);
             roomUserByHabbo.GoalX = item.X;
             roomUserByHabbo.GoalY = item.Y;
 

@@ -48,15 +48,15 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
 
         public bool Execute(params object[] stuff)
         {
-            var roomUser = (RoomUser)stuff[0];
-            var bot = Room.GetRoomUserManager().GetBotByName(OtherString);
+            RoomUser roomUser = (RoomUser)stuff[0];
+            RoomUser bot = Room.GetRoomUserManager().GetBotByName(OtherString);
 
             if (bot == null)
                 return false;
 
             if (OtherBool) 
             {
-                var whisp = new ServerMessage(LibraryParser.OutgoingRequest("WhisperMessageComposer"));
+                ServerMessage whisp = new ServerMessage(LibraryParser.OutgoingRequest("WhisperMessageComposer"));
                 whisp.AppendInteger(bot.VirtualId);
                 whisp.AppendString(OtherExtraString);
                 whisp.AppendInteger(0);

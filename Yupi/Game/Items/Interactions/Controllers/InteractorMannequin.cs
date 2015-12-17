@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Items.Interactions.Models;
 using Yupi.Game.Items.Interfaces;
+using Yupi.Game.Rooms.User;
 using Yupi.Messages;
 using Yupi.Messages.Parsers;
 
@@ -16,21 +18,21 @@ namespace Yupi.Game.Items.Interactions.Controllers
             if (!item.ExtraData.Contains(Convert.ToChar(5).ToString()))
                 return;
 
-            var array = item.ExtraData.Split(Convert.ToChar(5));
+            string[] array = item.ExtraData.Split(Convert.ToChar(5));
 
             session.GetHabbo().Gender = array[0].ToUpper() == "F" ? "F" : "M";
 
-            var dictionary = new Dictionary<string, string>();
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
 
             dictionary.Clear();
 
-            var array2 = array[1].Split('.');
+            string[] array2 = array[1].Split('.');
 
-            foreach (var text in array2)
+            foreach (string text in array2)
             {
-                var array3 = session.GetHabbo().Look.Split('.');
+                string[] array3 = session.GetHabbo().Look.Split('.');
 
-                foreach (var text2 in array3)
+                foreach (string text2 in array3)
                 {
                     if (text2.Split('-')[0] == text.Split('-')[0])
                     {
@@ -53,11 +55,11 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 }
             }
 
-            var text3 = dictionary.Values.Aggregate("", (current1, current) => $"{current1}{current}.");
+            string text3 = dictionary.Values.Aggregate("", (current1, current) => $"{current1}{current}.");
 
             session.GetHabbo().Look = text3.TrimEnd('.');
 
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery(
                     $"UPDATE users SET look = @look, gender = @gender WHERE id = {session.GetHabbo().Id}");
@@ -76,9 +78,9 @@ namespace Yupi.Game.Items.Interactions.Controllers
             session.GetMessageHandler().GetResponse().AppendInteger(session.GetHabbo().AchievementPoints);
             session.GetMessageHandler().SendResponse();
 
-            var roomUserByHabbo = item.GetRoom().GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().Id);
+            RoomUser roomUserByHabbo = item.GetRoom().GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().Id);
 
-            var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("UpdateUserDataMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("UpdateUserDataMessageComposer"));
 
             serverMessage.AppendInteger(roomUserByHabbo.VirtualId);
             serverMessage.AppendString(session.GetHabbo().Look);

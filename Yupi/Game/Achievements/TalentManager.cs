@@ -106,7 +106,7 @@ namespace Yupi.Game.Achievements
 
             session.GetHabbo().Talents.Add(talent.Id, new UserTalent(talent.Id, 1));
 
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 queryReactor.RunFastQuery($"REPLACE INTO users_talents VALUES ('{session.GetHabbo().Id}', '{talent.Id}', '1');");
 
             session.SendMessage(AchievementTalentComposer.Compose(session, talent));
@@ -121,7 +121,7 @@ namespace Yupi.Game.Achievements
                     case 4:
                         session.GetHabbo().GetSubscriptionManager().AddSubscription(7);
 
-                        using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                        using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                             queryReactor.RunFastQuery($"UPDATE users SET talent_status = 'helper' WHERE id = '{session.GetHabbo().Id}'");
                         break;
                 }

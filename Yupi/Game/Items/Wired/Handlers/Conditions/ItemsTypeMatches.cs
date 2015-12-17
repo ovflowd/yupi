@@ -61,7 +61,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Conditions
 
             RoomItem lastitem = null;
 
-            foreach (var current in Items)
+            foreach (RoomItem current in Items)
             {
                 if (lastitem == null)
                 {

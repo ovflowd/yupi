@@ -1,5 +1,6 @@
 using System;
 using Yupi.Data.Base.Queries;
+using Yupi.Game.Users;
 using Yupi.Messages;
 
 namespace Yupi.Game.Rooms.Chat
@@ -67,7 +68,7 @@ namespace Yupi.Game.Rooms.Chat
 
         internal void Serialize(ref ServerMessage message)
         {
-            var habbo = Yupi.GetHabboById(UserId);
+            Habbo habbo = Yupi.GetHabboById(UserId);
             message.AppendInteger(Yupi.DifferenceInMilliSeconds(TimeStamp, DateTime.Now));
             message.AppendInteger(UserId);
             message.AppendString(habbo == null ? "*User not found*" : habbo.UserName);

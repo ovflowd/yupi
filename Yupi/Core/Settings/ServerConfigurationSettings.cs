@@ -57,7 +57,7 @@ namespace Yupi.Core.Settings
 
             try
             {
-                using (var streamReader = new StreamReader(filePath))
+                using (StreamReader streamReader = new StreamReader(filePath))
                 {
                     string text;
 
@@ -66,13 +66,13 @@ namespace Yupi.Core.Settings
                         if (text.Length < 1 || text.StartsWith("#"))
                             continue;
 
-                        var num = text.IndexOf('=');
+                        int num = text.IndexOf('=');
 
                         if (num == -1)
                             continue;
 
-                        var key = text.Substring(0, num);
-                        var value = text.Substring(num + 1);
+                        string key = text.Substring(0, num);
+                        string value = text.Substring(num + 1);
 
                         Data.Add(key, value);
                     }

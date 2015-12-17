@@ -23,7 +23,7 @@ namespace Yupi.Game.Commands.Controllers
         public override bool Execute(GameClient session, string[] pms)
         {
             foreach (
-                var client in
+                GameClient client in
                     Yupi.GetGame()
                         .GetClientManager()
                         .Clients.Values.Where(client => client != null && client.GetHabbo() != null))

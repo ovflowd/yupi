@@ -54,9 +54,9 @@ namespace Yupi.Core.Encryption
         {
             try
             {
-                var bytes = BigInteger.Parse('0' + publicKey, NumberStyles.HexNumber).ToByteArray();
-                var keyBytes = Rsa.Verify(bytes);
-                var keyString = Encoding.Default.GetString(keyBytes);
+                byte[] bytes = BigInteger.Parse('0' + publicKey, NumberStyles.HexNumber).ToByteArray();
+                byte[] keyBytes = Rsa.Verify(bytes);
+                string keyString = Encoding.Default.GetString(keyBytes);
 
                 return DiffieHellman.CalculateSharedKey(BigInteger.Parse(keyString));
             }
@@ -71,8 +71,8 @@ namespace Yupi.Core.Encryption
         {
             try
             {
-                var m = Encoding.Default.GetBytes(message);
-                var c = Rsa.Sign(m);
+                byte[] m = Encoding.Default.GetBytes(message);
+                byte[] c = Rsa.Sign(m);
 
                 return Converter.BytesToHexString(c);
             }

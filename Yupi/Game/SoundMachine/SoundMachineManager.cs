@@ -91,11 +91,11 @@ namespace Yupi.Game.SoundMachine
         {
             get
             {
-                var sortedDictionary = new SortedDictionary<int, SongInstance>();
+                SortedDictionary<int, SongInstance> sortedDictionary = new SortedDictionary<int, SongInstance>();
 
                 lock (_mPlaylist)
                 {
-                    foreach (var current in _mPlaylist)
+                    foreach (KeyValuePair<int, SongInstance> current in _mPlaylist)
                         sortedDictionary.Add(current.Key, current.Value);
                 }
 
@@ -149,12 +149,12 @@ namespace Yupi.Game.SoundMachine
         /// <returns>System.Int32.</returns>
         public int AddDisk(SongItem diskItem)
         {
-            var songId = diskItem.SongId;
+            uint songId = diskItem.SongId;
 
             if (songId == 0u)
                 return -1;
 
-            var song = SoundMachineSongManager.GetSong(songId);
+            SongData song = SoundMachineSongManager.GetSong(songId);
 
             if (song == null)
                 return -1;
@@ -166,7 +166,7 @@ namespace Yupi.Game.SoundMachine
             lock (_mLoadedDisks)
                 _mLoadedDisks.Add(diskItem.ItemId, diskItem);
 
-            var count = _mPlaylist.Count;
+            int count = _mPlaylist.Count;
 
             lock (_mPlaylist)
                 _mPlaylist.Add(count, new SongInstance(diskItem, song));
@@ -249,7 +249,7 @@ namespace Yupi.Game.SoundMachine
             lock (_mPlaylist)
                 _mPlaylist.Clear();
 
-            foreach (var current in list)
+            foreach (SongItem current in list)
                 AddDisk(current);
         }
 

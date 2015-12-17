@@ -3,6 +3,8 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 using Yupi.Data;
+using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Game.Browser.Models;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Groups.Structs;
 using Yupi.Game.Rooms.Chat;
@@ -287,7 +289,7 @@ namespace Yupi.Game.Rooms.Data
                 RoomChat = new ConcurrentStack<Chatlog>();
                 WordFilter = new List<string>();
 
-                using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
                     queryReactor.SetQuery("SELECT username FROM users WHERE id = @userId");
                     queryReactor.AddParameter("userId", OwnerId);
@@ -295,19 +297,19 @@ namespace Yupi.Game.Rooms.Data
                     Owner = queryReactor.GetString();
 
                     queryReactor.SetQuery($"SELECT user_id, message, timestamp FROM users_chatlogs WHERE room_id = '{Id}' ORDER BY timestamp ASC LIMIT 150");
-                    var table = queryReactor.GetTable();
+                    DataTable table = queryReactor.GetTable();
 
                     foreach (DataRow dataRow in table.Rows)
                         RoomChat.Push(new Chatlog((uint) dataRow[0], (string) dataRow[1], Yupi.UnixToDateTime(int.Parse(dataRow[2].ToString())), false));
 
                     queryReactor.SetQuery($"SELECT word FROM rooms_wordfilter WHERE room_id = '{Id}'");
-                    var tableFilter = queryReactor.GetTable();
+                    DataTable tableFilter = queryReactor.GetTable();
 
                     foreach (DataRow dataRow in tableFilter.Rows)
                         WordFilter.Add(dataRow["word"].ToString());
                 }
 
-                var roomState = row["state"].ToString().ToLower();
+                string roomState = row["state"].ToString().ToLower();
 
                 switch (roomState)
                 {
@@ -365,7 +367,7 @@ namespace Yupi.Game.Rooms.Data
                 if (row.IsNull("tags") || string.IsNullOrEmpty(row["tags"].ToString()))
                     return;
 
-                foreach (var item in row["tags"].ToString().Split(','))
+                foreach (string item in row["tags"].ToString().Split(','))
                     Tags.Add(item);
             }
             catch (Exception ex)
@@ -397,12 +399,12 @@ namespace Yupi.Game.Rooms.Data
             message.AppendInteger(Category);
 
             message.AppendInteger(TagCount);
-            foreach (var current in Tags) message.AppendString(current);
+            foreach (string current in Tags) message.AppendString(current);
 
             string imageData = null;
 
-            var enumType = enterRoom ? 32 : 0;
-            var publicItem = Yupi.GetGame().GetNavigator().GetPublicItem(Id);
+            int enumType = enterRoom ? 32 : 0;
+            PublicItem publicItem = Yupi.GetGame().GetNavigator().GetPublicItem(Id);
             if (publicItem != null && !string.IsNullOrEmpty(publicItem.Image))
             {
                 imageData = publicItem.Image;
@@ -444,7 +446,7 @@ namespace Yupi.Game.Rooms.Data
         internal void SerializeRoomData(ServerMessage message, GameClient session, bool isNotReload,
             bool? sendRoom = false, bool show = true)
         {
-            var room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
+            Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
 
             message.Init(LibraryParser.OutgoingRequest("RoomDataMessageComposer"));
             message.AppendBool(show); //flatId

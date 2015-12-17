@@ -71,8 +71,8 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
             if (stuff[0] == null)
                 return false;
 
-            var roomUser = (RoomUser)stuff[0];
-            var item = (Interaction)stuff[1];
+            RoomUser roomUser = (RoomUser)stuff[0];
+            Interaction item = (Interaction)stuff[1];
 
             if (_mBanned.Contains(item))
                 return false;
@@ -104,7 +104,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
 
                 lock (_mUsers)
                 {
-                    foreach (var user in _mUsers)
+                    foreach (RoomUser user in _mUsers)
                         Room.GetRoomUserManager().RemoveUserFromRoom(user.GetClient(), true, false);
                 }
 

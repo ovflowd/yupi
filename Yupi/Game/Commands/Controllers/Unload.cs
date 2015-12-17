@@ -33,8 +33,8 @@ namespace Yupi.Game.Commands.Controllers
 
         public override bool Execute(GameClient session, string[] pms)
         {
-            var roomId = session.GetHabbo().CurrentRoom.RoomId;
-            var users = new List<RoomUser>(session.GetHabbo().CurrentRoom.GetRoomUserManager().UserList.Values);
+            uint roomId = session.GetHabbo().CurrentRoom.RoomId;
+            List<RoomUser> users = new List<RoomUser>(session.GetHabbo().CurrentRoom.GetRoomUserManager().UserList.Values);
 
             Yupi.GetGame().GetRoomManager().UnloadRoom(session.GetHabbo().CurrentRoom, "Unload command");
 
@@ -42,12 +42,12 @@ namespace Yupi.Game.Commands.Controllers
                 return true;
             Yupi.GetGame().GetRoomManager().LoadRoom(roomId);
 
-            var roomFwd = new ServerMessage(LibraryParser.OutgoingRequest("RoomForwardMessageComposer"));
+            ServerMessage roomFwd = new ServerMessage(LibraryParser.OutgoingRequest("RoomForwardMessageComposer"));
             roomFwd.AppendInteger(roomId);
 
-            var data = roomFwd.GetReversedBytes();
+            byte[] data = roomFwd.GetReversedBytes();
 
-            foreach (var user in users.Where(user => user != null && user.GetClient() != null))
+            foreach (RoomUser user in users.Where(user => user != null && user.GetClient() != null))
                 user.GetClient().SendMessage(data);
             return true;
         }

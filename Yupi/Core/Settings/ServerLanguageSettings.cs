@@ -25,6 +25,7 @@
 using System.Collections.Specialized;
 using System.Data;
 using Yupi.Core.Io;
+using Yupi.Data.Base.Sessions.Interfaces;
 
 namespace Yupi.Core.Settings
 {
@@ -46,19 +47,19 @@ namespace Yupi.Core.Settings
         {
             Texts = new HybridDictionary();
 
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery($"SELECT * FROM server_langs WHERE lang = '{language}' ORDER BY id DESC");
 
-                var table = queryReactor.GetTable();
+                DataTable table = queryReactor.GetTable();
 
                 if (table == null)
                     return;
 
                 foreach (DataRow dataRow in table.Rows)
                 {
-                    var name = dataRow["name"].ToString();
-                    var text = dataRow["text"].ToString();
+                    string name = dataRow["name"].ToString();
+                    string text = dataRow["text"].ToString();
                     Texts.Add(name, text);
                 }
             }

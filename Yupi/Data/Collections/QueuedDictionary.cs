@@ -80,14 +80,14 @@ namespace Yupi.Data.Collections
 
         public void Add(T key, TV value)
         {
-            var keyValuePair = new KeyValuePair<T, TV>(key, value);
+            KeyValuePair<T, TV> keyValuePair = new KeyValuePair<T, TV>(key, value);
 
             _addQueue.Enqueue(keyValuePair);
         }
 
         public void Update(T key, TV value)
         {
-            var keyValuePair = new KeyValuePair<T, TV>(key, value);
+            KeyValuePair<T, TV> keyValuePair = new KeyValuePair<T, TV>(key, value);
 
             _updateQueue.Enqueue(keyValuePair);
         }
@@ -207,7 +207,7 @@ namespace Yupi.Data.Collections
             if (!_removeQueue.Any())
                 return;
 
-            var list = new List<T>();
+            List<T> list = new List<T>();
 
             T item;
 
@@ -215,13 +215,13 @@ namespace Yupi.Data.Collections
             {
                 if (Inner.ContainsKey(item))
                 {
-                    var value = Inner[item];
+                    TV value = Inner[item];
 
                     TV junkItem;
 
                     Inner.TryRemove(item, out junkItem);
 
-                    var keyValuePair = new KeyValuePair<T, TV>(item, value);
+                    KeyValuePair<T, TV> keyValuePair = new KeyValuePair<T, TV>(item, value);
 
                     _onRemove?.Invoke(keyValuePair, null);
                 }
@@ -232,7 +232,7 @@ namespace Yupi.Data.Collections
             if (!list.Any())
                 return;
 
-            foreach (var current in list)
+            foreach (T current in list)
                 _removeQueue.Enqueue(current);
         }
     }

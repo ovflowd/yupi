@@ -4,6 +4,7 @@ using Yupi.Game.Items.Interactions.Enums;
 using Yupi.Game.Items.Interfaces;
 using Yupi.Game.Items.Wired.Interfaces;
 using Yupi.Game.Rooms;
+using Yupi.Game.Rooms.User;
 
 namespace Yupi.Game.Items.Wired.Handlers.Triggers
 {
@@ -59,12 +60,12 @@ namespace Yupi.Game.Items.Wired.Handlers.Triggers
 
         public bool Execute(params object[] stuff)
         {
-            var conditions = Room.GetWiredHandler().GetConditions(this);
-            var effects = Room.GetWiredHandler().GetEffects(this);
+            List<IWiredItem> conditions = Room.GetWiredHandler().GetConditions(this);
+            List<IWiredItem> effects = Room.GetWiredHandler().GetEffects(this);
 
             if (conditions.Any())
             {
-                foreach (var current in conditions)
+                foreach (IWiredItem current in conditions)
                 {
                     if (!current.Execute(null))
                         return false;
@@ -75,9 +76,9 @@ namespace Yupi.Game.Items.Wired.Handlers.Triggers
 
             if (effects.Any())
             {
-                foreach (var current2 in effects)
+                foreach (IWiredItem current2 in effects)
                 {
-                    foreach (var current3 in Room.GetRoomUserManager().UserList.Values)
+                    foreach (RoomUser current3 in Room.GetRoomUserManager().UserList.Values)
                         current2.Execute(current3, Type);
 
                     WiredHandler.OnEvent(current2);

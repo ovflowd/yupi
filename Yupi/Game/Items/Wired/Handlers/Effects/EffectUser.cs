@@ -39,7 +39,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
             if (stuff[0] == null)
                 return false;
 
-            var roomUser = (RoomUser)stuff[0];
+            RoomUser roomUser = (RoomUser)stuff[0];
 
                 int effectId;
 

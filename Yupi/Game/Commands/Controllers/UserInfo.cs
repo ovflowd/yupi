@@ -1,6 +1,9 @@
-﻿using System.Text;
+﻿using System.Data;
+using System.Text;
+using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Game.Commands.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
+using Yupi.Game.Users;
 
 namespace Yupi.Game.Commands.Controllers
 {
@@ -22,17 +25,17 @@ namespace Yupi.Game.Commands.Controllers
 
         public override bool Execute(GameClient session, string[] pms)
         {
-            var userName = pms[0];
+            string userName = pms[0];
             if (string.IsNullOrEmpty(userName)) return true;
-            var clientByUserName = Yupi.GetGame().GetClientManager().GetClientByUserName(userName);
+            GameClient clientByUserName = Yupi.GetGame().GetClientManager().GetClientByUserName(userName);
             if (clientByUserName == null || clientByUserName.GetHabbo() == null)
             {
-                using (var adapter = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter adapter = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
                     adapter.SetQuery(
                         "SELECT username, rank, id, credits, activity_points, diamonds FROM users WHERE username=@user LIMIT 1");
                     adapter.AddParameter("user", userName);
-                    var row = adapter.GetRow();
+                    DataRow row = adapter.GetRow();
 
                     if (row == null)
                     {
@@ -44,8 +47,8 @@ namespace Yupi.Game.Commands.Controllers
                 }
                 return true;
             }
-            var habbo = clientByUserName.GetHabbo();
-            var builder = new StringBuilder();
+            Habbo habbo = clientByUserName.GetHabbo();
+            StringBuilder builder = new StringBuilder();
             if (habbo.CurrentRoom != null)
             {
                 builder.AppendFormat(" - ROOM INFORMATION [{0}] - \r", habbo.CurrentRoom.RoomId);

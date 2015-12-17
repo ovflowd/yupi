@@ -75,7 +75,7 @@ namespace Yupi.Game.RoomBots.Models
         /// </summary>
         internal override void OnSelfEnterRoom()
         {
-            var randomWalkableSquare = GetRoom().GetGameMap().GetRandomWalkableSquare();
+            Point randomWalkableSquare = GetRoom().GetGameMap().GetRandomWalkableSquare();
 
             if (GetRoomUser() != null && GetRoomUser().PetData.Type != 16u)
                 GetRoomUser().MoveTo(randomWalkableSquare.X, randomWalkableSquare.Y);
@@ -90,13 +90,13 @@ namespace Yupi.Game.RoomBots.Models
             if (user.GetClient() == null || user.GetClient().GetHabbo() == null)
                 return;
 
-            var roomUser = GetRoomUser();
+            RoomUser roomUser = GetRoomUser();
             if (roomUser == null || user.GetClient().GetHabbo().UserName != roomUser.PetData.OwnerName)
                 return;
 
-            var random = new Random();
-            var value = PetLocale.GetValue("welcome.speech.pet");
-            var message = value[random.Next(0, value.Length - 1)];
+            Random random = new Random();
+            string[] value = PetLocale.GetValue("welcome.speech.pet");
+            string message = value[random.Next(0, value.Length - 1)];
 
             message += user.GetUserName();
             roomUser.Chat(null, message, false, 0);
@@ -109,7 +109,7 @@ namespace Yupi.Game.RoomBots.Models
         /// <param name="msg">The MSG.</param>
         internal override void OnUserSay(RoomUser user, string msg)
         {
-            var roomUser = GetRoomUser();
+            RoomUser roomUser = GetRoomUser();
 
             if (roomUser.PetData.OwnerId != user.GetClient().GetHabbo().Id)
                 return;
@@ -198,7 +198,7 @@ namespace Yupi.Game.RoomBots.Models
 
                     break;
                 case "breed":
-                    var coord = new Point();
+                    Point coord = new Point();
 
                     switch (roomUser.PetData.Type)
                     {
@@ -213,7 +213,7 @@ namespace Yupi.Game.RoomBots.Models
 
                     if (coord == new Point())
                     {
-                        var alert = new ServerMessage(LibraryParser.OutgoingRequest("PetBreedErrorMessageComposer"));
+                        ServerMessage alert = new ServerMessage(LibraryParser.OutgoingRequest("PetBreedErrorMessageComposer"));
 
                         alert.AppendInteger(0);
 
@@ -222,27 +222,27 @@ namespace Yupi.Game.RoomBots.Models
 
                     break;
                 case "sleep":
-                    var valueSleep = PetLocale.GetValue("tired");
-                    var messageSleep = valueSleep[new Random().Next(0, valueSleep.Length - 1)];
+                    string[] valueSleep = PetLocale.GetValue("tired");
+                    string messageSleep = valueSleep[new Random().Next(0, valueSleep.Length - 1)];
 
                     roomUser.Chat(null, messageSleep, false, 0);
                     break;
                 case "unknown":
-                    var valueUnknown = PetLocale.GetValue("pet.unknowncommand");
-                    var messageUnknown = valueUnknown[new Random().Next(0, valueUnknown.Length - 1)];
+                    string[] valueUnknown = PetLocale.GetValue("pet.unknowncommand");
+                    string messageUnknown = valueUnknown[new Random().Next(0, valueUnknown.Length - 1)];
 
                     roomUser.Chat(null, messageUnknown, false, 0);
                     break;
                 case "lazy":
-                    var valueLazy = PetLocale.GetValue("pet.lazy");
-                    var messageLazy = valueLazy[new Random().Next(0, valueLazy.Length - 1)];
+                    string[] valueLazy = PetLocale.GetValue("pet.lazy");
+                    string messageLazy = valueLazy[new Random().Next(0, valueLazy.Length - 1)];
 
                     roomUser.Chat(null, messageLazy, false, 0);
                     break;
                 case "nest":
                     RemovePetStatus();
 
-                    var petNest = GetRoom().GetRoomItemHandler().FloorItems.Values.Where(x => x.GetBaseItem().InteractionType == Interaction.PetNest);
+                    IEnumerable<RoomItem> petNest = GetRoom().GetRoomItemHandler().FloorItems.Values.Where(x => x.GetBaseItem().InteractionType == Interaction.PetNest);
 
                     IEnumerable<RoomItem> enumerable = petNest as RoomItem[] ?? petNest.ToArray();
 
@@ -250,7 +250,7 @@ namespace Yupi.Game.RoomBots.Models
                     if (!enumerable.Any())
                         command.CommandAction = "lazy";
 
-                    var roomItems = enumerable.FirstOrDefault();
+                    RoomItem roomItems = enumerable.FirstOrDefault();
 
                     if (roomItems != null)
                         roomUser.MoveTo(roomItems.X, roomItems.Y);
@@ -259,8 +259,8 @@ namespace Yupi.Game.RoomBots.Models
 
                     break;
                 case "default":
-                    var valueDefault = PetLocale.GetValue("pet.done");
-                    var messageDefault = valueDefault[new Random().Next(0, valueDefault.Length - 1)];
+                    string[] valueDefault = PetLocale.GetValue("pet.done");
+                    string messageDefault = valueDefault[new Random().Next(0, valueDefault.Length - 1)];
 
                     roomUser.Chat(null, messageDefault, false, 0);
                     break;
@@ -274,20 +274,20 @@ namespace Yupi.Game.RoomBots.Models
         {
             if (_speechTimer <= 0)
             {
-                var roomUser = GetRoomUser();
+                RoomUser roomUser = GetRoomUser();
 
                 if (roomUser != null)
                 {
                     if (roomUser.PetData.DbState != DatabaseUpdateState.NeedsInsert)
                         roomUser.PetData.DbState = DatabaseUpdateState.NeedsUpdate;
 
-                    var random = new Random();
+                    Random random = new Random();
 
                     RemovePetStatus();
 
-                    var value = PetLocale.GetValue($"speech.pet{roomUser.PetData.Type}");
+                    string[] value = PetLocale.GetValue($"speech.pet{roomUser.PetData.Type}");
 
-                    var text = value[random.Next(0, value.Length - 1)];
+                    string text = value[random.Next(0, value.Length - 1)];
 
                     if (GetRoom() != null && !GetRoom().MutedPets)
                         roomUser.Chat(null, text, false, 0);
@@ -321,7 +321,7 @@ namespace Yupi.Game.RoomBots.Models
                         else
                         {
                             if (GetRoomUser().PetData.Type == 16) return; //Monsterplants can't move
-                            var nextCoord = GetRoom().GetGameMap().GetRandomValidWalkableSquare();
+                            Point nextCoord = GetRoom().GetGameMap().GetRandomValidWalkableSquare();
                             GetRoomUser().MoveTo(nextCoord.X, nextCoord.Y);
                         }
                     }
@@ -330,7 +330,7 @@ namespace Yupi.Game.RoomBots.Models
                     {
                         if (GetRoomUser().PetData.Type == 16)
                         {
-                            var breed = GetRoomUser().PetData.MoplaBreed;
+                            MoplaBreed breed = GetRoomUser().PetData.MoplaBreed;
                             GetRoomUser().PetData.Energy--;
                             GetRoomUser().AddStatus("gst", breed.LiveState == MoplaState.Dead ? "sad" : "sml");
                             GetRoomUser()
@@ -367,7 +367,7 @@ namespace Yupi.Game.RoomBots.Models
             {
                 RemovePetStatus();
 
-                var roomUser2 = GetRoomUser();
+                RoomUser roomUser2 = GetRoomUser();
 
                 roomUser2?.PetData.PetEnergy(true);
 
@@ -384,7 +384,7 @@ namespace Yupi.Game.RoomBots.Models
         /// </summary>
         private void RemovePetStatus()
         {
-            var roomUser = GetRoomUser();
+            RoomUser roomUser = GetRoomUser();
 
             if (roomUser == null)
                 return;
@@ -399,7 +399,7 @@ namespace Yupi.Game.RoomBots.Models
         /// </summary>
         private void SubtractAttributes()
         {
-            var roomUser = GetRoomUser();
+            RoomUser roomUser = GetRoomUser();
 
             if (roomUser == null)
                 return;

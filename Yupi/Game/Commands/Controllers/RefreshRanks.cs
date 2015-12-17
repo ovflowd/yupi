@@ -1,4 +1,5 @@
-﻿using Yupi.Game.Commands.Interfaces;
+﻿using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Game.Commands.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 
 namespace Yupi.Game.Commands.Controllers
@@ -21,7 +22,7 @@ namespace Yupi.Game.Commands.Controllers
 
         public override bool Execute(GameClient session, string[] pms)
         {
-            using (var adapter = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter adapter = Yupi.GetDatabaseManager().GetQueryReactor())
                 Yupi.GetGame().GetRoleManager().LoadRights(adapter);
             CommandsManager.UpdateInfo();
             session.SendNotif(Yupi.GetLanguage().GetVar("command_refresh_ranks"));

@@ -49,7 +49,7 @@ namespace Yupi.Core.Settings
             DbData.Clear();
             dbClient.SetQuery("SELECT * FROM server_settings");
 
-            var table = dbClient.GetTable();
+            DataTable table = dbClient.GetTable();
 
             foreach (DataRow dataRow in table.Rows)
                 DbData.Add(dataRow[0].ToString(), dataRow[1].ToString());

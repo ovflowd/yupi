@@ -1,5 +1,6 @@
 ﻿using Yupi.Game.Commands.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
+using Yupi.Game.Rooms;
 
 namespace Yupi.Game.Commands.Controllers
 {
@@ -21,7 +22,7 @@ namespace Yupi.Game.Commands.Controllers
 
         public override bool Execute(GameClient session, string[] pms)
         {
-            var room = session.GetHabbo().CurrentRoom;
+            Room room = session.GetHabbo().CurrentRoom;
             if (!session.GetHabbo().CurrentRoom.RoomMuted)
             {
                 session.SendWhisper("Room isn't muted.");

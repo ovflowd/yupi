@@ -70,7 +70,7 @@ namespace Yupi.Game.Polls
             message.AppendInteger(1);
             message.AppendInteger(Answers.Count);
 
-            foreach (var current in Answers)
+            foreach (string current in Answers)
             {
                 message.AppendString(current);
                 message.AppendString(current);

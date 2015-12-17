@@ -73,10 +73,10 @@ namespace Yupi.Game.Pets
         {
             dbClient.SetQuery("SELECT * FROM pets_breeds");
 
-            var table = dbClient.GetTable();
+            DataTable table = dbClient.GetTable();
             Races = new List<PetRace>();
 
-            foreach (var item in from DataRow row in table.Rows select new PetRace { RaceId = (int) row["breed_id"], Color1 = (int) row["color1"], Color2 = (int) row["color2"], Has1Color = (string) row["color1_enabled"] == "1", Has2Color = (string) row["color2_enabled"] == "1" })
+            foreach (PetRace item in from DataRow row in table.Rows select new PetRace { RaceId = (int) row["breed_id"], Color1 = (int) row["color1"], Color2 = (int) row["color2"], Has1Color = (string) row["color1_enabled"] == "1", Has2Color = (string) row["color2_enabled"] == "1" })
                 Races.Add(item);
         }
 

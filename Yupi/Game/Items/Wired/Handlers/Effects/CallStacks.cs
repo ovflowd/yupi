@@ -37,9 +37,9 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
 
         public bool Execute(params object[] stuff)
         {
-            var roomUser = (RoomUser)stuff[0];
+            RoomUser roomUser = (RoomUser)stuff[0];
 
-            foreach (var wired in Items.Where(item => item.IsWired).Select(item => Room.GetWiredHandler().GetWired(item)).Where(wired => wired != null))
+            foreach (IWiredItem wired in Items.Where(item => item.IsWired).Select(item => Room.GetWiredHandler().GetWired(item)).Where(wired => wired != null))
             {
                 WiredHandler.OnEvent(wired);
                 wired.Execute(roomUser, Type);

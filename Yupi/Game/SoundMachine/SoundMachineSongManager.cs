@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Game.SoundMachine.Songs;
 
 namespace Yupi.Game.SoundMachine
@@ -59,12 +60,12 @@ namespace Yupi.Game.SoundMachine
 
             Songs.Clear();
 
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery("SELECT * FROM items_songs_data ORDER BY id");
                 DataTable table = queryReactor.GetTable();
 
-                foreach (var songFromDataRow in from DataRow dRow in table.Rows select GetSongFromDataRow(dRow))
+                foreach (SongData songFromDataRow in from DataRow dRow in table.Rows select GetSongFromDataRow(dRow))
                     Songs.Add(songFromDataRow.Id, songFromDataRow);
             }
         }
@@ -76,9 +77,9 @@ namespace Yupi.Game.SoundMachine
         {
             double num = Yupi.GetUnixTimeStamp();
 
-            var list = (from current in _cacheTimer where num - current.Value >= 180.0 select current.Key).ToList();
+            List<uint> list = (from current in _cacheTimer where num - current.Value >= 180.0 select current.Key).ToList();
 
-            foreach (var current2 in list)
+            foreach (uint current2 in list)
             {
                 Songs.Remove(current2);
                 _cacheTimer.Remove(current2);

@@ -22,14 +22,14 @@ namespace Yupi.Game.Commands.Controllers
 
         public override bool Execute(GameClient session, string[] pms)
         {
-            var userName = pms[0];
+            string userName = pms[0];
             if (string.Equals(userName, session.GetHabbo().UserName,
                 StringComparison.CurrentCultureIgnoreCase))
             {
                 session.SendNotif(Yupi.GetLanguage().GetVar("summon_yourself"));
                 return true;
             }
-            var client = Yupi.GetGame().GetClientManager().GetClientByUserName(userName);
+            GameClient client = Yupi.GetGame().GetClientManager().GetClientByUserName(userName);
             if (client == null)
             {
                 session.SendNotif(Yupi.GetLanguage().GetVar("user_not_found"));

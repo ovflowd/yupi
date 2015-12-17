@@ -1,5 +1,8 @@
-﻿using Yupi.Game.Commands.Interfaces;
+﻿using System.Collections.Generic;
+using Yupi.Game.Commands.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
+using Yupi.Game.Rooms;
+using Yupi.Game.Rooms.User;
 using Yupi.Messages;
 using Yupi.Messages.Parsers;
 
@@ -31,12 +34,12 @@ namespace Yupi.Game.Commands.Controllers
                 session.SendWhisper(Yupi.GetLanguage().GetVar("command_dance_wrong_syntax"));
                 return true;
             }
-            var room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
-            var roomUsers = room.GetRoomUserManager().GetRoomUsers();
+            Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
+            HashSet<RoomUser> roomUsers = room.GetRoomUserManager().GetRoomUsers();
 
-            foreach (var roomUser in roomUsers)
+            foreach (RoomUser roomUser in roomUsers)
             {
-                var message =
+                ServerMessage message =
                     new ServerMessage(LibraryParser.OutgoingRequest("DanceStatusMessageComposer"));
                 message.AppendInteger(roomUser.VirtualId);
                 message.AppendInteger(danceId);

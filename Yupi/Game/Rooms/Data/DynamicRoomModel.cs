@@ -117,16 +117,16 @@ namespace Yupi.Game.Rooms.Data
         internal void Generate()
         {
             SqState = new SquareState[MapSizeX][];
-            for (var i = 0; i < MapSizeX; i++) SqState[i] = new SquareState[MapSizeY];
+            for (int i = 0; i < MapSizeX; i++) SqState[i] = new SquareState[MapSizeY];
             SqFloorHeight = new short[MapSizeX][];
-            for (var i = 0; i < MapSizeX; i++) SqFloorHeight[i] = new short[MapSizeY];
+            for (int i = 0; i < MapSizeX; i++) SqFloorHeight[i] = new short[MapSizeY];
             SqSeatRot = new byte[MapSizeX][];
-            for (var i = 0; i < MapSizeX; i++) SqSeatRot[i] = new byte[MapSizeY];
+            for (int i = 0; i < MapSizeX; i++) SqSeatRot[i] = new byte[MapSizeY];
             SqChar = new char[MapSizeX][];
-            for (var i = 0; i < MapSizeX; i++) SqChar[i] = new char[MapSizeY];
-            for (var i = 0; i < MapSizeY; i++)
+            for (int i = 0; i < MapSizeX; i++) SqChar[i] = new char[MapSizeY];
+            for (int i = 0; i < MapSizeY; i++)
             {
-                for (var j = 0; j < MapSizeX; j++)
+                for (int j = 0; j < MapSizeX; j++)
                 {
                     if (j > _staticModel.MapSizeX - 1 || i > _staticModel.MapSizeY - 1)
                         SqState[j][i] = SquareState.Blocked;
@@ -240,13 +240,13 @@ namespace Yupi.Game.Rooms.Data
         /// <returns>ServerMessage.</returns>
         private ServerMessage SerializeHeightmap()
         {
-            var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("FloorMapMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("FloorMapMessageComposer"));
             serverMessage.AppendBool(true);
             serverMessage.AppendInteger((int) _mRoom.RoomData.WallHeight);
-            var stringBuilder = new StringBuilder();
-            for (var i = 0; i < MapSizeY; i++)
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int i = 0; i < MapSizeY; i++)
             {
-                for (var j = 0; j < MapSizeX; j++)
+                for (int j = 0; j < MapSizeX; j++)
                 {
                     try
                     {
@@ -259,7 +259,7 @@ namespace Yupi.Game.Rooms.Data
                 }
                 stringBuilder.Append(Convert.ToChar(13));
             }
-            var s = stringBuilder.ToString();
+            string s = stringBuilder.ToString();
             serverMessage.AppendString(s);
             return serverMessage;
         }

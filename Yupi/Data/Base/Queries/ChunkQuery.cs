@@ -122,7 +122,7 @@ namespace Yupi.Data.Base.Queries
 
             dbClient.SetQuery(_queries.ToString());
 
-            foreach (var current in _parameters)
+            foreach (KeyValuePair<string, object> current in _parameters)
                 dbClient.AddParameter(current.Key, current.Value);
 
             dbClient.RunQuery();

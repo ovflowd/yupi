@@ -23,6 +23,8 @@
 */
 
 using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading;
 using Yupi.Core.Io;
@@ -127,7 +129,7 @@ namespace Yupi.Game.RoomBots.Models
             {
                 case "freeroam":
                 {
-                    var randomPoint = GetRoom().GetGameMap().GetRandomWalkableSquare();
+                    Point randomPoint = GetRoom().GetGameMap().GetRandomWalkableSquare();
 
                     if (randomPoint.X == 0 || randomPoint.Y == 0)
                             return;
@@ -138,12 +140,12 @@ namespace Yupi.Game.RoomBots.Models
                 }
                 case "specified_range":
                 {
-                    var list = GetRoom().GetGameMap().WalkableList.ToList();
+                    List<Point> list = GetRoom().GetGameMap().WalkableList.ToList();
 
                     if (!list.Any())
                             return;
 
-                    var randomNumber = new Random(DateTime.Now.Millisecond + _virtualId ^ 2).Next(0, list.Count - 1);
+                    int randomNumber = new Random(DateTime.Now.Millisecond + _virtualId ^ 2).Next(0, list.Count - 1);
 
                     GetRoomUser().MoveTo(list[randomNumber].X, list[randomNumber].Y);
                     break;
@@ -223,7 +225,7 @@ namespace Yupi.Game.RoomBots.Models
             if (GetRoom() != null && GetRoom().MutedBots)
                 return;
 
-            var randomSpeech = GetBotData().GetRandomSpeech(GetBotData().MixPhrases);
+            string randomSpeech = GetBotData().GetRandomSpeech(GetBotData().MixPhrases);
 
             try
             {
@@ -231,7 +233,7 @@ namespace Yupi.Game.RoomBots.Models
                 {
                     case ":sit":
                     {
-                        var user = GetRoomUser();
+                        RoomUser user = GetRoomUser();
 
                         if (user.RotBody%2 != 0)
                                 user.RotBody--;
@@ -250,7 +252,7 @@ namespace Yupi.Game.RoomBots.Models
                     }
                     case ":stand":
                     {
-                        var user = GetRoomUser();
+                        RoomUser user = GetRoomUser();
 
                         if (user.IsSitting)
                         {

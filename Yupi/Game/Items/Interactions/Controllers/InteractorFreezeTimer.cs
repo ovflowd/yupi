@@ -11,7 +11,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
             if (!item.GetRoom().CheckRights(session))
                 return;
 
-            var num = 0;
+            int num = 0;
 
             if (!string.IsNullOrEmpty(item.ExtraData))
                 num = int.Parse(item.ExtraData);

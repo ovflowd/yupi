@@ -41,13 +41,13 @@ namespace Yupi.Game.Items.Handlers
 
         internal ServerMessage GetServerMessage(ServerMessage message, RoomItem item)
         {
-            var cracks = 0;
-            var cracksMax = MaxCracks(item.GetBaseItem().Name);
+            int cracks = 0;
+            int cracksMax = MaxCracks(item.GetBaseItem().Name);
 
             if (Yupi.IsNum(item.ExtraData))
                 cracks = Convert.ToInt16(item.ExtraData);
 
-            var state = "0";
+            string state = "0";
 
             if (cracks >= cracksMax)
                 state = "14";

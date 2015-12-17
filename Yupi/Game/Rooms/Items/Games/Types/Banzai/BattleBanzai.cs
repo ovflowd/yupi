@@ -71,15 +71,15 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Banzai
         {
             if (user == null) return;
 
-            foreach (var roomItem in _pucks.Values)
+            foreach (RoomItem roomItem in _pucks.Values)
             {
-                var differenceX = user.X - roomItem.X;
-                var differenceY = user.Y - roomItem.Y;
+                int differenceX = user.X - roomItem.X;
+                int differenceY = user.Y - roomItem.Y;
 
                 if (differenceX > 1 || differenceX < -1 || differenceY > 1 || differenceY < -1)
                     continue;
-                var newX = differenceX*-1 + roomItem.X;
-                var newY = differenceY*-1 + roomItem.Y;
+                int newX = differenceX*-1 + roomItem.X;
+                int newY = differenceY*-1 + roomItem.Y;
 
                 if (roomItem.InteractingBallUser == user.UserId && _room.GetGameMap().ValidTile(newX, newY))
                 {
@@ -105,7 +105,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Banzai
             _timestarted = Yupi.GetUnixTimeStamp();
             _room.GetGameManager().LockGates();
 
-            for (var i = 1; i < 5; i++)
+            for (int i = 1; i < 5; i++)
                 _room.GetGameManager().Points[i] = 0;
 
             foreach (RoomItem roomItem in BanzaiTiles.Values)
@@ -120,13 +120,13 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Banzai
             IsBanzaiActive = true;
             _room.GetWiredHandler().ExecuteWired(Interaction.TriggerGameStart);
 
-            foreach (var roomUser in _room.GetRoomUserManager().GetRoomUsers())
+            foreach (RoomUser roomUser in _room.GetRoomUserManager().GetRoomUsers())
                 roomUser.LockedTilesCount = 0;
         }
 
         internal void ResetTiles()
         {
-            foreach (var roomItem in _room.GetRoomItemHandler().FloorItems.Values)
+            foreach (RoomItem roomItem in _room.GetRoomItemHandler().FloorItems.Values)
             {
                 switch (roomItem.GetBaseItem().InteractionType)
                 {
@@ -148,7 +148,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Banzai
             _floorMap = null;
             _room.GetWiredHandler().ExecuteWired(Interaction.TriggerGameEnd);
 
-            var winningTeam = _room.GetGameManager().GetWinningTeam();
+            Team winningTeam = _room.GetGameManager().GetWinningTeam();
             _room.GetGameManager().UnlockGates();
 
             foreach (RoomItem roomItem in BanzaiTiles.Values)
@@ -169,7 +169,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Banzai
             if (winningTeam == Team.None)
                 return;
 
-            foreach (var avatar in _room.GetRoomUserManager().GetRoomUsers())
+            foreach (RoomUser avatar in _room.GetRoomUserManager().GetRoomUsers())
             {
                 if (avatar.Team != Team.None && Yupi.GetUnixTimeStamp() - _timestarted > 5.0)
                 {
@@ -195,7 +195,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Banzai
                         .ProgressUserAchievement(avatar.GetClient(), "ACH_BattleBallWinner", 1);
                 }
 
-                var waveAtWin = new ServerMessage(LibraryParser.OutgoingRequest("RoomUserActionMessageComposer"));
+                ServerMessage waveAtWin = new ServerMessage(LibraryParser.OutgoingRequest("RoomUserActionMessageComposer"));
                 waveAtWin.AppendInteger(avatar.VirtualId);
                 waveAtWin.AppendInteger(1);
                 _room.SendMessage(waveAtWin);
@@ -208,7 +208,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Banzai
             if (!_room.GetGameMap().ItemCanBePlacedHere(newX, newY))
                 return;
 
-            var oldRoomCoord = item.Coordinate;
+            Point oldRoomCoord = item.Coordinate;
 
             double newZ = _room.GetGameMap().Model.SqFloorHeight[newX][newY];
             if (oldRoomCoord.X == newX && oldRoomCoord.Y == newY) return;
@@ -217,7 +217,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Banzai
             item.UpdateNeeded = true;
             item.UpdateState();
 
-            var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("ItemAnimationMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("ItemAnimationMessageComposer"));
             serverMessage.AppendInteger(oldRoomCoord.X);
             serverMessage.AppendInteger(oldRoomCoord.Y);
             serverMessage.AppendInteger(newX);
@@ -235,7 +235,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Banzai
             if (client == null || client.GetHabbo() == null)
                 return;
 
-            var user = client.GetHabbo().CurrentRoom.GetRoomUserManager().GetRoomUserByHabbo(client.GetHabbo().Id);
+            RoomUser user = client.GetHabbo().CurrentRoom.GetRoomUserManager().GetRoomUserByHabbo(client.GetHabbo().Id);
 
             if (IsBanzaiActive)
                 HandleBanzaiTiles(new Point(newX, newY), team, user);
@@ -243,16 +243,16 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Banzai
 
         internal void MovePuck(RoomItem item, GameClient client, Point user, Point ball, int length, Team team)
         {
-            var differenceX = user.X - ball.X;
-            var differenceY = user.Y - ball.Y;
+            int differenceX = user.X - ball.X;
+            int differenceY = user.Y - ball.Y;
 
             if (differenceX > 1 || differenceX < -1 || differenceY > 1 || differenceY < -1) return;
 
-            var affectedTiles = new List<Point>();
-            var newX = ball.X;
-            var newY = ball.Y;
+            List<Point> affectedTiles = new List<Point>();
+            int newX = ball.X;
+            int newY = ball.Y;
 
-            for (var i = 1; i < length; i++)
+            for (int i = 1; i < length; i++)
             {
                 newX = differenceX*-i + item.X;
                 newY = differenceY*-i + item.Y;
@@ -276,10 +276,10 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Banzai
             if (client == null || client.GetHabbo() == null)
                 return;
 
-            var roomUserByHabbo =
+            RoomUser roomUserByHabbo =
                 client.GetHabbo().CurrentRoom.GetRoomUserManager().GetRoomUserByHabbo(client.GetHabbo().Id);
 
-            foreach (var coord in affectedTiles)
+            foreach (Point coord in affectedTiles)
                 HandleBanzaiTiles(coord, team, roomUserByHabbo);
 
             if (newX != ball.X || newY != ball.Y)
@@ -306,7 +306,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Banzai
                 item.Value = 3;
                 item.Team = team;
             }
-            var num = item.Value + (int) item.Team*3 - 1;
+            int num = item.Value + (int) item.Team*3 - 1;
 
             item.ExtraData = num.ToString();
         }
@@ -332,11 +332,11 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Banzai
                         _room.GetGameManager().AddPointToTeam(item.Team, user);
                         _field.UpdateLocation(item.X, item.Y, (byte) (uint) team);
 
-                        foreach (var pointField in _field.DoUpdate())
+                        foreach (PointField pointField in _field.DoUpdate())
                         {
                             if (pointField == null) continue;
-                            var team1 = (Team) pointField.ForValue;
-                            foreach (var point in pointField.GetPoints())
+                            Team team1 = (Team) pointField.ForValue;
+                            foreach (Point point in pointField.GetPoints())
                             {
                                 HandleMaxBanzaiTiles(new Point(point.X, point.Y), team1, user);
                                 _floorMap[point.Y, point.X] = pointField.ForValue;
@@ -346,7 +346,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Banzai
                 }
             }
 
-            var newColor = item.Value + (int) item.Team*3 - 1;
+            int newColor = item.Value + (int) item.Team*3 - 1;
             item.ExtraData = newColor.ToString();
         }
 
@@ -354,7 +354,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Banzai
         {
             if (team == Team.None) return;
             _room.GetGameMap().GetCoordinatedItems(coord);
-            var num = 0;
+            int num = 0;
             foreach (RoomItem roomItem in BanzaiTiles.Values)
             {
                 if (roomItem.GetBaseItem().InteractionType != Interaction.BanzaiFloor)
@@ -387,7 +387,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Banzai
             if (team == Team.None) return;
             _room.GetGameMap().GetCoordinatedItems(coord);
             foreach (
-                var roomItem in
+                RoomItem roomItem in
                     BanzaiTiles.Values.Cast<RoomItem>()
                         .Where(
                             roomItem =>

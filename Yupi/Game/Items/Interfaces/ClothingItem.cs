@@ -34,15 +34,15 @@ namespace Yupi.Game.Items.Interfaces
             ItemName = Convert.ToString(row["item_name"]);
             Id = Convert.ToUInt32(row["id"]);
 
-            var text = Convert.ToString(row["clothings"]);
+            string text = Convert.ToString(row["clothings"]);
 
             if (!string.IsNullOrEmpty(text))
             {
                 if (text.Contains(","))
                 {
-                    var array = text.Split(',');
+                    string[] array = text.Split(',');
 
-                    foreach (var value in array)
+                    foreach (string value in array)
                     {
                         if (value != null)
                             Clothes.Add(string.IsNullOrWhiteSpace(value)

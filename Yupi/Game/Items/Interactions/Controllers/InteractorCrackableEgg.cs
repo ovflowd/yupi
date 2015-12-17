@@ -20,7 +20,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
 
             if (Gamemap.TilesTouching(item.X, item.Y, roomUser.X, roomUser.Y))
             {
-                var cracks = 0;
+                int cracks = 0;
 
                 if (Yupi.IsNum(item.ExtraData))
                     cracks = Convert.ToInt16(item.ExtraData);

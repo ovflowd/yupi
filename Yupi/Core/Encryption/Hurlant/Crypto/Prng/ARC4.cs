@@ -73,13 +73,13 @@ namespace Yupi.Core.Encryption.Hurlant.Crypto.Prng
 
         public void Parse(ref byte[] src)
         {
-            for (var k = 0; k < src.Length; k++)
+            for (int k = 0; k < src.Length; k++)
                 src[k] ^= Next();
         }
 
         private void Swap(int a, int b)
         {
-            var t = _bytes[a];
+            byte t = _bytes[a];
 
             _bytes[a] = _bytes[b];
             _bytes[b] = t;

@@ -75,9 +75,9 @@ namespace Yupi.Game.Rooms.Items.Games
 
         internal Team GetWinningTeam()
         {
-            var result = 1;
-            var num = 0;
-            for (var i = 1; i < 5; i++)
+            int result = 1;
+            int num = 0;
+            for (int i = 1; i < 5; i++)
             {
                 if (TeamPoints[i] <= num) continue;
                 num = TeamPoints[i];
@@ -93,14 +93,14 @@ namespace Yupi.Game.Rooms.Items.Games
 
         internal void AddPointToTeam(Team team, int points, RoomUser user)
         {
-            var num = TeamPoints[(int) team] += points;
+            int num = TeamPoints[(int) team] += points;
 
             if (num < 0) num = 0;
 
             TeamPoints[(int) team] = num;
             if (OnScoreChanged != null) OnScoreChanged(null, new TeamScoreChangedArgs(num, team, user));
             foreach (
-                var current in
+                RoomItem current in
                     GetFurniItems(team).Values.Where(current => !IsSoccerGoal(current.GetBaseItem().InteractionType)))
             {
                 current.ExtraData = TeamPoints[(int) team].ToString();
@@ -180,13 +180,13 @@ namespace Yupi.Game.Rooms.Items.Games
                     break;
 
                 case Team.Blue:
-                    using (var enumerator = _blueTeamItems.Values.GetEnumerator())
+                    using (IEnumerator<RoomItem> enumerator = _blueTeamItems.Values.GetEnumerator())
                     {
                         while (enumerator.MoveNext())
                         {
-                            var current = enumerator.Current;
+                            RoomItem current = enumerator.Current;
                             if (current.GetBaseItem().InteractionType != Interaction.FreezeBlueCounter) continue;
-                            var result = current;
+                            RoomItem result = current;
                             return result;
                         }
                         goto IL_151;
@@ -196,32 +196,32 @@ namespace Yupi.Game.Rooms.Items.Games
                 default:
                     goto IL_151;
             }
-            using (var enumerator2 = _greenTeamItems.Values.GetEnumerator())
+            using (IEnumerator<RoomItem> enumerator2 = _greenTeamItems.Values.GetEnumerator())
             {
                 while (enumerator2.MoveNext())
                 {
-                    var current2 = enumerator2.Current;
+                    RoomItem current2 = enumerator2.Current;
                     if (current2.GetBaseItem().InteractionType != Interaction.FreezeGreenCounter) continue;
-                    var result = current2;
+                    RoomItem result = current2;
                     return result;
                 }
                 goto IL_151;
             }
             IL_BF:
-            using (var enumerator3 = _redTeamItems.Values.GetEnumerator())
+            using (IEnumerator<RoomItem> enumerator3 = _redTeamItems.Values.GetEnumerator())
             {
                 while (enumerator3.MoveNext())
                 {
-                    var current3 = enumerator3.Current;
+                    RoomItem current3 = enumerator3.Current;
                     if (current3.GetBaseItem().InteractionType != Interaction.FreezeRedCounter) continue;
-                    var result = current3;
+                    RoomItem result = current3;
                     return result;
                 }
                 goto IL_151;
             }
             IL_108:
             foreach (
-                var result in
+                RoomItem result in
                     _yellowTeamItems.Values.Where(
                         current4 => current4.GetBaseItem().InteractionType == Interaction.FreezeYellowCounter))
                 return result;
@@ -231,26 +231,26 @@ namespace Yupi.Game.Rooms.Items.Games
 
         internal void UnlockGates()
         {
-            foreach (var current in _redTeamItems.Values) UnlockGate(current);
-            foreach (var current2 in _greenTeamItems.Values) UnlockGate(current2);
-            foreach (var current3 in _blueTeamItems.Values) UnlockGate(current3);
-            foreach (var current4 in _yellowTeamItems.Values) UnlockGate(current4);
+            foreach (RoomItem current in _redTeamItems.Values) UnlockGate(current);
+            foreach (RoomItem current2 in _greenTeamItems.Values) UnlockGate(current2);
+            foreach (RoomItem current3 in _blueTeamItems.Values) UnlockGate(current3);
+            foreach (RoomItem current4 in _yellowTeamItems.Values) UnlockGate(current4);
         }
 
         internal void LockGates()
         {
-            foreach (var current in _redTeamItems.Values) LockGate(current);
-            foreach (var current2 in _greenTeamItems.Values) LockGate(current2);
-            foreach (var current3 in _blueTeamItems.Values) LockGate(current3);
-            foreach (var current4 in _yellowTeamItems.Values) LockGate(current4);
+            foreach (RoomItem current in _redTeamItems.Values) LockGate(current);
+            foreach (RoomItem current2 in _greenTeamItems.Values) LockGate(current2);
+            foreach (RoomItem current3 in _blueTeamItems.Values) LockGate(current3);
+            foreach (RoomItem current4 in _yellowTeamItems.Values) LockGate(current4);
         }
 
         internal void StopGame()
         {
-            var team = GetWinningTeam();
-            var item = GetFirstHighscore();
+            Team team = GetWinningTeam();
+            RoomItem item = GetFirstHighscore();
             if (item == null || _room == null) return;
-            var winners = new List<RoomUser>();
+            List<RoomUser> winners = new List<RoomUser>();
             switch (team)
             {
                 case Team.Blue:
@@ -269,8 +269,8 @@ namespace Yupi.Game.Rooms.Items.Games
                     winners = GetRoom().GetTeamManagerForFreeze().GreenTeam;
                     break;
             }
-            var score = GetScoreForTeam(team);
-            foreach (var winner in winners) item.HighscoreData.AddUserScore(item, winner.GetUserName(), score);
+            int score = GetScoreForTeam(team);
+            foreach (RoomUser winner in winners) item.HighscoreData.AddUserScore(item, winner.GetUserName(), score);
             item.UpdateState(false, true);
             if (OnGameEnd != null) OnGameEnd(null, null);
         }
@@ -338,30 +338,30 @@ namespace Yupi.Game.Rooms.Items.Games
 
         private void LockGate(RoomItem item)
         {
-            var interactionType = item.GetBaseItem().InteractionType;
+            Interaction interactionType = item.GetBaseItem().InteractionType;
             if (!InteractionTypes.AreFamiliar(GlobalInteractions.GameGate, interactionType)) return;
-            foreach (var current in _room.GetGameMap().GetRoomUsers(new Point(item.X, item.Y))) current.SqState = 0;
+            foreach (RoomUser current in _room.GetGameMap().GetRoomUsers(new Point(item.X, item.Y))) current.SqState = 0;
             _room.GetGameMap().GameMap[item.X, item.Y] = 0;
         }
 
         private void UnlockGate(RoomItem item)
         {
-            var interactionType = item.GetBaseItem().InteractionType;
+            Interaction interactionType = item.GetBaseItem().InteractionType;
             if (!InteractionTypes.AreFamiliar(GlobalInteractions.GameGate, interactionType)) return;
 
-            foreach (var current in _room.GetGameMap().GetRoomUsers(new Point(item.X, item.Y))) current.SqState = 1;
+            foreach (RoomUser current in _room.GetGameMap().GetRoomUsers(new Point(item.X, item.Y))) current.SqState = 1;
             _room.GetGameMap().GameMap[item.X, item.Y] = 1;
         }
 
         internal RoomItem GetFirstHighscore()
         {
-            using (var enumerator = _room.GetRoomItemHandler().FloorItems.Values.GetEnumerator())
+            using (IEnumerator<RoomItem> enumerator = _room.GetRoomItemHandler().FloorItems.Values.GetEnumerator())
             {
                 while (enumerator.MoveNext())
                 {
-                    var current2 = enumerator.Current;
+                    RoomItem current2 = enumerator.Current;
                     if (current2.GetBaseItem().InteractionType != Interaction.WiredHighscore) continue;
-                    var result = current2;
+                    RoomItem result = current2;
                     return result;
                 }
             }

@@ -23,7 +23,7 @@ namespace Yupi.Game.Commands.Controllers
 
         public override bool Execute(GameClient session, string[] pms)
         {
-            var user = Yupi.GetGame().GetClientManager().GetClientByUserName(pms[0]);
+            GameClient user = Yupi.GetGame().GetClientManager().GetClientByUserName(pms[0]);
 
             if (user == null)
             {

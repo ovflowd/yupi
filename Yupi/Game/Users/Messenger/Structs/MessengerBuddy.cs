@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Rooms;
+using Yupi.Game.Users.Relationships;
 using Yupi.Messages;
 
 namespace Yupi.Game.Users.Messenger.Structs
@@ -107,9 +108,9 @@ namespace Yupi.Game.Users.Messenger.Structs
         /// <param name="session">The session.</param>
         internal void Serialize(ServerMessage message, GameClient session)
         {
-            var value = session.GetHabbo().Relationships.FirstOrDefault(x => x.Value.UserId == Convert.ToInt32(Id)).Value;
+            Relationship value = session.GetHabbo().Relationships.FirstOrDefault(x => x.Value.UserId == Convert.ToInt32(Id)).Value;
 
-            var i = value?.Type ?? 0;
+            int i = value?.Type ?? 0;
 
             message.AppendInteger(Id);
             message.AppendString(UserName);

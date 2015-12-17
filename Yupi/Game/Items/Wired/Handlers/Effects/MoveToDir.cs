@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using Yupi.Game.Items.Interactions.Enums;
 using Yupi.Game.Items.Interfaces;
@@ -48,7 +49,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
             get { return $"{StartDirection};{WhenMoveIsBlocked}"; }
             set
             {
-                var array = value.Split(';');
+                string[] array = value.Split(';');
 
                 if (array.Length != 2)
                 {
@@ -87,7 +88,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
             if (!Items.Any())
                 return true;
 
-            foreach (var item in Items)
+            foreach (RoomItem item in Items)
             {
                 if (item == null || Room.GetRoomItemHandler().GetItem(item.Id) == null)
                 {
@@ -115,7 +116,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
                 _needChange = false;
             }
 
-            var newPoint = Movement.HandleMovementDir(item.Coordinate, item.MoveToDirMovement, item.Rot);
+            Point newPoint = Movement.HandleMovementDir(item.Coordinate, item.MoveToDirMovement, item.Rot);
 
             if (newPoint == item.Coordinate)
                 return;

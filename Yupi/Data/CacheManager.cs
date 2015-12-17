@@ -88,9 +88,9 @@ namespace Yupi.Data
         /// </summary>
         private static void ClearUserCache()
         {
-            var toRemove = new List<uint>();
+            List<uint> toRemove = new List<uint>();
 
-            foreach (var user in Yupi.UsersCached)
+            foreach (KeyValuePair<uint, Habbo> user in Yupi.UsersCached)
             {
                 if (user.Value == null)
                 {
@@ -107,7 +107,7 @@ namespace Yupi.Data
                 toRemove.Add(user.Key);
             }
 
-            foreach (var userId in toRemove)
+            foreach (uint userId in toRemove)
             {
                 Habbo nullHabbo;
 
@@ -124,9 +124,9 @@ namespace Yupi.Data
             if (Yupi.GetGame() == null || Yupi.GetGame().GetRoomManager() == null || Yupi.GetGame().GetRoomManager().LoadedRoomData == null)
                 return;
 
-            var toRemove = (from roomData in Yupi.GetGame().GetRoomManager().LoadedRoomData where roomData.Value != null && roomData.Value.UsersNow <= 0 where !((DateTime.Now - roomData.Value.LastUsed).TotalMilliseconds < 1800000) select roomData.Key).ToList();
+            List<uint> toRemove = (from roomData in Yupi.GetGame().GetRoomManager().LoadedRoomData where roomData.Value != null && roomData.Value.UsersNow <= 0 where !((DateTime.Now - roomData.Value.LastUsed).TotalMilliseconds < 1800000) select roomData.Key).ToList();
 
-            foreach (var roomId in toRemove)
+            foreach (uint roomId in toRemove)
             {
                 RoomData nullRoom;
 

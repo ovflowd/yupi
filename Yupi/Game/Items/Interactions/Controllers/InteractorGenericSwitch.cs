@@ -3,6 +3,8 @@ using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Items.Interactions.Enums;
 using Yupi.Game.Items.Interactions.Models;
 using Yupi.Game.Items.Interfaces;
+using Yupi.Game.Rooms;
+using Yupi.Game.Rooms.User;
 
 namespace Yupi.Game.Items.Interactions.Controllers
 {
@@ -10,7 +12,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
     {
         public override void OnTrigger(GameClient session, RoomItem item, int request, bool hasRights)
         {
-            var num = item.GetBaseItem().Modes - 1;
+            uint num = item.GetBaseItem().Modes - 1;
 
             if (session == null || !hasRights || num <= 0 || item.GetBaseItem().InteractionType == Interaction.Pinata)
                 return;
@@ -39,17 +41,17 @@ namespace Yupi.Game.Items.Interactions.Controllers
             if (!item.GetBaseItem().StackMultipler)
                 return;
 
-            var room = item.GetRoom();
+            Room room = item.GetRoom();
 
             foreach (
-                var current in
+                RoomUser current in
                     room.GetRoomUserManager().UserList.Values.Where(current => current.Statusses.ContainsKey("sit")))
                 room.GetRoomUserManager().UpdateUserStatus(current, true);
         }
 
         public override void OnWiredTrigger(RoomItem item)
         {
-            var num = item.GetBaseItem().Modes - 1;
+            uint num = item.GetBaseItem().Modes - 1;
 
             if (num == 0)
                 return;
@@ -77,10 +79,10 @@ namespace Yupi.Game.Items.Interactions.Controllers
             if (!item.GetBaseItem().StackMultipler)
                 return;
 
-            var room = item.GetRoom();
+            Room room = item.GetRoom();
 
             foreach (
-                var current in
+                RoomUser current in
                     room.GetRoomUserManager().UserList.Values.Where(current => current.Statusses.ContainsKey("sit")))
                 room.GetRoomUserManager().UpdateUserStatus(current, true);
         }

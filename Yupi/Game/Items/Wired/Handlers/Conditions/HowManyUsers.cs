@@ -52,14 +52,14 @@ namespace Yupi.Game.Items.Wired.Handlers.Conditions
 
         public bool Execute(params object[] stuff)
         {
-            var approved = false;
+            bool approved = false;
 
-            var minimum = 1;
-            var maximum = 50;
+            int minimum = 1;
+            int maximum = 50;
 
             if (!string.IsNullOrWhiteSpace(OtherString))
             {
-                var integers = OtherString.Split(',');
+                string[] integers = OtherString.Split(',');
 
                 minimum = int.Parse(integers[0]);
                 maximum = int.Parse(integers[1]);

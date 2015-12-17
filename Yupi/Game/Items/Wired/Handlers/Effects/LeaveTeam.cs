@@ -3,6 +3,7 @@ using Yupi.Game.Items.Interactions.Enums;
 using Yupi.Game.Items.Interfaces;
 using Yupi.Game.Items.Wired.Interfaces;
 using Yupi.Game.Rooms;
+using Yupi.Game.Rooms.Items.Games.Teams;
 using Yupi.Game.Rooms.Items.Games.Teams.Enums;
 using Yupi.Game.Rooms.User;
 
@@ -50,8 +51,8 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
             if (stuff[0] == null)
                 return false;
 
-            var roomUser = (RoomUser)stuff[0];
-            var t = roomUser.GetClient().GetHabbo().CurrentRoom.GetTeamManagerForFreeze();
+            RoomUser roomUser = (RoomUser)stuff[0];
+            TeamManager t = roomUser.GetClient().GetHabbo().CurrentRoom.GetTeamManagerForFreeze();
 
             if (roomUser.Team != Team.None)
             {

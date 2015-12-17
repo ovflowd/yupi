@@ -49,7 +49,7 @@ namespace Yupi.Game.Rooms.User.Trade
         /// <returns>RoomUser.</returns>
         internal RoomUser GetRoomUser()
         {
-            var room = Yupi.GetGame().GetRoomManager().GetRoom(_roomId);
+            Room room = Yupi.GetGame().GetRoomManager().GetRoom(_roomId);
             return room?.GetRoomUserManager().GetRoomUserByHabbo(UserId);
         }
 

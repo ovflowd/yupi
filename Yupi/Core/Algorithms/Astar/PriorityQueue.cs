@@ -50,7 +50,7 @@ namespace Yupi.Core.Algorithms.Astar
 
             while (low <= high)
             {
-                var midpoint = (low + high) / 2;
+                int midpoint = (low + high) / 2;
 
                 if (MComparer.Compare(value, InnerList[midpoint]) == 0)
                     return midpoint;
@@ -70,7 +70,7 @@ namespace Yupi.Core.Algorithms.Astar
         /// <returns>The index in the list where the object is _now_. This will change when objects are taken from or put onto the PQ.</returns>
         public void Push(T item)
         {
-            var location = BinarySearch(item);
+            int location = BinarySearch(item);
             InnerList.Insert(location, item);
         }
 
@@ -83,7 +83,7 @@ namespace Yupi.Core.Algorithms.Astar
             if (!InnerList.Any())
                 return default(T);
 
-            var item = InnerList[0];
+            T item = InnerList[0];
             InnerList.RemoveAt(0);
 
             return item;

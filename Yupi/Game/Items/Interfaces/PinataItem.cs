@@ -27,9 +27,9 @@ namespace Yupi.Game.Items.Interfaces
         {
             Rewards = new List<uint>();
             ItemBaseId = Convert.ToUInt32(row["item_baseid"]);
-            var text = row["rewards"].ToString();
-            var array = text.Split(';');
-            foreach (var value in array)
+            string text = row["rewards"].ToString();
+            string[] array = text.Split(';');
+            foreach (string value in array)
                 Rewards.Add(Convert.ToUInt32(value));
         }
     }

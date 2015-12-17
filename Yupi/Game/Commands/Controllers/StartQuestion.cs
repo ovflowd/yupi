@@ -1,8 +1,12 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using Yupi.Game.Commands.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Polls;
 using Yupi.Game.Polls.Enums;
+using Yupi.Game.Rooms;
+using Yupi.Game.Rooms.User;
+using Yupi.Game.Users;
 using Yupi.Messages;
 using Yupi.Messages.Parsers;
 
@@ -26,8 +30,8 @@ namespace Yupi.Game.Commands.Controllers
 
         public override bool Execute(GameClient client, string[] pms)
         {
-            var id = uint.Parse(pms[0]);
-            var poll = Yupi.GetGame().GetPollManager().TryGetPollById(id);
+            uint id = uint.Parse(pms[0]);
+            Poll poll = Yupi.GetGame().GetPollManager().TryGetPollById(id);
             if (poll == null || poll.Type != PollType.Matching)
             {
                 client.SendWhisper("Poll doesn't exists or isn't a matching poll.");
@@ -36,7 +40,7 @@ namespace Yupi.Game.Commands.Controllers
             poll.AnswersPositive = 0;
             poll.AnswersNegative = 0;
             MatchingPollAnswer(client, poll);
-            var showPoll = new Thread(delegate () { MatchingPollResults(client, poll); });
+            Thread showPoll = new Thread(delegate () { MatchingPollResults(client, poll); });
             showPoll.Start();
             return true;
         }
@@ -45,7 +49,7 @@ namespace Yupi.Game.Commands.Controllers
         {
             if (poll == null || poll.Type != PollType.Matching)
                 return;
-            var message = new ServerMessage(LibraryParser.OutgoingRequest("MatchingPollMessageComposer"));
+            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("MatchingPollMessageComposer"));
             message.AppendString("MATCHING_POLL");
             message.AppendInteger(poll.Id);
             message.AppendInteger(poll.Id);
@@ -59,21 +63,21 @@ namespace Yupi.Game.Commands.Controllers
 
         internal static void MatchingPollResults(GameClient client, Poll poll)
         {
-            var room = client.GetHabbo().CurrentRoom;
+            Room room = client.GetHabbo().CurrentRoom;
             if (poll == null || poll.Type != PollType.Matching || room == null)
                 return;
 
-            var users = room.GetRoomUserManager().GetRoomUsers();
+            HashSet<RoomUser> users = room.GetRoomUserManager().GetRoomUsers();
 
-            for (var i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++)
             {
                 Thread.Sleep(1000);
-                foreach (var roomUser in users)
+                foreach (RoomUser roomUser in users)
                 {
-                    var user = Yupi.GetHabboById(roomUser.UserId);
+                    Habbo user = Yupi.GetHabboById(roomUser.UserId);
                     if (user.AnsweredPool)
                     {
-                        var result =
+                        ServerMessage result =
                             new ServerMessage(LibraryParser.OutgoingRequest("MatchingPollResultMessageComposer"));
                         result.AppendInteger(poll.Id);
                         result.AppendInteger(2);
@@ -86,7 +90,7 @@ namespace Yupi.Game.Commands.Controllers
                 }
             }
 
-            foreach (var roomUser in users)
+            foreach (RoomUser roomUser in users)
                 Yupi.GetHabboById(roomUser.UserId).AnsweredPool = false;
         }
     }

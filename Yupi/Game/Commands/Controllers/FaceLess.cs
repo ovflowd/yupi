@@ -1,6 +1,9 @@
 ﻿using System.Linq;
+using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Game.Commands.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
+using Yupi.Game.Rooms;
+using Yupi.Game.Rooms.User;
 using Yupi.Messages;
 using Yupi.Messages.Parsers;
 
@@ -27,8 +30,8 @@ namespace Yupi.Game.Commands.Controllers
             if (!session.GetHabbo().Look.Contains("hd-"))
                 return true;
 
-            var head = session.GetHabbo().Look.Split('.').FirstOrDefault(element => element.StartsWith("hd-"));
-            var color = "1";
+            string head = session.GetHabbo().Look.Split('.').FirstOrDefault(element => element.StartsWith("hd-"));
+            string color = "1";
             if (!string.IsNullOrEmpty(head))
             {
                 color = head.Split('-')[2];
@@ -36,18 +39,18 @@ namespace Yupi.Game.Commands.Controllers
             }
             session.GetHabbo().Look += ".hd-99999-" + color;
 
-            using (var dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 dbClient.SetQuery(
                     "UPDATE users SET look = @look WHERE id = " + session.GetHabbo().Id);
                 dbClient.AddParameter("look", session.GetHabbo().Look);
                 dbClient.RunQuery();
             }
-            var room = session.GetHabbo().CurrentRoom;
-            var user = room.GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().Id);
+            Room room = session.GetHabbo().CurrentRoom;
+            RoomUser user = room.GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().Id);
             if (user == null) return true;
 
-            var roomUpdate = new ServerMessage(LibraryParser.OutgoingRequest("UpdateUserDataMessageComposer"));
+            ServerMessage roomUpdate = new ServerMessage(LibraryParser.OutgoingRequest("UpdateUserDataMessageComposer"));
             roomUpdate.AppendInteger(user.VirtualId);
             roomUpdate.AppendString(session.GetHabbo().Look);
             roomUpdate.AppendString(session.GetHabbo().Gender.ToLower());

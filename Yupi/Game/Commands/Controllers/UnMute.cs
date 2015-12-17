@@ -21,7 +21,7 @@ namespace Yupi.Game.Commands.Controllers
 
         public override bool Execute(GameClient session, string[] pms)
         {
-            var client = Yupi.GetGame().GetClientManager().GetClientByUserName(pms[0]);
+            GameClient client = Yupi.GetGame().GetClientManager().GetClientByUserName(pms[0]);
             if (client == null || client.GetHabbo() == null)
             {
                 session.SendWhisper(Yupi.GetLanguage().GetVar("user_not_found"));

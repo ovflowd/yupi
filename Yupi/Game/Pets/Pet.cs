@@ -25,6 +25,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Pets.Enums;
 using Yupi.Game.Pets.Structs;
 using Yupi.Game.Rooms;
@@ -300,7 +301,7 @@ namespace Yupi.Game.Pets
             get
             {
                 {
-                    for (var i = 0; i < ExperienceLevels.Length; i++)
+                    for (int i = 0; i < ExperienceLevels.Length; i++)
                         if (Experience < ExperienceLevels[i])
                             return i + 1;
 
@@ -340,12 +341,12 @@ namespace Yupi.Game.Pets
         {
             {
                 Respect++;
-                var ownerSession = Yupi.GetGame().GetClientManager().GetClientByUserId(OwnerId);
+                GameClient ownerSession = Yupi.GetGame().GetClientManager().GetClientByUserId(OwnerId);
 
                 if (ownerSession != null)
                     Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(ownerSession, "ACH_PetRespectReceiver", 1);
 
-                var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("RespectPetMessageComposer"));
+                ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("RespectPetMessageComposer"));
                 serverMessage.AppendInteger(VirtualId);
                 serverMessage.AppendBool(true);
                 Room.SendMessage(serverMessage);
@@ -375,7 +376,7 @@ namespace Yupi.Game.Pets
         /// <param name="amount">The amount.</param>
         internal void AddExperience(int amount)
         {
-            var oldExperienceGoal = ExperienceGoal;
+            int oldExperienceGoal = ExperienceGoal;
 
             Experience += amount;
 
@@ -388,7 +389,7 @@ namespace Yupi.Game.Pets
             if (Room == null)
                 return;
 
-            var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("AddPetExperienceMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("AddPetExperienceMessageComposer"));
 
             serverMessage.AppendInteger(PetId);
             serverMessage.AppendInteger(VirtualId);
@@ -398,7 +399,7 @@ namespace Yupi.Game.Pets
             if (Experience < oldExperienceGoal)
                 return;
 
-            var ownerSession = Yupi.GetGame().GetClientManager().GetClientByUserId(OwnerId);
+            GameClient ownerSession = Yupi.GetGame().GetClientManager().GetClientByUserId(OwnerId);
 
             Dictionary<uint, PetCommand> totalPetCommands = PetCommandHandler.GetAllPetCommands();
 
@@ -407,13 +408,13 @@ namespace Yupi.Game.Pets
             if (ownerSession == null)
                 return;
 
-            var levelNotify = new ServerMessage(LibraryParser.OutgoingRequest("NotifyNewPetLevelMessageComposer"));
+            ServerMessage levelNotify = new ServerMessage(LibraryParser.OutgoingRequest("NotifyNewPetLevelMessageComposer"));
 
             SerializeInventory(levelNotify, true);
 
             ownerSession.SendMessage(levelNotify);
 
-            var tp = new ServerMessage();
+            ServerMessage tp = new ServerMessage();
 
             tp.Init(LibraryParser.OutgoingRequest("PetTrainerPanelMessageComposer"));
 
@@ -421,12 +422,12 @@ namespace Yupi.Game.Pets
 
             tp.AppendInteger(totalPetCommands.Count);
 
-            foreach (var sh in totalPetCommands.Keys)
+            foreach (uint sh in totalPetCommands.Keys)
                 tp.AppendInteger(sh);
 
             tp.AppendInteger(petCommands.Count);
 
-            foreach (var sh in petCommands.Keys)
+            foreach (uint sh in petCommands.Keys)
                 tp.AppendInteger(sh);
 
             ownerSession.SendMessage(tp);
@@ -464,7 +465,7 @@ namespace Yupi.Game.Pets
             if (num <= 4)
                 num = 15;
 
-            var randomNumber = Yupi.GetRandomNumber(4, num);
+            int randomNumber = Yupi.GetRandomNumber(4, num);
 
             if (!add)
             {
@@ -500,10 +501,10 @@ namespace Yupi.Game.Pets
 
             if (Type == 16u && MoplaBreed != null)
             {
-                var array = MoplaBreed.PlantData.Substring(12).Split(' ');
-                var array2 = array;
+                string[] array = MoplaBreed.PlantData.Substring(12).Split(' ');
+                string[] array2 = array;
 
-                foreach (var s in array2)
+                foreach (string s in array2)
                     message.AppendInteger(int.Parse(s));
 
                 message.AppendInteger(MoplaBreed.GrowingStatus);
@@ -521,7 +522,7 @@ namespace Yupi.Game.Pets
         /// <returns>ServerMessage.</returns>
         internal ServerMessage SerializeInfo()
         {
-            var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("PetInfoMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("PetInfoMessageComposer"));
 
             serverMessage.AppendInteger(PetId);
             serverMessage.AppendString(Name);
@@ -569,8 +570,8 @@ namespace Yupi.Game.Pets
             if (Type == 16u)
             {
                 serverMessage.AppendInteger(129600);
-                var lastHealthSeconds = (int) (LastHealth - DateTime.Now).TotalSeconds;
-                var untilGrownSeconds = (int) (UntilGrown - DateTime.Now).TotalSeconds;
+                int lastHealthSeconds = (int) (LastHealth - DateTime.Now).TotalSeconds;
+                int untilGrownSeconds = (int) (UntilGrown - DateTime.Now).TotalSeconds;
 
                 if (lastHealthSeconds < 0)
                     lastHealthSeconds = 0;

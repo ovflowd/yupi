@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
 using Yupi.Core.Io;
 using Yupi.Core.Settings;
+using Yupi.Game.GameClients.Interfaces;
 
 namespace Yupi.Game.Users
 {
@@ -37,9 +39,9 @@ namespace Yupi.Game.Users
         {
             try
             {
-                var clients = Yupi.GetGame().GetClientManager().Clients.Values;
+                ICollection<GameClient> clients = Yupi.GetGame().GetClientManager().Clients.Values;
 
-                foreach (var client in clients.Where(client => client?.GetHabbo() != null))
+                foreach (GameClient client in clients.Where(client => client?.GetHabbo() != null))
                 {
                     client.GetHabbo().Credits += (uint)ServerExtraSettings.CreditsToGive;
                     client.GetHabbo().UpdateCreditsBalance();

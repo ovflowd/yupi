@@ -10,7 +10,7 @@
         /// </summary>
         internal void GetInventory()
         {
-            var queuedServerMessage = new QueuedServerMessage(Session.GetConnection());
+            QueuedServerMessage queuedServerMessage = new QueuedServerMessage(Session.GetConnection());
 
             queuedServerMessage.AppendResponse(Session.GetHabbo().GetInventoryComponent().SerializeFloorItemInventory());
             queuedServerMessage.SendResponse();

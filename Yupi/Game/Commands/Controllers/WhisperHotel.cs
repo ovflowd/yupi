@@ -17,11 +17,11 @@ namespace Yupi.Game.Commands.Controllers
 
         public override bool Execute(GameClient session, string[] pms)
         {
-            var message = string.Join(" ", pms);
+            string message = string.Join(" ", pms);
             if (string.IsNullOrEmpty(message)) return true;
-            foreach (var client in Yupi.GetGame().GetClientManager().Clients.Values)
+            foreach (GameClient client in Yupi.GetGame().GetClientManager().Clients.Values)
             {
-                var serverMessage = new ServerMessage();
+                ServerMessage serverMessage = new ServerMessage();
                 serverMessage.Init(LibraryParser.OutgoingRequest("WhisperMessageComposer"));
                 serverMessage.AppendInteger(client.CurrentRoomUserId);
                 serverMessage.AppendString(message);

@@ -175,7 +175,7 @@ namespace Yupi.Core.Io
         /// <param name="pLocation">The p location.</param>
         public static void HandleException(Exception pException, string pLocation)
         {
-            var stringBuilder = new StringBuilder();
+            StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.AppendLine(string.Concat("Exception logged ", DateTime.Now.ToString(CultureInfo.InvariantCulture), " in ", pLocation, ":"));
             stringBuilder.AppendLine(pException.ToString());
 

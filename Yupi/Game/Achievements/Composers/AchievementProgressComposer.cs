@@ -44,7 +44,7 @@ namespace Yupi.Game.Achievements.Composers
         /// <returns>ServerMessage.</returns>
         internal static ServerMessage Compose(Achievement achievement, uint targetLevel, AchievementLevel targetLevelData, uint totalLevels, UserAchievement userData)
         {
-            var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("AchievementProgressMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("AchievementProgressMessageComposer"));
 
             serverMessage.AppendInteger(achievement.Id);
             serverMessage.AppendInteger(targetLevel);

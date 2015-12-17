@@ -27,7 +27,7 @@ namespace Yupi.Messages.Handlers
 
             if (songId != 0u)
             {
-                var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("RetrieveSongIDMessageComposer"));
+                ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("RetrieveSongIDMessageComposer"));
                 serverMessage.AppendString(text);
                 serverMessage.AppendInteger(songId);
                 Session.SendMessage(serverMessage);
@@ -41,7 +41,7 @@ namespace Yupi.Messages.Handlers
         {
             int num = Request.GetInteger();
 
-            var list = new List<SongData>();
+            List<SongData> list = new List<SongData>();
 
             for (int i = 0; i < num; i++)
             {
@@ -81,7 +81,7 @@ namespace Yupi.Messages.Handlers
             if (item == null || item.BaseItem.InteractionType != Interaction.MusicDisc)
                 return;
 
-            var songItem = new SongItem(item);
+            SongItem songItem = new SongItem(item);
 
             int num2 = roomMusicController.AddDisk(songItem);
 

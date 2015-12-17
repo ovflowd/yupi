@@ -56,7 +56,7 @@ namespace Yupi.Messages.Enums
         {
             Cache.Clear();
 
-            var message = new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
+            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
             message.AppendString("furni_placement_error");
             message.AppendInteger(1);
             message.AppendString("message");

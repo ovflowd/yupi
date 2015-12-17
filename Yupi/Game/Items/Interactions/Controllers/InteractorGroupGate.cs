@@ -13,7 +13,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
             if (session == null || item == null || user == null)
                 return;
 
-            var distance = PathFinder.GetDistance(user.X, user.Y, item.X, item.Y);
+            int distance = PathFinder.GetDistance(user.X, user.Y, item.X, item.Y);
 
             if (distance > 0 || user.GoalX == 0 && user.GoalY == 0)
                 return;

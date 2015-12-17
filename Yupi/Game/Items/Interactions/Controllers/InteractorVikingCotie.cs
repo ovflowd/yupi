@@ -2,6 +2,7 @@ using System.Timers;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Items.Interactions.Models;
 using Yupi.Game.Items.Interfaces;
+using Yupi.Game.Rooms.User;
 
 namespace Yupi.Game.Items.Interactions.Controllers
 {
@@ -11,7 +12,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
 
         public override void OnTrigger(GameClient session, RoomItem item, int request, bool hasRights)
         {
-            var user = item.GetRoom().GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().Id);
+            RoomUser user = item.GetRoom().GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().Id);
 
             if (user == null)
                 return;
@@ -29,7 +30,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
 
                 item.VikingCotieBurning = true;
 
-                var clientByUsername =
+                GameClient clientByUsername =
                     Yupi.GetGame().GetClientManager().GetClientByUserName(item.GetRoom().RoomData.Owner);
 
                 if (clientByUsername != null)
@@ -41,7 +42,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
 
                 _mItem = item;
 
-                var timer = new Timer(5000);
+                Timer timer = new Timer(5000);
                 timer.Elapsed += OnElapse;
                 timer.Enabled = true;
             }

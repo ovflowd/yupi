@@ -50,39 +50,39 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
             if (string.IsNullOrWhiteSpace(OtherString) || string.IsNullOrWhiteSpace(OtherExtraString))
                 return false;
 
-            var booleans = OtherString.Split(',');
+            string[] booleans = OtherString.Split(',');
 
             if (booleans.Length < 3)
                 return false;
 
-            var extraData = booleans[0] == "true";
-            var rot = booleans[1] == "true";
-            var position = booleans[2] == "true";
+            bool extraData = booleans[0] == "true";
+            bool rot = booleans[1] == "true";
+            bool position = booleans[2] == "true";
 
-            foreach (var itemData in OtherExtraString.Split('/'))
+            foreach (string itemData in OtherExtraString.Split('/'))
             {
                 if (string.IsNullOrWhiteSpace(itemData))
                     continue;
 
-                var innerData = itemData.Split('|');
-                var itemId = uint.Parse(innerData[0]);
+                string[] innerData = itemData.Split('|');
+                uint itemId = uint.Parse(innerData[0]);
 
-                var fItem = Room.GetRoomItemHandler().GetItem(itemId);
+                RoomItem fItem = Room.GetRoomItemHandler().GetItem(itemId);
 
                 if (fItem == null)
                     continue;
 
-                var extraDataToSet = extraData ? innerData[1] : fItem.ExtraData;
-                var rotationToSet = rot ? int.Parse(innerData[2]) : fItem.Rot;
+                string extraDataToSet = extraData ? innerData[1] : fItem.ExtraData;
+                int rotationToSet = rot ? int.Parse(innerData[2]) : fItem.Rot;
 
-                var positions = innerData[3].Split(',');
+                string[] positions = innerData[3].Split(',');
 
-                var xToSet = position ? int.Parse(positions[0]) : fItem.X;
-                var yToSet = position ? int.Parse(positions[1]) : fItem.Y;
-                var zToSet = position ? double.Parse(positions[2]) : fItem.Z;
+                int xToSet = position ? int.Parse(positions[0]) : fItem.X;
+                int yToSet = position ? int.Parse(positions[1]) : fItem.Y;
+                double zToSet = position ? double.Parse(positions[2]) : fItem.Z;
 
 
-                var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("ItemAnimationMessageComposer"));
+                ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("ItemAnimationMessageComposer"));
                 serverMessage.AppendInteger(fItem.X);
                 serverMessage.AppendInteger(fItem.Y);
                 serverMessage.AppendInteger(xToSet);

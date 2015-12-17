@@ -60,17 +60,17 @@ namespace Yupi.Core.Algorithms.GameField
 
         public List<PointField> DoUpdate(bool oneloop = false)
         {
-            var list = new List<PointField>();
+            List<PointField> list = new List<PointField>();
 
             while (_newEntries.Count > 0)
             {
                 _currentlyChecking = _newEntries.Dequeue();
 
-                var connectedItems = GetConnectedItems(_currentlyChecking);
+                List<Point> connectedItems = GetConnectedItems(_currentlyChecking);
 
                 if (connectedItems.Count > 1)
                 {
-                    var list2 = HandleListOfConnectedPoints(connectedItems, _currentlyChecking);
+                    IEnumerable<LinkedList<AStarSolver<GameField>.XPathNode>> list2 = HandleListOfConnectedPoints(connectedItems, _currentlyChecking);
 
                     list.AddRange(list2.Where(current => current.Count >= 4).Select(FindClosed).Where(pointField => true));
                 }
@@ -94,13 +94,13 @@ namespace Yupi.Core.Algorithms.GameField
 
         private PointField FindClosed(LinkedList<AStarSolver<GameField>.XPathNode> nodeList)
         {
-            var pointField = new PointField(_currentlyChecking.Value);
-            var num = 2147483647;
-            var num2 = -2147483648;
-            var num3 = 2147483647;
-            var num4 = -2147483648;
+            PointField pointField = new PointField(_currentlyChecking.Value);
+            int num = 2147483647;
+            int num2 = -2147483648;
+            int num3 = 2147483647;
+            int num4 = -2147483648;
 
-            foreach (var current in nodeList)
+            foreach (AStarSolver<GameField>.XPathNode current in nodeList)
             {
                 if (current.X < num)
                     num = current.X;
@@ -115,19 +115,19 @@ namespace Yupi.Core.Algorithms.GameField
                     num4 = current.Y;
             }
 
-            var x = (int)Math.Ceiling((num2 - num) / 2f) + num;
-            var y = (int)Math.Ceiling((num4 - num3) / 2f) + num3;
+            int x = (int)Math.Ceiling((num2 - num) / 2f) + num;
+            int y = (int)Math.Ceiling((num4 - num3) / 2f) + num3;
 
-            var list = new List<Point>();
-            var list2 = new List<Point> { new Point(_currentlyChecking.X, _currentlyChecking.Y) };
+            List<Point> list = new List<Point>();
+            List<Point> list2 = new List<Point> { new Point(_currentlyChecking.X, _currentlyChecking.Y) };
 
             list.Add(new Point(x, y));
 
             while (list.Any())
             {
-                var point = list[0];
-                var x2 = point.X;
-                var y2 = point.Y;
+                Point point = list[0];
+                int x2 = point.X;
+                int y2 = point.Y;
 
                 if (x2 < num)
                     return null;
@@ -143,7 +143,7 @@ namespace Yupi.Core.Algorithms.GameField
 
                 if (this[y2 - 1, x2] && _currentField[y2 - 1, x2] == 0)
                 {
-                    var item = new Point(x2, y2 - 1);
+                    Point item = new Point(x2, y2 - 1);
 
                     if (!list.Contains(item) && !list2.Contains(item))
                         list.Add(item);
@@ -151,7 +151,7 @@ namespace Yupi.Core.Algorithms.GameField
 
                 if (this[y2 + 1, x2] && _currentField[y2 + 1, x2] == 0)
                 {
-                    var item = new Point(x2, y2 + 1);
+                    Point item = new Point(x2, y2 + 1);
 
                     if (!list.Contains(item) && !list2.Contains(item))
                         list.Add(item);
@@ -159,7 +159,7 @@ namespace Yupi.Core.Algorithms.GameField
 
                 if (this[y2, x2 - 1] && _currentField[y2, x2 - 1] == 0)
                 {
-                    var item = new Point(x2 - 1, y2);
+                    Point item = new Point(x2 - 1, y2);
 
                     if (!list.Contains(item) && !list2.Contains(item))
                         list.Add(item);
@@ -167,7 +167,7 @@ namespace Yupi.Core.Algorithms.GameField
 
                 if (this[y2, x2 + 1] && _currentField[y2, x2 + 1] == 0)
                 {
-                    var item = new Point(x2 + 1, y2);
+                    Point item = new Point(x2 + 1, y2);
 
                     if (!list.Contains(item) && !list2.Contains(item))
                         list.Add(item);
@@ -185,10 +185,10 @@ namespace Yupi.Core.Algorithms.GameField
 
         private IEnumerable<LinkedList<AStarSolver<GameField>.XPathNode>> HandleListOfConnectedPoints(List<Point> pointList, GametileUpdate update)
         {
-            var list = new List<LinkedList<AStarSolver<GameField>.XPathNode>>();
-            var num = 0;
+            List<LinkedList<AStarSolver<GameField>.XPathNode>> list = new List<LinkedList<AStarSolver<GameField>.XPathNode>>();
+            int num = 0;
 
-            foreach (var current in pointList)
+            foreach (Point current in pointList)
             {
                 num++;
 
@@ -206,9 +206,9 @@ namespace Yupi.Core.Algorithms.GameField
 
         private List<Point> GetConnectedItems(GametileUpdate update)
         {
-            var list = new List<Point>();
-            var x = update.X;
-            var y = update.Y;
+            List<Point> list = new List<Point>();
+            int x = update.X;
+            int y = update.Y;
 
             if (_diagonal)
             {

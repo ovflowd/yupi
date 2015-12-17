@@ -53,14 +53,14 @@ namespace Yupi.Game.Items.Wired.Handlers.Conditions
 
         public bool Execute(params object[] stuff)
         {
-            var roomUser = stuff?[0] as RoomUser;
+            RoomUser roomUser = stuff?[0] as RoomUser;
 
             if ((roomUser?.IsBot ?? true) || roomUser.GetClient() == null || roomUser.GetClient().GetHabbo() == null || roomUser.GetClient().GetHabbo().GetInventoryComponent() == null || string.IsNullOrEmpty(OtherString))
                 return false;
 
-            var itemsIdsArray = OtherString.Split(';');
+            string[] itemsIdsArray = OtherString.Split(';');
 
-            foreach (var itemIdStr in itemsIdsArray)
+            foreach (string itemIdStr in itemsIdsArray)
             {
                 uint itemId;
 

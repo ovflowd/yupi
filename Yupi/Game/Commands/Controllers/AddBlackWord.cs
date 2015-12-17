@@ -22,8 +22,8 @@ namespace Yupi.Game.Commands.Controllers
 
         public override bool Execute(GameClient session, string[] pms)
         {
-            var type = pms[0];
-            var word = pms[1];
+            string type = pms[0];
+            string word = pms[1];
 
             if (string.IsNullOrEmpty(word))
             {

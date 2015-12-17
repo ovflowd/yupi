@@ -3,6 +3,7 @@ using System.Linq;
 using Yupi.Game.Items.Interactions.Enums;
 using Yupi.Game.Items.Interfaces;
 using Yupi.Game.Items.Wired.Interfaces;
+using Yupi.Game.Pathfinding.Vectors;
 using Yupi.Game.Rooms;
 
 namespace Yupi.Game.Items.Wired.Handlers.Conditions
@@ -55,11 +56,11 @@ namespace Yupi.Game.Items.Wired.Handlers.Conditions
             if (!Items.Any())
                 return true;
 
-            foreach (var current in Items.Where(current => current != null && Room.GetRoomItemHandler().FloorItems.ContainsKey(current.Id)))
+            foreach (RoomItem current in Items.Where(current => current != null && Room.GetRoomItemHandler().FloorItems.ContainsKey(current.Id)))
             {
-                var toContinue = false;
+                bool toContinue = false;
 
-                foreach (var current2 in current.AffectedTiles.Values.Where(current2 => Room.GetGameMap().SquareHasFurni(current2.X, current2.Y)))
+                foreach (ThreeDCoord current2 in current.AffectedTiles.Values.Where(current2 => Room.GetGameMap().SquareHasFurni(current2.X, current2.Y)))
                     toContinue = Room.GetGameMap().GetRoomItemForSquare(current2.X, current2.Y).Any(current3 => current3.Id != current.Id && current3.Z >= current2.Z);
 
                 if (toContinue)

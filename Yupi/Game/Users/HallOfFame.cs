@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Data;
+using Yupi.Data.Base.Sessions.Interfaces;
 
 namespace Yupi.Game.Users
 {
@@ -19,10 +20,10 @@ namespace Yupi.Game.Users
         public void RefreshHallOfFame()
         {
             Rankings.Clear();
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery("SELECT * FROM users_rankings ORDER BY score DESC");
-                var table = queryReactor.GetTable();
+                DataTable table = queryReactor.GetTable();
 
                 if (table == null)
                     return;

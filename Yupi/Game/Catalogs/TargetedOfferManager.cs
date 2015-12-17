@@ -22,6 +22,8 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
+using System.Data;
+using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Game.Catalogs.Composers;
 using Yupi.Game.Catalogs.Interfaces;
 using Yupi.Messages;
@@ -41,11 +43,11 @@ namespace Yupi.Game.Catalogs
         {
             CurrentOffer = null;
 
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery("SELECT * FROM catalog_targeted_offers WHERE enabled = '1' LIMIT 1");
 
-                var row = queryReactor.GetRow();
+                DataRow row = queryReactor.GetRow();
 
                 if (row == null)
                     return;

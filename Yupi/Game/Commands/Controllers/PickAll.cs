@@ -1,5 +1,8 @@
-﻿using Yupi.Game.Commands.Interfaces;
+﻿using System.Collections.Generic;
+using Yupi.Game.Commands.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
+using Yupi.Game.Items.Interfaces;
+using Yupi.Game.Rooms;
 
 namespace Yupi.Game.Commands.Controllers
 {
@@ -21,8 +24,8 @@ namespace Yupi.Game.Commands.Controllers
 
         public override bool Execute(GameClient session, string[] pms)
         {
-            var room = session.GetHabbo().CurrentRoom;
-            var roomItemList = room.GetRoomItemHandler().RemoveAllFurniture(session);
+            Room room = session.GetHabbo().CurrentRoom;
+            List<RoomItem> roomItemList = room.GetRoomItemHandler().RemoveAllFurniture(session);
             if (session.GetHabbo().GetInventoryComponent() == null)
             {
                 return true;

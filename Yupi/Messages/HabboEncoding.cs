@@ -45,7 +45,7 @@ namespace Yupi.Messages
         /// <returns>System.String.</returns>
         public static string GetCharFilter(string data)
         {
-            for (var i = 0; i <= 13; i++)
+            for (int i = 0; i <= 13; i++)
                 data = data.Replace(Convert.ToChar(i) + "", "[" + i + "]");
 
             return data;

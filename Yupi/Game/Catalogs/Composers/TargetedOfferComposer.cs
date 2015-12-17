@@ -28,7 +28,7 @@ namespace Yupi.Game.Catalogs.Composers
 
             message.AppendInteger(offer.PurchaseLimit);
 
-            var timeLeft = offer.ExpirationTime - Yupi.GetUnixTimeStamp();
+            int timeLeft = offer.ExpirationTime - Yupi.GetUnixTimeStamp();
 
             message.AppendInteger(timeLeft);
             message.AppendString(offer.Title);
@@ -37,7 +37,7 @@ namespace Yupi.Game.Catalogs.Composers
             message.AppendString(string.Empty);
             message.StartArray();
 
-            foreach (var product in offer.Products)
+            foreach (string product in offer.Products)
             {
                 message.AppendString(product);
                 message.SaveArray();

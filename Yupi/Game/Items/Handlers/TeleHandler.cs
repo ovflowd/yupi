@@ -1,5 +1,8 @@
 using System;
+using System.Data;
+using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Game.Items.Interactions.Enums;
+using Yupi.Game.Items.Interfaces;
 using Yupi.Game.Rooms;
 
 namespace Yupi.Game.Items.Handlers
@@ -19,10 +22,10 @@ namespace Yupi.Game.Items.Handlers
         {
             uint result;
 
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery($"SELECT tele_two_id FROM items_teleports WHERE tele_one_id = {teleId}");
-                var row = queryReactor.GetRow();
+                DataRow row = queryReactor.GetRow();
 
                 result = row == null ? 0 : Convert.ToUInt32(row[0]);
             }
@@ -43,10 +46,10 @@ namespace Yupi.Game.Items.Handlers
 
             uint result;
 
-            using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery($"SELECT room_id FROM items_rooms WHERE id = {teleId} LIMIT 1");
-                var row = queryReactor.GetRow();
+                DataRow row = queryReactor.GetRow();
 
                 result = row == null ? 0 : Convert.ToUInt32(row[0]);
             }
@@ -62,10 +65,10 @@ namespace Yupi.Game.Items.Handlers
         /// <returns><c>true</c> if [is tele linked] [the specified tele identifier]; otherwise, <c>false</c>.</returns>
         internal static bool IsTeleLinked(uint teleId, Room pRoom)
         {
-            var linkedTele = GetLinkedTele(teleId, pRoom);
+            uint linkedTele = GetLinkedTele(teleId, pRoom);
             if (linkedTele == 0u)
                 return false;
-            var item = pRoom.GetRoomItemHandler().GetItem(linkedTele);
+            RoomItem item = pRoom.GetRoomItemHandler().GetItem(linkedTele);
             return (item != null &&
                     (item.GetBaseItem().InteractionType == Interaction.Teleport ||
                      item.GetBaseItem().InteractionType == Interaction.QuickTeleport)) ||

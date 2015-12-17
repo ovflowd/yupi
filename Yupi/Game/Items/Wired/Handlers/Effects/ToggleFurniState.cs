@@ -36,11 +36,11 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
             if (!Items.Any())
                 return true;
 
-            var num = Yupi.Now();
+            long num = Yupi.Now();
 
             if (_mNext < num)
             {
-                foreach (var current in Items.Where(current => current != null && Room.GetRoomItemHandler().FloorItems.ContainsKey(current.Id)))
+                foreach (RoomItem current in Items.Where(current => current != null && Room.GetRoomItemHandler().FloorItems.ContainsKey(current.Id)))
                     current.Interactor.OnWiredTrigger(current);
             }
 

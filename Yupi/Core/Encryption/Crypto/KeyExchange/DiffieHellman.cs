@@ -66,7 +66,7 @@ namespace Yupi.Core.Encryption.Crypto.KeyExchange
         {
             PublicKey = 0;
 
-            var rand = new Random();
+            Random rand = new Random();
             while (PublicKey == 0)
             {
                 if (!ignoreBaseKeys)
@@ -75,7 +75,7 @@ namespace Yupi.Core.Encryption.Crypto.KeyExchange
                     Generator = PrimeCalculator.GenPseudoPrime(Bitlength, 10, rand);
                 }
 
-                var bytes = new byte[Bitlength / 8];
+                byte[] bytes = new byte[Bitlength / 8];
                 Randomizer.NextBytes(bytes);
                 _privateKey = new BigInteger(bytes);
 
@@ -84,7 +84,7 @@ namespace Yupi.Core.Encryption.Crypto.KeyExchange
 
                 if (Generator > Prime)
                 {
-                    var temp = Prime;
+                    BigInteger temp = Prime;
                     Prime = Generator;
                     Generator = temp;
                 }

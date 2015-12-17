@@ -57,14 +57,14 @@ namespace Yupi.Game.Items.Wired.Handlers.Triggers
 
         public bool Execute(params object[] stuff)
         {
-            var roomUser = (RoomUser)stuff[0];
+            RoomUser roomUser = (RoomUser)stuff[0];
 
-            var conditions = Room.GetWiredHandler().GetConditions(this);
-            var effects = Room.GetWiredHandler().GetEffects(this);
+            List<IWiredItem> conditions = Room.GetWiredHandler().GetConditions(this);
+            List<IWiredItem> effects = Room.GetWiredHandler().GetEffects(this);
 
             if (conditions.Any())
             {
-                foreach (var current in conditions)
+                foreach (IWiredItem current in conditions)
                 {
                     WiredHandler.OnEvent(current);
 
@@ -76,7 +76,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Triggers
             if (!effects.Any())
                 return true;
 
-            foreach (var wiredItem in effects.Where(wiredItem => wiredItem != null && wiredItem.Type != Interaction.ActionChase && wiredItem.Execute(roomUser, Type)))
+            foreach (IWiredItem wiredItem in effects.Where(wiredItem => wiredItem != null && wiredItem.Type != Interaction.ActionChase && wiredItem.Execute(roomUser, Type)))
                 WiredHandler.OnEvent(wiredItem);
 
             return true;

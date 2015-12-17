@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using Yupi.Data.Collections;
 using Yupi.Game.Items.Interfaces;
@@ -102,15 +103,15 @@ namespace Yupi.Game.Rooms.Items.Games.Handlers
         /// <param name="item">The item.</param>
         internal void OnTeleportRoomUserEnter(RoomUser user, RoomItem item)
         {
-            var items = _banzaiTeleports.Inner.Values.Where(p => p.Id != item.Id).ToList();
+            List<RoomItem> items = _banzaiTeleports.Inner.Values.Where(p => p.Id != item.Id).ToList();
 
             if (!items.Any())
                 return;
 
-            var countId = Yupi.GetRandomNumber(0, items.Count());
-            var countAmount = 0;
+            int countId = Yupi.GetRandomNumber(0, items.Count());
+            int countAmount = 0;
 
-            foreach (var current in items.Where(current => current != null))
+            foreach (RoomItem current in items.Where(current => current != null))
             {
                 if (countAmount != countId)
                 {
@@ -152,7 +153,7 @@ namespace Yupi.Game.Rooms.Items.Games.Handlers
         /// </summary>
         private void CyclePyramids()
         {
-            foreach (var item in _banzaiPyramids.Select(pyramid => pyramid.Value).Where(current => current != null))
+            foreach (RoomItem item in _banzaiPyramids.Select(pyramid => pyramid.Value).Where(current => current != null))
             {
                 if (item.InteractionCountHelper == 0 && item.ExtraData == "1")
                 {
@@ -162,7 +163,7 @@ namespace Yupi.Game.Rooms.Items.Games.Handlers
                 if (string.IsNullOrEmpty(item.ExtraData))
                     item.ExtraData = "0";
 
-                var randomNumber = Yupi.GetRandomNumber(0, 30);
+                int randomNumber = Yupi.GetRandomNumber(0, 30);
                 if (randomNumber <= 26)
                     continue;
                 if (item.ExtraData == "0")
