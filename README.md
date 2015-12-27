@@ -2,7 +2,43 @@
 
 [![Build Status](https://travis-ci.org/sant0ro/Yupi.svg?branch=master)](https://travis-ci.org/sant0ro/Yupi)
 
-This Markdwon File will be improved hehe.
+## About
+
+#### What is Yupi?
+Yupi is an OSP Habbo Emulator, not created for production usages. Only for Algorithm and Development usages. The proposal of this emulator is see how Sulake's Habbo Hotel works. Not for piracy or Earning money.
+
+**I must remember that as this project is osp you can do what u want. If you do inapropriate usages of this project, is your responsibility.**
+
+*US Law remembers: Cyber Piracy is crime!*	
+*US Law remembers: Pedophilie is crime!*
+
+#### What Yupi is based on?
+Butterfly Emulator, originally created by Martinmine. Actually Based in a Butterfly's Edition called Azure Emulator.
+
+#### Why this emulator will be better?
+**The purpose of this emulator isn't create a production usage. And isn't intended to create a perfect or good emulator. All this code is pretended to be right coded.**
+Remembering that the project consists in a parcially/fully rewrite of the Azure Emulator, consisting in Class, Namespace, Code Rewrite. That means that will be used a Top-Down Methodology and an Agile based development methodology. The classes will be diagnost, and "scanned", and will be fully/parcially rewrited, planning to normalize and create a dynamic and abstract code.
+
+#### For who is this Emulator?
+For everyone that want to learn about how Habbo Hotel works. Also for privately and end-user usage, development usage. Not for commercial or production usage. Also remembering this emulator is not intended to be used for piracy.
+
+#### Can i use this Emulator normally?
+If u want, but beware, it's planned to be A Complete Database Rewrite. The Database Tables, and Columns will change without any pre-warning. And will not be supported migrations or update scripts. The use of this project is in your risk. And no update support will be given.
+
+#### Can i use any Habbo Content Management System?
+If works, yes. But is recommended only use an "static" client.html, with generic SSO Ticket, (javascript flag sso_ticket static, and static entry for users.auth_ticket in MySQL Database)
+
+#### Can i ask questions (creating issues)?
+You can, but will not be given configuration help. Only Configuration Parameters usage. Remember this project is designed for developers. So, newbies or "noobs" in the area will not receive starter helps. Is fully recommended only report code bugs, in-game bugs, and database exceptions. Also pull requests for improvements, or issues for critics/ideas/suggestions.
+
+#### Can i earn money with that?
+No, if you use this Emulator for a Private Habbo Hotel, you're using the MIT License at your risk. Remembering that this Emulator is under Sulakes Commercial and End-User (Consumer) License. You cannot earn money with it, in all type of money, Google Adsene, AdWords, Ads, VIP Cares, etc. You can receive a DMCA Act, and Judicial Proccess from Sulake.
+
+#### Is this project allowed by Sulake?
+No, definitively no. If they want this down, they have all rights. And the project will be immediatelly stopped and cancelled. This project will only continue if Sulake Allows. (Remembering Fake DMCA is crime!)
+
+#### Which SWF i can use?
+Any SWF, remember to use the Emulator Production SWF. Recommended a RC4 Patch for Crack the SWF. Or only RSA Patch.
 
 ## To Debug the Emulator
 1. Open Visual Studio 2015x/+
@@ -18,22 +54,21 @@ This Markdwon File will be improved hehe.
 3. The other and respectives credits goes to Sulake, for creating all Habbo Algorithm, Habbo Images, Habbo Hotel, and all stuff respective about Habbo. This emulator uses own Algorithm created to reproduce the Sulakes Algorithm. 
 4. The Habbo Encryption algorithm author is Joopie (@Joopie1994); .NET C# Big Integer algorithm author is Chew Keong Tan; A*Star Path Search Algorithm Implementation for Habbo, firstly author Nillus, edited by meth0d (Roy); ARC4 Algorithm was created by Xdr Master (Kekomundo); The Emulator Socket System was created By Kessiler Rodrigues (@Kessiler); The GameMap algorithm was created by Nillus; 
 5. Remembering: This Emulator isn't from Scratch! It's an editing on: Yupi! > Mania Revolution > Azure Emulator 2.0 > hMercury > Mercury Emulator > Swift Emulator AKKLX > Swift Emulator > ... > Uber Emulator;
-6. Also the copyright about this Emulator is from Mania Dev Oy (Owned by Rafael Oliveira - @iPlezier), This Emulator was originally edited by Kessiler and Rafael for private usage in ManiaHotel.com.br, If they want to this development stop. That will Happen.
-7. Also Special Thanks to: @iamdroppy (Droppy);
 
 ## Warning
 1. I must advice to not remove the credits. in the "about" command, and in the Emulator Loading. This Emulator was a hard work by their Developers, specially by Kessiler. This Emulator wasn't made to be released. 
-2. Please don't use to production usages, don't sell, remove credits, and don't earn money with it. If you want please send the money to ManiaHotel.com.br ;)
+2. Please don't use to production usages, don't sell, remove credits, and don't earn money with it. 
 3. I must remember that this emulator hasn't a team, and will not have. Anyone is free to give issues, pull requests or help in development.
 4. Please i don't wanna fame. So don't add on Skype asking for Help, i will not. Have problems, create an issue.
 5. I will not enter in any other project, or Hotel. Since this work is owned by Mania Hotel.
 
 ## Want fun?
 1. Enter Habbo.com
-2. Enter ManiaHotel.com.br
+2. Don't be idiot
 3. Don't send Fake DMCA's
 4. Be Happy
 5. Eat Chocolate
 
 ### Habbo Release
 PRODUCTION-201510201205-42435347
+
