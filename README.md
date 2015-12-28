@@ -52,11 +52,11 @@ Any SWF, remember to use the Emulator Production SWF. Recommended a RC4 Patch fo
 1. License is MIT - Open Source Project
 2. Copyright to Sulake Corporation Oy, All rights reserved, in: Habbo, Habbo Hotel, and they respectives names, are copyright from Sulake Corporation Oy. This project is not from Sulake. This project doesn't want to breach Sulakes Copyright. This Emulator is only for DEVELOPMENT usage and for knowledge improvemente. Any commercial usage or sell of this project. Breaches Sulakes copyright. If you're earning money with this emulator, you're breaching the Digital Milenium Copyright Act, part of US Law. Please don't breach that.
 3. The other and respectives credits goes to Sulake, for creating all Habbo Algorithm, Habbo Images, Habbo Hotel, and all stuff respective about Habbo. This emulator uses own Algorithm created to reproduce the Sulakes Algorithm. 
-4. The Habbo Encryption algorithm author is Joopie (@Joopie1994); .NET C# Big Integer algorithm author is Chew Keong Tan; A*Star Path Search Algorithm Implementation for Habbo, firstly author Nillus, edited by meth0d (Roy); ARC4 Algorithm was created by Xdr Master (Kekomundo); The Emulator Socket System was created By Kessiler Rodrigues (@Kessiler); The GameMap algorithm was created by Nillus; 
+4. The Habbo Encryption algorithm author is Joopie (@Joopie1994); .NET C# Big Integer algorithm author is Chew Keong Tan; A*Star Path Search Algorithm Implementation for Habbo, firstly author Nillus, edited by meth0d (Roy); ARC4 Algorithm was created by Xdr Master (Kekomundo); The Emulator Socket System was created By [@Kessiler](https://github.com/kessiler); The GameMap algorithm was created by Nillus; 
 5. Remembering: This Emulator isn't from Scratch! It's an editing on: Yupi! > Mania Revolution > Azure Emulator 2.0 > hMercury > Mercury Emulator > Swift Emulator AKKLX > Swift Emulator > ... > Uber Emulator;
 
 ## Warning
-1. I must advice to not remove the credits. in the "about" command, and in the Emulator Loading. This Emulator was a hard work by their Developers, specially by Kessiler. This Emulator wasn't made to be released. 
+1. I must advice to not remove the credits. in the "about" command, and in the Emulator Loading. This Emulator was a hard work by their Developers, specially by [@Kessiler](https://github.com/kessiler). This Emulator wasn't made to be released. 
 2. Please don't use to production usages, don't sell, remove credits, and don't earn money with it. 
 3. I must remember that this emulator hasn't a team, and will not have. Anyone is free to give issues, pull requests or help in development.
 4. Please i don't wanna fame. So don't add on Skype asking for Help, i will not. Have problems, create an issue.
