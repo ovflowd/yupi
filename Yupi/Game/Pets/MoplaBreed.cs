@@ -124,7 +124,7 @@ namespace Yupi.Game.Pets
         /// <returns>MoplaBreed.</returns>
         internal static MoplaBreed CreateMonsterplantBreed(Pet pet)
         {
-            if (pet.Type != 16)
+            if (pet.Type != "monster_pet")
                 return null;
 
             Tuple<string, string> tuple = GeneratePlantData(pet.Rarity);

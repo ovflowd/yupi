@@ -1416,37 +1416,52 @@ namespace Yupi.Game.Items.Interfaces
         /// <param name="inRoom">if set to <c>true</c> [in room].</param>
         internal void UpdateState(bool inDb, bool inRoom)
         {
-            if (GetRoom() == null) return;
-            string s = ExtraData;
+            if (GetRoom() == null)
+                return;
+
+            string localExtraData = ExtraData;
+
             if (GetBaseItem().InteractionType == Interaction.MysteryBox)
             {
                 using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
                     queryReactor.SetQuery($"SELECT extra_data FROM items_rooms WHERE id={Id} LIMIT 1");
+
                     ExtraData = queryReactor.GetString();
                 }
+
                 if (ExtraData.Contains(Convert.ToChar(5).ToString()))
                 {
-                    int num = int.Parse(ExtraData.Split(Convert.ToChar(5))[0]),
-                        num2 = int.Parse(ExtraData.Split(Convert.ToChar(5))[1]);
-                    s = (3 * num - num2).ToString();
+                    int num = int.Parse(ExtraData.Split(Convert.ToChar(5))[0]);
+                    int num2 = int.Parse(ExtraData.Split(Convert.ToChar(5))[1]);
+
+                    localExtraData = (3 * num - num2).ToString();
                 }
             }
-            if (inDb) GetRoom().GetRoomItemHandler().AddOrUpdateItem(Id);
-            if (!inRoom) return;
+
+            if (inDb)
+                GetRoom().GetRoomItemHandler().AddOrUpdateItem(Id);
+
+            if (!inRoom)
+                return;
+
             ServerMessage serverMessage = new ServerMessage(0);
+
             if (IsFloorItem)
             {
                 serverMessage.Init(LibraryParser.OutgoingRequest("UpdateFloorItemExtraDataMessageComposer"));
                 serverMessage.AppendString(Id.ToString());
+
                 switch (GetBaseItem().InteractionType)
                 {
                     case Interaction.Mannequin:
                         serverMessage.AppendInteger(1);
                         serverMessage.AppendInteger(3);
+
                         if (ExtraData.Contains(Convert.ToChar(5).ToString()))
                         {
                             string[] array = ExtraData.Split(Convert.ToChar(5));
+
                             serverMessage.AppendString("GENDER");
                             serverMessage.AppendString(array[0]);
                             serverMessage.AppendString("FIGURE");
@@ -1457,16 +1472,17 @@ namespace Yupi.Game.Items.Interfaces
                         else
                         {
                             serverMessage.AppendString("GENDER");
-                            serverMessage.AppendString("");
+                            serverMessage.AppendString(string.Empty);
                             serverMessage.AppendString("FIGURE");
-                            serverMessage.AppendString("");
+                            serverMessage.AppendString(string.Empty);
                             serverMessage.AppendString("OUTFIT_NAME");
-                            serverMessage.AppendString("");
+                            serverMessage.AppendString(string.Empty);
                         }
                         break;
 
                     case Interaction.Pinata:
                         serverMessage.AppendInteger(7);
+
                         if (ExtraData.Length <= 0)
                         {
                             serverMessage.AppendString("6");
@@ -1482,7 +1498,9 @@ namespace Yupi.Game.Items.Interfaces
                         break;
 
                     case Interaction.WiredHighscore:
-                        if (HighscoreData == null) HighscoreData = new HighscoreData(this);
+                        if (HighscoreData == null)
+                            HighscoreData = new HighscoreData(this);
+
                         HighscoreData.GenerateExtraData(this, serverMessage);
                         break;
 
@@ -1494,12 +1512,12 @@ namespace Yupi.Game.Items.Interfaces
                         serverMessage.AppendInteger(1);
                         serverMessage.AppendInteger(1);
                         serverMessage.AppendString("THUMBNAIL_URL");
-                        serverMessage.AppendString(ServerExtraSettings.YoutubeThumbnailSuburl + s);
+                        serverMessage.AppendString(localExtraData);
                         break;
 
                     default:
                         serverMessage.AppendInteger(0);
-                        serverMessage.AppendString(s);
+                        serverMessage.AppendString(localExtraData);
                         break;
                 }
             }
@@ -1508,6 +1526,7 @@ namespace Yupi.Game.Items.Interfaces
                 serverMessage.Init(LibraryParser.OutgoingRequest("UpdateRoomWallItemMessageComposer"));
                 Serialize(serverMessage);
             }
+
             GetRoom().SendMessage(serverMessage);
         }
 
@@ -1560,18 +1579,20 @@ namespace Yupi.Game.Items.Interfaces
                         break;
 
                     case Interaction.YoutubeTv:
+
                         message.AppendInteger(0);
-                        if (ExtraData == "")
+
+                        if (ExtraData == string.Empty)
                         {
                             message.AppendInteger(0);
-                            message.AppendString("");
+                            message.AppendString(string.Empty);
                         }
                         else
                         {
                             message.AppendInteger(1);
                             message.AppendInteger(1);
                             message.AppendString("THUMBNAIL_URL");
-                            message.AppendString(ServerExtraSettings.YoutubeThumbnailSuburl + ExtraData);
+                            message.AppendString(ExtraData);
                         }
                         break;
 

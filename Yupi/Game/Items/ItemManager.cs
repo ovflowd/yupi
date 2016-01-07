@@ -127,7 +127,7 @@ namespace Yupi.Game.Items
                         sprite = FurnitureDataManager.WallItems[name].Id;
                         publicName = FurnitureDataManager.WallItems[name].Name;
                     }
-                    else if (name.StartsWith("a0 pet", StringComparison.InvariantCulture))
+                    else if ((name.StartsWith("pet_") || publicName.StartsWith("pet_")) && InteractionTypes.AreFamiliar(GlobalInteractions.Pet, typeFromString))
                     {
                         x = 1;
                         y = 1;

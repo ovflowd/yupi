@@ -68,21 +68,28 @@ namespace Yupi.Data
 
                 try
                 {
+                    int realOnlineClientCount = Yupi.GetGame().GetClientManager().GetOnlineClients();
                     int clientCount = Yupi.GetGame().GetClientManager().ClientCount();
+
+                    if (realOnlineClientCount != clientCount)
+                        Writer.WriteLine("Number of Clients isn't Equal of Online Users. Running Analysis", "Yupi.Game", ConsoleColor.DarkYellow);
+
+                    //if (realOnlineClientCount != clientCount)
+                    //    Yupi.GetGame().GetClientManager().RemoveNotOnlineUsers();
+
                     int loadedRoomsCount = Yupi.GetGame().GetRoomManager().LoadedRoomsCount;
+
                     DateTime dateTime = new DateTime((DateTime.Now - Yupi.ServerStarted).Ticks);
 
-                    Console.Title = string.Concat("Yupi | UpTime: ",
-                        int.Parse(dateTime.ToString("dd")) - 1 + dateTime.ToString(":HH:mm:ss"), " | Users: ",
-                        clientCount, " | Rooms: ", loadedRoomsCount);
+                    Console.Title = string.Concat("Yupi | Time: ", int.Parse(dateTime.ToString("dd")) - 1, "d:", dateTime.ToString("HH"), "h:", dateTime.ToString("mm"), "m | Conn: ", clientCount," | Users: ", realOnlineClientCount, " | Rooms: ", loadedRoomsCount);
 
                     using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
-                        if (clientCount > _userPeak)
-                            _userPeak = clientCount;
+                        if (clientCount > _userPeak || realOnlineClientCount > _userPeak)
+                            _userPeak = realOnlineClientCount;
 
                         queryReactor.RunFastQuery(string.Concat("UPDATE server_status SET stamp = '",
-                            Yupi.GetUnixTimeStamp(), "', users_online = ", clientCount, ", rooms_loaded = ",
+                            Yupi.GetUnixTimeStamp(), "', users_online = ", realOnlineClientCount, ", rooms_loaded = ",
                             loadedRoomsCount, ", server_ver = 'Yupi Emulator', userpeak = ", _userPeak));
                     }
 

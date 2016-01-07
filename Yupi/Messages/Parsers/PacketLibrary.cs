@@ -1742,15 +1742,6 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Fuckyous the specified handler.
-        /// </summary>
-        /// <param name="handler">The handler.</param>
-        internal static void Fuckyou(GameClientMessageHandler handler)
-        {
-            handler.Fuckyou();
-        }
-
-        /// <summary>
         /// Gets the balance.
         /// </summary>
         /// <param name="handler">The handler.</param>

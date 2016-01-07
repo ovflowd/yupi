@@ -148,7 +148,7 @@ namespace Yupi.Game.Users.Factories
                 myRoomsTable = queryReactor.GetTable();
 
                 // Get User Pets Data
-                queryReactor.SetQuery($"SELECT * FROM bots_data WHERE user_id = {userId} AND room_id = 0 AND ai_type='pet'");
+                queryReactor.SetQuery($"SELECT * FROM pets_data WHERE user_id = {userId} AND room_id = 0 AND ai_type='pet'");
                 petsTable = queryReactor.GetTable();
 
                 // Get User Quests Data
@@ -156,7 +156,7 @@ namespace Yupi.Game.Users.Factories
                 questsTable = queryReactor.GetTable();
 
                 // Get User Bots Data
-                queryReactor.SetQuery($"SELECT * FROM bots_data WHERE user_id = {userId} AND room_id=0 AND ai_type='generic'");
+                queryReactor.SetQuery($"SELECT * FROM bots_data WHERE user_id = {userId} AND room_id = 0 AND ai_type='generic'");
                 botsTable = queryReactor.GetTable();
 
                 // Get User Groups Data
@@ -263,22 +263,7 @@ namespace Yupi.Game.Users.Factories
             foreach (DataRow row in myRoomsTable.Rows)
                 myRooms.Add(Yupi.GetGame().GetRoomManager().FetchRoomData((uint)row["id"], row));
 
-            Dictionary<uint, Pet> pets = new Dictionary<uint, Pet>();
-
-            foreach (DataRow row in petsTable.Rows)
-            {
-                using (IQueryAdapter queryreactor3 = Yupi.GetDatabaseManager().GetQueryReactor())
-                {
-                    queryreactor3.SetQuery($"SELECT * FROM pets_data WHERE id = {row["id"]} LIMIT 1");
-
-                    DataRow row3 = queryreactor3.GetRow();
-
-                    if (row3 == null)
-                        continue;
-
-                    pets.Add((uint)row["id"], CatalogManager.GeneratePetFromRow(row, row3));
-                }
-            }
+            Dictionary<uint, Pet> pets = petsTable.Rows.Cast<DataRow>().ToDictionary(row => (uint) row["id"], CatalogManager.GeneratePetFromRow);
 
             Dictionary<int, int> quests = new Dictionary<int, int>();
 

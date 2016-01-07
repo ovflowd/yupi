@@ -338,6 +338,7 @@ namespace Yupi.Game.Users.Inventory.Components
             using (IQueryAdapter queryReactor2 = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor2.SetQuery($"SELECT * FROM bots_data WHERE user_id = {UserId} AND room_id = 0");
+
                 DataTable table2 = queryReactor2.GetTable();
 
                 if (table2 == null)
@@ -345,23 +346,28 @@ namespace Yupi.Game.Users.Inventory.Components
 
                 foreach (DataRow botRow in table2.Rows)
                 {
-                    if ((string) botRow["ai_type"] == "pet")
+                    if ((string) botRow["ai_type"] == "generic")
+                        AddBot(BotManager.GenerateBotFromRow(botRow));
+                }
+
+                queryReactor2.SetQuery($"SELECT * FROM pets_data WHERE user_id = {UserId} AND room_id = 0");
+
+                DataTable table3 = queryReactor2.GetTable();
+
+                if (table3 == null)
+                    return;
+
+                foreach (DataRow petRow in table3.Rows)
+                {
+                    if ((string)petRow["ai_type"] == "pet")
                     {
-                        queryReactor2.SetQuery($"SELECT * FROM pets_data WHERE id={botRow[0]} LIMIT 1");
-                        DataRow row = queryReactor2.GetRow();
-
-                        if (row == null)
-                            continue;
-
-                        Pet pet = CatalogManager.GeneratePetFromRow(botRow, row);
+                        Pet pet = CatalogManager.GeneratePetFromRow(petRow);
 
                         if (_inventoryPets.Contains(pet.PetId))
                             _inventoryPets.Remove(pet.PetId);
 
                         _inventoryPets.Add(pet.PetId, pet);
                     }
-                    else if ((string) botRow["ai_type"] == "generic")
-                        AddBot(BotManager.GenerateBotFromRow(botRow));
                 }
             }
         }
@@ -760,20 +766,26 @@ namespace Yupi.Game.Users.Inventory.Components
                 {
                     if (current.DbState == DatabaseUpdateState.NeedsUpdate)
                     {
-                        queryChunk.AddParameter($"{current.PetId}name", current.Name);
-                        queryChunk.AddParameter($"{current.PetId}race", current.Race);
-                        queryChunk.AddParameter($"{current.PetId}color", current.Color);
+                        using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                        {
+                            queryReactor.SetQuery("UPDATE pets_data SET " +
+                                                  $"room_id = {current.RoomId}, name = @petName, x = {current.X}, y = {current.Y}, " +
+                                                  $"z = {current.Z}, race_id = @petRace, pet_type = @petType', experience = {current.Experience}, " +
+                                                  $"energy = {current.Energy}, nutrition = {current.Nutrition}, respect = {current.Respect}, " +
+                                                  $"createstamp = '{current.CreationStamp}', lasthealth_stamp = '{Yupi.DateTimeToUnix(current.LastHealth)}', untilgrown_stamp = '{Yupi.DateTimeToUnix(current.UntilGrown)}', " +
+                                                  $"color = @petColor WHERE id = {current.PetId}");
 
-                        queryChunk.AddQuery(string.Concat("UPDATE bots_data SET room_id = ", current.RoomId, ", name = @", current.PetId, "name, x = ", current.X, ", Y = ", current.Y, ", Z = ", current.Z, " WHERE id = ", current.PetId));
+                            queryReactor.AddParameter("petName", current.Name);
+                            queryReactor.AddParameter("petRace", current.Race);
+                            queryReactor.AddParameter("petType", current.Type);
+                            queryReactor.AddParameter("petColor", current.Color);
 
-                        queryChunk.AddQuery(string.Concat("UPDATE pets_data SET race = @", current.PetId, "race, color = @", current.PetId, "color, type = ", current.Type, ", experience = ", current.Experience, ", energy = ", current.Energy, ", nutrition = ", current.Nutrition, ", respect = ", current.Respect, ", createstamp = '", current.CreationStamp, "', lasthealth_stamp = ", Yupi.DateTimeToUnix(current.LastHealth), ", untilgrown_stamp = ", Yupi.DateTimeToUnix(current.UntilGrown), " WHERE id = ", current.PetId));
+                            queryReactor.RunQuery();
+                        }
                     }
 
                     current.DbState = DatabaseUpdateState.Updated;
                 }
-
-                using (IQueryAdapter queryreactor2 = Yupi.GetDatabaseManager().GetQueryReactor())
-                    queryChunk.Execute(queryreactor2);
             }
             catch (Exception ex)
             {

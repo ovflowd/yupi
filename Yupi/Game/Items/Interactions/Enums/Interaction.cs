@@ -241,32 +241,6 @@
         PetDemonMonkey, // pet 23
 
         /// <summary>
-        ///     The pet24
-        /// </summary>
-        Pet24,
-
-        /// <summary>
-        ///     The pet25
-        /// </summary>
-        Pet25,
-
-        /// <summary>
-        ///     The pet26
-        /// </summary>
-        Pet26,
-
-        // New Pets
-        Pet27,
-
-        Pet28,
-        Pet29,
-        Pet30,
-        Pet31,
-        Pet32,
-        Pet33,
-        Pet34,
-
-        /// <summary>
         ///     The ice skates
         /// </summary>
         IceSkates,

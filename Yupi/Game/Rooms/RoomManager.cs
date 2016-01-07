@@ -496,7 +496,7 @@ namespace Yupi.Game.Rooms
         /// <param name="reason">The reason.</param>
         internal void UnloadRoom(Room room, string reason)
         {
-            if (room == null || room.RoomData == null || room.Disposed)
+            if (room?.RoomData == null || room.Disposed)
                 return;
 
             room.Disposed = true;
@@ -563,7 +563,8 @@ namespace Yupi.Game.Rooms
                         {
                             if (current.PetData == null)
                                 continue;
-                            queryReactor.SetQuery("UPDATE bots_data SET x=@x, y=@y, z=@z WHERE id=@id LIMIT 1");
+
+                            queryReactor.SetQuery("UPDATE pets_data SET x=@x, y=@y, z=@z WHERE id=@id LIMIT 1");
                             queryReactor.AddParameter("x", current.X);
                             queryReactor.AddParameter("y", current.Y);
                             queryReactor.AddParameter("z", current.Z);
@@ -579,8 +580,8 @@ namespace Yupi.Game.Rooms
                         {
                             if (current.BotData == null)
                                 continue;
-                            queryReactor.SetQuery(
-                                "UPDATE bots_data SET x=@x, y=@y, z=@z, name=@name, motto=@motto, look=@look, rotation=@rotation, dance=@dance WHERE id=@id LIMIT 1");
+
+                            queryReactor.SetQuery("UPDATE bots_data SET x=@x, y=@y, z=@z, name=@name, motto=@motto, look=@look, rotation=@rotation, dance=@dance WHERE id=@id LIMIT 1");
                             queryReactor.AddParameter("name", current.BotData.Name);
                             queryReactor.AddParameter("motto", current.BotData.Motto);
                             queryReactor.AddParameter("look", current.BotData.Look);
@@ -608,13 +609,11 @@ namespace Yupi.Game.Rooms
 
             Room junkRoom;
             LoadedRooms.TryRemove(room.RoomId, out junkRoom);
-            junkRoom = null;
 
             Writer.WriteLine(string.Format("Room #{0} was unloaded, reason: " + reason, room.RoomId),
                 "Yupi.Rooms", ConsoleColor.DarkGray);
 
             room.Destroy();
-            room = null;
         }
 
         /// <summary>

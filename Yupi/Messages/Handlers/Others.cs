@@ -113,19 +113,7 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         internal void GetClientVersionMessageEvent()
         {
-            string release = Request.GetString();
-            if (release.Contains("201409222303-304766480"))
-            {
-                Session.GetHabbo().ReleaseName = "304766480";
-                Console.WriteLine("[Handled] Release Id: RELEASE63-201409222303-304766480");
-            }
-            else if (release.Contains("201411201226-580134750"))
-            {
-                Session.GetHabbo().ReleaseName = "304766480";
-                Console.WriteLine("[Handled] Release Id: RELEASE63-201411201226-580134750");
-            }
-            else
-                LibraryParser.ReleaseName = "Undefined Release";
+            Request.GetString();
         }
 
         /// <summary>
@@ -161,13 +149,6 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Fuckyous this instance.
-        /// </summary>
-        internal void Fuckyou()
-        {
-        }
-
-        /// <summary>
         /// Initializes the crypto.
         /// </summary>
         internal void InitCrypto()
@@ -180,6 +161,7 @@ namespace Yupi.Messages.Handlers
                 SendResponse();
                 return;
             }
+
             Response.Init(LibraryParser.OutgoingRequest("InitCryptoMessageComposer"));
             Response.AppendString(Handler.GetRsaDiffieHellmanPrimeKey());
             Response.AppendString(Handler.GetRsaDiffieHellmanGeneratorKey());
@@ -258,8 +240,9 @@ namespace Yupi.Messages.Handlers
                 return;
 
             Habbo habbo = Session.GetHabbo();
+
             bool tradeLocked = Session.GetHabbo().CheckTrading();
-            bool canUseFloorEditor = ServerExtraSettings.EveryoneUseFloor || Session.GetHabbo().Vip || Session.GetHabbo().Rank >= 4;
+            bool canUseFloorEditor = true;//ServerExtraSettings.EveryoneUseFloor || Session.GetHabbo().Vip || Session.GetHabbo().Rank >= 4;
 
             Response.Init(LibraryParser.OutgoingRequest("UserObjectMessageComposer"));
             Response.AppendInteger(habbo.Id);

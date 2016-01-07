@@ -28,6 +28,7 @@ using Yupi.Game.Items.Interfaces;
 using Yupi.Game.Pathfinding;
 using Yupi.Game.Pets;
 using Yupi.Game.Pets.Enums;
+using Yupi.Game.Pets.Structs;
 using Yupi.Game.Polls;
 using Yupi.Game.Polls.Enums;
 using Yupi.Game.RoomBots;
@@ -49,26 +50,33 @@ namespace Yupi.Messages.Handlers
         public void GetPetBreeds()
         {
             string type = Request.GetString();
-            string petType;
-            int petId = PetRace.GetPetId(type, out petType);
-            List<PetRace> races = PetRace.GetRacesForRaceId(petId);
+
+            string petType = PetTypeManager.GetPetTypeByHabboPetType(type);
+
+            uint petId = PetTypeManager.GetPetRaceByItemName(petType);
+
+            List<PetRace> races = PetTypeManager.GetRacesByPetType(petType);
+
             ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("SellablePetBreedsMessageComposer"));
-            message.AppendString(petType);
+
+            message.AppendString(type);
             message.AppendInteger(races.Count);
+
             foreach (PetRace current in races)
             {
                 message.AppendInteger(petId);
-                message.AppendInteger(current.Color1);
-                message.AppendInteger(current.Color2);
-                message.AppendBool(current.Has1Color);
-                message.AppendBool(current.Has2Color);
+                message.AppendInteger(current.ColorOne);
+                message.AppendInteger(current.ColorTwo);
+                message.AppendBool(current.HasColorOne);
+                message.AppendBool(current.HasColorTwo);
             }
+
             Session.SendMessage(message);
         }
 
         internal void GoRoom()
         {
-            if (Yupi.ShutdownStarted || Session == null || Session.GetHabbo() == null)
+            if (Yupi.ShutdownStarted || Session?.GetHabbo() == null)
                 return;
             uint num = Request.GetUInteger();
             RoomData roomData = Yupi.GetGame().GetRoomManager().GenerateRoomData(num);
@@ -1265,14 +1273,16 @@ namespace Yupi.Messages.Handlers
         internal void Dance()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
-            if (room == null)
-                return;
-            RoomUser roomUserByHabbo = room.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().Id);
+            RoomUser roomUserByHabbo = room?.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().Id);
+
             if (roomUserByHabbo == null)
                 return;
+
             roomUserByHabbo.UnIdle();
-            int num = Request.GetInteger();
-            if (num < 0 || num > 4)
+
+            uint num = Request.GetUInteger();
+
+            if (num > 4)
                 num = 0;
 
             if (num > 0 && roomUserByHabbo.CarryItemId > 0)
@@ -1504,19 +1514,21 @@ namespace Yupi.Messages.Handlers
             serverMessage.Init(LibraryParser.OutgoingRequest("CatalogPromotionGetRoomsMessageComposer"));
             serverMessage.AppendBool(true);
             serverMessage.AppendInteger(Session.GetHabbo().UsersRooms.Count);
+
             foreach (RoomData current in Session.GetHabbo().UsersRooms)
             {
                 serverMessage.AppendInteger(current.Id);
                 serverMessage.AppendString(current.Name);
                 serverMessage.AppendBool(false);
             }
+
             Response = serverMessage;
             SendResponse();
         }
 
         internal void SaveHeightmap()
         {
-            if (Session != null && Session.GetHabbo() != null)
+            if (Session?.GetHabbo() != null)
             {
                 Room room = Session.GetHabbo().CurrentRoom;
 
@@ -1563,6 +1575,7 @@ namespace Yupi.Messages.Handlers
                     '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g',
                     'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', '\r'
                 };
+
                 if (heightMap.Any(letter => !validLetters.Contains(letter)))
                 {
                     Session.SendNotif(Yupi.GetLanguage().GetVar("user_floor_editor_error"));
@@ -1579,8 +1592,7 @@ namespace Yupi.Messages.Handlers
                     message.AppendString("floorplan_editor.error");
                     message.AppendInteger(1);
                     message.AppendString("errors");
-                    message.AppendString(
-                        "(general): too large height (max 64 tiles)\r(general): too large area (max 1800 tiles)");
+                    message.AppendString("(general): too large height (max 64 tiles)\r(general): too large area (max 1800 tiles)");
                     Session.SendMessage(message);
 
                     return;
@@ -1653,29 +1665,39 @@ namespace Yupi.Messages.Handlers
         internal void PlantMonsterplant(RoomItem mopla, Room room)
         {
             int rarity = 0, internalRarity = 0;
+
             if (room == null || mopla == null)
                 return;
 
             if ((mopla.GetBaseItem().InteractionType != Interaction.Moplaseed) && (mopla.GetBaseItem().InteractionType != Interaction.RareMoplaSeed))
                 return;
+
             if (string.IsNullOrEmpty(mopla.ExtraData) || mopla.ExtraData == "0")
                 rarity = 1;
+
             if (!string.IsNullOrEmpty(mopla.ExtraData) && mopla.ExtraData != "0")
                 rarity = int.TryParse(mopla.ExtraData, out internalRarity) ? internalRarity : 1;
 
             int getX = mopla.X;
             int getY = mopla.Y;
+
             room.GetRoomItemHandler().RemoveFurniture(Session, mopla.Id, false);
-            Pet pet = CatalogManager.CreatePet(Session.GetHabbo().Id, "Monsterplant", 16, "0", "0", rarity);
+
+            Pet pet = CatalogManager.CreatePet(Session.GetHabbo().Id, "Monsterplant", "pet_monster", "0", "0", rarity);
+
             Response.Init(LibraryParser.OutgoingRequest("SendMonsterplantIdMessageComposer"));
             Response.AppendInteger(pet.PetId);
             SendResponse();
+
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery(string.Concat("UPDATE bots_data SET room_id = '", room.RoomId, "', x = '", getX, "', y = '", getY, "' WHERE id = '", pet.PetId, "'"));
+                queryReactor.RunFastQuery(string.Concat("UPDATE pets_data SET room_id = '", room.RoomId, "', x = '", getX, "', y = '", getY, "' WHERE id = '", pet.PetId, "'"));
+
             pet.PlacedInRoom = true;
             pet.RoomId = room.RoomId;
+
             RoomBot bot = new RoomBot(pet.PetId, pet.OwnerId, pet.RoomId, AiType.Pet, "freeroam", pet.Name, "", pet.Look,
                 getX, getY, 0.0, 4, null, null, "", 0, "");
+
             room.GetRoomUserManager().DeployBot(bot, pet);
 
             if (pet.DbState != DatabaseUpdateState.NeedsInsert)
@@ -1691,9 +1713,12 @@ namespace Yupi.Messages.Handlers
         internal void KickBot()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
+
             if (room == null || !room.CheckRights(Session, true))
                 return;
+
             RoomUser roomUserByVirtualId = room.GetRoomUserManager().GetRoomUserByVirtualId(Request.GetInteger());
+
             if (roomUserByVirtualId == null || !roomUserByVirtualId.IsBot)
                 return;
 
@@ -1704,11 +1729,11 @@ namespace Yupi.Messages.Handlers
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
-            if (room == null || (!room.RoomData.AllowPets && !room.CheckRights(Session, true)) ||
-                !room.CheckRights(Session, true))
+            if (room == null || (!room.RoomData.AllowPets && !room.CheckRights(Session, true)) || !room.CheckRights(Session, true))
                 return;
 
             uint petId = Request.GetUInteger();
+
             Pet pet = Session.GetHabbo().GetInventoryComponent().GetPet(petId);
 
             if (pet == null || pet.PlacedInRoom)
@@ -1721,20 +1746,21 @@ namespace Yupi.Messages.Handlers
                 return;
 
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery("UPDATE bots_data SET room_id = '" + room.RoomId + "', x = '" + x + "', y = '" + y + "' WHERE id = '" + petId + "'");
+                queryReactor.RunFastQuery("UPDATE pets_data SET room_id = '" + room.RoomId + "', x = '" + x + "', y = '" + y + "' WHERE id = '" + petId + "'");
 
             pet.PlacedInRoom = true;
             pet.RoomId = room.RoomId;
 
-            room.GetRoomUserManager()
-                .DeployBot(
-                    new RoomBot(pet.PetId, Convert.ToUInt32(pet.OwnerId), pet.RoomId, AiType.Pet, "freeroam", pet.Name,
-                        "", pet.Look, x, y, 0.0, 4, null, null, "", 0, ""), pet);
+            room.GetRoomUserManager().DeployBot(new RoomBot(pet.PetId, Convert.ToUInt32(pet.OwnerId), pet.RoomId, AiType.Pet, "freeroam", pet.Name, "", pet.Look, x, y, 0.0, 4, null, null, "", 0, ""), pet);
+
             Session.GetHabbo().GetInventoryComponent().MovePetToRoom(pet.PetId);
+
             if (pet.DbState != DatabaseUpdateState.NeedsInsert)
                 pet.DbState = DatabaseUpdateState.NeedsUpdate;
+
             using (IQueryAdapter queryreactor2 = Yupi.GetDatabaseManager().GetQueryReactor())
                 room.GetRoomUserManager().SavePets(queryreactor2);
+
             Session.SendMessage(Session.GetHabbo().GetInventoryComponent().SerializePetInventory());
         }
 
@@ -1797,11 +1823,16 @@ namespace Yupi.Messages.Handlers
         internal void ManageBotActions()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
+
             uint botId = Request.GetUInteger();
             int action = Request.GetInteger();
+
             string data = Yupi.FilterInjectionChars(Request.GetString());
+
             RoomUser bot = room.GetRoomUserManager().GetBot(botId);
+
             bool flag = false;
+
             switch (action)
             {
                 case 1:
@@ -1815,8 +1846,11 @@ namespace Yupi.Messages.Handlers
                         string[] speechsJunk =
                             array[0].Substring(0, array[0].Length > 1024 ? 1024 : array[0].Length)
                                 .Split(Convert.ToChar(13));
+
                         bool speak = array[1] == "true";
-                        int speechDelay = int.Parse(array[2]);
+
+                        uint speechDelay = uint.Parse(array[2]);
+
                         bool mix = array[3] == "true";
                         if (speechDelay < 7) speechDelay = 7;
 
@@ -1828,10 +1862,10 @@ namespace Yupi.Messages.Handlers
                                 .Aggregate(string.Empty,
                                     (current, speech) =>
                                         current + ServerUserChatTextHandler.FilterHtml(speech, Session.GetHabbo().GotCommand("ha")) + ";");
+
                         using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                         {
-                            queryReactor.SetQuery(
-                                "UPDATE bots_data SET automatic_chat = @autochat, speaking_interval = @interval, mix_phrases = @mix_phrases, speech = @speech WHERE id = @botid");
+                            queryReactor.SetQuery("UPDATE bots_data SET automatic_chat = @autochat, speaking_interval = @interval, mix_phrases = @mix_phrases, speech = @speech WHERE id = @botid");
 
                             queryReactor.AddParameter("autochat", speak ? "1" : "0");
                             queryReactor.AddParameter("interval", speechDelay);
@@ -1884,7 +1918,7 @@ namespace Yupi.Messages.Handlers
             else
             {
                 Random random = new Random();
-                bot.DanceId = random.Next(1, 4);
+                bot.DanceId = (uint) random.Next(1, 4);
                 bot.BotData.DanceId = bot.DanceId;
             }
             ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("DanceStatusMessageComposer"));

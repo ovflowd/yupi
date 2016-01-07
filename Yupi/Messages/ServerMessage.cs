@@ -339,7 +339,7 @@ namespace Yupi.Messages
                 bytes = finalBuffer.ToArray();
             }
 
-            if (Yupi.DebugMode)
+            if (Yupi.PacketDebugMode)
             {
                 Console.ForegroundColor = ConsoleColor.DarkBlue;
                 Console.WriteLine();

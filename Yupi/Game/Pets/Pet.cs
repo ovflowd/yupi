@@ -26,6 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using Yupi.Game.GameClients.Interfaces;
+using Yupi.Game.Pets.Composers;
 using Yupi.Game.Pets.Enums;
 using Yupi.Game.Pets.Structs;
 using Yupi.Game.Rooms;
@@ -67,12 +68,12 @@ namespace Yupi.Game.Pets
         /// <summary>
         ///     The energy
         /// </summary>
-        internal int Energy;
+        internal uint Energy;
 
         /// <summary>
         ///     The experience
         /// </summary>
-        internal int Experience;
+        internal uint Experience;
 
         /// <summary>
         ///     The experience levels
@@ -126,7 +127,7 @@ namespace Yupi.Game.Pets
         /// <summary>
         ///     The nutrition
         /// </summary>
-        internal int Nutrition;
+        internal uint Nutrition;
 
         /// <summary>
         ///     The owner identifier
@@ -151,7 +152,9 @@ namespace Yupi.Game.Pets
         /// <summary>
         ///     The race
         /// </summary>
-        internal string Race;
+        internal uint Race;
+
+        internal uint RaceId;
 
         /// <summary>
         ///     The rarity
@@ -161,7 +164,7 @@ namespace Yupi.Game.Pets
         /// <summary>
         ///     The respect
         /// </summary>
-        internal int Respect;
+        internal uint Respect;
 
         /// <summary>
         ///     The room identifier
@@ -171,7 +174,7 @@ namespace Yupi.Game.Pets
         /// <summary>
         ///     The type
         /// </summary>
-        internal uint Type;
+        internal string Type;
 
         /// <summary>
         ///     The until grown
@@ -212,7 +215,6 @@ namespace Yupi.Game.Pets
         /// <param name="name">The name.</param>
         /// <param name="type">The type.</param>
         /// <param name="race">The race.</param>
-        /// <param name="color">The color.</param>
         /// <param name="experience">The experience.</param>
         /// <param name="energy">The energy.</param>
         /// <param name="nutrition">The nutrition.</param>
@@ -229,10 +231,11 @@ namespace Yupi.Game.Pets
         /// <param name="lastHealth">The last health.</param>
         /// <param name="untilGrown">The until grown.</param>
         /// <param name="moplaBreed">The mopla breed.</param>
-        internal Pet(uint petId, uint ownerId, uint roomId, string name, uint type, string race, string color,
-            int experience, int energy, int nutrition, int respect, double creationStamp, int x, int y, double z,
+        /// <param name="color"></param>
+        internal Pet(uint petId, uint ownerId, uint roomId, string name, string type, uint race,
+            uint experience, uint energy, uint nutrition, uint respect, double creationStamp, int x, int y, double z,
             bool havesaddle, int anyoneCanRide, int dye, int petHer, int rarity, DateTime lastHealth,
-            DateTime untilGrown, MoplaBreed moplaBreed)
+            DateTime untilGrown, MoplaBreed moplaBreed, string color)
         {
             PetId = petId;
             OwnerId = ownerId;
@@ -240,7 +243,6 @@ namespace Yupi.Game.Pets
             Name = name;
             Type = type;
             Race = race;
-            Color = color;
             Experience = experience;
             Energy = energy;
             Nutrition = nutrition;
@@ -260,25 +262,27 @@ namespace Yupi.Game.Pets
             UntilGrown = untilGrown;
             MoplaBreed = moplaBreed;
             WaitingForBreading = 0;
+            RaceId = PetTypeManager.GetPetRaceIdByType(Type);
+            Color = color;
         }
 
         /// <summary>
         ///     Gets the maximum level.
         /// </summary>
         /// <value>The maximum level.</value>
-        internal static int MaxLevel => 20;
+        internal static uint MaxLevel => 20;
 
         /// <summary>
         ///     Gets the maximum energy.
         /// </summary>
         /// <value>The maximum energy.</value>
-        internal static int MaxEnergy => 100;
+        internal static uint MaxEnergy => 100;
 
         /// <summary>
         ///     Gets the maximum nutrition.
         /// </summary>
         /// <value>The maximum nutrition.</value>
-        internal static int MaxNutrition => 150;
+        internal static uint MaxNutrition => 150;
 
         /// <summary>
         ///     Gets the room.
@@ -326,7 +330,7 @@ namespace Yupi.Game.Pets
         ///     Gets the look.
         /// </summary>
         /// <value>The look.</value>
-        internal string Look => string.Concat(Type, " ", Race, " ", Color);
+        internal string Look => string.Concat(RaceId, " ", Race, " ", Color);
 
         /// <summary>
         ///     Gets the name of the owner.
@@ -339,42 +343,34 @@ namespace Yupi.Game.Pets
         /// </summary>
         internal void OnRespect()
         {
-            {
-                Respect++;
-                GameClient ownerSession = Yupi.GetGame().GetClientManager().GetClientByUserId(OwnerId);
+            Respect++;
 
-                if (ownerSession != null)
-                    Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(ownerSession, "ACH_PetRespectReceiver", 1);
+            GameClient ownerSession = Yupi.GetGame().GetClientManager().GetClientByUserId(OwnerId);
 
-                ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("RespectPetMessageComposer"));
-                serverMessage.AppendInteger(VirtualId);
-                serverMessage.AppendBool(true);
-                Room.SendMessage(serverMessage);
+            if (ownerSession != null)
+                Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(ownerSession, "ACH_PetRespectReceiver", 1);
 
-                serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("PetRespectNotificationMessageComposer"));
-                serverMessage.AppendInteger(1);
-                serverMessage.AppendInteger(VirtualId);
-                SerializeInventory(serverMessage);
-                Room.SendMessage(serverMessage);
+            RespectPetComposer.GenerateMessage(this);
 
-                if (DbState != DatabaseUpdateState.NeedsInsert)
-                    DbState = DatabaseUpdateState.NeedsUpdate;
+            RespectPetNotificationComposer.GenerateMessage(this);
 
-                if (Type != 16 && Experience <= 51900)
-                    AddExperience(10);
+            if (DbState != DatabaseUpdateState.NeedsInsert)
+                DbState = DatabaseUpdateState.NeedsUpdate;
 
-                if (Type == 16)
-                    Energy = 100;
+            if (Type != "pet_monster" && Experience <= 51900)
+                AddExperience(10);
 
-                LastHealth = DateTime.Now.AddSeconds(129600.0);
-            }
+            if (Type == "pet_monster")
+                Energy = 100;
+
+            LastHealth = DateTime.Now.AddSeconds(129600.0);
         }
 
         /// <summary>
         ///     Adds the experience.
         /// </summary>
         /// <param name="amount">The amount.</param>
-        internal void AddExperience(int amount)
+        internal void AddExperience(uint amount)
         {
             int oldExperienceGoal = ExperienceGoal;
 
@@ -389,12 +385,7 @@ namespace Yupi.Game.Pets
             if (Room == null)
                 return;
 
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("AddPetExperienceMessageComposer"));
-
-            serverMessage.AppendInteger(PetId);
-            serverMessage.AppendInteger(VirtualId);
-            serverMessage.AppendInteger(amount);
-            Room.SendMessage(serverMessage);
+            PetExperienceComposer.GenerateMessage(this, amount);
 
             if (Experience < oldExperienceGoal)
                 return;
@@ -412,25 +403,9 @@ namespace Yupi.Game.Pets
 
             SerializeInventory(levelNotify, true);
 
-            ownerSession.SendMessage(levelNotify);
-
-            ServerMessage tp = new ServerMessage();
-
-            tp.Init(LibraryParser.OutgoingRequest("PetTrainerPanelMessageComposer"));
-
-            tp.AppendInteger(PetId);
-
-            tp.AppendInteger(totalPetCommands.Count);
-
-            foreach (uint sh in totalPetCommands.Keys)
-                tp.AppendInteger(sh);
-
-            tp.AppendInteger(petCommands.Count);
-
-            foreach (uint sh in petCommands.Keys)
-                tp.AppendInteger(sh);
-
-            ownerSession.SendMessage(tp);
+            ownerSession.SendMessage(levelNotify);       
+            
+            PetCommandPanelComposer.GenerateMessage(this, totalPetCommands, petCommands, ownerSession);   
         }
 
         /// <summary>
@@ -439,7 +414,7 @@ namespace Yupi.Game.Pets
         /// <param name="add">if set to <c>true</c> [add].</param>
         internal void PetEnergy(bool add)
         {
-            int num;
+            uint num;
 
             if (add)
             {
@@ -465,13 +440,13 @@ namespace Yupi.Game.Pets
             if (num <= 4)
                 num = 15;
 
-            int randomNumber = Yupi.GetRandomNumber(4, num);
+            uint randomNumber = (uint)Yupi.GetRandomNumber(4, (int)num);
 
             if (!add)
             {
                 Energy -= randomNumber;
 
-                if (Energy < 0)
+                if (Energy == 0)
                     Energy = 1;
             }
             else
@@ -486,127 +461,12 @@ namespace Yupi.Game.Pets
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="levelAfterName">if set to <c>true</c> [level after name].</param>
-        internal void SerializeInventory(ServerMessage message, bool levelAfterName = false)
-        {
-            message.AppendInteger(PetId);
-            message.AppendString(Name);
-
-            if (levelAfterName)
-                message.AppendInteger(Level);
-
-            message.AppendInteger(Type);
-            message.AppendInteger(int.Parse(Race));
-            message.AppendString(Type == 16u ? "ffffff" : Color);
-            message.AppendInteger(Type == 16u ? 0u : Type);
-
-            if (Type == 16u && MoplaBreed != null)
-            {
-                string[] array = MoplaBreed.PlantData.Substring(12).Split(' ');
-                string[] array2 = array;
-
-                foreach (string s in array2)
-                    message.AppendInteger(int.Parse(s));
-
-                message.AppendInteger(MoplaBreed.GrowingStatus);
-
-                return;
-            }
-
-            message.AppendInteger(0);
-            message.AppendInteger(0);
-        }
+        internal void SerializeInventory(ServerMessage message, bool levelAfterName = false) => SerializePetInventoryComposer.GenerateMessage(this, message, levelAfterName);
 
         /// <summary>
         ///     Serializes the information.
         /// </summary>
         /// <returns>ServerMessage.</returns>
-        internal ServerMessage SerializeInfo()
-        {
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("PetInfoMessageComposer"));
-
-            serverMessage.AppendInteger(PetId);
-            serverMessage.AppendString(Name);
-
-            if (Type == 16)
-            {
-                serverMessage.AppendInteger(MoplaBreed.GrowingStatus);
-                serverMessage.AppendInteger(7);
-            }
-            else
-            {
-                serverMessage.AppendInteger(Level);
-                serverMessage.AppendInteger(MaxLevel);
-            }
-
-            serverMessage.AppendInteger(Experience);
-            serverMessage.AppendInteger(ExperienceGoal);
-            serverMessage.AppendInteger(Energy);
-            serverMessage.AppendInteger(MaxEnergy);
-            serverMessage.AppendInteger(Nutrition);
-            serverMessage.AppendInteger(MaxNutrition);
-            serverMessage.AppendInteger(Respect);
-            serverMessage.AppendInteger(OwnerId);
-            serverMessage.AppendInteger(Age);
-            serverMessage.AppendString(OwnerName);
-            serverMessage.AppendInteger(Type == 16 ? 0 : 1);
-            serverMessage.AppendBool(HaveSaddle);
-            serverMessage.AppendBool(false); //mountingId
-            serverMessage.AppendInteger(0);
-            serverMessage.AppendInteger(AnyoneCanRide);
-
-            if (Type == 16)
-                serverMessage.AppendBool(MoplaBreed.LiveState == MoplaState.Grown);
-            else
-                serverMessage.AppendBool(false);
-
-            serverMessage.AppendBool(false);
-            if (Type == 16)
-                serverMessage.AppendBool(MoplaBreed.LiveState == MoplaState.Dead);
-            else
-                serverMessage.AppendBool(false);
-
-            serverMessage.AppendInteger(Rarity);
-
-            if (Type == 16u)
-            {
-                serverMessage.AppendInteger(129600);
-                int lastHealthSeconds = (int) (LastHealth - DateTime.Now).TotalSeconds;
-                int untilGrownSeconds = (int) (UntilGrown - DateTime.Now).TotalSeconds;
-
-                if (lastHealthSeconds < 0)
-                    lastHealthSeconds = 0;
-
-                if (untilGrownSeconds < 0)
-                    untilGrownSeconds = 0;
-
-                switch (MoplaBreed.LiveState)
-                {
-                    case MoplaState.Dead:
-                        serverMessage.AppendInteger(0);
-                        serverMessage.AppendInteger(0);
-                        break;
-
-                    case MoplaState.Grown:
-                        serverMessage.AppendInteger(lastHealthSeconds);
-                        serverMessage.AppendInteger(0);
-                        break;
-
-                    default:
-                        serverMessage.AppendInteger(lastHealthSeconds);
-                        serverMessage.AppendInteger(untilGrownSeconds);
-                        break;
-                }
-            }
-            else
-            {
-                serverMessage.AppendInteger(-1);
-                serverMessage.AppendInteger(-1);
-                serverMessage.AppendInteger(-1);
-            }
-
-            serverMessage.AppendBool(true); // Allow breed?
-
-            return serverMessage;
-        }
+        internal ServerMessage SerializeInfo() => PetInformationComposer.GenerateMessage(this);
     }
 }

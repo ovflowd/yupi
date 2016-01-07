@@ -103,29 +103,31 @@ namespace Yupi.Game.Catalogs
         /// <param name="color">The color.</param>
         /// <param name="rarity">The rarity.</param>
         /// <returns>Pet.</returns>
-        internal static Pet CreatePet(uint userId, string name, int type, string race, string color, int rarity = 0)
+        internal static Pet CreatePet(uint userId, string name, string type, string race, string color, int rarity = 0)
         {
-            Pet pet = new Pet(404u, userId, 0u, name, (uint) type, race, color, 0, 100, 150, 0, Yupi.GetUnixTimeStamp(), 0, 0, 0.0, false, 0, 0, -1, rarity, DateTime.Now.AddHours(36.0), DateTime.Now.AddHours(48.0), null)
+            Console.WriteLine("Race: " + race);
+
+            uint trace = Convert.ToUInt32(race);
+
+            Pet pet = new Pet(404u, userId, 0u, name, type, trace, 0, 100, 150, 0, Yupi.GetUnixTimeStamp(), 0, 0, 0.0, false, 0, 0, -1, rarity, DateTime.Now.AddHours(36.0), DateTime.Now.AddHours(48.0), null, color)
             {
                 DbState = DatabaseUpdateState.NeedsUpdate
             };
 
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery($"INSERT INTO bots_data (user_id, name, ai_type) VALUES ('{pet.OwnerId}', @{$"{pet.PetId}name"}, 'pet')");
+                queryReactor.SetQuery("INSERT INTO pets_data (user_id, name, ai_type, pet_type, race_id, experience, energy, createstamp, rarity, lasthealth_stamp, untilgrown_stamp, color) " +
+                                      $"VALUES ('{pet.OwnerId}', @petName, 'pet', @petType, @petRace, 0, 100, UNIX_TIMESTAMP(), '{rarity}', UNIX_TIMESTAMP(now() + INTERVAL 36 HOUR), UNIX_TIMESTAMP(now() + INTERVAL 48 HOUR), @petColor)");
 
-                queryReactor.AddParameter($"{pet.PetId}name", pet.Name);
+                queryReactor.AddParameter("petName", pet.Name);
+                queryReactor.AddParameter("petType", pet.Type);
+                queryReactor.AddParameter("petRace", pet.Race);
+                queryReactor.AddParameter("petColor", pet.Color);
 
-                pet.PetId = (uint)queryReactor.InsertQuery();
-
-                queryReactor.SetQuery(string.Concat("INSERT INTO pets_data (id,type,race,color,experience,energy,createstamp,rarity,lasthealth_stamp,untilgrown_stamp) VALUES (", pet.PetId, ", ", pet.Type, ",@", pet.PetId, "race,@", pet.PetId, "color,0,100,UNIX_TIMESTAMP(), ", rarity, ", UNIX_TIMESTAMP(now() + INTERVAL 36 HOUR), UNIX_TIMESTAMP(now() + INTERVAL 48 HOUR))"));
-
-                queryReactor.AddParameter($"{pet.PetId}race", pet.Race);
-                queryReactor.AddParameter($"{pet.PetId}color", pet.Color);
                 queryReactor.RunQuery();
             }
 
-            if (pet.Type == 16u)
+            if (pet.Type == "pet_monster")
             {
                 pet.MoplaBreed = MoplaBreed.CreateMonsterplantBreed(pet);
                 pet.Name = pet.MoplaBreed.Name;
@@ -144,13 +146,12 @@ namespace Yupi.Game.Catalogs
         ///     Generates the pet from row.
         /// </summary>
         /// <param name="row">The row.</param>
-        /// <param name="mRow">The m row.</param>
         /// <returns>Pet.</returns>
-        internal static Pet GeneratePetFromRow(DataRow row, DataRow mRow)
+        internal static Pet GeneratePetFromRow(DataRow row)
         {
             MoplaBreed moplaBreed = null;
 
-            if (Convert.ToUInt32(mRow["type"]) == 16u)
+            if ((string)row["pet_type"] == "pet_monster")
             {
                 using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
@@ -163,13 +164,13 @@ namespace Yupi.Game.Catalogs
             }
 
             return new Pet(Convert.ToUInt32(row["id"]), Convert.ToUInt32(row["user_id"]),
-                Convert.ToUInt32(row["room_id"]), (string)row["name"], Convert.ToUInt32(mRow["type"]),
-                (string)mRow["race"], (string)mRow["color"], (int)mRow["experience"], (int)mRow["energy"],
-                (int)mRow["nutrition"], (int)mRow["respect"], Convert.ToDouble(mRow["createstamp"]), (int)row["x"],
-                (int)row["y"], Convert.ToDouble(row["z"]), (int)mRow["have_saddle"] == 1, (int)mRow["anyone_ride"],
-                (int)mRow["hairdye"], (int)mRow["pethair"], (int)mRow["rarity"],
-                Yupi.UnixToDateTime((int)mRow["lasthealth_stamp"]),
-                Yupi.UnixToDateTime((int)mRow["untilgrown_stamp"]), moplaBreed);
+                Convert.ToUInt32(row["room_id"]), (string)row["name"], (string)row["pet_type"],
+                (uint)row["race_id"], (uint)row["experience"], (uint)row["energy"],
+                (uint)row["nutrition"], (uint)row["respect"], Convert.ToDouble(row["createstamp"].ToString()), (int)row["x"],
+                (int)row["y"], Convert.ToDouble(row["z"]), Convert.ToInt32(row["have_saddle"].ToString()) == 1, Convert.ToInt32(row["anyone_ride"].ToString()),
+                (int)row["hairdye"], (int)row["pethair"], (int)row["rarity"],
+                Yupi.UnixToDateTime((int)row["lasthealth_stamp"]),
+                Yupi.UnixToDateTime((int)row["untilgrown_stamp"]), moplaBreed, (string)row["color"]);
         }
 
         /// <summary>
@@ -416,10 +417,10 @@ namespace Yupi.Game.Catalogs
             }
             #endregion
 
-            #region Check if is a Pet. If is we have problem.
+            #region Check if is a Pet. If is we have problem. WHY?
 
-            if (item.Items.Keys.Any(current => InteractionTypes.AreFamiliar(GlobalInteractions.Pet, current.InteractionType)))
-                return;
+            //if (item.Items.Keys.Any(current => InteractionTypes.AreFamiliar(GlobalInteractions.Pet, current.InteractionType)))
+            //    return;
 
             #endregion
 
@@ -677,17 +678,6 @@ namespace Yupi.Game.Catalogs
                     case Interaction.PetPigeon:
                     case Interaction.PetEvilPigeon:
                     case Interaction.PetDemonMonkey:
-                    case Interaction.Pet24:
-                    case Interaction.Pet25:
-                    case Interaction.Pet26:
-                    case Interaction.Pet27:
-                    case Interaction.Pet28:
-                    case Interaction.Pet29:
-                    case Interaction.Pet30:
-                    case Interaction.Pet31:
-                    case Interaction.Pet32:
-                    case Interaction.Pet33:
-                    case Interaction.Pet34:
                         string[] data = extraData.Split('\n');
                         string petName = data[0];
                         string race = data[1];
@@ -951,21 +941,9 @@ namespace Yupi.Game.Catalogs
                             case Interaction.PetPigeon:
                             case Interaction.PetEvilPigeon:
                             case Interaction.PetDemonMonkey:
-                            case Interaction.Pet24:
-                            case Interaction.Pet25:
-                            case Interaction.Pet26:
-                            case Interaction.Pet27:
-                            case Interaction.Pet28:
-                            case Interaction.Pet29:
-                            case Interaction.Pet30:
-                            case Interaction.Pet31:
-                            case Interaction.Pet32:
-                            case Interaction.Pet33:
-                            case Interaction.Pet34:
                                 string[] petData = extraData.Split('\n');
-                                int petId = int.Parse(item.Name.Replace("a0 pet", string.Empty));
-                                Pet generatedPet = CreatePet(session.GetHabbo().Id, petData[0], petId, petData[1],
-                                    petData[2]);
+
+                                Pet generatedPet = CreatePet(session.GetHabbo().Id, petData[0], item.Name, petData[1], petData[2]);
 
                                 session.GetHabbo().GetInventoryComponent().AddPet(generatedPet);
 

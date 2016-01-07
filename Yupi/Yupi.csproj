@@ -215,6 +215,14 @@
     <Compile Include="Data\Base\Sessions\TransactionQueryReactor.cs" />
     <Compile Include="Data\Collections\OnCycleDoneDelegate.cs" />
     <Compile Include="Data\Collections\QueuedDictionary.cs" />
+    <Compile Include="Game\Pets\Composers\PetCommandPanelComposer.cs" />
+    <Compile Include="Game\Pets\Composers\PetExperienceComposer.cs" />
+    <Compile Include="Game\Pets\Composers\PetInformationComposer.cs" />
+    <Compile Include="Game\Pets\Composers\RespectPetComposer.cs" />
+    <Compile Include="Game\Pets\Composers\RespectPetNotificationComposer.cs" />
+    <Compile Include="Game\Pets\Composers\SerializePetInventoryComposer.cs" />
+    <Compile Include="Game\Pets\PetTypeManager.cs" />
+    <Compile Include="Game\Pets\Structs\PetType.cs" />
     <Compile Include="Game\RoomBots\Interfaces\BotCommand.cs" />
     <Compile Include="Game\RoomBots\Interfaces\CatalogBot.cs" />
     <Compile Include="Game\RoomBots\Models\BaseBot.cs" />
@@ -225,6 +233,7 @@
     <Compile Include="Core\Io\LogMessage.cs" />
     <Compile Include="Core\Io\ServerUserChatTextHandler.cs" />
     <Compile Include="Core\Io\Writer.cs" />
+    <Compile Include="Game\Users\YoutubeVideo.cs" />
     <Compile Include="Net\Web\WebManager.cs" />
     <Compile Include="Data\FurnitureDataManager.cs" />
     <Compile Include="Data\Structs\FurnitureData.cs" />
@@ -603,7 +612,7 @@
     <Compile Include="Game\Pets\Pet.cs" />
     <Compile Include="Game\Pets\PetCommandHandler.cs" />
     <Compile Include="Game\Pets\PetLocale.cs" />
-    <Compile Include="Game\Pets\PetRace.cs" />
+    <Compile Include="Game\Pets\Structs\PetRace.cs" />
     <Compile Include="Game\Polls\Poll.cs" />
     <Compile Include="Game\Polls\PollManager.cs" />
     <Compile Include="Game\Polls\PollQuestion.cs" />

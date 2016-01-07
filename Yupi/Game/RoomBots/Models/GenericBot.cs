@@ -63,7 +63,7 @@ namespace Yupi.Game.RoomBots.Models
         /// <summary>
         ///     The _speech interval
         /// </summary>
-        private int _speechInterval;
+        private uint _speechInterval;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="GenericBot" /> class.
@@ -71,7 +71,7 @@ namespace Yupi.Game.RoomBots.Models
         /// <param name="roomBot">The room bot.</param>
         /// <param name="virtualId">The virtual identifier.</param>
         /// <param name="speechInterval">The speech interval.</param>
-        internal GenericBot(RoomBot roomBot, int virtualId, int speechInterval)
+        internal GenericBot(RoomBot roomBot, int virtualId, uint speechInterval)
         {
             _virtualId = virtualId;
             _speechInterval = speechInterval < 2 ? 2000 : speechInterval*1000;

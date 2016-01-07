@@ -5,6 +5,7 @@ using Yupi.Game.Catalogs.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Items.Interactions.Enums;
 using Yupi.Game.Items.Interfaces;
+using Yupi.Game.Pets;
 using Yupi.Messages;
 using Yupi.Messages.Parsers;
 
@@ -592,7 +593,13 @@ namespace Yupi.Game.Catalogs.Composers
         internal static void ComposeItem(CatalogItem item, ServerMessage message)
         {
             message.AppendInteger(item.Id);
-            message.AppendString(item.Name, true);
+
+            string displayName = item.Name;
+
+            if (PetTypeManager.ItemIsPet(item.Name))
+                displayName = PetTypeManager.GetHabboPetType(item.Name);
+                
+            message.AppendString(displayName, true);
             message.AppendBool(false);
             message.AppendInteger(item.CreditsCost);
 

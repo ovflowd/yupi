@@ -29,6 +29,7 @@ namespace Yupi.Messages.Handlers
         public void SendBullyReport()
         {
             uint reportedId = Request.GetUInteger();
+
             Yupi.GetGame().GetModerationTool().SendNewTicket(Session, 104, 9, reportedId, string.Empty, new List<string>());
 
             Response.Init(LibraryParser.OutgoingRequest("BullyReportSentMessageComposer"));
@@ -73,11 +74,11 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         internal void LoadClubGifts()
         {
-            if (Session == null || Session.GetHabbo() == null)
+            if (Session?.GetHabbo() == null)
                 return;
-            //var i = 0;
-            //var i2 = 0;
+
             Session.GetHabbo().GetSubscriptionManager().GetSubscription();
+
             ServerMessage serverMessage = new ServerMessage();
             serverMessage.Init(LibraryParser.OutgoingRequest("LoadCatalogClubGiftsMessageComposer"));
             serverMessage.AppendInteger(0); // i
@@ -90,7 +91,7 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         internal void ChooseClubGift()
         {
-            if (Session == null || Session.GetHabbo() == null)
+            if (Session?.GetHabbo() == null)
                 return;
             Request.GetString();
         }
@@ -101,24 +102,26 @@ namespace Yupi.Messages.Handlers
         internal void GetUserTags()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
-            if (room == null)
-                return;
-            RoomUser roomUserByHabbo = room.GetRoomUserManager().GetRoomUserByHabbo(Request.GetUInteger());
+
+            RoomUser roomUserByHabbo = room?.GetRoomUserManager().GetRoomUserByHabbo(Request.GetUInteger());
+
             if (roomUserByHabbo == null || roomUserByHabbo.IsBot)
                 return;
+
             Response.Init(LibraryParser.OutgoingRequest("UserTagsMessageComposer"));
             Response.AppendInteger(roomUserByHabbo.GetClient().GetHabbo().Id);
             Response.AppendInteger(roomUserByHabbo.GetClient().GetHabbo().Tags.Count);
+
             foreach (string current in roomUserByHabbo.GetClient().GetHabbo().Tags)
                 Response.AppendString(current);
+
             SendResponse();
 
             if (Session != roomUserByHabbo.GetClient())
                 return;
+
             if (Session.GetHabbo().Tags.Count >= 5)
-                Yupi.GetGame()
-                    .GetAchievementManager()
-                    .ProgressUserAchievement(roomUserByHabbo.GetClient(), "ACH_UserTags", 5);
+                Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(roomUserByHabbo.GetClient(), "ACH_UserTags", 5);
         }
 
         /// <summary>
@@ -127,33 +130,32 @@ namespace Yupi.Messages.Handlers
         internal void GetUserBadges()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
-            if (room != null)
+
+            RoomUser roomUserByHabbo = room?.GetRoomUserManager().GetRoomUserByHabbo(Request.GetUInteger());
+
+            if (roomUserByHabbo != null && !roomUserByHabbo.IsBot && roomUserByHabbo.GetClient() != null && roomUserByHabbo.GetClient().GetHabbo() != null)
             {
-                RoomUser roomUserByHabbo = room.GetRoomUserManager().GetRoomUserByHabbo(Request.GetUInteger());
-                if (roomUserByHabbo != null && !roomUserByHabbo.IsBot && roomUserByHabbo.GetClient() != null && roomUserByHabbo.GetClient().GetHabbo() != null)
+                Session.GetHabbo().LastSelectedUser = roomUserByHabbo.UserId;
+                Response.Init(LibraryParser.OutgoingRequest("UserBadgesMessageComposer"));
+                Response.AppendInteger(roomUserByHabbo.GetClient().GetHabbo().Id);
+
+                Response.StartArray();
+                foreach (
+                    Badge badge in
+                        roomUserByHabbo.GetClient()
+                            .GetHabbo()
+                            .GetBadgeComponent()
+                            .BadgeList.Values.Cast<Badge>()
+                            .Where(badge => badge.Slot > 0).Take(5))
                 {
-                    Session.GetHabbo().LastSelectedUser = roomUserByHabbo.UserId;
-                    Response.Init(LibraryParser.OutgoingRequest("UserBadgesMessageComposer"));
-                    Response.AppendInteger(roomUserByHabbo.GetClient().GetHabbo().Id);
+                    Response.AppendInteger(badge.Slot);
+                    Response.AppendString(badge.Code);
 
-                    Response.StartArray();
-                    foreach (
-                        Badge badge in
-                            roomUserByHabbo.GetClient()
-                                .GetHabbo()
-                                .GetBadgeComponent()
-                                .BadgeList.Values.Cast<Badge>()
-                                .Where(badge => badge.Slot > 0).Take(5))
-                    {
-                        Response.AppendInteger(badge.Slot);
-                        Response.AppendString(badge.Code);
-
-                        Response.SaveArray();
-                    }
-
-                    Response.EndArray();
-                    SendResponse();
+                    Response.SaveArray();
                 }
+
+                Response.EndArray();
+                SendResponse();
             }
         }
 
@@ -236,8 +238,11 @@ namespace Yupi.Messages.Handlers
         internal void MuteUser()
         {
             uint num = Request.GetUInteger();
+
             Request.GetUInteger();
+
             uint num2 = Request.GetUInteger();
+
             Room currentRoom = Session.GetHabbo().CurrentRoom;
 
             if ((currentRoom == null || (currentRoom.RoomData.WhoCanBan == 0 && !currentRoom.CheckRights(Session, true)) || (currentRoom.RoomData.WhoCanBan == 1 && !currentRoom.CheckRights(Session))) && Session.GetHabbo().Rank < Convert.ToUInt32(Yupi.GetDbConfig().DbData["ambassador.minrank"]))
@@ -247,17 +252,18 @@ namespace Yupi.Messages.Handlers
 
             if (roomUserByHabbo == null)
                 return;
+
             if (roomUserByHabbo.GetClient().GetHabbo().Rank >= Session.GetHabbo().Rank)
                 return;
+
             if (currentRoom.MutedUsers.ContainsKey(num))
             {
                 if (currentRoom.MutedUsers[num] >= (ulong)Yupi.GetUnixTimeStamp())
                     return;
                 currentRoom.MutedUsers.Remove(num);
             }
-            currentRoom.MutedUsers.Add(num,
-                uint.Parse(
-                    (Yupi.GetUnixTimeStamp() + unchecked(checked(num2 * 60u))).ToString()));
+
+            currentRoom.MutedUsers.Add(num, uint.Parse((Yupi.GetUnixTimeStamp() + checked(num2 * 60u)).ToString()));
 
             roomUserByHabbo.GetClient().SendNotif(string.Format(Yupi.GetLanguage().GetVar("room_owner_has_mute_user"), num2));
         }
@@ -284,7 +290,7 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         internal void GetBalance()
         {
-            if (Session == null || Session.GetHabbo() == null) return;
+            if (Session?.GetHabbo() == null) return;
 
             Session.GetHabbo().UpdateCreditsBalance();
             Session.GetHabbo().UpdateSeasonalCurrencyBalance();
@@ -949,39 +955,7 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         public void ReceiveNuxGifts()
         {
-            if (!ServerExtraSettings.NewUsersGiftsEnabled)
-            {
-                Session.SendNotif(Yupi.GetLanguage().GetVar("nieuwe_gebruiker_kado_error_1"));
-                return;
-            }
-            if (Session.GetHabbo().NuxPassed)
-            {
-                Session.SendNotif(Yupi.GetLanguage().GetVar("nieuwe_gebruiker_kado_error_2"));
-                return;
-            }
-
-            /*UserItem item = Session.GetHabbo().GetInventoryComponent().AddNewItem(0, ServerExtraSettings.NewUserGiftYttv2Id, "", 0, true, false, 0, 0);
-            Session.GetHabbo().GetInventoryComponent().UpdateItems(false);
-
-            Session.GetHabbo().Diamonds += 25;
-            Session.GetHabbo().UpdateSeasonalCurrencyBalance();
-            if (item != null)
-                Session.GetHabbo().GetInventoryComponent().SendNewItems(item.Id);
-
-            using (IQueryAdapter dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
-                if (Session.GetHabbo().Vip)
-                    dbClient.RunFastQuery(
-                        string.Format(
-                            "UPDATE users SET vip = '1', vip_expire = DATE_ADD(vip_expire, INTERVAL 1 DAY), nux_passed = '1' WHERE id = {0}",
-                            Session.GetHabbo().Id));
-                else
-                    dbClient.RunFastQuery(
-                        string.Format(
-                            "UPDATE users SET vip = '1', vip_expire = DATE_ADD(NOW(), INTERVAL 1 DAY), nux_passed = '1' WHERE id = {0}",
-                            Session.GetHabbo().Id));
-
-            Session.GetHabbo().NuxPassed = true;
-            Session.GetHabbo().Vip = true;*/
+            // Newbie Gifts Removed from Yupi
         }
 
         /// <summary>
@@ -989,42 +963,7 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         public void AcceptNuxGifts()
         {
-            if (ServerExtraSettings.NewUsersGiftsEnabled == false || Request.GetInteger() != 0)
-                return;
-
-            ServerMessage nuxGifts = new ServerMessage(LibraryParser.OutgoingRequest("NuxListGiftsMessageComposer"));
-            nuxGifts.AppendInteger(3); //Cantidad
-
-            nuxGifts.AppendInteger(0);
-            nuxGifts.AppendInteger(0);
-            nuxGifts.AppendInteger(1); //Cantidad
-            // ahora nuevo bucle
-            nuxGifts.AppendString("");
-            nuxGifts.AppendString("nux/gift_yttv2.png");
-            nuxGifts.AppendInteger(1); //cantidad
-            //Ahora nuevo bucle...
-            nuxGifts.AppendString("yttv2");
-            nuxGifts.AppendString("");
-
-            nuxGifts.AppendInteger(2);
-            nuxGifts.AppendInteger(1);
-            nuxGifts.AppendInteger(1);
-            nuxGifts.AppendString("");
-            nuxGifts.AppendString("nux/gift_diamonds.png");
-            nuxGifts.AppendInteger(1);
-            nuxGifts.AppendString("nux_gift_diamonds");
-            nuxGifts.AppendString("");
-
-            nuxGifts.AppendInteger(3);
-            nuxGifts.AppendInteger(1);
-            nuxGifts.AppendInteger(1);
-            nuxGifts.AppendString("");
-            nuxGifts.AppendString("nux/gift_vip1day.png");
-            nuxGifts.AppendInteger(1);
-            nuxGifts.AppendString("nux_gift_vip_1_day");
-            nuxGifts.AppendString("");
-
-            Session.SendMessage(nuxGifts);
+            // Newbie Gifts Removed from Yupi
         }
 
         /// <summary>

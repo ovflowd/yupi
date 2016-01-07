@@ -58,9 +58,9 @@ namespace Yupi.Game.Pets
 
         internal static Dictionary<uint, PetCommand> GetAllPetCommands() => _petCommands.ToDictionary(p => p.Key, p => p.Value);
 
-        internal static Dictionary<uint, PetCommand> GetPetCommandByPetType(uint petType) => _petCommands.Where(p => p.Value.PetTypes.Contains(petType.ToString())).ToDictionary(p => p.Key, p => p.Value);
+        internal static Dictionary<uint, PetCommand> GetPetCommandByPetType(string petType) => _petCommands.Where(p => p.Value.PetTypes.Contains(petType.ToString())).ToDictionary(p => p.Key, p => p.Value);
 
-        internal static int GetPetCommandCountByPetType(uint petType) => _petCommands.Count(p => p.Value.PetTypes.Contains(petType.ToString()));
+        internal static int GetPetCommandCountByPetType(string petType) => _petCommands.Count(p => p.Value.PetTypes.Contains(petType.ToString()));
 
         internal static PetCommand GetPetCommandById(uint commandId) => _petCommands.FirstOrDefault(p => p.Key == commandId).Value;
 

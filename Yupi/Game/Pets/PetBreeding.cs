@@ -100,7 +100,7 @@ namespace Yupi.Game.Pets
 
             switch (pet1.Type)
             {
-                case 3:
+                case "pet_terrier":
                     message.AppendInteger(TerrierEpicRace.Length);
 
                     foreach (int value in TerrierEpicRace)
@@ -108,7 +108,7 @@ namespace Yupi.Game.Pets
 
                     break;
 
-                case 4:
+                case "pet_bear":
                     message.AppendInteger(BearEpicRace.Length);
 
                     foreach (int value in BearEpicRace)
@@ -121,7 +121,7 @@ namespace Yupi.Game.Pets
 
             switch (pet1.Type)
             {
-                case 3:
+                case "pet_terrier":
                     message.AppendInteger(TerrierRareRace.Length);
 
                     foreach (int value in TerrierRareRace)
@@ -129,7 +129,7 @@ namespace Yupi.Game.Pets
 
                     break;
 
-                case 4:
+                case "pet_bear":
                     message.AppendInteger(BearRareRace.Length);
 
                     foreach (int value in BearRareRace)
@@ -142,7 +142,7 @@ namespace Yupi.Game.Pets
 
             switch (pet1.Type)
             {
-                case 3:
+                case "pet_terrier":
                     message.AppendInteger(TerrierNoRareRace.Length);
 
                     foreach (int value in TerrierNoRareRace)
@@ -150,7 +150,7 @@ namespace Yupi.Game.Pets
 
                     break;
 
-                case 4:
+                case "pet_bear":
                     message.AppendInteger(BearNoRareRace.Length);
 
                     foreach (int value in BearNoRareRace)
@@ -163,7 +163,7 @@ namespace Yupi.Game.Pets
 
             switch (pet1.Type)
             {
-                case 3:
+                case "pet_terrier":
                     message.AppendInteger(TerrierNormalRace.Length);
 
                     foreach (int value in TerrierNormalRace)
@@ -171,7 +171,7 @@ namespace Yupi.Game.Pets
 
                     break;
 
-                case 4:
+                case "pet_bear":
                     message.AppendInteger(BearNormalRace.Length);
 
                     foreach (int value in BearNormalRace)
@@ -180,7 +180,7 @@ namespace Yupi.Game.Pets
                     break;
             }
 
-            message.AppendInteger(pet1.Type == 3 ? 25 : 24);
+            message.AppendInteger(pet1.Type == "pet_terrier" ? PetTypeManager.GetPetRaceIdByType("pet_terrierbaby") : PetTypeManager.GetPetRaceIdByType("pet_bearbaby"));
 
             return message;
         }

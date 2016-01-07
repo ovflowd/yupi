@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: 17-Dez-2015 às 20:04
+-- Generation Time: 07-Jan-2016 às 15:52
 -- Versão do servidor: 5.5.42
 -- PHP Version: 5.6.10
 
@@ -303,7 +303,7 @@ CREATE TABLE `bots_data` (
   `id` int(11) unsigned NOT NULL,
   `room_id` int(11) unsigned NOT NULL DEFAULT '0',
   `user_id` int(11) unsigned NOT NULL,
-  `ai_type` enum('generic','guide','pet') CHARACTER SET utf8mb4 NOT NULL DEFAULT 'generic',
+  `ai_type` enum('generic','guide') CHARACTER SET utf8mb4 NOT NULL DEFAULT 'generic',
   `name` varchar(100) CHARACTER SET utf8mb4 NOT NULL,
   `motto` varchar(120) CHARACTER SET utf8mb4 NOT NULL DEFAULT 'Beep Beep',
   `look` varchar(1000) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
@@ -315,19 +315,12 @@ CREATE TABLE `bots_data` (
   `effect` int(2) unsigned NOT NULL DEFAULT '0',
   `gender` enum('f','m') CHARACTER SET utf8mb4 NOT NULL DEFAULT 'm',
   `dance` int(11) unsigned NOT NULL DEFAULT '0',
-  `automatic_chat` tinyint(1) NOT NULL DEFAULT '0',
+  `automatic_chat` int(1) NOT NULL DEFAULT '0',
   `speaking_interval` int(8) unsigned NOT NULL DEFAULT '7',
-  `mix_phrases` tinyint(1) NOT NULL DEFAULT '0',
+  `mix_phrases` int(1) NOT NULL DEFAULT '0',
   `speech` text CHARACTER SET utf8mb4,
   `bot_type` varchar(191) CHARACTER SET utf8mb4 NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
---
--- Extraindo dados da tabela `bots_data`
---
-
-INSERT INTO `bots_data` (`id`, `room_id`, `user_id`, `ai_type`, `name`, `motto`, `look`, `x`, `y`, `z`, `rotation`, `walk_mode`, `effect`, `gender`, `dance`, `automatic_chat`, `speaking_interval`, `mix_phrases`, `speech`, `bot_type`) VALUES
-(1, 3, 2, 'generic', 'Mah', 'Sacia a sede e você pode dançar!', 'hr-9534-39.hd-600-1.ch-819-92.lg-3058-64.sh-3064-110.wa-2005', 9, 6, 0, 0, 'freeroam', 0, 'f', 0, 1, 7, 1, 'aaaaaaaa;', 'bot_bartender');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2606,7 +2599,7 @@ INSERT INTO `catalog_furnitures` (`id`, `flat_id`, `item_name`, `type`, `stack_h
 (2204, 0, 'crystal_patch', 's', '0', '1', '0', '1', '0', '1', '1', 'default', 3, '0', '0', 0),
 (2205, 0, 'ads_boost_surfb', 'i', '1', '1', '0', '1', '0', '1', '1', '', 0, '0', '0', 0),
 (2206, 0, 'ads_tlc_wheel', 'i', '1', '1', '0', '1', '0', '1', '1', 'habbowheel', 1, '0', '0', 0),
-(2207, 0, 'a0 pet5', 's', '1', '0', '0', '0', '0', '0', '0', 'pet5', 0, '0', '0', 0),
+(2207, 0, 'pet_pig', 's', '1', '0', '0', '0', '0', '0', '0', 'pet_pig', 0, '0', '0', 0),
 (2208, 0, 'garden_lupin4', 's', '0.0001', '0', '0', '1', '0', '1', '1', 'default', 3, '0', '0', 0),
 (2209, 0, 'garden_mursu3', 's', '1', '1', '0', '1', '0', '1', '1', 'default', 0, '0', '0', 0),
 (2210, 0, 'garden_lupin5', 's', '0.0001', '0', '0', '1', '0', '1', '1', 'default', 3, '0', '0', 0),
@@ -2684,8 +2677,8 @@ INSERT INTO `catalog_furnitures` (`id`, `flat_id`, `item_name`, `type`, `stack_h
 (2282, 0, 'wed_plant', 's', '1', '0', '0', '1', '0', '1', '1', 'default', 2, '0', '0', 0),
 (2283, 0, 'wed_icesculp', 's', '3', '0', '0', '1', '0', '1', '1', 'default', 2, '0', '0', 0),
 (2284, 0, 'wed_carsofa', 's', '1.25', '0', '0', '1', '0', '1', '1', 'default', 1, '0', '0', 0),
-(2285, 0, 'a0 pet3', 's', '1', '0', '0', '0', '0', '0', '0', 'pet3', 0, '0', '0', 0),
-(2286, 0, 'a0 pet4', 's', '1', '0', '0', '0', '0', '0', '0', 'pet4', 0, '0', '0', 0),
+(2285, 0, 'pet_terrier', 's', '1', '0', '0', '0', '0', '0', '0', 'pet_terrier', 0, '0', '0', 0),
+(2286, 0, 'pet_bear', 's', '1', '0', '0', '0', '0', '0', '0', 'pet_bear', 0, '0', '0', 0),
 (2287, 0, 'cmp_fish_bk', 's', '1', '0', '0', '1', '0', '1', '1', 'default', 2, '0', '0', 0),
 (2288, 0, 'cmp_fish_g', 's', '1', '0', '0', '1', '0', '1', '1', 'default', 2, '0', '0', 0),
 (2289, 0, 'cmp_fish_gr', 's', '1', '0', '0', '1', '0', '1', '1', 'default', 2, '0', '0', 0),
@@ -2741,9 +2734,9 @@ INSERT INTO `catalog_furnitures` (`id`, `flat_id`, `item_name`, `type`, `stack_h
 (2339, 0, 'ads_capri_tree', 's', '1', '0', '0', '1', '1', '1', '1', 'default', 1, '0', '0', 0),
 (2340, 0, 'ads_capri_arcade', 's', '1', '0', '0', '1', '1', '1', '1', 'default', 1, '0', '0', 0),
 (2341, 0, 'prizetrophy_thumb', 's', '1', '0', '0', '1', '1', '1', '1', 'trophy', 1, '0', '0', 0),
-(2342, 0, 'a0 pet8', 's', '1', '1', '0', '0', '0', '0', '0', 'pet8', 0, '0', '0', 0),
-(2343, 0, 'a0 pet11', 's', '1', '1', '0', '0', '0', '0', '0', 'pet11', 0, '0', '0', 0),
-(2344, 0, 'a0 pet10', 's', '1', '0', '0', '0', '0', '0', '0', 'pet10', 0, '0', '0', 0),
+(2342, 0, 'pet_spider', 's', '1', '1', '0', '0', '0', '0', '0', 'pet_spider', 0, '0', '0', 0),
+(2343, 0, 'pet_frog', 's', '1', '1', '0', '0', '0', '0', '0', 'pet_frog', 0, '0', '0', 0),
+(2344, 0, 'pet_chicken\n', 's', '1', '0', '0', '0', '0', '0', '0', 'pet_chicken', 0, '0', '0', 0),
 (2345, 0, 'usva2_wallrug', 'i', '0', '0', '0', '1', '0', '1', '1', 'default', 1, '0', '0', 0),
 (2346, 0, 'usva3_rug', 's', '0', '1', '0', '1', '0', '1', '1', 'default', 1, '0', '0', 0),
 (2347, 0, 'usva5_sofa', 's', '1', '0', '0', '1', '0', '1', '1', 'default', 1, '0', '0', 0),
@@ -2785,7 +2778,7 @@ INSERT INTO `catalog_furnitures` (`id`, `flat_id`, `item_name`, `type`, `stack_h
 (2383, 0, 'usva3_wallrug', 'i', '1', '0', '0', '1', '0', '1', '1', 'default', 1, '0', '0', 0),
 (2384, 0, 'usva_wallrug', 'i', '1', '0', '0', '1', '0', '1', '1', 'default', 1, '0', '0', 0),
 (2385, 0, 'usva4_wallrug', 'i', '1', '0', '0', '1', '0', '1', '1', 'default', 1, '0', '0', 0),
-(2386, 0, 'a0 pet9', 's', '1', '0', '0', '0', '0', '0', '0', 'pet9', 0, '0', '0', 0),
+(2386, 0, 'pet_turtle', 's', '1', '0', '0', '0', '0', '0', '0', 'pet_turtle', 0, '0', '0', 0),
 (2387, 0, 'avatar_effect26', 'e', '1', '0', '0', '0', '0', '0', '1', 'default', 1, '0', '0', 0),
 (2388, 0, 'avatar_effect25', 'e', '1', '0', '0', '0', '0', '0', '1', 'default', 1, '0', '0', 0),
 (2389, 0, 'avatar_effect24', 'e', '1', '0', '0', '0', '0', '0', '1', 'default', 1, '0', '0', 0),
@@ -2845,7 +2838,7 @@ INSERT INTO `catalog_furnitures` (`id`, `flat_id`, `item_name`, `type`, `stack_h
 (2443, 0, 'wf_floor_switch1', 's', '1', '1', '0', '1', '0', '1', '1', 'floorswitch1', 2, '0', '0', 0),
 (2444, 0, 'wf_trg_game_starts', 's', '0.5', '1', '0', '1', '0', '1', '1', 'triggergamestart', 1, '0', '0', 0),
 (2445, 0, 'wf_trg_walks_on_furni', 's', '0.5', '1', '0', '1', '0', '1', '1', 'triggerwalkonfurni', 1, '0', '0', 0),
-(2446, 0, 'a0 pet15', 's', '1', '0', '0', '0', '0', '0', '0', 'pet15', 1, '0', '0', 0),
+(2446, 0, 'pet_horse', 's', '1', '0', '0', '0', '0', '0', '0', 'pet_horse', 1, '0', '0', 0),
 (2447, 0, 'ads_mtv_floor', 's', '0.1', '1', '0', '1', '0', '1', '1', 'default', 1, '0', '0', 0),
 (2448, 0, 'studio_monitor', 's', '1', '0', '0', '1', '0', '1', '1', 'default', 1, '0', '0', 0),
 (2449, 0, 'studio_stool', 's', '1', '0', '0', '1', '0', '1', '1', 'default', 1, '0', '0', 0),
@@ -3046,7 +3039,7 @@ INSERT INTO `catalog_furnitures` (`id`, `flat_id`, `item_name`, `type`, `stack_h
 (2644, 0, 'waasa_chair_wood', 's', '1', '0', '0', '1', '0', '1', '1', 'default', 1, '0', '0', 0),
 (2645, 0, 'waasa_aquarium', 's', '0.0001', '0', '0', '1', '0', '1', '1', 'default', 1, '0', '0', 0),
 (2646, 0, 'newbie_nest', 's', '0.01', '0', '0', '1', '0', '1', '1', 'default', 1, '0', '0', 0),
-(2647, 0, 'a0 pet7', 's', '1', '0', '0', '0', '0', '0', '0', 'pet7', 0, '0', '0', 0),
+(2647, 0, 'pet_rhino', 's', '1', '0', '0', '0', '0', '0', '0', 'pet_rhino', 0, '0', '0', 0),
 (2648, 0, 'coco_chair', 's', '1.3', '0', '0', '1', '0', '1', '1', 'default', 1, '0', '0', 0),
 (2649, 0, 'coco_chair_c2', 's', '1.3', '0', '0', '1', '0', '1', '1', 'default', 1, '0', '0', 0),
 (2650, 0, 'coco_chair_c3', 's', '1.3', '0', '0', '1', '0', '1', '1', 'default', 1, '0', '0', 0),
@@ -3808,7 +3801,7 @@ INSERT INTO `catalog_furnitures` (`id`, `flat_id`, `item_name`, `type`, `stack_h
 (3404, 0, 'avatar_effect74', 'e', '1', '1', '0', '1', '0', '1', '1', 'default', 1, '0', '0', 0),
 (3405, 0, 'avatar_effect75', 'e', '1', '1', '0', '1', '0', '1', '1', 'default', 1, '0', '0', 0),
 (3406, 0, 'avatar_effect76', 'e', '1', '1', '0', '1', '0', '1', '1', 'default', 1, '0', '0', 0),
-(3407, 0, 'a0 pet14', 's', '1', '0', '0', '0', '0', '0', '0', 'pet14', 0, '0', '0', 0),
+(3407, 0, 'pet_monkey', 's', '1', '0', '0', '0', '0', '0', '0', 'pet_monkey', 0, '0', '0', 0),
 (3408, 0, 'bolly_cherry', 's', '1', '0', '0', '1', '0', '1', '1', 'default', 1, '0', '0', 0),
 (3409, 0, 'jp_bed', 's', '2', '0', '0', '1', '0', '1', '1', 'bed', 1, '0', '0', 0),
 (3410, 0, 'jp_ceiling_lamp', 's', '0', '1', '0', '1', '0', '1', '1', 'default', 2, '0', '0', 0),
@@ -5465,10 +5458,9 @@ INSERT INTO `catalog_furnitures` (`id`, `flat_id`, `item_name`, `type`, `stack_h
 (5058, 0, 'DEAL_HC_1', 'h', '0', '0', '0', '0', '0', '0', '0', 'default', 0, '0', '0', 0),
 (5059, 7335, 'bot_bartender', 'r', '0', '0', '1', '1', '1', '1', '1', 'default', 1, '0', '0', 0),
 (5060, 7299, 'bot_generic', 'r', '0', '0', '1', '1', '1', '1', '1', 'rentable_bot', 1, '0', '0', 0),
-(5061, 0, 'a0 pet1', 's', '1', '0', '0', '0', '0', '0', '0', 'pet1', 0, '0', '0', 0),
-(5062, 0, 'a0 pet2', 's', '1', '0', '0', '0', '0', '0', '0', 'pet2', 0, '0', '0', 0),
-(5063, 0, 'a0 pet22', 's', '1', '0', '0', '0', '0', '0', '0', 'pet22', 0, '0', '0', 0),
-(5064, 0, 'a0 pet12', 's', '1', '0', '0', '0', '0', '0', '0', 'pet0', 0, '0', '0', 0),
+(5061, 0, 'pet_cat', 's', '1', '0', '0', '0', '0', '0', '0', 'pet_cat', 0, '0', '0', 0),
+(5062, 0, 'pet_croco', 's', '1', '0', '0', '0', '0', '0', '0', 'pet_croco', 0, '0', '0', 0),
+(5064, 0, 'pet_dragon', 's', '1', '0', '0', '0', '0', '0', '0', 'pet_dragon', 0, '0', '0', 0),
 (5065, 0, 'DEAL_HC_3', 'h', '0', '0', '0', '0', '0', '0', '0', 'default', 0, '0', '0', 0),
 (5066, 0, 'DEAL_HC_6', 'h', '0', '0', '0', '0', '0', '0', '0', 'default', 0, '0', '0', 0),
 (5067, 0, 'external_image_wallitem_poster', 'i', '0', '1', '1', '1', '1', '1', '1', 'default', 1, '0', '0', 0),
@@ -7592,7 +7584,7 @@ INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `special_name`, `cos
 (2001, 59, 'ads_boost_surfb', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2002, 32, 'ads_tlc_wheel', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2003, 59, 'spyro', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
-(2004, 78, 'a0 pet5', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
+(2004, 78, 'pet_pig', 'pet_pig', 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2005, 80, 'garden_lupin4', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2006, 80, 'garden_mursu3', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2007, 80, 'garden_lupin5', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
@@ -7669,8 +7661,8 @@ INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `special_name`, `cos
 (2078, 82, 'wed_plant', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2079, 82, 'wed_icesculp', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2080, 82, 'wed_carsofa', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
-(2081, 84, 'a0 pet3', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
-(2082, 85, 'a0 pet4', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
+(2081, 84, 'pet_terrier\n', 'pet_terrier\n', 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
+(2082, 85, 'pet_bear', 'pet_bear', 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2083, 114, 'cmp_fish_bk', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2084, 114, 'cmp_fish_g', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2085, 114, 'cmp_fish_gr', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
@@ -8033,7 +8025,7 @@ INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `special_name`, `cos
 (2442, 230, 'holo_dragon', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2443, 193, 'Silver Info', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2444, 74, 'christmas_poop', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
-(2445, 92, 'a0 pet7', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
+(2445, 92, 'pet_rhino', 'pet_rhino', 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2446, 45, 'hween12_cart', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2447, 45, 'hween12_entry', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2448, 45, 'hween12_track', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
@@ -8059,9 +8051,9 @@ INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `special_name`, `cos
 (2468, 45, 'hween12_wolf', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2469, 45, 'hween12_strengthtest', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2470, 45, 'hween12_dartboard', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
-(2472, 93, 'a0 pet8', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
-(2473, 94, 'a0 pet11', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
-(2474, 95, 'a0 pet10', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
+(2472, 93, 'pet_spider\n', 'pet_spider\n', 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
+(2473, 94, 'pet_frog', 'pet_frog', 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
+(2474, 95, 'pet_chicken', 'pet_chicken', 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2475, 174, 'throne', NULL, 10000, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2476, 206, 'sfx_xylo', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2477, 206, 'sfx_dubstep3_2', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
@@ -8194,7 +8186,7 @@ INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `special_name`, `cos
 (2604, 116, 'usva3_wallrug', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2605, 116, 'usva4_wallrug', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2606, 116, 'usva5_lamp', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
-(2607, 229, 'a0 pet15', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
+(2607, 229, 'pet_horse', 'pet_horse', 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2608, 175, 'obstacle_oxer2', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2609, 175, 'obstacle_water', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2610, 175, 'obstacle_water2', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
@@ -8461,9 +8453,9 @@ INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `special_name`, `cos
 (2871, 44, 'theatre_seat_g', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2872, 44, 'cine_tile', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2873, 44, 'cine_bench_b', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
-(2874, 44, 'theatre_seat_b', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
-(2875, 44, 'cine_roof', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL);
+(2874, 44, 'theatre_seat_b', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL);
 INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `special_name`, `cost_credits`, `cost_diamonds`, `cost_loyalty`, `cost_duckets`, `amounts`, `achievement`, `song_id`, `limited_sells`, `limited_stack`, `offer_active`, `club_only`, `extradata`, `badge`, `order_num`) VALUES
+(2875, 44, 'cine_roof', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2876, 44, 'cine_popcorn', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2877, 44, 'cine_bench', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2878, 44, 'cine_bench_g', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
@@ -9031,9 +9023,9 @@ INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `special_name`, `cos
 (3442, 58, 'prizetrophy6*2', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (3443, 58, 'prizetrophy7*2', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (3444, 58, 'prizetrophy7*3', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
-(3445, 58, 'prizetrophy9*1', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
-(3446, 58, 'prizetrophy8*1', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL);
+(3445, 58, 'prizetrophy9*1', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL);
 INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `special_name`, `cost_credits`, `cost_diamonds`, `cost_loyalty`, `cost_duckets`, `amounts`, `achievement`, `song_id`, `limited_sells`, `limited_stack`, `offer_active`, `club_only`, `extradata`, `badge`, `order_num`) VALUES
+(3446, 58, 'prizetrophy8*1', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (3447, 31, 'greektrophy*1', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (3448, 58, 'greektrophy*2', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (3449, 58, 'greektrophy*3', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
@@ -9320,8 +9312,8 @@ INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `special_name`, `cos
 (3732, 230, 'ads_flag_un', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (3733, 45, 'hween11_window', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (3734, 17, 'xmas11_wall', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
-(3735, 113, 'a0 pet14', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
-(3736, 112, 'a0 pet9', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
+(3735, 113, 'pet_monkey\n', 'pet_monkey\n', 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
+(3736, 112, 'pet_turtle', 'pet_turtle', 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (3737, 191, 'books_1', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (3738, 191, 'homework', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (3739, 191, 'gift_mdlcar0', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
@@ -9607,9 +9599,9 @@ INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `special_name`, `cos
 (4024, 101, 'bc_block_redbrick*2', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (4025, 101, 'bc_block_redbrick*1', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (4026, 101, 'bc_block_redbrick*3', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
-(4027, 101, 'bc_block_redbrick*4', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
-(4028, 101, 'bc_block_redbrick*5', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL);
+(4027, 101, 'bc_block_redbrick*4', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL);
 INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `special_name`, `cost_credits`, `cost_diamonds`, `cost_loyalty`, `cost_duckets`, `amounts`, `achievement`, `song_id`, `limited_sells`, `limited_stack`, `offer_active`, `club_only`, `extradata`, `badge`, `order_num`) VALUES
+(4028, 101, 'bc_block_redbrick*5', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (4029, 101, 'bc_block_redbrick*6', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (4030, 101, 'bc_block_redbrick*7', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (4031, 101, 'bc_block_artdeco1*1', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
@@ -10158,9 +10150,9 @@ INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `special_name`, `cos
 (4597, 157, 'wf_cnd_not_in_team', NULL, 6, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (4598, 155, 'wf_trg_at_time_long', NULL, 6, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (4599, 156, 'wf_act_move_furni_to', NULL, 6, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
-(4600, 156, 'wf_act_toggle_to_rnd', NULL, 6, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
-(4601, 121, 'wf_act_give_reward', NULL, 6, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL);
+(4600, 156, 'wf_act_toggle_to_rnd', NULL, 6, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL);
 INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `special_name`, `cost_credits`, `cost_diamonds`, `cost_loyalty`, `cost_duckets`, `amounts`, `achievement`, `song_id`, `limited_sells`, `limited_stack`, `offer_active`, `club_only`, `extradata`, `badge`, `order_num`) VALUES
+(4601, 121, 'wf_act_give_reward', NULL, 6, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (4602, 156, 'wf_act_kick_user', NULL, 6, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (4603, 155, 'wf_trg_period_long', NULL, 6, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (4605, 156, 'wf_act_chase', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
@@ -10269,10 +10261,9 @@ INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `special_name`, `cos
 (4750, 5, 'DEAL_HC_1', 'DEAL_HC_2', 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (4751, 232, 'bot_bartender', 'bot_bartender', 0, 5, 0, 0, '1', 0, 0, 0, 0, '1', '0', 'hr-9534-39.hd-600-1.ch-819-92.lg-3058-64.sh-3064-110.wa-2005', '', NULL),
 (4752, 232, 'bot_generic', 'bot_generic', 0, 2, 0, 0, '1', 0, 0, 0, 0, '1', '0', 'hr-3020-34.hd-3091-2.ch-225-92.lg-3058-100.sh-3089-1338.ca-3084-78-108.wa-2005', '', NULL),
-(4753, 86, 'a0 pet1', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
-(4754, 88, 'a0 pet2', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
-(4755, 87, 'a0 pet22', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
-(4756, 96, 'a0 pet12', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
+(4753, 86, 'pet_cat', 'pet_cat', 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
+(4754, 88, 'pet_croco', 'pet_croco', 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
+(4756, 96, 'pet_dragon', 'pet_dragon', 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (4757, 257, 'song_disk', 'SONG WhoDaresStacks', 5, 0, 0, 0, '1', 0, 2, 0, 0, '1', '0', 'who_dares_stacks', '', NULL),
 (4758, 257, 'song_disk', 'SONG ElectricPixels', 5, 0, 0, 0, '1', 0, 3, 0, 0, '1', '0', 'electric_pixels', '', NULL),
 (4759, 257, 'song_disk', 'SONG GalacticDisco', 5, 0, 0, 0, '1', 0, 4, 0, 0, '1', '0', 'galactic_disco', '', NULL),
@@ -10628,6 +10619,39 @@ INSERT INTO `catalog_pages` (`id`, `parent_id`, `code_name`, `caption`, `icon_im
 (255, -2, 'builders_club', 'Blocos Builders', 2005, '1', '1', 1, '0', 3, 'builders_3x3', '', 'landing_view_blocks', '', 'Use os blocos de construÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â£o para criar estruturas legais em suas salas ! Quem sabe ... talvez vocÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Âª ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â© o vencedor de um concurso .', '', '', '', '0', '', ''),
 (256, 12, 'pet_breeds', 'Pet Breeding', 24, '1', '1', 1, '0', 3, 'default_3x3', ' ', 'catalog_pet_headline1', ' ', 'Pet Breeding !', ' ', 'Click on an item for more information.', ' ', '0', ' ', ' '),
 (257, 239, '', 'Hotel Hits', 4, '1', '1', 1, '0', 1, 'soundmachine', 'trax', 'traxteaser', '', 'Turn up the volume with some cool new tunes Foryour room. place a Jukebox in  your room, get yourself some of these song discs and add them to your playlist! ', '', '', '', '0', '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `catalog_pets`
+--
+
+DROP TABLE IF EXISTS `catalog_pets`;
+CREATE TABLE `catalog_pets` (
+  `pet_type` varchar(191) CHARACTER SET utf8mb4 NOT NULL,
+  `pet_race_id` int(11) unsigned NOT NULL COMMENT 'Pet Race (Unique Type Id)'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `catalog_pets`
+--
+
+INSERT INTO `catalog_pets` (`pet_type`, `pet_race_id`) VALUES
+('pet_dog', 0),
+('pet_cat', 1),
+('pet_croco', 2),
+('pet_terrier', 3),
+('pet_bear', 4),
+('pet_pig', 5),
+('pet_lion', 6),
+('pet_rhino', 7),
+('pet_spider', 8),
+('pet_turtle', 9),
+('pet_chicken', 10),
+('pet_frog', 11),
+('pet_dragon', 12),
+('pet_monkey', 14),
+('pet_horse', 15);
 
 -- --------------------------------------------------------
 
@@ -11279,14 +11303,7 @@ CREATE TABLE `groups_data` (
   `colour1` int(11) NOT NULL DEFAULT '242424',
   `colour2` int(11) NOT NULL DEFAULT '242424',
   `admindeco` enum('0','1') CHARACTER SET utf8mb4 DEFAULT '1' COMMENT 'Administrators can Decorate'
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
---
--- Extraindo dados da tabela `groups_data`
---
-
-INSERT INTO `groups_data` (`id`, `group_name`, `group_description`, `group_badge`, `owner_id`, `created`, `room_id`, `state`, `colour1`, `colour2`, `admindeco`) VALUES
-(1, 'zaaaa', 'aaaaaa', 'b1003s25175s25173s29114s00000', 2, 1450215291, 3, '0', 1, 13, '1');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -11309,14 +11326,7 @@ CREATE TABLE `groups_forums_data` (
   `who_can_post` int(2) unsigned NOT NULL DEFAULT '1',
   `who_can_thread` int(2) unsigned NOT NULL DEFAULT '1',
   `who_can_mod` int(2) unsigned NOT NULL DEFAULT '2'
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
---
--- Extraindo dados da tabela `groups_forums_data`
---
-
-INSERT INTO `groups_forums_data` (`id`, `group_id`, `forum_name`, `forum_description`, `forum_messages_count`, `forum_score`, `forum_lastposter_id`, `forum_lastposter_name`, `forum_lastposter_timestamp`, `who_can_read`, `who_can_post`, `who_can_thread`, `who_can_mod`) VALUES
-(1, 1, '', '', 4, 0, 2, 'Kioi', 1450306221, 2, 2, 2, 2);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -11339,19 +11349,7 @@ CREATE TABLE `groups_forums_posts` (
   `subject` varchar(1024) CHARACTER SET utf8mb4 NOT NULL,
   `post_content` text CHARACTER SET utf8mb4 NOT NULL,
   `post_hider` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT ''
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
-
---
--- Extraindo dados da tabela `groups_forums_posts`
---
-
-INSERT INTO `groups_forums_posts` (`id`, `parent_id`, `group_id`, `timestamp`, `pinned`, `locked`, `hidden`, `poster_id`, `poster_name`, `poster_look`, `subject`, `post_content`, `post_hider`) VALUES
-(1, 0, 1, 1450274329, '0', '0', '0', 2, 'Kioi', 'sh-290-62.hr-115-42.hd-3093-18.ch-215-62.lg-285-91', 'aaaaaaaaaaaaaaa', 'aaaaaaaaaaaaaaaaa', ''),
-(2, 0, 1, 1450274662, '0', '0', '1', 2, 'Kioi', 'sh-290-62.hr-115-42.hd-3093-18.ch-215-62.lg-285-91', 'fffffffffffffffff', 'fffffffffffffff', ''),
-(3, 0, 1, 1450301446, '0', '0', '0', 2, 'Kioi', 'sh-290-62.hr-115-42.hd-3093-18.ch-215-62.lg-285-91', 'kkkkkkkkkkkk', 'kkkkkkkkkkkk', ''),
-(4, 2, 1, 1450305586, '0', '0', '0', 2, 'Kioi', 'sh-290-62.hr-115-42.hd-3093-18.ch-215-62.lg-285-91', '', 'ffffffffffffff', ''),
-(5, 2, 1, 1450305828, '0', '0', '0', 2, 'Kioi', 'sh-290-62.hr-115-42.hd-3093-18.ch-215-62.lg-285-91', '', 'iiiiiiiiiiiiii', ''),
-(6, 0, 1, 1450306221, '0', '0', '0', 2, 'Kioi', 'sh-290-62.hr-115-42.hd-3093-18.ch-215-62.lg-285-91', 'hhhhhhhhhhhhhh', 'hhhhhhhhhhhhhh', '');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -11366,14 +11364,7 @@ CREATE TABLE `groups_members` (
   `user_id` int(11) unsigned NOT NULL,
   `rank` enum('0','1','2') NOT NULL DEFAULT '0',
   `date_join` int(50) NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-
---
--- Extraindo dados da tabela `groups_members`
---
-
-INSERT INTO `groups_members` (`id`, `group_id`, `user_id`, `rank`, `date_join`) VALUES
-(1, 1, 2, '2', 1450215283);
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -11551,34 +11542,7 @@ CREATE TABLE `items_rooms` (
   `songcode` varchar(255) NOT NULL DEFAULT '',
   `group_id` int(11) unsigned NOT NULL DEFAULT '0',
   `builders` enum('0','1') NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
-
---
--- Extraindo dados da tabela `items_rooms`
---
-
-INSERT INTO `items_rooms` (`id`, `user_id`, `room_id`, `item_name`, `extra_data`, `x`, `y`, `z`, `rot`, `wall_pos`, `rare_id`, `songcode`, `group_id`, `builders`) VALUES
-(4, 1, 1, 'fball_score_r', '', 5, 5, 0.000, 2, '', 0, '', 0, '0'),
-(5, 0, 0, 'song_disk', 'Claudio\n2015\n11\n15\n512\nTapes from Goa', 0, 0, 0.000, 0, '', 0, 'lost_my_tapes_at_goa', 0, '0'),
-(6, 1, 1, 'jukebox_big', '1', 8, 5, 0.000, 0, '', 0, '', 0, '0'),
-(9, 1, 1, 'badge_display3', 'ACH_Login1|Claudio|15-11-2015', 9, 9, 0.000, 2, '', 0, '', 0, '0'),
-(10, 1, 0, 'duck', '', 0, 0, 0.000, 0, '', 0, '', 0, '0'),
-(11, 1, 0, 'duck', '', 0, 0, 0.000, 0, '', 0, '', 0, '0'),
-(12, 1, 0, 'a0 pet1', '0', 0, 0, 0.000, 0, '', 0, '', 0, '0'),
-(13, 2, 0, 'duck', '', 0, 0, 0.000, 0, '', 0, '', 0, '0'),
-(14, 2, 3, 'pirate_bottle_1', '', 6, 9, 0.000, 0, '', 0, '', 0, '0'),
-(15, 2, 0, 'wf_trg_walks_on_furni', '', 0, 0, 0.000, 0, '', 0, '', 0, '0'),
-(16, 2, 0, 'duck', '', 0, 0, 0.000, 0, '', 0, '', 0, '0'),
-(17, 2, 3, 'cine_teleport4', '0', 10, 3, 0.000, 0, '', 0, '', 0, '0'),
-(18, 2, 3, 'cine_teleport4', '0', 9, 9, 0.000, 0, '', 0, '', 0, '0'),
-(19, 0, 0, 'song_disk', 'Kioi\n2015\n12\n15\n212\nElectric Pixels', 0, 0, 0.000, 0, '', 0, 'electric_pixels', 0, '0'),
-(20, 2, 3, 'jukebox_big', '0', 6, 4, 0.000, 0, '', 0, '', 0, '0'),
-(21, 2, 0, 'duck', '', 0, 0, 0.000, 0, '', 0, '', 0, '0'),
-(22, 2, 0, 'guild_forum', '0', 0, 0, 0.000, 0, '', 0, '', 1, '0'),
-(23, 2, 0, 'guild_forum', '0', 0, 0, 0.000, 0, '', 0, '', 1, '0'),
-(24, 4, 3, 'duck', '', 9, 11, 0.000, 0, '', 0, '', 0, '0'),
-(25, 4, 3, 'duck', '', 5, 12, 0.000, 0, '', 0, '', 0, '0'),
-(26, 4, 0, 'jp_irori', '', 0, 0, 0.000, 0, '', 0, '', 0, '0');
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -11592,14 +11556,6 @@ CREATE TABLE `items_songs` (
   `roomid` int(10) unsigned NOT NULL,
   `songid` int(10) unsigned NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Extraindo dados da tabela `items_songs`
---
-
-INSERT INTO `items_songs` (`itemid`, `roomid`, `songid`) VALUES
-(5, 1, 5),
-(19, 3, 3);
 
 -- --------------------------------------------------------
 
@@ -11639,14 +11595,6 @@ CREATE TABLE `items_teleports` (
   `tele_one_id` int(10) unsigned NOT NULL,
   `tele_two_id` int(10) unsigned NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Extraindo dados da tabela `items_teleports`
---
-
-INSERT INTO `items_teleports` (`tele_one_id`, `tele_two_id`) VALUES
-(17, 18),
-(18, 17);
 
 -- --------------------------------------------------------
 
@@ -11813,16 +11761,7 @@ CREATE TABLE `moderation_tickets` (
   `room_id` int(10) unsigned NOT NULL,
   `room_name` varchar(100) NOT NULL,
   `timestamp` double NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-
---
--- Extraindo dados da tabela `moderation_tickets`
---
-
-INSERT INTO `moderation_tickets` (`id`, `score`, `type`, `status`, `sender_id`, `reported_id`, `moderator_id`, `message`, `room_id`, `room_name`, `timestamp`) VALUES
-(1, 1, 104, 'open', 4, 0, 0, '', 3, 'aaaa', 1450378012),
-(2, 1, 104, 'deleted', 4, 0, 2, '', 3, 'aaaa', 1450378477),
-(3, 1, 104, 'invalid', 4, 0, 2, '', 3, 'aaaa', 1450378575);
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -11925,246 +11864,32 @@ CREATE TABLE `navigator_publics` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `pets_breeds`
---
-
-DROP TABLE IF EXISTS `pets_breeds`;
-CREATE TABLE `pets_breeds` (
-  `id` int(10) NOT NULL,
-  `breed_id` int(11) NOT NULL DEFAULT '0',
-  `color1` int(11) NOT NULL DEFAULT '0',
-  `color2` int(11) NOT NULL DEFAULT '0',
-  `color1_enabled` enum('0','1') NOT NULL DEFAULT '1',
-  `color2_enabled` enum('0','1') NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=195 DEFAULT CHARSET=latin1;
-
---
--- Extraindo dados da tabela `pets_breeds`
---
-
-INSERT INTO `pets_breeds` (`id`, `breed_id`, `color1`, `color2`, `color1_enabled`, `color2_enabled`) VALUES
-(1, 12, 0, 0, '1', '0'),
-(2, 12, 1, 1, '1', '0'),
-(3, 12, 2, 2, '1', '0'),
-(4, 12, 3, 3, '1', '0'),
-(5, 12, 4, 4, '1', '0'),
-(6, 12, 5, 5, '1', '0'),
-(7, 15, 1, 2, '1', '0'),
-(8, 15, 2, 7, '1', '0'),
-(9, 15, 3, 8, '1', '0'),
-(10, 15, 4, 9, '1', '0'),
-(11, 15, 1, 6, '1', '0'),
-(12, 15, 2, 3, '1', '0'),
-(13, 15, 3, 4, '1', '0'),
-(14, 15, 4, 5, '1', '0'),
-(15, 17, 0, 0, '1', '0'),
-(16, 18, 0, 0, '1', '0'),
-(17, 19, 0, 0, '1', '0'),
-(18, 20, 0, 0, '1', '0'),
-(19, 21, 0, 0, '1', '0'),
-(20, 22, 0, 0, '1', '0'),
-(21, 0, 0, 0, '1', '0'),
-(22, 0, 1, 1, '1', '0'),
-(23, 0, 2, 2, '1', '0'),
-(24, 0, 3, 3, '1', '0'),
-(25, 0, 4, 4, '1', '0'),
-(26, 0, 5, 5, '1', '0'),
-(27, 0, 6, 6, '1', '0'),
-(28, 0, 7, 7, '1', '0'),
-(29, 0, 8, 8, '1', '0'),
-(30, 0, 9, 9, '1', '0'),
-(31, 0, 10, 10, '1', '0'),
-(32, 0, 11, 11, '1', '0'),
-(33, 0, 12, 12, '1', '0'),
-(34, 0, 13, 13, '1', '0'),
-(35, 0, 14, 14, '1', '0'),
-(36, 0, 15, 15, '1', '0'),
-(37, 0, 16, 16, '1', '0'),
-(38, 0, 17, 17, '1', '0'),
-(39, 0, 18, 18, '1', '0'),
-(40, 0, 19, 19, '1', '0'),
-(41, 0, 20, 20, '1', '0'),
-(42, 0, 21, 21, '1', '0'),
-(43, 0, 22, 22, '1', '0'),
-(44, 0, 23, 23, '1', '0'),
-(45, 0, 24, 24, '1', '0'),
-(46, 1, 0, 0, '1', '0'),
-(47, 1, 1, 1, '1', '0'),
-(48, 1, 2, 2, '1', '0'),
-(49, 1, 3, 3, '1', '0'),
-(50, 1, 4, 4, '1', '0'),
-(51, 1, 5, 5, '1', '0'),
-(52, 1, 6, 6, '1', '0'),
-(53, 1, 7, 7, '1', '0'),
-(54, 1, 8, 8, '1', '0'),
-(55, 1, 9, 9, '1', '0'),
-(56, 1, 10, 10, '1', '0'),
-(57, 1, 11, 11, '1', '0'),
-(58, 1, 12, 12, '1', '0'),
-(59, 1, 13, 13, '1', '0'),
-(60, 1, 14, 14, '1', '0'),
-(61, 1, 15, 15, '1', '0'),
-(62, 1, 16, 16, '1', '0'),
-(63, 1, 17, 17, '1', '0'),
-(64, 1, 18, 18, '1', '0'),
-(65, 1, 19, 19, '1', '0'),
-(66, 1, 20, 20, '1', '0'),
-(67, 1, 21, 21, '1', '0'),
-(68, 1, 22, 22, '1', '0'),
-(69, 1, 23, 23, '1', '0'),
-(70, 1, 24, 24, '1', '0'),
-(71, 10, 0, 0, '1', '0'),
-(72, 9, 0, 0, '1', '0'),
-(73, 9, 1, 1, '1', '0'),
-(74, 9, 2, 2, '1', '0'),
-(75, 9, 3, 3, '1', '0'),
-(76, 9, 4, 4, '1', '0'),
-(77, 9, 5, 5, '1', '0'),
-(78, 9, 6, 6, '1', '0'),
-(79, 9, 7, 7, '1', '0'),
-(80, 9, 8, 8, '1', '0'),
-(81, 11, 1, 1, '1', '0'),
-(82, 11, 2, 2, '1', '0'),
-(83, 11, 3, 3, '1', '0'),
-(84, 11, 4, 4, '1', '0'),
-(85, 11, 5, 5, '1', '0'),
-(86, 11, 6, 6, '1', '0'),
-(87, 11, 8, 8, '0', '0'),
-(88, 11, 9, 9, '1', '0'),
-(89, 11, 10, 10, '1', '0'),
-(90, 11, 11, 11, '1', '0'),
-(91, 11, 12, 12, '1', '0'),
-(92, 11, 13, 13, '1', '0'),
-(93, 11, 15, 15, '1', '0'),
-(94, 11, 18, 18, '1', '0'),
-(95, 8, 0, 0, '1', '0'),
-(96, 8, 1, 1, '1', '0'),
-(97, 8, 2, 2, '1', '0'),
-(98, 8, 3, 3, '1', '0'),
-(99, 8, 4, 4, '1', '0'),
-(100, 8, 5, 5, '1', '0'),
-(101, 8, 6, 6, '1', '0'),
-(102, 8, 7, 7, '1', '0'),
-(103, 8, 8, 8, '1', '0'),
-(104, 8, 9, 9, '1', '0'),
-(105, 8, 10, 10, '1', '0'),
-(106, 8, 11, 11, '1', '0'),
-(107, 8, 14, 14, '1', '0'),
-(108, 7, 0, 0, '1', '0'),
-(109, 7, 1, 1, '1', '0'),
-(110, 7, 2, 2, '1', '0'),
-(111, 7, 3, 3, '0', '1'),
-(112, 7, 4, 4, '1', '0'),
-(113, 7, 5, 5, '1', '0'),
-(114, 7, 6, 6, '1', '0'),
-(115, 7, 7, 7, '1', '0'),
-(116, 7, 0, 0, '1', '0'),
-(117, 7, 1, 1, '1', '0'),
-(118, 7, 2, 2, '1', '0'),
-(119, 7, 3, 3, '0', '1'),
-(120, 7, 4, 4, '1', '0'),
-(121, 7, 5, 5, '1', '0'),
-(122, 7, 6, 6, '1', '0'),
-(123, 7, 7, 7, '1', '0'),
-(124, 5, 0, 0, '1', '0'),
-(125, 5, 1, 1, '1', '0'),
-(126, 5, 2, 2, '1', '0'),
-(127, 5, 3, 3, '1', '0'),
-(128, 5, 5, 5, '1', '0'),
-(129, 5, 7, 7, '1', '0'),
-(130, 5, 8, 8, '1', '0'),
-(131, 3, 0, 0, '1', '0'),
-(132, 3, 1, 1, '1', '0'),
-(133, 3, 2, 2, '1', '0'),
-(134, 3, 3, 3, '1', '0'),
-(135, 3, 4, 4, '1', '0'),
-(136, 3, 5, 5, '1', '0'),
-(137, 3, 6, 6, '1', '0'),
-(138, 4, 0, 0, '1', '0'),
-(139, 4, 1, 1, '1', '0'),
-(140, 4, 2, 2, '1', '0'),
-(141, 4, 3, 3, '1', '0'),
-(142, 2, 0, 0, '1', '0'),
-(143, 2, 1, 1, '1', '0'),
-(144, 2, 2, 2, '1', '0'),
-(145, 2, 3, 3, '1', '0'),
-(146, 2, 4, 4, '1', '0'),
-(147, 2, 5, 5, '1', '0'),
-(148, 2, 6, 6, '1', '0'),
-(149, 2, 7, 7, '1', '0'),
-(150, 2, 8, 8, '1', '0'),
-(151, 2, 9, 9, '1', '0'),
-(152, 2, 10, 10, '1', '0'),
-(153, 2, 11, 11, '1', '0'),
-(154, 6, 0, 0, '1', '0'),
-(155, 6, 1, 1, '1', '0'),
-(156, 6, 2, 2, '1', '0'),
-(157, 6, 3, 3, '1', '0'),
-(158, 6, 4, 4, '1', '0'),
-(159, 6, 5, 5, '1', '0'),
-(160, 6, 6, 6, '0', '1'),
-(161, 6, 7, 7, '0', '1'),
-(162, 6, 8, 8, '0', '1'),
-(163, 6, 9, 9, '0', '1'),
-(164, 6, 10, 10, '0', '1'),
-(165, 6, 11, 11, '1', '0'),
-(166, 6, 12, 12, '0', '1'),
-(167, 17, 1, 1, '1', '0'),
-(168, 17, 2, 2, '1', '0'),
-(169, 17, 3, 3, '1', '0'),
-(170, 17, 4, 4, '1', '0'),
-(171, 10, 1, 1, '1', '0'),
-(172, 10, 2, 2, '1', '0'),
-(173, 10, 3, 3, '1', '0'),
-(174, 10, 4, 4, '1', '0'),
-(175, 14, 0, 0, '1', '0'),
-(176, 14, 1, 1, '1', '0'),
-(177, 14, 2, 2, '1', '0'),
-(178, 14, 3, 3, '1', '0'),
-(179, 14, 5, 5, '1', '0'),
-(180, 14, 6, 6, '1', '0'),
-(181, 14, 7, 7, '1', '0'),
-(182, 14, 8, 8, '1', '0'),
-(183, 26, 0, 0, '1', '1'),
-(184, 26, 1, 1, '1', '0'),
-(185, 26, 2, 2, '1', '1'),
-(186, 26, 3, 3, '1', '1'),
-(187, 26, 4, 4, '1', '1'),
-(188, 26, 5, 5, '1', '1'),
-(189, 26, 6, 6, '1', '1'),
-(190, 26, 7, 7, '1', '1'),
-(191, 26, 8, 8, '1', '1'),
-(192, 26, 9, 9, '1', '1'),
-(193, 26, 10, 10, '1', '1'),
-(194, 26, 11, 11, '1', '1');
-
--- --------------------------------------------------------
-
---
 -- Estrutura da tabela `pets_commands`
 --
 
 DROP TABLE IF EXISTS `pets_commands`;
 CREATE TABLE `pets_commands` (
   `id` int(11) NOT NULL,
-  `input` varchar(255) NOT NULL COMMENT 'Separate Aliases by ;',
-  `status` varchar(10) NOT NULL DEFAULT '',
-  `gesture` varchar(10) NOT NULL DEFAULT '',
+  `input` varchar(255) CHARACTER SET latin1 NOT NULL COMMENT 'Separate Aliases by ;',
+  `status` varchar(10) CHARACTER SET latin1 NOT NULL DEFAULT '',
+  `gesture` varchar(10) CHARACTER SET latin1 NOT NULL DEFAULT '',
   `experience` int(11) NOT NULL DEFAULT '10',
   `energy` int(11) NOT NULL DEFAULT '5',
   `level` int(11) NOT NULL DEFAULT '1',
-  `pet_type` varchar(255) NOT NULL DEFAULT '1' COMMENT 'Group Pet Type by , (comma)',
-  `action` enum('breed','follow','sleep','unknown','lazy','default') NOT NULL DEFAULT 'default'
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+  `pet_type` varchar(255) CHARACTER SET latin1 NOT NULL DEFAULT 'pet_dog' COMMENT 'Group Pet Type by , (comma)',
+  `action` enum('breed','follow','sleep','unknown','lazy','default') CHARACTER SET latin1 NOT NULL DEFAULT 'default',
+  `pet_speech` varchar(255) CHARACTER SET latin1 NOT NULL DEFAULT 'pet.done'
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Extraindo dados da tabela `pets_commands`
 --
 
-INSERT INTO `pets_commands` (`id`, `input`, `status`, `gesture`, `experience`, `energy`, `level`, `pet_type`, `action`) VALUES
-(1, 'Sit;Sentar;Senta', 'sit', 'joy', 10, 5, 1, '0,1,2,3,4,5,6,7', 'default'),
-(2, 'Descansar;Free', '', '', 10, 5, 1, '0,1,2,3,4,5,6,7', 'default'),
-(3, 'Lay;Deitar;Deita', 'lay', 'sml', 10, 5, 1, '0,1,2,3,4,5,6,7', 'default');
+INSERT INTO `pets_commands` (`id`, `input`, `status`, `gesture`, `experience`, `energy`, `level`, `pet_type`, `action`, `pet_speech`) VALUES
+(1, 'sit;sentar;senta', 'sit', 'joy', 10, 5, 1, 'pet_dog,pet_cat,pet_croco,pet_terrier,pet_bear,pet_pig,pet_lion,pet_rhino,pet_spider,pet_turtle,pet_chicken,pet_frog,pet_dragon,pet_monkey,pet_horse', 'default', 'pet.done'),
+(2, 'descansar;free', '', '', 10, 5, 1, 'pet_dog,pet_cat,pet_croco,pet_terrier,pet_bear,pet_pig,pet_lion,pet_rhino,pet_spider,pet_turtle,pet_chicken,pet_frog,pet_dragon,pet_monkey,pet_horse', 'default', 'pet.done'),
+(3, 'lay;deitar;deita', 'lay', 'sml', 10, 5, 1, 'pet_dog,pet_cat,pet_croco,pet_terrier,pet_bear,pet_pig,pet_lion,pet_rhino,pet_spider,pet_turtle,pet_chicken,pet_frog,pet_dragon,pet_monkey,pet_horse', 'default', 'pet.done'),
+(4, 'here;come here;vem aqui;segue;aqui', '', '', 10, 5, 1, 'pet_dog,pet_cat,pet_croco,pet_terrier,pet_bear,pet_pig,pet_lion,pet_rhino,pet_spider,pet_turtle,pet_chicken,pet_frog,pet_dragon,pet_monkey,pet_horse', 'follow', 'pet.done');
 
 -- --------------------------------------------------------
 
@@ -12174,30 +11899,33 @@ INSERT INTO `pets_commands` (`id`, `input`, `status`, `gesture`, `experience`, `
 
 DROP TABLE IF EXISTS `pets_data`;
 CREATE TABLE `pets_data` (
-  `id` int(11) unsigned NOT NULL DEFAULT '0',
-  `type` int(11) unsigned DEFAULT '0',
-  `race` varchar(11) DEFAULT NULL,
-  `color` varchar(11) DEFAULT NULL,
-  `energy` int(11) DEFAULT '0',
-  `experience` int(11) DEFAULT '0',
-  `nutrition` int(11) DEFAULT '0',
-  `respect` int(11) DEFAULT '0',
-  `createstamp` int(11) DEFAULT NULL,
-  `have_saddle` int(11) DEFAULT '0',
-  `hairdye` int(11) DEFAULT '1',
-  `pethair` int(11) DEFAULT '-1',
-  `anyone_ride` int(11) DEFAULT '0',
+  `id` int(11) unsigned NOT NULL,
+  `pet_type` varchar(191) NOT NULL,
+  `race_id` int(11) unsigned NOT NULL,
+  `user_id` int(11) unsigned NOT NULL,
+  `room_id` int(11) unsigned DEFAULT '0',
+  `color` varchar(100) NOT NULL,
+  `ai_type` enum('pet') NOT NULL DEFAULT 'pet',
+  `name` varchar(100) NOT NULL,
+  `x` int(11) NOT NULL DEFAULT '0',
+  `y` int(11) NOT NULL DEFAULT '0',
+  `z` int(11) NOT NULL DEFAULT '0',
+  `rotation` int(11) NOT NULL DEFAULT '0',
+  `walk_mode` enum('stand','freeroam','specified_range') NOT NULL DEFAULT 'stand',
+  `gender` enum('f','m') NOT NULL DEFAULT 'm',
+  `energy` int(11) unsigned NOT NULL DEFAULT '0',
+  `experience` int(11) unsigned NOT NULL DEFAULT '0',
+  `nutrition` int(11) unsigned NOT NULL DEFAULT '0',
+  `respect` int(11) unsigned NOT NULL DEFAULT '0',
+  `createstamp` int(11) unsigned NOT NULL DEFAULT '0',
+  `have_saddle` enum('1','0','2','3','-1') NOT NULL DEFAULT '0',
+  `hairdye` int(11) NOT NULL DEFAULT '1',
+  `pethair` int(11) NOT NULL DEFAULT '-1',
+  `anyone_ride` enum('0','1','2','3') NOT NULL DEFAULT '0',
   `rarity` int(3) NOT NULL DEFAULT '0',
   `lasthealth_stamp` int(11) NOT NULL DEFAULT '-1',
-  `untilgrown_stamp` int(11) DEFAULT '-1'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
---
--- Extraindo dados da tabela `pets_data`
---
-
-INSERT INTO `pets_data` (`id`, `type`, `race`, `color`, `energy`, `experience`, `nutrition`, `respect`, `createstamp`, `have_saddle`, `hairdye`, `pethair`, `anyone_ride`, `rarity`, `lasthealth_stamp`, `untilgrown_stamp`) VALUES
-(5, 1, '0', 'C5EDDE', 80, 30, 140, 3, 1447683400, 0, 1, -1, 0, 0, 1447813000, 1447856200);
+  `untilgrown_stamp` int(11) NOT NULL DEFAULT '-1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -12214,6 +11942,222 @@ CREATE TABLE `pets_plants` (
   `plant_state` enum('0','1','2') NOT NULL DEFAULT '0',
   `growing_status` int(1) NOT NULL DEFAULT '1'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `pets_races`
+--
+
+DROP TABLE IF EXISTS `pets_races`;
+CREATE TABLE `pets_races` (
+  `race_type` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Pet Race (Unique Type Id)',
+  `race_id` int(11) unsigned NOT NULL COMMENT 'Table Unique Identifier',
+  `color_one` int(11) unsigned NOT NULL DEFAULT '0',
+  `color_two` int(11) unsigned NOT NULL DEFAULT '0',
+  `color_one_enabled` enum('0','1') NOT NULL DEFAULT '1',
+  `color_two_enabled` enum('0','1') NOT NULL DEFAULT '0'
+) ENGINE=InnoDB AUTO_INCREMENT=195 DEFAULT CHARSET=utf8mb4 COMMENT='Races types of Pets';
+
+--
+-- Extraindo dados da tabela `pets_races`
+--
+
+INSERT INTO `pets_races` (`race_type`, `race_id`, `color_one`, `color_two`, `color_one_enabled`, `color_two_enabled`) VALUES
+(12, 1, 0, 0, '1', '0'),
+(12, 2, 1, 1, '1', '0'),
+(12, 3, 2, 2, '1', '0'),
+(12, 4, 3, 3, '1', '0'),
+(12, 5, 4, 4, '1', '0'),
+(12, 6, 5, 5, '1', '0'),
+(15, 7, 1, 2, '1', '0'),
+(15, 8, 2, 7, '1', '0'),
+(15, 9, 3, 8, '1', '0'),
+(15, 10, 4, 9, '1', '0'),
+(15, 11, 1, 6, '1', '0'),
+(15, 12, 2, 3, '1', '0'),
+(15, 13, 3, 4, '1', '0'),
+(15, 14, 4, 5, '1', '0'),
+(17, 15, 0, 0, '1', '0'),
+(18, 16, 0, 0, '1', '0'),
+(19, 17, 0, 0, '1', '0'),
+(20, 18, 0, 0, '1', '0'),
+(21, 19, 0, 0, '1', '0'),
+(22, 20, 0, 0, '1', '0'),
+(0, 21, 0, 0, '1', '0'),
+(0, 22, 1, 1, '1', '0'),
+(0, 23, 2, 2, '1', '0'),
+(0, 24, 3, 3, '1', '0'),
+(0, 25, 4, 4, '1', '0'),
+(0, 26, 5, 5, '1', '0'),
+(0, 27, 6, 6, '1', '0'),
+(0, 28, 7, 7, '1', '0'),
+(0, 29, 8, 8, '1', '0'),
+(0, 30, 9, 9, '1', '0'),
+(0, 31, 10, 10, '1', '0'),
+(0, 32, 11, 11, '1', '0'),
+(0, 33, 12, 12, '1', '0'),
+(0, 34, 13, 13, '1', '0'),
+(0, 35, 14, 14, '1', '0'),
+(0, 36, 15, 15, '1', '0'),
+(0, 37, 16, 16, '1', '0'),
+(0, 38, 17, 17, '1', '0'),
+(0, 39, 18, 18, '1', '0'),
+(0, 40, 19, 19, '1', '0'),
+(0, 41, 20, 20, '1', '0'),
+(0, 42, 21, 21, '1', '0'),
+(0, 43, 22, 22, '1', '0'),
+(0, 44, 23, 23, '1', '0'),
+(0, 45, 24, 24, '1', '0'),
+(1, 46, 0, 0, '1', '0'),
+(1, 47, 1, 1, '1', '0'),
+(1, 48, 2, 2, '1', '0'),
+(1, 49, 3, 3, '1', '0'),
+(1, 50, 4, 4, '1', '0'),
+(1, 51, 5, 5, '1', '0'),
+(1, 52, 6, 6, '1', '0'),
+(1, 53, 7, 7, '1', '0'),
+(1, 54, 8, 8, '1', '0'),
+(1, 55, 9, 9, '1', '0'),
+(1, 56, 10, 10, '1', '0'),
+(1, 57, 11, 11, '1', '0'),
+(1, 58, 12, 12, '1', '0'),
+(1, 59, 13, 13, '1', '0'),
+(1, 60, 14, 14, '1', '0'),
+(1, 61, 15, 15, '1', '0'),
+(1, 62, 16, 16, '1', '0'),
+(1, 63, 17, 17, '1', '0'),
+(1, 64, 18, 18, '1', '0'),
+(1, 65, 19, 19, '1', '0'),
+(1, 66, 20, 20, '1', '0'),
+(1, 67, 21, 21, '1', '0'),
+(1, 68, 22, 22, '1', '0'),
+(1, 69, 23, 23, '1', '0'),
+(1, 70, 24, 24, '1', '0'),
+(10, 71, 0, 0, '1', '0'),
+(9, 72, 0, 0, '1', '0'),
+(9, 73, 1, 1, '1', '0'),
+(9, 74, 2, 2, '1', '0'),
+(9, 75, 3, 3, '1', '0'),
+(9, 76, 4, 4, '1', '0'),
+(9, 77, 5, 5, '1', '0'),
+(9, 78, 6, 6, '1', '0'),
+(9, 79, 7, 7, '1', '0'),
+(9, 80, 8, 8, '1', '0'),
+(11, 81, 1, 1, '1', '0'),
+(11, 82, 2, 2, '1', '0'),
+(11, 83, 3, 3, '1', '0'),
+(11, 84, 4, 4, '1', '0'),
+(11, 85, 5, 5, '1', '0'),
+(11, 86, 6, 6, '1', '0'),
+(11, 87, 8, 8, '0', '0'),
+(11, 88, 9, 9, '1', '0'),
+(11, 89, 10, 10, '1', '0'),
+(11, 90, 11, 11, '1', '0'),
+(11, 91, 12, 12, '1', '0'),
+(11, 92, 13, 13, '1', '0'),
+(11, 93, 15, 15, '1', '0'),
+(11, 94, 18, 18, '1', '0'),
+(8, 95, 0, 0, '1', '0'),
+(8, 96, 1, 1, '1', '0'),
+(8, 97, 2, 2, '1', '0'),
+(8, 98, 3, 3, '1', '0'),
+(8, 99, 4, 4, '1', '0'),
+(8, 100, 5, 5, '1', '0'),
+(8, 101, 6, 6, '1', '0'),
+(8, 102, 7, 7, '1', '0'),
+(8, 103, 8, 8, '1', '0'),
+(8, 104, 9, 9, '1', '0'),
+(8, 105, 10, 10, '1', '0'),
+(8, 106, 11, 11, '1', '0'),
+(8, 107, 14, 14, '1', '0'),
+(7, 108, 0, 0, '1', '0'),
+(7, 109, 1, 1, '1', '0'),
+(7, 110, 2, 2, '1', '0'),
+(7, 111, 3, 3, '0', '1'),
+(7, 112, 4, 4, '1', '0'),
+(7, 113, 5, 5, '1', '0'),
+(7, 114, 6, 6, '1', '0'),
+(7, 115, 7, 7, '1', '0'),
+(7, 116, 0, 0, '1', '0'),
+(7, 117, 1, 1, '1', '0'),
+(7, 118, 2, 2, '1', '0'),
+(7, 119, 3, 3, '0', '1'),
+(7, 120, 4, 4, '1', '0'),
+(7, 121, 5, 5, '1', '0'),
+(7, 122, 6, 6, '1', '0'),
+(7, 123, 7, 7, '1', '0'),
+(5, 124, 0, 0, '1', '0'),
+(5, 125, 1, 1, '1', '0'),
+(5, 126, 2, 2, '1', '0'),
+(5, 127, 3, 3, '1', '0'),
+(5, 128, 5, 5, '1', '0'),
+(5, 129, 7, 7, '1', '0'),
+(5, 130, 8, 8, '1', '0'),
+(3, 131, 0, 0, '1', '0'),
+(3, 132, 1, 1, '1', '0'),
+(3, 133, 2, 2, '1', '0'),
+(3, 134, 3, 3, '1', '0'),
+(3, 135, 4, 4, '1', '0'),
+(3, 136, 5, 5, '1', '0'),
+(3, 137, 6, 6, '1', '0'),
+(4, 138, 0, 0, '1', '0'),
+(4, 139, 1, 1, '1', '0'),
+(4, 140, 2, 2, '1', '0'),
+(4, 141, 3, 3, '1', '0'),
+(2, 142, 0, 0, '1', '0'),
+(2, 143, 1, 1, '1', '0'),
+(2, 144, 2, 2, '1', '0'),
+(2, 145, 3, 3, '1', '0'),
+(2, 146, 4, 4, '1', '0'),
+(2, 147, 5, 5, '1', '0'),
+(2, 148, 6, 6, '1', '0'),
+(2, 149, 7, 7, '1', '0'),
+(2, 150, 8, 8, '1', '0'),
+(2, 151, 9, 9, '1', '0'),
+(2, 152, 10, 10, '1', '0'),
+(2, 153, 11, 11, '1', '0'),
+(6, 154, 0, 0, '1', '0'),
+(6, 155, 1, 1, '1', '0'),
+(6, 156, 2, 2, '1', '0'),
+(6, 157, 3, 3, '1', '0'),
+(6, 158, 4, 4, '1', '0'),
+(6, 159, 5, 5, '1', '0'),
+(6, 160, 6, 6, '0', '1'),
+(6, 161, 7, 7, '0', '1'),
+(6, 162, 8, 8, '0', '1'),
+(6, 163, 9, 9, '0', '1'),
+(6, 164, 10, 10, '0', '1'),
+(6, 165, 11, 11, '1', '0'),
+(6, 166, 12, 12, '0', '1'),
+(17, 167, 1, 1, '1', '0'),
+(17, 168, 2, 2, '1', '0'),
+(17, 169, 3, 3, '1', '0'),
+(17, 170, 4, 4, '1', '0'),
+(10, 171, 1, 1, '1', '0'),
+(10, 172, 2, 2, '1', '0'),
+(10, 173, 3, 3, '1', '0'),
+(10, 174, 4, 4, '1', '0'),
+(14, 175, 0, 0, '1', '0'),
+(14, 176, 1, 1, '1', '0'),
+(14, 177, 2, 2, '1', '0'),
+(14, 178, 3, 3, '1', '0'),
+(14, 179, 5, 5, '1', '0'),
+(14, 180, 6, 6, '1', '0'),
+(14, 181, 7, 7, '1', '0'),
+(14, 182, 8, 8, '1', '0'),
+(26, 183, 0, 0, '1', '1'),
+(26, 184, 1, 1, '1', '0'),
+(26, 185, 2, 2, '1', '1'),
+(26, 186, 3, 3, '1', '1'),
+(26, 187, 4, 4, '1', '1'),
+(26, 188, 5, 5, '1', '1'),
+(26, 189, 6, 6, '1', '1'),
+(26, 190, 7, 7, '1', '1'),
+(26, 191, 8, 8, '1', '1'),
+(26, 192, 9, 9, '1', '1'),
+(26, 193, 10, 10, '1', '1'),
+(26, 194, 11, 11, '1', '1');
 
 -- --------------------------------------------------------
 
@@ -12240,24 +12184,21 @@ INSERT INTO `pets_speech` (`pet_id`, `responses`) VALUES
 ('pet.unknowncommand', 'No way!;I don''t understand you;Your language is weird.;If I only knew what you''re saying...'),
 ('pet.while.drink', '*drinking*'),
 ('pet.while.eat', 'This is delicious;I feel like having dinner with the kings!'),
-('speech.pet.26', 'I''m having fun!;Once upon a time I was happy... and it was horrid.;Let''s sing the Jingle Bells!;Are you really going to wear that?;Let''s play something!;Who called me ''ugly''?'),
-('speech.pet0', 'Woof woof!;Woooof!;Woof woof woof!'),
-('speech.pet1', 'Meow;Meow meow;Meeow!;Meow meow meow...'),
-('speech.pet10', 'Grrr;'),
-('speech.pet11', 'Grrr;'),
-('speech.pet12', 'Grrr;'),
-('speech.pet13', 'I''m your best friend!;So... wanna take a ride?;Hmm... *I feel very bored*;Let''s ride together!;Hello!'),
-('speech.pet14', 'Grrr;'),
-('speech.pet15', 'neiiigh;*trots around*;Neeeigh;*looks at*;*flicks tail*;'),
-('speech.pet16', '*Fart*;*Burp*;I''m not Mr. Lordi''s small brother;Ya know what''d be great? Having legs!;I used to be George Michael''s double.;You''re so special...;Choo choo!;Someday I''ll be huge and everyone will love me!;*poking my nose*;*grr?*;Hey hey hey!;OMG! How are you?;I would like to play the bass, but I haven''t got any hands.'),
-('speech.pet2', 'Grrrr...;Rrrr...;*hmm*;*sneeze*;*wanting to sleep*'),
-('speech.pet3', 'Â¡Woof, woof!;Guau, guau;Guauuu'),
-('speech.pet4', '*pack of fresh salmon please*;Rawrrr!;*sniff sniff*;Yawnnnn..;Rawr! ... Rawrrrrr?;snf;'),
-('speech.pet5', 'Oink Oink..;*Mellow*;Sniff... Sniff..;snf;Oink!;snf;lay;oink;'),
-('speech.pet6', 'Grrr;'),
-('speech.pet7', 'Grrr;'),
-('speech.pet8', 'Grrr;'),
-('speech.pet9', 'Grrr;'),
+('speech.pet_bear', '*pack of fresh salmon please*;Rawrrr!;*sniff sniff*;Yawnnnn..;Rawr! ... Rawrrrrr?;snf;'),
+('speech.pet_cat', 'Meow;Meow meow;Meeow!;Meow meow meow...'),
+('speech.pet_chicken', 'Grrr;'),
+('speech.pet_croco', 'Grrrr...;Rrrr...;*hmm*;*sneeze*;*wanting to sleep*'),
+('speech.pet_dog', 'Woof woof!;Woooof!;Woof woof woof!'),
+('speech.pet_dragon', 'Grrr;'),
+('speech.pet_frog', 'Grrr;'),
+('speech.pet_horse', 'neiiigh;*trots around*;Neeeigh;*looks at*;*flicks tail*;'),
+('speech.pet_lion', 'Grrr;'),
+('speech.pet_monkey', 'Grrr;'),
+('speech.pet_pig', 'Oink Oink..;*Mellow*;Sniff... Sniff..;snf;Oink!;snf;lay;oink;'),
+('speech.pet_rhino', 'Grrr;'),
+('speech.pet_spider', 'Grrr;'),
+('speech.pet_terrier', 'Woof!, woof!;Guau, guau;Guauuu'),
+('speech.pet_turtle', 'Grrr;'),
 ('tired', 'ZzZ...;Zzz... *This feels so good*;ZzZ... yay sleeping..;*Dreaming...*;I really need to sleep.'),
 ('welcome.speech.pet', 'Long time no see, ;Hi, ');
 
@@ -12402,16 +12343,7 @@ CREATE TABLE `rooms_data` (
   `chat_flood_protection` int(3) NOT NULL DEFAULT '0',
   `walls_height` int(3) NOT NULL DEFAULT '-1',
   `image_thumb` varchar(255) DEFAULT ''
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
-
---
--- Extraindo dados da tabela `rooms_data`
---
-
-INSERT INTO `rooms_data` (`id`, `roomtype`, `caption`, `owner`, `description`, `category`, `state`, `trade_state`, `users_now`, `users_max`, `model_name`, `public_ccts`, `score`, `tags`, `icon_bg`, `icon_fg`, `icon_items`, `password`, `wallpaper`, `floor`, `landscape`, `allow_pets`, `allow_pets_eat`, `allow_walkthrough`, `hidewall`, `wallthick`, `floorthick`, `achievement`, `group_id`, `game_id`, `mute_settings`, `ban_settings`, `kick_settings`, `chat_type`, `chat_balloon`, `chat_speed`, `chat_max_distance`, `chat_flood_protection`, `walls_height`, `image_thumb`) VALUES
-(3, 'private', 'aaaa', 2, 'aaaaaa', 1, 'open', '0', 0, 10, 'model_a', '', 2, '', 1, 0, '', '', '0.0', '0.0', '0.0', '1', '0', '0', '0', 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 14, 0, -1, ''),
-(5, 'private', 'aaaaaaaa', 4, 'aaaaaa', 1, 'open', '0', 0, 10, 'model_a', '', 0, '', 1, 0, '', '', '0.0', '0.0', '0.0', '1', '0', '0', '0', 0, 0, 0, NULL, 0, 0, 0, 0, 0, 0, 0, 14, 0, -1, ''),
-(6, 'private', 'dddd', 2, '', 1, 'open', '0', 2, 10, 'model_a', '', 0, '', 1, 0, '', '', '0.0', '0.0', '0.0', '1', '0', '0', '0', 0, 0, 0, NULL, 0, 0, 0, 0, 0, 0, 0, 14, 0, -1, '');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -12898,7 +12830,7 @@ CREATE TABLE `server_status` (
 --
 
 INSERT INTO `server_status` (`id`, `status`, `users_online`, `rooms_loaded`, `server_ver`, `stamp`, `minutesuptime`, `userpeak`, `bannerdata`) VALUES
-(1, '1', 2, 1, 'Yupi Emulator', 1450379081, 0, 2, '114670925920269957593299136150366957983142588366300079186349531:1589935137502239924254699078669119674538324391752663931735947');
+(1, '1', 1, 1, 'Yupi Emulator', 1452178103, 0, 2, '114670925920269957593299136150366957983142588366300079186349531:1589935137502239924254699078669119674538324391752663931735947');
 
 -- --------------------------------------------------------
 
@@ -12917,42 +12849,7 @@ CREATE TABLE `talents_data` (
   `achievement_level` int(11) unsigned NOT NULL DEFAULT '1',
   `prize` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT 'A1 KUMIANKKA',
   `prize_baseitem` int(11) unsigned NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
-
---
--- Extraindo dados da tabela `talents_data`
---
-
-INSERT INTO `talents_data` (`id`, `type`, `parent_category`, `level`, `order_num`, `achievement_group`, `achievement_level`, `prize`, `prize_baseitem`) VALUES
-(1, 'citizenship', -1, 0, 1, '', 1, 'A1 KUMIANKKA', 155),
-(2, 'citizenship', 1, 0, 2, 'ACH_SafetyQuizGraduate', 1, 'A1 KUMIANKKA', 155),
-(3, 'citizenship', 5, 1, 3, 'ACH_RoomEntry', 1, 'A1 KUMIANKKA', 155),
-(4, 'citizenship', 5, 1, 4, 'ACH_RespectGiven', 1, 'A1 KUMIANKKA', 155),
-(5, 'citizenship', -1, 1, 2, '', 1, 'A1 KUMIANKKA', 155),
-(6, 'citizenship', 5, 1, 5, 'ACH_AvatarLooks', 1, 'A1 KUMIANKKA', 155),
-(7, 'citizenship', 5, 1, 6, 'ACH_AllTimeHotelPresence', 1, 'A1 KUMIANKKA', 155),
-(8, 'citizenship', -1, 2, 8, '', 1, 'A1 KUMIANKKA', 155),
-(9, 'citizenship', 8, 2, 9, 'ACH_RoomEntry', 2, 'A1 KUMIANKKA', 155),
-(10, 'citizenship', 8, 2, 10, 'ACH_RespectGiven', 2, 'A1 KUMIANKKA', 155),
-(11, 'citizenship', 8, 2, 11, 'ACH_RespectEarned', 2, 'A1 KUMIANKKA', 155),
-(12, 'citizenship', 8, 2, 12, 'ACH_AllTimeHotelPresence', 2, 'A1 KUMIANKKA', 155),
-(13, 'citizenship', 8, 2, 13, 'ACH_RegistrationDuration', 1, 'A1 KUMIANKKA', 155),
-(14, 'citizenship', 8, 2, 14, 'ACH_Motto', 1, 'A1 KUMIANKKA', 155),
-(15, 'citizenship', 8, 2, 15, 'ACH_PetRespectGiver', 3, 'A1 KUMIANKKA', 155),
-(16, 'citizenship', -1, 3, 16, '', 0, 'A1 KUMIANKKA', 155),
-(17, 'citizenship', 16, 3, 17, 'ACH_RoomEntry', 4, 'A1 KUMIANKKA', 155),
-(18, 'citizenship', 16, 3, 18, 'ACH_RegistrationDuration', 2, 'A1 KUMIANKKA', 155),
-(19, 'citizenship', 16, 3, 19, 'ACH_RespectEarned', 3, 'A1 KUMIANKKA', 155),
-(20, 'citizenship', 16, 3, 20, 'ACH_BattleBallPlayer', 2, 'A1 KUMIANKKA', 155),
-(21, 'citizenship', 16, 3, 21, 'ACH_BattleBallWinner', 1, 'A1 KUMIANKKA', 155),
-(22, 'citizenship', 16, 3, 22, 'ACH_AllTimeHotelPresence', 4, 'A1 KUMIANKKA', 155),
-(23, 'citizenship', -1, 4, 23, '', 1, 'A1 KUMIANKKA', 155),
-(24, 'citizenship', 23, 4, 24, 'ACH_Citizenship', 1, 'A1 KUMIANKKA', 155),
-(25, 'citizenship', 23, 4, 25, 'ACH_PetRespectGiver', 4, 'A1 KUMIANKKA', 155),
-(26, 'citizenship', 23, 4, 26, 'ACH_BattleBallPlayer', 4, 'A1 KUMIANKKA', 155),
-(27, 'citizenship', 23, 4, 27, 'ACH_RegistrationDuration', 3, 'A1 KUMIANKKA', 155),
-(28, 'citizenship', 23, 4, 28, 'ACH_AllTimeHotelPresence', 6, 'A1 KUMIANKKA', 155),
-(29, 'citizenship', 23, 4, 29, 'ACH_Login', 5, 'A1 KUMIANKKA', 155);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -13003,15 +12900,7 @@ CREATE TABLE `users` (
   `duty_level` int(11) NOT NULL DEFAULT '0',
   `navigator_logs` varchar(255) CHARACTER SET utf8mb4 DEFAULT '1,official-root,;2,popular,;3,my,;4,favorites,',
   `respect` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-
---
--- Extraindo dados da tabela `users`
---
-
-INSERT INTO `users` (`id`, `username`, `real_name`, `password`, `auth_ticket`, `rank`, `credits`, `activity_points`, `activity_points_lastupdate`, `diamonds`, `look`, `gender`, `motto`, `mail`, `account_created`, `last_online`, `online`, `ip_last`, `ip_reg`, `home_room`, `newbie_status`, `is_muted`, `mutant_penalty`, `mutant_penalty_expire`, `trade_lock`, `trade_lock_expire`, `block_newfriends`, `hide_online`, `hide_inroom`, `vip`, `talent_status`, `last_name_change`, `nux_passed`, `builders_expire`, `builders_items_max`, `builders_items_used`, `release_version`, `on_duty`, `duty_level`, `navigator_logs`, `respect`) VALUES
-(2, 'Kioi', '', '', 'chocolate', 10, 49974, 180, 0, 95, 'sh-290-62.hr-115-42.hd-3093-18.ch-215-62.lg-285-91', 'M', 'a', 'undefined', 1450124463, 1450376899, '0', '172.16.9.102', '', 0, 0, '0', '0', 0, '0', 0, '0', '0', '0', '0', 'citizenship', 0, '0', 3700, 100, 0, 2, 'false', 0, '1,official-root,;2,popular,;3,my,;4,favorites,', NULL),
-(4, 'Kusi', '', '', 'pessego', 2, 53000, 420, 0, 1, 'hr-115-42.hd-190-1.ch-215-62.lg-285-91.sh-290-62', 'M', '', 'pesso', 1450376919, 1450378935, '0', '172.16.9.102', '', 0, 0, '0', '0', 0, '0', 0, '0', '0', '0', '0', 'citizenship', 0, '0', 3700, 100, 0, 2, 'false', 0, '1,official-root,;2,popular,;3,my,;4,favorites,', NULL);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -13027,34 +12916,6 @@ CREATE TABLE `users_achievements` (
   `user_progress` int(11) unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Extraindo dados da tabela `users_achievements`
---
-
-INSERT INTO `users_achievements` (`user_id`, `achievement_group`, `achievement_level`, `user_progress`) VALUES
-(1, 'ACH_AllTimeHotelPresence', 1, 48),
-(1, 'ACH_AvatarLooks', 1, 0),
-(1, 'ACH_BasicClub', 1, 0),
-(1, 'ACH_Login', 2, 2),
-(1, 'ACH_PetLover', 2, 0),
-(1, 'ACH_PetRespectGiver', 1, 3),
-(1, 'ACH_RegistrationDuration', 5, 0),
-(1, 'ACH_SafetyQuizGraduate', 1, 0),
-(1, 'ACH_VipHC', 1, 0),
-(2, 'ACH_AllTimeHotelPresence', 3, 79),
-(2, 'ACH_AvatarLooks', 1, 0),
-(2, 'ACH_BasicClub', 1, 0),
-(2, 'ACH_Login', 2, 5),
-(2, 'ACH_Motto', 1, 0),
-(2, 'ACH_RegistrationDuration', 1, 3),
-(2, 'ACH_RoomEntry', 1, 1),
-(2, 'ACH_SafetyQuizGraduate', 1, 0),
-(2, 'ACH_VipHC', 1, 0),
-(4, 'ACH_AllTimeHotelPresence', 2, 49),
-(4, 'ACH_Login', 1, 0),
-(4, 'ACH_RegistrationDuration', 1, 0),
-(4, 'ACH_RoomEntry', 1, 6);
-
 -- --------------------------------------------------------
 
 --
@@ -13067,35 +12928,7 @@ CREATE TABLE `users_badges` (
   `user_id` int(10) unsigned NOT NULL,
   `badge_id` varchar(100) NOT NULL,
   `badge_slot` int(11) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
-
---
--- Extraindo dados da tabela `users_badges`
---
-
-INSERT INTO `users_badges` (`id`, `user_id`, `badge_id`, `badge_slot`) VALUES
-(11, 1, 'ACH_RegistrationDuration5', 0),
-(12, 1, 'ACH_Login2', 0),
-(3, 1, 'ACH_AllTimeHotelPresence1', 1),
-(6, 1, 'ACH_VipHC1', 0),
-(7, 1, 'ACH_BasicClub1', 0),
-(8, 1, 'ACH_AvatarLooks1', 0),
-(10, 1, 'ACH_SafetyQuizGraduate1', 0),
-(14, 1, 'ACH_PetLover2', 0),
-(15, 1, 'ACH_PetRespectGiver1', 0),
-(16, 2, 'ACH_RegistrationDuration1', 0),
-(24, 2, 'ACH_Login2', 1),
-(29, 2, 'ACH_AllTimeHotelPresence3', 0),
-(19, 2, 'ACH_Motto1', 0),
-(20, 2, 'ACH_VipHC1', 0),
-(21, 2, 'ACH_BasicClub1', 0),
-(22, 2, 'ACH_AvatarLooks1', 0),
-(23, 2, 'ACH_SafetyQuizGraduate1', 0),
-(26, 4, 'ACH_RegistrationDuration1', 0),
-(27, 4, 'ACH_Login1', 0),
-(32, 4, 'ACH_AllTimeHotelPresence2', 0),
-(30, 2, 'ACH_RoomEntry1', 0),
-(31, 4, 'ACH_RoomEntry1', 0);
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -13234,15 +13067,6 @@ CREATE TABLE `users_info` (
   `cfhs_abusive` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Extraindo dados da tabela `users_info`
---
-
-INSERT INTO `users_info` (`user_id`, `bans`, `cautions`, `reg_timestamp`, `login_timestamp`, `cfhs`, `cfhs_abusive`) VALUES
-(1, 0, 0, 0, 1447683346, 0, 0),
-(2, 0, 0, 0, 1450378373, 0, 0),
-(4, 0, 0, 0, 1450378938, 0, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -13278,15 +13102,6 @@ CREATE TABLE `users_preferences` (
   `chat_color` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Extraindo dados da tabela `users_preferences`
---
-
-INSERT INTO `users_preferences` (`userid`, `volume`, `prefer_old_chat`, `ignore_room_invite`, `disable_camera_follow`, `newnavi_x`, `newnavi_y`, `newnavi_width`, `newnavi_height`, `chat_color`) VALUES
-(1, '100,100,100', '0', '0', '0', 348, 42, 425, 600, 0),
-(2, '100,100,100', '0', '0', '0', 356, 37, 425, 600, 0),
-(4, '100,100,100', '0', '0', '0', 0, 0, 580, 600, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -13306,70 +13121,7 @@ CREATE TABLE `users_quests` (
   `reward_type` enum('0','1','2','3','4','5') NOT NULL DEFAULT '0',
   `timestamp_unlock` int(11) NOT NULL DEFAULT '0',
   `timestamp_lock` int(11) NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=182 DEFAULT CHARSET=utf8;
-
---
--- Extraindo dados da tabela `users_quests`
---
-
-INSERT INTO `users_quests` (`id`, `type`, `level_num`, `goal_type`, `goal_data`, `action`, `pixel_reward`, `data_bit`, `reward_type`, `timestamp_unlock`, `timestamp_lock`) VALUES
-(2, 'identity', 1, 14, 1, 'CHANGEFIGURE', 10, '_2', '0', 0, 0),
-(3, 'social', 2, 9, 1, 'CHATWITHSOMEONE', 10, '', '0', 0, 0),
-(6, 'social', 5, 12, 1, 'DANCE', 10, '', '0', 0, 0),
-(15, 'social', 1, 8, 1, 'ENTEROTHERSROOM', 10, '_2', '0', 0, 0),
-(17, 'identity', 2, 15, 1, 'CHANGEMOTTO', 10, '', '0', 0, 0),
-(101, 'room_builder', 1, 0, 3, 'MOVEITEM', 10, '_2', '0', 0, 0),
-(104, 'explore', 1, 17, 1936, 'FINDLIFEGUARDTOWER', 10, '_2', '0', 0, 0),
-(105, 'room_builder', 2, 1, 3, 'ROTATEITEM', 10, '', '0', 0, 0),
-(106, 'room_builder', 3, 2, 1, 'PLACEITEM', 10, '', '0', 0, 0),
-(107, 'room_builder', 4, 3, 1, 'PICKUPITEM', 10, '', '0', 0, 0),
-(108, 'room_builder', 5, 4, 2, 'SWITCHSTATE', 10, '', '0', 0, 0),
-(109, 'room_builder', 6, 5, 1, 'STACKITEM', 10, '', '0', 0, 0),
-(110, 'room_builder', 7, 6, 1, 'PLACEFLOOR', 10, '', '0', 0, 0),
-(111, 'room_builder', 8, 7, 1, 'PLACEWALLPAPER', 10, '_1', '0', 0, 0),
-(113, 'identity', 3, 16, 1, 'WEARBADGE', 10, '', '0', 0, 0),
-(115, 'social', 3, 10, 1, 'REQUESTFRIEND', 10, '', '0', 0, 0),
-(116, 'social', 4, 11, 1, 'GIVERESPECT', 10, '', '0', 0, 0),
-(118, 'social', 6, 13, 1, 'WAVE', 10, '', '0', 0, 0),
-(119, 'explore', 2, 17, 1948, 'SWIM', 10, '', '0', 0, 0),
-(120, 'explore', 3, 17, 1969, 'FINDSURFBOARD', 10, '', '0', 0, 0),
-(121, 'explore', 4, 17, 1956, 'FINDBEETLE', 10, '', '0', 0, 0),
-(122, 'explore', 5, 17, 1369, 'FINDNEONFLOOR', 10, '', '0', 0, 0),
-(123, 'explore', 6, 17, 1375, 'FINDDISCOBALL', 10, '', '0', 0, 0),
-(124, 'explore', 7, 17, 1019, 'FINDJUKEBOX', 10, '', '0', 0, 0),
-(125, 'explore', 8, 17, 2050, 'FINDBBGATE', 10, '', '0', 0, 0),
-(126, 'explore', 9, 17, 2040, 'FINDBBTILE', 10, '', '0', 0, 0),
-(127, 'explore', 10, 17, 2049, 'FINDBBTELEPORT', 10, '', '0', 0, 0),
-(128, 'explore', 11, 17, 2167, 'FINDFREEZEGATE', 10, '', '0', 0, 0),
-(129, 'explore', 12, 17, 2172, 'FINDFREEZESCOREBOARD', 10, '', '0', 0, 0),
-(130, 'explore', 13, 17, 2166, 'FINDFREEZEEXITTILE', 10, '', '0', 0, 0),
-(131, 'explore', 14, 17, 1413, 'ICESKATE', 10, '', '0', 0, 0),
-(132, 'explore', 15, 17, 2148, 'FINDTAGPOLE', 10, '', '0', 0, 0),
-(133, 'explore', 16, 17, 2199, 'ROLLERSKATE', 10, '', '0', 0, 0),
-(142, 'xmas2012_30', 0, 19, 4, 'add_25_friends', 0, '', '0', 0, 1354514400),
-(143, 'xmas2012_1', 1, 20, 10, 'wave_10_users', 0, '', '0', 1354514400, 1354600800),
-(144, 'xmas2012_2', 2, 21, 10, 'blow_kiss', 0, '', '0', 1354600800, 1354687200),
-(145, 'xmas2012_3', 3, 22, 1, 'wear_hat', 0, '', '0', 1354687200, 1354773600),
-(146, 'xmas2012_4', 4, 23, 1, 'dance_with_others', 0, '', '0', 1354773600, 1354860000),
-(147, 'xmas2012_5', 5, 24, 5, 'gift_others', 0, '', '0', 1354860000, 1354946400),
-(148, 'xmas2012_6', 6, 25, 1378, 'its_snowing', 0, '', '0', 1354946400, 1355032800),
-(149, 'xmas2012_7', 7, 27, 5, 'pass_coffee', 0, '', '0', 1355032800, 1355032800),
-(150, 'xmas2012_8', 8, 28, 5, 'wave_reindeer', 0, '', '0', 1355119200, 1355205600),
-(151, 'xmas2012_9', 9, 23, 1, 'place_tree', 0, '', '0', 1355205600, 1355292000),
-(152, 'xmas2012_10', 10, 23, 100, 'dance', 0, '', '0', 1355292000, 1356328800),
-(156, 'xmas2012_11', 11, 0, 0, 'placeholder', 10, '', '0', 0, 0),
-(157, 'xmas2012_12', 12, 0, 0, 'placeholder', 10, '', '0', 0, 0),
-(158, 'xmas2012_13', 13, 0, 0, 'placeholder', 10, '', '0', 0, 0),
-(159, 'xmas2012_14', 14, 0, 0, 'placeholder', 10, '', '0', 0, 0),
-(160, 'xmas2012_15', 15, 0, 0, 'placeholder', 10, '', '0', 0, 0),
-(161, 'xmas2012_16', 16, 0, 0, 'placeholder', 10, '', '0', 0, 0),
-(162, 'xmas2012_17', 17, 0, 0, 'placeholder', 10, '', '0', 0, 0),
-(163, 'xmas2012_18', 18, 0, 0, 'placeholder', 10, '', '0', 0, 0),
-(164, 'xmas2012_19', 19, 0, 0, 'placeholder', 10, '', '0', 0, 0),
-(165, 'xmas2012_20', 20, 0, 0, 'placeholder', 10, '', '0', 0, 0),
-(166, 'xmas2012_21', 0, 0, 0, '', 10, '', '0', 0, 0),
-(180, 'xmas2012_22', 22, 17, 45207, 'find_fire', 0, '', '0', 1356328800, 1356328800),
-(181, 'xmas2012_23', 23, 29, 300, 'party', 0, '', '0', 0, 0);
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -13452,14 +13204,6 @@ CREATE TABLE `users_stats` (
   `daily_competition_votes` int(11) NOT NULL DEFAULT '3'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Extraindo dados da tabela `users_stats`
---
-
-INSERT INTO `users_stats` (`id`, `online_seconds`, `room_visits`, `respect`, `gifts_given`, `gifts_received`, `daily_respect_points`, `daily_pet_respect_points`, `achievement_score`, `quest_id`, `quest_progress`, `favourite_group`, `tickets_answered`, `daily_competition_votes`) VALUES
-(2, 0, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 2, 3),
-(4, 0, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 0, 3);
-
 -- --------------------------------------------------------
 
 --
@@ -13474,14 +13218,6 @@ CREATE TABLE `users_subscriptions` (
   `timestamp_expire` int(11) NOT NULL,
   `timestamp_lastgift` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Extraindo dados da tabela `users_subscriptions`
---
-
-INSERT INTO `users_subscriptions` (`user_id`, `subscription_id`, `timestamp_activated`, `timestamp_expire`, `timestamp_lastgift`) VALUES
-(1, 2, 1447599025, 1450270226, 1447599025),
-(2, 2, 1450215257, 1452886457, 1450215257);
 
 -- --------------------------------------------------------
 
@@ -13508,20 +13244,6 @@ CREATE TABLE `users_talents` (
   `talent_id` int(11) NOT NULL,
   `talent_state` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Extraindo dados da tabela `users_talents`
---
-
-INSERT INTO `users_talents` (`userid`, `talent_id`, `talent_state`) VALUES
-(1, 7, 1),
-(1, 6, 1),
-(1, 2, 1),
-(2, 7, 1),
-(2, 6, 1),
-(2, 2, 1),
-(4, 7, 1),
-(4, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -13551,13 +13273,6 @@ CREATE TABLE `users_wardrobe` (
   `look` varchar(255) NOT NULL,
   `gender` enum('F','M') NOT NULL DEFAULT 'M'
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Extraindo dados da tabela `users_wardrobe`
---
-
-INSERT INTO `users_wardrobe` (`user_id`, `slot_id`, `look`, `gender`) VALUES
-(2, 1, 'sh-290-62.hr-115-42.hd-190-1.ch-215-62.lg-285-91', 'M');
 
 -- --------------------------------------------------------
 
@@ -13631,6 +13346,13 @@ ALTER TABLE `catalog_items`
 ALTER TABLE `catalog_pages`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id` (`id`);
+
+--
+-- Indexes for table `catalog_pets`
+--
+ALTER TABLE `catalog_pets`
+  ADD PRIMARY KEY (`pet_type`),
+  ADD KEY `pet_race_id` (`pet_race_id`);
 
 --
 -- Indexes for table `catalog_targeted_offers`
@@ -13852,28 +13574,34 @@ ALTER TABLE `navigator_publics`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `pets_breeds`
---
-ALTER TABLE `pets_breeds`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `pets_commands`
 --
 ALTER TABLE `pets_commands`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `pet_speech` (`pet_speech`);
 
 --
 -- Indexes for table `pets_data`
 --
 ALTER TABLE `pets_data`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `pet_type` (`pet_type`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `room_id` (`room_id`),
+  ADD KEY `race_id` (`race_id`);
 
 --
 -- Indexes for table `pets_plants`
 --
 ALTER TABLE `pets_plants`
   ADD UNIQUE KEY `pet_id` (`pet_id`) USING BTREE;
+
+--
+-- Indexes for table `pets_races`
+--
+ALTER TABLE `pets_races`
+  ADD PRIMARY KEY (`race_id`),
+  ADD KEY `race_type` (`race_type`);
 
 --
 -- Indexes for table `pets_speech`
@@ -14198,7 +13926,7 @@ ALTER TABLE `bots_commands`
 -- AUTO_INCREMENT for table `bots_data`
 --
 ALTER TABLE `bots_data`
-  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `catalog_ecotron_items`
 --
@@ -14243,22 +13971,22 @@ ALTER TABLE `cms_stories_photos_preview`
 -- AUTO_INCREMENT for table `groups_data`
 --
 ALTER TABLE `groups_data`
-  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `groups_forums_data`
 --
 ALTER TABLE `groups_forums_data`
-  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `groups_forums_posts`
 --
 ALTER TABLE `groups_forums_posts`
-  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `groups_members`
 --
 ALTER TABLE `groups_members`
-  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `hotelview_promos`
 --
@@ -14288,7 +14016,7 @@ ALTER TABLE `items_hopper`
 -- AUTO_INCREMENT for table `items_rooms`
 --
 ALTER TABLE `items_rooms`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=27;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `items_songs_data`
 --
@@ -14318,7 +14046,7 @@ ALTER TABLE `moderation_templates`
 -- AUTO_INCREMENT for table `moderation_tickets`
 --
 ALTER TABLE `moderation_tickets`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `navigator_flatcats`
 --
@@ -14335,15 +14063,20 @@ ALTER TABLE `navigator_promocats`
 ALTER TABLE `navigator_publics`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `pets_breeds`
---
-ALTER TABLE `pets_breeds`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=195;
---
 -- AUTO_INCREMENT for table `pets_commands`
 --
 ALTER TABLE `pets_commands`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `pets_data`
+--
+ALTER TABLE `pets_data`
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `pets_races`
+--
+ALTER TABLE `pets_races`
+  MODIFY `race_id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Table Unique Identifier',AUTO_INCREMENT=195;
 --
 -- AUTO_INCREMENT for table `polls_data`
 --
@@ -14373,7 +14106,7 @@ ALTER TABLE `rooms_competitions_entries`
 -- AUTO_INCREMENT for table `rooms_data`
 --
 ALTER TABLE `rooms_data`
-  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `server_blackwords`
 --
@@ -14403,17 +14136,17 @@ ALTER TABLE `server_status`
 -- AUTO_INCREMENT for table `talents_data`
 --
 ALTER TABLE `talents_data`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `users_badges`
 --
 ALTER TABLE `users_badges`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `users_bans`
 --
@@ -14443,7 +14176,7 @@ ALTER TABLE `users_gifts`
 -- AUTO_INCREMENT for table `users_quests`
 --
 ALTER TABLE `users_quests`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=182;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `users_rankings`
 --
@@ -14483,21 +14216,39 @@ ALTER TABLE `bots_commands`
 -- Limitadores para a tabela `bots_data`
 --
 ALTER TABLE `bots_data`
-  ADD CONSTRAINT `bots_data_bot_type` FOREIGN KEY (`bot_type`) REFERENCES `catalog_bots` (`bot_type`),
   ADD CONSTRAINT `bots_data_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Limitadores para a tabela `catalog_pets`
+--
+ALTER TABLE `catalog_pets`
+  ADD CONSTRAINT `pet_race_id` FOREIGN KEY (`pet_race_id`) REFERENCES `pets_races` (`race_type`);
 
 --
 -- Limitadores para a tabela `groups_data`
 --
 ALTER TABLE `groups_data`
-  ADD CONSTRAINT `groups_data_room_id` FOREIGN KEY (`room_id`) REFERENCES `rooms_data` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
-  ADD CONSTRAINT `groups_data_owner_id` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `groups_data_owner_id` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `groups_data_room_id` FOREIGN KEY (`room_id`) REFERENCES `rooms_data` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
 
 --
 -- Limitadores para a tabela `groups_forums_data`
 --
 ALTER TABLE `groups_forums_data`
   ADD CONSTRAINT `groups_forums_data_group_id` FOREIGN KEY (`group_id`) REFERENCES `groups_data` (`id`) ON DELETE NO ACTION;
+
+--
+-- Limitadores para a tabela `pets_commands`
+--
+ALTER TABLE `pets_commands`
+  ADD CONSTRAINT `pet_speech_id` FOREIGN KEY (`pet_speech`) REFERENCES `pets_speech` (`pet_id`);
+
+--
+-- Limitadores para a tabela `pets_data`
+--
+ALTER TABLE `pets_data`
+  ADD CONSTRAINT `pet_type` FOREIGN KEY (`pet_type`) REFERENCES `catalog_pets` (`pet_type`),
+  ADD CONSTRAINT `pet_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
 -- Limitadores para a tabela `rooms_data`

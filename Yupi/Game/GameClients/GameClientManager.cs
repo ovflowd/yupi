@@ -103,6 +103,24 @@ namespace Yupi.Game.GameClients
         /// <returns>GameClient.</returns>
         internal GameClient GetClient(uint clientId) => Clients.ContainsKey(clientId) ? Clients[clientId] : null;
 
+        internal bool CheckClientOnlineStatus(uint clientId)
+        {
+            GameClient client = GetClient(clientId);
+
+            if (client != null)
+                return client.GetHabbo().Disconnected;
+
+            return false;
+        }
+
+        internal void RemoveNotOnlineUsers()
+        {
+            foreach (GameClient client in Clients.Values.Where(client => !CheckClientOnlineStatus(client.ConnectionId)))
+                client.Disconnect("Isn't Online...");
+        }
+
+        internal int GetOnlineClients() => Clients.Values.Count(client => !CheckClientOnlineStatus(client.ConnectionId));
+
         /// <summary>
         ///     Gets the name by identifier.
         /// </summary>

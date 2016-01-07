@@ -322,9 +322,6 @@ namespace Yupi.Game.GameClients.Interfaces
 
                 queuedServerMessage.AppendResponse(Yupi.GetGame().GetAchievementManager().AchievementDataCached);
 
-                if (!GetHabbo().NuxPassed && ServerExtraSettings.NewUsersGiftsEnabled)
-                    queuedServerMessage.AppendResponse( new ServerMessage(LibraryParser.OutgoingRequest("NuxSuggestFreeGiftsMessageComposer")));
-
                 queuedServerMessage.AppendResponse(GetHabbo().GetAvatarEffectsInventoryComponent().GetPacket());
                 queuedServerMessage.SendResponse();
 

@@ -57,7 +57,7 @@ namespace Yupi
         /// <summary>
         /// The is live
         /// </summary>
-        internal static bool IsLive, SeparatedTasksInGameClientManager, SeparatedTasksInMainLoops, DebugMode, ConsoleTimerOn;
+        internal static bool IsLive, SeparatedTasksInGameClientManager, SeparatedTasksInMainLoops, PacketDebugMode, ConsoleTimerOn;
 
         /// <summary>
         /// The staff alert minimum rank
@@ -302,6 +302,11 @@ namespace Yupi
                 LibraryParser.Outgoing = new Dictionary<string, int>();
                 LibraryParser.Config = new Dictionary<string, string>();
 
+                if (ServerConfigurationSettings.Data.ContainsKey("client.build"))
+                    LibraryParser.ReleaseName = ServerConfigurationSettings.Data["client.build"];
+                else
+                    throw new Exception("Unable to Continue if No Release is configured to the Emulator Handle.");
+
                 LibraryParser.RegisterLibrary();
                 LibraryParser.RegisterOutgoing();
                 LibraryParser.RegisterIncoming();
@@ -326,12 +331,17 @@ namespace Yupi
                 CrossDomainSettings.Set();
 
                 _game = new Game.Game(int.Parse(ServerConfigurationSettings.Data["game.tcp.conlimit"]));
+
                 _game.GetNavigator().LoadNewPublicRooms();
                 _game.ContinueLoading();
+
                 FurnitureDataManager.Clear();
 
-                ServerLanguage = Convert.ToString(ServerConfigurationSettings.Data["system.lang"]);
+                if (ServerConfigurationSettings.Data.ContainsKey("server.lang"))
+                    ServerLanguage = Convert.ToString(ServerConfigurationSettings.Data["server.lang"]);
+
                 _languages = new ServerLanguageSettings(ServerLanguage);
+
                 Writer.WriteLine("Loaded " + _languages.Count() + " Languages Vars", "Yupi.Interpreters");
 
                 if (plugins != null)
@@ -364,7 +374,7 @@ namespace Yupi
 
                 if (ConsoleTimerOn)
                 {
-                    Timer = new System.Timers.Timer { Interval = ConsoleTimer };
+                    Timer = new Timer { Interval = ConsoleTimer };
                     Timer.Elapsed += TimerElapsed;
                     Timer.Start();
                 }
@@ -372,15 +382,15 @@ namespace Yupi
                 if (ServerConfigurationSettings.Data.ContainsKey("StaffAlert.MinLevel"))
                     StaffAlertMinRank = uint.Parse(ServerConfigurationSettings.Data["StaffAlert.MinLevel"]);
 
-                if (ServerConfigurationSettings.Data.ContainsKey("SeparatedTasksInMainLoops.enabled") && ServerConfigurationSettings.Data["SeparatedTasksInMainLoops.enabled"] == "true")
-                    SeparatedTasksInMainLoops = true;
+                if (ServerConfigurationSettings.Data.ContainsKey("game.multithread.enabled"))
+                    SeparatedTasksInMainLoops = ServerConfigurationSettings.Data["game.multithread.enabled"] == "true";
 
-                if (ServerConfigurationSettings.Data.ContainsKey("SeparatedTasksInGameClientManager.enabled") && ServerConfigurationSettings.Data["SeparatedTasksInGameClientManager.enabled"] == "true")
-                    SeparatedTasksInGameClientManager = true;
+                if (ServerConfigurationSettings.Data.ContainsKey("client.multithread.enabled"))
+                    SeparatedTasksInGameClientManager = ServerConfigurationSettings.Data["client.multithread.enabled"] == "true";
 
-                if (ServerConfigurationSettings.Data.ContainsKey("Debug"))
-                    if (ServerConfigurationSettings.Data["Debug"] == "true")
-                        DebugMode = true;
+                if (ServerConfigurationSettings.Data.ContainsKey("debug.packet"))
+                    if (ServerConfigurationSettings.Data["debug.packet"] == "true")
+                        PacketDebugMode = true;
 
                 Writer.WriteLine("Yupi Emulator ready. Status: idle", "Yupi.Boot");
 
@@ -388,7 +398,7 @@ namespace Yupi
             }
             catch (Exception e)
             {
-                Writer.WriteLine("Error loading config.ini: Configuration file is invalid" + Environment.NewLine + e.Message, "Yupi.Boot", ConsoleColor.Red);
+                Writer.WriteLine("Error When Starting Yupi Environment!" + Environment.NewLine + e.Message, "Yupi.Boot", ConsoleColor.Red);
                 Writer.WriteLine("Please press Y to get more details or press other Key to Exit", "Yupi.Boot", ConsoleColor.Red);
                 ConsoleKeyInfo key = Console.ReadKey();
 
@@ -398,7 +408,7 @@ namespace Yupi
                     Writer.WriteLine(
                         Environment.NewLine + "[Message] Error Details: " + Environment.NewLine + e.StackTrace +
                         Environment.NewLine + e.InnerException + Environment.NewLine + e.TargetSite +
-                        Environment.NewLine + "[Message]Press Any Key To Exit", "Yupi.Boot", ConsoleColor.Red);
+                        Environment.NewLine + "[Message] Press Any Key To Exit", "Yupi.Boot", ConsoleColor.Red);
                     Console.ReadKey();
                     Environment.Exit(1);
                 }

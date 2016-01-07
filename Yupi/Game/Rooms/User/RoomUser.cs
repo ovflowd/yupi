@@ -97,7 +97,7 @@ namespace Yupi.Game.Rooms.User
         /// <summary>
         ///     The dance identifier
         /// </summary>
-        internal int DanceId;
+        internal uint DanceId;
 
         /// <summary>
         ///     The fast walking
@@ -917,21 +917,33 @@ namespace Yupi.Game.Rooms.User
             if (TeleportEnabled)
             {
                 UnIdle();
+
                 GetRoom()
                     .SendMessage(GetRoom()
                         .GetRoomItemHandler()
                         .UpdateUserOnRoller(this, new Point(x, y), 0u,
                             GetRoom().GetGameMap().SqAbsoluteHeight(GoalX, GoalY)));
-                if (Statusses.ContainsKey("sit")) Z -= 0.35;
+
+                if (Statusses.ContainsKey("sit"))
+                    Z -= 0.35;
+
                 UpdateNeeded = true;
+
                 GetRoom().GetRoomUserManager().UpdateUserStatus(this, false);
+
                 return;
             }
-            if (GetRoom().GetGameMap().SquareHasUsers(x, y) && !pOverride) return;
-            if (Frozen) return;
+
+            if (GetRoom().GetGameMap().SquareHasUsers(x, y) && !pOverride)
+                return;
+
+            if (Frozen)
+                return;
 
             Point coord = new Point(x, y);
+
             List<RoomItem> allRoomItemForSquare = GetRoom().GetGameMap().GetCoordinatedHeighestItems(coord);
+
             if ((RidingHorse && !IsBot && allRoomItemForSquare.Any()) || (IsPet && allRoomItemForSquare.Any()))
                 if (
                     allRoomItemForSquare.Any(
@@ -1150,7 +1162,7 @@ namespace Yupi.Game.Rooms.User
             message.AppendString(BotData.Name);
             message.AppendString(BotData.Motto);
             if (BotData.AiType == AiType.Pet)
-                if (PetData.Type == 16u)
+                if (PetData.Type == "pet_monster")
                     message.AppendString(PetData.MoplaBreed.PlantData);
                 else if (PetData.HaveSaddle == Convert.ToBoolean(2))
                     message.AppendString(string.Concat(BotData.Look.ToLower(), " 3 4 10 0 2 ", PetData.PetHair, " ",
@@ -1171,15 +1183,15 @@ namespace Yupi.Game.Rooms.User
             message.AppendInteger(BotData.AiType == AiType.Generic ? 4 : 2);
             if (BotData.AiType == AiType.Pet)
             {
-                message.AppendInteger(PetData.Type);
+                message.AppendInteger(PetData.RaceId);
                 message.AppendInteger(PetData.OwnerId);
                 message.AppendString(PetData.OwnerName);
-                message.AppendInteger(PetData.Type == 16u ? 0 : 1);
+                message.AppendInteger(PetData.Type == "pet_monster" ? 0 : 1);
                 message.AppendBool(PetData.HaveSaddle);
                 message.AppendBool(RidingHorse);
                 message.AppendInteger(0);
-                message.AppendInteger(PetData.Type == 16u ? 1 : 0);
-                message.AppendString(PetData.Type == 16u ? PetData.MoplaBreed.GrowStatus : "");
+                message.AppendInteger(PetData.Type == "pet_monster" ? 1 : 0);
+                message.AppendString(PetData.Type == "pet_monster" ? PetData.MoplaBreed.GrowStatus : "");
                 return;
             }
             message.AppendString(BotData.Gender.ToLower());
@@ -1205,10 +1217,14 @@ namespace Yupi.Game.Rooms.User
             message.AppendString(ServerUserChatTextHandler.GetString(Z));
             message.AppendInteger(RotHead);
             message.AppendInteger(RotBody);
+
             StringBuilder stringBuilder = new StringBuilder();
+
             stringBuilder.Append("/");
-            if (IsPet && PetData.Type == 16u)
+
+            if (IsPet && PetData.Type == "pet_monster")
                 stringBuilder.AppendFormat("/{0}{1}", PetData.MoplaBreed.GrowStatus, Statusses.Count >= 1 ? "/" : "");
+
             lock (Statusses)
             {
                 foreach (KeyValuePair<string, string> current in Statusses)

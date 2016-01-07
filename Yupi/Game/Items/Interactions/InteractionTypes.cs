@@ -99,17 +99,6 @@ namespace Yupi.Game.Items.Interactions
                             case Interaction.PetPigeon:
                             case Interaction.PetEvilPigeon:
                             case Interaction.PetDemonMonkey:
-                            case Interaction.Pet24:
-                            case Interaction.Pet25:
-                            case Interaction.Pet26:
-                            case Interaction.Pet27:
-                            case Interaction.Pet28:
-                            case Interaction.Pet29:
-                            case Interaction.Pet30:
-                            case Interaction.Pet31:
-                            case Interaction.Pet32:
-                            case Interaction.Pet33:
-                            case Interaction.Pet34:
                                 return true;
                         }
                         break;
@@ -286,110 +275,77 @@ namespace Yupi.Game.Items.Interactions
                 case "fbgate":
                     return Interaction.FootballGate;
 
-                case "pet0":
+                case "pet_dog":
                     return Interaction.PetDog;
 
-                case "pet1":
+                case "pet_cat":
                     return Interaction.PetCat;
 
-                case "pet2":
+                case "pet_croco":
                     return Interaction.PetCrocodile;
 
-                case "pet3":
+                case "pet_terrier":
                     return Interaction.PetTerrier;
 
-                case "pet4":
+                case "pet_bear":
                     return Interaction.PetBear;
 
-                case "pet5":
+                case "pet_pig":
                     return Interaction.PetPig;
 
-                case "pet6":
+                case "pet_lion":
                     return Interaction.PetLion;
 
-                case "pet7":
+                case "pet_rhino":
                     return Interaction.PetRhino;
 
-                case "pet8":
+                case "pet_spider":
                     return Interaction.PetSpider;
 
-                case "pet9":
+                case "pet_turtle":
                     return Interaction.PetTurtle;
 
-                case "pet10":
+                case "pet_chicken":
                     return Interaction.PetChick;
 
-                case "pet11":
+                case "pet_frog":
                     return Interaction.PetFrog;
 
-                case "pet12":
+                case "pet_dragon":
                     return Interaction.PetDragon;
 
-                case "pet13":
+                case "pet_horse":
                     return Interaction.PetHorse;
 
-                case "pet14":
+                case "pet_monkey":
                     return Interaction.PetMonkey;
 
-                case "pet15":
+                case "pet_gnomo":
                     return Interaction.PetGnomo;
 
-                case "pet16":
+                case "pet_monster":
                     return Interaction.PetMonsterPlant;
 
-                case "pet17":
+                case "pet_bunnyeaster":
                     return Interaction.PetWhiteRabbit;
 
-                case "pet18":
+                case "pet_bunnyevil":
                     return Interaction.PetEvilRabbit;
 
-                case "pet19":
+                case "pet_bunnylove":
                     return Interaction.PetLoveRabbit;
 
-                case "pet20":
+                case "pet_bunnydepressed":
                     return Interaction.PetCafeRabbit;
 
-                case "pet21":
+                case "pet_pigeongood":
                     return Interaction.PetPigeon;
 
-                case "pet22":
+                case "pet_pigeonevil":
                     return Interaction.PetEvilPigeon;
 
-                case "pet23":
+                case "pet_demonmonkey":
                     return Interaction.PetDemonMonkey;
-
-                case "pet24":
-                    return Interaction.Pet24;
-
-                case "pet25":
-                    return Interaction.Pet25;
-
-                case "pet26":
-                    return Interaction.Pet26;
-
-                case "pet27":
-                    return Interaction.Pet27;
-
-                case "pet28":
-                    return Interaction.Pet28;
-
-                case "pet29":
-                    return Interaction.Pet29;
-
-                case "pet30":
-                    return Interaction.Pet30;
-
-                case "pet31":
-                    return Interaction.Pet31;
-
-                case "pet32":
-                    return Interaction.Pet32;
-
-                case "pet33":
-                    return Interaction.Pet33;
-
-                case "pet34":
-                    return Interaction.Pet34;
 
                 case "iceskates":
                     return Interaction.IceSkates;

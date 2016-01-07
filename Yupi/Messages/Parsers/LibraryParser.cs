@@ -48,7 +48,7 @@ namespace Yupi.Messages.Parsers
 
             if (Incoming.ContainsKey(message.Id))
             {
-                if (Yupi.DebugMode)
+                if (Yupi.PacketDebugMode)
                 {
                     Console.WriteLine();
                     Console.Write("INCOMING ");
@@ -66,7 +66,7 @@ namespace Yupi.Messages.Parsers
                 StaticRequestHandler staticRequestHandler = Incoming[message.Id];
                 staticRequestHandler(handler);
             }
-            else if (Yupi.DebugMode)
+            else if (Yupi.PacketDebugMode)
             {
                 Console.WriteLine();
                 Console.Write("INCOMING ");
@@ -99,7 +99,7 @@ namespace Yupi.Messages.Parsers
         {
             CountReleases = 0;
 
-            string[] filePaths = Directory.GetFiles($"{Yupi.YupiVariablesDirectory}\\Packets", "*.incoming");
+            string[] filePaths = Directory.GetFiles($"{Yupi.YupiVariablesDirectory}\\Packets\\{ReleaseName}", "*.incoming");
 
             foreach (string[] fileContents in filePaths.Select(currentFile => File.ReadAllLines(currentFile, Encoding.UTF8)))
             {
@@ -136,7 +136,7 @@ namespace Yupi.Messages.Parsers
 
         internal static void RegisterConfig()
         {
-            string[] filePaths = Directory.GetFiles($"{Yupi.YupiVariablesDirectory}\\Packets", "*.inf");
+            string[] filePaths = Directory.GetFiles($"{Yupi.YupiVariablesDirectory}\\Packets\\{ReleaseName}", "*.inf");
             foreach (string[] fields in filePaths.Select(File.ReadAllLines).SelectMany(fileContents => fileContents.Where(line => !string.IsNullOrEmpty(line) && !line.StartsWith("[")).Select(line => line.Split('='))))
             {
                 if (fields[1].Contains('/'))
@@ -150,7 +150,7 @@ namespace Yupi.Messages.Parsers
         {
             _registeredOutoings = new List<uint>();
 
-            string[] filePaths = Directory.GetFiles($"{Yupi.YupiVariablesDirectory}\\Packets", "*.outgoing");
+            string[] filePaths = Directory.GetFiles($"{Yupi.YupiVariablesDirectory}\\Packets\\{ReleaseName}", "*.outgoing");
             foreach (string[] fields in filePaths.Select(File.ReadAllLines).SelectMany(fileContents => fileContents.Where(line => !string.IsNullOrEmpty(line) && !line.StartsWith("[")).Select(line => line.Replace(" ", string.Empty).Split('='))))
             {
                 if (fields[1].Contains('/'))
@@ -175,7 +175,7 @@ namespace Yupi.Messages.Parsers
 
         internal static void RegisterLibrary()
         {
-            string[] filePaths = Directory.GetFiles($"{Yupi.YupiVariablesDirectory}\\Packets", "*.library");
+            string[] filePaths = Directory.GetFiles($"{Yupi.YupiVariablesDirectory}\\Packets\\{ReleaseName}", "*.library");
             foreach (string[] fields in filePaths.Select(File.ReadAllLines).SelectMany(fileContents => fileContents.Select(line => line.Split('='))))
             {
                 if (fields[1].Contains('/'))

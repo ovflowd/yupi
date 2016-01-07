@@ -178,10 +178,6 @@ namespace Yupi.Core.Settings
                         CurrencyLoopEnabled = settingsParameters[1] == "true";
                         break;
 
-                    case "youtube.thumbnail.suburl":
-                        YoutubeThumbnailSuburl = settingsParameters[1];
-                        break;
-
                     case "gamecenter.stories.url":
                         GameCenterStoriesUrl = settingsParameters[1];
                         break;
@@ -230,12 +226,8 @@ namespace Yupi.Core.Settings
                         ChangeNameEveryone = settingsParameters[1] == "true";
                         break;
 
-                    case "enable.beta.camera":
+                    case "stories.api.enabled":
                         EnableBetaCamera = settingsParameters[1] == "true";
-                        break;
-
-                    case "newuser.gifts.enabled":
-                        NewUsersGiftsEnabled = settingsParameters[1] == "true";
                         break;
 
                     case "newuser.gift.yttv2.id":
@@ -244,20 +236,8 @@ namespace Yupi.Core.Settings
                             NewUserGiftYttv2Id = u;
                         break;
 
-                    case "everyone.use.floor":
-                        EveryoneUseFloor = settingsParameters[1] == "true";
-                        break;
-
-                    case "figuredata.url":
-                        FigureDataUrl = settingsParameters[1];
-                        break;
-
                     case "furnidata.url":
                         FurnitureDataUrl = settingsParameters[1];
-                        break;
-
-                    case "admin.can.useHTML":
-                        AdminCanUseHtml = settingsParameters[1] == "true";
                         break;
 
                     case "commands.new.page":

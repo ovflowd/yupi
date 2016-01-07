@@ -900,6 +900,7 @@ namespace Yupi.Game.Users
         {
             if (Disconnected)
                 return;
+
             Disconnected = true;
 
             if (_inventoryComponent != null)

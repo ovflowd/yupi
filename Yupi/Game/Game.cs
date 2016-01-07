@@ -441,7 +441,7 @@ namespace Yupi.Game
             {
                 int catalogPageLoaded;
 
-                PetRace.Init(queryReactor);
+                PetTypeManager.Init(queryReactor);
 
                 _catalog.Initialize(queryReactor, out catalogPageLoaded);
 

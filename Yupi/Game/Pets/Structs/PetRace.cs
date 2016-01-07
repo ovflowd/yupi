@@ -1,4 +1,4 @@
-﻿/**
+/**
      Because i love chocolat...                                      
                                     88 88  
                                     "" 88  
@@ -27,54 +27,42 @@ using System.Data;
 namespace Yupi.Game.Pets.Structs
 {
     /// <summary>
-    ///     Struct PetCommand
+    ///     Class PetRace.
     /// </summary>
-    internal struct PetCommand
+    internal class PetRace
     {
         /// <summary>
-        ///     The command identifier
+        ///     The color1
         /// </summary>
-        internal int CommandId;
+        public uint ColorOne;
 
         /// <summary>
-        ///     The command input
+        ///     The color2
         /// </summary>
-        internal string[] CommandInput;
-
-        internal string CommandAction;
+        public uint ColorTwo;
 
         /// <summary>
-        ///     The minimum rank
+        ///     The has1 color
         /// </summary>
-        internal int MinLevel;
-
-        internal string PetStatus;
-
-        internal string PetGesture;
-
-        internal uint GainedExperience;
-
-        internal uint LostEnergy;
-
-        internal string[] PetTypes;
-
-        internal string PetSpeech;
+        public bool HasColorOne;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="PetCommand" /> struct.
+        ///     The has2 color
         /// </summary>
-        public PetCommand(DataRow row)
+        public bool HasColorTwo;
+
+        /// <summary>
+        ///     The race identifier
+        /// </summary>
+        public uint RaceId;
+
+        public PetRace(DataRow row)
         {
-            CommandAction = row["action"].ToString();
-            CommandId = int.Parse(row["id"].ToString());
-            CommandInput = row["input"].ToString().Split(';');
-            MinLevel = int.Parse(row["level"].ToString());
-            PetStatus = row["status"].ToString();
-            PetGesture = row["gesture"].ToString();
-            GainedExperience = uint.Parse(row["experience"].ToString());
-            LostEnergy = uint.Parse(row["energy"].ToString());
-            PetTypes = row["pet_type"].ToString().Split(',');
-            PetSpeech = row["pet_speech"].ToString();
+            RaceId = (uint) row["race_type"];
+            ColorOne = (uint) row["color_one"];
+            ColorTwo = (uint) row["color_two"];
+            HasColorOne = (string) row["color_one_enabled"] == "1";
+            HasColorTwo = (string) row["color_two_enabled"] == "1";
         }
     }
 }

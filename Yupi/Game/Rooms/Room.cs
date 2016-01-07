@@ -396,11 +396,13 @@ namespace Yupi.Game.Rooms
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery($"SELECT * FROM bots_data WHERE room_id = {RoomId} AND ai_type = 'generic'");
+
                 DataTable table = queryReactor.GetTable();
+
                 if (table == null)
                     return;
-                foreach (RoomBot roomBot in from DataRow dataRow in table.Rows select BotManager.GenerateBotFromRow(dataRow)
-                    )
+
+                foreach (RoomBot roomBot in from DataRow dataRow in table.Rows select BotManager.GenerateBotFromRow(dataRow))
                     _roomUserManager.DeployBot(roomBot, null);
             }
         }
@@ -439,7 +441,7 @@ namespace Yupi.Game.Rooms
         {
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery($"SELECT * FROM bots_data WHERE room_id = '{RoomId}' AND ai_type='pet'");
+                queryReactor.SetQuery($"SELECT * FROM pets_data WHERE room_id = '{RoomId}' AND ai_type='pet'");
                 DataTable table = queryReactor.GetTable();
 
                 if (table == null)
@@ -447,17 +449,13 @@ namespace Yupi.Game.Rooms
 
                 foreach (DataRow dataRow in table.Rows)
                 {
-                    queryReactor.SetQuery($"SELECT * FROM pets_data WHERE id = '{dataRow["id"]}' LIMIT 1");
-                    DataRow row = queryReactor.GetRow();
+                    Pet pet = CatalogManager.GeneratePetFromRow(dataRow);
 
-                    if (row == null)
-                        continue;
+                    RoomBot bot = new RoomBot(pet.PetId, Convert.ToUInt32(RoomData.OwnerId), AiType.Pet, string.Empty);
 
-                    Pet pet = CatalogManager.GeneratePetFromRow(dataRow, row);
+                    bot.Update(RoomId, "freeroam", pet.Name, string.Empty, pet.Look, pet.X, pet.Y, (int) pet.Z, 4, 0, 0, 0, 0,
+                        null, null, string.Empty, 0, 0, false, false);
 
-                    RoomBot bot = new RoomBot(pet.PetId, Convert.ToUInt32(RoomData.OwnerId), AiType.Pet, "");
-                    bot.Update(RoomId, "freeroam", pet.Name, "", pet.Look, pet.X, pet.Y, (int) pet.Z, 4, 0, 0, 0, 0,
-                        null, null, "", 0, 0, false, false);
                     _roomUserManager.DeployBot(bot, pet);
                 }
             }
@@ -556,7 +554,7 @@ namespace Yupi.Game.Rooms
                     {
                         current.BotAi.OnChatTick();
                     }
-                    else if (current.IsPet && message.StartsWith(current.PetData.Name) && current.PetData.Type != 16)
+                    else if (current.IsPet && message.StartsWith(current.PetData.Name) && current.PetData.Type != "pet_monster")
                     {
                         message = message.Substring(current.PetData.Name.Length);
                         current.BotAi.OnUserSay(user, message);

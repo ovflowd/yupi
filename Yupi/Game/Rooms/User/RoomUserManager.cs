@@ -149,14 +149,18 @@ namespace Yupi.Game.Rooms.User
         internal RoomUser DeployBot(RoomBot bot, Pet petData)
         {
             int virtualId = _primaryPrivateUserId++;
+
             RoomUser roomUser = new RoomUser(0u, _userRoom.RoomId, virtualId, _userRoom, false);
+
             int num = _secondaryPrivateUserId++;
+
             roomUser.InternalRoomId = num;
             UserList.TryAdd(num, roomUser);
             OnUserAdd(roomUser);
 
             DynamicRoomModel model = _userRoom.GetGameMap().Model;
             Point coord = new Point(bot.X, bot.Y);
+
             if ((bot.X > 0) && (bot.Y >= 0) && (bot.X < model.MapSizeX) && (bot.Y < model.MapSizeY))
             {
                 _userRoom.GetGameMap().AddUserToMap(roomUser, coord);
@@ -175,6 +179,7 @@ namespace Yupi.Game.Rooms.User
             roomUser.BotData = bot;
 
             roomUser.BotAi = bot.GenerateBotAi(roomUser.VirtualId, (int) bot.BotId);
+
             if (roomUser.IsPet)
             {
                 roomUser.BotAi.Init(bot.BotId, roomUser.VirtualId, _userRoom.RoomId, roomUser, _userRoom);
@@ -182,18 +187,20 @@ namespace Yupi.Game.Rooms.User
                 roomUser.PetData.VirtualId = roomUser.VirtualId;
             }
             else
-            {
                 roomUser.BotAi.Init(bot.BotId, roomUser.VirtualId, _userRoom.RoomId, roomUser, _userRoom);
-            }
 
             UpdateUserStatus(roomUser, false);
             roomUser.UpdateNeeded = true;
 
             ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("SetRoomUserMessageComposer"));
+
             serverMessage.AppendInteger(1);
             roomUser.Serialize(serverMessage, _userRoom.GetGameMap().GotPublicPool);
+
             _userRoom.SendMessage(serverMessage);
+
             roomUser.BotAi.OnSelfEnterRoom();
+
             if (roomUser.IsPet)
             {
                 if (_pets.Contains(roomUser.PetData.PetId))
@@ -238,7 +245,7 @@ namespace Yupi.Game.Rooms.User
         /// <param name="speechDelay">The speech delay.</param>
         /// <param name="mix">if set to <c>true</c> [mix].</param>
         internal void UpdateBot(int virtualId, RoomUser roomUser, string name, string motto, string look, string gender,
-            List<string> speech, List<string> responses, bool speak, int speechDelay, bool mix)
+            List<string> speech, List<string> responses, bool speak, uint speechDelay, bool mix)
         {
             RoomUser bot = GetRoomUserByVirtualId(virtualId);
             if (bot == null || !bot.IsBot) return;
@@ -256,9 +263,7 @@ namespace Yupi.Game.Rooms.User
             rBot.RoomUser = roomUser;
             rBot.MixPhrases = mix;
 
-            if (rBot.RoomUser == null || rBot.RoomUser.BotAi == null) return;
-
-            rBot.RoomUser.BotAi.Modified();
+            rBot.RoomUser?.BotAi?.Modified();
         }
 
         /// <summary>
@@ -596,48 +601,50 @@ namespace Yupi.Game.Rooms.User
         /// <param name="dbClient">The database client.</param>
         internal void AppendPetsUpdateString(IQueryAdapter dbClient)
         {
-            DatabaseQueryChunk queryChunk = new DatabaseQueryChunk("INSERT INTO bots_data (id,user_id,room_id,name,x,y,z) VALUES ");
-            DatabaseQueryChunk queryChunk2 = new DatabaseQueryChunk("INSERT INTO pets_data (type,race,color,experience,energy,createstamp,nutrition,respect) VALUES ");
-
-            DatabaseQueryChunk queryChunk3 = new DatabaseQueryChunk();
-
             List<uint> list = new List<uint>();
 
             foreach (Pet current in GetPets().Where(current => !list.Contains(current.PetId)))
             {
                 list.Add(current.PetId);
+
                 switch (current.DbState)
                 {
                     case DatabaseUpdateState.NeedsInsert:
-                        queryChunk.AddParameter($"{current.PetId}name", current.Name);
-                        queryChunk2.AddParameter($"{current.PetId}race", current.Race);
-                        queryChunk2.AddParameter($"{current.PetId}color", current.Color);
-                        queryChunk.AddQuery(string.Concat("(", current.PetId, ",", current.OwnerId, ",", current.RoomId,
-                            ",@", current.PetId, "name,", current.X, ",", current.Y, ",", current.Z, ")"));
-                        queryChunk2.AddQuery(string.Concat("(", current.Type, ",@", current.PetId, "race,@",
-                            current.PetId, "color,0,100,'", current.CreationStamp, "',0,0)"));
+                        using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                        {
+                            queryReactor.SetQuery("INSERT INTO pets_data (id,user_id,room_id,name,x,y,z,pet_type,experience,energy,createstamp,nutrition,respect,color,race_id) VALUES" +
+                                                  $"('{current.PetId}', '{current.OwnerId}', '{current.RoomId}', @petName,'{current.X}', '{current.Y}', '{current.Z}', " +
+                                                  $"@petType, 0, 100, '{current.CreationStamp}', 0, 0, @petColor, @petRace)");
+
+                            queryReactor.AddParameter("petName", current.Name);
+                            queryReactor.AddParameter("petColor", current.Color);
+                            queryReactor.AddParameter("petType", current.Type);
+                            queryReactor.AddParameter("petRace", current.Race);
+                            queryReactor.RunQuery();
+                        }
                         break;
 
                     case DatabaseUpdateState.NeedsUpdate:
-                        queryChunk3.AddParameter($"{current.PetId}name", current.Name);
-                        queryChunk3.AddParameter($"{current.PetId}race", current.Race);
-                        queryChunk3.AddParameter($"{current.PetId}color", current.Color);
-                        queryChunk3.AddQuery(string.Concat("UPDATE bots_data SET room_id = ", current.RoomId, ", name = @",
-                            current.PetId, "name, x = ", current.X, ", Y = ", current.Y, ", Z = ", current.Z,
-                            " WHERE id = ", current.PetId));
-                        queryChunk3.AddQuery(string.Concat("UPDATE pets_data SET race = @", current.PetId,
-                            "race, color = @", current.PetId, "color, type = ", current.Type, ", experience = ",
-                            current.Experience, ", energy = ", current.Energy, ", nutrition = ", current.Nutrition,
-                            ", respect = ", current.Respect, ", createstamp = '", current.CreationStamp, "' WHERE id = ",
-                            current.PetId));
+                        using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                        {
+                            queryReactor.SetQuery("UPDATE pets_data SET " +
+                                                  $"room_id = {current.RoomId}, name = @petName, x = {current.X}, y = {current.Y}, " +
+                                                  $"z = {current.Z}, race_id = @petRace, pet_type = @petType, experience = {current.Experience}, " +
+                                                  $"energy = {current.Energy}, nutrition = {current.Nutrition}, respect = {current.Respect}, " +
+                                                  $"createstamp = '{current.CreationStamp}', color = @petColor WHERE id = {current.PetId}");
+
+                            queryReactor.AddParameter("petName", current.Name);
+                            queryReactor.AddParameter("petRace", current.Race);
+                            queryReactor.AddParameter("petType", current.Type);
+                            queryReactor.AddParameter("petColor", current.Color);
+
+                            queryReactor.RunQuery();
+                        }
                         break;
                 }
+
                 current.DbState = DatabaseUpdateState.Updated;
             }
-            queryChunk.Execute(dbClient);
-            queryChunk3.Execute(dbClient);
-            queryChunk.Dispose();
-            queryChunk3.Dispose();
         }
 
         /// <summary>
@@ -647,8 +654,8 @@ namespace Yupi.Game.Rooms.User
         internal List<Pet> GetPets()
         {
             List<KeyValuePair<int, RoomUser>> list = UserList.ToList();
-            return
-                (from current in list select current.Value into value where value.IsPet select value.PetData).ToList();
+
+            return (from current in list select current.Value into value where value.IsPet select value.PetData).ToList();
         }
 
         /// <summary>
@@ -1037,7 +1044,7 @@ namespace Yupi.Game.Rooms.User
 
         internal void RoomUserBreedInteraction(RoomUser roomUsers)
         {
-            if (roomUsers.IsPet && ((roomUsers.PetData.Type == 3) || (roomUsers.PetData.Type == 4)) &&
+            if (roomUsers.IsPet && ((roomUsers.PetData.Type == "pet_terrier") || (roomUsers.PetData.Type == "pet_bear")) &&
                 (roomUsers.PetData.WaitingForBreading > 0) && (roomUsers.PetData.BreadingTile.X == roomUsers.X) && (roomUsers.PetData.BreadingTile.Y == roomUsers.Y))
             {
                 roomUsers.Freezed = true;
@@ -1045,49 +1052,37 @@ namespace Yupi.Game.Rooms.User
 
                 switch (roomUsers.PetData.Type)
                 {
-                    case 3:
-                        if (
-                            _userRoom.GetRoomItemHandler().BreedingTerrier[roomUsers.PetData.WaitingForBreading]
-                                .PetsList.Count == 2)
+                    case "pet_terrier":
+                        if (_userRoom.GetRoomItemHandler().BreedingTerrier[roomUsers.PetData.WaitingForBreading].PetsList.Count == 2)
                         {
-                            GameClient petBreedOwner =
-                                Yupi.GetGame().GetClientManager().GetClientByUserId(roomUsers.PetData.OwnerId);
+                            GameClient petBreedOwner = Yupi.GetGame().GetClientManager().GetClientByUserId(roomUsers.PetData.OwnerId);
 
-                            if (petBreedOwner != null)
-                            {
-                                petBreedOwner.SendMessage(PetBreeding.GetMessage(roomUsers.PetData.WaitingForBreading,
-                                    _userRoom.GetRoomItemHandler().BreedingTerrier[roomUsers.PetData.WaitingForBreading]
-                                        .PetsList[0],
-                                    _userRoom.GetRoomItemHandler().BreedingTerrier[roomUsers.PetData.WaitingForBreading]
-                                        .PetsList[1]));
-                            }
+                            petBreedOwner?.SendMessage(PetBreeding.GetMessage(roomUsers.PetData.WaitingForBreading,
+                                _userRoom.GetRoomItemHandler().BreedingTerrier[roomUsers.PetData.WaitingForBreading].PetsList[0],
+                                _userRoom.GetRoomItemHandler().BreedingTerrier[roomUsers.PetData.WaitingForBreading]
+                                    .PetsList[1]));
                         }
                         break;
 
-                    case 4:
+                    case "pet_bear":
                         if (
                             _userRoom.GetRoomItemHandler().BreedingBear[roomUsers.PetData.WaitingForBreading].PetsList
                                 .Count == 2)
                         {
-                            GameClient petBreedOwner =
-                                Yupi.GetGame().GetClientManager().GetClientByUserId(roomUsers.PetData.OwnerId);
+                            GameClient petBreedOwner = Yupi.GetGame().GetClientManager().GetClientByUserId(roomUsers.PetData.OwnerId);
 
-                            if (petBreedOwner != null)
-                            {
-                                petBreedOwner.SendMessage(PetBreeding.GetMessage(roomUsers.PetData.WaitingForBreading,
-                                    _userRoom.GetRoomItemHandler().BreedingBear[roomUsers.PetData.WaitingForBreading]
-                                        .PetsList[0],
-                                    _userRoom.GetRoomItemHandler().BreedingBear[roomUsers.PetData.WaitingForBreading]
-                                        .PetsList[1]));
-                            }
+                            petBreedOwner?.SendMessage(PetBreeding.GetMessage(roomUsers.PetData.WaitingForBreading,
+                                _userRoom.GetRoomItemHandler().BreedingBear[roomUsers.PetData.WaitingForBreading]
+                                    .PetsList[0],
+                                _userRoom.GetRoomItemHandler().BreedingBear[roomUsers.PetData.WaitingForBreading]
+                                    .PetsList[1]));
                         }
                         break;
                 }
 
                 UpdateUserStatus(roomUsers, false);
             }
-            else if (roomUsers.IsPet && ((roomUsers.PetData.Type == 3) || (roomUsers.PetData.Type == 4)) &&
-                     (roomUsers.PetData.WaitingForBreading > 0) && (roomUsers.PetData.BreadingTile.X != roomUsers.X) && (roomUsers.PetData.BreadingTile.Y != roomUsers.Y))
+            else if (roomUsers.IsPet && ((roomUsers.PetData.Type == "pet_terrier") || (roomUsers.PetData.Type == "pet_bear")) && (roomUsers.PetData.WaitingForBreading > 0) && (roomUsers.PetData.BreadingTile.X != roomUsers.X) && (roomUsers.PetData.BreadingTile.Y != roomUsers.Y))
             {
                 roomUsers.Freezed = false;
                 roomUsers.PetData.WaitingForBreading = 0;
@@ -1409,9 +1404,7 @@ namespace Yupi.Game.Rooms.User
                 // Check if User is Going to the Door.
                 lock (_removeUsers)
                 {
-                    if ((roomUsers.SetX == _userRoom.GetGameMap().Model.DoorX) &&
-                        (roomUsers.SetY == _userRoom.GetGameMap().Model.DoorY) && !_removeUsers.Contains(roomUsers) &&
-                        !roomUsers.IsBot && !roomUsers.IsPet)
+                    if ((roomUsers.SetX == _userRoom.GetGameMap().Model.DoorX) && (roomUsers.SetY == _userRoom.GetGameMap().Model.DoorY) && !_removeUsers.Contains(roomUsers) && !roomUsers.IsBot && !roomUsers.IsPet)
                     {
                         _removeUsers.Add(roomUsers);
                         return;
@@ -1426,8 +1419,7 @@ namespace Yupi.Game.Rooms.User
             }
 
             // Pet Must Stop Too!
-            if ((roomUsers.GoalX == roomUsers.X) && (roomUsers.GoalY == roomUsers.Y) && roomUsers.RidingHorse &&
-                !roomUsers.IsPet)
+            if ((roomUsers.GoalX == roomUsers.X) && (roomUsers.GoalY == roomUsers.Y) && roomUsers.RidingHorse && !roomUsers.IsPet)
             {
                 RoomUser horseStopWalkRidingPet = GetRoomUserByVirtualId(Convert.ToInt32(roomUsers.HorseId));
 
@@ -1486,6 +1478,7 @@ namespace Yupi.Game.Rooms.User
 
                 // Let's go to The Tile! And Walk :D
                 UserGoToTile(roomUsers, invalidStep);
+
                 // If User isn't Riding, Must Update Statusses...
                 if (!roomUsers.RidingHorse)
                     roomUsers.UpdateNeeded = true;
@@ -1494,6 +1487,7 @@ namespace Yupi.Game.Rooms.User
             // If is a Bot.. Let's Tick the Time Count of Bot..
             if (roomUsers.IsBot)
                 roomUsers.BotAi.OnTimerTick();
+
             UpdateUserEffect(roomUsers, roomUsers.X, roomUsers.Y);
         }
 
@@ -1513,8 +1507,7 @@ namespace Yupi.Game.Rooms.User
             try
             {
                 // Check Disco Procedure...
-                if ((_userRoom != null) && _userRoom.DiscoMode && (_userRoom.TonerData != null) &&
-                    (_userRoom.TonerData.Enabled == 1))
+                if ((_userRoom != null) && _userRoom.DiscoMode && (_userRoom.TonerData != null) && (_userRoom.TonerData.Enabled == 1))
                 {
                     RoomItem tonerItem = _userRoom.GetRoomItemHandler().GetItem(_userRoom.TonerData.ItemId);
 
@@ -1524,8 +1517,8 @@ namespace Yupi.Game.Rooms.User
                         _userRoom.TonerData.Data2 = Yupi.GetRandomNumber(0, 255);
                         _userRoom.TonerData.Data3 = Yupi.GetRandomNumber(0, 255);
 
-                        ServerMessage tonerComposingMessage =
-                            new ServerMessage(LibraryParser.OutgoingRequest("UpdateRoomItemMessageComposer"));
+                        ServerMessage tonerComposingMessage = new ServerMessage(LibraryParser.OutgoingRequest("UpdateRoomItemMessageComposer"));
+
                         tonerItem.Serialize(tonerComposingMessage);
                         _userRoom.SendMessage(tonerComposingMessage);
                     }
@@ -1544,9 +1537,7 @@ namespace Yupi.Game.Rooms.User
 
                 // If is a Valid user, We must increase the User Count..
                 if (!roomUsers.IsPet && !roomUsers.IsBot)
-                {
                     userInRoomCount++;
-                }
             }
 
             // Region: Check Removable Users and Users in Room Count
@@ -1563,10 +1554,9 @@ namespace Yupi.Game.Rooms.User
                     else
                         RemoveRoomUser(userToRemove);
                 }
+
                 if (userInRoomCount == 0)
-                {
                     idleCount++;
-                }
 
                 if (_roomUserCount != userInRoomCount)
                     UpdateUserCount(userInRoomCount);
