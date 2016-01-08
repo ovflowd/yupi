@@ -33,6 +33,7 @@ using Yupi.Game.Items.Interfaces;
 using Yupi.Game.Pets;
 using Yupi.Game.Pets.Enums;
 using Yupi.Game.Pets.Structs;
+using Yupi.Game.Rooms;
 using Yupi.Game.Rooms.User;
 using Yupi.Messages;
 using Yupi.Messages.Parsers;
@@ -47,17 +48,17 @@ namespace Yupi.Game.RoomBots.Models
         /// <summary>
         ///     The _action timer
         /// </summary>
-        private int _actionTimer;
+        private uint _actionTimer;
 
         /// <summary>
         ///     The _energy timer
         /// </summary>
-        private int _energyTimer;
+        private uint _energyTimer;
 
         /// <summary>
         ///     The _speech timer
         /// </summary>
-        private int _speechTimer;
+        private uint _speechTimer;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="PetBot" /> class.
@@ -65,9 +66,9 @@ namespace Yupi.Game.RoomBots.Models
         /// <param name="virtualId">The virtual identifier.</param>
         internal PetBot(int virtualId)
         {
-            _speechTimer = new Random((virtualId ^ 2) + DateTime.Now.Millisecond).Next(10, 60);
-            _actionTimer = new Random((virtualId ^ 2) + DateTime.Now.Millisecond).Next(10, 30 + virtualId);
-            _energyTimer = new Random((virtualId ^ 2) + DateTime.Now.Millisecond).Next(10, 60);
+            _speechTimer = (uint)new Random((virtualId ^ 2) + DateTime.Now.Millisecond).Next(10, 60);
+            _actionTimer = (uint)new Random((virtualId ^ 2) + DateTime.Now.Millisecond).Next(10, 30);
+            _energyTimer = (uint)new Random((virtualId ^ 2) + DateTime.Now.Millisecond).Next(10, 60);
         }
 
         /// <summary>
@@ -75,10 +76,17 @@ namespace Yupi.Game.RoomBots.Models
         /// </summary>
         internal override void OnSelfEnterRoom()
         {
+            RoomUser roomUser = GetRoomUser();
+
+            if (roomUser == null)
+                return;
+
             Point randomWalkableSquare = GetRoom().GetGameMap().GetRandomWalkableSquare();
 
-            if (GetRoomUser() != null && GetRoomUser().PetData.Type != "pet_monster")
-                GetRoomUser().MoveTo(randomWalkableSquare.X, randomWalkableSquare.Y);
+            if (roomUser.PetData.Type != "pet_monster" && randomWalkableSquare.X != 0 && randomWalkableSquare.Y != 0)
+                roomUser.MoveTo(randomWalkableSquare.X, randomWalkableSquare.Y);
+
+            roomUser.UpdateNeeded = true;
         }
 
         /// <summary>
@@ -102,6 +110,8 @@ namespace Yupi.Game.RoomBots.Models
 
             message += user.GetUserName();
 
+            roomUser.Statusses.Clear();
+            roomUser.UpdateNeeded = true;
             roomUser.Chat(null, message, false, 0);
         }
 
@@ -128,20 +138,29 @@ namespace Yupi.Game.RoomBots.Models
             if (roomUser.PetData.Level < command.MinLevel)
                 return;
 
-            if (roomUser.PetData.Energy < command.LostEnergy && roomUser.PetData.Nutrition < 25 || roomUser.PetData.Energy < command.LostEnergy)
-                command.CommandAction = "lazy";
-
             RemovePetStatus();
+
+            _actionTimer = 25;
+            _energyTimer = 10;
+
+            if (roomUser.PetData.Energy < command.LostEnergy && roomUser.PetData.Nutrition < 25 || roomUser.PetData.Energy < command.LostEnergy)
+            {
+                roomUser.UpdateNeeded = true;
+
+                string[] valueLazy = PetLocale.GetValue("pet.lazy");
+                string messageLazy = valueLazy[new Random().Next(0, valueLazy.Length - 1)];
+
+                roomUser.Chat(null, messageLazy, false, 0);
+
+                return;
+            }
+
+            roomUser.UpdateNeeded = true;
 
             roomUser.PetData.AddExperience(command.GainedExperience);
 
             roomUser.Statusses.Add(command.PetStatus, string.Empty);
             roomUser.Statusses.Add("gst", command.PetGesture);
-
-            roomUser.UpdateNeeded = true;
-
-            _actionTimer = 25;
-            _energyTimer = 10;
 
             roomUser.FollowingOwner = null;
 
@@ -152,6 +171,7 @@ namespace Yupi.Game.RoomBots.Models
             string[] value = PetLocale.GetValue(command.PetSpeech);
             string message = value[random.Next(0, value.Length - 1)];
 
+            roomUser.Statusses.Clear();
             roomUser.Chat(null, message, false, 0);
 
             /* other gestures that isnt listed */
@@ -278,118 +298,110 @@ namespace Yupi.Game.RoomBots.Models
         /// </summary>
         internal override void OnTimerTick()
         {
-            if (_speechTimer <= 0)
-            {
-                RoomUser roomUser = GetRoomUser();
+            RoomUser roomUser = GetRoomUser();
 
-                if (roomUser != null)
-                {
-                    if (roomUser.PetData.DbState != DatabaseUpdateState.NeedsInsert)
-                        roomUser.PetData.DbState = DatabaseUpdateState.NeedsUpdate;
+            if (roomUser == null)
+                return;
 
-                    Random random = new Random();
+            Random random = new Random();
 
-                    RemovePetStatus();
+            if (_actionTimer > 0)
+                _actionTimer--;
 
-                    string[] value = PetLocale.GetValue($"speech.pet{roomUser.PetData.Type.Replace("pet", string.Empty)}");
-
-                    string text = value[random.Next(0, value.Length - 1)];
-
-                    if (GetRoom() != null && !GetRoom().MutedPets)
-                        roomUser.Chat(null, text, false, 0);
-                    else
-                        roomUser.Statusses.Add(text, ServerUserChatTextHandler.GetString(roomUser.Z));
-                }
-
-                _speechTimer = Yupi.GetRandomNumber(20, 120);
-            }
-            else
+            if (_speechTimer > 0)
                 _speechTimer--;
 
-            if (_actionTimer <= 0 && GetRoomUser() != null)
-            {
-                try
-                {
-                    _actionTimer = GetRoomUser().FollowingOwner != null ? 2 : Yupi.GetRandomNumber(15, 40 + GetRoomUser().PetData.VirtualId);
+            if (_energyTimer > 0)
+                _energyTimer--;
 
-                    RemovePetStatus();
-
-                    _actionTimer = Yupi.GetRandomNumber(15, 40 + GetRoomUser().PetData.VirtualId);
-
-                    if (GetRoomUser().RidingHorse != true)
-                    {
-                        RemovePetStatus();
-
-                        if (GetRoomUser().FollowingOwner != null)
-                            GetRoomUser().MoveTo(GetRoomUser().FollowingOwner.SquareBehind);
-                        else
-                        {
-                            if (GetRoomUser().PetData.Type == "pet_monster")
-                                return;
-
-                            Point randomPoint = GetRoom().GetGameMap().GetRandomWalkableSquare();
-
-                            if (randomPoint.X == 0 || randomPoint.Y == 0)
-                                goto IL_1B5;
-
-                            GetRoomUser().MoveTo(randomPoint.X, randomPoint.Y);
-                        }
-                    }
-
-                    if (new Random().Next(2, 15) % 2 == 0)
-                    {
-                        if (GetRoomUser().PetData.Type == "pet_monster")
-                        {
-                            MoplaBreed breed = GetRoomUser().PetData.MoplaBreed;
-
-                            GetRoomUser().PetData.Energy--;
-                            GetRoomUser().AddStatus("gst", breed.LiveState == MoplaState.Dead ? "sad" : "sml");
-                            GetRoomUser().PetData.MoplaBreed.OnTimerTick(GetRoomUser().PetData.LastHealth, GetRoomUser().PetData.UntilGrown);
-                        }
-                        else
-                        {
-                            if (GetRoomUser().PetData.Energy < 30)
-                                GetRoomUser().AddStatus("lay", "");
-                            else
-                            {
-                                GetRoomUser().AddStatus("gst", "joy");
-
-                                if (new Random().Next(1, 7) == 3)
-                                    GetRoomUser().AddStatus("snf", "");
-                            }
-                        }
-
-                        GetRoomUser().UpdateNeeded = true;
-                    }
-
-                    goto IL_1B5;
-                }
-                catch (Exception pException)
-                {
-                    ServerLogManager.HandleException(pException, "PetBot.OnTimerTick");
-
-                    goto IL_1B5;
-                }
-            }
-
-            _actionTimer--;
-
-            IL_1B5:
-
-            if (_energyTimer <= 0)
-            {
+            if (_speechTimer == 0 || _actionTimer == 0)
                 RemovePetStatus();
 
-                RoomUser roomUser2 = GetRoomUser();
+            if (roomUser.X == roomUser.GoalX && roomUser.Y == roomUser.GoalY)
+                roomUser.ClearMovement();
 
-                roomUser2?.PetData.PetEnergy(true);
+            if (_speechTimer == 0)
+            {
+                _speechTimer = (uint)new Random().Next(20, 100);
 
-                _energyTimer = Yupi.GetRandomNumber(30, 120);
+                if (roomUser.PetData.DbState != DatabaseUpdateState.NeedsInsert)
+                    roomUser.PetData.DbState = DatabaseUpdateState.NeedsUpdate;
 
-                return;
+                string[] value = PetLocale.GetValue($"speech.pet{roomUser.PetData.Type.Replace("pet", string.Empty)}");
+
+                string text = value[random.Next(0, value.Length - 1)];
+
+                if (GetRoom() != null && !GetRoom().MutedPets)
+                    roomUser.Chat(null, text, false, 0);
+                else
+                    roomUser.Statusses.Add(text, ServerUserChatTextHandler.GetString(roomUser.Z));               
             }
 
-            _energyTimer--;
+            if (_actionTimer == 0)
+            {
+                _actionTimer = (uint)random.Next(10, 40);
+
+                if (roomUser.FollowingOwner != null)
+                    _actionTimer = 2;
+
+                if (!roomUser.RidingHorse)
+                {
+                    if (roomUser.PetData.Type == "pet_monster")
+                        return;
+
+                    if (roomUser.FollowingOwner != null)
+                        roomUser.MoveTo(roomUser.FollowingOwner.SquareBehind);
+
+                    if (roomUser.FollowingOwner == null)
+                    {
+                        Point randomPoint = GetRoom().GetGameMap().GetRandomWalkableSquare();
+
+                        if (randomPoint.X == 0 || randomPoint.Y == 0)
+                            return;
+
+                        roomUser.MoveTo(randomPoint.X, randomPoint.Y);
+                    }
+                }
+
+                if (random.Next(2, 5) % 2 == 0)
+                {
+                    switch (roomUser.PetData.Type)
+                    {
+                        case "pet_monster":
+                            {
+                                MoplaBreed breed = GetRoomUser().PetData.MoplaBreed;
+
+                                roomUser.PetData.Energy--;
+
+                                roomUser.AddStatus("gst", breed.LiveState == MoplaState.Dead ? "sad" : "sml");
+
+                                roomUser.PetData.MoplaBreed.OnTimerTick(roomUser.PetData.LastHealth, roomUser.PetData.UntilGrown);
+                            }
+                            break;
+                        default:
+                            {
+                                if (roomUser.PetData.Energy < 30 || random.Next(2, 5) % 2 == 0)
+                                    roomUser.AddStatus("lay", string.Empty);
+                                else if ((roomUser.PetData.Energy < 30 && roomUser.PetData.Nutrition < 30) || roomUser.PetData.Nutrition < 30 || random.Next(2, 5) % 2 == 0)
+                                    roomUser.AddStatus("snf", string.Empty);
+                                else if(GetRoomUser().PetData.Energy >= 30)
+                                    roomUser.AddStatus("gst", "joy");
+                                else
+                                    roomUser.AddStatus("gst", "sml");
+                            }
+                            break;
+                    }
+                }
+            }
+
+            if (_energyTimer == 0)
+            {
+                _energyTimer = (uint)random.Next(30, 120);
+
+                roomUser.PetData.PetEnergy(true);
+            }
+
+            roomUser.UpdateNeeded = true;
         }
 
         /// <summary>
@@ -403,10 +415,6 @@ namespace Yupi.Game.RoomBots.Models
                 return;
 
             roomUser.Statusses.Clear();
-            roomUser.IsWalking = false;
-            roomUser.ClearMovement();
-            roomUser.SetStep = false;
-
             roomUser.UpdateNeeded = true;
         }
 

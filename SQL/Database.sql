@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: 07-Jan-2016 às 15:52
+-- Generation Time: 08-Jan-2016 às 21:38
 -- Versão do servidor: 5.5.42
 -- PHP Version: 5.6.10
 
@@ -290,7 +290,7 @@ CREATE TABLE `bots_commands` (
 
 INSERT INTO `bots_commands` (`id`, `bot_type`, `speech_input`, `speech_input_alias`, `speech_output`, `speech_is_from_speeches`, `speech_speeches_id`, `action_command`, `action_command_parameters`, `action_bot`) VALUES
 (1, 'bot_bartender', 'come here', 'comehere;vem aqui', 'I''m going!', '0', 0, NULL, NULL, 'bot_move_to_user'),
-(2, 'bot_bartender', 'água', 'agua', 'A fresh water for you!', '0', 0, 'handitem', 'handitem 1', NULL);
+(2, 'bot_bartender', 'água', 'agua', 'A fresh water for you!', '0', 0, 'handitem', 'handitem 1', 'bot_move_to_user');
 
 -- --------------------------------------------------------
 
@@ -342,7 +342,7 @@ CREATE TABLE `catalog_bots` (
 --
 
 INSERT INTO `catalog_bots` (`bot_type`, `bot_name`, `bot_look`, `bot_mission`, `bot_gender`) VALUES
-('bot_bartender', 'Mahw', 'hr-9534-39.hd-600-1.ch-819-92.lg-3058-64.sh-3064-110.wa-2005', 'Sacia a sede e você pode dançar!', 'f'),
+('bot_bartender', 'Fuckin Idiot', 'hr-9534-39.hd-600-1.ch-819-92.lg-3058-64.sh-3064-110.wa-2005', 'Sacia a sede e você pode dançar!', 'f'),
 ('bot_generic', 'Claudio', 'hr-3020-34.hd-3091-2.ch-225-92.lg-3058-100.sh-3089-1338.ca-3084-78-108.wa-2005', 'Fala, caminhadas, danças e vestidos', 'm');
 
 -- --------------------------------------------------------
@@ -12622,10 +12622,10 @@ INSERT INTO `server_langs` (`id`, `lang`, `name`, `text`) VALUES
 (25, 'english', 'user_send_gift', 'Youre purchasing gifts too fast! Please wait 15 seconds, then you purchase another gift.'),
 (26, 'english', 'user_send_gift_effect', 'You cant send effects as gifts.'),
 (27, 'english', 'user_group_owner_error', 'Uhm, looks like youre not the owner of the group. Anyway, you received a Group Forum Terminal, which would work only when the owner of the group buys a forum.'),
-(28, 'english', 'user_viking_error', '¡Lo sentimos! Esta cabaña Vikingo ya ha sido quemada y no hay marcha atrás!'),
-(29, 'english', 'user_check_rights_error', 'Ocurrix00f3 un error.'),
-(30, 'english', 'user_setmax_100', 'El mx00e1ximo es 100'),
-(31, 'english', 'user_setmin_10', 'El mx00ednimo es 10'),
+(28, 'english', 'user_viking_error', 'We are sorry! This cabin Viking has already been burned and no turning back!'),
+(29, 'english', 'user_check_rights_error', 'Sorry, you dont have permissions for that.'),
+(30, 'english', 'user_setmax_100', 'The max of users per room is 100'),
+(31, 'english', 'user_setmin_10', 'The min of users per room is 10'),
 (32, 'english', 'enter_username', 'Please enter a UserName'),
 (33, 'english', 'enter_numbers', 'Numbers Only!'),
 (34, 'english', 'user_is_admin', 'Group Admin'),
@@ -12647,47 +12647,47 @@ INSERT INTO `server_langs` (`id`, `lang`, `name`, `text`) VALUES
 (50, 'english', 'command_refresh_achievements', 'command_refresh_achievements'),
 (51, 'english', 'command_user_error', 'An error has just occured.'),
 (52, 'english', 'command_redeem_credits', 'All credits were succesfully converted!'),
-(53, 'english', 'user_room_video_true', 'Je Youtube video is nu beschikbaar voor iedereen!'),
-(54, 'english', 'user_room_video_false', 'Er is een fout opgetreden!'),
-(55, 'english', 'user_room_mute_bots', 'We hebben de wijziging doorgevoerd!'),
-(56, 'english', 'command_dance_false', 'Je kunt alleen een dans ID geven tussen 0 en 4!'),
+(53, 'english', 'user_room_video_true', 'Your YouTube video is now available to everyone!'),
+(54, 'english', 'user_room_video_false', 'An error has occurred!'),
+(55, 'english', 'user_room_mute_bots', 'We have made the change!'),
+(56, 'english', 'command_dance_false', 'You can only give a dance ID between 0 and 4!'),
 (57, 'english', 'command_group_yes', 'yes'),
-(58, 'english', 'command_group_delete_confirm', 'Wil je echt je groep verwijderem? Deze is niet meer terug te krijgen! Om dit te bevestigen typ je het volgende '':deletegroup yes'''),
-(59, 'english', 'command_group_has_no_room', 'Deze kamer heeft (nog) geen groep.'),
-(60, 'english', 'command_group_remove', 'Kamer is verwijderd!'),
-(61, 'english', 'command_group_no_owner', 'Je bent niet de eigenaar van deze kamer!'),
+(58, 'english', 'command_group_delete_confirm', 'Do you really want to delete group? This is not recoverable! To confirm this, type the following ": delete group yes'''),
+(59, 'english', 'command_group_has_no_room', 'This room has not (yet) group.'),
+(60, 'english', 'command_group_remove', 'Room has been deleted!'),
+(61, 'english', 'command_group_no_owner', 'You are not the owner of this room!'),
 (62, 'english', 'user_is_not_vip', 'Please buy VIP to use this command!'),
 (63, 'english', 'command_pull_error_own', 'You can''t pull yourself!'),
 (64, 'english', 'command_pull_error_far_away', 'User is too far away to pull.'),
 (65, 'english', 'command_error_teleport_enable', 'Teleport is enabled please turn it off to use this command!'),
-(66, 'english', 'command_setmax_error_max', 'Je kunt alleen 100 gasten istellen als maximum.'),
-(67, 'english', 'command_setmax_error_min', 'Je kunt alleen 10 gasten instellen als minimum.'),
+(66, 'english', 'command_setmax_error_max', 'You can only set a maximum of 100 guests.'),
+(67, 'english', 'command_setmax_error_min', 'You can only set a minimum 10 guests.'),
 (68, 'english', 'command_setmax_error_number', 'You must enter a number to set'),
-(69, 'english', 'command_setspeed_error_numbers', 'Alleen nummers!'),
+(69, 'english', 'command_setspeed_error_numbers', 'Numbers only!'),
 (70, 'english', 'command_push_error_own', 'You can''t push yourself!'),
-(71, 'english', 'command_push_user', '{0} no est\\x00e1 tan cerca.'),
-(72, 'english', 'command_kick_user_mod', 'Je bent uit de kamer gekickt door een moderator met de volgende reden : '),
-(73, 'english', 'command_kick_user_mod_default', 'Je bent uit de kamer gekickt door een moderator.'),
+(71, 'english', 'command_push_user', '{0} Isnt near to you'),
+(72, 'english', 'command_kick_user_mod', 'You are kicked out of the room by a moderator with the following reason:'),
+(73, 'english', 'command_kick_user_mod_default', 'You are kicked out of the room by a moderator.'),
 (74, 'english', 'command_kick_user_not_in_room', 'user is not in room!'),
 (75, 'english', 'user_is_higher_rank', 'You are not allowed to kick this user!'),
-(76, 'english', 'command_badge_invalid', 'Je moet wel een geldige badge naam geven !'),
+(76, 'english', 'command_badge_invalid', 'You must provide a valid name badge!'),
 (77, 'english', 'command_badge_remove_error', 'User doesnt own this badge'),
 (78, 'english', 'command_badge_remove_done', 'Badge removed from user!'),
 (79, 'english', 'command_badge_give_done', 'User had now the badge!'),
-(80, 'english', 'command_ban_user_no_reason', 'De moderator heeft geen reden gegeven voor de ban!'),
-(81, 'english', 'command_dance_wrong_syntax', 'Nummer moet tussen de 1 en 4 zijn.'),
+(80, 'english', 'command_ban_user_no_reason', 'The moderator has no reason given for the ban!'),
+(81, 'english', 'command_dance_wrong_syntax', 'Number must be between 1 and 4.'),
 (82, 'english', 'command_ip_ban_error', 'reason and username are required'),
 (83, 'english', 'use_the_command_as', 'Use the command as: '),
-(84, 'english', 'user_earn_badge', 'Je hebt een badge ontvangen! Kijk in je inventaris.'),
+(84, 'english', 'user_earn_badge', 'You have received a badge! Look in your inventory.'),
 (85, 'english', 'user_floor_editor_error', 'El modelo que has elegido tiene carácteres no válidos. Recuerda meterlos en minúscula y de a-k (x).'),
 (86, 'english', 'user_floor_editor_save', 'Your new floorplan was saved! Your room was unloaded for applying changes.'),
 (87, 'english', 'server_shutdown', 'The server is shutting down. What are you doing?'),
 (88, 'english', 'user_has_more_then_75_rooms', 'You can''t have more than 75 rooms. Try to delete some rooms!'),
 (89, 'english', 'user_create_room_flood_error', 'Please wait 20 seconds before creating the next room!'),
-(90, 'english', 'no_room_rights_error', 'No puedes darle permisos.'),
-(91, 'english', 'character_error_plus', 'No puedes colocar ninguna palabra que tenga un '' + '' por asuntos técnicos.'),
+(90, 'english', 'no_room_rights_error', 'You can not give permissions.'),
+(91, 'english', 'character_error_plus', 'I can not put any words that have a ''+'' by technical issues.'),
 (92, 'english', 'user_is_not_in_room', 'You must be in room to save these changes.'),
-(93, 'english', 'user_is_not_his_room', 'No puedes hacer esto en una Sala que no es tuya...'),
+(93, 'english', 'user_is_not_his_room', 'You can not do this in a room that is not yours ...'),
 (94, 'english', 'invalid_room_length', 'Invalid room length'),
 (95, 'english', 'command_diamonds_one_give', 'You''ve been given <b>'),
 (96, 'english', 'command_diamonds_two_give', '</b> Diamonds by Staff.'),
@@ -12702,16 +12702,16 @@ INSERT INTO `server_langs` (`id`, `lang`, `name`, `text`) VALUES
 (105, 'english', 'user_info_u', 'User info for'),
 (106, 'english', 'user_info_all', 'User Info for {0}:\\rUser ID: {1} \\rRank: {2} \\rCredits: {3} \\rDuckets: {4} \\rDiamonds: {5}'),
 (107, 'english', 'group_leave_owner', 'You can''t leave a group if you are the creator!'),
-(108, 'english', 'help_information_error', 'Er is een fout opgetreden!'),
-(109, 'english', 'help_information_error_rank_low', 'Je hebt een hogere rank nodig.'),
+(108, 'english', 'help_information_error', 'An error has occurred!'),
+(109, 'english', 'help_information_error_rank_low', 'You need a higher rank.'),
 (110, 'english', 'room_moodlight_one_allowed', 'You already have a moodlight'),
-(111, 'english', 'room_toner_one_allowed', 'Alleen 1 kamerachtergrond per kamer'),
+(111, 'english', 'room_toner_one_allowed', 'Only one room per room background'),
 (112, 'english', 'error_creating_gift', 'error_creating_gift'),
 (113, 'english', 'room_trade_disabled', 'Trading is disabled for this room.'),
 (114, 'english', 'room_trade_disabled_no_rights', 'You need rights to trade in this room!'),
 (115, 'english', 'room_trade_disabled_hotel', 'Habbo has disabled trading for the whole hotel.'),
-(116, 'english', 'room_trade_disabled_mod', 'Je kunt niet meer ruilen dit is uitgeschakeld door een moderator. Deze verloopt op:'),
-(117, 'english', 'bliep_wisselkoers_uitgeschakeld', 'Habbo has temporarily disabled the exchange of coins!'),
+(116, 'english', 'room_trade_disabled_mod', 'You can not exchange it has been disabled by a moderator. This goes on:'),
+(117, 'english', 'exchange_is_disabled', 'Habbo has temporarily disabled the exchange of coins!'),
 (118, 'english', 'lovelock_error_1', 'You and your friend must stand side by side to the Lovelock!'),
 (119, 'english', 'lovelock_error_2', 'You can''t lock your friendship to that partner! Please choose another one.'),
 (120, 'english', 'lovelock_error_3', 'You can''t use this lovelock for some reason. Please report it.'),
@@ -12734,14 +12734,14 @@ INSERT INTO `server_langs` (`id`, `lang`, `name`, `text`) VALUES
 (137, 'english', 'horse_handitem_error', 'You can not do that while riding a Horse!'),
 (138, 'english', 'kil_command_error_1', 'User is not beside you.'),
 (139, 'english', 'kil_command_error_2', 'You can not kill someone who already lies/sits.'),
-(140, 'english', 'room_owner_has_mute_user', '¡El dueño de la Sala te ha muteado por {0} minutos!'),
-(141, 'english', 'viking_burn_started', '{0} ha empezado a quemar una cabaña vikingo de tu Sala!'),
+(140, 'english', 'room_owner_has_mute_user', 'The owner of the room you have muted for {0} minutes!'),
+(141, 'english', 'viking_burn_started', '{0} has begun to burn a Viking hut your room!'),
 (142, 'english', 'staff_gives_duckets', '{0} gave you {1} Duckets :3'),
 (143, 'english', 'staff_gives_diamonds', '{0} gave you {1} Diamonds :3'),
 (144, 'english', 'staff_gives_credits', '{0} gave you {1} credits :3'),
 (145, 'english', 'kick_mod_room_message', 'You have been kicked by an moderator: {0}'),
 (146, 'english', 'bot_give_handitem', 'Here you go !'),
-(147, 'english', 'user_friend_request_max', 'Tienes muchos amigos! No puedes tener más'),
+(147, 'english', 'user_friend_request_max', 'You have a lot of friends! You can not have more'),
 (148, 'english', 'command_mass_credits_one_give', 'You''ve been given <b>'),
 (149, 'english', 'command_mass_credits_two_give', '</b> credits by Staff.'),
 (150, 'english', 'alert_event_message', 'You can use {username} and {extrainfo}.');
@@ -12764,28 +12764,13 @@ CREATE TABLE `server_settings` (
 --
 
 INSERT INTO `server_settings` (`variable`, `value`, `description`) VALUES
-('auth.useIPwithSSO', 'false', 'Check the IP as well as SSO when logging in a user'),
-('bots.max', '5', 'Maximum bots per room'),
-('catalogue_enabled', '1', 'Catalog'),
-('client.maxrequests', '2000', 'Maximum friend requests'),
 ('exchange_enabled', '1', ''),
-('game.credits.amount', '100', 'Amount of credits given every loop'),
-('game.credits.enabled', 'true', 'If giving credits is enabled every loop'),
-('game.credits.time', '900', 'Amount of time for the credit loop'),
-('game.pixels.amount', '100', 'Amount of pixels given every loop'),
-('game.pixels.enabled', 'true', 'If giving pixels is enabled every loop'),
-('game.pixels.time', '900', 'Amount of time for the pixels loop'),
-('gifts_enabled', '1', ''),
-('group.enabled', '0', 'Enable in-client groups (NOT YET SUPPORTED)'),
 ('placing_enabled', '1', ''),
-('SeparatedTasksInGameClientManager.enabled', 'false', 'Run gameclients on a seperate task'),
-('SeparatedTasksInMainLoops.enabled', 'true', 'Run Main loops on a seperate task'),
 ('spambans.limit', '8', 'Limit of spammed messages before ban'),
 ('trading_enabled', '1', ''),
-('AlertFilter.limit', '4', 'Automatic alert filter :)'),
-('ambassador.minrank', '4', 'Min rank for being ambassador.'),
-('noob.lobby.roomid', '3', 'roomId for predefined_noob_lobby'),
-('recycler.box_name', '4378', 'Furniture Name for Recycler Box'),
+('ambassador.minrank', '2', 'Min User Rank to be Hotel Ambassador'),
+('noob.lobby.roomid', '1', 'Room Id for Newbie Loby Room'),
+('recycler.box_name', 'matic_box', 'Furniture Name for Recycler Box'),
 ('recycler.number_of_slots', '5', 'Number of slots in furnimatic (must be the same as in external_variables)');
 
 -- --------------------------------------------------------
@@ -12830,7 +12815,7 @@ CREATE TABLE `server_status` (
 --
 
 INSERT INTO `server_status` (`id`, `status`, `users_online`, `rooms_loaded`, `server_ver`, `stamp`, `minutesuptime`, `userpeak`, `bannerdata`) VALUES
-(1, '1', 1, 1, 'Yupi Emulator', 1452178103, 0, 2, '114670925920269957593299136150366957983142588366300079186349531:1589935137502239924254699078669119674538324391752663931735947');
+(1, '1', 0, 0, 'Yupi Emulator', 1452285152, 0, 2, '114670925920269957593299136150366957983142588366300079186349531:1589935137502239924254699078669119674538324391752663931735947');
 
 -- --------------------------------------------------------
 
@@ -12860,47 +12845,47 @@ CREATE TABLE `talents_data` (
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(11) unsigned NOT NULL,
-  `username` varchar(100) CHARACTER SET utf8mb4 NOT NULL,
-  `real_name` varchar(100) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
-  `password` varchar(100) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
-  `auth_ticket` varchar(100) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
+  `username` varchar(100) NOT NULL,
+  `real_name` varchar(100) NOT NULL DEFAULT '',
+  `password` varchar(100) NOT NULL DEFAULT '',
+  `auth_ticket` varchar(100) NOT NULL DEFAULT '',
   `rank` int(11) unsigned NOT NULL DEFAULT '1',
   `credits` int(11) unsigned NOT NULL DEFAULT '50000',
   `activity_points` int(11) unsigned NOT NULL DEFAULT '0',
   `activity_points_lastupdate` double NOT NULL DEFAULT '0',
   `diamonds` int(11) unsigned NOT NULL DEFAULT '0',
-  `look` varchar(160) CHARACTER SET utf8mb4 NOT NULL DEFAULT 'hr-115-42.hd-190-1.ch-215-62.lg-285-91.sh-290-62',
-  `gender` enum('M','F') CHARACTER SET utf8mb4 NOT NULL DEFAULT 'M',
-  `motto` varchar(50) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
-  `mail` varchar(191) CHARACTER SET utf8mb4 NOT NULL DEFAULT 'undefined',
+  `look` varchar(160) NOT NULL DEFAULT 'hr-115-42.hd-190-1.ch-215-62.lg-285-91.sh-290-62',
+  `gender` enum('M','F') NOT NULL DEFAULT 'M',
+  `motto` varchar(50) NOT NULL DEFAULT '',
+  `mail` varchar(191) NOT NULL DEFAULT 'undefined',
   `account_created` int(11) NOT NULL DEFAULT '0',
   `last_online` int(11) NOT NULL DEFAULT '0',
-  `online` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
-  `ip_last` varchar(120) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
-  `ip_reg` varchar(120) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
+  `online` enum('0','1') NOT NULL DEFAULT '0',
+  `ip_last` varchar(120) NOT NULL DEFAULT '',
+  `ip_reg` varchar(120) NOT NULL DEFAULT '',
   `home_room` int(10) unsigned NOT NULL DEFAULT '0',
   `newbie_status` int(11) NOT NULL DEFAULT '0',
-  `is_muted` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
-  `mutant_penalty` enum('0','1','2') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
+  `is_muted` enum('0','1') NOT NULL DEFAULT '0',
+  `mutant_penalty` enum('0','1','2') NOT NULL DEFAULT '0',
   `mutant_penalty_expire` int(11) NOT NULL DEFAULT '0',
-  `trade_lock` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
+  `trade_lock` enum('0','1') NOT NULL DEFAULT '0',
   `trade_lock_expire` int(11) NOT NULL DEFAULT '0',
-  `block_newfriends` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
-  `hide_online` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
-  `hide_inroom` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
-  `vip` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
-  `talent_status` enum('citizenship','helper') NOT NULL DEFAULT 'citizenship',
+  `block_newfriends` enum('0','1') NOT NULL DEFAULT '0',
+  `hide_online` enum('0','1') NOT NULL DEFAULT '0',
+  `hide_inroom` enum('0','1') NOT NULL DEFAULT '0',
+  `vip` enum('0','1') NOT NULL DEFAULT '0',
+  `talent_status` enum('citizenship','helper') CHARACTER SET utf8 NOT NULL DEFAULT 'citizenship',
   `last_name_change` int(11) NOT NULL DEFAULT '0',
-  `nux_passed` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
+  `nux_passed` enum('0','1') NOT NULL DEFAULT '0',
   `builders_expire` int(11) DEFAULT '3700',
   `builders_items_max` int(11) NOT NULL DEFAULT '100',
   `builders_items_used` int(11) NOT NULL DEFAULT '0',
   `release_version` int(11) NOT NULL DEFAULT '2',
-  `on_duty` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT 'false',
+  `on_duty` varchar(255) NOT NULL DEFAULT 'false',
   `duty_level` int(11) NOT NULL DEFAULT '0',
-  `navigator_logs` varchar(255) CHARACTER SET utf8mb4 DEFAULT '1,official-root,;2,popular,;3,my,;4,favorites,',
+  `navigator_logs` varchar(255) DEFAULT '1,official-root,;2,popular,;3,my,;4,favorites,',
   `respect` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 

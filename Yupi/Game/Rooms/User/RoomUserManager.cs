@@ -666,23 +666,30 @@ namespace Yupi.Game.Rooms.User
         internal ServerMessage SerializeStatusUpdates(bool all)
         {
             List<RoomUser> list = new List<RoomUser>();
+
             foreach (RoomUser current in UserList.Values)
             {
                 if (!all)
                 {
                     if (!current.UpdateNeeded)
                         continue;
+
                     current.UpdateNeeded = false;
                 }
+
                 list.Add(current);
             }
+
             if (!list.Any())
                 return null;
 
             ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("UpdateUserStatusMessageComposer"));
+
             serverMessage.AppendInteger(list.Count);
+
             foreach (RoomUser current2 in list)
                 current2.SerializeStatus(serverMessage);
+
             return serverMessage;
         }
 
@@ -1204,8 +1211,7 @@ namespace Yupi.Game.Rooms.User
                 {
                     RoomUser horsePetAi = GetRoomUserByVirtualId(Convert.ToInt32(roomUsers.HorseId));
 
-                    if (horsePetAi != null)
-                        horsePetAi.BotAi.OnTimerTick();
+                    horsePetAi?.BotAi.OnTimerTick();
                 }
 
                 // Horse Ridding need be Updated First
@@ -1680,7 +1686,10 @@ namespace Yupi.Game.Rooms.User
                 if (!user.IsSpectator)
                 {
                     DynamicRoomModel model = _userRoom.GetGameMap().Model;
-                    if (model == null) return;
+
+                    if (model == null)
+                        return;
+
                     user.SetPos(model.DoorX, model.DoorY, model.DoorZ);
                     user.SetRot(model.DoorOrientation, false);
 
@@ -1706,6 +1715,7 @@ namespace Yupi.Game.Rooms.User
                             item.UpdateState(false, true);
                         }
                     }
+
                     if (!user.IsBot && client.GetHabbo().IsHopping)
                     {
                         client.GetHabbo().IsHopping = false;
@@ -1725,15 +1735,16 @@ namespace Yupi.Game.Rooms.User
                             item2.UpdateState(false, true);
                         }
                     }
+
                     if (!user.IsSpectator)
                     {
-                        ServerMessage serverMessage =
-                            new ServerMessage(LibraryParser.OutgoingRequest("SetRoomUserMessageComposer"));
+                        ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("SetRoomUserMessageComposer"));
                         serverMessage.AppendInteger(1);
                         user.Serialize(serverMessage, _userRoom.GetGameMap().GotPublicPool);
                         _userRoom.SendMessage(serverMessage);
                     }
-                    if (!user.IsBot)
+
+                    if (!user.IsBot && !user.IsPet)
                     {
                         ServerMessage serverMessage2 = new ServerMessage();
                         serverMessage2.Init(LibraryParser.OutgoingRequest("UpdateUserDataMessageComposer"));
@@ -1744,24 +1755,24 @@ namespace Yupi.Game.Rooms.User
                         serverMessage2.AppendInteger(client.GetHabbo().AchievementPoints);
                         _userRoom.SendMessage(serverMessage2);
                     }
+
                     if (_userRoom.RoomData.Owner != client.GetHabbo().UserName)
-                    {
-                        Yupi.GetGame()
-                            .GetAchievementManager()
-                            .ProgressUserAchievement(client, "ACH_RoomEntry", 1);
-                    }
+                        Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(client, "ACH_RoomEntry", 1);
                 }
+
                 if (client.GetHabbo().GetMessenger() != null)
                     client.GetHabbo().GetMessenger().OnStatusChanged(true);
+
                 client.GetMessageHandler().OnRoomUserAdd();
 
                 //if (client.GetHabbo().HasFuse("fuse_mod")) client.GetHabbo().GetAvatarEffectsInventoryComponent().ActivateCustomEffect(102);
                 //if (client.GetHabbo().Rank == Convert.ToUInt32(Yupi.GetDbConfig().DbData["ambassador.minrank"])) client.GetHabbo().GetAvatarEffectsInventoryComponent().ActivateCustomEffect(178);
 
-                if (OnUserEnter != null)
-                    OnUserEnter(user, null);
+                OnUserEnter?.Invoke(user, null);
+
                 if (_userRoom.GotMusicController() && _userRoom.GotMusicController())
                     _userRoom.GetRoomMusicController().OnNewUserEnter(user);
+
                 _userRoom.OnUserEnter(user);
             }
             catch (Exception ex)

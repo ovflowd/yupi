@@ -1218,7 +1218,7 @@ namespace Yupi.Messages.Handlers
 
             using (IQueryAdapter queryreactor2 = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryreactor2.SetQuery("INSERT INTO items_rooms (user_id,item_name,extra_data) VALUES ( @userid , @baseName, @timestamp)");
+                queryreactor2.SetQuery("INSERT INTO items_rooms (user_id,item_name,extra_data) VALUES (@userid, @baseName, @timestamp)");
 
                 queryreactor2.AddParameter("userid", (int)Session.GetHabbo().Id);
                 queryreactor2.AddParameter("timestamp", DateTime.Now.ToLongDateString());
@@ -1249,7 +1249,7 @@ namespace Yupi.Messages.Handlers
 
             if (Yupi.GetDbConfig().DbData["exchange_enabled"] != "1")
             {
-                Session.SendNotif(Yupi.GetLanguage().GetVar("bliep_wisselkoers_uitgeschakeld"));
+                Session.SendNotif(Yupi.GetLanguage().GetVar("exchange_is_disabled"));
                 return;
             }
 

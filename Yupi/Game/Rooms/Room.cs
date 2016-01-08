@@ -784,16 +784,16 @@ namespace Yupi.Game.Rooms
                             Yupi.GetGame().GetRoomManager().UnloadRoom(this, "No users");
                             return;
                         }
+
                         ServerMessage serverMessage = GetRoomUserManager().SerializeStatusUpdates(false);
+
                         if (serverMessage != null)
                             SendMessage(serverMessage);
                     }
 
-                    if (_gameItemHandler != null)
-                        _gameItemHandler.OnCycle();
+                    _gameItemHandler?.OnCycle();
 
-                    if (_game != null)
-                        _game.OnCycle();
+                    _game?.OnCycle();
 
                     if (GotBanzai())
                         _banzai.OnCycle();

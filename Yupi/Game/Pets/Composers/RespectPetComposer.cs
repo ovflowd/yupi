@@ -8,7 +8,7 @@ namespace Yupi.Game.Pets.Composers
     {
         internal static void GenerateMessage(Pet pet)
         {
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("RespectPetComposer"));
+            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("RespectPetMessageComposer"));
             serverMessage.AppendInteger(pet.VirtualId);
             serverMessage.AppendBool(true);
             pet.Room.SendMessage(serverMessage);

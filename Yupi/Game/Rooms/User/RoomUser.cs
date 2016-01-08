@@ -719,29 +719,31 @@ namespace Yupi.Game.Rooms.User
 
             if (msg.Length > 100) // si el mensaje es mayor que la máxima longitud (scripter)
                 return;
+
             if (!ServerSecurityChatFilter.CanTalk(session, msg))
                 return;
 
-            if (session == null || session.GetHabbo() == null)
+            if (session?.GetHabbo() == null)
                 return;
 
             BlackWord word;
-            if (!(msg.StartsWith(":deleteblackword ") && session.GetHabbo().Rank > 4) &&
-                BlackWordsManager.Check(msg, BlackWordType.Hotel, out word))
+
+            if (!(msg.StartsWith(":deleteblackword ") && session.GetHabbo().Rank > 4) &&  BlackWordsManager.Check(msg, BlackWordType.Hotel, out word))
             {
                 BlackWordTypeSettings settings = word.TypeSettings;
-                //session.HandlePublicist(word.Word, msg, "CHAT", settings);
+
+                session.HandlePublicist(word.Word, msg, "CHAT", settings);
 
                 if (settings.ShowMessage)
                 {
-                    session.SendWhisper("A mensagem contém a palavra: " + word.Word +
-                                        " que não é permitida, você poderá ser banido!");
+                    session.SendWhisper("The message contains the word: " + word.Word + " that isn't allowed. You can be banned");
                     return;
                 }
             }
 
             if (!IsBot && IsFlooded && FloodExpiryTime <= Yupi.GetUnixTimeStamp())
                 IsFlooded = false;
+
             else if (!IsBot && IsFlooded)
                 return; // ciao flooders!
 
@@ -749,6 +751,7 @@ namespace Yupi.Game.Rooms.User
                 return;
 
             UnIdle();
+
             if (!IsPet && !IsBot)
             {
                 if (msg.StartsWith(":") && CommandsManager.TryExecute(msg.Substring(1), session))
@@ -774,44 +777,61 @@ namespace Yupi.Game.Rooms.User
                 if (rank < 4)
                 {
                     TimeSpan span = DateTime.Now - habbo.SpamFloodTime;
+
                     if ((span.TotalSeconds > habbo.SpamProtectionTime) && habbo.SpamProtectionBol)
                     {
                         _floodCount = 0;
                         habbo.SpamProtectionBol = false;
                         habbo.SpamProtectionAbuse = 0;
                     }
+
                     else if (span.TotalSeconds > 4.0)
                         _floodCount = 0;
+
                     ServerMessage message;
+
                     if ((span.TotalSeconds < habbo.SpamProtectionTime) && habbo.SpamProtectionBol)
                     {
                         message = new ServerMessage(LibraryParser.OutgoingRequest("FloodFilterMessageComposer"));
+
                         int i = habbo.SpamProtectionTime - span.Seconds;
+
                         message.AppendInteger(i);
                         IsFlooded = true;
                         FloodExpiryTime = Yupi.GetUnixTimeStamp() + i;
                         GetClient().SendMessage(message);
+
                         return;
                     }
+
                     if ((span.TotalSeconds < 4.0) && (_floodCount > 5) && (rank < 5))
                     {
                         message = new ServerMessage(LibraryParser.OutgoingRequest("FloodFilterMessageComposer"));
+
                         habbo.SpamProtectionCount++;
+
                         if (habbo.SpamProtectionCount%2 == 0)
                             habbo.SpamProtectionTime = 10*habbo.SpamProtectionCount;
                         else
                             habbo.SpamProtectionTime = 10*(habbo.SpamProtectionCount - 1);
+
                         habbo.SpamProtectionBol = true;
+
                         int j = habbo.SpamProtectionTime - span.Seconds;
+
                         message.AppendInteger(j);
+
                         IsFlooded = true;
                         FloodExpiryTime = Yupi.GetUnixTimeStamp() + j;
+
                         GetClient().SendMessage(message);
                         return;
                     }
+
                     habbo.SpamFloodTime = DateTime.Now;
                     _floodCount++;
                 }
+
                 if (habbo.Preferences.ChatColor != textColor)
                 {
                     habbo.Preferences.ChatColor = textColor;
@@ -825,12 +845,14 @@ namespace Yupi.Game.Rooms.User
             chatMsg.Init(shout
                 ? LibraryParser.OutgoingRequest("ShoutMessageComposer")
                 : LibraryParser.OutgoingRequest("ChatMessageComposer"));
+
             chatMsg.AppendInteger(VirtualId);
             chatMsg.AppendString(msg);
             chatMsg.AppendInteger(ChatEmotions.GetEmotionsForText(msg));
             chatMsg.AppendInteger(textColor);
             chatMsg.AppendInteger(0); // links count (foreach string string bool)
             chatMsg.AppendInteger(count);
+
             GetRoom().BroadcastChatMessage(chatMsg, this, session.GetHabbo().Id);
 
             GetRoom().OnUserSay(this, msg, shout);
@@ -879,13 +901,8 @@ namespace Yupi.Game.Rooms.User
             GoalY = 0;
             SetStep = false;
 
-            try
-            {
+            if (GetRoom().GetRoomUserManager().ToSet.ContainsKey(new Point(SetX, SetY)))
                 GetRoom().GetRoomUserManager().ToSet.Remove(new Point(SetX, SetY));
-            }
-            catch (Exception)
-            {
-            }
 
             SetX = 0;
             SetY = 0;
@@ -893,6 +910,7 @@ namespace Yupi.Game.Rooms.User
 
             if (!Statusses.ContainsKey("mv"))
                 return;
+
             Statusses.Remove("mv");
             UpdateNeeded = true;
         }
@@ -1230,19 +1248,24 @@ namespace Yupi.Game.Rooms.User
                 foreach (KeyValuePair<string, string> current in Statusses)
                 {
                     stringBuilder.Append(current.Key);
+
                     if (!string.IsNullOrEmpty(current.Value))
                     {
                         stringBuilder.Append(" ");
                         stringBuilder.Append(current.Value);
                     }
+
                     stringBuilder.Append("/");
                 }
             }
+
             stringBuilder.Append("/");
+
             message.AppendString(stringBuilder.ToString());
 
             if (!Statusses.ContainsKey("sign"))
                 return;
+
             RemoveStatus("sign");
             UpdateNeeded = true;
         }

@@ -105,8 +105,6 @@ namespace Yupi.Game.Catalogs
         /// <returns>Pet.</returns>
         internal static Pet CreatePet(uint userId, string name, string type, string race, string color, int rarity = 0)
         {
-            Console.WriteLine("Race: " + race);
-
             uint trace = Convert.ToUInt32(race);
 
             Pet pet = new Pet(404u, userId, 0u, name, type, trace, 0, 100, 150, 0, Yupi.GetUnixTimeStamp(), 0, 0, 0.0, false, 0, 0, -1, rarity, DateTime.Now.AddHours(36.0), DateTime.Now.AddHours(48.0), null, color)
@@ -417,13 +415,6 @@ namespace Yupi.Game.Catalogs
             }
             #endregion
 
-            #region Check if is a Pet. If is we have problem. WHY?
-
-            //if (item.Items.Keys.Any(current => InteractionTypes.AreFamiliar(GlobalInteractions.Pet, current.InteractionType)))
-            //    return;
-
-            #endregion
-
             #region Limited Items Purchase
             if (item.IsLimited)
             {
@@ -685,12 +676,12 @@ namespace Yupi.Game.Catalogs
 
                         if (!CheckPetName(petName))
                             return;
+
                         if (race.Length != 1 && race.Length != 2)
                             return;
+
                         if (color.Length != 6)
                             return;
-
-                        Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(session, "ACH_PetLover", 1);
                         break;
 
                     case Interaction.Mannequin:
