@@ -5576,7 +5576,7 @@ CREATE TABLE `catalog_items` (
   `extradata` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
   `badge` varchar(20) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
   `order_num` int(11) unsigned DEFAULT '1'
-) ENGINE=InnoDB AUTO_INCREMENT=4846 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4848 DEFAULT CHARSET=latin1;
 
 --
 -- Extraindo dados da tabela `catalog_items`
@@ -10352,7 +10352,9 @@ INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `special_name`, `cos
 (4842, 138, 'room_wlof15_bed', NULL, 10, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (4843, 138, 'room_wlof15_bookcase', NULL, 10, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (4844, 138, 'room_wlof15_chair', NULL, 10, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
-(4845, 138, 'room_wlof15_wardrobe', NULL, 10, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL);
+(4845, 138, 'room_wlof15_wardrobe', NULL, 10, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
+(4846, 87, 'pet_dog', 'pet_dog', 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
+(4847, 91, 'pet_lion', 'pet_lion', 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL);
 
 -- --------------------------------------------------------
 

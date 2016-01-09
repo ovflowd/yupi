@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using Yupi.Core.Io;
 using Yupi.Data.Base.Sessions.Interfaces;
 using Yupi.Game.Achievements.Structs;
 using Yupi.Game.Catalogs;
@@ -62,6 +63,19 @@ namespace Yupi.Game.Users.Factories
 
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
+                queryReactor.SetQuery("SELECT COUNT(auth_ticket) FROM users WHERE auth_ticket = @ticket");
+                queryReactor.AddParameter("ticket", sessionTicket);
+
+                int numberOfRows = queryReactor.GetInteger();
+
+                if (numberOfRows == 0)
+                {
+                    Writer.WriteLine("The SSO key " + sessionTicket + " isn't attached to any User.", "Yupi.SSO", ConsoleColor.DarkRed);
+                    Writer.WriteLine("Check if your CMS has the same SSO as in your Database.", "Yupi.SSO", ConsoleColor.DarkRed);
+                    Writer.WriteLine("You can also check if is a valid SSO and not DDoS.", "Yupi.SSO", ConsoleColor.DarkRed);
+                    return null;
+                }
+
                 // Get User Data
                 queryReactor.SetQuery("SELECT * FROM users WHERE auth_ticket = @ticket");
 
