@@ -7,7 +7,7 @@ using System.Data;
 using System.Linq;
 using Yupi.Core.Io;
 using Yupi.Data;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Browser.Models;
 using Yupi.Game.Events;
 using Yupi.Game.GameClients.Interfaces;
@@ -109,33 +109,21 @@ namespace Yupi.Game.Rooms
         /// <value>The loaded rooms count.</value>
         internal int LoadedRoomsCount => LoadedRooms.Count;
 
-        internal RoomCompetitionManager GetCompetitionManager()
-        {
-            return _competitionManager;
-        }
+        internal RoomCompetitionManager GetCompetitionManager() => _competitionManager;
 
-        internal void LoadCompetitionManager()
-        {
-            _competitionManager = new RoomCompetitionManager();
-        }
+        internal void LoadCompetitionManager() => _competitionManager = new RoomCompetitionManager();
 
         /// <summary>
         ///     Gets the active rooms.
         /// </summary>
         /// <returns>KeyValuePair&lt;RoomData, System.UInt32&gt;[].</returns>
-        internal KeyValuePair<RoomData, uint>[] GetActiveRooms()
-        {
-            return _orderedActiveRooms == null ? null : _orderedActiveRooms.ToArray();
-        }
+        internal KeyValuePair<RoomData, uint>[] GetActiveRooms() => _orderedActiveRooms?.ToArray();
 
         /// <summary>
         ///     Gets the voted rooms.
         /// </summary>
         /// <returns>KeyValuePair&lt;RoomData, System.Int32&gt;[].</returns>
-        internal KeyValuePair<RoomData, int>[] GetVotedRooms()
-        {
-            return _orderedVotedRooms?.ToArray();
-        }
+        internal KeyValuePair<RoomData, int>[] GetVotedRooms() => _orderedVotedRooms?.ToArray();
 
         /// <summary>
         ///     Gets the model.
@@ -188,11 +176,11 @@ namespace Yupi.Game.Rooms
                 return GetRoom(roomId).RoomData;
 
             RoomData roomData = new RoomData();
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery($"SELECT * FROM rooms_data WHERE id = {roomId} LIMIT 1");
+                commitableQueryReactor.SetQuery($"SELECT * FROM rooms_data WHERE id = {roomId} LIMIT 1");
 
-                DataRow dataRow = queryReactor.GetRow();
+                DataRow dataRow = commitableQueryReactor.GetRow();
                 if (dataRow == null)
                     return null;
 
@@ -224,6 +212,7 @@ namespace Yupi.Game.Rooms
                 return GetRoom(id);
 
             RoomData roomData = GenerateRoomData(id);
+
             if (roomData == null)
                 return null;
 
@@ -257,11 +246,14 @@ namespace Yupi.Game.Rooms
             if (LoadedRoomData.ContainsKey(roomId))
             {
                 LoadedRoomData[roomId].LastUsed = DateTime.Now;
+
                 return LoadedRoomData[roomId];
             }
+
             RoomData roomData = new RoomData();
             roomData.Fill(dRow);
             LoadedRoomData.TryAdd(roomId, roomData);
+
             return roomData;
         }
 
@@ -273,6 +265,7 @@ namespace Yupi.Game.Rooms
         internal Room GetRoom(uint roomId)
         {
             Room result;
+
             return LoadedRooms.TryGetValue(roomId, out result) ? result : null;
         }
 
@@ -298,6 +291,7 @@ namespace Yupi.Game.Rooms
             }
 
             uint roomId;
+
             using (IQueryAdapter dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 dbClient.SetQuery("INSERT INTO rooms_data (roomtype,caption,description,owner,model_name,category,users_max,trade_state) VALUES ('private',@caption,@desc,@UserId,@model,@cat,@usmax,@tstate)");
@@ -310,10 +304,14 @@ namespace Yupi.Game.Rooms
                 dbClient.AddParameter("tstate", tradeState.ToString());
                 roomId = (uint) dbClient.InsertQuery();
             }
+
             RoomData data = GenerateRoomData(roomId);
-            if (data == null) return null;
+
+            if (data == null)
+                return null;
 
             session.GetHabbo().UsersRooms.Add(data);
+
             return data;
         }
 
@@ -323,9 +321,9 @@ namespace Yupi.Game.Rooms
         /// <param name="dbClient">The database client.</param>
         internal void InitVotedRooms(IQueryAdapter dbClient)
         {
-            dbClient.SetQuery(
-                "SELECT * FROM rooms_data WHERE score > 0 AND roomtype = 'private' ORDER BY score DESC LIMIT 40");
+            dbClient.SetQuery("SELECT * FROM rooms_data WHERE score > 0 AND roomtype = 'private' ORDER BY score DESC LIMIT 40");
             DataTable table = dbClient.GetTable();
+
             foreach (
                 RoomData data in
                     from DataRow dataRow in table.Rows select FetchRoomData(Convert.ToUInt32(dataRow["id"]), dataRow))
@@ -350,20 +348,30 @@ namespace Yupi.Game.Rooms
         internal void LoadModels(IQueryAdapter dbClient)
         {
             _roomModels.Clear();
+
             dbClient.SetQuery("SELECT * FROM rooms_models");
             DataTable table = dbClient.GetTable();
-            if (table == null) return;
+
+            if (table == null)
+                return;
+
             foreach (DataRow dataRow in table.Rows)
             {
                 string key = (string) dataRow["id"];
-                if (key.StartsWith("model_floorplan_")) continue;
+
+                if (key.StartsWith("model_floorplan_"))
+                    continue;
+
                 string staticFurniMap = (string) dataRow["public_items"];
+
                 _roomModels.Add(key,
                     new RoomModel((int) dataRow["door_x"], (int) dataRow["door_y"], (double) dataRow["door_z"],
                         (int) dataRow["door_dir"], (string) dataRow["heightmap"], staticFurniMap,
                         Yupi.EnumToBool(dataRow["club_only"].ToString()), (string) dataRow["poolmap"]));
             }
+
             dbClient.SetQuery("SELECT * FROM rooms_models_customs");
+
             DataTable dataCustom = dbClient.GetTable();
 
             if (dataCustom == null) return;
@@ -381,18 +389,16 @@ namespace Yupi.Game.Rooms
         /// <summary>
         ///     Update the existent model.
         /// </summary>
-        /// <param name="model">The model.</param>
+        /// <param name="roomId"></param>
+        /// <param name="modelData"></param>
         internal void UpdateCustomModel(uint roomId, RoomModel modelData)
         {
             string modelId = $"custom_{roomId}";
+
             if (_roomModels.Contains(modelId))
-            {
                 _roomModels[modelId] = modelData;
-            }
             else
-            {
                 _roomModels.Add(modelId, modelData);
-            }
         }
 
         /// <summary>
@@ -502,10 +508,7 @@ namespace Yupi.Game.Rooms
             room.Disposed = true;
 
             if (Yupi.GetGame().GetNavigator().PrivateCategories.Contains(room.RoomData.Category))
-            {
-                ((PublicCategory) Yupi.GetGame().GetNavigator().PrivateCategories[room.RoomData.Category]).UsersNow -=
-                    room.UserCount;
-            }
+                ((PublicCategory) Yupi.GetGame().GetNavigator().PrivateCategories[room.RoomData.Category]).UsersNow -= room.UserCount;
 
             room.RoomData.UsersNow = 0;
             string state = "open";
@@ -519,9 +522,9 @@ namespace Yupi.Game.Rooms
 
             try
             {
-                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    queryReactor.SetQuery(
+                    commitableQueryReactor.SetQuery(
                         "UPDATE rooms_data SET caption = @caption, description = @description, password = @password, category = " +
                         room.RoomData.Category + ", state = '" + state +
                         "', tags = @tags, users_now = '0', users_max = " +
@@ -536,26 +539,26 @@ namespace Yupi.Game.Rooms
                         "', walls_height = '" + room.RoomData.WallHeight +
                         "', chat_type = @chat_t,chat_balloon = @chat_b,chat_speed = @chat_s,chat_max_distance = @chat_m,chat_flood_protection = @chat_f, trade_state = '" +
                         room.RoomData.TradeState + "' WHERE id = " + roomId);
-                    queryReactor.AddParameter("caption", room.RoomData.Name);
-                    queryReactor.AddParameter("description", room.RoomData.Description);
-                    queryReactor.AddParameter("password", room.RoomData.PassWord);
-                    queryReactor.AddParameter("tags", string.Join(",", room.RoomData.Tags));
-                    queryReactor.AddParameter("chat_t", room.RoomData.ChatType);
-                    queryReactor.AddParameter("chat_b", room.RoomData.ChatBalloon);
-                    queryReactor.AddParameter("chat_s", room.RoomData.ChatSpeed);
-                    queryReactor.AddParameter("chat_m", room.RoomData.ChatMaxDistance);
-                    queryReactor.AddParameter("chat_f", room.RoomData.ChatFloodProtection);
-                    queryReactor.RunQuery();
+                    commitableQueryReactor.AddParameter("caption", room.RoomData.Name);
+                    commitableQueryReactor.AddParameter("description", room.RoomData.Description);
+                    commitableQueryReactor.AddParameter("password", room.RoomData.PassWord);
+                    commitableQueryReactor.AddParameter("tags", string.Join(",", room.RoomData.Tags));
+                    commitableQueryReactor.AddParameter("chat_t", room.RoomData.ChatType);
+                    commitableQueryReactor.AddParameter("chat_b", room.RoomData.ChatBalloon);
+                    commitableQueryReactor.AddParameter("chat_s", room.RoomData.ChatSpeed);
+                    commitableQueryReactor.AddParameter("chat_m", room.RoomData.ChatMaxDistance);
+                    commitableQueryReactor.AddParameter("chat_f", room.RoomData.ChatFloodProtection);
+                    commitableQueryReactor.RunQuery();
                 }
             }
             catch (Exception e)
             {
-                Writer.LogException(e.ToString());
+                ServerLogManager.LogException(e.ToString());
             }
 
             if (room.GetRoomUserManager() != null && room.GetRoomUserManager().UserList != null)
             {
-                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
                     foreach (RoomUser current in room.GetRoomUserManager().UserList.Values.Where(current => current != null))
                     {
@@ -564,12 +567,12 @@ namespace Yupi.Game.Rooms
                             if (current.PetData == null)
                                 continue;
 
-                            queryReactor.SetQuery("UPDATE pets_data SET x=@x, y=@y, z=@z WHERE id=@id LIMIT 1");
-                            queryReactor.AddParameter("x", current.X);
-                            queryReactor.AddParameter("y", current.Y);
-                            queryReactor.AddParameter("z", current.Z);
-                            queryReactor.AddParameter("id", current.PetData.PetId);
-                            queryReactor.RunQuery();
+                            commitableQueryReactor.SetQuery("UPDATE pets_data SET x=@x, y=@y, z=@z WHERE id=@id LIMIT 1");
+                            commitableQueryReactor.AddParameter("x", current.X);
+                            commitableQueryReactor.AddParameter("y", current.Y);
+                            commitableQueryReactor.AddParameter("z", current.Z);
+                            commitableQueryReactor.AddParameter("id", current.PetData.PetId);
+                            commitableQueryReactor.RunQuery();
 
                             if (current.BotAi == null)
                                 continue;
@@ -581,17 +584,17 @@ namespace Yupi.Game.Rooms
                             if (current.BotData == null)
                                 continue;
 
-                            queryReactor.SetQuery("UPDATE bots_data SET x=@x, y=@y, z=@z, name=@name, motto=@motto, look=@look, rotation=@rotation, dance=@dance WHERE id=@id LIMIT 1");
-                            queryReactor.AddParameter("name", current.BotData.Name);
-                            queryReactor.AddParameter("motto", current.BotData.Motto);
-                            queryReactor.AddParameter("look", current.BotData.Look);
-                            queryReactor.AddParameter("rotation", current.BotData.Rot);
-                            queryReactor.AddParameter("dance", current.BotData.DanceId);
-                            queryReactor.AddParameter("x", current.X);
-                            queryReactor.AddParameter("y", current.Y);
-                            queryReactor.AddParameter("z", current.Z);
-                            queryReactor.AddParameter("id", current.BotData.BotId);
-                            queryReactor.RunQuery();
+                            commitableQueryReactor.SetQuery("UPDATE bots_data SET x=@x, y=@y, z=@z, name=@name, motto=@motto, look=@look, rotation=@rotation, dance=@dance WHERE id=@id LIMIT 1");
+                            commitableQueryReactor.AddParameter("name", current.BotData.Name);
+                            commitableQueryReactor.AddParameter("motto", current.BotData.Motto);
+                            commitableQueryReactor.AddParameter("look", current.BotData.Look);
+                            commitableQueryReactor.AddParameter("rotation", current.BotData.Rot);
+                            commitableQueryReactor.AddParameter("dance", current.BotData.DanceId);
+                            commitableQueryReactor.AddParameter("x", current.X);
+                            commitableQueryReactor.AddParameter("y", current.Y);
+                            commitableQueryReactor.AddParameter("z", current.Z);
+                            commitableQueryReactor.AddParameter("id", current.BotData.BotId);
+                            commitableQueryReactor.RunQuery();
 
                             current.BotAi?.Dispose();
                         }
@@ -606,6 +609,8 @@ namespace Yupi.Game.Rooms
                     }
                 }
             }
+
+            room.SaveRoomChatlog();
 
             Room junkRoom;
             LoadedRooms.TryRemove(room.RoomId, out junkRoom);

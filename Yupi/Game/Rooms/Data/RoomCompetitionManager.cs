@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Users;
 using Yupi.Messages;
 using Yupi.Messages.Parsers;
@@ -25,10 +25,10 @@ namespace Yupi.Game.Rooms.Data
             RequiredFurnis = requiredFurnis.Split(';');
             Entries = new Dictionary<uint, RoomData>();
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery("SELECT * FROM rooms_competitions_entries WHERE competition_id = " + Id);
-                DataTable table = queryReactor.GetTable();
+                commitableQueryReactor.SetQuery("SELECT * FROM rooms_competitions_entries WHERE competition_id = " + Id);
+                DataTable table = commitableQueryReactor.GetTable();
                 if (table == null) return;
                 foreach (DataRow row in table.Rows)
                 {
@@ -127,10 +127,10 @@ namespace Yupi.Game.Rooms.Data
         public void RefreshCompetitions()
         {
             Competition = null;
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery("SELECT * FROM rooms_competitions WHERE enabled = '1' LIMIT 1");
-                DataRow row = queryReactor.GetRow();
+                commitableQueryReactor.SetQuery("SELECT * FROM rooms_competitions WHERE enabled = '1' LIMIT 1");
+                DataRow row = commitableQueryReactor.GetRow();
 
                 if (row == null)
                     return;

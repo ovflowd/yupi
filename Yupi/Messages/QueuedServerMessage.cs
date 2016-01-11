@@ -4,22 +4,22 @@ using Yupi.Net.Connection;
 namespace Yupi.Messages
 {
     /// <summary>
-    /// Class QueuedServerMessage.
+    ///     Class QueuedServerMessage.
     /// </summary>
     public class QueuedServerMessage
     {
         /// <summary>
-        /// The _packet
+        ///     The _packet
         /// </summary>
         private readonly List<byte> _packet;
 
         /// <summary>
-        /// The _user connection
+        ///     The _user connection
         /// </summary>
         private ConnectionData _userConnection;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="QueuedServerMessage"/> class.
+        ///     Initializes a new instance of the <see cref="QueuedServerMessage" /> class.
         /// </summary>
         /// <param name="connection">The connection.</param>
         public QueuedServerMessage(ConnectionData connection)
@@ -29,13 +29,13 @@ namespace Yupi.Messages
         }
 
         /// <summary>
-        /// Gets the get packet.
+        ///     Gets the get packet.
         /// </summary>
         /// <value>The get packet.</value>
         internal byte[] GetPacket => _packet.ToArray();
 
         /// <summary>
-        /// Disposes this instance.
+        ///     Disposes this instance.
         /// </summary>
         internal void Dispose()
         {
@@ -44,7 +44,7 @@ namespace Yupi.Messages
         }
 
         /// <summary>
-        /// Appends the response.
+        ///     Appends the response.
         /// </summary>
         /// <param name="message">The message.</param>
         internal void AppendResponse(ServerMessage message)
@@ -53,7 +53,7 @@ namespace Yupi.Messages
         }
 
         /// <summary>
-        /// Adds the bytes.
+        ///     Adds the bytes.
         /// </summary>
         /// <param name="bytes">The bytes.</param>
         internal void AddBytes(byte[] bytes)
@@ -62,7 +62,7 @@ namespace Yupi.Messages
         }
 
         /// <summary>
-        /// Sends the response.
+        ///     Sends the response.
         /// </summary>
         internal void SendResponse()
         {
@@ -72,7 +72,7 @@ namespace Yupi.Messages
         }
 
         /// <summary>
-        /// Appends the bytes.
+        ///     Appends the bytes.
         /// </summary>
         /// <param name="bytes">The bytes.</param>
         private void AppendBytes(IEnumerable<byte> bytes)

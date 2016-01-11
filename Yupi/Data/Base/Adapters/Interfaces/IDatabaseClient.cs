@@ -22,27 +22,25 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-using Yupi.Data.Base.Connections;
-using Yupi.Data.Base.Sessions.Interfaces;
+using System;
+using MySql.Data.MySqlClient;
 
-namespace Yupi.Data.Base
+namespace Yupi.Data.Base.Adapters.Interfaces
 {
-    public class DatabaseManager
+    public interface IDatabaseClient : IDisposable
     {
-        private readonly string _connectionStr;
+        void Connect();
 
-        public DatabaseManager(string connectionStr)
-        {
-            _connectionStr = connectionStr;
-        }
+        void Disconnect();
 
-        public IQueryAdapter GetQueryReactor()
-        {
-            IDatabaseClient databaseClient = new DatabaseConnection(_connectionStr);
+        IQueryAdapter GetQueryReactor();
 
-            databaseClient.Connect();
+        MySqlCommand CreateNewCommandMySql();
 
-            return databaseClient.GetQueryReactor();
-        }
+        MySqlTransaction GetTransactionMySql();
+
+        bool IsAvailable();
+
+        void ReportDone();
     }
 }

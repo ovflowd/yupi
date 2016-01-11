@@ -99,7 +99,8 @@ namespace Yupi.Game.Pathfinding
         /// <param name="startMap">The start.</param>
         /// <param name="endMap">The end.</param>
         /// <returns>PathFinderNode.</returns>
-        public static PathFinderNode FindPathReversed(RoomUser roomUserable, bool whatIsDiag, Gamemap gameLocalMap, Vector2D startMap, Vector2D endMap)
+        public static PathFinderNode FindPathReversed(RoomUser roomUserable, bool whatIsDiag, Gamemap gameLocalMap,
+            Vector2D startMap, Vector2D endMap)
         {
             MinHeap<PathFinderNode> minSpanTreeCost = new MinHeap<PathFinderNode>(256);
             PathFinderNode[,] pathFinderMap = new PathFinderNode[gameLocalMap.Model.MapSizeX, gameLocalMap.Model.MapSizeY];
@@ -114,13 +115,19 @@ namespace Yupi.Game.Pathfinding
                 pathFinderStart = minSpanTreeCost.ExtractFirst();
                 pathFinderStart.InClosed = true;
 
-                for (int index = 0; (whatIsDiag ? (index < DiagMovePoints.Length ? 1 : 0) : (index < NoDiagMovePoints.Length ? 1 : 0)) != 0; index++)
+                for (int index = 0;
+                    (whatIsDiag ? (index < DiagMovePoints.Length ? 1 : 0) : (index < NoDiagMovePoints.Length ? 1 : 0)) !=
+                    0;
+                    index++)
                 {
-                    Vector2D realEndPosition = pathFinderStart.Position + (whatIsDiag ? DiagMovePoints[index] : NoDiagMovePoints[index]);
+                    Vector2D realEndPosition = pathFinderStart.Position +
+                                          (whatIsDiag ? DiagMovePoints[index] : NoDiagMovePoints[index]);
 
                     bool isEndOfPath = (realEndPosition.X == endMap.X) && (realEndPosition.Y == endMap.Y);
 
-                    if (gameLocalMap.IsValidStep(roomUserable, new Vector2D(pathFinderStart.Position.X, pathFinderStart.Position.Y), realEndPosition, isEndOfPath, roomUserable.AllowOverride))
+                    if (gameLocalMap.IsValidStep(roomUserable,
+                        new Vector2D(pathFinderStart.Position.X, pathFinderStart.Position.Y), realEndPosition,
+                        isEndOfPath, roomUserable.AllowOverride))
                     {
                         PathFinderNode pathFinderSecondNodeCalculation;
 
@@ -142,7 +149,8 @@ namespace Yupi.Game.Pathfinding
                             if (pathFinderStart.Position.Y != pathFinderSecondNodeCalculation.Position.Y)
                                 internalSpanTreeCost++;
 
-                            int loopTotalCost = pathFinderStart.Cost + internalSpanTreeCost + pathFinderSecondNodeCalculation.Position.GetDistanceSquared(endMap);
+                            int loopTotalCost = pathFinderStart.Cost + internalSpanTreeCost +
+                                                pathFinderSecondNodeCalculation.Position.GetDistanceSquared(endMap);
 
                             if (loopTotalCost < pathFinderSecondNodeCalculation.Cost)
                             {
@@ -183,7 +191,7 @@ namespace Yupi.Game.Pathfinding
         {
             int dX = x2 - x1, dY = y2 - y1;
 
-            double d = Math.Atan2(dY, dX) * 180 / Math.PI;
+            double d = Math.Atan2(dY, dX)*180/Math.PI;
 
             return ((int) d + 90)/45;
         }
@@ -196,6 +204,7 @@ namespace Yupi.Game.Pathfinding
         /// <param name="toX">To x.</param>
         /// <param name="toY">To y.</param>
         /// <returns>System.Int32.</returns>
-        public static int GetDistance(int x, int y, int toX, int toY) => Convert.ToInt32(Math.Sqrt(Math.Pow(toX - x, 2) + Math.Pow(toY - y, 2)));
+        public static int GetDistance(int x, int y, int toX, int toY)
+            => Convert.ToInt32(Math.Sqrt(Math.Pow(toX - x, 2) + Math.Pow(toY - y, 2)));
     }
 }

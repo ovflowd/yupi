@@ -25,7 +25,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Groups.Composers;
 using Yupi.Messages;
 
@@ -76,6 +76,8 @@ namespace Yupi.Game.Groups.Structs
         /// </summary>
         internal string Description;
 
+        internal GroupForum Forum;
+
         /// <summary>
         ///     The identifier
         /// </summary>
@@ -105,8 +107,6 @@ namespace Yupi.Game.Groups.Structs
         ///     The state
         /// </summary>
         internal uint State;
-
-        internal GroupForum Forum;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Group" /> class.
@@ -170,7 +170,8 @@ namespace Yupi.Game.Groups.Structs
         {
             using (IQueryAdapter adapter = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                adapter.SetQuery("INSERT INTO groups_forums_data (group_id, forum_name, forum_description, forum_messages_count, forum_score, forum_lastposter_id, forum_lastposter_name, forum_lastposter_timestamp) " +
+                adapter.SetQuery(
+                    "INSERT INTO groups_forums_data (group_id, forum_name, forum_description, forum_messages_count, forum_score, forum_lastposter_id, forum_lastposter_name, forum_lastposter_timestamp) " +
                     $"VALUES ('{Id}', @name, @desc, @msgcount, @score, @lastposterid, @lastpostername, @lasttimestamp)");
                 adapter.AddParameter("name", Forum.ForumName);
                 adapter.AddParameter("desc", Forum.ForumDescription);
@@ -187,16 +188,17 @@ namespace Yupi.Game.Groups.Structs
                 DataRow row2 = adapter.GetRow();
 
                 if (row2 == null)
-                    Forum = new GroupForum(0, Forum.ForumName, Forum.ForumDescription, Forum.ForumMessagesCount, 0, 0, string.Empty, 0, 0, 1, 1, 2);
+                    Forum = new GroupForum(0, Forum.ForumName, Forum.ForumDescription, Forum.ForumMessagesCount, 0, 0,
+                        string.Empty, 0, 0, 1, 1, 2);
                 else
-                    Forum = new GroupForum((uint)row2["id"], row2["forum_name"].ToString(),
+                    Forum = new GroupForum((uint) row2["id"], row2["forum_name"].ToString(),
                         row2["forum_description"].ToString(),
-                        (uint)row2["forum_messages_count"], double.Parse(row2["forum_score"].ToString()),
-                        (uint)row2["forum_lastposter_id"], row2["forum_lastposter_name"].ToString(),
-                        (uint)row2["forum_lastposter_timestamp"],
-                        (uint)row2["who_can_read"], (uint)row2["who_can_post"], (uint)row2["who_can_thread"],
-                        (uint)row2["who_can_mod"]);
-            }          
+                        (uint) row2["forum_messages_count"], double.Parse(row2["forum_score"].ToString()),
+                        (uint) row2["forum_lastposter_id"], row2["forum_lastposter_name"].ToString(),
+                        (uint) row2["forum_lastposter_timestamp"],
+                        (uint) row2["who_can_read"], (uint) row2["who_can_post"], (uint) row2["who_can_thread"],
+                        (uint) row2["who_can_mod"]);
+            }
         }
 
         /// <summary>
@@ -212,7 +214,8 @@ namespace Yupi.Game.Groups.Structs
 
             using (IQueryAdapter adapter = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                adapter.SetQuery($"UPDATE groups_forums_data SET forum_name = @name , forum_description = @desc , forum_messages_count = @msgcount , forum_score = @score , forum_lastposter_id = @lastposterid , forum_lastposter_name = @lastpostername , forum_lastposter_timestamp = @lasttimestamp WHERE group_id ={Id}");
+                adapter.SetQuery(
+                    $"UPDATE groups_forums_data SET forum_name = @name , forum_description = @desc , forum_messages_count = @msgcount , forum_score = @score , forum_lastposter_id = @lastposterid , forum_lastposter_name = @lastpostername , forum_lastposter_timestamp = @lasttimestamp WHERE group_id ={Id}");
                 adapter.AddParameter("name", Forum.ForumName);
                 adapter.AddParameter("desc", Forum.ForumDescription);
                 adapter.AddParameter("msgcount", Forum.ForumMessagesCount);

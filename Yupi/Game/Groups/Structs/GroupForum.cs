@@ -69,13 +69,13 @@ namespace Yupi.Game.Groups.Structs
         /// </summary>
         internal uint Id;
 
-        internal uint WhoCanRead;
+        internal uint WhoCanMod;
 
         internal uint WhoCanPost;
 
-        internal uint WhoCanThread;
+        internal uint WhoCanRead;
 
-        internal uint WhoCanMod;
+        internal uint WhoCanThread;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="GroupForum" /> class.
@@ -115,6 +115,6 @@ namespace Yupi.Game.Groups.Structs
         ///     Gets the forum last post time.
         /// </summary>
         /// <value>The forum last post time.</value>
-        internal uint ForumLastPostTime => (uint)Yupi.GetUnixTimeStamp() - ForumLastPosterTimestamp;
+        internal uint ForumLastPostTime => (uint) Yupi.GetUnixTimeStamp() - ForumLastPosterTimestamp;
     }
 }

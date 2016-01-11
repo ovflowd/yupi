@@ -1,6 +1,6 @@
 using System;
 using System.Globalization;
-using Yupi.Core.Io;
+using Yupi.Data;
 using Yupi.Game.Rooms.Chat.Enums;
 
 namespace Yupi.Game.Rooms
@@ -98,7 +98,8 @@ namespace Yupi.Game.Rooms
         /// <param name="staticFurniMap">The static furni map.</param>
         /// <param name="clubOnly">if set to <c>true</c> [club only].</param>
         /// <param name="poolmap">The poolmap.</param>
-        internal RoomModel(int doorX, int doorY, double doorZ, int doorOrientation, string heightmap, string staticFurniMap, bool clubOnly, string poolmap)
+        internal RoomModel(int doorX, int doorY, double doorZ, int doorOrientation, string heightmap,
+            string staticFurniMap, bool clubOnly, string poolmap)
         {
             try
             {
@@ -149,14 +150,15 @@ namespace Yupi.Game.Rooms
 
                 for (int y = 0; y < MapSizeY; y++)
                 {
-                    string text2 = array[y].Replace($"{Convert.ToChar(13)}", string.Empty).Replace($"{Convert.ToChar(10)}", string.Empty);
+                    string text2 = array[y].Replace($"{Convert.ToChar(13)}", string.Empty)
+                        .Replace($"{Convert.ToChar(10)}", string.Empty);
 
                     for (int x = 0; x < MapSizeX; x++)
                     {
                         char c = 'x';
 
-                        if(x < text2.Length)
-                            c = (char)text2[x];
+                        if (x < text2.Length)
+                            c = text2[x];
 
                         if (x == doorX && y == doorY)
                         {
@@ -190,7 +192,7 @@ namespace Yupi.Game.Rooms
             }
             catch (Exception e)
             {
-                Writer.LogCriticalException(e.ToString());
+                ServerLogManager.LogCriticalException(e.ToString());
             }
         }
     }

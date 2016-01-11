@@ -3,15 +3,15 @@ using System;
 namespace Yupi.Messages
 {
     /// <summary>
-    /// Class HabboEncoding.
+    ///     Class HabboEncoding.
     /// </summary>
     internal class HabboEncoding
     {
-        private const short ShortLength = sizeof(short);
-        private const int IntLength = sizeof(int);
+        private const short ShortLength = sizeof (short);
+        private const int IntLength = sizeof (int);
 
         /// <summary>
-        /// Decodes the int32.
+        ///     Decodes the int32.
         /// </summary>
         /// <param name="v">The v.</param>
         /// <param name="position"></param>
@@ -25,7 +25,7 @@ namespace Yupi.Messages
         }
 
         /// <summary>
-        /// Decodes the int16.
+        ///     Decodes the int16.
         /// </summary>
         /// <param name="v">The v.</param>
         /// <param name="position"></param>
@@ -35,11 +35,11 @@ namespace Yupi.Messages
             if (position + ShortLength > v.Length || position < 0)
                 return 0;
 
-            return (short)((v[position++] << 8) + v[position++]);
+            return (short) ((v[position++] << 8) + v[position++]);
         }
 
         /// <summary>
-        /// Gets the character filter.
+        ///     Gets the character filter.
         /// </summary>
         /// <param name="data">The data.</param>
         /// <returns>System.String.</returns>

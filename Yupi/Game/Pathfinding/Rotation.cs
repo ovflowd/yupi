@@ -70,13 +70,14 @@ namespace Yupi.Game.Pathfinding
         /// <param name="y2">The y2.</param>
         /// <param name="moonwalk">if set to <c>true</c> [moonwalk].</param>
         /// <returns>System.Int32.</returns>
-        internal static int Calculate(int x1, int y1, int x2, int y2, bool moonwalk) => !moonwalk ? Calculate(x1, y1, x2, y2) : RotationIverse(Calculate(x1, y1, x2, y2));
+        internal static int Calculate(int x1, int y1, int x2, int y2, bool moonwalk)
+            => !moonwalk ? Calculate(x1, y1, x2, y2) : RotationIverse(Calculate(x1, y1, x2, y2));
 
         /// <summary>
         ///     Rotations the iverse.
         /// </summary>
         /// <param name="rot">The rot.</param>
         /// <returns>System.Int32.</returns>
-        internal static int RotationIverse(int rot) => (rot > 3) ? rot - 4 : rot + 4;
+        internal static int RotationIverse(int rot) => rot > 3 ? rot - 4 : rot + 4;
     }
 }

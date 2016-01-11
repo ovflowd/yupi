@@ -40,7 +40,7 @@ namespace Yupi.Game.Commands.Controllers
             poll.AnswersPositive = 0;
             poll.AnswersNegative = 0;
             MatchingPollAnswer(client, poll);
-            Thread showPoll = new Thread(delegate () { MatchingPollResults(client, poll); });
+            Thread showPoll = new Thread(delegate() { MatchingPollResults(client, poll); });
             showPoll.Start();
             return true;
         }

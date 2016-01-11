@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Yupi.Core.Io;
+using Yupi.Data;
 using Yupi.Game.Commands.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 
@@ -44,7 +44,7 @@ namespace Yupi.Game.Commands.Controllers
             }
             catch
             {
-                Writer.LogException("Error while banning");
+                ServerLogManager.LogException("Error while banning");
             }
 
             return true;

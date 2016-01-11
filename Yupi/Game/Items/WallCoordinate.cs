@@ -95,13 +95,17 @@ namespace Yupi.Game.Items
         ///     Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
         /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
-        public override string ToString() => ":w=" + _widthX + "," + _widthY + " " + "l=" + _lengthX + "," + _lengthY + " " + _side;
+        public override string ToString()
+            => ":w=" + _widthX + "," + _widthY + " " + "l=" + _lengthX + "," + _lengthY + " " + _side;
 
         /// <summary>
         ///     Generates the database shit.
         /// </summary>
         /// <returns>System.String.</returns>
-        internal string GenerateDbShit() => "x: " + ServerUserChatTextHandler.Combine(_widthX, _widthY) + " y: " + ServerUserChatTextHandler.Combine(_lengthX, _lengthY);
+        internal string GenerateDbShit()
+            =>
+                "x: " + ServerUserChatTextHandler.Combine(_widthX, _widthY) + " y: " +
+                ServerUserChatTextHandler.Combine(_lengthX, _lengthY);
 
         /// <summary>
         ///     Gets the x value.

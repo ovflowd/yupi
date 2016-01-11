@@ -80,7 +80,8 @@ namespace Yupi.Game.Achievements.Structs
         /// <param name="achLevel">The ach level.</param>
         /// <param name="prize">The prize.</param>
         /// <param name="prizeBaseItem">The prize base item.</param>
-        internal Talent(int id, string type, int parentCategory, int level, string achId, uint achLevel, string prize, uint prizeBaseItem)
+        internal Talent(int id, string type, int parentCategory, int level, string achId, uint achLevel, string prize,
+            uint prizeBaseItem)
         {
             Id = id;
             Type = type;
@@ -96,6 +97,10 @@ namespace Yupi.Game.Achievements.Structs
         ///     Gets the achievement.
         /// </summary>
         /// <returns>Achievement.</returns>
-        internal Achievement GetAchievement() => string.IsNullOrEmpty(AchievementGroup) || ParentCategory == -1 ? null : Yupi.GetGame().GetAchievementManager().GetAchievement(AchievementGroup);
+        internal Achievement GetAchievement()
+            =>
+                string.IsNullOrEmpty(AchievementGroup) || ParentCategory == -1
+                    ? null
+                    : Yupi.GetGame().GetAchievementManager().GetAchievement(AchievementGroup);
     }
 }

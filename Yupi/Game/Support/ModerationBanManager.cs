@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 
 namespace Yupi.Game.Support
@@ -166,11 +166,11 @@ namespace Yupi.Game.Support
             {
                 type = ModerationBanType.Ip;
 
-                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    queryReactor.SetQuery("SELECT ip_last FROM users WHERE username = @name LIMIT 1");
-                    queryReactor.AddParameter("name", text);
-                    text = queryReactor.GetString();
+                    commitableQueryReactor.SetQuery("SELECT ip_last FROM users WHERE username = @name LIMIT 1");
+                    commitableQueryReactor.AddParameter("name", text);
+                    text = commitableQueryReactor.GetString();
                 }
 
                 typeStr = "ip";
@@ -256,11 +256,11 @@ namespace Yupi.Game.Support
             _bannedUsernames.Remove(userNameOrIp);
             _bannedIPs.Remove(userNameOrIp);
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery("DELETE FROM users_bans WHERE value = @userorip");
-                queryReactor.AddParameter("userorip", userNameOrIp);
-                queryReactor.RunQuery();
+                commitableQueryReactor.SetQuery("DELETE FROM users_bans WHERE value = @userorip");
+                commitableQueryReactor.AddParameter("userorip", userNameOrIp);
+                commitableQueryReactor.RunQuery();
             }
         }
     }

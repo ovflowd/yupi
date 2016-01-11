@@ -28,7 +28,7 @@ using System.Text;
 using Yupi.Core.Encryption.Crypto.KeyExchange;
 using Yupi.Core.Encryption.Hurlant.Crypto.Rsa;
 using Yupi.Core.Encryption.Utils;
-using Yupi.Core.Io;
+using Yupi.Data;
 
 namespace Yupi.Core.Encryption
 {
@@ -46,7 +46,8 @@ namespace Yupi.Core.Encryption
 
         public static string GetRsaDiffieHellmanPrimeKey() => GetRsaStringEncrypted(DiffieHellman.Prime.ToString());
 
-        public static string GetRsaDiffieHellmanGeneratorKey() => GetRsaStringEncrypted(DiffieHellman.Generator.ToString());
+        public static string GetRsaDiffieHellmanGeneratorKey()
+            => GetRsaStringEncrypted(DiffieHellman.Generator.ToString());
 
         public static string GetRsaDiffieHellmanPublicKey() => GetRsaStringEncrypted(DiffieHellman.PublicKey.ToString());
 
@@ -62,7 +63,8 @@ namespace Yupi.Core.Encryption
             }
             catch
             {
-                Writer.LogCriticalException("Sorry, the Encryption Handler stopped Inesperatelly. Please Restart Emulator.");
+                ServerLogManager.LogCriticalException(
+                    "Sorry, the Encryption Handler stopped Inesperatelly. Please Restart Emulator.");
                 return 0;
             }
         }
@@ -78,7 +80,8 @@ namespace Yupi.Core.Encryption
             }
             catch
             {
-                Writer.LogCriticalException("Sorry, the Encryption Handler stopped Inesperatelly. Please Restart Emulator.");
+                ServerLogManager.LogCriticalException(
+                    "Sorry, the Encryption Handler stopped Inesperatelly. Please Restart Emulator.");
                 return null;
             }
         }

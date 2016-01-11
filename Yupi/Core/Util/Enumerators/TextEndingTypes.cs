@@ -25,22 +25,22 @@
 namespace Yupi.Core.Util.Enumerators
 {
     /// <summary>
-    /// Enum EndingType
+    ///     Enum EndingType
     /// </summary>
     internal enum TextEndingTypes
     {
         /// <summary>
-        /// The none
+        ///     The none
         /// </summary>
         None,
 
         /// <summary>
-        /// The sequential
+        ///     The sequential
         /// </summary>
         Sequential,
 
         /// <summary>
-        /// The continuous
+        ///     The continuous
         /// </summary>
         Continuous
     }

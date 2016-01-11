@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Messages;
 using Yupi.Messages.Parsers;
@@ -24,10 +24,10 @@ namespace Yupi.Game.Rooms.Data
         internal RoomEvents()
         {
             _events = new Dictionary<uint, RoomEvent>();
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery("SELECT * FROM rooms_events WHERE `expire` > UNIX_TIMESTAMP()");
-                DataTable table = queryReactor.GetTable();
+                commitableQueryReactor.SetQuery("SELECT * FROM rooms_events WHERE `expire` > UNIX_TIMESTAMP()");
+                DataTable table = commitableQueryReactor.GetTable();
                 foreach (DataRow dataRow in table.Rows)
                 {
                     _events.Add((uint) dataRow[0],
@@ -63,16 +63,16 @@ namespace Yupi.Game.Rooms.Data
                     {
                         roomEvent.Time += time;
                     }
-                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                    using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
-                        queryReactor.SetQuery(
+                        commitableQueryReactor.SetQuery(
                             "REPLACE INTO rooms_events VALUES ('@id','@name','@desc','@time','@category')");
-                        queryReactor.AddParameter("id", roomId);
-                        queryReactor.AddParameter("name", eventName);
-                        queryReactor.AddParameter("desc", eventDesc);
-                        queryReactor.AddParameter("time", roomEvent.Time);
-                        queryReactor.AddParameter("category", category);
-                        queryReactor.RunQuery();
+                        commitableQueryReactor.AddParameter("id", roomId);
+                        commitableQueryReactor.AddParameter("name", eventName);
+                        commitableQueryReactor.AddParameter("desc", eventDesc);
+                        commitableQueryReactor.AddParameter("time", roomEvent.Time);
+                        commitableQueryReactor.AddParameter("category", category);
+                        commitableQueryReactor.RunQuery();
                         goto IL_17C;
                     }
                 }
@@ -182,13 +182,13 @@ namespace Yupi.Game.Rooms.Data
         /// <param name="Event">The event.</param>
         internal void UpdateEvent(RoomEvent Event)
         {
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery(string.Concat("REPLACE INTO rooms_events VALUES (", Event.RoomId,
+                commitableQueryReactor.SetQuery(string.Concat("REPLACE INTO rooms_events VALUES (", Event.RoomId,
                     ", @name, @desc, ", Event.Time, ")"));
-                queryReactor.AddParameter("name", Event.Name);
-                queryReactor.AddParameter("desc", Event.Description);
-                queryReactor.RunQuery();
+                commitableQueryReactor.AddParameter("name", Event.Name);
+                commitableQueryReactor.AddParameter("desc", Event.Description);
+                commitableQueryReactor.RunQuery();
             }
             SerializeEventInfo(Event.RoomId);
         }

@@ -1,5 +1,5 @@
 using System;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Items.Interfaces;
 using Yupi.Messages;
 
@@ -51,17 +51,17 @@ namespace Yupi.Game.Items.Handlers
 
             if (cracks >= cracksMax)
                 state = "14";
-            else if (cracks >= cracksMax * 6 / 7)
+            else if (cracks >= cracksMax*6/7)
                 state = "12";
-            else if (cracks >= cracksMax * 5 / 7)
+            else if (cracks >= cracksMax*5/7)
                 state = "10";
-            else if (cracks >= cracksMax * 4 / 7)
+            else if (cracks >= cracksMax*4/7)
                 state = "8";
-            else if (cracks >= cracksMax * 3 / 7)
+            else if (cracks >= cracksMax*3/7)
                 state = "6";
-            else if (cracks >= cracksMax * 2 / 7)
+            else if (cracks >= cracksMax*2/7)
                 state = "4";
-            else if (cracks >= cracksMax * 1 / 7)
+            else if (cracks >= cracksMax*1/7)
                 state = "2";
 
             message.AppendInteger(7);

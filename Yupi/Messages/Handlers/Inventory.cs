@@ -1,12 +1,12 @@
 ﻿namespace Yupi.Messages.Handlers
 {
     /// <summary>
-    /// Class GameClientMessageHandler.
+    ///     Class GameClientMessageHandler.
     /// </summary>
     internal partial class GameClientMessageHandler
     {
         /// <summary>
-        /// Gets the inventory.
+        ///     Gets the inventory.
         /// </summary>
         internal void GetInventory()
         {

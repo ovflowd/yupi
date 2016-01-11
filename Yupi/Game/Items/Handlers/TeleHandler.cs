@@ -1,6 +1,6 @@
 using System;
 using System.Data;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Items.Interactions.Enums;
 using Yupi.Game.Items.Interfaces;
 using Yupi.Game.Rooms;
@@ -22,10 +22,10 @@ namespace Yupi.Game.Items.Handlers
         {
             uint result;
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery($"SELECT tele_two_id FROM items_teleports WHERE tele_one_id = {teleId}");
-                DataRow row = queryReactor.GetRow();
+                commitableQueryReactor.SetQuery($"SELECT tele_two_id FROM items_teleports WHERE tele_one_id = {teleId}");
+                DataRow row = commitableQueryReactor.GetRow();
 
                 result = row == null ? 0 : Convert.ToUInt32(row[0]);
             }
@@ -46,10 +46,10 @@ namespace Yupi.Game.Items.Handlers
 
             uint result;
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery($"SELECT room_id FROM items_rooms WHERE id = {teleId} LIMIT 1");
-                DataRow row = queryReactor.GetRow();
+                commitableQueryReactor.SetQuery($"SELECT room_id FROM items_rooms WHERE id = {teleId} LIMIT 1");
+                DataRow row = commitableQueryReactor.GetRow();
 
                 result = row == null ? 0 : Convert.ToUInt32(row[0]);
             }

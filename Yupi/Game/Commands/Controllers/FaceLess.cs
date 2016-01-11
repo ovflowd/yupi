@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Commands.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Rooms;

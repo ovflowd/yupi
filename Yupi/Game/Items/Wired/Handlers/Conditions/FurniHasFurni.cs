@@ -56,17 +56,29 @@ namespace Yupi.Game.Items.Wired.Handlers.Conditions
             if (!Items.Any())
                 return true;
 
-            foreach (RoomItem current in Items.Where(current => current != null && Room.GetRoomItemHandler().FloorItems.ContainsKey(current.Id)))
+            foreach (
+                RoomItem current in
+                    Items.Where(
+                        current => current != null && Room.GetRoomItemHandler().FloorItems.ContainsKey(current.Id)))
             {
                 bool toContinue = false;
 
-                foreach (ThreeDCoord current2 in current.AffectedTiles.Values.Where(current2 => Room.GetGameMap().SquareHasFurni(current2.X, current2.Y)))
-                    toContinue = Room.GetGameMap().GetRoomItemForSquare(current2.X, current2.Y).Any(current3 => current3.Id != current.Id && current3.Z >= current2.Z);
+                foreach (
+                    ThreeDCoord current2 in
+                        current.AffectedTiles.Values.Where(
+                            current2 => Room.GetGameMap().SquareHasFurni(current2.X, current2.Y)))
+                    toContinue =
+                        Room.GetGameMap()
+                            .GetRoomItemForSquare(current2.X, current2.Y)
+                            .Any(current3 => current3.Id != current.Id && current3.Z >= current2.Z);
 
                 if (toContinue)
                     continue;
 
-                if (Room.GetGameMap().GetRoomItemForSquare(current.X, current.Y).Any(current4 => current4.Id != current.Id && current4.Z >= current.Z))
+                if (
+                    Room.GetGameMap()
+                        .GetRoomItemForSquare(current.X, current.Y)
+                        .Any(current4 => current4.Id != current.Id && current4.Z >= current.Z))
                     continue;
 
                 return false;

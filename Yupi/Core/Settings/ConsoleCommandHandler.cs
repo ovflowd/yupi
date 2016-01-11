@@ -29,25 +29,25 @@ using Yupi.Core.Io;
 using Yupi.Core.Security;
 using Yupi.Core.Security.BlackWords;
 using Yupi.Data;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Messages;
 using Yupi.Messages.Parsers;
 
 namespace Yupi.Core.Settings
 {
     /// <summary>
-    /// Class ConsoleCommandHandling.
+    ///     Class ConsoleCommandHandling.
     /// </summary>
     internal class ConsoleCommandHandler
     {
         /// <summary>
-        /// Gets the game.
+        ///     Gets the game.
         /// </summary>
         /// <returns>Game.</returns>
         internal static Game.Game GetGame() => Yupi.GetGame();
 
         /// <summary>
-        /// Invokes the command.
+        ///     Invokes the command.
         /// </summary>
         /// <param name="inputData">The input data.</param>
         internal static void InvokeCommand(string inputData)
@@ -90,15 +90,15 @@ namespace Yupi.Core.Settings
                         break;
 
                     case "alert":
-                        {
-                            string str = inputData.Substring(6);
-                            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("BroadcastNotifMessageComposer"));
-                            message.AppendString(str);
-                            message.AppendString(string.Empty);
-                            GetGame().GetClientManager().QueueBroadcaseMessage(message);
-                            Console.WriteLine("[{0}] was sent!", str);
-                            return;
-                        }
+                    {
+                        string str = inputData.Substring(6);
+                        ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("BroadcastNotifMessageComposer"));
+                        message.AppendString(str);
+                        message.AppendString(string.Empty);
+                        GetGame().GetClientManager().QueueBroadcaseMessage(message);
+                        Console.WriteLine("[{0}] was sent!", str);
+                        return;
+                    }
                     case "clear":
                         Console.Clear();
                         break;
@@ -114,37 +114,38 @@ namespace Yupi.Core.Settings
                         Console.WriteLine("\tMinutes: {0}", uptime.Minutes);
                         Console.WriteLine();
                         Console.WriteLine("Stats:");
-                        Console.WriteLine("\tAccepted Connections: {0}", Yupi.GetConnectionManager().Manager.AcceptedConnections);
+                        Console.WriteLine("\tAccepted Connections: {0}",
+                            Yupi.GetConnectionManager().Manager.AcceptedConnections);
                         Console.WriteLine("\tActive Threads: {0}", Process.GetCurrentProcess().Threads.Count);
                         Console.WriteLine();
                         Console.WriteLine();
                         break;
 
                     case "gcinfo":
-                        {
-                            Console.WriteLine("Mode: " + GCSettings.LatencyMode);
-                            Console.WriteLine("Is server GC: " + GCSettings.IsServerGC);
+                    {
+                        Console.WriteLine("Mode: " + GCSettings.LatencyMode);
+                        Console.WriteLine("Is server GC: " + GCSettings.IsServerGC);
 
-                            break;
-                        }
+                        break;
+                    }
 
                     case "memstat":
-                        {
-                            Console.WriteLine("GC status:");
-                            Console.WriteLine("\tGeneration supported: " + GC.MaxGeneration);
-                            Console.WriteLine("\tLatency mode: " + GCSettings.LatencyMode);
-                            Console.WriteLine("\tIs server GC: " + GCSettings.IsServerGC);
-                            Console.WriteLine();
-                            break;
-                        }
+                    {
+                        Console.WriteLine("GC status:");
+                        Console.WriteLine("\tGeneration supported: " + GC.MaxGeneration);
+                        Console.WriteLine("\tLatency mode: " + GCSettings.LatencyMode);
+                        Console.WriteLine("\tIs server GC: " + GCSettings.IsServerGC);
+                        Console.WriteLine();
+                        break;
+                    }
 
                     case "memory":
-                        {
-                            GC.Collect();
-                            Console.WriteLine("Memory flushed");
+                    {
+                        GC.Collect();
+                        Console.WriteLine("Memory flushed");
 
-                            break;
-                        }
+                        break;
+                    }
 
                     case "help":
                         Console.WriteLine("shutdown/close - for safe shutting down Yupi");
@@ -182,7 +183,8 @@ namespace Yupi.Core.Settings
                     case "shop":
                     case "catalogus":
                         FurnitureDataManager.SetCache();
-                        using (IQueryAdapter adapter = Yupi.GetDatabaseManager().GetQueryReactor()) GetGame().GetCatalog().Initialize(adapter);
+                        using (IQueryAdapter adapter = Yupi.GetDatabaseManager().GetQueryReactor())
+                            GetGame().GetCatalog().Initialize(adapter);
                         FurnitureDataManager.Clear();
 
                         GetGame()
@@ -194,13 +196,15 @@ namespace Yupi.Core.Settings
                         break;
 
                     case "modeldata":
-                        using (IQueryAdapter adapter2 = Yupi.GetDatabaseManager().GetQueryReactor()) GetGame().GetRoomManager().LoadModels(adapter2);
+                        using (IQueryAdapter adapter2 = Yupi.GetDatabaseManager().GetQueryReactor())
+                            GetGame().GetRoomManager().LoadModels(adapter2);
                         Console.WriteLine("Room models were re-loaded.");
                         Console.WriteLine();
                         break;
 
                     case "bans":
-                        using (IQueryAdapter adapter3 = Yupi.GetDatabaseManager().GetQueryReactor()) GetGame().GetBanManager().LoadBans(adapter3);
+                        using (IQueryAdapter adapter3 = Yupi.GetDatabaseManager().GetQueryReactor())
+                            GetGame().GetBanManager().LoadBans(adapter3);
                         Console.WriteLine("Bans were re-loaded");
                         Console.WriteLine();
                         break;
@@ -223,7 +227,7 @@ namespace Yupi.Core.Settings
         }
 
         /// <summary>
-        /// Unknowns the command.
+        ///     Unknowns the command.
         /// </summary>
         /// <param name="command">The command.</param>
         private static void UnknownCommand(string command)

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using Yupi.Core.Io;
 using Yupi.Data;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Users.Messenger.Structs;
 using Yupi.Messages;
@@ -87,14 +87,19 @@ namespace Yupi.Game.GameClients
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <returns>GameClient.</returns>
-        internal GameClient GetClientByUserId(uint userId) => _userIdRegister.Contains(userId) ? (GameClient)_userIdRegister[userId] : null;
+        internal GameClient GetClientByUserId(uint userId)
+            => _userIdRegister.Contains(userId) ? (GameClient) _userIdRegister[userId] : null;
 
         /// <summary>
         ///     Gets the name of the client by user.
         /// </summary>
         /// <param name="userName">Name of the user.</param>
         /// <returns>GameClient.</returns>
-        internal GameClient GetClientByUserName(string userName) => _userNameRegister.Contains(userName.ToLower()) ? (GameClient)_userNameRegister[userName.ToLower()] : null;
+        internal GameClient GetClientByUserName(string userName)
+            =>
+                _userNameRegister.Contains(userName.ToLower())
+                    ? (GameClient) _userNameRegister[userName.ToLower()]
+                    : null;
 
         /// <summary>
         ///     Gets the client.
@@ -135,11 +140,11 @@ namespace Yupi.Game.GameClients
 
             string userName;
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery("SELECT username FROM users WHERE id = " + id);
+                commitableQueryReactor.SetQuery("SELECT username FROM users WHERE id = " + id);
 
-                userName = queryReactor.GetString();
+                userName = commitableQueryReactor.GetString();
             }
 
             return string.IsNullOrEmpty(userName) ? "Unknown User" : userName;
@@ -150,7 +155,8 @@ namespace Yupi.Game.GameClients
         /// </summary>
         /// <param name="users">The users.</param>
         /// <returns>IEnumerable&lt;GameClient&gt;.</returns>
-        internal IEnumerable<GameClient> GetClientsById(Dictionary<uint, MessengerBuddy>.KeyCollection users) => users.Select(GetClientByUserId).Where(clientByUserId => clientByUserId != null);
+        internal IEnumerable<GameClient> GetClientsById(Dictionary<uint, MessengerBuddy>.KeyCollection users)
+            => users.Select(GetClientByUserId).Where(clientByUserId => clientByUserId != null);
 
         /// <summary>
         ///     Sends the super notif.
@@ -163,7 +169,8 @@ namespace Yupi.Game.GameClients
         /// <param name="linkTitle">The link title.</param>
         /// <param name="broadCast">if set to <c>true</c> [broad cast].</param>
         /// <param name="Event">if set to <c>true</c> [event].</param>
-        internal void SendSuperNotif(string title, string notice, string picture, GameClient client, string link, string linkTitle, bool broadCast, bool Event)
+        internal void SendSuperNotif(string title, string notice, string picture, GameClient client, string link,
+            string linkTitle, bool broadCast, bool Event)
         {
             ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
 
@@ -232,7 +239,8 @@ namespace Yupi.Game.GameClients
             }
             catch (Exception ex)
             {
-                ServerLogManager.LogThreadException(ex.ToString(), "GameClientManager.OnCycle Exception --> Not inclusive");
+                ServerLogManager.LogThreadException(ex.ToString(),
+                    "GameClientManager.OnCycle Exception --> Not inclusive");
             }
         }
 
@@ -243,7 +251,11 @@ namespace Yupi.Game.GameClients
         /// <param name="exclude">The exclude.</param>
         internal void StaffAlert(ServerMessage message, uint exclude = 0u)
         {
-            IEnumerable<GameClient> gameClients = Clients.Values.Where(x => x.GetHabbo() != null && x.GetHabbo().Rank >= Yupi.StaffAlertMinRank && x.GetHabbo().Id != exclude);
+            IEnumerable<GameClient> gameClients =
+                Clients.Values.Where(
+                    x =>
+                        x.GetHabbo() != null && x.GetHabbo().Rank >= Yupi.StaffAlertMinRank &&
+                        x.GetHabbo().Id != exclude);
 
             foreach (GameClient current in gameClients)
                 current.SendMessage(message);
@@ -256,7 +268,12 @@ namespace Yupi.Game.GameClients
         /// <param name="exclude">The exclude.</param>
         internal void AmbassadorAlert(ServerMessage message, uint exclude = 0u)
         {
-            IEnumerable<GameClient> gameClients = Clients.Values.Where(x => x.GetHabbo() != null && x.GetHabbo().Rank >= Convert.ToUInt32(Yupi.GetDbConfig().DbData["ambassador.minrank"]) && x.GetHabbo().Id != exclude);
+            IEnumerable<GameClient> gameClients =
+                Clients.Values.Where(
+                    x =>
+                        x.GetHabbo() != null &&
+                        x.GetHabbo().Rank >= Convert.ToUInt32(Yupi.GetDbConfig().DbData["ambassador.minrank"]) &&
+                        x.GetHabbo().Id != exclude);
 
             foreach (GameClient current in gameClients)
                 current.SendMessage(message);
@@ -270,7 +287,13 @@ namespace Yupi.Game.GameClients
         {
             byte[] bytes = message.GetReversedBytes();
 
-            foreach (GameClient current in Clients.Values.Where(current => current?.GetHabbo() != null).Where(current => current.GetHabbo().Rank == 4u || current.GetHabbo().Rank == 5u || current.GetHabbo().Rank == 6u))
+            foreach (
+                GameClient current in
+                    Clients.Values.Where(current => current?.GetHabbo() != null)
+                        .Where(
+                            current =>
+                                current.GetHabbo().Rank == 4u || current.GetHabbo().Rank == 5u ||
+                                current.GetHabbo().Rank == 6u))
                 current.GetConnection().SendData(bytes);
         }
 
@@ -350,8 +373,8 @@ namespace Yupi.Game.GameClients
             if (!_idUserNameRegister.Contains(userId))
                 _idUserNameRegister.Add(userId, userName);
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.SetQuery($"UPDATE users SET online='1' WHERE id={userId} LIMIT 1");
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                commitableQueryReactor.SetQuery($"UPDATE users SET online='1' WHERE id={userId} LIMIT 1");
         }
 
         /// <summary>
@@ -364,8 +387,8 @@ namespace Yupi.Game.GameClients
             _userIdRegister.Remove(userid);
             _userNameRegister.Remove(userName.ToLower());
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.SetQuery($"UPDATE users SET online='0' WHERE id={userid} LIMIT 1");
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                commitableQueryReactor.SetQuery($"UPDATE users SET online='0' WHERE id={userid} LIMIT 1");
         }
 
         /// <summary>
@@ -393,8 +416,8 @@ namespace Yupi.Game.GameClients
             {
                 if (stringBuilder.Length > 0)
                 {
-                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                        queryReactor.RunFastQuery(stringBuilder.ToString());
+                    using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                        commitableQueryReactor.RunFastQuery(stringBuilder.ToString());
                 }
             }
             try
@@ -430,7 +453,7 @@ namespace Yupi.Game.GameClients
             if (!_userNameRegister.Contains(oldName.ToLower()))
                 return;
 
-            GameClient old = (GameClient)_userNameRegister[oldName.ToLower()];
+            GameClient old = (GameClient) _userNameRegister[oldName.ToLower()];
             _userNameRegister.Remove(oldName.ToLower());
             _userNameRegister.Add(newName.ToLower(), old);
         }
@@ -479,7 +502,7 @@ namespace Yupi.Game.GameClients
                     {
                         while (_badgeQueue.Count > 0)
                         {
-                            string badge = (string)_badgeQueue.Dequeue();
+                            string badge = (string) _badgeQueue.Dequeue();
 
                             foreach (GameClient current in Clients.Values.Where(current => current.GetHabbo() != null))
                             {
@@ -498,7 +521,8 @@ namespace Yupi.Game.GameClients
             }
             catch (Exception ex)
             {
-                ServerLogManager.LogThreadException(ex.ToString(), "GameClientManager.GiveBadges Exception --> Not inclusive");
+                ServerLogManager.LogThreadException(ex.ToString(),
+                    "GameClientManager.GiveBadges Exception --> Not inclusive");
             }
         }
 
@@ -523,11 +547,13 @@ namespace Yupi.Game.GameClients
                 TimeSpan timeSpan = DateTime.Now - now;
 
                 if (timeSpan.TotalSeconds > 3.0)
-                    Console.WriteLine("GameClientManager.BroadcastPackets spent: {0} seconds in working.", timeSpan.TotalSeconds);
+                    Console.WriteLine("GameClientManager.BroadcastPackets spent: {0} seconds in working.",
+                        timeSpan.TotalSeconds);
             }
             catch (Exception ex)
             {
-                ServerLogManager.LogThreadException(ex.ToString(), "GameClientManager.BroadcastPackets Exception --> Not inclusive");
+                ServerLogManager.LogThreadException(ex.ToString(),
+                    "GameClientManager.BroadcastPackets Exception --> Not inclusive");
             }
         }
     }

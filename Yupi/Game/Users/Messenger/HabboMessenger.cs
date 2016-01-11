@@ -5,7 +5,7 @@ using System.Linq;
 using Yupi.Core.Security.BlackWords;
 using Yupi.Core.Security.BlackWords.Enums;
 using Yupi.Core.Security.BlackWords.Structs;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Rooms.Data;
 using Yupi.Game.Users.Messenger.Structs;
@@ -74,7 +74,8 @@ namespace Yupi.Game.Users.Messenger
         /// </summary>
         /// <param name="senderId">The sender identifier.</param>
         /// <returns>MessengerRequest.</returns>
-        internal MessengerRequest GetRequest(uint senderId) => Requests.ContainsKey(senderId) ? Requests[senderId] : null;
+        internal MessengerRequest GetRequest(uint senderId)
+            => Requests.ContainsKey(senderId) ? Requests[senderId] : null;
 
         /// <summary>
         ///     Destroys this instance.
@@ -83,7 +84,10 @@ namespace Yupi.Game.Users.Messenger
         {
             IEnumerable<GameClient> clientsById = Yupi.GetGame().GetClientManager().GetClientsById(Friends.Keys);
 
-            foreach (GameClient current in clientsById.Where(current => current.GetHabbo() != null && current.GetHabbo().GetMessenger() != null))
+            foreach (
+                GameClient current in
+                    clientsById.Where(current => current.GetHabbo() != null && current.GetHabbo().GetMessenger() != null)
+                )
                 current.GetHabbo().GetMessenger().UpdateFriend(_userId, null, true);
 
             Friends.Clear();
@@ -107,7 +111,10 @@ namespace Yupi.Game.Users.Messenger
             if (clientsById == null)
                 return;
 
-            foreach (GameClient current in clientsById.Where(current => current?.GetHabbo() != null && current.GetHabbo().GetMessenger() != null))
+            foreach (
+                GameClient current in
+                    clientsById.Where(
+                        current => current?.GetHabbo() != null && current.GetHabbo().GetMessenger() != null))
             {
                 Habbo user = current.GetHabbo();
 
@@ -170,8 +177,9 @@ namespace Yupi.Game.Users.Messenger
         /// </summary>
         internal void HandleAllRequests()
         {
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery("DELETE FROM messenger_requests WHERE from_id = " + _userId + " OR to_id = " + _userId);
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                commitableQueryReactor.RunFastQuery("DELETE FROM messenger_requests WHERE from_id = " + _userId +
+                                                    " OR to_id = " + _userId);
 
             ClearRequests();
         }
@@ -182,8 +190,9 @@ namespace Yupi.Game.Users.Messenger
         /// <param name="sender">The sender.</param>
         internal void HandleRequest(uint sender)
         {
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery(string.Concat("DELETE FROM messenger_requests WHERE (from_id = ", _userId, " AND to_id = ", sender, ") OR (to_id = ", _userId, " AND from_id = ", sender, ")"));
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                commitableQueryReactor.RunFastQuery(string.Concat("DELETE FROM messenger_requests WHERE (from_id = ",
+                    _userId, " AND to_id = ", sender, ") OR (to_id = ", _userId, " AND from_id = ", sender, ")"));
 
             Requests.Remove(sender);
         }
@@ -194,14 +203,18 @@ namespace Yupi.Game.Users.Messenger
         /// <param name="friendId">The friend identifier.</param>
         internal void CreateFriendship(uint friendId)
         {
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery(string.Concat("REPLACE INTO messenger_friendships (user_one_id,user_two_id) VALUES (", _userId, ",", friendId, ")"));
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                commitableQueryReactor.RunFastQuery(
+                    string.Concat("REPLACE INTO messenger_friendships (user_one_id,user_two_id) VALUES (", _userId, ",",
+                        friendId, ")"));
 
             OnNewFriendship(friendId);
 
             GameClient clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(friendId);
 
-            Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(clientByUserId, "ACH_FriendListSize", 1, true);
+            Yupi.GetGame()
+                .GetAchievementManager()
+                .ProgressUserAchievement(clientByUserId, "ACH_FriendListSize", 1, true);
 
             if (clientByUserId?.GetHabbo().GetMessenger() != null)
                 clientByUserId.GetHabbo().GetMessenger().OnNewFriendship(_userId);
@@ -215,15 +228,20 @@ namespace Yupi.Game.Users.Messenger
         {
             Habbo habbo = GetClient().GetHabbo();
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.RunFastQuery(string.Concat("DELETE FROM messenger_friendships WHERE (user_one_id = ", _userId, " AND user_two_id = ", friendId, ") OR (user_two_id = ", _userId, " AND user_one_id = ", friendId, ")"));
+                commitableQueryReactor.RunFastQuery(
+                    string.Concat("DELETE FROM messenger_friendships WHERE (user_one_id = ", _userId,
+                        " AND user_two_id = ", friendId, ") OR (user_two_id = ", _userId, " AND user_one_id = ",
+                        friendId, ")"));
 
-                queryReactor.RunFastQuery(string.Concat("SELECT id FROM users_relationships WHERE user_id=", habbo.Id, " AND target = ", friendId, " LIMIT 1"));
+                commitableQueryReactor.RunFastQuery(string.Concat("SELECT id FROM users_relationships WHERE user_id=",
+                    habbo.Id, " AND target = ", friendId, " LIMIT 1"));
 
-                int id = queryReactor.GetInteger();
+                int id = commitableQueryReactor.GetInteger();
 
-                queryReactor.RunFastQuery(string.Concat("DELETE FROM users_relationships WHERE (user_id = ", habbo.Id, " AND target = ", friendId, ")"));
+                commitableQueryReactor.RunFastQuery(string.Concat("DELETE FROM users_relationships WHERE (user_id = ",
+                    habbo.Id, " AND target = ", friendId, ")"));
 
                 if (id > 0)
                     if (habbo.Relationships.ContainsKey(id))
@@ -255,20 +273,24 @@ namespace Yupi.Game.Users.Messenger
 
             if (clientByUserId?.GetHabbo() == null)
             {
-                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    queryReactor.SetQuery($"SELECT id,username,motto,look,last_online,hide_inroom,hide_online FROM users WHERE id = {friendId}");
+                    commitableQueryReactor.SetQuery(
+                        $"SELECT id,username,motto,look,last_online,hide_inroom,hide_online FROM users WHERE id = {friendId}");
 
-                    DataRow row = queryReactor.GetRow();
+                    DataRow row = commitableQueryReactor.GetRow();
 
-                    messengerBuddy = new MessengerBuddy(friendId, (string)row["username"], (string)row["look"], (string)row["motto"], Yupi.EnumToBool(row["hide_online"].ToString()), Yupi.EnumToBool(row["hide_inroom"].ToString()));
-                }     
+                    messengerBuddy = new MessengerBuddy(friendId, (string) row["username"], (string) row["look"],
+                        (string) row["motto"], Yupi.EnumToBool(row["hide_online"].ToString()),
+                        Yupi.EnumToBool(row["hide_inroom"].ToString()));
+                }
             }
             else
             {
                 Habbo habbo = clientByUserId.GetHabbo();
 
-                messengerBuddy = new MessengerBuddy(friendId, habbo.UserName, habbo.Look, habbo.Motto, habbo.AppearOffline, habbo.HideInRoom);
+                messengerBuddy = new MessengerBuddy(friendId, habbo.UserName, habbo.Look, habbo.Motto,
+                    habbo.AppearOffline, habbo.HideInRoom);
 
                 messengerBuddy.UpdateUser();
             }
@@ -301,7 +323,10 @@ namespace Yupi.Game.Users.Messenger
         {
             Friends.Remove(friend);
 
-            GetClient().GetMessageHandler().GetResponse().Init(LibraryParser.OutgoingRequest("FriendUpdateMessageComposer"));
+            GetClient()
+                .GetMessageHandler()
+                .GetResponse()
+                .Init(LibraryParser.OutgoingRequest("FriendUpdateMessageComposer"));
             GetClient().GetMessageHandler().GetResponse().AppendInteger(0);
             GetClient().GetMessageHandler().GetResponse().AppendInteger(1);
             GetClient().GetMessageHandler().GetResponse().AppendInteger(-1);
@@ -326,12 +351,12 @@ namespace Yupi.Game.Users.Messenger
             {
                 DataRow dataRow;
 
-                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    queryReactor.SetQuery("SELECT id, block_newfriends FROM users WHERE username = @query");
+                    commitableQueryReactor.SetQuery("SELECT id, block_newfriends FROM users WHERE username = @query");
 
-                    queryReactor.AddParameter("query", userQuery.ToLower());
-                    dataRow = queryReactor.GetRow();
+                    commitableQueryReactor.AddParameter("query", userQuery.ToLower());
+                    dataRow = commitableQueryReactor.GetRow();
                 }
 
                 if (dataRow == null)
@@ -354,7 +379,9 @@ namespace Yupi.Game.Users.Messenger
 
             if (blockForNewFriends && client.GetHabbo().Rank < 4)
             {
-                client.GetMessageHandler().GetResponse().Init(LibraryParser.OutgoingRequest("NotAcceptingRequestsMessageComposer"));
+                client.GetMessageHandler()
+                    .GetResponse()
+                    .Init(LibraryParser.OutgoingRequest("NotAcceptingRequestsMessageComposer"));
 
                 client.GetMessageHandler().GetResponse().AppendInteger(39);
                 client.GetMessageHandler().GetResponse().AppendInteger(3);
@@ -365,13 +392,15 @@ namespace Yupi.Game.Users.Messenger
 
             if (RequestExists(userId))
             {
-                client.SendNotif("Você já enviou um pedido de amizade anteriormente."); //@todo: Mudar Texto para sistema de langs
+                client.SendNotif("Você já enviou um pedido de amizade anteriormente.");
+                    //@todo: Mudar Texto para sistema de langs
 
                 return true;
             }
 
             using (IQueryAdapter queryreactor2 = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryreactor2.RunFastQuery(string.Concat("REPLACE INTO messenger_requests (from_id,to_id) VALUES (", _userId, ",", userId, ")"));
+                queryreactor2.RunFastQuery(string.Concat("REPLACE INTO messenger_requests (from_id,to_id) VALUES (",
+                    _userId, ",", userId, ")"));
 
             Habbo fromUser = client.GetHabbo();
 
@@ -381,7 +410,8 @@ namespace Yupi.Game.Users.Messenger
 
                 clientByUsername.GetHabbo().GetMessenger().OnNewRequest(_userId, messengerRequest);
 
-                ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("ConsoleSendFriendRequestMessageComposer"));
+                ServerMessage serverMessage =
+                    new ServerMessage(LibraryParser.OutgoingRequest("ConsoleSendFriendRequestMessageComposer"));
 
                 messengerRequest.Serialize(serverMessage);
                 clientByUsername.SendMessage(serverMessage);
@@ -417,7 +447,9 @@ namespace Yupi.Game.Users.Messenger
 
                 if (settings.ShowMessage)
                 {
-                    GetClient().SendModeratorMessage("A mensagem contém a palavra: " + word.Word + " que não é permitida, você poderá ser banido!");
+                    GetClient()
+                        .SendModeratorMessage("A mensagem contém a palavra: " + word.Word +
+                                              " que não é permitida, você poderá ser banido!");
 
                     return;
                 }
@@ -437,9 +469,9 @@ namespace Yupi.Game.Users.Messenger
                 serverMessage.AppendString(GetClient().GetHabbo().UserName + " : " + message);
                 serverMessage.AppendInteger(0);
 
-                if(GetClient().GetHabbo().Rank >= Yupi.StaffAlertMinRank)
+                if (GetClient().GetHabbo().Rank >= Yupi.StaffAlertMinRank)
                     Yupi.GetGame().GetClientManager().StaffAlert(serverMessage, GetClient().GetHabbo().Id);
-                else if(GetClient().GetHabbo().Rank >= Convert.ToUInt32(Yupi.GetDbConfig().DbData["ambassador.minrank"]))
+                else if (GetClient().GetHabbo().Rank >= Convert.ToUInt32(Yupi.GetDbConfig().DbData["ambassador.minrank"]))
                     Yupi.GetGame().GetClientManager().AmbassadorAlert(serverMessage, GetClient().GetHabbo().Id);
             }
             else
@@ -451,9 +483,11 @@ namespace Yupi.Game.Users.Messenger
                     if (!Yupi.OfflineMessages.ContainsKey(toId))
                         Yupi.OfflineMessages.Add(toId, new List<OfflineMessage>());
 
-                    Yupi.OfflineMessages[toId].Add(new OfflineMessage(GetClient().GetHabbo().Id, message, Yupi.GetUnixTimeStamp()));
+                    Yupi.OfflineMessages[toId].Add(new OfflineMessage(GetClient().GetHabbo().Id, message,
+                        Yupi.GetUnixTimeStamp()));
 
-                    OfflineMessage.SaveMessage(Yupi.GetDatabaseManager().GetQueryReactor(), toId, GetClient().GetHabbo().Id, message);
+                    OfflineMessage.SaveMessage(Yupi.GetDatabaseManager().GetQueryReactor(), toId,
+                        GetClient().GetHabbo().Id, message);
 
                     return;
                 }
@@ -588,8 +622,12 @@ namespace Yupi.Game.Users.Messenger
         internal ServerMessage SerializeRequests()
         {
             ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("FriendRequestsMessageComposer"));
-            serverMessage.AppendInteger(Requests.Count > Yupi.FriendRequestLimit ? (int) Yupi.FriendRequestLimit : Requests.Count);
-            serverMessage.AppendInteger(Requests.Count > Yupi.FriendRequestLimit ? (int) Yupi.FriendRequestLimit : Requests.Count);
+            serverMessage.AppendInteger(Requests.Count > Yupi.FriendRequestLimit
+                ? (int) Yupi.FriendRequestLimit
+                : Requests.Count);
+            serverMessage.AppendInteger(Requests.Count > Yupi.FriendRequestLimit
+                ? (int) Yupi.FriendRequestLimit
+                : Requests.Count);
 
             IEnumerable<MessengerRequest> requests = Requests.Values.Take((int) Yupi.FriendRequestLimit);
 

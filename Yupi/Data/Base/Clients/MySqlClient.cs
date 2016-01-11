@@ -24,11 +24,10 @@
 
 using System;
 using MySql.Data.MySqlClient;
-using Yupi.Data.Base.Connections;
-using Yupi.Data.Base.Sessions;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
+using Yupi.Data.Base.Managers;
 
-namespace Yupi.Data.Base
+namespace Yupi.Data.Base.Clients
 {
     public class MySqlClient : IDatabaseClient
     {
@@ -40,37 +39,6 @@ namespace Yupi.Data.Base
         {
             _mySqlConnection = new MySqlConnection(dbManager.GetConnectionString());
         }
-
-        public void Connect()
-        {
-            _mySqlConnection.Open();
-        }
-
-        public void Disconnect()
-        {
-            _mySqlConnection.Close();
-        }
-
-        public void Dispose()
-        {
-            _info = null;
-
-            Disconnect();
-        }
-
-        public MySqlCommand GetNewCommandMySql() => _mySqlConnection.CreateCommand();
-
-        public IQueryAdapter GetQueryReactor() => _info;
-
-        public MySqlTransaction GetTransactionMySql() => _mySqlConnection.BeginTransaction();
-
-        public bool IsAvailable() => _info == null;
-
-        public void Prepare() => _info = new NormalQueryReactor(this);
-
-        public void ReportDone() => Dispose();
-
-        public MySqlCommand CreateNewCommandMySql() => _mySqlConnection.CreateCommand();
 
         MySqlCommand IDatabaseClient.CreateNewCommandMySql()
         {
@@ -111,5 +79,28 @@ namespace Yupi.Data.Base
         {
             throw new NotImplementedException();
         }
+
+        public void Connect() => _mySqlConnection.Open();
+
+        public void Disconnect() => _mySqlConnection.Close();
+
+        public void Dispose()
+        {
+            _info = null;
+
+            Disconnect();
+        }
+
+        public MySqlCommand GetNewCommandMySql() => _mySqlConnection.CreateCommand();
+
+        public IQueryAdapter GetQueryReactor() => _info;
+
+        public MySqlTransaction GetTransactionMySql() => _mySqlConnection.BeginTransaction();
+
+        public bool IsAvailable() => _info == null;
+
+        public void ReportDone() => Dispose();
+
+        public MySqlCommand CreateNewCommandMySql() => _mySqlConnection.CreateCommand();
     }
 }

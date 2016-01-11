@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Messages;
 
 namespace Yupi.Game.Support
@@ -161,8 +161,8 @@ namespace Yupi.Game.Support
             if (!updateInDb)
                 return;
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery(
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                commitableQueryReactor.RunFastQuery(
                     string.Concat("UPDATE moderation_tickets SET status = 'picked', moderator_id = ", pModeratorId,
                         ", timestamp = '", Yupi.GetUnixTimeStamp(), "' WHERE id = ", TicketId));
         }
@@ -208,8 +208,9 @@ namespace Yupi.Game.Support
                     throw new ArgumentOutOfRangeException(nameof(newStatus), newStatus, null);
             }
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery($"UPDATE moderation_tickets SET status = '{statusCode}' WHERE id = {TicketId}");
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                commitableQueryReactor.RunFastQuery(
+                    $"UPDATE moderation_tickets SET status = '{statusCode}' WHERE id = {TicketId}");
         }
 
         /// <summary>
@@ -223,8 +224,9 @@ namespace Yupi.Game.Support
             if (!updateInDb)
                 return;
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery($"UPDATE moderation_tickets SET status = 'open' WHERE id = {TicketId}");
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                commitableQueryReactor.RunFastQuery(
+                    $"UPDATE moderation_tickets SET status = 'open' WHERE id = {TicketId}");
         }
 
         /// <summary>
@@ -238,8 +240,9 @@ namespace Yupi.Game.Support
             if (!updateInDb)
                 return;
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery($"UPDATE moderation_tickets SET status = 'deleted' WHERE id = {TicketId}");
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                commitableQueryReactor.RunFastQuery(
+                    $"UPDATE moderation_tickets SET status = 'deleted' WHERE id = {TicketId}");
         }
 
         /// <summary>

@@ -106,7 +106,8 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
                 Room.GetWiredHandler().ExecuteWired(Interaction.TriggerCollision, user);
             }
             else if (Room.GetGameMap().SquareIsOpen(newPoint.X, newPoint.Y, false))
-                Room.GetRoomItemHandler().SetFloorItem(null, item, newPoint.X, newPoint.Y, item.Rot, false, false, true, true, true);
+                Room.GetRoomItemHandler()
+                    .SetFloorItem(null, item, newPoint.X, newPoint.Y, item.Rot, false, false, true, true, true);
         }
     }
 }

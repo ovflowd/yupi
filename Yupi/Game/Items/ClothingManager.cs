@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Items.Interfaces;
 
 namespace Yupi.Game.Items

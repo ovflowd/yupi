@@ -58,7 +58,7 @@ namespace Yupi.Game.Commands.Controllers
                 session.SendWhisper(Yupi.GetLanguage().GetVar("command_pull_error_far_away"));
                 return true;
             }
-            if (user.RotBody % 2 != 0) user.RotBody--;
+            if (user.RotBody%2 != 0) user.RotBody--;
             switch (user.RotBody)
             {
                 case 0:

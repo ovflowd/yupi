@@ -86,7 +86,7 @@ namespace Yupi.Game.Catalogs.Interfaces
         internal uint BaseId;
 
         /// <summary>
-        /// The base name
+        ///     The base name
         /// </summary>
         internal string BaseName;
 
@@ -113,13 +113,13 @@ namespace Yupi.Game.Catalogs.Interfaces
         internal CatalogItem(DataRow row, string name)
         {
             // Item Id
-            Id = (uint)row["id"];
+            Id = (uint) row["id"];
 
             // Item Name
             Name = name;
 
             // Multiple Items
-            ItemNamesString = (string)row["item_names"];
+            ItemNamesString = (string) row["item_names"];
             Items = new Dictionary<Item, uint>();
 
             // String Arrays
@@ -142,24 +142,24 @@ namespace Yupi.Game.Catalogs.Interfaces
 
             // Strings
             BaseName = Items.Keys.First().Name;
-            Badge = (string)row["badge"];
-            HaveOffer = (string)row["offer_active"] == "1";
-            ClubOnly = (string)row["club_only"] == "1";
-            ExtraData = (string)row["extradata"];
+            Badge = (string) row["badge"];
+            HaveOffer = (string) row["offer_active"] == "1";
+            ClubOnly = (string) row["club_only"] == "1";
+            ExtraData = (string) row["extradata"];
 
             // Positive Integers (Unsigned)
-            PageId = (uint)row["page_id"];
-            CreditsCost = (uint)row["cost_credits"];
-            DiamondsCost = (uint)row["cost_diamonds"];
-            DucketsCost = (uint)row["cost_duckets"];
-            LimitedSelled = (uint)row["limited_sells"];
-            LimitedStack = (uint)row["limited_stack"];
+            PageId = (uint) row["page_id"];
+            CreditsCost = (uint) row["cost_credits"];
+            DiamondsCost = (uint) row["cost_diamonds"];
+            DucketsCost = (uint) row["cost_duckets"];
+            LimitedSelled = (uint) row["limited_sells"];
+            LimitedStack = (uint) row["limited_stack"];
             BaseId = Items.Keys.First().ItemId;
             FirstAmount = Items.Values.First();
-            SongId = (uint)row["song_id"];
+            SongId = (uint) row["song_id"];
 
             // Booleans
-            IsLimited = LimitedStack > 0;      
+            IsLimited = LimitedStack > 0;
         }
 
         /// <summary>

@@ -4,9 +4,8 @@ using System.Data;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Web;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
-using Yupi.Messages;
 
 namespace Yupi.Game.Users
 {
@@ -15,7 +14,8 @@ namespace Yupi.Game.Users
     /// </summary>
     internal class YoutubeManager
     {
-        internal static readonly Regex YoutubeVideoRegex = new Regex(@"youtu(?:\.be|be\.com)/(?:.*v(?:/|=)|(?:.*/)?)([a-zA-Z0-9-_]+)", RegexOptions.IgnoreCase);
+        internal static readonly Regex YoutubeVideoRegex =
+            new Regex(@"youtu(?:\.be|be\.com)/(?:.*v(?:/|=)|(?:.*/)?)([a-zA-Z0-9-_]+)", RegexOptions.IgnoreCase);
 
         internal uint UserId;
         internal Dictionary<string, YoutubeVideo> Videos;
@@ -31,18 +31,19 @@ namespace Yupi.Game.Users
         {
             Videos.Clear();
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery("SELECT * FROM users_videos_youtube WHERE user_id = @user_id");
-                queryReactor.AddParameter("user_id", UserId);
+                commitableQueryReactor.SetQuery("SELECT * FROM users_videos_youtube WHERE user_id = @user_id");
+                commitableQueryReactor.AddParameter("user_id", UserId);
 
-                DataTable table = queryReactor.GetTable();
+                DataTable table = commitableQueryReactor.GetTable();
 
                 if (table == null)
                     return;
 
                 foreach (DataRow row in table.Rows)
-                    Videos.Add((string) row["video_id"], new YoutubeVideo((string) row["video_id"], (string) row["name"], (string) row["description"]));
+                    Videos.Add((string) row["video_id"],
+                        new YoutubeVideo((string) row["video_id"], (string) row["name"], (string) row["description"]));
             }
         }
 
@@ -103,14 +104,14 @@ namespace Yupi.Game.Users
 
                 UserId = client.GetHabbo().Id;
 
-                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    queryReactor.SetQuery(
+                    commitableQueryReactor.SetQuery(
                         "INSERT INTO users_videos_youtube (user_id, video_id, name, description) VALUES (@user_id, @video_id, @name, @name)");
-                    queryReactor.AddParameter("user_id", UserId);
-                    queryReactor.AddParameter("video_id", id);
-                    queryReactor.AddParameter("name", videoName);
-                    queryReactor.RunQuery();
+                    commitableQueryReactor.AddParameter("user_id", UserId);
+                    commitableQueryReactor.AddParameter("video_id", id);
+                    commitableQueryReactor.AddParameter("name", videoName);
+                    commitableQueryReactor.RunQuery();
                 }
 
                 RefreshVideos();

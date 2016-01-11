@@ -47,7 +47,7 @@ namespace Yupi.Game.Groups.Composers
             message.AppendString(string.Empty);
             message.AppendString(group.Badge);
             message.AppendInteger(0);
-            message.AppendInteger((int)Math.Round(groupForum.ForumScore));
+            message.AppendInteger((int) Math.Round(groupForum.ForumScore));
             message.AppendInteger(groupForum.ForumMessagesCount);
             message.AppendInteger(0);
             message.AppendInteger(0);

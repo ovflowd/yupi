@@ -24,7 +24,8 @@ namespace Yupi.Game.Catalogs.Composers
         /// <returns>ServerMessage.</returns>
         internal static ServerMessage ComposeIndex(uint rank, string type)
         {
-            IEnumerable<CatalogPage> pages = Yupi.GetGame().GetCatalog().Categories.Values.OfType<CatalogPage>().ToList();
+            IEnumerable<CatalogPage> pages =
+                Yupi.GetGame().GetCatalog().Categories.Values.OfType<CatalogPage>().ToList();
 
             IOrderedEnumerable<CatalogPage> sortedPages = pages.Where(x => x.ParentId == -2 && x.MinRank <= rank).OrderBy(x => x.OrderNum);
 
@@ -496,12 +497,12 @@ namespace Yupi.Game.Catalogs.Composers
                 else if (item.Name.Contains("MONTH"))
                 {
                     int monthTime = int.Parse(fuckingArray[3]);
-                    dayTime = monthTime * 31;
+                    dayTime = monthTime*31;
                 }
                 else if (item.Name.Contains("YEAR"))
                 {
                     int yearTimeOmg = int.Parse(fuckingArray[3]);
-                    dayTime = yearTimeOmg * 31 * 12;
+                    dayTime = yearTimeOmg*31*12;
                 }
 
                 DateTime newExpiryDate = DateTime.Now.AddDays(dayTime);
@@ -511,10 +512,10 @@ namespace Yupi.Game.Catalogs.Composers
                         Yupi.UnixToDateTime(session.GetHabbo().GetSubscriptionManager().GetSubscription().ExpireTime)
                             .AddDays(dayTime);
 
-                message.AppendInteger((int)dayTime / 31);
-                message.AppendInteger((int)dayTime);
+                message.AppendInteger((int) dayTime/31);
+                message.AppendInteger((int) dayTime);
                 message.AppendBool(false);
-                message.AppendInteger((int)dayTime);
+                message.AppendInteger((int) dayTime);
                 message.AppendInteger(newExpiryDate.Year);
                 message.AppendInteger(newExpiryDate.Month);
                 message.AppendInteger(newExpiryDate.Day);
@@ -598,7 +599,7 @@ namespace Yupi.Game.Catalogs.Composers
 
             if (PetTypeManager.ItemIsPet(item.Name))
                 displayName = PetTypeManager.GetHabboPetType(item.Name);
-                
+
             message.AppendString(displayName, true);
             message.AppendBool(false);
             message.AppendInteger(item.CreditsCost);

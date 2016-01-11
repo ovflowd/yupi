@@ -23,7 +23,7 @@
 */
 
 using System.Data;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Catalogs.Composers;
 using Yupi.Game.Catalogs.Interfaces;
 using Yupi.Messages;
@@ -43,22 +43,23 @@ namespace Yupi.Game.Catalogs
         {
             CurrentOffer = null;
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery("SELECT * FROM catalog_targeted_offers WHERE enabled = '1' LIMIT 1");
+                commitableQueryReactor.SetQuery("SELECT * FROM catalog_targeted_offers WHERE enabled = '1' LIMIT 1");
 
-                DataRow row = queryReactor.GetRow();
+                DataRow row = commitableQueryReactor.GetRow();
 
                 if (row == null)
                     return;
 
-                CurrentOffer = new TargetedOffer((int)row["id"], (string)row["identifier"], (uint)row["cost_credits"],
-                    (uint)row["cost_duckets"], (uint)row["cost_diamonds"], (int)row["purchase_limit"],
-                    (int)row["expiration_time"], (string)row["title"], (string)row["description"],
-                    (string)row["image"], (string)row["products"]);
+                CurrentOffer = new TargetedOffer((int) row["id"], (string) row["identifier"], (uint) row["cost_credits"],
+                    (uint) row["cost_duckets"], (uint) row["cost_diamonds"], (int) row["purchase_limit"],
+                    (int) row["expiration_time"], (string) row["title"], (string) row["description"],
+                    (string) row["image"], (string) row["products"]);
             }
         }
 
-        public void GenerateMessage(ServerMessage message) => TargetedOfferComposer.GenerateMessage(message, CurrentOffer);
+        public void GenerateMessage(ServerMessage message)
+            => TargetedOfferComposer.GenerateMessage(message, CurrentOffer);
     }
 }

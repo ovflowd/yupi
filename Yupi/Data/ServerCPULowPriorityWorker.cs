@@ -25,7 +25,7 @@
 using System;
 using System.Diagnostics;
 using Yupi.Core.Io;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 
 namespace Yupi.Data
 {
@@ -72,23 +72,26 @@ namespace Yupi.Data
                     int clientCount = Yupi.GetGame().GetClientManager().ClientCount();
 
                     if (realOnlineClientCount != clientCount)
-                        Writer.WriteLine("Number of Clients isn't Equal of Online Users. Running Analysis", "Yupi.Game", ConsoleColor.DarkYellow);
+                        Writer.WriteLine("Number of Clients isn't Equal of Online Users. Running Analysis", "Yupi.Game",
+                            ConsoleColor.DarkYellow);
 
-                    //if (realOnlineClientCount != clientCount)
-                    //    Yupi.GetGame().GetClientManager().RemoveNotOnlineUsers();
+                    if (realOnlineClientCount != clientCount)
+                        Yupi.GetGame().GetClientManager().RemoveNotOnlineUsers();
 
                     int loadedRoomsCount = Yupi.GetGame().GetRoomManager().LoadedRoomsCount;
 
                     DateTime dateTime = new DateTime((DateTime.Now - Yupi.ServerStarted).Ticks);
 
-                    Console.Title = string.Concat("Yupi | Time: ", int.Parse(dateTime.ToString("dd")) - 1, "d:", dateTime.ToString("HH"), "h:", dateTime.ToString("mm"), "m | Conn: ", clientCount," | Users: ", realOnlineClientCount, " | Rooms: ", loadedRoomsCount);
+                    Console.Title = string.Concat("Yupi | Time: ", int.Parse(dateTime.ToString("dd")) - 1, "d:",
+                        dateTime.ToString("HH"), "h:", dateTime.ToString("mm"), "m | Conn: ", clientCount, " | Users: ",
+                        realOnlineClientCount, " | Rooms: ", loadedRoomsCount);
 
-                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                    using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
                         if (clientCount > _userPeak || realOnlineClientCount > _userPeak)
                             _userPeak = realOnlineClientCount;
 
-                        queryReactor.RunFastQuery(string.Concat("UPDATE server_status SET stamp = '",
+                        commitableQueryReactor.RunFastQuery(string.Concat("UPDATE server_status SET stamp = '",
                             Yupi.GetUnixTimeStamp(), "', users_online = ", realOnlineClientCount, ", rooms_loaded = ",
                             loadedRoomsCount, ", server_ver = 'Yupi Emulator', userpeak = ", _userPeak));
                     }
@@ -97,7 +100,7 @@ namespace Yupi.Data
                 }
                 catch (Exception e)
                 {
-                    Writer.LogException(e.ToString());
+                    ServerLogManager.LogException(e.ToString());
                 }
             }
         }

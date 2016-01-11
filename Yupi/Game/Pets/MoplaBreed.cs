@@ -24,7 +24,7 @@
 
 using System;
 using System.Data;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Pets.Enums;
 
 namespace Yupi.Game.Pets
@@ -88,7 +88,8 @@ namespace Yupi.Game.Pets
         /// <param name="breedData">The breed data.</param>
         /// <param name="liveState">State of the live.</param>
         /// <param name="growingStatus">The growing status.</param>
-        internal MoplaBreed(Pet pet, uint petId, int rarity, string moplaName, string breedData, int liveState, int growingStatus)
+        internal MoplaBreed(Pet pet, uint petId, int rarity, string moplaName, string breedData, int liveState,
+            int growingStatus)
         {
             _pet = pet;
             _petId = petId;
@@ -103,7 +104,8 @@ namespace Yupi.Game.Pets
         ///     Gets the grow status.
         /// </summary>
         /// <value>The grow status.</value>
-        internal string GrowStatus => LiveState == MoplaState.Dead ? "rip" : (LiveState == MoplaState.Grown ? "std" : $"grw{GrowingStatus}");
+        internal string GrowStatus
+            => LiveState == MoplaState.Dead ? "rip" : (LiveState == MoplaState.Grown ? "std" : $"grw{GrowingStatus}");
 
         /// <summary>
         ///     Gets the name.
@@ -132,7 +134,8 @@ namespace Yupi.Game.Pets
 
             using (IQueryAdapter adapter = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                adapter.SetQuery("INSERT INTO pets_plants (pet_id, rarity, plant_name, plant_data) VALUES (@petid , @rarity , @plantname , @plantdata)");
+                adapter.SetQuery(
+                    "INSERT INTO pets_plants (pet_id, rarity, plant_name, plant_data) VALUES (@petid , @rarity , @plantname , @plantdata)");
                 adapter.AddParameter("petid", pet.PetId);
                 adapter.AddParameter("rarity", pet.Rarity);
                 adapter.AddParameter("plantname", tuple.Item1);
@@ -205,7 +208,6 @@ namespace Yupi.Game.Pets
                             num = 2;
                             str = $"{str}Phoenicus ";
                         }
-
                     }
                     else
                     {
@@ -287,7 +289,7 @@ namespace Yupi.Game.Pets
                             num = 10;
                             str = $"{str}Cinereus ";
                         }
-                        else if (random.Next(0, 7) % 2 != 0)
+                        else if (random.Next(0, 7)%2 != 0)
                         {
                             num = 8;
                             str = $"{str}Amethyst ";
@@ -469,7 +471,7 @@ namespace Yupi.Game.Pets
                             num = 10;
                             str = $"{str}Cinereus ";
                         }
-                        else if (random.Next(12, 0x13) % 2 == 1)
+                        else if (random.Next(12, 0x13)%2 == 1)
                         {
                             num = 6;
                             str = $"{str}Azureus ";

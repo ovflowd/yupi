@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Items.Interactions.Enums;
 using Yupi.Game.Items.Interfaces;
 using Yupi.Game.Rooms;
@@ -12,12 +12,12 @@ using Yupi.Messages.Parsers;
 namespace Yupi.Messages.Handlers
 {
     /// <summary>
-    /// Class GameClientMessageHandler.
+    ///     Class GameClientMessageHandler.
     /// </summary>
     internal partial class GameClientMessageHandler
     {
         /// <summary>
-        /// Retrieves the song identifier.
+        ///     Retrieves the song identifier.
         /// </summary>
         internal void RetrieveSongId()
         {
@@ -35,7 +35,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Gets the music data.
+        ///     Gets the music data.
         /// </summary>
         internal void GetMusicData()
         {
@@ -57,7 +57,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Adds the playlist item.
+        ///     Adds the playlist item.
         /// </summary>
         internal void AddPlaylistItem()
         {
@@ -92,14 +92,15 @@ namespace Yupi.Messages.Handlers
 
             Session.GetHabbo().GetInventoryComponent().RemoveItem(num, true);
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery($"UPDATE items_rooms SET user_id='0' WHERE id={num} LIMIT 1");
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                commitableQueryReactor.RunFastQuery($"UPDATE items_rooms SET user_id='0' WHERE id={num} LIMIT 1");
 
-            Session.SendMessage(SoundMachineComposer.Compose(roomMusicController.PlaylistCapacity, roomMusicController.Playlist.Values.ToList()));
+            Session.SendMessage(SoundMachineComposer.Compose(roomMusicController.PlaylistCapacity,
+                roomMusicController.Playlist.Values.ToList()));
         }
 
         /// <summary>
-        /// Removes the playlist item.
+        ///     Removes the playlist item.
         /// </summary>
         internal void RemovePlaylistItem()
         {
@@ -120,18 +121,24 @@ namespace Yupi.Messages.Handlers
 
             songItem.RemoveFromDatabase();
 
-            Session.GetHabbo().GetInventoryComponent().AddNewItem(songItem.ItemId, songItem.BaseItem.Name, songItem.ExtraData, 0u, false, true, 0, 0, songItem.SongCode);
+            Session.GetHabbo()
+                .GetInventoryComponent()
+                .AddNewItem(songItem.ItemId, songItem.BaseItem.Name, songItem.ExtraData, 0u, false, true, 0, 0,
+                    songItem.SongCode);
             Session.GetHabbo().GetInventoryComponent().UpdateItems(false);
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery($"UPDATE items_rooms SET user_id='{Session.GetHabbo().Id}' WHERE id='{songItem.ItemId}' LIMIT 1;");
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                commitableQueryReactor.RunFastQuery(
+                    $"UPDATE items_rooms SET user_id='{Session.GetHabbo().Id}' WHERE id='{songItem.ItemId}' LIMIT 1;");
 
-            Session.SendMessage(SoundMachineComposer.SerializeSongInventory(Session.GetHabbo().GetInventoryComponent().SongDisks));
-            Session.SendMessage(SoundMachineComposer.Compose(roomMusicController.PlaylistCapacity, roomMusicController.Playlist.Values.ToList()));
+            Session.SendMessage(
+                SoundMachineComposer.SerializeSongInventory(Session.GetHabbo().GetInventoryComponent().SongDisks));
+            Session.SendMessage(SoundMachineComposer.Compose(roomMusicController.PlaylistCapacity,
+                roomMusicController.Playlist.Values.ToList()));
         }
 
         /// <summary>
-        /// Gets the disks.
+        ///     Gets the disks.
         /// </summary>
         internal void GetDisks()
         {
@@ -141,11 +148,12 @@ namespace Yupi.Messages.Handlers
             if (Session.GetHabbo().GetInventoryComponent().SongDisks.Count == 0)
                 return;
 
-            Session.SendMessage(SoundMachineComposer.SerializeSongInventory(Session.GetHabbo().GetInventoryComponent().SongDisks));
+            Session.SendMessage(
+                SoundMachineComposer.SerializeSongInventory(Session.GetHabbo().GetInventoryComponent().SongDisks));
         }
 
         /// <summary>
-        /// Gets the Play lists.
+        ///     Gets the Play lists.
         /// </summary>
         internal void GetPlaylists()
         {
@@ -158,7 +166,8 @@ namespace Yupi.Messages.Handlers
                 return;
 
             SoundMachineManager roomMusicController = currentRoom.GetRoomMusicController();
-            Session.SendMessage(SoundMachineComposer.Compose(roomMusicController.PlaylistCapacity, roomMusicController.Playlist.Values.ToList()));
+            Session.SendMessage(SoundMachineComposer.Compose(roomMusicController.PlaylistCapacity,
+                roomMusicController.Playlist.Values.ToList()));
         }
     }
 }

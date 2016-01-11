@@ -242,7 +242,7 @@ namespace Yupi.Game.Rooms.Data
         {
             ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("FloorMapMessageComposer"));
             serverMessage.AppendBool(true);
-            serverMessage.AppendInteger((int) _mRoom.RoomData.WallHeight);
+            serverMessage.AppendInteger(_mRoom.RoomData.WallHeight);
             StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < MapSizeY; i++)
             {

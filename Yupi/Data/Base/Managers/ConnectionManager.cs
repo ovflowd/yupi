@@ -1,23 +1,44 @@
-#region
+/**
+     Because i love chocolat...                                      
+                                    88 88  
+                                    "" 88  
+                                       88  
+8b       d8 88       88 8b,dPPYba,  88 88  
+`8b     d8' 88       88 88P'    "8a 88 88  
+ `8b   d8'  88       88 88       d8 88 ""  
+  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa  
+    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88  
+    d8'                 88                 
+   d8'                  88     
+   
+   Private Habbo Hotel Emulating System
+   @author Claudio A. Santoro W.
+   @author Kessiler R.
+   @version dev-beta
+   @license MIT
+   @copyright Sulake Corporation Oy
+   @observation All Rights of Habbo, Habbo Hotel, and all Habbo contents and it's names, is copyright from Sulake
+   Corporation Oy. Yupi! has nothing linked with Sulake. 
+   This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
+*/
 
 using System.Collections;
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
+using Yupi.Data.Base.Adapters.Interfaces;
+using Yupi.Data.Base.Clients;
 using Yupi.Data.Base.Exceptions;
-using Yupi.Data.Base.Sessions.Interfaces;
 
-#endregion
-
-namespace Yupi.Data.Base.Connections
+namespace Yupi.Data.Base.Managers
 {
     public class ConnectionManager
     {
         public static bool DbEnabled = true;
 
         private readonly uint _beginClientAmount;
-        private readonly uint _maxPoolSize;
 
         private readonly Queue _connections;
+        private readonly uint _maxPoolSize;
 
         private string _connectionString;
 
@@ -73,10 +94,11 @@ namespace Yupi.Data.Base.Connections
         {
             CreateNewConnectionString();
 
-            _databaseClients = new List<MySqlClient>((int)_maxPoolSize);
+            _databaseClients = new List<MySqlClient>((int) _maxPoolSize);
         }
 
-        public void SetServerDetails(string host, uint port, string username, string password, string databaseName) => _server = new DatabaseServer(host, port, username, password, databaseName);
+        public void SetServerDetails(string host, uint port, string username, string password, string databaseName)
+            => _server = new DatabaseServer(host, port, username, password, databaseName);
 
         private void CreateNewConnectionString()
         {

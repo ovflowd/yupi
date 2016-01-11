@@ -23,13 +23,35 @@
 */
 
 using System;
+using System.Collections.Generic;
+using System.Data;
 
-namespace Yupi.Data.Base.Exceptions
+namespace Yupi.Data.Base.Adapters.Interfaces
 {
-    public class TransactionException : Exception
+    public interface IQueryAdapter : IDisposable
     {
-        public TransactionException(string message) : base(message)
-        {
-        }
+        void AddParameter(string name, object query);
+
+        bool FindsResult();
+
+        int GetInteger();
+
+        uint GetUInteger();
+
+        DataRow GetRow();
+
+        string GetString();
+
+        DataTable GetTable();
+
+        void RunFastQuery(string query);
+
+        void RunQuery();
+
+        void RunFastParameterQuery(string query, Dictionary<string, object> parameters);
+
+        long InsertQuery();
+
+        void SetQuery(string query);
     }
 }

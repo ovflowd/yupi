@@ -31,40 +31,40 @@ using System.Text;
 namespace Yupi.Messages
 {
     /// <summary>
-    /// Class ServerMessage.
+    ///     Class ServerMessage.
     /// </summary>
     /// <summary>
-    /// Class ServerMessage.
+    ///     Class ServerMessage.
     /// </summary>
     internal class ServerMessage : IDisposable
     {
         /// <summary>
-        /// The buffer for the ServerMessage.
+        ///     The buffer for the ServerMessage.
         /// </summary>
         private readonly MemoryStream _buffer;
 
         /// <summary>
-        /// The buffer for the Arrays.
+        ///     The buffer for the Arrays.
         /// </summary>
         private MemoryStream _arrayBuffer;
 
         /// <summary>
-        /// The current buffer for the Arrays.
-        /// </summary>
-        private MemoryStream _arrayCurrentBuffer;
-
-        /// <summary>
-        /// The _on array
-        /// </summary>
-        private bool _onArray, _disposed;
-
-        /// <summary>
-        /// The _array count
+        ///     The _array count
         /// </summary>
         private int _arrayCount;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ServerMessage"/> class.
+        ///     The current buffer for the Arrays.
+        /// </summary>
+        private MemoryStream _arrayCurrentBuffer;
+
+        /// <summary>
+        ///     The _on array
+        /// </summary>
+        private bool _onArray, _disposed;
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="ServerMessage" /> class.
         /// </summary>
         public ServerMessage()
         {
@@ -73,7 +73,7 @@ namespace Yupi.Messages
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ServerMessage"/> class.
+        ///     Initializes a new instance of the <see cref="ServerMessage" /> class.
         /// </summary>
         /// <param name="header">The header.</param>
         public ServerMessage(int header)
@@ -83,27 +83,41 @@ namespace Yupi.Messages
         }
 
         /// <summary>
-        /// Gets the identifier.
+        ///     Gets the identifier.
         /// </summary>
         /// <value>The identifier.</value>
         public int Id { get; private set; }
 
         /// <summary>
-        /// Get the current message.
-        /// 
-        /// When StartArray is called, it'll return _arrayCurrentBuffer. Else it will return _buffer.
+        ///     Get the current message.
+        ///     When StartArray is called, it'll return _arrayCurrentBuffer. Else it will return _buffer.
         /// </summary>
         /// <value>The c message.</value>
         private MemoryStream CurrentMessage
         {
-            get
-            {
-                return _onArray ? _arrayCurrentBuffer : _buffer;
-            }
+            get { return _onArray ? _arrayCurrentBuffer : _buffer; }
         }
 
         /// <summary>
-        /// Initializes the specified header.
+        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            if (_disposed)
+                return;
+
+            _buffer.Dispose();
+
+            if (_onArray)
+            {
+                _arrayBuffer.Dispose();
+            }
+
+            _disposed = true;
+        }
+
+        /// <summary>
+        ///     Initializes the specified header.
         /// </summary>
         /// <param name="header">The header.</param>
         public void Init(int header)
@@ -114,7 +128,7 @@ namespace Yupi.Messages
         }
 
         /// <summary>
-        /// Sets the pointer to a Temporary Buffer
+        ///     Sets the pointer to a Temporary Buffer
         /// </summary>
         public void StartArray()
         {
@@ -131,8 +145,8 @@ namespace Yupi.Messages
         }
 
         /// <summary>
-        /// Saves the Temporary Buffer in a Safe Buffer (not main)
-        /// and cleans the Temporal Buffer.
+        ///     Saves the Temporary Buffer in a Safe Buffer (not main)
+        ///     and cleans the Temporal Buffer.
         /// </summary>
         public void SaveArray()
         {
@@ -145,7 +159,7 @@ namespace Yupi.Messages
         }
 
         /// <summary>
-        /// Cleans the Temporal Buffer.
+        ///     Cleans the Temporal Buffer.
         /// </summary>
         public void Clear()
         {
@@ -156,8 +170,8 @@ namespace Yupi.Messages
         }
 
         /// <summary>
-        /// Saves the Safe Buffer to Main Buffer
-        /// After disposes the other buffers.
+        ///     Saves the Safe Buffer to Main Buffer
+        ///     After disposes the other buffers.
         /// </summary>
         public void EndArray()
         {
@@ -177,7 +191,7 @@ namespace Yupi.Messages
         }
 
         /// <summary>
-        /// Appends the server message.
+        ///     Appends the server message.
         /// </summary>
         /// <param name="message">The message.</param>
         public void AppendServerMessage(ServerMessage message)
@@ -186,7 +200,7 @@ namespace Yupi.Messages
         }
 
         /// <summary>
-        /// Appends the server messages.
+        ///     Appends the server messages.
         /// </summary>
         /// <param name="messages">The messages.</param>
         public void AppendServerMessages(List<ServerMessage> messages)
@@ -198,18 +212,18 @@ namespace Yupi.Messages
         }
 
         /// <summary>
-        /// Appends the short.
+        ///     Appends the short.
         /// </summary>
         /// <param name="i">The i.</param>
         public void AppendShort(int i)
         {
-            Int16 value = (short)i;
+            short value = (short) i;
 
             AppendBytes(BitConverter.GetBytes(value), true);
         }
 
         /// <summary>
-        /// Appends the integer.
+        ///     Appends the integer.
         /// </summary>
         /// <param name="value">The i.</param>
         public void AppendInteger(int value)
@@ -218,16 +232,16 @@ namespace Yupi.Messages
         }
 
         /// <summary>
-        /// Appends the integer.
+        ///     Appends the integer.
         /// </summary>
         /// <param name="i">The i.</param>
         public void AppendInteger(uint i)
         {
-            AppendInteger((int)i);
+            AppendInteger((int) i);
         }
 
         /// <summary>
-        /// Appends the integer.
+        ///     Appends the integer.
         /// </summary>
         /// <param name="i">if set to <c>true</c> [i].</param>
         public void AppendInteger(bool i)
@@ -267,7 +281,7 @@ namespace Yupi.Messages
         }
 
         /// <summary>
-        /// Appends the bool.
+        ///     Appends the bool.
         /// </summary>
         /// <param name="b">if set to <c>true</c> [b].</param>
         public void AppendBool(bool b)
@@ -276,7 +290,7 @@ namespace Yupi.Messages
         }
 
         /// <summary>
-        /// Appends the string.
+        ///     Appends the string.
         /// </summary>
         /// <param name="s">The s.</param>
         /// <param name="isUtf8">If string is UTF8</param>
@@ -290,7 +304,7 @@ namespace Yupi.Messages
         }
 
         /// <summary>
-        /// Appends the bytes.
+        ///     Appends the bytes.
         /// </summary>
         /// <param name="b">The b.</param>
         /// <param name="isInt">if set to <c>true</c> [is int].</param>
@@ -305,22 +319,22 @@ namespace Yupi.Messages
         }
 
         /// <summary>
-        /// Appends the byted.
+        ///     Appends the byted.
         /// </summary>
         /// <param name="number">The number.</param>
         public void AppendByte(int number)
         {
-            CurrentMessage.WriteByte((byte)number);
+            CurrentMessage.WriteByte((byte) number);
         }
 
         /// <summary>
-        /// Gets the bytes.
+        ///     Gets the bytes.
         /// </summary>
         /// <returns>System.Byte[].</returns>
         public byte[] GetBytes() => CurrentMessage.ToArray();
 
         /// <summary>
-        /// Gets the reversed bytes.
+        ///     Gets the reversed bytes.
         /// </summary>
         /// <returns>System.Byte[].</returns>
         public byte[] GetReversedBytes()
@@ -329,8 +343,7 @@ namespace Yupi.Messages
 
             using (MemoryStream finalBuffer = new MemoryStream())
             {
-
-                byte[] length = BitConverter.GetBytes((int)CurrentMessage.Length);
+                byte[] length = BitConverter.GetBytes((int) CurrentMessage.Length);
                 Array.Reverse(length);
                 finalBuffer.Write(length, 0, length.Length);
 
@@ -347,7 +360,8 @@ namespace Yupi.Messages
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Console.Write("PREPARED ");
                 Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write(Id + Environment.NewLine + HabboEncoding.GetCharFilter(Yupi.GetDefaultEncoding().GetString(bytes)));
+                Console.Write(Id + Environment.NewLine +
+                              HabboEncoding.GetCharFilter(Yupi.GetDefaultEncoding().GetString(bytes)));
                 Console.WriteLine();
             }
 
@@ -355,27 +369,10 @@ namespace Yupi.Messages
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String" /> that represents this instance.
+        ///     Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
         /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
-        public override string ToString() => HabboEncoding.GetCharFilter(Yupi.GetDefaultEncoding().GetString(GetReversedBytes()));
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-            if (_disposed)
-                return;
-
-            _buffer.Dispose();
-
-            if (_onArray)
-            {
-                _arrayBuffer.Dispose();
-            }
-
-            _disposed = true;
-        }
+        public override string ToString()
+            => HabboEncoding.GetCharFilter(Yupi.GetDefaultEncoding().GetString(GetReversedBytes()));
     }
 }

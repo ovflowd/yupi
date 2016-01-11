@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Yupi.Core.Io;
+using Yupi.Data;
 using Yupi.Game.Items.Interactions.Enums;
 using Yupi.Game.Items.Interfaces;
 using Yupi.Game.Items.Wired.Interfaces;
@@ -58,7 +58,8 @@ namespace Yupi.Game.Items.Wired.Handlers.Conditions
 
             try
             {
-                if (string.IsNullOrWhiteSpace(OtherString) || !OtherString.Contains(",") || !OtherExtraString.Contains("|"))
+                if (string.IsNullOrWhiteSpace(OtherString) || !OtherString.Contains(",") ||
+                    !OtherExtraString.Contains("|"))
                     return false;
 
                 string[] booleans = OtherString.ToLower().Split(',');
@@ -67,11 +68,14 @@ namespace Yupi.Game.Items.Wired.Handlers.Conditions
                 useRot = booleans[1] == "true";
                 usePos = booleans[2] == "true";
 
-                itemsOriginalData = OtherExtraString.Split('/').Select(data => data.Split('|')).ToDictionary(array => uint.Parse(array[0]), array => array.Skip(1).ToArray());
+                itemsOriginalData =
+                    OtherExtraString.Split('/')
+                        .Select(data => data.Split('|'))
+                        .ToDictionary(array => uint.Parse(array[0]), array => array.Skip(1).ToArray());
             }
             catch (Exception e)
             {
-                Writer.LogException(e.ToString());
+                ServerLogManager.LogException(e.ToString());
 
                 return false;
             }

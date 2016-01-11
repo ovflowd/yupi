@@ -1,5 +1,5 @@
 using System;
-using Yupi.Data.Base.Queries;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Users;
 using Yupi.Messages;
 
@@ -10,10 +10,12 @@ namespace Yupi.Game.Rooms.Chat
     /// </summary>
     internal class Chatlog
     {
+        internal bool GlobalMessage;
+
         /// <summary>
         ///     The is saved
         /// </summary>
-        internal bool IsSaved, GlobalMessage;
+        internal bool IsSaved;
 
         /// <summary>
         ///     The message
@@ -24,8 +26,6 @@ namespace Yupi.Game.Rooms.Chat
         ///     The timestamp
         /// </summary>
         internal DateTime TimeStamp;
-
-        private readonly bool _globalMessage;
 
         /// <summary>
         ///     The user identifier
@@ -45,30 +45,33 @@ namespace Yupi.Game.Rooms.Chat
             UserId = user;
             Message = msg;
             TimeStamp = time;
-            _globalMessage = globalMessage;
-            GlobalMessage = true;
+            GlobalMessage = globalMessage;
             IsSaved = fromDatabase;
         }
 
         /// <summary>
         ///     Saves the specified room identifier.
         /// </summary>
-        /// <param name="databaseQueryChunk"></param>
-        /// <param name="id">Auto increment</param>
-        internal void Save(DatabaseQueryChunk databaseQueryChunk, uint id)
+        /// <param name="adapter"></param>
+        /// <param name="roomId"></param>
+        internal void Save(IQueryAdapter adapter, uint roomId)
         {
             if (IsSaved)
                 return;
 
-            databaseQueryChunk.AddQuery("INSERT INTO users_chatlogs (user_id, room_id, timestamp, message) VALUES (@user" + id + ", @room, @time" + id + ", @message" + id + ")");
-            databaseQueryChunk.AddParameter("user" + id, UserId);
-            databaseQueryChunk.AddParameter("time" + id, Yupi.DateTimeToUnix(TimeStamp));
-            databaseQueryChunk.AddParameter("message" + id, Message);
+            adapter.SetQuery("INSERT INTO users_chatlogs (user_id, room_id, timestamp, message) VALUES (@user, @room, @time, @message)");
+            adapter.AddParameter("user", UserId);
+            adapter.AddParameter("room", roomId);
+            adapter.AddParameter("time", Yupi.DateTimeToUnix(TimeStamp));
+            adapter.AddParameter("message", Message);
+
+            adapter.RunQuery();
         }
 
         internal void Serialize(ref ServerMessage message)
         {
             Habbo habbo = Yupi.GetHabboById(UserId);
+
             message.AppendInteger(Yupi.DifferenceInMilliSeconds(TimeStamp, DateTime.Now));
             message.AppendInteger(UserId);
             message.AppendString(habbo == null ? "*User not found*" : habbo.UserName);

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Users.Messenger.Structs;
 
 namespace Yupi.Game.Users.Messenger
@@ -21,16 +21,23 @@ namespace Yupi.Game.Users.Messenger
         {
             DataTable table;
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery("SELECT id,username,motto,look,last_online FROM users WHERE username LIKE @query LIMIT 50");
+                commitableQueryReactor.SetQuery(
+                    "SELECT id,username,motto,look,last_online FROM users WHERE username LIKE @query LIMIT 50");
 
-                queryReactor.AddParameter("query", $"{query}%");
+                commitableQueryReactor.AddParameter("query", $"{query}%");
 
-                table = queryReactor.GetTable();
+                table = commitableQueryReactor.GetTable();
             }
 
-            return (from DataRow dataRow in table.Rows let userId = Convert.ToUInt32(dataRow[0]) let userName = (string) dataRow[1] let motto = (string) dataRow[2] let look = (string) dataRow[3] let lastOnline = dataRow[4].ToString() select new SearchResult(userId, userName, motto, look, lastOnline)).ToList();
+            return (from DataRow dataRow in table.Rows
+                let userId = Convert.ToUInt32(dataRow[0])
+                let userName = (string) dataRow[1]
+                let motto = (string) dataRow[2]
+                let look = (string) dataRow[3]
+                let lastOnline = dataRow[4].ToString()
+                select new SearchResult(userId, userName, motto, look, lastOnline)).ToList();
         }
     }
 }

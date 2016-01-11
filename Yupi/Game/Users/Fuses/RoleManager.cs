@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Yupi.Core.Io;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 
 namespace Yupi.Game.Users.Fuses
 {
@@ -68,9 +68,8 @@ namespace Yupi.Game.Users.Fuses
             foreach (DataRow dataRow2 in table2.Rows)
                 if ((int) dataRow2["min_sub"] > 0)
                     _subRights.Add(dataRow2["fuse"].ToString(), (int) dataRow2["min_sub"]);
-                else
-                    if (!_rights.ContainsKey(dataRow2["fuse"].ToString()))
-                        _rights.Add(dataRow2["fuse"].ToString(), (uint)dataRow2["min_rank"]);             
+                else if (!_rights.ContainsKey(dataRow2["fuse"].ToString()))
+                    _rights.Add(dataRow2["fuse"].ToString(), (uint) dataRow2["min_rank"]);
         }
 
         /// <summary>
@@ -89,7 +88,8 @@ namespace Yupi.Game.Users.Fuses
 
             string[] cmdranks = _cmdRights[cmd].Split(';');
 
-            return cmdranks.Any(rank => rank.Contains(Convert.ToString(rankId))) || _cmdRights[cmd].Contains(Convert.ToString(rankId));
+            return cmdranks.Any(rank => rank.Contains(Convert.ToString(rankId))) ||
+                   _cmdRights[cmd].Contains(Convert.ToString(rankId));
         }
 
         /// <summary>

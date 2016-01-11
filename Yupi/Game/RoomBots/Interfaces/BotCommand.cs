@@ -28,57 +28,57 @@ using System.Data;
 namespace Yupi.Game.RoomBots.Interfaces
 {
     /// <summary>
-    /// Class CatalogBot.
+    ///     Class CatalogBot.
     /// </summary>
     internal class BotCommand
     {
         /// <summary>
-        /// The bot type
-        /// </summary>
-        internal string BotType;
-
-        /// <summary>
-        /// The bot SpeechInput
-        /// </summary>
-        internal string SpeechInput;
-
-        /// <summary>
-        /// The bot SpeechInputAlias
-        /// </summary>
-        internal string[] SpeechInputAlias;
-
-        /// <summary>
-        /// The bot SpeechOutput
-        /// </summary>
-        internal string SpeechOutput;
-
-        /// <summary>
-        /// The bot gender
-        /// </summary>
-        internal bool SpeechIsFromSpeeches;
-
-        /// <summary>
-        /// The speeches speech identifier
-        /// </summary>
-        internal uint SpeechesSpeechId;
-
-        /// <summary>
-        /// The action command
-        /// </summary>
-        internal string ActionCommand;
-
-        /// <summary>
-        /// The action command parameters
-        /// </summary>
-        internal string ActionCommandParameters;
-
-        /// <summary>
-        /// The action bot
+        ///     The action bot
         /// </summary>
         internal string ActionBot;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CatalogBot" /> class.
+        ///     The action command
+        /// </summary>
+        internal string ActionCommand;
+
+        /// <summary>
+        ///     The action command parameters
+        /// </summary>
+        internal string ActionCommandParameters;
+
+        /// <summary>
+        ///     The bot type
+        /// </summary>
+        internal string BotType;
+
+        /// <summary>
+        ///     The speeches speech identifier
+        /// </summary>
+        internal uint SpeechesSpeechId;
+
+        /// <summary>
+        ///     The bot SpeechInput
+        /// </summary>
+        internal string SpeechInput;
+
+        /// <summary>
+        ///     The bot SpeechInputAlias
+        /// </summary>
+        internal string[] SpeechInputAlias;
+
+        /// <summary>
+        ///     The bot gender
+        /// </summary>
+        internal bool SpeechIsFromSpeeches;
+
+        /// <summary>
+        ///     The bot SpeechOutput
+        /// </summary>
+        internal string SpeechOutput;
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="CatalogBot" /> class.
         /// </summary>
         /// <param name="row">The row.</param>
         internal BotCommand(DataRow row)

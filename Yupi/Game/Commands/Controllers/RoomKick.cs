@@ -26,7 +26,7 @@ namespace Yupi.Game.Commands.Controllers
             Room room = session.GetHabbo().CurrentRoom;
 
             string alert = string.Join(" ", pms);
-            RoomKick kick = new RoomKick(alert, (int)session.GetHabbo().Rank);
+            RoomKick kick = new RoomKick(alert, (int) session.GetHabbo().Rank);
             Yupi.GetGame()
                 .GetModerationTool().LogStaffEntry(session.GetHabbo().UserName, string.Empty,
                     "Room kick", "Kicked the whole room");

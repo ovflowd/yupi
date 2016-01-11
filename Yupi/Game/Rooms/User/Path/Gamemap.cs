@@ -4,7 +4,6 @@ using System.Collections.Specialized;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using Yupi.Core.Io;
 using Yupi.Core.Util.Coordinates;
 using Yupi.Data;
 using Yupi.Game.GameClients.Interfaces;
@@ -566,8 +565,7 @@ namespace Yupi.Game.Rooms.User.Path
             }
             catch (Exception ex)
             {
-                ServerLogManager.LogException("Exception RoomData Loading on (GenerateMaps): " + ex);
-                ServerLogManager.HandleException(ex, "Yupi.HabboHotel.Rooms.Gamemap");
+                ServerLogManager.LogException(ex, "Yupi.Game.Rooms.User.Path.GenerateMaps");
             }
         }
 
@@ -1137,8 +1135,7 @@ namespace Yupi.Game.Rooms.User.Path
             }
             catch (Exception ex)
             {
-                ServerLogManager.LogException("Exception RoomData Loading on (SqAbsoluteHeight): " + ex);
-                ServerLogManager.HandleException(ex, "Yupi.HabboHotel.Rooms.Gamemap");
+                ServerLogManager.LogException(ex, "Yupi.Game.Rooms.User.Path.Gamemap.SqAbsoluteHeight");
                 return 0.0;
             }
         }
@@ -1172,7 +1169,7 @@ namespace Yupi.Game.Rooms.User.Path
             }
             catch (Exception e)
             {
-                ServerLogManager.HandleException(e, "Room.SqAbsoluteHeight");
+                ServerLogManager.LogException(e, "Yupi.Game.Rooms.User.Path.GameMap.SqAbsoluteHeight");
                 return 0.0;
             }
         }
@@ -1366,7 +1363,7 @@ namespace Yupi.Game.Rooms.User.Path
             }
             catch (Exception e)
             {
-                Writer.LogException(e.ToString());
+                ServerLogManager.LogException(e.ToString());
             }
         }
 
@@ -1451,7 +1448,7 @@ namespace Yupi.Game.Rooms.User.Path
                     }
                     catch (Exception e)
                     {
-                        Writer.LogException(e.ToString());
+                        ServerLogManager.LogException(e.ToString());
                     }
 
                     if (item.GetBaseItem().Walkable)
@@ -1484,10 +1481,9 @@ namespace Yupi.Game.Rooms.User.Path
             }
             catch (Exception ex)
             {
-                ServerLogManager.LogException(string.Concat("Error during map generation for room ", _room.RoomId,
-                    ". Exception: ", ex.ToString()));
-                ServerLogManager.HandleException(ex, "Yupi.HabboHotel.Rooms.Gamemap");
+                ServerLogManager.LogException(ex, "Yupi.Game.Rooms.User.Path.GameMap.ConstructMapForItem");
             }
+
             return true;
         }
 

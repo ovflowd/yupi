@@ -1,5 +1,5 @@
 ﻿using System;
-using Yupi.Core.Io;
+using Yupi.Data;
 using Yupi.Game.Commands.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 
@@ -27,7 +27,7 @@ namespace Yupi.Game.Commands.Controllers
             }
             catch (Exception e)
             {
-                Writer.LogException(e.ToString());
+                ServerLogManager.LogException(e.ToString());
                 session.SendNotif(Yupi.GetLanguage().GetVar("command_redeem_credits"));
             }
             return true;

@@ -30,29 +30,30 @@ using System.Linq;
 using Yupi.Core.Io;
 using Yupi.Core.Security.BlackWords.Enums;
 using Yupi.Core.Security.BlackWords.Structs;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 
 namespace Yupi.Core.Security.BlackWords
 {
     /// <summary>
-    /// Class BlackWordsManager.
+    ///     Class BlackWordsManager.
     /// </summary>
     internal static class BlackWordsManager
     {
         /// <summary>
-        /// The words
+        ///     The words
         /// </summary>
         private static readonly List<BlackWord> Words = new List<BlackWord>();
 
         /// <summary>
-        /// The replaces
+        ///     The replaces
         /// </summary>
-        private static readonly Dictionary<BlackWordType, BlackWordTypeSettings> Replaces = new Dictionary<BlackWordType, BlackWordTypeSettings>();
+        private static readonly Dictionary<BlackWordType, BlackWordTypeSettings> Replaces =
+            new Dictionary<BlackWordType, BlackWordTypeSettings>();
 
         private static readonly BlackWord Empty = new BlackWord(string.Empty, BlackWordType.All);
 
         /// <summary>
-        /// Loads this instance.
+        ///     Loads this instance.
         /// </summary>
         public static void Load()
         {
@@ -78,7 +79,7 @@ namespace Yupi.Core.Security.BlackWords
         }
 
         /// <summary>
-        /// Reloads this instance.
+        ///     Reloads this instance.
         /// </summary>
         public static void Reload()
         {
@@ -147,11 +148,13 @@ namespace Yupi.Core.Security.BlackWords
                     break;
 
                 case "all":
-                    Writer.WriteLine("Word type [all] it's reserved for system. Word: " + word, "Yupi.Security", ConsoleColor.DarkRed);
+                    Writer.WriteLine("Word type [all] it's reserved for system. Word: " + word, "Yupi.Security",
+                        ConsoleColor.DarkRed);
                     return;
 
                 default:
-                    Writer.WriteLine("Undefined type [" + typeStr + "] of word: " + word, "Yupi.Security", ConsoleColor.DarkRed);
+                    Writer.WriteLine("Undefined type [" + typeStr + "] of word: " + word, "Yupi.Security",
+                        ConsoleColor.DarkRed);
                     return;
             }
 
@@ -160,14 +163,20 @@ namespace Yupi.Core.Security.BlackWords
             if (Replaces.ContainsKey(type))
                 return;
 
-            string filter = UserChatInputFilter.Default, alert = "User [{0}] with Id: {1} has said a blackword. Word: {2}. Type: {3}. Message: {4}", imageAlert = "bobba";
+            string filter = UserChatInputFilter.Default,
+                alert = "User [{0}] with Id: {1} has said a blackword. Word: {2}. Type: {3}. Message: {4}",
+                imageAlert = "bobba";
 
             uint maxAdvices = 7u;
             bool autoBan = true, showMessage = true;
 
             if (File.Exists($"{Yupi.YupiVariablesDirectory}\\Settings\\BlackWords\\" + typeStr + ".ini"))
             {
-                foreach (string[] array in File.ReadAllLines($"{Yupi.YupiVariablesDirectory}\\Settings\\BlackWords\\" + typeStr + ".ini").Where(line => !line.StartsWith("#") || !line.StartsWith("//") || line.Contains("=")).Select(line => line.Split('=')))
+                foreach (
+                    string[] array in
+                        File.ReadAllLines($"{Yupi.YupiVariablesDirectory}\\Settings\\BlackWords\\" + typeStr + ".ini")
+                            .Where(line => !line.StartsWith("#") || !line.StartsWith("//") || line.Contains("="))
+                            .Select(line => line.Split('=')))
                 {
                     if (array[0] == "filterType") filter = array[1];
                     if (array[0] == "maxAdvices") maxAdvices = uint.Parse(array[1]);
@@ -178,20 +187,21 @@ namespace Yupi.Core.Security.BlackWords
             }
 
             if (File.Exists($"{Yupi.YupiVariablesDirectory}\\Settings\\BlackWords\\" + typeStr + ".alert.txt"))
-                alert = File.ReadAllText($"{Yupi.YupiVariablesDirectory}\\Settings\\BlackWords\\" + typeStr + ".alert.txt");
+                alert =
+                    File.ReadAllText($"{Yupi.YupiVariablesDirectory}\\Settings\\BlackWords\\" + typeStr + ".alert.txt");
 
             Replaces.Add(type, new BlackWordTypeSettings(filter, alert, maxAdvices, imageAlert, autoBan, showMessage));
         }
 
         /// <summary>
-        /// Gets the settings.
+        ///     Gets the settings.
         /// </summary>
         /// <param name="type">The type.</param>
         /// <returns>BlackWordTypeSettings.</returns>
         public static BlackWordTypeSettings GetSettings(BlackWordType type) => Replaces[type];
 
         /// <summary>
-        /// Checks the specified string.
+        ///     Checks the specified string.
         /// </summary>
         /// <param name="str">The string.</param>
         /// <param name="type">The type.</param>

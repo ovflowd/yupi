@@ -50,11 +50,11 @@ namespace Yupi.Core.Encryption.Hurlant.Crypto.Prng
             _j = 0;
 
             for (_i = 0; _i < PoolSize; ++_i)
-                _bytes[_i] = (byte)_i;
+                _bytes[_i] = (byte) _i;
 
             for (_i = 0; _i < PoolSize; ++_i)
             {
-                _j = (_j + _bytes[_i] + key[_i % key.Length]) & (PoolSize - 1);
+                _j = (_j + _bytes[_i] + key[_i%key.Length]) & (PoolSize - 1);
                 Swap(_i, _j);
             }
 

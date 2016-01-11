@@ -55,8 +55,8 @@ namespace Yupi.Game.Items.Wired.Handlers.Triggers
 
         public bool Execute(params object[] stuff)
         {
-            RoomUser roomUser = (RoomUser)stuff[0];
-            string text = (string)stuff[1];
+            RoomUser roomUser = (RoomUser) stuff[0];
+            string text = (string) stuff[1];
 
             if (string.IsNullOrEmpty(OtherString))
                 return false;
@@ -85,7 +85,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Triggers
                 foreach (IWiredItem current2 in effects.Where(current2 => current2.Execute(roomUser, Type)))
                     WiredHandler.OnEvent(current2);
             }
-                
+
 
             WiredHandler.OnEvent(this);
             return true;

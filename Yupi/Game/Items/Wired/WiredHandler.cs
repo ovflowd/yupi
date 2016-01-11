@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Yupi.Core.Io;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Items.Interactions;
 using Yupi.Game.Items.Interactions.Enums;
 using Yupi.Game.Items.Interfaces;
@@ -49,12 +49,12 @@ namespace Yupi.Game.Items.Wired
                 return null;
             }
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery("SELECT * FROM items_wireds WHERE id=@id LIMIT 1");
-                queryReactor.AddParameter("id", fItem.Item.Id);
+                commitableQueryReactor.SetQuery("SELECT * FROM items_wireds WHERE id=@id LIMIT 1");
+                commitableQueryReactor.AddParameter("id", fItem.Item.Id);
 
-                DataRow row = queryReactor.GetRow();
+                DataRow row = commitableQueryReactor.GetRow();
 
                 if (row == null)
                 {
@@ -96,7 +96,7 @@ namespace Yupi.Game.Items.Wired
             if (fItem == null)
                 return;
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 string text = string.Empty;
                 int num = 0;
@@ -115,16 +115,17 @@ namespace Yupi.Game.Items.Wired
                 if (fItem.OtherExtraString2 == null)
                     fItem.OtherExtraString2 = string.Empty;
 
-                queryReactor.SetQuery("REPLACE INTO items_wireds VALUES (@id, @items, @delay, @string, @bool, @extrastring, @extrastring2)");
-                queryReactor.AddParameter("id", fItem.Item.Id);
-                queryReactor.AddParameter("items", text);
-                queryReactor.AddParameter("delay", fItem.Delay);
-                queryReactor.AddParameter("string", fItem.OtherString);
-                queryReactor.AddParameter("bool", Yupi.BoolToEnum(fItem.OtherBool));
-                queryReactor.AddParameter("extrastring", fItem.OtherExtraString);
-                queryReactor.AddParameter("extrastring2", fItem.OtherExtraString2);
+                commitableQueryReactor.SetQuery(
+                    "REPLACE INTO items_wireds VALUES (@id, @items, @delay, @string, @bool, @extrastring, @extrastring2)");
+                commitableQueryReactor.AddParameter("id", fItem.Item.Id);
+                commitableQueryReactor.AddParameter("items", text);
+                commitableQueryReactor.AddParameter("delay", fItem.Delay);
+                commitableQueryReactor.AddParameter("string", fItem.OtherString);
+                commitableQueryReactor.AddParameter("bool", Yupi.BoolToEnum(fItem.OtherBool));
+                commitableQueryReactor.AddParameter("extrastring", fItem.OtherExtraString);
+                commitableQueryReactor.AddParameter("extrastring2", fItem.OtherExtraString2);
 
-                queryReactor.RunQuery();
+                commitableQueryReactor.RunQuery();
             }
         }
 
@@ -152,14 +153,15 @@ namespace Yupi.Game.Items.Wired
                     return false;
 
                 if (type == Interaction.TriggerCollision)
-                    foreach (IWiredItem wiredItem in _wiredItems.Where(wiredItem => wiredItem != null && wiredItem.Type == type))
+                    foreach (
+                        IWiredItem wiredItem in _wiredItems.Where(wiredItem => wiredItem != null && wiredItem.Type == type))
                         wiredItem.Execute(stuff);
                 else if (_wiredItems.Any(current => current != null && current.Type == type && current.Execute(stuff)))
                     return true;
             }
             catch (Exception e)
             {
-                Writer.HandleException(e, "WiredHandler.cs:ExecuteWired Type: " + type);
+                ServerLogManager.LogException(e.ToString());
             }
 
             return false;
@@ -192,7 +194,7 @@ namespace Yupi.Game.Items.Wired
             }
             catch (Exception e)
             {
-                Writer.HandleException(e, "WiredHandler.cs:OnCycle");
+                ServerLogManager.LogException(e.ToString());
             }
         }
 
@@ -439,15 +441,31 @@ namespace Yupi.Game.Items.Wired
             return null;
         }
 
-        public List<IWiredItem> GetConditions(IWiredItem item) => _wiredItems.Where(current => current != null && IsCondition(current.Type) && current.Item.X == item.Item.X && current.Item.Y == item.Item.Y).ToList();
+        public List<IWiredItem> GetConditions(IWiredItem item)
+            =>
+                _wiredItems.Where(
+                    current =>
+                        current != null && IsCondition(current.Type) && current.Item.X == item.Item.X &&
+                        current.Item.Y == item.Item.Y).ToList();
 
-        public List<IWiredItem> GetEffects(IWiredItem item) => _wiredItems.Where(current => current != null && IsEffect(current.Type) && current.Item.X == item.Item.X && current.Item.Y == item.Item.Y).ToList();
+        public List<IWiredItem> GetEffects(IWiredItem item)
+            =>
+                _wiredItems.Where(
+                    current =>
+                        current != null && IsEffect(current.Type) && current.Item.X == item.Item.X &&
+                        current.Item.Y == item.Item.Y).ToList();
 
-        public IWiredItem GetWired(RoomItem item) => _wiredItems.FirstOrDefault(current => current != null && item.Id == current.Item.Id);
+        public IWiredItem GetWired(RoomItem item)
+            => _wiredItems.FirstOrDefault(current => current != null && item.Id == current.Item.Id);
 
-        public List<IWiredItem> GetWiredsByType(Interaction type) => _wiredItems.Where(item => item != null && item.Type == type).ToList();
+        public List<IWiredItem> GetWiredsByType(Interaction type)
+            => _wiredItems.Where(item => item != null && item.Type == type).ToList();
 
-        public List<IWiredItem> GetWiredsByTypes(GlobalInteractions type) => _wiredItems.Where(item => item != null && InteractionTypes.AreFamiliar(type, item.Item.GetBaseItem().InteractionType)).ToList();
+        public List<IWiredItem> GetWiredsByTypes(GlobalInteractions type)
+            =>
+                _wiredItems.Where(
+                    item => item != null && InteractionTypes.AreFamiliar(type, item.Item.GetBaseItem().InteractionType))
+                    .ToList();
 
         public void MoveWired(RoomItem item)
         {
@@ -467,10 +485,13 @@ namespace Yupi.Game.Items.Wired
             _cycleItems.Clear();
         }
 
-        private static bool IsTrigger(Interaction type) => InteractionTypes.AreFamiliar(GlobalInteractions.WiredTrigger, type);
+        private static bool IsTrigger(Interaction type)
+            => InteractionTypes.AreFamiliar(GlobalInteractions.WiredTrigger, type);
 
-        private static bool IsEffect(Interaction type) => InteractionTypes.AreFamiliar(GlobalInteractions.WiredEffect, type);
+        private static bool IsEffect(Interaction type)
+            => InteractionTypes.AreFamiliar(GlobalInteractions.WiredEffect, type);
 
-        private static bool IsCondition(Interaction type) => InteractionTypes.AreFamiliar(GlobalInteractions.WiredCondition, type);
+        private static bool IsCondition(Interaction type)
+            => InteractionTypes.AreFamiliar(GlobalInteractions.WiredCondition, type);
     }
 }

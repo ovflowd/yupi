@@ -24,25 +24,25 @@
 
 using System.Collections.Generic;
 using System.Data;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 
 namespace Yupi.Core.Settings
 {
     /// <summary>
-    /// Class ServerDatabaseSettings.
+    ///     Class ServerDatabaseSettings.
     /// </summary>
     internal class ServerDatabaseSettings
     {
         /// <summary>
-        /// The database data
+        ///     The database data
         /// </summary>
         internal Dictionary<string, string> DbData;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ServerDatabaseSettings"/> class.
+        ///     Initializes a new instance of the <see cref="ServerDatabaseSettings" /> class.
         /// </summary>
         /// <param name="dbClient">The database client.</param>
-        internal ServerDatabaseSettings(IRegularQueryAdapter dbClient)
+        internal ServerDatabaseSettings(IQueryAdapter dbClient)
         {
             DbData = new Dictionary<string, string>();
 

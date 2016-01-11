@@ -294,7 +294,8 @@ namespace Yupi.Game.Rooms.User.Trade
                     .GetClient()
                     .GetHabbo()
                     .GetInventoryComponent()
-                    .AddNewItem(current3.Id, current3.BaseItem.Name, current3.ExtraData, current3.GroupId, false, false, 0,
+                    .AddNewItem(current3.Id, current3.BaseItem.Name, current3.ExtraData, current3.GroupId, false, false,
+                        0,
                         0,
                         current3.SongCode);
                 GetTradeUser(_oneId).GetClient().GetHabbo().GetInventoryComponent().RunDbUpdate();
@@ -307,7 +308,8 @@ namespace Yupi.Game.Rooms.User.Trade
                     .GetClient()
                     .GetHabbo()
                     .GetInventoryComponent()
-                    .AddNewItem(current4.Id, current4.BaseItem.Name, current4.ExtraData, current4.GroupId, false, false, 0,
+                    .AddNewItem(current4.Id, current4.BaseItem.Name, current4.ExtraData, current4.GroupId, false, false,
+                        0,
                         0,
                         current4.SongCode);
                 GetTradeUser(_twoId).GetClient().GetHabbo().GetInventoryComponent().RunDbUpdate();

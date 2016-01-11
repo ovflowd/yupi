@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Yupi.Core.Settings;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Achievements.Structs;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Groups.Structs;
@@ -19,18 +18,20 @@ using Yupi.Messages.Parsers;
 namespace Yupi.Messages.Handlers
 {
     /// <summary>
-    /// Class GameClientMessageHandler.
+    ///     Class GameClientMessageHandler.
     /// </summary>
-    partial class GameClientMessageHandler
+    internal partial class GameClientMessageHandler
     {
         /// <summary>
-        /// Sends the bully report.
+        ///     Sends the bully report.
         /// </summary>
         public void SendBullyReport()
         {
             uint reportedId = Request.GetUInteger();
 
-            Yupi.GetGame().GetModerationTool().SendNewTicket(Session, 104, 9, reportedId, string.Empty, new List<string>());
+            Yupi.GetGame()
+                .GetModerationTool()
+                .SendNewTicket(Session, 104, 9, reportedId, string.Empty, new List<string>());
 
             Response.Init(LibraryParser.OutgoingRequest("BullyReportSentMessageComposer"));
             Response.AppendInteger(0);
@@ -38,7 +39,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Opens the bully reporting.
+        ///     Opens the bully reporting.
         /// </summary>
         public void OpenBullyReporting()
         {
@@ -48,7 +49,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Opens the quests.
+        ///     Opens the quests.
         /// </summary>
         public void OpenQuests()
         {
@@ -59,7 +60,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Retrieves the citizenship.
+        ///     Retrieves the citizenship.
         /// </summary>
         internal void RetrieveCitizenship()
         {
@@ -70,7 +71,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Loads the club gifts.
+        ///     Loads the club gifts.
         /// </summary>
         internal void LoadClubGifts()
         {
@@ -87,7 +88,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Chooses the club gift.
+        ///     Chooses the club gift.
         /// </summary>
         internal void ChooseClubGift()
         {
@@ -97,7 +98,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Gets the user tags.
+        ///     Gets the user tags.
         /// </summary>
         internal void GetUserTags()
         {
@@ -121,11 +122,13 @@ namespace Yupi.Messages.Handlers
                 return;
 
             if (Session.GetHabbo().Tags.Count >= 5)
-                Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(roomUserByHabbo.GetClient(), "ACH_UserTags", 5);
+                Yupi.GetGame()
+                    .GetAchievementManager()
+                    .ProgressUserAchievement(roomUserByHabbo.GetClient(), "ACH_UserTags", 5);
         }
 
         /// <summary>
-        /// Gets the user badges.
+        ///     Gets the user badges.
         /// </summary>
         internal void GetUserBadges()
         {
@@ -133,7 +136,8 @@ namespace Yupi.Messages.Handlers
 
             RoomUser roomUserByHabbo = room?.GetRoomUserManager().GetRoomUserByHabbo(Request.GetUInteger());
 
-            if (roomUserByHabbo != null && !roomUserByHabbo.IsBot && roomUserByHabbo.GetClient() != null && roomUserByHabbo.GetClient().GetHabbo() != null)
+            if (roomUserByHabbo != null && !roomUserByHabbo.IsBot && roomUserByHabbo.GetClient() != null &&
+                roomUserByHabbo.GetClient().GetHabbo() != null)
             {
                 Session.GetHabbo().LastSelectedUser = roomUserByHabbo.UserId;
                 Response.Init(LibraryParser.OutgoingRequest("UserBadgesMessageComposer"));
@@ -160,7 +164,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Gives the respect.
+        ///     Gives the respect.
         /// </summary>
         internal void GiveRespect()
         {
@@ -171,17 +175,23 @@ namespace Yupi.Messages.Handlers
 
             RoomUser roomUserByHabbo = room.GetRoomUserManager().GetRoomUserByHabbo(Request.GetUInteger());
 
-            if (roomUserByHabbo == null || roomUserByHabbo.GetClient().GetHabbo().Id == Session.GetHabbo().Id || roomUserByHabbo.IsBot)
+            if (roomUserByHabbo == null || roomUserByHabbo.GetClient().GetHabbo().Id == Session.GetHabbo().Id ||
+                roomUserByHabbo.IsBot)
                 return;
 
             Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(Session, "ACH_RespectGiven", 1, true);
-            Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(roomUserByHabbo.GetClient(), "ACH_RespectEarned", 1, true);
+            Yupi.GetGame()
+                .GetAchievementManager()
+                .ProgressUserAchievement(roomUserByHabbo.GetClient(), "ACH_RespectEarned", 1, true);
 
             Session.GetHabbo().DailyRespectPoints--;
             roomUserByHabbo.GetClient().GetHabbo().Respect++;
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery("UPDATE users_stats SET respect = respect + 1 WHERE id = " + roomUserByHabbo.GetClient().GetHabbo().Id + " LIMIT 1;UPDATE users_stats SET daily_respect_points = daily_respect_points - 1 WHERE id= " + Session.GetHabbo().Id + " LIMIT 1");
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                commitableQueryReactor.RunFastQuery("UPDATE users_stats SET respect = respect + 1 WHERE id = " +
+                                                    roomUserByHabbo.GetClient().GetHabbo().Id +
+                                                    " LIMIT 1;UPDATE users_stats SET daily_respect_points = daily_respect_points - 1 WHERE id= " +
+                                                    Session.GetHabbo().Id + " LIMIT 1");
 
             ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("GiveRespectsMessageComposer"));
             serverMessage.AppendInteger(roomUserByHabbo.GetClient().GetHabbo().Id);
@@ -195,7 +205,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Applies the effect.
+        ///     Applies the effect.
         /// </summary>
         internal void ApplyEffect()
         {
@@ -211,7 +221,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Enables the effect.
+        ///     Enables the effect.
         /// </summary>
         internal void EnableEffect()
         {
@@ -233,7 +243,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Mutes the user.
+        ///     Mutes the user.
         /// </summary>
         internal void MuteUser()
         {
@@ -245,7 +255,9 @@ namespace Yupi.Messages.Handlers
 
             Room currentRoom = Session.GetHabbo().CurrentRoom;
 
-            if ((currentRoom == null || (currentRoom.RoomData.WhoCanBan == 0 && !currentRoom.CheckRights(Session, true)) || (currentRoom.RoomData.WhoCanBan == 1 && !currentRoom.CheckRights(Session))) && Session.GetHabbo().Rank < Convert.ToUInt32(Yupi.GetDbConfig().DbData["ambassador.minrank"]))
+            if ((currentRoom == null || (currentRoom.RoomData.WhoCanBan == 0 && !currentRoom.CheckRights(Session, true)) ||
+                 (currentRoom.RoomData.WhoCanBan == 1 && !currentRoom.CheckRights(Session))) &&
+                Session.GetHabbo().Rank < Convert.ToUInt32(Yupi.GetDbConfig().DbData["ambassador.minrank"]))
                 return;
 
             RoomUser roomUserByHabbo = currentRoom?.GetRoomUserManager().GetRoomUserByHabbo(Yupi.GetHabboById(num).UserName);
@@ -258,18 +270,19 @@ namespace Yupi.Messages.Handlers
 
             if (currentRoom.MutedUsers.ContainsKey(num))
             {
-                if (currentRoom.MutedUsers[num] >= (ulong)Yupi.GetUnixTimeStamp())
+                if (currentRoom.MutedUsers[num] >= (ulong) Yupi.GetUnixTimeStamp())
                     return;
                 currentRoom.MutedUsers.Remove(num);
             }
 
-            currentRoom.MutedUsers.Add(num, uint.Parse((Yupi.GetUnixTimeStamp() + checked(num2 * 60u)).ToString()));
+            currentRoom.MutedUsers.Add(num, uint.Parse((Yupi.GetUnixTimeStamp() + checked(num2*60u)).ToString()));
 
-            roomUserByHabbo.GetClient().SendNotif(string.Format(Yupi.GetLanguage().GetVar("room_owner_has_mute_user"), num2));
+            roomUserByHabbo.GetClient()
+                .SendNotif(string.Format(Yupi.GetLanguage().GetVar("room_owner_has_mute_user"), num2));
         }
 
         /// <summary>
-        /// Gets the user information.
+        ///     Gets the user information.
         /// </summary>
         internal void GetUserInfo()
         {
@@ -286,7 +299,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Gets the balance.
+        ///     Gets the balance.
         /// </summary>
         internal void GetBalance()
         {
@@ -297,7 +310,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Gets the subscription data.
+        ///     Gets the subscription data.
         /// </summary>
         internal void GetSubscriptionData()
         {
@@ -305,7 +318,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Loads the settings.
+        ///     Loads the settings.
         /// </summary>
         internal void LoadSettings()
         {
@@ -323,7 +336,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Saves the settings.
+        ///     Saves the settings.
         /// </summary>
         internal void SaveSettings()
         {
@@ -335,7 +348,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Sets the chat preferrence.
+        ///     Sets the chat preferrence.
         /// </summary>
         internal void SetChatPreferrence()
         {
@@ -359,7 +372,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Gets the badges.
+        ///     Gets the badges.
         /// </summary>
         internal void GetBadges()
         {
@@ -367,14 +380,15 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Updates the badges.
+        ///     Updates the badges.
         /// </summary>
         internal void UpdateBadges()
         {
             Session.GetHabbo().GetBadgeComponent().ResetSlots();
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery($"UPDATE users_badges SET badge_slot = 0 WHERE user_id = {Session.GetHabbo().Id}");
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                commitableQueryReactor.RunFastQuery(
+                    $"UPDATE users_badges SET badge_slot = 0 WHERE user_id = {Session.GetHabbo().Id}");
 
             for (int i = 0; i < 5; i++)
             {
@@ -391,7 +405,8 @@ namespace Yupi.Messages.Handlers
 
                 using (IQueryAdapter queryreactor2 = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    queryreactor2.SetQuery("UPDATE users_badges SET badge_slot = " + slot + " WHERE badge_id = @badge AND user_id = " + Session.GetHabbo().Id);
+                    queryreactor2.SetQuery("UPDATE users_badges SET badge_slot = " + slot +
+                                           " WHERE badge_id = @badge AND user_id = " + Session.GetHabbo().Id);
                     queryreactor2.AddParameter("badge", code);
                     queryreactor2.RunQuery();
                 }
@@ -402,7 +417,10 @@ namespace Yupi.Messages.Handlers
 
             serverMessage.StartArray();
 
-            foreach (Badge badge in Session.GetHabbo().GetBadgeComponent().BadgeList.Values.Cast<Badge>().Where(badge => badge.Slot > 0))
+            foreach (
+                Badge badge in
+                    Session.GetHabbo().GetBadgeComponent().BadgeList.Values.Cast<Badge>().Where(badge => badge.Slot > 0)
+                )
             {
                 serverMessage.AppendInteger(badge.Slot);
                 serverMessage.AppendString(badge.Code);
@@ -411,14 +429,15 @@ namespace Yupi.Messages.Handlers
 
             serverMessage.EndArray();
 
-            if (Session.GetHabbo().InRoom && Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId) != null)
+            if (Session.GetHabbo().InRoom &&
+                Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId) != null)
                 Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId).SendMessage(serverMessage);
             else
                 Session.SendMessage(serverMessage);
         }
 
         /// <summary>
-        /// Gets the achievements.
+        ///     Gets the achievements.
         /// </summary>
         internal void GetAchievements()
         {
@@ -426,7 +445,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Prepares the campaing.
+        ///     Prepares the campaing.
         /// </summary>
         internal void PrepareCampaing()
         {
@@ -438,7 +457,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Loads the profile.
+        ///     Loads the profile.
         /// </summary>
         internal void LoadProfile()
         {
@@ -520,7 +539,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Changes the look.
+        ///     Changes the look.
         /// </summary>
         internal void ChangeLook()
         {
@@ -532,22 +551,27 @@ namespace Yupi.Messages.Handlers
             Session.GetHabbo().Look = text2;
             Session.GetHabbo().Gender = text.ToLower() == "f" ? "f" : "m";
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery($"UPDATE users SET look = @look, gender = @gender WHERE id = {Session.GetHabbo().Id}");
-                queryReactor.AddParameter("look", text2);
-                queryReactor.AddParameter("gender", text);
-                queryReactor.RunQuery();
+                commitableQueryReactor.SetQuery(
+                    $"UPDATE users SET look = @look, gender = @gender WHERE id = {Session.GetHabbo().Id}");
+                commitableQueryReactor.AddParameter("look", text2);
+                commitableQueryReactor.AddParameter("gender", text);
+                commitableQueryReactor.RunQuery();
             }
 
             Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(Session, "ACH_AvatarLooks", 1);
 
-            Session.GetMessageHandler().GetResponse().Init(LibraryParser.OutgoingRequest("UpdateAvatarAspectMessageComposer"));
+            Session.GetMessageHandler()
+                .GetResponse()
+                .Init(LibraryParser.OutgoingRequest("UpdateAvatarAspectMessageComposer"));
             Session.GetMessageHandler().GetResponse().AppendString(Session.GetHabbo().Look);
             Session.GetMessageHandler().GetResponse().AppendString(Session.GetHabbo().Gender.ToUpper());
             Session.GetMessageHandler().SendResponse();
 
-            Session.GetMessageHandler().GetResponse().Init(LibraryParser.OutgoingRequest("UpdateUserDataMessageComposer"));
+            Session.GetMessageHandler()
+                .GetResponse()
+                .Init(LibraryParser.OutgoingRequest("UpdateUserDataMessageComposer"));
             Session.GetMessageHandler().GetResponse().AppendInteger(-1);
             Session.GetMessageHandler().GetResponse().AppendString(Session.GetHabbo().Look);
             Session.GetMessageHandler().GetResponse().AppendString(Session.GetHabbo().Gender.ToLower());
@@ -578,7 +602,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Changes the motto.
+        ///     Changes the motto.
         /// </summary>
         internal void ChangeMotto()
         {
@@ -589,11 +613,11 @@ namespace Yupi.Messages.Handlers
 
             Session.GetHabbo().Motto = text;
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery($"UPDATE users SET motto = @motto WHERE id = '{Session.GetHabbo().Id}'");
-                queryReactor.AddParameter("motto", text);
-                queryReactor.RunQuery();
+                commitableQueryReactor.SetQuery($"UPDATE users SET motto = @motto WHERE id = '{Session.GetHabbo().Id}'");
+                commitableQueryReactor.AddParameter("motto", text);
+                commitableQueryReactor.RunQuery();
             }
 
             if (Session.GetHabbo().InRoom)
@@ -605,7 +629,7 @@ namespace Yupi.Messages.Handlers
                     return;
 
                 ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("UpdateUserDataMessageComposer"));
-                serverMessage.AppendInteger(roomUserByHabbo.VirtualId);//serverMessage.AppendInt32(-1);
+                serverMessage.AppendInteger(roomUserByHabbo.VirtualId); //serverMessage.AppendInt32(-1);
                 serverMessage.AppendString(Session.GetHabbo().Look);
                 serverMessage.AppendString(Session.GetHabbo().Gender.ToLower());
                 serverMessage.AppendString(Session.GetHabbo().Motto);
@@ -617,17 +641,17 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Gets the wardrobe.
+        ///     Gets the wardrobe.
         /// </summary>
         internal void GetWardrobe()
         {
             GetResponse().Init(LibraryParser.OutgoingRequest("LoadWardrobeMessageComposer"));
             GetResponse().AppendInteger(0);
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery(
+                commitableQueryReactor.SetQuery(
                     $"SELECT slot_id, look, gender FROM users_wardrobe WHERE user_id = {Session.GetHabbo().Id}");
-                DataTable table = queryReactor.GetTable();
+                DataTable table = commitableQueryReactor.GetTable();
                 if (table == null)
                     GetResponse().AppendInteger(0);
                 else
@@ -636,7 +660,7 @@ namespace Yupi.Messages.Handlers
                     foreach (DataRow dataRow in table.Rows)
                     {
                         GetResponse().AppendInteger(Convert.ToUInt32(dataRow["slot_id"]));
-                        GetResponse().AppendString((string)dataRow["look"]);
+                        GetResponse().AppendString((string) dataRow["look"]);
                         GetResponse().AppendString(dataRow["gender"].ToString().ToUpper());
                     }
                 }
@@ -645,7 +669,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Saves the wardrobe.
+        ///     Saves the wardrobe.
         /// </summary>
         internal void SaveWardrobe()
         {
@@ -655,30 +679,35 @@ namespace Yupi.Messages.Handlers
 
             text = Yupi.FilterFigure(text);
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery(string.Concat("SELECT null FROM users_wardrobe WHERE user_id = ", Session.GetHabbo().Id, " AND slot_id = ", num));
-                queryReactor.AddParameter("look", text);
-                queryReactor.AddParameter("gender", text2);
-                if (queryReactor.GetRow() != null)
+                commitableQueryReactor.SetQuery(string.Concat("SELECT null FROM users_wardrobe WHERE user_id = ",
+                    Session.GetHabbo().Id, " AND slot_id = ", num));
+                commitableQueryReactor.AddParameter("look", text);
+                commitableQueryReactor.AddParameter("gender", text2);
+                if (commitableQueryReactor.GetRow() != null)
                 {
-                    queryReactor.SetQuery(string.Concat("UPDATE users_wardrobe SET look = @look, gender = @gender WHERE user_id = ", Session.GetHabbo().Id, " AND slot_id = ", num, ";"));
-                    queryReactor.AddParameter("look", text);
-                    queryReactor.AddParameter("gender", text2);
-                    queryReactor.RunQuery();
+                    commitableQueryReactor.SetQuery(
+                        string.Concat("UPDATE users_wardrobe SET look = @look, gender = @gender WHERE user_id = ",
+                            Session.GetHabbo().Id, " AND slot_id = ", num, ";"));
+                    commitableQueryReactor.AddParameter("look", text);
+                    commitableQueryReactor.AddParameter("gender", text2);
+                    commitableQueryReactor.RunQuery();
                 }
                 else
                 {
-                    queryReactor.SetQuery(string.Concat("INSERT INTO users_wardrobe (user_id,slot_id,look,gender) VALUES (", Session.GetHabbo().Id, ",", num, ",@look,@gender)"));
-                    queryReactor.AddParameter("look", text);
-                    queryReactor.AddParameter("gender", text2);
-                    queryReactor.RunQuery();
+                    commitableQueryReactor.SetQuery(
+                        string.Concat("INSERT INTO users_wardrobe (user_id,slot_id,look,gender) VALUES (",
+                            Session.GetHabbo().Id, ",", num, ",@look,@gender)"));
+                    commitableQueryReactor.AddParameter("look", text);
+                    commitableQueryReactor.AddParameter("gender", text2);
+                    commitableQueryReactor.RunQuery();
                 }
             }
         }
 
         /// <summary>
-        /// Gets the pets inventory.
+        ///     Gets the pets inventory.
         /// </summary>
         internal void GetPetsInventory()
         {
@@ -689,7 +718,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Gets the bots inventory.
+        ///     Gets the bots inventory.
         /// </summary>
         internal void GetBotsInventory()
         {
@@ -698,7 +727,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Checks the name.
+        ///     Checks the name.
         /// </summary>
         internal void CheckName()
         {
@@ -712,11 +741,11 @@ namespace Yupi.Messages.Handlers
                 SendResponse();
                 return;
             }
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery("SELECT username FROM users WHERE Username=@name LIMIT 1");
-                queryReactor.AddParameter("name", text);
-                string @string = queryReactor.GetString();
+                commitableQueryReactor.SetQuery("SELECT username FROM users WHERE Username=@name LIMIT 1");
+                commitableQueryReactor.AddParameter("name", text);
+                string @string = commitableQueryReactor.GetString();
                 char[] array = text.ToLower().ToCharArray();
                 const string source = "abcdefghijklmnopqrstuvwxyz1234567890.,_-;:?!@áéíóúÁÉÍÓÚñÑÜüÝý ";
                 char[] array2 = array;
@@ -764,8 +793,8 @@ namespace Yupi.Messages.Handlers
                 }
                 else
                 {
-                    queryReactor.SetQuery("SELECT tag FROM users_tags ORDER BY RAND() LIMIT 3");
-                    DataTable table = queryReactor.GetTable();
+                    commitableQueryReactor.SetQuery("SELECT tag FROM users_tags ORDER BY RAND() LIMIT 3");
+                    DataTable table = commitableQueryReactor.GetTable();
                     Response.Init(LibraryParser.OutgoingRequest("NameChangedUpdatesMessageComposer"));
                     Response.AppendInteger(5);
                     Response.AppendString(text);
@@ -778,7 +807,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Changes the name.
+        ///     Changes the name.
         /// </summary>
         internal void ChangeName()
         {
@@ -786,22 +815,22 @@ namespace Yupi.Messages.Handlers
             string userName = Session.GetHabbo().UserName;
 
             {
-                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    queryReactor.SetQuery("SELECT username FROM users WHERE Username=@name LIMIT 1");
-                    queryReactor.AddParameter("name", text);
-                    string @String = queryReactor.GetString();
+                    commitableQueryReactor.SetQuery("SELECT username FROM users WHERE Username=@name LIMIT 1");
+                    commitableQueryReactor.AddParameter("name", text);
+                    string @String = commitableQueryReactor.GetString();
 
                     if (!string.IsNullOrWhiteSpace(String) &&
-                        !String.Equals(userName, text, StringComparison.CurrentCultureIgnoreCase))
+                        !string.Equals(userName, text, StringComparison.CurrentCultureIgnoreCase))
                         return;
 
-                    queryReactor.SetQuery(
+                    commitableQueryReactor.SetQuery(
                         "UPDATE users SET Username = @newname, last_name_change = @timestamp WHERE id = @userid");
-                    queryReactor.AddParameter("newname", text);
-                    queryReactor.AddParameter("timestamp", Yupi.GetUnixTimeStamp() + 43200);
-                    queryReactor.AddParameter("userid", Session.GetHabbo().UserName);
-                    queryReactor.RunQuery();
+                    commitableQueryReactor.AddParameter("newname", text);
+                    commitableQueryReactor.AddParameter("timestamp", Yupi.GetUnixTimeStamp() + 43200);
+                    commitableQueryReactor.AddParameter("userid", Session.GetHabbo().UserName);
+                    commitableQueryReactor.RunQuery();
 
                     Session.GetHabbo().LastChange = Yupi.GetUnixTimeStamp() + 43200;
                     Session.GetHabbo().UserName = text;
@@ -849,7 +878,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Gets the relationships.
+        ///     Gets the relationships.
         /// </summary>
         internal void GetRelationships()
         {
@@ -893,7 +922,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Sets the relationship.
+        ///     Sets the relationship.
         /// </summary>
         internal void SetRelationship()
         {
@@ -901,47 +930,47 @@ namespace Yupi.Messages.Handlers
             int num2 = Request.GetInteger();
 
             {
-                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
                     if (num2 == 0)
                     {
-                        queryReactor.SetQuery(
+                        commitableQueryReactor.SetQuery(
                             "SELECT id FROM users_relationships WHERE user_id=@id AND target=@target LIMIT 1");
-                        queryReactor.AddParameter("id", Session.GetHabbo().Id);
-                        queryReactor.AddParameter("target", num);
-                        int integer = queryReactor.GetInteger();
-                        queryReactor.SetQuery(
+                        commitableQueryReactor.AddParameter("id", Session.GetHabbo().Id);
+                        commitableQueryReactor.AddParameter("target", num);
+                        int integer = commitableQueryReactor.GetInteger();
+                        commitableQueryReactor.SetQuery(
                             "DELETE FROM users_relationships WHERE user_id=@id AND target=@target LIMIT 1");
-                        queryReactor.AddParameter("id", Session.GetHabbo().Id);
-                        queryReactor.AddParameter("target", num);
-                        queryReactor.RunQuery();
+                        commitableQueryReactor.AddParameter("id", Session.GetHabbo().Id);
+                        commitableQueryReactor.AddParameter("target", num);
+                        commitableQueryReactor.RunQuery();
                         if (Session.GetHabbo().Relationships.ContainsKey(integer))
                             Session.GetHabbo().Relationships.Remove(integer);
                     }
                     else
                     {
-                        queryReactor.SetQuery(
+                        commitableQueryReactor.SetQuery(
                             "SELECT id FROM users_relationships WHERE user_id=@id AND target=@target LIMIT 1");
-                        queryReactor.AddParameter("id", Session.GetHabbo().Id);
-                        queryReactor.AddParameter("target", num);
-                        int integer2 = queryReactor.GetInteger();
+                        commitableQueryReactor.AddParameter("id", Session.GetHabbo().Id);
+                        commitableQueryReactor.AddParameter("target", num);
+                        int integer2 = commitableQueryReactor.GetInteger();
                         if (integer2 > 0)
                         {
-                            queryReactor.SetQuery(
+                            commitableQueryReactor.SetQuery(
                                 "DELETE FROM users_relationships WHERE user_id=@id AND target=@target LIMIT 1");
-                            queryReactor.AddParameter("id", Session.GetHabbo().Id);
-                            queryReactor.AddParameter("target", num);
-                            queryReactor.RunQuery();
+                            commitableQueryReactor.AddParameter("id", Session.GetHabbo().Id);
+                            commitableQueryReactor.AddParameter("target", num);
+                            commitableQueryReactor.RunQuery();
                             if (Session.GetHabbo().Relationships.ContainsKey(integer2))
                                 Session.GetHabbo().Relationships.Remove(integer2);
                         }
-                        queryReactor.SetQuery(
+                        commitableQueryReactor.SetQuery(
                             "INSERT INTO users_relationships (user_id, target, type) VALUES (@id, @target, @type)");
-                        queryReactor.AddParameter("id", Session.GetHabbo().Id);
-                        queryReactor.AddParameter("target", num);
-                        queryReactor.AddParameter("type", num2);
-                        int num3 = (int)queryReactor.InsertQuery();
-                        Session.GetHabbo().Relationships.Add(num3, new Relationship(num3, (int)num, num2));
+                        commitableQueryReactor.AddParameter("id", Session.GetHabbo().Id);
+                        commitableQueryReactor.AddParameter("target", num);
+                        commitableQueryReactor.AddParameter("type", num2);
+                        int num3 = (int) commitableQueryReactor.InsertQuery();
+                        Session.GetHabbo().Relationships.Add(num3, new Relationship(num3, (int) num, num2));
                     }
 
                     GameClient clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(num);
@@ -951,7 +980,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Receives the nux gifts.
+        ///     Receives the nux gifts.
         /// </summary>
         public void ReceiveNuxGifts()
         {
@@ -959,7 +988,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Accepts the nux gifts.
+        ///     Accepts the nux gifts.
         /// </summary>
         public void AcceptNuxGifts()
         {
@@ -967,7 +996,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Talentses this instance.
+        ///     Talentses this instance.
         /// </summary>
         /// <exception cref="System.NullReferenceException"></exception>
         internal void Talents()
@@ -1000,16 +1029,28 @@ namespace Yupi.Messages.Handlers
                 foreach (Talent current2 in talents2)
                 {
                     if (current2.GetAchievement() == null)
-                        throw new NullReferenceException($"The following talent achievement can't be found: {current2.AchievementGroup}");
+                        throw new NullReferenceException(
+                            $"The following talent achievement can't be found: {current2.AchievementGroup}");
 
-                    int num = failLevel != -1 && failLevel < current2.Level ? 0 : Session.GetHabbo().GetAchievementData(current2.AchievementGroup) == null ? 1 : Session.GetHabbo().GetAchievementData(current2.AchievementGroup).Level >= current2.AchievementLevel ? 2 : 1;
+                    int num = failLevel != -1 && failLevel < current2.Level
+                        ? 0
+                        : Session.GetHabbo().GetAchievementData(current2.AchievementGroup) == null
+                            ? 1
+                            : Session.GetHabbo().GetAchievementData(current2.AchievementGroup).Level >=
+                              current2.AchievementLevel
+                                ? 2
+                                : 1;
 
                     Response.AppendInteger(current2.GetAchievement().Id);
                     Response.AppendInteger(0);
                     Response.AppendString($"{current2.AchievementGroup}{current2.AchievementLevel}");
                     Response.AppendInteger(num);
-                    Response.AppendInteger(Session.GetHabbo().GetAchievementData(current2.AchievementGroup) != null ? Session.GetHabbo().GetAchievementData(current2.AchievementGroup).Progress : 0);
-                    Response.AppendInteger(current2.GetAchievement() == null ? 0 : current2.GetAchievement().Levels[current2.AchievementLevel].Requirement);
+                    Response.AppendInteger(Session.GetHabbo().GetAchievementData(current2.AchievementGroup) != null
+                        ? Session.GetHabbo().GetAchievementData(current2.AchievementGroup).Progress
+                        : 0);
+                    Response.AppendInteger(current2.GetAchievement() == null
+                        ? 0
+                        : current2.GetAchievement().Levels[current2.AchievementLevel].Requirement);
 
                     if (num != 2 && failLevel == -1)
                         failLevel = current2.Level;
@@ -1037,7 +1078,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Completes the safety quiz.
+        ///     Completes the safety quiz.
         /// </summary>
         internal void CompleteSafetyQuiz()
         {
@@ -1045,7 +1086,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Hotels the view countdown.
+        ///     Hotels the view countdown.
         /// </summary>
         internal void HotelViewCountdown()
         {
@@ -1061,7 +1102,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Hotels the view dailyquest.
+        ///     Hotels the view dailyquest.
         /// </summary>
         internal void HotelViewDailyquest()
         {
@@ -1102,8 +1143,8 @@ namespace Yupi.Messages.Handlers
         internal void GetCameraPrice()
         {
             GetResponse().Init(LibraryParser.OutgoingRequest("SetCameraPriceMessageComposer"));
-            GetResponse().AppendInteger(0);//credits
-            GetResponse().AppendInteger(10);//duckets
+            GetResponse().AppendInteger(0); //credits
+            GetResponse().AppendInteger(10); //duckets
             SendResponse();
         }
 

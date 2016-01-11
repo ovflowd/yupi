@@ -1,6 +1,6 @@
 using System;
 using System.Data;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 
 namespace Yupi.Game.Users
 {
@@ -35,16 +35,17 @@ namespace Yupi.Game.Users
 
             DataRow row;
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery("SELECT * FROM users_preferences WHERE userid = " + _userId);
-                queryReactor.AddParameter("userid", _userId);
-                row = queryReactor.GetRow();
+                commitableQueryReactor.SetQuery("SELECT * FROM users_preferences WHERE userid = " + _userId);
+                commitableQueryReactor.AddParameter("userid", _userId);
+                row = commitableQueryReactor.GetRow();
 
                 if (row == null)
                 {
-                    queryReactor.RunFastQuery("REPLACE INTO users_preferences (userid, volume) VALUES (" + _userId +
-                                              ", '100,100,100')");
+                    commitableQueryReactor.RunFastQuery("REPLACE INTO users_preferences (userid, volume) VALUES (" +
+                                                        _userId +
+                                                        ", '100,100,100')");
                     return;
                 }
             }
@@ -62,21 +63,21 @@ namespace Yupi.Game.Users
 
         internal void Save()
         {
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery(
+                commitableQueryReactor.SetQuery(
                     "UPDATE users_preferences SET volume = @volume, prefer_old_chat = @prefer_old_chat, ignore_room_invite = @ignore_room_invite, newnavi_x = @newnavi_x, newnavi_y = @newnavi_y, newnavi_width = @newnavi_width, newnavi_height = @newnavi_height, disable_camera_follow = @disable_camera_follow, chat_color = @chat_color WHERE userid = @userid");
-                queryReactor.AddParameter("userid", _userId);
-                queryReactor.AddParameter("prefer_old_chat", Yupi.BoolToEnum(PreferOldChat));
-                queryReactor.AddParameter("ignore_room_invite", Yupi.BoolToEnum(IgnoreRoomInvite));
-                queryReactor.AddParameter("volume", Volume);
-                queryReactor.AddParameter("newnavi_x", NewnaviX);
-                queryReactor.AddParameter("newnavi_y", NewnaviY);
-                queryReactor.AddParameter("newnavi_width", NewnaviWidth);
-                queryReactor.AddParameter("newnavi_height", NewnaviHeight);
-                queryReactor.AddParameter("disable_camera_follow", Yupi.BoolToEnum(DisableCameraFollow));
-                queryReactor.AddParameter("chat_color", ChatColor);
-                queryReactor.RunQuery();
+                commitableQueryReactor.AddParameter("userid", _userId);
+                commitableQueryReactor.AddParameter("prefer_old_chat", Yupi.BoolToEnum(PreferOldChat));
+                commitableQueryReactor.AddParameter("ignore_room_invite", Yupi.BoolToEnum(IgnoreRoomInvite));
+                commitableQueryReactor.AddParameter("volume", Volume);
+                commitableQueryReactor.AddParameter("newnavi_x", NewnaviX);
+                commitableQueryReactor.AddParameter("newnavi_y", NewnaviY);
+                commitableQueryReactor.AddParameter("newnavi_width", NewnaviWidth);
+                commitableQueryReactor.AddParameter("newnavi_height", NewnaviHeight);
+                commitableQueryReactor.AddParameter("disable_camera_follow", Yupi.BoolToEnum(DisableCameraFollow));
+                commitableQueryReactor.AddParameter("chat_color", ChatColor);
+                commitableQueryReactor.RunQuery();
             }
         }
     }

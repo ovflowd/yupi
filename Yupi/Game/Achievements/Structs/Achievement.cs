@@ -32,9 +32,9 @@ namespace Yupi.Game.Achievements.Structs
     internal class Achievement
     {
         /// <summary>
-        ///     The identifier
+        ///     The category
         /// </summary>
-        internal readonly uint Id;
+        internal readonly string Category;
 
         /// <summary>
         ///     The group name
@@ -42,9 +42,9 @@ namespace Yupi.Game.Achievements.Structs
         internal readonly string GroupName;
 
         /// <summary>
-        ///     The category
+        ///     The identifier
         /// </summary>
-        internal readonly string Category;
+        internal readonly uint Id;
 
         /// <summary>
         ///     The levels

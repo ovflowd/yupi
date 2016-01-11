@@ -138,7 +138,7 @@ namespace Yupi.Game.Events
             {
                 while (_addQueue.Count > 0)
                 {
-                    RoomData roomData = (RoomData)_addQueue.Dequeue();
+                    RoomData roomData = (RoomData) _addQueue.Dequeue();
 
                     if (!_events.ContainsKey(roomData))
                         _events.Add(roomData, roomData.UsersNow);
@@ -157,7 +157,7 @@ namespace Yupi.Game.Events
             lock (_removeQueue.SyncRoot)
             {
                 while (_removeQueue.Count > 0)
-                    _events.Remove((RoomData)_removeQueue.Dequeue());
+                    _events.Remove((RoomData) _removeQueue.Dequeue());
             }
         }
 
@@ -173,7 +173,7 @@ namespace Yupi.Game.Events
             {
                 while (_removeQueue.Count > 0)
                 {
-                    RoomData roomData = (RoomData)_updateQueue.Dequeue();
+                    RoomData roomData = (RoomData) _updateQueue.Dequeue();
 
                     if (_events.ContainsKey(roomData))
                         _events[roomData] = roomData.UsersNow;

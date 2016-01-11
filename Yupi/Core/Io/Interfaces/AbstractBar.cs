@@ -21,18 +21,21 @@
    Corporation Oy. Yupi! has nothing linked with Sulake. 
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
+
+using System;
+
 namespace Yupi.Core.Io.Interfaces
 {
     public abstract class AbstractBar
     {
         /// <summary>
-        /// Prints a simple message
+        ///     Prints a simple message
         /// </summary>
         /// <param name="msg">Message to print</param>
         public void PrintMessage(string msg)
         {
-            System.Console.Write("  {0}", msg);
-            System.Console.Write("\r".PadLeft(System.Console.WindowWidth - System.Console.CursorLeft - 1));
+            Console.Write("  {0}", msg);
+            Console.Write("\r".PadLeft(Console.WindowWidth - Console.CursorLeft - 1));
         }
 
         public abstract void Step();

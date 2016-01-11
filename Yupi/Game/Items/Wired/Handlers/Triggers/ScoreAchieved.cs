@@ -45,7 +45,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Triggers
 
         public bool Execute(params object[] stuff)
         {
-            RoomUser roomUser = (RoomUser)stuff[0];
+            RoomUser roomUser = (RoomUser) stuff[0];
 
             if (roomUser == null)
                 return false;
@@ -53,7 +53,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Triggers
             int scoreToGet;
             int.TryParse(OtherString, out scoreToGet);
 
-            if (Room.GetGameManager().TeamPoints[(int)roomUser.Team] < scoreToGet)
+            if (Room.GetGameManager().TeamPoints[(int) roomUser.Team] < scoreToGet)
                 return false;
 
             List<IWiredItem> conditions = Room.GetWiredHandler().GetConditions(this);
@@ -75,7 +75,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Triggers
                 foreach (IWiredItem current2 in effects.Where(current2 => current2.Execute(roomUser, Type)))
                     WiredHandler.OnEvent(current2);
             }
-                
+
             WiredHandler.OnEvent(this);
             return true;
         }

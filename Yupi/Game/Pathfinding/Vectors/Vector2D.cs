@@ -77,7 +77,7 @@ namespace Yupi.Game.Pathfinding.Vectors
             int num = X - point.X;
             int num2 = Y - point.Y;
 
-            return num * num + num2 * num2;
+            return num*num + num2*num2;
         }
 
         /// <summary>

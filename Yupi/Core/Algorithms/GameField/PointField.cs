@@ -31,10 +31,10 @@ namespace Yupi.Core.Algorithms.GameField
     {
         private static readonly Point BadPoint = new Point(-1, -1);
         private readonly List<Point> _pointList;
-        private Point _mostLeft = BadPoint;
-        private Point _mostTop = BadPoint;
-        private Point _mostRight = BadPoint;
         private Point _mostDown = BadPoint;
+        private Point _mostLeft = BadPoint;
+        private Point _mostRight = BadPoint;
+        private Point _mostTop = BadPoint;
 
         public PointField(byte forValue)
         {

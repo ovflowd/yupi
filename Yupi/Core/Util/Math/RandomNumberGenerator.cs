@@ -27,23 +27,22 @@ using System;
 namespace Yupi.Core.Util.Math
 {
     /// <summary>
-    /// Class RandomNumberGenerator.
+    ///     Class RandomNumberGenerator.
     /// </summary>
     internal static class RandomNumberGenerator
     {
         /// <summary>
-        /// The global random
+        ///     The global random
         /// </summary>
         private static readonly Random GlobalRandom = new Random();
 
         /// <summary>
-        /// The _local random
+        ///     The _local random
         /// </summary>
-        [ThreadStatic]
-        private static Random _localRandom;
+        [ThreadStatic] private static Random _localRandom;
 
         /// <summary>
-        /// Gets the specified minimum.
+        ///     Gets the specified minimum.
         /// </summary>
         /// <param name="min">The minimum.</param>
         /// <param name="max">The maximum.</param>

@@ -25,7 +25,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Achievements.Composers;
 using Yupi.Game.Achievements.Structs;
 using Yupi.Game.GameClients.Interfaces;
@@ -62,7 +62,7 @@ namespace Yupi.Game.Achievements
                     (uint) dataRow["achievement_level"],
                     (string) dataRow["prize"],
                     (uint) dataRow["prize_baseitem"]))
-                
+
                 Talents.Add(talent.Id, talent);
         }
 
@@ -80,11 +80,11 @@ namespace Yupi.Game.Achievements
         /// <param name="trackType">Type of the track.</param>
         /// <param name="talentLevel">The talent level.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool LevelIsCompleted(GameClient session, string trackType, int talentLevel) => 
+        internal bool LevelIsCompleted(GameClient session, string trackType, int talentLevel) =>
             GetTalents(trackType, talentLevel).All(
                 current =>
-                !session.GetHabbo().Achievements.ContainsKey(current.AchievementGroup) || 
-                session.GetHabbo().GetAchievementData(current.AchievementGroup).Level < current.AchievementLevel);
+                    !session.GetHabbo().Achievements.ContainsKey(current.AchievementGroup) ||
+                    session.GetHabbo().GetAchievementData(current.AchievementGroup).Level < current.AchievementLevel);
 
         /// <summary>
         ///     Completes the user talent.
@@ -93,19 +93,24 @@ namespace Yupi.Game.Achievements
         /// <param name="talent">The talent.</param>
         internal void CompleteUserTalent(GameClient session, Talent talent)
         {
-            if (session?.GetHabbo() == null || session.GetHabbo().CurrentTalentLevel < talent.Level || session.GetHabbo().Talents.ContainsKey(talent.Id))
+            if (session?.GetHabbo() == null || session.GetHabbo().CurrentTalentLevel < talent.Level ||
+                session.GetHabbo().Talents.ContainsKey(talent.Id))
                 return;
 
             if (!LevelIsCompleted(session, talent.Type, talent.Level))
                 return;
 
             if (!string.IsNullOrEmpty(talent.Prize) && talent.PrizeBaseItem > 0u)
-                Yupi.GetGame().GetCatalog().DeliverItems(session, Yupi.GetGame().GetItemManager().GetItem(talent.PrizeBaseItem), 1, string.Empty, 0, 0, string.Empty);
+                Yupi.GetGame()
+                    .GetCatalog()
+                    .DeliverItems(session, Yupi.GetGame().GetItemManager().GetItem(talent.PrizeBaseItem), 1,
+                        string.Empty, 0, 0, string.Empty);
 
             session.GetHabbo().Talents.Add(talent.Id, new UserTalent(talent.Id, 1));
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery($"REPLACE INTO users_talents VALUES ('{session.GetHabbo().Id}', '{talent.Id}', '1');");
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                commitableQueryReactor.RunFastQuery(
+                    $"REPLACE INTO users_talents VALUES ('{session.GetHabbo().Id}', '{talent.Id}', '1');");
 
             session.SendMessage(AchievementTalentComposer.Compose(session, talent));
 
@@ -119,8 +124,9 @@ namespace Yupi.Game.Achievements
                     case 4:
                         session.GetHabbo().GetSubscriptionManager().AddSubscription(7);
 
-                        using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                            queryReactor.RunFastQuery($"UPDATE users SET talent_status = 'helper' WHERE id = '{session.GetHabbo().Id}'");
+                        using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                            commitableQueryReactor.RunFastQuery(
+                                $"UPDATE users SET talent_status = 'helper' WHERE id = '{session.GetHabbo().Id}'");
                         break;
                 }
             }
@@ -131,7 +137,8 @@ namespace Yupi.Game.Achievements
         /// </summary>
         /// <param name="achGroup">The ach group.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal Talent GetTalentData(string achGroup) => Talents.Values.FirstOrDefault(current => current.AchievementGroup == achGroup);
+        internal Talent GetTalentData(string achGroup)
+            => Talents.Values.FirstOrDefault(current => current.AchievementGroup == achGroup);
 
         /// <summary>
         ///     Gets all talents.
@@ -145,6 +152,9 @@ namespace Yupi.Game.Achievements
         /// <param name="trackType">Type of the track.</param>
         /// <param name="parentCategory">The parent category.</param>
         /// <returns>List&lt;Talent&gt;.</returns>
-        internal List<Talent> GetTalents(string trackType, int parentCategory) => Talents.Values.Where(current => current.Type == trackType && current.ParentCategory == parentCategory).ToList();
+        internal List<Talent> GetTalents(string trackType, int parentCategory)
+            =>
+                Talents.Values.Where(current => current.Type == trackType && current.ParentCategory == parentCategory)
+                    .ToList();
     }
 }

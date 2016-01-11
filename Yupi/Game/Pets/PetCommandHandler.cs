@@ -25,7 +25,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Pets.Structs;
 
 namespace Yupi.Game.Pets
@@ -56,14 +56,21 @@ namespace Yupi.Game.Pets
                 _petCommands.Add(uint.Parse(dataRow["id"].ToString()), new PetCommand(dataRow));
         }
 
-        internal static Dictionary<uint, PetCommand> GetAllPetCommands() => _petCommands.ToDictionary(p => p.Key, p => p.Value);
+        internal static Dictionary<uint, PetCommand> GetAllPetCommands()
+            => _petCommands.ToDictionary(p => p.Key, p => p.Value);
 
-        internal static Dictionary<uint, PetCommand> GetPetCommandByPetType(string petType) => _petCommands.Where(p => p.Value.PetTypes.Contains(petType.ToString())).ToDictionary(p => p.Key, p => p.Value);
+        internal static Dictionary<uint, PetCommand> GetPetCommandByPetType(string petType)
+            =>
+                _petCommands.Where(p => p.Value.PetTypes.Contains(petType.ToString()))
+                    .ToDictionary(p => p.Key, p => p.Value);
 
-        internal static int GetPetCommandCountByPetType(string petType) => _petCommands.Count(p => p.Value.PetTypes.Contains(petType.ToString()));
+        internal static int GetPetCommandCountByPetType(string petType)
+            => _petCommands.Count(p => p.Value.PetTypes.Contains(petType.ToString()));
 
-        internal static PetCommand GetPetCommandById(uint commandId) => _petCommands.FirstOrDefault(p => p.Key == commandId).Value;
+        internal static PetCommand GetPetCommandById(uint commandId)
+            => _petCommands.FirstOrDefault(p => p.Key == commandId).Value;
 
-        internal static PetCommand GetPetCommandByInput(string userInput) => _petCommands.FirstOrDefault(p => p.Value.CommandInput.Contains(userInput)).Value;
+        internal static PetCommand GetPetCommandByInput(string userInput)
+            => _petCommands.FirstOrDefault(p => p.Value.CommandInput.Contains(userInput)).Value;
     }
 }

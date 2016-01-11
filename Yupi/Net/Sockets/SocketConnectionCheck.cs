@@ -30,21 +30,22 @@ using Yupi.Core.Io;
 namespace Yupi.Net.Sockets
 {
     /// <summary>
-    /// Class SocketConnectionCheck.
+    ///     Class SocketConnectionCheck.
     /// </summary>
     internal class SocketConnectionCheck
     {
         /// <summary>
-        /// The _m connection storage
+        ///     The _m connection storage
         /// </summary>
         private static string[] _mConnectionStorage;
+
         /// <summary>
-        /// The _m last ip blocked
+        ///     The _m last ip blocked
         /// </summary>
         private static string _mLastIpBlocked;
 
         /// <summary>
-        /// Checks the connection.
+        ///     Checks the connection.
         /// </summary>
         /// <param name="sock">The sock.</param>
         /// <param name="maxIpConnectionCount">The maximum ip connection count.</param>
@@ -79,7 +80,7 @@ namespace Yupi.Net.Sockets
         }
 
         /// <summary>
-        /// Frees the connection.
+        ///     Frees the connection.
         /// </summary>
         /// <param name="ip">The ip.</param>
         internal static void FreeConnection(string ip)
@@ -90,14 +91,14 @@ namespace Yupi.Net.Sockets
         }
 
         /// <summary>
-        /// Gets the connection amount.
+        ///     Gets the connection amount.
         /// </summary>
         /// <param name="ip">The ip.</param>
         /// <returns>System.Int32.</returns>
         private static int GetConnectionAmount(string ip) => _mConnectionStorage.Count(t => t == ip);
 
         /// <summary>
-        /// Gets the free connection identifier.
+        ///     Gets the free connection identifier.
         /// </summary>
         /// <returns>System.Int32.</returns>
         private static int GetFreeConnectionId()
@@ -110,7 +111,7 @@ namespace Yupi.Net.Sockets
 
 
         /// <summary>
-        /// Setups the TCP authorization.
+        ///     Setups the TCP authorization.
         /// </summary>
         /// <param name="connectionCount">The connection count.</param>
         internal static void SetupTcpAuthorization(int connectionCount)

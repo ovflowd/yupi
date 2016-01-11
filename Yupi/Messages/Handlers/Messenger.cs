@@ -8,12 +8,12 @@ using Yupi.Messages.Parsers;
 namespace Yupi.Messages.Handlers
 {
     /// <summary>
-    /// Class GameClientMessageHandler.
+    ///     Class GameClientMessageHandler.
     /// </summary>
     internal partial class GameClientMessageHandler
     {
         /// <summary>
-        /// Friendses the list update.
+        ///     Friendses the list update.
         /// </summary>
         internal void FriendsListUpdate()
         {
@@ -21,7 +21,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Removes the buddy.
+        ///     Removes the buddy.
         /// </summary>
         internal void RemoveBuddy()
         {
@@ -40,7 +40,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Searches the habbo.
+        ///     Searches the habbo.
         /// </summary>
         internal void SearchHabbo()
         {
@@ -49,7 +49,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Accepts the request.
+        ///     Accepts the request.
         /// </summary>
         internal void AcceptRequest()
         {
@@ -61,13 +61,14 @@ namespace Yupi.Messages.Handlers
                 MessengerRequest request = Session.GetHabbo().GetMessenger().GetRequest(num2);
                 if (request == null) continue;
                 if (request.To != Session.GetHabbo().Id) return;
-                if (!Session.GetHabbo().GetMessenger().FriendshipExists(request.To)) Session.GetHabbo().GetMessenger().CreateFriendship(request.From);
+                if (!Session.GetHabbo().GetMessenger().FriendshipExists(request.To))
+                    Session.GetHabbo().GetMessenger().CreateFriendship(request.From);
                 Session.GetHabbo().GetMessenger().HandleRequest(num2);
             }
         }
 
         /// <summary>
-        /// Declines the request.
+        ///     Declines the request.
         /// </summary>
         internal void DeclineRequest()
         {
@@ -84,7 +85,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Requests the buddy.
+        ///     Requests the buddy.
         /// </summary>
         internal void RequestBuddy()
         {
@@ -95,7 +96,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Sends the instant messenger.
+        ///     Sends the instant messenger.
         /// </summary>
         internal void SendInstantMessenger()
         {
@@ -106,7 +107,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Follows the buddy.
+        ///     Follows the buddy.
         /// </summary>
         internal void FollowBuddy()
         {
@@ -123,7 +124,8 @@ namespace Yupi.Messages.Handlers
                 Session.GetHabbo().GetMessenger().UpdateFriend(userId, clientByUserId, true);
                 return;
             }
-            if (Session.GetHabbo().Rank < 4 && Session.GetHabbo().GetMessenger() != null && !Session.GetHabbo().GetMessenger().FriendshipExists(userId))
+            if (Session.GetHabbo().Rank < 4 && Session.GetHabbo().GetMessenger() != null &&
+                !Session.GetHabbo().GetMessenger().FriendshipExists(userId))
             {
                 Response.Init(LibraryParser.OutgoingRequest("FollowFriendErrorMessageComposer"));
                 Response.AppendInteger(0);
@@ -137,7 +139,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Sends the instant invite.
+        ///     Sends the instant invite.
         /// </summary>
         internal void SendInstantInvite()
         {
@@ -149,8 +151,8 @@ namespace Yupi.Messages.Handlers
             serverMessage.AppendInteger(Session.GetHabbo().Id);
             serverMessage.AppendString(s);
             foreach (GameClient clientByUserId in (from current in list
-                                            where Session.GetHabbo().GetMessenger().FriendshipExists(current)
-                                            select Yupi.GetGame().GetClientManager().GetClientByUserId(current))
+                where Session.GetHabbo().GetMessenger().FriendshipExists(current)
+                select Yupi.GetGame().GetClientManager().GetClientByUserId(current))
                 .TakeWhile(
                     clientByUserId => clientByUserId != null))
                 clientByUserId.SendMessage(serverMessage);

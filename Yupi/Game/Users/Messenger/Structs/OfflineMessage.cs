@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Data;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 
 namespace Yupi.Game.Users.Messenger.Structs
 {

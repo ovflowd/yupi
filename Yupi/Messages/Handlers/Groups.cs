@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Catalogs.Composers;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Groups.Structs;
@@ -15,14 +15,14 @@ using Yupi.Messages.Parsers;
 namespace Yupi.Messages.Handlers
 {
     /// <summary>
-    /// Class GameClientMessageHandler.
+    ///     Class GameClientMessageHandler.
     /// </summary>
     internal partial class GameClientMessageHandler
     {
         internal readonly ushort TotalPerPage = 20;
 
         /// <summary>
-        /// Serializes the group purchase page.
+        ///     Serializes the group purchase page.
         /// </summary>
         internal void SerializeGroupPurchasePage()
         {
@@ -55,7 +55,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Serializes the group purchase parts.
+        ///     Serializes the group purchase parts.
         /// </summary>
         internal void SerializeGroupPurchaseParts()
         {
@@ -106,7 +106,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Purchases the group.
+        ///     Purchases the group.
         /// </summary>
         internal void PurchaseGroup()
         {
@@ -130,14 +130,18 @@ namespace Yupi.Messages.Handlers
             if (roomData.Owner != Session.GetHabbo().UserName)
                 return;
 
-            for (int i = 0; i < num6 * 3; i++)
+            for (int i = 0; i < num6*3; i++)
                 gStates.Add(Request.GetInteger());
 
             string image = Yupi.GetGame().GetGroupManager().GenerateGuildImage(guildBase, guildBaseColor, gStates);
 
             Group theGroup;
 
-            Yupi.GetGame().GetGroupManager().CreateGroup(name, description, roomid, image, Session, !Yupi.GetGame().GetGroupManager().SymbolColours.Contains(color) ? 1 : color, !Yupi.GetGame().GetGroupManager().BackGroundColours.Contains(num3) ? 1 : num3, out theGroup);
+            Yupi.GetGame()
+                .GetGroupManager()
+                .CreateGroup(name, description, roomid, image, Session,
+                    !Yupi.GetGame().GetGroupManager().SymbolColours.Contains(color) ? 1 : color,
+                    !Yupi.GetGame().GetGroupManager().BackGroundColours.Contains(num3) ? 1 : num3, out theGroup);
 
             Session.SendMessage(CatalogPageComposer.PurchaseOk(0u, "CREATE_GUILD", 10));
             Response.Init(LibraryParser.OutgoingRequest("GroupRoomMessageComposer"));
@@ -154,7 +158,8 @@ namespace Yupi.Messages.Handlers
                 Session.GetHabbo().CurrentRoomId = roomData.Id;
             }
 
-            if (Session.GetHabbo().CurrentRoom != null && !Session.GetHabbo().CurrentRoom.LoadedGroups.ContainsKey(theGroup.Id))
+            if (Session.GetHabbo().CurrentRoom != null &&
+                !Session.GetHabbo().CurrentRoom.LoadedGroups.ContainsKey(theGroup.Id))
                 Session.GetHabbo().CurrentRoom.LoadedGroups.Add(theGroup.Id, theGroup.Badge);
 
             if (CurrentLoadingRoom != null && !CurrentLoadingRoom.LoadedGroups.ContainsKey(theGroup.Id))
@@ -180,7 +185,8 @@ namespace Yupi.Messages.Handlers
 
             ServerMessage serverMessage2 = new ServerMessage(LibraryParser.OutgoingRequest("ChangeFavouriteGroupMessageComposer"));
 
-            serverMessage2.AppendInteger(CurrentLoadingRoom.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().Id).VirtualId);
+            serverMessage2.AppendInteger(
+                CurrentLoadingRoom.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().Id).VirtualId);
             serverMessage2.AppendInteger(theGroup.Id);
             serverMessage2.AppendInteger(3);
             serverMessage2.AppendString(theGroup.Name);
@@ -189,7 +195,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Serializes the group information.
+        ///     Serializes the group information.
         /// </summary>
         internal void SerializeGroupInfo()
         {
@@ -205,7 +211,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Serializes the group members.
+        ///     Serializes the group members.
         /// </summary>
         internal void SerializeGroupMembers()
         {
@@ -224,7 +230,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Makes the group admin.
+        ///     Makes the group admin.
         /// </summary>
         internal void MakeGroupAdmin()
         {
@@ -233,7 +239,8 @@ namespace Yupi.Messages.Handlers
 
             Group group = Yupi.GetGame().GetGroupManager().GetGroup(num);
 
-            if (Session.GetHabbo().Id != group.CreatorId || !group.Members.ContainsKey(num2) || group.Admins.ContainsKey(num2))
+            if (Session.GetHabbo().Id != group.CreatorId || !group.Members.ContainsKey(num2) ||
+                group.Admins.ContainsKey(num2))
                 return;
 
             group.Members[num2].Rank = 1;
@@ -260,12 +267,13 @@ namespace Yupi.Messages.Handlers
                 roomUserByHabbo.UpdateNeeded = true;
             }
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery(string.Concat("UPDATE groups_members SET rank='1' WHERE group_id=", num, " AND user_id=", num2, " LIMIT 1;"));
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                commitableQueryReactor.RunFastQuery(string.Concat("UPDATE groups_members SET rank='1' WHERE group_id=",
+                    num, " AND user_id=", num2, " LIMIT 1;"));
         }
 
         /// <summary>
-        /// Removes the group admin.
+        ///     Removes the group admin.
         /// </summary>
         internal void RemoveGroupAdmin()
         {
@@ -274,7 +282,8 @@ namespace Yupi.Messages.Handlers
 
             Group group = Yupi.GetGame().GetGroupManager().GetGroup(num);
 
-            if (Session.GetHabbo().Id != group.CreatorId || !group.Members.ContainsKey(num2) || !group.Admins.ContainsKey(num2))
+            if (Session.GetHabbo().Id != group.CreatorId || !group.Members.ContainsKey(num2) ||
+                !group.Admins.ContainsKey(num2))
                 return;
 
             group.Members[num2].Rank = 0;
@@ -298,12 +307,13 @@ namespace Yupi.Messages.Handlers
                 roomUserByHabbo.UpdateNeeded = true;
             }
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery(string.Concat("UPDATE groups_members SET rank='0' WHERE group_id=", num, " AND user_id=", num2, " LIMIT 1;"));
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                commitableQueryReactor.RunFastQuery(string.Concat("UPDATE groups_members SET rank='0' WHERE group_id=",
+                    num, " AND user_id=", num2, " LIMIT 1;"));
         }
 
         /// <summary>
-        /// Accepts the membership.
+        ///     Accepts the membership.
         /// </summary>
         internal void AcceptMembership()
         {
@@ -312,15 +322,17 @@ namespace Yupi.Messages.Handlers
 
             Group group = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
 
-            if (Session.GetHabbo().Id != group.CreatorId && !group.Admins.ContainsKey(Session.GetHabbo().Id) && !group.Requests.ContainsKey(userId))
+            if (Session.GetHabbo().Id != group.CreatorId && !group.Admins.ContainsKey(Session.GetHabbo().Id) &&
+                !group.Requests.ContainsKey(userId))
                 return;
 
             if (group.Members.ContainsKey(userId))
             {
                 group.Requests.Remove(userId);
 
-                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                    queryReactor.RunFastQuery($"DELETE FROM groups_requests WHERE group_id = '{groupId}' AND user_id = '{userId}' LIMIT 1");
+                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                    commitableQueryReactor.RunFastQuery(
+                        $"DELETE FROM groups_requests WHERE group_id = '{groupId}' AND user_id = '{userId}' LIMIT 1");
                 return;
             }
 
@@ -336,15 +348,17 @@ namespace Yupi.Messages.Handlers
             Yupi.GetGame().GetGroupManager().SerializeGroupMembers(Response, group, 0u, Session);
             SendResponse();
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery($"DELETE FROM groups_requests WHERE group_id = '{groupId}' AND user_id = '{userId}' LIMIT 1");
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                commitableQueryReactor.RunFastQuery(
+                    $"DELETE FROM groups_requests WHERE group_id = '{groupId}' AND user_id = '{userId}' LIMIT 1");
 
             using (IQueryAdapter queryreactor2 = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryreactor2.RunFastQuery($"INSERT INTO groups_members (group_id, user_id, rank, date_join) VALUES ('{groupId}','{userId}','0','{Yupi.GetUnixTimeStamp()}')");
+                queryreactor2.RunFastQuery(
+                    $"INSERT INTO groups_members (group_id, user_id, rank, date_join) VALUES ('{groupId}','{userId}','0','{Yupi.GetUnixTimeStamp()}')");
         }
 
         /// <summary>
-        /// Declines the membership.
+        ///     Declines the membership.
         /// </summary>
         internal void DeclineMembership()
         {
@@ -353,7 +367,8 @@ namespace Yupi.Messages.Handlers
 
             Group group = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
 
-            if (Session.GetHabbo().Id != group.CreatorId && !group.Admins.ContainsKey(Session.GetHabbo().Id) && !group.Requests.ContainsKey(userId))
+            if (Session.GetHabbo().Id != group.CreatorId && !group.Admins.ContainsKey(Session.GetHabbo().Id) &&
+                !group.Requests.ContainsKey(userId))
                 return;
 
             group.Requests.Remove(userId);
@@ -376,12 +391,13 @@ namespace Yupi.Messages.Handlers
 
             Yupi.GetGame().GetGroupManager().SerializeGroupInfo(group, Response, Session);
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery("DELETE FROM groups_requests WHERE group_id=" + groupId + " AND user_id=" + userId);
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                commitableQueryReactor.RunFastQuery("DELETE FROM groups_requests WHERE group_id=" + groupId +
+                                                    " AND user_id=" + userId);
         }
 
         /// <summary>
-        /// Joins the group.
+        ///     Joins the group.
         /// </summary>
         internal void JoinGroup()
         {
@@ -394,13 +410,17 @@ namespace Yupi.Messages.Handlers
             {
                 if (group.State == 0)
                 {
-                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                    using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
-                        queryReactor.RunFastQuery(string.Concat("INSERT INTO groups_members (user_id, group_id, date_join) VALUES (", user.Id, ",", groupId, ",", Yupi.GetUnixTimeStamp(), ")"));
-                        queryReactor.RunFastQuery(string.Concat("UPDATE users_stats SET favourite_group=", groupId, " WHERE id= ", user.Id, " LIMIT 1"));
+                        commitableQueryReactor.RunFastQuery(
+                            string.Concat("INSERT INTO groups_members (user_id, group_id, date_join) VALUES (", user.Id,
+                                ",", groupId, ",", Yupi.GetUnixTimeStamp(), ")"));
+                        commitableQueryReactor.RunFastQuery(string.Concat("UPDATE users_stats SET favourite_group=",
+                            groupId, " WHERE id= ", user.Id, " LIMIT 1"));
                     }
 
-                    group.Members.Add(user.Id, new GroupMember(user.Id, user.UserName, user.Look, group.Id, 0, Yupi.GetUnixTimeStamp()));
+                    group.Members.Add(user.Id,
+                        new GroupMember(user.Id, user.UserName, user.Look, group.Id, 0, Yupi.GetUnixTimeStamp()));
 
                     Session.GetHabbo().UserGroups.Add(group.Members[user.Id]);
                 }
@@ -409,9 +429,12 @@ namespace Yupi.Messages.Handlers
                     if (!group.Requests.ContainsKey(user.Id))
                     {
                         using (IQueryAdapter queryreactor2 = Yupi.GetDatabaseManager().GetQueryReactor())
-                            queryreactor2.RunFastQuery(string.Concat("INSERT INTO groups_requests (user_id, group_id) VALUES (", Session.GetHabbo().Id, ",", groupId, ")"));
+                            queryreactor2.RunFastQuery(
+                                string.Concat("INSERT INTO groups_requests (user_id, group_id) VALUES (",
+                                    Session.GetHabbo().Id, ",", groupId, ")"));
 
-                        GroupMember groupRequest = new GroupMember(user.Id, user.UserName, user.Look, group.Id, 0, Yupi.GetUnixTimeStamp());
+                        GroupMember groupRequest = new GroupMember(user.Id, user.UserName, user.Look, group.Id, 0,
+                            Yupi.GetUnixTimeStamp());
 
                         group.Requests.Add(user.Id, groupRequest);
                     }
@@ -422,7 +445,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Removes the member.
+        ///     Removes the member.
         /// </summary>
         internal void RemoveMember()
         {
@@ -439,8 +462,9 @@ namespace Yupi.Messages.Handlers
                 if (group.Admins.ContainsKey(num2))
                     group.Admins.Remove(num2);
 
-                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                    queryReactor.RunFastQuery(string.Concat("DELETE FROM groups_members WHERE user_id=", num2, " AND group_id=", num, " LIMIT 1"));
+                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                    commitableQueryReactor.RunFastQuery(string.Concat("DELETE FROM groups_members WHERE user_id=", num2,
+                        " AND group_id=", num, " LIMIT 1"));
 
                 Yupi.GetGame().GetGroupManager().SerializeGroupInfo(group, Response, Session);
 
@@ -465,7 +489,12 @@ namespace Yupi.Messages.Handlers
 
                     if (group.AdminOnlyDeco == 0u)
                     {
-                        RoomUser roomUserByHabbo = Yupi.GetGame().GetRoomManager().GetRoom(group.RoomId).GetRoomUserManager().GetRoomUserByHabbo(Yupi.GetHabboById(num2).UserName);
+                        RoomUser roomUserByHabbo =
+                            Yupi.GetGame()
+                                .GetRoomManager()
+                                .GetRoom(group.RoomId)
+                                .GetRoomUserManager()
+                                .GetRoomUserByHabbo(Yupi.GetHabboById(num2).UserName);
 
                         if (roomUserByHabbo == null)
                             return;
@@ -495,11 +524,12 @@ namespace Yupi.Messages.Handlers
             SendResponse();
 
             using (IQueryAdapter queryreactor3 = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryreactor3.RunFastQuery(string.Concat("DELETE FROM groups_members WHERE group_id=", num, " AND user_id=", num2, " LIMIT 1;"));
+                queryreactor3.RunFastQuery(string.Concat("DELETE FROM groups_members WHERE group_id=", num,
+                    " AND user_id=", num2, " LIMIT 1;"));
         }
 
         /// <summary>
-        /// Makes the fav.
+        ///     Makes the fav.
         /// </summary>
         internal void MakeFav()
         {
@@ -516,8 +546,9 @@ namespace Yupi.Messages.Handlers
             Session.GetHabbo().FavouriteGroup = theGroup.Id;
             Yupi.GetGame().GetGroupManager().SerializeGroupInfo(theGroup, Response, Session);
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery(string.Concat("UPDATE users_stats SET favourite_group =", theGroup.Id, " WHERE id=", Session.GetHabbo().Id, " LIMIT 1;"));
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                commitableQueryReactor.RunFastQuery(string.Concat("UPDATE users_stats SET favourite_group =",
+                    theGroup.Id, " WHERE id=", Session.GetHabbo().Id, " LIMIT 1;"));
 
             Response.Init(LibraryParser.OutgoingRequest("FavouriteGroupMessageComposer"));
             Response.AppendInteger(Session.GetHabbo().Id);
@@ -551,15 +582,16 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Removes the fav.
+        ///     Removes the fav.
         /// </summary>
         internal void RemoveFav()
         {
             Request.GetUInteger();
             Session.GetHabbo().FavouriteGroup = 0;
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery($"UPDATE users_stats SET favourite_group=0 WHERE id={Session.GetHabbo().Id} LIMIT 1;");
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                commitableQueryReactor.RunFastQuery(
+                    $"UPDATE users_stats SET favourite_group=0 WHERE id={Session.GetHabbo().Id} LIMIT 1;");
 
             Response.Init(LibraryParser.OutgoingRequest("FavouriteGroupMessageComposer"));
             Response.AppendInteger(Session.GetHabbo().Id);
@@ -574,7 +606,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Publishes the forum thread.
+        ///     Publishes the forum thread.
         /// </summary>
         internal void PublishForumThread()
         {
@@ -610,7 +642,8 @@ namespace Yupi.Messages.Handlers
                 }
 
                 Session.GetHabbo().LastSqlQuery = Yupi.GetUnixTimeStamp();
-                dbClient.SetQuery("INSERT INTO groups_forums_posts (group_id, parent_id, timestamp, poster_id, poster_name, poster_look, subject, post_content) VALUES (@gid, @pard, @ts, @pid, @pnm, @plk, @subjc, @content)");
+                dbClient.SetQuery(
+                    "INSERT INTO groups_forums_posts (group_id, parent_id, timestamp, poster_id, poster_name, poster_look, subject, post_content) VALUES (@gid, @pard, @ts, @pid, @pnm, @plk, @subjc, @content)");
                 dbClient.AddParameter("gid", groupId);
                 dbClient.AddParameter("pard", threadId);
                 dbClient.AddParameter("ts", timestamp);
@@ -626,7 +659,7 @@ namespace Yupi.Messages.Handlers
             group.Forum.ForumScore += 0.25;
             group.Forum.ForumLastPosterName = Session.GetHabbo().UserName;
             group.Forum.ForumLastPosterId = Session.GetHabbo().Id;
-            group.Forum.ForumLastPosterTimestamp = (uint)timestamp;
+            group.Forum.ForumLastPosterTimestamp = (uint) timestamp;
             group.Forum.ForumMessagesCount++;
             group.UpdateForum();
 
@@ -674,7 +707,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Updates the state of the thread.
+        ///     Updates the state of the thread.
         /// </summary>
         internal void UpdateThreadState()
         {
@@ -685,16 +718,19 @@ namespace Yupi.Messages.Handlers
 
             using (IQueryAdapter dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                dbClient.SetQuery($"SELECT * FROM groups_forums_posts WHERE group_id = '{groupId}' AND id = '{threadId}' LIMIT 1;");
+                dbClient.SetQuery(
+                    $"SELECT * FROM groups_forums_posts WHERE group_id = '{groupId}' AND id = '{threadId}' LIMIT 1;");
                 DataRow row = dbClient.GetRow();
 
                 Group theGroup = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
 
                 if (row != null)
                 {
-                    if ((uint)row["poster_id"] == Session.GetHabbo().Id || theGroup.Admins.ContainsKey(Session.GetHabbo().Id))
+                    if ((uint) row["poster_id"] == Session.GetHabbo().Id ||
+                        theGroup.Admins.ContainsKey(Session.GetHabbo().Id))
                     {
-                        dbClient.SetQuery($"UPDATE groups_forums_posts SET pinned = @pin , locked = @lock WHERE id = {threadId};");
+                        dbClient.SetQuery(
+                            $"UPDATE groups_forums_posts SET pinned = @pin , locked = @lock WHERE id = {threadId};");
                         dbClient.AddParameter("pin", pin ? "1" : "0");
                         dbClient.AddParameter("lock", Lock ? "1" : "0");
                         dbClient.RunQuery();
@@ -749,7 +785,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Alters the state of the forum thread.
+        ///     Alters the state of the forum thread.
         /// </summary>
         internal void AlterForumThreadState()
         {
@@ -759,14 +795,16 @@ namespace Yupi.Messages.Handlers
 
             using (IQueryAdapter dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                dbClient.SetQuery($"SELECT * FROM groups_forums_posts WHERE group_id = '{groupId}' AND id = '{threadId}' LIMIT 1;");
+                dbClient.SetQuery(
+                    $"SELECT * FROM groups_forums_posts WHERE group_id = '{groupId}' AND id = '{threadId}' LIMIT 1;");
 
                 DataRow row = dbClient.GetRow();
                 Group theGroup = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
 
                 if (row != null)
                 {
-                    if ((uint)row["poster_id"] == Session.GetHabbo().Id || theGroup.Admins.ContainsKey(Session.GetHabbo().Id))
+                    if ((uint) row["poster_id"] == Session.GetHabbo().Id ||
+                        theGroup.Admins.ContainsKey(Session.GetHabbo().Id))
                     {
                         dbClient.SetQuery($"UPDATE groups_forums_posts SET hidden = @hid WHERE id = {threadId};");
                         dbClient.AddParameter("hid", stateToSet == 20 ? "1" : "0");
@@ -809,7 +847,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Reads the forum thread.
+        ///     Reads the forum thread.
         /// </summary>
         internal void ReadForumThread()
         {
@@ -826,7 +864,8 @@ namespace Yupi.Messages.Handlers
 
             using (IQueryAdapter dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                dbClient.SetQuery($"SELECT * FROM groups_forums_posts WHERE group_id = '{groupId}' AND parent_id = '{threadId}' OR id = '{threadId}' ORDER BY timestamp ASC;");
+                dbClient.SetQuery(
+                    $"SELECT * FROM groups_forums_posts WHERE group_id = '{groupId}' AND parent_id = '{threadId}' OR id = '{threadId}' ORDER BY timestamp ASC;");
 
                 DataTable table = dbClient.GetTable();
 
@@ -889,7 +928,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Gets the group forum thread root.
+        ///     Gets the group forum thread root.
         /// </summary>
         internal void GetGroupForumThreadRoot()
         {
@@ -898,11 +937,13 @@ namespace Yupi.Messages.Handlers
 
             using (IQueryAdapter dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                dbClient.SetQuery($"SELECT count(id) FROM groups_forums_posts WHERE group_id = '{groupId}' AND parent_id = 0");
+                dbClient.SetQuery(
+                    $"SELECT count(id) FROM groups_forums_posts WHERE group_id = '{groupId}' AND parent_id = 0");
 
                 dbClient.GetInteger();
 
-                dbClient.SetQuery($"SELECT * FROM groups_forums_posts WHERE group_id = '{groupId}' AND parent_id = 0 ORDER BY timestamp DESC, pinned DESC LIMIT @startIndex, @totalPerPage;");
+                dbClient.SetQuery(
+                    $"SELECT * FROM groups_forums_posts WHERE group_id = '{groupId}' AND parent_id = 0 ORDER BY timestamp DESC, pinned DESC LIMIT @startIndex, @totalPerPage;");
 
                 dbClient.AddParameter("startIndex", startIndex);
                 dbClient.AddParameter("totalPerPage", TotalPerPage);
@@ -943,7 +984,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Gets the group forum data.
+        ///     Gets the group forum data.
         /// </summary>
         internal void GetGroupForumData()
         {
@@ -956,7 +997,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Gets the group forums.
+        ///     Gets the group forums.
         /// </summary>
         internal void GetGroupForums()
         {
@@ -977,7 +1018,8 @@ namespace Yupi.Messages.Handlers
 
                         int qtdForums = dbClient.GetInteger();
 
-                        dbClient.SetQuery("SELECT group_id FROM groups_forums_data WHERE forum_messages_count > 0 ORDER BY forum_messages_count DESC LIMIT @startIndex, @totalPerPage;");
+                        dbClient.SetQuery(
+                            "SELECT group_id FROM groups_forums_data WHERE forum_messages_count > 0 ORDER BY forum_messages_count DESC LIMIT @startIndex, @totalPerPage;");
 
                         dbClient.AddParameter("startIndex", startIndex);
                         dbClient.AddParameter("totalPerPage", TotalPerPage);
@@ -987,7 +1029,10 @@ namespace Yupi.Messages.Handlers
                         message.AppendInteger(qtdForums == 0 ? 1 : qtdForums);
                         message.AppendInteger(startIndex);
 
-                        groupList.AddRange(from DataRow rowGroupData in table.Rows select uint.Parse(rowGroupData["group_id"].ToString()) into groupId select Yupi.GetGame().GetGroupManager().GetGroup(groupId));
+                        groupList.AddRange(from DataRow rowGroupData in table.Rows
+                            select uint.Parse(rowGroupData["group_id"].ToString())
+                            into groupId
+                            select Yupi.GetGame().GetGroupManager().GetGroup(groupId));
 
                         message.AppendInteger(table.Rows.Count);
 
@@ -999,11 +1044,15 @@ namespace Yupi.Messages.Handlers
                     break;
 
                 case 2:
-                    groupList.AddRange(Session.GetHabbo().UserGroups.Select(groupUser => Yupi.GetGame().GetGroupManager().GetGroup(groupUser.GroupId)).Where(aGroup => aGroup != null && aGroup.Forum.Id != 0));
+                    groupList.AddRange(
+                        Session.GetHabbo()
+                            .UserGroups.Select(groupUser => Yupi.GetGame().GetGroupManager().GetGroup(groupUser.GroupId))
+                            .Where(aGroup => aGroup != null && aGroup.Forum.Id != 0));
 
                     message.AppendInteger(groupList.Count == 0 ? 1 : groupList.Count);
 
-                    groupList = groupList.OrderByDescending(x => x.Forum.ForumMessagesCount).Skip(startIndex).Take(20).ToList();
+                    groupList =
+                        groupList.OrderByDescending(x => x.Forum.ForumMessagesCount).Skip(startIndex).Take(20).ToList();
 
                     message.AppendInteger(startIndex);
                     message.AppendInteger(groupList.Count);
@@ -1024,7 +1073,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Manages the group.
+        ///     Manages the group.
         /// </summary>
         internal void ManageGroup()
         {
@@ -1034,7 +1083,8 @@ namespace Yupi.Messages.Handlers
             if (theGroup == null)
                 return;
 
-            if (!theGroup.Admins.ContainsKey(Session.GetHabbo().Id) && theGroup.CreatorId != Session.GetHabbo().Id && Session.GetHabbo().Rank < 7)
+            if (!theGroup.Admins.ContainsKey(Session.GetHabbo().Id) && theGroup.CreatorId != Session.GetHabbo().Id &&
+                Session.GetHabbo().Rank < 7)
                 return;
 
             Response.Init(LibraryParser.OutgoingRequest("GroupDataEditMessageComposer"));
@@ -1062,8 +1112,12 @@ namespace Yupi.Messages.Handlers
 
             foreach (string text in array2)
             {
-                Response.AppendInteger(text.Length >= 6 ? uint.Parse(text.Substring(0, 3)) : uint.Parse(text.Substring(0, 2)));
-                Response.AppendInteger(text.Length >= 6 ? uint.Parse(text.Substring(3, 2)) : uint.Parse(text.Substring(2, 2)));
+                Response.AppendInteger(text.Length >= 6
+                    ? uint.Parse(text.Substring(0, 3))
+                    : uint.Parse(text.Substring(0, 2)));
+                Response.AppendInteger(text.Length >= 6
+                    ? uint.Parse(text.Substring(3, 2))
+                    : uint.Parse(text.Substring(2, 2)));
 
                 if (text.Length < 5)
                     Response.AppendInteger(0);
@@ -1088,7 +1142,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Updates the name of the group.
+        ///     Updates the name of the group.
         /// </summary>
         internal void UpdateGroupName()
         {
@@ -1101,23 +1155,26 @@ namespace Yupi.Messages.Handlers
             if (theGroup?.CreatorId != Session.GetHabbo().Id)
                 return;
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery($"UPDATE groups_data SET group_name = @name, group_description = @desc WHERE id={num} LIMIT 1");
-                queryReactor.AddParameter("name", text);
-                queryReactor.AddParameter("desc", text2);
+                commitableQueryReactor.SetQuery(
+                    $"UPDATE groups_data SET group_name = @name, group_description = @desc WHERE id={num} LIMIT 1");
+                commitableQueryReactor.AddParameter("name", text);
+                commitableQueryReactor.AddParameter("desc", text2);
 
-                queryReactor.RunQuery();
+                commitableQueryReactor.RunQuery();
             }
 
             theGroup.Name = text;
             theGroup.Description = text2;
 
-            Yupi.GetGame().GetGroupManager().SerializeGroupInfo(theGroup, Response, Session, Session.GetHabbo().CurrentRoom);
+            Yupi.GetGame()
+                .GetGroupManager()
+                .SerializeGroupInfo(theGroup, Response, Session, Session.GetHabbo().CurrentRoom);
         }
 
         /// <summary>
-        /// Updates the group badge.
+        ///     Updates the group badge.
         /// </summary>
         internal void UpdateGroupBadge()
         {
@@ -1160,11 +1217,12 @@ namespace Yupi.Messages.Handlers
 
                     Yupi.GetGame().GetGroupManager().SerializeGroupInfo(guild, Response, Session, room);
 
-                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                    using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
-                        queryReactor.SetQuery($"UPDATE groups_data SET group_badge = @badge WHERE id = {guildId}");
-                        queryReactor.AddParameter("badge", badge);
-                        queryReactor.RunQuery();
+                        commitableQueryReactor.SetQuery(
+                            $"UPDATE groups_data SET group_badge = @badge WHERE id = {guildId}");
+                        commitableQueryReactor.AddParameter("badge", badge);
+                        commitableQueryReactor.RunQuery();
                     }
 
                     if (Session.GetHabbo().CurrentRoom != null)
@@ -1182,14 +1240,16 @@ namespace Yupi.Messages.Handlers
 
                         Session.GetHabbo().CurrentRoom.SendMessage(Response);
 
-                        Yupi.GetGame().GetGroupManager().SerializeGroupInfo(guild, Response, Session, Session.GetHabbo().CurrentRoom);
+                        Yupi.GetGame()
+                            .GetGroupManager()
+                            .SerializeGroupInfo(guild, Response, Session, Session.GetHabbo().CurrentRoom);
                     }
                 }
             }
         }
 
         /// <summary>
-        /// Updates the group colours.
+        ///     Updates the group colours.
         /// </summary>
         internal void UpdateGroupColours()
         {
@@ -1202,17 +1262,20 @@ namespace Yupi.Messages.Handlers
             if (theGroup?.CreatorId != Session.GetHabbo().Id)
                 return;
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery(string.Concat("UPDATE groups_data SET colour1= ", num, ", colour2=", num2, " WHERE id=", theGroup.Id, " LIMIT 1"));
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                commitableQueryReactor.RunFastQuery(string.Concat("UPDATE groups_data SET colour1= ", num, ", colour2=",
+                    num2, " WHERE id=", theGroup.Id, " LIMIT 1"));
 
             theGroup.Colour1 = num;
             theGroup.Colour2 = num2;
 
-            Yupi.GetGame().GetGroupManager().SerializeGroupInfo(theGroup, Response, Session, Session.GetHabbo().CurrentRoom);
+            Yupi.GetGame()
+                .GetGroupManager()
+                .SerializeGroupInfo(theGroup, Response, Session, Session.GetHabbo().CurrentRoom);
         }
 
         /// <summary>
-        /// Updates the group settings.
+        ///     Updates the group settings.
         /// </summary>
         internal void UpdateGroupSettings()
         {
@@ -1225,8 +1288,9 @@ namespace Yupi.Messages.Handlers
             if (theGroup?.CreatorId != Session.GetHabbo().Id)
                 return;
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery(string.Concat("UPDATE groups_data SET state ='", num, "', admindeco='", num2, "' WHERE id =", theGroup.Id, " LIMIT 1"));
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                commitableQueryReactor.RunFastQuery(string.Concat("UPDATE groups_data SET state ='", num,
+                    "', admindeco='", num2, "' WHERE id =", theGroup.Id, " LIMIT 1"));
 
             theGroup.State = num;
             theGroup.AdminOnlyDeco = num2;
@@ -1237,7 +1301,8 @@ namespace Yupi.Messages.Handlers
             {
                 foreach (RoomUser current in room.GetRoomUserManager().GetRoomUsers())
                 {
-                    if (room.RoomData.OwnerId != current.UserId && !theGroup.Admins.ContainsKey(current.UserId) && theGroup.Members.ContainsKey(current.UserId))
+                    if (room.RoomData.OwnerId != current.UserId && !theGroup.Admins.ContainsKey(current.UserId) &&
+                        theGroup.Members.ContainsKey(current.UserId))
                     {
                         if (num2 == 1u)
                         {
@@ -1262,11 +1327,13 @@ namespace Yupi.Messages.Handlers
                 }
             }
 
-            Yupi.GetGame().GetGroupManager().SerializeGroupInfo(theGroup, Response, Session, Session.GetHabbo().CurrentRoom);
+            Yupi.GetGame()
+                .GetGroupManager()
+                .SerializeGroupInfo(theGroup, Response, Session, Session.GetHabbo().CurrentRoom);
         }
 
         /// <summary>
-        /// Requests the leave group.
+        ///     Requests the leave group.
         /// </summary>
         internal void RequestLeaveGroup()
         {
@@ -1288,7 +1355,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Confirms the leave group.
+        ///     Confirms the leave group.
         /// </summary>
         internal void ConfirmLeaveGroup()
         {
@@ -1329,8 +1396,9 @@ namespace Yupi.Messages.Handlers
                 else
                     return;
 
-                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                    queryReactor.RunFastQuery(string.Concat("DELETE FROM groups_members WHERE user_id=", userId, " AND group_id=", guild, " LIMIT 1"));
+                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                    commitableQueryReactor.RunFastQuery(string.Concat("DELETE FROM groups_members WHERE user_id=",
+                        userId, " AND group_id=", guild, " LIMIT 1"));
 
                 Habbo byeUser = Yupi.GetHabboById(userId);
 
@@ -1373,7 +1441,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// News the method.
+        ///     News the method.
         /// </summary>
         /// <param name="current2">The current2.</param>
         private void NewMethod(RoomData current2)
@@ -1401,15 +1469,16 @@ namespace Yupi.Messages.Handlers
             group.Forum.WhoCanThread = whoCanThread;
             group.Forum.WhoCanMod = whoCanMod;
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery("UPDATE groups_forums_data SET who_can_read = @who_can_read, who_can_post = @who_can_post, who_can_thread = @who_can_thread, who_can_mod = @who_can_mod WHERE group_id = @group_id");
-                queryReactor.AddParameter("group_id", group.Id);
-                queryReactor.AddParameter("who_can_read", whoCanRead);
-                queryReactor.AddParameter("who_can_post", whoCanPost);
-                queryReactor.AddParameter("who_can_thread", whoCanThread);
-                queryReactor.AddParameter("who_can_mod", whoCanMod);
-                queryReactor.RunQuery();
+                commitableQueryReactor.SetQuery(
+                    "UPDATE groups_forums_data SET who_can_read = @who_can_read, who_can_post = @who_can_post, who_can_thread = @who_can_thread, who_can_mod = @who_can_mod WHERE group_id = @group_id");
+                commitableQueryReactor.AddParameter("group_id", group.Id);
+                commitableQueryReactor.AddParameter("who_can_read", whoCanRead);
+                commitableQueryReactor.AddParameter("who_can_post", whoCanPost);
+                commitableQueryReactor.AddParameter("who_can_thread", whoCanThread);
+                commitableQueryReactor.AddParameter("who_can_mod", whoCanMod);
+                commitableQueryReactor.RunQuery();
             }
 
             Session.SendMessage(group.ForumDataMessage(Session.GetHabbo().Id));
@@ -1442,7 +1511,7 @@ namespace Yupi.Messages.Handlers
                 room.RoomData.Group = null;
                 room.RoomData.GroupId = 0;
 
-                Yupi.GetGame().GetGroupManager().DeleteGroup((uint) @group.Id);
+                Yupi.GetGame().GetGroupManager().DeleteGroup(@group.Id);
 
                 ServerMessage deleteGroup = new ServerMessage(LibraryParser.OutgoingRequest("GroupDeletedMessageComposer"));
 
@@ -1457,16 +1526,17 @@ namespace Yupi.Messages.Handlers
                 Yupi.GetGame().GetRoomManager().UnloadRoom(room, "Delete room");
                 Yupi.GetGame().GetRoomManager().QueueVoteRemove(roomData);
 
-                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    queryReactor.RunFastQuery($"DELETE FROM rooms_data WHERE id = {roomId}");
-                    queryReactor.RunFastQuery($"DELETE FROM users_favorites WHERE room_id = {roomId}");
-                    queryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE room_id = {roomId}");
-                    queryReactor.RunFastQuery($"DELETE FROM rooms_rights WHERE room_id = {roomId}");
-                    queryReactor.RunFastQuery($"UPDATE users SET home_room = '0' WHERE home_room = {roomId}");
+                    commitableQueryReactor.RunFastQuery($"DELETE FROM rooms_data WHERE id = {roomId}");
+                    commitableQueryReactor.RunFastQuery($"DELETE FROM users_favorites WHERE room_id = {roomId}");
+                    commitableQueryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE room_id = {roomId}");
+                    commitableQueryReactor.RunFastQuery($"DELETE FROM rooms_rights WHERE room_id = {roomId}");
+                    commitableQueryReactor.RunFastQuery($"UPDATE users SET home_room = '0' WHERE home_room = {roomId}");
                 }
 
-                RoomData roomData2 = (from p in Session.GetHabbo().UsersRooms where p.Id == roomId select p).SingleOrDefault();
+                RoomData roomData2 =
+                    (from p in Session.GetHabbo().UsersRooms where p.Id == roomId select p).SingleOrDefault();
 
                 if (roomData2 != null)
                     Session.GetHabbo().UsersRooms.Remove(roomData2);

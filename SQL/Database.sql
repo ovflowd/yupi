@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: 08-Jan-2016 às 21:38
+-- Generation Time: 11-Jan-2016 às 21:56
 -- Versão do servidor: 5.5.42
 -- PHP Version: 5.6.10
 
@@ -383,7 +383,7 @@ CREATE TABLE `catalog_furnitures` (
   `vending_ids` varchar(100) CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
   `subscriber` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
   `effectid` int(11) unsigned NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=5153 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5159 DEFAULT CHARSET=latin1;
 
 --
 -- Extraindo dados da tabela `catalog_furnitures`
@@ -2736,7 +2736,7 @@ INSERT INTO `catalog_furnitures` (`id`, `flat_id`, `item_name`, `type`, `stack_h
 (2341, 0, 'prizetrophy_thumb', 's', '1', '0', '0', '1', '1', '1', '1', 'trophy', 1, '0', '0', 0),
 (2342, 0, 'pet_spider', 's', '1', '1', '0', '0', '0', '0', '0', 'pet_spider', 0, '0', '0', 0),
 (2343, 0, 'pet_frog', 's', '1', '1', '0', '0', '0', '0', '0', 'pet_frog', 0, '0', '0', 0),
-(2344, 0, 'pet_chicken\n', 's', '1', '0', '0', '0', '0', '0', '0', 'pet_chicken', 0, '0', '0', 0),
+(2344, 0, 'pet_chicken', 's', '1', '0', '0', '0', '0', '0', '0', 'pet_chicken', 0, '0', '0', 0),
 (2345, 0, 'usva2_wallrug', 'i', '0', '0', '0', '1', '0', '1', '1', 'default', 1, '0', '0', 0),
 (2346, 0, 'usva3_rug', 's', '0', '1', '0', '1', '0', '1', '1', 'default', 1, '0', '0', 0),
 (2347, 0, 'usva5_sofa', 's', '1', '0', '0', '1', '0', '1', '1', 'default', 1, '0', '0', 0),
@@ -5548,7 +5548,9 @@ INSERT INTO `catalog_furnitures` (`id`, `flat_id`, `item_name`, `type`, `stack_h
 (5149, 0, 'room_wlof15_bed', 's', '0', '0', '1', '0', '0', '0', '1', 'default', 2, '0', '0', 0),
 (5150, 0, 'room_wlof15_bookcase', 's', '0', '0', '1', '0', '0', '0', '1', 'default', 2, '0', '0', 0),
 (5151, 0, 'room_wlof15_chair', 's', '0', '0', '1', '0', '0', '0', '1', 'default', 2, '0', '0', 0),
-(5152, 0, 'room_wlof15_wardrobe', 's', '0', '0', '1', '0', '0', '0', '1', 'default', 2, '0', '0', 0);
+(5152, 0, 'room_wlof15_wardrobe', 's', '0', '0', '1', '0', '0', '0', '1', 'default', 2, '0', '0', 0),
+(5153, 0, 'pet_dog', 's', '1', '0', '0', '0', '0', '0', '0', 'pet_dog', 0, '0', '0', 0),
+(5155, 0, 'pet_lion', 's', '1', '0', '0', '0', '0', '0', '0', 'pet_lion', 0, '0', '0', 0);
 
 -- --------------------------------------------------------
 
@@ -7661,7 +7663,7 @@ INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `special_name`, `cos
 (2078, 82, 'wed_plant', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2079, 82, 'wed_icesculp', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2080, 82, 'wed_carsofa', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
-(2081, 84, 'pet_terrier\n', 'pet_terrier\n', 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
+(2081, 84, 'pet_terrier', 'pet_terrier', 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2082, 85, 'pet_bear', 'pet_bear', 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2083, 114, 'cmp_fish_bk', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2084, 114, 'cmp_fish_g', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
@@ -8051,7 +8053,7 @@ INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `special_name`, `cos
 (2468, 45, 'hween12_wolf', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2469, 45, 'hween12_strengthtest', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2470, 45, 'hween12_dartboard', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
-(2472, 93, 'pet_spider\n', 'pet_spider\n', 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
+(2472, 93, 'pet_spider', 'pet_spider', 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2473, 94, 'pet_frog', 'pet_frog', 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2474, 95, 'pet_chicken', 'pet_chicken', 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (2475, 174, 'throne', NULL, 10000, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
@@ -9312,7 +9314,7 @@ INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `special_name`, `cos
 (3732, 230, 'ads_flag_un', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (3733, 45, 'hween11_window', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (3734, 17, 'xmas11_wall', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
-(3735, 113, 'pet_monkey\n', 'pet_monkey\n', 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
+(3735, 113, 'pet_monkey', 'pet_monkey', 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (3736, 112, 'pet_turtle', 'pet_turtle', 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (3737, 191, 'books_1', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (3738, 191, 'homework', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
@@ -12487,14 +12489,6 @@ CREATE TABLE `rooms_wordfilter` (
   `word` varchar(255) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
---
--- Extraindo dados da tabela `rooms_wordfilter`
---
-
-INSERT INTO `rooms_wordfilter` (`room_id`, `word`) VALUES
-(13, 'bobba'),
-(13, 'bobbas');
-
 -- --------------------------------------------------------
 
 --
@@ -12590,7 +12584,7 @@ CREATE TABLE `server_langs` (
   `lang` varchar(20) DEFAULT 'english',
   `name` varchar(255) NOT NULL,
   `text` varchar(255) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=152 DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `server_langs`
@@ -12746,7 +12740,8 @@ INSERT INTO `server_langs` (`id`, `lang`, `name`, `text`) VALUES
 (147, 'english', 'user_friend_request_max', 'You have a lot of friends! You can not have more'),
 (148, 'english', 'command_mass_credits_one_give', 'You''ve been given <b>'),
 (149, 'english', 'command_mass_credits_two_give', '</b> credits by Staff.'),
-(150, 'english', 'alert_event_message', 'You can use {username} and {extrainfo}.');
+(150, 'english', 'alert_event_message', 'You can use {username} and {extrainfo}.'),
+(151, 'english', 'command_refres_items', 'Catalog Furnitures Refreshed!');
 
 -- --------------------------------------------------------
 
@@ -12817,7 +12812,7 @@ CREATE TABLE `server_status` (
 --
 
 INSERT INTO `server_status` (`id`, `status`, `users_online`, `rooms_loaded`, `server_ver`, `stamp`, `minutesuptime`, `userpeak`, `bannerdata`) VALUES
-(1, '1', 0, 0, 'Yupi Emulator', 1452285152, 0, 2, '114670925920269957593299136150366957983142588366300079186349531:1589935137502239924254699078669119674538324391752663931735947');
+(1, '1', 0, 0, 'Yupi Emulator', 1452545608, 0, 2, '114670925920269957593299136150366957983142588366300079186349531:1589935137502239924254699078669119674538324391752663931735947');
 
 -- --------------------------------------------------------
 
@@ -13923,12 +13918,12 @@ ALTER TABLE `catalog_ecotron_items`
 -- AUTO_INCREMENT for table `catalog_furnitures`
 --
 ALTER TABLE `catalog_furnitures`
-  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5153;
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5159;
 --
 -- AUTO_INCREMENT for table `catalog_items`
 --
 ALTER TABLE `catalog_items`
-  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4846;
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4848;
 --
 -- AUTO_INCREMENT for table `catalog_pages`
 --
@@ -14108,7 +14103,7 @@ ALTER TABLE `server_fuses`
 -- AUTO_INCREMENT for table `server_langs`
 --
 ALTER TABLE `server_langs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=151;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=152;
 --
 -- AUTO_INCREMENT for table `server_stafflogs`
 --

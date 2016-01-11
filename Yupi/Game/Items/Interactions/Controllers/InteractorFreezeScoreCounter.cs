@@ -12,7 +12,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
             if (item.Team == Team.None)
                 return;
 
-            item.ExtraData = item.GetRoom().GetGameManager().Points[(int)item.Team].ToString();
+            item.ExtraData = item.GetRoom().GetGameManager().Points[(int) item.Team].ToString();
             item.UpdateState(false, true);
         }
 
@@ -21,7 +21,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
             if (!hasRights)
                 return;
 
-            item.GetRoom().GetGameManager().Points[(int)item.Team] = 0;
+            item.GetRoom().GetGameManager().Points[(int) item.Team] = 0;
             item.ExtraData = "0";
             item.UpdateState();
         }

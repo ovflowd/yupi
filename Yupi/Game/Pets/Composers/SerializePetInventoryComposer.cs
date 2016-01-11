@@ -2,7 +2,7 @@
 
 namespace Yupi.Game.Pets.Composers
 {
-    class SerializePetInventoryComposer
+    internal class SerializePetInventoryComposer
     {
         internal static void GenerateMessage(Pet pet, ServerMessage message, bool levelAfterName = false)
         {

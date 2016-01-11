@@ -36,9 +36,9 @@ namespace Yupi.Core.Algorithms.GameField
     public class GameField : IPathNode
     {
         private readonly AStarSolver<GameField> _astarSolver;
-        private readonly Queue<GametileUpdate> _newEntries = new Queue<GametileUpdate>();
 
         private readonly bool _diagonal;
+        private readonly Queue<GametileUpdate> _newEntries = new Queue<GametileUpdate>();
         private byte[,] _currentField;
 
         private GametileUpdate _currentlyChecking;
@@ -51,7 +51,11 @@ namespace Yupi.Core.Algorithms.GameField
                 theArray.GetUpperBound(1) + 1, theArray.GetUpperBound(0) + 1);
         }
 
-        public bool this[int y, int x] => y >= 0 && x >= 0 && y <= _currentField.GetUpperBound(0) && x <= _currentField.GetUpperBound(1);
+        public bool this[int y, int x]
+            => y >= 0 && x >= 0 && y <= _currentField.GetUpperBound(0) && x <= _currentField.GetUpperBound(1);
+
+        public bool IsBlocked(int x, int y, bool lastTile)
+            => (_currentlyChecking.X == x && _currentlyChecking.Y == y) || GetValue(x, y) != _currentlyChecking.Value;
 
         public void UpdateLocation(int x, int y, byte value)
         {
@@ -72,7 +76,9 @@ namespace Yupi.Core.Algorithms.GameField
                 {
                     IEnumerable<LinkedList<AStarSolver<GameField>.XPathNode>> list2 = HandleListOfConnectedPoints(connectedItems, _currentlyChecking);
 
-                    list.AddRange(list2.Where(current => current.Count >= 4).Select(FindClosed).Where(pointField => true));
+                    list.AddRange(list2.Where(current => current.Count >= 4)
+                        .Select(FindClosed)
+                        .Where(pointField => true));
                 }
 
                 _currentField[_currentlyChecking.Y, _currentlyChecking.X] = _currentlyChecking.Value;
@@ -81,11 +87,9 @@ namespace Yupi.Core.Algorithms.GameField
             return list;
         }
 
-        public byte GetValue(int x, int y) => this[y, x] ? _currentField[y, x] : (byte)0;
+        public byte GetValue(int x, int y) => this[y, x] ? _currentField[y, x] : (byte) 0;
 
-        public byte GetValue(Point p) => this[p.Y, p.X] ? _currentField[p.Y, p.X] : (byte)0;
-
-        public bool IsBlocked(int x, int y, bool lastTile) => (_currentlyChecking.X == x && _currentlyChecking.Y == y) || GetValue(x, y) != _currentlyChecking.Value;
+        public byte GetValue(Point p) => this[p.Y, p.X] ? _currentField[p.Y, p.X] : (byte) 0;
 
         public void Destroy()
         {
@@ -115,11 +119,11 @@ namespace Yupi.Core.Algorithms.GameField
                     num4 = current.Y;
             }
 
-            int x = (int)Math.Ceiling((num2 - num) / 2f) + num;
-            int y = (int)Math.Ceiling((num4 - num3) / 2f) + num3;
+            int x = (int) Math.Ceiling((num2 - num)/2f) + num;
+            int y = (int) Math.Ceiling((num4 - num3)/2f) + num3;
 
             List<Point> list = new List<Point>();
-            List<Point> list2 = new List<Point> { new Point(_currentlyChecking.X, _currentlyChecking.Y) };
+            List<Point> list2 = new List<Point> {new Point(_currentlyChecking.X, _currentlyChecking.Y)};
 
             list.Add(new Point(x, y));
 
@@ -183,7 +187,8 @@ namespace Yupi.Core.Algorithms.GameField
             return pointField;
         }
 
-        private IEnumerable<LinkedList<AStarSolver<GameField>.XPathNode>> HandleListOfConnectedPoints(List<Point> pointList, GametileUpdate update)
+        private IEnumerable<LinkedList<AStarSolver<GameField>.XPathNode>> HandleListOfConnectedPoints(
+            List<Point> pointList, GametileUpdate update)
         {
             List<LinkedList<AStarSolver<GameField>.XPathNode>> list = new List<LinkedList<AStarSolver<GameField>.XPathNode>>();
             int num = 0;
@@ -192,7 +197,7 @@ namespace Yupi.Core.Algorithms.GameField
             {
                 num++;
 
-                if (num == pointList.Count / 2 + 1)
+                if (num == pointList.Count/2 + 1)
                     return list;
 
                 list.AddRange(

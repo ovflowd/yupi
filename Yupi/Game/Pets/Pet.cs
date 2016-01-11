@@ -348,7 +348,9 @@ namespace Yupi.Game.Pets
             GameClient ownerSession = Yupi.GetGame().GetClientManager().GetClientByUserId(OwnerId);
 
             if (ownerSession != null)
-                Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(ownerSession, "ACH_PetRespectReceiver", 1);
+                Yupi.GetGame()
+                    .GetAchievementManager()
+                    .ProgressUserAchievement(ownerSession, "ACH_PetRespectReceiver", 1);
 
             RespectPetComposer.GenerateMessage(this);
 
@@ -403,9 +405,9 @@ namespace Yupi.Game.Pets
 
             SerializeInventory(levelNotify, true);
 
-            ownerSession.SendMessage(levelNotify);       
-            
-            PetCommandPanelComposer.GenerateMessage(this, totalPetCommands, petCommands, ownerSession);   
+            ownerSession.SendMessage(levelNotify);
+
+            PetCommandPanelComposer.GenerateMessage(this, totalPetCommands, petCommands, ownerSession);
         }
 
         /// <summary>
@@ -440,7 +442,7 @@ namespace Yupi.Game.Pets
             if (num <= 4)
                 num = 15;
 
-            uint randomNumber = (uint)Yupi.GetRandomNumber(4, (int)num);
+            uint randomNumber = (uint) Yupi.GetRandomNumber(4, (int) num);
 
             if (!add)
             {
@@ -461,7 +463,8 @@ namespace Yupi.Game.Pets
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="levelAfterName">if set to <c>true</c> [level after name].</param>
-        internal void SerializeInventory(ServerMessage message, bool levelAfterName = false) => SerializePetInventoryComposer.GenerateMessage(this, message, levelAfterName);
+        internal void SerializeInventory(ServerMessage message, bool levelAfterName = false)
+            => SerializePetInventoryComposer.GenerateMessage(this, message, levelAfterName);
 
         /// <summary>
         ///     Serializes the information.

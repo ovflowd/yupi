@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.SoundMachine.Songs;
 
 namespace Yupi.Game.SoundMachine
@@ -27,14 +27,16 @@ namespace Yupi.Game.SoundMachine
         /// </summary>
         /// <param name="codeName">Name of the code.</param>
         /// <returns>System.UInt32.</returns>
-        internal static uint GetSongId(string codeName) => (from current in Songs.Values where current.CodeName == codeName select current.Id).FirstOrDefault();
+        internal static uint GetSongId(string codeName)
+            => (from current in Songs.Values where current.CodeName == codeName select current.Id).FirstOrDefault();
 
         /// <summary>
         ///     Gets the song.
         /// </summary>
         /// <param name="codeName">Name of the code.</param>
         /// <returns>SongData.</returns>
-        internal static SongData GetSong(string codeName) => Songs.Values.FirstOrDefault(current => current.CodeName == codeName);
+        internal static SongData GetSong(string codeName)
+            => Songs.Values.FirstOrDefault(current => current.CodeName == codeName);
 
         /// <summary>
         ///     Gets the song by identifier.
@@ -48,7 +50,8 @@ namespace Yupi.Game.SoundMachine
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>String.</returns>
-        internal static string GetCodeById(uint id) => (from current in Songs.Values where current.Id == id select current.CodeName).FirstOrDefault();
+        internal static string GetCodeById(uint id)
+            => (from current in Songs.Values where current.Id == id select current.CodeName).FirstOrDefault();
 
         /// <summary>
         ///     Initializes this instance.
@@ -60,10 +63,10 @@ namespace Yupi.Game.SoundMachine
 
             Songs.Clear();
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery("SELECT * FROM items_songs_data ORDER BY id");
-                DataTable table = queryReactor.GetTable();
+                commitableQueryReactor.SetQuery("SELECT * FROM items_songs_data ORDER BY id");
+                DataTable table = commitableQueryReactor.GetTable();
 
                 foreach (SongData songFromDataRow in from DataRow dRow in table.Rows select GetSongFromDataRow(dRow))
                     Songs.Add(songFromDataRow.Id, songFromDataRow);
@@ -91,7 +94,10 @@ namespace Yupi.Game.SoundMachine
         /// </summary>
         /// <param name="dRow">The d row.</param>
         /// <returns>SongData.</returns>
-        internal static SongData GetSongFromDataRow(DataRow dRow) => new SongData(Convert.ToUInt32(dRow["id"]), dRow["codename"].ToString(), (string) dRow["name"], (string) dRow["artist"], (string) dRow["song_data"], (double) dRow["length"]);
+        internal static SongData GetSongFromDataRow(DataRow dRow)
+            =>
+                new SongData(Convert.ToUInt32(dRow["id"]), dRow["codename"].ToString(), (string) dRow["name"],
+                    (string) dRow["artist"], (string) dRow["song_data"], (double) dRow["length"]);
 
         /// <summary>
         ///     Gets the song.

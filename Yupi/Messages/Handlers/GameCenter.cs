@@ -5,19 +5,20 @@ using Yupi.Messages.Parsers;
 namespace Yupi.Messages.Handlers
 {
     /// <summary>
-    /// Class GameClientMessageHandler.
+    ///     Class GameClientMessageHandler.
     /// </summary>
     internal partial class GameClientMessageHandler
     {
         /// <summary>
-        /// Games the center load game.
+        ///     Games the center load game.
         /// </summary>
         internal void GameCenterLoadGame()
         {
-            ServerMessage achievements = new ServerMessage(LibraryParser.OutgoingRequest("GameCenterGameAchievementsMessageComposer"));
+            ServerMessage achievements =
+                new ServerMessage(LibraryParser.OutgoingRequest("GameCenterGameAchievementsMessageComposer"));
             achievements.AppendInteger(18);
-            achievements.AppendInteger(1);//count
-            achievements.AppendInteger(295);//id
+            achievements.AppendInteger(1); //count
+            achievements.AppendInteger(295); //id
             achievements.AppendInteger(1);
             achievements.AppendString("ACH_StoryChallengeChampion1");
             achievements.AppendInteger(0);
@@ -33,7 +34,8 @@ namespace Yupi.Messages.Handlers
             achievements.AppendString("");
             Session.SendMessage(achievements);
 
-            ServerMessage weeklyLeaderboard = new ServerMessage(LibraryParser.OutgoingRequest("GameCenterLeaderboardMessageComposer"));
+            ServerMessage weeklyLeaderboard =
+                new ServerMessage(LibraryParser.OutgoingRequest("GameCenterLeaderboardMessageComposer"));
             weeklyLeaderboard.AppendInteger(2014);
             weeklyLeaderboard.AppendInteger(49);
             weeklyLeaderboard.AppendInteger(0);
@@ -50,7 +52,8 @@ namespace Yupi.Messages.Handlers
             weeklyLeaderboard.AppendInteger(18);
             Session.SendMessage(weeklyLeaderboard);
 
-            ServerMessage weeklyLeaderboard2 = new ServerMessage(LibraryParser.OutgoingRequest("GameCenterLeaderboard2MessageComposer"));
+            ServerMessage weeklyLeaderboard2 =
+                new ServerMessage(LibraryParser.OutgoingRequest("GameCenterLeaderboard2MessageComposer"));
             weeklyLeaderboard2.AppendInteger(2014);
             weeklyLeaderboard2.AppendInteger(49);
             weeklyLeaderboard2.AppendInteger(0);
@@ -67,7 +70,8 @@ namespace Yupi.Messages.Handlers
             weeklyLeaderboard2.AppendInteger(18);
             Session.SendMessage(weeklyLeaderboard2);
 
-            ServerMessage weeklyLeaderboard3 = new ServerMessage(LibraryParser.OutgoingRequest("GameCenterLeaderboard2MessageComposer"));
+            ServerMessage weeklyLeaderboard3 =
+                new ServerMessage(LibraryParser.OutgoingRequest("GameCenterLeaderboard2MessageComposer"));
             weeklyLeaderboard3.AppendInteger(2014);
             weeklyLeaderboard3.AppendInteger(48);
             weeklyLeaderboard3.AppendInteger(0);
@@ -90,7 +94,8 @@ namespace Yupi.Messages.Handlers
             gamesLeft.AppendInteger(0);
             Session.SendMessage(gamesLeft);
 
-            ServerMessage previousWinner = new ServerMessage(LibraryParser.OutgoingRequest("GameCenterPreviousWinnerMessageComposer"));
+            ServerMessage previousWinner =
+                new ServerMessage(LibraryParser.OutgoingRequest("GameCenterPreviousWinnerMessageComposer"));
             previousWinner.AppendInteger(18);
             previousWinner.AppendInteger(0);
 
@@ -109,8 +114,9 @@ namespace Yupi.Messages.Handlers
             Products.AppendBool(false);
             Session.SendMessage(Products);*/
 
-            ServerMessage allAchievements = new ServerMessage(LibraryParser.OutgoingRequest("GameCenterAllAchievementsMessageComposer"));
-            allAchievements.AppendInteger(0);//count
+            ServerMessage allAchievements =
+                new ServerMessage(LibraryParser.OutgoingRequest("GameCenterAllAchievementsMessageComposer"));
+            allAchievements.AppendInteger(0); //count
 
             //For Stories
             /*PacketName5.AppendInteger(18);
@@ -119,11 +125,11 @@ namespace Yupi.Messages.Handlers
             PacketName5.AppendString("StoryChallengeChampion");
             PacketName5.AppendInteger(20);*/
 
-            allAchievements.AppendInteger(0);//gameId
-            allAchievements.AppendInteger(0);//count
-            allAchievements.AppendInteger(0);//achId
-            allAchievements.AppendString("SnowWarTotalScore");//achName
-            allAchievements.AppendInteger(0);//levels
+            allAchievements.AppendInteger(0); //gameId
+            allAchievements.AppendInteger(0); //count
+            allAchievements.AppendInteger(0); //achId
+            allAchievements.AppendString("SnowWarTotalScore"); //achName
+            allAchievements.AppendInteger(0); //levels
 
             Session.SendMessage(allAchievements);
 
@@ -134,7 +140,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Games the center join queue.
+        ///     Games the center join queue.
         /// </summary>
         internal void GameCenterJoinQueue()
         {

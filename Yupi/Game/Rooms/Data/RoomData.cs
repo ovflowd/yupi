@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 using Yupi.Data;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Browser.Models;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Groups.Structs;
@@ -279,31 +279,32 @@ namespace Yupi.Game.Rooms.Data
         {
             try
             {
-                Id = (uint)row["id"];
+                Id = (uint) row["id"];
                 Name = (string) row["caption"];
                 PassWord = (string) row["password"];
                 Description = (string) row["description"];
                 Type = (string) row["roomtype"];
                 Owner = string.Empty;
-                OwnerId = (uint)row["owner"];
+                OwnerId = (uint) row["owner"];
                 RoomChat = new ConcurrentStack<Chatlog>();
                 WordFilter = new List<string>();
 
-                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    queryReactor.SetQuery("SELECT username FROM users WHERE id = @userId");
-                    queryReactor.AddParameter("userId", OwnerId);
+                    commitableQueryReactor.SetQuery("SELECT username FROM users WHERE id = @userId");
+                    commitableQueryReactor.AddParameter("userId", OwnerId);
 
-                    Owner = queryReactor.GetString();
+                    Owner = commitableQueryReactor.GetString();
 
-                    queryReactor.SetQuery($"SELECT user_id, message, timestamp FROM users_chatlogs WHERE room_id = '{Id}' ORDER BY timestamp ASC LIMIT 150");
-                    DataTable table = queryReactor.GetTable();
+                    commitableQueryReactor.SetQuery($"SELECT user_id, message, timestamp FROM users_chatlogs WHERE room_id = '{Id}' ORDER BY timestamp ASC LIMIT 150");
+                    DataTable table = commitableQueryReactor.GetTable();
 
                     foreach (DataRow dataRow in table.Rows)
-                        RoomChat.Push(new Chatlog((uint) dataRow[0], (string) dataRow[1], Yupi.UnixToDateTime(int.Parse(dataRow[2].ToString())), false));
+                        RoomChat.Push(new Chatlog((uint) dataRow[0], (string) dataRow[1],
+                            Yupi.UnixToDateTime(int.Parse(dataRow[2].ToString())), false));
 
-                    queryReactor.SetQuery($"SELECT word FROM rooms_wordfilter WHERE room_id = '{Id}'");
-                    DataTable tableFilter = queryReactor.GetTable();
+                    commitableQueryReactor.SetQuery($"SELECT word FROM rooms_wordfilter WHERE room_id = '{Id}'");
+                    DataTable tableFilter = commitableQueryReactor.GetTable();
 
                     foreach (DataRow dataRow in tableFilter.Rows)
                         WordFilter.Add(dataRow["word"].ToString());
@@ -372,8 +373,7 @@ namespace Yupi.Game.Rooms.Data
             }
             catch (Exception ex)
             {
-                ServerLogManager.LogException("Exception on RoomData Loading (Fill Void): " + ex);
-                ServerLogManager.HandleException(ex, "Yupi.HabboHotel.Rooms.RoomData");
+                ServerLogManager.LogException(ex, "Yupi.Game.Rooms.RoomData.Fill");
             }
         }
 

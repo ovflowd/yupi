@@ -65,7 +65,10 @@ namespace Yupi.Game.Items.Wired.Handlers.Conditions
             if (roomUser == null)
                 return false;
 
-            foreach (RoomItem current in Items.Where(current => current != null && Room.GetRoomItemHandler().FloorItems.ContainsKey(current.Id)))
+            foreach (
+                RoomItem current in
+                    Items.Where(
+                        current => current != null && Room.GetRoomItemHandler().FloorItems.ContainsKey(current.Id)))
             {
                 if (current.AffectedTiles.Values.Any(current2 => roomUser.X == current2.X && roomUser.Y == current2.Y))
                     return false;

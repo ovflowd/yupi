@@ -55,12 +55,12 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
             if (stuff[0] == null)
                 return false;
 
-            RoomUser user = (RoomUser)stuff[0];
+            RoomUser user = (RoomUser) stuff[0];
 
             if (stuff[1] == null)
                 return false;
 
-            Interaction item = (Interaction)stuff[1];
+            Interaction item = (Interaction) stuff[1];
 
             if (_mBanned.Contains(item))
                 return false;
@@ -97,7 +97,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
 
                 int random = Yupi.GetRandomNumber(0, 100);
 
-                ServerMessage message =new ServerMessage(LibraryParser.OutgoingRequest("WiredRewardAlertMessageComposer"));
+                ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("WiredRewardAlertMessageComposer"));
 
                 if (!unique && percentage < random)
                     continue;
@@ -130,11 +130,19 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
                         continue;
 
                     if (roomItem.Type == 'e') // is effect
-                        user.GetClient().GetHabbo().GetAvatarEffectsInventoryComponent().AddNewEffect(roomItem.SpriteId, 3600, 1);
+                        user.GetClient()
+                            .GetHabbo()
+                            .GetAvatarEffectsInventoryComponent()
+                            .AddNewEffect(roomItem.SpriteId, 3600, 1);
                     else
                     {
-                        user.GetClient().GetHabbo().GetInventoryComponent().AddNewItem(0u, roomItem.Name, "0", 0u, true, false, 0, 0);
-                        user.GetClient().SendMessage(new ServerMessage(LibraryParser.OutgoingRequest("UpdateInventoryMessageComposer")));
+                        user.GetClient()
+                            .GetHabbo()
+                            .GetInventoryComponent()
+                            .AddNewItem(0u, roomItem.Name, "0", 0u, true, false, 0, 0);
+                        user.GetClient()
+                            .SendMessage(
+                                new ServerMessage(LibraryParser.OutgoingRequest("UpdateInventoryMessageComposer")));
                     }
 
                     message.AppendInteger(6);

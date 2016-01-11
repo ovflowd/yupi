@@ -3,7 +3,7 @@ using Yupi.Messages.Parsers;
 
 namespace Yupi.Game.Pets.Composers
 {
-    class RespectPetNotificationComposer
+    internal class RespectPetNotificationComposer
     {
         internal static void GenerateMessage(Pet pet)
         {

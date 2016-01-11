@@ -11,12 +11,12 @@ using Yupi.Messages.Parsers;
 namespace Yupi.Messages.Handlers
 {
     /// <summary>
-    /// Class GameClientMessageHandler.
+    ///     Class GameClientMessageHandler.
     /// </summary>
     internal partial class GameClientMessageHandler
     {
         /// <summary>
-        /// Catalogues the index.
+        ///     Catalogues the index.
         /// </summary>
         public void CatalogueIndex()
         {
@@ -30,7 +30,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Catalogues the page.
+        ///     Catalogues the page.
         /// </summary>
         public void CataloguePage()
         {
@@ -47,7 +47,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Catalogues the club page.
+        ///     Catalogues the club page.
         /// </summary>
         public void CatalogueClubPage()
         {
@@ -57,7 +57,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Reloads the ecotron.
+        ///     Reloads the ecotron.
         /// </summary>
         public void ReloadEcotron()
         {
@@ -68,7 +68,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Gifts the wrapping configuration.
+        ///     Gifts the wrapping configuration.
         /// </summary>
         public void GiftWrappingConfig()
         {
@@ -99,7 +99,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Gets the recycler rewards.
+        ///     Gets the recycler rewards.
         /// </summary>
         public void GetRecyclerRewards()
         {
@@ -114,7 +114,8 @@ namespace Yupi.Messages.Handlers
                 Response.AppendInteger(current);
                 Response.AppendInteger(current);
 
-                List<EcotronReward> ecotronRewardsForLevel = Yupi.GetGame().GetCatalog().GetEcotronRewardsForLevel(uint.Parse(current.ToString()));
+                List<EcotronReward> ecotronRewardsForLevel =
+                    Yupi.GetGame().GetCatalog().GetEcotronRewardsForLevel(uint.Parse(current.ToString()));
 
                 Response.AppendInteger(ecotronRewardsForLevel.Count);
 
@@ -131,7 +132,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Purchases the item.
+        ///     Purchases the item.
         /// </summary>
         public void PurchaseItem()
         {
@@ -150,11 +151,14 @@ namespace Yupi.Messages.Handlers
             string extraData = Request.GetString();
             uint priceAmount = Request.GetUInteger();
 
-            Yupi.GetGame().GetCatalog().HandlePurchase(Session, pageId, itemId, extraData, priceAmount, false, string.Empty, string.Empty, 0, 0, 0, false, 0u);
+            Yupi.GetGame()
+                .GetCatalog()
+                .HandlePurchase(Session, pageId, itemId, extraData, priceAmount, false, string.Empty, string.Empty, 0, 0,
+                    0, false, 0u);
         }
 
         /// <summary>
-        /// Purchases the gift.
+        ///     Purchases the gift.
         /// </summary>
         public void PurchaseGift()
         {
@@ -168,11 +172,14 @@ namespace Yupi.Messages.Handlers
             int giftColor = Request.GetInteger();
             bool undef = Request.GetBool();
 
-            Yupi.GetGame().GetCatalog().HandlePurchase(Session, pageId, itemId, extraData, 1, true, giftUser, giftMessage, giftSpriteId, giftLazo, giftColor, undef, 0u);
+            Yupi.GetGame()
+                .GetCatalog()
+                .HandlePurchase(Session, pageId, itemId, extraData, 1, true, giftUser, giftMessage, giftSpriteId,
+                    giftLazo, giftColor, undef, 0u);
         }
 
         /// <summary>
-        /// Checks the name of the pet.
+        ///     Checks the name of the pet.
         /// </summary>
         public void CheckPetName()
         {
@@ -193,7 +200,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Catalogues the offer.
+        ///     Catalogues the offer.
         /// </summary>
         public void CatalogueOffer()
         {
@@ -213,7 +220,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Catalogues the offer configuration.
+        ///     Catalogues the offer configuration.
         /// </summary>
         public void CatalogueOfferConfig()
         {
@@ -229,7 +236,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Serializes the group furni page.
+        ///     Serializes the group furni page.
         /// </summary>
         internal void SerializeGroupFurniPage()
         {
@@ -239,7 +246,10 @@ namespace Yupi.Messages.Handlers
 
             List<ServerMessage> responseList = new List<ServerMessage>();
 
-            foreach (Group habboGroup in userGroups.Where(current => current != null).Select(current => Yupi.GetGame().GetGroupManager().GetGroup(current.GroupId)))
+            foreach (
+                Group habboGroup in
+                    userGroups.Where(current => current != null)
+                        .Select(current => Yupi.GetGame().GetGroupManager().GetGroup(current.GroupId)))
             {
                 if (habboGroup == null)
                     continue;
@@ -250,13 +260,13 @@ namespace Yupi.Messages.Handlers
                 subResponse.AppendString(habboGroup.Badge);
                 subResponse.AppendString(Yupi.GetGame().GetGroupManager().SymbolColours.Contains(habboGroup.Colour1)
                     ? ((GroupSymbolColours)
-                    Yupi.GetGame().GetGroupManager().SymbolColours[habboGroup.Colour1]).Colour
+                        Yupi.GetGame().GetGroupManager().SymbolColours[habboGroup.Colour1]).Colour
                     : "4f8a00");
                 subResponse.AppendString(
                     Yupi.GetGame().GetGroupManager().BackGroundColours.Contains(habboGroup.Colour2)
-                    ? ((GroupBackGroundColours)
-                    Yupi.GetGame().GetGroupManager().BackGroundColours[habboGroup.Colour2]).Colour
-                    : "4f8a00");
+                        ? ((GroupBackGroundColours)
+                            Yupi.GetGame().GetGroupManager().BackGroundColours[habboGroup.Colour2]).Colour
+                        : "4f8a00");
                 subResponse.AppendBool(habboGroup.CreatorId == Session.GetHabbo().Id);
                 subResponse.AppendInteger(habboGroup.CreatorId);
                 subResponse.AppendBool(habboGroup.Forum.Id != 0);

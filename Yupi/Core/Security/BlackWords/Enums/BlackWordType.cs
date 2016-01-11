@@ -25,22 +25,22 @@
 namespace Yupi.Core.Security.BlackWords.Enums
 {
     /// <summary>
-    /// Enum BlackWordType
+    ///     Enum BlackWordType
     /// </summary>
     internal enum BlackWordType
     {
         /// <summary>
-        /// The hotel
+        ///     The hotel
         /// </summary>
         Hotel,
 
         /// <summary>
-        /// The insult
+        ///     The insult
         /// </summary>
         Insult,
 
         /// <summary>
-        /// All
+        ///     All
         /// </summary>
         All
     }

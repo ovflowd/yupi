@@ -73,7 +73,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                     return;
 
                 case "4":
-                    ((Timer)sender).Stop();
+                    ((Timer) sender).Stop();
                     _mItem.ExtraData = "5";
                     _mItem.UpdateState();
                     return;

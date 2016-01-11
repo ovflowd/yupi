@@ -34,26 +34,26 @@ using Yupi.Data.Structs;
 namespace Yupi.Data
 {
     /// <summary>
-    /// Class FurnitureDataManager.
+    ///     Class FurnitureDataManager.
     /// </summary>
     internal static class FurnitureDataManager
     {
         /// <summary>
-        /// The floor items
+        ///     The floor items
         /// </summary>
         public static Dictionary<string, FurnitureData> FloorItems;
 
         /// <summary>
-        /// The wall items
+        ///     The wall items
         /// </summary>
         public static Dictionary<string, FurnitureData> WallItems;
 
         /// <summary>
-        /// Sets the cache.
+        ///     Sets the cache.
         /// </summary>
-        public static void SetCache()
+        public static void SetCache(bool forceReload = false)
         {
-            XmlDocument xmlParser = new XmlDocument();       
+            XmlDocument xmlParser = new XmlDocument();
             WebClient wC = new WebClient();
 
             try
@@ -63,10 +63,11 @@ namespace Yupi.Data
 
                 Directory.CreateDirectory(cacheDirectory);
 
-                if (File.Exists($"{cacheDirectory}\\FurniDataCache.xml"))
+                if (File.Exists($"{cacheDirectory}\\FurniDataCache.xml") && !forceReload)
                     xmlFileContent = File.ReadAllText($"{cacheDirectory}\\FurniDataCache.xml");
                 else
-                    File.WriteAllText($"{cacheDirectory}\\FurniDataCache.xml", xmlFileContent = wC.DownloadString(ServerExtraSettings.FurnitureDataUrl));
+                    File.WriteAllText($"{cacheDirectory}\\FurniDataCache.xml",
+                        xmlFileContent = wC.DownloadString(ServerExtraSettings.FurnitureDataUrl));
 
                 xmlParser.LoadXml(xmlFileContent);
 
@@ -81,7 +82,8 @@ namespace Yupi.Data
                         try
                         {
                             FloorItems.Add(node?.Attributes?["classname"]?.Value,
-                                new FurnitureData(int.Parse(node.Attributes["id"].Value), node.SelectSingleNode("name").InnerText,
+                                new FurnitureData(int.Parse(node.Attributes["id"].Value),
+                                    node.SelectSingleNode("name").InnerText,
                                     ushort.Parse(node.SelectSingleNode("xdim").InnerText),
                                     ushort.Parse(node.SelectSingleNode("ydim").InnerText),
                                     node.SelectSingleNode("cansiton").InnerText == "1",
@@ -90,7 +92,8 @@ namespace Yupi.Data
                         catch (Exception e)
                         {
                             if (!string.IsNullOrEmpty(node?.Attributes?["classname"]?.Value))
-                                Console.WriteLine("Errror parsing furnidata by {0} with exception: {1}", node.Attributes["classname"].Value, e.StackTrace);
+                                Console.WriteLine("Errror parsing furnidata by {0} with exception: {1}",
+                                    node.Attributes["classname"].Value, e.StackTrace);
                         }
                     }
                 }
@@ -98,26 +101,34 @@ namespace Yupi.Data
                 WallItems = new Dictionary<string, FurnitureData>();
 
                 foreach (XmlNode node in xmlParser.DocumentElement.SelectNodes("/furnidata/wallitemtypes/furnitype"))
-                    WallItems.Add(node.Attributes["classname"].Value, new FurnitureData(int.Parse(node.Attributes["id"].Value), node.SelectSingleNode("name").InnerText));
+                    WallItems.Add(node.Attributes["classname"].Value,
+                        new FurnitureData(int.Parse(node.Attributes["id"].Value),
+                            node.SelectSingleNode("name").InnerText));
             }
             catch (WebException e)
             {
-                Writer.WriteLine($"Impossible to reach remote host to download FurniData content. Details: \n {Environment.NewLine + e}", "Yupi.Data", ConsoleColor.Red);
+                Writer.WriteLine(
+                    $"Impossible to reach remote host to download FurniData content. Details: \n {Environment.NewLine + e}",
+                    "Yupi.Data", ConsoleColor.Red);
                 Writer.WriteLine("Type a key to close");
                 Console.ReadKey();
                 Environment.Exit(e.HResult);
             }
             catch (XmlException e)
             {
-                Writer.WriteLine($"The XML content of the FurniData is in an invalid XML format, Details: \n {Environment.NewLine + e}", "Yupi.Data",
-                   ConsoleColor.Red);
+                Writer.WriteLine(
+                    $"The XML content of the FurniData is in an invalid XML format, Details: \n {Environment.NewLine + e}",
+                    "Yupi.Data",
+                    ConsoleColor.Red);
                 Writer.WriteLine("Type a key to close");
                 Console.ReadKey();
                 Environment.Exit(e.HResult);
             }
             catch (NullReferenceException e)
             {
-                Writer.WriteLine($"The content of the FurniData file is empty, impossible to parse, Detials: \n {Environment.NewLine + e}", "Yupi.XML", ConsoleColor.Red);
+                Writer.WriteLine(
+                    $"The content of the FurniData file is empty, impossible to parse, Detials: \n {Environment.NewLine + e}",
+                    "Yupi.XML", ConsoleColor.Red);
                 Writer.WriteLine("Type a key to close");
                 Console.ReadKey();
                 Environment.Exit(e.HResult);
@@ -127,7 +138,7 @@ namespace Yupi.Data
         }
 
         /// <summary>
-        /// Clears this instance.
+        ///     Clears this instance.
         /// </summary>
         public static void Clear()
         {

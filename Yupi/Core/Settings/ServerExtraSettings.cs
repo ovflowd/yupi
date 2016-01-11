@@ -29,148 +29,155 @@ using System.Text;
 namespace Yupi.Core.Settings
 {
     /// <summary>
-    /// Class ServerExtraSettings.
+    ///     Class ServerExtraSettings.
     /// </summary>
     internal class ServerExtraSettings
     {
         /// <summary>
-        /// The currency loop enabled
+        ///     The currency loop enabled
         /// </summary>
         internal static bool CurrencyLoopEnabled = true;
 
         /// <summary>
-        /// The Currently loop time in minutes
+        ///     The Currently loop time in minutes
         /// </summary>
         internal static int CurrentlyLoopTimeInMinutes = 15;
 
         /// <summary>
-        /// The credits to give
+        ///     The credits to give
         /// </summary>
         internal static int CreditsToGive = 3000;
 
         /// <summary>
-        /// The pixels to give
+        ///     The pixels to give
         /// </summary>
         internal static int PixelsToGive = 100;
 
         /// <summary>
-        /// The youtube thumbnail suburl
+        ///     The youtube thumbnail suburl
         /// </summary>
         internal static string YoutubeThumbnailSuburl = "youtubethumbnail.php?Video";
 
         /// <summary>
-        /// The diamonds loop enabled
+        ///     The diamonds loop enabled
         /// </summary>
         internal static bool DiamondsLoopEnabled = true;
 
         /// <summary>
-        /// The diamonds vip only
+        ///     The diamonds vip only
         /// </summary>
         internal static bool DiamondsVipOnly = true;
 
         /// <summary>
-        /// The diamonds to give
+        ///     The diamonds to give
         /// </summary>
         internal static int DiamondsToGive = 1;
 
         /// <summary>
-        /// The change name staff
+        ///     The change name staff
         /// </summary>
         internal static bool ChangeNameStaff = true;
 
         /// <summary>
-        /// The change name vip
+        ///     The change name vip
         /// </summary>
         internal static bool ChangeNameVip = true;
 
         /// <summary>
-        /// The change name everyone
+        ///     The change name everyone
         /// </summary>
         internal static bool ChangeNameEveryone = true;
 
         /// <summary>
-        /// The ne w_users_gifts_ enabled
+        ///     The ne w_users_gifts_ enabled
         /// </summary>
         internal static bool NewUsersGiftsEnabled = true;
 
         /// <summary>
-        /// The ServerCamera from Stories
+        ///     The ServerCamera from Stories
         /// </summary>
         internal static string StoriesApiServerUrl = "";
 
         /// <summary>
-        /// The ServerCamera from Stories
+        ///     The ServerCamera from Stories
         /// </summary>
         internal static string StoriesApiThumbnailServerUrl = "";
 
         /// <summary>
-        /// The ServerCamera from Stories
+        ///     The ServerCamera from Stories
         /// </summary>
         internal static string StoriesApiHost = "";
 
         /// <summary>
-        /// The enable beta camera
+        ///     The enable beta camera
         /// </summary>
         internal static bool EnableBetaCamera = true;
 
         /// <summary>
-        /// The new user gift yttv2 identifier
+        ///     The new user gift yttv2 identifier
         /// </summary>
         internal static uint NewUserGiftYttv2Id = 4930;
 
         /// <summary>
-        /// The everyone use floor
+        ///     The everyone use floor
         /// </summary>
         internal static bool EveryoneUseFloor = true;
 
         /// <summary>
-        /// The new page commands
+        ///     The new page commands
         /// </summary>
         internal static bool NewPageCommands;
 
         /// <summary>
-        /// The figure data URL
+        ///     The figure data URL
         /// </summary>
         internal static string FigureDataUrl = "http://localhost/gamedata/figuredata/1.xml";
 
         /// <summary>
-        /// The furniture data URL
+        ///     The furniture data URL
         /// </summary>
         internal static string FurnitureDataUrl;
 
         /// <summary>
-        /// The admin can use HTML
+        ///     The admin can use HTML
         /// </summary>
         internal static bool AdminCanUseHtml = true;
 
         /// <summary>
-        /// The encryption client side
+        ///     The encryption client side
         /// </summary>
         internal static bool EncryptionClientSide;
 
         /// <summary>
-        /// The welcome message
+        ///     The welcome message
         /// </summary>
         internal static string WelcomeMessage = "";
 
         /// <summary>
-        /// The game center stories URL
+        ///     The game center stories URL
         /// </summary>
         internal static string GameCenterStoriesUrl;
 
         /// <summary>
-        /// Runs the extra settings.
+        ///     Runs the extra settings.
         /// </summary>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         internal static bool RunExtraSettings()
         {
             if (File.Exists(Path.Combine(Yupi.YupiVariablesDirectory, "Settings/Welcome/message.txt")))
-                WelcomeMessage = File.ReadAllText(Path.Combine(Yupi.YupiVariablesDirectory, "Settings/Welcome/message.txt"));
+                WelcomeMessage =
+                    File.ReadAllText(Path.Combine(Yupi.YupiVariablesDirectory, "Settings/Welcome/message.txt"));
 
             if (!File.Exists(Path.Combine(Yupi.YupiVariablesDirectory, "Settings/other.ini")))
                 return false;
 
-            foreach (string[] settingsParameters in from line in File.ReadAllLines(Path.Combine(Yupi.YupiVariablesDirectory, "Settings/other.ini"), Encoding.Default) where !string.IsNullOrWhiteSpace(line) && line.Contains("=") select line.Split('='))
+            foreach (
+                string[] settingsParameters in
+                    from line in
+                        File.ReadAllLines(Path.Combine(Yupi.YupiVariablesDirectory, "Settings/other.ini"),
+                            Encoding.Default)
+                    where !string.IsNullOrWhiteSpace(line) && line.Contains("=")
+                    select line.Split('='))
             {
                 switch (settingsParameters[0])
                 {

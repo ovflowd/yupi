@@ -40,7 +40,8 @@ namespace Yupi.Game.Commands.Controllers
             client.GetHabbo().ActivityPoints += amount;
             client.GetHabbo().UpdateActivityPointsBalance();
 
-            client.SendNotif(string.Format(Yupi.GetLanguage().GetVar("staff_gives_duckets"), session.GetHabbo().UserName, amount));
+            client.SendNotif(string.Format(Yupi.GetLanguage().GetVar("staff_gives_duckets"), session.GetHabbo().UserName,
+                amount));
 
             return true;
         }

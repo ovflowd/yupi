@@ -52,6 +52,11 @@ namespace Yupi.Game.RoomBots
         internal uint BotId;
 
         /// <summary>
+        ///     The bot type
+        /// </summary>
+        internal string BotType;
+
+        /// <summary>
         ///     The dance identifier
         /// </summary>
         internal uint DanceId;
@@ -167,11 +172,6 @@ namespace Yupi.Game.RoomBots
         internal double Z;
 
         /// <summary>
-        /// The bot type
-        /// </summary>
-        internal string BotType;
-
-        /// <summary>
         ///     Initializes a new instance of the <see cref="RoomBot" /> class.
         /// </summary>
         /// <param name="botId">The bot identifier.</param>
@@ -209,7 +209,9 @@ namespace Yupi.Game.RoomBots
         /// <param name="gender">The gender.</param>
         /// <param name="dance">The dance.</param>
         /// <param name="botType"></param>
-        internal RoomBot(uint botId, uint ownerId, uint roomId, AiType aiType, string walkingMode, string name, string motto, string look, int x, int y, double z, int rot, List<string> speeches, List<string> responses, string gender, uint dance, string botType)
+        internal RoomBot(uint botId, uint ownerId, uint roomId, AiType aiType, string walkingMode, string name,
+            string motto, string look, int x, int y, double z, int rot, List<string> speeches, List<string> responses,
+            string gender, uint dance, string botType)
         {
             OwnerId = ownerId;
             BotId = botId;
@@ -263,7 +265,9 @@ namespace Yupi.Game.RoomBots
         /// <param name="speechInterval">The speech interval.</param>
         /// <param name="automaticChat">if set to <c>true</c> [automatic chat].</param>
         /// <param name="mixPhrases">if set to <c>true</c> [mix phrases].</param>
-        internal void Update(uint roomId, string walkingMode, string name, string motto, string look, int x, int y, double z, int rot, int minX, int minY, int maxX, int maxY, List<string> speeches, List<string> responses, string gender, uint dance, uint speechInterval, bool automaticChat, bool mixPhrases)
+        internal void Update(uint roomId, string walkingMode, string name, string motto, string look, int x, int y,
+            double z, int rot, int minX, int minY, int maxX, int maxY, List<string> speeches, List<string> responses,
+            string gender, uint dance, uint speechInterval, bool automaticChat, bool mixPhrases)
         {
             RoomId = roomId;
             WalkingMode = walkingMode;

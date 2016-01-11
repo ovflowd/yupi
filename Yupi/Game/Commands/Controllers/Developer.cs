@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using Yupi.Core.Io;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Commands.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Items.Interfaces;
@@ -36,36 +36,36 @@ namespace Yupi.Game.Commands.Controllers
             switch (mode.ToLower())
             {
                 case "info":
-                    {
-                        if (pms.Length == 0) session.SendWhisper("Usage :developer info [items/user/users/cache]");
-                        else return GetInfo(session, pms);
+                {
+                    if (pms.Length == 0) session.SendWhisper("Usage :developer info [items/user/users/cache]");
+                    else return GetInfo(session, pms);
 
-                        break;
-                    }
+                    break;
+                }
                 case "set":
-                    {
-                        if (pms.Length < 2) session.SendWhisper("Usage :developer set [item/baseItem] id");
-                        else return Set(session, pms);
+                {
+                    if (pms.Length < 2) session.SendWhisper("Usage :developer set [item/baseItem] id");
+                    else return Set(session, pms);
 
-                        break;
-                    }
+                    break;
+                }
                 case "copy":
-                    {
-                        return Copy(session);
-                    }
+                {
+                    return Copy(session);
+                }
                 case "paste":
-                    {
-                        return Paste(session);
-                    }
+                {
+                    return Paste(session);
+                }
                 case "delete":
-                    {
-                        return Delete(session);
-                    }
+                {
+                    return Delete(session);
+                }
                 default:
-                    {
-                        session.SendWhisper("Usage :developer [info/set/copy/paste/delete]");
-                        break;
-                    }
+                {
+                    session.SendWhisper("Usage :developer [info/set/copy/paste/delete]");
+                    break;
+                }
             }
 
             return true;
@@ -78,14 +78,14 @@ namespace Yupi.Game.Commands.Controllers
             RoomUser user = room.GetRoomUserManager()
                 .GetRoomUserByHabbo(session.GetHabbo().UserName);
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 foreach (
                     RoomItem item in
                         room.GetGameMap()
                             .GetAllRoomItemForSquare(user.LastSelectedX, user.LastSelectedY))
                 {
-                    queryReactor.RunFastQuery("DELETE FROM items_rooms WHERE id = " + item.Id);
+                    commitableQueryReactor.RunFastQuery("DELETE FROM items_rooms WHERE id = " + item.Id);
 
                     room.GetRoomItemHandler().RemoveRoomItem(item, false);
                     item.Destroy();
@@ -107,22 +107,22 @@ namespace Yupi.Game.Commands.Controllers
                 session.SendWhisper("First usage :developer copy");
                 return true;
             }
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 foreach (
                     RoomItem item in
                         room.GetGameMap()
                             .GetAllRoomItemForSquare(user.CopyX, user.CopyY))
                 {
-                    queryReactor.SetQuery(
+                    commitableQueryReactor.SetQuery(
                         "INSERT INTO items_rooms (item_name, user_id, room_id, extra_data, x, y, z, rot, group_id) VALUES (" +
                         item.GetBaseItem().Name + ", " + user.UserId + ", " + user.RoomId + ", @extraData, " +
                         user.LastSelectedX + ", " + user.LastSelectedY + ", @height, " + item.Rot + ", " + item.GroupId +
                         ")");
-                    queryReactor.AddParameter("extraData", item.ExtraData);
-                    queryReactor.AddParameter("height", ServerUserChatTextHandler.GetString(item.Z));
+                    commitableQueryReactor.AddParameter("extraData", item.ExtraData);
+                    commitableQueryReactor.AddParameter("height", ServerUserChatTextHandler.GetString(item.Z));
 
-                    uint insertId = (uint)queryReactor.InsertQuery();
+                    uint insertId = (uint) commitableQueryReactor.InsertQuery();
 
                     RoomItem roomItem = new RoomItem(insertId, user.RoomId, item.GetBaseItem().Name, item.ExtraData,
                         user.LastSelectedX, user.LastSelectedY, item.Z, item.Rot, session.GetHabbo().CurrentRoom,
@@ -156,122 +156,122 @@ namespace Yupi.Game.Commands.Controllers
             switch (type.ToLower())
             {
                 case "item":
+                {
+                    if (pms.Count == 2)
                     {
-                        if (pms.Count == 2)
-                        {
-                            session.SendWhisper("Usage :developer set item id [x/y/z] value");
-                            break;
-                        }
-
-                        RoomItem item = session.GetHabbo().CurrentRoom.GetRoomItemHandler().GetItem(id);
-                        if (item == null)
-                        {
-                            session.SendWhisper("Item no encontrado");
-                            return false;
-                        }
-
-                        int x = item.X, y = item.Y;
-                        double z = item.Z;
-
-                        int i = 2;
-                        while (pms.Count >= i + 2)
-                        {
-                            switch (pms[i].ToLower())
-                            {
-                                case "x":
-                                    {
-                                        x = int.Parse(pms[i + 1]);
-                                        break;
-                                    }
-                                case "y":
-                                    {
-                                        y = int.Parse(pms[i + 1]);
-                                        break;
-                                    }
-                                case "z":
-                                    {
-                                        z = double.Parse(pms[i + 1]);
-                                        break;
-                                    }
-                                case "rot":
-                                    {
-                                        item.Rot = int.Parse(pms[i + 1]);
-                                        break;
-                                    }
-                            }
-                            i += 2;
-                        }
-
-                        if (item.IsWallItem) session.GetHabbo().CurrentRoom.GetRoomItemHandler().SetWallItem(session, item);
-                        else
-                            session.GetHabbo().CurrentRoom.GetRoomItemHandler().SetFloorItem(item, x, y, z, item.Rot, true);
+                        session.SendWhisper("Usage :developer set item id [x/y/z] value");
                         break;
                     }
+
+                    RoomItem item = session.GetHabbo().CurrentRoom.GetRoomItemHandler().GetItem(id);
+                    if (item == null)
+                    {
+                        session.SendWhisper("Item no encontrado");
+                        return false;
+                    }
+
+                    int x = item.X, y = item.Y;
+                    double z = item.Z;
+
+                    int i = 2;
+                    while (pms.Count >= i + 2)
+                    {
+                        switch (pms[i].ToLower())
+                        {
+                            case "x":
+                            {
+                                x = int.Parse(pms[i + 1]);
+                                break;
+                            }
+                            case "y":
+                            {
+                                y = int.Parse(pms[i + 1]);
+                                break;
+                            }
+                            case "z":
+                            {
+                                z = double.Parse(pms[i + 1]);
+                                break;
+                            }
+                            case "rot":
+                            {
+                                item.Rot = int.Parse(pms[i + 1]);
+                                break;
+                            }
+                        }
+                        i += 2;
+                    }
+
+                    if (item.IsWallItem) session.GetHabbo().CurrentRoom.GetRoomItemHandler().SetWallItem(session, item);
+                    else
+                        session.GetHabbo().CurrentRoom.GetRoomItemHandler().SetFloorItem(item, x, y, z, item.Rot, true);
+                    break;
+                }
 
                 case "baseitem":
+                {
+                    if (pms.Count == 2)
                     {
-                        if (pms.Count == 2)
-                        {
-                            session.SendWhisper("Usage :developer set baseItem baseId [stack,trade,modes,height] value");
-                            break;
-                        }
-
-                        Item item = Yupi.GetGame().GetItemManager().GetItem(id);
-                        if (item == null)
-                        {
-                            session.SendWhisper("Item no encontrado");
-                            return false;
-                        }
-
-                        int i = 2;
-                        while (pms.Count >= i + 2)
-                        {
-                            switch (pms[i].ToLower())
-                            {
-                                case "stack":
-                                    {
-                                        item.Stackable = pms[i + 1] == "1" || pms[i + 1] == "true";
-                                        break;
-                                    }
-                                case "trade":
-                                    {
-                                        item.AllowTrade = pms[i + 1] == "1" || pms[i + 1] == "true";
-                                        break;
-                                    }
-                                case "modes":
-                                    {
-                                        item.Modes = uint.Parse(pms[i + 1]);
-                                        break;
-                                    }
-                                case "height":
-                                    {
-                                        string stackHeightStr = pms[i + 1].Replace(',', '.');
-                                        if (stackHeightStr.Contains(';'))
-                                        {
-                                            string[] heightsStr = stackHeightStr.Split(';');
-                                            item.ToggleHeight =
-                                                heightsStr.Select(
-                                                    heightStr => double.Parse(heightStr, CultureInfo.InvariantCulture))
-                                                    .ToArray();
-                                            item.Height = item.ToggleHeight[0];
-                                            item.StackMultipler = true;
-                                        }
-                                        else
-                                        {
-                                            item.Height = double.Parse(stackHeightStr, CultureInfo.InvariantCulture);
-                                            item.StackMultipler = false;
-                                        }
-
-                                        break;
-                                    }
-                            }
-                            i += 2;
-                        }
-
-                        Item.Save(item.ItemId, item.Stackable, item.AllowTrade,
-                            item.StackMultipler ? item.ToggleHeight : new[] { item.Height }, item.Modes);
+                        session.SendWhisper("Usage :developer set baseItem baseId [stack,trade,modes,height] value");
                         break;
                     }
+
+                    Item item = Yupi.GetGame().GetItemManager().GetItem(id);
+                    if (item == null)
+                    {
+                        session.SendWhisper("Item no encontrado");
+                        return false;
+                    }
+
+                    int i = 2;
+                    while (pms.Count >= i + 2)
+                    {
+                        switch (pms[i].ToLower())
+                        {
+                            case "stack":
+                            {
+                                item.Stackable = pms[i + 1] == "1" || pms[i + 1] == "true";
+                                break;
+                            }
+                            case "trade":
+                            {
+                                item.AllowTrade = pms[i + 1] == "1" || pms[i + 1] == "true";
+                                break;
+                            }
+                            case "modes":
+                            {
+                                item.Modes = uint.Parse(pms[i + 1]);
+                                break;
+                            }
+                            case "height":
+                            {
+                                string stackHeightStr = pms[i + 1].Replace(',', '.');
+                                if (stackHeightStr.Contains(';'))
+                                {
+                                    string[] heightsStr = stackHeightStr.Split(';');
+                                    item.ToggleHeight =
+                                        heightsStr.Select(
+                                            heightStr => double.Parse(heightStr, CultureInfo.InvariantCulture))
+                                            .ToArray();
+                                    item.Height = item.ToggleHeight[0];
+                                    item.StackMultipler = true;
+                                }
+                                else
+                                {
+                                    item.Height = double.Parse(stackHeightStr, CultureInfo.InvariantCulture);
+                                    item.StackMultipler = false;
+                                }
+
+                                break;
+                            }
+                        }
+                        i += 2;
+                    }
+
+                    Item.Save(item.ItemId, item.Stackable, item.AllowTrade,
+                        item.StackMultipler ? item.ToggleHeight : new[] {item.Height}, item.Modes);
+                    break;
+                }
             }
             return true;
         }
@@ -288,68 +288,68 @@ namespace Yupi.Game.Commands.Controllers
             switch (type)
             {
                 case "cache":
-                    {
-                        text.AppendLine("Displaying info of all cached data avaible");
-                        text.Append("Users: " + Yupi.UsersCached.Count + '\r');
-                        text.Append("Rooms: " + Yupi.GetGame().GetRoomManager().LoadedRooms.Count + '\r');
-                        text.Append("Rooms Data: " + Yupi.GetGame().GetRoomManager().LoadedRoomData.Count + '\r');
-                        text.Append("Groups: " + Yupi.GetGame().GetGroupManager().Groups.Count + '\r');
-                        text.Append("Items: " + Yupi.GetGame().GetItemManager().CountItems() + '\r');
-                        text.Append("Catalog Items: " + Yupi.GetGame().GetCatalog().Offers.Count + '\r');
+                {
+                    text.AppendLine("Displaying info of all cached data avaible");
+                    text.Append("Users: " + Yupi.UsersCached.Count + '\r');
+                    text.Append("Rooms: " + Yupi.GetGame().GetRoomManager().LoadedRooms.Count + '\r');
+                    text.Append("Rooms Data: " + Yupi.GetGame().GetRoomManager().LoadedRoomData.Count + '\r');
+                    text.Append("Groups: " + Yupi.GetGame().GetGroupManager().Groups.Count + '\r');
+                    text.Append("Items: " + Yupi.GetGame().GetItemManager().CountItems() + '\r');
+                    text.Append("Catalog Items: " + Yupi.GetGame().GetCatalog().Offers.Count + '\r');
 
-                        session.SendNotifWithScroll(text.ToString());
-                        break;
-                    }
+                    session.SendNotifWithScroll(text.ToString());
+                    break;
+                }
                 case "users":
-                    {
-                        text.AppendLine("Displaying info of all users of this room");
+                {
+                    text.AppendLine("Displaying info of all users of this room");
 
-                        foreach (RoomUser roomUser in session.GetHabbo().CurrentRoom.GetRoomUserManager().GetRoomUsers())
-                            AppendUserInfo(roomUser, text);
+                    foreach (RoomUser roomUser in session.GetHabbo().CurrentRoom.GetRoomUserManager().GetRoomUsers())
+                        AppendUserInfo(roomUser, text);
 
-                        session.SendNotifWithScroll(text.ToString());
-                        break;
-                    }
+                    session.SendNotifWithScroll(text.ToString());
+                    break;
+                }
                 case "user":
-                    {
-                        RoomUser roomUser =
-                            session.GetHabbo()
-                                .CurrentRoom.GetRoomUserManager()
-                                .GetRoomUserByHabbo(session.GetHabbo().LastSelectedUser);
-                        if (roomUser == null || roomUser.IsBot || roomUser.GetClient() == null)
-                            text.Append("User not found");
-                        else AppendUserInfo(roomUser, text);
+                {
+                    RoomUser roomUser =
+                        session.GetHabbo()
+                            .CurrentRoom.GetRoomUserManager()
+                            .GetRoomUserByHabbo(session.GetHabbo().LastSelectedUser);
+                    if (roomUser == null || roomUser.IsBot || roomUser.GetClient() == null)
+                        text.Append("User not found");
+                    else AppendUserInfo(roomUser, text);
 
-                        session.SendNotifWithScroll(text.ToString());
-                        break;
-                    }
+                    session.SendNotifWithScroll(text.ToString());
+                    break;
+                }
                 case "items":
+                {
+                    text.AppendLine(
+                        $"Displaying info of coordinates: (X/Y)  {user.LastSelectedX}/{user.LastSelectedY}");
+
+                    foreach (
+                        RoomItem item in
+                            session.GetHabbo()
+                                .CurrentRoom.GetGameMap()
+                                .GetAllRoomItemForSquare(user.LastSelectedX, user.LastSelectedY))
                     {
+                        text.Append($"## itemId: {item.Id}  itemBaseId: {item.GetBaseItem().ItemId} \r");
+                        text.Append(
+                            $"itemName: {item.GetBaseItem().Name}  itemSpriteId: {item.GetBaseItem().SpriteId} \r");
+                        text.Append($"itemInteraction: {item.GetBaseItem().InteractionType} \r");
+                        text.Append($"itemInteractionCount: {item.GetBaseItem().Modes} \r");
+                        text.Append($"itemPublicName: {item.GetBaseItem().PublicName} \r");
+                        text.Append($"X/Y/Z/Rot:  {item.X}/{item.Y}/{item.Z}/{item.Rot}  Height: {item.Height} \r");
+                        if (item.GetBaseItem().StackMultipler)
+                            text.Append("Heights: " + string.Join("  -  ", item.GetBaseItem().ToggleHeight) + '\r');
                         text.AppendLine(
-                            $"Displaying info of coordinates: (X/Y)  {user.LastSelectedX}/{user.LastSelectedY}");
-
-                        foreach (
-                            RoomItem item in
-                                session.GetHabbo()
-                                    .CurrentRoom.GetGameMap()
-                                    .GetAllRoomItemForSquare(user.LastSelectedX, user.LastSelectedY))
-                        {
-                            text.Append($"## itemId: {item.Id}  itemBaseId: {item.GetBaseItem().ItemId} \r");
-                            text.Append(
-                                $"itemName: {item.GetBaseItem().Name}  itemSpriteId: {item.GetBaseItem().SpriteId} \r");
-                            text.Append($"itemInteraction: {item.GetBaseItem().InteractionType} \r");
-                            text.Append($"itemInteractionCount: {item.GetBaseItem().Modes} \r");
-                            text.Append($"itemPublicName: {item.GetBaseItem().PublicName} \r");
-                            text.Append($"X/Y/Z/Rot:  {item.X}/{item.Y}/{item.Z}/{item.Rot}  Height: {item.Height} \r");
-                            if (item.GetBaseItem().StackMultipler)
-                                text.Append("Heights: " + string.Join("  -  ", item.GetBaseItem().ToggleHeight) + '\r');
-                            text.AppendLine(
-                                $"Can: {(item.GetBaseItem().Walkable ? "walk" : string.Empty)}  {(item.GetBaseItem().IsSeat ? "sit" : string.Empty)}  {(item.GetBaseItem().Stackable ? "stack" : string.Empty)}");
-                        }
-
-                        session.SendNotifWithScroll(text.ToString());
-                        break;
+                            $"Can: {(item.GetBaseItem().Walkable ? "walk" : string.Empty)}  {(item.GetBaseItem().IsSeat ? "sit" : string.Empty)}  {(item.GetBaseItem().Stackable ? "stack" : string.Empty)}");
                     }
+
+                    session.SendNotifWithScroll(text.ToString());
+                    break;
+                }
             }
 
             return true;

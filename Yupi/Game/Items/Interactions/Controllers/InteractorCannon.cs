@@ -89,7 +89,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
 
         private void ExplodeAndKick(object source, ElapsedEventArgs e)
         {
-            Timer timer = (Timer)source;
+            Timer timer = (Timer) source;
             timer.Stop();
 
             ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));

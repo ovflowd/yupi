@@ -22,28 +22,27 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-using System.Data;
+using Yupi.Data.Base.Adapters.Interfaces;
+using Yupi.Data.Base.Clients;
 
-namespace Yupi.Data.Base.Sessions.Interfaces
+namespace Yupi.Data.Base.Managers
 {
-    public interface IRegularQueryAdapter
+    public class DatabaseManager
     {
-        void AddParameter(string name, object query);
+        private readonly string _connectionStr;
 
-        bool FindsResult();
+        public DatabaseManager(string connectionStr)
+        {
+            _connectionStr = connectionStr;
+        }
 
-        int GetInteger();
+        public IQueryAdapter GetQueryReactor()
+        {
+            IDatabaseClient databaseClient = new DatabaseClient(_connectionStr);
 
-        uint GetUInteger();
+            databaseClient.Connect();
 
-        DataRow GetRow();
-
-        string GetString();
-
-        DataTable GetTable();
-
-        void RunFastQuery(string query);
-
-        void SetQuery(string query);
+            return databaseClient.GetQueryReactor();
+        }
     }
 }

@@ -70,7 +70,8 @@ namespace Yupi.Core.Encryption.Hurlant.Crypto.Rsa
 
         public BigInteger Coeff { get; private set; }
 
-        public static RsaKey ParsePrivateKey(string n, string e, string d, string p = null, string q = null, string dmp1 = null, string dmq1 = null, string coeff = null)
+        public static RsaKey ParsePrivateKey(string n, string e, string d, string p = null, string q = null,
+            string dmp1 = null, string dmq1 = null, string coeff = null)
         {
             if (p == null)
                 return new RsaKey(
@@ -184,7 +185,7 @@ namespace Yupi.Core.Encryption.Hurlant.Crypto.Rsa
                 bytes[--n] = x;
             }
 
-            bytes[--n] = (byte)type;
+            bytes[--n] = (byte) type;
             bytes[--n] = 0;
 
             return bytes;

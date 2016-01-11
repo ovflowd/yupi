@@ -40,6 +40,7 @@ namespace Yupi.Game.Commands.Controllers
 
             if (!_reEnter)
                 return true;
+
             Yupi.GetGame().GetRoomManager().LoadRoom(roomId);
 
             ServerMessage roomFwd = new ServerMessage(LibraryParser.OutgoingRequest("RoomForwardMessageComposer"));

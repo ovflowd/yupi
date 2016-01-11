@@ -37,7 +37,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Triggers
             {
                 while (ToWork.Count > 0)
                 {
-                    RoomUser roomUser = (RoomUser)ToWork.Dequeue();
+                    RoomUser roomUser = (RoomUser) ToWork.Dequeue();
 
                     List<IWiredItem> conditions = Room.GetWiredHandler().GetConditions(this);
                     List<IWiredItem> effects = Room.GetWiredHandler().GetEffects(this);
@@ -102,13 +102,17 @@ namespace Yupi.Game.Items.Wired.Handlers.Triggers
 
         public bool Execute(params object[] stuff)
         {
-            RoomUser roomUser = (RoomUser)stuff[0];
-            RoomItem roomItem = (RoomItem)stuff[1];
+            RoomUser roomUser = (RoomUser) stuff[0];
+            RoomItem roomItem = (RoomItem) stuff[1];
 
             if (!Items.Contains(roomItem) || roomUser.LastItem != roomItem.Id)
                 return false;
 
-            if (roomItem.AffectedTiles.Values.Any(current => (current.X == roomUser.X && current.Y == roomUser.Y) || (roomUser.X == roomItem.X && roomUser.Y == roomItem.Y)))
+            if (
+                roomItem.AffectedTiles.Values.Any(
+                    current =>
+                        (current.X == roomUser.X && current.Y == roomUser.Y) ||
+                        (roomUser.X == roomItem.X && roomUser.Y == roomItem.Y)))
                 return false;
 
             ToWork.Enqueue(roomUser);

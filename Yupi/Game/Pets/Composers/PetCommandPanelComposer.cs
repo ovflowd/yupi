@@ -6,9 +6,10 @@ using Yupi.Messages.Parsers;
 
 namespace Yupi.Game.Pets.Composers
 {
-    class PetCommandPanelComposer
+    internal class PetCommandPanelComposer
     {
-        internal static void GenerateMessage(Pet pet, Dictionary<uint, PetCommand> totalPetCommands, Dictionary<uint, PetCommand> petCommands, GameClient owner)
+        internal static void GenerateMessage(Pet pet, Dictionary<uint, PetCommand> totalPetCommands,
+            Dictionary<uint, PetCommand> petCommands, GameClient owner)
         {
             ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("PetTrainerPanelMessageComposer"));
 

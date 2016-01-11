@@ -1,10 +1,9 @@
-﻿using Yupi.Game.Rooms;
-using Yupi.Messages;
+﻿using Yupi.Messages;
 using Yupi.Messages.Parsers;
 
 namespace Yupi.Game.Pets.Composers
 {
-    class RespectPetComposer
+    internal class RespectPetComposer
     {
         internal static void GenerateMessage(Pet pet)
         {

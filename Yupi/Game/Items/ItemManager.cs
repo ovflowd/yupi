@@ -7,7 +7,7 @@ using System.Globalization;
 using System.Linq;
 using Yupi.Core.Io;
 using Yupi.Data;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Catalogs.Wrappers;
 using Yupi.Game.Items.Interactions;
 using Yupi.Game.Items.Interactions.Enums;
@@ -41,7 +41,7 @@ namespace Yupi.Game.Items
         internal void LoadItems(IQueryAdapter dbClient, out uint itemLoaded)
         {
             LoadItems(dbClient);
-            itemLoaded = (uint)_items.Count;
+            itemLoaded = (uint) _items.Count;
         }
 
         public int CountItems() => _items.Count;
@@ -69,41 +69,44 @@ namespace Yupi.Game.Items
             {
                 try
                 {
-                    uint id = (uint)dataRow["id"];
-                    uint modes = (uint)dataRow["interaction_modes_count"];
-                    uint effect = (uint)dataRow["effectid"];
+                    uint id = (uint) dataRow["id"];
+                    uint modes = (uint) dataRow["interaction_modes_count"];
+                    uint effect = (uint) dataRow["effectid"];
 
-                    char type = char.Parse((string)dataRow["type"]);
+                    char type = char.Parse((string) dataRow["type"]);
 
-                    uint flatId = (uint)dataRow["flat_id"];
+                    uint flatId = (uint) dataRow["flat_id"];
                     int sprite = 0;
 
-                    string name = (string)dataRow["item_name"];
-                    string publicName = (string)dataRow["item_name"];
-                    string stackHeightStr = (string)dataRow["stack_height"];
-                    string vendingIds = (string)dataRow["vending_ids"];
+                    string name = (string) dataRow["item_name"];
+                    string publicName = (string) dataRow["item_name"];
+                    string stackHeightStr = (string) dataRow["stack_height"];
+                    string vendingIds = (string) dataRow["vending_ids"];
 
-                    bool sub = (string)dataRow["subscriber"] == "1";
-                    bool stackable = (string)dataRow["can_stack"] == "1";
-                    bool allowRecycle = (string)dataRow["allow_recycle"] == "1";
-                    bool allowTrade = (string)dataRow["allow_trade"] == "1";
-                    bool allowMarketplaceSell = (string)dataRow["allow_marketplace_sell"] == "1";
-                    bool allowGift = (string)dataRow["allow_gift"] == "1";
-                    bool allowInventoryStack = (string)dataRow["allow_inventory_stack"] == "1";
+                    bool sub = (string) dataRow["subscriber"] == "1";
+                    bool stackable = (string) dataRow["can_stack"] == "1";
+                    bool allowRecycle = (string) dataRow["allow_recycle"] == "1";
+                    bool allowTrade = (string) dataRow["allow_trade"] == "1";
+                    bool allowMarketplaceSell = (string) dataRow["allow_marketplace_sell"] == "1";
+                    bool allowGift = (string) dataRow["allow_gift"] == "1";
+                    bool allowInventoryStack = (string) dataRow["allow_inventory_stack"] == "1";
                     bool canWalk = false, canSit = false, stackMultiple = false;
 
                     ushort x = ushort.MinValue, y = ushort.MinValue;
 
                     double stackHeight;
 
-                    Interaction typeFromString = InteractionTypes.GetTypeFromString((string)dataRow["interaction_type"]);
+                    Interaction typeFromString = InteractionTypes.GetTypeFromString((string) dataRow["interaction_type"]);
 
                     if (stackHeightStr.Contains(';'))
                     {
-                        heights = stackHeightStr.Split(';').Select(heightStr => double.Parse(heightStr, CultureInfo.InvariantCulture)).ToList();
+                        heights =
+                            stackHeightStr.Split(';')
+                                .Select(heightStr => double.Parse(heightStr, CultureInfo.InvariantCulture))
+                                .ToList();
                         stackHeight = heights[0];
                         stackMultiple = true;
-                    }  
+                    }
                     else
                         stackHeight = double.Parse(stackHeightStr, CultureInfo.InvariantCulture);
 
@@ -127,7 +130,8 @@ namespace Yupi.Game.Items
                         sprite = FurnitureDataManager.WallItems[name].Id;
                         publicName = FurnitureDataManager.WallItems[name].Name;
                     }
-                    else if ((name.StartsWith("pet_") || publicName.StartsWith("pet_")) && InteractionTypes.AreFamiliar(GlobalInteractions.Pet, typeFromString))
+                    else if ((name.StartsWith("pet_") || publicName.StartsWith("pet_")) &&
+                             InteractionTypes.AreFamiliar(GlobalInteractions.Pet, typeFromString))
                     {
                         x = 1;
                         y = 1;
@@ -142,7 +146,8 @@ namespace Yupi.Game.Items
                         GiftWrapper.Add(sprite);
 
                     // If Can Walk
-                    if (InteractionTypes.AreFamiliar(GlobalInteractions.Gate, typeFromString) || (typeFromString == Interaction.BanzaiPyramid) || name.StartsWith("hole"))
+                    if (InteractionTypes.AreFamiliar(GlobalInteractions.Gate, typeFromString) ||
+                        (typeFromString == Interaction.BanzaiPyramid) || name.StartsWith("hole"))
                         canWalk = false;
 
                     // Add Item
@@ -157,18 +162,20 @@ namespace Yupi.Game.Items
                 {
                     Console.WriteLine(ex.ToString());
                     Console.ReadKey();
-                    Writer.WriteLine($"Could not load item #{Convert.ToUInt32(dataRow[0])}, please verify the data is okay.", "Yupi.Items", ConsoleColor.DarkRed);
+                    Writer.WriteLine(
+                        $"Could not load item #{Convert.ToUInt32(dataRow[0])}, please verify the data is okay.",
+                        "Yupi.Items", ConsoleColor.DarkRed);
                 }
             }
         }
 
-        internal Item GetItem(uint id) => (Item)_items[id];
+        internal Item GetItem(uint id) => (Item) _items[id];
 
         internal bool GetItem(string itemName, out Item item)
         {
             foreach (DictionaryEntry entry in _items)
             {
-                item = (Item)entry.Value;
+                item = (Item) entry.Value;
 
                 if (item.Name == itemName)
                     return true;
@@ -179,9 +186,15 @@ namespace Yupi.Game.Items
             return false;
         }
 
-        internal Item GetItemByName(string name) => (from DictionaryEntry entry in _items select (Item) entry.Value).FirstOrDefault(item => item.Name == name);
+        internal Item GetItemByName(string name)
+            =>
+                (from DictionaryEntry entry in _items select (Item) entry.Value).FirstOrDefault(
+                    item => item.Name == name);
 
-        internal Item GetItemBySpriteId(int spriteId) => (from DictionaryEntry entry in _items select (Item) entry.Value).FirstOrDefault(item => item.SpriteId == spriteId);
+        internal Item GetItemBySpriteId(int spriteId)
+            =>
+                (from DictionaryEntry entry in _items select (Item) entry.Value).FirstOrDefault(
+                    item => item.SpriteId == spriteId);
 
         /// <summary>
         ///     Determines whether the specified identifier contains item.
@@ -190,6 +203,9 @@ namespace Yupi.Game.Items
         /// <returns><c>true</c> if the specified identifier contains item; otherwise, <c>false</c>.</returns>
         internal bool ContainsItem(uint id) => _items.Contains(id);
 
-        internal bool ContainsItemByName(string name) => (from DictionaryEntry entry in _items select (Item)entry.Value).FirstOrDefault(item => item.Name == name) != null;
+        internal bool ContainsItemByName(string name)
+            =>
+                (from DictionaryEntry entry in _items select (Item) entry.Value).FirstOrDefault(
+                    item => item.Name == name) != null;
     }
 }

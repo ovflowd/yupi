@@ -42,7 +42,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
 
             _cycles++;
 
-            if (_cycles <= Delay / 500)
+            if (_cycles <= Delay/500)
                 return true;
 
             _cycles = 0;
@@ -140,15 +140,16 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
 
         private void HandleMovement(RoomItem item)
         {
-            Point newPoint = Movement.HandleMovement(item.Coordinate, (MovementState)_dir, item.Rot);
-            int newRotation = Movement.HandleRotation(item.Rot, (RotationState)item.Rot);
+            Point newPoint = Movement.HandleMovement(item.Coordinate, (MovementState) _dir, item.Rot);
+            int newRotation = Movement.HandleRotation(item.Rot, (RotationState) item.Rot);
 
             if (newPoint != item.Coordinate && newRotation == item.Rot)
             {
                 if (!Room.GetGameMap().SquareIsOpen(newPoint.X, newPoint.Y, false))
                     return;
 
-                Room.GetRoomItemHandler().SetFloorItem(null, item, newPoint.X, newPoint.Y, newRotation, false, false, true, false, true);
+                Room.GetRoomItemHandler()
+                    .SetFloorItem(null, item, newPoint.X, newPoint.Y, newRotation, false, false, true, false, true);
 
                 return;
             }
@@ -159,7 +160,8 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
             if (!Room.GetGameMap().SquareIsOpen(newPoint.X, newPoint.Y, false))
                 return;
 
-            Room.GetRoomItemHandler().SetFloorItem(null, item, newPoint.X, newPoint.Y, newRotation, false, false, true, false, false);
+            Room.GetRoomItemHandler()
+                .SetFloorItem(null, item, newPoint.X, newPoint.Y, newRotation, false, false, true, false, false);
         }
     }
 }

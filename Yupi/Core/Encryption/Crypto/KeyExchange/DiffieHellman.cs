@@ -75,7 +75,7 @@ namespace Yupi.Core.Encryption.Crypto.KeyExchange
                     Generator = PrimeCalculator.GenPseudoPrime(Bitlength, 10, rand);
                 }
 
-                byte[] bytes = new byte[Bitlength / 8];
+                byte[] bytes = new byte[Bitlength/8];
                 Randomizer.NextBytes(bytes);
                 _privateKey = new BigInteger(bytes);
 

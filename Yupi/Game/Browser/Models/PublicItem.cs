@@ -103,7 +103,8 @@ namespace Yupi.Game.Browser.Models
         /// <param name="recommand">if set to <c>true</c> [recommand].</param>
         /// <param name="typeOfData">The type of data.</param>
         /// <param name="tags">The tags.</param>
-        internal PublicItem(uint id, int type, string caption, string desc, string image, PublicImageType imageType, uint roomId, int categoryId, int parentId, bool recommand, int typeOfData, string tags)
+        internal PublicItem(uint id, int type, string caption, string desc, string image, PublicImageType imageType,
+            uint roomId, int categoryId, int parentId, bool recommand, int typeOfData, string tags)
         {
             Id = id;
             Type = type;
@@ -148,7 +149,8 @@ namespace Yupi.Game.Browser.Models
         /// </summary>
         /// <value>The room data.</value>
         /// <exception cref="System.NullReferenceException"></exception>
-        internal RoomData RoomData => RoomId == 0u ? new RoomData() : Yupi.GetGame().GetRoomManager().GenerateRoomData(RoomId);
+        internal RoomData RoomData
+            => RoomId == 0u ? new RoomData() : Yupi.GetGame().GetRoomManager().GenerateRoomData(RoomId);
 
         /// <summary>
         ///     Gets the room information.

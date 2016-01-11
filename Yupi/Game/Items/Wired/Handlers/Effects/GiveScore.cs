@@ -50,11 +50,11 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
             if (stuff[0] == null)
                 return false;
 
-            if ((Interaction)stuff[1] == Interaction.TriggerScoreAchieved)
+            if ((Interaction) stuff[1] == Interaction.TriggerScoreAchieved)
                 return false;
 
 
-            RoomUser roomUser = (RoomUser)stuff[0];
+            RoomUser roomUser = (RoomUser) stuff[0];
 
             if (roomUser == null)
                 return false;

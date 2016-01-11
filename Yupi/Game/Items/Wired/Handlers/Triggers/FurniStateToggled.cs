@@ -104,8 +104,8 @@ namespace Yupi.Game.Items.Wired.Handlers.Triggers
 
         public bool Execute(params object[] stuff)
         {
-            RoomUser roomUser = (RoomUser)stuff[0];
-            RoomItem roomItem = (RoomItem)stuff[1];
+            RoomUser roomUser = (RoomUser) stuff[0];
+            RoomItem roomItem = (RoomItem) stuff[1];
 
             if (roomUser == null || roomItem == null)
                 return false;

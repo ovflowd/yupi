@@ -30,14 +30,14 @@ namespace Yupi.Net.Web
     internal static class WebManager
     {
         /// <summary>
-        /// HTTPs the post json.
+        ///     HTTPs the post json.
         /// </summary>
         /// <param name="uri">The URI.</param>
         /// <param name="json">The json.</param>
         /// <returns>System.String.</returns>
         public static string HttpPostJson(string uri, string json)
         {
-            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(uri);
+            HttpWebRequest httpWebRequest = (HttpWebRequest) WebRequest.Create(uri);
 
             httpWebRequest.ContentType = "text/json";
             httpWebRequest.Method = "POST";
@@ -49,7 +49,7 @@ namespace Yupi.Net.Web
                 streamWriter.Close();
             }
 
-            HttpWebResponse httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+            HttpWebResponse httpResponse = (HttpWebResponse) httpWebRequest.GetResponse();
 
             using (StreamReader streamReader = new StreamReader(httpResponse.GetResponseStream()))
                 return streamReader.ReadToEnd();

@@ -53,7 +53,7 @@ namespace Yupi.Game.Achievements.Composers
 
                 uint i = achievementData?.Level + 1 ?? 1;
 
-                uint count = (uint)achievement.Levels.Count;
+                uint count = (uint) achievement.Levels.Count;
 
                 if (i > count)
                     i = count;

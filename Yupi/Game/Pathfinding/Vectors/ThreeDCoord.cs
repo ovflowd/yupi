@@ -64,7 +64,8 @@ namespace Yupi.Game.Pathfinding.Vectors
         /// </summary>
         /// <param name="comparedCoord">The compared coord.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        public bool Equals(ThreeDCoord comparedCoord) => X == comparedCoord.X && Y == comparedCoord.Y && Z == comparedCoord.Z;
+        public bool Equals(ThreeDCoord comparedCoord)
+            => X == comparedCoord.X && Y == comparedCoord.Y && Z == comparedCoord.Z;
 
         /// <summary>
         ///     Implements the ==.

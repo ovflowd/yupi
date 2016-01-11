@@ -31,29 +31,23 @@ using Yupi.Core.Algorithms.Astar.Interfaces;
 namespace Yupi.Core.Algorithms.Astar
 {
     /// <summary>
-    /// Uses about 50 MB for a 1024x1024 grid.
+    ///     Uses about 50 MB for a 1024x1024 grid.
     /// </summary>
     public class AStarSolver<TPathNode> where TPathNode : IPathNode
     {
-        private delegate double CalculateHeuristicDelegate(XPathNode inStart, XPathNode inEnd);
+        private readonly bool _allowDiagonal;
 
         private CalculateHeuristicDelegate _calculationMethod;
-        public double TieBreaker { get; set; }
-        private readonly bool _allowDiagonal;
-        private XPathNode _startNode;
         private XPathNode _endNode;
         private bool[,] _mClosedSet;
         private bool[,] _mOpenSet;
         private PriorityQueue<XPathNode, double> _mOrderedOpenSet;
         private XPathNode[,] _mSearchSpace;
         private int _size;
-
-        public TPathNode SearchSpace { get; private set; }
-        public int Width { get; private set; }
-        public int Height { get; private set; }
+        private XPathNode _startNode;
 
         /// <summary>
-        /// Creates a new AstarSolver
+        ///     Creates a new AstarSolver
         /// </summary>
         /// <param name="inGrid">The inut grid</param>
         /// <param name="allowDiagonal">Indication if diagonal is allowed</param>
@@ -67,13 +61,19 @@ namespace Yupi.Core.Algorithms.Astar
             PrepareMap(inGrid, width, height);
         }
 
+        public double TieBreaker { get; set; }
+
+        public TPathNode SearchSpace { get; private set; }
+        public int Width { get; private set; }
+        public int Height { get; private set; }
+
         private void PrepareMap(TPathNode inGrid, int width, int height)
         {
             SearchSpace = inGrid;
 
-            Width = width; 
+            Width = width;
             Height = height;
-            _size = Width * Height;
+            _size = Width*Height;
 
             _mSearchSpace = new XPathNode[Height, Width];
 
@@ -88,7 +88,7 @@ namespace Yupi.Core.Algorithms.Astar
         }
 
         /// <summary>
-        /// Sets the calculation type
+        ///     Sets the calculation type
         /// </summary>
         /// <param name="calculator"></param>
         private void SetHeuristictype(AStarHeuristicType calculator)
@@ -123,7 +123,7 @@ namespace Yupi.Core.Algorithms.Astar
             double dx1 = inStart.X - _endNode.X;
             double dy1 = inStart.Y - _endNode.Y;
             double cross = Math.Abs(dx1 - dy1);
-            return Math.Ceiling(Math.Abs(inStart.X - inEnd.X) + (double)Math.Abs(inStart.Y - inEnd.Y)) + cross;
+            return Math.Ceiling(Math.Abs(inStart.X - inEnd.X) + (double) Math.Abs(inStart.Y - inEnd.Y)) + cross;
         }
 
         protected virtual double CalculateHeuristicBetween(XPathNode inStart, XPathNode inEnd)
@@ -132,18 +132,18 @@ namespace Yupi.Core.Algorithms.Astar
             double dy1 = inStart.Y - _endNode.Y;
             double dx2 = _startNode.X - _endNode.X;
             double dy2 = _startNode.Y - _endNode.Y;
-            double cross = Math.Abs(dx1 * dy2 - dx2 * dy1);
-            return Math.Ceiling(Math.Abs(inStart.X - inEnd.X) + (double)Math.Abs(inStart.Y - inEnd.Y)) + cross;
+            double cross = Math.Abs(dx1*dy2 - dx2*dy1);
+            return Math.Ceiling(Math.Abs(inStart.X - inEnd.X) + (double) Math.Abs(inStart.Y - inEnd.Y)) + cross;
         }
 
         protected virtual double CalculateHeuristicShortestRoute(XPathNode inStart, XPathNode inEnd)
         {
             return
-                Math.Sqrt((inStart.X - inEnd.X) * (inStart.X - inEnd.X) + (inStart.Y - inEnd.Y) * (inStart.Y - inEnd.Y));
+                Math.Sqrt((inStart.X - inEnd.X)*(inStart.X - inEnd.X) + (inStart.Y - inEnd.Y)*(inStart.Y - inEnd.Y));
         }
 
         /// <summary>
-        /// Calculates the neighbour distance
+        ///     Calculates the neighbour distance
         /// </summary>
         /// <param name="inStart">Start node</param>
         /// <param name="inEnd">End node</param>
@@ -165,10 +165,10 @@ namespace Yupi.Core.Algorithms.Astar
         }
 
         /// <summary>
-        /// Returns null, if no path is found. Start- and End-Node are included in returned path. The user context
-        /// is passed to IsWalkable().
+        ///     Returns null, if no path is found. Start- and End-Node are included in returned path. The user context
+        ///     is passed to IsWalkable().
         /// </summary>
-        public LinkedList<XPathNode> Search(Point inEndNode, Point inStartNode)   
+        public LinkedList<XPathNode> Search(Point inEndNode, Point inStartNode)
         {
             ResetSearchSpace();
             _mOrderedOpenSet = new PriorityQueue<XPathNode, double>(PathNode.Comparer, Width + Height);
@@ -180,7 +180,7 @@ namespace Yupi.Core.Algorithms.Astar
             _endNode = _mSearchSpace[inEndNode.Y, inEndNode.X];
 
             if (_startNode == _endNode)
-                return new LinkedList<XPathNode>(new[] { _startNode });
+                return new LinkedList<XPathNode>(new[] {_startNode});
 
             XPathNode[] neighborNodes = _allowDiagonal ? new XPathNode[8] : new XPathNode[4];
 
@@ -188,7 +188,7 @@ namespace Yupi.Core.Algorithms.Astar
 
             _startNode.G = 0;
             _startNode.Optimal = _calculationMethod(_startNode, _endNode);
-            TieBreaker = 1d / _startNode.Optimal;
+            TieBreaker = 1d/_startNode.Optimal;
             _startNode.F = _startNode.Optimal;
 
             _mOrderedOpenSet.Push(_startNode);
@@ -352,11 +352,13 @@ namespace Yupi.Core.Algorithms.Astar
         {
             PathNode item = currentNode;
 
-            result.AddFirst((XPathNode)item);
+            result.AddFirst((XPathNode) item);
 
             while ((item = item.Parent) != null)
-                result.AddFirst((XPathNode)item);
+                result.AddFirst((XPathNode) item);
         }
+
+        private delegate double CalculateHeuristicDelegate(XPathNode inStart, XPathNode inEnd);
 
         public class XPathNode : PathNode
         {

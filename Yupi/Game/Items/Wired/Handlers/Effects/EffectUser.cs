@@ -39,15 +39,15 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
             if (stuff[0] == null)
                 return false;
 
-            RoomUser roomUser = (RoomUser)stuff[0];
+            RoomUser roomUser = (RoomUser) stuff[0];
 
-                int effectId;
+            int effectId;
 
-                if (int.TryParse(OtherString, out effectId))
-                {
-                    if (roomUser != null && !string.IsNullOrEmpty(OtherString))
-                        roomUser.GetClient().GetHabbo().GetAvatarEffectsInventoryComponent().ActivateCustomEffect(effectId);
-                }
+            if (int.TryParse(OtherString, out effectId))
+            {
+                if (roomUser != null && !string.IsNullOrEmpty(OtherString))
+                    roomUser.GetClient().GetHabbo().GetAvatarEffectsInventoryComponent().ActivateCustomEffect(effectId);
+            }
 
             return true;
         }

@@ -25,7 +25,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Achievements.Composers;
 using Yupi.Game.Achievements.Factories;
 using Yupi.Game.Achievements.Structs;
@@ -62,7 +62,7 @@ namespace Yupi.Game.Achievements
         {
             Achievements = new Dictionary<string, Achievement>();
             LoadAchievements(dbClient);
-            loadedAchs = (uint)Achievements.Count;
+            loadedAchs = (uint) Achievements.Count;
         }
 
         /// <summary>
@@ -75,7 +75,8 @@ namespace Yupi.Game.Achievements
 
             AchievementLevelFactory.GetAchievementLevels(out Achievements, dbClient);
 
-            AchievementDataCached = new ServerMessage(LibraryParser.OutgoingRequest("SendAchievementsRequirementsMessageComposer"));
+            AchievementDataCached =
+                new ServerMessage(LibraryParser.OutgoingRequest("SendAchievementsRequirementsMessageComposer"));
             AchievementDataCached.AppendInteger(Achievements.Count);
 
             foreach (Achievement ach in Achievements.Values)
@@ -98,7 +99,8 @@ namespace Yupi.Game.Achievements
         /// </summary>
         /// <param name="session">The session.</param>
         /// <param name="message">The message.</param>
-        internal void GetList(GameClient session, ClientMessage message) => session.SendMessage(AchievementListComposer.Compose(session, Achievements.Values.ToList()));
+        internal void GetList(GameClient session, ClientMessage message)
+            => session.SendMessage(AchievementListComposer.Compose(session, Achievements.Values.ToList()));
 
         /// <summary>
         ///     Tries the progress login achievements.
@@ -130,7 +132,7 @@ namespace Yupi.Game.Achievements
         {
             if (session.GetHabbo() == null)
                 return;
-           
+
             if (session.GetHabbo().Achievements.ContainsKey("ACH_RegistrationDuration"))
             {
                 UserAchievement regAch = session.GetHabbo().GetAchievementData("ACH_RegistrationDuration");
@@ -138,9 +140,9 @@ namespace Yupi.Game.Achievements
                 if (regAch.Level == 5)
                     return;
 
-                double sinceMember = Yupi.GetUnixTimeStamp() - (int)session.GetHabbo().CreateDate;
+                double sinceMember = Yupi.GetUnixTimeStamp() - (int) session.GetHabbo().CreateDate;
 
-                uint daysSinceMember = Convert.ToUInt32(Math.Round(sinceMember / 86400));
+                uint daysSinceMember = Convert.ToUInt32(Math.Round(sinceMember/86400));
 
                 if (daysSinceMember == regAch.Progress)
                     return;
@@ -151,7 +153,7 @@ namespace Yupi.Game.Achievements
                     return;
 
                 ProgressUserAchievement(session, "ACH_RegistrationDuration", days);
-      
+
                 return;
             }
 
@@ -226,7 +228,8 @@ namespace Yupi.Game.Achievements
         /// <param name="progressAmount">The progress amount.</param>
         /// <param name="fromZero">if set to <c>true</c> [from zero].</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool ProgressUserAchievement(GameClient session, string achievementGroup, uint progressAmount, bool fromZero = false)
+        internal bool ProgressUserAchievement(GameClient session, string achievementGroup, uint progressAmount,
+            bool fromZero = false)
         {
             if (Achievements.ContainsKey(achievementGroup) && session?.GetHabbo() != null)
             {
@@ -235,7 +238,9 @@ namespace Yupi.Game.Achievements
                 Habbo user = session.GetHabbo();
 
                 // Get UserAchievementData, if the user doesn't has the Achievement, create a new.
-                UserAchievement userAchievement = user.Achievements.ContainsKey(achievementGroup) ? user.GetAchievementData(achievementGroup) : new UserAchievement(achievementGroup, 0, 0);
+                UserAchievement userAchievement = user.Achievements.ContainsKey(achievementGroup)
+                    ? user.GetAchievementData(achievementGroup)
+                    : new UserAchievement(achievementGroup, 0, 0);
 
                 // If is a New Achievement is fromZero
                 if (!user.Achievements.ContainsKey(achievementGroup))
@@ -249,7 +254,7 @@ namespace Yupi.Game.Achievements
                 userAchievement = user.Achievements[achievementGroup];
 
                 // Total Levels from this Achievement
-                uint achievementLevelsCount = (uint)achievement.Levels.Count;
+                uint achievementLevelsCount = (uint) achievement.Levels.Count;
 
                 // Get User Achievement Level
                 uint achievementCurrentLevel = userAchievement.Level;
@@ -258,7 +263,9 @@ namespace Yupi.Game.Achievements
                 uint achievementCurrentProgress = userAchievement.Progress;
 
                 // If the next Level is the last level must set to Levels.Count (Ex: 38 Levels => .Count = 37 (Max Level in the Array, but .Count 37 == 38, Soo need put Level - 1)
-                uint achievementNextLevel = achievementCurrentLevel + 1 > achievementLevelsCount ? achievementLevelsCount : achievementCurrentLevel + 1;
+                uint achievementNextLevel = achievementCurrentLevel + 1 > achievementLevelsCount
+                    ? achievementLevelsCount
+                    : achievementCurrentLevel + 1;
 
                 // Set Achievement Progress
                 uint achievementProgress = achievementCurrentProgress + progressAmount;
@@ -300,27 +307,37 @@ namespace Yupi.Game.Achievements
                     user.UpdateActivityPointsBalance();
 
                     // Remove old Badge - (Is not problem if is First Level Badge, because if the user hasn't the badg, simply, will not remove.
-                    user.GetBadgeComponent().RemoveBadge(Convert.ToString($"{achievementGroup}{achievementNextLevel - 1}"), session);
+                    user.GetBadgeComponent()
+                        .RemoveBadge(Convert.ToString($"{achievementGroup}{achievementNextLevel - 1}"), session);
 
                     // Give new Badge
                     user.GetBadgeComponent().GiveBadge($"{achievementGroup}{achievementNextLevel}", true, session);
 
                     // Update in Database
-                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                        queryReactor.RunFastQuery($"REPLACE INTO users_achievements VALUES ('{user.Id}', '{achievementGroup}', '{achievementNextLevel}', '{achievementProgress}')");
+                    using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                        commitableQueryReactor.RunFastQuery(
+                            $"REPLACE INTO users_achievements VALUES ('{user.Id}', '{achievementGroup}', '{achievementNextLevel}', '{achievementProgress}')");
 
                     // Send Unlocked Composer
-                    session.SendMessage(AchievementUnlockedComposer.Compose(achievement, achievementNextLevel, achievementNextLevelData.RewardPoints, achievementNextLevelData.RewardPixels));
+                    session.SendMessage(AchievementUnlockedComposer.Compose(achievement, achievementNextLevel,
+                        achievementNextLevelData.RewardPoints, achievementNextLevelData.RewardPixels));
 
                     // Send Score Composer
                     session.SendMessage(AchievementScoreUpdateComposer.Compose(user.AchievementPoints));
 
                     // Send Progress Composer
-                    session.SendMessage(AchievementProgressComposer.Compose(achievement, achievementNextLevel, achievementNextLevelData, achievementLevelsCount, userAchievement));
+                    session.SendMessage(AchievementProgressComposer.Compose(achievement, achievementNextLevel,
+                        achievementNextLevelData, achievementLevelsCount, userAchievement));
 
                     // Set Talent
-                    if (Yupi.GetGame().GetTalentManager().Talents.Values.Any(talent => talent.AchievementGroup == achievementGroup))
-                        Yupi.GetGame().GetTalentManager().CompleteUserTalent(session, Yupi.GetGame().GetTalentManager().GetTalentData(achievementGroup));
+                    if (
+                        Yupi.GetGame()
+                            .GetTalentManager()
+                            .Talents.Values.Any(talent => talent.AchievementGroup == achievementGroup))
+                        Yupi.GetGame()
+                            .GetTalentManager()
+                            .CompleteUserTalent(session,
+                                Yupi.GetGame().GetTalentManager().GetTalentData(achievementGroup));
                 }
                 else
                 {
@@ -334,11 +351,13 @@ namespace Yupi.Game.Achievements
                     userAchievement.SetProgress(achievementProgress);
 
                     // Update in Database
-                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                        queryReactor.RunFastQuery($"REPLACE INTO users_achievements VALUES ('{user.Id}', '{achievementGroup}', '{achievementCurrentLevel}', '{achievementProgress}')");
+                    using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                        commitableQueryReactor.RunFastQuery(
+                            $"REPLACE INTO users_achievements VALUES ('{user.Id}', '{achievementGroup}', '{achievementCurrentLevel}', '{achievementProgress}')");
 
                     // Compose Current Data
-                    session.SendMessage(AchievementProgressComposer.Compose(achievement, achievementCurrentLevel, achievementCurrentLevelData, achievementLevelsCount, userAchievement));
+                    session.SendMessage(AchievementProgressComposer.Compose(achievement, achievementCurrentLevel,
+                        achievementCurrentLevelData, achievementLevelsCount, userAchievement));
                 }
 
                 // Send User New Data
@@ -364,6 +383,7 @@ namespace Yupi.Game.Achievements
         /// </summary>
         /// <param name="achievementGroup">The achievement group.</param>
         /// <returns>Achievement.</returns>
-        internal Achievement GetAchievement(string achievementGroup) => Achievements.ContainsKey(achievementGroup) ? Achievements[achievementGroup] : null;
+        internal Achievement GetAchievement(string achievementGroup)
+            => Achievements.ContainsKey(achievementGroup) ? Achievements[achievementGroup] : null;
     }
 }

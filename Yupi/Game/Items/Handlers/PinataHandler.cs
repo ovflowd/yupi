@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Data;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Items.Interactions.Enums;
 using Yupi.Game.Items.Interfaces;
 using Yupi.Game.Rooms;
@@ -67,8 +67,9 @@ namespace Yupi.Game.Items.Handlers
             item.ExtraData = string.Empty;
             room.GetRoomItemHandler().RemoveFurniture(user.GetClient(), item.Id, false);
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery($"UPDATE items_rooms SET item_name='{item.BaseName}', extra_data='' WHERE id='{item.Id}'");
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                commitableQueryReactor.RunFastQuery(
+                    $"UPDATE items_rooms SET item_name='{item.BaseName}', extra_data='' WHERE id='{item.Id}'");
 
             if (!room.GetRoomItemHandler().SetFloorItem(user.GetClient(), item, item.X, item.Y, 0, true, false, true))
                 user.GetClient().GetHabbo().GetInventoryComponent().AddItem(item);

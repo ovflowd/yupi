@@ -3,18 +3,12 @@ using Yupi.Messages.Handlers;
 namespace Yupi.Messages.Parsers
 {
     /// <summary>
-    /// Class PacketLibrary.
+    ///     Class PacketLibrary.
     /// </summary>
     internal class PacketLibrary
     {
         /// <summary>
-        /// Delegate GetProperty
-        /// </summary>
-        /// <param name="handler">The handler.</param>
-        internal delegate void GetProperty(GameClientMessageHandler handler);
-
-        /// <summary>
-        /// Initializes the crypto.
+        ///     Initializes the crypto.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void InitCrypto(GameClientMessageHandler handler)
@@ -23,7 +17,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Secrets the key.
+        ///     Secrets the key.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void SecretKey(GameClientMessageHandler handler)
@@ -32,7 +26,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Machines the identifier.
+        ///     Machines the identifier.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void MachineId(GameClientMessageHandler handler)
@@ -41,7 +35,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Guides the message.
+        ///     Guides the message.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GuideMessage(GameClientMessageHandler handler)
@@ -50,7 +44,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Sets the chat preferrence.
+        ///     Sets the chat preferrence.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void SetChatPreferrence(GameClientMessageHandler handler)
@@ -59,7 +53,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the helper tool.
+        ///     Gets the helper tool.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetHelperTool(GameClientMessageHandler handler)
@@ -68,7 +62,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the guide detached.
+        ///     Gets the guide detached.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetGuideDetached(GameClientMessageHandler handler)
@@ -77,7 +71,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Logins the with ticket.
+        ///     Logins the with ticket.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void LoginWithTicket(GameClientMessageHandler handler)
@@ -86,7 +80,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Invites the guide.
+        ///     Invites the guide.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void InviteGuide(GameClientMessageHandler handler)
@@ -95,7 +89,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Visits the room guide.
+        ///     Visits the room guide.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void VisitRoomGuide(GameClientMessageHandler handler)
@@ -104,7 +98,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Guides the end session.
+        ///     Guides the end session.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GuideEndSession(GameClientMessageHandler handler)
@@ -113,7 +107,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Cancels the call guide.
+        ///     Cancels the call guide.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void CancelCallGuide(GameClientMessageHandler handler)
@@ -122,7 +116,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Informations the retrieve.
+        ///     Informations the retrieve.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void InfoRetrieve(GameClientMessageHandler handler)
@@ -131,7 +125,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Chats the specified handler.
+        ///     Chats the specified handler.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void Chat(GameClientMessageHandler handler)
@@ -140,7 +134,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Shouts the specified handler.
+        ///     Shouts the specified handler.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void Shout(GameClientMessageHandler handler)
@@ -149,7 +143,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Requests the floor plan used coords.
+        ///     Requests the floor plan used coords.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void RequestFloorPlanUsedCoords(GameClientMessageHandler handler)
@@ -158,7 +152,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Requests the floor plan door.
+        ///     Requests the floor plan door.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void RequestFloorPlanDoor(GameClientMessageHandler handler)
@@ -167,7 +161,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Opens the bully reporting.
+        ///     Opens the bully reporting.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void OpenBullyReporting(GameClientMessageHandler handler)
@@ -176,7 +170,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Sends the bully report.
+        ///     Sends the bully report.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void SendBullyReport(GameClientMessageHandler handler)
@@ -185,7 +179,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Navigators the get popular groups.
+        ///     Navigators the get popular groups.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void NavigatorGetPopularGroups(GameClientMessageHandler handler)
@@ -194,7 +188,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Loads the club gifts.
+        ///     Loads the club gifts.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void LoadClubGifts(GameClientMessageHandler handler)
@@ -203,7 +197,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Saves the heightmap.
+        ///     Saves the heightmap.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void SaveHeightmap(GameClientMessageHandler handler)
@@ -212,7 +206,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Accepts the poll.
+        ///     Accepts the poll.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void AcceptPoll(GameClientMessageHandler handler)
@@ -221,7 +215,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Refuses the poll.
+        ///     Refuses the poll.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void RefusePoll(GameClientMessageHandler handler)
@@ -230,7 +224,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Answers the poll question.
+        ///     Answers the poll question.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void AnswerPollQuestion(GameClientMessageHandler handler)
@@ -239,7 +233,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Retrieves the song identifier.
+        ///     Retrieves the song identifier.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void RetrieveSongId(GameClientMessageHandler handler)
@@ -248,7 +242,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Tiles the height of the stack magic set.
+        ///     Tiles the height of the stack magic set.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void TileStackMagicSetHeight(GameClientMessageHandler handler)
@@ -257,7 +251,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Enables the inventory effect.
+        ///     Enables the inventory effect.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void EnableInventoryEffect(GameClientMessageHandler handler)
@@ -266,7 +260,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Promotes the room.
+        ///     Promotes the room.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void PromoteRoom(GameClientMessageHandler handler)
@@ -275,7 +269,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the promotionable rooms.
+        ///     Gets the promotionable rooms.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetPromotionableRooms(GameClientMessageHandler handler)
@@ -284,7 +278,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the room filter.
+        ///     Gets the room filter.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetRoomFilter(GameClientMessageHandler handler)
@@ -293,7 +287,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Alters the room filter.
+        ///     Alters the room filter.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void AlterRoomFilter(GameClientMessageHandler handler)
@@ -302,7 +296,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the tv player.
+        ///     Gets the tv player.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetTvPlayer(GameClientMessageHandler handler)
@@ -311,7 +305,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Chooses the tv player video.
+        ///     Chooses the tv player video.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void ChooseTvPlayerVideo(GameClientMessageHandler handler)
@@ -320,7 +314,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the tv playlist.
+        ///     Gets the tv playlist.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetTvPlaylist(GameClientMessageHandler handler)
@@ -329,7 +323,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Places the bot.
+        ///     Places the bot.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void PlaceBot(GameClientMessageHandler handler)
@@ -338,7 +332,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Picks up bot.
+        ///     Picks up bot.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void PickUpBot(GameClientMessageHandler handler)
@@ -347,7 +341,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the talents track.
+        ///     Gets the talents track.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetTalentsTrack(GameClientMessageHandler handler)
@@ -356,7 +350,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Prepares the campaing.
+        ///     Prepares the campaing.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void PrepareCampaing(GameClientMessageHandler handler)
@@ -365,7 +359,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Pongs the specified handler.
+        ///     Pongs the specified handler.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void Pong(GameClientMessageHandler handler)
@@ -374,7 +368,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Disconnects the event.
+        ///     Disconnects the event.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void DisconnectEvent(GameClientMessageHandler handler)
@@ -383,7 +377,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Latencies the test.
+        ///     Latencies the test.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void LatencyTest(GameClientMessageHandler handler)
@@ -392,7 +386,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Receptions the view.
+        ///     Receptions the view.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void ReceptionView(GameClientMessageHandler handler)
@@ -401,7 +395,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Called when [confirmation event].
+        ///     Called when [confirmation event].
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void OnlineConfirmationEvent(GameClientMessageHandler handler)
@@ -410,7 +404,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Retrives the citizen ship status.
+        ///     Retrives the citizen ship status.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void RetriveCitizenShipStatus(GameClientMessageHandler handler)
@@ -419,7 +413,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Refreshes the promo event.
+        ///     Refreshes the promo event.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void RefreshPromoEvent(GameClientMessageHandler handler)
@@ -428,7 +422,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Widgets the container.
+        ///     Widgets the container.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void WidgetContainer(GameClientMessageHandler handler)
@@ -437,7 +431,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Landings the community goal.
+        ///     Landings the community goal.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void LandingCommunityGoal(GameClientMessageHandler handler)
@@ -446,7 +440,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Removes the handitem.
+        ///     Removes the handitem.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void RemoveHanditem(GameClientMessageHandler handler)
@@ -455,7 +449,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Redeems the voucher.
+        ///     Redeems the voucher.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void RedeemVoucher(GameClientMessageHandler handler)
@@ -464,7 +458,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gives the handitem.
+        ///     Gives the handitem.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GiveHanditem(GameClientMessageHandler handler)
@@ -473,7 +467,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Initializes the help tool.
+        ///     Initializes the help tool.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void InitHelpTool(GameClientMessageHandler handler)
@@ -482,7 +476,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Submits the help ticket.
+        ///     Submits the help ticket.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void SubmitHelpTicket(GameClientMessageHandler handler)
@@ -491,7 +485,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Deletes the pending CFH.
+        ///     Deletes the pending CFH.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void DeletePendingCfh(GameClientMessageHandler handler)
@@ -500,7 +494,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Mods the get user information.
+        ///     Mods the get user information.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void ModGetUserInfo(GameClientMessageHandler handler)
@@ -509,7 +503,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Mods the get user chatlog.
+        ///     Mods the get user chatlog.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void ModGetUserChatlog(GameClientMessageHandler handler)
@@ -518,7 +512,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Messages from a guy.
+        ///     Messages from a guy.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void MessageFromAGuy(GameClientMessageHandler handler)
@@ -527,7 +521,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Mods the get room chatlog.
+        ///     Mods the get room chatlog.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void ModGetRoomChatlog(GameClientMessageHandler handler)
@@ -536,7 +530,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Mods the get room tool.
+        ///     Mods the get room tool.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void ModGetRoomTool(GameClientMessageHandler handler)
@@ -545,7 +539,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Mods the pick ticket.
+        ///     Mods the pick ticket.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void ModPickTicket(GameClientMessageHandler handler)
@@ -554,7 +548,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Mods the release ticket.
+        ///     Mods the release ticket.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void ModReleaseTicket(GameClientMessageHandler handler)
@@ -563,7 +557,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Mods the close ticket.
+        ///     Mods the close ticket.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void ModCloseTicket(GameClientMessageHandler handler)
@@ -572,7 +566,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Mods the get ticket chatlog.
+        ///     Mods the get ticket chatlog.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void ModGetTicketChatlog(GameClientMessageHandler handler)
@@ -581,7 +575,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Mods the get room visits.
+        ///     Mods the get room visits.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void ModGetRoomVisits(GameClientMessageHandler handler)
@@ -590,7 +584,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Mods the send room alert.
+        ///     Mods the send room alert.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void ModSendRoomAlert(GameClientMessageHandler handler)
@@ -599,7 +593,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Mods the perform room action.
+        ///     Mods the perform room action.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void ModPerformRoomAction(GameClientMessageHandler handler)
@@ -608,7 +602,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Mods the send user caution.
+        ///     Mods the send user caution.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void ModSendUserCaution(GameClientMessageHandler handler)
@@ -617,7 +611,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Mods the send user message.
+        ///     Mods the send user message.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void ModSendUserMessage(GameClientMessageHandler handler)
@@ -626,7 +620,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Mods the kick user.
+        ///     Mods the kick user.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void ModKickUser(GameClientMessageHandler handler)
@@ -635,7 +629,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Mods the mute user.
+        ///     Mods the mute user.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void ModMuteUser(GameClientMessageHandler handler)
@@ -644,7 +638,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Mods the lock trade.
+        ///     Mods the lock trade.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void ModLockTrade(GameClientMessageHandler handler)
@@ -653,7 +647,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Mods the ban user.
+        ///     Mods the ban user.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void ModBanUser(GameClientMessageHandler handler)
@@ -662,7 +656,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Initializes the messenger.
+        ///     Initializes the messenger.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void InitMessenger(GameClientMessageHandler handler)
@@ -671,7 +665,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Friendses the list update.
+        ///     Friendses the list update.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void FriendsListUpdate(GameClientMessageHandler handler)
@@ -680,7 +674,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Removes the buddy.
+        ///     Removes the buddy.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void RemoveBuddy(GameClientMessageHandler handler)
@@ -689,7 +683,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Searches the habbo.
+        ///     Searches the habbo.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void SearchHabbo(GameClientMessageHandler handler)
@@ -698,7 +692,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Accepts the request.
+        ///     Accepts the request.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void AcceptRequest(GameClientMessageHandler handler)
@@ -707,7 +701,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Declines the request.
+        ///     Declines the request.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void DeclineRequest(GameClientMessageHandler handler)
@@ -716,7 +710,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Requests the buddy.
+        ///     Requests the buddy.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void RequestBuddy(GameClientMessageHandler handler)
@@ -725,7 +719,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Sends the instant messenger.
+        ///     Sends the instant messenger.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void SendInstantMessenger(GameClientMessageHandler handler)
@@ -734,7 +728,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Follows the buddy.
+        ///     Follows the buddy.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void FollowBuddy(GameClientMessageHandler handler)
@@ -743,7 +737,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Sends the instant invite.
+        ///     Sends the instant invite.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void SendInstantInvite(GameClientMessageHandler handler)
@@ -752,7 +746,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Homes the room stuff.
+        ///     Homes the room stuff.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void HomeRoomStuff(GameClientMessageHandler handler)
@@ -761,7 +755,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Adds the favorite.
+        ///     Adds the favorite.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void AddFavorite(GameClientMessageHandler handler)
@@ -770,7 +764,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Removes the favorite.
+        ///     Removes the favorite.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void RemoveFavorite(GameClientMessageHandler handler)
@@ -779,7 +773,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the flat cats.
+        ///     Gets the flat cats.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetFlatCats(GameClientMessageHandler handler)
@@ -788,7 +782,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Enters the inquired room.
+        ///     Enters the inquired room.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void EnterInquiredRoom(GameClientMessageHandler handler)
@@ -797,7 +791,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the pubs.
+        ///     Gets the pubs.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetPubs(GameClientMessageHandler handler)
@@ -806,7 +800,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Saves the branding.
+        ///     Saves the branding.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void SaveBranding(GameClientMessageHandler handler)
@@ -815,7 +809,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the room information.
+        ///     Gets the room information.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetRoomInfo(GameClientMessageHandler handler)
@@ -824,7 +818,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the popular rooms.
+        ///     Gets the popular rooms.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetPopularRooms(GameClientMessageHandler handler)
@@ -833,7 +827,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the recommended rooms.
+        ///     Gets the recommended rooms.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetRecommendedRooms(GameClientMessageHandler handler)
@@ -842,7 +836,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the high rated rooms.
+        ///     Gets the high rated rooms.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetHighRatedRooms(GameClientMessageHandler handler)
@@ -851,7 +845,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the friends rooms.
+        ///     Gets the friends rooms.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetFriendsRooms(GameClientMessageHandler handler)
@@ -860,7 +854,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the rooms with friends.
+        ///     Gets the rooms with friends.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetRoomsWithFriends(GameClientMessageHandler handler)
@@ -869,7 +863,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the own rooms.
+        ///     Gets the own rooms.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetOwnRooms(GameClientMessageHandler handler)
@@ -878,7 +872,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// News the navigator flat cats.
+        ///     News the navigator flat cats.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void NewNavigatorFlatCats(GameClientMessageHandler handler)
@@ -887,7 +881,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the favorite rooms.
+        ///     Gets the favorite rooms.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetFavoriteRooms(GameClientMessageHandler handler)
@@ -896,7 +890,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the recent rooms.
+        ///     Gets the recent rooms.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetRecentRooms(GameClientMessageHandler handler)
@@ -905,7 +899,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the popular tags.
+        ///     Gets the popular tags.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetPopularTags(GameClientMessageHandler handler)
@@ -914,7 +908,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Performs the search.
+        ///     Performs the search.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void PerformSearch(GameClientMessageHandler handler)
@@ -923,7 +917,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Searches the by tag.
+        ///     Searches the by tag.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void SearchByTag(GameClientMessageHandler handler)
@@ -932,7 +926,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Performs the search2.
+        ///     Performs the search2.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void PerformSearch2(GameClientMessageHandler handler)
@@ -941,7 +935,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Opens the flat.
+        ///     Opens the flat.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void OpenFlat(GameClientMessageHandler handler)
@@ -950,7 +944,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the voume.
+        ///     Gets the voume.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetVoume(GameClientMessageHandler handler)
@@ -959,7 +953,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Saves the volume.
+        ///     Saves the volume.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void SaveVolume(GameClientMessageHandler handler)
@@ -968,7 +962,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the pub.
+        ///     Gets the pub.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetPub(GameClientMessageHandler handler)
@@ -977,7 +971,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Opens the pub.
+        ///     Opens the pub.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void OpenPub(GameClientMessageHandler handler)
@@ -986,7 +980,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the inventory.
+        ///     Gets the inventory.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetInventory(GameClientMessageHandler handler)
@@ -995,7 +989,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the room data1.
+        ///     Gets the room data1.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetRoomData1(GameClientMessageHandler handler)
@@ -1004,7 +998,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the room data2.
+        ///     Gets the room data2.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetRoomData2(GameClientMessageHandler handler)
@@ -1013,7 +1007,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the room data3.
+        ///     Gets the room data3.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetRoomData3(GameClientMessageHandler handler)
@@ -1022,7 +1016,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Requests the floor items.
+        ///     Requests the floor items.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void RequestFloorItems(GameClientMessageHandler handler)
@@ -1031,7 +1025,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Requests the wall items.
+        ///     Requests the wall items.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void RequestWallItems(GameClientMessageHandler handler)
@@ -1040,7 +1034,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Called when [room user add].
+        ///     Called when [room user add].
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void OnRoomUserAdd(GameClientMessageHandler handler)
@@ -1049,7 +1043,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Reqs the load room for user.
+        ///     Reqs the load room for user.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void ReqLoadRoomForUser(GameClientMessageHandler handler)
@@ -1058,7 +1052,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Enters the on room.
+        ///     Enters the on room.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void EnterOnRoom(GameClientMessageHandler handler)
@@ -1067,7 +1061,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Clears the room loading.
+        ///     Clears the room loading.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void ClearRoomLoading(GameClientMessageHandler handler)
@@ -1076,7 +1070,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Moves the specified handler.
+        ///     Moves the specified handler.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void Move(GameClientMessageHandler handler)
@@ -1085,7 +1079,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Determines whether this instance [can create room] the specified handler.
+        ///     Determines whether this instance [can create room] the specified handler.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void CanCreateRoom(GameClientMessageHandler handler)
@@ -1094,7 +1088,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Creates the room.
+        ///     Creates the room.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void CreateRoom(GameClientMessageHandler handler)
@@ -1103,7 +1097,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the room information.
+        ///     Gets the room information.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetRoomInformation(GameClientMessageHandler handler)
@@ -1112,7 +1106,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the room edit data.
+        ///     Gets the room edit data.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetRoomEditData(GameClientMessageHandler handler)
@@ -1121,7 +1115,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Saves the room data.
+        ///     Saves the room data.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void SaveRoomData(GameClientMessageHandler handler)
@@ -1130,7 +1124,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gives the rights.
+        ///     Gives the rights.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GiveRights(GameClientMessageHandler handler)
@@ -1139,7 +1133,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Takes the rights.
+        ///     Takes the rights.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void TakeRights(GameClientMessageHandler handler)
@@ -1148,7 +1142,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Takes all rights.
+        ///     Takes all rights.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void TakeAllRights(GameClientMessageHandler handler)
@@ -1157,7 +1151,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Habboes the camera.
+        ///     Habboes the camera.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void HabboCamera(GameClientMessageHandler handler)
@@ -1166,7 +1160,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Called when [click].
+        ///     Called when [click].
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void OnClick(GameClientMessageHandler handler)
@@ -1175,7 +1169,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Kicks the user.
+        ///     Kicks the user.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void KickUser(GameClientMessageHandler handler)
@@ -1184,7 +1178,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Bans the user.
+        ///     Bans the user.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void BanUser(GameClientMessageHandler handler)
@@ -1193,7 +1187,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Sets the home room.
+        ///     Sets the home room.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void SetHomeRoom(GameClientMessageHandler handler)
@@ -1202,7 +1196,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Deletes the room.
+        ///     Deletes the room.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void DeleteRoom(GameClientMessageHandler handler)
@@ -1211,7 +1205,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Looks at.
+        ///     Looks at.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void LookAt(GameClientMessageHandler handler)
@@ -1220,7 +1214,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Starts the typing.
+        ///     Starts the typing.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void StartTyping(GameClientMessageHandler handler)
@@ -1229,7 +1223,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Stops the typing.
+        ///     Stops the typing.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void StopTyping(GameClientMessageHandler handler)
@@ -1238,7 +1232,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Ignores the user.
+        ///     Ignores the user.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void IgnoreUser(GameClientMessageHandler handler)
@@ -1247,7 +1241,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Unignores the user.
+        ///     Unignores the user.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void UnignoreUser(GameClientMessageHandler handler)
@@ -1256,7 +1250,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Determines whether this instance [can create room event] the specified handler.
+        ///     Determines whether this instance [can create room event] the specified handler.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void CanCreateRoomEvent(GameClientMessageHandler handler)
@@ -1265,7 +1259,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Signs the specified handler.
+        ///     Signs the specified handler.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void Sign(GameClientMessageHandler handler)
@@ -1274,7 +1268,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the user tags.
+        ///     Gets the user tags.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetUserTags(GameClientMessageHandler handler)
@@ -1283,7 +1277,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the user badges.
+        ///     Gets the user badges.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetUserBadges(GameClientMessageHandler handler)
@@ -1292,7 +1286,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Rates the room.
+        ///     Rates the room.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void RateRoom(GameClientMessageHandler handler)
@@ -1301,7 +1295,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Dances the specified handler.
+        ///     Dances the specified handler.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void Dance(GameClientMessageHandler handler)
@@ -1310,7 +1304,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Answers the doorbell.
+        ///     Answers the doorbell.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void AnswerDoorbell(GameClientMessageHandler handler)
@@ -1319,7 +1313,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Applies the room effect.
+        ///     Applies the room effect.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void ApplyRoomEffect(GameClientMessageHandler handler)
@@ -1328,7 +1322,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Places the post it.
+        ///     Places the post it.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void PlacePostIt(GameClientMessageHandler handler)
@@ -1337,7 +1331,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Places the item.
+        ///     Places the item.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void PlaceItem(GameClientMessageHandler handler)
@@ -1346,7 +1340,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Takes the item.
+        ///     Takes the item.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void TakeItem(GameClientMessageHandler handler)
@@ -1355,7 +1349,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Moves the item.
+        ///     Moves the item.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void MoveItem(GameClientMessageHandler handler)
@@ -1364,7 +1358,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Moves the wall item.
+        ///     Moves the wall item.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void MoveWallItem(GameClientMessageHandler handler)
@@ -1373,7 +1367,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Triggers the item.
+        ///     Triggers the item.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void TriggerItem(GameClientMessageHandler handler)
@@ -1382,7 +1376,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Triggers the item dice special.
+        ///     Triggers the item dice special.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void TriggerItemDiceSpecial(GameClientMessageHandler handler)
@@ -1391,7 +1385,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Opens the postit.
+        ///     Opens the postit.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void OpenPostit(GameClientMessageHandler handler)
@@ -1400,7 +1394,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Saves the postit.
+        ///     Saves the postit.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void SavePostit(GameClientMessageHandler handler)
@@ -1409,7 +1403,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Deletes the postit.
+        ///     Deletes the postit.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void DeletePostit(GameClientMessageHandler handler)
@@ -1418,7 +1412,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Opens the present.
+        ///     Opens the present.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void OpenPresent(GameClientMessageHandler handler)
@@ -1427,7 +1421,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the moodlight.
+        ///     Gets the moodlight.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetMoodlight(GameClientMessageHandler handler)
@@ -1436,7 +1430,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Updates the moodlight.
+        ///     Updates the moodlight.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void UpdateMoodlight(GameClientMessageHandler handler)
@@ -1445,7 +1439,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Switches the moodlight status.
+        ///     Switches the moodlight status.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void SwitchMoodlightStatus(GameClientMessageHandler handler)
@@ -1454,7 +1448,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Initializes the trade.
+        ///     Initializes the trade.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void InitTrade(GameClientMessageHandler handler)
@@ -1463,7 +1457,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Offers the trade item.
+        ///     Offers the trade item.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void OfferTradeItem(GameClientMessageHandler handler)
@@ -1472,7 +1466,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Takes the back trade item.
+        ///     Takes the back trade item.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void TakeBackTradeItem(GameClientMessageHandler handler)
@@ -1481,7 +1475,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Stops the trade.
+        ///     Stops the trade.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void StopTrade(GameClientMessageHandler handler)
@@ -1490,7 +1484,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Accepts the trade.
+        ///     Accepts the trade.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void AcceptTrade(GameClientMessageHandler handler)
@@ -1499,7 +1493,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Unaccepts the trade.
+        ///     Unaccepts the trade.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void UnacceptTrade(GameClientMessageHandler handler)
@@ -1508,7 +1502,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Completes the trade.
+        ///     Completes the trade.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void CompleteTrade(GameClientMessageHandler handler)
@@ -1517,7 +1511,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gives the respect.
+        ///     Gives the respect.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GiveRespect(GameClientMessageHandler handler)
@@ -1526,7 +1520,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Applies the effect.
+        ///     Applies the effect.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void ApplyEffect(GameClientMessageHandler handler)
@@ -1535,7 +1529,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Enables the effect.
+        ///     Enables the effect.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void EnableEffect(GameClientMessageHandler handler)
@@ -1544,7 +1538,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Recycles the items.
+        ///     Recycles the items.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void RecycleItems(GameClientMessageHandler handler)
@@ -1553,7 +1547,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Redeems the exchange furni.
+        ///     Redeems the exchange furni.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void RedeemExchangeFurni(GameClientMessageHandler handler)
@@ -1562,7 +1556,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Kicks the bot.
+        ///     Kicks the bot.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void KickBot(GameClientMessageHandler handler)
@@ -1571,7 +1565,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Places the pet.
+        ///     Places the pet.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void PlacePet(GameClientMessageHandler handler)
@@ -1580,7 +1574,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the pet information.
+        ///     Gets the pet information.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetPetInfo(GameClientMessageHandler handler)
@@ -1589,7 +1583,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Picks up pet.
+        ///     Picks up pet.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void PickUpPet(GameClientMessageHandler handler)
@@ -1598,7 +1592,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Composts the monsterplant.
+        ///     Composts the monsterplant.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void CompostMonsterplant(GameClientMessageHandler handler)
@@ -1607,7 +1601,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Moves the pet.
+        ///     Moves the pet.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void MovePet(GameClientMessageHandler handler)
@@ -1616,7 +1610,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Respects the pet.
+        ///     Respects the pet.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void RespectPet(GameClientMessageHandler handler)
@@ -1625,7 +1619,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Adds the saddle.
+        ///     Adds the saddle.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void AddSaddle(GameClientMessageHandler handler)
@@ -1634,7 +1628,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Removes the saddle.
+        ///     Removes the saddle.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void RemoveSaddle(GameClientMessageHandler handler)
@@ -1643,7 +1637,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Rides the specified handler.
+        ///     Rides the specified handler.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void Ride(GameClientMessageHandler handler)
@@ -1652,7 +1646,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Unrides the specified handler.
+        ///     Unrides the specified handler.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void Unride(GameClientMessageHandler handler)
@@ -1661,7 +1655,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Saves the wired.
+        ///     Saves the wired.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void SaveWired(GameClientMessageHandler handler)
@@ -1670,7 +1664,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Saves the wired condition.
+        ///     Saves the wired condition.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void SaveWiredCondition(GameClientMessageHandler handler)
@@ -1679,7 +1673,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the music data.
+        ///     Gets the music data.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetMusicData(GameClientMessageHandler handler)
@@ -1688,7 +1682,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Adds the playlist item.
+        ///     Adds the playlist item.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void AddPlaylistItem(GameClientMessageHandler handler)
@@ -1697,7 +1691,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Removes the playlist item.
+        ///     Removes the playlist item.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void RemovePlaylistItem(GameClientMessageHandler handler)
@@ -1706,7 +1700,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the disks.
+        ///     Gets the disks.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetDisks(GameClientMessageHandler handler)
@@ -1715,7 +1709,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the playlists.
+        ///     Gets the playlists.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetPlaylists(GameClientMessageHandler handler)
@@ -1724,7 +1718,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the user information.
+        ///     Gets the user information.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetUserInfo(GameClientMessageHandler handler)
@@ -1733,7 +1727,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Loads the profile.
+        ///     Loads the profile.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void LoadProfile(GameClientMessageHandler handler)
@@ -1742,7 +1736,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the balance.
+        ///     Gets the balance.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetBalance(GameClientMessageHandler handler)
@@ -1751,7 +1745,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the subscription data.
+        ///     Gets the subscription data.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetSubscriptionData(GameClientMessageHandler handler)
@@ -1760,7 +1754,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the badges.
+        ///     Gets the badges.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetBadges(GameClientMessageHandler handler)
@@ -1769,7 +1763,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Updates the badges.
+        ///     Updates the badges.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void UpdateBadges(GameClientMessageHandler handler)
@@ -1778,7 +1772,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the achievements.
+        ///     Gets the achievements.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetAchievements(GameClientMessageHandler handler)
@@ -1787,7 +1781,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Changes the look.
+        ///     Changes the look.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void ChangeLook(GameClientMessageHandler handler)
@@ -1796,7 +1790,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Changes the motto.
+        ///     Changes the motto.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void ChangeMotto(GameClientMessageHandler handler)
@@ -1805,7 +1799,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the wardrobe.
+        ///     Gets the wardrobe.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetWardrobe(GameClientMessageHandler handler)
@@ -1814,7 +1808,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Allows all ride.
+        ///     Allows all ride.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void AllowAllRide(GameClientMessageHandler handler)
@@ -1823,7 +1817,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Saves the wardrobe.
+        ///     Saves the wardrobe.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void SaveWardrobe(GameClientMessageHandler handler)
@@ -1832,7 +1826,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the pets inventory.
+        ///     Gets the pets inventory.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetPetsInventory(GameClientMessageHandler handler)
@@ -1841,7 +1835,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Opens the quests.
+        ///     Opens the quests.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void OpenQuests(GameClientMessageHandler handler)
@@ -1850,7 +1844,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Starts the quest.
+        ///     Starts the quest.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void StartQuest(GameClientMessageHandler handler)
@@ -1859,7 +1853,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Stops the quest.
+        ///     Stops the quest.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void StopQuest(GameClientMessageHandler handler)
@@ -1868,7 +1862,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the current quest.
+        ///     Gets the current quest.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetCurrentQuest(GameClientMessageHandler handler)
@@ -1877,7 +1871,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the group badges.
+        ///     Gets the group badges.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetGroupBadges(GameClientMessageHandler handler)
@@ -1886,7 +1880,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the bot inv.
+        ///     Gets the bot inv.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetBotInv(GameClientMessageHandler handler)
@@ -1895,7 +1889,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Saves the room bg.
+        ///     Saves the room bg.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void SaveRoomBg(GameClientMessageHandler handler)
@@ -1904,7 +1898,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Goes the room.
+        ///     Goes the room.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GoRoom(GameClientMessageHandler handler)
@@ -1913,7 +1907,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Sits the specified handler.
+        ///     Sits the specified handler.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void Sit(GameClientMessageHandler handler)
@@ -1922,7 +1916,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the event rooms.
+        ///     Gets the event rooms.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetEventRooms(GameClientMessageHandler handler)
@@ -1931,7 +1925,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Starts the seasonal quest.
+        ///     Starts the seasonal quest.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void StartSeasonalQuest(GameClientMessageHandler handler)
@@ -1940,7 +1934,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Saves the mannequin.
+        ///     Saves the mannequin.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void SaveMannequin(GameClientMessageHandler handler)
@@ -1949,7 +1943,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Saves the mannequin2.
+        ///     Saves the mannequin2.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void SaveMannequin2(GameClientMessageHandler handler)
@@ -1958,7 +1952,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Serializes the group purchase page.
+        ///     Serializes the group purchase page.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void SerializeGroupPurchasePage(GameClientMessageHandler handler)
@@ -1967,7 +1961,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Serializes the group purchase parts.
+        ///     Serializes the group purchase parts.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void SerializeGroupPurchaseParts(GameClientMessageHandler handler)
@@ -1976,7 +1970,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Purchases the group.
+        ///     Purchases the group.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void PurchaseGroup(GameClientMessageHandler handler)
@@ -1985,7 +1979,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Serializes the group information.
+        ///     Serializes the group information.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void SerializeGroupInfo(GameClientMessageHandler handler)
@@ -1994,7 +1988,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Serializes the group members.
+        ///     Serializes the group members.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void SerializeGroupMembers(GameClientMessageHandler handler)
@@ -2003,7 +1997,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Makes the group admin.
+        ///     Makes the group admin.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void MakeGroupAdmin(GameClientMessageHandler handler)
@@ -2012,7 +2006,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Removes the group admin.
+        ///     Removes the group admin.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void RemoveGroupAdmin(GameClientMessageHandler handler)
@@ -2021,7 +2015,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Accepts the membership.
+        ///     Accepts the membership.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void AcceptMembership(GameClientMessageHandler handler)
@@ -2030,7 +2024,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Declines the membership.
+        ///     Declines the membership.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void DeclineMembership(GameClientMessageHandler handler)
@@ -2039,7 +2033,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Removes the member.
+        ///     Removes the member.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void RemoveMember(GameClientMessageHandler handler)
@@ -2048,7 +2042,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Joins the group.
+        ///     Joins the group.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void JoinGroup(GameClientMessageHandler handler)
@@ -2057,7 +2051,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Makes the fav.
+        ///     Makes the fav.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void MakeFav(GameClientMessageHandler handler)
@@ -2066,7 +2060,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Removes the fav.
+        ///     Removes the fav.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void RemoveFav(GameClientMessageHandler handler)
@@ -2075,7 +2069,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Receives the nux gifts.
+        ///     Receives the nux gifts.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void ReceiveNuxGifts(GameClientMessageHandler handler)
@@ -2084,7 +2078,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Accepts the nux gifts.
+        ///     Accepts the nux gifts.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void AcceptNuxGifts(GameClientMessageHandler handler)
@@ -2093,7 +2087,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Reads the forum thread.
+        ///     Reads the forum thread.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void ReadForumThread(GameClientMessageHandler handler)
@@ -2102,7 +2096,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Publishes the forum thread.
+        ///     Publishes the forum thread.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void PublishForumThread(GameClientMessageHandler handler)
@@ -2111,7 +2105,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Updates the forum thread.
+        ///     Updates the forum thread.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void UpdateForumThread(GameClientMessageHandler handler)
@@ -2120,7 +2114,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Alters the state of the forum thread.
+        ///     Alters the state of the forum thread.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void AlterForumThreadState(GameClientMessageHandler handler)
@@ -2129,7 +2123,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the forum thread root.
+        ///     Gets the forum thread root.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetForumThreadRoot(GameClientMessageHandler handler)
@@ -2138,7 +2132,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the group forum data.
+        ///     Gets the group forum data.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetGroupForumData(GameClientMessageHandler handler)
@@ -2147,7 +2141,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the group forums.
+        ///     Gets the group forums.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetGroupForums(GameClientMessageHandler handler)
@@ -2156,7 +2150,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Manages the group.
+        ///     Manages the group.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void ManageGroup(GameClientMessageHandler handler)
@@ -2165,7 +2159,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Updates the name of the group.
+        ///     Updates the name of the group.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void UpdateGroupName(GameClientMessageHandler handler)
@@ -2174,7 +2168,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Updates the group badge.
+        ///     Updates the group badge.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void UpdateGroupBadge(GameClientMessageHandler handler)
@@ -2183,7 +2177,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Updates the group colours.
+        ///     Updates the group colours.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void UpdateGroupColours(GameClientMessageHandler handler)
@@ -2192,7 +2186,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Updates the group settings.
+        ///     Updates the group settings.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void UpdateGroupSettings(GameClientMessageHandler handler)
@@ -2201,7 +2195,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Serializes the group furni page.
+        ///     Serializes the group furni page.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void SerializeGroupFurniPage(GameClientMessageHandler handler)
@@ -2210,7 +2204,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Ejects the furni.
+        ///     Ejects the furni.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void EjectFurni(GameClientMessageHandler handler)
@@ -2219,7 +2213,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Mutes the user.
+        ///     Mutes the user.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void MuteUser(GameClientMessageHandler handler)
@@ -2228,7 +2222,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Checks the name.
+        ///     Checks the name.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void CheckName(GameClientMessageHandler handler)
@@ -2237,7 +2231,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Changes the name.
+        ///     Changes the name.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void ChangeName(GameClientMessageHandler handler)
@@ -2246,7 +2240,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the trainer panel.
+        ///     Gets the trainer panel.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetTrainerPanel(GameClientMessageHandler handler)
@@ -2255,7 +2249,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Updates the event information.
+        ///     Updates the event information.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void UpdateEventInfo(GameClientMessageHandler handler)
@@ -2264,7 +2258,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the room banned users.
+        ///     Gets the room banned users.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetRoomBannedUsers(GameClientMessageHandler handler)
@@ -2273,7 +2267,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Userses the with rights.
+        ///     Userses the with rights.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void UsersWithRights(GameClientMessageHandler handler)
@@ -2282,7 +2276,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Unbans the user.
+        ///     Unbans the user.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void UnbanUser(GameClientMessageHandler handler)
@@ -2291,7 +2285,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Manages the bot actions.
+        ///     Manages the bot actions.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void ManageBotActions(GameClientMessageHandler handler)
@@ -2300,7 +2294,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Handles the bot speech list.
+        ///     Handles the bot speech list.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void HandleBotSpeechList(GameClientMessageHandler handler)
@@ -2309,7 +2303,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the relationships.
+        ///     Gets the relationships.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetRelationships(GameClientMessageHandler handler)
@@ -2318,7 +2312,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Sets the relationship.
+        ///     Sets the relationship.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void SetRelationship(GameClientMessageHandler handler)
@@ -2327,7 +2321,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Automatics the room.
+        ///     Automatics the room.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void AutoRoom(GameClientMessageHandler handler)
@@ -2336,7 +2330,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Mutes all.
+        ///     Mutes all.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void MuteAll(GameClientMessageHandler handler)
@@ -2345,7 +2339,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Completes the saftey quiz.
+        ///     Completes the saftey quiz.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void CompleteSafteyQuiz(GameClientMessageHandler handler)
@@ -2354,7 +2348,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Removes the favourite room.
+        ///     Removes the favourite room.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void RemoveFavouriteRoom(GameClientMessageHandler handler)
@@ -2363,7 +2357,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Rooms the user action.
+        ///     Rooms the user action.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void RoomUserAction(GameClientMessageHandler handler)
@@ -2372,7 +2366,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Saves the football outfit.
+        ///     Saves the football outfit.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void SaveFootballOutfit(GameClientMessageHandler handler)
@@ -2381,7 +2375,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Confirms the love lock.
+        ///     Confirms the love lock.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void ConfirmLoveLock(GameClientMessageHandler handler)
@@ -2390,7 +2384,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Builderses the club update furni count.
+        ///     Builderses the club update furni count.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void BuildersClubUpdateFurniCount(GameClientMessageHandler handler)
@@ -2399,7 +2393,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the client version message event.
+        ///     Gets the client version message event.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetClientVersionMessageEvent(GameClientMessageHandler handler)
@@ -2408,7 +2402,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Places the builders furniture.
+        ///     Places the builders furniture.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void PlaceBuildersFurniture(GameClientMessageHandler handler)
@@ -2417,7 +2411,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Whispers the specified handler.
+        ///     Whispers the specified handler.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void Whisper(GameClientMessageHandler handler)
@@ -2426,7 +2420,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Catalogues the index.
+        ///     Catalogues the index.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void CatalogueIndex(GameClientMessageHandler handler)
@@ -2435,7 +2429,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Catalogues the page.
+        ///     Catalogues the page.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void CataloguePage(GameClientMessageHandler handler)
@@ -2444,7 +2438,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Catalogues the club page.
+        ///     Catalogues the club page.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void CatalogueClubPage(GameClientMessageHandler handler)
@@ -2453,7 +2447,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Catalogues the offers configuration.
+        ///     Catalogues the offers configuration.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void CatalogueOffersConfig(GameClientMessageHandler handler)
@@ -2462,7 +2456,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Catalogues the single offer.
+        ///     Catalogues the single offer.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void CatalogueSingleOffer(GameClientMessageHandler handler)
@@ -2471,7 +2465,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Checks the name of the pet.
+        ///     Checks the name of the pet.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void CheckPetName(GameClientMessageHandler handler)
@@ -2480,7 +2474,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Purchases the item.
+        ///     Purchases the item.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void PurchaseItem(GameClientMessageHandler handler)
@@ -2489,7 +2483,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Purchases the gift.
+        ///     Purchases the gift.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void PurchaseGift(GameClientMessageHandler handler)
@@ -2498,7 +2492,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the pet breeds.
+        ///     Gets the pet breeds.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetPetBreeds(GameClientMessageHandler handler)
@@ -2507,7 +2501,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Reloads the ecotron.
+        ///     Reloads the ecotron.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void ReloadEcotron(GameClientMessageHandler handler)
@@ -2516,7 +2510,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gifts the wrapping configuration.
+        ///     Gifts the wrapping configuration.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GiftWrappingConfig(GameClientMessageHandler handler)
@@ -2525,7 +2519,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Recyclers the rewards.
+        ///     Recyclers the rewards.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void RecyclerRewards(GameClientMessageHandler handler)
@@ -2534,7 +2528,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Requests the leave group.
+        ///     Requests the leave group.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void RequestLeaveGroup(GameClientMessageHandler handler)
@@ -2543,7 +2537,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Confirms the leave group.
+        ///     Confirms the leave group.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void ConfirmLeaveGroup(GameClientMessageHandler handler)
@@ -2552,7 +2546,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// News the navigator.
+        ///     News the navigator.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void NewNavigator(GameClientMessageHandler handler)
@@ -2561,7 +2555,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Searches the new navigator.
+        ///     Searches the new navigator.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void SearchNewNavigator(GameClientMessageHandler handler)
@@ -2570,7 +2564,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// News the navigator delete saved search.
+        ///     News the navigator delete saved search.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void NewNavigatorDeleteSavedSearch(GameClientMessageHandler handler)
@@ -2579,7 +2573,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// News the navigator resize.
+        ///     News the navigator resize.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void NewNavigatorResize(GameClientMessageHandler handler)
@@ -2588,7 +2582,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// News the navigator add saved search.
+        ///     News the navigator add saved search.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void NewNavigatorAddSavedSearch(GameClientMessageHandler handler)
@@ -2597,7 +2591,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// News the navigator collapse category.
+        ///     News the navigator collapse category.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void NewNavigatorCollapseCategory(GameClientMessageHandler handler)
@@ -2606,7 +2600,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// News the navigator uncollapse category.
+        ///     News the navigator uncollapse category.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void NewNavigatorUncollapseCategory(GameClientMessageHandler handler)
@@ -2615,7 +2609,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Pets the breed result.
+        ///     Pets the breed result.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void PetBreedResult(GameClientMessageHandler handler)
@@ -2624,7 +2618,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Pets the breed cancel.
+        ///     Pets the breed cancel.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void PetBreedCancel(GameClientMessageHandler handler)
@@ -2633,7 +2627,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Games the center load game.
+        ///     Games the center load game.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GameCenterLoadGame(GameClientMessageHandler handler)
@@ -2642,7 +2636,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Games the center join queue.
+        ///     Games the center join queue.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GameCenterJoinQueue(GameClientMessageHandler handler)
@@ -2651,7 +2645,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Hotels the view countdown.
+        ///     Hotels the view countdown.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void HotelViewCountdown(GameClientMessageHandler handler)
@@ -2660,7 +2654,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Hotels the view dailyquest.
+        ///     Hotels the view dailyquest.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void HotelViewDailyquest(GameClientMessageHandler handler)
@@ -2669,7 +2663,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Places the builders wall item.
+        ///     Places the builders wall item.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void PlaceBuildersWallItem(GameClientMessageHandler handler)
@@ -2678,7 +2672,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Targeteds the offer buy.
+        ///     Targeteds the offer buy.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void PurchaseTargetedOffer(GameClientMessageHandler handler)
@@ -2687,7 +2681,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Ambassadors the alert.
+        ///     Ambassadors the alert.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void AmbassadorAlert(GameClientMessageHandler handler)
@@ -2696,7 +2690,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Goes the name of to room by.
+        ///     Goes the name of to room by.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GoToRoomByName(GameClientMessageHandler handler)
@@ -2705,7 +2699,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the uc panel.
+        ///     Gets the uc panel.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetUcPanel(GameClientMessageHandler handler)
@@ -2714,7 +2708,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the uc panel hotel.
+        ///     Gets the uc panel hotel.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetUcPanelHotel(GameClientMessageHandler handler)
@@ -2723,7 +2717,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Saves the room thumbnail.
+        ///     Saves the room thumbnail.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void SaveRoomThumbnail(GameClientMessageHandler handler)
@@ -2732,7 +2726,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Uses the purchasable clothing.
+        ///     Uses the purchasable clothing.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void UsePurchasableClothing(GameClientMessageHandler handler)
@@ -2741,7 +2735,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the user look.
+        ///     Gets the user look.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetUserLook(GameClientMessageHandler handler)
@@ -2750,7 +2744,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Sets the invitations preference.
+        ///     Sets the invitations preference.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void SetInvitationsPreference(GameClientMessageHandler handler)
@@ -2759,7 +2753,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Finds the more friends.
+        ///     Finds the more friends.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void FindMoreFriends(GameClientMessageHandler handler)
@@ -2768,7 +2762,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Hotels the view request badge.
+        ///     Hotels the view request badge.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void HotelViewRequestBadge(GameClientMessageHandler handler)
@@ -2777,7 +2771,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the camera price.
+        ///     Gets the camera price.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetCameraPrice(GameClientMessageHandler handler)
@@ -2786,7 +2780,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Toggles the staff pick.
+        ///     Toggles the staff pick.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void ToggleStaffPick(GameClientMessageHandler handler)
@@ -2795,7 +2789,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the hotel view hall of fame.
+        ///     Gets the hotel view hall of fame.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetHotelViewHallOfFame(GameClientMessageHandler handler)
@@ -2804,7 +2798,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Submits the room to competition.
+        ///     Submits the room to competition.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void SubmitRoomToCompetition(GameClientMessageHandler handler)
@@ -2813,7 +2807,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Enters the room queue.
+        ///     Enters the room queue.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void EnterRoomQueue(GameClientMessageHandler handler)
@@ -2822,7 +2816,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Gets the camera request.
+        ///     Gets the camera request.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void GetCameraRequest(GameClientMessageHandler handler)
@@ -2831,7 +2825,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Votes for room.
+        ///     Votes for room.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void VoteForRoom(GameClientMessageHandler handler)
@@ -2840,7 +2834,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Updates the forum settings.
+        ///     Updates the forum settings.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void UpdateForumSettings(GameClientMessageHandler handler)
@@ -2849,7 +2843,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Friends the request list load.
+        ///     Friends the request list load.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void FriendRequestListLoad(GameClientMessageHandler handler)
@@ -2858,7 +2852,7 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Sets the room camera preferences.
+        ///     Sets the room camera preferences.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void SetRoomCameraPreferences(GameClientMessageHandler handler)
@@ -2867,12 +2861,18 @@ namespace Yupi.Messages.Parsers
         }
 
         /// <summary>
-        /// Deletes the group.
+        ///     Deletes the group.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void DeleteGroup(GameClientMessageHandler handler)
         {
             handler.DeleteGroup();
         }
+
+        /// <summary>
+        ///     Delegate GetProperty
+        /// </summary>
+        /// <param name="handler">The handler.</param>
+        internal delegate void GetProperty(GameClientMessageHandler handler);
     }
 }

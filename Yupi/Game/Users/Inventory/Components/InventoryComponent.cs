@@ -4,8 +4,7 @@ using System.Collections.Specialized;
 using System.Data;
 using System.Linq;
 using Yupi.Data;
-using Yupi.Data.Base.Queries;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Catalogs;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Items.Interactions.Enums;
@@ -140,8 +139,8 @@ namespace Yupi.Game.Users.Inventory.Components
         {
             UpdateItems(true);
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE room_id='0' AND user_id = {UserId}");
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                commitableQueryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE room_id='0' AND user_id = {UserId}");
 
             _mAddedItems.Clear();
             _mRemovedItems.Clear();
@@ -170,11 +169,11 @@ namespace Yupi.Game.Users.Inventory.Components
                 return;
 
             DataTable table;
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery(
+                commitableQueryReactor.SetQuery(
                     $"SELECT id FROM items_rooms WHERE user_id={session.GetHabbo().Id} AND room_id='0'");
-                table = queryReactor.GetTable();
+                table = commitableQueryReactor.GetTable();
             }
 
             foreach (DataRow dataRow in table.Rows)
@@ -285,12 +284,13 @@ namespace Yupi.Game.Users.Inventory.Components
 
             DataTable table;
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery("SELECT * FROM items_rooms WHERE user_id=@userid AND room_id='0' LIMIT 8000;");
-                queryReactor.AddParameter("userid", (int) UserId);
+                commitableQueryReactor.SetQuery(
+                    "SELECT * FROM items_rooms WHERE user_id=@userid AND room_id='0' LIMIT 8000;");
+                commitableQueryReactor.AddParameter("userid", (int) UserId);
 
-                table = queryReactor.GetTable();
+                table = commitableQueryReactor.GetTable();
             }
 
             foreach (DataRow dataRow in table.Rows)
@@ -335,11 +335,11 @@ namespace Yupi.Game.Users.Inventory.Components
             _inventoryPets.Clear();
             _inventoryBots.Clear();
 
-            using (IQueryAdapter queryReactor2 = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor2 = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor2.SetQuery($"SELECT * FROM bots_data WHERE user_id = {UserId} AND room_id = 0");
+                commitableQueryReactor2.SetQuery($"SELECT * FROM bots_data WHERE user_id = {UserId} AND room_id = 0");
 
-                DataTable table2 = queryReactor2.GetTable();
+                DataTable table2 = commitableQueryReactor2.GetTable();
 
                 if (table2 == null)
                     return;
@@ -350,16 +350,16 @@ namespace Yupi.Game.Users.Inventory.Components
                         AddBot(BotManager.GenerateBotFromRow(botRow));
                 }
 
-                queryReactor2.SetQuery($"SELECT * FROM pets_data WHERE user_id = {UserId} AND room_id = 0");
+                commitableQueryReactor2.SetQuery($"SELECT * FROM pets_data WHERE user_id = {UserId} AND room_id = 0");
 
-                DataTable table3 = queryReactor2.GetTable();
+                DataTable table3 = commitableQueryReactor2.GetTable();
 
                 if (table3 == null)
                     return;
 
                 foreach (DataRow petRow in table3.Rows)
                 {
-                    if ((string)petRow["ai_type"] == "pet")
+                    if ((string) petRow["ai_type"] == "pet")
                     {
                         Pet pet = CatalogManager.GeneratePetFromRow(petRow);
 
@@ -384,7 +384,9 @@ namespace Yupi.Game.Users.Inventory.Components
                 LoadInventory();
             }
 
-            _mClient.GetMessageHandler().GetResponse().Init(LibraryParser.OutgoingRequest("UpdateInventoryMessageComposer"));
+            _mClient.GetMessageHandler()
+                .GetResponse()
+                .Init(LibraryParser.OutgoingRequest("UpdateInventoryMessageComposer"));
 
             _mClient.GetMessageHandler().SendResponse();
         }
@@ -498,34 +500,39 @@ namespace Yupi.Game.Users.Inventory.Components
             {
                 if (fromRoom)
                 {
-                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                        queryReactor.RunFastQuery("UPDATE items_rooms SET user_id = '" + UserId + "', room_id= '0' WHERE (id='" + id + "')");
+                    using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                        commitableQueryReactor.RunFastQuery("UPDATE items_rooms SET user_id = '" + UserId +
+                                                            "', room_id= '0' WHERE (id='" + id + "')");
                 }
                 else
                 {
-                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                    using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
-                        queryReactor.SetQuery($"INSERT INTO items_rooms (item_name, user_id, group_id) VALUES ('{baseName}', '{UserId}', '{thGroup}');");
+                        commitableQueryReactor.SetQuery(
+                            $"INSERT INTO items_rooms (item_name, user_id, group_id) VALUES ('{baseName}', '{UserId}', '{thGroup}');");
 
                         if (id == 0)
-                            id = (uint) queryReactor.InsertQuery();
+                            id = (uint) commitableQueryReactor.InsertQuery();
 
                         SendNewItems(id);
 
                         if (!string.IsNullOrEmpty(extraData))
                         {
-                            queryReactor.SetQuery("UPDATE items_rooms SET extra_data = @extraData WHERE id = " + id);
-                            queryReactor.AddParameter("extraData", extraData);
-                            queryReactor.RunQuery();
+                            commitableQueryReactor.SetQuery(
+                                "UPDATE items_rooms SET extra_data = @extraData WHERE id = " + id);
+                            commitableQueryReactor.AddParameter("extraData", extraData);
+                            commitableQueryReactor.RunQuery();
                         }
 
                         if (limno > 0)
-                            queryReactor.RunFastQuery($"INSERT INTO items_limited VALUES ('{id}', '{limno}', '{limtot}');");
+                            commitableQueryReactor.RunFastQuery(
+                                $"INSERT INTO items_limited VALUES ('{id}', '{limno}', '{limtot}');");
 
                         if (!string.IsNullOrEmpty(songCode))
                         {
-                            queryReactor.SetQuery($"UPDATE items_rooms SET songcode='{songCode}' WHERE id='{id}' LIMIT 1");
-                            queryReactor.RunQuery();
+                            commitableQueryReactor.SetQuery(
+                                $"UPDATE items_rooms SET songcode='{songCode}' WHERE id='{id}' LIMIT 1");
+                            commitableQueryReactor.RunQuery();
                         }
                     }
                 }
@@ -563,7 +570,8 @@ namespace Yupi.Game.Users.Inventory.Components
         /// <param name="placedInroom">if set to <c>true</c> [placed inroom].</param>
         internal void RemoveItem(uint id, bool placedInroom)
         {
-            if (GetClient() == null || GetClient().GetHabbo() == null || GetClient().GetHabbo().GetInventoryComponent() == null)
+            if (GetClient() == null || GetClient().GetHabbo() == null ||
+                GetClient().GetHabbo().GetInventoryComponent() == null)
                 GetClient().Disconnect("user null RemoveItem");
 
             _isUpdated = false;
@@ -667,8 +675,10 @@ namespace Yupi.Game.Users.Inventory.Components
             serverMessage.AppendInteger(1);
             serverMessage.AppendInteger(1);
             serverMessage.AppendInteger(_inventoryPets.Count);
+
             foreach (Pet current in _inventoryPets.Values)
                 current.SerializeInventory(serverMessage);
+
             return serverMessage;
         }
 
@@ -726,70 +736,32 @@ namespace Yupi.Game.Users.Inventory.Components
         /// </summary>
         internal void RunDbUpdate()
         {
-            try
+            if (_mRemovedItems.Count <= 0 && _mAddedItems.Count <= 0 && _inventoryPets.Count <= 0)
+                return;
+
+            if (_mAddedItems.Count > 0)
             {
-                if (_mRemovedItems.Count <= 0 && _mAddedItems.Count <= 0 && _inventoryPets.Count <= 0)
-                    return;
-
-                DatabaseQueryChunk queryChunk = new DatabaseQueryChunk();
-
-                if (_mAddedItems.Count > 0)
+                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
                     foreach (UserItem userItem in _mAddedItems.Values)
-                        queryChunk.AddQuery($"UPDATE items_rooms SET user_id='{UserId}', room_id='0' WHERE id='{userItem.Id}'");
-
-                    _mAddedItems.Clear();
+                        commitableQueryReactor.RunFastQuery($"UPDATE items_rooms SET user_id='{UserId}', room_id=0 WHERE id='{userItem.Id}'");
                 }
 
-                if (_mRemovedItems.Count > 0)
-                {
-                    try
-                    {
-                        foreach (UserItem userItem2 in _mRemovedItems.Values)
-                        {
-                            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                                GetClient().GetHabbo().CurrentRoom.GetRoomItemHandler().SaveFurniture(queryReactor);
-
-                            if (SongDisks.Contains(userItem2.Id))
-                                SongDisks.Remove(userItem2.Id);
-                        }
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
-
-                    _mRemovedItems.Clear();
-                }
-
-                foreach (Pet current in _inventoryPets.Values)
-                {
-                    if (current.DbState == DatabaseUpdateState.NeedsUpdate)
-                    {
-                        using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                        {
-                            queryReactor.SetQuery("UPDATE pets_data SET " +
-                                                  $"room_id = {current.RoomId}, name = @petName, x = {current.X}, y = {current.Y}, " +
-                                                  $"z = {current.Z}, race_id = @petRace, pet_type = @petType', experience = {current.Experience}, " +
-                                                  $"energy = {current.Energy}, nutrition = {current.Nutrition}, respect = {current.Respect}, " +
-                                                  $"createstamp = '{current.CreationStamp}', lasthealth_stamp = '{Yupi.DateTimeToUnix(current.LastHealth)}', untilgrown_stamp = '{Yupi.DateTimeToUnix(current.UntilGrown)}', " +
-                                                  $"color = @petColor WHERE id = {current.PetId}");
-
-                            queryReactor.AddParameter("petName", current.Name);
-                            queryReactor.AddParameter("petRace", current.Race);
-                            queryReactor.AddParameter("petType", current.Type);
-                            queryReactor.AddParameter("petColor", current.Color);
-
-                            queryReactor.RunQuery();
-                        }
-                    }
-
-                    current.DbState = DatabaseUpdateState.Updated;
-                }
+                _mAddedItems.Clear();
             }
-            catch (Exception ex)
+
+            if (_mRemovedItems.Count > 0)
             {
-                ServerLogManager.LogCacheError($"FATAL ERROR DURING USER INVENTORY DB UPDATE: {ex}");
+                foreach (UserItem userItem2 in _mRemovedItems.Values)
+                {
+                    using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                        GetClient().GetHabbo().CurrentRoom.GetRoomItemHandler().SaveFurniture(commitableQueryReactor);
+
+                    if (SongDisks.Contains(userItem2.Id))
+                        SongDisks.Remove(userItem2.Id);
+                }
+
+                _mRemovedItems.Clear();
             }
         }
 
@@ -803,7 +775,11 @@ namespace Yupi.Game.Users.Inventory.Components
 
             serverMessage.AppendInteger(SongDisks.Count);
 
-            foreach (UserItem current in from x in _floorItems.Values.OfType<UserItem>() where x.BaseItem.InteractionType == Interaction.MusicDisc select x)
+            foreach (
+                UserItem current in
+                    from x in _floorItems.Values.OfType<UserItem>()
+                    where x.BaseItem.InteractionType == Interaction.MusicDisc
+                    select x)
             {
                 uint i;
 

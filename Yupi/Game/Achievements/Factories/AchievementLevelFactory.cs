@@ -26,7 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using Yupi.Core.Io;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Achievements.Structs;
 
 namespace Yupi.Game.Achievements.Factories
@@ -41,7 +41,8 @@ namespace Yupi.Game.Achievements.Factories
         /// </summary>
         /// <param name="achievements">The achievements.</param>
         /// <param name="dbClient">The database client.</param>
-        internal static void GetAchievementLevels(out Dictionary<string, Achievement> achievements, IQueryAdapter dbClient)
+        internal static void GetAchievementLevels(out Dictionary<string, Achievement> achievements,
+            IQueryAdapter dbClient)
         {
             achievements = new Dictionary<string, Achievement>();
 
@@ -51,15 +52,20 @@ namespace Yupi.Game.Achievements.Factories
             {
                 string achievementName = dataRow["achievement_name"].ToString();
 
-                AchievementLevel level = new AchievementLevel((uint)dataRow["achievement_level"], (uint)dataRow["reward_pixels"], (uint)dataRow["reward_points"], (uint)dataRow["progress_needed"]);
+                AchievementLevel level = new AchievementLevel((uint) dataRow["achievement_level"], (uint) dataRow["reward_pixels"],
+                    (uint) dataRow["reward_points"], (uint) dataRow["progress_needed"]);
 
                 if (!achievements.ContainsKey(achievementName))
-                    achievements.Add(achievementName, new Achievement((uint)dataRow["id"], achievementName, dataRow["achievement_category"].ToString()));        
+                    achievements.Add(achievementName,
+                        new Achievement((uint) dataRow["id"], achievementName,
+                            dataRow["achievement_category"].ToString()));
 
                 if (!achievements[achievementName].CheckLevel(level))
                     achievements[achievementName].AddLevel(level);
                 else
-                    Writer.WriteLine("Was Found a Duplicated Level for: " + achievementName + ", Level: " + level.Level, "Yupi.Achievements", ConsoleColor.Cyan);
+                    Writer.WriteLine(
+                        "Was Found a Duplicated Level for: " + achievementName + ", Level: " + level.Level,
+                        "Yupi.Achievements", ConsoleColor.Cyan);
             }
         }
     }

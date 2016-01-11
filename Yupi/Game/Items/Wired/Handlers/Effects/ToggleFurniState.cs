@@ -40,7 +40,10 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
 
             if (_mNext < num)
             {
-                foreach (RoomItem current in Items.Where(current => current != null && Room.GetRoomItemHandler().FloorItems.ContainsKey(current.Id)))
+                foreach (
+                    RoomItem current in
+                        Items.Where(
+                            current => current != null && Room.GetRoomItemHandler().FloorItems.ContainsKey(current.Id)))
                     current.Interactor.OnWiredTrigger(current);
             }
 

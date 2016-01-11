@@ -27,7 +27,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
-using Yupi.Core.Io;
+using Yupi.Data;
 using Yupi.Game.Commands;
 using Yupi.Game.RoomBots.Interfaces;
 using Yupi.Game.Rooms.User;
@@ -132,7 +132,7 @@ namespace Yupi.Game.RoomBots.Models
                     Point randomPoint = GetRoom().GetGameMap().GetRandomWalkableSquare();
 
                     if (randomPoint.X == 0 || randomPoint.Y == 0)
-                            return;
+                        return;
 
                     GetRoomUser().MoveTo(randomPoint.X, randomPoint.Y);
 
@@ -143,7 +143,7 @@ namespace Yupi.Game.RoomBots.Models
                     List<Point> list = GetRoom().GetGameMap().WalkableList.ToList();
 
                     if (!list.Any())
-                            return;
+                        return;
 
                     int randomNumber = new Random(DateTime.Now.Millisecond + _virtualId ^ 2).Next(0, list.Count - 1);
 
@@ -172,12 +172,12 @@ namespace Yupi.Game.RoomBots.Models
             {
                 GetRoomUser().Chat(null, "Need Something?", false, 0); // @todo put this var in lang system
                 return;
-            }   
+            }
 
             if (GetBotData().BotType != command.BotType)
                 return;
 
-            if(command.SpeechOutput != string.Empty)
+            if (command.SpeechOutput != string.Empty)
                 GetRoomUser().Chat(null, command.SpeechOutput, false, 0);
 
             if (command.ActionCommand != string.Empty && command.ActionCommandParameters != string.Empty)
@@ -198,7 +198,8 @@ namespace Yupi.Game.RoomBots.Models
         /// </summary>
         /// <param name="user">The user.</param>
         /// <param name="message">The message.</param>
-        internal override void OnUserShout(RoomUser user, string message) =>  GetRoomUser().Chat(null, "Não precisa gritar, caramba! Se precisa de algo basta vir aqui.", false, 0);
+        internal override void OnUserShout(RoomUser user, string message)
+            => GetRoomUser().Chat(null, "Não precisa gritar, caramba! Se precisa de algo basta vir aqui.", false, 0);
 
         /// <summary>
         ///     Stops the timer tick.
@@ -216,7 +217,8 @@ namespace Yupi.Game.RoomBots.Models
 
         internal override void OnChatTick()
         {
-            if (GetBotData() == null || GetRoomUser() == null || GetBotData().WasPicked ||  GetBotData().RandomSpeech == null || !GetBotData().RandomSpeech.Any())
+            if (GetBotData() == null || GetRoomUser() == null || GetBotData().WasPicked ||
+                GetBotData().RandomSpeech == null || !GetBotData().RandomSpeech.Any())
             {
                 StopTimerTick();
                 return;
@@ -236,7 +238,7 @@ namespace Yupi.Game.RoomBots.Models
                         RoomUser user = GetRoomUser();
 
                         if (user.RotBody%2 != 0)
-                                user.RotBody--;
+                            user.RotBody--;
 
                         user.Z = GetRoom().GetGameMap().SqAbsoluteHeight(user.X, user.Y);
 
@@ -296,7 +298,7 @@ namespace Yupi.Game.RoomBots.Models
             }
             catch (Exception e)
             {
-                Writer.LogException(e.ToString());
+                ServerLogManager.LogException(e.ToString());
             }
         }
 
@@ -304,6 +306,6 @@ namespace Yupi.Game.RoomBots.Models
         ///     Chats the timer tick.
         /// </summary>
         /// <param name="o">The o.</param>
-        private void ChatTimerTick(object o) =>  OnChatTick();
+        private void ChatTimerTick(object o) => OnChatTick();
     }
 }

@@ -4,32 +4,32 @@ using Yupi.Messages.Parsers;
 namespace Yupi.Messages.Enums
 {
     /// <summary>
-    /// Enum StaticMessage
+    ///     Enum StaticMessage
     /// </summary>
     internal enum StaticMessage
     {
         /// <summary>
-        /// The error cant set item
+        ///     The error cant set item
         /// </summary>
         ErrorCantSetItem,
 
         /// <summary>
-        /// The error cant set not owner
+        ///     The error cant set not owner
         /// </summary>
         ErrorCantSetNotOwner,
 
         /// <summary>
-        /// The kicked
+        ///     The kicked
         /// </summary>
         Kicked,
 
         /// <summary>
-        /// The new way to open commands list
+        ///     The new way to open commands list
         /// </summary>
         NewWayToOpenCommandsList,
 
         /// <summary>
-        /// The user not found
+        ///     The user not found
         /// </summary>
         UserNotFound,
 
@@ -40,17 +40,17 @@ namespace Yupi.Messages.Enums
     }
 
     /// <summary>
-    /// Class StaticMessagesManager.
+    ///     Class StaticMessagesManager.
     /// </summary>
     internal static class StaticMessagesManager
     {
         /// <summary>
-        /// The cache
+        ///     The cache
         /// </summary>
         private static readonly Dictionary<StaticMessage, byte[]> Cache = new Dictionary<StaticMessage, byte[]>();
 
         /// <summary>
-        /// Loads this instance.
+        ///     Loads this instance.
         /// </summary>
         public static void Load()
         {
@@ -102,7 +102,8 @@ namespace Yupi.Messages.Enums
             message.AppendString("title");
             message.AppendString("${generic.notice}");
             message.AppendString("message");
-            message.AppendString("Has superado el máximo de furnis en el inventario. Solo se te mostrarán 2800 furnis, si quieres ver los restantes, coloca algunos furnis en tus salas.");
+            message.AppendString(
+                "Has superado el máximo de furnis en el inventario. Solo se te mostrarán 2800 furnis, si quieres ver los restantes, coloca algunos furnis en tus salas.");
             message.AppendString("linkUrl");
             message.AppendString("event:");
             message.AppendString("linkTitle");
@@ -115,7 +116,8 @@ namespace Yupi.Messages.Enums
             message.AppendString("title");
             message.AppendString("${generic.notice}");
             message.AppendString("message");
-            message.AppendString("Has superado el máximo de furnis en el inventario. No puedes comprar más hasta que te desagas de algunos furnis.");
+            message.AppendString(
+                "Has superado el máximo de furnis en el inventario. No puedes comprar más hasta que te desagas de algunos furnis.");
             message.AppendString("linkUrl");
             message.AppendString("event:");
             message.AppendString("linkTitle");
@@ -123,10 +125,10 @@ namespace Yupi.Messages.Enums
             Cache.Add(StaticMessage.AdvicePurchaseMaxItems, message.GetReversedBytes());
 
             message = new ServerMessage(LibraryParser.OutgoingRequest("CatalogueOfferConfigMessageComposer"));
-            message.AppendInteger(100);// purchase_limit
-            message.AppendInteger(6);// offer_multiplier
-            message.AppendInteger(2);// free_objets_per_multiplier
-            message.AppendInteger(1);// inversed_credit_reduction
+            message.AppendInteger(100); // purchase_limit
+            message.AppendInteger(6); // offer_multiplier
+            message.AppendInteger(2); // free_objets_per_multiplier
+            message.AppendInteger(1); // inversed_credit_reduction
             message.AppendInteger(2); // array count
             message.AppendInteger(40);
             message.AppendInteger(99);
@@ -149,7 +151,7 @@ namespace Yupi.Messages.Enums
         }
 
         /// <summary>
-        /// Gets the specified type.
+        ///     Gets the specified type.
         /// </summary>
         /// <param name="type">The type.</param>
         /// <returns>System.Byte[].</returns>

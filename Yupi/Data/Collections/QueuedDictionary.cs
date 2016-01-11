@@ -32,13 +32,13 @@ namespace Yupi.Data.Collections
     public class QueuedDictionary<T, TV>
     {
         private ConcurrentQueue<KeyValuePair<T, TV>> _addQueue;
-        private ConcurrentQueue<KeyValuePair<T, TV>> _updateQueue;
-        private ConcurrentQueue<T> _removeQueue;
-        private ConcurrentQueue<OnCycleDoneDelegate> _onCycleEventQueue;
         private EventHandler _onAdd;
-        private EventHandler _onUpdate;
-        private EventHandler _onRemove;
         private EventHandler _onCycleDone;
+        private ConcurrentQueue<OnCycleDoneDelegate> _onCycleEventQueue;
+        private EventHandler _onRemove;
+        private EventHandler _onUpdate;
+        private ConcurrentQueue<T> _removeQueue;
+        private ConcurrentQueue<KeyValuePair<T, TV>> _updateQueue;
 
         public QueuedDictionary()
         {
@@ -92,24 +92,15 @@ namespace Yupi.Data.Collections
             _updateQueue.Enqueue(keyValuePair);
         }
 
-        public void Remove(T key)
-        {
-            _removeQueue.Enqueue(key);
-        }
+        public void Remove(T key) => _removeQueue.Enqueue(key);
 
         public TV GetValue(T key) => Inner.ContainsKey(key) ? Inner[key] : default(TV);
 
         public bool ContainsKey(T key) => Inner.ContainsKey(key);
 
-        public void Clear()
-        {
-            Inner.Clear();
-        }
+        public void Clear() => Inner.Clear();
 
-        public void QueueDelegate(OnCycleDoneDelegate function)
-        {
-            _onCycleEventQueue.Enqueue(function);
-        }
+        public void QueueDelegate(OnCycleDoneDelegate function) => _onCycleEventQueue.Enqueue(function);
 
         public List<KeyValuePair<T, TV>> ToList() => Inner.ToList();
 
@@ -120,28 +111,33 @@ namespace Yupi.Data.Collections
             if (_addQueue?.Any() ?? false)
             {
                 KeyValuePair<T, TV> item;
-                while (_addQueue.TryDequeue(out item)) { }
+
+                while (_addQueue.TryDequeue(out item))
+                    continue;
             }
 
             if (_updateQueue?.Any() ?? false)
             {
                 KeyValuePair<T, TV> item;
 
-                while (_updateQueue.TryDequeue(out item)) { }
+                while (_updateQueue.TryDequeue(out item))
+                    continue;
             }
 
             if (_removeQueue?.Any() ?? false)
             {
                 T item;
 
-                while (_removeQueue.TryDequeue(out item)) { }
+                while (_removeQueue.TryDequeue(out item))
+                    continue;
             }
 
             if (_onCycleEventQueue?.Any() ?? false)
             {
                 OnCycleDoneDelegate item;
 
-                while (_onCycleEventQueue.TryDequeue(out item)) { }
+                while (_onCycleEventQueue.TryDequeue(out item))
+                    continue;
             }
 
             Inner = null;

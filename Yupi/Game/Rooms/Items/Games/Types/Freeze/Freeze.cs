@@ -109,7 +109,10 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
                     _freezeBlocks.Values.Where(
                         roomItem =>
                             !string.IsNullOrEmpty(roomItem.ExtraData) &&
-                            !roomItem.GetBaseItem().InteractionType.Equals(Interaction.FreezeBlueGate) && !roomItem.GetBaseItem().InteractionType.Equals(Interaction.FreezeRedGate) && !roomItem.GetBaseItem().InteractionType.Equals(Interaction.FreezeGreenGate) && !roomItem.GetBaseItem().InteractionType.Equals(Interaction.FreezeYellowGate)))
+                            !roomItem.GetBaseItem().InteractionType.Equals(Interaction.FreezeBlueGate) &&
+                            !roomItem.GetBaseItem().InteractionType.Equals(Interaction.FreezeRedGate) &&
+                            !roomItem.GetBaseItem().InteractionType.Equals(Interaction.FreezeGreenGate) &&
+                            !roomItem.GetBaseItem().InteractionType.Equals(Interaction.FreezeYellowGate)))
             {
                 roomItem.ExtraData = string.Empty;
                 roomItem.UpdateState(false, true);

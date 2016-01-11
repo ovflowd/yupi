@@ -5,7 +5,7 @@ using Yupi.Messages.Parsers;
 
 namespace Yupi.Game.Pets.Composers
 {
-    class PetInformationComposer
+    internal class PetInformationComposer
     {
         internal static ServerMessage GenerateMessage(Pet pet)
         {
@@ -58,8 +58,8 @@ namespace Yupi.Game.Pets.Composers
             if (pet.Type == "pet_monster")
             {
                 serverMessage.AppendInteger(129600);
-                int lastHealthSeconds = (int)(pet.LastHealth - DateTime.Now).TotalSeconds;
-                int untilGrownSeconds = (int)(pet.UntilGrown - DateTime.Now).TotalSeconds;
+                int lastHealthSeconds = (int) (pet.LastHealth - DateTime.Now).TotalSeconds;
+                int untilGrownSeconds = (int) (pet.UntilGrown - DateTime.Now).TotalSeconds;
 
                 if (lastHealthSeconds < 0)
                     lastHealthSeconds = 0;

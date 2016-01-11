@@ -29,17 +29,17 @@ using System.IO;
 namespace Yupi.Core.Settings
 {
     /// <summary>
-    /// Class ServerConfigurationSettings.
+    ///     Class ServerConfigurationSettings.
     /// </summary>
     internal static class ServerConfigurationSettings
     {
         /// <summary>
-        /// The data
+        ///     The data
         /// </summary>
         internal static Dictionary<string, string> Data = new Dictionary<string, string>();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ServerConfigurationSettings"/> class.
+        ///     Initializes a new instance of the <see cref="ServerConfigurationSettings" /> class.
         /// </summary>
         /// <param name="filePath">The file path.</param>
         /// <param name="mayNotExist">if set to <c>true</c> [may not exist].</param>

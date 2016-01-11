@@ -50,7 +50,7 @@ namespace Yupi.Core.Algorithms.Astar
 
             while (low <= high)
             {
-                int midpoint = (low + high) / 2;
+                int midpoint = (low + high)/2;
 
                 if (MComparer.Compare(value, InnerList[midpoint]) == 0)
                     return midpoint;
@@ -64,10 +64,13 @@ namespace Yupi.Core.Algorithms.Astar
         }
 
         /// <summary>
-        /// Push an object onto the PQ
+        ///     Push an object onto the PQ
         /// </summary>
         /// <param name="item">The new object</param>
-        /// <returns>The index in the list where the object is _now_. This will change when objects are taken from or put onto the PQ.</returns>
+        /// <returns>
+        ///     The index in the list where the object is _now_. This will change when objects are taken from or put onto the
+        ///     PQ.
+        /// </returns>
         public void Push(T item)
         {
             int location = BinarySearch(item);
@@ -75,7 +78,7 @@ namespace Yupi.Core.Algorithms.Astar
         }
 
         /// <summary>
-        /// Get the smallest object and remove it.
+        ///     Get the smallest object and remove it.
         /// </summary>
         /// <returns>The smallest object</returns>
         public T Pop()

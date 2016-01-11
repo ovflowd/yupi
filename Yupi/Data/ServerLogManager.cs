@@ -23,18 +23,17 @@
 */
 
 using System;
-using System.Text;
 using Yupi.Core.Io;
 
 namespace Yupi.Data
 {
     /// <summary>
-    /// Class Logging.
+    ///     Class Logging.
     /// </summary>
     public static class ServerLogManager
     {
         /// <summary>
-        /// Gets or sets a value indicating whether [disabled state].
+        ///     Gets or sets a value indicating whether [disabled state].
         /// </summary>
         /// <value><c>true</c> if [disabled state]; otherwise, <c>false</c>.</value>
         internal static bool DisabledState
@@ -44,97 +43,71 @@ namespace Yupi.Data
         }
 
         /// <summary>
-        /// Logs the query error.
+        ///     Logs the query error.
         /// </summary>
         /// <param name="exception">The exception.</param>
         /// <param name="query">The query.</param>
-        public static void LogQueryError(Exception exception, string query)
-        {
-            Writer.LogQueryError(exception, query);
-        }
+        public static void LogMySqlException(Exception exception, string query)
+            => Writer.LogMySqlException(exception, query);
 
         /// <summary>
-        /// Logs the exception.
+        ///     Logs the exception.
         /// </summary>
         /// <param name="logText">The log text.</param>
-        internal static void LogException(string logText)
-        {
-            Writer.LogException($"{Environment.NewLine}{logText}{Environment.NewLine}");
-        }
+        internal static void LogException(string logText) => Writer.LogException($"{logText}");
 
         /// <summary>
-        /// Logs the critical exception.
+        ///     Logs the exception.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="p"></param>
+        internal static void LogException(Exception e, string p) => Writer.LogException(e, p);
+
+        /// <summary>
+        ///     Logs the critical exception.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="p"></param>
+        internal static void LogCriticalException(Exception e, string p) => Writer.LogCriticalException(e, p);
+
+        /// <summary>
+        ///     Logs the critical exception.
         /// </summary>
         /// <param name="logText">The log text.</param>
-        internal static void LogCriticalException(string logText)
-        {
-            Writer.LogCriticalException(logText);
-        }
+        internal static void LogCriticalException(string logText) => Writer.LogCriticalException(logText);
 
         /// <summary>
-        /// Logs the cache error.
+        ///     Logs the cache error.
         /// </summary>
         /// <param name="logText">The log text.</param>
-        internal static void LogCacheError(string logText)
-        {
-            Writer.LogCacheError(logText);
-        }
+        internal static void LogCacheException(string logText) => Writer.LogCacheException(logText);
 
         /// <summary>
-        /// Logs the message.
+        ///     Logs the message.
         /// </summary>
         /// <param name="logText">The log text.</param>
-        internal static void LogMessage(string logText)
-        {
-            Writer.LogMessage(logText);
-        }
+        internal static void LogMessage(string logText) => Writer.LogMessage(logText);
 
         /// <summary>
-        /// Logs the thread exception.
+        ///     Logs the thread exception.
         /// </summary>
         /// <param name="exception">The exception.</param>
         /// <param name="threadname">The threadname.</param>
         internal static void LogThreadException(string exception, string threadname)
-        {
-            Writer.LogThreadException(exception, threadname);
-        }
+            => Writer.LogThreadException(exception, threadname);
 
         /// <summary>
-        /// Logs the packet exception.
+        ///     Logs the packet exception.
         /// </summary>
         /// <param name="packet">The packet.</param>
         /// <param name="exception">The exception.</param>
         internal static void LogPacketException(string packet, string exception)
-        {
-            Writer.LogPacketException(packet, exception);
-        }
+            => Writer.LogPacketException(packet, exception);
 
         /// <summary>
-        /// Handles the exception.
-        /// </summary>
-        /// <param name="pException">The p exception.</param>
-        /// <param name="pLocation">The p location.</param>
-        internal static void HandleException(Exception pException, string pLocation)
-        {
-            Writer.HandleException(pException, pLocation);
-        }
-
-        /// <summary>
-        /// Disables the primary writing.
+        ///     Disables the primary writing.
         /// </summary>
         /// <param name="clearConsole">if set to <c>true</c> [clear console].</param>
-        internal static void DisablePrimaryWriting(bool clearConsole)
-        {
-            Writer.DisablePrimaryWriting(clearConsole);
-        }
-
-        /// <summary>
-        /// Logs the shutdown.
-        /// </summary>
-        /// <param name="builder">The builder.</param>
-        internal static void LogShutdown(StringBuilder builder)
-        {
-            Writer.LogShutdown(builder);
-        }
+        internal static void DisablePrimaryWriting(bool clearConsole) => Writer.DisablePrimaryWriting(clearConsole);
     }
 }

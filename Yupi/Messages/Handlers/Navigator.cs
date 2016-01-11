@@ -1,4 +1,4 @@
-﻿using Yupi.Data.Base.Sessions.Interfaces;
+﻿using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Browser;
 using Yupi.Game.Browser.Enums;
 using Yupi.Game.Browser.Models;
@@ -9,12 +9,12 @@ using Yupi.Messages.Parsers;
 namespace Yupi.Messages.Handlers
 {
     /// <summary>
-    /// Class GameClientMessageHandler.
+    ///     Class GameClientMessageHandler.
     /// </summary>
     internal partial class GameClientMessageHandler
     {
         /// <summary>
-        /// Gets the flat cats.
+        ///     Gets the flat cats.
         /// </summary>
         internal void GetFlatCats()
         {
@@ -24,14 +24,14 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Enters the inquired room.
+        ///     Enters the inquired room.
         /// </summary>
         internal void EnterInquiredRoom()
         {
         }
 
         /// <summary>
-        /// Gets the pub.
+        ///     Gets the pub.
         /// </summary>
         internal void GetPub()
         {
@@ -47,7 +47,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Opens the pub.
+        ///     Opens the pub.
         /// </summary>
         internal void OpenPub()
         {
@@ -61,7 +61,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// News the navigator.
+        ///     News the navigator.
         /// </summary>
         internal void NewNavigator()
         {
@@ -71,7 +71,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Searches the new navigator.
+        ///     Searches the new navigator.
         /// </summary>
         internal void SearchNewNavigator()
         {
@@ -83,7 +83,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Saveds the search.
+        ///     Saveds the search.
         /// </summary>
         internal void SavedSearch()
         {
@@ -110,7 +110,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Serializes the saved search.
+        ///     Serializes the saved search.
         /// </summary>
         /// <param name="textOne">The text one.</param>
         /// <param name="textTwo">The text two.</param>
@@ -122,7 +122,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// News the navigator resize.
+        ///     News the navigator resize.
         /// </summary>
         internal void NewNavigatorResize()
         {
@@ -138,7 +138,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// News the navigator add saved search.
+        ///     News the navigator add saved search.
         /// </summary>
         internal void NewNavigatorAddSavedSearch()
         {
@@ -146,7 +146,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// News the navigator delete saved search.
+        ///     News the navigator delete saved search.
         /// </summary>
         internal void NewNavigatorDeleteSavedSearch()
         {
@@ -167,7 +167,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// News the navigator collapse category.
+        ///     News the navigator collapse category.
         /// </summary>
         internal void NewNavigatorCollapseCategory()
         {
@@ -175,7 +175,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// News the navigator uncollapse category.
+        ///     News the navigator uncollapse category.
         /// </summary>
         internal void NewNavigatorUncollapseCategory()
         {
@@ -183,7 +183,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Gets the pubs.
+        ///     Gets the pubs.
         /// </summary>
         internal void GetPubs()
         {
@@ -193,7 +193,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Gets the room information.
+        ///     Gets the room information.
         /// </summary>
         internal void GetRoomInfo()
         {
@@ -212,17 +212,19 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Gets the popular rooms.
+        ///     Gets the popular rooms.
         /// </summary>
         internal void GetPopularRooms()
         {
             if (Session.GetHabbo() == null)
                 return;
-            Session.SendMessage(Yupi.GetGame().GetNavigator().SerializeNavigator(Session, int.Parse(Request.GetString())));
+            Session.SendMessage(Yupi.GetGame()
+                .GetNavigator()
+                .SerializeNavigator(Session, int.Parse(Request.GetString())));
         }
 
         /// <summary>
-        /// Gets the recommended rooms.
+        ///     Gets the recommended rooms.
         /// </summary>
         internal void GetRecommendedRooms()
         {
@@ -232,7 +234,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Gets the popular groups.
+        ///     Gets the popular groups.
         /// </summary>
         internal void GetPopularGroups()
         {
@@ -242,7 +244,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Gets the high rated rooms.
+        ///     Gets the high rated rooms.
         /// </summary>
         internal void GetHighRatedRooms()
         {
@@ -252,7 +254,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Gets the friends rooms.
+        ///     Gets the friends rooms.
         /// </summary>
         internal void GetFriendsRooms()
         {
@@ -262,7 +264,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Gets the rooms with friends.
+        ///     Gets the rooms with friends.
         /// </summary>
         internal void GetRoomsWithFriends()
         {
@@ -272,7 +274,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Gets the own rooms.
+        ///     Gets the own rooms.
         /// </summary>
         internal void GetOwnRooms()
         {
@@ -289,7 +291,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// News the navigator flat cats.
+        ///     News the navigator flat cats.
         /// </summary>
         internal void NewNavigatorFlatCats()
         {
@@ -299,7 +301,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Gets the favorite rooms.
+        ///     Gets the favorite rooms.
         /// </summary>
         internal void GetFavoriteRooms()
         {
@@ -309,7 +311,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Gets the recent rooms.
+        ///     Gets the recent rooms.
         /// </summary>
         internal void GetRecentRooms()
         {
@@ -319,7 +321,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Gets the popular tags.
+        ///     Gets the popular tags.
         /// </summary>
         internal void GetPopularTags()
         {
@@ -329,7 +331,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Gets the event rooms.
+        ///     Gets the event rooms.
         /// </summary>
         internal void GetEventRooms()
         {
@@ -339,7 +341,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Performs the search.
+        ///     Performs the search.
         /// </summary>
         internal void PerformSearch()
         {
@@ -350,7 +352,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Searches the by tag.
+        ///     Searches the by tag.
         /// </summary>
         internal void SearchByTag()
         {
@@ -360,7 +362,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Performs the search2.
+        ///     Performs the search2.
         /// </summary>
         internal void PerformSearch2()
         {
@@ -371,7 +373,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Opens the flat.
+        ///     Opens the flat.
         /// </summary>
         internal void OpenFlat()
         {
@@ -391,24 +393,26 @@ namespace Yupi.Messages.Handlers
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(roomId);
             Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(Session, "ACH_Spr", 1, true);
             if (room == null) return;
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 PublicItem pubItem = Yupi.GetGame().GetNavigator().GetPublicItem(roomId);
                 if (pubItem == null) // not picked
                 {
-                    queryReactor.SetQuery("INSERT INTO navigator_publics (bannertype, room_id, category_parent_id) VALUES ('0', @roomId, '-2')");
-                    queryReactor.AddParameter("roomId", room.RoomId);
-                    queryReactor.RunQuery();
-                    queryReactor.RunFastQuery("SELECT last_insert_id()");
-                    uint publicItemId = (uint)queryReactor.GetInteger();
-                    PublicItem publicItem = new PublicItem(publicItemId, 0, string.Empty, string.Empty, string.Empty, PublicImageType.Internal, room.RoomId, 0, -2, false, 1, string.Empty);
+                    commitableQueryReactor.SetQuery(
+                        "INSERT INTO navigator_publics (bannertype, room_id, category_parent_id) VALUES ('0', @roomId, '-2')");
+                    commitableQueryReactor.AddParameter("roomId", room.RoomId);
+                    commitableQueryReactor.RunQuery();
+                    commitableQueryReactor.RunFastQuery("SELECT last_insert_id()");
+                    uint publicItemId = (uint) commitableQueryReactor.GetInteger();
+                    PublicItem publicItem = new PublicItem(publicItemId, 0, string.Empty, string.Empty, string.Empty,
+                        PublicImageType.Internal, room.RoomId, 0, -2, false, 1, string.Empty);
                     Yupi.GetGame().GetNavigator().AddPublicItem(publicItem);
                 }
                 else // picked
                 {
-                    queryReactor.SetQuery("DELETE FROM navigator_publics WHERE id = @pubId");
-                    queryReactor.AddParameter("pubId", pubItem.Id);
-                    queryReactor.RunQuery();
+                    commitableQueryReactor.SetQuery("DELETE FROM navigator_publics WHERE id = @pubId");
+                    commitableQueryReactor.AddParameter("pubId", pubItem.Id);
+                    commitableQueryReactor.RunQuery();
                     Yupi.GetGame().GetNavigator().RemovePublicItem(pubItem.Id);
                 }
                 room.RoomData.SerializeRoomData(Response, Session, false, true);

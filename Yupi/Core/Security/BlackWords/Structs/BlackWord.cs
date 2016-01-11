@@ -27,24 +27,24 @@ using Yupi.Core.Security.BlackWords.Enums;
 namespace Yupi.Core.Security.BlackWords.Structs
 {
     /// <summary>
-    /// Struct BlackWord
+    ///     Struct BlackWord
     /// </summary>
     internal struct BlackWord
     {
         /// <summary>
-        /// The word
+        ///     The word
         /// </summary>
         public string Word;
 
         /// <summary>
-        /// The type
+        ///     The type
         /// </summary>
         public BlackWordType Type;
 
         public BlackWordTypeSettings TypeSettings => BlackWordsManager.GetSettings(Type);
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BlackWord"/> struct.
+        ///     Initializes a new instance of the <see cref="BlackWord" /> struct.
         /// </summary>
         /// <param name="word">The word.</param>
         /// <param name="type">The type.</param>

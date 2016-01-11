@@ -1,6 +1,6 @@
 using System.Data;
 using System.Globalization;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Groups.Structs;
 using Yupi.Game.Items.Interactions.Enums;
 using Yupi.Messages;
@@ -66,10 +66,10 @@ namespace Yupi.Game.Items.Interfaces
             if (BaseItem == null)
                 return;
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery($"SELECT * FROM items_limited WHERE item_id={id} LIMIT 1");
-                DataRow row = queryReactor.GetRow();
+                commitableQueryReactor.SetQuery($"SELECT * FROM items_limited WHERE item_id={id} LIMIT 1");
+                DataRow row = commitableQueryReactor.GetRow();
 
                 if (row != null)
                 {
@@ -131,11 +131,11 @@ namespace Yupi.Game.Items.Interfaces
             {
                 if (BaseItem.InteractionType == Interaction.Gift)
                 {
-                    string[] split = ExtraData.Split((char)9);
+                    string[] split = ExtraData.Split((char) 9);
                     int ribbon, color;
                     int.TryParse(split[2], out ribbon);
                     int.TryParse(split[3], out color);
-                    extraParam = ribbon * 1000 + color;
+                    extraParam = ribbon*1000 + color;
                 }
             }
             catch

@@ -1,6 +1,6 @@
 ﻿using System.Data;
 using System.Text;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Commands.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Rooms;
@@ -38,8 +38,8 @@ namespace Yupi.Game.Commands.Controllers
 
             foreach (DataRow row in data.Rows)
             {
-                builder.Append("Q: " + (string)row["question"] + "\r");
-                builder.Append("A: " + (string)row["answer"] + "\r\r");
+                builder.Append("Q: " + (string) row["question"] + "\r");
+                builder.Append("A: " + (string) row["answer"] + "\r\r");
             }
             session.SendNotif(builder.ToString());
             return true;

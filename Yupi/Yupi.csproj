@@ -185,6 +185,9 @@
     <Compile Include="Core\Algorithms\Astar\Interfaces\IPathNode.cs" />
     <Compile Include="Core\Algorithms\Astar\Interfaces\IWeightAddable.cs" />
     <Compile Include="Core\Algorithms\Astar\PriorityQueue.cs" />
+    <Compile Include="Data\Base\Adapters\Interfaces\IDatabaseClient.cs" />
+    <Compile Include="Data\Base\Adapters\Interfaces\IQueryAdapter.cs" />
+    <Compile Include="Data\Base\Adapters\NormalQueryAdapter.cs" />
     <Compile Include="Game\Achievements\Composers\AchievementTalentComposer.cs" />
     <Compile Include="Game\Groups\Composers\ForumRootMessageComposer.cs" />
     <Compile Include="Game\Groups\Composers\ForumDataMessageComposer.cs" />
@@ -199,20 +202,13 @@
     <Compile Include="Core\Encryption\PrimeCalculator.cs" />
     <Compile Include="Core\Encryption\Utils\Converter.cs" />
     <Compile Include="Core\Encryption\Utils\Randomizer.cs" />
-    <Compile Include="Data\Base\Connections\ConnectionManager.cs" />
-    <Compile Include="Data\Base\Connections\DatabaseConnection.cs" />
-    <Compile Include="Data\Base\DatabaseManager.cs" />
+    <Compile Include="Data\Base\Managers\ConnectionManager.cs" />
+    <Compile Include="Data\Base\Clients\DatabaseClient.cs" />
+    <Compile Include="Data\Base\Managers\DatabaseManager.cs" />
     <Compile Include="Data\Base\DatabaseServer.cs" />
     <Compile Include="Data\Base\Exceptions\DatabaseException.cs" />
     <Compile Include="Data\Base\Exceptions\QueryException.cs" />
-    <Compile Include="Data\Base\Exceptions\TransactionException.cs" />
-    <Compile Include="Data\Base\MySqlClient.cs" />
-    <Compile Include="Data\Base\Sessions\Interfaces\IDatabaseClient.cs" />
-    <Compile Include="Data\Base\Sessions\Interfaces\IQueryAdapter.cs" />
-    <Compile Include="Data\Base\Sessions\Interfaces\IRegularQueryAdapter.cs" />
-    <Compile Include="Data\Base\Sessions\NormalQueryReactor.cs" />
-    <Compile Include="Data\Base\Sessions\QueryAdapter.cs" />
-    <Compile Include="Data\Base\Sessions\TransactionQueryReactor.cs" />
+    <Compile Include="Data\Base\Clients\MySqlClient.cs" />
     <Compile Include="Data\Collections\OnCycleDoneDelegate.cs" />
     <Compile Include="Data\Collections\QueuedDictionary.cs" />
     <Compile Include="Game\Pets\Composers\PetCommandPanelComposer.cs" />
@@ -674,7 +670,6 @@
     <Compile Include="Core\Util\Enumerators\TextEndingTypes.cs" />
     <Compile Include="Data\ServerMemoryContainer.cs" />
     <Compile Include="Core\Util\Coordinates\CoordinatesFormatter.cs" />
-    <Compile Include="Data\Base\Queries\ChunkQuery.cs" />
     <Compile Include="Core\Util\Math\RandomNumberGenerator.cs" />
   </ItemGroup>
   <ItemGroup>

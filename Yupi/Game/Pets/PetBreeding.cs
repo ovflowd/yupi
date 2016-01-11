@@ -180,7 +180,9 @@ namespace Yupi.Game.Pets
                     break;
             }
 
-            message.AppendInteger(pet1.Type == "pet_terrier" ? PetTypeManager.GetPetRaceIdByType("pet_terrierbaby") : PetTypeManager.GetPetRaceIdByType("pet_bearbaby"));
+            message.AppendInteger(pet1.Type == "pet_terrier"
+                ? PetTypeManager.GetPetRaceIdByType("pet_terrierbaby")
+                : PetTypeManager.GetPetRaceIdByType("pet_bearbaby"));
 
             return message;
         }

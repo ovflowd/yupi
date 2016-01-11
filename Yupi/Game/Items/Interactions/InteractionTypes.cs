@@ -76,6 +76,7 @@ namespace Yupi.Game.Items.Interactions
                     {
                         switch (subType)
                         {
+                            case Interaction.PetDog:
                             case Interaction.PetCat:
                             case Interaction.PetCrocodile:
                             case Interaction.PetTerrier:

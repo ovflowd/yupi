@@ -5,35 +5,27 @@ using Yupi.Messages.Factorys;
 namespace Yupi.Messages
 {
     /// <summary>
-    /// Class ClientMessage.
+    ///     Class ClientMessage.
     /// </summary>
     public class ClientMessage : IDisposable
     {
         /// <summary>
-        /// The _body
+        ///     The _body
         /// </summary>
         private byte[] _body;
 
         /// <summary>
-        /// The _position
-        /// </summary>
-        private int _position;
-
-        /// <summary>
-        /// The length
+        ///     The length
         /// </summary>
         internal int _length;
 
         /// <summary>
-        /// Gets the identifier.
+        ///     The _position
         /// </summary>
-        /// <value>The identifier.</value>
-        internal int Id { get; private set; }
-
-        public int Length => _length;
+        private int _position;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ClientMessage"/> class.
+        ///     Initializes a new instance of the <see cref="ClientMessage" /> class.
         /// </summary>
         internal ClientMessage(int messageId, byte[] body, int position, int packetLength)
         {
@@ -41,7 +33,15 @@ namespace Yupi.Messages
         }
 
         /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        ///     Gets the identifier.
+        /// </summary>
+        /// <value>The identifier.</value>
+        internal int Id { get; private set; }
+
+        public int Length => _length;
+
+        /// <summary>
+        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
         public void Dispose()
         {
@@ -50,7 +50,7 @@ namespace Yupi.Messages
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String" /> that represents this instance.
+        ///     Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
         /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
         public override string ToString()
@@ -60,13 +60,13 @@ namespace Yupi.Messages
             stringValue += Encoding.Default.GetString(_body);
 
             for (int i = 0; i < 13; i++)
-                stringValue = stringValue.Replace(char.ToString((char)i), $"[{i}]");
+                stringValue = stringValue.Replace(char.ToString((char) i), $"[{i}]");
 
             return stringValue;
         }
 
         /// <summary>
-        /// Initializes the specified message identifier.
+        ///     Initializes the specified message identifier.
         /// </summary>
         internal void Init(int messageId, byte[] body, int position, int packetLength)
         {
@@ -77,7 +77,7 @@ namespace Yupi.Messages
         }
 
         /// <summary>
-        /// Reads the bytes.
+        ///     Reads the bytes.
         /// </summary>
         /// <param name="len">The bytes length.</param>
         /// <returns>System.Byte[].</returns>
@@ -92,7 +92,7 @@ namespace Yupi.Messages
         }
 
         /// <summary>
-        /// Gets the bytes.
+        ///     Gets the bytes.
         /// </summary>
         /// <param name="len">The bytes length.</param>
         /// <returns>System.Byte[].</returns>
@@ -111,7 +111,7 @@ namespace Yupi.Messages
         }
 
         /// <summary>
-        /// Gets the string.
+        ///     Gets the string.
         /// </summary>
         /// <returns>System.String.</returns>
         internal string GetString()
@@ -120,7 +120,7 @@ namespace Yupi.Messages
         }
 
         /// <summary>
-        /// Gets the string.
+        ///     Gets the string.
         /// </summary>
         /// <param name="encoding">The encoding.</param>
         /// <returns>System.String.</returns>
@@ -136,7 +136,7 @@ namespace Yupi.Messages
         }
 
         /// <summary>
-        /// Gets the integer from string.
+        ///     Gets the integer from string.
         /// </summary>
         /// <returns>System.Int32.</returns>
         internal int GetIntegerFromString()
@@ -151,7 +151,7 @@ namespace Yupi.Messages
         }
 
         /// <summary>
-        /// Gets the bool.
+        ///     Gets the bool.
         /// </summary>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         internal bool GetBool()
@@ -160,13 +160,13 @@ namespace Yupi.Messages
         }
 
         /// <summary>
-        /// Gets the integer16.
+        ///     Gets the integer16.
         /// </summary>
         /// <returns>System.Int16.</returns>
-        internal Int16 GetInteger16() => HabboEncoding.DecodeInt16(_body, ref _position);
+        internal short GetInteger16() => HabboEncoding.DecodeInt16(_body, ref _position);
 
         /// <summary>
-        /// Gets the integer.
+        ///     Gets the integer.
         /// </summary>
         /// <returns>System.Int32.</returns>
         internal int GetInteger() => HabboEncoding.DecodeInt32(_body, ref _position);
@@ -174,19 +174,19 @@ namespace Yupi.Messages
         internal bool GetIntegerAsBool() => HabboEncoding.DecodeInt32(_body, ref _position) == 1;
 
         /// <summary>
-        /// Gets the integer32.
+        ///     Gets the integer32.
         /// </summary>
         /// <returns>System.UInt32.</returns>
         internal uint GetUInteger()
         {
             int value = GetInteger();
-            return value < 0 ? 0 : (uint)value;
+            return value < 0 ? 0 : (uint) value;
         }
 
         /// <summary>
-        /// Gets the integer16.
+        ///     Gets the integer16.
         /// </summary>
         /// <returns>System.UInt16.</returns>
-        internal ushort GetUInteger16() => (ushort)GetInteger16();
+        internal ushort GetUInteger16() => (ushort) GetInteger16();
     }
 }

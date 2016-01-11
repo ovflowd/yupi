@@ -41,10 +41,10 @@ namespace Yupi.Core.Encryption.Utils
         {
             int numberChars = hexstring.Length;
 
-            byte[] bytes = new byte[numberChars / 2];
+            byte[] bytes = new byte[numberChars/2];
 
             for (int i = 0; i < numberChars; i += 2)
-                bytes[i / 2] = Convert.ToByte(hexstring.Substring(i, 2), 16);
+                bytes[i/2] = Convert.ToByte(hexstring.Substring(i, 2), 16);
 
             return bytes;
         }

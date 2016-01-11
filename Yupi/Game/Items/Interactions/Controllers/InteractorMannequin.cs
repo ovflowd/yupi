@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Items.Interactions.Models;
 using Yupi.Game.Items.Interfaces;
@@ -59,13 +59,13 @@ namespace Yupi.Game.Items.Interactions.Controllers
 
             session.GetHabbo().Look = text3.TrimEnd('.');
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery(
+                commitableQueryReactor.SetQuery(
                     $"UPDATE users SET look = @look, gender = @gender WHERE id = {session.GetHabbo().Id}");
-                queryReactor.AddParameter("look", session.GetHabbo().Look);
-                queryReactor.AddParameter("gender", session.GetHabbo().Gender);
-                queryReactor.RunQuery();
+                commitableQueryReactor.AddParameter("look", session.GetHabbo().Look);
+                commitableQueryReactor.AddParameter("gender", session.GetHabbo().Gender);
+                commitableQueryReactor.RunQuery();
             }
 
             session.GetMessageHandler()

@@ -27,23 +27,23 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Yupi.Core.Io;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 
 namespace Yupi.Core.Security
 {
     /// <summary>
-    /// Class ServerSecurityChatFilter.
+    ///     Class ServerSecurityChatFilter.
     /// </summary>
     internal class ServerSecurityChatFilter
     {
         /// <summary>
-        /// The word
+        ///     The word
         /// </summary>
         internal static List<string> Word;
 
         /// <summary>
-        /// Determines whether this instance can talk the specified session.
+        ///     Determines whether this instance can talk the specified session.
         /// </summary>
         /// <param name="session">The session.</param>
         /// <param name="message">The message.</param>
@@ -56,19 +56,22 @@ namespace Yupi.Core.Security
                     session.GetHabbo().BobbaFiltered++;
 
                 if (session.GetHabbo().BobbaFiltered < 3)
-                    session.SendNotif("Your language is inappropriate. If you do not change this , measures are being taken by the automated system of Habbo.");
+                    session.SendNotif(
+                        "Your language is inappropriate. If you do not change this , measures are being taken by the automated system of Habbo.");
                 else if (session.GetHabbo().BobbaFiltered >= 3)
                 {
                     if (session.GetHabbo().BobbaFiltered == 3)
                     {
                         session.GetHabbo().BobbaFiltered = 4;
-                        Yupi.MutedUsersByFilter.Add(session.GetHabbo().Id, uint.Parse((Yupi.GetUnixTimeStamp() + 300 * 60).ToString()));
+                        Yupi.MutedUsersByFilter.Add(session.GetHabbo().Id,
+                            uint.Parse((Yupi.GetUnixTimeStamp() + 300*60).ToString()));
 
                         return false;
                     }
 
                     if (session.GetHabbo().BobbaFiltered == 4)
-                        session.SendNotif("Now you can not talk for 5 minutes . This is because your exhibits inappropriate language in Habbo Hotel.");
+                        session.SendNotif(
+                            "Now you can not talk for 5 minutes . This is because your exhibits inappropriate language in Habbo Hotel.");
                     else if (session.GetHabbo().BobbaFiltered == 5)
                         session.SendNotif("You risk a ban if you continue to scold it . This is your last warning");
                     else if (session.GetHabbo().BobbaFiltered >= 7)
@@ -89,7 +92,9 @@ namespace Yupi.Core.Security
                     DateTime now = DateTime.Now;
                     TimeSpan timeStillBanned = now - Yupi.UnixToDateTime(Yupi.MutedUsersByFilter[session.GetHabbo().Id]);
 
-                    session.SendNotif("Damn! you can't talk for " + timeStillBanned.Minutes.ToString().Replace("-", "") + " minutes and " + timeStillBanned.Seconds.ToString().Replace("-", "") + " seconds.");
+                    session.SendNotif("Damn! you can't talk for " + timeStillBanned.Minutes.ToString().Replace("-", "") +
+                                      " minutes and " + timeStillBanned.Seconds.ToString().Replace("-", "") +
+                                      " seconds.");
                     return false;
                 }
             }
@@ -98,7 +103,7 @@ namespace Yupi.Core.Security
         }
 
         /// <summary>
-        /// Initializes the swear word.
+        ///     Initializes the swear word.
         /// </summary>
         internal static void InitSwearWord()
         {
@@ -121,7 +126,7 @@ namespace Yupi.Core.Security
         }
 
         /// <summary>
-        /// Checks for banned phrases.
+        ///     Checks for banned phrases.
         /// </summary>
         /// <param name="message">The message.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>

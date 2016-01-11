@@ -32,7 +32,7 @@ namespace Yupi.Game.Commands.Controllers
                 roomUserByHabbo.Statusses.ContainsKey("lay"))
                 return true;
 
-            if (roomUserByHabbo.RotBody % 2 != 0) roomUserByHabbo.RotBody--;
+            if (roomUserByHabbo.RotBody%2 != 0) roomUserByHabbo.RotBody--;
             roomUserByHabbo.Statusses.Add("lay", "0.55");
             roomUserByHabbo.IsLyingDown = true;
             roomUserByHabbo.UpdateNeeded = true;

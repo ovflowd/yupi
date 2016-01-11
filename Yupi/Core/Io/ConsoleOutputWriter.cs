@@ -29,7 +29,7 @@ namespace Yupi.Core.Io
     internal class ConsoleOutputWriter
     {
         /// <summary>
-        /// Writes the line.
+        ///     Writes the line.
         /// </summary>
         /// <param name="format">The format.</param>
         /// <param name="header">The header.</param>
@@ -55,7 +55,7 @@ namespace Yupi.Core.Io
         }
 
         /// <summary>
-        /// Writes the specified format.
+        ///     Writes the specified format.
         /// </summary>
         /// <param name="format">The format.</param>
         /// <param name="header">The header.</param>

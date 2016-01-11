@@ -35,11 +35,6 @@ namespace Yupi.Game.Rooms.User
     public class RoomUser : IEquatable<RoomUser>
     {
         /// <summary>
-        ///     The _events
-        /// </summary>
-        public Queue Events1 { get; }
-
-        /// <summary>
         ///     The _flood count
         /// </summary>
         private int _floodCount;
@@ -233,6 +228,9 @@ namespace Yupi.Game.Rooms.User
         ///     The last item
         /// </summary>
         internal uint LastItem;
+
+        internal int LastSelectedX, CopyX;
+        internal int LastSelectedY, CopyY;
 
         /// <summary>
         ///     The locked tiles count
@@ -463,6 +461,11 @@ namespace Yupi.Game.Rooms.User
             GateId = 0u;
             LockedTilesCount = 0;
         }
+
+        /// <summary>
+        ///     The _events
+        /// </summary>
+        public Queue Events1 { get; }
 
         /// <summary>
         ///     Gets the coordinate.
@@ -728,7 +731,8 @@ namespace Yupi.Game.Rooms.User
 
             BlackWord word;
 
-            if (!(msg.StartsWith(":deleteblackword ") && session.GetHabbo().Rank > 4) &&  BlackWordsManager.Check(msg, BlackWordType.Hotel, out word))
+            if (!(msg.StartsWith(":deleteblackword ") && session.GetHabbo().Rank > 4) &&
+                BlackWordsManager.Check(msg, BlackWordType.Hotel, out word))
             {
                 BlackWordTypeSettings settings = word.TypeSettings;
 
@@ -736,7 +740,8 @@ namespace Yupi.Game.Rooms.User
 
                 if (settings.ShowMessage)
                 {
-                    session.SendWhisper("The message contains the word: " + word.Word + " that isn't allowed. You can be banned");
+                    session.SendWhisper("The message contains the word: " + word.Word +
+                                        " that isn't allowed. You can be banned");
                     return;
                 }
             }
@@ -1321,8 +1326,5 @@ namespace Yupi.Game.Rooms.User
         {
             return _mRoom ?? (_mRoom = Yupi.GetGame().GetRoomManager().GetRoom(RoomId));
         }
-
-        internal int LastSelectedX, CopyX;
-        internal int LastSelectedY, CopyY;
     }
 }

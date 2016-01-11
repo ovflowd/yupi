@@ -33,66 +33,49 @@ using Yupi.Net.Sockets;
 namespace Yupi.Net.Connection
 {
     /// <summary>
-    /// Class ConnectionData.
+    ///     Class ConnectionData.
     /// </summary>
     public class ConnectionData : IDisposable
     {
         /// <summary>
-        /// The _socket
-        /// </summary>
-        private Socket _socket;
-        /// <summary>
-        /// The _remote end point
-        /// </summary>
-        private readonly EndPoint _remoteEndPoint;
-
-        /// <summary>
-        /// Delegate OnClientDisconnectedEvent
+        ///     Delegate OnClientDisconnectedEvent
         /// </summary>
         /// <param name="connection">The connection.</param>
         /// <param name="exception">The exception.</param>
         public delegate void OnClientDisconnectedEvent(ConnectionData connection, Exception exception);
 
         /// <summary>
-        /// Occurs when [disconnect action].
-        /// </summary>
-        public event OnClientDisconnectedEvent DisconnectAction = delegate { };
-
-        /// <summary>
-        /// Identity of this channel
-        /// </summary>
-        /// <value>The channel identifier.</value>
-        /// <remarks>Must be unique within a server.</remarks>
-        public uint ChannelId { get; }
-
-        /// <summary>
-        /// The _is connected
-        /// </summary>
-        private bool _connected;
-
-        /// <summary>
-        /// The _buffer
+        ///     The _buffer
         /// </summary>
         private readonly byte[] _buffer;
 
         /// <summary>
-        /// Gets or sets the parser.
+        ///     The _remote end point
         /// </summary>
-        /// <value>The parser.</value>
-        public IDataParser Parser { get; set; }
+        private readonly EndPoint _remoteEndPoint;
 
         /// <summary>
-        /// The ar c4 server side
+        ///     The _is connected
         /// </summary>
-        internal Arc4 Arc4ServerSide;
+        private bool _connected;
 
         /// <summary>
-        /// The ar c4 client side
+        ///     The _socket
+        /// </summary>
+        private Socket _socket;
+
+        /// <summary>
+        ///     The ar c4 client side
         /// </summary>
         internal Arc4 Arc4ClientSide;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConnectionData" /> class.
+        ///     The ar c4 server side
+        /// </summary>
+        internal Arc4 Arc4ServerSide;
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="ConnectionData" /> class.
         /// </summary>
         /// <param name="socket">The socket.</param>
         /// <param name="parser">The parser.</param>
@@ -109,7 +92,20 @@ namespace Yupi.Net.Connection
         }
 
         /// <summary>
-        /// Gets or sets the disconnected.
+        ///     Identity of this channel
+        /// </summary>
+        /// <value>The channel identifier.</value>
+        /// <remarks>Must be unique within a server.</remarks>
+        public uint ChannelId { get; }
+
+        /// <summary>
+        ///     Gets or sets the parser.
+        /// </summary>
+        /// <value>The parser.</value>
+        public IDataParser Parser { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the disconnected.
         /// </summary>
         /// <value>The disconnected.</value>
         public OnClientDisconnectedEvent Disconnected
@@ -126,7 +122,20 @@ namespace Yupi.Net.Connection
         }
 
         /// <summary>
-        /// Reads the asynchronous.
+        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Disconnect();
+        }
+
+        /// <summary>
+        ///     Occurs when [disconnect action].
+        /// </summary>
+        public event OnClientDisconnectedEvent DisconnectAction = delegate { };
+
+        /// <summary>
+        ///     Reads the asynchronous.
         /// </summary>
         private void ReadAsync()
         {
@@ -141,7 +150,7 @@ namespace Yupi.Net.Connection
         }
 
         /// <summary>
-        /// Handles the disconnect.
+        ///     Handles the disconnect.
         /// </summary>
         /// <param name="socketError">The socket error.</param>
         /// <param name="exception">The exception.</param>
@@ -171,20 +180,19 @@ namespace Yupi.Net.Connection
             }
             catch (Exception ex)
             {
-                ServerLogManager.LogException(ex.ToString());
-                ServerLogManager.HandleException(ex, "Yupi.Connection.Connection.ConnectionInformation");
+                ServerLogManager.LogException(ex, "Yupi.Net.Connection.ConnectionData.ConnectionInformation");
             }
         }
 
         /// <summary>
-        /// Called when [read completed].
+        ///     Called when [read completed].
         /// </summary>
         /// <param name="async">The asynchronous.</param>
         private void OnReadCompleted(IAsyncResult async)
         {
             try
             {
-                Socket dataSocket = (Socket)async.AsyncState;
+                Socket dataSocket = (Socket) async.AsyncState;
 
                 if (_socket != null && _socket.Connected && _connected)
                 {
@@ -220,18 +228,17 @@ namespace Yupi.Net.Connection
                     HandleDisconnect(SocketError.ConnectionAborted, exception);
                 }
             }
-
         }
 
         /// <summary>
-        /// Called when [send completed].
+        ///     Called when [send completed].
         /// </summary>
         /// <param name="async">The asynchronous.</param>
         private void OnSendCompleted(IAsyncResult async)
         {
             try
             {
-                Socket dataSocket = (Socket)async.AsyncState;
+                Socket dataSocket = (Socket) async.AsyncState;
 
                 if (_socket != null && _socket.Connected && _connected)
                     dataSocket.EndSend(async);
@@ -245,7 +252,7 @@ namespace Yupi.Net.Connection
         }
 
         /// <summary>
-        /// Cleanup everything so that the channel can be reused.
+        ///     Cleanup everything so that the channel can be reused.
         /// </summary>
         public void Cleanup()
         {
@@ -254,7 +261,7 @@ namespace Yupi.Net.Connection
         }
 
         /// <summary>
-        /// Starts the packet processing.
+        ///     Starts the packet processing.
         /// </summary>
         public void StartPacketProcessing()
         {
@@ -265,36 +272,28 @@ namespace Yupi.Net.Connection
         }
 
         /// <summary>
-        /// Gets the ip.
+        ///     Gets the ip.
         /// </summary>
         /// <returns>System.String.</returns>
         public string GetIp() => _remoteEndPoint.ToString().Split(':')[0];
 
         /// <summary>
-        /// Gets the connection identifier.
+        ///     Gets the connection identifier.
         /// </summary>
         /// <returns>System.UInt32.</returns>
         public uint GetConnectionId() => ChannelId;
 
         /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-            Disconnect();
-        }
-
-        /// <summary>
-        /// Disconnects this instance.
+        ///     Disconnects this instance.
         /// </summary>
         internal void Disconnect()
         {
             if (_connected)
-                HandleDisconnect(SocketError.ConnectionReset, new SocketException((int)SocketError.ConnectionReset));
+                HandleDisconnect(SocketError.ConnectionReset, new SocketException((int) SocketError.ConnectionReset));
         }
 
         /// <summary>
-        /// Handles the packet data.
+        ///     Handles the packet data.
         /// </summary>
         /// <param name="packet">The packet.</param>
         /// <param name="bytesReceived"></param>
@@ -308,7 +307,7 @@ namespace Yupi.Net.Connection
         }
 
         /// <summary>
-        /// Sends the data.
+        ///     Sends the data.
         /// </summary>
         /// <param name="packet">The packet.</param>
         public void SendData(byte[] packet)

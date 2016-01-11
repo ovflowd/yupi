@@ -45,8 +45,8 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
             if (stuff[0] == null)
                 return false;
 
-            RoomUser roomUser = (RoomUser)stuff[0];
-            int team = Delay / 500;
+            RoomUser roomUser = (RoomUser) stuff[0];
+            int team = Delay/500;
             TeamManager t = roomUser.GetClient().GetHabbo().CurrentRoom.GetTeamManagerForFreeze();
 
             if (roomUser.Team != Team.None)

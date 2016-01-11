@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Users.Badges.Models;
 using Yupi.Game.Users.Data.Models;
@@ -78,12 +78,14 @@ namespace Yupi.Game.Users.Badges
 
             if (inDatabase)
             {
-                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    queryReactor.SetQuery(string.Concat("INSERT INTO users_badges (user_id,badge_id,badge_slot) VALUES (", _userId, ",@badge,", 0, ")"));
+                    commitableQueryReactor.SetQuery(
+                        string.Concat("INSERT INTO users_badges (user_id,badge_id,badge_slot) VALUES (", _userId,
+                            ",@badge,", 0, ")"));
 
-                    queryReactor.AddParameter("badge", badge);
-                    queryReactor.RunQuery();
+                    commitableQueryReactor.AddParameter("badge", badge);
+                    commitableQueryReactor.RunQuery();
                 }
             }
 
@@ -143,12 +145,13 @@ namespace Yupi.Game.Users.Badges
             if (!HasBadge(badge))
                 return;
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery("DELETE FROM users_badges WHERE badge_id = @badge AND user_id = " + _userId);
+                commitableQueryReactor.SetQuery("DELETE FROM users_badges WHERE badge_id = @badge AND user_id = " +
+                                                _userId);
 
-                queryReactor.AddParameter("badge", badge);
-                queryReactor.RunQuery();
+                commitableQueryReactor.AddParameter("badge", badge);
+                commitableQueryReactor.RunQuery();
             }
 
             BadgeList.Remove(GetBadge(badge));

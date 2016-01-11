@@ -175,7 +175,8 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Banzai
                 {
                     Yupi.GetGame()
                         .GetAchievementManager()
-                        .ProgressUserAchievement(avatar.GetClient(), "ACH_BattleBallTilesLocked", avatar.LockedTilesCount);
+                        .ProgressUserAchievement(avatar.GetClient(), "ACH_BattleBallTilesLocked",
+                            avatar.LockedTilesCount);
                     Yupi.GetGame()
                         .GetAchievementManager()
                         .ProgressUserAchievement(avatar.GetClient(), "ACH_BattleBallPlayer", 1);
@@ -391,7 +392,8 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Banzai
                     BanzaiTiles.Values.Cast<RoomItem>()
                         .Where(
                             roomItem =>
-                                roomItem.GetBaseItem().InteractionType == Interaction.BanzaiFloor && roomItem.X == coord.X && roomItem.Y == coord.Y))
+                                roomItem.GetBaseItem().InteractionType == Interaction.BanzaiFloor &&
+                                roomItem.X == coord.X && roomItem.Y == coord.Y))
             {
                 SetMaxForTile(roomItem, team, user);
                 _room.GetGameManager().AddPointToTeam(team, user);

@@ -1,5 +1,5 @@
 using System;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 
 namespace Yupi.Game.Items.Handlers
 {
@@ -17,12 +17,12 @@ namespace Yupi.Game.Items.Handlers
         {
             uint result;
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery(
+                commitableQueryReactor.SetQuery(
                     $"SELECT room_id FROM items_hopper WHERE room_id <> '{curRoom}' ORDER BY RAND() LIMIT 1");
 
-                uint num = Convert.ToUInt32(queryReactor.GetInteger());
+                uint num = Convert.ToUInt32(commitableQueryReactor.GetInteger());
                 result = num;
             }
 
@@ -38,12 +38,12 @@ namespace Yupi.Game.Items.Handlers
         {
             uint result;
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery("SELECT hopper_id FROM items_hopper WHERE room_id = @room LIMIT 1");
-                queryReactor.AddParameter("room", nextRoom);
+                commitableQueryReactor.SetQuery("SELECT hopper_id FROM items_hopper WHERE room_id = @room LIMIT 1");
+                commitableQueryReactor.AddParameter("room", nextRoom);
 
-                string theString = queryReactor.GetString();
+                string theString = commitableQueryReactor.GetString();
 
                 result = theString == null ? 0u : Convert.ToUInt32(theString);
             }

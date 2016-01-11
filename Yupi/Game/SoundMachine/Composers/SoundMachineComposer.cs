@@ -9,12 +9,12 @@ using Yupi.Messages.Parsers;
 namespace Yupi.Game.SoundMachine.Composers
 {
     /// <summary>
-    /// Class JukeboxComposer.
+    ///     Class JukeboxComposer.
     /// </summary>
     internal class SoundMachineComposer
     {
         /// <summary>
-        /// Composes the specified songs.
+        ///     Composes the specified songs.
         /// </summary>
         /// <param name="songs">The songs.</param>
         /// <returns>ServerMessage.</returns>
@@ -37,7 +37,7 @@ namespace Yupi.Game.SoundMachine.Composers
         }
 
         /// <summary>
-        /// Composes the playing composer.
+        ///     Composes the playing composer.
         /// </summary>
         /// <param name="songId">The song identifier.</param>
         /// <param name="playlistItemNumber">The playlist item number.</param>
@@ -68,14 +68,15 @@ namespace Yupi.Game.SoundMachine.Composers
         }
 
         /// <summary>
-        /// Composes the specified session.
+        ///     Composes the specified session.
         /// </summary>
         /// <param name="session">The session.</param>
         /// <returns>ServerMessage.</returns>
-        internal static ServerMessage Compose(GameClient session) => session.GetHabbo().GetInventoryComponent().SerializeMusicDiscs();
+        internal static ServerMessage Compose(GameClient session)
+            => session.GetHabbo().GetInventoryComponent().SerializeMusicDiscs();
 
         /// <summary>
-        /// Composes the specified playlist capacity.
+        ///     Composes the specified playlist capacity.
         /// </summary>
         /// <param name="playlistCapacity">The playlist capacity.</param>
         /// <param name="playlist">The playlist.</param>
@@ -97,7 +98,7 @@ namespace Yupi.Game.SoundMachine.Composers
         }
 
         /// <summary>
-        /// Composes the specified song identifier.
+        ///     Composes the specified song identifier.
         /// </summary>
         /// <param name="songId">The song identifier.</param>
         /// <param name="playlistItemNumber">The playlist item number.</param>
@@ -128,7 +129,7 @@ namespace Yupi.Game.SoundMachine.Composers
         }
 
         /// <summary>
-        /// Serializes the song inventory.
+        ///     Serializes the song inventory.
         /// </summary>
         /// <param name="songs">The songs.</param>
         /// <returns>ServerMessage.</returns>

@@ -32,25 +32,26 @@ using Yupi.Game.Users;
 namespace Yupi.Data
 {
     /// <summary>
-    /// Class CacheManager.
+    ///     Class CacheManager.
     /// </summary>
     public static class CacheManager
     {
         /// <summary>
-        /// The _thread
+        ///     The _thread
         /// </summary>
         private static Thread _thread;
+
         /// <summary>
-        /// The working
+        ///     The working
         /// </summary>
         public static bool Working;
 
         /// <summary>
-        /// Starts the process.
+        ///     Starts the process.
         /// </summary>
         public static void StartProcess()
         {
-            _thread = new Thread(Process) { Name = "Cache Thread" };
+            _thread = new Thread(Process) {Name = "Cache Thread"};
 
             _thread.Start();
 
@@ -58,7 +59,7 @@ namespace Yupi.Data
         }
 
         /// <summary>
-        /// Stops the process.
+        ///     Stops the process.
         /// </summary>
         public static void StopProcess()
         {
@@ -67,7 +68,7 @@ namespace Yupi.Data
         }
 
         /// <summary>
-        /// Processes this instance.
+        ///     Processes this instance.
         /// </summary>
         private static void Process()
         {
@@ -84,7 +85,7 @@ namespace Yupi.Data
         }
 
         /// <summary>
-        /// Clears the user cache.
+        ///     Clears the user cache.
         /// </summary>
         private static void ClearUserCache()
         {
@@ -117,14 +118,18 @@ namespace Yupi.Data
         }
 
         /// <summary>
-        /// Clears the rooms cache.
+        ///     Clears the rooms cache.
         /// </summary>
         private static void ClearRoomsCache()
         {
-            if (Yupi.GetGame() == null || Yupi.GetGame().GetRoomManager() == null || Yupi.GetGame().GetRoomManager().LoadedRoomData == null)
+            if (Yupi.GetGame() == null || Yupi.GetGame().GetRoomManager() == null ||
+                Yupi.GetGame().GetRoomManager().LoadedRoomData == null)
                 return;
 
-            List<uint> toRemove = (from roomData in Yupi.GetGame().GetRoomManager().LoadedRoomData where roomData.Value != null && roomData.Value.UsersNow <= 0 where !((DateTime.Now - roomData.Value.LastUsed).TotalMilliseconds < 1800000) select roomData.Key).ToList();
+            List<uint> toRemove = (from roomData in Yupi.GetGame().GetRoomManager().LoadedRoomData
+                where roomData.Value != null && roomData.Value.UsersNow <= 0
+                where !((DateTime.Now - roomData.Value.LastUsed).TotalMilliseconds < 1800000)
+                select roomData.Key).ToList();
 
             foreach (uint roomId in toRemove)
             {

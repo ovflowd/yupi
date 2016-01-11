@@ -25,32 +25,32 @@
 namespace Yupi.Data.Structs
 {
     /// <summary>
-    /// Struct FurnitureData
+    ///     Struct FurnitureData
     /// </summary>
     public struct FurnitureData
     {
         /// <summary>
-        /// The identifier
+        ///     The identifier
         /// </summary>
         public int Id;
 
         /// <summary>
-        /// The name
+        ///     The name
         /// </summary>
         public string Name;
 
         /// <summary>
-        /// The x
+        ///     The x
         /// </summary>
         public ushort X, Y;
 
         /// <summary>
-        /// The can sit
+        ///     The can sit
         /// </summary>
         public bool CanSit, CanWalk;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FurnitureData" /> struct.
+        ///     Initializes a new instance of the <see cref="FurnitureData" /> struct.
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="name">The name.</param>

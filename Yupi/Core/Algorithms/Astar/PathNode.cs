@@ -30,6 +30,14 @@ namespace Yupi.Core.Algorithms.Astar
     public class PathNode : IPathNode, IComparer<PathNode>, IWeightAddable<double>
     {
         public static readonly PathNode Comparer = new PathNode(0, 0, default(IPathNode));
+        public int ExtraWeight;
+
+        public PathNode(int inX, int inY, IPathNode inUserContext)
+        {
+            X = inX;
+            Y = inY;
+            UserItem = inUserContext;
+        }
 
         public IPathNode UserItem { get; internal set; }
         public double G { get; internal set; }
@@ -38,11 +46,10 @@ namespace Yupi.Core.Algorithms.Astar
 
         public PathNode Parent { get; set; }
 
-        public bool IsBlocked(int x, int y, bool lastTile) => UserItem.IsBlocked(x, y, lastTile);
-
         public int X { get; internal set; }
         public int Y { get; internal set; }
-        public int ExtraWeight;
+
+        public bool BeenThere { get; set; }
 
         public int Compare(PathNode x, PathNode y)
         {
@@ -52,19 +59,12 @@ namespace Yupi.Core.Algorithms.Astar
             return x.F > y.F ? 1 : 0;
         }
 
-        public PathNode(int inX, int inY, IPathNode inUserContext)
-        {
-            X = inX;
-            Y = inY;
-            UserItem = inUserContext;
-        }
+        public bool IsBlocked(int x, int y, bool lastTile) => UserItem.IsBlocked(x, y, lastTile);
 
         public double WeightChange
         {
             get { return F; }
             set { F = value; }
         }
-
-        public bool BeenThere { get; set; }
     }
 }

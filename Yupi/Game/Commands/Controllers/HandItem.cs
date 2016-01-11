@@ -27,7 +27,8 @@ namespace Yupi.Game.Commands.Controllers
             if (!ushort.TryParse(pms[0], out itemId))
                 return true;
 
-            RoomUser user = session.GetHabbo().CurrentRoom.GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().UserName);
+            RoomUser user =
+                session.GetHabbo().CurrentRoom.GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().UserName);
 
             if (user.RidingHorse)
             {

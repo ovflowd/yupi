@@ -1,6 +1,6 @@
 using System;
 using System.Threading;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Items.Interactions.Models;
 using Yupi.Game.Items.Interfaces;
@@ -39,7 +39,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                         user.MoveTo(item.X - 1, item.Y);
                     else if (user.RotBody == 4)
                         user.MoveTo(item.X, item.Y - 1);
-                    else if(user.RotBody == 6)
+                    else if (user.RotBody == 6)
                         user.MoveTo(item.X + 1, item.Y);
                     else
                         user.MoveTo(item.X, item.Y + 1); // Diagonal user...
@@ -59,8 +59,8 @@ namespace Yupi.Game.Items.Interactions.Controllers
 
                     room.GetRoomItemHandler().RemoveFurniture(session, item.Id, false);
 
-                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                        queryReactor.RunFastQuery("DELETE FROM items_rooms WHERE id = " + item.Id);
+                    using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                        commitableQueryReactor.RunFastQuery("DELETE FROM items_rooms WHERE id = " + item.Id);
                 }
             }
         }

@@ -77,9 +77,9 @@ namespace Yupi.Game.SoundMachine
                     return 0;
 
                 if (TimePlaying >= CurrentSong.SongData.LengthSeconds)
-                    return (int)CurrentSong.SongData.LengthSeconds;
+                    return (int) CurrentSong.SongData.LengthSeconds;
 
-                return (int)(TimePlaying * 1000.0);
+                return (int) (TimePlaying*1000.0);
             }
         }
 
@@ -331,7 +331,8 @@ namespace Yupi.Game.SoundMachine
         {
             if (CurrentSong != null)
             {
-                instance.SendMessage(SoundMachineComposer.ComposePlayingComposer(CurrentSong.SongData.Id, SongQueuePosition, 0));
+                instance.SendMessage(SoundMachineComposer.ComposePlayingComposer(CurrentSong.SongData.Id,
+                    SongQueuePosition, 0));
                 return;
             }
 
@@ -347,7 +348,9 @@ namespace Yupi.Game.SoundMachine
             if (user.IsBot || user.GetClient() == null || CurrentSong == null)
                 return;
 
-            user.GetClient().SendMessage(SoundMachineComposer.ComposePlayingComposer(CurrentSong.SongData.Id, SongQueuePosition, SongSyncTimestamp));
+            user.GetClient()
+                .SendMessage(SoundMachineComposer.ComposePlayingComposer(CurrentSong.SongData.Id, SongQueuePosition,
+                    SongSyncTimestamp));
         }
 
         /// <summary>

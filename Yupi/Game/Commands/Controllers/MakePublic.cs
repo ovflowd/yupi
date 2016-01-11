@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Commands.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Rooms;
@@ -24,8 +24,9 @@ namespace Yupi.Game.Commands.Controllers
         {
             Room room = session.GetHabbo().CurrentRoom;
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery($"UPDATE rooms_data SET roomtype = 'public' WHERE id = {room.RoomId}");
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                commitableQueryReactor.RunFastQuery(
+                    $"UPDATE rooms_data SET roomtype = 'public' WHERE id = {room.RoomId}");
 
             uint roomId = session.GetHabbo().CurrentRoom.RoomId;
             List<RoomUser> users = new List<RoomUser>(session.GetHabbo().CurrentRoom.GetRoomUserManager().UserList.Values);

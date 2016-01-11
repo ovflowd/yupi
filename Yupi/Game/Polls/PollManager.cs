@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 
 namespace Yupi.Game.Polls
 {
@@ -57,9 +57,15 @@ namespace Yupi.Game.Polls
 
                 DataTable table2 = dbClient.GetTable();
 
-                List<PollQuestion> list = (from DataRow dataRow2 in table2.Rows select new PollQuestion(uint.Parse(dataRow2["id"].ToString()), (string) dataRow2["question"], int.Parse(dataRow2["answertype"].ToString()), dataRow2["answers"].ToString().Split('|'), (string) dataRow2["correct_answer"])).ToList();
+                List<PollQuestion> list = (from DataRow dataRow2 in table2.Rows
+                    select
+                        new PollQuestion(uint.Parse(dataRow2["id"].ToString()), (string) dataRow2["question"],
+                            int.Parse(dataRow2["answertype"].ToString()), dataRow2["answers"].ToString().Split('|'),
+                            (string) dataRow2["correct_answer"])).ToList();
 
-                Poll value = new Poll(num, uint.Parse(dataRow["room_id"].ToString()), (string) dataRow["caption"], (string) dataRow["invitation"], (string) dataRow["greetings"], (string) dataRow["prize"], int.Parse(dataRow["type"].ToString()), list);
+                Poll value = new Poll(num, uint.Parse(dataRow["room_id"].ToString()), (string) dataRow["caption"],
+                    (string) dataRow["invitation"], (string) dataRow["greetings"], (string) dataRow["prize"],
+                    int.Parse(dataRow["type"].ToString()), list);
 
                 Polls.Add(num, value);
             }

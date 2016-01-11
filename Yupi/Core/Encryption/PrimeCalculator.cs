@@ -39,7 +39,7 @@ namespace Yupi.Core.Encryption
             {
                 long result = GetNextInt64(1000000000, 5000000000, rand);
 
-                done = result % confidence != 0 && confidence % result != 0;
+                done = result%confidence != 0 && confidence%result != 0;
 
                 if (done)
                     integer = result;
@@ -54,7 +54,7 @@ namespace Yupi.Core.Encryption
             rand.NextBytes(buf);
             long longRand = BitConverter.ToInt64(buf, 0);
 
-            return Math.Abs(longRand % (max - min)) + min;
+            return Math.Abs(longRand%(max - min)) + min;
         }
     }
 }

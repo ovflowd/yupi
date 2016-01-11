@@ -27,7 +27,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data;
 using System.Linq;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Browser.Enums;
 using Yupi.Game.Browser.Models;
 using Yupi.Game.GameClients.Interfaces;
@@ -125,7 +125,9 @@ namespace Yupi.Game.Browser
                 PromoCategories.Clear();
 
                 foreach (DataRow dataRow in table4.Rows)
-                    PromoCategories.Add((int) dataRow["id"],  new PromoCategory((int) dataRow["id"], (string) dataRow["caption"], (int) dataRow["min_rank"], Yupi.EnumToBool((string) dataRow["visible"])));
+                    PromoCategories.Add((int) dataRow["id"],
+                        new PromoCategory((int) dataRow["id"], (string) dataRow["caption"], (int) dataRow["min_rank"],
+                            Yupi.EnumToBool((string) dataRow["visible"])));
             }
 
             if (table != null)
@@ -133,7 +135,8 @@ namespace Yupi.Game.Browser
                 PrivateCategories.Clear();
 
                 foreach (DataRow dataRow in table.Rows)
-                    PrivateCategories.Add((int) dataRow["id"], new PublicCategory((int) dataRow["id"], (string) dataRow["caption"], (int) dataRow["min_rank"]));
+                    PrivateCategories.Add((int) dataRow["id"],
+                        new PublicCategory((int) dataRow["id"], (string) dataRow["caption"], (int) dataRow["min_rank"]));
             }
 
             if (table2 != null)
@@ -194,7 +197,8 @@ namespace Yupi.Game.Browser
         /// <param name="rooms">The rooms.</param>
         /// <param name="category">The category.</param>
         /// <param name="direct">if set to <c>true</c> [direct].</param>
-        public void SerializeNavigatorPopularRoomsNews(ref ServerMessage reply, KeyValuePair<RoomData, uint>[] rooms, int category, bool direct)
+        public void SerializeNavigatorPopularRoomsNews(ref ServerMessage reply, KeyValuePair<RoomData, uint>[] rooms,
+            int category, bool direct)
         {
             if (!rooms?.Any() ?? true)
             {
@@ -231,7 +235,8 @@ namespace Yupi.Game.Browser
         /// <returns>ServerMessage.</returns>
         internal ServerMessage SerializePromotionCategories()
         {
-            ServerMessage categories =  new ServerMessage(LibraryParser.OutgoingRequest("CatalogPromotionGetCategoriesMessageComposer"));
+            ServerMessage categories =
+                new ServerMessage(LibraryParser.OutgoingRequest("CatalogPromotionGetCategoriesMessageComposer"));
 
             categories.AppendInteger(PromoCategories.Count);
 
@@ -302,7 +307,8 @@ namespace Yupi.Game.Browser
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>FlatCat.</returns>
-        internal PublicCategory GetFlatCat(int id) => PrivateCategories.Contains(id) ? (PublicCategory) PrivateCategories[id] : null;
+        internal PublicCategory GetFlatCat(int id)
+            => PrivateCategories.Contains(id) ? (PublicCategory) PrivateCategories[id] : null;
 
         /// <summary>
         ///     Serializes the nv recommend rooms.
@@ -421,7 +427,8 @@ namespace Yupi.Game.Browser
             navigatorMetaDataParser.AppendInteger(0);
             session.SendMessage(navigatorMetaDataParser);
 
-            ServerMessage navigatorLiftedRoomsParser = new ServerMessage(LibraryParser.OutgoingRequest("NavigatorLiftedRoomsComposer"));
+            ServerMessage navigatorLiftedRoomsParser =
+                new ServerMessage(LibraryParser.OutgoingRequest("NavigatorLiftedRoomsComposer"));
             navigatorLiftedRoomsParser.AppendInteger(NavigatorHeaders.Count);
 
             foreach (NavigatorHeader navHeader in NavigatorHeaders)
@@ -514,7 +521,8 @@ namespace Yupi.Game.Browser
         /// <returns>System.Int32.</returns>
         internal int GetFlatCatIdByName(string flatName)
         {
-            foreach (PublicCategory flat in PrivateCategories.Values.Cast<PublicCategory>().Where(flat => flat.Caption == flatName))
+            foreach (PublicCategory flat in PrivateCategories.Values.Cast<PublicCategory>().Where(flat => flat.Caption == flatName)
+                )
                 return flat.Id;
 
             return -1;
@@ -527,7 +535,8 @@ namespace Yupi.Game.Browser
         internal ServerMessage SerializePublicRooms()
         {
             ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("OfficialRoomsMessageComposer"));
-            PublicItem[] rooms = _publicItems.Values.Where(current => current.ParentId <= 0 && current.RoomData != null).ToArray();
+            PublicItem[] rooms =
+                _publicItems.Values.Where(current => current.ParentId <= 0 && current.RoomData != null).ToArray();
 
             serverMessage.AppendInteger(rooms.Length);
 
@@ -575,7 +584,10 @@ namespace Yupi.Game.Browser
 
             uint[] array = session.GetHabbo().FavoriteRooms.ToArray();
 
-            foreach (RoomData roomData in array.Select(roomId => Yupi.GetGame().GetRoomManager().GenerateRoomData(roomId)).Where(roomData => roomData != null))
+            foreach (
+                RoomData roomData in
+                    array.Select(roomId => Yupi.GetGame().GetRoomManager().GenerateRoomData(roomId))
+                        .Where(roomData => roomData != null))
                 roomData.Serialize(serverMessage);
 
             serverMessage.AppendBool(false);
@@ -596,7 +608,11 @@ namespace Yupi.Game.Browser
 
             serverMessage.StartArray();
 
-            foreach (RoomData roomData in session.GetHabbo().RecentlyVisitedRooms.Select(current => Yupi.GetGame().GetRoomManager().GenerateRoomData(current)))
+            foreach (
+                RoomData roomData in
+                    session.GetHabbo()
+                        .RecentlyVisitedRooms.Select(
+                            current => Yupi.GetGame().GetRoomManager().GenerateRoomData(current)))
             {
                 roomData.Serialize(serverMessage);
                 serverMessage.SaveArray();
@@ -634,9 +650,12 @@ namespace Yupi.Game.Browser
         {
             IEnumerable<KeyValuePair<uint, PublicItem>> search = _publicItems.Where(i => i.Value.RoomId == roomId);
 
-            IEnumerable<KeyValuePair<uint, PublicItem>> keyValuePairs = search as KeyValuePair<uint, PublicItem>[] ?? search.ToArray();
+            IEnumerable<KeyValuePair<uint, PublicItem>> keyValuePairs = search as KeyValuePair<uint, PublicItem>[] ??
+                                                                        search.ToArray();
 
-            return !keyValuePairs.Any() || keyValuePairs.FirstOrDefault().Value == null ? null : keyValuePairs.FirstOrDefault().Value;
+            return !keyValuePairs.Any() || keyValuePairs.FirstOrDefault().Value == null
+                ? null
+                : keyValuePairs.FirstOrDefault().Value;
         }
 
         /// <summary>
@@ -649,11 +668,12 @@ namespace Yupi.Game.Browser
 
             ServerMessage result;
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery("SELECT tags, users_now FROM rooms_data WHERE roomtype = 'private' AND users_now > 0 ORDER BY users_now DESC LIMIT 50");
+                commitableQueryReactor.SetQuery(
+                    "SELECT tags, users_now FROM rooms_data WHERE roomtype = 'private' AND users_now > 0 ORDER BY users_now DESC LIMIT 50");
 
-                DataTable table = queryReactor.GetTable();
+                DataTable table = commitableQueryReactor.GetTable();
 
                 if (table != null)
                 {
@@ -764,7 +784,7 @@ namespace Yupi.Game.Browser
                         SerializeNavigatorRooms(ref reply, rooms);
 
                         if (rooms != null)
-                                Array.Clear(rooms, 0, rooms.Length);
+                            Array.Clear(rooms, 0, rooms.Length);
                     }
                     catch (Exception e)
                     {
@@ -787,7 +807,7 @@ namespace Yupi.Game.Browser
                         SerializeNavigatorPopularRooms(ref reply, rooms);
 
                         if (rooms != null)
-                                Array.Clear(rooms, 0, rooms.Length);
+                            Array.Clear(rooms, 0, rooms.Length);
                     }
                     catch
                     {
@@ -865,7 +885,8 @@ namespace Yupi.Game.Browser
         /// </summary>
         /// <param name="reply">The reply.</param>
         /// <param name="rooms">The rooms.</param>
-        private static void SerializeNavigatorPopularRooms(ref ServerMessage reply, ICollection<KeyValuePair<RoomData, uint>> rooms)
+        private static void SerializeNavigatorPopularRooms(ref ServerMessage reply,
+            ICollection<KeyValuePair<RoomData, uint>> rooms)
         {
             if (!rooms?.Any() ?? true)
             {
@@ -890,7 +911,8 @@ namespace Yupi.Game.Browser
         /// </summary>
         /// <param name="reply">The reply.</param>
         /// <param name="rooms">The rooms.</param>
-        private static void SerializeNavigatorRooms(ref ServerMessage reply, ICollection<KeyValuePair<RoomData, int>> rooms)
+        private static void SerializeNavigatorRooms(ref ServerMessage reply,
+            ICollection<KeyValuePair<RoomData, int>> rooms)
         {
             reply.AppendString(string.Empty);
 
@@ -1003,19 +1025,22 @@ namespace Yupi.Game.Browser
                 {
                     if (containsOwner)
                     {
-                        dbClient.SetQuery("SELECT rooms_data.* FROM rooms_data LEFT OUTER JOIN users ON rooms_data.owner = users.id WHERE users.username = @query AND rooms_data.roomtype = 'private' LIMIT 50");
+                        dbClient.SetQuery(
+                            "SELECT rooms_data.* FROM rooms_data LEFT OUTER JOIN users ON rooms_data.owner = users.id WHERE users.username = @query AND rooms_data.roomtype = 'private' LIMIT 50");
                         dbClient.AddParameter("query", searchQuery);
                         dTable = dbClient.GetTable();
                     }
                     else if (containsGroup)
                     {
-                        dbClient.SetQuery("SELECT * FROM rooms_data JOIN groups_data ON rooms_data.id = groups_data.room_id WHERE groups_data.group_name LIKE @query AND roomtype = 'private' LIMIT 50");
+                        dbClient.SetQuery(
+                            "SELECT * FROM rooms_data JOIN groups_data ON rooms_data.id = groups_data.room_id WHERE groups_data.group_name LIKE @query AND roomtype = 'private' LIMIT 50");
                         dbClient.AddParameter("query", "%" + searchQuery + "%");
                         dTable = dbClient.GetTable();
                     }
                     else
                     {
-                        dbClient.SetQuery("SELECT * FROM rooms_data WHERE caption = @query AND roomtype = 'private' LIMIT " +
+                        dbClient.SetQuery(
+                            "SELECT * FROM rooms_data WHERE caption = @query AND roomtype = 'private' LIMIT " +
                             (50 - rooms.Count));
                         dbClient.AddParameter("query", searchQuery);
                         dTable = dbClient.GetTable();

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using Yupi.Core.Io;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Catalogs;
 using Yupi.Game.Catalogs.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
@@ -28,7 +28,7 @@ using Yupi.Messages.Parsers;
 
 namespace Yupi.Messages.Handlers
 {
-    partial class GameClientMessageHandler
+    internal partial class GameClientMessageHandler
     {
         internal void PetBreedCancel()
         {
@@ -47,7 +47,8 @@ namespace Yupi.Messages.Handlers
             if (item == null)
                 return;
 
-            if (item.GetBaseItem().InteractionType != Interaction.BreedingTerrier && item.GetBaseItem().InteractionType != Interaction.BreedingBear)
+            if (item.GetBaseItem().InteractionType != Interaction.BreedingTerrier &&
+                item.GetBaseItem().InteractionType != Interaction.BreedingBear)
                 return;
 
             foreach (Pet pet in item.PetsList)
@@ -83,7 +84,8 @@ namespace Yupi.Messages.Handlers
             if (item == null)
                 return;
 
-            if (item.GetBaseItem().InteractionType != Interaction.BreedingTerrier && item.GetBaseItem().InteractionType != Interaction.BreedingBear)
+            if (item.GetBaseItem().InteractionType != Interaction.BreedingTerrier &&
+                item.GetBaseItem().InteractionType != Interaction.BreedingBear)
                 return;
 
             string petName = Request.GetString();
@@ -146,12 +148,18 @@ namespace Yupi.Messages.Handlers
                     break;
             }
 
-            Pet pet = CatalogManager.CreatePet(Session.GetHabbo().Id, petName, item.GetBaseItem().InteractionType == Interaction.BreedingTerrier ? "pet_terrierbaby" : "pet_bearbaby", petType.ToString(), "ffffff");
+            Pet pet = CatalogManager.CreatePet(Session.GetHabbo().Id, petName,
+                item.GetBaseItem().InteractionType == Interaction.BreedingTerrier ? "pet_terrierbaby" : "pet_bearbaby",
+                petType.ToString(), "ffffff");
 
             if (pet == null)
                 return;
 
-            RoomUser petUser = room.GetRoomUserManager().DeployBot(new RoomBot(pet.PetId, pet.OwnerId, pet.RoomId, AiType.Pet, "freeroam", pet.Name, string.Empty, pet.Look, item.X, item.Y, 0.0, 4, null, null, string.Empty, 0, string.Empty), pet);
+            RoomUser petUser =
+                room.GetRoomUserManager()
+                    .DeployBot(
+                        new RoomBot(pet.PetId, pet.OwnerId, pet.RoomId, AiType.Pet, "freeroam", pet.Name, string.Empty,
+                            pet.Look, item.X, item.Y, 0.0, 4, null, null, string.Empty, 0, string.Empty), pet);
 
             if (petUser == null)
                 return;
@@ -176,7 +184,9 @@ namespace Yupi.Messages.Handlers
                     break;
             }
 
-            Session.GetMessageHandler().GetResponse().Init(LibraryParser.OutgoingRequest("PetBreedResultMessageComposer"));
+            Session.GetMessageHandler()
+                .GetResponse()
+                .Init(LibraryParser.OutgoingRequest("PetBreedResultMessageComposer"));
             Session.GetMessageHandler().GetResponse().AppendInteger(pet.PetId);
             Session.GetMessageHandler().GetResponse().AppendInteger(randomResult);
             Session.GetMessageHandler().SendResponse();
@@ -258,7 +268,8 @@ namespace Yupi.Messages.Handlers
             {
                 WallCoordinate wallCoord = new WallCoordinate(":" + locationData.Split(':')[1]);
 
-                RoomItem item2 = new RoomItem(item.Id, room.RoomId, item.BaseItem.Name, item.ExtraData, wallCoord, room, Session.GetHabbo().Id, item.GroupId, false);
+                RoomItem item2 = new RoomItem(item.Id, room.RoomId, item.BaseItem.Name, item.ExtraData, wallCoord, room,
+                    Session.GetHabbo().Id, item.GroupId, false);
 
                 if (room.GetRoomItemHandler().SetWallItem(Session, item2))
                     Session.GetHabbo().GetInventoryComponent().RemoveItem(id, true);
@@ -304,98 +315,100 @@ namespace Yupi.Messages.Handlers
                 switch (type)
                 {
                     case "wall":
+                    {
+                        switch (item.BaseItem.InteractionType)
                         {
-                            switch (item.BaseItem.InteractionType)
+                            case Interaction.Dimmer:
                             {
-                                case Interaction.Dimmer:
-                                    {
-                                        if (room.MoodlightData != null && room.GetRoomItemHandler().GetItem(room.MoodlightData.ItemId) != null)
-                                            Session.SendNotif(Yupi.GetLanguage().GetVar("room_moodlight_one_allowed"));
+                                if (room.MoodlightData != null &&
+                                    room.GetRoomItemHandler().GetItem(room.MoodlightData.ItemId) != null)
+                                    Session.SendNotif(Yupi.GetLanguage().GetVar("room_moodlight_one_allowed"));
 
-                                        goto PlaceWall;
-                                    }
-                                default:
-                                    {
-                                        goto PlaceWall;
-                                    }
+                                goto PlaceWall;
+                            }
+                            default:
+                            {
+                                goto PlaceWall;
                             }
                         }
+                    }
                     case "floor":
+                    {
+                        x = int.Parse(dataBits[1]);
+                        y = int.Parse(dataBits[2]);
+                        rot = int.Parse(dataBits[3]);
+                        z = room.GetGameMap().SqAbsoluteHeight(x, y);
+
+                        if (z >= 100)
+                            goto CannotSetItem;
+
+                        switch (item.BaseItem.InteractionType)
                         {
-                            x = int.Parse(dataBits[1]);
-                            y = int.Parse(dataBits[2]);
-                            rot = int.Parse(dataBits[3]);
-                            z = room.GetGameMap().SqAbsoluteHeight(x, y);
-
-                            if (z >= 100)
-                                goto CannotSetItem;
-
-                            switch (item.BaseItem.InteractionType)
+                            case Interaction.BreedingTerrier:
+                            case Interaction.BreedingBear:
                             {
-                                case Interaction.BreedingTerrier:
-                                case Interaction.BreedingBear:
-                                    {
-                                        RoomItem roomItemBreed = new RoomItem(item.Id, room.RoomId, item.BaseItem.Name, item.ExtraData,
-                                            x, y, z, rot, room, Session.GetHabbo().Id, 0, string.Empty, false);
+                                RoomItem roomItemBreed = new RoomItem(item.Id, room.RoomId, item.BaseItem.Name,
+                                    item.ExtraData,
+                                    x, y, z, rot, room, Session.GetHabbo().Id, 0, string.Empty, false);
 
-                                        if (item.BaseItem.InteractionType == Interaction.BreedingTerrier)
-                                            if (!room.GetRoomItemHandler().BreedingTerrier.ContainsKey(roomItemBreed.Id))
-                                                room.GetRoomItemHandler().BreedingTerrier.Add(roomItemBreed.Id, roomItemBreed);
-                                            else if (!room.GetRoomItemHandler().BreedingBear.ContainsKey(roomItemBreed.Id))
-                                                room.GetRoomItemHandler().BreedingBear.Add(roomItemBreed.Id, roomItemBreed);
-                                        goto PlaceFloor;
-                                    }
-                                case Interaction.Alert:
-                                case Interaction.VendingMachine:
-                                case Interaction.ScoreBoard:
-                                case Interaction.Bed:
-                                case Interaction.PressurePadBed:
-                                case Interaction.Trophy:
-                                case Interaction.RoomEffect:
-                                case Interaction.PostIt:
-                                case Interaction.Gate:
-                                case Interaction.None:
-                                case Interaction.HcGate:
-                                case Interaction.Teleport:
-                                case Interaction.QuickTeleport:
-                                case Interaction.Guillotine:
-                                    {
-                                        goto PlaceFloor;
-                                    }
-                                case Interaction.Hopper:
-                                    {
-                                        if (room.GetRoomItemHandler().HopperCount > 0)
-                                            return;
-                                        goto PlaceFloor;
-                                    }
-                                case Interaction.FreezeTile:
-                                    {
-                                        if (!room.GetGameMap().SquareHasFurni(x, y, Interaction.FreezeTile))
-                                            goto PlaceFloor;
-                                        goto CannotSetItem;
-                                    }
-                                case Interaction.FreezeTileBlock:
-                                    {
-                                        if (!room.GetGameMap().SquareHasFurni(x, y, Interaction.FreezeTileBlock))
-                                            goto PlaceFloor;
-                                        goto CannotSetItem;
-                                    }
-                                case Interaction.Toner:
-                                    {
-                                        TonerData tonerData = room.TonerData;
-                                        if (tonerData != null && room.GetRoomItemHandler().GetItem(tonerData.ItemId) != null)
-                                        {
-                                            Session.SendNotif(Yupi.GetLanguage().GetVar("room_toner_one_allowed"));
-                                            return;
-                                        }
-                                        goto PlaceFloor;
-                                    }
-                                default:
-                                    {
-                                        goto PlaceFloor;
-                                    }
+                                if (item.BaseItem.InteractionType == Interaction.BreedingTerrier)
+                                    if (!room.GetRoomItemHandler().BreedingTerrier.ContainsKey(roomItemBreed.Id))
+                                        room.GetRoomItemHandler().BreedingTerrier.Add(roomItemBreed.Id, roomItemBreed);
+                                    else if (!room.GetRoomItemHandler().BreedingBear.ContainsKey(roomItemBreed.Id))
+                                        room.GetRoomItemHandler().BreedingBear.Add(roomItemBreed.Id, roomItemBreed);
+                                goto PlaceFloor;
+                            }
+                            case Interaction.Alert:
+                            case Interaction.VendingMachine:
+                            case Interaction.ScoreBoard:
+                            case Interaction.Bed:
+                            case Interaction.PressurePadBed:
+                            case Interaction.Trophy:
+                            case Interaction.RoomEffect:
+                            case Interaction.PostIt:
+                            case Interaction.Gate:
+                            case Interaction.None:
+                            case Interaction.HcGate:
+                            case Interaction.Teleport:
+                            case Interaction.QuickTeleport:
+                            case Interaction.Guillotine:
+                            {
+                                goto PlaceFloor;
+                            }
+                            case Interaction.Hopper:
+                            {
+                                if (room.GetRoomItemHandler().HopperCount > 0)
+                                    return;
+                                goto PlaceFloor;
+                            }
+                            case Interaction.FreezeTile:
+                            {
+                                if (!room.GetGameMap().SquareHasFurni(x, y, Interaction.FreezeTile))
+                                    goto PlaceFloor;
+                                goto CannotSetItem;
+                            }
+                            case Interaction.FreezeTileBlock:
+                            {
+                                if (!room.GetGameMap().SquareHasFurni(x, y, Interaction.FreezeTileBlock))
+                                    goto PlaceFloor;
+                                goto CannotSetItem;
+                            }
+                            case Interaction.Toner:
+                            {
+                                TonerData tonerData = room.TonerData;
+                                if (tonerData != null && room.GetRoomItemHandler().GetItem(tonerData.ItemId) != null)
+                                {
+                                    Session.SendNotif(Yupi.GetLanguage().GetVar("room_toner_one_allowed"));
+                                    return;
+                                }
+                                goto PlaceFloor;
+                            }
+                            default:
+                            {
+                                goto PlaceFloor;
                             }
                         }
+                    }
                 }
 
                 PlaceWall:
@@ -412,7 +425,8 @@ namespace Yupi.Messages.Handlers
 
                 PlaceFloor:
 
-                RoomItem roomItem = new RoomItem(item.Id, room.RoomId, item.BaseItem.Name, item.ExtraData, x, y, z, rot, room, Session.GetHabbo().Id, item.GroupId, item.SongCode, false);
+                RoomItem roomItem = new RoomItem(item.Id, room.RoomId, item.BaseItem.Name, item.ExtraData, x, y, z, rot, room,
+                    Session.GetHabbo().Id, item.GroupId, item.SongCode, false);
 
                 if (room.GetRoomItemHandler().SetFloorItem(Session, roomItem, x, y, rot, true, false, true))
                 {
@@ -428,7 +442,9 @@ namespace Yupi.Messages.Handlers
                     }
                 }
 
-                Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(Session, "ACH_RoomDecoFurniCount", 1, true);
+                Yupi.GetGame()
+                    .GetAchievementManager()
+                    .ProgressUserAchievement(Session, "ACH_RoomDecoFurniCount", 1, true);
                 return;
 
                 CannotSetItem:
@@ -437,7 +453,7 @@ namespace Yupi.Messages.Handlers
             catch (Exception e)
             {
                 Session.SendMessage(StaticMessage.ErrorCantSetItem);
-                Writer.LogException(e.ToString());
+                ServerLogManager.LogException(e.ToString());
             }
         }
 
@@ -525,7 +541,9 @@ namespace Yupi.Messages.Handlers
             {
                 room.GetRoomItemHandler().RemoveFurniture(Session, item.Id);
 
-                Session.GetHabbo().GetInventoryComponent().AddNewItem(item.Id, item.BaseName, item.ExtraData, item.GroupId, true, true, 0, 0);
+                Session.GetHabbo()
+                    .GetInventoryComponent()
+                    .AddNewItem(item.Id, item.BaseName, item.ExtraData, item.GroupId, true, true, 0, 0);
                 Session.GetHabbo().GetInventoryComponent().UpdateItems(false);
             }
         }
@@ -553,7 +571,9 @@ namespace Yupi.Messages.Handlers
 
             Request.GetInteger();
 
-            bool flag = item.GetBaseItem().InteractionType == Interaction.Teleport || item.GetBaseItem().InteractionType == Interaction.Hopper || item.GetBaseItem().InteractionType == Interaction.QuickTeleport;
+            bool flag = item.GetBaseItem().InteractionType == Interaction.Teleport ||
+                       item.GetBaseItem().InteractionType == Interaction.Hopper ||
+                       item.GetBaseItem().InteractionType == Interaction.QuickTeleport;
 
             List<Point> oldCoords = item.GetCoords;
 
@@ -566,7 +586,8 @@ namespace Yupi.Messages.Handlers
                 return;
             }
 
-            if (item.GetBaseItem().InteractionType == Interaction.BreedingTerrier || item.GetBaseItem().InteractionType == Interaction.BreedingBear)
+            if (item.GetBaseItem().InteractionType == Interaction.BreedingTerrier ||
+                item.GetBaseItem().InteractionType == Interaction.BreedingBear)
             {
                 foreach (Pet pet in item.PetsList)
                 {
@@ -594,8 +615,8 @@ namespace Yupi.Messages.Handlers
             if (!flag)
                 return;
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                room.GetRoomItemHandler().SaveFurniture(queryReactor);
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                room.GetRoomItemHandler().SaveFurniture(commitableQueryReactor);
         }
 
         internal void MoveWallItem()
@@ -655,51 +676,52 @@ namespace Yupi.Messages.Handlers
             switch (item.GetBaseItem().InteractionType)
             {
                 case Interaction.RoomBg:
-                    {
-                        if (!hasRightsTwo)
-                            return;
-
-                        room.TonerData.Enabled = room.TonerData.Enabled == 0 ? 1 : 0;
-
-                        ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("UpdateRoomItemMessageComposer"));
-                        item.Serialize(message);
-                        room.SendMessage(message);
-
-                        item.UpdateState();
-
-                        using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                            queryReactor.RunFastQuery($"UPDATE items_toners SET enabled = '{room.TonerData.Enabled}' LIMIT 1");
-
+                {
+                    if (!hasRightsTwo)
                         return;
-                    }
+
+                    room.TonerData.Enabled = room.TonerData.Enabled == 0 ? 1 : 0;
+
+                    ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("UpdateRoomItemMessageComposer"));
+                    item.Serialize(message);
+                    room.SendMessage(message);
+
+                    item.UpdateState();
+
+                    using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                        commitableQueryReactor.RunFastQuery(
+                            $"UPDATE items_toners SET enabled = '{room.TonerData.Enabled}' LIMIT 1");
+
+                    return;
+                }
                 case Interaction.LoveLock:
-                    {
-                        if (!hasRightsOne)
-                            return;
-
-                        TriggerLoveLock(item);
-
+                {
+                    if (!hasRightsOne)
                         return;
-                    }
+
+                    TriggerLoveLock(item);
+
+                    return;
+                }
                 case Interaction.Moplaseed:
                 case Interaction.RareMoplaSeed:
-                    {
-                        if (!hasRightsOne)
-                            return;
-
-                        PlantMonsterplant(item, room);
-
+                {
+                    if (!hasRightsOne)
                         return;
-                    }
+
+                    PlantMonsterplant(item, room);
+
+                    return;
+                }
                 case Interaction.LoveShuffler:
-                    {
-                        if (!hasRightsOne)
-                            return;
-
-                        TriggerLoveLock(item);
-
+                {
+                    if (!hasRightsOne)
                         return;
-                    }
+
+                    TriggerLoveLock(item);
+
+                    return;
+                }
             }
 
             item.Interactor.OnTrigger(Session, item, Request.GetInteger(), hasRightsOne);
@@ -814,10 +836,10 @@ namespace Yupi.Messages.Handlers
             currentRoom.SendMessage(message);
 
             Session.GetHabbo().LastGiftOpenTime = DateTime.Now;
-            IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor();
+            IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor();
 
-            queryReactor.SetQuery("SELECT * FROM users_gifts WHERE gift_id = " + item.Id);
-            DataRow row = queryReactor.GetRow();
+            commitableQueryReactor.SetQuery("SELECT * FROM users_gifts WHERE gift_id = " + item.Id);
+            DataRow row = commitableQueryReactor.GetRow();
 
             if (row == null)
             {
@@ -840,13 +862,14 @@ namespace Yupi.Messages.Handlers
                 string extraData = row["extradata"].ToString();
                 string itemName = row["item_name"].ToString();
 
-                queryReactor.RunFastQuery($"UPDATE items_rooms SET item_name='{itemName}' WHERE id='{item.Id}'");
+                commitableQueryReactor.RunFastQuery(
+                    $"UPDATE items_rooms SET item_name='{itemName}' WHERE id='{item.Id}'");
 
-                queryReactor.SetQuery("UPDATE items_rooms SET extra_data = @extraData WHERE id = " + item.Id);
-                queryReactor.AddParameter("extraData", extraData);
-                queryReactor.RunQuery();
+                commitableQueryReactor.SetQuery("UPDATE items_rooms SET extra_data = @extraData WHERE id = " + item.Id);
+                commitableQueryReactor.AddParameter("extraData", extraData);
+                commitableQueryReactor.RunQuery();
 
-                queryReactor.RunFastQuery($"DELETE FROM users_gifts WHERE gift_id='{item.Id}'");
+                commitableQueryReactor.RunFastQuery($"DELETE FROM users_gifts WHERE gift_id='{item.Id}'");
 
                 item.BaseName = itemName;
                 item.RefreshItem();
@@ -880,7 +903,7 @@ namespace Yupi.Messages.Handlers
             {
                 currentRoom.GetRoomItemHandler().RemoveFurniture(Session, item.Id, false);
 
-                queryReactor.RunFastQuery("DELETE FROM users_gifts WHERE gift_id = " + item.Id);
+                commitableQueryReactor.RunFastQuery("DELETE FROM users_gifts WHERE gift_id = " + item.Id);
                 Response.Init(LibraryParser.OutgoingRequest("NewInventoryObjectMessageComposer"));
                 Response.AppendInteger(1);
 
@@ -890,7 +913,9 @@ namespace Yupi.Messages.Handlers
                     i = item2.InteractionType == Interaction.Pet ? 3 : 1;
 
                 Response.AppendInteger(i);
-                List<UserItem> list = Yupi.GetGame().GetCatalog().DeliverItems(Session, item2, 1, (string)row["extradata"], 0, 0, string.Empty);
+                List<UserItem> list = Yupi.GetGame()
+                    .GetCatalog()
+                    .DeliverItems(Session, item2, 1, (string) row["extradata"], 0, 0, string.Empty);
 
                 Response.AppendInteger(list.Count);
 
@@ -914,7 +939,11 @@ namespace Yupi.Messages.Handlers
 
             if (room.MoodlightData == null)
             {
-                foreach (RoomItem current in room.GetRoomItemHandler().WallItems.Values.Where(current => current.GetBaseItem().InteractionType == Interaction.Dimmer))
+                foreach (
+                    RoomItem current in
+                        room.GetRoomItemHandler()
+                            .WallItems.Values.Where(
+                                current => current.GetBaseItem().InteractionType == Interaction.Dimmer))
                     room.MoodlightData = new MoodlightData(current.Id);
             }
 
@@ -1008,8 +1037,9 @@ namespace Yupi.Messages.Handlers
             if (num > 255 || num2 > 255 || num3 > 255)
                 return;
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery(string.Concat("UPDATE items_toners SET enabled = '1', data1=", num, " ,data2=", num2, ",data3=", num3, " WHERE id=", item.Id, " LIMIT 1"));
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                commitableQueryReactor.RunFastQuery(string.Concat("UPDATE items_toners SET enabled = '1', data1=", num,
+                    " ,data2=", num2, ",data3=", num3, " WHERE id=", item.Id, " LIMIT 1"));
 
             room.TonerData.Data1 = num;
             room.TonerData.Data2 = num2;
@@ -1083,7 +1113,7 @@ namespace Yupi.Messages.Handlers
 
                 ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("UpdateTileStackMagicHeight"));
                 message.AppendInteger(item.Id);
-                message.AppendInteger(Convert.ToUInt32(totalZ * 100));
+                message.AppendInteger(Convert.ToUInt32(totalZ*100));
                 Session.SendMessage(message);
             }
             else
@@ -1091,7 +1121,7 @@ namespace Yupi.Messages.Handlers
                 if (heightToSet > 10000)
                     heightToSet = 10000;
 
-                totalZ = heightToSet / 100.0;
+                totalZ = heightToSet/100.0;
 
                 if (totalZ < room.RoomData.Model.SqFloorHeight[item.X][item.Y])
                 {
@@ -1099,7 +1129,7 @@ namespace Yupi.Messages.Handlers
 
                     ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("UpdateTileStackMagicHeight"));
                     message.AppendInteger(item.Id);
-                    message.AppendInteger(Convert.ToUInt32(totalZ * 100));
+                    message.AppendInteger(Convert.ToUInt32(totalZ*100));
                     Session.SendMessage(message);
                 }
             }
@@ -1206,8 +1236,8 @@ namespace Yupi.Messages.Handlers
 
                 Session.GetHabbo().GetInventoryComponent().RemoveItem(item.Id, false);
 
-                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                    queryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1");
+                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                    commitableQueryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1");
 
                 i++;
             }
@@ -1218,15 +1248,18 @@ namespace Yupi.Messages.Handlers
 
             using (IQueryAdapter queryreactor2 = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryreactor2.SetQuery("INSERT INTO items_rooms (user_id,item_name,extra_data) VALUES (@userid, @baseName, @timestamp)");
+                queryreactor2.SetQuery(
+                    "INSERT INTO items_rooms (user_id,item_name,extra_data) VALUES (@userid, @baseName, @timestamp)");
 
-                queryreactor2.AddParameter("userid", (int)Session.GetHabbo().Id);
+                queryreactor2.AddParameter("userid", (int) Session.GetHabbo().Id);
                 queryreactor2.AddParameter("timestamp", DateTime.Now.ToLongDateString());
                 queryreactor2.AddParameter("baseName", Yupi.GetDbConfig().DbData["recycler.box_name"]);
 
-                insertId = (uint)queryreactor2.InsertQuery();
+                insertId = (uint) queryreactor2.InsertQuery();
 
-                queryreactor2.RunFastQuery("INSERT INTO users_gifts (gift_id,item_id,gift_sprite,extradata) VALUES (" + insertId + "," + randomEcotronReward.BaseId + ", " + randomEcotronReward.DisplayId + ",'')");
+                queryreactor2.RunFastQuery("INSERT INTO users_gifts (gift_id,item_id,gift_sprite,extradata) VALUES (" +
+                                           insertId + "," + randomEcotronReward.BaseId + ", " +
+                                           randomEcotronReward.DisplayId + ",'')");
             }
 
             Session.GetHabbo().GetInventoryComponent().UpdateItems(true);
@@ -1280,8 +1313,8 @@ namespace Yupi.Messages.Handlers
                 Session.GetHabbo().UpdateCreditsBalance();
             }
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1;");
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                commitableQueryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1;");
 
             room.GetRoomItemHandler().RemoveFurniture(null, item.Id, false);
 
@@ -1412,7 +1445,8 @@ namespace Yupi.Messages.Handlers
 
             using (IQueryAdapter dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                dbClient.SetQuery("INSERT INTO items_rooms (user_id, room_id, item_name, extra_data, x, y, z) VALUES (@uid, @rid, @bit, '0', @ex, @wai, @zed)");
+                dbClient.SetQuery(
+                    "INSERT INTO items_rooms (user_id, room_id, item_name, extra_data, x, y, z) VALUES (@uid, @rid, @bit, '0', @ex, @wai, @zed)");
                 dbClient.AddParameter("uid", Session.GetHabbo().Id);
                 dbClient.AddParameter("rid", room.RoomId);
                 dbClient.AddParameter("bit", compostItem.Name);
@@ -1420,9 +1454,10 @@ namespace Yupi.Messages.Handlers
                 dbClient.AddParameter("wai", y);
                 dbClient.AddParameter("zed", z);
 
-                uint itemId = (uint)dbClient.InsertQuery();
+                uint itemId = (uint) dbClient.InsertQuery();
 
-                RoomItem roomItem = new RoomItem(itemId, room.RoomId, compostItem.Name, "0", x, y, z, 0, room, Session.GetHabbo().Id, 0, string.Empty, false);
+                RoomItem roomItem = new RoomItem(itemId, room.RoomId, compostItem.Name, "0", x, y, z, 0, room,
+                    Session.GetHabbo().Id, 0, string.Empty, false);
 
                 if (!room.GetRoomItemHandler().SetFloorItem(Session, roomItem, x, y, 0, true, false, true))
                 {
@@ -1470,7 +1505,7 @@ namespace Yupi.Messages.Handlers
                 }
             }
 
-            if ((rot < 0) || (rot > 6) || (rot % 2 != 0))
+            if ((rot < 0) || (rot > 6) || (rot%2 != 0))
                 rot = pet.RotBody;
 
             pet.PetData.X = x;
@@ -1519,12 +1554,12 @@ namespace Yupi.Messages.Handlers
             if (pet.PetData.DbState != DatabaseUpdateState.NeedsInsert)
                 pet.PetData.DbState = DatabaseUpdateState.NeedsUpdate;
 
-            pet.PetData.RoomId = 0u;
+            pet.PetData.RoomId = 0;
 
             Session.GetHabbo().GetInventoryComponent().AddPet(pet.PetData);
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                room.GetRoomUserManager().SavePets(queryReactor);
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                room.GetRoomUserManager().SavePets(commitableQueryReactor);
 
             room.GetRoomUserManager().RemoveBot(pet.VirtualId, false);
 
@@ -1560,8 +1595,9 @@ namespace Yupi.Messages.Handlers
 
                 pet.Chat(null, message, false, 0);
 
-                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                    queryReactor.RunFastQuery($"UPDATE users_stats SET daily_pet_respect_points = daily_pet_respect_points - 1 WHERE id = {Session.GetHabbo().Id} LIMIT 1");
+                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                    commitableQueryReactor.RunFastQuery(
+                        $"UPDATE users_stats SET daily_pet_respect_points = daily_pet_respect_points - 1 WHERE id = {Session.GetHabbo().Id} LIMIT 1");
             }
         }
 
@@ -1575,8 +1611,8 @@ namespace Yupi.Messages.Handlers
 
             if (pet.PetData.AnyoneCanRide == 1)
             {
-                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                    queryReactor.RunFastQuery($"UPDATE pets_data SET anyone_ride = '0' WHERE id={num} LIMIT 1");
+                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                    commitableQueryReactor.RunFastQuery($"UPDATE pets_data SET anyone_ride = '0' WHERE id={num} LIMIT 1");
 
                 pet.PetData.AnyoneCanRide = 0;
             }
@@ -1652,9 +1688,10 @@ namespace Yupi.Messages.Handlers
                     num += int.Parse(s);
                     pet.PetData.HairDye = num;
                     using (
-                        IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                        IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
-                        queryReactor.RunFastQuery(string.Concat("UPDATE pets_data SET hairdye = '", pet.PetData.HairDye, "' WHERE id = ", pet.PetData.PetId));
+                        commitableQueryReactor.RunFastQuery(string.Concat("UPDATE pets_data SET hairdye = '",
+                            pet.PetData.HairDye, "' WHERE id = ", pet.PetData.PetId));
                         goto IL_40C;
                     }
                 }
@@ -1664,7 +1701,7 @@ namespace Yupi.Messages.Handlers
                     string s2 = item.GetBaseItem().Name.Split('_')[2];
 
                     uint num2 = uint.Parse(s2);
-                    uint num3 = 2 + num2 * 4 - 4;
+                    uint num3 = 2 + num2*4 - 4;
 
                     switch (num2)
                     {
@@ -1687,11 +1724,12 @@ namespace Yupi.Messages.Handlers
 
                     pet.PetData.Race = num3;
 
-                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                    using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
-                        queryReactor.RunFastQuery("UPDATE pets_data SET race_id = '" + pet.PetData.Race + "' WHERE id = " + pet.PetData.PetId);
+                        commitableQueryReactor.RunFastQuery("UPDATE pets_data SET race_id = '" + pet.PetData.Race +
+                                                            "' WHERE id = " + pet.PetData.PetId);
 
-                        queryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1");
+                        commitableQueryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1");
                         goto IL_40C;
                     }
                 }
@@ -1702,10 +1740,11 @@ namespace Yupi.Messages.Handlers
                     num4 += int.Parse(s3);
                     pet.PetData.PetHair = num4;
                     using (
-                        IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                        IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
-                        queryReactor.RunFastQuery("UPDATE pets_data SET pethair = '" + pet.PetData.PetHair + "' WHERE id = " + pet.PetData.PetId);
-                        queryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1");
+                        commitableQueryReactor.RunFastQuery("UPDATE pets_data SET pethair = '" + pet.PetData.PetHair +
+                                                            "' WHERE id = " + pet.PetData.PetId);
+                        commitableQueryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1");
                         goto IL_40C;
                     }
                 }
@@ -1713,10 +1752,11 @@ namespace Yupi.Messages.Handlers
                 {
                     pet.PetData.HaveSaddle = true;
                     using (
-                        IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                        IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
-                        queryReactor.RunFastQuery($"UPDATE pets_data SET have_saddle = '1' WHERE id = {pet.PetData.PetId}");
-                        queryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1");
+                        commitableQueryReactor.RunFastQuery(
+                            $"UPDATE pets_data SET have_saddle = '1' WHERE id = {pet.PetData.PetId}");
+                        commitableQueryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1");
                     }
                     goto IL_40C;
                 }
@@ -1727,9 +1767,9 @@ namespace Yupi.Messages.Handlers
                     pet.PetData.MoplaBreed.GrowingStatus = 7;
                     pet.PetData.MoplaBreed.LiveState = MoplaState.Grown;
                     pet.PetData.MoplaBreed.UpdateInDb();
-                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                    using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
-                        queryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1");
+                        commitableQueryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1");
                     }
                 }
                 IL_40C:
@@ -1794,11 +1834,13 @@ namespace Yupi.Messages.Handlers
 
             pet.PetData.HaveSaddle = false;
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.RunFastQuery($"UPDATE pets_data SET have_saddle = '0' WHERE id = {pet.PetData.PetId}");
+                commitableQueryReactor.RunFastQuery(
+                    $"UPDATE pets_data SET have_saddle = '0' WHERE id = {pet.PetData.PetId}");
 
-                queryReactor.RunFastQuery($"INSERT INTO items_rooms (user_id, item_name) VALUES ({Session.GetHabbo().Id}, 'horse_saddle1');");
+                commitableQueryReactor.RunFastQuery(
+                    $"INSERT INTO items_rooms (user_id, item_name) VALUES ({Session.GetHabbo().Id}, 'horse_saddle1');");
             }
 
             Session.GetHabbo().GetInventoryComponent().UpdateItems(true);
@@ -1868,7 +1910,6 @@ namespace Yupi.Messages.Handlers
                 return;
 
             if ((!(
-
                 Math.Abs(roomUserByHabbo.X - roomUserByHabbo2.X) < 3 &&
                 Math.Abs(roomUserByHabbo.Y - roomUserByHabbo2.Y) < 3) &&
                  roomUserByHabbo.GetClient().GetHabbo().Rank <= 4u) || roomUserByHabbo.CarryItemId <= 0 ||
@@ -1889,11 +1930,11 @@ namespace Yupi.Messages.Handlers
 
             DataRow row;
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery("SELECT * FROM items_vouchers WHERE voucher = @vo LIMIT 1");
-                queryReactor.AddParameter("vo", query);
-                row = queryReactor.GetRow();
+                commitableQueryReactor.SetQuery("SELECT * FROM items_vouchers WHERE voucher = @vo LIMIT 1");
+                commitableQueryReactor.AddParameter("vo", query);
+                row = commitableQueryReactor.GetRow();
             }
 
             if (row != null)
@@ -1907,9 +1948,9 @@ namespace Yupi.Messages.Handlers
                     queryreactor2.RunQuery();
                 }
 
-                Session.GetHabbo().Credits += (uint)row["value"];
+                Session.GetHabbo().Credits += (uint) row["value"];
                 Session.GetHabbo().UpdateCreditsBalance();
-                Session.GetHabbo().NotifyNewPixels((uint)row["extra_duckets"]);
+                Session.GetHabbo().NotifyNewPixels((uint) row["extra_duckets"]);
             }
 
             Session.GetHabbo().NotifyVoucher(isValid, productName, productDescription);
@@ -1969,14 +2010,17 @@ namespace Yupi.Messages.Handlers
 
                     int x = roomUserByHabbo.X, y = roomUserByHabbo.Y;
 
-                    room.SendMessage(room.GetRoomItemHandler().UpdateUserOnRoller(pet, new Point(x, y), 0u, room.GetGameMap().SqAbsoluteHeight(x, y)));
+                    room.SendMessage(room.GetRoomItemHandler()
+                        .UpdateUserOnRoller(pet, new Point(x, y), 0u, room.GetGameMap().SqAbsoluteHeight(x, y)));
                     room.GetRoomUserManager().UpdateUserStatus(pet, false);
-                    room.SendMessage(room.GetRoomItemHandler().UpdateUserOnRoller(roomUserByHabbo, new Point(x, y), 0u, room.GetGameMap().SqAbsoluteHeight(x, y) + 1.0));
+                    room.SendMessage(room.GetRoomItemHandler()
+                        .UpdateUserOnRoller(roomUserByHabbo, new Point(x, y), 0u,
+                            room.GetGameMap().SqAbsoluteHeight(x, y) + 1.0));
                     room.GetRoomUserManager().UpdateUserStatus(roomUserByHabbo, false);
                     pet.ClearMovement();
                     roomUserByHabbo.RidingHorse = true;
                     pet.RidingHorse = true;
-                    pet.HorseId = (uint)roomUserByHabbo.VirtualId;
+                    pet.HorseId = (uint) roomUserByHabbo.VirtualId;
                     roomUserByHabbo.HorseId = Convert.ToUInt32(pet.VirtualId);
                     roomUserByHabbo.ApplyEffect(77);
                     roomUserByHabbo.Z += 1.0;
@@ -2042,7 +2086,12 @@ namespace Yupi.Messages.Handlers
         {
             uint pId = Request.GetUInteger();
 
-            RoomItem item = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId).GetRoomItemHandler().GetItem(pId);
+            RoomItem item =
+                Yupi.GetGame()
+                    .GetRoomManager()
+                    .GetRoom(Session.GetHabbo().CurrentRoomId)
+                    .GetRoomItemHandler()
+                    .GetItem(pId);
 
             WiredSaver.SaveWired(Session, item, Request);
         }
@@ -2051,7 +2100,12 @@ namespace Yupi.Messages.Handlers
         {
             uint pId = Request.GetUInteger();
 
-            RoomItem item = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId).GetRoomItemHandler().GetItem(pId);
+            RoomItem item =
+                Yupi.GetGame()
+                    .GetRoomManager()
+                    .GetRoom(Session.GetHabbo().CurrentRoomId)
+                    .GetRoomItemHandler()
+                    .GetItem(pId);
 
             WiredSaver.SaveWired(Session, item, Request);
         }
@@ -2150,8 +2204,9 @@ namespace Yupi.Messages.Handlers
                 return;
             }
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery(string.Concat("UPDATE bots_data SET room_id = '", room.RoomId, "', x = '", x, "', y = '", y, "' WHERE id = '", num, "'"));
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                commitableQueryReactor.RunFastQuery(string.Concat("UPDATE bots_data SET room_id = '", room.RoomId,
+                    "', x = '", x, "', y = '", y, "' WHERE id = '", num, "'"));
 
             bot.RoomId = room.RoomId;
 
@@ -2172,7 +2227,8 @@ namespace Yupi.Messages.Handlers
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
             RoomUser bot = room.GetRoomUserManager().GetBot(id);
 
-            if (Session?.GetHabbo() == null || Session.GetHabbo().GetInventoryComponent() == null || bot == null || !room.CheckRights(Session, true))
+            if (Session?.GetHabbo() == null || Session.GetHabbo().GetInventoryComponent() == null || bot == null ||
+                !room.CheckRights(Session, true))
                 return;
 
             Session.GetHabbo().GetInventoryComponent().AddBot(bot.BotData);
@@ -2200,11 +2256,11 @@ namespace Yupi.Messages.Handlers
                 item.InteractingUser2 = 0u;
             roomUserByHabbo.GateId = 0u;
             string text = item.ExtraData.Split(Convert.ToChar(5))[0];
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery("UPDATE items_rooms SET extra_data = @extraData WHERE id = " + item.Id);
-                queryReactor.AddParameter("extraData", text + Convert.ToChar(5) + "2");
-                queryReactor.RunQuery();
+                commitableQueryReactor.SetQuery("UPDATE items_rooms SET extra_data = @extraData WHERE id = " + item.Id);
+                commitableQueryReactor.AddParameter("extraData", text + Convert.ToChar(5) + "2");
+                commitableQueryReactor.RunQuery();
             }
             item.ExtraData = text + Convert.ToChar(5) + "2";
             item.UpdateNeeded = true;
@@ -2231,7 +2287,8 @@ namespace Yupi.Messages.Handlers
             double z = actualRoom.GetGameMap().SqAbsoluteHeight(x, y);
             using (IQueryAdapter adapter = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                adapter.SetQuery("INSERT INTO items_rooms (user_id,room_id,item_name,x,y,z,rot,builders) VALUES (@userId,@roomId,@itemName,@x,@y,@z,@rot,'1')");
+                adapter.SetQuery(
+                    "INSERT INTO items_rooms (user_id,room_id,item_name,x,y,z,rot,builders) VALUES (@userId,@roomId,@itemName,@x,@y,@z,@rot,'1')");
                 adapter.AddParameter("userId", Session.GetHabbo().Id);
                 adapter.AddParameter("roomId", actualRoom.RoomId);
                 adapter.AddParameter("itemName", item.BaseName);
@@ -2240,9 +2297,10 @@ namespace Yupi.Messages.Handlers
                 adapter.AddParameter("z", z);
                 adapter.AddParameter("rot", dir);
 
-                uint insertId = (uint)adapter.InsertQuery();
+                uint insertId = (uint) adapter.InsertQuery();
 
-                RoomItem newItem = new RoomItem(insertId, actualRoom.RoomId, item.BaseName, extradata, x, y, z, dir, actualRoom, Session.GetHabbo().Id, 0, string.Empty, true);
+                RoomItem newItem = new RoomItem(insertId, actualRoom.RoomId, item.BaseName, extradata, x, y, z, dir,
+                    actualRoom, Session.GetHabbo().Id, 0, string.Empty, true);
 
                 Session.GetHabbo().BuildersItemsUsed++;
 
@@ -2272,15 +2330,17 @@ namespace Yupi.Messages.Handlers
 
             using (IQueryAdapter adapter = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                adapter.SetQuery("INSERT INTO items_rooms (user_id,room_id,item_name,wall_pos,builders) VALUES (@userId,@roomId,@baseName,@wallpos,'1')");
+                adapter.SetQuery(
+                    "INSERT INTO items_rooms (user_id,room_id,item_name,wall_pos,builders) VALUES (@userId,@roomId,@baseName,@wallpos,'1')");
                 adapter.AddParameter("userId", Session.GetHabbo().Id);
                 adapter.AddParameter("roomId", actualRoom.RoomId);
                 adapter.AddParameter("baseName", item.BaseName);
                 adapter.AddParameter("wallpos", wallcoords);
 
-                uint insertId = (uint)adapter.InsertQuery();
+                uint insertId = (uint) adapter.InsertQuery();
 
-                RoomItem newItem = new RoomItem(insertId, actualRoom.RoomId, item.BaseName, extradata, new WallCoordinate(wallcoords), actualRoom, Session.GetHabbo().Id, 0, true);
+                RoomItem newItem = new RoomItem(insertId, actualRoom.RoomId, item.BaseName, extradata,
+                    new WallCoordinate(wallcoords), actualRoom, Session.GetHabbo().Id, 0, true);
 
                 actualRoom.GetRoomItemHandler().WallItems.TryAdd(newItem.Id, newItem);
 
@@ -2376,7 +2436,8 @@ namespace Yupi.Messages.Handlers
             if (userOne.LoveLockPartner == 0 || userTwo.LoveLockPartner == 0)
                 return;
 
-            item.ExtraData = $"1{(char) 5}{userOne.GetUserName()}{(char) 5}{userTwo.GetUserName()}{(char) 5}{userOne.GetClient().GetHabbo().Look}{(char) 5}{userTwo.GetClient().GetHabbo().Look}{(char) 5}{DateTime.Now.ToString("dd/MM/yyyy")}";
+            item.ExtraData =
+                $"1{(char) 5}{userOne.GetUserName()}{(char) 5}{userTwo.GetUserName()}{(char) 5}{userOne.GetClient().GetHabbo().Look}{(char) 5}{userTwo.GetClient().GetHabbo().Look}{(char) 5}{DateTime.Now.ToString("dd/MM/yyyy")}";
 
             userOne.LoveLockPartner = 0;
             userTwo.LoveLockPartner = 0;
@@ -2385,11 +2446,11 @@ namespace Yupi.Messages.Handlers
 
             item.UpdateState(true, false);
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery("UPDATE items_rooms SET extra_data = @extraData WHERE id = " + item.Id);
-                queryReactor.AddParameter("extraData", item.ExtraData);
-                queryReactor.RunQuery();
+                commitableQueryReactor.SetQuery("UPDATE items_rooms SET extra_data = @extraData WHERE id = " + item.Id);
+                commitableQueryReactor.AddParameter("extraData", item.ExtraData);
+                commitableQueryReactor.RunQuery();
             }
 
             ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("UpdateRoomItemMessageComposer"));
@@ -2423,31 +2484,31 @@ namespace Yupi.Messages.Handlers
             switch (gender.ToUpper())
             {
                 case "M":
-                    {
-                        newFigures[0] = look;
+                {
+                    newFigures[0] = look;
 
-                        newFigures[1] = figures.Length > 1 ? figures[1] : "hd-99999-99999.ch-630-62.lg-695-62";
+                    newFigures[1] = figures.Length > 1 ? figures[1] : "hd-99999-99999.ch-630-62.lg-695-62";
 
-                        item.ExtraData = string.Join(",", newFigures);
-                    }
+                    item.ExtraData = string.Join(",", newFigures);
+                }
                     break;
 
                 case "F":
-                    {
-                        newFigures[0] = !string.IsNullOrWhiteSpace(figures[0]) ? figures[0] : "hd-99999-99999.lg-270-62";
+                {
+                    newFigures[0] = !string.IsNullOrWhiteSpace(figures[0]) ? figures[0] : "hd-99999-99999.lg-270-62";
 
-                        newFigures[1] = look;
+                    newFigures[1] = look;
 
-                        item.ExtraData = string.Join(",", newFigures);
-                    }
+                    item.ExtraData = string.Join(",", newFigures);
+                }
                     break;
             }
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery("UPDATE items_rooms SET extra_data = @extraData WHERE id = " + item.Id);
-                queryReactor.AddParameter("extraData", item.ExtraData);
-                queryReactor.RunQuery();
+                commitableQueryReactor.SetQuery("UPDATE items_rooms SET extra_data = @extraData WHERE id = " + item.Id);
+                commitableQueryReactor.AddParameter("extraData", item.ExtraData);
+                commitableQueryReactor.RunQuery();
             }
 
             ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("UpdateRoomItemMessageComposer"));
@@ -2478,11 +2539,11 @@ namespace Yupi.Messages.Handlers
             item.Serialize(Response);
             item.UpdateState(true, true);
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery("UPDATE items_rooms SET extra_data = @extraData WHERE id = " + item.Id);
-                queryReactor.AddParameter("extraData", item.ExtraData);
-                queryReactor.RunQuery();
+                commitableQueryReactor.SetQuery("UPDATE items_rooms SET extra_data = @extraData WHERE id = " + item.Id);
+                commitableQueryReactor.AddParameter("extraData", item.ExtraData);
+                commitableQueryReactor.RunQuery();
             }
         }
 
@@ -2517,11 +2578,11 @@ namespace Yupi.Messages.Handlers
             item.UpdateNeeded = true;
             item.UpdateState(true, true);
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery("UPDATE items_rooms SET extra_data = @extraData WHERE id = " + item.Id);
-                queryReactor.AddParameter("extraData", item.ExtraData);
-                queryReactor.RunQuery();
+                commitableQueryReactor.SetQuery("UPDATE items_rooms SET extra_data = @extraData WHERE id = " + item.Id);
+                commitableQueryReactor.AddParameter("extraData", item.ExtraData);
+                commitableQueryReactor.RunQuery();
             }
         }
 
@@ -2557,8 +2618,8 @@ namespace Yupi.Messages.Handlers
 
             room.GetRoomItemHandler().RemoveFurniture(Session, item.Id);
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery($"UPDATE items_rooms SET room_id='0' WHERE id='{item.Id}' LIMIT 1");
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                commitableQueryReactor.RunFastQuery($"UPDATE items_rooms SET room_id='0' WHERE id='{item.Id}' LIMIT 1");
         }
 
         internal void UsePurchasableClothing()
@@ -2588,8 +2649,8 @@ namespace Yupi.Messages.Handlers
             room.GetRoomItemHandler().RemoveFurniture(Session, item.Id, false);
             Session.SendMessage(StaticMessage.FiguresetRedeemed);
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery("DELETE FROM items_rooms WHERE id = " + item.Id);
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                commitableQueryReactor.RunFastQuery("DELETE FROM items_rooms WHERE id = " + item.Id);
         }
 
         internal void GetUserLook()

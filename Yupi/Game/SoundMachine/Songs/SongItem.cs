@@ -1,4 +1,4 @@
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Items.Interfaces;
 
 namespace Yupi.Game.SoundMachine.Songs
@@ -71,8 +71,9 @@ namespace Yupi.Game.SoundMachine.Songs
         /// <param name="roomId">The room identifier.</param>
         internal void SaveToDatabase(uint roomId)
         {
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery($"REPLACE INTO items_songs VALUES ('{ItemId}', '{roomId}', '{SongId}')");
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                commitableQueryReactor.RunFastQuery(
+                    $"REPLACE INTO items_songs VALUES ('{ItemId}', '{roomId}', '{SongId}')");
         }
 
         /// <summary>
@@ -80,8 +81,8 @@ namespace Yupi.Game.SoundMachine.Songs
         /// </summary>
         internal void RemoveFromDatabase()
         {
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery($"DELETE FROM items_songs WHERE itemid = '{ItemId}'");
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                commitableQueryReactor.RunFastQuery($"DELETE FROM items_songs WHERE itemid = '{ItemId}'");
         }
     }
 }

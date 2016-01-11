@@ -57,9 +57,10 @@ namespace Yupi.Game.Items.Wired.Handlers.Triggers
 
         public bool Execute(params object[] stuff)
         {
-            RoomUser roomUser = (RoomUser)stuff[0];
+            RoomUser roomUser = (RoomUser) stuff[0];
 
-            if (!string.IsNullOrEmpty(OtherString) && roomUser.GetUserName() != OtherString && !roomUser.GetClient().GetHabbo().IsTeleporting)
+            if (!string.IsNullOrEmpty(OtherString) && roomUser.GetUserName() != OtherString &&
+                !roomUser.GetClient().GetHabbo().IsTeleporting)
                 return false;
 
             List<IWiredItem> conditions = Room.GetWiredHandler().GetConditions(this);

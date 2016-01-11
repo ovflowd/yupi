@@ -58,12 +58,18 @@ namespace Yupi.Game.Items.Wired.Handlers.Conditions
             if (!(stuff[0] is RoomUser))
                 return false;
 
-            RoomUser roomUser = (RoomUser)stuff[0];
+            RoomUser roomUser = (RoomUser) stuff[0];
 
-            if (roomUser.IsBot || roomUser.GetClient() == null || roomUser.GetClient().GetHabbo() == null || roomUser.GetClient().GetHabbo().GetBadgeComponent() == null || string.IsNullOrWhiteSpace(OtherString))
+            if (roomUser.IsBot || roomUser.GetClient() == null || roomUser.GetClient().GetHabbo() == null ||
+                roomUser.GetClient().GetHabbo().GetBadgeComponent() == null || string.IsNullOrWhiteSpace(OtherString))
                 return false;
 
-            return roomUser.GetClient().GetHabbo().GetBadgeComponent().BadgeList.Values.Cast<Badge>().Any(badge => badge.Slot > 0 && badge.Code.ToLower() == OtherString.ToLower());
+            return
+                roomUser.GetClient()
+                    .GetHabbo()
+                    .GetBadgeComponent()
+                    .BadgeList.Values.Cast<Badge>()
+                    .Any(badge => badge.Slot > 0 && badge.Code.ToLower() == OtherString.ToLower());
         }
     }
 }

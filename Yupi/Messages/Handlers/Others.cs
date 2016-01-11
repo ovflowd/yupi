@@ -8,7 +8,7 @@ using Yupi.Core.Encryption;
 using Yupi.Core.Encryption.Hurlant.Crypto.Prng;
 using Yupi.Core.Encryption.Utils;
 using Yupi.Core.Settings;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Catalogs.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Items.Interfaces;
@@ -21,32 +21,32 @@ using Yupi.Net.Web;
 namespace Yupi.Messages.Handlers
 {
     /// <summary>
-    /// Class GameClientMessageHandler.
+    ///     Class GameClientMessageHandler.
     /// </summary>
-    partial class GameClientMessageHandler
+    internal partial class GameClientMessageHandler
     {
         /// <summary>
-        /// The current loading room
+        ///     The current loading room
         /// </summary>
         internal Room CurrentLoadingRoom;
 
         /// <summary>
-        /// The session
-        /// </summary>
-        protected GameClient Session;
-
-        /// <summary>
-        /// The request
+        ///     The request
         /// </summary>
         protected ClientMessage Request;
 
         /// <summary>
-        /// The response
+        ///     The response
         /// </summary>
         protected ServerMessage Response;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GameClientMessageHandler"/> class.
+        ///     The session
+        /// </summary>
+        protected GameClient Session;
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="GameClientMessageHandler" /> class.
         /// </summary>
         /// <param name="session">The session.</param>
         internal GameClientMessageHandler(GameClient session)
@@ -56,7 +56,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Gets the session.
+        ///     Gets the session.
         /// </summary>
         /// <returns>GameClient.</returns>
         internal GameClient GetSession()
@@ -65,7 +65,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Gets the response.
+        ///     Gets the response.
         /// </summary>
         /// <returns>ServerMessage.</returns>
         internal ServerMessage GetResponse()
@@ -74,7 +74,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Destroys this instance.
+        ///     Destroys this instance.
         /// </summary>
         internal void Destroy()
         {
@@ -82,7 +82,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Handles the request.
+        ///     Handles the request.
         /// </summary>
         /// <param name="request">The request.</param>
         internal void HandleRequest(ClientMessage request)
@@ -92,7 +92,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Sends the response.
+        ///     Sends the response.
         /// </summary>
         internal void SendResponse()
         {
@@ -101,7 +101,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Adds the staff pick.
+        ///     Adds the staff pick.
         /// </summary>
         internal void AddStaffPick()
         {
@@ -109,7 +109,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Gets the client version message event.
+        ///     Gets the client version message event.
         /// </summary>
         internal void GetClientVersionMessageEvent()
         {
@@ -117,7 +117,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Pongs this instance.
+        ///     Pongs this instance.
         /// </summary>
         internal void Pong()
         {
@@ -125,7 +125,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Disconnects the event.
+        ///     Disconnects the event.
         /// </summary>
         internal void DisconnectEvent()
         {
@@ -133,7 +133,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Latencies the test.
+        ///     Latencies the test.
         /// </summary>
         internal void LatencyTest()
         {
@@ -149,7 +149,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Initializes the crypto.
+        ///     Initializes the crypto.
         /// </summary>
         internal void InitCrypto()
         {
@@ -169,7 +169,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Secrets the key.
+        ///     Secrets the key.
         /// </summary>
         internal void SecretKey()
         {
@@ -207,7 +207,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Machines the identifier.
+        ///     Machines the identifier.
         /// </summary>
         internal void MachineId()
         {
@@ -217,7 +217,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Logins the with ticket.
+        ///     Logins the with ticket.
         /// </summary>
         internal void LoginWithTicket()
         {
@@ -232,7 +232,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Informations the retrieve.
+        ///     Informations the retrieve.
         /// </summary>
         internal void InfoRetrieve()
         {
@@ -242,7 +242,8 @@ namespace Yupi.Messages.Handlers
             Habbo habbo = Session.GetHabbo();
 
             bool tradeLocked = Session.GetHabbo().CheckTrading();
-            bool canUseFloorEditor = true;//ServerExtraSettings.EveryoneUseFloor || Session.GetHabbo().Vip || Session.GetHabbo().Rank >= 4;
+            bool canUseFloorEditor = true;
+                //ServerExtraSettings.EveryoneUseFloor || Session.GetHabbo().Vip || Session.GetHabbo().Rank >= 4;
 
             Response.Init(LibraryParser.OutgoingRequest("UserObjectMessageComposer"));
             Response.AppendInteger(habbo.Id);
@@ -279,8 +280,12 @@ namespace Yupi.Messages.Handlers
             Response.AppendBool(false);
 
             Response.AppendString("USE_GUIDE_TOOL");
-            Response.AppendString((Session.GetHabbo().TalentStatus == "helper" && Session.GetHabbo().CurrentTalentLevel >= 4) || (Session.GetHabbo().Rank >= 4) ? string.Empty : "requirement.unfulfilled.helper_level_4");
-            Response.AppendBool((Session.GetHabbo().TalentStatus == "helper" && Session.GetHabbo().CurrentTalentLevel >= 4) || (Session.GetHabbo().Rank >= 4));
+            Response.AppendString((Session.GetHabbo().TalentStatus == "helper" &&
+                                   Session.GetHabbo().CurrentTalentLevel >= 4) || (Session.GetHabbo().Rank >= 4)
+                ? string.Empty
+                : "requirement.unfulfilled.helper_level_4");
+            Response.AppendBool((Session.GetHabbo().TalentStatus == "helper" &&
+                                 Session.GetHabbo().CurrentTalentLevel >= 4) || (Session.GetHabbo().Rank >= 4));
 
             Response.AppendString("JUDGE_CHAT_REVIEWS");
             Response.AppendString("requirement.unfulfilled.helper_level_6");
@@ -296,7 +301,8 @@ namespace Yupi.Messages.Handlers
 
             Response.AppendString("CITIZEN");
             Response.AppendString(string.Empty);
-            Response.AppendBool(Session.GetHabbo().TalentStatus == "helper" || Session.GetHabbo().CurrentTalentLevel >= 4);
+            Response.AppendBool(Session.GetHabbo().TalentStatus == "helper" ||
+                                Session.GetHabbo().CurrentTalentLevel >= 4);
 
             Response.AppendString("MOUSE_ZOOM");
             Response.AppendString(string.Empty);
@@ -353,15 +359,16 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Habboes the camera.
+        ///     Habboes the camera.
         /// </summary>
         internal void HabboCamera()
         {
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery($"SELECT * FROM cms_stories_photos_preview WHERE user_id = {Session.GetHabbo().Id} AND type = 'PHOTO' ORDER BY id DESC LIMIT 1");
+                commitableQueryReactor.SetQuery(
+                    $"SELECT * FROM cms_stories_photos_preview WHERE user_id = {Session.GetHabbo().Id} AND type = 'PHOTO' ORDER BY id DESC LIMIT 1");
 
-                DataTable table = queryReactor.GetTable();
+                DataTable table = commitableQueryReactor.GetTable();
 
                 foreach (DataRow dataRow in table.Rows)
                 {
@@ -370,21 +377,25 @@ namespace Yupi.Messages.Handlers
                     object photo = dataRow["id"];
                     object image = dataRow["image_url"];
 
-                    using (IQueryAdapter queryReactor2 = Yupi.GetDatabaseManager().GetQueryReactor())
+                    using (IQueryAdapter commitableQueryReactor2 = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
-                        queryReactor2.SetQuery("INSERT INTO cms_stories_photos (user_id,user_name,room_id,image_preview_url,image_url,type,date,tags) VALUES (@user_id,@user_name,@room_id,@image_url,@image_url,@type,@date,@tags)");
-                        queryReactor2.AddParameter("user_id", Session.GetHabbo().Id);
-                        queryReactor2.AddParameter("user_name", Session.GetHabbo().UserName);
-                        queryReactor2.AddParameter("room_id", room);
-                        queryReactor2.AddParameter("image_url", image);
-                        queryReactor2.AddParameter("type", "PHOTO");
-                        queryReactor2.AddParameter("date", date);
-                        queryReactor2.AddParameter("tags", "");
-                        queryReactor2.RunQuery();
+                        commitableQueryReactor2.SetQuery(
+                            "INSERT INTO cms_stories_photos (user_id,user_name,room_id,image_preview_url,image_url,type,date,tags) VALUES (@user_id,@user_name,@room_id,@image_url,@image_url,@type,@date,@tags)");
+                        commitableQueryReactor2.AddParameter("user_id", Session.GetHabbo().Id);
+                        commitableQueryReactor2.AddParameter("user_name", Session.GetHabbo().UserName);
+                        commitableQueryReactor2.AddParameter("room_id", room);
+                        commitableQueryReactor2.AddParameter("image_url", image);
+                        commitableQueryReactor2.AddParameter("type", "PHOTO");
+                        commitableQueryReactor2.AddParameter("date", date);
+                        commitableQueryReactor2.AddParameter("tags", "");
+                        commitableQueryReactor2.RunQuery();
 
-                        string newPhotoData = "{\"t\":" + date + ",\"u\":\"" + photo + "\",\"m\":\"\",\"s\":" + room + ",\"w\":\"" + image + "\"}";
+                        string newPhotoData = "{\"t\":" + date + ",\"u\":\"" + photo + "\",\"m\":\"\",\"s\":" + room +
+                                           ",\"w\":\"" + image + "\"}";
 
-                        UserItem item = Session.GetHabbo().GetInventoryComponent().AddNewItem(0, "external_image_wallitem_poster", newPhotoData, 0, true, false, 0, 0);
+                        UserItem item = Session.GetHabbo()
+                            .GetInventoryComponent()
+                            .AddNewItem(0, "external_image_wallitem_poster", newPhotoData, 0, true, false, 0, 0);
 
                         Session.GetHabbo().GetInventoryComponent().UpdateItems(false);
                         Session.GetHabbo().Credits -= 2;
@@ -400,7 +411,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Called when [click].
+        ///     Called when [click].
         /// </summary>
         internal void OnClick()
         {
@@ -408,7 +419,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Gets the friends count.
+        ///     Gets the friends count.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <returns>System.Int32.</returns>
@@ -416,19 +427,20 @@ namespace Yupi.Messages.Handlers
         {
             int result;
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery("SELECT COUNT(*) FROM messenger_friendships WHERE user_one_id = @id OR user_two_id = @id;");
-                queryReactor.AddParameter("id", userId);
+                commitableQueryReactor.SetQuery(
+                    "SELECT COUNT(*) FROM messenger_friendships WHERE user_one_id = @id OR user_two_id = @id;");
+                commitableQueryReactor.AddParameter("id", userId);
 
-                result = queryReactor.GetInteger();
+                result = commitableQueryReactor.GetInteger();
             }
 
             return result;
         }
 
         /// <summary>
-        /// Targeteds the offer buy.
+        ///     Targeteds the offer buy.
         /// </summary>
         internal void PurchaseTargetedOffer()
         {
@@ -440,13 +452,13 @@ namespace Yupi.Messages.Handlers
             if (offer == null)
                 return;
 
-            if (Session.GetHabbo().Credits < offer.CostCredits * quantity)
+            if (Session.GetHabbo().Credits < offer.CostCredits*quantity)
                 return;
 
-            if (Session.GetHabbo().ActivityPoints < offer.CostDuckets * quantity)
+            if (Session.GetHabbo().ActivityPoints < offer.CostDuckets*quantity)
                 return;
 
-            if (Session.GetHabbo().Diamonds < offer.CostDiamonds * quantity)
+            if (Session.GetHabbo().Diamonds < offer.CostDiamonds*quantity)
                 return;
 
             foreach (string product in offer.Products)
@@ -459,16 +471,16 @@ namespace Yupi.Messages.Handlers
                 Yupi.GetGame().GetCatalog().DeliverItems(Session, item, quantity, string.Empty, 0, 0, string.Empty);
             }
 
-            Session.GetHabbo().Credits -= offer.CostCredits * quantity;
-            Session.GetHabbo().ActivityPoints -= offer.CostDuckets * quantity;
-            Session.GetHabbo().Diamonds -= offer.CostDiamonds * quantity;
+            Session.GetHabbo().Credits -= offer.CostCredits*quantity;
+            Session.GetHabbo().ActivityPoints -= offer.CostDuckets*quantity;
+            Session.GetHabbo().Diamonds -= offer.CostDiamonds*quantity;
             Session.GetHabbo().UpdateCreditsBalance();
             Session.GetHabbo().UpdateSeasonalCurrencyBalance();
             Session.GetHabbo().GetInventoryComponent().UpdateItems(false);
         }
 
         /// <summary>
-        /// Goes the name of to room by.
+        ///     Goes the name of to room by.
         /// </summary>
         internal void GoToRoomByName()
         {
@@ -482,7 +494,13 @@ namespace Yupi.Messages.Handlers
                     break;
 
                 case "random_friending_room":
-                    List<RoomData> rooms = Yupi.GetGame().GetRoomManager().GetActiveRooms().Select(room => room.Key).Where(room => room != null && room.UsersNow > 0).ToList();
+                    List<RoomData> rooms =
+                        Yupi.GetGame()
+                            .GetRoomManager()
+                            .GetActiveRooms()
+                            .Select(room => room.Key)
+                            .Where(room => room != null && room.UsersNow > 0)
+                            .ToList();
                     if (!rooms.Any())
                         return;
                     if (rooms.Count() == 1)
@@ -502,7 +520,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Gets the uc panel.
+        ///     Gets the uc panel.
         /// </summary>
         internal void GetUcPanel()
         {
@@ -516,7 +534,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Gets the uc panel hotel.
+        ///     Gets the uc panel hotel.
         /// </summary>
         internal void GetUcPanelHotel()
         {
@@ -524,7 +542,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Saves the room thumbnail.
+        ///     Saves the room thumbnail.
         /// </summary>
         internal void SaveRoomThumbnail()
         {

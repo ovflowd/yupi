@@ -5,56 +5,56 @@ using Yupi.Game.GameClients.Interfaces;
 namespace Yupi.Game.Users.Guides
 {
     /// <summary>
-    /// Class GuideManager.
+    ///     Class GuideManager.
     /// </summary>
     internal class GuideManager
     {
         /// <summary>
-        /// The en cours
+        ///     The en cours
         /// </summary>
         public Dictionary<uint, GameClient> EnCours = new Dictionary<uint, GameClient>();
 
         /// <summary>
-        /// The guardians on duty
+        ///     The guardians on duty
         /// </summary>
         internal List<GameClient> GuardiansOnDuty = new List<GameClient>();
 
         /// <summary>
-        /// The guides on duty
+        ///     The guides on duty
         /// </summary>
         internal List<GameClient> GuidesOnDuty = new List<GameClient>();
 
         /// <summary>
-        /// The helpers on duty
+        ///     The helpers on duty
         /// </summary>
         internal List<GameClient> HelpersOnDuty = new List<GameClient>();
 
         /// <summary>
-        /// Gets or sets the guides count.
+        ///     Gets or sets the guides count.
         /// </summary>
         /// <value>The guides count.</value>
         public int GuidesCount => GuidesOnDuty.Count;
 
         /// <summary>
-        /// Gets or sets the helpers count.
+        ///     Gets or sets the helpers count.
         /// </summary>
         /// <value>The helpers count.</value>
         public int HelpersCount => HelpersOnDuty.Count;
 
         /// <summary>
-        /// Gets or sets the guardians count.
+        ///     Gets or sets the guardians count.
         /// </summary>
         /// <value>The guardians count.</value>
         public int GuardiansCount => GuardiansOnDuty.Count;
 
         /// <summary>
-        /// Gets the random guide.
+        ///     Gets the random guide.
         /// </summary>
         /// <returns>GameClient.</returns>
         public GameClient GetRandomGuide() => GuidesOnDuty[new Random().Next(0, GuidesCount - 1)];
 
         /// <summary>
-        /// Adds the guide.
+        ///     Adds the guide.
         /// </summary>
         /// <param name="guide">The guide.</param>
         public void AddGuide(GameClient guide)
@@ -84,7 +84,7 @@ namespace Yupi.Game.Users.Guides
         }
 
         /// <summary>
-        /// Removes the guide.
+        ///     Removes the guide.
         /// </summary>
         /// <param name="guide">The guide.</param>
         public void RemoveGuide(GameClient guide)

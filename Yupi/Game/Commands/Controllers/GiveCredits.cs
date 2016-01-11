@@ -40,7 +40,8 @@ namespace Yupi.Game.Commands.Controllers
             client.GetHabbo().Credits += amount;
             client.GetHabbo().UpdateCreditsBalance();
 
-            client.SendNotif(string.Format(Yupi.GetLanguage().GetVar("staff_gives_credits"), session.GetHabbo().UserName, amount));
+            client.SendNotif(string.Format(Yupi.GetLanguage().GetVar("staff_gives_credits"), session.GetHabbo().UserName,
+                amount));
 
             return true;
         }

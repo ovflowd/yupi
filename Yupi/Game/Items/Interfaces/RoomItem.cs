@@ -4,10 +4,9 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using Yupi.Core.Io;
-using Yupi.Core.Settings;
 using Yupi.Core.Util.Math;
 using Yupi.Data;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Groups.Structs;
 using Yupi.Game.Items.Datas;
@@ -63,7 +62,7 @@ namespace Yupi.Game.Items.Interfaces
         internal int BallValue;
 
         /// <summary>
-        /// The base name
+        ///     The base name
         /// </summary>
         internal string BaseName;
 
@@ -231,7 +230,8 @@ namespace Yupi.Game.Items.Interfaces
         /// <param name="flatId">The flat identifier.</param>
         /// <param name="songCode">The song code.</param>
         /// <param name="isBuilder">if set to <c>true</c> [is builder].</param>
-        internal RoomItem(uint id, uint roomId, string baseName, string extraData, int x, int y, double z, int rot, Room pRoom, uint userid, uint eGroup, string songCode, bool isBuilder)
+        internal RoomItem(uint id, uint roomId, string baseName, string extraData, int x, int y, double z, int rot,
+            Room pRoom, uint userid, uint eGroup, string songCode, bool isBuilder)
         {
             Id = id;
             RoomId = roomId;
@@ -260,11 +260,11 @@ namespace Yupi.Game.Items.Interfaces
             if (GetBaseItem() == null)
                 ServerLogManager.LogException($"Unknown Base Item (By Name): {baseName}");
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery($"SELECT * FROM items_limited WHERE item_id='{id}' LIMIT 1");
+                commitableQueryReactor.SetQuery($"SELECT * FROM items_limited WHERE item_id='{id}' LIMIT 1");
 
-                DataRow row = queryReactor.GetRow();
+                DataRow row = commitableQueryReactor.GetRow();
 
                 if (row != null)
                 {
@@ -389,7 +389,8 @@ namespace Yupi.Game.Items.Interfaces
         /// <param name="userid">The userid.</param>
         /// <param name="eGroup">The group.</param>
         /// <param name="isBuilder">if set to <c>true</c> [is builder].</param>
-        internal RoomItem(uint id, uint roomId, string baseName, string extraData, WallCoordinate wallCoord, Room pRoom,  uint userid, uint eGroup,  bool isBuilder)
+        internal RoomItem(uint id, uint roomId, string baseName, string extraData, WallCoordinate wallCoord, Room pRoom,
+            uint userid, uint eGroup, bool isBuilder)
         {
             BaseName = baseName;
 
@@ -487,7 +488,7 @@ namespace Yupi.Game.Items.Interfaces
         {
             get
             {
-                List<Point> list = new List<Point> { Coordinate };
+                List<Point> list = new List<Point> {Coordinate};
                 list.AddRange(AffectedTiles.Values.Select(current => new Point(current.X, current.Y)));
                 return list;
             }
@@ -512,8 +513,8 @@ namespace Yupi.Game.Items.Interfaces
                 }
                 catch (Exception e)
                 {
-                    Writer.LogException("TotalHeight with furni BaseName: " + BaseName + " in RoomId:" + RoomId +
-                                               Environment.NewLine + e);
+                    ServerLogManager.LogException("TotalHeight with furni BaseName: " + BaseName + " in RoomId:" +
+                                                  RoomId + Environment.NewLine + e);
                     return 0;
                 }
             }
@@ -529,16 +530,21 @@ namespace Yupi.Game.Items.Interfaces
             {
                 try
                 {
-                    if (GetBaseItem() == null) return Z;
-                    if (!GetBaseItem().StackMultipler) return Z + GetBaseItem().Height;
-                    if (string.IsNullOrEmpty(ExtraData)) ExtraData = "0";
+                    if (GetBaseItem() == null)
+                        return Z;
+
+                    if (!GetBaseItem().StackMultipler)
+                        return Z + GetBaseItem().Height;
+
+                    if (string.IsNullOrEmpty(ExtraData))
+                        ExtraData = "0";
 
                     return Z + GetBaseItem().ToggleHeight[int.Parse(ExtraData)];
                 }
                 catch (Exception e)
                 {
-                    Writer.LogException("TotalHeight with furni Base Name: " + BaseName + " in RoomId:" + RoomId +
-                                               Environment.NewLine + e);
+                    ServerLogManager.LogException("TotalHeight with furni Base Name: " + BaseName + " in RoomId:" +
+                                                  RoomId + Environment.NewLine + e);
                     return 1;
                 }
             }
@@ -822,28 +828,28 @@ namespace Yupi.Game.Items.Interfaces
                 switch (interactionType)
                 {
                     case Interaction.ScoreBoard:
+                    {
+                        if (string.IsNullOrEmpty(ExtraData)) return;
+                        int num = 0;
+                        int.TryParse(ExtraData, out num);
+                        if (num > 0)
                         {
-                            if (string.IsNullOrEmpty(ExtraData)) return;
-                            int num = 0;
-                            int.TryParse(ExtraData, out num);
-                            if (num > 0)
+                            if (InteractionCountHelper == 1)
                             {
-                                if (InteractionCountHelper == 1)
-                                {
-                                    num--;
-                                    InteractionCountHelper = 0;
-                                    ExtraData = num.ToString();
-                                    UpdateState();
-                                }
-                                else InteractionCountHelper += 1;
-
-                                UpdateCounter = 1;
-                                return;
+                                num--;
+                                InteractionCountHelper = 0;
+                                ExtraData = num.ToString();
+                                UpdateState();
                             }
+                            else InteractionCountHelper += 1;
 
-                            UpdateCounter = 0;
+                            UpdateCounter = 1;
                             return;
                         }
+
+                        UpdateCounter = 0;
+                        return;
+                    }
                     case Interaction.VendingMachine:
 
                         if (ExtraData == "1")
@@ -882,36 +888,36 @@ namespace Yupi.Game.Items.Interfaces
                         break;
 
                     case Interaction.OneWayGate:
+                    {
+                        RoomUser roomUser3 = null;
+                        if (InteractingUser > 0u)
+                            roomUser3 = GetRoom().GetRoomUserManager().GetRoomUserByHabbo(InteractingUser);
+                        if (roomUser3 != null && roomUser3.X == X && roomUser3.Y == Y)
                         {
-                            RoomUser roomUser3 = null;
-                            if (InteractingUser > 0u)
-                                roomUser3 = GetRoom().GetRoomUserManager().GetRoomUserByHabbo(InteractingUser);
-                            if (roomUser3 != null && roomUser3.X == X && roomUser3.Y == Y)
-                            {
-                                ExtraData = "1";
-                                roomUser3.MoveTo(SquareBehind);
-                                roomUser3.InteractingGate = false;
-                                roomUser3.GateId = 0u;
-                                ReqUpdate(1, false);
-                                UpdateState(false, true);
-                            }
-                            else if (roomUser3 != null && roomUser3.Coordinate == SquareBehind)
-                            {
-                                roomUser3.UnlockWalking();
-                                ExtraData = "0";
-                                InteractingUser = 0u;
-                                roomUser3.InteractingGate = false;
-                                roomUser3.GateId = 0u;
-                                UpdateState(false, true);
-                            }
-                            else if (ExtraData == "1")
-                            {
-                                ExtraData = "0";
-                                UpdateState(false, true);
-                            }
-                            if (roomUser3 == null) InteractingUser = 0u;
-                            break;
+                            ExtraData = "1";
+                            roomUser3.MoveTo(SquareBehind);
+                            roomUser3.InteractingGate = false;
+                            roomUser3.GateId = 0u;
+                            ReqUpdate(1, false);
+                            UpdateState(false, true);
                         }
+                        else if (roomUser3 != null && roomUser3.Coordinate == SquareBehind)
+                        {
+                            roomUser3.UnlockWalking();
+                            ExtraData = "0";
+                            InteractingUser = 0u;
+                            roomUser3.InteractingGate = false;
+                            roomUser3.GateId = 0u;
+                            UpdateState(false, true);
+                        }
+                        else if (ExtraData == "1")
+                        {
+                            ExtraData = "0";
+                            UpdateState(false, true);
+                        }
+                        if (roomUser3 == null) InteractingUser = 0u;
+                        break;
+                    }
                     case Interaction.LoveShuffler:
                         if (ExtraData == "0")
                         {
@@ -938,205 +944,205 @@ namespace Yupi.Game.Items.Interfaces
                         return;
 
                     case Interaction.Hopper:
+                    {
+                        bool flag = false, flag2 = false;
+                        int num2 = 0;
+                        if (InteractingUser > 0u)
                         {
-                            bool flag = false, flag2 = false;
-                            int num2 = 0;
-                            if (InteractingUser > 0u)
+                            RoomUser roomUser4 = GetRoom().GetRoomUserManager().GetRoomUserByHabbo(InteractingUser);
+                            if (roomUser4 != null)
                             {
-                                RoomUser roomUser4 = GetRoom().GetRoomUserManager().GetRoomUserByHabbo(InteractingUser);
-                                if (roomUser4 != null)
+                                if (roomUser4.Coordinate == Coordinate)
                                 {
-                                    if (roomUser4.Coordinate == Coordinate)
+                                    roomUser4.AllowOverride = false;
+                                    if (roomUser4.TeleDelay == 0)
                                     {
-                                        roomUser4.AllowOverride = false;
-                                        if (roomUser4.TeleDelay == 0)
+                                        uint aHopper = HopperHandler.GetAHopper(roomUser4.RoomId);
+                                        uint hopperId = HopperHandler.GetHopperId(aHopper);
+                                        if (!roomUser4.IsBot && roomUser4.GetClient() != null &&
+                                            roomUser4.GetClient().GetHabbo() != null &&
+                                            roomUser4.GetClient().GetMessageHandler() != null)
                                         {
-                                            uint aHopper = HopperHandler.GetAHopper(roomUser4.RoomId);
-                                            uint hopperId = HopperHandler.GetHopperId(aHopper);
-                                            if (!roomUser4.IsBot && roomUser4.GetClient() != null &&
-                                                roomUser4.GetClient().GetHabbo() != null &&
-                                                roomUser4.GetClient().GetMessageHandler() != null)
-                                            {
-                                                roomUser4.GetClient().GetHabbo().IsHopping = true;
-                                                roomUser4.GetClient().GetHabbo().HopperId = hopperId;
-                                                ServerMessage roomFwd =
-                                                    new ServerMessage(
-                                                        LibraryParser.OutgoingRequest("RoomForwardMessageComposer"));
-                                                roomFwd.AppendInteger(aHopper);
-                                                roomUser4.GetClient().SendMessage(roomFwd);
-                                                InteractingUser = 0u;
-                                            }
+                                            roomUser4.GetClient().GetHabbo().IsHopping = true;
+                                            roomUser4.GetClient().GetHabbo().HopperId = hopperId;
+                                            ServerMessage roomFwd =
+                                                new ServerMessage(
+                                                    LibraryParser.OutgoingRequest("RoomForwardMessageComposer"));
+                                            roomFwd.AppendInteger(aHopper);
+                                            roomUser4.GetClient().SendMessage(roomFwd);
+                                            InteractingUser = 0u;
                                         }
-                                        else
-                                        {
-                                            roomUser4.TeleDelay--;
-                                            flag = true;
-                                        }
-                                    }
-                                    else if (roomUser4.Coordinate == SquareInFront)
-                                    {
-                                        roomUser4.AllowOverride = true;
-                                        flag2 = true;
-                                        if (roomUser4.IsWalking && (roomUser4.GoalX != X || roomUser4.GoalY != Y))
-                                            roomUser4.ClearMovement();
-                                        roomUser4.CanWalk = false;
-                                        roomUser4.AllowOverride = true;
-                                        roomUser4.MoveTo(Coordinate.X, Coordinate.Y, true);
-                                    }
-                                    else InteractingUser = 0u;
-                                }
-                                else InteractingUser = 0u;
-                            }
-                            if (InteractingUser2 > 0u)
-                            {
-                                RoomUser roomUserByHabbo = GetRoom().GetRoomUserManager().GetRoomUserByHabbo(InteractingUser2);
-                                if (roomUserByHabbo != null)
-                                {
-                                    flag2 = true;
-                                    roomUserByHabbo.UnlockWalking();
-                                    roomUserByHabbo.MoveTo(SquareInFront);
-                                }
-                                InteractingUser2 = 0u;
-                            }
-                            if (flag2)
-                            {
-                                if (ExtraData != "1")
-                                {
-                                    ExtraData = "1";
-                                    UpdateState(false, true);
-                                }
-                            }
-                            else if (flag)
-                            {
-                                if (ExtraData != "2")
-                                {
-                                    ExtraData = "2";
-                                    UpdateState(false, true);
-                                }
-                            }
-                            else if (ExtraData != "0")
-                            {
-                                if (num2 == 0)
-                                {
-                                    ExtraData = "0";
-                                    UpdateState(false, true);
-                                }
-                                else num2--;
-                            }
-                            ReqUpdate(1, false);
-                            return;
-                        }
-                    case Interaction.Teleport:
-                    case Interaction.QuickTeleport:
-                        {
-                            bool keepDoorOpen = false, showTeleEffect = false;
-                            if (InteractingUser > 0)
-                            {
-                                RoomUser user = GetRoom().GetRoomUserManager().GetRoomUserByHabbo(InteractingUser);
-                                if (user != null)
-                                {
-                                    if (user.Coordinate == Coordinate)
-                                    {
-                                        user.AllowOverride = false;
-
-                                        if (TeleHandler.IsTeleLinked(Id, _mRoom))
-                                        {
-                                            showTeleEffect = true;
-                                            uint linkedTele = TeleHandler.GetLinkedTele(Id, _mRoom);
-                                            uint teleRoomId = TeleHandler.GetTeleRoomId(linkedTele, _mRoom);
-                                            if (teleRoomId == RoomId)
-                                            {
-                                                RoomItem item = GetRoom().GetRoomItemHandler().GetItem(linkedTele);
-                                                if (item == null)
-                                                {
-                                                    user.UnlockWalking();
-                                                }
-                                                else
-                                                {
-                                                    user.SetPos(item.X, item.Y, item.Z);
-                                                    user.SetRot(item.Rot, false);
-                                                    item.ExtraData = "2";
-                                                    item.UpdateState(false, true);
-                                                    item.InteractingUser2 = InteractingUser;
-                                                }
-                                            }
-                                            else
-                                            {
-                                                if (!user.IsBot && user.GetClient() != null &&
-                                                    user.GetClient().GetHabbo() != null &&
-                                                    user.GetClient().GetMessageHandler() != null)
-                                                {
-                                                    user.GetClient().GetHabbo().IsTeleporting = true;
-                                                    user.GetClient().GetHabbo().TeleportingRoomId = teleRoomId;
-                                                    user.GetClient().GetHabbo().TeleporterId = linkedTele;
-                                                    user.GetClient()
-                                                        .GetMessageHandler()
-                                                        .PrepareRoomForUser(teleRoomId, string.Empty);
-                                                }
-                                                InteractingUser = 0u;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            user.UnlockWalking();
-                                            InteractingUser = 0;
-                                        }
-                                    }
-                                    else if (user.Coordinate == SquareInFront)
-                                    {
-                                        user.AllowOverride = true;
-                                        keepDoorOpen = true;
-                                        if (user.IsWalking && (user.GoalX != X || user.GoalY != Y)) user.ClearMovement();
-
-                                        user.CanWalk = false;
-                                        user.AllowOverride = true;
-
-                                        user.MoveTo(Coordinate.X, Coordinate.Y, true);
                                     }
                                     else
                                     {
+                                        roomUser4.TeleDelay--;
+                                        flag = true;
+                                    }
+                                }
+                                else if (roomUser4.Coordinate == SquareInFront)
+                                {
+                                    roomUser4.AllowOverride = true;
+                                    flag2 = true;
+                                    if (roomUser4.IsWalking && (roomUser4.GoalX != X || roomUser4.GoalY != Y))
+                                        roomUser4.ClearMovement();
+                                    roomUser4.CanWalk = false;
+                                    roomUser4.AllowOverride = true;
+                                    roomUser4.MoveTo(Coordinate.X, Coordinate.Y, true);
+                                }
+                                else InteractingUser = 0u;
+                            }
+                            else InteractingUser = 0u;
+                        }
+                        if (InteractingUser2 > 0u)
+                        {
+                            RoomUser roomUserByHabbo = GetRoom().GetRoomUserManager().GetRoomUserByHabbo(InteractingUser2);
+                            if (roomUserByHabbo != null)
+                            {
+                                flag2 = true;
+                                roomUserByHabbo.UnlockWalking();
+                                roomUserByHabbo.MoveTo(SquareInFront);
+                            }
+                            InteractingUser2 = 0u;
+                        }
+                        if (flag2)
+                        {
+                            if (ExtraData != "1")
+                            {
+                                ExtraData = "1";
+                                UpdateState(false, true);
+                            }
+                        }
+                        else if (flag)
+                        {
+                            if (ExtraData != "2")
+                            {
+                                ExtraData = "2";
+                                UpdateState(false, true);
+                            }
+                        }
+                        else if (ExtraData != "0")
+                        {
+                            if (num2 == 0)
+                            {
+                                ExtraData = "0";
+                                UpdateState(false, true);
+                            }
+                            else num2--;
+                        }
+                        ReqUpdate(1, false);
+                        return;
+                    }
+                    case Interaction.Teleport:
+                    case Interaction.QuickTeleport:
+                    {
+                        bool keepDoorOpen = false, showTeleEffect = false;
+                        if (InteractingUser > 0)
+                        {
+                            RoomUser user = GetRoom().GetRoomUserManager().GetRoomUserByHabbo(InteractingUser);
+                            if (user != null)
+                            {
+                                if (user.Coordinate == Coordinate)
+                                {
+                                    user.AllowOverride = false;
+
+                                    if (TeleHandler.IsTeleLinked(Id, _mRoom))
+                                    {
+                                        showTeleEffect = true;
+                                        uint linkedTele = TeleHandler.GetLinkedTele(Id, _mRoom);
+                                        uint teleRoomId = TeleHandler.GetTeleRoomId(linkedTele, _mRoom);
+                                        if (teleRoomId == RoomId)
+                                        {
+                                            RoomItem item = GetRoom().GetRoomItemHandler().GetItem(linkedTele);
+                                            if (item == null)
+                                            {
+                                                user.UnlockWalking();
+                                            }
+                                            else
+                                            {
+                                                user.SetPos(item.X, item.Y, item.Z);
+                                                user.SetRot(item.Rot, false);
+                                                item.ExtraData = "2";
+                                                item.UpdateState(false, true);
+                                                item.InteractingUser2 = InteractingUser;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (!user.IsBot && user.GetClient() != null &&
+                                                user.GetClient().GetHabbo() != null &&
+                                                user.GetClient().GetMessageHandler() != null)
+                                            {
+                                                user.GetClient().GetHabbo().IsTeleporting = true;
+                                                user.GetClient().GetHabbo().TeleportingRoomId = teleRoomId;
+                                                user.GetClient().GetHabbo().TeleporterId = linkedTele;
+                                                user.GetClient()
+                                                    .GetMessageHandler()
+                                                    .PrepareRoomForUser(teleRoomId, string.Empty);
+                                            }
+                                            InteractingUser = 0u;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        user.UnlockWalking();
                                         InteractingUser = 0;
                                     }
+                                }
+                                else if (user.Coordinate == SquareInFront)
+                                {
+                                    user.AllowOverride = true;
+                                    keepDoorOpen = true;
+                                    if (user.IsWalking && (user.GoalX != X || user.GoalY != Y)) user.ClearMovement();
+
+                                    user.CanWalk = false;
+                                    user.AllowOverride = true;
+
+                                    user.MoveTo(Coordinate.X, Coordinate.Y, true);
                                 }
                                 else
                                 {
                                     InteractingUser = 0;
                                 }
                             }
-                            if (InteractingUser2 > 0)
+                            else
                             {
-                                RoomUser user2 = GetRoom().GetRoomUserManager().GetRoomUserByHabbo(InteractingUser2);
-                                if (user2 != null)
-                                {
-                                    keepDoorOpen = true;
-                                    user2.UnlockWalking();
-                                    user2.MoveTo(SquareInFront);
-                                }
-                                InteractingUser2 = 0;
+                                InteractingUser = 0;
                             }
-                            if (keepDoorOpen)
+                        }
+                        if (InteractingUser2 > 0)
+                        {
+                            RoomUser user2 = GetRoom().GetRoomUserManager().GetRoomUserByHabbo(InteractingUser2);
+                            if (user2 != null)
                             {
-                                if (ExtraData != "1")
-                                {
-                                    ExtraData = "1";
-                                    UpdateState(false, true);
-                                }
+                                keepDoorOpen = true;
+                                user2.UnlockWalking();
+                                user2.MoveTo(SquareInFront);
                             }
-                            else if (showTeleEffect)
+                            InteractingUser2 = 0;
+                        }
+                        if (keepDoorOpen)
+                        {
+                            if (ExtraData != "1")
                             {
-                                if (ExtraData != "2")
-                                {
-                                    ExtraData = "2";
-                                    UpdateState(false, true);
-                                }
-                            }
-                            else if (ExtraData != "0")
-                            {
-                                ExtraData = "0";
+                                ExtraData = "1";
                                 UpdateState(false, true);
                             }
-                            ReqUpdate(1, false);
                         }
+                        else if (showTeleEffect)
+                        {
+                            if (ExtraData != "2")
+                            {
+                                ExtraData = "2";
+                                UpdateState(false, true);
+                            }
+                        }
+                        else if (ExtraData != "0")
+                        {
+                            ExtraData = "0";
+                            UpdateState(false, true);
+                        }
+                        ReqUpdate(1, false);
+                    }
                         break;
 
                     case Interaction.BanzaiFloor:
@@ -1205,28 +1211,28 @@ namespace Yupi.Game.Items.Interfaces
                         break;
 
                     case Interaction.BanzaiCounter:
+                    {
+                        if (string.IsNullOrEmpty(ExtraData)) return;
+                        int num4;
+                        int.TryParse(ExtraData, out num4);
+                        if (num4 > 0)
                         {
-                            if (string.IsNullOrEmpty(ExtraData)) return;
-                            int num4;
-                            int.TryParse(ExtraData, out num4);
-                            if (num4 > 0)
+                            if (InteractionCountHelper == 1)
                             {
-                                if (InteractionCountHelper == 1)
-                                {
-                                    num4--;
-                                    InteractionCountHelper = 0;
-                                    if (!GetRoom().GetBanzai().IsBanzaiActive) break;
-                                    ExtraData = num4.ToString();
-                                    UpdateState();
-                                }
-                                else InteractionCountHelper += 1;
-                                UpdateCounter = 1;
-                                return;
+                                num4--;
+                                InteractionCountHelper = 0;
+                                if (!GetRoom().GetBanzai().IsBanzaiActive) break;
+                                ExtraData = num4.ToString();
+                                UpdateState();
                             }
-                            UpdateCounter = 0;
-                            GetRoom().GetBanzai().BanzaiEnd();
+                            else InteractionCountHelper += 1;
+                            UpdateCounter = 1;
                             return;
                         }
+                        UpdateCounter = 0;
+                        GetRoom().GetBanzai().BanzaiEnd();
+                        return;
+                    }
                     case Interaction.BanzaiTele:
                         ExtraData = string.Empty;
                         UpdateState();
@@ -1244,28 +1250,28 @@ namespace Yupi.Game.Items.Interfaces
                         return;
 
                     case Interaction.FreezeTimer:
+                    {
+                        if (string.IsNullOrEmpty(ExtraData)) return;
+                        int num5 = 0;
+                        int.TryParse(ExtraData, out num5);
+                        if (num5 > 0)
                         {
-                            if (string.IsNullOrEmpty(ExtraData)) return;
-                            int num5 = 0;
-                            int.TryParse(ExtraData, out num5);
-                            if (num5 > 0)
+                            if (InteractionCountHelper == 1)
                             {
-                                if (InteractionCountHelper == 1)
-                                {
-                                    num5--;
-                                    InteractionCountHelper = 0;
-                                    if (!GetRoom().GetFreeze().GameStarted) break;
-                                    ExtraData = num5.ToString();
-                                    UpdateState();
-                                }
-                                else InteractionCountHelper += 1;
-                                UpdateCounter = 1;
-                                return;
+                                num5--;
+                                InteractionCountHelper = 0;
+                                if (!GetRoom().GetFreeze().GameStarted) break;
+                                ExtraData = num5.ToString();
+                                UpdateState();
                             }
-                            UpdateNeeded = false;
-                            GetRoom().GetFreeze().StopGame();
+                            else InteractionCountHelper += 1;
+                            UpdateCounter = 1;
                             return;
                         }
+                        UpdateNeeded = false;
+                        GetRoom().GetFreeze().StopGame();
+                        return;
+                    }
                     case Interaction.FreezeTile:
                         if (InteractingUser > 0u)
                         {
@@ -1278,55 +1284,55 @@ namespace Yupi.Game.Items.Interfaces
                         break;
 
                     case Interaction.WearItem:
+                    {
+                        ExtraData = "1";
+                        UpdateState();
+                        string text = string.Empty;
+                        GameClient clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(InteractingUser);
                         {
-                            ExtraData = "1";
-                            UpdateState();
-                            string text = string.Empty;
-                            GameClient clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(InteractingUser);
+                            if (!clientByUserId.GetHabbo().Look.Contains("ha"))
+                                text = $"{clientByUserId.GetHabbo().Look}.ha-1006-1326";
+                            else
                             {
-                                if (!clientByUserId.GetHabbo().Look.Contains("ha"))
-                                    text = $"{clientByUserId.GetHabbo().Look}.ha-1006-1326";
-                                else
+                                string[] array = clientByUserId.GetHabbo().Look.Split('.');
+                                string[] array2 = array;
+                                foreach (string text2 in array2)
                                 {
-                                    string[] array = clientByUserId.GetHabbo().Look.Split('.');
-                                    string[] array2 = array;
-                                    foreach (string text2 in array2)
-                                    {
-                                        string str = text2;
-                                        if (text2.Contains("ha")) str = "ha-1006-1326";
-                                        text = $"{text}{str}.";
-                                    }
+                                    string str = text2;
+                                    if (text2.Contains("ha")) str = "ha-1006-1326";
+                                    text = $"{text}{str}.";
                                 }
-                                if (text.EndsWith(".")) text = text.TrimEnd('.');
-                                clientByUserId.GetHabbo().Look = text;
-                                clientByUserId.GetMessageHandler()
-                                    .GetResponse()
-                                    .Init(LibraryParser.OutgoingRequest("UpdateUserDataMessageComposer"));
-                                clientByUserId.GetMessageHandler().GetResponse().AppendInteger(-1);
-                                clientByUserId.GetMessageHandler()
-                                    .GetResponse()
-                                    .AppendString(clientByUserId.GetHabbo().Look);
-                                clientByUserId.GetMessageHandler()
-                                    .GetResponse()
-                                    .AppendString(clientByUserId.GetHabbo().Gender.ToLower());
-                                clientByUserId.GetMessageHandler()
-                                    .GetResponse()
-                                    .AppendString(clientByUserId.GetHabbo().Motto);
-                                clientByUserId.GetMessageHandler()
-                                    .GetResponse()
-                                    .AppendInteger(clientByUserId.GetHabbo().AchievementPoints);
-                                clientByUserId.GetMessageHandler().SendResponse();
-                                ServerMessage serverMessage = new ServerMessage();
-                                serverMessage.Init(LibraryParser.OutgoingRequest("UpdateUserDataMessageComposer"));
-                                serverMessage.AppendInteger(InteractingUser2);
-                                serverMessage.AppendString(clientByUserId.GetHabbo().Look);
-                                serverMessage.AppendString(clientByUserId.GetHabbo().Gender.ToLower());
-                                serverMessage.AppendString(clientByUserId.GetHabbo().Motto);
-                                serverMessage.AppendInteger(clientByUserId.GetHabbo().AchievementPoints);
-                                GetRoom().SendMessage(serverMessage);
-                                return;
                             }
+                            if (text.EndsWith(".")) text = text.TrimEnd('.');
+                            clientByUserId.GetHabbo().Look = text;
+                            clientByUserId.GetMessageHandler()
+                                .GetResponse()
+                                .Init(LibraryParser.OutgoingRequest("UpdateUserDataMessageComposer"));
+                            clientByUserId.GetMessageHandler().GetResponse().AppendInteger(-1);
+                            clientByUserId.GetMessageHandler()
+                                .GetResponse()
+                                .AppendString(clientByUserId.GetHabbo().Look);
+                            clientByUserId.GetMessageHandler()
+                                .GetResponse()
+                                .AppendString(clientByUserId.GetHabbo().Gender.ToLower());
+                            clientByUserId.GetMessageHandler()
+                                .GetResponse()
+                                .AppendString(clientByUserId.GetHabbo().Motto);
+                            clientByUserId.GetMessageHandler()
+                                .GetResponse()
+                                .AppendInteger(clientByUserId.GetHabbo().AchievementPoints);
+                            clientByUserId.GetMessageHandler().SendResponse();
+                            ServerMessage serverMessage = new ServerMessage();
+                            serverMessage.Init(LibraryParser.OutgoingRequest("UpdateUserDataMessageComposer"));
+                            serverMessage.AppendInteger(InteractingUser2);
+                            serverMessage.AppendString(clientByUserId.GetHabbo().Look);
+                            serverMessage.AppendString(clientByUserId.GetHabbo().Gender.ToLower());
+                            serverMessage.AppendString(clientByUserId.GetHabbo().Motto);
+                            serverMessage.AppendInteger(clientByUserId.GetHabbo().AchievementPoints);
+                            GetRoom().SendMessage(serverMessage);
+                            return;
                         }
+                    }
                     case Interaction.TriggerTimer:
                     case Interaction.TriggerRoomEnter:
                     case Interaction.TriggerGameEnd:
@@ -1423,11 +1429,11 @@ namespace Yupi.Game.Items.Interfaces
 
             if (GetBaseItem().InteractionType == Interaction.MysteryBox)
             {
-                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    queryReactor.SetQuery($"SELECT extra_data FROM items_rooms WHERE id={Id} LIMIT 1");
+                    commitableQueryReactor.SetQuery($"SELECT extra_data FROM items_rooms WHERE id={Id} LIMIT 1");
 
-                    ExtraData = queryReactor.GetString();
+                    ExtraData = commitableQueryReactor.GetString();
                 }
 
                 if (ExtraData.Contains(Convert.ToChar(5).ToString()))
@@ -1435,7 +1441,7 @@ namespace Yupi.Game.Items.Interfaces
                     int num = int.Parse(ExtraData.Split(Convert.ToChar(5))[0]);
                     int num2 = int.Parse(ExtraData.Split(Convert.ToChar(5))[1]);
 
-                    localExtraData = (3 * num - num2).ToString();
+                    localExtraData = (3*num - num2).ToString();
                 }
             }
 
@@ -1552,30 +1558,30 @@ namespace Yupi.Game.Items.Interfaces
                     case Interaction.GuildItem:
                     case Interaction.GroupForumTerminal:
                     case Interaction.GuildForum:
+                    {
+                        Group group2 = Yupi.GetGame().GetGroupManager().GetGroup(GroupId);
+                        if (group2 == null)
                         {
-                            Group group2 = Yupi.GetGame().GetGroupManager().GetGroup(GroupId);
-                            if (group2 == null)
-                            {
-                                message.AppendInteger(1);
-                                message.AppendInteger(0);
-                                message.AppendString(ExtraData);
-                            }
-                            else
-                            {
-                                message.AppendInteger(0);
-                                message.AppendInteger(2);
-                                message.AppendInteger(5);
-                                message.AppendString(ExtraData);
-                                message.AppendString(GroupId.ToString());
-                                message.AppendString(group2.Badge);
-                                message.AppendString(Yupi.GetGame()
-                                    .GetGroupManager()
-                                    .GetGroupColour(group2.Colour1, true));
-                                message.AppendString(Yupi.GetGame()
-                                    .GetGroupManager()
-                                    .GetGroupColour(group2.Colour2, false));
-                            }
+                            message.AppendInteger(1);
+                            message.AppendInteger(0);
+                            message.AppendString(ExtraData);
                         }
+                        else
+                        {
+                            message.AppendInteger(0);
+                            message.AppendInteger(2);
+                            message.AppendInteger(5);
+                            message.AppendString(ExtraData);
+                            message.AppendString(GroupId.ToString());
+                            message.AppendString(group2.Badge);
+                            message.AppendString(Yupi.GetGame()
+                                .GetGroupManager()
+                                .GetGroupColour(group2.Colour1, true));
+                            message.AppendString(Yupi.GetGame()
+                                .GetGroupManager()
+                                .GetGroupColour(group2.Colour2, false));
+                        }
+                    }
                         break;
 
                     case Interaction.YoutubeTv:
@@ -1608,7 +1614,7 @@ namespace Yupi.Game.Items.Interfaces
                         message.AppendInteger(1);
                         if (ExtraData != "")
                         {
-                            message.AppendInteger(ExtraData.Split(Convert.ToChar(9)).Length / 2);
+                            message.AppendInteger(ExtraData.Split(Convert.ToChar(9)).Length/2);
                             for (int i = 0; i <= ExtraData.Split(Convert.ToChar(9)).Length - 1; i++)
                                 message.AppendString(ExtraData.Split(Convert.ToChar(9))[i]);
                         }
@@ -1616,48 +1622,48 @@ namespace Yupi.Game.Items.Interfaces
                         break;
 
                     case Interaction.Gift:
+                    {
+                        string[] split = ExtraData.Split((char) 9);
+                        string giftMessage = string.Empty;
+                        int giftRibbon = 1;
+                        int giftColor = 2;
+                        bool showGiver = false;
+                        string giverName = string.Empty;
+                        string giverLook = string.Empty;
+                        string product = "A1 PIZ";
+                        try
                         {
-                            string[] split = ExtraData.Split((char)9);
-                            string giftMessage = string.Empty;
-                            int giftRibbon = 1;
-                            int giftColor = 2;
-                            bool showGiver = false;
-                            string giverName = string.Empty;
-                            string giverLook = string.Empty;
-                            string product = "A1 PIZ";
-                            try
-                            {
-                                giftMessage = split[1];
-                                giftRibbon = int.Parse(split[2]);
-                                giftColor = int.Parse(split[3]);
-                                showGiver = Yupi.EnumToBool(split[4]);
-                                giverName = split[5];
-                                giverLook = split[6];
-                                product = split[7];
-                            }
-                            catch
-                            {
-                            }
-                            int ribbonAndColor = giftRibbon * 1000 + giftColor;
-                            message.AppendInteger(ribbonAndColor);
-                            message.AppendInteger(1);
-                            message.AppendInteger(showGiver ? 6 : 4);
-                            message.AppendString("EXTRA_PARAM");
-                            message.AppendString("");
-                            message.AppendString("MESSAGE");
-                            message.AppendString(giftMessage);
-                            if (showGiver)
-                            {
-                                message.AppendString("PURCHASER_NAME");
-                                message.AppendString(giverName);
-                                message.AppendString("PURCHASER_FIGURE");
-                                message.AppendString(giverLook);
-                            }
-                            message.AppendString("PRODUCT_CODE");
-                            message.AppendString(product);
-                            message.AppendString("state");
-                            message.AppendString(MagicRemove ? "1" : "0");
+                            giftMessage = split[1];
+                            giftRibbon = int.Parse(split[2]);
+                            giftColor = int.Parse(split[3]);
+                            showGiver = Yupi.EnumToBool(split[4]);
+                            giverName = split[5];
+                            giverLook = split[6];
+                            product = split[7];
                         }
+                        catch
+                        {
+                        }
+                        int ribbonAndColor = giftRibbon*1000 + giftColor;
+                        message.AppendInteger(ribbonAndColor);
+                        message.AppendInteger(1);
+                        message.AppendInteger(showGiver ? 6 : 4);
+                        message.AppendString("EXTRA_PARAM");
+                        message.AppendString("");
+                        message.AppendString("MESSAGE");
+                        message.AppendString(giftMessage);
+                        if (showGiver)
+                        {
+                            message.AppendString("PURCHASER_NAME");
+                            message.AppendString(giverName);
+                            message.AppendString("PURCHASER_FIGURE");
+                            message.AppendString(giverLook);
+                        }
+                        message.AppendString("PRODUCT_CODE");
+                        message.AppendString(product);
+                        message.AppendString("state");
+                        message.AppendString(MagicRemove ? "1" : "0");
+                    }
                         break;
 
                     case Interaction.Pinata:
@@ -1682,7 +1688,7 @@ namespace Yupi.Game.Items.Interfaces
                         message.AppendInteger(3);
                         if (ExtraData.Contains(Convert.ToChar(5).ToString()))
                         {
-                            string[] array = ExtraData.Split((char)5);
+                            string[] array = ExtraData.Split((char) 5);
                             message.AppendString("GENDER");
                             message.AppendString(array[0]);
                             message.AppendString("FIGURE");
@@ -1713,7 +1719,7 @@ namespace Yupi.Game.Items.Interfaces
                         break;
 
                     case Interaction.LoveLock:
-                        string[] data = ExtraData.Split((char)5);
+                        string[] data = ExtraData.Split((char) 5);
                         message.AppendInteger(0);
                         message.AppendInteger(2);
                         message.AppendInteger(data.Length);
@@ -1737,10 +1743,10 @@ namespace Yupi.Game.Items.Interfaces
                     case Interaction.AdsMpu:
                         message.AppendInteger(0);
                         message.AppendInteger(1);
-                        if (!string.IsNullOrEmpty(ExtraData) && ExtraData.Contains((char)9))
+                        if (!string.IsNullOrEmpty(ExtraData) && ExtraData.Contains((char) 9))
                         {
-                            string[] arrayData = ExtraData.Split((char)9);
-                            message.AppendInteger(arrayData.Length / 2);
+                            string[] arrayData = ExtraData.Split((char) 9);
+                            message.AppendInteger(arrayData.Length/2);
                             foreach (string dataStr in arrayData) message.AppendString(dataStr);
                         }
                         else message.AppendInteger(0);
@@ -1751,9 +1757,9 @@ namespace Yupi.Game.Items.Interfaces
                         message.AppendInteger(0);
                         if (ExtraData.Contains(Convert.ToChar(5).ToString()))
                         {
-                            int num3 = int.Parse(ExtraData.Split((char)5)[0]);
-                            int num4 = int.Parse(ExtraData.Split((char)5)[1]);
-                            message.AppendString((3 * num3 - num4).ToString());
+                            int num3 = int.Parse(ExtraData.Split((char) 5)[0]);
+                            int num4 = int.Parse(ExtraData.Split((char) 5)[1]);
+                            message.AppendString((3*num3 - num4).ToString());
                         }
                         else
                         {
@@ -1834,7 +1840,8 @@ namespace Yupi.Game.Items.Interfaces
         ///     Gets the base item.
         /// </summary>
         /// <returns>Item.</returns>
-        internal Item GetBaseItem() => _mBaseItem ?? (_mBaseItem = Yupi.GetGame().GetItemManager().GetItemByName(BaseName));
+        internal Item GetBaseItem()
+            => _mBaseItem ?? (_mBaseItem = Yupi.GetGame().GetItemManager().GetItemByName(BaseName));
 
         /// <summary>
         ///     Gets the room.

@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
-using Yupi.Core.Io;
 using Yupi.Core.Settings;
+using Yupi.Data;
 using Yupi.Game.GameClients.Interfaces;
 
 namespace Yupi.Game.Users
@@ -43,19 +43,21 @@ namespace Yupi.Game.Users
 
                 foreach (GameClient client in clients.Where(client => client?.GetHabbo() != null))
                 {
-                    client.GetHabbo().Credits += (uint)ServerExtraSettings.CreditsToGive;
+                    client.GetHabbo().Credits += (uint) ServerExtraSettings.CreditsToGive;
                     client.GetHabbo().UpdateCreditsBalance();
-                    client.GetHabbo().ActivityPoints += (uint)ServerExtraSettings.PixelsToGive;
+                    client.GetHabbo().ActivityPoints += (uint) ServerExtraSettings.PixelsToGive;
 
                     if (ServerExtraSettings.DiamondsLoopEnabled && ServerExtraSettings.DiamondsVipOnly)
-                        client.GetHabbo().Diamonds += client.GetHabbo().Vip || client.GetHabbo().Rank >= 6 ? (uint) ServerExtraSettings.DiamondsToGive : (uint) ServerExtraSettings.DiamondsToGive;
+                        client.GetHabbo().Diamonds += client.GetHabbo().Vip || client.GetHabbo().Rank >= 6
+                            ? (uint) ServerExtraSettings.DiamondsToGive
+                            : (uint) ServerExtraSettings.DiamondsToGive;
 
                     client.GetHabbo().UpdateSeasonalCurrencyBalance();
                 }
             }
             catch (Exception ex)
             {
-                Writer.LogException(ex.ToString());
+                ServerLogManager.LogException(ex.ToString());
             }
         }
 

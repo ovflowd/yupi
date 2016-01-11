@@ -7,8 +7,7 @@ using System.Globalization;
 using System.Linq;
 using Yupi.Core.Io;
 using Yupi.Data;
-using Yupi.Data.Base.Queries;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Browser.Models;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Items.Interactions.Enums;
@@ -335,7 +334,8 @@ namespace Yupi.Game.Rooms.User
             session.GetHabbo().LoadingRoom = 0;
 
             if (Yupi.GetGame().GetNavigator().PrivateCategories.Contains(_userRoom.RoomData.Category))
-                ((PublicCategory) Yupi.GetGame().GetNavigator().PrivateCategories[_userRoom.RoomData.Category]).UsersNow++;
+                ((PublicCategory) Yupi.GetGame().GetNavigator().PrivateCategories[_userRoom.RoomData.Category]).UsersNow
+                    ++;
         }
 
         /// <summary>
@@ -517,9 +517,9 @@ namespace Yupi.Game.Rooms.User
         {
             _roomUserCount = count;
             _userRoom.RoomData.UsersNow = count;
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery("UPDATE rooms_data SET users_now = " + count + " WHERE id = " +
-                                          _userRoom.RoomId + " LIMIT 1");
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                commitableQueryReactor.RunFastQuery("UPDATE rooms_data SET users_now = " + count + " WHERE id = " +
+                                                    _userRoom.RoomId + " LIMIT 1");
             Yupi.GetGame().GetRoomManager().QueueActiveRoomUpdate(_userRoom.RoomData);
         }
 
@@ -583,16 +583,8 @@ namespace Yupi.Game.Rooms.User
         /// <param name="dbClient">The database client.</param>
         internal void SavePets(IQueryAdapter dbClient)
         {
-            try
-            {
-                if (GetPets().Any())
-                    AppendPetsUpdateString(dbClient);
-            }
-            catch (Exception ex)
-            {
-                ServerLogManager.LogCriticalException(string.Concat("Error during saving furniture for room ", _userRoom.RoomId,
-                    ". Stack: ", ex.ToString()));
-            }
+            if (GetPets().Any())
+                AppendPetsUpdateString(dbClient);
         }
 
         /// <summary>
@@ -601,46 +593,21 @@ namespace Yupi.Game.Rooms.User
         /// <param name="dbClient">The database client.</param>
         internal void AppendPetsUpdateString(IQueryAdapter dbClient)
         {
-            List<uint> list = new List<uint>();
-
-            foreach (Pet current in GetPets().Where(current => !list.Contains(current.PetId)))
+            foreach (Pet current in GetPets())
             {
-                list.Add(current.PetId);
-
-                switch (current.DbState)
+                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    case DatabaseUpdateState.NeedsInsert:
-                        using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                        {
-                            queryReactor.SetQuery("INSERT INTO pets_data (id,user_id,room_id,name,x,y,z,pet_type,experience,energy,createstamp,nutrition,respect,color,race_id) VALUES" +
-                                                  $"('{current.PetId}', '{current.OwnerId}', '{current.RoomId}', @petName,'{current.X}', '{current.Y}', '{current.Z}', " +
-                                                  $"@petType, 0, 100, '{current.CreationStamp}', 0, 0, @petColor, @petRace)");
+                    commitableQueryReactor.SetQuery("UPDATE pets_data SET " +
+                                                    $"name = @petName, race_id = @petRace, pet_type = @petType, experience = {current.Experience}, " +
+                                                    $"energy = {current.Energy}, nutrition = {current.Nutrition}, respect = {current.Respect}, " +
+                                                    $"createstamp = '{current.CreationStamp}', color = @petColor WHERE id = {current.PetId}");
 
-                            queryReactor.AddParameter("petName", current.Name);
-                            queryReactor.AddParameter("petColor", current.Color);
-                            queryReactor.AddParameter("petType", current.Type);
-                            queryReactor.AddParameter("petRace", current.Race);
-                            queryReactor.RunQuery();
-                        }
-                        break;
+                    commitableQueryReactor.AddParameter("petName", current.Name);
+                    commitableQueryReactor.AddParameter("petRace", current.Race);
+                    commitableQueryReactor.AddParameter("petType", current.Type);
+                    commitableQueryReactor.AddParameter("petColor", current.Color);
 
-                    case DatabaseUpdateState.NeedsUpdate:
-                        using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                        {
-                            queryReactor.SetQuery("UPDATE pets_data SET " +
-                                                  $"room_id = {current.RoomId}, name = @petName, x = {current.X}, y = {current.Y}, " +
-                                                  $"z = {current.Z}, race_id = @petRace, pet_type = @petType, experience = {current.Experience}, " +
-                                                  $"energy = {current.Energy}, nutrition = {current.Nutrition}, respect = {current.Respect}, " +
-                                                  $"createstamp = '{current.CreationStamp}', color = @petColor WHERE id = {current.PetId}");
-
-                            queryReactor.AddParameter("petName", current.Name);
-                            queryReactor.AddParameter("petRace", current.Race);
-                            queryReactor.AddParameter("petType", current.Type);
-                            queryReactor.AddParameter("petColor", current.Color);
-
-                            queryReactor.RunQuery();
-                        }
-                        break;
+                    commitableQueryReactor.RunQuery();
                 }
 
                 current.DbState = DatabaseUpdateState.Updated;
@@ -761,12 +728,14 @@ namespace Yupi.Game.Rooms.User
                                 else
                                 {
                                     if (!user.Statusses.ContainsKey("sit"))
-                                        user.Statusses.Add("sit", Convert.ToString(item.GetBaseItem().Height, CultureInfo.InvariantCulture));
+                                        user.Statusses.Add("sit",
+                                            Convert.ToString(item.GetBaseItem().Height, CultureInfo.InvariantCulture));
                                 }
                             else
                             {
                                 if (!user.Statusses.ContainsKey("sit"))
-                                    user.Statusses.Add("sit", Convert.ToString(item.GetBaseItem().Height, CultureInfo.InvariantCulture));
+                                    user.Statusses.Add("sit",
+                                        Convert.ToString(item.GetBaseItem().Height, CultureInfo.InvariantCulture));
                             }
                         }
 
@@ -800,8 +769,10 @@ namespace Yupi.Game.Rooms.User
                                 user.Statusses.Add("lay", ServerUserChatTextHandler.GetString(item.GetBaseItem().Height));
                             else
                             {
-                                if (user.Statusses["lay"] != ServerUserChatTextHandler.GetString(item.GetBaseItem().Height))
-                                    user.Statusses["lay"] = ServerUserChatTextHandler.GetString(item.GetBaseItem().Height);
+                                if (user.Statusses["lay"] !=
+                                    ServerUserChatTextHandler.GetString(item.GetBaseItem().Height))
+                                    user.Statusses["lay"] =
+                                        ServerUserChatTextHandler.GetString(item.GetBaseItem().Height);
                             }
 
                             user.Z = item.Z;
@@ -821,8 +792,10 @@ namespace Yupi.Game.Rooms.User
                         {
                             if (!user.Statusses.ContainsKey("lay"))
                                 user.Statusses.Add("lay", ServerUserChatTextHandler.GetString(item.GetBaseItem().Height));
-                            else if (user.Statusses["lay"] != ServerUserChatTextHandler.GetString(item.GetBaseItem().Height))
-                                user.Statusses["lay"] = ServerUserChatTextHandler.GetString(item.GetBaseItem().Height);
+                            else if (user.Statusses["lay"] !=
+                                     ServerUserChatTextHandler.GetString(item.GetBaseItem().Height))
+                                user.Statusses["lay"] =
+                                    ServerUserChatTextHandler.GetString(item.GetBaseItem().Height);
 
                             user.Z = item.Z;
                             user.RotBody = item.Rot;
@@ -999,7 +972,7 @@ namespace Yupi.Game.Rooms.User
             }
             catch (Exception e)
             {
-                ServerLogManager.HandleException(e, "RoomUserManager.cs:UpdateUserStatus");
+                ServerLogManager.LogException(e, "Yupi.Game.Rooms.User.RoomUserManager.UpdateUserStatus");
             }
         }
 
@@ -1035,7 +1008,7 @@ namespace Yupi.Game.Rooms.User
                 try
                 {
                     GameClient ownerAchievementMessage =
-                        Yupi.GetGame().GetClientManager().GetClientByUserId((uint) _userRoom.RoomData.OwnerId);
+                        Yupi.GetGame().GetClientManager().GetClientByUserId(_userRoom.RoomData.OwnerId);
 
                     if (ownerAchievementMessage != null)
                         Yupi.GetGame()
@@ -1052,7 +1025,8 @@ namespace Yupi.Game.Rooms.User
         internal void RoomUserBreedInteraction(RoomUser roomUsers)
         {
             if (roomUsers.IsPet && ((roomUsers.PetData.Type == "pet_terrier") || (roomUsers.PetData.Type == "pet_bear")) &&
-                (roomUsers.PetData.WaitingForBreading > 0) && (roomUsers.PetData.BreadingTile.X == roomUsers.X) && (roomUsers.PetData.BreadingTile.Y == roomUsers.Y))
+                (roomUsers.PetData.WaitingForBreading > 0) && (roomUsers.PetData.BreadingTile.X == roomUsers.X) &&
+                (roomUsers.PetData.BreadingTile.Y == roomUsers.Y))
             {
                 roomUsers.Freezed = true;
                 _userRoom.GetGameMap().RemoveUserFromMap(roomUsers, roomUsers.Coordinate);
@@ -1060,12 +1034,16 @@ namespace Yupi.Game.Rooms.User
                 switch (roomUsers.PetData.Type)
                 {
                     case "pet_terrier":
-                        if (_userRoom.GetRoomItemHandler().BreedingTerrier[roomUsers.PetData.WaitingForBreading].PetsList.Count == 2)
+                        if (
+                            _userRoom.GetRoomItemHandler().BreedingTerrier[roomUsers.PetData.WaitingForBreading]
+                                .PetsList.Count == 2)
                         {
-                            GameClient petBreedOwner = Yupi.GetGame().GetClientManager().GetClientByUserId(roomUsers.PetData.OwnerId);
+                            GameClient petBreedOwner =
+                                Yupi.GetGame().GetClientManager().GetClientByUserId(roomUsers.PetData.OwnerId);
 
                             petBreedOwner?.SendMessage(PetBreeding.GetMessage(roomUsers.PetData.WaitingForBreading,
-                                _userRoom.GetRoomItemHandler().BreedingTerrier[roomUsers.PetData.WaitingForBreading].PetsList[0],
+                                _userRoom.GetRoomItemHandler().BreedingTerrier[roomUsers.PetData.WaitingForBreading]
+                                    .PetsList[0],
                                 _userRoom.GetRoomItemHandler().BreedingTerrier[roomUsers.PetData.WaitingForBreading]
                                     .PetsList[1]));
                         }
@@ -1076,7 +1054,8 @@ namespace Yupi.Game.Rooms.User
                             _userRoom.GetRoomItemHandler().BreedingBear[roomUsers.PetData.WaitingForBreading].PetsList
                                 .Count == 2)
                         {
-                            GameClient petBreedOwner = Yupi.GetGame().GetClientManager().GetClientByUserId(roomUsers.PetData.OwnerId);
+                            GameClient petBreedOwner =
+                                Yupi.GetGame().GetClientManager().GetClientByUserId(roomUsers.PetData.OwnerId);
 
                             petBreedOwner?.SendMessage(PetBreeding.GetMessage(roomUsers.PetData.WaitingForBreading,
                                 _userRoom.GetRoomItemHandler().BreedingBear[roomUsers.PetData.WaitingForBreading]
@@ -1089,7 +1068,10 @@ namespace Yupi.Game.Rooms.User
 
                 UpdateUserStatus(roomUsers, false);
             }
-            else if (roomUsers.IsPet && ((roomUsers.PetData.Type == "pet_terrier") || (roomUsers.PetData.Type == "pet_bear")) && (roomUsers.PetData.WaitingForBreading > 0) && (roomUsers.PetData.BreadingTile.X != roomUsers.X) && (roomUsers.PetData.BreadingTile.Y != roomUsers.Y))
+            else if (roomUsers.IsPet &&
+                     ((roomUsers.PetData.Type == "pet_terrier") || (roomUsers.PetData.Type == "pet_bear")) &&
+                     (roomUsers.PetData.WaitingForBreading > 0) && (roomUsers.PetData.BreadingTile.X != roomUsers.X) &&
+                     (roomUsers.PetData.BreadingTile.Y != roomUsers.Y))
             {
                 roomUsers.Freezed = false;
                 roomUsers.PetData.WaitingForBreading = 0;
@@ -1223,7 +1205,8 @@ namespace Yupi.Game.Rooms.User
 
                     // Add Status of Walking
                     roomUsers.AddStatus("mv",
-                        +roomUsers.SetX + "," + roomUsers.SetY + "," + ServerUserChatTextHandler.GetString(roomUsers.SetZ));
+                        +roomUsers.SetX + "," + roomUsers.SetY + "," +
+                        ServerUserChatTextHandler.GetString(roomUsers.SetZ));
                 }
 
                 // Check if User is Ridding in Horse, if if Let's Update Ride Data.
@@ -1266,7 +1249,8 @@ namespace Yupi.Game.Rooms.User
 
                     // Add Status of Walking
                     roomUsers.AddStatus("mv",
-                        +roomUsers.SetX + "," + roomUsers.SetY + "," + ServerUserChatTextHandler.GetString(roomUsers.SetZ));
+                        +roomUsers.SetX + "," + roomUsers.SetY + "," +
+                        ServerUserChatTextHandler.GetString(roomUsers.SetZ));
                 }
 
                 // Region Update User Effect And Status
@@ -1410,7 +1394,9 @@ namespace Yupi.Game.Rooms.User
                 // Check if User is Going to the Door.
                 lock (_removeUsers)
                 {
-                    if ((roomUsers.SetX == _userRoom.GetGameMap().Model.DoorX) && (roomUsers.SetY == _userRoom.GetGameMap().Model.DoorY) && !_removeUsers.Contains(roomUsers) && !roomUsers.IsBot && !roomUsers.IsPet)
+                    if ((roomUsers.SetX == _userRoom.GetGameMap().Model.DoorX) &&
+                        (roomUsers.SetY == _userRoom.GetGameMap().Model.DoorY) && !_removeUsers.Contains(roomUsers) &&
+                        !roomUsers.IsBot && !roomUsers.IsPet)
                     {
                         _removeUsers.Add(roomUsers);
                         return;
@@ -1425,7 +1411,8 @@ namespace Yupi.Game.Rooms.User
             }
 
             // Pet Must Stop Too!
-            if ((roomUsers.GoalX == roomUsers.X) && (roomUsers.GoalY == roomUsers.Y) && roomUsers.RidingHorse && !roomUsers.IsPet)
+            if ((roomUsers.GoalX == roomUsers.X) && (roomUsers.GoalY == roomUsers.Y) && roomUsers.RidingHorse &&
+                !roomUsers.IsPet)
             {
                 RoomUser horseStopWalkRidingPet = GetRoomUserByVirtualId(Convert.ToInt32(roomUsers.HorseId));
 
@@ -1513,7 +1500,8 @@ namespace Yupi.Game.Rooms.User
             try
             {
                 // Check Disco Procedure...
-                if ((_userRoom != null) && _userRoom.DiscoMode && (_userRoom.TonerData != null) && (_userRoom.TonerData.Enabled == 1))
+                if ((_userRoom != null) && _userRoom.DiscoMode && (_userRoom.TonerData != null) &&
+                    (_userRoom.TonerData.Enabled == 1))
                 {
                     RoomItem tonerItem = _userRoom.GetRoomItemHandler().GetItem(_userRoom.TonerData.ItemId);
 
@@ -1523,7 +1511,8 @@ namespace Yupi.Game.Rooms.User
                         _userRoom.TonerData.Data2 = Yupi.GetRandomNumber(0, 255);
                         _userRoom.TonerData.Data3 = Yupi.GetRandomNumber(0, 255);
 
-                        ServerMessage tonerComposingMessage = new ServerMessage(LibraryParser.OutgoingRequest("UpdateRoomItemMessageComposer"));
+                        ServerMessage tonerComposingMessage =
+                            new ServerMessage(LibraryParser.OutgoingRequest("UpdateRoomItemMessageComposer"));
 
                         tonerItem.Serialize(tonerComposingMessage);
                         _userRoom.SendMessage(tonerComposingMessage);
@@ -1532,7 +1521,7 @@ namespace Yupi.Game.Rooms.User
             }
             catch (Exception e)
             {
-                Writer.LogException("Disco mode: " + e);
+                ServerLogManager.LogException("Disco mode: " + e);
             }
 
             // Region: Main User Procedure... Really Main..
@@ -1738,7 +1727,8 @@ namespace Yupi.Game.Rooms.User
 
                     if (!user.IsSpectator)
                     {
-                        ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("SetRoomUserMessageComposer"));
+                        ServerMessage serverMessage =
+                            new ServerMessage(LibraryParser.OutgoingRequest("SetRoomUserMessageComposer"));
                         serverMessage.AppendInteger(1);
                         user.Serialize(serverMessage, _userRoom.GetGameMap().GotPublicPool);
                         _userRoom.SendMessage(serverMessage);

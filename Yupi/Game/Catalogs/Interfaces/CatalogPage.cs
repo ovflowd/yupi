@@ -177,7 +177,9 @@ namespace Yupi.Game.Catalogs.Interfaces
             Items = new HybridDictionary();
             FlatOffers = new Dictionary<uint, uint>();
 
-            foreach (CatalogItem catalogItem in cataItems.Values.OfType<CatalogItem>().Where(x => x.PageId == id && x.GetFirstBaseItem() != null))
+            foreach (
+                CatalogItem catalogItem in
+                    cataItems.Values.OfType<CatalogItem>().Where(x => x.PageId == id && x.GetFirstBaseItem() != null))
             {
                 Items.Add(catalogItem.Id, catalogItem);
 
@@ -207,10 +209,10 @@ namespace Yupi.Game.Catalogs.Interfaces
             uint flatInt = pId;
 
             if (FlatOffers.ContainsKey(flatInt))
-                return (CatalogItem)Items[FlatOffers[flatInt]];
+                return (CatalogItem) Items[FlatOffers[flatInt]];
 
             if (Items.Contains(num))
-                return (CatalogItem)Items[num];
+                return (CatalogItem) Items[num];
 
             return null;
         }

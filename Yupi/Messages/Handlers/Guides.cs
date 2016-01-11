@@ -7,12 +7,12 @@ using Yupi.Messages.Parsers;
 namespace Yupi.Messages.Handlers
 {
     /// <summary>
-    /// Class GameClientMessageHandler.
+    ///     Class GameClientMessageHandler.
     /// </summary>
-    partial class GameClientMessageHandler
+    internal partial class GameClientMessageHandler
     {
         /// <summary>
-        /// Calls the guide.
+        ///     Calls the guide.
         /// </summary>
         internal void CallGuide()
         {
@@ -41,14 +41,16 @@ namespace Yupi.Messages.Handlers
                 return;
             }
 
-            ServerMessage onGuideSessionAttached = new ServerMessage(LibraryParser.OutgoingRequest("OnGuideSessionAttachedMessageComposer"));
+            ServerMessage onGuideSessionAttached =
+                new ServerMessage(LibraryParser.OutgoingRequest("OnGuideSessionAttachedMessageComposer"));
             onGuideSessionAttached.AppendBool(false);
             onGuideSessionAttached.AppendInteger(userId);
             onGuideSessionAttached.AppendString(message);
             onGuideSessionAttached.AppendInteger(30);
             Session.SendMessage(onGuideSessionAttached);
 
-            ServerMessage onGuideSessionAttached2 = new ServerMessage(LibraryParser.OutgoingRequest("OnGuideSessionAttachedMessageComposer"));
+            ServerMessage onGuideSessionAttached2 =
+                new ServerMessage(LibraryParser.OutgoingRequest("OnGuideSessionAttachedMessageComposer"));
             onGuideSessionAttached2.AppendBool(true);
             onGuideSessionAttached2.AppendInteger(userId);
             onGuideSessionAttached2.AppendString(message);
@@ -59,7 +61,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Answers the guide request.
+        ///     Answers the guide request.
         /// </summary>
         internal void AnswerGuideRequest()
         {
@@ -82,7 +84,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Opens the guide tool.
+        ///     Opens the guide tool.
         /// </summary>
         internal void OpenGuideTool()
         {
@@ -108,7 +110,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Invites to room.
+        ///     Invites to room.
         /// </summary>
         internal void InviteToRoom()
         {
@@ -116,7 +118,8 @@ namespace Yupi.Messages.Handlers
 
             Room room = Session.GetHabbo().CurrentRoom;
 
-            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("OnGuideSessionInvitedToGuideRoomMessageComposer"));
+            ServerMessage message =
+                new ServerMessage(LibraryParser.OutgoingRequest("OnGuideSessionInvitedToGuideRoomMessageComposer"));
 
             if (room == null)
             {
@@ -134,7 +137,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Visits the room.
+        ///     Visits the room.
         /// </summary>
         internal void VisitRoom()
         {
@@ -148,7 +151,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Guides the speak.
+        ///     Guides the speak.
         /// </summary>
         internal void GuideSpeak()
         {
@@ -162,8 +165,8 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// BETA
-        /// Closes the guide request.
+        ///     BETA
+        ///     Closes the guide request.
         /// </summary>
         internal void CloseGuideRequest()
         {
@@ -196,8 +199,8 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Cancels the call guide.
-        /// BETA
+        ///     Cancels the call guide.
+        ///     BETA
         /// </summary>
         internal void CancelCallGuide()
         {
@@ -212,7 +215,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Guides the feedback.
+        ///     Guides the feedback.
         /// </summary>
         internal void GuideFeedback()
         {
@@ -224,7 +227,7 @@ namespace Yupi.Messages.Handlers
         }
 
         /// <summary>
-        /// Ambassadors the alert.
+        ///     Ambassadors the alert.
         /// </summary>
         internal void AmbassadorAlert()
         {
@@ -235,7 +238,8 @@ namespace Yupi.Messages.Handlers
 
             GameClient user = Yupi.GetGame().GetClientManager().GetClientByUserId(userId);
 
-            user?.SendNotif("${notification.ambassador.alert.warning.message}", "${notification.ambassador.alert.warning.title}");
+            user?.SendNotif("${notification.ambassador.alert.warning.message}",
+                "${notification.ambassador.alert.warning.title}");
         }
     }
 }

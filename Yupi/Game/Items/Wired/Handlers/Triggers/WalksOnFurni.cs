@@ -37,7 +37,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Triggers
             {
                 while (ToWork.Count > 0)
                 {
-                    RoomUser roomUser = (RoomUser)ToWork.Dequeue();
+                    RoomUser roomUser = (RoomUser) ToWork.Dequeue();
                     List<IWiredItem> conditions = Room.GetWiredHandler().GetConditions(this);
                     List<IWiredItem> effects = Room.GetWiredHandler().GetEffects(this);
 
@@ -101,16 +101,20 @@ namespace Yupi.Game.Items.Wired.Handlers.Triggers
 
         public bool Execute(params object[] stuff)
         {
-            RoomUser roomUser = (RoomUser)stuff[0];
-            RoomItem roomItem = (RoomItem)stuff[1];
+            RoomUser roomUser = (RoomUser) stuff[0];
+            RoomItem roomItem = (RoomItem) stuff[1];
 
             int userPosition = roomUser.X;
             int lastUserPosition = roomUser.CopyX;
 
-            if (!Items.Contains(roomItem) || (roomUser.LastItem != 0 && roomUser.LastItem == roomItem.Id && userPosition == lastUserPosition))
+            if (!Items.Contains(roomItem) ||
+                (roomUser.LastItem != 0 && roomUser.LastItem == roomItem.Id && userPosition == lastUserPosition))
                 return false;
 
-            if (roomItem.GetRoom() == null || roomItem.GetRoom().GetRoomItemHandler() == null || roomItem.GetRoom().GetRoomItemHandler().FloorItems.Values.Any(i => i.X == roomItem.X && i.Y == roomItem.Y && i.Z > roomItem.Z))
+            if (roomItem.GetRoom() == null || roomItem.GetRoom().GetRoomItemHandler() == null ||
+                roomItem.GetRoom()
+                    .GetRoomItemHandler()
+                    .FloorItems.Values.Any(i => i.X == roomItem.X && i.Y == roomItem.Y && i.Z > roomItem.Z))
                 return false;
 
             ToWork.Enqueue(roomUser);

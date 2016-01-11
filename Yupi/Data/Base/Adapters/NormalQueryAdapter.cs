@@ -22,28 +22,28 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
+using System.Collections.Generic;
 using System.Data;
 using MySql.Data.MySqlClient;
-using Yupi.Data.Base.Connections;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
+using Yupi.Data.Base.Managers;
 
-namespace Yupi.Data.Base.Sessions
+namespace Yupi.Data.Base.Adapters
 {
-    public class QueryAdapter : IRegularQueryAdapter
+    public class NormalQueryAdapter : IQueryAdapter
     {
         protected IDatabaseClient Client;
         protected MySqlCommand CommandMySql;
 
-        public QueryAdapter(IDatabaseClient client)
+        public NormalQueryAdapter(IDatabaseClient client)
         {
+            CommandMySql = client.CreateNewCommandMySql();
             Client = client;
         }
 
         private static bool DbEnabled => ConnectionManager.DbEnabled;
 
-        public void AddParameter(string name, byte[] data) => CommandMySql.Parameters.Add(new MySqlParameter(name, MySqlDbType.Blob, data.Length));
-
-        public void AddParameter(string parameterName, object val) => CommandMySql.Parameters.AddWithValue(parameterName, val);
+        public void AddParameter(string parameterName, object val)  => CommandMySql.Parameters.AddWithValue(parameterName, val);
 
         public bool FindsResult()
         {
@@ -112,7 +112,7 @@ namespace Yupi.Data.Base.Sessions
 
             object obj = CommandMySql.ExecuteScalar();
 
-            if(obj != null)
+            if (obj != null)
                 return obj.ToString();
 
             return string.Empty;
@@ -150,6 +150,19 @@ namespace Yupi.Data.Base.Sessions
             RunQuery();
         }
 
+        public void RunFastParameterQuery(string query, Dictionary<string, object> parameters)
+        {
+            if (!DbEnabled)
+                return;
+
+            SetQuery(query);
+
+            foreach (KeyValuePair<string, object> parameter in parameters)
+                AddParameter(parameter.Key, parameter.Value);
+
+            RunQuery();
+        }
+
         public void RunQuery()
         {
             if (!DbEnabled)
@@ -163,5 +176,14 @@ namespace Yupi.Data.Base.Sessions
             CommandMySql.Parameters.Clear();
             CommandMySql.CommandText = query;
         }
+
+        public void Dispose()
+        {
+            CommandMySql.Dispose();
+            Client.ReportDone();
+        }
+
+        public void AddParameter(string name, byte[] data)
+            => CommandMySql.Parameters.Add(new MySqlParameter(name, MySqlDbType.Blob, data.Length));
     }
 }

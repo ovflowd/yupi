@@ -70,7 +70,8 @@ namespace Yupi.Game.Polls
         /// <param name="prize">The prize.</param>
         /// <param name="type">The type.</param>
         /// <param name="questions">The questions.</param>
-        internal Poll(uint id, uint roomId, string pollName, string pollInvitation, string thanks, string prize, int type, List<PollQuestion> questions)
+        internal Poll(uint id, uint roomId, string pollName, string pollInvitation, string thanks, string prize,
+            int type, List<PollQuestion> questions)
         {
             Id = id;
             RoomId = roomId;

@@ -94,7 +94,8 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
                 serverMessage.AppendInteger(0);
                 Room.SendMessage(serverMessage);
 
-                Room.GetRoomItemHandler().SetFloorItem(null, fItem, xToSet, yToSet, rotationToSet, false, false, false, false, false);
+                Room.GetRoomItemHandler()
+                    .SetFloorItem(null, fItem, xToSet, yToSet, rotationToSet, false, false, false, false, false);
                 fItem.ExtraData = extraDataToSet;
                 fItem.UpdateState();
 

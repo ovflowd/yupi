@@ -24,32 +24,20 @@
 
 using System.Data;
 using MySql.Data.MySqlClient;
-using Yupi.Data.Base.Sessions;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters;
+using Yupi.Data.Base.Adapters.Interfaces;
 
-namespace Yupi.Data.Base.Connections
+namespace Yupi.Data.Base.Clients
 {
-    public class DatabaseConnection : IDatabaseClient
+    public class DatabaseClient : IDatabaseClient
     {
-        private readonly MySqlConnection _mysqlConnection;
         private readonly IQueryAdapter _adapter;
+        private readonly MySqlConnection _mysqlConnection;
 
-        public DatabaseConnection(string connectionStr)
+        public DatabaseClient(string connectionStr)
         {
             _mysqlConnection = new MySqlConnection(connectionStr);
-            _adapter = new NormalQueryReactor(this);
-        }
-
-        public void Open()
-        {
-            if (_mysqlConnection.State == ConnectionState.Closed)
-                _mysqlConnection.Open();
-        }
-
-        public void Close()
-        {
-            if (_mysqlConnection.State == ConnectionState.Open)
-                _mysqlConnection.Close();
+            _adapter = new NormalQueryAdapter(this);
         }
 
         public void Dispose()
@@ -71,5 +59,17 @@ namespace Yupi.Data.Base.Connections
         public MySqlCommand CreateNewCommandMySql() => _mysqlConnection.CreateCommand();
 
         public MySqlTransaction GetTransactionMySql() => _mysqlConnection.BeginTransaction();
+
+        public void Open()
+        {
+            if (_mysqlConnection.State == ConnectionState.Closed)
+                _mysqlConnection.Open();
+        }
+
+        public void Close()
+        {
+            if (_mysqlConnection.State == ConnectionState.Open)
+                _mysqlConnection.Close();
+        }
     }
 }

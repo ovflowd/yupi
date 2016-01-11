@@ -1,5 +1,5 @@
 using System.Data;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Messages;
 
 namespace Yupi.Game.Items.Datas
@@ -33,10 +33,11 @@ namespace Yupi.Game.Items.Datas
             ItemId = item;
             DataRow row;
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery($"SELECT enabled,data1,data2,data3 FROM items_toners WHERE id={ItemId} LIMIT 1");
-                row = queryReactor.GetRow();
+                commitableQueryReactor.SetQuery(
+                    $"SELECT enabled,data1,data2,data3 FROM items_toners WHERE id={ItemId} LIMIT 1");
+                row = commitableQueryReactor.GetRow();
             }
 
             if (row == null)
@@ -46,9 +47,9 @@ namespace Yupi.Game.Items.Datas
             }
 
             Enabled = int.Parse(row[0].ToString());
-            Data1 = (int)row[1];
-            Data2 = (int)row[2];
-            Data3 = (int)row[3];
+            Data1 = (int) row[1];
+            Data2 = (int) row[2];
+            Data3 = (int) row[3];
         }
 
         /// <summary>

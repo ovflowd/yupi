@@ -38,7 +38,7 @@ namespace Yupi.Game.Commands.Controllers
                         command => CommandsManager.CanUse(command.Value.MinRank, session))
                         .Aggregate(string.Empty,
                             (current, command) =>
-                                current + (command.Value.Usage + " - ") + command.Value.Description + "\n");
+                                current + command.Value.Usage + " - " + command.Value.Description + "\n");
             }
             else
             {
@@ -50,7 +50,7 @@ namespace Yupi.Game.Commands.Controllers
                                 command.Key.StartsWith(pms[0]) && CommandsManager.CanUse(command.Value.MinRank, session))
                             .Aggregate(string.Empty,
                                 (current, command) =>
-                                    current + (command.Value.Usage + " - ") + command.Value.Description + "\n");
+                                    current + command.Value.Usage + " - " + command.Value.Description + "\n");
                 }
                 else
                 {
@@ -60,7 +60,7 @@ namespace Yupi.Game.Commands.Controllers
                                 command.Key.Contains(pms[0]) && CommandsManager.CanUse(command.Value.MinRank, session))
                             .Aggregate(string.Empty,
                                 (current, command) =>
-                                    current + (command.Value.Usage + " - ") + command.Value.Description + "\n");
+                                    current + command.Value.Usage + " - " + command.Value.Description + "\n");
                 }
             }
             session.SendNotifWithScroll(commandList);

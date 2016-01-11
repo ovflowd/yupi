@@ -27,7 +27,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Yupi.Core.Io;
-using Yupi.Data.Base.Sessions.Interfaces;
+using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Commands.Controllers;
 using Yupi.Game.Commands.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
@@ -214,7 +214,8 @@ namespace Yupi.Game.Commands
 
                             if (CommandsDictionary.ContainsKey(alias))
                             {
-                                Writer.WriteLine("An alias cannot have same name as a normal command", "Yupi.Commands", ConsoleColor.DarkRed);
+                                Writer.WriteLine("An alias cannot have same name as a normal command", "Yupi.Commands",
+                                    ConsoleColor.DarkRed);
                                 continue;
                             }
 
@@ -258,7 +259,8 @@ namespace Yupi.Game.Commands
             if (!CanUse(command.MinRank, client))
                 return false;
 
-            if (command.MinParams == -2 || (command.MinParams == -1 && pms.Length > 1) || command.MinParams != -1 && command.MinParams == pms.Length - 1)
+            if (command.MinParams == -2 || (command.MinParams == -1 && pms.Length > 1) ||
+                command.MinParams != -1 && command.MinParams == pms.Length - 1)
                 return command.Execute(client, pms.Skip(1).ToArray());
 
             client.SendWhisper(Yupi.GetLanguage().GetVar("use_the_command_as") + command.Usage);
@@ -275,7 +277,8 @@ namespace Yupi.Game.Commands
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         public static bool TryExecute(string scommand, string parameters, GameClient client)
         {
-            if (string.IsNullOrEmpty(scommand) || string.IsNullOrEmpty(parameters) || client.GetHabbo() == null || !client.GetHabbo().InRoom)
+            if (string.IsNullOrEmpty(scommand) || string.IsNullOrEmpty(parameters) || client.GetHabbo() == null ||
+                !client.GetHabbo().InRoom)
                 return false;
 
             string[] pms = parameters.Split(' ');
@@ -293,7 +296,8 @@ namespace Yupi.Game.Commands
             if (!CanUse(command.MinRank, client))
                 return false;
 
-            if (command.MinParams == -2 || (command.MinParams == -1 && pms.Length > 1) || command.MinParams != -1 && command.MinParams == pms.Length - 1)
+            if (command.MinParams == -2 || (command.MinParams == -1 && pms.Length > 1) ||
+                command.MinParams != -1 && command.MinParams == pms.Length - 1)
                 return command.Execute(client, pms.Skip(1).ToArray());
 
             client.SendWhisper(Yupi.GetLanguage().GetVar("use_the_command_as") + command.Usage);

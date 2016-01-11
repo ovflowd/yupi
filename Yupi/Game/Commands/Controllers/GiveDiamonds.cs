@@ -40,7 +40,8 @@ namespace Yupi.Game.Commands.Controllers
             client.GetHabbo().Diamonds += amount;
             client.GetHabbo().UpdateSeasonalCurrencyBalance();
 
-            client.SendNotif(string.Format(Yupi.GetLanguage().GetVar("staff_gives_diamonds"), session.GetHabbo().UserName, amount));
+            client.SendNotif(string.Format(Yupi.GetLanguage().GetVar("staff_gives_diamonds"),
+                session.GetHabbo().UserName, amount));
 
             return true;
         }

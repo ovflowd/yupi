@@ -32,12 +32,9 @@ namespace Yupi.Data.Base.Exceptions
 
         public QueryException(string message, string triggeredQuery) : base(message)
         {
-            this._triggeredQuery = triggeredQuery;
+            _triggeredQuery = triggeredQuery;
         }
 
-        public string GetQuery()
-        {
-            return _triggeredQuery;
-        }
+        public string GetQuery() => _triggeredQuery;
     }
 }
