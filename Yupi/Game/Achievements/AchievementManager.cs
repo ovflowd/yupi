@@ -301,7 +301,7 @@ namespace Yupi.Game.Achievements
                     // Give Reward Points
                     user.AchievementPoints += achievementNextLevelData.RewardPoints;
                     user.NotifyNewPixels(achievementNextLevelData.RewardPixels);
-                    user.ActivityPoints += achievementNextLevelData.RewardPixels;
+                    user.Duckets += achievementNextLevelData.RewardPixels;
 
                     // Update Points Balance
                     user.UpdateActivityPointsBalance();

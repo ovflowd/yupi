@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using Yupi.Data;
 using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Items.Interactions;
@@ -153,15 +154,14 @@ namespace Yupi.Game.Items.Wired
                     return false;
 
                 if (type == Interaction.TriggerCollision)
-                    foreach (
-                        IWiredItem wiredItem in _wiredItems.Where(wiredItem => wiredItem != null && wiredItem.Type == type))
+                    foreach (IWiredItem wiredItem in _wiredItems.Where(wiredItem => wiredItem != null && wiredItem.Type == type))
                         wiredItem.Execute(stuff);
                 else if (_wiredItems.Any(current => current != null && current.Type == type && current.Execute(stuff)))
                     return true;
             }
-            catch (Exception e)
+            catch
             {
-                ServerLogManager.LogException(e.ToString());
+                ServerLogManager.LogException($"Error trying Execute Wired Furniture.");
             }
 
             return false;
@@ -194,7 +194,7 @@ namespace Yupi.Game.Items.Wired
             }
             catch (Exception e)
             {
-                ServerLogManager.LogException(e.ToString());
+                ServerLogManager.LogException(e, MethodBase.GetCurrentMethod());
             }
         }
 

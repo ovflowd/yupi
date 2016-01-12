@@ -76,6 +76,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Conditions
             catch (Exception e)
             {
                 ServerLogManager.LogException(e.ToString());
+
                 return false;
             }
 

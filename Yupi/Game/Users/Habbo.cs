@@ -87,7 +87,7 @@ namespace Yupi.Game.Users
         /// <summary>
         ///     The credits
         /// </summary>
-        internal uint ActivityPoints;
+        internal uint Duckets;
 
         /// <summary>
         ///     The answered polls
@@ -440,7 +440,7 @@ namespace Yupi.Game.Users
         /// <param name="look">The look.</param>
         /// <param name="gender">The gender.</param>
         /// <param name="credits">The credits.</param>
-        /// <param name="activityPoints">The activity points.</param>
+        /// <param name="duckets">The activity points.</param>
         /// <param name="lastActivityPointsUpdate">The last activity points update.</param>
         /// <param name="muted">if set to <c>true</c> [muted].</param>
         /// <param name="homeRoom">The home room.</param>
@@ -475,7 +475,7 @@ namespace Yupi.Game.Users
         /// <param name="dailyCompetitionVotes"></param>
         /// <param name="dutyLevel"></param>
         internal Habbo(uint id, string userName, string realName, uint rank, string motto, string look, string gender,
-            uint credits, uint activityPoints, double lastActivityPointsUpdate, bool muted, uint homeRoom, int respect,
+            uint credits, uint duckets, double lastActivityPointsUpdate, bool muted, uint homeRoom, int respect,
             int dailyRespectPoints, int dailyPetRespectPoints, bool hasFriendRequestsDisabled, int currentQuestId,
             int currentQuestProgress, uint achievementPoints, int regTimestamp, int lastOnline, bool appearOffline,
             bool hideInRoom, bool vip, double createDate, bool online, string citizenShip, uint diamonds,
@@ -512,7 +512,7 @@ namespace Yupi.Game.Users
             TradeLockExpire = tradeLockExpire;
             Gender = gender.ToLower() == "f" ? "f" : "m";
             Credits = credits;
-            ActivityPoints = activityPoints;
+            Duckets = duckets;
             _lastActivityPointsUpdate = lastActivityPointsUpdate;
             Diamonds = diamonds;
             AchievementPoints = achievementPoints;
@@ -656,7 +656,7 @@ namespace Yupi.Game.Users
             {
                 _habboinfoSaved = true;
                 return string.Concat("UPDATE users SET online='0', last_online = '", Yupi.GetUnixTimeStamp(),
-                    "', activity_points = '", ActivityPoints, "', diamonds = '", Diamonds, "', credits = '", Credits,
+                    "', activity_points = '", Duckets, "', diamonds = '", Diamonds, "', credits = '", Credits,
                     "' WHERE id = '", Id, "'; UPDATE users_stats SET achievement_score = ", AchievementPoints,
                     " WHERE id=", Id, " LIMIT 1; ");
             }
@@ -932,7 +932,7 @@ namespace Yupi.Game.Users
                 _habboinfoSaved = true;
                 using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    commitableQueryReactor.SetQuery("UPDATE users SET activity_points = " + ActivityPoints +
+                    commitableQueryReactor.SetQuery("UPDATE users SET activity_points = " + Duckets +
                                                     ", credits = " +
                                                     Credits + ", diamonds = " + Diamonds +
                                                     ", online='0', last_online = '" +
@@ -1031,7 +1031,7 @@ namespace Yupi.Game.Users
                 .Init(LibraryParser.OutgoingRequest("ActivityPointsMessageComposer"));
             _mClient.GetMessageHandler().GetResponse().AppendInteger(3);
             _mClient.GetMessageHandler().GetResponse().AppendInteger(0);
-            _mClient.GetMessageHandler().GetResponse().AppendInteger(ActivityPoints);
+            _mClient.GetMessageHandler().GetResponse().AppendInteger(Duckets);
             _mClient.GetMessageHandler().GetResponse().AppendInteger(5);
             _mClient.GetMessageHandler().GetResponse().AppendInteger(Diamonds);
             _mClient.GetMessageHandler().GetResponse().AppendInteger(105);
@@ -1052,7 +1052,7 @@ namespace Yupi.Game.Users
                 .Init(LibraryParser.OutgoingRequest("ActivityPointsMessageComposer"));
             _mClient.GetMessageHandler().GetResponse().AppendInteger(3);
             _mClient.GetMessageHandler().GetResponse().AppendInteger(0);
-            _mClient.GetMessageHandler().GetResponse().AppendInteger(ActivityPoints);
+            _mClient.GetMessageHandler().GetResponse().AppendInteger(Duckets);
             _mClient.GetMessageHandler().GetResponse().AppendInteger(5);
             _mClient.GetMessageHandler().GetResponse().AppendInteger(Diamonds);
             _mClient.GetMessageHandler().GetResponse().AppendInteger(105);
@@ -1072,7 +1072,7 @@ namespace Yupi.Game.Users
             _mClient.GetMessageHandler()
                 .GetResponse()
                 .Init(LibraryParser.OutgoingRequest("ActivityPointsNotificationMessageComposer"));
-            _mClient.GetMessageHandler().GetResponse().AppendInteger(ActivityPoints);
+            _mClient.GetMessageHandler().GetResponse().AppendInteger(Duckets);
             _mClient.GetMessageHandler().GetResponse().AppendInteger(change);
             _mClient.GetMessageHandler().GetResponse().AppendInteger(0);
             _mClient.GetMessageHandler().SendResponse();
@@ -1184,7 +1184,7 @@ namespace Yupi.Game.Users
         internal void RunDbUpdate(IQueryAdapter dbClient)
         {
             dbClient.RunFastQuery(string.Concat("UPDATE users SET last_online = '", Yupi.GetUnixTimeStamp(),
-                "', activity_points = '", ActivityPoints, "', credits = '", Credits, "', diamonds = '", Diamonds,
+                "', activity_points = '", Duckets, "', credits = '", Credits, "', diamonds = '", Diamonds,
                 "' WHERE id = '", Id, "' LIMIT 1; "));
         }
 

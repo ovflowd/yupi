@@ -69,20 +69,20 @@ namespace Yupi.Game.Pets
         public static bool RaceGotRaces(uint sRaceId) => GetRacesForRaceId(sRaceId).Any();
 
         public static uint GetPetRaceIdByType(string petType)
-            => _petTypes.First(p => p.Key == petType).Value.PetRaceId;
+            => _petTypes.FirstOrDefault(p => p.Key == petType).Value.PetRaceId;
 
         public static uint GetPetRaceByItemName(string itemName) => GetPetRaceIdByType(itemName);
 
         public static string GetPetTypeByHabboPetType(string habboPetType)
             =>
-                _petTypes.First(
+                _petTypes.FirstOrDefault(
                     p => p.Value.PetRaceId == uint.Parse(habboPetType.Replace("a0 pet", string.Empty)))
                     .Value.PetRaceName;
 
         public static string GetHabboPetType(string petType) => $"a0 pet{GetPetRaceByItemName(petType)}";
 
         public static List<PetRace> GetRacesByPetType(string petType)
-            => _petTypes.First(p => p.Key == petType).Value.PetRaceSchemas;
+            => _petTypes.FirstOrDefault(p => p.Key == petType).Value.PetRaceSchemas;
 
         public static bool ItemIsPet(string itemName) => _petTypes.ContainsKey(itemName);
     }

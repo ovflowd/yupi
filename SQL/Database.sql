@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: 11-Jan-2016 às 21:56
+-- Generation Time: 12-Jan-2016 às 18:13
 -- Versão do servidor: 5.5.42
 -- PHP Version: 5.6.10
 
@@ -383,7 +383,7 @@ CREATE TABLE `catalog_furnitures` (
   `vending_ids` varchar(100) CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
   `subscriber` enum('0','1') CHARACTER SET utf8mb4 NOT NULL DEFAULT '0',
   `effectid` int(11) unsigned NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=5159 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5156 DEFAULT CHARSET=latin1;
 
 --
 -- Extraindo dados da tabela `catalog_furnitures`
@@ -4223,7 +4223,7 @@ INSERT INTO `catalog_furnitures` (`id`, `flat_id`, `item_name`, `type`, `stack_h
 (3825, 0, 'nest_bunny_dep', 's', '1', '0', '1', '1', '1', '1', '1', 'default', 1, '0', '0', 0),
 (3826, 0, 'ads_dfrisss', 's', '1', '0', '1', '1', '1', '1', '1', 'default', 1, '0', '0', 0),
 (3827, 0, 'mnstr_revival', 's', '1', '0', '1', '1', '1', '1', '1', 'pet', 1, '0', '0', 0),
-(3828, 11109, 'mnstr_seed', 's', '1', '0', '1', '1', '1', '1', '1', 'pet', 1, '0', '0', 0),
+(3828, 11109, 'mnstr_seed', 's', '1', '0', '1', '1', '1', '1', '1', 'moplaseed', 1, '0', '0', 0),
 (3829, 0, 'chair_plasty4', 's', '1', '0', '1', '1', '1', '1', '1', 'default', 1, '0', '0', 0),
 (3830, 0, 'table_plasto4_4leg', 's', '1', '1', '1', '1', '1', '1', '1', 'default', 1, '0', '0', 0),
 (3831, 0, 'table_plasto4_sq', 's', '1', '1', '1', '1', '1', '1', '1', 'default', 1, '0', '0', 0),
@@ -4235,7 +4235,7 @@ INSERT INTO `catalog_furnitures` (`id`, `flat_id`, `item_name`, `type`, `stack_h
 (3837, 0, 'dragonlamp_shinobi', 's', '1', '0', '1', '1', '1', '1', '1', 'default', 1, '0', '0', 0),
 (3838, 0, 'jp_divider', 's', '1', '0', '1', '1', '1', '1', '1', 'default', 1, '0', '0', 0),
 (3839, 0, 'jp_gate', 's', '1', '0', '1', '1', '1', '1', '1', 'gate', 1, '0', '0', 0),
-(3840, 0, 'mnstr_seed_rare', 's', '1', '0', '1', '1', '1', '1', '1', 'pet', 1, '0', '0', 0),
+(3840, 11109, 'mnstr_seed_rare', 's', '1', '0', '1', '1', '1', '1', '1', 'raremoplaseed', 1, '0', '0', 0),
 (3841, 0, 'mnstr_rebreed_2', 's', '1', '0', '1', '1', '1', '1', '1', 'default', 1, '0', '0', 0),
 (3842, 0, 'mnstr_rebreed_3', 's', '1', '0', '1', '1', '1', '1', '1', 'default', 1, '0', '0', 0),
 (3843, 0, 'garden_caterpillar', 's', '1', '0', '1', '1', '1', '1', '1', 'default', 1, '0', '0', 0),
@@ -10126,8 +10126,8 @@ INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `special_name`, `cos
 (4570, 224, 'gld_tile1', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (4571, 224, 'gld_table1', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (4572, 224, 'gld_carpet', NULL, 0, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
-(4573, 249, 'mnstr_seed', NULL, 500, 0, 0, 500, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
-(4574, 249, 'mnstr_seed_rare', NULL, 1000, 0, 0, 1000, '1', 0, 0, 0, 0, '1', '1', '', '', NULL),
+(4573, 249, 'mnstr_seed', 'mnstr_seed', 500, 0, 0, 500, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
+(4574, 249, 'mnstr_seed_rare', 'pet_monster', 1000, 0, 0, 1000, '1', 0, 0, 0, 0, '1', '1', '', '', NULL),
 (4575, 250, 'guild_forum', NULL, 2500, 0, 0, 0, '1', 0, 0, 0, 0, '0', '0', '', '', NULL),
 (4577, 225, 'edice', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
 (4578, 225, 'edicehc', NULL, 5, 0, 0, 0, '1', 0, 0, 0, 0, '1', '0', '', '', NULL),
@@ -10654,6 +10654,7 @@ INSERT INTO `catalog_pets` (`pet_type`, `pet_race_id`) VALUES
 ('pet_chicken', 10),
 ('pet_frog', 11),
 ('pet_dragon', 12),
+('pet_monster', 13),
 ('pet_monkey', 14),
 ('pet_horse', 15);
 
@@ -11863,7 +11864,14 @@ CREATE TABLE `navigator_publics` (
   `enabled` enum('0','1') NOT NULL DEFAULT '1',
   `recommended` enum('0','1') NOT NULL DEFAULT '0',
   `typeofdata` int(255) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `navigator_publics`
+--
+
+INSERT INTO `navigator_publics` (`id`, `ordernum`, `bannertype`, `caption`, `description`, `image`, `image_type`, `room_id`, `category_parent_id`, `enabled`, `recommended`, `typeofdata`) VALUES
+(1, 1, '0', '', '', '', 'internal', 1, -2, '1', '0', 1);
 
 -- --------------------------------------------------------
 
@@ -11883,7 +11891,7 @@ CREATE TABLE `pets_commands` (
   `pet_type` varchar(255) CHARACTER SET latin1 NOT NULL DEFAULT 'pet_dog' COMMENT 'Group Pet Type by , (comma)',
   `action` enum('breed','follow','sleep','unknown','lazy','default') CHARACTER SET latin1 NOT NULL DEFAULT 'default',
   `pet_speech` varchar(255) CHARACTER SET latin1 NOT NULL DEFAULT 'pet.done'
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Extraindo dados da tabela `pets_commands`
@@ -11893,7 +11901,8 @@ INSERT INTO `pets_commands` (`id`, `input`, `status`, `gesture`, `experience`, `
 (1, 'sit;sentar;senta', 'sit', 'joy', 10, 5, 1, 'pet_dog,pet_cat,pet_croco,pet_terrier,pet_bear,pet_pig,pet_lion,pet_rhino,pet_spider,pet_turtle,pet_chicken,pet_frog,pet_dragon,pet_monkey,pet_horse', 'default', 'pet.done'),
 (2, 'descansar;free', '', '', 10, 5, 1, 'pet_dog,pet_cat,pet_croco,pet_terrier,pet_bear,pet_pig,pet_lion,pet_rhino,pet_spider,pet_turtle,pet_chicken,pet_frog,pet_dragon,pet_monkey,pet_horse', 'default', 'pet.done'),
 (3, 'lay;deitar;deita', 'lay', 'sml', 10, 5, 1, 'pet_dog,pet_cat,pet_croco,pet_terrier,pet_bear,pet_pig,pet_lion,pet_rhino,pet_spider,pet_turtle,pet_chicken,pet_frog,pet_dragon,pet_monkey,pet_horse', 'default', 'pet.done'),
-(4, 'here;come here;vem aqui;segue;aqui', '', '', 10, 5, 1, 'pet_dog,pet_cat,pet_croco,pet_terrier,pet_bear,pet_pig,pet_lion,pet_rhino,pet_spider,pet_turtle,pet_chicken,pet_frog,pet_dragon,pet_monkey,pet_horse', 'follow', 'pet.done');
+(4, 'here;come here;vem aqui;segue;aqui', '', '', 10, 5, 1, 'pet_dog,pet_cat,pet_croco,pet_terrier,pet_bear,pet_pig,pet_lion,pet_rhino,pet_spider,pet_turtle,pet_chicken,pet_frog,pet_dragon,pet_monkey,pet_horse', 'follow', 'pet.done'),
+(5, 'breed;Breed;', '', '', 10, 5, 1, 'pet_bear,pet_terrier', 'breed', 'pet.done');
 
 -- --------------------------------------------------------
 
@@ -11961,7 +11970,7 @@ CREATE TABLE `pets_races` (
   `color_two` int(11) unsigned NOT NULL DEFAULT '0',
   `color_one_enabled` enum('0','1') NOT NULL DEFAULT '1',
   `color_two_enabled` enum('0','1') NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=195 DEFAULT CHARSET=utf8mb4 COMMENT='Races types of Pets';
+) ENGINE=InnoDB AUTO_INCREMENT=196 DEFAULT CHARSET=utf8mb4 COMMENT='Races types of Pets';
 
 --
 -- Extraindo dados da tabela `pets_races`
@@ -12161,7 +12170,8 @@ INSERT INTO `pets_races` (`race_type`, `race_id`, `color_one`, `color_two`, `col
 (26, 191, 8, 8, '1', '1'),
 (26, 192, 9, 9, '1', '1'),
 (26, 193, 10, 10, '1', '1'),
-(26, 194, 11, 11, '1', '1');
+(26, 194, 11, 11, '1', '1'),
+(13, 195, 0, 0, '0', '0');
 
 -- --------------------------------------------------------
 
@@ -12198,6 +12208,7 @@ INSERT INTO `pets_speech` (`pet_id`, `responses`) VALUES
 ('speech.pet_horse', 'neiiigh;*trots around*;Neeeigh;*looks at*;*flicks tail*;'),
 ('speech.pet_lion', 'Grrr;'),
 ('speech.pet_monkey', 'Grrr;'),
+('speech.pet_monster', 'Wullly wully;Water will be a good idea..;I like this earth!'),
 ('speech.pet_pig', 'Oink Oink..;*Mellow*;Sniff... Sniff..;snf;Oink!;snf;lay;oink;'),
 ('speech.pet_rhino', 'Grrr;'),
 ('speech.pet_spider', 'Grrr;'),
@@ -12464,6 +12475,13 @@ CREATE TABLE `rooms_models_customs` (
   `heightmap` text NOT NULL,
   `poolmap` text NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `rooms_models_customs`
+--
+
+INSERT INTO `rooms_models_customs` (`roomid`, `door_x`, `door_y`, `door_z`, `door_dir`, `heightmap`, `poolmap`) VALUES
+(1, 4, 4, 1, 2, 'xxxxxxxxxxxxxxx\rxxxxxxxxxxxxxxx\rxxxxx111111xxxx\rxxxxx111111xxxx\rxxxx1111111xxxx\rxxxxx111111xxxx\rxxxxx1111110000\rxxxxx0000000000\rxxxxx0000000xxx\rxxx000000000xxx\rxxx0000000000xx\rxxx0000000000xx\rxxx0000000000xx\rxxxxxxxxxxxxxxx\rxxxxxxxxxxxxxxx\rxxxxxxxxxxxxxxx', '');
 
 -- --------------------------------------------------------
 
@@ -12812,7 +12830,7 @@ CREATE TABLE `server_status` (
 --
 
 INSERT INTO `server_status` (`id`, `status`, `users_online`, `rooms_loaded`, `server_ver`, `stamp`, `minutesuptime`, `userpeak`, `bannerdata`) VALUES
-(1, '1', 0, 0, 'Yupi Emulator', 1452545608, 0, 2, '114670925920269957593299136150366957983142588366300079186349531:1589935137502239924254699078669119674538324391752663931735947');
+(1, '1', 0, 0, 'Yupi Emulator', 1452617855, 0, 2, '114670925920269957593299136150366957983142588366300079186349531:1589935137502239924254699078669119674538324391752663931735947');
 
 -- --------------------------------------------------------
 
@@ -13918,7 +13936,7 @@ ALTER TABLE `catalog_ecotron_items`
 -- AUTO_INCREMENT for table `catalog_furnitures`
 --
 ALTER TABLE `catalog_furnitures`
-  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5159;
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5156;
 --
 -- AUTO_INCREMENT for table `catalog_items`
 --
@@ -14043,12 +14061,12 @@ ALTER TABLE `navigator_promocats`
 -- AUTO_INCREMENT for table `navigator_publics`
 --
 ALTER TABLE `navigator_publics`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `pets_commands`
 --
 ALTER TABLE `pets_commands`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `pets_data`
 --
@@ -14058,7 +14076,7 @@ ALTER TABLE `pets_data`
 -- AUTO_INCREMENT for table `pets_races`
 --
 ALTER TABLE `pets_races`
-  MODIFY `race_id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Table Unique Identifier',AUTO_INCREMENT=195;
+  MODIFY `race_id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Table Unique Identifier',AUTO_INCREMENT=196;
 --
 -- AUTO_INCREMENT for table `polls_data`
 --

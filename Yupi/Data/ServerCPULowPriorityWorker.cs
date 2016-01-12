@@ -24,6 +24,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Reflection;
 using Yupi.Core.Io;
 using Yupi.Data.Base.Adapters.Interfaces;
 
@@ -64,6 +65,7 @@ namespace Yupi.Data
             if (_lowPriorityStopWatch.ElapsedMilliseconds >= 30000 || !_isExecuted)
             {
                 _isExecuted = true;
+
                 _lowPriorityStopWatch.Restart();
 
                 try
@@ -100,7 +102,7 @@ namespace Yupi.Data
                 }
                 catch (Exception e)
                 {
-                    ServerLogManager.LogException(e.ToString());
+                    ServerLogManager.LogException(e, MethodBase.GetCurrentMethod());
                 }
             }
         }

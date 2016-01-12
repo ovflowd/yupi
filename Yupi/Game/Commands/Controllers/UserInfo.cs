@@ -60,7 +60,7 @@ namespace Yupi.Game.Commands.Controllers
             }
             session.SendNotif(string.Concat("User info for: ", userName, " \rUser ID: ", habbo.Id, ":\rRank: ",
                 habbo.Rank, "\rCurrentTalentLevel: ", habbo.CurrentTalentLevel, " \rCurrent Room: ", habbo.CurrentRoomId,
-                " \rCredits: ", habbo.Credits, "\rDuckets: ", habbo.ActivityPoints, "\rDiamonds: ", habbo.Diamonds,
+                " \rCredits: ", habbo.Credits, "\rDuckets: ", habbo.Duckets, "\rDiamonds: ", habbo.Diamonds,
                 "\rMuted: ", habbo.Muted.ToString(), "\r\r\r", builder.ToString()));
 
             return true;

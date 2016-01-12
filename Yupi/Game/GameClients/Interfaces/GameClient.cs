@@ -321,7 +321,7 @@ namespace Yupi.Game.GameClients.Interfaces
                 serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("ActivityPointsMessageComposer"));
                 serverMessage.AppendInteger(2);
                 serverMessage.AppendInteger(0);
-                serverMessage.AppendInteger(userData.User.ActivityPoints);
+                serverMessage.AppendInteger(userData.User.Duckets);
                 serverMessage.AppendInteger(5);
                 serverMessage.AppendInteger(userData.User.Diamonds);
                 queuedServerMessage.AppendResponse(serverMessage);

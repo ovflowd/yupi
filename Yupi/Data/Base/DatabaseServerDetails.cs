@@ -26,7 +26,7 @@ using Yupi.Data.Base.Exceptions;
 
 namespace Yupi.Data.Base
 {
-    public class DatabaseServer
+    public class DatabaseServerDetails
     {
         private readonly string _databaseName;
         private readonly string _host;
@@ -34,7 +34,7 @@ namespace Yupi.Data.Base
         private readonly uint _port;
         private readonly string _user;
 
-        public DatabaseServer(string host, uint port, string userName, string passWord, string databaseName)
+        public DatabaseServerDetails(string host, uint port, string userName, string passWord, string databaseName)
         {
             if (string.IsNullOrEmpty(host))
                 throw new DatabaseException("No host was given");

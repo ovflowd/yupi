@@ -45,7 +45,7 @@ namespace Yupi.Game.Users
                 {
                     client.GetHabbo().Credits += (uint) ServerExtraSettings.CreditsToGive;
                     client.GetHabbo().UpdateCreditsBalance();
-                    client.GetHabbo().ActivityPoints += (uint) ServerExtraSettings.PixelsToGive;
+                    client.GetHabbo().Duckets += (uint) ServerExtraSettings.PixelsToGive;
 
                     if (ServerExtraSettings.DiamondsLoopEnabled && ServerExtraSettings.DiamondsVipOnly)
                         client.GetHabbo().Diamonds += client.GetHabbo().Vip || client.GetHabbo().Rank >= 6

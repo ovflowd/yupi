@@ -12,6 +12,8 @@
 
         GameGate,
 
+        PetBreeding,
+
         FreezeGate,
         BanzaiGate,
 

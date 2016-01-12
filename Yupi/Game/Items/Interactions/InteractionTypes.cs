@@ -72,6 +72,17 @@ namespace Yupi.Game.Items.Interactions
                         }
                         break;
                     }
+                case GlobalInteractions.PetBreeding:
+                {
+                    switch(subType)
+                    {
+                            case Interaction.BreedingBear:
+                            case Interaction.BreedingTerrier:
+                            case Interaction.PetBreeding:
+                                return true;
+                    }
+                    break;
+                }
                 case GlobalInteractions.Pet:
                     {
                         switch (subType)

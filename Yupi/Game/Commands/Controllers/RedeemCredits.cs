@@ -20,16 +20,9 @@ namespace Yupi.Game.Commands.Controllers
 
         public override bool Execute(GameClient session, string[] pms)
         {
-            try
-            {
-                session.GetHabbo().GetInventoryComponent().Redeemcredits(session);
-                session.SendNotif(Yupi.GetLanguage().GetVar("command_redeem_credits"));
-            }
-            catch (Exception e)
-            {
-                ServerLogManager.LogException(e.ToString());
-                session.SendNotif(Yupi.GetLanguage().GetVar("command_redeem_credits"));
-            }
+            session.GetHabbo().GetInventoryComponent().Redeemcredits(session);
+            session.SendNotif(Yupi.GetLanguage().GetVar("command_redeem_credits"));
+
             return true;
         }
     }

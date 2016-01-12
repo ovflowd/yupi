@@ -258,7 +258,7 @@ namespace Yupi.Game.Items.Interfaces
             _mRoom = pRoom;
 
             if (GetBaseItem() == null)
-                ServerLogManager.LogException($"Unknown Base Item (By Name): {baseName}");
+                ServerLogManager.LogException($"Unknow Furniture Item: {baseName}, Item Id: #{id}");
 
             using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
@@ -398,7 +398,7 @@ namespace Yupi.Game.Items.Interfaces
             _mRoom = pRoom;
 
             if (GetBaseItem() == null)
-                ServerLogManager.LogException($"Unknown Base Item (By Name): {baseName}");
+                ServerLogManager.LogException($"Unknow Furniture Item: {baseName}, Item Id: #{id}");
 
             Id = id;
             RoomId = roomId;
@@ -513,8 +513,8 @@ namespace Yupi.Game.Items.Interfaces
                 }
                 catch (Exception e)
                 {
-                    ServerLogManager.LogException("TotalHeight with furni BaseName: " + BaseName + " in RoomId:" +
-                                                  RoomId + Environment.NewLine + e);
+                    ServerLogManager.LogException("TotalHeight with furni BaseName: " + BaseName + " in RoomId:" + RoomId + Environment.NewLine + e);
+
                     return 0;
                 }
             }

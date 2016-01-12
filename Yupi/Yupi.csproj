@@ -205,7 +205,7 @@
     <Compile Include="Data\Base\Managers\ConnectionManager.cs" />
     <Compile Include="Data\Base\Clients\DatabaseClient.cs" />
     <Compile Include="Data\Base\Managers\DatabaseManager.cs" />
-    <Compile Include="Data\Base\DatabaseServer.cs" />
+    <Compile Include="Data\Base\DatabaseServerDetails.cs" />
     <Compile Include="Data\Base\Exceptions\DatabaseException.cs" />
     <Compile Include="Data\Base\Exceptions\QueryException.cs" />
     <Compile Include="Data\Base\Clients\MySqlClient.cs" />

@@ -93,6 +93,7 @@ namespace Yupi.Game.RoomBots.Models
             if (!GetBotData().AutomaticChat || GetBotData().RandomSpeech == null || !GetBotData().RandomSpeech.Any())
             {
                 StopTimerTick();
+
                 return;
             }
 
@@ -171,6 +172,7 @@ namespace Yupi.Game.RoomBots.Models
             if (command == null)
             {
                 GetRoomUser().Chat(null, "Need Something?", false, 0); // @todo put this var in lang system
+
                 return;
             }
 
@@ -180,9 +182,6 @@ namespace Yupi.Game.RoomBots.Models
             if (command.SpeechOutput != string.Empty)
                 GetRoomUser().Chat(null, command.SpeechOutput, false, 0);
 
-            if (command.ActionCommand != string.Empty && command.ActionCommandParameters != string.Empty)
-                CommandsManager.TryExecute(command.ActionCommand, command.ActionCommandParameters, user.GetClient());
-
             switch (command.ActionBot)
             {
                 case "bot_move_to_user":
@@ -191,6 +190,9 @@ namespace Yupi.Game.RoomBots.Models
                 default:
                     break;
             }
+
+            if (command.ActionCommand != string.Empty && command.ActionCommandParameters != string.Empty)
+                CommandsManager.TryExecute(command.ActionCommand, command.ActionCommandParameters, user.GetClient());
         }
 
         /// <summary>

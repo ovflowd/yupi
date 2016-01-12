@@ -1495,10 +1495,10 @@ namespace Yupi.Messages.Handlers
 
             if (catalogItem.DucketsCost > 0)
             {
-                if (catalogItem.DucketsCost > Session.GetHabbo().ActivityPoints)
+                if (catalogItem.DucketsCost > Session.GetHabbo().Duckets)
                     return;
 
-                Session.GetHabbo().ActivityPoints -= catalogItem.DucketsCost;
+                Session.GetHabbo().Duckets -= catalogItem.DucketsCost;
                 Session.GetHabbo().UpdateActivityPointsBalance();
             }
 

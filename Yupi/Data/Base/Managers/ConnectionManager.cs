@@ -44,7 +44,7 @@ namespace Yupi.Data.Base.Managers
 
         private List<MySqlClient> _databaseClients;
 
-        private DatabaseServer _server;
+        private DatabaseServerDetails _serverDetails;
 
         public ConnectionManager(uint maxPoolSize, uint clientAmount)
         {
@@ -98,17 +98,17 @@ namespace Yupi.Data.Base.Managers
         }
 
         public void SetServerDetails(string host, uint port, string username, string password, string databaseName)
-            => _server = new DatabaseServer(host, port, username, password, databaseName);
+            => _serverDetails = new DatabaseServerDetails(host, port, username, password, databaseName);
 
         private void CreateNewConnectionString()
         {
             MySqlConnectionStringBuilder mySqlConnectionStringBuilder = new MySqlConnectionStringBuilder
             {
-                Server = _server.GetHost(),
-                Port = _server.GetPort(),
-                UserID = _server.GetUserName(),
-                Password = _server.GetPassword(),
-                Database = _server.GetDatabaseName(),
+                Server = _serverDetails.GetHost(),
+                Port = _serverDetails.GetPort(),
+                UserID = _serverDetails.GetUserName(),
+                Password = _serverDetails.GetPassword(),
+                Database = _serverDetails.GetDatabaseName(),
                 MinimumPoolSize = _beginClientAmount,
                 MaximumPoolSize = _maxPoolSize,
                 Pooling = true,

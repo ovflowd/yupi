@@ -250,6 +250,8 @@ namespace Yupi.Game.RoomBots.Models
                         user.GetClient().SendMessage(alert);
                     }
 
+                    roomUser.MoveTo(coord, true);
+
                     break;
                 case "sleep":
                     string[] valueSleep = PetLocale.GetValue("tired");

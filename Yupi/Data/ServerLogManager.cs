@@ -23,6 +23,7 @@
 */
 
 using System;
+using System.Reflection;
 using Yupi.Core.Io;
 
 namespace Yupi.Data
@@ -62,6 +63,13 @@ namespace Yupi.Data
         /// <param name="e"></param>
         /// <param name="p"></param>
         internal static void LogException(Exception e, string p) => Writer.LogException(e, p);
+
+        /// <summary>
+        ///     Logs the exception.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="p"></param>
+        internal static void LogException(Exception e, MethodBase p) => Writer.LogException(e, $"{p.DeclaringType.FullName}.{p.Name}");
 
         /// <summary>
         ///     Logs the critical exception.

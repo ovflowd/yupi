@@ -455,7 +455,7 @@ namespace Yupi.Messages.Handlers
             if (Session.GetHabbo().Credits < offer.CostCredits*quantity)
                 return;
 
-            if (Session.GetHabbo().ActivityPoints < offer.CostDuckets*quantity)
+            if (Session.GetHabbo().Duckets < offer.CostDuckets*quantity)
                 return;
 
             if (Session.GetHabbo().Diamonds < offer.CostDiamonds*quantity)
@@ -472,7 +472,7 @@ namespace Yupi.Messages.Handlers
             }
 
             Session.GetHabbo().Credits -= offer.CostCredits*quantity;
-            Session.GetHabbo().ActivityPoints -= offer.CostDuckets*quantity;
+            Session.GetHabbo().Duckets -= offer.CostDuckets*quantity;
             Session.GetHabbo().Diamonds -= offer.CostDiamonds*quantity;
             Session.GetHabbo().UpdateCreditsBalance();
             Session.GetHabbo().UpdateSeasonalCurrencyBalance();
