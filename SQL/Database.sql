@@ -12862,7 +12862,7 @@ CREATE TABLE `users` (
   `id` int(11) unsigned NOT NULL,
   `username` varchar(100) NOT NULL,
   `real_name` varchar(100) NOT NULL DEFAULT '',
-  `password` varchar(100) NOT NULL DEFAULT '',
+  `password` varchar(128) NOT NULL DEFAULT '',
   `auth_ticket` varchar(100) NOT NULL DEFAULT '',
   `rank` int(11) unsigned NOT NULL DEFAULT '1',
   `credits` int(11) unsigned NOT NULL DEFAULT '50000',
