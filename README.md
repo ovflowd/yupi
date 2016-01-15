@@ -98,6 +98,27 @@ Using MySQL as Database
 3. Recommended using Logs and Debug mode to collect data.
 4. Recommended using in localhost
 
+#### System Requirements for Yupi
+
+>> Minium System Requirement
+    2Gb RAM
+    30GB HDD Or SSD (free)
+    1.0 Ghz CPU atleast 2 Cores 2 Threads(Manufactor has no effect on it)
+
+>> Recommended System Requirement
+    4Gb RAM
+    30GB HDD Or SSD (free)
+    2.0 Ghz CPU atleast 2 Cores 2 Threads (Manufactor has no effect on it)
+
+#### Download URL's
+https://www.microsoft.com/en-us/download/details.aspx?id=40784 (Visual C++ Redistributable Packages for Visual Studio 2013)
+https://www.microsoft.com/en-us/download/details.aspx?id=17851 (Microsoft .NET Framework 4)
+https://www.microsoft.com/en-us/download/details.aspx?id=30653 (Microsoft .NET Framework 4.5)
+https://www.microsoft.com/en-us/download/details.aspx?id=30679 (Visual C++ Redistributable for Visual Studio 2012 Update 4)
+https://www.microsoft.com/en-us/download/details.aspx?id=5555  (Microsoft Visual C++ 2010 Redistributable Package (x86))
+
+(Note: Download and install x84 AND x64!!)
+
 ## Changelog
 
 **Will Be Provide Later**
