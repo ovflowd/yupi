@@ -70,15 +70,15 @@ namespace Yupi.Data
 
                 try
                 {
-                    int realOnlineClientCount = Yupi.GetGame().GetClientManager().GetOnlineClients();
+                    int realOnlineClientCount = Yupi.GetGame().GetClientManager().ClientCount(); //Yupi.GetGame().GetClientManager().GetOnlineClients();
                     int clientCount = Yupi.GetGame().GetClientManager().ClientCount();
 
-                    if (realOnlineClientCount != clientCount)
-                        Writer.WriteLine("Number of Clients isn't Equal of Online Users. Running Analysis", "Yupi.Game",
-                            ConsoleColor.DarkYellow);
+                    //if (realOnlineClientCount != clientCount)
+                    //    Writer.WriteLine("Number of Clients isn't Equal of Online Users. Running Analysis", "Yupi.Game",
+                    //        ConsoleColor.DarkYellow);
 
-                    if (realOnlineClientCount != clientCount)
-                        Yupi.GetGame().GetClientManager().RemoveNotOnlineUsers();
+                    //if (realOnlineClientCount != clientCount)
+                    //    Yupi.GetGame().GetClientManager().RemoveNotOnlineUsers();
 
                     int loadedRoomsCount = Yupi.GetGame().GetRoomManager().LoadedRoomsCount;
 
