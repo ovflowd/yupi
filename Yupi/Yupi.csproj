@@ -189,6 +189,9 @@
     <Compile Include="Data\Base\Adapters\Interfaces\IQueryAdapter.cs" />
     <Compile Include="Data\Base\Adapters\NormalQueryAdapter.cs" />
     <Compile Include="Game\Achievements\Composers\AchievementTalentComposer.cs" />
+    <Compile Include="Game\Commands\Controllers\RefreshPetSpeeches.cs" />
+    <Compile Include="Game\Commands\Controllers\RefreshPetCommands.cs" />
+    <Compile Include="Game\Commands\Controllers\RefreshBotCommands.cs" />
     <Compile Include="Game\Groups\Composers\ForumRootMessageComposer.cs" />
     <Compile Include="Game\Groups\Composers\ForumDataMessageComposer.cs" />
     <Compile Include="Game\Groups\Structs\GroupForum.cs" />
