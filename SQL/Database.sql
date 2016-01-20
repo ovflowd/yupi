@@ -14228,8 +14228,7 @@ ALTER TABLE `catalog_pets`
 -- Limitadores para a tabela `groups_data`
 --
 ALTER TABLE `groups_data`
-  ADD CONSTRAINT `groups_data_owner_id` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `groups_data_room_id` FOREIGN KEY (`room_id`) REFERENCES `rooms_data` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
+  ADD CONSTRAINT `groups_data_owner_id` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
 
 --
 -- Limitadores para a tabela `groups_forums_data`
@@ -14254,7 +14253,7 @@ ALTER TABLE `pets_data`
 -- Limitadores para a tabela `rooms_data`
 --
 ALTER TABLE `rooms_data`
-  ADD CONSTRAINT `rooms_data_group_id` FOREIGN KEY (`group_id`) REFERENCES `groups_data` (`id`) ON UPDATE SET NULL,
+  ADD CONSTRAINT `rooms_data_group_id` FOREIGN KEY (`group_id`) REFERENCES `groups_data` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
   ADD CONSTRAINT `rooms_data_user_id` FOREIGN KEY (`owner`) REFERENCES `users` (`id`);
 
 --
