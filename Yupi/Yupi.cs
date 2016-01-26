@@ -144,6 +144,8 @@ namespace Yupi
         internal static string YupiVariablesDirectory = string.Empty;
 
         internal static string YupiRootDirectory = string.Empty;
+        
+        internal static uint MaxRecommendedMySQLConnections = 50;
 
         /// <summary>
         ///     Check's if the Shutdown Has Started
@@ -276,8 +278,11 @@ namespace Yupi
             try
             {
                 ServerConfigurationSettings.Load(Path.Combine(YupiVariablesDirectory, "Settings/main.ini"));
-                ServerConfigurationSettings.Load(Path.Combine(YupiVariablesDirectory, "Settings/Welcome/settings.ini"),
-                    true);
+                ServerConfigurationSettings.Load(Path.Combine(YupiVariablesDirectory, "Settings/Welcome/settings.ini"), true);
+                    
+                if(uint.Parse(ServerConfigurationSettings.Data["db.pool.maxsize"]) >= MaxRecommendedMySQLConnections)
+                    Writer.WriteLine("Your MySQL Max Connection Amount is High, Max Recommended Value is " + MaxRecommendedMySQLConnections, "Yupi.Database", ConsoleColor.DarkYellow);
+                    
 
                 MySqlConnectionStringBuilder mySqlConnectionStringBuilder = new MySqlConnectionStringBuilder
                 {
