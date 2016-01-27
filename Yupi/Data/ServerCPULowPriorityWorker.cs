@@ -88,12 +88,12 @@ namespace Yupi.Data
                         dateTime.ToString("HH"), "h:", dateTime.ToString("mm"), "m | Conn: ", clientCount, " | Users: ",
                         realOnlineClientCount, " | Rooms: ", loadedRoomsCount);
 
-                    using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
                         if (clientCount > _userPeak || realOnlineClientCount > _userPeak)
                             _userPeak = realOnlineClientCount;
 
-                        commitableQueryReactor.RunFastQuery(string.Concat("UPDATE server_status SET stamp = '",
+                        queryReactor.RunFastQuery(string.Concat("UPDATE server_status SET stamp = '",
                             Yupi.GetUnixTimeStamp(), "', users_online = ", realOnlineClientCount, ", rooms_loaded = ",
                             loadedRoomsCount, ", server_ver = 'Yupi Emulator', userpeak = ", _userPeak));
                     }

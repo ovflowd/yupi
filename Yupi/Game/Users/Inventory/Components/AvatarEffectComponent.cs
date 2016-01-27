@@ -55,8 +55,8 @@ namespace Yupi.Game.Users.Inventory.Components
                 if (!current.HasExpired)
                     return;
 
-                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                    commitableQueryReactor.RunFastQuery("DELETE FROM users_effects WHERE user_id = " + userId +
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                    queryReactor.RunFastQuery("DELETE FROM users_effects WHERE user_id = " + userId +
                                                         " AND effect_id = " + current.EffectId + "; ");
             }
         }
@@ -92,8 +92,8 @@ namespace Yupi.Game.Users.Inventory.Components
         /// <param name="type">The type.</param>
         internal void AddNewEffect(int effectId, int duration, short type)
         {
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                commitableQueryReactor.RunFastQuery(
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.RunFastQuery(
                     string.Concat(
                         "INSERT INTO users_effects (user_id,effect_id,total_duration,is_activated,activated_stamp) VALUES (",
                         _userId, ",", effectId, ",", duration, ",'0',0)"));
@@ -142,8 +142,8 @@ namespace Yupi.Game.Users.Inventory.Components
 
             avatarEffect.Activate();
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                commitableQueryReactor.RunFastQuery(
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.RunFastQuery(
                     string.Concat("UPDATE users_effects SET is_activated = '1', activated_stamp = ",
                         Yupi.GetUnixTimeStamp(), " WHERE user_id = ", _userId, " AND effect_id = ", effectId));
 
@@ -200,8 +200,8 @@ namespace Yupi.Game.Users.Inventory.Components
             if (effect == null || !effect.HasExpired)
                 return;
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                commitableQueryReactor.RunFastQuery(string.Concat("DELETE FROM users_effects WHERE user_id = ", _userId,
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.RunFastQuery(string.Concat("DELETE FROM users_effects WHERE user_id = ", _userId,
                     " AND effect_id = ", effectId, " AND is_activated = 1"));
 
             _effects.Remove(effect);

@@ -164,7 +164,7 @@ namespace Yupi.Game
             //Console.WriteLine();
 
             _clientManager = new GameClientManager();
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 AbstractBar bar = new AnimatedBar();
                 const int wait = 15, end = 5;
@@ -176,19 +176,19 @@ namespace Yupi.Game
                 uint pollLoaded;
 
                 Progress(bar, wait, end, "Cleaning dirty in database...");
-                DatabaseCleanup(commitableQueryReactor);
+                DatabaseCleanup(queryReactor);
 
                 Progress(bar, wait, end, "Loading Bans...");
                 _banManager = new ModerationBanManager();
-                _banManager.LoadBans(commitableQueryReactor);
+                _banManager.LoadBans(queryReactor);
 
                 Progress(bar, wait, end, "Loading Roles...");
                 _roleManager = new RoleManager();
-                _roleManager.LoadRights(commitableQueryReactor);
+                _roleManager.LoadRights(queryReactor);
 
                 Progress(bar, wait, end, "Loading Items...");
                 _itemManager = new ItemManager();
-                _itemManager.LoadItems(commitableQueryReactor, out itemsLoaded);
+                _itemManager.LoadItems(queryReactor, out itemsLoaded);
 
                 Progress(bar, wait, end, "Loading Catalog...");
                 _catalog = new CatalogManager();
@@ -198,15 +198,15 @@ namespace Yupi.Game
 
                 Progress(bar, wait, end, "Loading Clothing...");
                 _clothingManager = new ClothingManager();
-                _clothingManager.Initialize(commitableQueryReactor);
+                _clothingManager.Initialize(queryReactor);
 
                 Progress(bar, wait, end, "Loading Rooms...");
                 _roomManager = new RoomManager();
-                _roomManager.LoadModels(commitableQueryReactor, out roomModelLoaded);
+                _roomManager.LoadModels(queryReactor, out roomModelLoaded);
 
                 Progress(bar, wait, end, "Loading NavigatorManager...");
                 _navigatorManager = new HotelBrowserManager();
-                _navigatorManager.Initialize(commitableQueryReactor, out navigatorLoaded);
+                _navigatorManager.Initialize(queryReactor, out navigatorLoaded);
 
                 Progress(bar, wait, end, "Loading Groups...");
                 _groupManager = new GroupManager();
@@ -223,8 +223,8 @@ namespace Yupi.Game
 
                 Progress(bar, wait, end, "Loading ModerationTool...");
                 _moderationTool = new ModerationTool();
-                _moderationTool.LoadMessagePresets(commitableQueryReactor);
-                _moderationTool.LoadPendingTickets(commitableQueryReactor);
+                _moderationTool.LoadMessagePresets(queryReactor);
+                _moderationTool.LoadPendingTickets(queryReactor);
 
                 Progress(bar, wait, end, "Loading Bots...");
                 _botManager = new BotManager();
@@ -234,22 +234,22 @@ namespace Yupi.Game
 
                 Progress(bar, wait, end, "Loading Talents...");
                 _talentManager = new TalentManager();
-                _talentManager.Initialize(commitableQueryReactor);
+                _talentManager.Initialize(queryReactor);
 
                 Progress(bar, wait, end, "Loading Pinata...");
                 _pinataHandler = new PinataHandler();
-                _pinataHandler.Initialize(commitableQueryReactor);
+                _pinataHandler.Initialize(queryReactor);
 
                 Progress(bar, wait, end, "Loading Crackable Eggs...");
                 _crackableEggHandler = new CrackableEggHandler();
-                _crackableEggHandler.Initialize(commitableQueryReactor);
+                _crackableEggHandler.Initialize(queryReactor);
 
                 Progress(bar, wait, end, "Loading Polls...");
                 _pollManager = new PollManager();
-                _pollManager.Init(commitableQueryReactor, out pollLoaded);
+                _pollManager.Init(queryReactor, out pollLoaded);
 
                 Progress(bar, wait, end, "Loading Achievements...");
-                _achievementManager = new AchievementManager(commitableQueryReactor, out achievementLoaded);
+                _achievementManager = new AchievementManager(queryReactor, out achievementLoaded);
 
                 Progress(bar, wait, end, "Loading StaticMessages ...");
                 StaticMessagesManager.Load();
@@ -439,22 +439,22 @@ namespace Yupi.Game
         /// </summary>
         internal void ContinueLoading()
         {
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 int catalogPageLoaded;
 
-                PetTypeManager.Init(commitableQueryReactor);
+                PetTypeManager.Init(queryReactor);
 
-                _catalog.Initialize(commitableQueryReactor, out catalogPageLoaded);
+                _catalog.Initialize(queryReactor, out catalogPageLoaded);
 
                 UserChatInputFilter.Load();
                 ServerSecurityChatFilter.InitSwearWord();
                 BlackWordsManager.Load();
                 SoundMachineSongManager.Initialize();
 
-                ServerCpuLowPriorityWorker.Init(commitableQueryReactor);
+                ServerCpuLowPriorityWorker.Init(queryReactor);
 
-                _roomManager.InitVotedRooms(commitableQueryReactor);
+                _roomManager.InitVotedRooms(queryReactor);
 
                 _roomManager.LoadCompetitionManager();
             }
@@ -489,10 +489,10 @@ namespace Yupi.Game
         /// </summary>
         internal void Destroy()
         {
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                DatabaseCleanup(commitableQueryReactor);
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                DatabaseCleanup(queryReactor);
             GetClientManager();
-            Writer.WriteLine("Client Manager destroyed", "Yupi.Game", ConsoleColor.DarkYellow);
+            Writer.WriteLine("_databaseClient Manager destroyed", "Yupi.Game", ConsoleColor.DarkYellow);
         }
 
         /// <summary>
@@ -500,9 +500,9 @@ namespace Yupi.Game
         /// </summary>
         internal void ReloadItems()
         {
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                _itemManager.LoadItems(commitableQueryReactor);
+                _itemManager.LoadItems(queryReactor);
             }
         }
 

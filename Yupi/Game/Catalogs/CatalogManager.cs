@@ -116,18 +116,18 @@ namespace Yupi.Game.Catalogs
                 DbState = DatabaseUpdateState.NeedsUpdate
             };
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery(
+                queryReactor.SetQuery(
                     "INSERT INTO pets_data (user_id, name, ai_type, pet_type, race_id, experience, energy, createstamp, rarity, lasthealth_stamp, untilgrown_stamp, color) " +
                     $"VALUES ('{pet.OwnerId}', @petName, 'pet', @petType, @petRace, 0, 100, UNIX_TIMESTAMP(), '{rarity}', UNIX_TIMESTAMP(now() + INTERVAL 36 HOUR), UNIX_TIMESTAMP(now() + INTERVAL 48 HOUR), @petColor)");
 
-                commitableQueryReactor.AddParameter("petName", pet.Name);
-                commitableQueryReactor.AddParameter("petType", pet.Type);
-                commitableQueryReactor.AddParameter("petRace", pet.Race);
-                commitableQueryReactor.AddParameter("petColor", pet.Color);
+                queryReactor.AddParameter("petName", pet.Name);
+                queryReactor.AddParameter("petType", pet.Type);
+                queryReactor.AddParameter("petRace", pet.Race);
+                queryReactor.AddParameter("petColor", pet.Color);
 
-                petId = (uint)commitableQueryReactor.InsertQuery();
+                petId = (uint)queryReactor.InsertQuery();
             }
 
             pet.PetId = petId;
@@ -158,12 +158,12 @@ namespace Yupi.Game.Catalogs
 
             if ((string) row["pet_type"] == "pet_monster")
             {
-                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    commitableQueryReactor.SetQuery(
+                    queryReactor.SetQuery(
                         $"SELECT * FROM pets_plants WHERE pet_id = {Convert.ToUInt32(row["id"])}");
 
-                    DataRow sRow = commitableQueryReactor.GetRow();
+                    DataRow sRow = queryReactor.GetRow();
 
                     moplaBreed = new MoplaBreed(sRow);
                 }
@@ -429,9 +429,9 @@ namespace Yupi.Game.Catalogs
 
                 item.LimitedSelled++;
 
-                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    commitableQueryReactor.RunFastQuery(string.Concat("UPDATE catalog_items SET limited_sells = ",
+                    queryReactor.RunFastQuery(string.Concat("UPDATE catalog_items SET limited_sells = ",
                         item.LimitedSelled, " WHERE id = ", item.Id));
 
                     limitedId = item.LimitedSelled;
@@ -564,12 +564,12 @@ namespace Yupi.Game.Catalogs
                     update.AppendInteger(2);
                     session.SendMessage(update);
 
-                    using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
-                        commitableQueryReactor.SetQuery("UPDATE users SET builders_items_max = @max WHERE id = @userId");
-                        commitableQueryReactor.AddParameter("max", session.GetHabbo().BuildersItemsMax);
-                        commitableQueryReactor.AddParameter("userId", session.GetHabbo().Id);
-                        commitableQueryReactor.RunQuery();
+                        queryReactor.SetQuery("UPDATE users SET builders_items_max = @max WHERE id = @userId");
+                        queryReactor.AddParameter("max", session.GetHabbo().BuildersItemsMax);
+                        queryReactor.AddParameter("userId", session.GetHabbo().Id);
+                        queryReactor.RunQuery();
                     }
 
                     session.SendMessage(CatalogPageComposer.PurchaseOk(item, item.Items));
@@ -595,12 +595,12 @@ namespace Yupi.Game.Catalogs
                     update.AppendInteger(2);
                     session.SendMessage(update);
 
-                    using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
-                        commitableQueryReactor.SetQuery("UPDATE users SET builders_expire = @max WHERE id = @userId");
-                        commitableQueryReactor.AddParameter("max", session.GetHabbo().BuildersExpire);
-                        commitableQueryReactor.AddParameter("userId", session.GetHabbo().Id);
-                        commitableQueryReactor.RunQuery();
+                        queryReactor.SetQuery("UPDATE users SET builders_expire = @max WHERE id = @userId");
+                        queryReactor.AddParameter("max", session.GetHabbo().BuildersExpire);
+                        queryReactor.AddParameter("userId", session.GetHabbo().Id);
+                        queryReactor.RunQuery();
                     }
 
                     session.SendMessage(CatalogPageComposer.PurchaseOk(item, item.Items));
@@ -784,21 +784,21 @@ namespace Yupi.Game.Catalogs
 
                     uint insertId;
 
-                    using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
-                        commitableQueryReactor.SetQuery("INSERT INTO items_rooms (item_name,user_id) VALUES (" + itemBySprite.Name + ", " + toUserId + ")");
+                        queryReactor.SetQuery("INSERT INTO items_rooms (item_name,user_id) VALUES (" + itemBySprite.Name + ", " + toUserId + ")");
 
-                        insertId = (uint) commitableQueryReactor.InsertQuery();
+                        insertId = (uint) queryReactor.InsertQuery();
 
-                        commitableQueryReactor.SetQuery(
+                        queryReactor.SetQuery(
                             string.Concat(
                                 "INSERT INTO users_gifts (gift_id,item_id,extradata,giver_name,Message,ribbon,color,gift_sprite,show_sender,rare_id) VALUES (",
                                 insertId, ", ", baseItem.ItemId, ",@extradata, @name, @Message,", giftLazo, ",",
                                 giftColor, ",", giftSpriteId, ",", undef ? 1 : 0, ",", limitedId, ")"));
-                        commitableQueryReactor.AddParameter("extradata", extraData);
-                        commitableQueryReactor.AddParameter("name", giftUser);
-                        commitableQueryReactor.AddParameter("message", giftMessage);
-                        commitableQueryReactor.RunQuery();
+                        queryReactor.AddParameter("extradata", extraData);
+                        queryReactor.AddParameter("name", giftUser);
+                        queryReactor.AddParameter("message", giftMessage);
+                        queryReactor.RunQuery();
 
                         if (session.GetHabbo().Id != toUserId)
                         {
@@ -806,7 +806,7 @@ namespace Yupi.Game.Catalogs
                                 .GetAchievementManager()
                                 .ProgressUserAchievement(session, "ACH_GiftGiver", 1, true);
 
-                            commitableQueryReactor.RunFastQuery(
+                            queryReactor.RunFastQuery(
                                 "UPDATE users_stats SET gifts_given = gifts_given + 1 WHERE id = " +
                                 session.GetHabbo().Id +
                                 ";UPDATE users_stats SET gifts_received = gifts_received + 1 WHERE id = " + toUserId);
@@ -951,8 +951,8 @@ namespace Yupi.Game.Catalogs
                                 list.Add(userItem);
                                 list.Add(userItem2);
 
-                                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                                    commitableQueryReactor.RunFastQuery(
+                                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                                    queryReactor.RunFastQuery(
                                         $"INSERT INTO items_teleports (tele_one_id,tele_two_id) VALUES ('{id}','{id2}');" +
                                         $"INSERT INTO items_teleports (tele_one_id,tele_two_id) VALUES ('{id2}','{id}')");
 

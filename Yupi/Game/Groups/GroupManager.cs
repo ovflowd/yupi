@@ -87,11 +87,11 @@ namespace Yupi.Game.Groups
 
             ClearInfo();
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery("SELECT * FROM groups_badges_parts ORDER BY id");
+                queryReactor.SetQuery("SELECT * FROM groups_badges_parts ORDER BY id");
 
-                DataTable table = commitableQueryReactor.GetTable();
+                DataTable table = queryReactor.GetTable();
 
                 if (table == null)
                     return;
@@ -153,17 +153,17 @@ namespace Yupi.Game.Groups
             Habbo user = session.GetHabbo();
             Dictionary<uint, GroupMember> emptyDictionary = new Dictionary<uint, GroupMember>();
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery(
+                queryReactor.SetQuery(
                     $"INSERT INTO groups_data (group_name, group_description, group_badge, owner_id, created, room_id, colour1, colour2) VALUES(@name,@desc,@badge,'{session.GetHabbo().Id}',UNIX_TIMESTAMP(),'{roomId}','{colour1}','{colour2}')");
-                commitableQueryReactor.AddParameter("name", name);
-                commitableQueryReactor.AddParameter("desc", desc);
-                commitableQueryReactor.AddParameter("badge", badge);
+                queryReactor.AddParameter("name", name);
+                queryReactor.AddParameter("desc", desc);
+                queryReactor.AddParameter("badge", badge);
 
-                uint id = (uint) commitableQueryReactor.InsertQuery();
+                uint id = (uint) queryReactor.InsertQuery();
 
-                commitableQueryReactor.RunFastQuery($"UPDATE rooms_data SET group_id='{id}' WHERE id='{roomId}' LIMIT 1");
+                queryReactor.RunFastQuery($"UPDATE rooms_data SET group_id='{id}' WHERE id='{roomId}' LIMIT 1");
 
                 GroupMember memberGroup = new GroupMember(user.Id, user.UserName, user.Look, id, 2, Yupi.GetUnixTimeStamp());
                 Dictionary<uint, GroupMember> dictionary = new Dictionary<uint, GroupMember> {{session.GetHabbo().Id, memberGroup}};
@@ -174,7 +174,7 @@ namespace Yupi.Game.Groups
 
                 Groups.Add(id, group);
 
-                commitableQueryReactor.RunFastQuery(
+                queryReactor.RunFastQuery(
                     $"INSERT INTO groups_members (group_id, user_id, rank, date_join) VALUES ('{id}','{session.GetHabbo().Id}','2','{Yupi.GetUnixTimeStamp()}')");
 
                 Room room = Yupi.GetGame().GetRoomManager().GetRoom(roomId);
@@ -188,9 +188,9 @@ namespace Yupi.Game.Groups
                 user.UserGroups.Add(memberGroup);
                 group.Admins.Add(user.Id, memberGroup);
 
-                commitableQueryReactor.RunFastQuery(
+                queryReactor.RunFastQuery(
                     $"UPDATE users_stats SET favourite_group='{id}' WHERE id='{user.Id}' LIMIT 1");
-                commitableQueryReactor.RunFastQuery($"DELETE FROM rooms_rights WHERE room_id='{roomId}'");
+                queryReactor.RunFastQuery($"DELETE FROM rooms_rights WHERE room_id='{roomId}'");
             }
         }
 
@@ -211,18 +211,18 @@ namespace Yupi.Game.Groups
             Dictionary<uint, GroupMember> admins = new Dictionary<uint, GroupMember>();
             Dictionary<uint, GroupMember> requests = new Dictionary<uint, GroupMember>();
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery($"SELECT * FROM groups_data WHERE id ='{groupId}' LIMIT 1");
+                queryReactor.SetQuery($"SELECT * FROM groups_data WHERE id ='{groupId}' LIMIT 1");
 
-                DataRow row = commitableQueryReactor.GetRow();
+                DataRow row = queryReactor.GetRow();
 
                 if (row == null)
                     return null;
 
-                commitableQueryReactor.SetQuery($"SELECT * FROM groups_forums_data WHERE group_id='{groupId}' LIMIT 1");
+                queryReactor.SetQuery($"SELECT * FROM groups_forums_data WHERE group_id='{groupId}' LIMIT 1");
 
-                DataRow row2 = commitableQueryReactor.GetRow();
+                DataRow row2 = queryReactor.GetRow();
 
                 GroupForum groupForum;
 
@@ -238,16 +238,16 @@ namespace Yupi.Game.Groups
                         (uint) row2["who_can_mod"]);
 
 
-                commitableQueryReactor.SetQuery(
+                queryReactor.SetQuery(
                     "SELECT g.user_id, u.username, u.look, g.rank, g.date_join FROM groups_members g " +
                     $"INNER JOIN users u ON (g.user_id = u.id) WHERE g.group_id='{groupId}'");
 
-                DataTable groupMembersTable = commitableQueryReactor.GetTable();
+                DataTable groupMembersTable = queryReactor.GetTable();
 
-                commitableQueryReactor.SetQuery("SELECT g.user_id, u.username, u.look FROM groups_requests g " +
+                queryReactor.SetQuery("SELECT g.user_id, u.username, u.look FROM groups_requests g " +
                                                 $"INNER JOIN users u ON (g.user_id = u.id) WHERE group_id='{groupId}'");
 
-                DataTable groupRequestsTable = commitableQueryReactor.GetTable();
+                DataTable groupRequestsTable = queryReactor.GetTable();
 
                 uint userId;
 
@@ -298,12 +298,12 @@ namespace Yupi.Game.Groups
         {
             HashSet<GroupMember> list = new HashSet<GroupMember>();
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery(
+                queryReactor.SetQuery(
                     $"SELECT u.username, u.look, g.group_id, g.rank, g.date_join FROM groups_members g INNER JOIN users u ON (g.user_id = u.id) WHERE g.user_id={userId}");
 
-                DataTable table = commitableQueryReactor.GetTable();
+                DataTable table = queryReactor.GetTable();
 
                 foreach (DataRow dataRow in table.Rows)
                     list.Add(new GroupMember(userId, dataRow["username"].ToString(), dataRow["look"].ToString(),
@@ -625,16 +625,16 @@ namespace Yupi.Game.Groups
         /// <param name="id">The identifier.</param>
         internal void DeleteGroup(uint id)
         {
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery(string.Format("DELETE FROM groups_members WHERE group_id = {0};" +
+                queryReactor.SetQuery(string.Format("DELETE FROM groups_members WHERE group_id = {0};" +
                                                               "DELETE FROM groups_requests WHERE group_id = {0};" +
                                                               "DELETE FROM groups_forums_data WHERE group_id = {0}; " +
                                                               "DELETE FROM groups_data WHERE id = {0};" +
                                                               "UPDATE rooms_data SET group_id = 0 WHERE group_id = {0};",
                     id)
                     );
-                commitableQueryReactor.RunQuery();
+                queryReactor.RunQuery();
 
                 Groups.Remove(id);
             }
@@ -647,10 +647,10 @@ namespace Yupi.Game.Groups
         /// <returns>System.Int32.</returns>
         internal int GetMessageCountForThread(uint id)
         {
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery($"SELECT COUNT(*) FROM groups_forums_posts WHERE parent_id='{id}'");
-                return int.Parse(commitableQueryReactor.GetString());
+                queryReactor.SetQuery($"SELECT COUNT(*) FROM groups_forums_posts WHERE parent_id='{id}'");
+                return int.Parse(queryReactor.GetString());
             }
         }
 

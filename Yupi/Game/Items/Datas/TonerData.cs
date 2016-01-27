@@ -33,11 +33,11 @@ namespace Yupi.Game.Items.Datas
             ItemId = item;
             DataRow row;
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery(
+                queryReactor.SetQuery(
                     $"SELECT enabled,data1,data2,data3 FROM items_toners WHERE id={ItemId} LIMIT 1");
-                row = commitableQueryReactor.GetRow();
+                row = queryReactor.GetRow();
             }
 
             if (row == null)

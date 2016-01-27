@@ -30,12 +30,12 @@ namespace Yupi.Game.Items.Datas
             Lines = new Dictionary<int, HighScoreLine>();
             uint itemId = roomItem.Id;
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery("SELECT * FROM items_highscores WHERE item_id=" + itemId +
+                queryReactor.SetQuery("SELECT * FROM items_highscores WHERE item_id=" + itemId +
                                                 " ORDER BY score DESC");
 
-                DataTable table = commitableQueryReactor.GetTable();
+                DataTable table = queryReactor.GetTable();
 
                 if (table == null)
                     return;
@@ -87,45 +87,45 @@ namespace Yupi.Game.Items.Datas
         /// <param name="score">The score.</param>
         internal void AddUserScore(RoomItem item, string username, int score)
         {
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 if (item.GetBaseItem().Name.StartsWith("highscore_classic"))
                 {
-                    commitableQueryReactor.SetQuery(
+                    queryReactor.SetQuery(
                         "INSERT INTO items_highscores (item_id,username,score) VALUES (@itemid,@username,@score)");
-                    commitableQueryReactor.AddParameter("itemid", item.Id);
-                    commitableQueryReactor.AddParameter("username", username);
-                    commitableQueryReactor.AddParameter("score", score);
-                    commitableQueryReactor.RunQuery();
+                    queryReactor.AddParameter("itemid", item.Id);
+                    queryReactor.AddParameter("username", username);
+                    queryReactor.AddParameter("score", score);
+                    queryReactor.RunQuery();
                 }
                 else if (item.GetBaseItem().Name.StartsWith("highscore_mostwin"))
                 {
                     score = 1;
-                    commitableQueryReactor.SetQuery(
+                    queryReactor.SetQuery(
                         "SELECT id,score FROM items_highscores WHERE username = @username AND item_id = @itemid");
-                    commitableQueryReactor.AddParameter("itemid", item.Id);
-                    commitableQueryReactor.AddParameter("username", username);
+                    queryReactor.AddParameter("itemid", item.Id);
+                    queryReactor.AddParameter("username", username);
 
-                    DataRow row = commitableQueryReactor.GetRow();
+                    DataRow row = queryReactor.GetRow();
 
                     if (row != null)
                     {
-                        commitableQueryReactor.SetQuery(
+                        queryReactor.SetQuery(
                             "UPDATE items_highscores SET score = score + 1 WHERE username = @username AND item_id = @itemid");
-                        commitableQueryReactor.AddParameter("itemid", item.Id);
-                        commitableQueryReactor.AddParameter("username", username);
-                        commitableQueryReactor.RunQuery();
+                        queryReactor.AddParameter("itemid", item.Id);
+                        queryReactor.AddParameter("username", username);
+                        queryReactor.RunQuery();
                         Lines.Remove((int) row["id"]);
                         score = (int) row["score"] + 1;
                     }
                     else
                     {
-                        commitableQueryReactor.SetQuery(
+                        queryReactor.SetQuery(
                             "INSERT INTO items_highscores (item_id,username,score) VALUES (@itemid,@username,@score)");
-                        commitableQueryReactor.AddParameter("itemid", item.Id);
-                        commitableQueryReactor.AddParameter("username", username);
-                        commitableQueryReactor.AddParameter("score", score);
-                        commitableQueryReactor.RunQuery();
+                        queryReactor.AddParameter("itemid", item.Id);
+                        queryReactor.AddParameter("username", username);
+                        queryReactor.AddParameter("score", score);
+                        queryReactor.RunQuery();
                     }
                 }
 

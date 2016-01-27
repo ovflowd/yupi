@@ -289,22 +289,22 @@ namespace Yupi.Game.Rooms.Data
                 RoomChat = new ConcurrentStack<Chatlog>();
                 WordFilter = new List<string>();
 
-                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    commitableQueryReactor.SetQuery("SELECT username FROM users WHERE id = @userId");
-                    commitableQueryReactor.AddParameter("userId", OwnerId);
+                    queryReactor.SetQuery("SELECT username FROM users WHERE id = @userId");
+                    queryReactor.AddParameter("userId", OwnerId);
 
-                    Owner = commitableQueryReactor.GetString();
+                    Owner = queryReactor.GetString();
 
-                    commitableQueryReactor.SetQuery($"SELECT user_id, message, timestamp FROM users_chatlogs WHERE room_id = '{Id}' ORDER BY timestamp ASC LIMIT 150");
-                    DataTable table = commitableQueryReactor.GetTable();
+                    queryReactor.SetQuery($"SELECT user_id, message, timestamp FROM users_chatlogs WHERE room_id = '{Id}' ORDER BY timestamp ASC LIMIT 150");
+                    DataTable table = queryReactor.GetTable();
 
                     foreach (DataRow dataRow in table.Rows)
                         RoomChat.Push(new Chatlog((uint) dataRow[0], (string) dataRow[1],
                             Yupi.UnixToDateTime(int.Parse(dataRow[2].ToString())), false));
 
-                    commitableQueryReactor.SetQuery($"SELECT word FROM rooms_wordfilter WHERE room_id = '{Id}'");
-                    DataTable tableFilter = commitableQueryReactor.GetTable();
+                    queryReactor.SetQuery($"SELECT word FROM rooms_wordfilter WHERE room_id = '{Id}'");
+                    DataTable tableFilter = queryReactor.GetTable();
 
                     foreach (DataRow dataRow in tableFilter.Rows)
                         WordFilter.Add(dataRow["word"].ToString());

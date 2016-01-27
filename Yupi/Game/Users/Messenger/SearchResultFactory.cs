@@ -21,14 +21,14 @@ namespace Yupi.Game.Users.Messenger
         {
             DataTable table;
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery(
+                queryReactor.SetQuery(
                     "SELECT id,username,motto,look,last_online FROM users WHERE username LIKE @query LIMIT 50");
 
-                commitableQueryReactor.AddParameter("query", $"{query}%");
+                queryReactor.AddParameter("query", $"{query}%");
 
-                table = commitableQueryReactor.GetTable();
+                table = queryReactor.GetTable();
             }
 
             return (from DataRow dataRow in table.Rows

@@ -237,30 +237,30 @@ namespace Yupi.Game.GameClients.Interfaces
                 if (!string.IsNullOrEmpty(banReason) || userData.User.UserName == null)
                 {
                     SendNotifWithScroll(banReason);
-                    using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
-                        commitableQueryReactor.SetQuery($"SELECT ip_last FROM users WHERE id={GetHabbo().Id} LIMIT 1");
+                        queryReactor.SetQuery($"SELECT ip_last FROM users WHERE id={GetHabbo().Id} LIMIT 1");
 
-                        string supaString = commitableQueryReactor.GetString();
+                        string supaString = queryReactor.GetString();
 
-                        commitableQueryReactor.SetQuery(
+                        queryReactor.SetQuery(
                             $"SELECT COUNT(0) FROM users_bans_access WHERE user_id={_habbo.Id} LIMIT 1");
-                        int integer = commitableQueryReactor.GetInteger();
+                        int integer = queryReactor.GetInteger();
 
                         if (integer > 0)
-                            commitableQueryReactor.RunFastQuery(
+                            queryReactor.RunFastQuery(
                                 "UPDATE users_bans_access SET attempts = attempts + 1, ip='" + supaString +
                                 "' WHERE user_id=" + GetHabbo().Id + " LIMIT 1");
                         else
-                            commitableQueryReactor.RunFastQuery("INSERT INTO users_bans_access (user_id, ip) VALUES (" +
+                            queryReactor.RunFastQuery("INSERT INTO users_bans_access (user_id, ip) VALUES (" +
                                                                 GetHabbo().Id + ", '" + supaString + "')");
                     }
 
                     return false;
                 }
 
-                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                    commitableQueryReactor.RunFastQuery($"UPDATE users SET ip_last='{ip}' WHERE id={GetHabbo().Id}");
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                    queryReactor.RunFastQuery($"UPDATE users SET ip_last='{ip}' WHERE id={GetHabbo().Id}");
 
                 userData.User.Init(this, userData);
 
@@ -478,8 +478,8 @@ namespace Yupi.Game.GameClients.Interfaces
         {
             if (GetHabbo() != null)
             {
-                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                    commitableQueryReactor.RunFastQuery(GetHabbo().GetQueryString);
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                    queryReactor.RunFastQuery(GetHabbo().GetQueryString);
                 GetHabbo().OnDisconnect(reason);
             }
 

@@ -63,10 +63,10 @@ namespace Yupi.Game.SoundMachine
 
             Songs.Clear();
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery("SELECT * FROM items_songs_data ORDER BY id");
-                DataTable table = commitableQueryReactor.GetTable();
+                queryReactor.SetQuery("SELECT * FROM items_songs_data ORDER BY id");
+                DataTable table = queryReactor.GetTable();
 
                 foreach (SongData songFromDataRow in from DataRow dRow in table.Rows select GetSongFromDataRow(dRow))
                     Songs.Add(songFromDataRow.Id, songFromDataRow);

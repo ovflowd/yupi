@@ -20,10 +20,10 @@ namespace Yupi.Game.Users
         public void RefreshHallOfFame()
         {
             Rankings.Clear();
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery("SELECT * FROM users_rankings ORDER BY score DESC");
-                DataTable table = commitableQueryReactor.GetTable();
+                queryReactor.SetQuery("SELECT * FROM users_rankings ORDER BY score DESC");
+                DataTable table = queryReactor.GetTable();
 
                 if (table == null)
                     return;

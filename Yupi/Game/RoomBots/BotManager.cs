@@ -137,14 +137,14 @@ namespace Yupi.Game.RoomBots
         /// <returns>RoomBot.</returns>
         internal static RoomBot CreateBotFromCatalog(string botType, uint userId)
         {
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 CatalogBot catalogBot = GetCatalogBot(botType);
 
-                commitableQueryReactor.SetQuery(
+                queryReactor.SetQuery(
                     $"INSERT INTO bots_data (user_id,name,motto,look,gender,walk_mode,ai_type,bot_type) VALUES ('{userId}', '{catalogBot.BotName}', '{catalogBot.BotMission}', '{catalogBot.BotLook}', '{catalogBot.BotGender}', 'freeroam', 'generic', '{catalogBot.BotType}')");
 
-                return new RoomBot(Convert.ToUInt32(commitableQueryReactor.InsertQuery()), userId, 0u, AiType.Generic,
+                return new RoomBot(Convert.ToUInt32(queryReactor.InsertQuery()), userId, 0u, AiType.Generic,
                     "freeroam", catalogBot.BotName, catalogBot.BotMission, catalogBot.BotLook, 0, 0, 0.0, 0, null, null,
                     catalogBot.BotGender, 0, catalogBot.BotType);
             }

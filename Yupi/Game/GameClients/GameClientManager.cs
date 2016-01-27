@@ -140,11 +140,11 @@ namespace Yupi.Game.GameClients
 
             string userName;
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery("SELECT username FROM users WHERE id = " + id);
+                queryReactor.SetQuery("SELECT username FROM users WHERE id = " + id);
 
-                userName = commitableQueryReactor.GetString();
+                userName = queryReactor.GetString();
             }
 
             return string.IsNullOrEmpty(userName) ? "Unknown User" : userName;
@@ -373,8 +373,8 @@ namespace Yupi.Game.GameClients
             if (!_idUserNameRegister.Contains(userId))
                 _idUserNameRegister.Add(userId, userName);
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                commitableQueryReactor.SetQuery($"UPDATE users SET online='1' WHERE id={userId} LIMIT 1");
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.SetQuery($"UPDATE users SET online='1' WHERE id={userId} LIMIT 1");
         }
 
         /// <summary>
@@ -387,8 +387,8 @@ namespace Yupi.Game.GameClients
             _userIdRegister.Remove(userid);
             _userNameRegister.Remove(userName.ToLower());
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                commitableQueryReactor.SetQuery($"UPDATE users SET online='0' WHERE id={userid} LIMIT 1");
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.SetQuery($"UPDATE users SET online='0' WHERE id={userid} LIMIT 1");
         }
 
         /// <summary>
@@ -416,8 +416,8 @@ namespace Yupi.Game.GameClients
             {
                 if (stringBuilder.Length > 0)
                 {
-                    using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                        commitableQueryReactor.RunFastQuery(stringBuilder.ToString());
+                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                        queryReactor.RunFastQuery(stringBuilder.ToString());
                 }
             }
             try

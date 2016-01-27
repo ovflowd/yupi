@@ -176,11 +176,11 @@ namespace Yupi.Game.Rooms
                 return GetRoom(roomId).RoomData;
 
             RoomData roomData = new RoomData();
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery($"SELECT * FROM rooms_data WHERE id = {roomId} LIMIT 1");
+                queryReactor.SetQuery($"SELECT * FROM rooms_data WHERE id = {roomId} LIMIT 1");
 
-                DataRow dataRow = commitableQueryReactor.GetRow();
+                DataRow dataRow = queryReactor.GetRow();
                 if (dataRow == null)
                     return null;
 
@@ -522,9 +522,9 @@ namespace Yupi.Game.Rooms
 
             try
             {
-                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    commitableQueryReactor.SetQuery(
+                    queryReactor.SetQuery(
                         "UPDATE rooms_data SET caption = @caption, description = @description, password = @password, category = " +
                         room.RoomData.Category + ", state = '" + state +
                         "', tags = @tags, users_now = '0', users_max = " +
@@ -539,16 +539,16 @@ namespace Yupi.Game.Rooms
                         "', walls_height = '" + room.RoomData.WallHeight +
                         "', chat_type = @chat_t,chat_balloon = @chat_b,chat_speed = @chat_s,chat_max_distance = @chat_m,chat_flood_protection = @chat_f, trade_state = '" +
                         room.RoomData.TradeState + "' WHERE id = " + roomId);
-                    commitableQueryReactor.AddParameter("caption", room.RoomData.Name);
-                    commitableQueryReactor.AddParameter("description", room.RoomData.Description);
-                    commitableQueryReactor.AddParameter("password", room.RoomData.PassWord);
-                    commitableQueryReactor.AddParameter("tags", string.Join(",", room.RoomData.Tags));
-                    commitableQueryReactor.AddParameter("chat_t", room.RoomData.ChatType);
-                    commitableQueryReactor.AddParameter("chat_b", room.RoomData.ChatBalloon);
-                    commitableQueryReactor.AddParameter("chat_s", room.RoomData.ChatSpeed);
-                    commitableQueryReactor.AddParameter("chat_m", room.RoomData.ChatMaxDistance);
-                    commitableQueryReactor.AddParameter("chat_f", room.RoomData.ChatFloodProtection);
-                    commitableQueryReactor.RunQuery();
+                    queryReactor.AddParameter("caption", room.RoomData.Name);
+                    queryReactor.AddParameter("description", room.RoomData.Description);
+                    queryReactor.AddParameter("password", room.RoomData.PassWord);
+                    queryReactor.AddParameter("tags", string.Join(",", room.RoomData.Tags));
+                    queryReactor.AddParameter("chat_t", room.RoomData.ChatType);
+                    queryReactor.AddParameter("chat_b", room.RoomData.ChatBalloon);
+                    queryReactor.AddParameter("chat_s", room.RoomData.ChatSpeed);
+                    queryReactor.AddParameter("chat_m", room.RoomData.ChatMaxDistance);
+                    queryReactor.AddParameter("chat_f", room.RoomData.ChatFloodProtection);
+                    queryReactor.RunQuery();
                 }
             }
             catch (Exception e)
@@ -558,7 +558,7 @@ namespace Yupi.Game.Rooms
 
             if (room.GetRoomUserManager() != null && room.GetRoomUserManager().UserList != null)
             {
-                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
                     foreach (RoomUser current in room.GetRoomUserManager().UserList.Values.Where(current => current != null))
                     {
@@ -567,12 +567,12 @@ namespace Yupi.Game.Rooms
                             if (current.PetData == null)
                                 continue;
 
-                            commitableQueryReactor.SetQuery("UPDATE pets_data SET x=@x, y=@y, z=@z WHERE id=@id LIMIT 1");
-                            commitableQueryReactor.AddParameter("x", current.X);
-                            commitableQueryReactor.AddParameter("y", current.Y);
-                            commitableQueryReactor.AddParameter("z", current.Z);
-                            commitableQueryReactor.AddParameter("id", current.PetData.PetId);
-                            commitableQueryReactor.RunQuery();
+                            queryReactor.SetQuery("UPDATE pets_data SET x=@x, y=@y, z=@z WHERE id=@id LIMIT 1");
+                            queryReactor.AddParameter("x", current.X);
+                            queryReactor.AddParameter("y", current.Y);
+                            queryReactor.AddParameter("z", current.Z);
+                            queryReactor.AddParameter("id", current.PetData.PetId);
+                            queryReactor.RunQuery();
 
                             if (current.BotAi == null)
                                 continue;
@@ -584,17 +584,17 @@ namespace Yupi.Game.Rooms
                             if (current.BotData == null)
                                 continue;
 
-                            commitableQueryReactor.SetQuery("UPDATE bots_data SET x=@x, y=@y, z=@z, name=@name, motto=@motto, look=@look, rotation=@rotation, dance=@dance WHERE id=@id LIMIT 1");
-                            commitableQueryReactor.AddParameter("name", current.BotData.Name);
-                            commitableQueryReactor.AddParameter("motto", current.BotData.Motto);
-                            commitableQueryReactor.AddParameter("look", current.BotData.Look);
-                            commitableQueryReactor.AddParameter("rotation", current.BotData.Rot);
-                            commitableQueryReactor.AddParameter("dance", current.BotData.DanceId);
-                            commitableQueryReactor.AddParameter("x", current.X);
-                            commitableQueryReactor.AddParameter("y", current.Y);
-                            commitableQueryReactor.AddParameter("z", current.Z);
-                            commitableQueryReactor.AddParameter("id", current.BotData.BotId);
-                            commitableQueryReactor.RunQuery();
+                            queryReactor.SetQuery("UPDATE bots_data SET x=@x, y=@y, z=@z, name=@name, motto=@motto, look=@look, rotation=@rotation, dance=@dance WHERE id=@id LIMIT 1");
+                            queryReactor.AddParameter("name", current.BotData.Name);
+                            queryReactor.AddParameter("motto", current.BotData.Motto);
+                            queryReactor.AddParameter("look", current.BotData.Look);
+                            queryReactor.AddParameter("rotation", current.BotData.Rot);
+                            queryReactor.AddParameter("dance", current.BotData.DanceId);
+                            queryReactor.AddParameter("x", current.X);
+                            queryReactor.AddParameter("y", current.Y);
+                            queryReactor.AddParameter("z", current.Z);
+                            queryReactor.AddParameter("id", current.BotData.BotId);
+                            queryReactor.RunQuery();
 
                             current.BotAi?.Dispose();
                         }

@@ -22,10 +22,10 @@ namespace Yupi.Game.Items.Handlers
         {
             uint result;
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery($"SELECT tele_two_id FROM items_teleports WHERE tele_one_id = {teleId}");
-                DataRow row = commitableQueryReactor.GetRow();
+                queryReactor.SetQuery($"SELECT tele_two_id FROM items_teleports WHERE tele_one_id = {teleId}");
+                DataRow row = queryReactor.GetRow();
 
                 result = row == null ? 0 : Convert.ToUInt32(row[0]);
             }
@@ -46,10 +46,10 @@ namespace Yupi.Game.Items.Handlers
 
             uint result;
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery($"SELECT room_id FROM items_rooms WHERE id = {teleId} LIMIT 1");
-                DataRow row = commitableQueryReactor.GetRow();
+                queryReactor.SetQuery($"SELECT room_id FROM items_rooms WHERE id = {teleId} LIMIT 1");
+                DataRow row = queryReactor.GetRow();
 
                 result = row == null ? 0 : Convert.ToUInt32(row[0]);
             }

@@ -100,8 +100,8 @@ namespace Yupi.Messages.Handlers
             SendResponse();
 
             Session.GetHabbo().FavoriteRooms.Add(roomId);
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                commitableQueryReactor.RunFastQuery("INSERT INTO users_favorites (user_id,room_id) VALUES (" +
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.RunFastQuery("INSERT INTO users_favorites (user_id,room_id) VALUES (" +
                                                     Session.GetHabbo().Id + "," + roomId + ")");
         }
 
@@ -117,8 +117,8 @@ namespace Yupi.Messages.Handlers
             GetResponse().AppendBool(false);
             SendResponse();
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                commitableQueryReactor.RunFastQuery("DELETE FROM users_favorites WHERE user_id = " +
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.RunFastQuery("DELETE FROM users_favorites WHERE user_id = " +
                                                     Session.GetHabbo().Id + " AND room_id = " + roomId);
         }
 
@@ -767,10 +767,10 @@ namespace Yupi.Messages.Handlers
             SendResponse();
 
             DataTable table;
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery($"SELECT user_id FROM rooms_rights WHERE room_id={room.RoomId}");
-                table = commitableQueryReactor.GetTable();
+                queryReactor.SetQuery($"SELECT user_id FROM rooms_rights WHERE room_id={room.RoomId}");
+                table = queryReactor.GetTable();
             }
             Response.Init(LibraryParser.OutgoingRequest("LoadRoomRightsListMessageComposer"));
             GetResponse().AppendInteger(room.RoomData.Id);
@@ -925,8 +925,8 @@ namespace Yupi.Messages.Handlers
                 return;
             }
             room.UsersWithRights.Add(num);
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                commitableQueryReactor.RunFastQuery(string.Concat(
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.RunFastQuery(string.Concat(
                     "INSERT INTO rooms_rights (room_id,user_id) VALUES (", room.RoomId, ",", num, ")"));
             if (roomUserByHabbo != null && !roomUserByHabbo.IsBot)
             {
@@ -979,8 +979,8 @@ namespace Yupi.Messages.Handlers
                     SendResponse();
                 }
                 UsersWithRights();
-                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                    commitableQueryReactor.RunFastQuery($"DELETE FROM rooms_rights WHERE {stringBuilder}");
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                    queryReactor.RunFastQuery($"DELETE FROM rooms_rights WHERE {stringBuilder}");
             }
         }
 
@@ -990,10 +990,10 @@ namespace Yupi.Messages.Handlers
             if (room == null || !room.CheckRights(Session, true))
                 return;
             DataTable table;
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery($"SELECT user_id FROM rooms_rights WHERE room_id={room.RoomId}");
-                table = commitableQueryReactor.GetTable();
+                queryReactor.SetQuery($"SELECT user_id FROM rooms_rights WHERE room_id={room.RoomId}");
+                table = queryReactor.GetTable();
             }
             foreach (DataRow dataRow in table.Rows)
             {
@@ -1075,8 +1075,8 @@ namespace Yupi.Messages.Handlers
             {
                 Session.GetHabbo().HomeRoom = roomId
                     ;
-                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                    commitableQueryReactor.RunFastQuery(string.Concat("UPDATE users SET home_room = ", roomId,
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                    queryReactor.RunFastQuery(string.Concat("UPDATE users SET home_room = ", roomId,
                         " WHERE id = ", Session.GetHabbo().Id));
 
                 Response.Init(LibraryParser.OutgoingRequest("HomeRoomMessageComposer"));
@@ -1105,13 +1105,13 @@ namespace Yupi.Messages.Handlers
             Yupi.GetGame().GetRoomManager().QueueVoteRemove(roomData);
             if (roomData == null || Session == null)
                 return;
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.RunFastQuery($"DELETE FROM rooms_data WHERE id = {roomId}");
-                commitableQueryReactor.RunFastQuery($"DELETE FROM users_favorites WHERE room_id = {roomId}");
-                commitableQueryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE room_id = {roomId}");
-                commitableQueryReactor.RunFastQuery($"DELETE FROM rooms_rights WHERE room_id = {roomId}");
-                commitableQueryReactor.RunFastQuery($"UPDATE users SET home_room = '0' WHERE home_room = {roomId}");
+                queryReactor.RunFastQuery($"DELETE FROM rooms_data WHERE id = {roomId}");
+                queryReactor.RunFastQuery($"DELETE FROM users_favorites WHERE room_id = {roomId}");
+                queryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE room_id = {roomId}");
+                queryReactor.RunFastQuery($"DELETE FROM rooms_rights WHERE room_id = {roomId}");
+                queryReactor.RunFastQuery($"UPDATE users SET home_room = '0' WHERE home_room = {roomId}");
             }
             if (Session.GetHabbo().Rank > 5u && Session.GetHabbo().UserName != roomData.Owner)
                 Yupi.GetGame()
@@ -1278,8 +1278,8 @@ namespace Yupi.Messages.Handlers
                         return;
                 }
                 Yupi.GetGame().GetRoomManager().QueueVoteAdd(room.RoomData);
-                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                    commitableQueryReactor.RunFastQuery(string.Concat("UPDATE rooms_data SET score = ",
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                    queryReactor.RunFastQuery(string.Concat("UPDATE rooms_data SET score = ",
                         room.RoomData.Score, " WHERE id = ", room.RoomId));
                 Session.GetHabbo().RatedRooms.Add(room.RoomId);
                 Response.Init(LibraryParser.OutgoingRequest("RoomRatingMessageComposer"));
@@ -1357,12 +1357,12 @@ namespace Yupi.Messages.Handlers
                 if (!room.WordFilter.Contains(text))
                     return;
                 room.WordFilter.Remove(text);
-                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    commitableQueryReactor.SetQuery("DELETE FROM rooms_wordfilter WHERE room_id = @id AND word = @word");
-                    commitableQueryReactor.AddParameter("id", num);
-                    commitableQueryReactor.AddParameter("word", text);
-                    commitableQueryReactor.RunQuery();
+                    queryReactor.SetQuery("DELETE FROM rooms_wordfilter WHERE room_id = @id AND word = @word");
+                    queryReactor.AddParameter("id", num);
+                    queryReactor.AddParameter("word", text);
+                    queryReactor.RunQuery();
                     return;
                 }
             }
@@ -1442,13 +1442,13 @@ namespace Yupi.Messages.Handlers
                         .ProgressUserAchievement(Session, "ACH_RoomDecoLandscape", 1);
                     break;
             }
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery(string.Concat("UPDATE rooms_data SET ", type,
+                queryReactor.SetQuery(string.Concat("UPDATE rooms_data SET ", type,
                     " = @extradata WHERE id = ", room.RoomId));
-                commitableQueryReactor.AddParameter("extradata", item.ExtraData);
-                commitableQueryReactor.RunQuery();
-                commitableQueryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1");
+                queryReactor.AddParameter("extradata", item.ExtraData);
+                queryReactor.RunQuery();
+                queryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1");
             }
             Session.GetHabbo().GetInventoryComponent().RemoveItem(item.Id, false);
             ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("RoomSpacesMessageComposer"));
@@ -1656,15 +1656,15 @@ namespace Yupi.Messages.Handlers
                 {
                     double.TryParse(charDoor.ToString(), out doorZ);
                 }
-                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    commitableQueryReactor.SetQuery(
+                    queryReactor.SetQuery(
                         "REPLACE INTO rooms_models_customs (roomid,door_x,door_y,door_z,door_dir,heightmap,poolmap) VALUES ('" +
                         room.RoomId + "', '" + doorX + "','" +
                         doorY + "','" + doorZ.ToString(CultureInfo.InvariantCulture).Replace(',', '.') + "','" +
                         doorOrientation + "',@newmodel,'')");
-                    commitableQueryReactor.AddParameter("newmodel", heightMap);
-                    commitableQueryReactor.RunQuery();
+                    queryReactor.AddParameter("newmodel", heightMap);
+                    queryReactor.RunQuery();
 
                     room.RoomData.WallHeight = wallHeight;
                     room.RoomData.WallThickness = wallThickness;
@@ -1675,7 +1675,7 @@ namespace Yupi.Messages.Handlers
                         .GetAchievementManager()
                         .ProgressUserAchievement(Session, "ACH_RoomDecoHoleFurniCount", 1);
 
-                    commitableQueryReactor.RunFastQuery(
+                    queryReactor.RunFastQuery(
                         $"UPDATE rooms_data SET model_name = 'custom', wallthick = '{wallThickness}', floorthick = '{floorThickness}', walls_height = '{wallHeight}' WHERE id = {room.RoomId};");
                     RoomModel roomModel = new RoomModel(doorX, doorY, doorZ, doorOrientation, heightMap, "", false, "");
                     Yupi.GetGame().GetRoomManager().UpdateCustomModel(room.RoomId, roomModel);
@@ -1717,8 +1717,8 @@ namespace Yupi.Messages.Handlers
             Response.AppendInteger(pet.PetId);
             SendResponse();
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                commitableQueryReactor.RunFastQuery(string.Concat("UPDATE pets_data SET room_id = '", room.RoomId,
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.RunFastQuery(string.Concat("UPDATE pets_data SET room_id = '", room.RoomId,
                     "', x = '", getX, "', y = '", getY, "' WHERE id = '", pet.PetId, "'"));
 
             pet.PlacedInRoom = true;
@@ -1775,8 +1775,8 @@ namespace Yupi.Messages.Handlers
             if (!room.GetGameMap().CanWalk(x, y, false))
                 return;
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                commitableQueryReactor.RunFastQuery("UPDATE pets_data SET room_id = '" + room.RoomId + "', x = '" + x +
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.RunFastQuery("UPDATE pets_data SET room_id = '" + room.RoomId + "', x = '" + x +
                                                     "', y = '" + y + "' WHERE id = '" + petId + "'");
 
             pet.PlacedInRoom = true;
@@ -1899,17 +1899,17 @@ namespace Yupi.Messages.Handlers
                                         ServerUserChatTextHandler.FilterHtml(speech, Session.GetHabbo().GotCommand("ha")) +
                                         ";");
 
-                        using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                        using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                         {
-                            commitableQueryReactor.SetQuery(
+                            queryReactor.SetQuery(
                                 "UPDATE bots_data SET automatic_chat = @autochat, speaking_interval = @interval, mix_phrases = @mix_phrases, speech = @speech WHERE id = @botid");
 
-                            commitableQueryReactor.AddParameter("autochat", speak ? "1" : "0");
-                            commitableQueryReactor.AddParameter("interval", speechDelay);
-                            commitableQueryReactor.AddParameter("mix_phrases", mix ? "1" : "0");
-                            commitableQueryReactor.AddParameter("speech", speechs);
-                            commitableQueryReactor.AddParameter("botid", botId);
-                            commitableQueryReactor.RunQuery();
+                            queryReactor.AddParameter("autochat", speak ? "1" : "0");
+                            queryReactor.AddParameter("interval", speechDelay);
+                            queryReactor.AddParameter("mix_phrases", mix ? "1" : "0");
+                            queryReactor.AddParameter("speech", speechs);
+                            queryReactor.AddParameter("botid", botId);
+                            queryReactor.RunQuery();
                         }
                         List<string> randomSpeech = speechs.Split(';').ToList();
 
@@ -1926,12 +1926,12 @@ namespace Yupi.Messages.Handlers
                     }
                 case 3:
                     bot.BotData.WalkingMode = bot.BotData.WalkingMode == "freeroam" ? "stand" : "freeroam";
-                    using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
-                        commitableQueryReactor.SetQuery("UPDATE bots_data SET walk_mode = @walkmode WHERE id = @botid");
-                        commitableQueryReactor.AddParameter("walkmode", bot.BotData.WalkingMode);
-                        commitableQueryReactor.AddParameter("botid", botId);
-                        commitableQueryReactor.RunQuery();
+                        queryReactor.SetQuery("UPDATE bots_data SET walk_mode = @walkmode WHERE id = @botid");
+                        queryReactor.AddParameter("walkmode", bot.BotData.WalkingMode);
+                        queryReactor.AddParameter("botid", botId);
+                        queryReactor.RunQuery();
                     }
                     goto IL_439;
                 case 4:
@@ -2018,8 +2018,8 @@ namespace Yupi.Messages.Handlers
             Response.AppendBool(false);
             SendResponse();
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                commitableQueryReactor.RunFastQuery(string.Concat("DELETE FROM users_favorites WHERE user_id = ",
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.RunFastQuery(string.Concat("DELETE FROM users_favorites WHERE user_id = ",
                     Session.GetHabbo().Id, " AND room_id = ", num));
         }
 
@@ -2342,12 +2342,12 @@ namespace Yupi.Messages.Handlers
 
             Session.GetHabbo().AnsweredPolls.Add(num);
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery("INSERT INTO users_polls VALUES (@userid , @pollid , 0 , '0' , '')");
-                commitableQueryReactor.AddParameter("userid", Session.GetHabbo().Id);
-                commitableQueryReactor.AddParameter("pollid", num);
-                commitableQueryReactor.RunQuery();
+                queryReactor.SetQuery("INSERT INTO users_polls VALUES (@userid , @pollid , 0 , '0' , '')");
+                queryReactor.AddParameter("userid", Session.GetHabbo().Id);
+                queryReactor.AddParameter("pollid", num);
+                queryReactor.RunQuery();
             }
         }
 
@@ -2386,16 +2386,16 @@ namespace Yupi.Messages.Handlers
 
             Session.GetHabbo().AnsweredPolls.Add(pollId);
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery(
+                queryReactor.SetQuery(
                     "INSERT INTO users_polls VALUES (@userid , @pollid , @questionid , '1' , @answer)");
 
-                commitableQueryReactor.AddParameter("userid", Session.GetHabbo().Id);
-                commitableQueryReactor.AddParameter("pollid", pollId);
-                commitableQueryReactor.AddParameter("questionid", questionId);
-                commitableQueryReactor.AddParameter("answer", text);
-                commitableQueryReactor.RunQuery();
+                queryReactor.AddParameter("userid", Session.GetHabbo().Id);
+                queryReactor.AddParameter("pollid", pollId);
+                queryReactor.AddParameter("questionid", questionId);
+                queryReactor.AddParameter("answer", text);
+                queryReactor.RunQuery();
             }
         }
 
@@ -2677,19 +2677,19 @@ namespace Yupi.Messages.Handlers
                 int roomId = jsonArray["roomid"];
                 long timeStamp = jsonArray["timestamp"];
 
-                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    commitableQueryReactor.SetQuery(
+                    queryReactor.SetQuery(
                         "INSERT INTO cms_stories_photos_preview (user_id,user_name,room_id,image_preview_url,image_url,type,date,tags) VALUES (@userid,@username,@roomid,@imagepreviewurl,@imageurl,@types,@dates,@tag)");
-                    commitableQueryReactor.AddParameter("userid", Session.GetHabbo().Id);
-                    commitableQueryReactor.AddParameter("username", Session.GetHabbo().UserName);
-                    commitableQueryReactor.AddParameter("roomid", roomId);
-                    commitableQueryReactor.AddParameter("imagepreviewurl", encodedurl);
-                    commitableQueryReactor.AddParameter("imageurl", encodedurl);
-                    commitableQueryReactor.AddParameter("types", "PHOTO");
-                    commitableQueryReactor.AddParameter("dates", timeStamp);
-                    commitableQueryReactor.AddParameter("tag", "");
-                    commitableQueryReactor.RunQuery();
+                    queryReactor.AddParameter("userid", Session.GetHabbo().Id);
+                    queryReactor.AddParameter("username", Session.GetHabbo().UserName);
+                    queryReactor.AddParameter("roomid", roomId);
+                    queryReactor.AddParameter("imagepreviewurl", encodedurl);
+                    queryReactor.AddParameter("imageurl", encodedurl);
+                    queryReactor.AddParameter("types", "PHOTO");
+                    queryReactor.AddParameter("dates", timeStamp);
+                    queryReactor.AddParameter("tag", "");
+                    queryReactor.RunQuery();
                 }
 
                 ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("CameraStorageUrlMessageComposer"));
@@ -2719,20 +2719,20 @@ namespace Yupi.Messages.Handlers
             if (competition == null)
                 return;
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 if (code == 2)
                 {
                     if (competition.Entries.ContainsKey(room.RoomId))
                         return;
 
-                    commitableQueryReactor.SetQuery(
+                    queryReactor.SetQuery(
                         "INSERT INTO rooms_competitions_entries (competition_id, room_id, status) VALUES (@competition_id, @room_id, @status)");
 
-                    commitableQueryReactor.AddParameter("competition_id", competition.Id);
-                    commitableQueryReactor.AddParameter("room_id", room.RoomId);
-                    commitableQueryReactor.AddParameter("status", 2);
-                    commitableQueryReactor.RunQuery();
+                    queryReactor.AddParameter("competition_id", competition.Id);
+                    queryReactor.AddParameter("room_id", room.RoomId);
+                    queryReactor.AddParameter("status", 2);
+                    queryReactor.RunQuery();
                     competition.Entries.Add(room.RoomId, roomData);
 
                     ServerMessage message = new ServerMessage();
@@ -2752,13 +2752,13 @@ namespace Yupi.Messages.Handlers
                     if (entry == null)
                         return;
 
-                    commitableQueryReactor.SetQuery(
+                    queryReactor.SetQuery(
                         "UPDATE rooms_competitions_entries SET status = @status WHERE competition_id = @competition_id AND room_id = @roomid");
 
-                    commitableQueryReactor.AddParameter("status", 3);
-                    commitableQueryReactor.AddParameter("competition_id", competition.Id);
-                    commitableQueryReactor.AddParameter("roomid", room.RoomId);
-                    commitableQueryReactor.RunQuery();
+                    queryReactor.AddParameter("status", 3);
+                    queryReactor.AddParameter("competition_id", competition.Id);
+                    queryReactor.AddParameter("roomid", room.RoomId);
+                    queryReactor.RunQuery();
                     roomData.CompetitionStatus = 3;
 
                     ServerMessage message = new ServerMessage();
@@ -2796,16 +2796,16 @@ namespace Yupi.Messages.Handlers
             entry.CompetitionVotes++;
             Session.GetHabbo().DailyCompetitionVotes--;
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery(
+                queryReactor.SetQuery(
                     "UPDATE rooms_competitions_entries SET votes = @votes WHERE competition_id = @competition_id AND room_id = @roomid");
 
-                commitableQueryReactor.AddParameter("votes", entry.CompetitionVotes);
-                commitableQueryReactor.AddParameter("competition_id", competition.Id);
-                commitableQueryReactor.AddParameter("roomid", room.RoomId);
-                commitableQueryReactor.RunQuery();
-                commitableQueryReactor.RunFastQuery("UPDATE users_stats SET daily_competition_votes = " +
+                queryReactor.AddParameter("votes", entry.CompetitionVotes);
+                queryReactor.AddParameter("competition_id", competition.Id);
+                queryReactor.AddParameter("roomid", room.RoomId);
+                queryReactor.RunQuery();
+                queryReactor.RunFastQuery("UPDATE users_stats SET daily_competition_votes = " +
                                                     Session.GetHabbo().DailyCompetitionVotes + " WHERE id = " +
                                                     Session.GetHabbo().Id);
             }

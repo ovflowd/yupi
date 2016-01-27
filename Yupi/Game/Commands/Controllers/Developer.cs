@@ -78,14 +78,14 @@ namespace Yupi.Game.Commands.Controllers
             RoomUser user = room.GetRoomUserManager()
                 .GetRoomUserByHabbo(session.GetHabbo().UserName);
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 foreach (
                     RoomItem item in
                         room.GetGameMap()
                             .GetAllRoomItemForSquare(user.LastSelectedX, user.LastSelectedY))
                 {
-                    commitableQueryReactor.RunFastQuery("DELETE FROM items_rooms WHERE id = " + item.Id);
+                    queryReactor.RunFastQuery("DELETE FROM items_rooms WHERE id = " + item.Id);
 
                     room.GetRoomItemHandler().RemoveRoomItem(item, false);
                     item.Destroy();
@@ -107,22 +107,22 @@ namespace Yupi.Game.Commands.Controllers
                 session.SendWhisper("First usage :developer copy");
                 return true;
             }
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 foreach (
                     RoomItem item in
                         room.GetGameMap()
                             .GetAllRoomItemForSquare(user.CopyX, user.CopyY))
                 {
-                    commitableQueryReactor.SetQuery(
+                    queryReactor.SetQuery(
                         "INSERT INTO items_rooms (item_name, user_id, room_id, extra_data, x, y, z, rot, group_id) VALUES (" +
                         item.GetBaseItem().Name + ", " + user.UserId + ", " + user.RoomId + ", @extraData, " +
                         user.LastSelectedX + ", " + user.LastSelectedY + ", @height, " + item.Rot + ", " + item.GroupId +
                         ")");
-                    commitableQueryReactor.AddParameter("extraData", item.ExtraData);
-                    commitableQueryReactor.AddParameter("height", ServerUserChatTextHandler.GetString(item.Z));
+                    queryReactor.AddParameter("extraData", item.ExtraData);
+                    queryReactor.AddParameter("height", ServerUserChatTextHandler.GetString(item.Z));
 
-                    uint insertId = (uint) commitableQueryReactor.InsertQuery();
+                    uint insertId = (uint) queryReactor.InsertQuery();
 
                     RoomItem roomItem = new RoomItem(insertId, user.RoomId, item.GetBaseItem().Name, item.ExtraData,
                         user.LastSelectedX, user.LastSelectedY, item.Z, item.Rot, session.GetHabbo().CurrentRoom,

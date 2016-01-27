@@ -78,14 +78,14 @@ namespace Yupi.Game.Users.Badges
 
             if (inDatabase)
             {
-                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    commitableQueryReactor.SetQuery(
+                    queryReactor.SetQuery(
                         string.Concat("INSERT INTO users_badges (user_id,badge_id,badge_slot) VALUES (", _userId,
                             ",@badge,", 0, ")"));
 
-                    commitableQueryReactor.AddParameter("badge", badge);
-                    commitableQueryReactor.RunQuery();
+                    queryReactor.AddParameter("badge", badge);
+                    queryReactor.RunQuery();
                 }
             }
 
@@ -145,13 +145,13 @@ namespace Yupi.Game.Users.Badges
             if (!HasBadge(badge))
                 return;
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery("DELETE FROM users_badges WHERE badge_id = @badge AND user_id = " +
+                queryReactor.SetQuery("DELETE FROM users_badges WHERE badge_id = @badge AND user_id = " +
                                                 _userId);
 
-                commitableQueryReactor.AddParameter("badge", badge);
-                commitableQueryReactor.RunQuery();
+                queryReactor.AddParameter("badge", badge);
+                queryReactor.RunQuery();
             }
 
             BadgeList.Remove(GetBadge(badge));

@@ -260,11 +260,11 @@ namespace Yupi.Game.Items.Interfaces
             if (GetBaseItem() == null)
                 ServerLogManager.LogException($"Unknow Furniture Item: {baseName}, Item Id: #{id}");
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery($"SELECT * FROM items_limited WHERE item_id='{id}' LIMIT 1");
+                queryReactor.SetQuery($"SELECT * FROM items_limited WHERE item_id='{id}' LIMIT 1");
 
-                DataRow row = commitableQueryReactor.GetRow();
+                DataRow row = queryReactor.GetRow();
 
                 if (row != null)
                 {
@@ -1429,11 +1429,11 @@ namespace Yupi.Game.Items.Interfaces
 
             if (GetBaseItem().InteractionType == Interaction.MysteryBox)
             {
-                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    commitableQueryReactor.SetQuery($"SELECT extra_data FROM items_rooms WHERE id={Id} LIMIT 1");
+                    queryReactor.SetQuery($"SELECT extra_data FROM items_rooms WHERE id={Id} LIMIT 1");
 
-                    ExtraData = commitableQueryReactor.GetString();
+                    ExtraData = queryReactor.GetString();
                 }
 
                 if (ExtraData.Contains(Convert.ToChar(5).ToString()))

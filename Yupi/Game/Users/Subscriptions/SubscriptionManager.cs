@@ -76,8 +76,8 @@ namespace Yupi.Game.Users.Subscriptions
             int num4 = Yupi.DateTimeToUnix(target);
             _subscription = new Subscription(2, num2, num4, num3);
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                commitableQueryReactor.RunFastQuery(string.Concat("REPLACE INTO users_subscriptions VALUES (", _userId,
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.RunFastQuery(string.Concat("REPLACE INTO users_subscriptions VALUES (", _userId,
                     ", 2, ",
                     num2, ", ", num4, ", ", num3, ");"));
 
@@ -90,13 +90,13 @@ namespace Yupi.Game.Users.Subscriptions
         /// </summary>
         internal void ReloadSubscription()
         {
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery(
+                queryReactor.SetQuery(
                     "SELECT * FROM users_subscriptions WHERE user_id=@id AND timestamp_expire > UNIX_TIMESTAMP() ORDER BY subscription_id DESC LIMIT 1");
-                commitableQueryReactor.AddParameter("id", _userId);
+                queryReactor.AddParameter("id", _userId);
 
-                DataRow row = commitableQueryReactor.GetRow();
+                DataRow row = queryReactor.GetRow();
 
                 _subscription = row == null
                     ? null

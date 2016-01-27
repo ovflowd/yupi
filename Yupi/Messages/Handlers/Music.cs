@@ -92,8 +92,8 @@ namespace Yupi.Messages.Handlers
 
             Session.GetHabbo().GetInventoryComponent().RemoveItem(num, true);
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                commitableQueryReactor.RunFastQuery($"UPDATE items_rooms SET user_id='0' WHERE id={num} LIMIT 1");
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.RunFastQuery($"UPDATE items_rooms SET user_id='0' WHERE id={num} LIMIT 1");
 
             Session.SendMessage(SoundMachineComposer.Compose(roomMusicController.PlaylistCapacity,
                 roomMusicController.Playlist.Values.ToList()));
@@ -127,8 +127,8 @@ namespace Yupi.Messages.Handlers
                     songItem.SongCode);
             Session.GetHabbo().GetInventoryComponent().UpdateItems(false);
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                commitableQueryReactor.RunFastQuery(
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.RunFastQuery(
                     $"UPDATE items_rooms SET user_id='{Session.GetHabbo().Id}' WHERE id='{songItem.ItemId}' LIMIT 1;");
 
             Session.SendMessage(

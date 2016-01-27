@@ -55,50 +55,102 @@ namespace Yupi.Core.Settings
             if (string.IsNullOrEmpty(inputData) && ServerLogManager.DisabledState)
                 return;
 
-            Console.WriteLine();
-
             try
             {
                 if (inputData == null)
                     return;
 
-                string[] strArray = inputData.Split(' ');
+                string firstArgument = inputData, secondArgument = string.Empty;
 
-                switch (strArray[0])
+                if (inputData.Contains(" "))
+                {
+                    string[] strArguments = inputData.Split(' ');
+
+                    firstArgument = strArguments[0];
+                    secondArgument = strArguments[1];
+                }
+    
+                switch (firstArgument)
                 {
                     case "shutdown":
-                    case "close":
                         ServerLogManager.DisablePrimaryWriting(true);
+
                         Writer.WriteLine("Shutdown Initalized", "Yupi.Life", ConsoleColor.DarkYellow);
+
                         Yupi.PerformShutDown(false);
+
                         Console.WriteLine();
                         break;
 
                     case "restart":
                         ServerLogManager.LogMessage($"Server Restarting at {DateTime.Now}");
+
                         ServerLogManager.DisablePrimaryWriting(true);
+
                         Writer.WriteLine("Restart Initialized", "Yupi.Life", ConsoleColor.DarkYellow);
+
                         Yupi.PerformShutDown(true);
                         Console.WriteLine();
                         break;
 
-                    case "flush":
                     case "reload":
-                        if (strArray.Length >= 2) break;
-                        Console.WriteLine("Please specify parameter. Type 'help' to know more about Console Commands");
-                        Console.WriteLine();
+                        switch (secondArgument)
+                        {
+                            case "database":
+                                Console.WriteLine("Database destroyed");
+                                Console.WriteLine();
+                                break;
+
+                            case "packets":
+                                LibraryParser.ReloadDictionarys();
+                                Console.WriteLine("> Packets Reloaded Suceffuly...");
+                                Console.WriteLine();
+                                break;
+
+                            case "catalogue":
+                                FurnitureDataManager.SetCache();
+
+                                using (IQueryAdapter adapter = Yupi.GetDatabaseManager().GetQueryReactor())
+                                    GetGame().GetCatalog().Initialize(adapter);
+
+                                FurnitureDataManager.Clear();
+
+                                GetGame()
+                                    .GetClientManager()
+                                    .QueueBroadcaseMessage(
+                                        new ServerMessage(LibraryParser.OutgoingRequest("PublishShopMessageComposer")));
+                                Console.WriteLine("Catalogue was re-loaded.");
+                                Console.WriteLine();
+                                break;
+
+                            case "modeldata":
+                                using (IQueryAdapter adapter2 = Yupi.GetDatabaseManager().GetQueryReactor())
+                                    GetGame().GetRoomManager().LoadModels(adapter2);
+
+                                Console.WriteLine("Room models were re-loaded.");
+                                Console.WriteLine();
+                                break;
+
+                            case "bans":
+                                using (IQueryAdapter adapter3 = Yupi.GetDatabaseManager().GetQueryReactor())
+                                    GetGame().GetBanManager().LoadBans(adapter3);
+
+                                Console.WriteLine("Bans were re-loaded");
+                                Console.WriteLine();
+                                break;
+
+                            case "filter":
+                                UserChatInputFilter.Reload();
+                                BlackWordsManager.Reload();
+                                break;
+
+                            default:
+                                UnknownCommand(inputData);
+                                Console.WriteLine();
+                                break;
+                        }
                         break;
 
-                    case "alert":
-                    {
-                        string str = inputData.Substring(6);
-                        ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("BroadcastNotifMessageComposer"));
-                        message.AppendString(str);
-                        message.AppendString(string.Empty);
-                        GetGame().GetClientManager().QueueBroadcaseMessage(message);
-                        Console.WriteLine("[{0}] was sent!", str);
-                        return;
-                    }
                     case "clear":
                         Console.Clear();
                         break;
@@ -148,75 +200,24 @@ namespace Yupi.Core.Settings
                     }
 
                     case "help":
-                        Console.WriteLine("shutdown/close - for safe shutting down Yupi");
-                        Console.WriteLine("clear - Clear all text");
-                        Console.WriteLine("memory - Call gargabe collector");
-                        Console.WriteLine("alert (msg) - send alert to Every1!");
-                        Console.WriteLine("flush/reload");
-                        Console.WriteLine("   - catalog");
-                        Console.WriteLine("   - modeldata");
-                        Console.WriteLine("   - bans");
-                        Console.WriteLine("   - packets (reload packets ids)");
-                        Console.WriteLine("   - filter");
+                        Console.WriteLine("shutdown");
+                        Console.WriteLine("clear");
+                        Console.WriteLine("memory");
+                        Console.WriteLine("status");
+                        Console.WriteLine("restart");
+                        Console.WriteLine("memstat");
+                        Console.WriteLine("flush catalog");
+                        Console.WriteLine("flush modeldata");
+                        Console.WriteLine("flush bans");
+                        Console.WriteLine("flush packets");
+                        Console.WriteLine("flush filter");
+                        Console.WriteLine("flush packets");
+                        Console.WriteLine("flush database");
                         Console.WriteLine();
                         break;
 
                     default:
                         UnknownCommand(inputData);
-                        break;
-                }
-
-                switch (strArray[1])
-                {
-                    case "database":
-                        Console.WriteLine("Database destroyed");
-                        Console.WriteLine();
-                        break;
-
-                    case "packets":
-                        LibraryParser.ReloadDictionarys();
-                        Console.WriteLine("> Packets Reloaded Suceffuly...");
-                        Console.WriteLine();
-                        break;
-
-                    case "catalog":
-                    case "shop":
-                    case "catalogus":
-                        FurnitureDataManager.SetCache();
-                        using (IQueryAdapter adapter = Yupi.GetDatabaseManager().GetQueryReactor())
-                            GetGame().GetCatalog().Initialize(adapter);
-                        FurnitureDataManager.Clear();
-
-                        GetGame()
-                            .GetClientManager()
-                            .QueueBroadcaseMessage(
-                                new ServerMessage(LibraryParser.OutgoingRequest("PublishShopMessageComposer")));
-                        Console.WriteLine("Catalogue was re-loaded.");
-                        Console.WriteLine();
-                        break;
-
-                    case "modeldata":
-                        using (IQueryAdapter adapter2 = Yupi.GetDatabaseManager().GetQueryReactor())
-                            GetGame().GetRoomManager().LoadModels(adapter2);
-                        Console.WriteLine("Room models were re-loaded.");
-                        Console.WriteLine();
-                        break;
-
-                    case "bans":
-                        using (IQueryAdapter adapter3 = Yupi.GetDatabaseManager().GetQueryReactor())
-                            GetGame().GetBanManager().LoadBans(adapter3);
-                        Console.WriteLine("Bans were re-loaded");
-                        Console.WriteLine();
-                        break;
-
-                    case "filter":
-                        UserChatInputFilter.Reload();
-                        BlackWordsManager.Reload();
-                        break;
-
-                    default:
-                        UnknownCommand(inputData);
-                        Console.WriteLine();
                         break;
                 }
             }
@@ -232,7 +233,7 @@ namespace Yupi.Core.Settings
         /// <param name="command">The command.</param>
         private static void UnknownCommand(string command)
         {
-            //Out.WriteLine("Undefined Command: " + command, "Yupi.Commands");
+            Writer.WriteLine("Undefined Command: " + command, "Yupi.Commands");
         }
     }
 }

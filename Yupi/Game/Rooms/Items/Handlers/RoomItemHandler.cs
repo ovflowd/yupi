@@ -342,8 +342,8 @@ namespace Yupi.Game.Rooms.Items.Handlers
 
                 if (item.IsBuilder)
                 {
-                    using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                        commitableQueryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id='{item.Id}'");
+                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                        queryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id='{item.Id}'");
 
                     continue;
                 }
@@ -362,8 +362,8 @@ namespace Yupi.Game.Rooms.Items.Handlers
 
                 if (item.IsBuilder)
                 {
-                    using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                        commitableQueryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id='{item.Id}'");
+                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                        queryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id='{item.Id}'");
 
                     continue;
                 }
@@ -377,8 +377,8 @@ namespace Yupi.Game.Rooms.Items.Handlers
             FloorItems.Clear();
             Rollers.Clear();
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                commitableQueryReactor.RunFastQuery($"UPDATE items_rooms SET room_id='0' WHERE room_id='{_room.RoomId}'");
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.RunFastQuery($"UPDATE items_rooms SET room_id='0' WHERE room_id='{_room.RoomId}'");
 
             _room.GetGameMap().GenerateMaps();
             _room.GetRoomUserManager().OnUserUpdateStatus();
@@ -443,13 +443,13 @@ namespace Yupi.Game.Rooms.Items.Handlers
             else
                 WallItems.Clear();
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.RunFastQuery(
+                queryReactor.RunFastQuery(
                     "SELECT items_rooms.* , COALESCE(items_groups.group_id, 0) AS group_id FROM items_rooms LEFT OUTER JOIN items_groups ON items_rooms.id = items_groups.id WHERE items_rooms.room_id = " +
                     _room.RoomId + " LIMIT 5000");
 
-                DataTable table = commitableQueryReactor.GetTable();
+                DataTable table = queryReactor.GetTable();
 
                 if (table.Rows.Count >= 5000)
                 {
@@ -477,7 +477,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
                             continue;
 
                         if (ownerId == 0)
-                            commitableQueryReactor.RunFastQuery("UPDATE items_rooms SET user_id = " +
+                            queryReactor.RunFastQuery("UPDATE items_rooms SET user_id = " +
                                                                 _room.RoomData.OwnerId + " WHERE id = " + id);
 
                         string locationData = item.Type == 'i' && string.IsNullOrWhiteSpace(dataRow["wall_pos"].ToString())
@@ -522,7 +522,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
                                     clientByUserId2.GetHabbo().GetInventoryComponent().UpdateItems(true);
                                 }
 
-                                commitableQueryReactor.RunFastQuery("UPDATE items_rooms SET room_id = 0 WHERE id = " +
+                                queryReactor.RunFastQuery("UPDATE items_rooms SET room_id = 0 WHERE id = " +
                                                                     roomItem.Id);
                             }
                             else

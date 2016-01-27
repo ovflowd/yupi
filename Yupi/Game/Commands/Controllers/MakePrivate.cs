@@ -24,8 +24,8 @@ namespace Yupi.Game.Commands.Controllers
         {
             Room room = session.GetHabbo().CurrentRoom;
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                commitableQueryReactor.RunFastQuery(
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.RunFastQuery(
                     $"UPDATE rooms_data SET roomtype = 'private' WHERE id = {room.RoomId}");
 
             uint roomId = session.GetHabbo().CurrentRoom.RoomId;

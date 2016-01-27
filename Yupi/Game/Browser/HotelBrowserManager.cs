@@ -668,12 +668,12 @@ namespace Yupi.Game.Browser
 
             ServerMessage result;
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery(
+                queryReactor.SetQuery(
                     "SELECT tags, users_now FROM rooms_data WHERE roomtype = 'private' AND users_now > 0 ORDER BY users_now DESC LIMIT 50");
 
-                DataTable table = commitableQueryReactor.GetTable();
+                DataTable table = queryReactor.GetTable();
 
                 if (table != null)
                 {

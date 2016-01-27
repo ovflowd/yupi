@@ -314,8 +314,8 @@ namespace Yupi.Game.Achievements
                     user.GetBadgeComponent().GiveBadge($"{achievementGroup}{achievementNextLevel}", true, session);
 
                     // Update in Database
-                    using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                        commitableQueryReactor.RunFastQuery(
+                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                        queryReactor.RunFastQuery(
                             $"REPLACE INTO users_achievements VALUES ('{user.Id}', '{achievementGroup}', '{achievementNextLevel}', '{achievementProgress}')");
 
                     // Send Unlocked Composer
@@ -351,8 +351,8 @@ namespace Yupi.Game.Achievements
                     userAchievement.SetProgress(achievementProgress);
 
                     // Update in Database
-                    using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                        commitableQueryReactor.RunFastQuery(
+                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                        queryReactor.RunFastQuery(
                             $"REPLACE INTO users_achievements VALUES ('{user.Id}', '{achievementGroup}', '{achievementCurrentLevel}', '{achievementProgress}')");
 
                     // Compose Current Data

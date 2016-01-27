@@ -570,17 +570,17 @@ namespace Yupi.Game.Users
         {
             get
             {
-                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    commitableQueryReactor.SetQuery($"SELECT diamonds FROM users WHERE id = {Id}");
+                    queryReactor.SetQuery($"SELECT diamonds FROM users WHERE id = {Id}");
 
-                    return (uint) commitableQueryReactor.GetInteger();
+                    return (uint) queryReactor.GetInteger();
                 }
             }
             set
             {
-                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                    commitableQueryReactor.RunFastQuery(string.Format("UPDATE users SET diamonds = {1} WHERE id = {0}",
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                    queryReactor.RunFastQuery(string.Format("UPDATE users SET diamonds = {1} WHERE id = {0}",
                         Id, value));
             }
         }
@@ -930,9 +930,9 @@ namespace Yupi.Game.Users
             if (!_habboinfoSaved)
             {
                 _habboinfoSaved = true;
-                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    commitableQueryReactor.SetQuery("UPDATE users SET activity_points = " + Duckets +
+                    queryReactor.SetQuery("UPDATE users SET activity_points = " + Duckets +
                                                     ", credits = " +
                                                     Credits + ", diamonds = " + Diamonds +
                                                     ", online='0', last_online = '" +
@@ -942,16 +942,16 @@ namespace Yupi.Game.Users
                                                     " LIMIT 1;UPDATE users_stats SET achievement_score=" +
                                                     AchievementPoints +
                                                     " WHERE id=" + Id + " LIMIT 1;");
-                    commitableQueryReactor.AddParameter("navilogs", navilogs);
-                    commitableQueryReactor.RunQuery();
-                    commitableQueryReactor.RunFastQuery("UPDATE users_stats SET online_seconds = online_seconds + " +
+                    queryReactor.AddParameter("navilogs", navilogs);
+                    queryReactor.RunQuery();
+                    queryReactor.RunFastQuery("UPDATE users_stats SET online_seconds = online_seconds + " +
                                                         secondsToGive + " WHERE id = " + Id);
 
                     if (Rank >= 4)
-                        commitableQueryReactor.RunFastQuery(
+                        queryReactor.RunFastQuery(
                             $"UPDATE moderation_tickets SET status='open', moderator_id=0 WHERE status='picked' AND moderator_id={Id}");
 
-                    commitableQueryReactor.RunFastQuery("UPDATE users SET block_newfriends = '" +
+                    queryReactor.RunFastQuery("UPDATE users SET block_newfriends = '" +
                                                         Convert.ToInt32(HasFriendRequestsDisabled) +
                                                         "', hide_online = '" +
                                                         Convert.ToInt32(AppearOffline) + "', hide_inroom = '" +
@@ -1275,8 +1275,8 @@ namespace Yupi.Game.Users
             if (TradeLockExpire - Yupi.GetUnixTimeStamp() > 0)
                 return false;
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                commitableQueryReactor.RunFastQuery($"UPDATE users SET trade_lock = '0' WHERE id = {Id}");
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.RunFastQuery($"UPDATE users SET trade_lock = '0' WHERE id = {Id}");
 
             TradeLocked = false;
             return true;

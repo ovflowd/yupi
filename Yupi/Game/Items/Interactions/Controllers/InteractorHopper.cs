@@ -12,13 +12,13 @@ namespace Yupi.Game.Items.Interactions.Controllers
         {
             item.GetRoom().GetRoomItemHandler().HopperCount++;
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery(
+                queryReactor.SetQuery(
                     "INSERT INTO items_hopper (hopper_id, room_id) VALUES (@hopperid, @roomid);");
-                commitableQueryReactor.AddParameter("hopperid", item.Id);
-                commitableQueryReactor.AddParameter("roomid", item.RoomId);
-                commitableQueryReactor.RunQuery();
+                queryReactor.AddParameter("hopperid", item.Id);
+                queryReactor.AddParameter("roomid", item.RoomId);
+                queryReactor.RunQuery();
             }
 
             if (item.InteractingUser == 0u)
@@ -40,12 +40,12 @@ namespace Yupi.Game.Items.Interactions.Controllers
         {
             item.GetRoom().GetRoomItemHandler().HopperCount--;
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery(
+                queryReactor.SetQuery(
                     $"DELETE FROM items_hopper WHERE item_id=@hid OR room_id={item.GetRoom().RoomId} LIMIT 1");
-                commitableQueryReactor.AddParameter("hid", item.Id);
-                commitableQueryReactor.RunQuery();
+                queryReactor.AddParameter("hid", item.Id);
+                queryReactor.RunQuery();
             }
 
             if (item.InteractingUser == 0u)

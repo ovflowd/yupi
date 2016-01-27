@@ -104,8 +104,8 @@ namespace Yupi.Game.Support
             {
                 room.RoomData.State = 1;
 
-                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                    commitableQueryReactor.RunFastQuery(
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                    queryReactor.RunFastQuery(
                         $"UPDATE rooms_data SET state = 'locked' WHERE id = {room.RoomId}");
             }
 
@@ -207,8 +207,8 @@ namespace Yupi.Game.Support
             if (soft)
                 return;
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                commitableQueryReactor.RunFastQuery(
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.RunFastQuery(
                     $"UPDATE users_info SET cautions = cautions + 1 WHERE user_id = {userId}");
         }
 
@@ -247,8 +247,8 @@ namespace Yupi.Game.Support
             clientByUserId.GetHabbo().TradeLockExpire = Yupi.GetUnixTimeStamp() + length;
             clientByUserId.SendNotif(message);
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                commitableQueryReactor.RunFastQuery(
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.RunFastQuery(
                     $"UPDATE users SET trade_lock = '1', trade_lock_expire = '{clientByUserId.GetHabbo().TradeLockExpire}' WHERE id = '{clientByUserId.GetHabbo().Id}'");
         }
 
@@ -289,18 +289,18 @@ namespace Yupi.Game.Support
         internal static ServerMessage SerializeUserInfo(uint userId)
         {
             ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("ModerationToolUserToolMessageComposer"));
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                if (commitableQueryReactor != null)
+                if (queryReactor != null)
                 {
-                    commitableQueryReactor.SetQuery(
+                    queryReactor.SetQuery(
                         "SELECT id, username, mail, look, trade_lock, trade_lock_expire, rank, ip_last, " +
                         "IFNULL(cfhs, 0) cfhs, IFNULL(cfhs_abusive, 0) cfhs_abusive, IFNULL(cautions, 0) cautions, IFNULL(bans, 0) bans, " +
                         "IFNULL(reg_timestamp, 0) reg_timestamp, IFNULL(login_timestamp, 0) login_timestamp " +
                         $"FROM users left join users_info on (users.id = users_info.user_id) WHERE id = '{userId}' LIMIT 1"
                         );
 
-                    DataRow row = commitableQueryReactor.GetRow();
+                    DataRow row = queryReactor.GetRow();
 
                     uint id = Convert.ToUInt32(row["id"]);
                     serverMessage.AppendInteger(id);
@@ -387,11 +387,11 @@ namespace Yupi.Game.Support
         {
             ServerMessage result;
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery($"SELECT DISTINCT room_id FROM users_chatlogs WHERE user_id = '{userId}' ORDER BY timestamp DESC LIMIT 4");
+                queryReactor.SetQuery($"SELECT DISTINCT room_id FROM users_chatlogs WHERE user_id = '{userId}' ORDER BY timestamp DESC LIMIT 4");
 
-                DataTable table = commitableQueryReactor.GetTable();
+                DataTable table = queryReactor.GetTable();
 
                 ServerMessage serverMessage =  new ServerMessage(LibraryParser.OutgoingRequest("ModerationToolUserChatlogMessageComposer"));
                 serverMessage.AppendInteger(userId);
@@ -408,9 +408,9 @@ namespace Yupi.Game.Support
                         {
                             DataRow dataRow = (DataRow) enumerator.Current;
 
-                            commitableQueryReactor.SetQuery($"SELECT user_id,timestamp,message FROM users_chatlogs WHERE room_id = {dataRow["room_id"]} AND user_id = {userId} ORDER BY timestamp DESC LIMIT 30");
+                            queryReactor.SetQuery($"SELECT user_id,timestamp,message FROM users_chatlogs WHERE room_id = {dataRow["room_id"]} AND user_id = {userId} ORDER BY timestamp DESC LIMIT 30");
 
-                            DataTable table2 = commitableQueryReactor.GetTable();
+                            DataTable table2 = queryReactor.GetTable();
                             RoomData roomData = Yupi.GetGame().GetRoomManager().GenerateRoomData((uint) dataRow["room_id"]);
 
                             if (table2 != null)
@@ -868,10 +868,10 @@ namespace Yupi.Game.Support
 
             if (statusCode == 2)
             {
-                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
                     AbusiveCooldown.Add(ticket.SenderId, Yupi.GetUnixTimeStamp() + 600);
-                    commitableQueryReactor.RunFastQuery(
+                    queryReactor.RunFastQuery(
                         $"UPDATE users_info SET cfhs_abusive = cfhs_abusive + 1 WHERE user_id = {ticket.SenderId}");
                 }
             }
@@ -990,15 +990,15 @@ namespace Yupi.Game.Support
         /// <param name="description">The description.</param>
         internal void LogStaffEntry(string modName, string target, string type, string description)
         {
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery(
+                queryReactor.SetQuery(
                     "INSERT INTO server_stafflogs (staffuser,target,action_type,description) VALUES (@Username,@target,@type,@desc)");
-                commitableQueryReactor.AddParameter("Username", modName);
-                commitableQueryReactor.AddParameter("target", target);
-                commitableQueryReactor.AddParameter("type", type);
-                commitableQueryReactor.AddParameter("desc", description);
-                commitableQueryReactor.RunQuery();
+                queryReactor.AddParameter("Username", modName);
+                queryReactor.AddParameter("target", target);
+                queryReactor.AddParameter("type", type);
+                queryReactor.AddParameter("desc", description);
+                queryReactor.RunQuery();
             }
         }
     }

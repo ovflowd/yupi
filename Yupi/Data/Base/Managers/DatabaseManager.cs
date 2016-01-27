@@ -22,19 +22,17 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using MySql.Data.MySqlClient;
 using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Data.Base.Clients;
-using Yupi.Data.Base.Clients.Interfaces;
 
 namespace Yupi.Data.Base.Managers
 {
     public class DatabaseManager
     {
-        private List<DatabaseClient> _databaseClients;
+        private readonly List<DatabaseClient> _databaseClients;
 
         private MySqlConnectionStringBuilder _serverDetails;
 
@@ -54,8 +52,8 @@ namespace Yupi.Data.Base.Managers
         {
             lock (_databaseClients)
             {
-                if (_databaseClients.Count + 1 == _databaseClients.Capacity ||
-                    _databaseClients.Count == _databaseClients.Capacity)
+                if (_databaseClients.Count + 1 >= _databaseClients.Capacity ||
+                    _databaseClients.Count >= _databaseClients.Capacity)
                     return null;
 
                 if (needReturn)

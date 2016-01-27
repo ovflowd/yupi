@@ -59,13 +59,13 @@ namespace Yupi.Game.Items.Interactions.Controllers
 
             session.GetHabbo().Look = text3.TrimEnd('.');
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery(
+                queryReactor.SetQuery(
                     $"UPDATE users SET look = @look, gender = @gender WHERE id = {session.GetHabbo().Id}");
-                commitableQueryReactor.AddParameter("look", session.GetHabbo().Look);
-                commitableQueryReactor.AddParameter("gender", session.GetHabbo().Gender);
-                commitableQueryReactor.RunQuery();
+                queryReactor.AddParameter("look", session.GetHabbo().Look);
+                queryReactor.AddParameter("gender", session.GetHabbo().Gender);
+                queryReactor.RunQuery();
             }
 
             session.GetMessageHandler()

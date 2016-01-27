@@ -187,8 +187,8 @@ namespace Yupi.Messages.Handlers
             Session.GetHabbo().DailyRespectPoints--;
             roomUserByHabbo.GetClient().GetHabbo().Respect++;
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                commitableQueryReactor.RunFastQuery("UPDATE users_stats SET respect = respect + 1 WHERE id = " +
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.RunFastQuery("UPDATE users_stats SET respect = respect + 1 WHERE id = " +
                                                     roomUserByHabbo.GetClient().GetHabbo().Id +
                                                     " LIMIT 1;UPDATE users_stats SET daily_respect_points = daily_respect_points - 1 WHERE id= " +
                                                     Session.GetHabbo().Id + " LIMIT 1");
@@ -386,8 +386,8 @@ namespace Yupi.Messages.Handlers
         {
             Session.GetHabbo().GetBadgeComponent().ResetSlots();
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                commitableQueryReactor.RunFastQuery(
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.RunFastQuery(
                     $"UPDATE users_badges SET badge_slot = 0 WHERE user_id = {Session.GetHabbo().Id}");
 
             for (int i = 0; i < 5; i++)
@@ -551,13 +551,13 @@ namespace Yupi.Messages.Handlers
             Session.GetHabbo().Look = text2;
             Session.GetHabbo().Gender = text.ToLower() == "f" ? "f" : "m";
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery(
+                queryReactor.SetQuery(
                     $"UPDATE users SET look = @look, gender = @gender WHERE id = {Session.GetHabbo().Id}");
-                commitableQueryReactor.AddParameter("look", text2);
-                commitableQueryReactor.AddParameter("gender", text);
-                commitableQueryReactor.RunQuery();
+                queryReactor.AddParameter("look", text2);
+                queryReactor.AddParameter("gender", text);
+                queryReactor.RunQuery();
             }
 
             Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(Session, "ACH_AvatarLooks", 1);
@@ -613,11 +613,11 @@ namespace Yupi.Messages.Handlers
 
             Session.GetHabbo().Motto = text;
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery($"UPDATE users SET motto = @motto WHERE id = '{Session.GetHabbo().Id}'");
-                commitableQueryReactor.AddParameter("motto", text);
-                commitableQueryReactor.RunQuery();
+                queryReactor.SetQuery($"UPDATE users SET motto = @motto WHERE id = '{Session.GetHabbo().Id}'");
+                queryReactor.AddParameter("motto", text);
+                queryReactor.RunQuery();
             }
 
             if (Session.GetHabbo().InRoom)
@@ -647,11 +647,11 @@ namespace Yupi.Messages.Handlers
         {
             GetResponse().Init(LibraryParser.OutgoingRequest("LoadWardrobeMessageComposer"));
             GetResponse().AppendInteger(0);
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery(
+                queryReactor.SetQuery(
                     $"SELECT slot_id, look, gender FROM users_wardrobe WHERE user_id = {Session.GetHabbo().Id}");
-                DataTable table = commitableQueryReactor.GetTable();
+                DataTable table = queryReactor.GetTable();
                 if (table == null)
                     GetResponse().AppendInteger(0);
                 else
@@ -679,29 +679,29 @@ namespace Yupi.Messages.Handlers
 
             text = Yupi.FilterFigure(text);
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery(string.Concat("SELECT null FROM users_wardrobe WHERE user_id = ",
+                queryReactor.SetQuery(string.Concat("SELECT null FROM users_wardrobe WHERE user_id = ",
                     Session.GetHabbo().Id, " AND slot_id = ", num));
-                commitableQueryReactor.AddParameter("look", text);
-                commitableQueryReactor.AddParameter("gender", text2);
-                if (commitableQueryReactor.GetRow() != null)
+                queryReactor.AddParameter("look", text);
+                queryReactor.AddParameter("gender", text2);
+                if (queryReactor.GetRow() != null)
                 {
-                    commitableQueryReactor.SetQuery(
+                    queryReactor.SetQuery(
                         string.Concat("UPDATE users_wardrobe SET look = @look, gender = @gender WHERE user_id = ",
                             Session.GetHabbo().Id, " AND slot_id = ", num, ";"));
-                    commitableQueryReactor.AddParameter("look", text);
-                    commitableQueryReactor.AddParameter("gender", text2);
-                    commitableQueryReactor.RunQuery();
+                    queryReactor.AddParameter("look", text);
+                    queryReactor.AddParameter("gender", text2);
+                    queryReactor.RunQuery();
                 }
                 else
                 {
-                    commitableQueryReactor.SetQuery(
+                    queryReactor.SetQuery(
                         string.Concat("INSERT INTO users_wardrobe (user_id,slot_id,look,gender) VALUES (",
                             Session.GetHabbo().Id, ",", num, ",@look,@gender)"));
-                    commitableQueryReactor.AddParameter("look", text);
-                    commitableQueryReactor.AddParameter("gender", text2);
-                    commitableQueryReactor.RunQuery();
+                    queryReactor.AddParameter("look", text);
+                    queryReactor.AddParameter("gender", text2);
+                    queryReactor.RunQuery();
                 }
             }
         }
@@ -741,11 +741,11 @@ namespace Yupi.Messages.Handlers
                 SendResponse();
                 return;
             }
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery("SELECT username FROM users WHERE Username=@name LIMIT 1");
-                commitableQueryReactor.AddParameter("name", text);
-                string @string = commitableQueryReactor.GetString();
+                queryReactor.SetQuery("SELECT username FROM users WHERE Username=@name LIMIT 1");
+                queryReactor.AddParameter("name", text);
+                string @string = queryReactor.GetString();
                 char[] array = text.ToLower().ToCharArray();
                 const string source = "abcdefghijklmnopqrstuvwxyz1234567890.,_-;:?!@áéíóúÁÉÍÓÚñÑÜüÝý ";
                 char[] array2 = array;
@@ -793,8 +793,8 @@ namespace Yupi.Messages.Handlers
                 }
                 else
                 {
-                    commitableQueryReactor.SetQuery("SELECT tag FROM users_tags ORDER BY RAND() LIMIT 3");
-                    DataTable table = commitableQueryReactor.GetTable();
+                    queryReactor.SetQuery("SELECT tag FROM users_tags ORDER BY RAND() LIMIT 3");
+                    DataTable table = queryReactor.GetTable();
                     Response.Init(LibraryParser.OutgoingRequest("NameChangedUpdatesMessageComposer"));
                     Response.AppendInteger(5);
                     Response.AppendString(text);
@@ -815,22 +815,22 @@ namespace Yupi.Messages.Handlers
             string userName = Session.GetHabbo().UserName;
 
             {
-                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    commitableQueryReactor.SetQuery("SELECT username FROM users WHERE Username=@name LIMIT 1");
-                    commitableQueryReactor.AddParameter("name", text);
-                    string @String = commitableQueryReactor.GetString();
+                    queryReactor.SetQuery("SELECT username FROM users WHERE Username=@name LIMIT 1");
+                    queryReactor.AddParameter("name", text);
+                    string @String = queryReactor.GetString();
 
                     if (!string.IsNullOrWhiteSpace(String) &&
                         !string.Equals(userName, text, StringComparison.CurrentCultureIgnoreCase))
                         return;
 
-                    commitableQueryReactor.SetQuery(
+                    queryReactor.SetQuery(
                         "UPDATE users SET Username = @newname, last_name_change = @timestamp WHERE id = @userid");
-                    commitableQueryReactor.AddParameter("newname", text);
-                    commitableQueryReactor.AddParameter("timestamp", Yupi.GetUnixTimeStamp() + 43200);
-                    commitableQueryReactor.AddParameter("userid", Session.GetHabbo().UserName);
-                    commitableQueryReactor.RunQuery();
+                    queryReactor.AddParameter("newname", text);
+                    queryReactor.AddParameter("timestamp", Yupi.GetUnixTimeStamp() + 43200);
+                    queryReactor.AddParameter("userid", Session.GetHabbo().UserName);
+                    queryReactor.RunQuery();
 
                     Session.GetHabbo().LastChange = Yupi.GetUnixTimeStamp() + 43200;
                     Session.GetHabbo().UserName = text;
@@ -930,46 +930,46 @@ namespace Yupi.Messages.Handlers
             int num2 = Request.GetInteger();
 
             {
-                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
                     if (num2 == 0)
                     {
-                        commitableQueryReactor.SetQuery(
+                        queryReactor.SetQuery(
                             "SELECT id FROM users_relationships WHERE user_id=@id AND target=@target LIMIT 1");
-                        commitableQueryReactor.AddParameter("id", Session.GetHabbo().Id);
-                        commitableQueryReactor.AddParameter("target", num);
-                        int integer = commitableQueryReactor.GetInteger();
-                        commitableQueryReactor.SetQuery(
+                        queryReactor.AddParameter("id", Session.GetHabbo().Id);
+                        queryReactor.AddParameter("target", num);
+                        int integer = queryReactor.GetInteger();
+                        queryReactor.SetQuery(
                             "DELETE FROM users_relationships WHERE user_id=@id AND target=@target LIMIT 1");
-                        commitableQueryReactor.AddParameter("id", Session.GetHabbo().Id);
-                        commitableQueryReactor.AddParameter("target", num);
-                        commitableQueryReactor.RunQuery();
+                        queryReactor.AddParameter("id", Session.GetHabbo().Id);
+                        queryReactor.AddParameter("target", num);
+                        queryReactor.RunQuery();
                         if (Session.GetHabbo().Relationships.ContainsKey(integer))
                             Session.GetHabbo().Relationships.Remove(integer);
                     }
                     else
                     {
-                        commitableQueryReactor.SetQuery(
+                        queryReactor.SetQuery(
                             "SELECT id FROM users_relationships WHERE user_id=@id AND target=@target LIMIT 1");
-                        commitableQueryReactor.AddParameter("id", Session.GetHabbo().Id);
-                        commitableQueryReactor.AddParameter("target", num);
-                        int integer2 = commitableQueryReactor.GetInteger();
+                        queryReactor.AddParameter("id", Session.GetHabbo().Id);
+                        queryReactor.AddParameter("target", num);
+                        int integer2 = queryReactor.GetInteger();
                         if (integer2 > 0)
                         {
-                            commitableQueryReactor.SetQuery(
+                            queryReactor.SetQuery(
                                 "DELETE FROM users_relationships WHERE user_id=@id AND target=@target LIMIT 1");
-                            commitableQueryReactor.AddParameter("id", Session.GetHabbo().Id);
-                            commitableQueryReactor.AddParameter("target", num);
-                            commitableQueryReactor.RunQuery();
+                            queryReactor.AddParameter("id", Session.GetHabbo().Id);
+                            queryReactor.AddParameter("target", num);
+                            queryReactor.RunQuery();
                             if (Session.GetHabbo().Relationships.ContainsKey(integer2))
                                 Session.GetHabbo().Relationships.Remove(integer2);
                         }
-                        commitableQueryReactor.SetQuery(
+                        queryReactor.SetQuery(
                             "INSERT INTO users_relationships (user_id, target, type) VALUES (@id, @target, @type)");
-                        commitableQueryReactor.AddParameter("id", Session.GetHabbo().Id);
-                        commitableQueryReactor.AddParameter("target", num);
-                        commitableQueryReactor.AddParameter("type", num2);
-                        int num3 = (int) commitableQueryReactor.InsertQuery();
+                        queryReactor.AddParameter("id", Session.GetHabbo().Id);
+                        queryReactor.AddParameter("target", num);
+                        queryReactor.AddParameter("type", num2);
+                        int num3 = (int) queryReactor.InsertQuery();
                         Session.GetHabbo().Relationships.Add(num3, new Relationship(num3, (int) num, num2));
                     }
 

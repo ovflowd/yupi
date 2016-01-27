@@ -517,9 +517,10 @@ namespace Yupi.Game.Rooms.User
         {
             _roomUserCount = count;
             _userRoom.RoomData.UsersNow = count;
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                commitableQueryReactor.RunFastQuery("UPDATE rooms_data SET users_now = " + count + " WHERE id = " +
-                                                    _userRoom.RoomId + " LIMIT 1");
+
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.RunFastQuery("UPDATE rooms_data SET users_now = " + count + " WHERE id = " + _userRoom.RoomId + " LIMIT 1");
+
             Yupi.GetGame().GetRoomManager().QueueActiveRoomUpdate(_userRoom.RoomData);
         }
 
@@ -595,19 +596,19 @@ namespace Yupi.Game.Rooms.User
         {
             foreach (Pet current in GetPets())
             {
-                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    commitableQueryReactor.SetQuery("UPDATE pets_data SET " +
+                    queryReactor.SetQuery("UPDATE pets_data SET " +
                                                     $"name = @petName, race_id = @petRace, pet_type = @petType, experience = {current.Experience}, " +
                                                     $"energy = {current.Energy}, nutrition = {current.Nutrition}, respect = {current.Respect}, " +
                                                     $"createstamp = '{current.CreationStamp}', color = @petColor WHERE id = {current.PetId}");
 
-                    commitableQueryReactor.AddParameter("petName", current.Name);
-                    commitableQueryReactor.AddParameter("petRace", current.Race);
-                    commitableQueryReactor.AddParameter("petType", current.Type);
-                    commitableQueryReactor.AddParameter("petColor", current.Color);
+                    queryReactor.AddParameter("petName", current.Name);
+                    queryReactor.AddParameter("petRace", current.Race);
+                    queryReactor.AddParameter("petType", current.Type);
+                    queryReactor.AddParameter("petColor", current.Color);
 
-                    commitableQueryReactor.RunQuery();
+                    queryReactor.RunQuery();
                 }
 
                 current.DbState = DatabaseUpdateState.Updated;

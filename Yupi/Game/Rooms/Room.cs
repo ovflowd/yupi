@@ -392,12 +392,12 @@ namespace Yupi.Game.Rooms
         /// </summary>
         internal void InitUserBots()
         {
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery(
+                queryReactor.SetQuery(
                     $"SELECT * FROM bots_data WHERE room_id = {RoomId} AND ai_type = 'generic'");
 
-                DataTable table = commitableQueryReactor.GetTable();
+                DataTable table = queryReactor.GetTable();
 
                 if (table == null)
                     return;
@@ -440,11 +440,11 @@ namespace Yupi.Game.Rooms
         /// </summary>
         internal void InitPets()
         {
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery($"SELECT * FROM pets_data WHERE room_id = {RoomId}");
+                queryReactor.SetQuery($"SELECT * FROM pets_data WHERE room_id = {RoomId}");
 
-                DataTable table = commitableQueryReactor.GetTable();
+                DataTable table = queryReactor.GetTable();
 
                 if (table == null)
                     return;
@@ -579,12 +579,12 @@ namespace Yupi.Game.Rooms
         {
             DataTable table;
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery(
+                queryReactor.SetQuery(
                     $"SELECT items_songs.songid,items_rooms.id,items_rooms.item_name FROM items_songs LEFT JOIN items_rooms ON items_rooms.id = items_songs.itemid WHERE items_songs.roomid = {RoomId}");
 
-                table = commitableQueryReactor.GetTable();
+                table = queryReactor.GetTable();
             }
 
             if (table == null)
@@ -626,11 +626,11 @@ namespace Yupi.Game.Rooms
             DataTable dataTable;
             if (RoomData.Group != null)
                 return;
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery(
+                queryReactor.SetQuery(
                     $"SELECT rooms_rights.user_id FROM rooms_rights WHERE room_id = {RoomId}");
-                dataTable = commitableQueryReactor.GetTable();
+                dataTable = queryReactor.GetTable();
             }
             if (dataTable == null)
                 return;
@@ -645,10 +645,10 @@ namespace Yupi.Game.Rooms
         {
             Bans = new Dictionary<long, double>();
             DataTable table;
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery($"SELECT user_id, expire FROM rooms_bans WHERE room_id = {RoomId}");
-                table = commitableQueryReactor.GetTable();
+                queryReactor.SetQuery($"SELECT user_id, expire FROM rooms_bans WHERE room_id = {RoomId}");
+                table = queryReactor.GetTable();
             }
             if (table == null)
                 return;
@@ -1015,8 +1015,8 @@ namespace Yupi.Game.Rooms
             if (!Bans.ContainsKey(Convert.ToInt32(userId)))
                 Bans.Add(userId, Yupi.GetUnixTimeStamp() + time);
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                commitableQueryReactor.RunFastQuery("REPLACE INTO rooms_bans VALUES (" + userId + ", " + RoomId + ", '" +
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.RunFastQuery("REPLACE INTO rooms_bans VALUES (" + userId + ", " + RoomId + ", '" +
                                                     (Yupi.GetUnixTimeStamp() + time) + "')");
         }
 
@@ -1027,11 +1027,11 @@ namespace Yupi.Game.Rooms
         internal List<uint> BannedUsers()
         {
             List<uint> list = new List<uint>();
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery(
+                queryReactor.SetQuery(
                     $"SELECT user_id FROM rooms_bans WHERE expire > UNIX_TIMESTAMP() AND room_id={RoomId}");
-                DataTable table = commitableQueryReactor.GetTable();
+                DataTable table = queryReactor.GetTable();
                 list.AddRange(from DataRow dataRow in table.Rows select (uint) dataRow[0]);
             }
             return list;
@@ -1053,8 +1053,8 @@ namespace Yupi.Game.Rooms
         /// <param name="userId">The user identifier.</param>
         internal void Unban(uint userId)
         {
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                commitableQueryReactor.RunFastQuery("DELETE FROM rooms_bans WHERE user_id=" + userId + " AND room_id=" +
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.RunFastQuery("DELETE FROM rooms_bans WHERE user_id=" + userId + " AND room_id=" +
                                                     RoomId +
                                                     " LIMIT 1");
             Bans.Remove(userId);
@@ -1125,8 +1125,8 @@ namespace Yupi.Game.Rooms
         internal void SetMaxUsers(uint maxUsers)
         {
             RoomData.UsersMax = maxUsers;
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                commitableQueryReactor.RunFastQuery("UPDATE rooms_data SET users_max = " + maxUsers + " WHERE id = " +
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.RunFastQuery("UPDATE rooms_data SET users_max = " + maxUsers + " WHERE id = " +
                                                     RoomId);
         }
 
@@ -1191,8 +1191,8 @@ namespace Yupi.Game.Rooms
         internal void FlushSettings()
         {
             _mCycleEnded = true;
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                GetRoomItemHandler().SaveFurniture(commitableQueryReactor);
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                GetRoomItemHandler().SaveFurniture(queryReactor);
             RoomData.Tags.Clear();
             UsersWithRights.Clear();
             Bans.Clear();
@@ -1415,10 +1415,10 @@ namespace Yupi.Game.Rooms
 
             Yupi.GetGame().GetRoomManager().QueueActiveRoomRemove(RoomData);
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                GetRoomItemHandler().SaveFurniture(commitableQueryReactor);
-                commitableQueryReactor.RunFastQuery($"UPDATE rooms_data SET users_now=0 WHERE id = {RoomId} LIMIT 1");
+                GetRoomItemHandler().SaveFurniture(queryReactor);
+                queryReactor.RunFastQuery($"UPDATE rooms_data SET users_now=0 WHERE id = {RoomId} LIMIT 1");
             }
 
             _processTimer?.Dispose();

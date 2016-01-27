@@ -177,8 +177,8 @@ namespace Yupi.Game.Users.Messenger
         /// </summary>
         internal void HandleAllRequests()
         {
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                commitableQueryReactor.RunFastQuery("DELETE FROM messenger_requests WHERE from_id = " + _userId +
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.RunFastQuery("DELETE FROM messenger_requests WHERE from_id = " + _userId +
                                                     " OR to_id = " + _userId);
 
             ClearRequests();
@@ -190,8 +190,8 @@ namespace Yupi.Game.Users.Messenger
         /// <param name="sender">The sender.</param>
         internal void HandleRequest(uint sender)
         {
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                commitableQueryReactor.RunFastQuery(string.Concat("DELETE FROM messenger_requests WHERE (from_id = ",
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.RunFastQuery(string.Concat("DELETE FROM messenger_requests WHERE (from_id = ",
                     _userId, " AND to_id = ", sender, ") OR (to_id = ", _userId, " AND from_id = ", sender, ")"));
 
             Requests.Remove(sender);
@@ -203,8 +203,8 @@ namespace Yupi.Game.Users.Messenger
         /// <param name="friendId">The friend identifier.</param>
         internal void CreateFriendship(uint friendId)
         {
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                commitableQueryReactor.RunFastQuery(
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.RunFastQuery(
                     string.Concat("REPLACE INTO messenger_friendships (user_one_id,user_two_id) VALUES (", _userId, ",",
                         friendId, ")"));
 
@@ -228,19 +228,19 @@ namespace Yupi.Game.Users.Messenger
         {
             Habbo habbo = GetClient().GetHabbo();
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.RunFastQuery(
+                queryReactor.RunFastQuery(
                     string.Concat("DELETE FROM messenger_friendships WHERE (user_one_id = ", _userId,
                         " AND user_two_id = ", friendId, ") OR (user_two_id = ", _userId, " AND user_one_id = ",
                         friendId, ")"));
 
-                commitableQueryReactor.RunFastQuery(string.Concat("SELECT id FROM users_relationships WHERE user_id=",
+                queryReactor.RunFastQuery(string.Concat("SELECT id FROM users_relationships WHERE user_id=",
                     habbo.Id, " AND target = ", friendId, " LIMIT 1"));
 
-                int id = commitableQueryReactor.GetInteger();
+                int id = queryReactor.GetInteger();
 
-                commitableQueryReactor.RunFastQuery(string.Concat("DELETE FROM users_relationships WHERE (user_id = ",
+                queryReactor.RunFastQuery(string.Concat("DELETE FROM users_relationships WHERE (user_id = ",
                     habbo.Id, " AND target = ", friendId, ")"));
 
                 if (id > 0)
@@ -273,12 +273,12 @@ namespace Yupi.Game.Users.Messenger
 
             if (clientByUserId?.GetHabbo() == null)
             {
-                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    commitableQueryReactor.SetQuery(
+                    queryReactor.SetQuery(
                         $"SELECT id,username,motto,look,last_online,hide_inroom,hide_online FROM users WHERE id = {friendId}");
 
-                    DataRow row = commitableQueryReactor.GetRow();
+                    DataRow row = queryReactor.GetRow();
 
                     messengerBuddy = new MessengerBuddy(friendId, (string) row["username"], (string) row["look"],
                         (string) row["motto"], Yupi.EnumToBool(row["hide_online"].ToString()),
@@ -351,12 +351,12 @@ namespace Yupi.Game.Users.Messenger
             {
                 DataRow dataRow;
 
-                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    commitableQueryReactor.SetQuery("SELECT id, block_newfriends FROM users WHERE username = @query");
+                    queryReactor.SetQuery("SELECT id, block_newfriends FROM users WHERE username = @query");
 
-                    commitableQueryReactor.AddParameter("query", userQuery.ToLower());
-                    dataRow = commitableQueryReactor.GetRow();
+                    queryReactor.AddParameter("query", userQuery.ToLower());
+                    dataRow = queryReactor.GetRow();
                 }
 
                 if (dataRow == null)

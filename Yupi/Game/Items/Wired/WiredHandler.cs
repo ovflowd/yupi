@@ -50,12 +50,12 @@ namespace Yupi.Game.Items.Wired
                 return null;
             }
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery("SELECT * FROM items_wireds WHERE id=@id LIMIT 1");
-                commitableQueryReactor.AddParameter("id", fItem.Item.Id);
+                queryReactor.SetQuery("SELECT * FROM items_wireds WHERE id=@id LIMIT 1");
+                queryReactor.AddParameter("id", fItem.Item.Id);
 
-                DataRow row = commitableQueryReactor.GetRow();
+                DataRow row = queryReactor.GetRow();
 
                 if (row == null)
                 {
@@ -97,7 +97,7 @@ namespace Yupi.Game.Items.Wired
             if (fItem == null)
                 return;
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 string text = string.Empty;
                 int num = 0;
@@ -116,17 +116,17 @@ namespace Yupi.Game.Items.Wired
                 if (fItem.OtherExtraString2 == null)
                     fItem.OtherExtraString2 = string.Empty;
 
-                commitableQueryReactor.SetQuery(
+                queryReactor.SetQuery(
                     "REPLACE INTO items_wireds VALUES (@id, @items, @delay, @string, @bool, @extrastring, @extrastring2)");
-                commitableQueryReactor.AddParameter("id", fItem.Item.Id);
-                commitableQueryReactor.AddParameter("items", text);
-                commitableQueryReactor.AddParameter("delay", fItem.Delay);
-                commitableQueryReactor.AddParameter("string", fItem.OtherString);
-                commitableQueryReactor.AddParameter("bool", Yupi.BoolToEnum(fItem.OtherBool));
-                commitableQueryReactor.AddParameter("extrastring", fItem.OtherExtraString);
-                commitableQueryReactor.AddParameter("extrastring2", fItem.OtherExtraString2);
+                queryReactor.AddParameter("id", fItem.Item.Id);
+                queryReactor.AddParameter("items", text);
+                queryReactor.AddParameter("delay", fItem.Delay);
+                queryReactor.AddParameter("string", fItem.OtherString);
+                queryReactor.AddParameter("bool", Yupi.BoolToEnum(fItem.OtherBool));
+                queryReactor.AddParameter("extrastring", fItem.OtherExtraString);
+                queryReactor.AddParameter("extrastring2", fItem.OtherExtraString2);
 
-                commitableQueryReactor.RunQuery();
+                queryReactor.RunQuery();
             }
         }
 

@@ -34,12 +34,12 @@ namespace Yupi.Game.Users.Inventory
 
             DataTable dTable;
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery("SELECT clothing FROM users_clothing WHERE userid = @userid");
+                queryReactor.SetQuery("SELECT clothing FROM users_clothing WHERE userid = @userid");
 
-                commitableQueryReactor.AddParameter("userid", _userId);
-                dTable = commitableQueryReactor.GetTable();
+                queryReactor.AddParameter("userid", _userId);
+                dTable = queryReactor.GetTable();
             }
 
             foreach (DataRow dRow in dTable.Rows)
@@ -52,14 +52,14 @@ namespace Yupi.Game.Users.Inventory
         /// <param name="clothing">The clothing.</param>
         internal void Add(string clothing)
         {
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery(
+                queryReactor.SetQuery(
                     "INSERT INTO users_clothing (userid,clothing) VALUES (@userid,@clothing)");
 
-                commitableQueryReactor.AddParameter("userid", _userId);
-                commitableQueryReactor.AddParameter("clothing", clothing);
-                commitableQueryReactor.RunQuery();
+                queryReactor.AddParameter("userid", _userId);
+                queryReactor.AddParameter("clothing", clothing);
+                queryReactor.RunQuery();
             }
 
             Clothing.Add(clothing);

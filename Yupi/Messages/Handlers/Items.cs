@@ -615,8 +615,8 @@ namespace Yupi.Messages.Handlers
             if (!flag)
                 return;
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                room.GetRoomItemHandler().SaveFurniture(commitableQueryReactor);
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                room.GetRoomItemHandler().SaveFurniture(queryReactor);
         }
 
         internal void MoveWallItem()
@@ -688,8 +688,8 @@ namespace Yupi.Messages.Handlers
 
                     item.UpdateState();
 
-                    using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                        commitableQueryReactor.RunFastQuery(
+                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                        queryReactor.RunFastQuery(
                             $"UPDATE items_toners SET enabled = '{room.TonerData.Enabled}' LIMIT 1");
 
                     return;
@@ -836,10 +836,10 @@ namespace Yupi.Messages.Handlers
             currentRoom.SendMessage(message);
 
             Session.GetHabbo().LastGiftOpenTime = DateTime.Now;
-            IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor();
+            IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor();
 
-            commitableQueryReactor.SetQuery("SELECT * FROM users_gifts WHERE gift_id = " + item.Id);
-            DataRow row = commitableQueryReactor.GetRow();
+            queryReactor.SetQuery("SELECT * FROM users_gifts WHERE gift_id = " + item.Id);
+            DataRow row = queryReactor.GetRow();
 
             if (row == null)
             {
@@ -862,14 +862,14 @@ namespace Yupi.Messages.Handlers
                 string extraData = row["extradata"].ToString();
                 string itemName = row["item_name"].ToString();
 
-                commitableQueryReactor.RunFastQuery(
+                queryReactor.RunFastQuery(
                     $"UPDATE items_rooms SET item_name='{itemName}' WHERE id='{item.Id}'");
 
-                commitableQueryReactor.SetQuery("UPDATE items_rooms SET extra_data = @extraData WHERE id = " + item.Id);
-                commitableQueryReactor.AddParameter("extraData", extraData);
-                commitableQueryReactor.RunQuery();
+                queryReactor.SetQuery("UPDATE items_rooms SET extra_data = @extraData WHERE id = " + item.Id);
+                queryReactor.AddParameter("extraData", extraData);
+                queryReactor.RunQuery();
 
-                commitableQueryReactor.RunFastQuery($"DELETE FROM users_gifts WHERE gift_id='{item.Id}'");
+                queryReactor.RunFastQuery($"DELETE FROM users_gifts WHERE gift_id='{item.Id}'");
 
                 item.BaseName = itemName;
                 item.RefreshItem();
@@ -903,7 +903,7 @@ namespace Yupi.Messages.Handlers
             {
                 currentRoom.GetRoomItemHandler().RemoveFurniture(Session, item.Id, false);
 
-                commitableQueryReactor.RunFastQuery("DELETE FROM users_gifts WHERE gift_id = " + item.Id);
+                queryReactor.RunFastQuery("DELETE FROM users_gifts WHERE gift_id = " + item.Id);
                 Response.Init(LibraryParser.OutgoingRequest("NewInventoryObjectMessageComposer"));
                 Response.AppendInteger(1);
 
@@ -1037,8 +1037,8 @@ namespace Yupi.Messages.Handlers
             if (num > 255 || num2 > 255 || num3 > 255)
                 return;
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                commitableQueryReactor.RunFastQuery(string.Concat("UPDATE items_toners SET enabled = '1', data1=", num,
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.RunFastQuery(string.Concat("UPDATE items_toners SET enabled = '1', data1=", num,
                     " ,data2=", num2, ",data3=", num3, " WHERE id=", item.Id, " LIMIT 1"));
 
             room.TonerData.Data1 = num;
@@ -1236,8 +1236,8 @@ namespace Yupi.Messages.Handlers
 
                 Session.GetHabbo().GetInventoryComponent().RemoveItem(item.Id, false);
 
-                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                    commitableQueryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1");
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                    queryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1");
 
                 i++;
             }
@@ -1313,8 +1313,8 @@ namespace Yupi.Messages.Handlers
                 Session.GetHabbo().UpdateCreditsBalance();
             }
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                commitableQueryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1;");
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1;");
 
             room.GetRoomItemHandler().RemoveFurniture(null, item.Id, false);
 
@@ -1558,8 +1558,8 @@ namespace Yupi.Messages.Handlers
 
             Session.GetHabbo().GetInventoryComponent().AddPet(pet.PetData);
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                room.GetRoomUserManager().SavePets(commitableQueryReactor);
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                room.GetRoomUserManager().SavePets(queryReactor);
 
             room.GetRoomUserManager().RemoveBot(pet.VirtualId, false);
 
@@ -1595,8 +1595,8 @@ namespace Yupi.Messages.Handlers
 
                 pet.Chat(null, message, false, 0);
 
-                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                    commitableQueryReactor.RunFastQuery(
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                    queryReactor.RunFastQuery(
                         $"UPDATE users_stats SET daily_pet_respect_points = daily_pet_respect_points - 1 WHERE id = {Session.GetHabbo().Id} LIMIT 1");
             }
         }
@@ -1611,8 +1611,8 @@ namespace Yupi.Messages.Handlers
 
             if (pet.PetData.AnyoneCanRide == 1)
             {
-                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                    commitableQueryReactor.RunFastQuery($"UPDATE pets_data SET anyone_ride = '0' WHERE id={num} LIMIT 1");
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                    queryReactor.RunFastQuery($"UPDATE pets_data SET anyone_ride = '0' WHERE id={num} LIMIT 1");
 
                 pet.PetData.AnyoneCanRide = 0;
             }
@@ -1688,9 +1688,9 @@ namespace Yupi.Messages.Handlers
                     num += int.Parse(s);
                     pet.PetData.HairDye = num;
                     using (
-                        IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                        IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
-                        commitableQueryReactor.RunFastQuery(string.Concat("UPDATE pets_data SET hairdye = '",
+                        queryReactor.RunFastQuery(string.Concat("UPDATE pets_data SET hairdye = '",
                             pet.PetData.HairDye, "' WHERE id = ", pet.PetData.PetId));
                         goto IL_40C;
                     }
@@ -1724,12 +1724,12 @@ namespace Yupi.Messages.Handlers
 
                     pet.PetData.Race = num3;
 
-                    using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
-                        commitableQueryReactor.RunFastQuery("UPDATE pets_data SET race_id = '" + pet.PetData.Race +
+                        queryReactor.RunFastQuery("UPDATE pets_data SET race_id = '" + pet.PetData.Race +
                                                             "' WHERE id = " + pet.PetData.PetId);
 
-                        commitableQueryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1");
+                        queryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1");
                         goto IL_40C;
                     }
                 }
@@ -1740,11 +1740,11 @@ namespace Yupi.Messages.Handlers
                     num4 += int.Parse(s3);
                     pet.PetData.PetHair = num4;
                     using (
-                        IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                        IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
-                        commitableQueryReactor.RunFastQuery("UPDATE pets_data SET pethair = '" + pet.PetData.PetHair +
+                        queryReactor.RunFastQuery("UPDATE pets_data SET pethair = '" + pet.PetData.PetHair +
                                                             "' WHERE id = " + pet.PetData.PetId);
-                        commitableQueryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1");
+                        queryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1");
                         goto IL_40C;
                     }
                 }
@@ -1752,11 +1752,11 @@ namespace Yupi.Messages.Handlers
                 {
                     pet.PetData.HaveSaddle = true;
                     using (
-                        IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                        IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
-                        commitableQueryReactor.RunFastQuery(
+                        queryReactor.RunFastQuery(
                             $"UPDATE pets_data SET have_saddle = '1' WHERE id = {pet.PetData.PetId}");
-                        commitableQueryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1");
+                        queryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1");
                     }
                     goto IL_40C;
                 }
@@ -1767,9 +1767,9 @@ namespace Yupi.Messages.Handlers
                     pet.PetData.MoplaBreed.GrowingStatus = 7;
                     pet.PetData.MoplaBreed.LiveState = MoplaState.Grown;
                     pet.PetData.MoplaBreed.UpdateInDb();
-                    using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
-                        commitableQueryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1");
+                        queryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1");
                     }
                 }
                 IL_40C:
@@ -1834,12 +1834,12 @@ namespace Yupi.Messages.Handlers
 
             pet.PetData.HaveSaddle = false;
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.RunFastQuery(
+                queryReactor.RunFastQuery(
                     $"UPDATE pets_data SET have_saddle = '0' WHERE id = {pet.PetData.PetId}");
 
-                commitableQueryReactor.RunFastQuery(
+                queryReactor.RunFastQuery(
                     $"INSERT INTO items_rooms (user_id, item_name) VALUES ({Session.GetHabbo().Id}, 'horse_saddle1');");
             }
 
@@ -1930,11 +1930,11 @@ namespace Yupi.Messages.Handlers
 
             DataRow row;
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery("SELECT * FROM items_vouchers WHERE voucher = @vo LIMIT 1");
-                commitableQueryReactor.AddParameter("vo", query);
-                row = commitableQueryReactor.GetRow();
+                queryReactor.SetQuery("SELECT * FROM items_vouchers WHERE voucher = @vo LIMIT 1");
+                queryReactor.AddParameter("vo", query);
+                row = queryReactor.GetRow();
             }
 
             if (row != null)
@@ -2204,8 +2204,8 @@ namespace Yupi.Messages.Handlers
                 return;
             }
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                commitableQueryReactor.RunFastQuery(string.Concat("UPDATE bots_data SET room_id = '", room.RoomId,
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.RunFastQuery(string.Concat("UPDATE bots_data SET room_id = '", room.RoomId,
                     "', x = '", x, "', y = '", y, "' WHERE id = '", num, "'"));
 
             bot.RoomId = room.RoomId;
@@ -2256,11 +2256,11 @@ namespace Yupi.Messages.Handlers
                 item.InteractingUser2 = 0u;
             roomUserByHabbo.GateId = 0u;
             string text = item.ExtraData.Split(Convert.ToChar(5))[0];
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery("UPDATE items_rooms SET extra_data = @extraData WHERE id = " + item.Id);
-                commitableQueryReactor.AddParameter("extraData", text + Convert.ToChar(5) + "2");
-                commitableQueryReactor.RunQuery();
+                queryReactor.SetQuery("UPDATE items_rooms SET extra_data = @extraData WHERE id = " + item.Id);
+                queryReactor.AddParameter("extraData", text + Convert.ToChar(5) + "2");
+                queryReactor.RunQuery();
             }
             item.ExtraData = text + Convert.ToChar(5) + "2";
             item.UpdateNeeded = true;
@@ -2446,11 +2446,11 @@ namespace Yupi.Messages.Handlers
 
             item.UpdateState(true, false);
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery("UPDATE items_rooms SET extra_data = @extraData WHERE id = " + item.Id);
-                commitableQueryReactor.AddParameter("extraData", item.ExtraData);
-                commitableQueryReactor.RunQuery();
+                queryReactor.SetQuery("UPDATE items_rooms SET extra_data = @extraData WHERE id = " + item.Id);
+                queryReactor.AddParameter("extraData", item.ExtraData);
+                queryReactor.RunQuery();
             }
 
             ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("UpdateRoomItemMessageComposer"));
@@ -2504,11 +2504,11 @@ namespace Yupi.Messages.Handlers
                     break;
             }
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery("UPDATE items_rooms SET extra_data = @extraData WHERE id = " + item.Id);
-                commitableQueryReactor.AddParameter("extraData", item.ExtraData);
-                commitableQueryReactor.RunQuery();
+                queryReactor.SetQuery("UPDATE items_rooms SET extra_data = @extraData WHERE id = " + item.Id);
+                queryReactor.AddParameter("extraData", item.ExtraData);
+                queryReactor.RunQuery();
             }
 
             ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("UpdateRoomItemMessageComposer"));
@@ -2539,11 +2539,11 @@ namespace Yupi.Messages.Handlers
             item.Serialize(Response);
             item.UpdateState(true, true);
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery("UPDATE items_rooms SET extra_data = @extraData WHERE id = " + item.Id);
-                commitableQueryReactor.AddParameter("extraData", item.ExtraData);
-                commitableQueryReactor.RunQuery();
+                queryReactor.SetQuery("UPDATE items_rooms SET extra_data = @extraData WHERE id = " + item.Id);
+                queryReactor.AddParameter("extraData", item.ExtraData);
+                queryReactor.RunQuery();
             }
         }
 
@@ -2578,11 +2578,11 @@ namespace Yupi.Messages.Handlers
             item.UpdateNeeded = true;
             item.UpdateState(true, true);
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery("UPDATE items_rooms SET extra_data = @extraData WHERE id = " + item.Id);
-                commitableQueryReactor.AddParameter("extraData", item.ExtraData);
-                commitableQueryReactor.RunQuery();
+                queryReactor.SetQuery("UPDATE items_rooms SET extra_data = @extraData WHERE id = " + item.Id);
+                queryReactor.AddParameter("extraData", item.ExtraData);
+                queryReactor.RunQuery();
             }
         }
 
@@ -2618,8 +2618,8 @@ namespace Yupi.Messages.Handlers
 
             room.GetRoomItemHandler().RemoveFurniture(Session, item.Id);
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                commitableQueryReactor.RunFastQuery($"UPDATE items_rooms SET room_id='0' WHERE id='{item.Id}' LIMIT 1");
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.RunFastQuery($"UPDATE items_rooms SET room_id='0' WHERE id='{item.Id}' LIMIT 1");
         }
 
         internal void UsePurchasableClothing()
@@ -2649,8 +2649,8 @@ namespace Yupi.Messages.Handlers
             room.GetRoomItemHandler().RemoveFurniture(Session, item.Id, false);
             Session.SendMessage(StaticMessage.FiguresetRedeemed);
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                commitableQueryReactor.RunFastQuery("DELETE FROM items_rooms WHERE id = " + item.Id);
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.RunFastQuery("DELETE FROM items_rooms WHERE id = " + item.Id);
         }
 
         internal void GetUserLook()

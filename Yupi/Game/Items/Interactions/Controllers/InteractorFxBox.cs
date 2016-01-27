@@ -59,8 +59,8 @@ namespace Yupi.Game.Items.Interactions.Controllers
 
                     room.GetRoomItemHandler().RemoveFurniture(session, item.Id, false);
 
-                    using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                        commitableQueryReactor.RunFastQuery("DELETE FROM items_rooms WHERE id = " + item.Id);
+                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                        queryReactor.RunFastQuery("DELETE FROM items_rooms WHERE id = " + item.Id);
                 }
             }
         }

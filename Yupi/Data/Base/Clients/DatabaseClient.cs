@@ -22,6 +22,7 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
+using System.ComponentModel.Design;
 using System.Data;
 using MySql.Data.MySqlClient;
 using Yupi.Data.Base.Adapters;
@@ -32,36 +33,42 @@ namespace Yupi.Data.Base.Clients
 {
     public class DatabaseClient : IDatabaseClient
     {
-        private readonly IQueryAdapter _adapter;
-        private readonly MySqlConnection _mysqlConnection;
+        protected readonly IQueryAdapter Adapter;
+
+        protected readonly MySqlConnection Connection;
 
         public DatabaseClient(string connectionStr)
         {
-            _mysqlConnection = new MySqlConnection(connectionStr);
+            Connection = new MySqlConnection(connectionStr);
 
-            _adapter = new NormalQueryAdapter(this);
+            Adapter = new NormalQueryAdapter(this);
         }
 
         public void Disconnect()
         {
-            if (_mysqlConnection.State == ConnectionState.Open)
-                _mysqlConnection.Close();
+            if (Connection.State == ConnectionState.Open)
+                Connection.Close();
         }
 
         public void Connect()
         {
-            if (_mysqlConnection.State == ConnectionState.Closed)
-                _mysqlConnection.Open();
+            if (Connection.State == ConnectionState.Closed)
+                Connection.Open();
         }
 
-        public void Dispose() => _mysqlConnection.Dispose();
+        public void Dispose()
+        {
+            Adapter.Dispose();
 
-        public IQueryAdapter GetQueryReactor() => _adapter;
+            Connection.Dispose();
 
-        public bool IsAvailable() => _mysqlConnection.State == ConnectionState.Open;
+            Connection.Close();
+        }
 
-        public MySqlCommand CreateNewCommandMySql() => _mysqlConnection.CreateCommand();
+        public IQueryAdapter GetQueryReactor() => Adapter;
 
-        public MySqlTransaction GetTransactionMySql() => _mysqlConnection.BeginTransaction();
+        public bool IsAvailable() => Connection.State == ConnectionState.Open;
+
+        public MySqlCommand CreateCommand() => Connection.CreateCommand();
     }
 }

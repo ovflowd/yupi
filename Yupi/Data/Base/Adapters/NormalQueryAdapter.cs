@@ -22,7 +22,7 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-using System.Collections.Generic;
+using System;
 using System.Data;
 using MySql.Data.MySqlClient;
 using Yupi.Data.Base.Adapters.Interfaces;
@@ -34,29 +34,16 @@ namespace Yupi.Data.Base.Adapters
     {
         protected IDatabaseClient Client;
 
-        protected MySqlCommand CommandMySql;
+        protected MySqlCommand Command;
 
         public NormalQueryAdapter(IDatabaseClient client)
         {
-            CommandMySql = client.CreateNewCommandMySql();
-
             Client = client;
+
+            Command = Client.CreateCommand();       
         }
 
-        public void AddParameter(string parameterName, object val)  => CommandMySql.Parameters.AddWithValue(parameterName, val);
-
-        public bool FindsResult()
-        {
-            if (!Client.IsAvailable())
-                return false;
-
-            bool hasRows;
-
-            using (MySqlDataReader reader = CommandMySql.ExecuteReader())
-                hasRows = reader.HasRows;
-
-            return hasRows;
-        }
+        public void AddParameter(string parameterName, object val)  => Command.Parameters.AddWithValue(parameterName, val);
 
         public int GetInteger()
         {
@@ -65,25 +52,10 @@ namespace Yupi.Data.Base.Adapters
 
             int result = 0;
 
-            object obj2 = CommandMySql.ExecuteScalar();
+            object integerResult = Command.ExecuteScalar();
 
-            if (obj2 != null)
-                int.TryParse(obj2.ToString(), out result);
-
-            return result;
-        }
-
-        public uint GetUInteger()
-        {
-            if (!Client.IsAvailable())
-                return 0;
-
-            uint result = 0;
-
-            object obj2 = CommandMySql.ExecuteScalar();
-
-            if (obj2 != null)
-                uint.TryParse(obj2.ToString(), out result);
+            if (integerResult != null)
+                int.TryParse(integerResult.ToString(), out result);
 
             return result;
         }
@@ -93,16 +65,16 @@ namespace Yupi.Data.Base.Adapters
             if (!Client.IsAvailable())
                 return null;
 
-            DataRow row = null;
+            DataRow dataRow = null;
             DataSet dataSet = new DataSet();
 
-            using (MySqlDataAdapter adapter = new MySqlDataAdapter(CommandMySql))
-                adapter.Fill(dataSet);
+            using (MySqlDataAdapter dataAdapter = new MySqlDataAdapter(Command))
+                dataAdapter.Fill(dataSet);
 
             if (dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count == 1)
-                row = dataSet.Tables[0].Rows[0];
+                dataRow = dataSet.Tables[0].Rows[0];
 
-            return row;
+            return dataRow;
         }
 
         public string GetString()
@@ -110,10 +82,10 @@ namespace Yupi.Data.Base.Adapters
             if (!Client.IsAvailable())
                 return string.Empty;
 
-            object obj = CommandMySql.ExecuteScalar();
+            object stringResult = Command.ExecuteScalar();
 
-            if (obj != null)
-                return obj.ToString();
+            if (stringResult != null)
+                return stringResult.ToString();
 
             return string.Empty;
         }
@@ -125,7 +97,7 @@ namespace Yupi.Data.Base.Adapters
 
             DataTable dataTable = new DataTable();
 
-            using (MySqlDataAdapter adapter = new MySqlDataAdapter(CommandMySql))
+            using (MySqlDataAdapter adapter = new MySqlDataAdapter(Command))
                 adapter.Fill(dataTable);
 
             return dataTable;
@@ -136,9 +108,9 @@ namespace Yupi.Data.Base.Adapters
             if (!Client.IsAvailable())
                 return 0L;
 
-            CommandMySql.ExecuteScalar();
+            Command.ExecuteScalar();
 
-            return CommandMySql.LastInsertedId;
+            return Command.LastInsertedId;
         }
 
         public void RunFastQuery(string query)
@@ -147,18 +119,6 @@ namespace Yupi.Data.Base.Adapters
                 return;
 
             SetQuery(query);
-            RunQuery();
-        }
-
-        public void RunFastParameterQuery(string query, Dictionary<string, object> parameters)
-        {
-            if (!Client.IsAvailable())
-                return;
-
-            SetQuery(query);
-
-            foreach (KeyValuePair<string, object> parameter in parameters)
-                AddParameter(parameter.Key, parameter.Value);
 
             RunQuery();
         }
@@ -168,18 +128,18 @@ namespace Yupi.Data.Base.Adapters
             if (!Client.IsAvailable())
                 return;
 
-            CommandMySql.ExecuteNonQuery();
+            Command.ExecuteNonQuery();
         }
 
         public void SetQuery(string query)
         {
-            CommandMySql.Parameters.Clear();
-            CommandMySql.CommandText = query;
+            Command.Parameters.Clear();
+            Command.CommandText = query;
         }
 
-        public void Dispose() => CommandMySql.Dispose();
-
-        public void AddParameter(string name, byte[] data)
-            => CommandMySql.Parameters.Add(new MySqlParameter(name, MySqlDbType.Blob, data.Length));
+        public void Dispose()
+        {
+            Command.Dispose();           
+        } 
     }
 }

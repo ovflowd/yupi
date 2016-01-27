@@ -36,9 +36,7 @@ namespace Yupi.Data.Base.Clients.Interfaces
 
         IQueryAdapter GetQueryReactor();
 
-        MySqlCommand CreateNewCommandMySql();
-
-        MySqlTransaction GetTransactionMySql();
+        MySqlCommand CreateCommand();
 
         bool IsAvailable();
     }

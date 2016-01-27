@@ -301,13 +301,13 @@ namespace Yupi
 
                 Manager = new DatabaseManager(mySqlConnectionStringBuilder);
 
-                using (IQueryAdapter commitableQueryReactor = GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter queryReactor = GetDatabaseManager().GetQueryReactor())
                 {
-                    ConfigData = new ServerDatabaseSettings(commitableQueryReactor);
-                    PetCommandHandler.Init(commitableQueryReactor);
-                    PetLocale.Init(commitableQueryReactor);
+                    ConfigData = new ServerDatabaseSettings(queryReactor);
+                    PetCommandHandler.Init(queryReactor);
+                    PetLocale.Init(queryReactor);
                     OfflineMessages = new Dictionary<uint, List<OfflineMessage>>();
-                    OfflineMessage.InitOfflineMessages(commitableQueryReactor);
+                    OfflineMessage.InitOfflineMessages(queryReactor);
                 }
 
                 ConsoleTimer = int.Parse(ServerConfigurationSettings.Data["console.clear.time"]);
@@ -557,13 +557,13 @@ namespace Yupi
         {
             try
             {
-                using (IQueryAdapter commitableQueryReactor = GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter queryReactor = GetDatabaseManager().GetQueryReactor())
                 {
-                    commitableQueryReactor.SetQuery("SELECT id FROM users WHERE username = @user");
+                    queryReactor.SetQuery("SELECT id FROM users WHERE username = @user");
 
-                    commitableQueryReactor.AddParameter("user", userName);
+                    queryReactor.AddParameter("user", userName);
 
-                    int integer = commitableQueryReactor.GetInteger();
+                    int integer = queryReactor.GetInteger();
 
                     if (integer > 0)
                     {
@@ -692,11 +692,11 @@ namespace Yupi
 
             foreach (Group group in _game.GetGroupManager().Groups.Values) group.UpdateForum();
 
-            using (IQueryAdapter commitableQueryReactor = Manager.GetQueryReactor())
+            using (IQueryAdapter queryReactor = Manager.GetQueryReactor())
             {
-                commitableQueryReactor.RunFastQuery("UPDATE users SET online = '0'");
-                commitableQueryReactor.RunFastQuery("UPDATE rooms_data SET users_now = 0");
-                commitableQueryReactor.RunFastQuery("TRUNCATE TABLE users_rooms_visits");
+                queryReactor.RunFastQuery("UPDATE users SET online = '0'");
+                queryReactor.RunFastQuery("UPDATE rooms_data SET users_now = 0");
+                queryReactor.RunFastQuery("TRUNCATE TABLE users_rooms_visits");
             }
 
             _connectionManager.Destroy();
@@ -709,9 +709,6 @@ namespace Yupi
 
             Writer.WriteLine("Elapsed " + TimeSpanToString(span) + "ms on Shutdown Proccess", "Yupi.Life",
                 ConsoleColor.DarkYellow);
-
-            if (!restart)
-                Console.ReadKey();
 
             IsLive = false;
 

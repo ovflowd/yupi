@@ -32,12 +32,12 @@ namespace Yupi.Game.Users
         {
             Videos.Clear();
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery("SELECT * FROM users_videos_youtube WHERE user_id = @user_id ORDER BY id DESC");
-                commitableQueryReactor.AddParameter("user_id", UserId);
+                queryReactor.SetQuery("SELECT * FROM users_videos_youtube WHERE user_id = @user_id ORDER BY id DESC");
+                queryReactor.AddParameter("user_id", UserId);
 
-                DataTable table = commitableQueryReactor.GetTable();
+                DataTable table = queryReactor.GetTable();
 
                 if (table == null)
                     return;
@@ -110,14 +110,14 @@ namespace Yupi.Game.Users
 
                 UserId = client.GetHabbo().Id;
 
-                using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    commitableQueryReactor.SetQuery(
+                    queryReactor.SetQuery(
                         "INSERT INTO users_videos_youtube (user_id, video_id, name, description) VALUES (@user_id, @video_id, @name, @name)");
-                    commitableQueryReactor.AddParameter("user_id", UserId);
-                    commitableQueryReactor.AddParameter("video_id", id);
-                    commitableQueryReactor.AddParameter("name", videoName);
-                    commitableQueryReactor.RunQuery();
+                    queryReactor.AddParameter("user_id", UserId);
+                    queryReactor.AddParameter("video_id", id);
+                    queryReactor.AddParameter("name", videoName);
+                    queryReactor.RunQuery();
                 }
 
                 RefreshVideos();

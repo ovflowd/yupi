@@ -25,10 +25,10 @@ namespace Yupi.Game.Rooms.Data
             RequiredFurnis = requiredFurnis.Split(';');
             Entries = new Dictionary<uint, RoomData>();
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery("SELECT * FROM rooms_competitions_entries WHERE competition_id = " + Id);
-                DataTable table = commitableQueryReactor.GetTable();
+                queryReactor.SetQuery("SELECT * FROM rooms_competitions_entries WHERE competition_id = " + Id);
+                DataTable table = queryReactor.GetTable();
                 if (table == null) return;
                 foreach (DataRow row in table.Rows)
                 {
@@ -127,10 +127,10 @@ namespace Yupi.Game.Rooms.Data
         public void RefreshCompetitions()
         {
             Competition = null;
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery("SELECT * FROM rooms_competitions WHERE enabled = '1' LIMIT 1");
-                DataRow row = commitableQueryReactor.GetRow();
+                queryReactor.SetQuery("SELECT * FROM rooms_competitions WHERE enabled = '1' LIMIT 1");
+                DataRow row = queryReactor.GetRow();
 
                 if (row == null)
                     return;

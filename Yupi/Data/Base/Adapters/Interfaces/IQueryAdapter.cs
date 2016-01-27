@@ -32,11 +32,7 @@ namespace Yupi.Data.Base.Adapters.Interfaces
     {
         void AddParameter(string name, object query);
 
-        bool FindsResult();
-
         int GetInteger();
-
-        uint GetUInteger();
 
         DataRow GetRow();
 
@@ -47,8 +43,6 @@ namespace Yupi.Data.Base.Adapters.Interfaces
         void RunFastQuery(string query);
 
         void RunQuery();
-
-        void RunFastParameterQuery(string query, Dictionary<string, object> parameters);
 
         long InsertQuery();
 

@@ -66,10 +66,10 @@ namespace Yupi.Game.Items.Interfaces
             if (BaseItem == null)
                 return;
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery($"SELECT * FROM items_limited WHERE item_id={id} LIMIT 1");
-                DataRow row = commitableQueryReactor.GetRow();
+                queryReactor.SetQuery($"SELECT * FROM items_limited WHERE item_id={id} LIMIT 1");
+                DataRow row = queryReactor.GetRow();
 
                 if (row != null)
                 {

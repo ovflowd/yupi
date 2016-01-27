@@ -363,12 +363,12 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         internal void HabboCamera()
         {
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery(
+                queryReactor.SetQuery(
                     $"SELECT * FROM cms_stories_photos_preview WHERE user_id = {Session.GetHabbo().Id} AND type = 'PHOTO' ORDER BY id DESC LIMIT 1");
 
-                DataTable table = commitableQueryReactor.GetTable();
+                DataTable table = queryReactor.GetTable();
 
                 foreach (DataRow dataRow in table.Rows)
                 {
@@ -377,18 +377,18 @@ namespace Yupi.Messages.Handlers
                     object photo = dataRow["id"];
                     object image = dataRow["image_url"];
 
-                    using (IQueryAdapter commitableQueryReactor2 = Yupi.GetDatabaseManager().GetQueryReactor())
+                    using (IQueryAdapter queryReactor2 = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
-                        commitableQueryReactor2.SetQuery(
+                        queryReactor2.SetQuery(
                             "INSERT INTO cms_stories_photos (user_id,user_name,room_id,image_preview_url,image_url,type,date,tags) VALUES (@user_id,@user_name,@room_id,@image_url,@image_url,@type,@date,@tags)");
-                        commitableQueryReactor2.AddParameter("user_id", Session.GetHabbo().Id);
-                        commitableQueryReactor2.AddParameter("user_name", Session.GetHabbo().UserName);
-                        commitableQueryReactor2.AddParameter("room_id", room);
-                        commitableQueryReactor2.AddParameter("image_url", image);
-                        commitableQueryReactor2.AddParameter("type", "PHOTO");
-                        commitableQueryReactor2.AddParameter("date", date);
-                        commitableQueryReactor2.AddParameter("tags", "");
-                        commitableQueryReactor2.RunQuery();
+                        queryReactor2.AddParameter("user_id", Session.GetHabbo().Id);
+                        queryReactor2.AddParameter("user_name", Session.GetHabbo().UserName);
+                        queryReactor2.AddParameter("room_id", room);
+                        queryReactor2.AddParameter("image_url", image);
+                        queryReactor2.AddParameter("type", "PHOTO");
+                        queryReactor2.AddParameter("date", date);
+                        queryReactor2.AddParameter("tags", "");
+                        queryReactor2.RunQuery();
 
                         string newPhotoData = "{\"t\":" + date + ",\"u\":\"" + photo + "\",\"m\":\"\",\"s\":" + room +
                                            ",\"w\":\"" + image + "\"}";
@@ -427,13 +427,13 @@ namespace Yupi.Messages.Handlers
         {
             int result;
 
-            using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery(
+                queryReactor.SetQuery(
                     "SELECT COUNT(*) FROM messenger_friendships WHERE user_one_id = @id OR user_two_id = @id;");
-                commitableQueryReactor.AddParameter("id", userId);
+                queryReactor.AddParameter("id", userId);
 
-                result = commitableQueryReactor.GetInteger();
+                result = queryReactor.GetInteger();
             }
 
             return result;
