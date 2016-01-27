@@ -22,27 +22,98 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using MySql.Data.MySqlClient;
 using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Data.Base.Clients;
+using Yupi.Data.Base.Clients.Interfaces;
 
 namespace Yupi.Data.Base.Managers
 {
     public class DatabaseManager
     {
-        private readonly string _connectionStr;
+        private List<DatabaseClient> _databaseClients;
 
-        public DatabaseManager(string connectionStr)
+        private MySqlConnectionStringBuilder _serverDetails;
+
+        private void SetServerDetails(MySqlConnectionStringBuilder serverDetails)
         {
-            _connectionStr = connectionStr;
+            _serverDetails = serverDetails;
+        }
+
+        public DatabaseManager(MySqlConnectionStringBuilder serverDetails)
+        {
+            SetServerDetails(serverDetails);
+
+            _databaseClients = new List<DatabaseClient>((int)_serverDetails.MaximumPoolSize);
+        }
+
+        private DatabaseClient AddConnection(bool needReturn = false)
+        {
+            lock (_databaseClients)
+            {
+                if (_databaseClients.Count + 1 == _databaseClients.Capacity ||
+                    _databaseClients.Count == _databaseClients.Capacity)
+                    return null;
+
+                if (needReturn)
+                {
+                    DatabaseClient client = new DatabaseClient(_serverDetails.ToString());
+
+                    _databaseClients.Add(client);
+
+                    return client;
+                }
+
+                _databaseClients.Add(new DatabaseClient(_serverDetails.ToString()));
+
+                return null;
+            }
+        }
+
+        private DatabaseClient ReturnConnectedConnection()
+        {
+            lock (_databaseClients)
+            {
+                if (_databaseClients.Any(c => c.IsAvailable()))
+                    return _databaseClients.First(c => c.IsAvailable());
+
+                if (_databaseClients.Count > 0)
+                    _databaseClients.RemoveAll(c => !c.IsAvailable());                
+            }
+
+            return AddConnection(true);
         }
 
         public IQueryAdapter GetQueryReactor()
         {
-            IDatabaseClient databaseClient = new DatabaseClient(_connectionStr);
+            DatabaseClient client = ReturnConnectedConnection();
 
-            databaseClient.Connect();
+            client.Connect();
 
-            return databaseClient.GetQueryReactor();
+            return client.GetQueryReactor();
+        }
+
+        public void Destroy()
+        {
+            if (_databaseClients == null)
+                return;
+
+            lock (_databaseClients)
+            {
+                foreach (DatabaseClient current in _databaseClients)
+                {
+                    if (!current.IsAvailable())
+                        current.Dispose();
+
+                    current.Disconnect();
+                }
+            }
+
+            lock (_databaseClients)
+                _databaseClients.Clear();
         }
     }
 }

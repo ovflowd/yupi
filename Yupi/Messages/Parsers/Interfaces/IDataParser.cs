@@ -1,6 +1,6 @@
 using System;
 
-namespace Yupi.Messages.Parsers
+namespace Yupi.Messages.Parsers.Interfaces
 {
     /// <summary>
     ///     Interface IDataParser

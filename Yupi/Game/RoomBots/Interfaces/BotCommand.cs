@@ -77,6 +77,8 @@ namespace Yupi.Game.RoomBots.Interfaces
         /// </summary>
         internal string SpeechOutput;
 
+        internal bool ForceBotCommand;
+
         /// <summary>
         ///     Initializes a new instance of the <see cref="CatalogBot" /> class.
         /// </summary>
@@ -92,6 +94,7 @@ namespace Yupi.Game.RoomBots.Interfaces
             ActionCommand = row["action_command"].ToString();
             ActionCommandParameters = row["action_command_parameters"].ToString();
             ActionBot = row["action_bot"].ToString();
+            ForceBotCommand = row["force_command_execution"].ToString() == "1";
         }
     }
 }

@@ -26,6 +26,7 @@ using System.Data;
 using MySql.Data.MySqlClient;
 using Yupi.Data.Base.Adapters;
 using Yupi.Data.Base.Adapters.Interfaces;
+using Yupi.Data.Base.Clients.Interfaces;
 
 namespace Yupi.Data.Base.Clients
 {
@@ -37,39 +38,30 @@ namespace Yupi.Data.Base.Clients
         public DatabaseClient(string connectionStr)
         {
             _mysqlConnection = new MySqlConnection(connectionStr);
+
             _adapter = new NormalQueryAdapter(this);
         }
 
-        public void Dispose()
+        public void Disconnect()
         {
             if (_mysqlConnection.State == ConnectionState.Open)
                 _mysqlConnection.Close();
         }
 
-        public void Connect() => Open();
-
-        public void Disconnect() => Close();
-
-        public IQueryAdapter GetQueryReactor() => _adapter;
-
-        public bool IsAvailable() => _mysqlConnection.State == ConnectionState.Open;
-
-        public void ReportDone() => Dispose();
-
-        public MySqlCommand CreateNewCommandMySql() => _mysqlConnection.CreateCommand();
-
-        public MySqlTransaction GetTransactionMySql() => _mysqlConnection.BeginTransaction();
-
-        public void Open()
+        public void Connect()
         {
             if (_mysqlConnection.State == ConnectionState.Closed)
                 _mysqlConnection.Open();
         }
 
-        public void Close()
-        {
-            if (_mysqlConnection.State == ConnectionState.Open)
-                _mysqlConnection.Close();
-        }
+        public void Dispose() => _mysqlConnection.Dispose();
+
+        public IQueryAdapter GetQueryReactor() => _adapter;
+
+        public bool IsAvailable() => _mysqlConnection.State == ConnectionState.Open;
+
+        public MySqlCommand CreateNewCommandMySql() => _mysqlConnection.CreateCommand();
+
+        public MySqlTransaction GetTransactionMySql() => _mysqlConnection.BeginTransaction();
     }
 }

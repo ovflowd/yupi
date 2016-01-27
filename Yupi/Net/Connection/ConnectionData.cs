@@ -28,6 +28,7 @@ using System.Net.Sockets;
 using Yupi.Core.Encryption.Hurlant.Crypto.Prng;
 using Yupi.Data;
 using Yupi.Messages.Parsers;
+using Yupi.Messages.Parsers.Interfaces;
 using Yupi.Net.Sockets;
 
 namespace Yupi.Net.Connection

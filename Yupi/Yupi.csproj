@@ -185,7 +185,7 @@
     <Compile Include="Core\Algorithms\Astar\Interfaces\IPathNode.cs" />
     <Compile Include="Core\Algorithms\Astar\Interfaces\IWeightAddable.cs" />
     <Compile Include="Core\Algorithms\Astar\PriorityQueue.cs" />
-    <Compile Include="Data\Base\Adapters\Interfaces\IDatabaseClient.cs" />
+    <Compile Include="Data\Base\Clients\Interfaces\IDatabaseClient.cs" />
     <Compile Include="Data\Base\Adapters\Interfaces\IQueryAdapter.cs" />
     <Compile Include="Data\Base\Adapters\NormalQueryAdapter.cs" />
     <Compile Include="Game\Achievements\Composers\AchievementTalentComposer.cs" />
@@ -205,13 +205,10 @@
     <Compile Include="Core\Encryption\PrimeCalculator.cs" />
     <Compile Include="Core\Encryption\Utils\Converter.cs" />
     <Compile Include="Core\Encryption\Utils\Randomizer.cs" />
-    <Compile Include="Data\Base\Managers\ConnectionManager.cs" />
     <Compile Include="Data\Base\Clients\DatabaseClient.cs" />
     <Compile Include="Data\Base\Managers\DatabaseManager.cs" />
-    <Compile Include="Data\Base\DatabaseServerDetails.cs" />
     <Compile Include="Data\Base\Exceptions\DatabaseException.cs" />
     <Compile Include="Data\Base\Exceptions\QueryException.cs" />
-    <Compile Include="Data\Base\Clients\MySqlClient.cs" />
     <Compile Include="Data\Collections\OnCycleDoneDelegate.cs" />
     <Compile Include="Data\Collections\QueuedDictionary.cs" />
     <Compile Include="Game\Pets\Composers\PetCommandPanelComposer.cs" />
@@ -668,7 +665,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.cs" />
-    <Compile Include="Messages\Parsers\IDataParser.cs" />
+    <Compile Include="Messages\Parsers\Interfaces\IDataParser.cs" />
     <Compile Include="Data\Interfaces\PluginData.cs" />
     <Compile Include="Core\Util\Enumerators\TextEndingTypes.cs" />
     <Compile Include="Data\ServerMemoryContainer.cs" />

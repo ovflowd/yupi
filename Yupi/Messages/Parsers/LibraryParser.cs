@@ -62,6 +62,7 @@ namespace Yupi.Messages.Parsers
                 }
 
                 StaticRequestHandler staticRequestHandler = Incoming[message.Id];
+
                 staticRequestHandler(handler);
             }
             else if (Yupi.PacketDebugMode)
@@ -128,9 +129,8 @@ namespace Yupi.Messages.Parsers
 
                     if (Incoming.ContainsKey(packetId))
                     {
-                        if (packetId == -1)
-                            continue;
-
+                        //if (packetId == -1)
+                        //    continue;
                         //Writer.WriteLine("A Incoming Packet with same id was found: " + packetId, "Yupi.Communication");
                     }
                     else

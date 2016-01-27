@@ -23,6 +23,7 @@
 */
 
 using Yupi.Messages.Parsers;
+using Yupi.Messages.Parsers.Interfaces;
 
 namespace Yupi.Net.Packets
 {

@@ -192,7 +192,7 @@ namespace Yupi.Game.RoomBots.Models
             }
 
             if (command.ActionCommand != string.Empty && command.ActionCommandParameters != string.Empty)
-                CommandsManager.TryExecute(command.ActionCommand, command.ActionCommandParameters, user.GetClient());
+                CommandsManager.TryExecute(command.ActionCommand, command.ActionCommandParameters, user.GetClient(), command.ForceBotCommand);
         }
 
         /// <summary>

@@ -26,6 +26,7 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 using Yupi.Messages.Parsers;
+using Yupi.Messages.Parsers.Interfaces;
 using Yupi.Net.Connection;
 using Yupi.Net.Sockets.Exceptions;
 

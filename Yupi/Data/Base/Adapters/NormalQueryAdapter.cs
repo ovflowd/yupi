@@ -26,28 +26,28 @@ using System.Collections.Generic;
 using System.Data;
 using MySql.Data.MySqlClient;
 using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Data.Base.Managers;
+using Yupi.Data.Base.Clients.Interfaces;
 
 namespace Yupi.Data.Base.Adapters
 {
     public class NormalQueryAdapter : IQueryAdapter
     {
         protected IDatabaseClient Client;
+
         protected MySqlCommand CommandMySql;
 
         public NormalQueryAdapter(IDatabaseClient client)
         {
             CommandMySql = client.CreateNewCommandMySql();
+
             Client = client;
         }
-
-        private static bool DbEnabled => ConnectionManager.DbEnabled;
 
         public void AddParameter(string parameterName, object val)  => CommandMySql.Parameters.AddWithValue(parameterName, val);
 
         public bool FindsResult()
         {
-            if (!DbEnabled)
+            if (!Client.IsAvailable())
                 return false;
 
             bool hasRows;
@@ -60,7 +60,7 @@ namespace Yupi.Data.Base.Adapters
 
         public int GetInteger()
         {
-            if (!DbEnabled)
+            if (!Client.IsAvailable())
                 return 0;
 
             int result = 0;
@@ -75,7 +75,7 @@ namespace Yupi.Data.Base.Adapters
 
         public uint GetUInteger()
         {
-            if (!DbEnabled)
+            if (!Client.IsAvailable())
                 return 0;
 
             uint result = 0;
@@ -90,7 +90,7 @@ namespace Yupi.Data.Base.Adapters
 
         public DataRow GetRow()
         {
-            if (!DbEnabled)
+            if (!Client.IsAvailable())
                 return null;
 
             DataRow row = null;
@@ -107,7 +107,7 @@ namespace Yupi.Data.Base.Adapters
 
         public string GetString()
         {
-            if (!DbEnabled)
+            if (!Client.IsAvailable())
                 return string.Empty;
 
             object obj = CommandMySql.ExecuteScalar();
@@ -120,7 +120,7 @@ namespace Yupi.Data.Base.Adapters
 
         public DataTable GetTable()
         {
-            if (!DbEnabled)
+            if (!Client.IsAvailable())
                 return null;
 
             DataTable dataTable = new DataTable();
@@ -133,7 +133,7 @@ namespace Yupi.Data.Base.Adapters
 
         public long InsertQuery()
         {
-            if (!DbEnabled)
+            if (!Client.IsAvailable())
                 return 0L;
 
             CommandMySql.ExecuteScalar();
@@ -143,7 +143,7 @@ namespace Yupi.Data.Base.Adapters
 
         public void RunFastQuery(string query)
         {
-            if (!DbEnabled)
+            if (!Client.IsAvailable())
                 return;
 
             SetQuery(query);
@@ -152,7 +152,7 @@ namespace Yupi.Data.Base.Adapters
 
         public void RunFastParameterQuery(string query, Dictionary<string, object> parameters)
         {
-            if (!DbEnabled)
+            if (!Client.IsAvailable())
                 return;
 
             SetQuery(query);
@@ -165,7 +165,7 @@ namespace Yupi.Data.Base.Adapters
 
         public void RunQuery()
         {
-            if (!DbEnabled)
+            if (!Client.IsAvailable())
                 return;
 
             CommandMySql.ExecuteNonQuery();
@@ -177,11 +177,7 @@ namespace Yupi.Data.Base.Adapters
             CommandMySql.CommandText = query;
         }
 
-        public void Dispose()
-        {
-            CommandMySql.Dispose();
-            Client.ReportDone();
-        }
+        public void Dispose() => CommandMySql.Dispose();
 
         public void AddParameter(string name, byte[] data)
             => CommandMySql.Parameters.Add(new MySqlParameter(name, MySqlDbType.Blob, data.Length));

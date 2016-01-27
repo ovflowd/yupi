@@ -24,8 +24,9 @@
 
 using System;
 using MySql.Data.MySqlClient;
+using Yupi.Data.Base.Adapters.Interfaces;
 
-namespace Yupi.Data.Base.Adapters.Interfaces
+namespace Yupi.Data.Base.Clients.Interfaces
 {
     public interface IDatabaseClient : IDisposable
     {
@@ -40,7 +41,5 @@ namespace Yupi.Data.Base.Adapters.Interfaces
         MySqlTransaction GetTransactionMySql();
 
         bool IsAvailable();
-
-        void ReportDone();
     }
 }

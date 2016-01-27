@@ -24,6 +24,7 @@ namespace Yupi.Game.Users
         {
             UserId = id;
             Videos = new Dictionary<string, YoutubeVideo>();
+
             RefreshVideos();
         }
 
@@ -33,7 +34,7 @@ namespace Yupi.Game.Users
 
             using (IQueryAdapter commitableQueryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                commitableQueryReactor.SetQuery("SELECT * FROM users_videos_youtube WHERE user_id = @user_id");
+                commitableQueryReactor.SetQuery("SELECT * FROM users_videos_youtube WHERE user_id = @user_id ORDER BY id DESC");
                 commitableQueryReactor.AddParameter("user_id", UserId);
 
                 DataTable table = commitableQueryReactor.GetTable();
@@ -42,8 +43,13 @@ namespace Yupi.Game.Users
                     return;
 
                 foreach (DataRow row in table.Rows)
-                    Videos.Add((string) row["video_id"],
-                        new YoutubeVideo((string) row["video_id"], (string) row["name"], (string) row["description"]));
+                {
+                    if (Videos.ContainsKey((string) row["video_id"]))
+                        continue;
+
+                    Videos.Add((string)row["video_id"],
+                        new YoutubeVideo((string)row["video_id"], (string)row["name"], (string)row["description"]));
+                }
             }
         }
 

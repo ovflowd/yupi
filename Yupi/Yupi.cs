@@ -280,10 +280,9 @@ namespace Yupi
                 ServerConfigurationSettings.Load(Path.Combine(YupiVariablesDirectory, "Settings/main.ini"));
                 ServerConfigurationSettings.Load(Path.Combine(YupiVariablesDirectory, "Settings/Welcome/settings.ini"), true);
                     
-                if(uint.Parse(ServerConfigurationSettings.Data["db.pool.maxsize"]) >= MaxRecommendedMySQLConnections)
+                if(uint.Parse(ServerConfigurationSettings.Data["db.pool.maxsize"]) > MaxRecommendedMySQLConnections)
                     Writer.WriteLine("Your MySQL Max Connection Amount is High, Max Recommended Value is " + MaxRecommendedMySQLConnections, "Yupi.Database", ConsoleColor.DarkYellow);
                     
-
                 MySqlConnectionStringBuilder mySqlConnectionStringBuilder = new MySqlConnectionStringBuilder
                 {
                     Server = ServerConfigurationSettings.Data["db.hostname"],
@@ -300,7 +299,7 @@ namespace Yupi
                     ConnectionTimeout = 10u
                 };
 
-                Manager = new DatabaseManager(mySqlConnectionStringBuilder.ToString());
+                Manager = new DatabaseManager(mySqlConnectionStringBuilder);
 
                 using (IQueryAdapter commitableQueryReactor = GetDatabaseManager().GetQueryReactor())
                 {
@@ -710,9 +709,6 @@ namespace Yupi
 
             Writer.WriteLine("Elapsed " + TimeSpanToString(span) + "ms on Shutdown Proccess", "Yupi.Life",
                 ConsoleColor.DarkYellow);
-
-            if (!restart)
-                Writer.WriteLine("Shutdown Completed. Press Any Key to Continue...", string.Empty, ConsoleColor.DarkRed);
 
             if (!restart)
                 Console.ReadKey();

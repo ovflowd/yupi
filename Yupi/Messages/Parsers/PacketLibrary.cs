@@ -20,154 +20,103 @@ namespace Yupi.Messages.Parsers
         ///     Secrets the key.
         /// </summary>
         /// <param name="handler">The handler.</param>
-        internal static void SecretKey(GameClientMessageHandler handler)
-        {
-            handler.SecretKey();
-        }
+        internal static void SecretKey(GameClientMessageHandler handler) => handler.SecretKey();
 
         /// <summary>
         ///     Machines the identifier.
         /// </summary>
         /// <param name="handler">The handler.</param>
-        internal static void MachineId(GameClientMessageHandler handler)
-        {
-            handler.MachineId();
-        }
+        internal static void MachineId(GameClientMessageHandler handler) => handler.MachineId();
 
         /// <summary>
         ///     Guides the message.
         /// </summary>
         /// <param name="handler">The handler.</param>
-        internal static void GuideMessage(GameClientMessageHandler handler)
-        {
-            handler.CallGuide();
-        }
+        internal static void GuideMessage(GameClientMessageHandler handler) =>  handler.CallGuide();
 
         /// <summary>
         ///     Sets the chat preferrence.
         /// </summary>
         /// <param name="handler">The handler.</param>
-        internal static void SetChatPreferrence(GameClientMessageHandler handler)
-        {
-            handler.SetChatPreferrence();
-        }
+        internal static void SetChatPreferrence(GameClientMessageHandler handler) => handler.SetChatPreferrence();
 
         /// <summary>
         ///     Gets the helper tool.
         /// </summary>
         /// <param name="handler">The handler.</param>
-        internal static void GetHelperTool(GameClientMessageHandler handler)
-        {
-            handler.OpenGuideTool();
-        }
+        internal static void GetHelperTool(GameClientMessageHandler handler) => handler.OpenGuideTool();
 
         /// <summary>
         ///     Gets the guide detached.
         /// </summary>
         /// <param name="handler">The handler.</param>
-        internal static void GetGuideDetached(GameClientMessageHandler handler)
-        {
-            handler.AnswerGuideRequest();
-        }
+        internal static void GetGuideDetached(GameClientMessageHandler handler) => handler.AnswerGuideRequest();
 
         /// <summary>
         ///     Logins the with ticket.
         /// </summary>
         /// <param name="handler">The handler.</param>
-        internal static void LoginWithTicket(GameClientMessageHandler handler)
-        {
-            handler.LoginWithTicket();
-        }
+        internal static void LoginWithTicket(GameClientMessageHandler handler) => handler.LoginWithTicket();
 
         /// <summary>
         ///     Invites the guide.
         /// </summary>
         /// <param name="handler">The handler.</param>
-        internal static void InviteGuide(GameClientMessageHandler handler)
-        {
-            handler.InviteToRoom();
-        }
+        internal static void InviteGuide(GameClientMessageHandler handler) => handler.InviteToRoom();
 
         /// <summary>
         ///     Visits the room guide.
         /// </summary>
         /// <param name="handler">The handler.</param>
-        internal static void VisitRoomGuide(GameClientMessageHandler handler)
-        {
-            handler.VisitRoom();
-        }
+        internal static void VisitRoomGuide(GameClientMessageHandler handler) => handler.VisitRoom();
 
         /// <summary>
         ///     Guides the end session.
         /// </summary>
         /// <param name="handler">The handler.</param>
-        internal static void GuideEndSession(GameClientMessageHandler handler)
-        {
-            handler.CloseGuideRequest();
-        }
+        internal static void GuideEndSession(GameClientMessageHandler handler) => handler.CloseGuideRequest();
 
         /// <summary>
         ///     Cancels the call guide.
         /// </summary>
         /// <param name="handler">The handler.</param>
-        internal static void CancelCallGuide(GameClientMessageHandler handler)
-        {
-            handler.CancelCallGuide();
-        }
+        internal static void CancelCallGuide(GameClientMessageHandler handler) => handler.CancelCallGuide();
 
         /// <summary>
         ///     Informations the retrieve.
         /// </summary>
         /// <param name="handler">The handler.</param>
-        internal static void InfoRetrieve(GameClientMessageHandler handler)
-        {
-            handler.InfoRetrieve();
-        }
+        internal static void InfoRetrieve(GameClientMessageHandler handler) => handler.InfoRetrieve();
 
         /// <summary>
         ///     Chats the specified handler.
         /// </summary>
         /// <param name="handler">The handler.</param>
-        internal static void Chat(GameClientMessageHandler handler)
-        {
-            handler.Chat();
-        }
+        internal static void Chat(GameClientMessageHandler handler) => handler.Chat();
 
         /// <summary>
         ///     Shouts the specified handler.
         /// </summary>
         /// <param name="handler">The handler.</param>
-        internal static void Shout(GameClientMessageHandler handler)
-        {
-            handler.Shout();
-        }
+        internal static void Shout(GameClientMessageHandler handler) => handler.Shout();
 
         /// <summary>
         ///     Requests the floor plan used coords.
         /// </summary>
         /// <param name="handler">The handler.</param>
-        internal static void RequestFloorPlanUsedCoords(GameClientMessageHandler handler)
-        {
-            handler.GetFloorPlanUsedCoords();
-        }
+        internal static void RequestFloorPlanUsedCoords(GameClientMessageHandler handler) => handler.GetFloorPlanUsedCoords();
 
         /// <summary>
         ///     Requests the floor plan door.
         /// </summary>
         /// <param name="handler">The handler.</param>
-        internal static void RequestFloorPlanDoor(GameClientMessageHandler handler)
-        {
-            handler.GetFloorPlanDoor();
-        }
+        internal static void RequestFloorPlanDoor(GameClientMessageHandler handler) => handler.GetFloorPlanDoor();
 
         /// <summary>
         ///     Opens the bully reporting.
         /// </summary>
         /// <param name="handler">The handler.</param>
-        internal static void OpenBullyReporting(GameClientMessageHandler handler)
-        {
-            handler.OpenBullyReporting();
-        }
+        internal static void OpenBullyReporting(GameClientMessageHandler handler) => handler.OpenBullyReporting();
 
         /// <summary>
         ///     Sends the bully report.
@@ -2765,10 +2714,7 @@ namespace Yupi.Messages.Parsers
         ///     Hotels the view request badge.
         /// </summary>
         /// <param name="handler">The handler.</param>
-        internal static void HotelViewRequestBadge(GameClientMessageHandler handler)
-        {
-            handler.HotelViewRequestBadge();
-        }
+        internal static void HotelViewRequestBadge(GameClientMessageHandler handler) => handler.HotelViewRequestBadge();
 
         /// <summary>
         ///     Gets the camera price.

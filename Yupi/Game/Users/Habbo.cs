@@ -244,7 +244,7 @@ namespace Yupi.Game.Users
         /// <summary>
         ///     The last quest completed
         /// </summary>
-        internal int LastQuestCompleted;
+        internal int LastQuestCompleted = 0;
 
         public uint LastSelectedUser = 0;
 

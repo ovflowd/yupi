@@ -278,8 +278,9 @@ namespace Yupi.Game.Commands
         /// <param name="parameters"></param>
         /// <param name="client">The client.</param>
         /// <param name="scommand"></param>
+        /// <param name="forceExecution"></param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        public static bool TryExecute(string scommand, string parameters, GameClient client)
+        public static bool TryExecute(string scommand, string parameters, GameClient client, bool forceExecution = false)
         {
             if (string.IsNullOrEmpty(scommand) || string.IsNullOrEmpty(parameters) || client.GetHabbo() == null ||
                 !client.GetHabbo().InRoom)
@@ -297,7 +298,7 @@ namespace Yupi.Game.Commands
 
             Command command = CommandsDictionary[commandName];
 
-            if (!CanUse(command.MinRank, client))
+            if (!CanUse(command.MinRank, client) && !forceExecution)
                 return false;
 
             if (command.MinParams == -2 || (command.MinParams == -1 && pms.Length > 1) ||

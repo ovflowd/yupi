@@ -281,16 +281,17 @@ CREATE TABLE `bots_commands` (
   `speech_speeches_id` int(11) unsigned DEFAULT '0',
   `action_command` varchar(100) CHARACTER SET utf8mb4 DEFAULT NULL,
   `action_command_parameters` varchar(100) CHARACTER SET utf8mb4 DEFAULT NULL,
-  `action_bot` enum('bot_move_to_user','bot_sit','bot_lay','bot_stand','bot_freeze') CHARACTER SET utf8mb4 DEFAULT NULL
+  `action_bot` enum('bot_move_to_user','bot_sit','bot_lay','bot_stand','bot_freeze') CHARACTER SET utf8mb4 DEFAULT NULL,
+  `force_command_execution` enum('0','1') NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `bots_commands`
 --
 
-INSERT INTO `bots_commands` (`id`, `bot_type`, `speech_input`, `speech_input_alias`, `speech_output`, `speech_is_from_speeches`, `speech_speeches_id`, `action_command`, `action_command_parameters`, `action_bot`) VALUES
-(1, 'bot_bartender', 'come here', 'comehere;vem aqui', 'I''m going!', '0', 0, NULL, NULL, 'bot_move_to_user'),
-(2, 'bot_bartender', 'água', 'agua', 'A fresh water for you!', '0', 0, 'handitem', 'handitem 1', 'bot_move_to_user');
+INSERT INTO `bots_commands` (`id`, `bot_type`, `speech_input`, `speech_input_alias`, `speech_output`, `speech_is_from_speeches`, `speech_speeches_id`, `action_command`, `action_command_parameters`, `action_bot`, `force_command_execution`) VALUES
+(1, 'bot_bartender', 'come here', 'comehere;vem aqui', 'I''m going!', '0', 0, NULL, NULL, 'bot_move_to_user', '0'),
+(2, 'bot_bartender', 'água', 'agua;water', 'A fresh water for you!', '0', 0, 'handitem', 'handitem 1', 'bot_move_to_user', '1');
 
 -- --------------------------------------------------------
 
@@ -14228,7 +14229,7 @@ ALTER TABLE `catalog_pets`
 -- Limitadores para a tabela `groups_data`
 --
 ALTER TABLE `groups_data`
-  ADD CONSTRAINT `groups_data_owner_id` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
+  ADD CONSTRAINT `groups_data_owner_id` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Limitadores para a tabela `groups_forums_data`
@@ -14261,6 +14262,19 @@ ALTER TABLE `rooms_data`
 --
 ALTER TABLE `users_stats`
   ADD CONSTRAINT `users_stats_user_id` FOREIGN KEY (`id`) REFERENCES `users` (`id`);
+
+DELIMITER $$
+--
+-- Eventos
+--
+DROP EVENT `daily_pet_respect_points`$$
+CREATE DEFINER=`pixar`@`192.99.135.12` EVENT `daily_pet_respect_points` ON SCHEDULE EVERY 24 HOUR STARTS '2016-01-01 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO update users_stats set daily_pet_respect_points = 5 where daily_pet_respect_points = 0$$
+
+DROP EVENT `daily_respect_points`$$
+CREATE DEFINER=`pixar`@`192.99.135.12` EVENT `daily_respect_points` ON SCHEDULE EVERY 24 HOUR STARTS '2016-01-01 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO update users_stats set daily_respect_points = 5 where daily_respect_points = 0$$
+
+DELIMITER ;
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
