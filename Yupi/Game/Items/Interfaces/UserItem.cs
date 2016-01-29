@@ -1,3 +1,4 @@
+using System;
 using System.Data;
 using System.Globalization;
 using Yupi.Data.Base.Adapters.Interfaces;
@@ -203,11 +204,13 @@ namespace Yupi.Game.Items.Interfaces
 
                     case Interaction.Mannequin:
                         message.AppendInteger(1);
-                        if (ExtraData.Length <= 0 || !ExtraData.Contains(";") || ExtraData.Split(';').Length < 3)
+
+                        if (!ExtraData.Contains(Convert.ToChar(5).ToString()))
                         {
-                            message.AppendInteger(3); // Coun Of Values
+
+                            message.AppendInteger(3); // Count Of Values
                             message.AppendString("GENDER");
-                            message.AppendString("m");
+                            message.AppendString("M");
                             message.AppendString("FIGURE");
                             message.AppendString(string.Empty);
                             message.AppendString("OUTFIT_NAME");
@@ -215,7 +218,7 @@ namespace Yupi.Game.Items.Interfaces
                         }
                         else
                         {
-                            string[] extradatas = ExtraData.Split(';');
+                            string[] extradatas = ExtraData.Split((char)5);
 
                             message.AppendInteger(3); // Count Of Values
                             message.AppendString("GENDER");

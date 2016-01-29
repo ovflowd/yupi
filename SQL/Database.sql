@@ -3390,7 +3390,7 @@ INSERT INTO `catalog_furnitures` (`id`, `flat_id`, `item_name`, `type`, `stack_h
 (2993, 0, 'horse_stbl_fnc_corner', 's', '1', '0', '0', '1', '0', '1', '1', 'default', 2, '0', '0', 0),
 (2994, 0, 'anc_waterfall', 's', '0.2', '0', '0', '1', '0', '1', '1', 'default', 1, '0', '0', 0),
 (2995, 0, 'roombg_color', 's', '1', '0', '0', '1', '1', '1', '1', 'bgupdater', 1, '1', '0', 0),
-(2996, 0, 'boutique_mannequin1', 's', '2', '0', '0', '1', '1', '1', '1', 'maniqui', 1, '0', '0', 0),
+(2996, 0, 'boutique_mannequin1', 's', '2', '0', '0', '1', '1', '1', '1', 'mannequin', 1, '0', '0', 0),
 (2997, 0, 'val13_archway', 's', '0', '1', '0', '1', '1', '1', '1', 'default', 1, '0', '0', 0),
 (2998, 0, 'val13_chair', 's', '1', '0', '0', '1', '1', '1', '1', 'default', 1, '0', '0', 0),
 (2999, 0, 'val13_div_3', 's', '0.5', '0', '0', '1', '1', '1', '1', 'default', 2, '0', '0', 0),
@@ -14268,10 +14268,10 @@ DELIMITER $$
 -- Eventos
 --
 DROP EVENT `daily_pet_respect_points`$$
-CREATE DEFINER=`pixar`@`192.99.135.12` EVENT `daily_pet_respect_points` ON SCHEDULE EVERY 24 HOUR STARTS '2016-01-01 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO update users_stats set daily_pet_respect_points = 5 where daily_pet_respect_points = 0$$
+CREATE DEFINER=`root`@`localhost` EVENT `daily_pet_respect_points` ON SCHEDULE EVERY 24 HOUR STARTS '2016-01-01 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO update users_stats set daily_pet_respect_points = 5 where daily_pet_respect_points = 0$$
 
 DROP EVENT `daily_respect_points`$$
-CREATE DEFINER=`pixar`@`192.99.135.12` EVENT `daily_respect_points` ON SCHEDULE EVERY 24 HOUR STARTS '2016-01-01 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO update users_stats set daily_respect_points = 5 where daily_respect_points = 0$$
+CREATE DEFINER=`root`@`localhost` EVENT `daily_respect_points` ON SCHEDULE EVERY 24 HOUR STARTS '2016-01-01 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO update users_stats set daily_respect_points = 5 where daily_respect_points = 0$$
 
 DELIMITER ;
 

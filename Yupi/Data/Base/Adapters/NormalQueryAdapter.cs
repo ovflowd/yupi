@@ -52,10 +52,23 @@ namespace Yupi.Data.Base.Adapters
 
             int result = 0;
 
-            object integerResult = Command.ExecuteScalar();
+            try
+            {
+                SetFetching();
 
-            if (integerResult != null)
-                int.TryParse(integerResult.ToString(), out result);
+                object integerResult = Command.ExecuteScalar();
+
+                if (integerResult != null)
+                    int.TryParse(integerResult.ToString(), out result);
+            }
+            catch
+            {
+                SetOpened();
+            }
+            finally
+            {
+                SetOpened();
+            }
 
             return result;
         }
@@ -68,11 +81,24 @@ namespace Yupi.Data.Base.Adapters
             DataRow dataRow = null;
             DataSet dataSet = new DataSet();
 
-            using (MySqlDataAdapter dataAdapter = new MySqlDataAdapter(Command))
-                dataAdapter.Fill(dataSet);
+            try
+            {
+                SetFetching();
 
-            if (dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count == 1)
-                dataRow = dataSet.Tables[0].Rows[0];
+                using (MySqlDataAdapter dataAdapter = new MySqlDataAdapter(Command))
+                    dataAdapter.Fill(dataSet);
+
+                if (dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count == 1)
+                    dataRow = dataSet.Tables[0].Rows[0];
+            }
+            catch
+            {
+                SetOpened();
+            }
+            finally
+            {
+                SetOpened();
+            }
 
             return dataRow;
         }
@@ -82,7 +108,22 @@ namespace Yupi.Data.Base.Adapters
             if (!Client.IsAvailable())
                 return string.Empty;
 
-            object stringResult = Command.ExecuteScalar();
+            object stringResult = null;
+
+            try
+            {
+                SetFetching();
+
+                stringResult = Command.ExecuteScalar();
+            }
+            catch
+            {
+                SetOpened();
+            }
+            finally
+            {
+                SetOpened();
+            }
 
             if (stringResult != null)
                 return stringResult.ToString();
@@ -95,10 +136,25 @@ namespace Yupi.Data.Base.Adapters
             if (!Client.IsAvailable())
                 return null;
 
-            DataTable dataTable = new DataTable();
+            DataTable dataTable = null;
 
-            using (MySqlDataAdapter adapter = new MySqlDataAdapter(Command))
-                adapter.Fill(dataTable);
+            try
+            {
+                SetFetching();
+
+                dataTable = new DataTable();
+
+                using (MySqlDataAdapter adapter = new MySqlDataAdapter(Command))
+                    adapter.Fill(dataTable);
+            }
+            catch
+            {
+                SetOpened();
+            }
+            finally
+            {
+                SetOpened();
+            }
 
             return dataTable;
         }
@@ -108,7 +164,20 @@ namespace Yupi.Data.Base.Adapters
             if (!Client.IsAvailable())
                 return 0L;
 
-            Command.ExecuteScalar();
+            try
+            {
+                SetExecuting();
+
+                Command.ExecuteScalar();
+            }
+            catch
+            {
+                SetOpened();
+            }
+            finally
+            {
+                SetOpened();
+            }
 
             return Command.LastInsertedId;
         }
@@ -128,7 +197,20 @@ namespace Yupi.Data.Base.Adapters
             if (!Client.IsAvailable())
                 return;
 
-            Command.ExecuteNonQuery();
+            try
+            {
+                SetExecuting();
+
+                Command.ExecuteNonQuery();
+            }
+            catch
+            {
+                SetOpened();
+            }
+            finally
+            {
+                SetOpened();
+            }
         }
 
         public void SetQuery(string query)
@@ -137,9 +219,12 @@ namespace Yupi.Data.Base.Adapters
             Command.CommandText = query;
         }
 
-        public void Dispose()
-        {
-            Command.Dispose();           
-        } 
+        public void Dispose() => Command.Dispose();
+
+        private void SetFetching() => Client.SetInternalState(ConnectionState.Fetching);
+
+        private void SetExecuting() => Client.SetInternalState(ConnectionState.Executing);
+
+        private void SetOpened() => Client.SetInternalState(ConnectionState.Open);
     }
 }

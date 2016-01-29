@@ -699,7 +699,7 @@ namespace Yupi.Game.Catalogs
                         break;
 
                     case Interaction.Mannequin:
-                        extraData = string.Concat("m", Convert.ToChar(5), "ch-215-92.lg-3202-1322-73", Convert.ToChar(5), "Mannequin");
+                        extraData = string.Concat("m", Convert.ToChar(5), "lg-270-82.ch-210-66", Convert.ToChar(5), "Mannequin");
                         break;
 
                     case Interaction.VipGate:

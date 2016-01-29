@@ -23,6 +23,7 @@
 */
 
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using MySql.Data.MySqlClient;
 using Yupi.Data.Base.Adapters.Interfaces;
@@ -52,8 +53,7 @@ namespace Yupi.Data.Base.Managers
         {
             lock (_databaseClients)
             {
-                if (_databaseClients.Count + 1 >= _databaseClients.Capacity ||
-                    _databaseClients.Count >= _databaseClients.Capacity)
+                if (_databaseClients.Count + 1 >= _databaseClients.Capacity)
                     return null;
 
                 if (needReturn)
@@ -71,15 +71,44 @@ namespace Yupi.Data.Base.Managers
             }
         }
 
+        private void RemoveUnusedConnections(bool removeAllCalled = false)
+        {
+            if (removeAllCalled)
+            {
+                lock (_databaseClients)
+                {
+                    foreach (DatabaseClient databaseClient in _databaseClients)
+                    {
+                        if (!databaseClient.IsAvailable())
+                            databaseClient.Dispose();
+
+                        databaseClient.Disconnect();
+                    }
+                }
+            }
+            else
+            {
+                lock (_databaseClients)
+                {
+                    if (_databaseClients.Count > 0)
+                    {
+                        foreach (DatabaseClient databaseClient in _databaseClients.Where(c => !c.IsAvailable()))
+                            databaseClient.Dispose();
+
+                        _databaseClients.RemoveAll(c => !c.IsAvailable());
+                    }
+                }
+            }
+        }
+
         private DatabaseClient ReturnConnectedConnection()
         {
             lock (_databaseClients)
             {
-                if (_databaseClients.Any(c => c.IsAvailable()))
-                    return _databaseClients.First(c => c.IsAvailable());
+                if (_databaseClients.Any(c => c.IsAvailable() && c.GetInternalState() != ConnectionState.Executing))
+                    return _databaseClients.First(c => c.IsAvailable() && c.GetInternalState() != ConnectionState.Executing);
 
-                if (_databaseClients.Count > 0)
-                    _databaseClients.RemoveAll(c => !c.IsAvailable());                
+                RemoveUnusedConnections();
             }
 
             return AddConnection(true);
@@ -99,16 +128,7 @@ namespace Yupi.Data.Base.Managers
             if (_databaseClients == null)
                 return;
 
-            lock (_databaseClients)
-            {
-                foreach (DatabaseClient current in _databaseClients)
-                {
-                    if (!current.IsAvailable())
-                        current.Dispose();
-
-                    current.Disconnect();
-                }
-            }
+            RemoveUnusedConnections(true);
 
             lock (_databaseClients)
                 _databaseClients.Clear();

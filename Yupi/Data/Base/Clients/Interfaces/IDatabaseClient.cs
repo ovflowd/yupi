@@ -23,6 +23,7 @@
 */
 
 using System;
+using System.Data;
 using MySql.Data.MySqlClient;
 using Yupi.Data.Base.Adapters.Interfaces;
 
@@ -37,6 +38,8 @@ namespace Yupi.Data.Base.Clients.Interfaces
         IQueryAdapter GetQueryReactor();
 
         MySqlCommand CreateCommand();
+
+        void SetInternalState(ConnectionState state);
 
         bool IsAvailable();
     }

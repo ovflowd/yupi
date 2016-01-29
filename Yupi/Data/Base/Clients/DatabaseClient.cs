@@ -22,6 +22,7 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
+using System;
 using System.ComponentModel.Design;
 using System.Data;
 using MySql.Data.MySqlClient;
@@ -35,6 +36,8 @@ namespace Yupi.Data.Base.Clients
     {
         protected readonly IQueryAdapter Adapter;
 
+        protected ConnectionState InternalState = ConnectionState.Closed;
+
         protected readonly MySqlConnection Connection;
 
         public DatabaseClient(string connectionStr)
@@ -47,13 +50,31 @@ namespace Yupi.Data.Base.Clients
         public void Disconnect()
         {
             if (Connection.State == ConnectionState.Open)
-                Connection.Close();
+            {
+                try
+                {
+                    Connection.Close();
+                }
+                finally
+                {
+                    SetInternalState(ConnectionState.Closed);
+                }
+            }  
         }
 
         public void Connect()
         {
             if (Connection.State == ConnectionState.Closed)
-                Connection.Open();
+            {
+                try
+                {
+                    Connection.Open();
+                }
+                finally
+                {
+                    SetInternalState(ConnectionState.Open);
+                }
+            }        
         }
 
         public void Dispose()
@@ -61,8 +82,6 @@ namespace Yupi.Data.Base.Clients
             Adapter.Dispose();
 
             Connection.Dispose();
-
-            Connection.Close();
         }
 
         public IQueryAdapter GetQueryReactor() => Adapter;
@@ -70,5 +89,16 @@ namespace Yupi.Data.Base.Clients
         public bool IsAvailable() => Connection.State == ConnectionState.Open;
 
         public MySqlCommand CreateCommand() => Connection.CreateCommand();
+
+        public void SetInternalState(ConnectionState state) => InternalState = state;
+
+        public ConnectionState GetInternalState()
+        {
+            if (InternalState == Connection.State)
+                return InternalState;
+            if (InternalState == ConnectionState.Executing || InternalState == ConnectionState.Fetching)
+                return InternalState;
+            return InternalState = Connection.State;
+        }
     }
 }

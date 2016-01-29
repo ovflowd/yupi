@@ -68,12 +68,9 @@ namespace Yupi.Game.Users.Factories
 
                 if (queryReactor.GetInteger() == 0)
                 {
-                    Writer.WriteLine("The SSO key " + sessionTicket + " isn't attached to any User.", "Yupi.SSO",
+                    Writer.WriteLine("The SSO key " + sessionTicket + " isn't attached", "Yupi.SSO",
                         ConsoleColor.DarkRed);
-                    Writer.WriteLine("Check if your CMS has the same SSO as in your Database.", "Yupi.SSO",
-                        ConsoleColor.DarkRed);
-                    Writer.WriteLine("You can also check if is a valid SSO and not DDoS.", "Yupi.SSO",
-                        ConsoleColor.DarkRed);
+
                     return null;
                 }
 
