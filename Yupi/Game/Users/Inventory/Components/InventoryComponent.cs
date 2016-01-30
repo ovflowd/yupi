@@ -741,34 +741,33 @@ namespace Yupi.Game.Users.Inventory.Components
 
             if (_mAddedItems.Count > 0)
             {
-                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                lock (_mAddedItems)
                 {
-                    lock(_mAddedItems)
+                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
                         foreach (UserItem userItem in _mAddedItems.Values)
-                            queryReactor.RunFastQuery($"UPDATE items_rooms SET user_id='{UserId}', room_id = 0 WHERE id='{userItem.Id}'");
-
+                            queryReactor.RunFastQuery($"UPDATE items_rooms SET user_id = {UserId}, room_id = 0 WHERE id = {userItem.Id}");
                     }
                 }
 
-                _mAddedItems?.Clear();
+                _mAddedItems.Clear();
             }
 
             if (_mRemovedItems.Count > 0)
             {
                 lock(_mRemovedItems)
                 {
+                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                        GetClient().GetHabbo().CurrentRoom.GetRoomItemHandler().SaveFurniture(queryReactor);
+
                     foreach (UserItem userItem2 in _mRemovedItems.Values)
                     {
-                        using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                            GetClient().GetHabbo().CurrentRoom.GetRoomItemHandler().SaveFurniture(queryReactor);
-
                         if (SongDisks.Contains(userItem2.Id))
                             SongDisks.Remove(userItem2.Id);
                     }
                 }
                 
-                _mRemovedItems?.Clear();
+                _mRemovedItems.Clear();
             }
         }
 

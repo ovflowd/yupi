@@ -1191,19 +1191,25 @@ namespace Yupi.Game.Rooms
         internal void FlushSettings()
         {
             _mCycleEnded = true;
+
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 GetRoomItemHandler().SaveFurniture(queryReactor);
+
             RoomData.Tags.Clear();
             UsersWithRights.Clear();
             Bans.Clear();
             ActiveTrades.Clear();
             LoadedGroups.Clear();
+
             if (GotFreeze())
                 _freeze = new Freeze(this);
+
             if (GotBanzai())
                 _banzai = new BattleBanzai(this);
+
             if (GotSoccer())
                 _soccer = new Soccer(this);
+
             if (_gameItemHandler != null)
                 _gameItemHandler = new GameItemHandler(this);
         }
@@ -1418,6 +1424,7 @@ namespace Yupi.Game.Rooms
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 GetRoomItemHandler().SaveFurniture(queryReactor);
+
                 queryReactor.RunFastQuery($"UPDATE rooms_data SET users_now=0 WHERE id = {RoomId} LIMIT 1");
             }
 

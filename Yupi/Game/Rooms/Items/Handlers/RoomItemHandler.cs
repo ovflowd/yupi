@@ -158,73 +158,64 @@ namespace Yupi.Game.Rooms.Items.Handlers
         /// <param name="session">The session.</param>
         public void SaveFurniture(IQueryAdapter dbClient, GameClient session = null)
         {
-            try
+            if (!_updatedItems.Any() && !_removedItems.Any() && _room.GetRoomUserManager().PetCount <= 0)
+                return;
+
+            foreach (uint itemId in _removedItems)
+                dbClient.RunFastQuery($"UPDATE items_rooms SET room_id = 0, x = 0, y = 0, z = '0', rot = 0 WHERE id = {itemId}");
+
+            foreach (RoomItem roomItem in _updatedItems.Select(GetItem).Where(roomItem => roomItem != null))
             {
-                if (!_updatedItems.Any() && !_removedItems.Any() && _room.GetRoomUserManager().PetCount <= 0)
-                    return;
-
-                foreach (uint itemId in _removedItems)
-                    dbClient.RunFastQuery($"UPDATE items_rooms SET room_id='0', x='0', y='0', z='0', rot='0' WHERE id = {itemId}");
-
-                foreach (RoomItem roomItem in _updatedItems.Select(GetItem).Where(roomItem => roomItem != null))
+                if (roomItem.GetBaseItem() != null && roomItem.GetBaseItem().IsGroupItem)
                 {
-                    if (roomItem.GetBaseItem() != null && roomItem.GetBaseItem().IsGroupItem)
+                    try
                     {
-                        try
-                        {
-                            string[] gD = roomItem.GroupData.Split(';');
+                        string[] gD = roomItem.GroupData.Split(';');
 
-                            roomItem.ExtraData = roomItem.ExtraData + ";" + gD[1] + ";" + gD[2] + ";" + gD[3];
-                        }
-                        catch
-                        {
-                            roomItem.ExtraData = string.Empty;
-                        }
+                        roomItem.ExtraData = roomItem.ExtraData + ";" + gD[1] + ";" + gD[2] + ";" + gD[3];
                     }
-
-                    if (roomItem.RoomId == 0)
-                        continue;
-
-                    if (roomItem.GetBaseItem().Name.Contains("wallpaper_single") ||
-                        roomItem.GetBaseItem().Name.Contains("floor_single") ||
-                        roomItem.GetBaseItem().Name.Contains("landscape_single"))
+                    catch
                     {
-                        dbClient.RunFastQuery($"DELETE FROM items_rooms WHERE id = {roomItem.Id} LIMIT 1");
-
-                        continue;
-                    }
-
-                    if (roomItem.IsFloorItem)
-                    {
-                        dbClient.SetQuery(
-                            $"UPDATE items_rooms SET room_id={roomItem.RoomId}, extra_data=@extraData, x={roomItem.X}, y={roomItem.Y}, z='{roomItem.Z.ToString(CultureInfo.InvariantCulture).Replace(',', '.')}', rot={roomItem.Rot} WHERE id={roomItem.Id}");
-                        dbClient.AddParameter("extraData",
-                            !string.IsNullOrEmpty(roomItem.ExtraData) ? roomItem.ExtraData : string.Empty);
-                        dbClient.RunQuery();
-                    }
-                    else
-                    {
-                        dbClient.SetQuery(
-                            $"UPDATE items_rooms SET room_id={roomItem.RoomId}, extra_data=@extraData, wall_pos=@wallPos WHERE id={roomItem.Id}");
-                        dbClient.AddParameter("extraData",
-                            !string.IsNullOrEmpty(roomItem.ExtraData) ? roomItem.ExtraData : string.Empty);
-                        dbClient.AddParameter("wallPos", roomItem.WallCoord);
-                        dbClient.RunQuery();
+                        roomItem.ExtraData = string.Empty;
                     }
                 }
 
-                _room.GetRoomUserManager().AppendPetsUpdateString(dbClient);
+                if (roomItem.RoomId == 0)
+                    continue;
 
-                session?.GetHabbo().GetInventoryComponent().RunDbUpdate();
+                if (roomItem.GetBaseItem().Name.Contains("wallpaper_single") || roomItem.GetBaseItem().Name.Contains("floor_single") || roomItem.GetBaseItem().Name.Contains("landscape_single"))
+                {
+                    dbClient.RunFastQuery($"DELETE FROM items_rooms WHERE id = {roomItem.Id} LIMIT 1");
 
-                _updatedItems.Clear();
-                _removedItems.Clear();
+                    continue;
+                }
+
+                if (roomItem.IsFloorItem)
+                {
+                    dbClient.SetQuery($"UPDATE items_rooms SET room_id = {roomItem.RoomId}, extra_data = @extraData, x = {roomItem.X}, y = {roomItem.Y}, z = '{roomItem.Z.ToString(CultureInfo.InvariantCulture).Replace(',', '.')}', rot = {roomItem.Rot} WHERE id = {roomItem.Id}");
+
+                    dbClient.AddParameter("extraData", !string.IsNullOrEmpty(roomItem.ExtraData) ? roomItem.ExtraData : string.Empty);
+
+                    dbClient.RunQuery();
+                }
+                else
+                {
+                    dbClient.SetQuery($"UPDATE items_rooms SET room_id = {roomItem.RoomId}, extra_data = @extraData, wall_pos = @wallPos WHERE id = {roomItem.Id}");
+
+                    dbClient.AddParameter("extraData", !string.IsNullOrEmpty(roomItem.ExtraData) ? roomItem.ExtraData : string.Empty);
+                    dbClient.AddParameter("wallPos", roomItem.WallCoord);
+
+                    dbClient.RunQuery();
+                }
             }
-            catch (Exception ex)
-            {
-                ServerLogManager.LogCriticalException("Error during saving furniture for room " + _room.RoomId +
-                                                      ". Stack: " + ex);
-            }
+
+            _room.GetRoomUserManager().UpdatePetsInDataBase();
+
+            if (session != null)
+                session.GetHabbo().GetInventoryComponent().RunDbUpdate();
+
+            _updatedItems.Clear();
+            _removedItems.Clear();
         }
 
         /// <summary>

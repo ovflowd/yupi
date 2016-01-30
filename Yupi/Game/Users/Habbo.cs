@@ -647,22 +647,6 @@ namespace Yupi.Game.Users
         internal bool IsCitizen => CurrentTalentLevel > 4;
 
         /// <summary>
-        ///     Gets the get query string.
-        /// </summary>
-        /// <value>The get query string.</value>
-        internal string GetQueryString
-        {
-            get
-            {
-                _habboinfoSaved = true;
-                return string.Concat("UPDATE users SET online='0', last_online = '", Yupi.GetUnixTimeStamp(),
-                    "', activity_points = '", Duckets, "', diamonds = '", Diamonds, "', credits = '", Credits,
-                    "' WHERE id = '", Id, "'; UPDATE users_stats SET achievement_score = ", AchievementPoints,
-                    " WHERE id=", Id, " LIMIT 1; ");
-            }
-        }
-
-        /// <summary>
         ///     Gets my groups.
         /// </summary>
         /// <value>My groups.</value>
@@ -1183,12 +1167,15 @@ namespace Yupi.Game.Users
         /// <summary>
         ///     Runs the database update.
         /// </summary>
-        /// <param name="dbClient">The database client.</param>
-        internal void RunDbUpdate(IQueryAdapter dbClient)
+        internal void RunDbUpdate()
         {
-            dbClient.RunFastQuery(string.Concat("UPDATE users SET last_online = '", Yupi.GetUnixTimeStamp(),
-                "', activity_points = '", Duckets, "', credits = '", Credits, "', diamonds = '", Diamonds,
-                "' WHERE id = '", Id, "' LIMIT 1; "));
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            {
+                queryReactor.RunFastQuery($"UPDATE users_stats SET achievement_score = '{AchievementPoints}' WHERE id = {Id}");
+                queryReactor.RunFastQuery($"UPDATE users SET last_online = '{Yupi.GetUnixTimeStamp()}', activity_points = '{Duckets}', credits = '{Credits}', diamonds = '{Diamonds}' WHERE id = '{Id}'");
+            }
+
+            _habboinfoSaved = true;
         }
 
         /// <summary>

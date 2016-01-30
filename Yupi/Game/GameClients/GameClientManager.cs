@@ -396,30 +396,17 @@ namespace Yupi.Game.GameClients
         /// </summary>
         internal void CloseAll()
         {
-            StringBuilder stringBuilder = new StringBuilder();
-            bool flag = false;
-
             Writer.WriteLine("Saving Inventary Content....", "Yupi.Boot", ConsoleColor.DarkCyan);
 
             foreach (GameClient current2 in Clients.Values.Where(current2 => current2.GetHabbo() != null))
             {
                 current2.GetHabbo().GetInventoryComponent().RunDbUpdate();
-                current2.GetHabbo().RunDbUpdate(Yupi.GetDatabaseManager().GetQueryReactor());
-                stringBuilder.Append(current2.GetHabbo().GetQueryString);
-                flag = true;
-                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+
+                current2.GetHabbo().RunDbUpdate();
             }
 
             Writer.WriteLine("Inventary Content Saved!", "Yupi.Boot", ConsoleColor.DarkCyan);
 
-            if (flag)
-            {
-                if (stringBuilder.Length > 0)
-                {
-                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                        queryReactor.RunFastQuery(stringBuilder.ToString());
-                }
-            }
             try
             {
                 Writer.WriteLine("Closing Connection Manager...", "Yupi.Boot", ConsoleColor.DarkMagenta);

@@ -585,16 +585,16 @@ namespace Yupi.Game.Rooms.User
         internal void SavePets(IQueryAdapter dbClient)
         {
             if (GetPets().Any())
-                AppendPetsUpdateString(dbClient);
+                UpdatePetsInDataBase();
         }
 
         /// <summary>
         ///     Appends the pets update string.
         /// </summary>
         /// <param name="dbClient">The database client.</param>
-        internal void AppendPetsUpdateString(IQueryAdapter dbClient)
+        internal void UpdatePetsInDataBase()
         {
-            foreach (Pet current in GetPets())
+            foreach (Pet current in GetPets().Where(p => p.DbState != DatabaseUpdateState.Updated))
             {
                 using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {

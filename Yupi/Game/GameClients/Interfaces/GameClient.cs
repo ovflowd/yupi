@@ -478,8 +478,8 @@ namespace Yupi.Game.GameClients.Interfaces
         {
             if (GetHabbo() != null)
             {
-                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                    queryReactor.RunFastQuery(GetHabbo().GetQueryString);
+                GetHabbo().RunDbUpdate();
+
                 GetHabbo().OnDisconnect(reason);
             }
 
