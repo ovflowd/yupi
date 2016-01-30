@@ -43,7 +43,11 @@ namespace Yupi.Data.Base.Adapters
             Command = Client.CreateCommand();       
         }
 
-        public void AddParameter(string parameterName, object val)  => Command.Parameters.AddWithValue(parameterName, val);
+        public void AddParameter(string parameterName, object value)
+        {
+            if (!Command.Parameters.Contains(parameterName))
+                Command.Parameters.AddWithValue(parameterName, value);
+        }
 
         public int GetInteger()
         {

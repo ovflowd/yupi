@@ -54,18 +54,21 @@ namespace Yupi.Game.Rooms.Chat
         /// </summary>
         /// <param name="adapter"></param>
         /// <param name="roomId"></param>
-        internal void Save(IQueryAdapter adapter, uint roomId)
+        internal void Save(uint roomId)
         {
             if (IsSaved)
                 return;
 
-            adapter.SetQuery("INSERT INTO users_chatlogs (user_id, room_id, timestamp, message) VALUES (@user, @room, @time, @message)");
-            adapter.AddParameter("user", UserId);
-            adapter.AddParameter("room", roomId);
-            adapter.AddParameter("time", Yupi.DateTimeToUnix(TimeStamp));
-            adapter.AddParameter("message", Message);
+            using (IQueryAdapter adapter = Yupi.GetDatabaseManager().GetQueryReactor())
+            {
+                adapter.SetQuery("INSERT INTO users_chatlogs (user_id, room_id, timestamp, message) VALUES (@user, @room, @time, @message)");
+                adapter.AddParameter("user", UserId);
+                adapter.AddParameter("room", roomId);
+                adapter.AddParameter("time", Yupi.DateTimeToUnix(TimeStamp));
+                adapter.AddParameter("message", Message);
 
-            adapter.RunQuery();
+                adapter.RunQuery();
+            }
         }
 
         internal void Serialize(ref ServerMessage message)

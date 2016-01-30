@@ -113,16 +113,15 @@ namespace Yupi.Game.Rooms.User.Trade
         internal void OfferItem(uint userId, UserItem item)
         {
             TradeUser tradeUser = GetTradeUser(userId);
-            if (tradeUser == null || item == null || !item.BaseItem.AllowTrade || tradeUser.HasAccepted ||
-                _tradeStage != 1)
-            {
+
+            if (tradeUser == null || item == null || !item.BaseItem.AllowTrade || tradeUser.HasAccepted || _tradeStage != 1)
                 return;
-            }
+
             ClearAccepted();
+
             if (!tradeUser.OfferedItems.Contains(item))
-            {
                 tradeUser.OfferedItems.Add(item);
-            }
+
             UpdateTradeWindow();
         }
 
@@ -150,25 +149,24 @@ namespace Yupi.Game.Rooms.User.Trade
         internal void Accept(uint userId)
         {
             TradeUser tradeUser = GetTradeUser(userId);
+
             if (tradeUser == null || _tradeStage != 1)
-            {
                 return;
-            }
+
             tradeUser.HasAccepted = true;
             ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("TradeAcceptMessageComposer"));
             serverMessage.AppendInteger(userId);
             serverMessage.AppendInteger(1);
             SendMessageToUsers(serverMessage);
 
-            {
-                if (!AllUsersAccepted)
-                {
-                    return;
-                }
-                SendMessageToUsers(new ServerMessage(LibraryParser.OutgoingRequest("TradeConfirmationMessageComposer")));
-                _tradeStage++;
-                ClearAccepted();
-            }
+            if (!AllUsersAccepted)
+                return;
+
+            SendMessageToUsers(new ServerMessage(LibraryParser.OutgoingRequest("TradeConfirmationMessageComposer")));
+
+            _tradeStage++;
+
+            ClearAccepted();
         }
 
         /// <summary>
@@ -178,10 +176,10 @@ namespace Yupi.Game.Rooms.User.Trade
         internal void Unaccept(uint userId)
         {
             TradeUser tradeUser = GetTradeUser(userId);
+
             if (tradeUser == null || _tradeStage != 1 || AllUsersAccepted)
-            {
                 return;
-            }
+
             tradeUser.HasAccepted = false;
             ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("TradeAcceptMessageComposer"));
             serverMessage.AppendInteger(userId);
@@ -237,6 +235,7 @@ namespace Yupi.Game.Rooms.User.Trade
                 {
                     serverMessage.AppendInteger(tradeUser.UserId);
                     serverMessage.AppendInteger(tradeUser.OfferedItems.Count);
+
                     foreach (UserItem current in tradeUser.OfferedItems)
                     {
                         serverMessage.AppendInteger(current.Id);
@@ -246,16 +245,16 @@ namespace Yupi.Game.Rooms.User.Trade
                         serverMessage.AppendInteger(0);
                         serverMessage.AppendBool(true);
                         serverMessage.AppendInteger(0);
-                        serverMessage.AppendString("");
+                        serverMessage.AppendString(string.Empty);
                         serverMessage.AppendInteger(0);
                         serverMessage.AppendInteger(0);
                         serverMessage.AppendInteger(0);
+
                         if (current.BaseItem.Type == 's')
-                        {
                             serverMessage.AppendInteger(0);
-                        }
                     }
                 }
+
                 SendMessageToUsers(serverMessage);
             }
         }

@@ -906,16 +906,18 @@ namespace Yupi.Game.Users
 
             if (_inventoryComponent != null)
             {
-                _inventoryComponent.RunDbUpdate();
-                _inventoryComponent.SetIdleState();
+                lock(_inventoryComponent)
+                {
+                    _inventoryComponent?.RunDbUpdate();
+                    _inventoryComponent?.SetIdleState();
+                }
             }
 
             string navilogs = string.Empty;
 
             if (NavigatorLogs.Any())
             {
-                navilogs = NavigatorLogs.Values.Aggregate(navilogs,
-                    (current, navi) => current + $"{navi.Id},{navi.Value1},{navi.Value2};");
+                navilogs = NavigatorLogs.Values.Aggregate(navilogs, (current, navi) => current + $"{navi.Id},{navi.Value1},{navi.Value2};");
                 navilogs = navilogs.Remove(navilogs.Length - 1);
             }
 
@@ -925,6 +927,7 @@ namespace Yupi.Game.Users
                 ConsoleColor.DarkYellow);
 
             TimeSpan getOnlineSeconds = DateTime.Now - TimeLoggedOn;
+
             int secondsToGive = getOnlineSeconds.Seconds;
 
             if (!_habboinfoSaved)

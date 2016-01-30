@@ -1281,8 +1281,8 @@ namespace Yupi.Game.Rooms
                 using (IQueryAdapter adapter = Yupi.GetDatabaseManager().GetQueryReactor())
                     adapter.RunFastQuery($"DELETE FROM users_chatlogs WHERE room_id = {RoomData.Id}");
 
-                    foreach (Chatlog chatlog in RoomData.RoomChat)
-                        chatlog.Save(Yupi.GetDatabaseManager().GetQueryReactor(), RoomData.Id);
+                foreach (Chatlog chatlog in RoomData.RoomChat)
+                    chatlog.Save(RoomData.Id);
             }
         }
 

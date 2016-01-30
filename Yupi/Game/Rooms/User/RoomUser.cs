@@ -1095,23 +1095,9 @@ namespace Yupi.Game.Rooms.User
                 RotHead = rotation;
                 RotBody = rotation;
             }
-            else RotHead = rotation;
+            else
+                RotHead = rotation;
             UpdateNeeded = true;
-        }
-
-        /// <summary>
-        ///     Sets the status.
-        /// </summary>
-        /// <param name="key">The key.</param>
-        /// <param name="value">The value.</param>
-        internal void SetStatus(string key, string value)
-        {
-            if (Statusses.ContainsKey(key))
-            {
-                Statusses[key] = value;
-                return;
-            }
-            AddStatus(key, value);
         }
 
         /// <summary>
@@ -1121,7 +1107,10 @@ namespace Yupi.Game.Rooms.User
         /// <param name="value">The value.</param>
         internal void AddStatus(string key, string value)
         {
-            Statusses[key] = value;
+            if (!Statusses.ContainsKey(key))
+                Statusses.Add(key, value);
+            else
+                Statusses[key] = value;
         }
 
         /// <summary>

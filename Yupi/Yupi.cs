@@ -281,7 +281,7 @@ namespace Yupi
                 ServerConfigurationSettings.Load(Path.Combine(YupiVariablesDirectory, "Settings/Welcome/settings.ini"), true);
                     
                 if(uint.Parse(ServerConfigurationSettings.Data["db.pool.maxsize"]) > MaxRecommendedMySQLConnections)
-                    Writer.WriteLine("Your MySQL Max Connection Amount is High, Max Recommended Value is " + MaxRecommendedMySQLConnections, "Yupi.Database", ConsoleColor.DarkYellow);
+                    Writer.WriteLine("MySQL Max Conn is High!, Recommended Value: " + MaxRecommendedMySQLConnections, "Yupi.Data", ConsoleColor.DarkYellow);
                     
                 MySqlConnectionStringBuilder mySqlConnectionStringBuilder = new MySqlConnectionStringBuilder
                 {

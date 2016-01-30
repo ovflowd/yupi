@@ -887,8 +887,8 @@ namespace Yupi.Game.Catalogs
             if (item.InteractionType == Interaction.PostIt)
                 amount = amount*20;
 
-            char a = item.Type;
-            switch (a)
+            char itemType = item.Type;
+            switch (itemType)
             {
                 case 'i':
                 case 's':

@@ -134,9 +134,9 @@ namespace Yupi.Game.Rooms
         internal RoomModel GetModel(string model, uint roomId)
         {
             if (model == "custom" && _roomModels.Contains($"custom_{roomId}"))
-                return (RoomModel) _roomModels[$"custom_{roomId}"];
+                return (RoomModel)_roomModels[$"custom_{roomId}"];
             if (_roomModels.Contains(model))
-                return (RoomModel) _roomModels[model];
+                return (RoomModel)_roomModels[model];
             return null;
         }
 
@@ -302,7 +302,7 @@ namespace Yupi.Game.Rooms
                 dbClient.AddParameter("cat", category);
                 dbClient.AddParameter("usmax", maxVisitors);
                 dbClient.AddParameter("tstate", tradeState.ToString());
-                roomId = (uint) dbClient.InsertQuery();
+                roomId = (uint)dbClient.InsertQuery();
             }
 
             RoomData data = GenerateRoomData(roomId);
@@ -338,7 +338,7 @@ namespace Yupi.Game.Rooms
         internal void LoadModels(IQueryAdapter dbClient, out uint loadedModel)
         {
             LoadModels(dbClient);
-            loadedModel = (uint) _roomModels.Count;
+            loadedModel = (uint)_roomModels.Count;
         }
 
         /// <summary>
@@ -357,17 +357,17 @@ namespace Yupi.Game.Rooms
 
             foreach (DataRow dataRow in table.Rows)
             {
-                string key = (string) dataRow["id"];
+                string key = (string)dataRow["id"];
 
                 if (key.StartsWith("model_floorplan_"))
                     continue;
 
-                string staticFurniMap = (string) dataRow["public_items"];
+                string staticFurniMap = (string)dataRow["public_items"];
 
                 _roomModels.Add(key,
-                    new RoomModel((int) dataRow["door_x"], (int) dataRow["door_y"], (double) dataRow["door_z"],
-                        (int) dataRow["door_dir"], (string) dataRow["heightmap"], staticFurniMap,
-                        Yupi.EnumToBool(dataRow["club_only"].ToString()), (string) dataRow["poolmap"]));
+                    new RoomModel((int)dataRow["door_x"], (int)dataRow["door_y"], (double)dataRow["door_z"],
+                        (int)dataRow["door_dir"], (string)dataRow["heightmap"], staticFurniMap,
+                        Yupi.EnumToBool(dataRow["club_only"].ToString()), (string)dataRow["poolmap"]));
             }
 
             dbClient.SetQuery("SELECT * FROM rooms_models_customs");
@@ -380,9 +380,9 @@ namespace Yupi.Game.Rooms
             {
                 string modelName = $"custom_{row["roomid"]}";
                 _roomModels.Add(modelName,
-                    new RoomModel((int) row["door_x"], (int) row["door_y"], (double) row["door_z"],
-                        (int) row["door_dir"],
-                        (string) row["heightmap"], "", false, ""));
+                    new RoomModel((int)row["door_x"], (int)row["door_y"], (double)row["door_z"],
+                        (int)row["door_dir"],
+                        (string)row["heightmap"], "", false, ""));
             }
         }
 
@@ -489,8 +489,11 @@ namespace Yupi.Game.Rooms
         /// </summary>
         internal void RemoveAllRooms()
         {
-            foreach (Room current in LoadedRooms.Values)
-                Yupi.GetGame().GetRoomManager().UnloadRoom(current, "RemoveAllRooms void called");
+            lock (LoadedRooms)
+            {
+                foreach (Room current in LoadedRooms.Values)
+                    Yupi.GetGame().GetRoomManager().UnloadRoom(current, "RemoveAllRooms void called");
+            }
 
             Writer.WriteLine("RoomManager Destroyed", "Yupi.Rooms", ConsoleColor.DarkYellow);
         }
@@ -508,9 +511,10 @@ namespace Yupi.Game.Rooms
             room.Disposed = true;
 
             if (Yupi.GetGame().GetNavigator().PrivateCategories.Contains(room.RoomData.Category))
-                ((PublicCategory) Yupi.GetGame().GetNavigator().PrivateCategories[room.RoomData.Category]).UsersNow -= room.UserCount;
+                ((PublicCategory)Yupi.GetGame().GetNavigator().PrivateCategories[room.RoomData.Category]).UsersNow -= room.UserCount;
 
             room.RoomData.UsersNow = 0;
+
             string state = "open";
 
             if (room.RoomData.State == 1)
@@ -520,70 +524,95 @@ namespace Yupi.Game.Rooms
 
             uint roomId = room.RoomId;
 
-            try
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                {
-                    queryReactor.SetQuery(
-                        "UPDATE rooms_data SET caption = @caption, description = @description, password = @password, category = " +
-                        room.RoomData.Category + ", state = '" + state +
-                        "', tags = @tags, users_now = '0', users_max = " +
-                        room.RoomData.UsersMax + ", allow_pets = '" + Yupi.BoolToEnum(room.RoomData.AllowPets) +
-                        "', allow_pets_eat = '" +
-                        Yupi.BoolToEnum(room.RoomData.AllowPetsEating) + "', allow_walkthrough = '" +
-                        Yupi.BoolToEnum(room.RoomData.AllowWalkThrough) +
-                        "', hidewall = '" + Yupi.BoolToEnum(room.RoomData.HideWall) + "', floorthick = " +
-                        room.RoomData.FloorThickness +
-                        ", wallthick = " + room.RoomData.WallThickness + ", mute_settings='" + room.RoomData.WhoCanMute +
-                        "', kick_settings='" + room.RoomData.WhoCanKick + "',ban_settings='" + room.RoomData.WhoCanBan +
-                        "', walls_height = '" + room.RoomData.WallHeight +
-                        "', chat_type = @chat_t,chat_balloon = @chat_b,chat_speed = @chat_s,chat_max_distance = @chat_m,chat_flood_protection = @chat_f, trade_state = '" +
-                        room.RoomData.TradeState + "' WHERE id = " + roomId);
-                    queryReactor.AddParameter("caption", room.RoomData.Name);
-                    queryReactor.AddParameter("description", room.RoomData.Description);
-                    queryReactor.AddParameter("password", room.RoomData.PassWord);
-                    queryReactor.AddParameter("tags", string.Join(",", room.RoomData.Tags));
-                    queryReactor.AddParameter("chat_t", room.RoomData.ChatType);
-                    queryReactor.AddParameter("chat_b", room.RoomData.ChatBalloon);
-                    queryReactor.AddParameter("chat_s", room.RoomData.ChatSpeed);
-                    queryReactor.AddParameter("chat_m", room.RoomData.ChatMaxDistance);
-                    queryReactor.AddParameter("chat_f", room.RoomData.ChatFloodProtection);
-                    queryReactor.RunQuery();
-                }
-            }
-            catch (Exception e)
-            {
-                ServerLogManager.LogException(e.ToString());
+                queryReactor.SetQuery("UPDATE rooms_data SET " +
+                    "caption = @roomcaption," +
+                    "description = @description," +
+                    "password = @password," +
+                    "category = @category," +
+                    "state = @state," +
+                    "tags = @tags," +
+                    "users_now = @usersnow," +
+                    "users_max = @usersmax," +
+                    "allow_pets = @allowpets," +
+                    "allow_pets_eat = @allowpetseat," +
+                    "allow_walkthrough = @allowwalk," +
+                    "hidewall = @hidewall," +
+                    "floorthick = @floorthick," +
+                    "wallthick = @wallthick," +
+                    "mute_settings = @whocanmute," +
+                    "kick_settings = @kicksettings," +
+                    "ban_settings = @bansettings," +
+                    "walls_height = @wallheight," +
+                    "chat_type = @chat_t," +
+                    "chat_balloon = @chat_b," +
+                    "chat_speed = @chat_s," +
+                    "chat_max_distance = @chat_m," +
+                    "chat_flood_protection = @chat_f," +
+                    "trade_state = @tradestate" +
+                    "WHERE id = " + roomId);
+
+                queryReactor.AddParameter("usersnow", room.RoomData.UsersNow);
+                queryReactor.AddParameter("roomcaption", room.RoomData.Name);
+                queryReactor.AddParameter("usersmax", room.RoomData.UsersMax);
+                queryReactor.AddParameter("allowpets", Yupi.BoolToEnum(room.RoomData.AllowPets));
+                queryReactor.AddParameter("allowpetseat", Yupi.BoolToEnum(room.RoomData.AllowPetsEating));
+                queryReactor.AddParameter("allowwalk", Yupi.BoolToEnum(room.RoomData.AllowWalkThrough));
+                queryReactor.AddParameter("hidewall", Yupi.BoolToEnum(room.RoomData.HideWall));
+                queryReactor.AddParameter("floorthick", room.RoomData.WallThickness);
+                queryReactor.AddParameter("wallthick", Yupi.BoolToEnum(room.RoomData.AllowPets));
+                queryReactor.AddParameter("whocanmute", room.RoomData.WhoCanMute);
+                queryReactor.AddParameter("kicksettings", room.RoomData.WhoCanKick);
+                queryReactor.AddParameter("bansettings", room.RoomData.WhoCanBan);
+                queryReactor.AddParameter("wallheight", room.RoomData.WallHeight);
+                queryReactor.AddParameter("tradestate", room.RoomData.TradeState);
+                queryReactor.AddParameter("category", room.RoomData.Category);
+                queryReactor.AddParameter("state", state);
+                queryReactor.AddParameter("description", room.RoomData.Description);
+                queryReactor.AddParameter("password", room.RoomData.PassWord);
+                queryReactor.AddParameter("tags", string.Join(",", room.RoomData.Tags));
+                queryReactor.AddParameter("chat_t", room.RoomData.ChatType);
+                queryReactor.AddParameter("chat_b", room.RoomData.ChatBalloon);
+                queryReactor.AddParameter("chat_s", room.RoomData.ChatSpeed);
+                queryReactor.AddParameter("chat_m", room.RoomData.ChatMaxDistance);
+                queryReactor.AddParameter("chat_f", room.RoomData.ChatFloodProtection);
+
+                queryReactor.RunQuery();
             }
 
             if (room.GetRoomUserManager() != null && room.GetRoomUserManager().UserList != null)
             {
-                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                {
-                    foreach (RoomUser current in room.GetRoomUserManager().UserList.Values.Where(current => current != null))
-                    {
-                        if (current.IsPet)
-                        {
-                            if (current.PetData == null)
-                                continue;
 
+                foreach (RoomUser current in room.GetRoomUserManager().UserList.Values.Where(current => current != null))
+                {
+                    if (current.IsPet)
+                    {
+                        if (current.PetData == null)
+                            continue;
+
+                        using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                        {
                             queryReactor.SetQuery("UPDATE pets_data SET x=@x, y=@y, z=@z WHERE id=@id LIMIT 1");
                             queryReactor.AddParameter("x", current.X);
                             queryReactor.AddParameter("y", current.Y);
                             queryReactor.AddParameter("z", current.Z);
                             queryReactor.AddParameter("id", current.PetData.PetId);
                             queryReactor.RunQuery();
-
-                            if (current.BotAi == null)
-                                continue;
-
-                            current.BotAi.Dispose();
                         }
-                        else if (current.IsBot)
-                        {
-                            if (current.BotData == null)
-                                continue;
 
+                        if (current.BotAi == null)
+                            continue;
+
+                        current.BotAi.Dispose();
+                    }
+                    else if (current.IsBot)
+                    {
+                        if (current.BotData == null)
+                            continue;
+
+                        using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                        {
                             queryReactor.SetQuery("UPDATE bots_data SET x=@x, y=@y, z=@z, name=@name, motto=@motto, look=@look, rotation=@rotation, dance=@dance WHERE id=@id LIMIT 1");
                             queryReactor.AddParameter("name", current.BotData.Name);
                             queryReactor.AddParameter("motto", current.BotData.Motto);
@@ -595,16 +624,17 @@ namespace Yupi.Game.Rooms
                             queryReactor.AddParameter("z", current.Z);
                             queryReactor.AddParameter("id", current.BotData.BotId);
                             queryReactor.RunQuery();
-
-                            current.BotAi?.Dispose();
                         }
-                        else
+
+                        current.BotAi?.Dispose();
+                    }
+                    else
+                    {
+                        if (current.GetClient() != null)
                         {
-                            if (current.GetClient() != null)
-                            {
-                                room.GetRoomUserManager().RemoveUserFromRoom(current.GetClient(), true, false);
-                                current.GetClient().CurrentRoomUserId = -1;
-                            }
+                            room.GetRoomUserManager().RemoveUserFromRoom(current.GetClient(), true, false);
+
+                            current.GetClient().CurrentRoomUserId = -1;
                         }
                     }
                 }
@@ -613,6 +643,7 @@ namespace Yupi.Game.Rooms
             room.SaveRoomChatlog();
 
             Room junkRoom;
+
             LoadedRooms.TryRemove(room.RoomId, out junkRoom);
 
             Writer.WriteLine(string.Format("Room #{0} was unloaded, reason: " + reason, room.RoomId),
@@ -648,7 +679,7 @@ namespace Yupi.Game.Rooms
             {
                 while (_activeRoomsUpdateQueue.Count > 0)
                 {
-                    RoomData roomData = (RoomData) _activeRoomsUpdateQueue.Dequeue();
+                    RoomData roomData = (RoomData)_activeRoomsUpdateQueue.Dequeue();
                     if (roomData == null || roomData.ModelName.Contains("snowwar")) continue;
                     if (!_activeRooms.ContainsKey(roomData)) _activeRooms.Add(roomData, roomData.UsersNow);
                     else _activeRooms[roomData] = roomData.UsersNow;
@@ -668,7 +699,7 @@ namespace Yupi.Game.Rooms
             {
                 while (_activeRoomsAddQueue.Count > 0)
                 {
-                    RoomData roomData = (RoomData) _activeRoomsAddQueue.Dequeue();
+                    RoomData roomData = (RoomData)_activeRoomsAddQueue.Dequeue();
                     if (!_activeRooms.ContainsKey(roomData) && !roomData.ModelName.Contains("snowwar"))
                         _activeRooms.Add(roomData, roomData.UsersNow);
                 }
@@ -687,7 +718,7 @@ namespace Yupi.Game.Rooms
             {
                 while (ActiveRoomsRemoveQueue.Count > 0)
                 {
-                    RoomData key = (RoomData) ActiveRoomsRemoveQueue.Dequeue();
+                    RoomData key = (RoomData)ActiveRoomsRemoveQueue.Dequeue();
                     _activeRooms.Remove(key);
                 }
             }
@@ -705,7 +736,7 @@ namespace Yupi.Game.Rooms
             {
                 while (_votedRoomsAddQueue.Count > 0)
                 {
-                    RoomData roomData = (RoomData) _votedRoomsAddQueue.Dequeue();
+                    RoomData roomData = (RoomData)_votedRoomsAddQueue.Dequeue();
                     if (!_votedRooms.ContainsKey(roomData)) _votedRooms.Add(roomData, roomData.Score);
                     else _votedRooms[roomData] = roomData.Score;
                 }
@@ -724,7 +755,7 @@ namespace Yupi.Game.Rooms
             {
                 while (_votedRoomsRemoveQueue.Count > 0)
                 {
-                    RoomData key = (RoomData) _votedRoomsRemoveQueue.Dequeue();
+                    RoomData key = (RoomData)_votedRoomsRemoveQueue.Dequeue();
                     _votedRooms.Remove(key);
                 }
             }

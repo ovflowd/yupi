@@ -64,9 +64,9 @@ namespace Yupi.Game.RoomBots.Models
         /// <param name="virtualId">The virtual identifier.</param>
         internal PetBot(int virtualId)
         {
-            _speechTimer = (uint) new Random((virtualId ^ 2) + DateTime.Now.Millisecond).Next(20, 80);
-            _actionTimer = (uint) new Random((virtualId ^ 2) + DateTime.Now.Millisecond).Next(20, 50);
-            _energyTimer = (uint) new Random((virtualId ^ 2) + DateTime.Now.Millisecond).Next(20, 80);
+            _speechTimer = (uint)new Random((virtualId ^ 2) + DateTime.Now.Millisecond).Next(20, 80);
+            _actionTimer = (uint)new Random((virtualId ^ 2) + DateTime.Now.Millisecond).Next(20, 50);
+            _energyTimer = (uint)new Random((virtualId ^ 2) + DateTime.Now.Millisecond).Next(20, 80);
         }
 
         /// <summary>
@@ -324,7 +324,7 @@ namespace Yupi.Game.RoomBots.Models
 
             if (_speechTimer == 0)
             {
-                _speechTimer = (uint) new Random().Next(20, 100);
+                _speechTimer = (uint)new Random().Next(20, 100);
 
                 if (roomUser.PetData.DbState != DatabaseUpdateState.NeedsInsert)
                     roomUser.PetData.DbState = DatabaseUpdateState.NeedsUpdate;
@@ -336,12 +336,12 @@ namespace Yupi.Game.RoomBots.Models
                 if (GetRoom() != null && !GetRoom().MutedPets)
                     roomUser.Chat(null, text, false, 0);
                 else
-                    roomUser.Statusses.Add(text, ServerUserChatTextHandler.GetString(roomUser.Z));
+                    roomUser.AddStatus(text, ServerUserChatTextHandler.GetString(roomUser.Z));
             }
 
             if (_actionTimer == 0)
             {
-                _actionTimer = (uint) random.Next(10, 40);
+                _actionTimer = (uint)random.Next(10, 40);
 
                 if (roomUser.FollowingOwner != null)
                     _actionTimer = 2;
@@ -356,7 +356,7 @@ namespace Yupi.Game.RoomBots.Models
                         roomUser.MoveTo(roomUser.FollowingOwner.SquareInFront);
                         roomUser.FollowingOwner = null;
                     }
-                        
+
                     if (roomUser.FollowingOwner == null)
                     {
                         Point randomPoint = GetRoom().GetGameMap().GetRandomWalkableSquare();
@@ -368,44 +368,44 @@ namespace Yupi.Game.RoomBots.Models
                     }
                 }
 
-                if (random.Next(2, 5)%2 == 0)
+                if (random.Next(2, 5) % 2 == 0)
                 {
                     RemovePetStatus();
 
                     switch (roomUser.PetData.Type)
                     {
                         case "pet_monster":
-                        {
-                            MoplaBreed breed = GetRoomUser().PetData.MoplaBreed;
+                            {
+                                MoplaBreed breed = GetRoomUser().PetData.MoplaBreed;
 
-                            roomUser.PetData.Energy--;
+                                roomUser.PetData.Energy--;
 
-                            roomUser.AddStatus("gst", breed.LiveState == MoplaState.Dead ? "sad" : "sml");
+                                roomUser.AddStatus("gst", breed.LiveState == MoplaState.Dead ? "sad" : "sml");
 
-                            roomUser.PetData.MoplaBreed.OnTimerTick(roomUser.PetData.LastHealth,
-                                roomUser.PetData.UntilGrown);
-                        }
-                            break;
-                        default:
-                        {
-                            if (roomUser.PetData.Energy < 30 || random.Next(2, 5)%2 == 0)
-                                roomUser.AddStatus("lay", string.Empty);
-                            else if ((roomUser.PetData.Energy < 30 && roomUser.PetData.Nutrition < 30) ||
-                                     roomUser.PetData.Nutrition < 30 || random.Next(2, 5)%2 == 0)
-                                roomUser.AddStatus("snf", string.Empty);
-                            else if (GetRoomUser().PetData.Energy >= 30)
-                                roomUser.AddStatus("gst", "joy");
-                            else
-                                roomUser.AddStatus("gst", "sml");
+                                roomUser.PetData.MoplaBreed.OnTimerTick(roomUser.PetData.LastHealth,
+                                    roomUser.PetData.UntilGrown);
                             }
                             break;
-                    }             
+                        default:
+                            {
+                                if (roomUser.PetData.Energy < 30 || random.Next(2, 5) % 2 == 0)
+                                    roomUser.AddStatus("lay", string.Empty);
+                                else if ((roomUser.PetData.Energy < 30 && roomUser.PetData.Nutrition < 30) ||
+                                         roomUser.PetData.Nutrition < 30 || random.Next(2, 5) % 2 == 0)
+                                    roomUser.AddStatus("snf", string.Empty);
+                                else if (GetRoomUser().PetData.Energy >= 30)
+                                    roomUser.AddStatus("gst", "joy");
+                                else
+                                    roomUser.AddStatus("gst", "sml");
+                            }
+                            break;
+                    }
                 }
             }
 
             if (_energyTimer == 0)
             {
-                _energyTimer = (uint) random.Next(30, 120);
+                _energyTimer = (uint)random.Next(30, 120);
 
                 roomUser.PetData.PetEnergy(true);
             }
