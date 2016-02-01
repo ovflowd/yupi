@@ -25,7 +25,7 @@ namespace Yupi.Game.Catalogs.Composers
         internal static ServerMessage ComposeIndex(uint rank, string type)
         {
             IEnumerable<CatalogPage> pages =
-                Yupi.GetGame().GetCatalog().Categories.Values.OfType<CatalogPage>().ToList();
+                Yupi.GetGame().GetCatalogManager().Categories.Values.OfType<CatalogPage>().ToList();
 
             IOrderedEnumerable<CatalogPage> sortedPages = pages.Where(x => x.ParentId == -2 && x.MinRank <= rank).OrderBy(x => x.OrderNum);
 
@@ -466,7 +466,7 @@ namespace Yupi.Game.Catalogs.Composers
         internal static ServerMessage ComposeClubPurchasePage(GameClient session, int windowId)
         {
             ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("CatalogueClubPageMessageComposer"));
-            List<CatalogItem> habboClubItems = Yupi.GetGame().GetCatalog().HabboClubItems;
+            List<CatalogItem> habboClubItems = Yupi.GetGame().GetCatalogManager().HabboClubItems;
 
             message.AppendInteger(habboClubItems.Count);
 

@@ -33,7 +33,7 @@ namespace Yupi.Game.Commands.Controllers
 
             /*
             var message = new ServerMessage();
-            message.Init(LibraryParser.OutgoingRequest("AlertNotificationMessageComposer"));
+            message.Load(LibraryParser.OutgoingRequest("AlertNotificationMessageComposer"));
             message.AppendString("Room is now UnMuted.");
             message.AppendString("");
             room.SendMessage(message);*/

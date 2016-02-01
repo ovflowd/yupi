@@ -318,16 +318,20 @@ namespace Yupi.Game.Rooms
         /// <summary>
         ///     Initializes the voted rooms.
         /// </summary>
-        /// <param name="dbClient">The database client.</param>
-        internal void InitVotedRooms(IQueryAdapter dbClient)
+        internal void InitVotedRooms()
         {
-            dbClient.SetQuery("SELECT * FROM rooms_data WHERE score > 0 AND roomtype = 'private' ORDER BY score DESC LIMIT 40");
-            DataTable table = dbClient.GetTable();
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            {
+                queryReactor.SetQuery("SELECT * FROM rooms_data WHERE score > 0 AND roomtype = 'private' ORDER BY score DESC LIMIT 40");
 
-            foreach (
-                RoomData data in
-                    from DataRow dataRow in table.Rows select FetchRoomData(Convert.ToUInt32(dataRow["id"]), dataRow))
-                QueueVoteAdd(data);
+                DataTable table = queryReactor.GetTable();
+
+                foreach (
+                    RoomData data in
+                        from DataRow dataRow in table.Rows
+                        select FetchRoomData(Convert.ToUInt32(dataRow["id"]), dataRow))
+                    QueueVoteAdd(data);
+            }
         }
 
         /// <summary>
@@ -550,7 +554,7 @@ namespace Yupi.Game.Rooms
                     "chat_speed = @chat_s," +
                     "chat_max_distance = @chat_m," +
                     "chat_flood_protection = @chat_f," +
-                    "trade_state = @tradestate" +
+                    "trade_state = @tradestate " +
                     "WHERE id = " + roomId);
 
                 queryReactor.AddParameter("usersnow", room.RoomData.UsersNow);

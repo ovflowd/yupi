@@ -40,7 +40,7 @@ namespace Yupi
     {
         /// <summary>
         ///     Yupi Environment: Main Thread of Yupi Emulator, SetUp's the Emulator
-        ///     Contains Initialize: Responsible of the Emulator Loadings
+        ///     Contains Load: Responsible of the Emulator Loadings
         /// </summary>
         internal static string ServerLanguage = "english";
 
@@ -671,26 +671,17 @@ namespace Yupi
 
             ShutdownStarted = true;
 
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
-            serverMessage.AppendString("disconnection");
-            serverMessage.AppendInteger(2);
-            serverMessage.AppendString("title");
-            serverMessage.AppendString("HEY EVERYONE!");
-            serverMessage.AppendString("message");
-            serverMessage.AppendString(
-                restart
-                    ? "<b>The hotel is shutting down for a break.<)/b>\nYou may come back later.\r\n<b>So long!</b>"
-                    : "<b>The hotel is shutting down for a break.</b><br />You may come back soon. Don't worry, everything's going to be saved..<br /><b>So long!</b>\r\n~ This session was powered by Yupi");
-            GetGame().GetClientManager().QueueBroadcaseMessage(serverMessage);
             Console.Title = "Yupi Emulator | Shutting down...";
 
-            _game.StopGameLoop();
-            _game.GetRoomManager().RemoveAllRooms();
+            GetGame().StopGameLoop();
+            GetGame().GetRoomManager().RemoveAllRooms();
+
             GetGame().GetClientManager().CloseAll();
 
             GetConnectionManager().Destroy();
 
-            foreach (Group group in _game.GetGroupManager().Groups.Values) group.UpdateForum();
+            foreach (Group group in GetGame().GetGroupManager().Groups.Values)
+                group.UpdateForum();
 
             using (IQueryAdapter queryReactor = Manager.GetQueryReactor())
             {
@@ -699,16 +690,15 @@ namespace Yupi
                 queryReactor.RunFastQuery("TRUNCATE TABLE users_rooms_visits");
             }
 
-            _connectionManager.Destroy();
-            _game.Destroy();
+            GetConnectionManager().Destroy();
 
+            GetGame().Destroy();
 
             Writer.WriteLine("Game Manager destroyed", "Yupi.Game", ConsoleColor.DarkYellow);
 
             TimeSpan span = DateTime.Now - now;
 
-            Writer.WriteLine("Elapsed " + TimeSpanToString(span) + "ms on Shutdown Proccess", "Yupi.Life",
-                ConsoleColor.DarkYellow);
+            Writer.WriteLine("Elapsed " + TimeSpanToString(span) + "ms on Shutdown Proccess", "Yupi.Life", ConsoleColor.DarkYellow);
 
             IsLive = false;
 

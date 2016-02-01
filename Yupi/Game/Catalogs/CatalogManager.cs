@@ -193,17 +193,18 @@ namespace Yupi.Game.Catalogs
             if (FlatOffers.ContainsKey(offerId))
                 result = (CatalogItem) Offers[FlatOffers[offerId]];
 
-            return result ?? Yupi.GetGame().GetCatalog().GetItem(offerId);
+            return result ?? Yupi.GetGame().GetCatalogManager().GetItem(offerId);
         }
 
         /// <summary>
         ///     Initializes the specified database client.
         /// </summary>
-        /// <param name="dbClient">The database client.</param>
         /// <param name="pageLoaded">The page loaded.</param>
-        internal void Initialize(IQueryAdapter dbClient, out int pageLoaded)
+        internal void Init(out int pageLoaded)
         {
-            Initialize(dbClient);
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                Init(queryReactor);
+
             pageLoaded = Categories.Count;
         }
 
@@ -211,7 +212,7 @@ namespace Yupi.Game.Catalogs
         ///     Initializes the specified database client.
         /// </summary>
         /// <param name="dbClient">The database client.</param>
-        internal void Initialize(IQueryAdapter dbClient)
+        internal void Init(IQueryAdapter dbClient)
         {
             Categories = new HybridDictionary();
             Offers = new HybridDictionary();

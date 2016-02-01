@@ -1462,7 +1462,7 @@ namespace Yupi.Messages.Handlers
             uint pageId = Request.GetUInteger();
             uint item = Request.GetUInteger();
 
-            CatalogPage page2 = Yupi.GetGame().GetCatalog().GetPage(pageId);
+            CatalogPage page2 = Yupi.GetGame().GetCatalogManager().GetPage(pageId);
             CatalogItem catalogItem = page2?.GetItem(item);
 
             if (catalogItem == null)
@@ -1776,8 +1776,7 @@ namespace Yupi.Messages.Handlers
                 return;
 
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery("UPDATE pets_data SET room_id = '" + room.RoomId + "', x = '" + x +
-                                                    "', y = '" + y + "' WHERE id = '" + petId + "'");
+                queryReactor.RunFastQuery($"UPDATE pets_data SET room_id = {room.RoomId}, x = {x}, y = {y} WHERE id = {petId}");
 
             pet.PlacedInRoom = true;
             pet.RoomId = room.RoomId;
@@ -1785,7 +1784,7 @@ namespace Yupi.Messages.Handlers
             room.GetRoomUserManager()
                 .DeployBot(
                     new RoomBot(pet.PetId, Convert.ToUInt32(pet.OwnerId), pet.RoomId, AiType.Pet, "freeroam", pet.Name,
-                        "", pet.Look, x, y, 0.0, 4, null, null, "", 0, ""), pet);
+                        string.Empty, pet.Look, x, y, 0.0, 4, null, null, string.Empty, 0, string.Empty), pet);
 
             Session.GetHabbo().GetInventoryComponent().MovePetToRoom(pet.PetId);
 

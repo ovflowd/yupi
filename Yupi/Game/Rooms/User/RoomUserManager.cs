@@ -591,7 +591,6 @@ namespace Yupi.Game.Rooms.User
         /// <summary>
         ///     Appends the pets update string.
         /// </summary>
-        /// <param name="dbClient">The database client.</param>
         internal void UpdatePetsInDataBase()
         {
             foreach (Pet current in GetPets().Where(p => p.DbState != DatabaseUpdateState.Updated))

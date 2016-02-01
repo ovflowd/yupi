@@ -29,7 +29,7 @@ namespace Yupi.Game.Commands.Controllers
             {
                 FurnitureDataManager.SetCache();
                 Yupi.GetGame().GetItemManager().LoadItems(adapter);
-                Yupi.GetGame().GetCatalog().Initialize(adapter);
+                Yupi.GetGame().GetCatalogManager().Init(adapter);
                 Yupi.GetGame().ReloadItems();
                 FurnitureDataManager.Clear();
             }

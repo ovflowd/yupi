@@ -295,7 +295,7 @@ namespace Yupi.Game.Commands.Controllers
                     text.Append("Rooms Data: " + Yupi.GetGame().GetRoomManager().LoadedRoomData.Count + '\r');
                     text.Append("Groups: " + Yupi.GetGame().GetGroupManager().Groups.Count + '\r');
                     text.Append("Items: " + Yupi.GetGame().GetItemManager().CountItems() + '\r');
-                    text.Append("Catalog Items: " + Yupi.GetGame().GetCatalog().Offers.Count + '\r');
+                    text.Append("Catalog Items: " + Yupi.GetGame().GetCatalogManager().Offers.Count + '\r');
 
                     session.SendNotifWithScroll(text.ToString());
                     break;

@@ -62,11 +62,7 @@ namespace Yupi.Data
         /// <summary>
         ///     Stops the process.
         /// </summary>
-        public static void StopProcess()
-        {
-            _thread.Abort();
-            Working = false;
-        }
+        public static void StopProcess() => Working = false;
 
         /// <summary>
         ///     Processes this instance.
@@ -81,7 +77,7 @@ namespace Yupi.Data
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
 
-                Thread.Sleep(1000000); // WTF? <<< #TODO WTF!!
+                Thread.Sleep(100000); // WTF? <<< #TODO WTF!!
             }
         }
 

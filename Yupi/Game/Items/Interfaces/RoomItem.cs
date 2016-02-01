@@ -74,7 +74,7 @@ namespace Yupi.Game.Items.Interfaces
         /// <summary>
         ///     The extra data
         /// </summary>
-        internal string ExtraData;
+        internal string ExtraData = string.Empty;
 
         /// <summary>
         ///     The freeze power up

@@ -38,7 +38,7 @@ namespace Yupi.Messages.Handlers
 
             Request.GetInteger();
 
-            CatalogPage cPage = Yupi.GetGame().GetCatalog().GetPage(pageId);
+            CatalogPage cPage = Yupi.GetGame().GetCatalogManager().GetPage(pageId);
 
             if (cPage == null || !cPage.Enabled || !cPage.Visible || cPage.MinRank > Session.GetHabbo().Rank)
                 return;
@@ -105,7 +105,7 @@ namespace Yupi.Messages.Handlers
         {
             Response.Init(LibraryParser.OutgoingRequest("RecyclerRewardsMessageComposer"));
 
-            List<int> ecotronRewardsLevels = Yupi.GetGame().GetCatalog().GetEcotronRewardsLevels();
+            List<int> ecotronRewardsLevels = Yupi.GetGame().GetCatalogManager().GetEcotronRewardsLevels();
 
             Response.AppendInteger(ecotronRewardsLevels.Count);
 
@@ -115,7 +115,7 @@ namespace Yupi.Messages.Handlers
                 Response.AppendInteger(current);
 
                 List<EcotronReward> ecotronRewardsForLevel =
-                    Yupi.GetGame().GetCatalog().GetEcotronRewardsForLevel(uint.Parse(current.ToString()));
+                    Yupi.GetGame().GetCatalogManager().GetEcotronRewardsForLevel(uint.Parse(current.ToString()));
 
                 Response.AppendInteger(ecotronRewardsForLevel.Count);
 
@@ -152,7 +152,7 @@ namespace Yupi.Messages.Handlers
             uint priceAmount = Request.GetUInteger();
 
             Yupi.GetGame()
-                .GetCatalog()
+                .GetCatalogManager()
                 .HandlePurchase(Session, pageId, itemId, extraData, priceAmount, false, string.Empty, string.Empty, 0, 0,
                     0, false, 0u);
         }
@@ -173,7 +173,7 @@ namespace Yupi.Messages.Handlers
             bool undef = Request.GetBool();
 
             Yupi.GetGame()
-                .GetCatalog()
+                .GetCatalogManager()
                 .HandlePurchase(Session, pageId, itemId, extraData, 1, true, giftUser, giftMessage, giftSpriteId,
                     giftLazo, giftColor, undef, 0u);
         }
@@ -206,7 +206,7 @@ namespace Yupi.Messages.Handlers
         {
             uint num = Request.GetUInteger();
 
-            CatalogItem catalogItem = Yupi.GetGame().GetCatalog().GetItemFromOffer(num);
+            CatalogItem catalogItem = Yupi.GetGame().GetCatalogManager().GetItemFromOffer(num);
 
             if (catalogItem == null || CatalogManager.LastSentOffer == num)
                 return;

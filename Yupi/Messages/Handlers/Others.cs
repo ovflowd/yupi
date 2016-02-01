@@ -468,7 +468,7 @@ namespace Yupi.Messages.Handlers
                 if (item == null)
                     continue;
 
-                Yupi.GetGame().GetCatalog().DeliverItems(Session, item, quantity, string.Empty, 0, 0, string.Empty);
+                Yupi.GetGame().GetCatalogManager().DeliverItems(Session, item, quantity, string.Empty, 0, 0, string.Empty);
             }
 
             Session.GetHabbo().Credits -= offer.CostCredits*quantity;

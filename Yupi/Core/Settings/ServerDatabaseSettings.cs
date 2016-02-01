@@ -47,6 +47,7 @@ namespace Yupi.Core.Settings
             DbData = new Dictionary<string, string>();
 
             DbData.Clear();
+
             dbClient.SetQuery("SELECT * FROM server_settings");
 
             DataTable table = dbClient.GetTable();

@@ -83,7 +83,7 @@ namespace Yupi
         }
 
         /// <summary>
-        ///     Initialize the Yupi Environment
+        ///     Load the Yupi Environment
         /// </summary>
         public static void InitEnvironment()
         {

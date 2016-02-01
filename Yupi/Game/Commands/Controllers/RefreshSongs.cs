@@ -22,7 +22,7 @@ namespace Yupi.Game.Commands.Controllers
 
         public override bool Execute(GameClient session, string[] pms)
         {
-            SoundMachineSongManager.Initialize();
+            SoundMachineSongManager.Load();
             session.SendNotif(Yupi.GetLanguage().GetVar("command_refresh_songs"));
             return true;
         }

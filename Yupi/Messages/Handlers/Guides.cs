@@ -204,7 +204,7 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         internal void CancelCallGuide()
         {
-            //Response.Init(3485);
+            //Response.Load(3485);
 
             /* user - cancell session */
             ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("OnGuideSessionDetachedMessageComposer"));

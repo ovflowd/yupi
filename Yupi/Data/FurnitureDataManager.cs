@@ -69,6 +69,8 @@ namespace Yupi.Data
                     File.WriteAllText($"{cacheDirectory}\\FurniDataCache.xml",
                         xmlFileContent = wC.DownloadString(ServerExtraSettings.FurnitureDataUrl));
 
+                wC.Dispose();
+
                 xmlParser.LoadXml(xmlFileContent);
 
                 FloorItems = new Dictionary<string, FurnitureData>();
@@ -104,6 +106,9 @@ namespace Yupi.Data
                     WallItems.Add(node.Attributes["classname"].Value,
                         new FurnitureData(int.Parse(node.Attributes["id"].Value),
                             node.SelectSingleNode("name").InnerText));
+
+                xmlParser = null;
+                wC = null;
             }
             catch (WebException e)
             {
@@ -133,8 +138,6 @@ namespace Yupi.Data
                 Console.ReadKey();
                 Environment.Exit(e.HResult);
             }
-
-            wC.Dispose();
         }
 
         /// <summary>

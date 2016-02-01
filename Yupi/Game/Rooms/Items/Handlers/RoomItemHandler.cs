@@ -155,10 +155,9 @@ namespace Yupi.Game.Rooms.Items.Handlers
         ///     Saves the furniture.
         /// </summary>
         /// <param name="dbClient">The database client.</param>
-        /// <param name="session">The session.</param>
-        public void SaveFurniture(IQueryAdapter dbClient, GameClient session = null)
+        public void SaveFurniture(IQueryAdapter dbClient)
         {
-            if (!_updatedItems.Any() && !_removedItems.Any() && _room.GetRoomUserManager().PetCount <= 0)
+            if (!_updatedItems.Any() && !_removedItems.Any() && _room.GetRoomUserManager()?.PetCount <= 0)
                 return;
 
             foreach (uint itemId in _removedItems)
@@ -194,7 +193,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
                 {
                     dbClient.SetQuery($"UPDATE items_rooms SET room_id = {roomItem.RoomId}, extra_data = @extraData, x = {roomItem.X}, y = {roomItem.Y}, z = '{roomItem.Z.ToString(CultureInfo.InvariantCulture).Replace(',', '.')}', rot = {roomItem.Rot} WHERE id = {roomItem.Id}");
 
-                    dbClient.AddParameter("extraData", !string.IsNullOrEmpty(roomItem.ExtraData) ? roomItem.ExtraData : string.Empty);
+                    dbClient.AddParameter("extraData", roomItem.ExtraData);
 
                     dbClient.RunQuery();
                 }
@@ -202,20 +201,17 @@ namespace Yupi.Game.Rooms.Items.Handlers
                 {
                     dbClient.SetQuery($"UPDATE items_rooms SET room_id = {roomItem.RoomId}, extra_data = @extraData, wall_pos = @wallPos WHERE id = {roomItem.Id}");
 
-                    dbClient.AddParameter("extraData", !string.IsNullOrEmpty(roomItem.ExtraData) ? roomItem.ExtraData : string.Empty);
+                    dbClient.AddParameter("extraData", roomItem.ExtraData);
                     dbClient.AddParameter("wallPos", roomItem.WallCoord);
 
                     dbClient.RunQuery();
                 }
             }
 
-            _room.GetRoomUserManager().UpdatePetsInDataBase();
+            _room.GetRoomUserManager()?.UpdatePetsInDataBase();
 
-            if (session != null)
-                session.GetHabbo().GetInventoryComponent().RunDbUpdate();
-
-            _updatedItems.Clear();
-            _removedItems.Clear();
+            _updatedItems?.Clear();
+            _removedItems?.Clear();
         }
 
         /// <summary>

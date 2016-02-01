@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data;
 using System.Linq;
-using Yupi.Data;
 using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Catalogs;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Items.Interactions.Enums;
 using Yupi.Game.Items.Interfaces;
 using Yupi.Game.Pets;
-using Yupi.Game.Pets.Enums;
 using Yupi.Game.RoomBots;
 using Yupi.Game.Rooms;
 using Yupi.Game.Users.Data.Models;
@@ -736,38 +734,18 @@ namespace Yupi.Game.Users.Inventory.Components
         /// </summary>
         internal void RunDbUpdate()
         {
-            if (_mRemovedItems.Count <= 0 && _mAddedItems.Count <= 0 && _inventoryPets.Count <= 0)
+            if (_mRemovedItems?.Count <= 0 && _mAddedItems?.Count <= 0 && _inventoryPets?.Count <= 0)
                 return;
 
-            if (_mAddedItems.Count > 0)
+            if (_mAddedItems?.Count > 0)
             {
-                lock (_mAddedItems)
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                    {
-                        foreach (UserItem userItem in _mAddedItems.Values)
-                            queryReactor.RunFastQuery($"UPDATE items_rooms SET user_id = {UserId}, room_id = 0 WHERE id = {userItem.Id}");
-                    }
+                    foreach (UserItem userItem in _mAddedItems?.Values)
+                        queryReactor.RunFastQuery($"UPDATE items_rooms SET user_id = {UserId}, room_id = 0 WHERE id = {userItem.Id}");
                 }
 
-                _mAddedItems.Clear();
-            }
-
-            if (_mRemovedItems.Count > 0)
-            {
-                lock(_mRemovedItems)
-                {
-                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                        GetClient().GetHabbo().CurrentRoom.GetRoomItemHandler().SaveFurniture(queryReactor);
-
-                    foreach (UserItem userItem2 in _mRemovedItems.Values)
-                    {
-                        if (SongDisks.Contains(userItem2.Id))
-                            SongDisks.Remove(userItem2.Id);
-                    }
-                }
-                
-                _mRemovedItems.Clear();
+                _mAddedItems?.Clear();
             }
         }
 

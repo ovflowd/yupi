@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Yupi.Data.Base.Adapters.Interfaces;
@@ -19,10 +18,13 @@ namespace Yupi.Game.Pets
         /// </summary>
         private static Dictionary<string, PetType> _petTypes;
 
-        public static void Init(IQueryAdapter dbClient)
+        public static void Load()
         {
-            GetRaces(dbClient);
-            GetTypes(dbClient);
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            {
+                GetRaces(queryReactor);
+                GetTypes(queryReactor);
+            }
         }
 
         internal static void GetTypes(IQueryAdapter dbClient)

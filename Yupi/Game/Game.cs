@@ -159,14 +159,14 @@ namespace Yupi.Game
         /// <param name="conns">The conns.</param>
         internal Game(int conns)
         {
-            //Console.WriteLine();
             Writer.WriteLine(@"Starting up Yupi Emulator for " + Environment.MachineName + "...", @"Yupi.Boot");
-            //Console.WriteLine();
 
             _clientManager = new GameClientManager();
+
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 AbstractBar bar = new AnimatedBar();
+
                 const int wait = 15, end = 5;
 
                 uint itemsLoaded;
@@ -297,6 +297,7 @@ namespace Yupi.Game
         public static void Progress(AbstractBar bar, int wait, int end, string message)
         {
             bar.PrintMessage(message);
+
             for (int cont = 0; cont < end; cont++)
                 bar.Step();
         }
@@ -309,9 +310,7 @@ namespace Yupi.Game
         {
             dbClient.RunFastQuery("UPDATE users SET online = '0' WHERE online <> '0'");
             dbClient.RunFastQuery("UPDATE rooms_data SET users_now = 0 WHERE users_now <> 0");
-            dbClient.RunFastQuery(
-                "UPDATE `server_status` SET status = '1', users_online = '0', rooms_loaded = '0', server_ver = 'Yupi Emulator', stamp = '" +
-                Yupi.GetUnixTimeStamp() + "' LIMIT 1;");
+            dbClient.RunFastQuery("UPDATE `server_status` SET status = '1', users_online = '0', rooms_loaded = '0', server_ver = 'Yupi Emulator', stamp = '" + Yupi.GetUnixTimeStamp() + "' LIMIT 1;");
         }
 
         /// <summary>
@@ -336,7 +335,7 @@ namespace Yupi.Game
         ///     Gets the catalog.
         /// </summary>
         /// <returns>Catalog.</returns>
-        internal CatalogManager GetCatalog() => _catalog;
+        internal CatalogManager GetCatalogManager() => _catalog;
 
         /// <summary>
         ///     Gets the room events.
@@ -439,29 +438,25 @@ namespace Yupi.Game
         /// </summary>
         internal void ContinueLoading()
         {
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-            {
-                int catalogPageLoaded;
+            int catalogPageLoaded;
 
-                PetTypeManager.Init(queryReactor);
+            PetTypeManager.Load();
 
-                _catalog.Initialize(queryReactor, out catalogPageLoaded);
+            GetCatalogManager().Init(out catalogPageLoaded);
 
-                UserChatInputFilter.Load();
-                ServerSecurityChatFilter.InitSwearWord();
-                BlackWordsManager.Load();
-                SoundMachineSongManager.Initialize();
+            UserChatInputFilter.Load();
+            ServerSecurityChatFilter.Load();
+            BlackWordsManager.Load();
+            SoundMachineSongManager.Load();
+            ServerCpuLowPriorityWorker.Load();
 
-                ServerCpuLowPriorityWorker.Init(queryReactor);
+            GetRoomManager().InitVotedRooms();
 
-                _roomManager.InitVotedRooms(queryReactor);
-
-                _roomManager.LoadCompetitionManager();
-            }
+            GetRoomManager().LoadCompetitionManager();
 
             StartGameLoop();
 
-            _pixelManager.StartTimer();
+            GetPixelManager().StartTimer();
         }
 
         /// <summary>
@@ -470,7 +465,9 @@ namespace Yupi.Game
         internal void StartGameLoop()
         {
             GameLoopActiveExt = true;
+
             _gameLoop = new Task(MainGameLoop);
+
             _gameLoop.Start();
         }
 
@@ -480,6 +477,7 @@ namespace Yupi.Game
         internal void StopGameLoop()
         {
             GameLoopActiveExt = false;
+
             while (!RoomManagerCycleEnded || !ClientManagerCycleEnded)
                 Thread.Sleep(25);
         }
@@ -491,8 +489,10 @@ namespace Yupi.Game
         {
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 DatabaseCleanup(queryReactor);
+
             GetClientManager();
-            Writer.WriteLine("_databaseClient Manager destroyed", "Yupi.Game", ConsoleColor.DarkYellow);
+
+            Writer.WriteLine("Database Manager destroyed", "Yupi.Game", ConsoleColor.DarkYellow);
         }
 
         /// <summary>
@@ -502,7 +502,7 @@ namespace Yupi.Game
         {
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                _itemManager.LoadItems(queryReactor);
+                GetItemManager().LoadItems(queryReactor);
             }
         }
 
@@ -513,18 +513,21 @@ namespace Yupi.Game
         {
             while (GameLoopActiveExt)
             {
-                ServerCpuLowPriorityWorker.Process();
                 try
                 {
+                    ServerCpuLowPriorityWorker.Process();
+
                     RoomManagerCycleEnded = false;
                     ClientManagerCycleEnded = false;
-                    _roomManager.OnCycle();
-                    _clientManager.OnCycle();
+
+                    GetRoomManager().OnCycle();
+                    GetClientManager().OnCycle();
                 }
                 catch (Exception ex)
                 {
                     ServerLogManager.LogCriticalException($"Exception in Game Loop!: {ex}");
                 }
+
                 Thread.Sleep(GameLoopSleepTimeExt);
             }
         }

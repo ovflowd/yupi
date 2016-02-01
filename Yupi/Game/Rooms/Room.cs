@@ -1425,15 +1425,20 @@ namespace Yupi.Game.Rooms
             {
                 GetRoomItemHandler().SaveFurniture(queryReactor);
 
-                queryReactor.RunFastQuery($"UPDATE rooms_data SET users_now=0 WHERE id = {RoomId} LIMIT 1");
+                queryReactor.RunFastQuery($"UPDATE rooms_data SET users_now = 0 WHERE id = {RoomId} LIMIT 1");
             }
 
             _processTimer?.Dispose();
             _processTimer = null;
+
             RoomData.Tags.Clear();
-            _roomUserManager.UserList.Clear();
+
+            GetRoomUserManager().UserList.Clear();
+
             UsersWithRights.Clear();
+
             Bans.Clear();
+
             LoadedGroups.Clear();
 
             RoomData.RoomChat.Clear();
@@ -1449,6 +1454,7 @@ namespace Yupi.Game.Rooms
             ActiveTrades.Clear();
 
             RoomData = null;
+
             Yupi.GetGame().GetRoomManager().RemoveRoomData(RoomId);
         }
     }

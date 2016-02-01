@@ -23,8 +23,9 @@ namespace Yupi.Game.Commands.Controllers
 
         public override bool Execute(GameClient session, string[] pms)
         {
-            PetTypeManager.Init(Yupi.GetDatabaseManager().GetQueryReactor());
+            PetTypeManager.Load();
             PetCommandHandler.Init(Yupi.GetDatabaseManager().GetQueryReactor());         
+
             return true;
         }
     }

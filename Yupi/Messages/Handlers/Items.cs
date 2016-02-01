@@ -914,7 +914,7 @@ namespace Yupi.Messages.Handlers
 
                 Response.AppendInteger(i);
                 List<UserItem> list = Yupi.GetGame()
-                    .GetCatalog()
+                    .GetCatalogManager()
                     .DeliverItems(Session, item2, 1, (string) row["extradata"], 0, 0, string.Empty);
 
                 Response.AppendInteger(list.Count);
@@ -1242,7 +1242,7 @@ namespace Yupi.Messages.Handlers
                 i++;
             }
 
-            EcotronReward randomEcotronReward = Yupi.GetGame().GetCatalog().GetRandomEcotronReward();
+            EcotronReward randomEcotronReward = Yupi.GetGame().GetCatalogManager().GetRandomEcotronReward();
 
             uint insertId;
 
@@ -1560,6 +1560,9 @@ namespace Yupi.Messages.Handlers
 
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 room.GetRoomUserManager().SavePets(queryReactor);
+
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.RunFastQuery($"UPDATE pets_data SET room_id = 0, x = 0, y = 0 WHERE id = {petId}");
 
             room.GetRoomUserManager().RemoveBot(pet.VirtualId, false);
 
@@ -2276,7 +2279,7 @@ namespace Yupi.Messages.Handlers
             int y = Request.GetInteger();
             int dir = Request.GetInteger();
             Room actualRoom = Session.GetHabbo().CurrentRoom;
-            CatalogItem item = Yupi.GetGame().GetCatalog().GetItem(itemId);
+            CatalogItem item = Yupi.GetGame().GetCatalogManager().GetItem(itemId);
 
             if (actualRoom == null || item == null)
                 return;
@@ -2322,7 +2325,7 @@ namespace Yupi.Messages.Handlers
             string extradata = Request.GetString();
             string wallcoords = Request.GetString();
             Room actualRoom = Session.GetHabbo().CurrentRoom;
-            CatalogItem item = Yupi.GetGame().GetCatalog().GetItem(itemId);
+            CatalogItem item = Yupi.GetGame().GetCatalogManager().GetItem(itemId);
             if (actualRoom == null || item == null) return;
 
             Session.GetHabbo().BuildersItemsUsed++;

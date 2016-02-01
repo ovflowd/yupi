@@ -105,7 +105,7 @@ namespace Yupi.Core.Security
         /// <summary>
         ///     Initializes the swear word.
         /// </summary>
-        internal static void InitSwearWord()
+        internal static void Load()
         {
             Word = new List<string>();
             Word.Clear();

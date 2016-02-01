@@ -102,7 +102,7 @@ namespace Yupi.Game.Achievements
 
             if (!string.IsNullOrEmpty(talent.Prize) && talent.PrizeBaseItem > 0u)
                 Yupi.GetGame()
-                    .GetCatalog()
+                    .GetCatalogManager()
                     .DeliverItems(session, Yupi.GetGame().GetItemManager().GetItem(talent.PrizeBaseItem), 1,
                         string.Empty, 0, 0, string.Empty);
 

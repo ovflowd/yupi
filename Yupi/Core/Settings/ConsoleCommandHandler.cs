@@ -77,7 +77,7 @@ namespace Yupi.Core.Settings
 
                         Writer.WriteLine("Shutdown Initalized", "Yupi.Life", ConsoleColor.DarkYellow);
 
-                        Yupi.PerformShutDown(false);
+                        Yupi.PerformShutDown();
 
                         Console.WriteLine();
                         break;
@@ -89,7 +89,7 @@ namespace Yupi.Core.Settings
 
                         Writer.WriteLine("Restart Initialized", "Yupi.Life", ConsoleColor.DarkYellow);
 
-                        Yupi.PerformShutDown(true);
+                        Yupi.PerformRestart();
                         Console.WriteLine();
                         break;
 
@@ -111,7 +111,7 @@ namespace Yupi.Core.Settings
                                 FurnitureDataManager.SetCache();
 
                                 using (IQueryAdapter adapter = Yupi.GetDatabaseManager().GetQueryReactor())
-                                    GetGame().GetCatalog().Initialize(adapter);
+                                    GetGame().GetCatalogManager().Init(adapter);
 
                                 FurnitureDataManager.Clear();
 

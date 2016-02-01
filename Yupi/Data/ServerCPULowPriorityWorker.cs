@@ -25,7 +25,6 @@
 using System;
 using System.Diagnostics;
 using System.Reflection;
-using Yupi.Core.Io;
 using Yupi.Data.Base.Adapters.Interfaces;
 
 namespace Yupi.Data
@@ -46,15 +45,17 @@ namespace Yupi.Data
         /// <summary>
         ///     Initializes the specified database client.
         /// </summary>
-        /// <param name="dbClient">The database client.</param>
-        internal static void Init(IQueryAdapter dbClient)
+        internal static void Load()
         {
-            dbClient.SetQuery("SELECT userpeak FROM server_status");
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            {
+                queryReactor.SetQuery("SELECT userpeak FROM server_status");
 
-            _userPeak = dbClient.GetInteger();
+                _userPeak = queryReactor.GetInteger();
 
-            _lowPriorityStopWatch = new Stopwatch();
-            _lowPriorityStopWatch.Start();
+                _lowPriorityStopWatch = new Stopwatch();
+                _lowPriorityStopWatch.Start();
+            }
         }
 
         /// <summary>
@@ -70,15 +71,8 @@ namespace Yupi.Data
 
                 try
                 {
-                    int realOnlineClientCount = Yupi.GetGame().GetClientManager().ClientCount(); //Yupi.GetGame().GetClientManager().GetOnlineClients();
+                    int realOnlineClientCount = Yupi.GetGame().GetClientManager().ClientCount();
                     int clientCount = Yupi.GetGame().GetClientManager().ClientCount();
-
-                    //if (realOnlineClientCount != clientCount)
-                    //    Writer.WriteLine("Number of Clients isn't Equal of Online Users. Running Analysis", "Yupi.Game",
-                    //        ConsoleColor.DarkYellow);
-
-                    //if (realOnlineClientCount != clientCount)
-                    //    Yupi.GetGame().GetClientManager().RemoveNotOnlineUsers();
 
                     int loadedRoomsCount = Yupi.GetGame().GetRoomManager().LoadedRoomsCount;
 

@@ -56,7 +56,7 @@ namespace Yupi.Game.SoundMachine
         /// <summary>
         ///     Initializes this instance.
         /// </summary>
-        internal static void Initialize()
+        internal static void Load()
         {
             Songs = new Dictionary<uint, SongData>();
             _cacheTimer = new Dictionary<uint, double>();
