@@ -61,7 +61,8 @@ namespace Yupi.Game.Rooms.Chat
 
             using (IQueryAdapter adapter = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                adapter.SetQuery("INSERT INTO users_chatlogs (user_id, room_id, timestamp, message) VALUES (@user, @room, @time, @message)");
+                adapter.SetQuery(
+                    "INSERT INTO users_chatlogs (user_id, room_id, timestamp, message) VALUES (@user, @room, @time, @message)");
                 adapter.AddParameter("user", UserId);
                 adapter.AddParameter("room", roomId);
                 adapter.AddParameter("time", Yupi.DateTimeToUnix(TimeStamp));

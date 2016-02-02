@@ -1,6 +1,5 @@
 ﻿using Yupi.Game.Commands.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.RoomBots;
 
 namespace Yupi.Game.Commands.Controllers
 {

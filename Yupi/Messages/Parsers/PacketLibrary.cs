@@ -32,7 +32,7 @@ namespace Yupi.Messages.Parsers
         ///     Guides the message.
         /// </summary>
         /// <param name="handler">The handler.</param>
-        internal static void GuideMessage(GameClientMessageHandler handler) =>  handler.CallGuide();
+        internal static void GuideMessage(GameClientMessageHandler handler) => handler.CallGuide();
 
         /// <summary>
         ///     Sets the chat preferrence.
@@ -104,7 +104,8 @@ namespace Yupi.Messages.Parsers
         ///     Requests the floor plan used coords.
         /// </summary>
         /// <param name="handler">The handler.</param>
-        internal static void RequestFloorPlanUsedCoords(GameClientMessageHandler handler) => handler.GetFloorPlanUsedCoords();
+        internal static void RequestFloorPlanUsedCoords(GameClientMessageHandler handler)
+            => handler.GetFloorPlanUsedCoords();
 
         /// <summary>
         ///     Requests the floor plan door.

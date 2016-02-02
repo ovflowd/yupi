@@ -47,8 +47,8 @@ namespace Yupi.Game.Users
                     if (Videos.ContainsKey((string) row["video_id"]))
                         continue;
 
-                    Videos.Add((string)row["video_id"],
-                        new YoutubeVideo((string)row["video_id"], (string)row["name"], (string)row["description"]));
+                    Videos.Add((string) row["video_id"],
+                        new YoutubeVideo((string) row["video_id"], (string) row["name"], (string) row["description"]));
                 }
             }
         }

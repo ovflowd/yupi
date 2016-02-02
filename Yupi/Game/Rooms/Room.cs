@@ -1017,7 +1017,7 @@ namespace Yupi.Game.Rooms
 
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 queryReactor.RunFastQuery("REPLACE INTO rooms_bans VALUES (" + userId + ", " + RoomId + ", '" +
-                                                    (Yupi.GetUnixTimeStamp() + time) + "')");
+                                          (Yupi.GetUnixTimeStamp() + time) + "')");
         }
 
         /// <summary>
@@ -1055,8 +1055,8 @@ namespace Yupi.Game.Rooms
         {
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 queryReactor.RunFastQuery("DELETE FROM rooms_bans WHERE user_id=" + userId + " AND room_id=" +
-                                                    RoomId +
-                                                    " LIMIT 1");
+                                          RoomId +
+                                          " LIMIT 1");
             Bans.Remove(userId);
         }
 
@@ -1127,7 +1127,7 @@ namespace Yupi.Game.Rooms
             RoomData.UsersMax = maxUsers;
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 queryReactor.RunFastQuery("UPDATE rooms_data SET users_max = " + maxUsers + " WHERE id = " +
-                                                    RoomId);
+                                          RoomId);
         }
 
         /// <summary>

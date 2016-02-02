@@ -1,7 +1,6 @@
 ﻿using Yupi.Game.Commands.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Pets;
-using Yupi.Game.RoomBots;
 
 namespace Yupi.Game.Commands.Controllers
 {
@@ -24,7 +23,7 @@ namespace Yupi.Game.Commands.Controllers
         public override bool Execute(GameClient session, string[] pms)
         {
             PetTypeManager.Load();
-            PetCommandHandler.Init(Yupi.GetDatabaseManager().GetQueryReactor());         
+            PetCommandHandler.Init(Yupi.GetDatabaseManager().GetQueryReactor());
 
             return true;
         }

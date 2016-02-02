@@ -1730,7 +1730,7 @@ namespace Yupi.Messages.Handlers
                     using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
                         queryReactor.RunFastQuery("UPDATE pets_data SET race_id = '" + pet.PetData.Race +
-                                                            "' WHERE id = " + pet.PetData.PetId);
+                                                  "' WHERE id = " + pet.PetData.PetId);
 
                         queryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1");
                         goto IL_40C;
@@ -1746,7 +1746,7 @@ namespace Yupi.Messages.Handlers
                         IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
                         queryReactor.RunFastQuery("UPDATE pets_data SET pethair = '" + pet.PetData.PetHair +
-                                                            "' WHERE id = " + pet.PetData.PetId);
+                                                  "' WHERE id = " + pet.PetData.PetId);
                         queryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1");
                         goto IL_40C;
                     }

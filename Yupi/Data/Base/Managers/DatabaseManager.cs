@@ -37,17 +37,14 @@ namespace Yupi.Data.Base.Managers
 
         private MySqlConnectionStringBuilder _serverDetails;
 
-        private void SetServerDetails(MySqlConnectionStringBuilder serverDetails)
-        {
-            _serverDetails = serverDetails;
-        }
-
         public DatabaseManager(MySqlConnectionStringBuilder serverDetails)
         {
             SetServerDetails(serverDetails);
 
-            _databaseClients = new List<DatabaseClient>((int)_serverDetails.MaximumPoolSize);
+            _databaseClients = new List<DatabaseClient>((int) _serverDetails.MaximumPoolSize);
         }
+
+        private void SetServerDetails(MySqlConnectionStringBuilder serverDetails) => _serverDetails = serverDetails;
 
         private DatabaseClient AddConnection(bool needReturn = false)
         {
@@ -105,8 +102,8 @@ namespace Yupi.Data.Base.Managers
         {
             lock (_databaseClients)
             {
-                if (_databaseClients.Any(c => c.IsAvailable() && c.GetInternalState() != ConnectionState.Executing))
-                    return _databaseClients.First(c => c.IsAvailable() && c.GetInternalState() != ConnectionState.Executing);
+                if (_databaseClients.Any(c => c.IsAvailable() && c.GetConnectionHandler().GetState() != ConnectionState.Executing))
+                    return _databaseClients.First(c => c.IsAvailable() && c.GetConnectionHandler().GetState() != ConnectionState.Executing);
 
                 RemoveUnusedConnections();
             }

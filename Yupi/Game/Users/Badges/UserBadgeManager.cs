@@ -148,7 +148,7 @@ namespace Yupi.Game.Users.Badges
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery("DELETE FROM users_badges WHERE badge_id = @badge AND user_id = " +
-                                                _userId);
+                                      _userId);
 
                 queryReactor.AddParameter("badge", badge);
                 queryReactor.RunQuery();

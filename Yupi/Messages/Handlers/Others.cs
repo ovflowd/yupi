@@ -243,7 +243,7 @@ namespace Yupi.Messages.Handlers
 
             bool tradeLocked = Session.GetHabbo().CheckTrading();
             bool canUseFloorEditor = true;
-                //ServerExtraSettings.EveryoneUseFloor || Session.GetHabbo().Vip || Session.GetHabbo().Rank >= 4;
+            //ServerExtraSettings.EveryoneUseFloor || Session.GetHabbo().Vip || Session.GetHabbo().Rank >= 4;
 
             Response.Init(LibraryParser.OutgoingRequest("UserObjectMessageComposer"));
             Response.AppendInteger(habbo.Id);
@@ -468,7 +468,9 @@ namespace Yupi.Messages.Handlers
                 if (item == null)
                     continue;
 
-                Yupi.GetGame().GetCatalogManager().DeliverItems(Session, item, quantity, string.Empty, 0, 0, string.Empty);
+                Yupi.GetGame()
+                    .GetCatalogManager()
+                    .DeliverItems(Session, item, quantity, string.Empty, 0, 0, string.Empty);
             }
 
             Session.GetHabbo().Credits -= offer.CostCredits*quantity;

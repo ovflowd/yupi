@@ -52,6 +52,8 @@ namespace Yupi.Game.RoomBots.Interfaces
         /// </summary>
         internal string BotType;
 
+        internal bool ForceBotCommand;
+
         /// <summary>
         ///     The speeches speech identifier
         /// </summary>
@@ -76,8 +78,6 @@ namespace Yupi.Game.RoomBots.Interfaces
         ///     The bot SpeechOutput
         /// </summary>
         internal string SpeechOutput;
-
-        internal bool ForceBotCommand;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="CatalogBot" /> class.

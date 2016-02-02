@@ -114,7 +114,8 @@ namespace Yupi.Game.Rooms.User.Trade
         {
             TradeUser tradeUser = GetTradeUser(userId);
 
-            if (tradeUser == null || item == null || !item.BaseItem.AllowTrade || tradeUser.HasAccepted || _tradeStage != 1)
+            if (tradeUser == null || item == null || !item.BaseItem.AllowTrade || tradeUser.HasAccepted ||
+                _tradeStage != 1)
                 return;
 
             ClearAccepted();

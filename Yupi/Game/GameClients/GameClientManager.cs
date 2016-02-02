@@ -4,7 +4,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Text;
 using Yupi.Core.Io;
 using Yupi.Data;
 using Yupi.Data.Base.Adapters.Interfaces;

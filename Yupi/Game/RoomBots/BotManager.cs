@@ -57,17 +57,17 @@ namespace Yupi.Game.RoomBots
             Initialize();
         }
 
-        internal void Initialize()
-        {            
-            LoadCatalogBots(Yupi.GetDatabaseManager().GetQueryReactor());
-
-            LoadBotsCommands(Yupi.GetDatabaseManager().GetQueryReactor());
-        }
-
         /// <summary>
         ///     The _bots
         /// </summary>
         public List<RoomBot> Bots { get; }
+
+        internal void Initialize()
+        {
+            LoadCatalogBots(Yupi.GetDatabaseManager().GetQueryReactor());
+
+            LoadBotsCommands(Yupi.GetDatabaseManager().GetQueryReactor());
+        }
 
         /// <summary>
         ///     Generates the bot from row.

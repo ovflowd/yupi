@@ -393,7 +393,7 @@ namespace Yupi.Messages.Handlers
 
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 queryReactor.RunFastQuery("DELETE FROM groups_requests WHERE group_id=" + groupId +
-                                                    " AND user_id=" + userId);
+                                          " AND user_id=" + userId);
         }
 
         /// <summary>
@@ -653,7 +653,7 @@ namespace Yupi.Messages.Handlers
                 dbClient.AddParameter("subjc", subject);
                 dbClient.AddParameter("content", content);
 
-                threadId = (uint)dbClient.GetInteger();
+                threadId = (uint) dbClient.GetInteger();
             }
 
             group.Forum.ForumScore += 0.25;

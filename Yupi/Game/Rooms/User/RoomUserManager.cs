@@ -519,7 +519,8 @@ namespace Yupi.Game.Rooms.User
             _userRoom.RoomData.UsersNow = count;
 
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery("UPDATE rooms_data SET users_now = " + count + " WHERE id = " + _userRoom.RoomId + " LIMIT 1");
+                queryReactor.RunFastQuery("UPDATE rooms_data SET users_now = " + count + " WHERE id = " +
+                                          _userRoom.RoomId + " LIMIT 1");
 
             Yupi.GetGame().GetRoomManager().QueueActiveRoomUpdate(_userRoom.RoomData);
         }
@@ -598,9 +599,9 @@ namespace Yupi.Game.Rooms.User
                 using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
                     queryReactor.SetQuery("UPDATE pets_data SET " +
-                                                    $"name = @petName, race_id = @petRace, pet_type = @petType, experience = {current.Experience}, " +
-                                                    $"energy = {current.Energy}, nutrition = {current.Nutrition}, respect = {current.Respect}, " +
-                                                    $"createstamp = '{current.CreationStamp}', color = @petColor WHERE id = {current.PetId}");
+                                          $"name = @petName, race_id = @petRace, pet_type = @petType, experience = {current.Experience}, " +
+                                          $"energy = {current.Energy}, nutrition = {current.Nutrition}, respect = {current.Respect}, " +
+                                          $"createstamp = '{current.CreationStamp}', color = @petColor WHERE id = {current.PetId}");
 
                     queryReactor.AddParameter("petName", current.Name);
                     queryReactor.AddParameter("petRace", current.Race);
@@ -622,7 +623,8 @@ namespace Yupi.Game.Rooms.User
         {
             List<KeyValuePair<int, RoomUser>> list = UserList.ToList();
 
-            return (from current in list select current.Value into value where value.IsPet select value.PetData).ToList();
+            return
+                (from current in list select current.Value into value where value.IsPet select value.PetData).ToList();
         }
 
         /// <summary>

@@ -157,6 +157,10 @@
     <AssemblyName>Yupi</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
@@ -185,6 +189,10 @@
     <Compile Include="Core\Algorithms\Astar\Interfaces\IPathNode.cs" />
     <Compile Include="Core\Algorithms\Astar\Interfaces\IWeightAddable.cs" />
     <Compile Include="Core\Algorithms\Astar\PriorityQueue.cs" />
+    <Compile Include="Data\Base\Adapters\Enums\RunType.cs" />
+    <Compile Include="Data\Base\Adapters\Enums\FetchType.cs" />
+    <Compile Include="Data\Base\Adapters\Handlers\MySqlConnectionHandler.cs" />
+    <Compile Include="Data\Base\Adapters\Models\BaseQueryAdapter.cs" />
     <Compile Include="Data\Base\Clients\Interfaces\IDatabaseClient.cs" />
     <Compile Include="Data\Base\Adapters\Interfaces\IQueryAdapter.cs" />
     <Compile Include="Data\Base\Adapters\NormalQueryAdapter.cs" />
@@ -224,9 +232,7 @@
     <Compile Include="Game\RoomBots\Models\BaseBot.cs" />
     <Compile Include="Core\Io\Interfaces\AbstractBar.cs" />
     <Compile Include="Core\Io\AnimatedBar.cs" />
-    <Compile Include="Core\Io\ConsoleFlashMode.cs" />
     <Compile Include="Core\Io\ConsoleOutputWriter.cs" />
-    <Compile Include="Core\Io\LogMessage.cs" />
     <Compile Include="Core\Io\ServerUserChatTextHandler.cs" />
     <Compile Include="Core\Io\Writer.cs" />
     <Compile Include="Game\Users\YoutubeVideo.cs" />
@@ -664,7 +670,6 @@
     <Compile Include="Net\Packets\InitialPacketParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Settings.cs" />
     <Compile Include="Messages\Parsers\Interfaces\IDataParser.cs" />
     <Compile Include="Data\Interfaces\PluginData.cs" />
     <Compile Include="Core\Util\Enumerators\TextEndingTypes.cs" />
@@ -690,11 +695,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config">
+    <None Include="Properties\app.config">
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
-    <None Include="Properties\app.config" />
     <None Include="Properties\app.manifest" />
   </ItemGroup>
   <ItemGroup>

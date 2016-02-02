@@ -127,7 +127,7 @@ namespace Yupi.Game.Catalogs
                 queryReactor.AddParameter("petRace", pet.Race);
                 queryReactor.AddParameter("petColor", pet.Color);
 
-                petId = (uint)queryReactor.InsertQuery();
+                petId = (uint) queryReactor.InsertQuery();
             }
 
             pet.PetId = petId;
@@ -355,12 +355,15 @@ namespace Yupi.Game.Catalogs
 
             CatalogPage catalogPage = GetPage(pageId);
 
-            if (catalogPage == null || !catalogPage.Enabled || !catalogPage.Visible || session?.GetHabbo() == null || catalogPage.MinRank > session.GetHabbo().Rank || catalogPage.Layout == "sold_ltd_items")
+            if (catalogPage == null || !catalogPage.Enabled || !catalogPage.Visible || session?.GetHabbo() == null ||
+                catalogPage.MinRank > session.GetHabbo().Rank || catalogPage.Layout == "sold_ltd_items")
                 return;
 
             CatalogItem item = catalogPage.GetItem(itemId);
 
-            if (item == null || session.GetHabbo().Credits < item.CreditsCost || session.GetHabbo().Duckets < item.DucketsCost || session.GetHabbo().Diamonds < item.DiamondsCost || item.Name == "room_ad_plus_badge")
+            if (item == null || session.GetHabbo().Credits < item.CreditsCost ||
+                session.GetHabbo().Duckets < item.DucketsCost || session.GetHabbo().Diamonds < item.DiamondsCost ||
+                item.Name == "room_ad_plus_badge")
                 return;
 
             #region Habbo Club Purchase
@@ -407,7 +410,8 @@ namespace Yupi.Game.Catalogs
 
             if (item.ClubOnly && !session.GetHabbo().GetSubscriptionManager().HasSubscription)
             {
-                ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("CatalogPurchaseNotAllowedMessageComposer"));
+                ServerMessage serverMessage =
+                    new ServerMessage(LibraryParser.OutgoingRequest("CatalogPurchaseNotAllowedMessageComposer"));
                 serverMessage.AppendInteger(1);
                 session.SendMessage(serverMessage);
                 return;
@@ -424,7 +428,8 @@ namespace Yupi.Game.Catalogs
 
                 if (item.LimitedSelled >= item.LimitedStack)
                 {
-                    session.SendMessage(new ServerMessage(LibraryParser.OutgoingRequest("CatalogLimitedItemSoldOutMessageComposer")));
+                    session.SendMessage(
+                        new ServerMessage(LibraryParser.OutgoingRequest("CatalogLimitedItemSoldOutMessageComposer")));
                     return;
                 }
 
@@ -449,7 +454,9 @@ namespace Yupi.Game.Catalogs
 
             uint toUserId = 0u;
 
-            if (session.GetHabbo().Credits < item.CreditsCost*totalPrice || session.GetHabbo().Duckets < item.DucketsCost * totalPrice || session.GetHabbo().Diamonds < item.DiamondsCost * totalPrice)
+            if (session.GetHabbo().Credits < item.CreditsCost*totalPrice ||
+                session.GetHabbo().Duckets < item.DucketsCost*totalPrice ||
+                session.GetHabbo().Diamonds < item.DiamondsCost*totalPrice)
                 return;
 
             #region Decrease User Balance with Item Cost
@@ -504,7 +511,9 @@ namespace Yupi.Game.Catalogs
 
                     if (row == null)
                     {
-                        session.GetMessageHandler().GetResponse().Init(LibraryParser.OutgoingRequest("GiftErrorMessageComposer"));
+                        session.GetMessageHandler()
+                            .GetResponse()
+                            .Init(LibraryParser.OutgoingRequest("GiftErrorMessageComposer"));
                         session.GetMessageHandler().GetResponse().AppendString(giftUser);
                         session.GetMessageHandler().SendResponse();
 
@@ -515,7 +524,9 @@ namespace Yupi.Game.Catalogs
 
                     if (toUserId == 0u)
                     {
-                        session.GetMessageHandler().GetResponse().Init(LibraryParser.OutgoingRequest("GiftErrorMessageComposer"));
+                        session.GetMessageHandler()
+                            .GetResponse()
+                            .Init(LibraryParser.OutgoingRequest("GiftErrorMessageComposer"));
                         session.GetMessageHandler().GetResponse().AppendString(giftUser);
                         session.GetMessageHandler().SendResponse();
 
@@ -554,11 +565,14 @@ namespace Yupi.Game.Catalogs
 
                 if (item.Name.StartsWith("builders_club_addon_"))
                 {
-                    int furniAmount = int.Parse(item.Name.Replace("builders_club_addon_", string.Empty).Replace("furnis", string.Empty));
+                    int furniAmount =
+                        int.Parse(item.Name.Replace("builders_club_addon_", string.Empty)
+                            .Replace("furnis", string.Empty));
 
                     session.GetHabbo().BuildersItemsMax += furniAmount;
 
-                    ServerMessage update = new ServerMessage(LibraryParser.OutgoingRequest("BuildersClubMembershipMessageComposer"));
+                    ServerMessage update =
+                        new ServerMessage(LibraryParser.OutgoingRequest("BuildersClubMembershipMessageComposer"));
 
                     update.AppendInteger(session.GetHabbo().BuildersExpire);
                     update.AppendInteger(session.GetHabbo().BuildersItemsMax);
@@ -574,7 +588,8 @@ namespace Yupi.Game.Catalogs
                     }
 
                     session.SendMessage(CatalogPageComposer.PurchaseOk(item, item.Items));
-                    session.SendNotif("${notification.builders_club.membership_extended.message}", "${notification.builders_club.membership_extended.title}", "builders_club_membership_extended");
+                    session.SendNotif("${notification.builders_club.membership_extended.message}",
+                        "${notification.builders_club.membership_extended.title}", "builders_club_membership_extended");
 
                     return;
                 }
@@ -585,11 +600,14 @@ namespace Yupi.Game.Catalogs
 
                 if (item.Name.StartsWith("builders_club_time_"))
                 {
-                    int timeAmount = int.Parse(item.Name.Replace("builders_club_time_", string.Empty).Replace("seconds", string.Empty));
+                    int timeAmount =
+                        int.Parse(item.Name.Replace("builders_club_time_", string.Empty)
+                            .Replace("seconds", string.Empty));
 
                     session.GetHabbo().BuildersExpire += timeAmount;
 
-                    ServerMessage update = new ServerMessage(LibraryParser.OutgoingRequest("BuildersClubMembershipMessageComposer"));
+                    ServerMessage update =
+                        new ServerMessage(LibraryParser.OutgoingRequest("BuildersClubMembershipMessageComposer"));
 
                     update.AppendInteger(session.GetHabbo().BuildersExpire);
                     update.AppendInteger(session.GetHabbo().BuildersItemsMax);
@@ -605,7 +623,8 @@ namespace Yupi.Game.Catalogs
                     }
 
                     session.SendMessage(CatalogPageComposer.PurchaseOk(item, item.Items));
-                    session.SendNotif("${notification.builders_club.membership_extended.message}", "${notification.builders_club.membership_extended.title}", "builders_club_membership_extended");
+                    session.SendNotif("${notification.builders_club.membership_extended.message}",
+                        "${notification.builders_club.membership_extended.title}", "builders_club_membership_extended");
 
                     return;
                 }
@@ -700,7 +719,8 @@ namespace Yupi.Game.Catalogs
                         break;
 
                     case Interaction.Mannequin:
-                        extraData = string.Concat("m", Convert.ToChar(5), "lg-270-82.ch-210-66", Convert.ToChar(5), "Mannequin");
+                        extraData = string.Concat("m", Convert.ToChar(5), "lg-270-82.ch-210-66", Convert.ToChar(5),
+                            "Mannequin");
                         break;
 
                     case Interaction.VipGate:
@@ -715,7 +735,8 @@ namespace Yupi.Game.Catalogs
                         if (!session.GetHabbo().GetBadgeComponent().HasBadge(extraData))
                             extraData = "UMAD";
 
-                        extraData = $"{extraData}|{session.GetHabbo().UserName}|{DateTime.Now.Day.ToString("00")}-{DateTime.Now.Month.ToString("00")}-{DateTime.Now.Year}";
+                        extraData =
+                            $"{extraData}|{session.GetHabbo().UserName}|{DateTime.Now.Day.ToString("00")}-{DateTime.Now.Month.ToString("00")}-{DateTime.Now.Year}";
                         break;
 
                     case Interaction.FootballGate:
@@ -770,7 +791,9 @@ namespace Yupi.Game.Catalogs
 
                 #endregion
 
-                session.GetMessageHandler().GetResponse().Init(LibraryParser.OutgoingRequest("UpdateInventoryMessageComposer"));
+                session.GetMessageHandler()
+                    .GetResponse()
+                    .Init(LibraryParser.OutgoingRequest("UpdateInventoryMessageComposer"));
 
                 session.GetMessageHandler().SendResponse();
 
@@ -787,7 +810,8 @@ namespace Yupi.Game.Catalogs
 
                     using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
-                        queryReactor.SetQuery("INSERT INTO items_rooms (item_name,user_id) VALUES (" + itemBySprite.Name + ", " + toUserId + ")");
+                        queryReactor.SetQuery("INSERT INTO items_rooms (item_name,user_id) VALUES (" + itemBySprite.Name +
+                                              ", " + toUserId + ")");
 
                         insertId = (uint) queryReactor.InsertQuery();
 

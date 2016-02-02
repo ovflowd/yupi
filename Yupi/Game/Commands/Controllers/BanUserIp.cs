@@ -44,7 +44,8 @@ namespace Yupi.Game.Commands.Controllers
             }
             catch
             {
-                ServerLogManager.LogException($"An error occurred when {session.GetHabbo().UserName} tried to ban {user.GetHabbo().UserName}");
+                ServerLogManager.LogException(
+                    $"An error occurred when {session.GetHabbo().UserName} tried to ban {user.GetHabbo().UserName}");
             }
 
             return true;

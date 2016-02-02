@@ -245,7 +245,7 @@ namespace Yupi.Game.Groups
                 DataTable groupMembersTable = queryReactor.GetTable();
 
                 queryReactor.SetQuery("SELECT g.user_id, u.username, u.look FROM groups_requests g " +
-                                                $"INNER JOIN users u ON (g.user_id = u.id) WHERE group_id='{groupId}'");
+                                      $"INNER JOIN users u ON (g.user_id = u.id) WHERE group_id='{groupId}'");
 
                 DataTable groupRequestsTable = queryReactor.GetTable();
 
@@ -628,10 +628,10 @@ namespace Yupi.Game.Groups
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery(string.Format("DELETE FROM groups_members WHERE group_id = {0};" +
-                                                              "DELETE FROM groups_requests WHERE group_id = {0};" +
-                                                              "DELETE FROM groups_forums_data WHERE group_id = {0}; " +
-                                                              "DELETE FROM groups_data WHERE id = {0};" +
-                                                              "UPDATE rooms_data SET group_id = 0 WHERE group_id = {0};",
+                                                    "DELETE FROM groups_requests WHERE group_id = {0};" +
+                                                    "DELETE FROM groups_forums_data WHERE group_id = {0}; " +
+                                                    "DELETE FROM groups_data WHERE id = {0};" +
+                                                    "UPDATE rooms_data SET group_id = 0 WHERE group_id = {0};",
                     id)
                     );
                 queryReactor.RunQuery();

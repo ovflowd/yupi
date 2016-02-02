@@ -33,7 +33,9 @@ namespace Yupi.Game.Commands.Controllers
                 FurnitureDataManager.Clear();
             }
 
-            Yupi.GetGame().GetClientManager().QueueBroadcaseMessage(new ServerMessage(LibraryParser.OutgoingRequest("PublishShopMessageComposer")));
+            Yupi.GetGame()
+                .GetClientManager()
+                .QueueBroadcaseMessage(new ServerMessage(LibraryParser.OutgoingRequest("PublishShopMessageComposer")));
 
             return true;
         }

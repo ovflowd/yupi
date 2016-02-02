@@ -935,7 +935,7 @@ namespace Yupi.Game.Rooms.User
         /// </summary>
         /// <param name="c">The c.</param>
         /// <param name="pOverride"></param>
-        internal void MoveTo(Point c , bool pOverride)
+        internal void MoveTo(Point c, bool pOverride)
         {
             MoveTo(c.X, c.Y, pOverride);
         }
@@ -991,7 +991,9 @@ namespace Yupi.Game.Rooms.User
                             current.GetBaseItem().InteractionType == Interaction.Guillotine))
                     return;
 
-            if (IsPet && allRoomItemForSquare.Any(p => InteractionTypes.AreFamiliar(GlobalInteractions.PetBreeding, p.GetBaseItem().InteractionType)))
+            if (IsPet &&
+                allRoomItemForSquare.Any(
+                    p => InteractionTypes.AreFamiliar(GlobalInteractions.PetBreeding, p.GetBaseItem().InteractionType)))
             {
                 RoomItem s =
                     allRoomItemForSquare.FirstOrDefault(

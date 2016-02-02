@@ -44,8 +44,8 @@ namespace Yupi.Game.Users
                 if (row == null)
                 {
                     queryReactor.RunFastQuery("REPLACE INTO users_preferences (userid, volume) VALUES (" +
-                                                        _userId +
-                                                        ", '100,100,100')");
+                                              _userId +
+                                              ", '100,100,100')");
                     return;
                 }
             }

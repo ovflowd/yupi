@@ -27,18 +27,22 @@ using System.Runtime.InteropServices;
 using System.Security.Permissions;
 using Yupi.Core.Settings;
 using Yupi.Data;
+using log4net;
 
 namespace Yupi
 {
+    
     internal class Program
     {
         internal const uint ScClose = 0xF060;
+
+        private static readonly ILog YupiLogManager = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         /// <summary>
         ///     Main Void of Yupi.Emulator
         /// </summary>
         /// <param name="args">The arguments.</param>
-        [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.ControlAppDomain)]
+        [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.ControlAppDomain)]    
         [STAThread]
         public static void Main(string[] args)
         {
@@ -58,6 +62,8 @@ namespace Yupi
             InitEnvironment();
         }
 
+        public static ILog GetLogManager() => YupiLogManager;
+        
         public static void StartConsoleWindow()
         {
             Console.Clear();

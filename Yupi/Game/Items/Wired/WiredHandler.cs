@@ -154,7 +154,8 @@ namespace Yupi.Game.Items.Wired
                     return false;
 
                 if (type == Interaction.TriggerCollision)
-                    foreach (IWiredItem wiredItem in _wiredItems.Where(wiredItem => wiredItem != null && wiredItem.Type == type))
+                    foreach (
+                        IWiredItem wiredItem in _wiredItems.Where(wiredItem => wiredItem != null && wiredItem.Type == type))
                         wiredItem.Execute(stuff);
                 else if (_wiredItems.Any(current => current != null && current.Type == type && current.Execute(stuff)))
                     return true;

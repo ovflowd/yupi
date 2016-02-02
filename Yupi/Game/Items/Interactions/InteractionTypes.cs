@@ -23,184 +23,184 @@ namespace Yupi.Game.Items.Interactions
                            AreFamiliar(GlobalInteractions.WiredTrigger, subType);
 
                 case GlobalInteractions.Gate:
+                {
+                    switch (subType)
                     {
-                        switch (subType)
-                        {
-                            case Interaction.HcGate:
-                            case Interaction.Gate:
-                            case Interaction.GuildGate:
-                            case Interaction.OneWayGate:
-                            case Interaction.VipGate:
-                            case Interaction.FreezeBlueGate:
-                            case Interaction.FreezeRedGate:
-                            case Interaction.FreezeGreenGate:
-                            case Interaction.FreezeYellowGate:
-                            case Interaction.BanzaiGateBlue:
-                            case Interaction.BanzaiGateRed:
-                            case Interaction.BanzaiGateGreen:
-                            case Interaction.BanzaiGateYellow:
-                            case Interaction.FootballGate:
-                                return true;
-                        }
-                        break;
+                        case Interaction.HcGate:
+                        case Interaction.Gate:
+                        case Interaction.GuildGate:
+                        case Interaction.OneWayGate:
+                        case Interaction.VipGate:
+                        case Interaction.FreezeBlueGate:
+                        case Interaction.FreezeRedGate:
+                        case Interaction.FreezeGreenGate:
+                        case Interaction.FreezeYellowGate:
+                        case Interaction.BanzaiGateBlue:
+                        case Interaction.BanzaiGateRed:
+                        case Interaction.BanzaiGateGreen:
+                        case Interaction.BanzaiGateYellow:
+                        case Interaction.FootballGate:
+                            return true;
                     }
+                    break;
+                }
                 case GlobalInteractions.GameGate:
                     return AreFamiliar(GlobalInteractions.FreezeGate, subType) ||
                            AreFamiliar(GlobalInteractions.BanzaiGate, subType);
 
                 case GlobalInteractions.BanzaiGate:
+                {
+                    switch (subType)
                     {
-                        switch (subType)
-                        {
-                            case Interaction.BanzaiGateBlue:
-                            case Interaction.BanzaiGateRed:
-                            case Interaction.BanzaiGateGreen:
-                            case Interaction.BanzaiGateYellow:
-                                return true;
-                        }
-                        break;
+                        case Interaction.BanzaiGateBlue:
+                        case Interaction.BanzaiGateRed:
+                        case Interaction.BanzaiGateGreen:
+                        case Interaction.BanzaiGateYellow:
+                            return true;
                     }
+                    break;
+                }
                 case GlobalInteractions.FreezeGate:
+                {
+                    switch (subType)
                     {
-                        switch (subType)
-                        {
-                            case Interaction.FreezeBlueGate:
-                            case Interaction.FreezeRedGate:
-                            case Interaction.FreezeGreenGate:
-                            case Interaction.FreezeYellowGate:
-                                return true;
-                        }
-                        break;
+                        case Interaction.FreezeBlueGate:
+                        case Interaction.FreezeRedGate:
+                        case Interaction.FreezeGreenGate:
+                        case Interaction.FreezeYellowGate:
+                            return true;
                     }
+                    break;
+                }
                 case GlobalInteractions.PetBreeding:
                 {
-                    switch(subType)
+                    switch (subType)
                     {
-                            case Interaction.BreedingBear:
-                            case Interaction.BreedingTerrier:
-                            case Interaction.PetBreeding:
-                                return true;
+                        case Interaction.BreedingBear:
+                        case Interaction.BreedingTerrier:
+                        case Interaction.PetBreeding:
+                            return true;
                     }
                     break;
                 }
                 case GlobalInteractions.Pet:
+                {
+                    switch (subType)
                     {
-                        switch (subType)
-                        {
-                            case Interaction.PetDog:
-                            case Interaction.PetCat:
-                            case Interaction.PetCrocodile:
-                            case Interaction.PetTerrier:
-                            case Interaction.PetBear:
-                            case Interaction.PetPig:
-                            case Interaction.PetLion:
-                            case Interaction.PetRhino:
-                            case Interaction.PetSpider:
-                            case Interaction.PetTurtle:
-                            case Interaction.PetChick:
-                            case Interaction.PetFrog:
-                            case Interaction.PetDragon:
-                            case Interaction.PetHorse:
-                            case Interaction.PetMonkey:
-                            case Interaction.PetGnomo:
-                            case Interaction.PetMonsterPlant:
-                            case Interaction.PetWhiteRabbit:
-                            case Interaction.PetEvilRabbit:
-                            case Interaction.PetLoveRabbit:
-                            case Interaction.PetCafeRabbit:
-                            case Interaction.PetPigeon:
-                            case Interaction.PetEvilPigeon:
-                            case Interaction.PetDemonMonkey:
-                                return true;
-                        }
-                        break;
+                        case Interaction.PetDog:
+                        case Interaction.PetCat:
+                        case Interaction.PetCrocodile:
+                        case Interaction.PetTerrier:
+                        case Interaction.PetBear:
+                        case Interaction.PetPig:
+                        case Interaction.PetLion:
+                        case Interaction.PetRhino:
+                        case Interaction.PetSpider:
+                        case Interaction.PetTurtle:
+                        case Interaction.PetChick:
+                        case Interaction.PetFrog:
+                        case Interaction.PetDragon:
+                        case Interaction.PetHorse:
+                        case Interaction.PetMonkey:
+                        case Interaction.PetGnomo:
+                        case Interaction.PetMonsterPlant:
+                        case Interaction.PetWhiteRabbit:
+                        case Interaction.PetEvilRabbit:
+                        case Interaction.PetLoveRabbit:
+                        case Interaction.PetCafeRabbit:
+                        case Interaction.PetPigeon:
+                        case Interaction.PetEvilPigeon:
+                        case Interaction.PetDemonMonkey:
+                            return true;
                     }
+                    break;
+                }
                 case GlobalInteractions.WiredCondition:
+                {
+                    switch (subType)
                     {
-                        switch (subType)
-                        {
-                            case Interaction.ConditionFurnisHaveUsers:
-                            case Interaction.ConditionStatePos:
-                            case Interaction.ConditionTimeLessThan:
-                            case Interaction.ConditionTimeMoreThan:
-                            case Interaction.ConditionTriggerOnFurni:
-                            case Interaction.ConditionFurniHasFurni:
-                            case Interaction.ConditionItemsMatches:
-                            case Interaction.ConditionGroupMember:
-                            case Interaction.ConditionFurniTypeMatches:
-                            case Interaction.ConditionHowManyUsersInRoom:
-                            case Interaction.ConditionNegativeHowManyUsers:
-                            case Interaction.ConditionTriggererNotOnFurni:
-                            case Interaction.ConditionFurniHasNotFurni:
-                            case Interaction.ConditionFurnisHaveNotUsers:
-                            case Interaction.ConditionItemsDontMatch:
-                            case Interaction.ConditionFurniTypeDontMatch:
-                            case Interaction.ConditionNotGroupMember:
-                            case Interaction.ConditionUserWearingEffect:
-                            case Interaction.ConditionUserWearingBadge:
-                            case Interaction.ConditionUserHasFurni:
-                            case Interaction.ConditionUserNotWearingEffect:
-                            case Interaction.ConditionUserNotWearingBadge:
-                            case Interaction.ConditionDateRangeActive:
-                            case Interaction.ConditionUserHasHanditem:
-                                return true;
-                        }
+                        case Interaction.ConditionFurnisHaveUsers:
+                        case Interaction.ConditionStatePos:
+                        case Interaction.ConditionTimeLessThan:
+                        case Interaction.ConditionTimeMoreThan:
+                        case Interaction.ConditionTriggerOnFurni:
+                        case Interaction.ConditionFurniHasFurni:
+                        case Interaction.ConditionItemsMatches:
+                        case Interaction.ConditionGroupMember:
+                        case Interaction.ConditionFurniTypeMatches:
+                        case Interaction.ConditionHowManyUsersInRoom:
+                        case Interaction.ConditionNegativeHowManyUsers:
+                        case Interaction.ConditionTriggererNotOnFurni:
+                        case Interaction.ConditionFurniHasNotFurni:
+                        case Interaction.ConditionFurnisHaveNotUsers:
+                        case Interaction.ConditionItemsDontMatch:
+                        case Interaction.ConditionFurniTypeDontMatch:
+                        case Interaction.ConditionNotGroupMember:
+                        case Interaction.ConditionUserWearingEffect:
+                        case Interaction.ConditionUserWearingBadge:
+                        case Interaction.ConditionUserHasFurni:
+                        case Interaction.ConditionUserNotWearingEffect:
+                        case Interaction.ConditionUserNotWearingBadge:
+                        case Interaction.ConditionDateRangeActive:
+                        case Interaction.ConditionUserHasHanditem:
+                            return true;
                     }
+                }
                     break;
 
                 case GlobalInteractions.WiredTrigger:
+                {
+                    switch (subType)
                     {
-                        switch (subType)
-                        {
-                            case Interaction.TriggerTimer:
-                            case Interaction.TriggerRoomEnter:
-                            case Interaction.TriggerGameEnd:
-                            case Interaction.TriggerGameStart:
-                            case Interaction.TriggerRepeater:
-                            case Interaction.TriggerLongRepeater:
-                            case Interaction.TriggerOnUserSay:
-                            case Interaction.TriggerScoreAchieved:
-                            case Interaction.TriggerStateChanged:
-                            case Interaction.TriggerWalkOnFurni:
-                            case Interaction.TriggerWalkOffFurni:
-                            case Interaction.TriggerBotReachedAvatar:
-                            case Interaction.TriggerBotReachedStuff:
-                            case Interaction.TriggerCollision:
-                                return true;
-                        }
+                        case Interaction.TriggerTimer:
+                        case Interaction.TriggerRoomEnter:
+                        case Interaction.TriggerGameEnd:
+                        case Interaction.TriggerGameStart:
+                        case Interaction.TriggerRepeater:
+                        case Interaction.TriggerLongRepeater:
+                        case Interaction.TriggerOnUserSay:
+                        case Interaction.TriggerScoreAchieved:
+                        case Interaction.TriggerStateChanged:
+                        case Interaction.TriggerWalkOnFurni:
+                        case Interaction.TriggerWalkOffFurni:
+                        case Interaction.TriggerBotReachedAvatar:
+                        case Interaction.TriggerBotReachedStuff:
+                        case Interaction.TriggerCollision:
+                            return true;
                     }
+                }
                     break;
 
                 case GlobalInteractions.WiredEffect:
+                {
+                    switch (subType)
                     {
-                        switch (subType)
-                        {
-                            case Interaction.ActionGiveScore:
-                            case Interaction.ActionPosReset:
-                            case Interaction.ActionMoveRotate:
-                            case Interaction.ActionMoveToDir:
-                            case Interaction.ActionResetTimer:
-                            case Interaction.ActionShowMessage:
-                            case Interaction.ActionEffectUser:
-                            case Interaction.ActionTeleportTo:
-                            case Interaction.ActionToggleState:
-                            case Interaction.ActionJoinTeam:
-                            case Interaction.ActionLeaveTeam:
-                            case Interaction.ActionBotClothes:
-                            case Interaction.ActionBotFollowAvatar:
-                            case Interaction.ActionBotGiveHanditem:
-                            case Interaction.ActionBotMove:
-                            case Interaction.ActionBotTalk:
-                            case Interaction.ActionBotTalkToAvatar:
-                            case Interaction.ActionBotTeleport:
-                            case Interaction.ActionChase:
-                            case Interaction.ActionMuteUser:
-                            case Interaction.ActionKickUser:
-                            case Interaction.ActionGiveReward:
-                            case Interaction.ActionCallStacks:
-                                return true;
-                        }
+                        case Interaction.ActionGiveScore:
+                        case Interaction.ActionPosReset:
+                        case Interaction.ActionMoveRotate:
+                        case Interaction.ActionMoveToDir:
+                        case Interaction.ActionResetTimer:
+                        case Interaction.ActionShowMessage:
+                        case Interaction.ActionEffectUser:
+                        case Interaction.ActionTeleportTo:
+                        case Interaction.ActionToggleState:
+                        case Interaction.ActionJoinTeam:
+                        case Interaction.ActionLeaveTeam:
+                        case Interaction.ActionBotClothes:
+                        case Interaction.ActionBotFollowAvatar:
+                        case Interaction.ActionBotGiveHanditem:
+                        case Interaction.ActionBotMove:
+                        case Interaction.ActionBotTalk:
+                        case Interaction.ActionBotTalkToAvatar:
+                        case Interaction.ActionBotTeleport:
+                        case Interaction.ActionChase:
+                        case Interaction.ActionMuteUser:
+                        case Interaction.ActionKickUser:
+                        case Interaction.ActionGiveReward:
+                        case Interaction.ActionCallStacks:
+                            return true;
                     }
+                }
                     break;
             }
 

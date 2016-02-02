@@ -253,7 +253,7 @@ namespace Yupi.Game.GameClients.Interfaces
                                 "' WHERE user_id=" + GetHabbo().Id + " LIMIT 1");
                         else
                             queryReactor.RunFastQuery("INSERT INTO users_bans_access (user_id, ip) VALUES (" +
-                                                                GetHabbo().Id + ", '" + supaString + "')");
+                                                      GetHabbo().Id + ", '" + supaString + "')");
                     }
 
                     return false;

@@ -33,7 +33,7 @@ namespace Yupi.Game.Items.Datas
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery("SELECT * FROM items_highscores WHERE item_id=" + itemId +
-                                                " ORDER BY score DESC");
+                                      " ORDER BY score DESC");
 
                 DataTable table = queryReactor.GetTable();
 

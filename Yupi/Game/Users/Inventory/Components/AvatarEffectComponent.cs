@@ -57,7 +57,7 @@ namespace Yupi.Game.Users.Inventory.Components
 
                 using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     queryReactor.RunFastQuery("DELETE FROM users_effects WHERE user_id = " + userId +
-                                                        " AND effect_id = " + current.EffectId + "; ");
+                                              " AND effect_id = " + current.EffectId + "; ");
             }
         }
 

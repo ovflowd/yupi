@@ -207,7 +207,6 @@ namespace Yupi.Game.Items.Interfaces
 
                         if (!ExtraData.Contains(Convert.ToChar(5).ToString()))
                         {
-
                             message.AppendInteger(3); // Count Of Values
                             message.AppendString("GENDER");
                             message.AppendString("M");
@@ -218,7 +217,7 @@ namespace Yupi.Game.Items.Interfaces
                         }
                         else
                         {
-                            string[] extradatas = ExtraData.Split((char)5);
+                            string[] extradatas = ExtraData.Split((char) 5);
 
                             message.AppendInteger(3); // Count Of Values
                             message.AppendString("GENDER");

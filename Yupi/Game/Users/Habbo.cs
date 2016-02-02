@@ -85,11 +85,6 @@ namespace Yupi.Game.Users
         internal Dictionary<string, UserAchievement> Achievements;
 
         /// <summary>
-        ///     The credits
-        /// </summary>
-        internal uint Duckets;
-
-        /// <summary>
         ///     The answered polls
         /// </summary>
         internal HashSet<uint> AnsweredPolls;
@@ -158,6 +153,11 @@ namespace Yupi.Game.Users
         ///     The disconnected
         /// </summary>
         internal bool Disconnected;
+
+        /// <summary>
+        ///     The credits
+        /// </summary>
+        internal uint Duckets;
 
         internal int DutyLevel;
 
@@ -890,7 +890,7 @@ namespace Yupi.Game.Users
 
             if (_inventoryComponent != null)
             {
-                lock(_inventoryComponent)
+                lock (_inventoryComponent)
                 {
                     _inventoryComponent?.RunDbUpdate();
                     _inventoryComponent?.SetIdleState();
@@ -901,7 +901,8 @@ namespace Yupi.Game.Users
 
             if (NavigatorLogs.Any())
             {
-                navilogs = NavigatorLogs.Values.Aggregate(navilogs, (current, navi) => current + $"{navi.Id},{navi.Value1},{navi.Value2};");
+                navilogs = NavigatorLogs.Values.Aggregate(navilogs,
+                    (current, navi) => current + $"{navi.Id},{navi.Value1},{navi.Value2};");
                 navilogs = navilogs.Remove(navilogs.Length - 1);
             }
 
@@ -920,29 +921,29 @@ namespace Yupi.Game.Users
                 using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
                     queryReactor.SetQuery("UPDATE users SET activity_points = " + Duckets +
-                                                    ", credits = " +
-                                                    Credits + ", diamonds = " + Diamonds +
-                                                    ", online='0', last_online = '" +
-                                                    Yupi.GetUnixTimeStamp() + "', builders_items_used = " +
-                                                    BuildersItemsUsed +
-                                                    ", navigator_logs = @navilogs  WHERE id = " + Id +
-                                                    " LIMIT 1;UPDATE users_stats SET achievement_score=" +
-                                                    AchievementPoints +
-                                                    " WHERE id=" + Id + " LIMIT 1;");
+                                          ", credits = " +
+                                          Credits + ", diamonds = " + Diamonds +
+                                          ", online='0', last_online = '" +
+                                          Yupi.GetUnixTimeStamp() + "', builders_items_used = " +
+                                          BuildersItemsUsed +
+                                          ", navigator_logs = @navilogs  WHERE id = " + Id +
+                                          " LIMIT 1;UPDATE users_stats SET achievement_score=" +
+                                          AchievementPoints +
+                                          " WHERE id=" + Id + " LIMIT 1;");
                     queryReactor.AddParameter("navilogs", navilogs);
                     queryReactor.RunQuery();
                     queryReactor.RunFastQuery("UPDATE users_stats SET online_seconds = online_seconds + " +
-                                                        secondsToGive + " WHERE id = " + Id);
+                                              secondsToGive + " WHERE id = " + Id);
 
                     if (Rank >= 4)
                         queryReactor.RunFastQuery(
                             $"UPDATE moderation_tickets SET status='open', moderator_id=0 WHERE status='picked' AND moderator_id={Id}");
 
                     queryReactor.RunFastQuery("UPDATE users SET block_newfriends = '" +
-                                                        Convert.ToInt32(HasFriendRequestsDisabled) +
-                                                        "', hide_online = '" +
-                                                        Convert.ToInt32(AppearOffline) + "', hide_inroom = '" +
-                                                        Convert.ToInt32(HideInRoom) + "' WHERE id = " + Id);
+                                              Convert.ToInt32(HasFriendRequestsDisabled) +
+                                              "', hide_online = '" +
+                                              Convert.ToInt32(AppearOffline) + "', hide_inroom = '" +
+                                              Convert.ToInt32(HideInRoom) + "' WHERE id = " + Id);
                 }
             }
 
@@ -1171,8 +1172,10 @@ namespace Yupi.Game.Users
         {
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.RunFastQuery($"UPDATE users_stats SET achievement_score = '{AchievementPoints}' WHERE id = {Id}");
-                queryReactor.RunFastQuery($"UPDATE users SET last_online = '{Yupi.GetUnixTimeStamp()}', activity_points = '{Duckets}', credits = '{Credits}', diamonds = '{Diamonds}' WHERE id = '{Id}'");
+                queryReactor.RunFastQuery(
+                    $"UPDATE users_stats SET achievement_score = '{AchievementPoints}' WHERE id = {Id}");
+                queryReactor.RunFastQuery(
+                    $"UPDATE users SET last_online = '{Yupi.GetUnixTimeStamp()}', activity_points = '{Duckets}', credits = '{Credits}', diamonds = '{Diamonds}' WHERE id = '{Id}'");
             }
 
             _habboinfoSaved = true;

@@ -310,7 +310,9 @@ namespace Yupi.Game
         {
             dbClient.RunFastQuery("UPDATE users SET online = '0' WHERE online <> '0'");
             dbClient.RunFastQuery("UPDATE rooms_data SET users_now = 0 WHERE users_now <> 0");
-            dbClient.RunFastQuery("UPDATE `server_status` SET status = '1', users_online = '0', rooms_loaded = '0', server_ver = 'Yupi Emulator', stamp = '" + Yupi.GetUnixTimeStamp() + "' LIMIT 1;");
+            dbClient.RunFastQuery(
+                "UPDATE `server_status` SET status = '1', users_online = '0', rooms_loaded = '0', server_ver = 'Yupi Emulator', stamp = '" +
+                Yupi.GetUnixTimeStamp() + "' LIMIT 1;");
         }
 
         /// <summary>

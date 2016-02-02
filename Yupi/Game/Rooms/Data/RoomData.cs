@@ -296,7 +296,8 @@ namespace Yupi.Game.Rooms.Data
 
                     Owner = queryReactor.GetString();
 
-                    queryReactor.SetQuery($"SELECT user_id, message, timestamp FROM users_chatlogs WHERE room_id = '{Id}' ORDER BY timestamp ASC LIMIT 150");
+                    queryReactor.SetQuery(
+                        $"SELECT user_id, message, timestamp FROM users_chatlogs WHERE room_id = '{Id}' ORDER BY timestamp ASC LIMIT 150");
                     DataTable table = queryReactor.GetTable();
 
                     foreach (DataRow dataRow in table.Rows)

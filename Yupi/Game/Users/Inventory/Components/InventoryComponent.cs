@@ -490,7 +490,8 @@ namespace Yupi.Game.Users.Inventory.Components
         /// <param name="limtot">The limtot.</param>
         /// <param name="songCode">The song code.</param>
         /// <returns>UserItem.</returns>
-        internal UserItem AddNewItem(uint id, string baseName, string extraData, uint thGroup, bool insert, bool fromRoom, uint limno, uint limtot, string songCode = "")
+        internal UserItem AddNewItem(uint id, string baseName, string extraData, uint thGroup, bool insert,
+            bool fromRoom, uint limno, uint limtot, string songCode = "")
         {
             _isUpdated = false;
 
@@ -500,7 +501,7 @@ namespace Yupi.Game.Users.Inventory.Components
                 {
                     using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                         queryReactor.RunFastQuery("UPDATE items_rooms SET user_id = '" + UserId +
-                                                            "', room_id= '0' WHERE (id='" + id + "')");
+                                                  "', room_id= '0' WHERE (id='" + id + "')");
                 }
                 else
                 {
@@ -742,7 +743,8 @@ namespace Yupi.Game.Users.Inventory.Components
                 using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
                     foreach (UserItem userItem in _mAddedItems?.Values)
-                        queryReactor.RunFastQuery($"UPDATE items_rooms SET user_id = {UserId}, room_id = 0 WHERE id = {userItem.Id}");
+                        queryReactor.RunFastQuery(
+                            $"UPDATE items_rooms SET user_id = {UserId}, room_id = 0 WHERE id = {userItem.Id}");
                 }
 
                 _mAddedItems?.Clear();

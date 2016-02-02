@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Timers;
+using log4net;
 using MySql.Data.MySqlClient;
 using Yupi.Core.Encryption;
 using Yupi.Core.Io;
@@ -15,7 +16,6 @@ using Yupi.Core.Security;
 using Yupi.Core.Settings;
 using Yupi.Core.Util.Math;
 using Yupi.Data;
-using Yupi.Data.Base;
 using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Data.Base.Managers;
 using Yupi.Data.Interfaces;
@@ -26,7 +26,6 @@ using Yupi.Game.Users;
 using Yupi.Game.Users.Data.Models;
 using Yupi.Game.Users.Factories;
 using Yupi.Game.Users.Messenger.Structs;
-using Yupi.Messages;
 using Yupi.Messages.Factorys;
 using Yupi.Messages.Parsers;
 using Yupi.Net.Connection;
@@ -144,8 +143,8 @@ namespace Yupi
         internal static string YupiVariablesDirectory = string.Empty;
 
         internal static string YupiRootDirectory = string.Empty;
-        
-        internal static uint MaxRecommendedMySQLConnections = 50;
+
+        internal static uint MaxRecommendedMySqlConnections = 50;
 
         /// <summary>
         ///     Check's if the Shutdown Has Started
@@ -237,6 +236,8 @@ namespace Yupi
             return null;
         }
 
+        public static ILog GetLogManager() => Program.GetLogManager();
+
         /// <summary>
         ///     Console Clear Thread
         /// </summary>
@@ -278,11 +279,13 @@ namespace Yupi
             try
             {
                 ServerConfigurationSettings.Load(Path.Combine(YupiVariablesDirectory, "Settings/main.ini"));
-                ServerConfigurationSettings.Load(Path.Combine(YupiVariablesDirectory, "Settings/Welcome/settings.ini"), true);
-                    
-                if(uint.Parse(ServerConfigurationSettings.Data["db.pool.maxsize"]) > MaxRecommendedMySQLConnections)
-                    Writer.WriteLine("MySQL Max Conn is High!, Recommended Value: " + MaxRecommendedMySQLConnections, "Yupi.Data", ConsoleColor.DarkYellow);
-                    
+                ServerConfigurationSettings.Load(Path.Combine(YupiVariablesDirectory, "Settings/Welcome/settings.ini"),
+                    true);
+
+                if (uint.Parse(ServerConfigurationSettings.Data["db.pool.maxsize"]) > MaxRecommendedMySqlConnections)
+                    Writer.WriteLine("MySQL Max Conn is High!, Recommended Value: " + MaxRecommendedMySqlConnections,
+                        "Yupi.Data", ConsoleColor.DarkYellow);
+
                 MySqlConnectionStringBuilder mySqlConnectionStringBuilder = new MySqlConnectionStringBuilder
                 {
                     Server = ServerConfigurationSettings.Data["db.hostname"],
@@ -698,7 +701,8 @@ namespace Yupi
 
             TimeSpan span = DateTime.Now - now;
 
-            Writer.WriteLine("Elapsed " + TimeSpanToString(span) + "ms on Shutdown Proccess", "Yupi.Life", ConsoleColor.DarkYellow);
+            Writer.WriteLine("Elapsed " + TimeSpanToString(span) + "ms on Shutdown Proccess", "Yupi.Life",
+                ConsoleColor.DarkYellow);
 
             IsLive = false;
 

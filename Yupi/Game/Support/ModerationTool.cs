@@ -389,11 +389,13 @@ namespace Yupi.Game.Support
 
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery($"SELECT DISTINCT room_id FROM users_chatlogs WHERE user_id = '{userId}' ORDER BY timestamp DESC LIMIT 4");
+                queryReactor.SetQuery(
+                    $"SELECT DISTINCT room_id FROM users_chatlogs WHERE user_id = '{userId}' ORDER BY timestamp DESC LIMIT 4");
 
                 DataTable table = queryReactor.GetTable();
 
-                ServerMessage serverMessage =  new ServerMessage(LibraryParser.OutgoingRequest("ModerationToolUserChatlogMessageComposer"));
+                ServerMessage serverMessage =
+                    new ServerMessage(LibraryParser.OutgoingRequest("ModerationToolUserChatlogMessageComposer"));
                 serverMessage.AppendInteger(userId);
                 serverMessage.AppendString(Yupi.GetGame().GetClientManager().GetNameById(userId));
 
@@ -408,7 +410,8 @@ namespace Yupi.Game.Support
                         {
                             DataRow dataRow = (DataRow) enumerator.Current;
 
-                            queryReactor.SetQuery($"SELECT user_id,timestamp,message FROM users_chatlogs WHERE room_id = {dataRow["room_id"]} AND user_id = {userId} ORDER BY timestamp DESC LIMIT 30");
+                            queryReactor.SetQuery(
+                                $"SELECT user_id,timestamp,message FROM users_chatlogs WHERE room_id = {dataRow["room_id"]} AND user_id = {userId} ORDER BY timestamp DESC LIMIT 30");
 
                             DataTable table2 = queryReactor.GetTable();
                             RoomData roomData = Yupi.GetGame().GetRoomManager().GenerateRoomData((uint) dataRow["room_id"]);

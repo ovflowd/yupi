@@ -106,7 +106,7 @@ namespace Yupi.Game.Users.Factories
 
                 // Update User statusses
                 queryReactor.RunFastQuery($"UPDATE users SET online = 1 WHERE id = {userId};" +
-                                                    $"REPLACE INTO users_info(user_id, login_timestamp) VALUES({userId}, '{Yupi.GetUnixTimeStamp()}');");
+                                          $"REPLACE INTO users_info(user_id, login_timestamp) VALUES({userId}, '{Yupi.GetUnixTimeStamp()}');");
 
                 queryReactor.RunFastQuery($"SELECT COUNT(id) FROM users_stats WHERE id = {userId}");
 

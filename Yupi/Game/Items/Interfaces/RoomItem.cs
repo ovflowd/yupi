@@ -513,7 +513,8 @@ namespace Yupi.Game.Items.Interfaces
                 }
                 catch (Exception e)
                 {
-                    ServerLogManager.LogException("TotalHeight with furni BaseName: " + BaseName + " in RoomId:" + RoomId + Environment.NewLine + e);
+                    ServerLogManager.LogException("TotalHeight with furni BaseName: " + BaseName + " in RoomId:" +
+                                                  RoomId + Environment.NewLine + e);
 
                     return 0;
                 }

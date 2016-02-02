@@ -1,6 +1,4 @@
-﻿using System;
-using Yupi.Data;
-using Yupi.Game.Commands.Interfaces;
+﻿using Yupi.Game.Commands.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 
 namespace Yupi.Game.Commands.Controllers

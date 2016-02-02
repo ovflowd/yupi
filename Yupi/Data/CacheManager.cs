@@ -26,7 +26,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using System.Web.UI;
 using Yupi.Game.Rooms.Data;
 using Yupi.Game.Users;
 
@@ -108,7 +107,7 @@ namespace Yupi.Data
 
             foreach (uint userId in toRemove)
             {
-                Habbo nullHabbo; 
+                Habbo nullHabbo;
 
                 if (Yupi.UsersCached.ContainsKey(userId))
                     Yupi.UsersCached.TryRemove(userId, out nullHabbo);
@@ -120,7 +119,8 @@ namespace Yupi.Data
         /// </summary>
         private static void ClearRoomsCache()
         {
-            if (Yupi.GetGame() == null || Yupi.GetGame().GetRoomManager() == null || Yupi.GetGame().GetRoomManager().LoadedRoomData == null)
+            if (Yupi.GetGame() == null || Yupi.GetGame().GetRoomManager() == null ||
+                Yupi.GetGame().GetRoomManager().LoadedRoomData == null)
                 return;
 
             List<uint> toRemove = (from roomData in Yupi.GetGame().GetRoomManager().LoadedRoomData

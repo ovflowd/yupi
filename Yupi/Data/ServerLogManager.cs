@@ -69,7 +69,8 @@ namespace Yupi.Data
         /// </summary>
         /// <param name="e"></param>
         /// <param name="p"></param>
-        internal static void LogException(Exception e, MethodBase p) => Writer.LogException(e, $"{p.DeclaringType.FullName}.{p.Name}");
+        internal static void LogException(Exception e, MethodBase p)
+            => Writer.LogException(e, $"{p.DeclaringType.FullName}.{p.Name}");
 
         /// <summary>
         ///     Logs the critical exception.

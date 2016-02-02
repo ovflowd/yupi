@@ -179,7 +179,7 @@ namespace Yupi.Game.Users.Messenger
         {
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 queryReactor.RunFastQuery("DELETE FROM messenger_requests WHERE from_id = " + _userId +
-                                                    " OR to_id = " + _userId);
+                                          " OR to_id = " + _userId);
 
             ClearRequests();
         }
@@ -393,7 +393,7 @@ namespace Yupi.Game.Users.Messenger
             if (RequestExists(userId))
             {
                 client.SendNotif("Você já enviou um pedido de amizade anteriormente.");
-                    //@todo: Mudar Texto para sistema de langs
+                //@todo: Mudar Texto para sistema de langs
 
                 return true;
             }

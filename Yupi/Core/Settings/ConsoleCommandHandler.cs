@@ -69,10 +69,12 @@ namespace Yupi.Core.Settings
                     firstArgument = strArguments[0];
                     secondArgument = strArguments[1];
                 }
-    
+
                 switch (firstArgument)
                 {
                     case "shutdown":
+                        ServerLogManager.LogMessage($"Server Shutdowning at {DateTime.Now}");
+
                         ServerLogManager.DisablePrimaryWriting(true);
 
                         Writer.WriteLine("Shutdown Initalized", "Yupi.Life", ConsoleColor.DarkYellow);

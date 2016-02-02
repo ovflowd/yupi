@@ -22,11 +22,10 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-using System;
-using System.ComponentModel.Design;
 using System.Data;
 using MySql.Data.MySqlClient;
 using Yupi.Data.Base.Adapters;
+using Yupi.Data.Base.Adapters.Handlers;
 using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Data.Base.Clients.Interfaces;
 
@@ -36,69 +35,58 @@ namespace Yupi.Data.Base.Clients
     {
         protected readonly IQueryAdapter Adapter;
 
-        protected ConnectionState InternalState = ConnectionState.Closed;
-
-        protected readonly MySqlConnection Connection;
+        protected readonly MySqlConnectionHandler ConnectionHandler;
 
         public DatabaseClient(string connectionStr)
         {
-            Connection = new MySqlConnection(connectionStr);
+            ConnectionHandler = new MySqlConnectionHandler(connectionStr);
 
-            Adapter = new NormalQueryAdapter(this);
+            Adapter = new NormalQueryAdapter(this);     
         }
 
         public void Disconnect()
         {
-            if (Connection.State == ConnectionState.Open)
+            if (IsAvailable())
             {
                 try
                 {
-                    Connection.Close();
+                    GetConnectionHandler().GetConnection().Close();
                 }
                 finally
                 {
-                    SetInternalState(ConnectionState.Closed);
+                    GetConnectionHandler().SetClosed();
                 }
-            }  
+            }
         }
 
         public void Connect()
         {
-            if (Connection.State == ConnectionState.Closed)
+            if (!IsAvailable())
             {
                 try
                 {
-                    Connection.Open();
+                    GetConnectionHandler().GetConnection().Open();
                 }
                 finally
                 {
-                    SetInternalState(ConnectionState.Open);
+                    GetConnectionHandler().SetOpened();
                 }
-            }        
+            }
         }
 
         public void Dispose()
         {
             Adapter.Dispose();
 
-            Connection.Dispose();
+            GetConnectionHandler().GetConnection().Dispose();
         }
 
         public IQueryAdapter GetQueryReactor() => Adapter;
 
-        public bool IsAvailable() => Connection.State == ConnectionState.Open;
+        public bool IsAvailable() => GetConnectionHandler().GetState() == ConnectionState.Open;
 
-        public MySqlCommand CreateCommand() => Connection.CreateCommand();
+        public MySqlCommand CreateCommand() => GetConnectionHandler().GetConnection().CreateCommand();
 
-        public void SetInternalState(ConnectionState state) => InternalState = state;
-
-        public ConnectionState GetInternalState()
-        {
-            if (InternalState == Connection.State)
-                return InternalState;
-            if (InternalState == ConnectionState.Executing || InternalState == ConnectionState.Fetching)
-                return InternalState;
-            return InternalState = Connection.State;
-        }
+        public MySqlConnectionHandler GetConnectionHandler() => ConnectionHandler;
     }
 }

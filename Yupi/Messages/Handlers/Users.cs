@@ -189,9 +189,9 @@ namespace Yupi.Messages.Handlers
 
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 queryReactor.RunFastQuery("UPDATE users_stats SET respect = respect + 1 WHERE id = " +
-                                                    roomUserByHabbo.GetClient().GetHabbo().Id +
-                                                    " LIMIT 1;UPDATE users_stats SET daily_respect_points = daily_respect_points - 1 WHERE id= " +
-                                                    Session.GetHabbo().Id + " LIMIT 1");
+                                          roomUserByHabbo.GetClient().GetHabbo().Id +
+                                          " LIMIT 1;UPDATE users_stats SET daily_respect_points = daily_respect_points - 1 WHERE id= " +
+                                          Session.GetHabbo().Id + " LIMIT 1");
 
             ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("GiveRespectsMessageComposer"));
             serverMessage.AppendInteger(roomUserByHabbo.GetClient().GetHabbo().Id);

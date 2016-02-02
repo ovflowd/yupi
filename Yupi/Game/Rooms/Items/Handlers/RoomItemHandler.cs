@@ -161,7 +161,8 @@ namespace Yupi.Game.Rooms.Items.Handlers
                 return;
 
             foreach (uint itemId in _removedItems)
-                dbClient.RunFastQuery($"UPDATE items_rooms SET room_id = 0, x = 0, y = 0, z = '0', rot = 0 WHERE id = {itemId}");
+                dbClient.RunFastQuery(
+                    $"UPDATE items_rooms SET room_id = 0, x = 0, y = 0, z = '0', rot = 0 WHERE id = {itemId}");
 
             foreach (RoomItem roomItem in _updatedItems.Select(GetItem).Where(roomItem => roomItem != null))
             {
@@ -182,7 +183,9 @@ namespace Yupi.Game.Rooms.Items.Handlers
                 if (roomItem.RoomId == 0)
                     continue;
 
-                if (roomItem.GetBaseItem().Name.Contains("wallpaper_single") || roomItem.GetBaseItem().Name.Contains("floor_single") || roomItem.GetBaseItem().Name.Contains("landscape_single"))
+                if (roomItem.GetBaseItem().Name.Contains("wallpaper_single") ||
+                    roomItem.GetBaseItem().Name.Contains("floor_single") ||
+                    roomItem.GetBaseItem().Name.Contains("landscape_single"))
                 {
                     dbClient.RunFastQuery($"DELETE FROM items_rooms WHERE id = {roomItem.Id} LIMIT 1");
 
@@ -191,7 +194,8 @@ namespace Yupi.Game.Rooms.Items.Handlers
 
                 if (roomItem.IsFloorItem)
                 {
-                    dbClient.SetQuery($"UPDATE items_rooms SET room_id = {roomItem.RoomId}, extra_data = @extraData, x = {roomItem.X}, y = {roomItem.Y}, z = '{roomItem.Z.ToString(CultureInfo.InvariantCulture).Replace(',', '.')}', rot = {roomItem.Rot} WHERE id = {roomItem.Id}");
+                    dbClient.SetQuery(
+                        $"UPDATE items_rooms SET room_id = {roomItem.RoomId}, extra_data = @extraData, x = {roomItem.X}, y = {roomItem.Y}, z = '{roomItem.Z.ToString(CultureInfo.InvariantCulture).Replace(',', '.')}', rot = {roomItem.Rot} WHERE id = {roomItem.Id}");
 
                     dbClient.AddParameter("extraData", roomItem.ExtraData);
 
@@ -199,7 +203,8 @@ namespace Yupi.Game.Rooms.Items.Handlers
                 }
                 else
                 {
-                    dbClient.SetQuery($"UPDATE items_rooms SET room_id = {roomItem.RoomId}, extra_data = @extraData, wall_pos = @wallPos WHERE id = {roomItem.Id}");
+                    dbClient.SetQuery(
+                        $"UPDATE items_rooms SET room_id = {roomItem.RoomId}, extra_data = @extraData, wall_pos = @wallPos WHERE id = {roomItem.Id}");
 
                     dbClient.AddParameter("extraData", roomItem.ExtraData);
                     dbClient.AddParameter("wallPos", roomItem.WallCoord);
@@ -465,7 +470,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
 
                         if (ownerId == 0)
                             queryReactor.RunFastQuery("UPDATE items_rooms SET user_id = " +
-                                                                _room.RoomData.OwnerId + " WHERE id = " + id);
+                                                      _room.RoomData.OwnerId + " WHERE id = " + id);
 
                         string locationData = item.Type == 'i' && string.IsNullOrWhiteSpace(dataRow["wall_pos"].ToString())
                             ? ":w=0,2 l=11,53 l"
@@ -510,7 +515,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
                                 }
 
                                 queryReactor.RunFastQuery("UPDATE items_rooms SET room_id = 0 WHERE id = " +
-                                                                    roomItem.Id);
+                                                          roomItem.Id);
                             }
                             else
                             {
