@@ -132,12 +132,13 @@ namespace Yupi.Core.Io
         /// </summary>
         /// <param name="logText">The log text.</param>
         /// <param name="output">if set to <c>true</c> [output].</param>
-        public static void LogMessage(string logText, bool output = true)
+        /// <param name="header"></param>
+        public static void LogMessage(string logText, string header = "Yupi.Info", bool output = true)
         {
             LogManager.Info(logText);
 
             if (output)
-                WriteLine(logText, "Yupi.Info");
+                WriteLine(logText, header);
         }
 
         /// <summary>

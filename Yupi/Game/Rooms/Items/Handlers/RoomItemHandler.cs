@@ -437,9 +437,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
 
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.RunFastQuery(
-                    "SELECT items_rooms.* , COALESCE(items_groups.group_id, 0) AS group_id FROM items_rooms LEFT OUTER JOIN items_groups ON items_rooms.id = items_groups.id WHERE items_rooms.room_id = " +
-                    _room.RoomId + " LIMIT 5000");
+                queryReactor.RunFastQuery("SELECT items_rooms.*, COALESCE(items_groups.group_id, 0) AS group_id FROM items_rooms LEFT OUTER JOIN items_groups ON items_rooms.id = items_groups.id WHERE items_rooms.room_id = " + _room.RoomId + " LIMIT 5000");
 
                 DataTable table = queryReactor.GetTable();
 
@@ -447,8 +445,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
                 {
                     GameClient clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(_room.RoomData.OwnerId);
 
-                    clientByUserId?.SendNotif(
-                        "Your room has more than 5000 items in it. The current limit of items per room is 5000.\nTo view the rest, pick some of these items up!");
+                    clientByUserId?.SendNotif("Your room has more than 5000 items in it. The current limit of items per room is 5000.\nTo view the rest, pick some of these items up!");
                 }
 
                 foreach (DataRow dataRow in table.Rows)
@@ -469,20 +466,15 @@ namespace Yupi.Game.Rooms.Items.Handlers
                             continue;
 
                         if (ownerId == 0)
-                            queryReactor.RunFastQuery("UPDATE items_rooms SET user_id = " +
-                                                      _room.RoomData.OwnerId + " WHERE id = " + id);
+                        {
+                            queryReactor.RunFastQuery("UPDATE items_rooms SET user_id = " + _room.RoomData.OwnerId + " WHERE id = " + id);
+                        }   
 
-                        string locationData = item.Type == 'i' && string.IsNullOrWhiteSpace(dataRow["wall_pos"].ToString())
-                            ? ":w=0,2 l=11,53 l"
-                            : dataRow["wall_pos"].ToString();
+                        string locationData = item.Type == 'i' && string.IsNullOrWhiteSpace(dataRow["wall_pos"].ToString()) ? ":w=0,2 l=11,53 l" : dataRow["wall_pos"].ToString();
 
-                        string extraData = DBNull.Value.Equals(dataRow["extra_data"])
-                            ? string.Empty
-                            : dataRow["extra_data"].ToString();
+                        string extraData = DBNull.Value.Equals(dataRow["extra_data"]) ? string.Empty : dataRow["extra_data"].ToString();
 
-                        string songCode = DBNull.Value.Equals(dataRow["songcode"])
-                            ? string.Empty
-                            : (string) dataRow["songcode"];
+                        string songCode = DBNull.Value.Equals(dataRow["songcode"]) ? string.Empty : (string) dataRow["songcode"];
 
                         uint groupId = Convert.ToUInt32(dataRow["group_id"]);
 
@@ -490,15 +482,13 @@ namespace Yupi.Game.Rooms.Items.Handlers
                         {
                             WallCoordinate wallCoord = new WallCoordinate(':' + locationData.Split(':')[1]);
 
-                            RoomItem value = new RoomItem(id, _room.RoomId, baseItemName, extraData, wallCoord, _room,
-                                ownerId, groupId, Yupi.EnumToBool((string) dataRow["builders"]));
+                            RoomItem value = new RoomItem(id, _room.RoomId, baseItemName, extraData, wallCoord, _room,  ownerId, groupId, Yupi.EnumToBool((string) dataRow["builders"]));
 
                             WallItems.TryAdd(id, value);
                         }
                         else
                         {
-                            RoomItem roomItem = new RoomItem(id, _room.RoomId, baseItemName, extraData, x, y, z, rot, _room,
-                                ownerId, groupId, songCode, Yupi.EnumToBool((string) dataRow["builders"]));
+                            RoomItem roomItem = new RoomItem(id, _room.RoomId, baseItemName, extraData, x, y, z, rot, _room, ownerId, groupId, songCode, Yupi.EnumToBool((string) dataRow["builders"]));
 
                             if (!_room.GetGameMap().ValidTile(x, y))
                             {
@@ -506,47 +496,44 @@ namespace Yupi.Game.Rooms.Items.Handlers
 
                                 if (clientByUserId2 != null)
                                 {
-                                    clientByUserId2.GetHabbo()
-                                        .GetInventoryComponent()
-                                        .AddNewItem(roomItem.Id, roomItem.BaseName, roomItem.ExtraData, groupId, true,
-                                            true, 0, 0);
+                                    clientByUserId2.GetHabbo().GetInventoryComponent().AddNewItem(roomItem.Id, roomItem.BaseName, roomItem.ExtraData, groupId, true, true, 0, 0);
 
                                     clientByUserId2.GetHabbo().GetInventoryComponent().UpdateItems(true);
                                 }
 
-                                queryReactor.RunFastQuery("UPDATE items_rooms SET room_id = 0 WHERE id = " +
-                                                          roomItem.Id);
+                                queryReactor.RunFastQuery("UPDATE items_rooms SET room_id = 0 WHERE id = " + roomItem.Id);
                             }
                             else
                             {
-                                if (item.InteractionType == Interaction.Hopper) HopperCount++;
+                                if (item.InteractionType == Interaction.Hopper)
+                                    HopperCount++;
 
                                 FloorItems.TryAdd(id, roomItem);
                             }
                         }
                     }
-                    catch (Exception e)
+                    catch
                     {
-                        Console.WriteLine(e);
+                        // ignored
                     }
                 }
+            }
 
-                foreach (RoomItem current in FloorItems.Values)
+            foreach (RoomItem current in FloorItems.Values)
+            {
+                if (current.IsWired)
+                    _room.GetWiredHandler().LoadWired(_room.GetWiredHandler().GenerateNewItem(current));
+
+                if (current.IsRoller)
+                    GotRollers = true;
+
+                else if (current.GetBaseItem().InteractionType == Interaction.Dimmer)
                 {
-                    if (current.IsWired)
-                        _room.GetWiredHandler().LoadWired(_room.GetWiredHandler().GenerateNewItem(current));
-
-                    if (current.IsRoller)
-                        GotRollers = true;
-
-                    else if (current.GetBaseItem().InteractionType == Interaction.Dimmer)
-                    {
-                        if (_room.MoodlightData == null)
-                            _room.MoodlightData = new MoodlightData(current.Id);
-                    }
-                    else if (current.GetBaseItem().InteractionType == Interaction.RoomBg && _room.TonerData == null)
-                        _room.TonerData = new TonerData(current.Id);
+                    if (_room.MoodlightData == null)
+                        _room.MoodlightData = new MoodlightData(current.Id);
                 }
+                else if (current.GetBaseItem().InteractionType == Interaction.RoomBg && _room.TonerData == null)
+                    _room.TonerData = new TonerData(current.Id);
             }
         }
 
@@ -559,15 +546,19 @@ namespace Yupi.Game.Rooms.Items.Handlers
         internal void RemoveFurniture(GameClient session, uint id, bool wasPicked = true)
         {
             RoomItem item = GetItem(id);
+
             if (item == null)
                 return;
+
             if (item.GetBaseItem().InteractionType == Interaction.FootballGate)
                 _room.GetSoccer().UnRegisterGate(item);
+
             if (item.GetBaseItem().InteractionType != Interaction.Gift)
                 item.Interactor.OnRemove(session, item);
-            if (item.GetBaseItem().InteractionType == Interaction.Bed ||
-                item.GetBaseItem().InteractionType == Interaction.PressurePadBed)
+
+            if (item.GetBaseItem().InteractionType == Interaction.Bed ||  item.GetBaseItem().InteractionType == Interaction.PressurePadBed)
                 _room.ContainsBeds--;
+
             RemoveRoomItem(item, wasPicked);
         }
 

@@ -92,18 +92,24 @@ namespace Yupi.Game.Rooms.User
         /// <param name="room">The room.</param>
         public RoomUserManager(Room room)
         {
-            _userRoom = room;
             UserList = new ConcurrentDictionary<int, RoomUser>();
-            _pets = new HybridDictionary();
-            _bots = new HybridDictionary();
+
             UsersByUserName = new HybridDictionary();
             UsersByUserId = new HybridDictionary();
+
+            ToSet = new Dictionary<Point, RoomUser>();
+
+            _pets = new HybridDictionary();
+            _bots = new HybridDictionary();
+
             _primaryPrivateUserId = 0;
             _secondaryPrivateUserId = 0;
-            _removeUsers = new List<RoomUser>((int) room.RoomData.UsersMax);
-            ToSet = new Dictionary<Point, RoomUser>();
-            PetCount = 0;
             _roomUserCount = 0;
+            _userRoom = room;
+
+            _removeUsers = new List<RoomUser>((int)room.RoomData.UsersMax);
+            
+            PetCount = 0;
         }
 
         /// <summary>
@@ -125,19 +131,13 @@ namespace Yupi.Game.Rooms.User
         /// </summary>
         /// <param name="pId">The p identifier.</param>
         /// <returns>RoomUser.</returns>
-        public RoomUser GetRoomUserByHabbo(uint pId)
-        {
-            return UsersByUserId.Contains(pId) ? (RoomUser) UsersByUserId[pId] : null;
-        }
+        public RoomUser GetRoomUserByHabbo(uint pId) => UsersByUserId.Contains(pId) ? (RoomUser)UsersByUserId[pId] : null;
 
         /// <summary>
         ///     Gets the room user count.
         /// </summary>
         /// <returns>System.Int32.</returns>
-        internal int GetRoomUserCount()
-        {
-            return UserList.Count - _bots.Count - _pets.Count;
-        }
+        internal int GetRoomUserCount() => UserList.Count - _bots.Count - _pets.Count;
 
         /// <summary>
         ///     Deploys the bot.
@@ -154,10 +154,13 @@ namespace Yupi.Game.Rooms.User
             int num = _secondaryPrivateUserId++;
 
             roomUser.InternalRoomId = num;
+
             UserList.TryAdd(num, roomUser);
+
             OnUserAdd(roomUser);
 
             DynamicRoomModel model = _userRoom.GetGameMap().Model;
+
             Point coord = new Point(bot.X, bot.Y);
 
             if ((bot.X > 0) && (bot.Y >= 0) && (bot.X < model.MapSizeX) && (bot.Y < model.MapSizeY))
@@ -177,7 +180,7 @@ namespace Yupi.Game.Rooms.User
             bot.RoomUser = roomUser;
             roomUser.BotData = bot;
 
-            roomUser.BotAi = bot.GenerateBotAi(roomUser.VirtualId, (int) bot.BotId);
+            roomUser.BotAi = bot.GenerateBotAi(roomUser.VirtualId, (int)bot.BotId);
 
             if (roomUser.IsPet)
             {
@@ -246,10 +249,12 @@ namespace Yupi.Game.Rooms.User
         internal void UpdateBot(int virtualId, RoomUser roomUser, string name, string motto, string look, string gender,
             List<string> speech, List<string> responses, bool speak, uint speechDelay, bool mix)
         {
-            RoomUser bot = GetRoomUserByVirtualId(virtualId);
-            if (bot == null || !bot.IsBot) return;
+            RoomUser roomBot = GetRoomUserByVirtualId(virtualId);
 
-            RoomBot rBot = bot.BotData;
+            if (roomBot == null || !roomBot.IsBot)
+                return;
+
+            RoomBot rBot = roomBot.BotData;
 
             rBot.Name = name;
             rBot.Motto = motto;
@@ -273,19 +278,25 @@ namespace Yupi.Game.Rooms.User
         internal void RemoveBot(int virtualId, bool kicked)
         {
             RoomUser roomUserByVirtualId = GetRoomUserByVirtualId(virtualId);
-            if (roomUserByVirtualId == null || !roomUserByVirtualId.IsBot) return;
+
+            if (roomUserByVirtualId == null || !roomUserByVirtualId.IsBot)
+                return;
 
             if (roomUserByVirtualId.IsPet)
             {
                 _pets.Remove(roomUserByVirtualId.PetData.PetId);
+
                 PetCount--;
             }
+
             roomUserByVirtualId.BotAi.OnSelfLeaveRoom(kicked);
+
             ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("UserLeftRoomMessageComposer"));
             serverMessage.AppendString(roomUserByVirtualId.VirtualId.ToString());
             _userRoom.SendMessage(serverMessage);
 
             RoomUser roomUser;
+
             UserList.TryRemove(roomUserByVirtualId.InternalRoomId, out roomUser);
         }
 
@@ -295,10 +306,7 @@ namespace Yupi.Game.Rooms.User
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
         /// <returns>RoomUser.</returns>
-        internal RoomUser GetUserForSquare(int x, int y)
-        {
-            return _userRoom.GetGameMap().GetRoomUsers(new Point(x, y)).FirstOrDefault();
-        }
+        internal RoomUser GetUserForSquare(int x, int y) => _userRoom.GetGameMap().GetRoomUsers(new Point(x, y)).FirstOrDefault();
 
         /// <summary>
         ///     Adds the user to room.
@@ -308,23 +316,30 @@ namespace Yupi.Game.Rooms.User
         /// <param name="snow">if set to <c>true</c> [snow].</param>
         internal void AddUserToRoom(GameClient session, bool spectator, bool snow = false)
         {
-            if (session == null || session.GetHabbo() == null)
+            if (session?.GetHabbo() == null)
                 return;
-            RoomUser roomUser = new RoomUser(session.GetHabbo().Id, _userRoom.RoomId, _primaryPrivateUserId++, _userRoom,
-                spectator);
+
+            RoomUser roomUser = new RoomUser(session.GetHabbo().Id, _userRoom.RoomId, _primaryPrivateUserId++, _userRoom, spectator);
+
             if (roomUser.GetClient() == null || roomUser.GetClient().GetHabbo() == null)
                 return;
 
             roomUser.UserId = session.GetHabbo().Id;
+
             string userName = session.GetHabbo().UserName;
             uint userId = roomUser.UserId;
+
             if (UsersByUserName.Contains(userName.ToLower()))
                 UsersByUserName.Remove(userName.ToLower());
+
             if (UsersByUserId.Contains(userId))
                 UsersByUserId.Remove(userId);
+
             UsersByUserName.Add(session.GetHabbo().UserName.ToLower(), roomUser);
             UsersByUserId.Add(session.GetHabbo().Id, roomUser);
+
             int num = _secondaryPrivateUserId++;
+
             roomUser.InternalRoomId = num;
             session.CurrentRoomUserId = num;
             session.GetHabbo().CurrentRoomId = _userRoom.RoomId;
@@ -334,8 +349,7 @@ namespace Yupi.Game.Rooms.User
             session.GetHabbo().LoadingRoom = 0;
 
             if (Yupi.GetGame().GetNavigator().PrivateCategories.Contains(_userRoom.RoomData.Category))
-                ((PublicCategory) Yupi.GetGame().GetNavigator().PrivateCategories[_userRoom.RoomData.Category]).UsersNow
-                    ++;
+                ((PublicCategory)Yupi.GetGame().GetNavigator().PrivateCategories[_userRoom.RoomData.Category]).UsersNow++;
         }
 
         /// <summary>
@@ -350,9 +364,10 @@ namespace Yupi.Game.Rooms.User
 
             if (!UsersByUserName.Contains(oldName))
                 return;
+
             UsersByUserName.Add(newName, UsersByUserName[oldName]);
             UsersByUserName.Remove(oldName);
-            //
+
             Yupi.GetGame().GetClientManager().UpdateClient(oldName, newName);
         }
 
@@ -366,91 +381,101 @@ namespace Yupi.Game.Rooms.User
         {
             try
             {
-                if (session == null || session.GetHabbo() == null || _userRoom == null)
+                if (session?.GetHabbo() == null || _userRoom == null)
                     return;
+
                 uint userId = session.GetHabbo().Id;
 
                 session.GetHabbo().GetAvatarEffectsInventoryComponent().OnRoomExit();
-                //using (var queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                //    queryReactor.RunFastQuery("UPDATE users_rooms_visits SET exit_timestamp = '" + Yupi.GetUnixTimeStamp() + "' WHERE room_id = '" + _room.RoomId + "' AND user_id = '" + session.GetHabbo().Id + "' ORDER BY entry_timestamp DESC LIMIT 1");
 
                 RoomUser roomUserByHabbo = GetRoomUserByHabbo(userId);
+
                 if (roomUserByHabbo == null)
                     return;
+
                 if (notifyKick)
                 {
                     Room room = Yupi.GetGame().GetRoomManager().GetRoom(roomUserByHabbo.RoomId);
                     DynamicRoomModel model = room.GetGameMap().Model;
+
                     roomUserByHabbo.MoveTo(model.DoorX, model.DoorY);
                     roomUserByHabbo.CanWalk = false;
-                    session.GetMessageHandler()
-                        .GetResponse()
-                        .Init(LibraryParser.OutgoingRequest("RoomErrorMessageComposer"));
+
+                    session.GetMessageHandler().GetResponse().Init(LibraryParser.OutgoingRequest("RoomErrorMessageComposer"));
                     session.GetMessageHandler().GetResponse().AppendInteger(4008);
                     session.GetMessageHandler().SendResponse();
 
-                    session.GetMessageHandler()
-                        .GetResponse()
-                        .Init(LibraryParser.OutgoingRequest("OutOfRoomMessageComposer"));
+                    session.GetMessageHandler().GetResponse().Init(LibraryParser.OutgoingRequest("OutOfRoomMessageComposer"));
                     session.GetMessageHandler().GetResponse().AppendShort(2);
                     session.GetMessageHandler().SendResponse();
                 }
                 else if (notifyClient)
                 {
-                    ServerMessage serverMessage =
-                        new ServerMessage(LibraryParser.OutgoingRequest("UserIsPlayingFreezeMessageComposer"));
+                    ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("UserIsPlayingFreezeMessageComposer"));
                     serverMessage.AppendBool(roomUserByHabbo.Team != Team.None);
                     roomUserByHabbo.GetClient().SendMessage(serverMessage);
-                    session.GetMessageHandler()
-                        .GetResponse()
-                        .Init(LibraryParser.OutgoingRequest("OutOfRoomMessageComposer"));
+
+                    session.GetMessageHandler().GetResponse().Init(LibraryParser.OutgoingRequest("OutOfRoomMessageComposer"));
                     session.GetMessageHandler().GetResponse().AppendShort(2);
                     session.GetMessageHandler().SendResponse();
                 }
+
                 if (roomUserByHabbo.Team != Team.None)
                 {
                     _userRoom.GetTeamManagerForBanzai().OnUserLeave(roomUserByHabbo);
                     _userRoom.GetTeamManagerForFreeze().OnUserLeave(roomUserByHabbo);
                 }
+
                 if (roomUserByHabbo.RidingHorse)
                 {
                     roomUserByHabbo.RidingHorse = false;
-                    RoomUser horse = GetRoomUserByVirtualId((int) roomUserByHabbo.HorseId);
+
+                    RoomUser horse = GetRoomUserByVirtualId((int)roomUserByHabbo.HorseId);
+
                     if (horse != null)
                     {
                         horse.RidingHorse = false;
                         horse.HorseId = 0u;
                     }
                 }
+
                 if (roomUserByHabbo.IsLyingDown || roomUserByHabbo.IsSitting)
                 {
                     roomUserByHabbo.IsSitting = false;
                     roomUserByHabbo.IsLyingDown = false;
                 }
+
                 RemoveRoomUser(roomUserByHabbo);
+
                 if (session.GetHabbo() != null && !roomUserByHabbo.IsSpectator)
                 {
                     if (roomUserByHabbo.CurrentItemEffect != ItemEffectType.None)
                         roomUserByHabbo.GetClient().GetHabbo().GetAvatarEffectsInventoryComponent().CurrentEffect = -1;
+
                     if (session.GetHabbo() != null)
                     {
                         if (_userRoom.HasActiveTrade(session.GetHabbo().Id))
                             _userRoom.TryStopTrade(session.GetHabbo().Id);
+
                         session.GetHabbo().CurrentRoomId = 0;
+
                         if (session.GetHabbo().GetMessenger() != null)
                             session.GetHabbo().GetMessenger().OnStatusChanged(true);
                     }
 
                     using (IQueryAdapter queryreactor2 = Yupi.GetDatabaseManager().GetQueryReactor())
+                    {
                         if (session.GetHabbo() != null)
-                            queryreactor2.RunFastQuery(string.Concat(
-                                "UPDATE users_rooms_visits SET exit_timestamp = '", Yupi.GetUnixTimeStamp(),
-                                "' WHERE room_id = '", _userRoom.RoomId, "' AND user_id = '", userId,
-                                "' ORDER BY exit_timestamp DESC LIMIT 1"));
+                            queryreactor2.RunFastQuery(string.Concat("UPDATE users_rooms_visits SET exit_timestamp = '", Yupi.GetUnixTimeStamp(), "' WHERE room_id = '", _userRoom.RoomId, "' AND user_id = '", userId, "' ORDER BY exit_timestamp DESC LIMIT 1"));
+
+                    }
                 }
+
                 UsersByUserId.Remove(roomUserByHabbo.UserId);
+
                 if (session.GetHabbo() != null)
                     UsersByUserName.Remove(session.GetHabbo().UserName.ToLower());
+
                 roomUserByHabbo.Dispose();
             }
             catch (Exception ex)
@@ -466,7 +491,9 @@ namespace Yupi.Game.Rooms.User
         internal void RemoveRoomUser(RoomUser user)
         {
             RoomUser junk;
-            if (!UserList.TryRemove(user.InternalRoomId, out junk)) return;
+
+            if (!UserList.TryRemove(user.InternalRoomId, out junk))
+                return;
 
             user.InternalRoomId = -1;
             _userRoom.GetGameMap().GameMap[user.X, user.Y] = user.SqState;
@@ -487,7 +514,8 @@ namespace Yupi.Game.Rooms.User
         internal RoomUser GetPet(uint petId)
         {
             if (_pets.Contains(petId))
-                return (RoomUser) _pets[petId];
+                return (RoomUser)_pets[petId];
+
             return null;
         }
 
@@ -499,15 +527,12 @@ namespace Yupi.Game.Rooms.User
         internal RoomUser GetBot(uint botId)
         {
             if (_bots.Contains(botId))
-                return (RoomUser) _bots[botId];
+                return (RoomUser)_bots[botId];
+
             return null;
         }
 
-        internal RoomUser GetBotByName(string name)
-        {
-            RoomUser roomUser = UserList.Values.FirstOrDefault(b => b.BotData != null && b.BotData.Name == name);
-            return roomUser;
-        }
+        internal RoomUser GetBotByName(string name) => UserList.Values.FirstOrDefault(b => b.BotData != null && b.BotData.Name == name);
 
         /// <summary>
         ///     Updates the user count.
@@ -519,8 +544,7 @@ namespace Yupi.Game.Rooms.User
             _userRoom.RoomData.UsersNow = count;
 
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery("UPDATE rooms_data SET users_now = " + count + " WHERE id = " +
-                                          _userRoom.RoomId + " LIMIT 1");
+                queryReactor.RunFastQuery("UPDATE rooms_data SET users_now = " + count + " WHERE id = " + _userRoom.RoomId + " LIMIT 1");
 
             Yupi.GetGame().GetRoomManager().QueueActiveRoomUpdate(_userRoom.RoomData);
         }
@@ -530,42 +554,26 @@ namespace Yupi.Game.Rooms.User
         /// </summary>
         /// <param name="virtualId">The virtual identifier.</param>
         /// <returns>RoomUser.</returns>
-        internal RoomUser GetRoomUserByVirtualId(int virtualId)
-        {
-            return UserList.ContainsKey(virtualId) ? UserList[virtualId] : null;
-        }
+        internal RoomUser GetRoomUserByVirtualId(int virtualId) => UserList.ContainsKey(virtualId) ? UserList[virtualId] : null;
 
         /// <summary>
         ///     Gets the users in camping tent.
         /// </summary>
         /// <returns>List&lt;RoomUser&gt;.</returns>
-        internal List<RoomUser> GetUsersInCampingTent()
-        {
-            return GetRoomUsers().Where(x => x.OnCampingTent).ToList();
-        }
+        internal List<RoomUser> GetUsersInCampingTent() => GetRoomUsers().Where(x => x.OnCampingTent).ToList();
 
         /// <summary>
         ///     Gets the room users.
         /// </summary>
         /// <returns>HashSet&lt;RoomUser&gt;.</returns>
-        internal HashSet<RoomUser> GetRoomUsers()
-        {
-            return new HashSet<RoomUser>(UserList.Values.Where(x => x.IsBot == false));
-        }
+        internal HashSet<RoomUser> GetRoomUsers() => new HashSet<RoomUser>(UserList.Values.Where(x => x.IsBot == false));
 
         /// <summary>
         ///     Gets the room user by rank.
         /// </summary>
         /// <param name="minRank">The minimum rank.</param>
         /// <returns>List&lt;RoomUser&gt;.</returns>
-        internal List<RoomUser> GetRoomUserByRank(int minRank)
-        {
-            return
-                UserList.Values.Where(
-                    current =>
-                        !current.IsBot && current.GetClient() != null && current.GetClient().GetHabbo() != null &&
-                        current.GetClient().GetHabbo().Rank > (ulong) minRank).ToList();
-        }
+        internal List<RoomUser> GetRoomUserByRank(int minRank) => UserList.Values.Where(current => !current.IsBot && current.GetClient() != null && current.GetClient().GetHabbo() != null && current.GetClient().GetHabbo().Rank > (ulong)minRank).ToList();
 
         /// <summary>
         ///     Gets the room user by habbo.
@@ -575,7 +583,8 @@ namespace Yupi.Game.Rooms.User
         internal RoomUser GetRoomUserByHabbo(string pName)
         {
             if (UsersByUserName.Contains(pName.ToLower()))
-                return (RoomUser) UsersByUserName[pName.ToLower()];
+                return (RoomUser)UsersByUserName[pName.ToLower()];
+
             return null;
         }
 
@@ -619,13 +628,7 @@ namespace Yupi.Game.Rooms.User
         ///     Gets the pets.
         /// </summary>
         /// <returns>List&lt;Pet&gt;.</returns>
-        internal List<Pet> GetPets()
-        {
-            List<KeyValuePair<int, RoomUser>> list = UserList.ToList();
-
-            return
-                (from current in list select current.Value into value where value.IsPet select value.PetData).ToList();
-        }
+        internal List<Pet> GetPets() => UserList.Where(c => c.Value.IsPet).Select(c => c.Value.PetData).ToList();
 
         /// <summary>
         ///     Serializes the status updates.
@@ -680,17 +683,25 @@ namespace Yupi.Game.Rooms.User
         /// <param name="cycleGameItems">if set to <c>true</c> [cyclegameitems].</param>
         internal void UpdateUserStatus(RoomUser user, bool cycleGameItems)
         {
-            if (user == null) return;
+            if (user == null)
+                return;
 
-            if (user.Statusses.ContainsKey("lay") || user.Statusses.ContainsKey("sit"))
+            if (user.Statusses.ContainsKey("lay"))
             {
-                user.Statusses.Remove("lay");
-                user.Statusses.Remove("sit");
+                user.RemoveStatus("lay");
+                user.UpdateNeeded = true;
+            }
+
+            if (user.Statusses.ContainsKey("sit"))
+            {
+                user.RemoveStatus("sit");
                 user.UpdateNeeded = true;
             }
 
             bool isBot = user.IsBot;
-            if (isBot) cycleGameItems = false;
+
+            if (isBot)
+                cycleGameItems = false;
 
             try
             {
@@ -699,45 +710,42 @@ namespace Yupi.Game.Rooms.User
                 RoomItem[] allRoomItemForSquare = roomMap.GetCoordinatedHeighestItems(userPoint).ToArray();
                 List<RoomItem> itemsOnSquare = roomMap.GetCoordinatedItems(userPoint);
 
-                double newZ = _userRoom.GetGameMap().SqAbsoluteHeight(user.X, user.Y, itemsOnSquare) +
-                           (user.RidingHorse && user.IsPet == false ? 1 : 0);
+                double newZ = _userRoom.GetGameMap().SqAbsoluteHeight(user.X, user.Y, itemsOnSquare) + (user.RidingHorse && user.IsPet == false ? 1 : 0);
 
                 if (Math.Abs(newZ - user.Z) > 0)
                 {
                     user.Z = newZ;
                     user.UpdateNeeded = true;
                 }
+
                 foreach (RoomItem item in allRoomItemForSquare)
                 {
                     if (cycleGameItems)
-                    {
                         item.UserWalksOnFurni(user);
-                    }
 
                     if (item.GetBaseItem().IsSeat)
                     {
                         if (!user.Statusses.ContainsKey("sit"))
                         {
                             if (item.GetBaseItem().StackMultipler && !string.IsNullOrWhiteSpace(item.ExtraData))
+                            {
                                 if (item.ExtraData != "0")
                                 {
                                     int num2 = Convert.ToInt32(item.ExtraData);
+
                                     if (!user.Statusses.ContainsKey("sit"))
-                                        user.Statusses.Add("sit",
-                                            item.GetBaseItem().ToggleHeight[num2].ToString(CultureInfo.InvariantCulture)
-                                                .Replace(',', '.'));
+                                        user.AddStatus("sit", item.GetBaseItem().ToggleHeight[num2].ToString(CultureInfo.InvariantCulture).Replace(',', '.'));
                                 }
                                 else
                                 {
                                     if (!user.Statusses.ContainsKey("sit"))
-                                        user.Statusses.Add("sit",
-                                            Convert.ToString(item.GetBaseItem().Height, CultureInfo.InvariantCulture));
+                                        user.AddStatus("sit", Convert.ToString(item.GetBaseItem().Height, CultureInfo.InvariantCulture));
                                 }
+                            }
                             else
                             {
                                 if (!user.Statusses.ContainsKey("sit"))
-                                    user.Statusses.Add("sit",
-                                        Convert.ToString(item.GetBaseItem().Height, CultureInfo.InvariantCulture));
+                                    user.AddStatus("sit", Convert.ToString(item.GetBaseItem().Height, CultureInfo.InvariantCulture));
                             }
                         }
 
@@ -757,59 +765,47 @@ namespace Yupi.Game.Rooms.User
                         case Interaction.QuickTeleport:
                         case Interaction.GuildGate:
                         case Interaction.WalkInternalLink:
-                        {
                             item.Interactor.OnUserWalk(user.GetClient(), item, user);
+
                             break;
-                        }
                         case Interaction.None:
                             break;
-
                         case Interaction.PressurePadBed:
                         case Interaction.Bed:
-                        {
-                            if (!user.Statusses.ContainsKey("lay"))
-                                user.Statusses.Add("lay", ServerUserChatTextHandler.GetString(item.GetBaseItem().Height));
-                            else
                             {
-                                if (user.Statusses["lay"] !=
-                                    ServerUserChatTextHandler.GetString(item.GetBaseItem().Height))
-                                    user.Statusses["lay"] =
-                                        ServerUserChatTextHandler.GetString(item.GetBaseItem().Height);
-                            }
+                                if (!user.Statusses.ContainsKey("lay"))
+                                    user.AddStatus("lay", ServerUserChatTextHandler.GetString(item.GetBaseItem().Height));
+                                else
+                                    user.Statusses["lay"] = ServerUserChatTextHandler.GetString(item.GetBaseItem().Height);
 
-                            user.Z = item.Z;
-                            user.RotHead = item.Rot;
-                            user.RotBody = item.Rot;
-                            user.UpdateNeeded = true;
+                                user.Z = item.Z;
+                                user.RotHead = item.Rot;
+                                user.RotBody = item.Rot;
+                                user.UpdateNeeded = true;
 
-                            if (item.GetBaseItem().InteractionType == Interaction.PressurePadBed)
-                            {
-                                item.ExtraData = "1";
-                                item.UpdateState();
+                                if (item.GetBaseItem().InteractionType == Interaction.PressurePadBed)
+                                {
+                                    item.ExtraData = "1";
+                                    item.UpdateState();
+                                }
+                                break;
                             }
-                            break;
-                        }
 
                         case Interaction.Guillotine:
-                        {
-                            if (!user.Statusses.ContainsKey("lay"))
-                                user.Statusses.Add("lay", ServerUserChatTextHandler.GetString(item.GetBaseItem().Height));
-                            else if (user.Statusses["lay"] !=
-                                     ServerUserChatTextHandler.GetString(item.GetBaseItem().Height))
-                                user.Statusses["lay"] =
-                                    ServerUserChatTextHandler.GetString(item.GetBaseItem().Height);
+                            {
+                                user.AddStatus("lay", ServerUserChatTextHandler.GetString(item.GetBaseItem().Height));
 
-                            user.Z = item.Z;
-                            user.RotBody = item.Rot;
+                                user.Z = item.Z;
+                                user.RotBody = item.Rot;
 
-                            item.ExtraData = "1";
-                            item.UpdateState();
-                            AvatarEffectComponent avatarEffectsInventoryComponent =
-                                user.GetClient().GetHabbo().GetAvatarEffectsInventoryComponent();
+                                item.ExtraData = "1";
+                                item.UpdateState();
 
-                            avatarEffectsInventoryComponent.ActivateCustomEffect(133);
-                            break;
-                        }
+                                AvatarEffectComponent avatarEffectsInventoryComponent = user.GetClient().GetHabbo().GetAvatarEffectsInventoryComponent();
+
+                                avatarEffectsInventoryComponent.ActivateCustomEffect(133);
+                                break;
+                            }
 
                         case Interaction.FootballGate:
                             break;
@@ -818,140 +814,165 @@ namespace Yupi.Game.Rooms.User
                         case Interaction.BanzaiGateRed:
                         case Interaction.BanzaiGateYellow:
                         case Interaction.BanzaiGateGreen:
-                        {
-                            int effect = (int) item.Team + 32;
-                            TeamManager teamManagerForBanzai =
-                                user.GetClient().GetHabbo().CurrentRoom.GetTeamManagerForBanzai();
-                            AvatarEffectComponent avatarEffectsInventoryComponent =
-                                user.GetClient().GetHabbo().GetAvatarEffectsInventoryComponent();
-                            if (user.Team == Team.None)
                             {
-                                if (!teamManagerForBanzai.CanEnterOnTeam(item.Team)) break;
-                                if (user.Team != Team.None) teamManagerForBanzai.OnUserLeave(user);
-                                user.Team = item.Team;
-                                teamManagerForBanzai.AddUser(user);
-                                if (avatarEffectsInventoryComponent.CurrentEffect != effect)
-                                    avatarEffectsInventoryComponent.ActivateCustomEffect(effect);
-                                break;
-                            }
-                            if (user.Team != Team.None && user.Team != item.Team)
-                            {
-                                teamManagerForBanzai.OnUserLeave(user);
-                                user.Team = Team.None;
-                                avatarEffectsInventoryComponent.ActivateCustomEffect(0);
-                                break;
-                            }
-                            teamManagerForBanzai.OnUserLeave(user);
+                                int effect = (int)item.Team + 32;
 
-                            if (avatarEffectsInventoryComponent.CurrentEffect == effect)
-                                avatarEffectsInventoryComponent.ActivateCustomEffect(0);
-                            user.Team = Team.None;
-                            break;
-                        }
+                                TeamManager teamManagerForBanzai = user.GetClient().GetHabbo().CurrentRoom.GetTeamManagerForBanzai();
+
+                                AvatarEffectComponent avatarEffectsInventoryComponent = user.GetClient().GetHabbo().GetAvatarEffectsInventoryComponent();
+
+                                if (user.Team == Team.None)
+                                {
+                                    if (!teamManagerForBanzai.CanEnterOnTeam(item.Team))
+                                        break;
+
+                                    if (user.Team != Team.None)
+                                        teamManagerForBanzai.OnUserLeave(user);
+
+                                    user.Team = item.Team;
+                                    teamManagerForBanzai.AddUser(user);
+
+                                    if (avatarEffectsInventoryComponent.CurrentEffect != effect)
+                                        avatarEffectsInventoryComponent.ActivateCustomEffect(effect);
+
+                                    break;
+                                }
+
+                                if (user.Team != Team.None && user.Team != item.Team)
+                                {
+                                    teamManagerForBanzai.OnUserLeave(user);
+                                    user.Team = Team.None;
+                                    avatarEffectsInventoryComponent.ActivateCustomEffect(0);
+                                    break;
+                                }
+
+                                teamManagerForBanzai.OnUserLeave(user);
+
+                                if (avatarEffectsInventoryComponent.CurrentEffect == effect)
+                                    avatarEffectsInventoryComponent.ActivateCustomEffect(0);
+
+                                user.Team = Team.None;
+                                break;
+                            }
 
                         case Interaction.Jump:
                             break;
 
                         case Interaction.Pinata:
-                        {
-                            if (!user.IsWalking || item.ExtraData.Length <= 0) break;
-                            int num5 = int.Parse(item.ExtraData);
-                            if (num5 >= 100 || user.CurrentEffect != 158) break;
-                            int num6 = num5 + 1;
-                            item.ExtraData = num6.ToString();
-                            item.UpdateState();
-                            Yupi.GetGame()
-                                .GetAchievementManager()
-                                .ProgressUserAchievement(user.GetClient(), "ACH_PinataWhacker", 1);
-                            if (num6 == 100)
                             {
-                                Yupi.GetGame().GetPinataHandler().DeliverRandomPinataItem(user, _userRoom, item);
-                                Yupi.GetGame()
-                                    .GetAchievementManager()
-                                    .ProgressUserAchievement(user.GetClient(), "ACH_PinataBreaker", 1);
+                                if (!user.IsWalking || item.ExtraData.Length <= 0)
+                                    break;
+
+                                int num5 = int.Parse(item.ExtraData);
+
+                                if (num5 >= 100 || user.CurrentEffect != 158)
+                                    break;
+
+                                int num6 = num5 + 1;
+                                item.ExtraData = num6.ToString();
+                                item.UpdateState();
+
+                                Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(user.GetClient(), "ACH_PinataWhacker", 1);
+
+                                if (num6 == 100)
+                                {
+                                    Yupi.GetGame().GetPinataHandler().DeliverRandomPinataItem(user, _userRoom, item);
+                                    Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(user.GetClient(), "ACH_PinataBreaker", 1);
+                                }
+
+                                break;
                             }
-                            break;
-                        }
                         case Interaction.TileStackMagic:
                         case Interaction.Poster:
                             break;
 
                         case Interaction.Tent:
                         case Interaction.BedTent:
-                            if (user.LastItem == item.Id) break;
+                            if (user.LastItem == item.Id)
+                                break;
+
                             if (!user.IsBot && !user.OnCampingTent)
                             {
-                                ServerMessage serverMessage22 = new ServerMessage();
-                                serverMessage22.Init(
-                                    LibraryParser.OutgoingRequest("UpdateFloorItemExtraDataMessageComposer"));
-                                serverMessage22.AppendString(item.Id.ToString());
-                                serverMessage22.AppendInteger(0);
-                                serverMessage22.AppendString("1");
-                                user.GetClient().SendMessage(serverMessage22);
+                                ServerMessage updateFloorServerMessage = new ServerMessage(LibraryParser.OutgoingRequest("UpdateFloorItemExtraDataMessageComposer"));
+
+                                updateFloorServerMessage.AppendString(item.Id.ToString());
+                                updateFloorServerMessage.AppendInteger(0);
+                                updateFloorServerMessage.AppendString("1");
+                                user.GetClient().SendMessage(updateFloorServerMessage);
+
                                 user.OnCampingTent = true;
                                 user.LastItem = item.Id;
                             }
                             break;
 
                         case Interaction.RunWaySage:
-                        {
-                            int num7 = new Random().Next(1, 4);
-                            item.ExtraData = num7.ToString();
-                            item.UpdateState();
-                            break;
-                        }
+                            {
+                                int num7 = new Random().Next(1, 4);
+
+                                item.ExtraData = num7.ToString();
+                                item.UpdateState();
+
+                                break;
+                            }
                         case Interaction.Shower:
                         case Interaction.ChairState:
                         case Interaction.PressurePad:
-                        {
-                            item.ExtraData = "1";
-                            item.UpdateState();
-                            break;
-                        }
+                            {
+                                item.ExtraData = "1";
+                                item.UpdateState();
+                                break;
+                            }
                         case Interaction.BanzaiTele:
-                        {
-                            if (user.IsWalking)
-                                _userRoom.GetGameItemHandler().OnTeleportRoomUserEnter(user, item);
-                            break;
-                        }
+                            {
+                                if (user.IsWalking)
+                                    _userRoom.GetGameItemHandler().OnTeleportRoomUserEnter(user, item);
+
+                                break;
+                            }
                         case Interaction.FreezeYellowGate:
                         case Interaction.FreezeRedGate:
                         case Interaction.FreezeGreenGate:
                         case Interaction.FreezeBlueGate:
-                        {
-                            if (cycleGameItems)
                             {
-                                int num4 = (int) (item.Team + 39);
-                                TeamManager teamManagerForFreeze =
-                                    user.GetClient().GetHabbo().CurrentRoom.GetTeamManagerForFreeze();
-                                AvatarEffectComponent avatarEffectsInventoryComponent2 =
-                                    user.GetClient().GetHabbo().GetAvatarEffectsInventoryComponent();
-                                if (user.Team != item.Team)
+                                if (cycleGameItems)
                                 {
-                                    if (teamManagerForFreeze.CanEnterOnTeam(item.Team))
+                                    int num4 = (int)(item.Team + 39);
+
+                                    TeamManager teamManagerForFreeze = user.GetClient().GetHabbo().CurrentRoom.GetTeamManagerForFreeze();
+
+                                    AvatarEffectComponent avatarEffectsInventoryComponent2 = user.GetClient().GetHabbo().GetAvatarEffectsInventoryComponent();
+
+                                    if (user.Team != item.Team)
                                     {
-                                        if (user.Team != Team.None) teamManagerForFreeze.OnUserLeave(user);
-                                        user.Team = item.Team;
-                                        teamManagerForFreeze.AddUser(user);
-                                        if (avatarEffectsInventoryComponent2.CurrentEffect != num4)
-                                            avatarEffectsInventoryComponent2.ActivateCustomEffect(num4);
+                                        if (teamManagerForFreeze.CanEnterOnTeam(item.Team))
+                                        {
+                                            if (user.Team != Team.None)
+                                                teamManagerForFreeze.OnUserLeave(user);
+
+                                            user.Team = item.Team;
+                                            teamManagerForFreeze.AddUser(user);
+
+                                            if (avatarEffectsInventoryComponent2.CurrentEffect != num4)
+                                                avatarEffectsInventoryComponent2.ActivateCustomEffect(num4);
+                                        }
                                     }
+                                    else
+                                    {
+                                        teamManagerForFreeze.OnUserLeave(user);
+
+                                        if (avatarEffectsInventoryComponent2.CurrentEffect == num4)
+                                            avatarEffectsInventoryComponent2.ActivateCustomEffect(0);
+
+                                        user.Team = Team.None;
+                                    }
+
+                                    ServerMessage isPlayingFreezeMessage = new ServerMessage(LibraryParser.OutgoingRequest("UserIsPlayingFreezeMessageComposer"));
+                                    isPlayingFreezeMessage.AppendBool(user.Team != Team.None);
+                                    user.GetClient().SendMessage(isPlayingFreezeMessage);
                                 }
-                                else
-                                {
-                                    teamManagerForFreeze.OnUserLeave(user);
-                                    if (avatarEffectsInventoryComponent2.CurrentEffect == num4)
-                                        avatarEffectsInventoryComponent2.ActivateCustomEffect(0);
-                                    user.Team = Team.None;
-                                }
-                                ServerMessage serverMessage33 =
-                                    new ServerMessage(
-                                        LibraryParser.OutgoingRequest("UserIsPlayingFreezeMessageComposer"));
-                                serverMessage33.AppendBool(user.Team != Team.None);
-                                user.GetClient().SendMessage(serverMessage33);
+
+                                break;
                             }
-                            break;
-                        }
                     }
 
                     if (item.GetBaseItem().InteractionType == Interaction.BedTent)
@@ -965,6 +986,7 @@ namespace Yupi.Game.Rooms.User
                     user.Z -= 0.35;
                     user.UpdateNeeded = true;
                 }
+
                 if (cycleGameItems)
                 {
                     _userRoom.GetSoccer().OnUserWalk(user);
@@ -986,10 +1008,7 @@ namespace Yupi.Game.Rooms.User
         /// <param name="senderId">The sender identifier.</param>
         internal void TurnHeads(int x, int y, uint senderId)
         {
-            foreach (
-                RoomUser current in
-                    UserList.Values.Where(
-                        current => current.HabboId != senderId && !current.RidingHorse && !current.IsPet))
+            foreach (RoomUser current in UserList.Values.Where(current => current.HabboId != senderId && !current.RidingHorse && !current.IsPet))
                 current.SetRot(PathFinder.CalculateRotation(current.X, current.Y, x, y), true);
         }
 
@@ -1007,28 +1026,16 @@ namespace Yupi.Game.Rooms.User
 
             if (!roomUsers.IsOwner() && (roomUsers.IdleTime >= 300) && !roomUsers.IsBot && !roomUsers.IsPet)
             {
-                try
-                {
-                    GameClient ownerAchievementMessage =
-                        Yupi.GetGame().GetClientManager().GetClientByUserId(_userRoom.RoomData.OwnerId);
+                GameClient roomOwnerGameClient = Yupi.GetGame().GetClientManager().GetClientByUserId(_userRoom.RoomData.OwnerId);
 
-                    if (ownerAchievementMessage != null)
-                        Yupi.GetGame()
-                            .GetAchievementManager()
-                            .ProgressUserAchievement(ownerAchievementMessage, "ACH_RoomDecoHosting", 1, true);
-                }
-                catch (Exception)
-                {
-                    // ignored
-                }
+                if (roomOwnerGameClient != null)
+                    Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(roomOwnerGameClient, "ACH_RoomDecoHosting", 1, true);
             }
         }
 
         internal void RoomUserBreedInteraction(RoomUser roomUsers)
         {
-            if (roomUsers.IsPet && ((roomUsers.PetData.Type == "pet_terrier") || (roomUsers.PetData.Type == "pet_bear")) &&
-                (roomUsers.PetData.WaitingForBreading > 0) && (roomUsers.PetData.BreadingTile.X == roomUsers.X) &&
-                (roomUsers.PetData.BreadingTile.Y == roomUsers.Y))
+            if (roomUsers.IsPet && ((roomUsers.PetData.Type == "pet_terrier") || (roomUsers.PetData.Type == "pet_bear")) && (roomUsers.PetData.WaitingForBreading > 0) && (roomUsers.PetData.BreadingTile.X == roomUsers.X) && (roomUsers.PetData.BreadingTile.Y == roomUsers.Y))
             {
                 roomUsers.Freezed = true;
                 _userRoom.GetGameMap().RemoveUserFromMap(roomUsers, roomUsers.Coordinate);
@@ -1036,12 +1043,9 @@ namespace Yupi.Game.Rooms.User
                 switch (roomUsers.PetData.Type)
                 {
                     case "pet_terrier":
-                        if (
-                            _userRoom.GetRoomItemHandler().BreedingTerrier[roomUsers.PetData.WaitingForBreading]
-                                .PetsList.Count == 2)
+                        if (_userRoom.GetRoomItemHandler().BreedingTerrier[roomUsers.PetData.WaitingForBreading].PetsList.Count == 2)
                         {
-                            GameClient petBreedOwner =
-                                Yupi.GetGame().GetClientManager().GetClientByUserId(roomUsers.PetData.OwnerId);
+                            GameClient petBreedOwner = Yupi.GetGame().GetClientManager().GetClientByUserId(roomUsers.PetData.OwnerId);
 
                             petBreedOwner?.SendMessage(PetBreeding.GetMessage(roomUsers.PetData.WaitingForBreading,
                                 _userRoom.GetRoomItemHandler().BreedingTerrier[roomUsers.PetData.WaitingForBreading]
@@ -1052,12 +1056,9 @@ namespace Yupi.Game.Rooms.User
                         break;
 
                     case "pet_bear":
-                        if (
-                            _userRoom.GetRoomItemHandler().BreedingBear[roomUsers.PetData.WaitingForBreading].PetsList
-                                .Count == 2)
+                        if (_userRoom.GetRoomItemHandler().BreedingBear[roomUsers.PetData.WaitingForBreading].PetsList.Count == 2)
                         {
-                            GameClient petBreedOwner =
-                                Yupi.GetGame().GetClientManager().GetClientByUserId(roomUsers.PetData.OwnerId);
+                            GameClient petBreedOwner = Yupi.GetGame().GetClientManager().GetClientByUserId(roomUsers.PetData.OwnerId);
 
                             petBreedOwner?.SendMessage(PetBreeding.GetMessage(roomUsers.PetData.WaitingForBreading,
                                 _userRoom.GetRoomItemHandler().BreedingBear[roomUsers.PetData.WaitingForBreading]
@@ -1070,10 +1071,7 @@ namespace Yupi.Game.Rooms.User
 
                 UpdateUserStatus(roomUsers, false);
             }
-            else if (roomUsers.IsPet &&
-                     ((roomUsers.PetData.Type == "pet_terrier") || (roomUsers.PetData.Type == "pet_bear")) &&
-                     (roomUsers.PetData.WaitingForBreading > 0) && (roomUsers.PetData.BreadingTile.X != roomUsers.X) &&
-                     (roomUsers.PetData.BreadingTile.Y != roomUsers.Y))
+            else if (roomUsers.IsPet && ((roomUsers.PetData.Type == "pet_terrier") || (roomUsers.PetData.Type == "pet_bear")) && (roomUsers.PetData.WaitingForBreading > 0) && (roomUsers.PetData.BreadingTile.X != roomUsers.X) && (roomUsers.PetData.BreadingTile.Y != roomUsers.Y))
             {
                 roomUsers.Freezed = false;
                 roomUsers.PetData.WaitingForBreading = 0;
@@ -1591,13 +1589,17 @@ namespace Yupi.Game.Rooms.User
             try
             {
                 byte b = _userRoom.GetGameMap().EffectMap[x, y];
+
                 if (b > 0)
                 {
                     if (user.GetClient().GetHabbo().GetAvatarEffectsInventoryComponent().CurrentEffect == 0)
                         user.CurrentItemEffect = ItemEffectType.None;
+
                     ItemEffectType itemEffectType = ByteToItemEffectEnum.Parse(b);
+
                     if (itemEffectType == user.CurrentItemEffect)
                         return;
+
                     switch (itemEffectType)
                     {
                         case ItemEffectType.None:
@@ -1637,10 +1639,10 @@ namespace Yupi.Game.Rooms.User
                             break;
 
                         case ItemEffectType.SnowBoard:
-                        {
-                            user.GetClient().GetHabbo().GetAvatarEffectsInventoryComponent().ActivateCustomEffect(97);
-                            user.CurrentItemEffect = itemEffectType;
-                        }
+                            {
+                                user.GetClient().GetHabbo().GetAvatarEffectsInventoryComponent().ActivateCustomEffect(97);
+                                user.CurrentItemEffect = itemEffectType;
+                            }
                             break;
                     }
                 }
@@ -1648,6 +1650,7 @@ namespace Yupi.Game.Rooms.User
                 {
                     if (user.CurrentItemEffect == ItemEffectType.None || b != 0)
                         return;
+
                     user.GetClient().GetHabbo().GetAvatarEffectsInventoryComponent().ActivateCustomEffect(-1);
                     user.CurrentItemEffect = ItemEffectType.None;
                 }
@@ -1729,8 +1732,7 @@ namespace Yupi.Game.Rooms.User
 
                     if (!user.IsSpectator)
                     {
-                        ServerMessage serverMessage =
-                            new ServerMessage(LibraryParser.OutgoingRequest("SetRoomUserMessageComposer"));
+                        ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("SetRoomUserMessageComposer"));
                         serverMessage.AppendInteger(1);
                         user.Serialize(serverMessage, _userRoom.GetGameMap().GotPublicPool);
                         _userRoom.SendMessage(serverMessage);
@@ -1757,9 +1759,6 @@ namespace Yupi.Game.Rooms.User
 
                 client.GetMessageHandler().OnRoomUserAdd();
 
-                //if (client.GetHabbo().HasFuse("fuse_mod")) client.GetHabbo().GetAvatarEffectsInventoryComponent().ActivateCustomEffect(102);
-                //if (client.GetHabbo().Rank == Convert.ToUInt32(Yupi.GetDbConfig().DbData["ambassador.minrank"])) client.GetHabbo().GetAvatarEffectsInventoryComponent().ActivateCustomEffect(178);
-
                 OnUserEnter?.Invoke(user, null);
 
                 if (_userRoom.GotMusicController() && _userRoom.GotMusicController())
@@ -1781,12 +1780,15 @@ namespace Yupi.Game.Rooms.User
         {
             try
             {
-                if (user == null || user.GetClient() == null) return;
+                if (user?.GetClient() == null)
+                    return;
+
                 GameClient client = user.GetClient();
                 IEnumerable<RoomUser> list = UserList.Values.Where(current => current.IsBot && !current.IsPet && current.BotAi != null);
                 List<RoomUser> list2 = new List<RoomUser>();
 
                 List<RoomItem> userOnCurrentItem = _userRoom.GetGameMap().GetCoordinatedItems(new Point(user.X, user.Y));
+
                 foreach (RoomItem roomItem in userOnCurrentItem.ToArray())
                 {
                     switch (roomItem.GetBaseItem().InteractionType)
@@ -1806,20 +1808,17 @@ namespace Yupi.Game.Rooms.User
                 foreach (RoomUser bot in list)
                 {
                     bot.BotAi.OnUserLeaveRoom(client);
-                    if (bot.IsPet && bot.PetData.OwnerId == user.UserId &&
-                        !_userRoom.CheckRights(client, true))
+
+                    if (bot.IsPet && bot.PetData.OwnerId == user.UserId && !_userRoom.CheckRights(client, true))
                         list2.Add(bot);
                 }
-                foreach (
-                    RoomUser current3 in
-                        list2.Where(
-                            current3 =>
-                                user.GetClient() != null && user.GetClient().GetHabbo() != null &&
-                                user.GetClient().GetHabbo().GetInventoryComponent() != null))
+
+                foreach (RoomUser current3 in list2.Where(current3 => user.GetClient() != null && user.GetClient().GetHabbo() != null && user.GetClient().GetHabbo().GetInventoryComponent() != null))
                 {
                     user.GetClient().GetHabbo().GetInventoryComponent().AddPet(current3.PetData);
                     RemoveBot(current3.VirtualId, false);
                 }
+
                 _userRoom.GetGameMap().RemoveUserFromMap(user, new Point(user.X, user.Y));
             }
             catch (Exception ex)
@@ -1853,11 +1852,6 @@ namespace Yupi.Game.Rooms.User
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns><c>true</c> if the specified user is valid; otherwise, <c>false</c>.</returns>
-        private bool IsValid(RoomUser user)
-        {
-            return user != null && (user.IsBot ||
-                                    (user.GetClient() != null && user.GetClient().GetHabbo() != null &&
-                                     user.GetClient().GetHabbo().CurrentRoomId == _userRoom.RoomId));
-        }
+        private bool IsValid(RoomUser user) => user != null && (user.IsBot || (user.GetClient() != null && user.GetClient().GetHabbo() != null && user.GetClient().GetHabbo().CurrentRoomId == _userRoom.RoomId));
     }
 }

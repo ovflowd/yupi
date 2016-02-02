@@ -908,7 +908,7 @@ namespace Yupi.Game.Users
 
             Yupi.GetGame().GetClientManager().UnregisterClient(Id, UserName);
 
-            Writer.WriteLine(UserName + " disconnected from game. Reason: " + reason, "Yupi.Users",
+            Writer.WriteLine(UserName + " left game. Reason: " + reason, "Yupi.Users",
                 ConsoleColor.DarkYellow);
 
             TimeSpan getOnlineSeconds = DateTime.Now - TimeLoggedOn;

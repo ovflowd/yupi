@@ -68,9 +68,7 @@ namespace Yupi.Game.Users.Factories
 
                 if (queryReactor.GetInteger() == 0)
                 {
-                    Writer.WriteLine("Key: " + sessionTicket + " isn't attached.", "Yupi.SSO",
-                        ConsoleColor.DarkRed);
-
+                    Writer.LogMessage("Key: " + sessionTicket + " isn't attached.", "Yupi.Users");
                     return null;
                 }
 

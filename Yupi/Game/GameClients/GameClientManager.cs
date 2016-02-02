@@ -250,13 +250,7 @@ namespace Yupi.Game.GameClients
         /// <param name="exclude">The exclude.</param>
         internal void StaffAlert(ServerMessage message, uint exclude = 0u)
         {
-            IEnumerable<GameClient> gameClients =
-                Clients.Values.Where(
-                    x =>
-                        x.GetHabbo() != null && x.GetHabbo().Rank >= Yupi.StaffAlertMinRank &&
-                        x.GetHabbo().Id != exclude);
-
-            foreach (GameClient current in gameClients)
+            foreach (GameClient current in Clients.Values.Where(x => x.GetHabbo() != null && x.GetHabbo().Rank >= Yupi.StaffAlertMinRank && x.GetHabbo().Id != exclude))
                 current.SendMessage(message);
         }
 
