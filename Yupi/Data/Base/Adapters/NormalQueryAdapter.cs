@@ -41,8 +41,11 @@ namespace Yupi.Data.Base.Adapters
 
         public void AddParameter(string parameterName, object value)
         {
-            if (!Command.Parameters.Contains(parameterName))
-                Command.Parameters.AddWithValue(parameterName, value);
+            lock (Command.Parameters)
+            {
+                if (!Command.Parameters.Contains(parameterName))
+                    Command.Parameters.AddWithValue(parameterName, value);
+            }
         }
 
         public int GetInteger()
@@ -127,7 +130,9 @@ namespace Yupi.Data.Base.Adapters
 
         public void SetQuery(string query)
         {
-            Command.Parameters.Clear();
+            lock (Command.Parameters)
+                Command.Parameters.Clear();
+
             Command.CommandText = query;
         }
 

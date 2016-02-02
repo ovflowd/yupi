@@ -461,9 +461,7 @@ namespace Yupi.Game.Rooms
         internal void QueueActiveRoomUpdate(RoomData data)
         {
             lock (_activeRoomsUpdateQueue.SyncRoot)
-            {
                 _activeRoomsUpdateQueue.Enqueue(data);
-            }
         }
 
         /// <summary>

@@ -327,19 +327,26 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Banzai
                 if (item.Value < 3)
                 {
                     ++item.Value;
+
                     if (item.Value == 3)
                     {
                         ++user.LockedTilesCount;
+
                         _room.GetGameManager().AddPointToTeam(item.Team, user);
+
                         _field.UpdateLocation(item.X, item.Y, (byte) (uint) team);
 
-                        foreach (PointField pointField in _field.DoUpdate())
+                        foreach (PointField pointField in _field?.DoUpdate())
                         {
-                            if (pointField == null) continue;
+                            if (pointField == null)
+                                continue;
+
                             Team team1 = (Team) pointField.ForValue;
+
                             foreach (Point point in pointField.GetPoints())
                             {
                                 HandleMaxBanzaiTiles(new Point(point.X, point.Y), team1, user);
+
                                 _floorMap[point.Y, point.X] = pointField.ForValue;
                             }
                         }
@@ -348,6 +355,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Banzai
             }
 
             int newColor = item.Value + (int) item.Team*3 - 1;
+
             item.ExtraData = newColor.ToString();
         }
 
@@ -371,11 +379,12 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Banzai
                 else if (roomItem.X == coord.X && roomItem.Y == coord.Y)
                 {
                     SetTile(roomItem, team, user);
-                    if (roomItem.ExtraData.Equals("5") || roomItem.ExtraData.Equals("8") ||
-                        roomItem.ExtraData.Equals("11") || roomItem.ExtraData.Equals("14"))
+
+                    if (roomItem.ExtraData.Equals("5") || roomItem.ExtraData.Equals("8") ||  roomItem.ExtraData.Equals("11") || roomItem.ExtraData.Equals("14"))
                     {
                         ++num;
                     }
+
                     roomItem.UpdateState(false, true);
                 }
             }

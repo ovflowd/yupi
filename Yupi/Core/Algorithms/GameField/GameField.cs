@@ -212,6 +212,7 @@ namespace Yupi.Core.Algorithms.GameField
         private List<Point> GetConnectedItems(GametileUpdate update)
         {
             List<Point> list = new List<Point>();
+
             int x = update.X;
             int y = update.Y;
 

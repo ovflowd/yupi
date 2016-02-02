@@ -52,7 +52,6 @@ namespace Yupi.Game.Rooms.Chat
         /// <summary>
         ///     Saves the specified room identifier.
         /// </summary>
-        /// <param name="adapter"></param>
         /// <param name="roomId"></param>
         internal void Save(uint roomId)
         {
@@ -61,12 +60,8 @@ namespace Yupi.Game.Rooms.Chat
 
             using (IQueryAdapter adapter = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                adapter.SetQuery(
-                    "INSERT INTO users_chatlogs (user_id, room_id, timestamp, message) VALUES (@user, @room, @time, @message)");
-                adapter.AddParameter("user", UserId);
-                adapter.AddParameter("room", roomId);
-                adapter.AddParameter("time", Yupi.DateTimeToUnix(TimeStamp));
-                adapter.AddParameter("message", Message);
+                adapter.SetQuery($"INSERT INTO users_chatlogs (user_id, room_id, timestamp, message) VALUES ('{UserId}', '{roomId}', '{Yupi.DateTimeToUnix(TimeStamp)}', @messageid_{UserId})");
+                adapter.AddParameter("messageid_" + UserId, Message);
 
                 adapter.RunQuery();
             }
