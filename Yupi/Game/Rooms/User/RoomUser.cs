@@ -732,8 +732,7 @@ namespace Yupi.Game.Rooms.User
 
             BlackWord word;
 
-            if (!(msg.StartsWith(":deleteblackword ") && session.GetHabbo().Rank > 4) &&
-                BlackWordsManager.Check(msg, BlackWordType.Hotel, out word))
+            if (!(msg.StartsWith(":deleteblackword ") && msg.StartsWith(":addblackword ") && session.GetHabbo().Rank > 4) && BlackWordsManager.Check(msg, BlackWordType.Hotel, out word))
             {
                 BlackWordTypeSettings settings = word.TypeSettings;
 
@@ -741,8 +740,9 @@ namespace Yupi.Game.Rooms.User
 
                 if (settings.ShowMessage)
                 {
-                    session.SendWhisper("The message contains the word: " + word.Word +
-                                        " that isn't allowed. You can be banned");
+                    GetClient()
+                        .SendModeratorMessage("A mensagem contém a palavra: " + word.Word +
+                                              " que não é permitida, você poderá ser banido!");
                     return;
                 }
             }

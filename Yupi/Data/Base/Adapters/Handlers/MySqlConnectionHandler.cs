@@ -22,12 +22,13 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
+using System;
 using System.Data;
 using MySql.Data.MySqlClient;
 
 namespace Yupi.Data.Base.Adapters.Handlers
 {
-    public class MySqlConnectionHandler
+    public class MySqlConnectionHandler : IDisposable
     {
         protected ConnectionState State;
 
@@ -54,6 +55,8 @@ namespace Yupi.Data.Base.Adapters.Handlers
 
         private ConnectionState SetState(ConnectionState state) => State = CheckState(state) ? state : Connection.State;
 
-        private bool CheckState(ConnectionState state) => state == ConnectionState.Executing || state == ConnectionState.Fetching || state == Connection.State;  
+        private bool CheckState(ConnectionState state) => state == ConnectionState.Executing || state == ConnectionState.Fetching || state == Connection.State;
+
+        public void Dispose() => Connection?.Dispose();
     }
 }

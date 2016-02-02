@@ -36,7 +36,7 @@ namespace Yupi.Data.Base.Adapters
         {
             Client = client;
 
-            Command = Client.CreateCommand();
+            Command = Client?.CreateCommand();
         }
 
         public void AddParameter(string parameterName, object value)
@@ -100,7 +100,11 @@ namespace Yupi.Data.Base.Adapters
             if (!Client.IsAvailable())
                 return 0L;
 
-            return long.Parse(BaseExecuteCommand(RunType.Insert).ToString());
+            long superLong;
+
+            long.TryParse(BaseExecuteCommand(RunType.Insert).ToString(), out superLong);
+
+            return superLong;
         }
 
         public void RunFastQuery(string query)
@@ -127,6 +131,6 @@ namespace Yupi.Data.Base.Adapters
             Command.CommandText = query;
         }
 
-        public void Dispose() => Command.Dispose();
+        public void Dispose() => Command?.Dispose();
     }
 }

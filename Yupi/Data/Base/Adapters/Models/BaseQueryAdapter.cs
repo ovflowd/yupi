@@ -42,19 +42,19 @@ namespace Yupi.Data.Base.Adapters.Models
 
             try
             {
-                Client.GetConnectionHandler().SetFetching();
+                Client?.GetConnectionHandler()?.SetFetching();
 
                 return CommandTypeSelector(fetchSelector);
             }
             catch
             {
-                Client.GetConnectionHandler().SetOpened();
+                Client?.GetConnectionHandler()?.SetOpened();
 
                 return null;
             }
             finally
             {
-                Client.GetConnectionHandler().SetOpened();
+                Client?.GetConnectionHandler()?.SetOpened();
             }
         }
 
@@ -65,13 +65,13 @@ namespace Yupi.Data.Base.Adapters.Models
 
             try
             {
-                Client.GetConnectionHandler().SetExecuting();
+                Client?.GetConnectionHandler()?.SetExecuting();
 
                 return CommandTypeSelector(runSelector);
             }
             catch
             {
-                Client.GetConnectionHandler().SetOpened();
+                Client?.GetConnectionHandler()?.SetOpened();
 
                 return null;
             }
@@ -88,19 +88,19 @@ namespace Yupi.Data.Base.Adapters.Models
                 switch (runSelector)
                 {
                     case RunType.Insert:
-                        Command.ExecuteScalar();
+                        Command?.ExecuteScalar();
 
-                        return Command.LastInsertedId;
+                        return Command?.LastInsertedId;
                     case RunType.Normal:
                     case RunType.Fast:
-                        return Command.ExecuteNonQuery();
+                        return Command?.ExecuteNonQuery();
                     default:
                         return null;
                 }
             }
             catch
             {
-                Client.GetConnectionHandler().SetOpened();
+                Client?.GetConnectionHandler()?.SetOpened();
 
                 return null;
             }
@@ -114,7 +114,7 @@ namespace Yupi.Data.Base.Adapters.Models
                 {
                     case FetchType.Integer:
                     case FetchType.String:
-                        return Command.ExecuteScalar();
+                        return Command?.ExecuteScalar();
                     case FetchType.Row:
                         DataSet dataSet = new DataSet();
 
@@ -135,7 +135,7 @@ namespace Yupi.Data.Base.Adapters.Models
             }
             catch
             {
-                Client.GetConnectionHandler().SetOpened();
+                Client?.GetConnectionHandler()?.SetOpened();
 
                 return null;
             }         

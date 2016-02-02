@@ -187,8 +187,7 @@ namespace Yupi.Core.Security.BlackWords
             }
 
             if (File.Exists($"{Yupi.YupiVariablesDirectory}\\Settings\\BlackWords\\" + typeStr + ".alert.txt"))
-                alert =
-                    File.ReadAllText($"{Yupi.YupiVariablesDirectory}\\Settings\\BlackWords\\" + typeStr + ".alert.txt");
+                alert = File.ReadAllText($"{Yupi.YupiVariablesDirectory}\\Settings\\BlackWords\\" + typeStr + ".alert.txt");
 
             Replaces.Add(type, new BlackWordTypeSettings(filter, alert, maxAdvices, imageAlert, autoBan, showMessage));
         }

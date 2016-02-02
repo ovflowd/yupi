@@ -50,11 +50,11 @@ namespace Yupi.Data.Base.Clients
             {
                 try
                 {
-                    GetConnectionHandler().GetConnection().Close();
+                    ConnectionHandler?.GetConnection()?.Close();
                 }
                 finally
                 {
-                    GetConnectionHandler().SetClosed();
+                    ConnectionHandler?.SetClosed();
                 }
             }
         }
@@ -65,27 +65,27 @@ namespace Yupi.Data.Base.Clients
             {
                 try
                 {
-                    GetConnectionHandler().GetConnection().Open();
+                    ConnectionHandler?.GetConnection()?.Open();
                 }
                 finally
                 {
-                    GetConnectionHandler().SetOpened();
+                    ConnectionHandler?.SetOpened();
                 }
             }
         }
 
         public void Dispose()
         {
-            Adapter.Dispose();
+            Adapter?.Dispose();
 
-            GetConnectionHandler().GetConnection().Dispose();
+            ConnectionHandler?.Dispose();
         }
 
         public IQueryAdapter GetQueryReactor() => Adapter;
 
-        public bool IsAvailable() => GetConnectionHandler().GetState() == ConnectionState.Open;
+        public bool IsAvailable() => GetConnectionHandler()?.GetState() == ConnectionState.Open;
 
-        public MySqlCommand CreateCommand() => GetConnectionHandler().GetConnection().CreateCommand();
+        public MySqlCommand CreateCommand() => GetConnectionHandler()?.GetConnection()?.CreateCommand();
 
         public MySqlConnectionHandler GetConnectionHandler() => ConnectionHandler;
     }

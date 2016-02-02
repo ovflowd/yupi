@@ -102,8 +102,8 @@ namespace Yupi.Data.Base.Managers
         {
             lock (_databaseClients)
             {
-                if (_databaseClients.Any(c => c.IsAvailable() && c.GetConnectionHandler().GetState() != ConnectionState.Executing))
-                    return _databaseClients.First(c => c.IsAvailable() && c.GetConnectionHandler().GetState() != ConnectionState.Executing);
+                if (_databaseClients.Any(c => c.IsAvailable() && c.GetConnectionHandler()?.GetState() != ConnectionState.Executing))
+                    return _databaseClients.First(c => c.IsAvailable() && c.GetConnectionHandler()?.GetState() != ConnectionState.Executing);
 
                 RemoveUnusedConnections();
             }
@@ -115,9 +115,9 @@ namespace Yupi.Data.Base.Managers
         {
             DatabaseClient client = ReturnConnectedConnection();
 
-            client.Connect();
+            client?.Connect();
 
-            return client.GetQueryReactor();
+            return client?.GetQueryReactor();
         }
 
         public void Destroy()

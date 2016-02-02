@@ -440,10 +440,11 @@ namespace Yupi.Game.Users.Messenger
         {
             BlackWord word;
 
-            if (BlackWordsManager.Check(message, BlackWordType.Hotel, out word))
+            if (BlackWordsManager.Check(message, BlackWordType.Hotel, out word) && toId != 0)
             {
                 BlackWordTypeSettings settings = word.TypeSettings;
-                //GetClient().HandlePublicist(word.Word, message, "WHISPER", settings);
+
+                GetClient().HandlePublicist(word.Word, message, "MESSENGER", settings);
 
                 if (settings.ShowMessage)
                 {
