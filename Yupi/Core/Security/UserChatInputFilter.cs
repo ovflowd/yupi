@@ -28,7 +28,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web.Script.Serialization;
-using Yupi.Core.Io;
+using Yupi.Core.Io.Logger;
 
 namespace Yupi.Core.Security
 {
@@ -90,7 +90,7 @@ namespace Yupi.Core.Security
                 Dictionary.Add(mode, dic);
             }
 
-            Writer.WriteLine("Loaded " + Dictionary.Count + " filter modes.", "Yupi.Security");
+            YupiWriterManager.WriteLine("Loaded " + Dictionary.Count + " filter modes.", "Yupi.Security");
         }
 
         /// <summary>

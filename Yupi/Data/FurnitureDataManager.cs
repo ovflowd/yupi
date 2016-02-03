@@ -27,7 +27,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Xml;
-using Yupi.Core.Io;
+using Yupi.Core.Io.Logger;
 using Yupi.Core.Settings;
 using Yupi.Data.Structs;
 
@@ -106,37 +106,18 @@ namespace Yupi.Data
                     WallItems.Add(node.Attributes["classname"].Value,
                         new FurnitureData(int.Parse(node.Attributes["id"].Value),
                             node.SelectSingleNode("name").InnerText));
-
-                xmlParser = null;
-                wC = null;
             }
-            catch (WebException e)
+            catch (WebException)
             {
-                Writer.WriteLine(
-                    $"Impossible to reach remote host to download FurniData content. Details: \n {Environment.NewLine + e}",
-                    "Yupi.Data", ConsoleColor.Red);
-                Writer.WriteLine("Type a key to close");
-                Console.ReadKey();
-                Environment.Exit(e.HResult);
+                YupiWriterManager.WriteLine("Impossible to reach remote host to download FurniData.", "Yupi.Data", ConsoleColor.Red);
             }
-            catch (XmlException e)
+            catch (XmlException)
             {
-                Writer.WriteLine(
-                    $"The XML content of the FurniData is in an invalid XML format, Details: \n {Environment.NewLine + e}",
-                    "Yupi.Data",
-                    ConsoleColor.Red);
-                Writer.WriteLine("Type a key to close");
-                Console.ReadKey();
-                Environment.Exit(e.HResult);
+                YupiWriterManager.WriteLine("The XML content of the FurniData is in an invalid XML format.", "Yupi.Data", ConsoleColor.Red);
             }
-            catch (NullReferenceException e)
+            catch (NullReferenceException)
             {
-                Writer.WriteLine(
-                    $"The content of the FurniData file is empty, impossible to parse, Detials: \n {Environment.NewLine + e}",
-                    "Yupi.XML", ConsoleColor.Red);
-                Writer.WriteLine("Type a key to close");
-                Console.ReadKey();
-                Environment.Exit(e.HResult);
+                YupiWriterManager.WriteLine("The content of the FurniData file is empty, impossible to parse.", "Yupi.XML", ConsoleColor.Red);
             }
         }
 

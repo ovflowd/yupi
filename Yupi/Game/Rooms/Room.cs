@@ -5,7 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
-using Yupi.Data;
+using Yupi.Core.Io.Logger;
 using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Catalogs;
 using Yupi.Game.GameClients.Interfaces;
@@ -710,7 +710,7 @@ namespace Yupi.Game.Rooms
             }
             catch (Exception e)
             {
-                ServerLogManager.LogException(e, "Yupi.Game.Rooms.Room.CheckRights");
+                YupiLogManager.LogException(e, "Registered Room Exception.", "Yupi.Rooms");
             }
 
             return false;
@@ -760,7 +760,7 @@ namespace Yupi.Game.Rooms
             }
             catch (Exception e)
             {
-                ServerLogManager.LogException(e, "Yupi.Game.Rooms.Room.CheckRights");
+                YupiLogManager.LogException(e, "Registered Room Exception.", "Yupi.Rooms");
             }
             return false;
         }
@@ -817,13 +817,14 @@ namespace Yupi.Game.Rooms
                 }
                 catch (Exception e)
                 {
-                    ServerLogManager.LogException(e.ToString());
+                    YupiLogManager.LogException(e, "Registered Room Crashing.", "Yupi.Rooms");
+
                     OnRoomCrash(e);
                 }
             }
             catch (Exception e)
             {
-                ServerLogManager.LogCriticalException($"Sub crash in room cycle: {e}");
+                YupiLogManager.LogException(e, "Registered Room Crashing.", "Yupi.Rooms");
             }
         }
 
@@ -850,7 +851,7 @@ namespace Yupi.Game.Rooms
             }
             catch (Exception e)
             {
-                ServerLogManager.LogException(e, "Yupi.Game.Rooms.Room.SendMessgae");
+                YupiLogManager.LogException(e, "Failed to Send Outgoing Message to Client.", "Yupi.Users");
             }
         }
 
@@ -885,13 +886,13 @@ namespace Yupi.Game.Rooms
                     }
                     catch (Exception e)
                     {
-                        ServerLogManager.LogException(e, "Yupi.Game.Rooms.Room.SendMessageToUsersWithRights");
+                        YupiLogManager.LogException(e, "Failed Broadcasting Message to Client.", "Yupi.Users");
                     }
                 }
             }
             catch (Exception e)
             {
-                ServerLogManager.LogException(e, "Yupi.Game.Rooms.Room.SendMessageToUsersWithRights");
+                YupiLogManager.LogException(e, "Failed Broadcasting Message to Client.", "Yupi.Users");
             }
         }
 
@@ -938,7 +939,7 @@ namespace Yupi.Game.Rooms
             }
             catch (Exception e)
             {
-                ServerLogManager.LogException(e, "Yupi.Game.Rooms.Room.SendMessage List<ServerMessage>");
+                YupiLogManager.LogException(e, "Failed to Broadcasting Message to Client.", "Yupi.Users");
             }
         }
 
@@ -962,7 +963,8 @@ namespace Yupi.Game.Rooms
                         continue;
 
                     GameClient usersClient = user.GetClient();
-                    if (usersClient == null || usersClient.GetConnection() == null)
+
+                    if (usersClient?.GetConnection() == null)
                         continue;
 
                     if (!CheckRights(usersClient))
@@ -973,7 +975,7 @@ namespace Yupi.Game.Rooms
             }
             catch (Exception e)
             {
-                ServerLogManager.LogException(e, "Yupi.Game.Rooms.Room.SendMessageToUsersWithRights");
+                YupiLogManager.LogException(e, "Failed to Broadcasting Message to Client.", "Yupi.Users");
             }
         }
 
@@ -1407,8 +1409,10 @@ namespace Yupi.Game.Rooms
         /// <param name="e">The e.</param>
         private void OnRoomCrash(Exception e)
         {
-            ServerLogManager.LogThreadException(e.ToString(), $"Room cycle task for room {RoomId}");
+            YupiLogManager.LogMessage("Confirmning Room Crash.", "Yupi.Rooms");
+
             Yupi.GetGame().GetRoomManager().UnloadRoom(this, "Room crashed");
+
             _isCrashed = true;
         }
 

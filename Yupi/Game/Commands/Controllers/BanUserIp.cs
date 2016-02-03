@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Yupi.Data;
+using Yupi.Core.Io.Logger;
 using Yupi.Game.Commands.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 
@@ -44,8 +44,7 @@ namespace Yupi.Game.Commands.Controllers
             }
             catch
             {
-                ServerLogManager.LogException(
-                    $"An error occurred when {session.GetHabbo().UserName} tried to ban {user.GetHabbo().UserName}");
+                YupiLogManager.LogException($"An error occurred when {session.GetHabbo().UserName} tried to ban {user.GetHabbo().UserName}", "Failed Banning User.", "Yupi.Users");
             }
 
             return true;

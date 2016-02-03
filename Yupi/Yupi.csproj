@@ -189,6 +189,8 @@
     <Compile Include="Core\Algorithms\Astar\Interfaces\IPathNode.cs" />
     <Compile Include="Core\Algorithms\Astar\Interfaces\IWeightAddable.cs" />
     <Compile Include="Core\Algorithms\Astar\PriorityQueue.cs" />
+    <Compile Include="Core\Io\Logger\Appenders\AsynchronousFileAppender.cs" />
+    <Compile Include="Core\Io\Logger\YupiLogManager.cs" />
     <Compile Include="Data\Base\Adapters\Enums\RunType.cs" />
     <Compile Include="Data\Base\Adapters\Enums\FetchType.cs" />
     <Compile Include="Data\Base\Adapters\Handlers\MySqlConnectionHandler.cs" />
@@ -234,7 +236,7 @@
     <Compile Include="Core\Io\AnimatedBar.cs" />
     <Compile Include="Core\Io\ConsoleOutputWriter.cs" />
     <Compile Include="Core\Io\ServerUserChatTextHandler.cs" />
-    <Compile Include="Core\Io\Writer.cs" />
+    <Compile Include="Core\Io\Logger\YupiWriterManager.cs" />
     <Compile Include="Game\Users\YoutubeVideo.cs" />
     <Compile Include="Net\Web\WebManager.cs" />
     <Compile Include="Data\FurnitureDataManager.cs" />
@@ -563,7 +565,6 @@
     <Compile Include="Net\Connection\ConnectionHandler.cs" />
     <Compile Include="Core\Settings\ConsoleCommandHandler.cs" />
     <Compile Include="Core\Settings\ServerExtraSettings.cs" />
-    <Compile Include="Data\ServerLogManager.cs" />
     <Compile Include="Game\Achievements\Structs\Achievement.cs" />
     <Compile Include="Game\Achievements\Structs\AchievementLevel.cs" />
     <Compile Include="Game\Achievements\Factories\AchievementLevelFactory.cs" />

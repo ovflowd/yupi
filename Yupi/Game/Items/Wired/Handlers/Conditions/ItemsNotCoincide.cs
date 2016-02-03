@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Yupi.Data;
+using Yupi.Core.Io.Logger;
 using Yupi.Game.Items.Interactions.Enums;
 using Yupi.Game.Items.Interfaces;
 using Yupi.Game.Items.Wired.Interfaces;
@@ -75,7 +75,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Conditions
             }
             catch (Exception e)
             {
-                ServerLogManager.LogException(e.ToString());
+                YupiLogManager.LogException(e, "Registered Wired Handling Exception.");
 
                 return false;
             }

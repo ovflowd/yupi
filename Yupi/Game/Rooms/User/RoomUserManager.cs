@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using Yupi.Core.Io;
-using Yupi.Data;
+using Yupi.Core.Io.Logger;
 using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Browser.Models;
 using Yupi.Game.GameClients.Interfaces;
@@ -480,7 +480,7 @@ namespace Yupi.Game.Rooms.User
             }
             catch (Exception ex)
             {
-                ServerLogManager.LogCriticalException($"Error during removing user from room:{ex}");
+                YupiLogManager.LogException(ex, "Failed to Remove User from Room.", "Yupi.Rooms");
             }
         }
 
@@ -996,7 +996,7 @@ namespace Yupi.Game.Rooms.User
             }
             catch (Exception e)
             {
-                ServerLogManager.LogException(e, "Yupi.Game.Rooms.User.RoomUserManager.UpdateUserStatus");
+                YupiLogManager.LogException(e, "Failed to Update User Status.", "Yupi.Users");
             }
         }
 
@@ -1521,7 +1521,7 @@ namespace Yupi.Game.Rooms.User
             }
             catch (Exception e)
             {
-                ServerLogManager.LogException("Disco mode: " + e);
+                YupiLogManager.LogException(e, "XDR's Disco Mode Exception Handled.");
             }
 
             // Region: Main User Procedure... Really Main..
@@ -1768,7 +1768,7 @@ namespace Yupi.Game.Rooms.User
             }
             catch (Exception ex)
             {
-                ServerLogManager.LogCriticalException(ex.ToString());
+                YupiLogManager.LogCriticalException(ex, "Registered Room User Manager Exception.", "Yupi.Users");
             }
         }
 
@@ -1823,7 +1823,7 @@ namespace Yupi.Game.Rooms.User
             }
             catch (Exception ex)
             {
-                ServerLogManager.LogCriticalException(ex.ToString());
+                YupiLogManager.LogCriticalException(ex, "Registered Room User Manager Exception", "Yupi.Users");
             }
         }
 

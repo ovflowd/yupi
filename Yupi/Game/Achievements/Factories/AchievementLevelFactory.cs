@@ -25,7 +25,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using Yupi.Core.Io;
+using Yupi.Core.Io.Logger;
 using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Achievements.Structs;
 
@@ -63,7 +63,7 @@ namespace Yupi.Game.Achievements.Factories
                 if (!achievements[achievementName].CheckLevel(level))
                     achievements[achievementName].AddLevel(level);
                 else
-                    Writer.WriteLine(
+                    YupiWriterManager.WriteLine(
                         "Was Found a Duplicated Level for: " + achievementName + ", Level: " + level.Level,
                         "Yupi.Achievements", ConsoleColor.Cyan);
             }

@@ -23,11 +23,11 @@
 */
 
 using System;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
 using Yupi.Core.Settings;
-using Yupi.Data;
-using log4net;
+using Yupi.Core.Io.Logger;
 
 namespace Yupi
 {
@@ -35,8 +35,6 @@ namespace Yupi
     internal class Program
     {
         internal const uint ScClose = 0xF060;
-
-        private static readonly ILog YupiLogManager = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         /// <summary>
         ///     Main Void of Yupi.Emulator
@@ -46,6 +44,9 @@ namespace Yupi
         [STAThread]
         public static void Main(string[] args)
         {
+
+            YupiLogManager.Init(MethodBase.GetCurrentMethod().DeclaringType);
+
             StartEverything();
 
             while (Yupi.IsLive)
@@ -57,14 +58,14 @@ namespace Yupi
 
         private static void StartEverything()
         {
-            StartConsoleWindow();
+            SetConsoleLayout();
+
             DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), ScClose, 0);
+
             InitEnvironment();
         }
 
-        public static ILog GetLogManager() => YupiLogManager;
-        
-        public static void StartConsoleWindow()
+        public static void SetConsoleLayout()
         {
             Console.Clear();
             Console.SetCursorPosition(0, 0);
@@ -98,24 +99,7 @@ namespace Yupi
 
             Console.CursorVisible = false;
 
-            AppDomain currentDomain = AppDomain.CurrentDomain;
-
-            currentDomain.UnhandledException += ExceptionHandler;
             Yupi.Initialize();
-        }
-
-        /// <summary>
-        ///     Mies the handler.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="args">The <see cref="UnhandledExceptionEventArgs" /> instance containing the event data.</param>
-        private static void ExceptionHandler(object sender, UnhandledExceptionEventArgs args)
-        {
-            ServerLogManager.DisablePrimaryWriting(true);
-
-            Exception ex = (Exception) args.ExceptionObject;
-
-            ServerLogManager.LogCriticalException($"SYSTEM CRITICAL EXCEPTION: {ex}");
         }
 
         [DllImport("user32.dll")]

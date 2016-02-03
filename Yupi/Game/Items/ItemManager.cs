@@ -5,7 +5,7 @@ using System.Collections.Specialized;
 using System.Data;
 using System.Globalization;
 using System.Linq;
-using Yupi.Core.Io;
+using Yupi.Core.Io.Logger;
 using Yupi.Data;
 using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Catalogs.Wrappers;
@@ -162,7 +162,7 @@ namespace Yupi.Game.Items
                 {
                     Console.WriteLine(ex.ToString());
                     Console.ReadKey();
-                    Writer.WriteLine(
+                    YupiWriterManager.WriteLine(
                         $"Could not load item #{Convert.ToUInt32(dataRow[0])}, please verify the data is okay.",
                         "Yupi.Items", ConsoleColor.DarkRed);
                 }

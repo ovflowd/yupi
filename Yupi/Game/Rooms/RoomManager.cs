@@ -5,8 +5,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data;
 using System.Linq;
-using Yupi.Core.Io;
-using Yupi.Data;
+using Yupi.Core.Io.Logger;
 using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Browser.Models;
 using Yupi.Game.Events;
@@ -222,7 +221,7 @@ namespace Yupi.Game.Rooms
 
             room.Start(roomData, forceLoad);
 
-            Writer.WriteLine($"Room #{id} was loaded", "Yupi.Rooms", ConsoleColor.DarkCyan);
+            YupiWriterManager.WriteLine($"Room #{id} was loaded", "Yupi.Rooms", ConsoleColor.DarkCyan);
 
             room.InitBots();
             room.InitPets();
@@ -417,16 +416,21 @@ namespace Yupi.Game.Rooms
                 bool flag = WorkActiveRoomsAddQueue();
                 bool flag2 = WorkActiveRoomsRemoveQueue();
                 bool flag3 = WorkActiveRoomsUpdateQueue();
-                if (flag || flag2 || flag3) SortActiveRooms();
+
+                if (flag || flag2 || flag3)
+                    SortActiveRooms();
+
                 bool flag4 = WorkVotedRoomsAddQueue();
                 bool flag5 = WorkVotedRoomsRemoveQueue();
-                if (flag4 || flag5) SortVotedRooms();
+
+                if (flag4 || flag5)
+                    SortVotedRooms();
 
                 Yupi.GetGame().RoomManagerCycleEnded = true;
             }
             catch (Exception ex)
             {
-                ServerLogManager.LogThreadException(ex.ToString(), "RoomManager.OnCycle Exception --> Not inclusive");
+                YupiLogManager.LogException(ex, "Registered Room Manager Crashing.");
             }
         }
 
@@ -499,7 +503,7 @@ namespace Yupi.Game.Rooms
                     Yupi.GetGame().GetRoomManager().UnloadRoom(current, "RemoveAllRooms void called");
             }
 
-            Writer.WriteLine("RoomManager Destroyed", "Yupi.Rooms", ConsoleColor.DarkYellow);
+            YupiWriterManager.WriteLine("RoomManager Destroyed", "Yupi.Rooms", ConsoleColor.DarkYellow);
         }
 
         /// <summary>
@@ -651,7 +655,7 @@ namespace Yupi.Game.Rooms
 
             LoadedRooms.TryRemove(room.RoomId, out junkRoom);
 
-            Writer.WriteLine(string.Format("Room #{0} was unloaded, reason: " + reason, room.RoomId),
+            YupiWriterManager.WriteLine(string.Format("Room #{0} was unloaded, reason: " + reason, room.RoomId),
                 "Yupi.Rooms", ConsoleColor.DarkGray);
 
             room.Destroy();

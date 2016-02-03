@@ -25,7 +25,7 @@
 using System;
 using System.Diagnostics;
 using System.Runtime;
-using Yupi.Core.Io;
+using Yupi.Core.Io.Logger;
 using Yupi.Core.Security;
 using Yupi.Core.Security.BlackWords;
 using Yupi.Data;
@@ -52,7 +52,7 @@ namespace Yupi.Core.Settings
         /// <param name="inputData">The input data.</param>
         internal static void InvokeCommand(string inputData)
         {
-            if (string.IsNullOrEmpty(inputData) && ServerLogManager.DisabledState)
+            if (string.IsNullOrEmpty(inputData) && YupiWriterManager.DisabledState)
                 return;
 
             try
@@ -73,11 +73,11 @@ namespace Yupi.Core.Settings
                 switch (firstArgument)
                 {
                     case "shutdown":
-                        ServerLogManager.LogMessage($"Server Shutdowning at {DateTime.Now}");
+                        YupiLogManager.LogMessage($"Server Shutdowning at {DateTime.Now}.");
 
-                        ServerLogManager.DisablePrimaryWriting(true);
+                        YupiWriterManager.DisablePrimaryWriting(true);
 
-                        Writer.WriteLine("Shutdown Initalized", "Yupi.Life", ConsoleColor.DarkYellow);
+                        YupiWriterManager.WriteLine("Shutdown Initalized", "Yupi.Life", ConsoleColor.DarkYellow);
 
                         Yupi.PerformShutDown();
 
@@ -85,11 +85,11 @@ namespace Yupi.Core.Settings
                         break;
 
                     case "restart":
-                        ServerLogManager.LogMessage($"Server Restarting at {DateTime.Now}");
+                        YupiLogManager.LogMessage($"Server Restarting at {DateTime.Now}.");
 
-                        ServerLogManager.DisablePrimaryWriting(true);
+                        YupiWriterManager.DisablePrimaryWriting(true);
 
-                        Writer.WriteLine("Restart Initialized", "Yupi.Life", ConsoleColor.DarkYellow);
+                        YupiWriterManager.WriteLine("Restart Initialized", "Yupi.Life", ConsoleColor.DarkYellow);
 
                         Yupi.PerformRestart();
                         Console.WriteLine();
@@ -235,7 +235,7 @@ namespace Yupi.Core.Settings
         /// <param name="command">The command.</param>
         private static void UnknownCommand(string command)
         {
-            Writer.WriteLine("Undefined Command: " + command, "Yupi.Commands");
+            YupiWriterManager.WriteLine("Undefined Command: " + command, "Yupi.Commands");
         }
     }
 }

@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
+using Yupi.Core.Io.Logger;
 using Yupi.Core.Settings;
-using Yupi.Data;
 using Yupi.Game.GameClients.Interfaces;
 
 namespace Yupi.Game.Users
@@ -57,7 +57,7 @@ namespace Yupi.Game.Users
             }
             catch (Exception ex)
             {
-                ServerLogManager.LogException(ex.ToString());
+                YupiLogManager.LogException(ex, "Registered Exchange System Exception.");
             }
         }
 

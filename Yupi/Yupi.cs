@@ -11,7 +11,7 @@ using System.Timers;
 using log4net;
 using MySql.Data.MySqlClient;
 using Yupi.Core.Encryption;
-using Yupi.Core.Io;
+using Yupi.Core.Io.Logger;
 using Yupi.Core.Security;
 using Yupi.Core.Settings;
 using Yupi.Core.Util.Math;
@@ -236,7 +236,7 @@ namespace Yupi
             return null;
         }
 
-        public static ILog GetLogManager() => Program.GetLogManager();
+        public static ILog GetLogManager() => YupiLogManager.GetLogManager();
 
         /// <summary>
         ///     Console Clear Thread
@@ -248,7 +248,7 @@ namespace Yupi
             Console.Clear();
             Console.WriteLine();
 
-            Writer.WriteLine($"Console Cleared in: {DateTime.Now} Next Time on: {ConsoleTimer} Seconds ", "Yupi.Boot",
+            YupiWriterManager.WriteLine($"Console Cleared in: {DateTime.Now} Next Time on: {ConsoleTimer} Seconds ", "Yupi.Boot",
                 ConsoleColor.DarkGreen);
 
             Console.WriteLine();
@@ -283,7 +283,7 @@ namespace Yupi
                     true);
 
                 if (uint.Parse(ServerConfigurationSettings.Data["db.pool.maxsize"]) > MaxRecommendedMySqlConnections)
-                    Writer.WriteLine("MySQL Max Conn is High!, Recommended Value: " + MaxRecommendedMySqlConnections,
+                    YupiWriterManager.WriteLine("MySQL Max Conn is High!, Recommended Value: " + MaxRecommendedMySqlConnections,
                         "Yupi.Data", ConsoleColor.DarkYellow);
 
                 MySqlConnectionStringBuilder mySqlConnectionStringBuilder = new MySqlConnectionStringBuilder
@@ -342,7 +342,7 @@ namespace Yupi
                     {
                         Plugins.Add(item.PluginName, item);
 
-                        Writer.WriteLine("Loaded Plugin: " + item.PluginName + " Version: " + item.PluginVersion,
+                        YupiWriterManager.WriteLine("Loaded Plugin: " + item.PluginName + " Version: " + item.PluginVersion,
                             "Yupi.Plugins", ConsoleColor.DarkBlue);
                     }
                 }
@@ -363,18 +363,18 @@ namespace Yupi
 
                 _languages = new ServerLanguageSettings(ServerLanguage);
 
-                Writer.WriteLine("Loaded " + _languages.Count() + " Languages Vars", "Yupi.Interpreters");
+                YupiWriterManager.WriteLine("Loaded " + _languages.Count() + " Languages Vars", "Yupi.Interpreters");
 
                 if (plugins != null)
                     foreach (IPlugin itemTwo in plugins)
                         itemTwo?.message_void();
 
                 if (ConsoleTimerOn)
-                    Writer.WriteLine("Console Clear Timer is Enabled, with " + ConsoleTimer + " Seconds.", "Yupi.Boot");
+                    YupiWriterManager.WriteLine("Console Clear Timer is Enabled, with " + ConsoleTimer + " Seconds.", "Yupi.Boot");
 
                 ClientMessageFactory.Init();
 
-                Writer.WriteLine(
+                YupiWriterManager.WriteLine(
                     "Game server started at port " + int.Parse(ServerConfigurationSettings.Data["game.tcp.port"]),
                     "Server.Game");
 
@@ -389,10 +389,10 @@ namespace Yupi
                     Handler.Initialize(LibraryParser.Config["Crypto.RSA.N"], LibraryParser.Config["Crypto.RSA.D"],
                         LibraryParser.Config["Crypto.RSA.E"]);
 
-                    Writer.WriteLine("Started RSA crypto service", "Yupi.Crypto");
+                    YupiWriterManager.WriteLine("Started RSA crypto service", "Yupi.Crypto");
                 }
                 else
-                    Writer.WriteLine("The encryption system is disabled.", "Yupi.Crypto", ConsoleColor.DarkYellow);
+                    YupiWriterManager.WriteLine("The encryption system is disabled.", "Yupi.Crypto", ConsoleColor.DarkYellow);
 
                 LibraryParser.Initialize();
 
@@ -417,30 +417,32 @@ namespace Yupi
                     if (ServerConfigurationSettings.Data["debug.packet"] == "true")
                         PacketDebugMode = true;
 
-                Writer.WriteLine("Yupi Emulator ready. Status: idle", "Yupi.Boot");
+                YupiWriterManager.WriteLine("Yupi Emulator ready. Status: idle", "Yupi.Boot");
 
                 IsLive = true;
             }
             catch (Exception e)
             {
-                Writer.WriteLine("Error When Starting Yupi Environment!" + Environment.NewLine + e.Message, "Yupi.Boot",
-                    ConsoleColor.Red);
-                Writer.WriteLine("Please press Y to get more details or press other Key to Exit", "Yupi.Boot",
-                    ConsoleColor.Red);
+                YupiWriterManager.WriteLine("Error When Starting Yupi Environment!" + Environment.NewLine + e.Message, "Yupi.Boot", ConsoleColor.Red);
+                YupiWriterManager.WriteLine("Please press Y to get more details or press other Key to Exit", "Yupi.Boot", ConsoleColor.Red);
+
                 ConsoleKeyInfo key = Console.ReadKey();
 
                 if (key.Key == ConsoleKey.Y)
                 {
                     Console.WriteLine();
-                    Writer.WriteLine(
+
+                    YupiWriterManager.WriteLine(
                         Environment.NewLine + "[Message] Error Details: " + Environment.NewLine + e.StackTrace +
                         Environment.NewLine + e.InnerException + Environment.NewLine + e.TargetSite +
                         Environment.NewLine + "[Message] Press Any Key To Exit", "Yupi.Boot", ConsoleColor.Red);
+
                     Console.ReadKey();
-                    Environment.Exit(1);
                 }
-                else
-                    Environment.Exit(1);
+
+                YupiLogManager.Stop();
+
+                Environment.Exit(1);
             }
         }
 
@@ -697,19 +699,21 @@ namespace Yupi
 
             GetGame().Destroy();
 
-            Writer.WriteLine("Game Manager destroyed", "Yupi.Game", ConsoleColor.DarkYellow);
+            YupiWriterManager.WriteLine("Game Manager destroyed", "Yupi.Game", ConsoleColor.DarkYellow);
 
             TimeSpan span = DateTime.Now - now;
 
-            Writer.WriteLine("Elapsed " + TimeSpanToString(span) + "ms on Shutdown Proccess", "Yupi.Life",
-                ConsoleColor.DarkYellow);
+            YupiWriterManager.WriteLine("Elapsed " + TimeSpanToString(span) + "ms on Shutdown Proccess", "Yupi.Life", ConsoleColor.DarkYellow);
 
             IsLive = false;
+
+            YupiLogManager.Stop();
 
             if (restart)
                 Process.Start(Assembly.GetEntryAssembly().Location);
 
             Console.WriteLine("Closing...");
+
             Environment.Exit(0);
         }
 

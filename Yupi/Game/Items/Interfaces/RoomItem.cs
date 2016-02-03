@@ -4,8 +4,8 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using Yupi.Core.Io;
+using Yupi.Core.Io.Logger;
 using Yupi.Core.Util.Math;
-using Yupi.Data;
 using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Groups.Structs;
@@ -258,7 +258,7 @@ namespace Yupi.Game.Items.Interfaces
             _mRoom = pRoom;
 
             if (GetBaseItem() == null)
-                ServerLogManager.LogException($"Unknow Furniture Item: {baseName}, Item Id: #{id}");
+                YupiLogManager.LogMessage($"Unknown Furniture Item: {baseName} (Id: #{id}).", "Yupi.Items");
 
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
@@ -398,7 +398,7 @@ namespace Yupi.Game.Items.Interfaces
             _mRoom = pRoom;
 
             if (GetBaseItem() == null)
-                ServerLogManager.LogException($"Unknow Furniture Item: {baseName}, Item Id: #{id}");
+                YupiLogManager.LogMessage($"Unknown Furniture Item: {baseName} (Id: #{id}).", "Yupi.Items");
 
             Id = id;
             RoomId = roomId;
@@ -511,10 +511,9 @@ namespace Yupi.Game.Items.Interfaces
 
                     return GetBaseItem().ToggleHeight[int.Parse(ExtraData)];
                 }
-                catch (Exception e)
+                catch
                 {
-                    ServerLogManager.LogException("TotalHeight with furni BaseName: " + BaseName + " in RoomId:" +
-                                                  RoomId + Environment.NewLine + e);
+                    YupiLogManager.LogMessage($"Bad Height Calculation: Item #{BaseName} | Room: #{RoomId}.", "Yupi.Items");
 
                     return 0;
                 }
@@ -542,10 +541,9 @@ namespace Yupi.Game.Items.Interfaces
 
                     return Z + GetBaseItem().ToggleHeight[int.Parse(ExtraData)];
                 }
-                catch (Exception e)
+                catch
                 {
-                    ServerLogManager.LogException("TotalHeight with furni Base Name: " + BaseName + " in RoomId:" +
-                                                  RoomId + Environment.NewLine + e);
+                    YupiLogManager.LogMessage($"Bad Height Calculation: Item: #{BaseName} | Room: #{RoomId}.", "Yupi.Items");
                     return 1;
                 }
             }

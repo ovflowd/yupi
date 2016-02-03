@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Yupi.Core.Io;
+using Yupi.Core.Io.Logger;
 using Yupi.Data.Base.Adapters.Interfaces;
 
 namespace Yupi.Game.Users.Fuses
@@ -56,7 +56,7 @@ namespace Yupi.Game.Users.Fuses
                 if (!_cmdRights.ContainsKey(dataRow["command"].ToString()))
                     _cmdRights.Add(dataRow["command"].ToString(), dataRow["rank"].ToString());
                 else
-                    Writer.WriteLine($"Duplicate Fuse Command \"{dataRow[0]}\" found", "Yupi.Fuses");
+                    YupiWriterManager.WriteLine($"Duplicate Fuse Command \"{dataRow[0]}\" found", "Yupi.Fuses");
 
             dbClient.SetQuery("SELECT * FROM server_fuserights");
 

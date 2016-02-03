@@ -4,8 +4,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using Yupi.Core.Io;
-using Yupi.Data;
+using Yupi.Core.Io.Logger;
 using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Users.Messenger.Structs;
@@ -238,8 +237,7 @@ namespace Yupi.Game.GameClients
             }
             catch (Exception ex)
             {
-                ServerLogManager.LogThreadException(ex.ToString(),
-                    "GameClientManager.OnCycle Exception --> Not inclusive");
+                YupiLogManager.LogException(ex, "Registered Game Thread Exception.");
             }
         }
 
@@ -389,7 +387,7 @@ namespace Yupi.Game.GameClients
         /// </summary>
         internal void CloseAll()
         {
-            Writer.WriteLine("Saving Inventary Content....", "Yupi.Boot", ConsoleColor.DarkCyan);
+            YupiWriterManager.WriteLine("Saving Inventary Content....", "Yupi.Boot", ConsoleColor.DarkCyan);
 
             foreach (GameClient current2 in Clients.Values.Where(current2 => current2.GetHabbo() != null))
             {
@@ -398,11 +396,11 @@ namespace Yupi.Game.GameClients
                 current2.GetHabbo().RunDbUpdate();
             }
 
-            Writer.WriteLine("Inventary Content Saved!", "Yupi.Boot", ConsoleColor.DarkCyan);
+            YupiWriterManager.WriteLine("Inventary Content Saved!", "Yupi.Boot", ConsoleColor.DarkCyan);
 
             try
             {
-                Writer.WriteLine("Closing Connection Manager...", "Yupi.Boot", ConsoleColor.DarkMagenta);
+                YupiWriterManager.WriteLine("Closing Connection Manager...", "Yupi.Boot", ConsoleColor.DarkMagenta);
 
                 foreach (GameClient current3 in Clients.Values.Where(current3 => current3.GetConnection() != null))
                 {
@@ -410,17 +408,17 @@ namespace Yupi.Game.GameClients
 
                     Console.ForegroundColor = ConsoleColor.DarkMagenta;
 
-                    Writer.WriteLine("Connection Manager Closed!", "Yupi.Boot", ConsoleColor.DarkMagenta);
+                    YupiWriterManager.WriteLine("Connection Manager Closed!", "Yupi.Boot", ConsoleColor.DarkMagenta);
                 }
             }
             catch (Exception ex)
             {
-                ServerLogManager.LogCriticalException(ex.ToString());
+                YupiLogManager.LogCriticalException(ex, "Failed Closing Connection Manager.");
             }
 
             Clients.Clear();
 
-            Writer.WriteLine("Connections closed", "Yupi.Conn", ConsoleColor.DarkYellow);
+            YupiWriterManager.WriteLine("Connections closed", "Yupi.Conn", ConsoleColor.DarkYellow);
         }
 
         /// <summary>
@@ -501,8 +499,7 @@ namespace Yupi.Game.GameClients
             }
             catch (Exception ex)
             {
-                ServerLogManager.LogThreadException(ex.ToString(),
-                    "GameClientManager.GiveBadges Exception --> Not inclusive");
+                YupiLogManager.LogException(ex, "Registered Game Thread Exception.");
             }
         }
 
@@ -527,13 +524,11 @@ namespace Yupi.Game.GameClients
                 TimeSpan timeSpan = DateTime.Now - now;
 
                 if (timeSpan.TotalSeconds > 3.0)
-                    Console.WriteLine("GameClientManager.BroadcastPackets spent: {0} seconds in working.",
-                        timeSpan.TotalSeconds);
+                    Console.WriteLine("GameClientManager.BroadcastPackets spent: {0} seconds in working.", timeSpan.TotalSeconds);
             }
             catch (Exception ex)
             {
-                ServerLogManager.LogThreadException(ex.ToString(),
-                    "GameClientManager.BroadcastPackets Exception --> Not inclusive");
+                YupiLogManager.LogException(ex, "Registered Game Thread Exception.");
             }
         }
     }

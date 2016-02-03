@@ -4,8 +4,8 @@ using System.Collections.Specialized;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using Yupi.Core.Io.Logger;
 using Yupi.Core.Util.Coordinates;
-using Yupi.Data;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Items.Interactions.Enums;
 using Yupi.Game.Items.Interfaces;
@@ -288,9 +288,10 @@ namespace Yupi.Game.Rooms.User.Path
         internal void RemoveUserFromMap(RoomUser user, Point coord)
         {
             int coordKey = CoordinatesFormatter.PointToInt(coord);
+
             List<RoomUser> users = (List<RoomUser>) _userMap[coordKey];
-            if (users != null)
-                users.Remove(user);
+
+            users?.Remove(user);
         }
 
         /// <summary>
@@ -565,7 +566,7 @@ namespace Yupi.Game.Rooms.User.Path
             }
             catch (Exception ex)
             {
-                ServerLogManager.LogException(ex, "Yupi.Game.Rooms.User.Path.GenerateMaps");
+                YupiLogManager.LogException(ex, "Registered Room Serialization Exception.");
             }
         }
 
@@ -577,12 +578,12 @@ namespace Yupi.Game.Rooms.User.Path
         internal void AddCoordinatedItem(RoomItem item, Point coord)
         {
             int coordKey = CoordinatesFormatter.PointToInt(coord);
+
             List<RoomItem> items = (List<RoomItem>) CoordinatedItems[coordKey];
 
             if (items == null)
             {
-                items = new List<RoomItem>();
-                items.Add(item);
+                items = new List<RoomItem> {item};
 
                 CoordinatedItems.Add(coordKey, items);
             }
@@ -601,9 +602,12 @@ namespace Yupi.Game.Rooms.User.Path
         internal List<RoomItem> GetCoordinatedItems(Point coord)
         {
             int coordKey = CoordinatesFormatter.PointToInt(coord);
+
             List<RoomItem> items = (List<RoomItem>) CoordinatedItems[coordKey];
+
             if (items != null)
                 return items;
+
             return new List<RoomItem>();
         }
 
@@ -616,12 +620,16 @@ namespace Yupi.Game.Rooms.User.Path
         internal bool RemoveCoordinatedItem(RoomItem item, Point coord)
         {
             int coordKey = CoordinatesFormatter.PointToInt(coord);
+
             List<RoomItem> items = (List<RoomItem>) CoordinatedItems[coordKey];
+
             if (items != null)
             {
                 items.Remove(item);
+
                 return true;
             }
+
             return false;
         }
 
@@ -629,12 +637,15 @@ namespace Yupi.Game.Rooms.User.Path
         {
             int coordKey = CoordinatesFormatter.PointToInt(coord);
             List<RoomItem> items = (List<RoomItem>) CoordinatedItems[coordKey];
+
             if (items == null)
                 return new List<RoomItem>();
 
             if (items.Count == 1)
                 return items;
+
             List<RoomItem> returnItems = new List<RoomItem>();
+
             double heighest = -1;
 
             foreach (RoomItem i in items)
@@ -661,32 +672,45 @@ namespace Yupi.Game.Rooms.User.Path
         internal bool RemoveFromMap(RoomItem item, bool handleGameItem)
         {
             RemoveSpecialItem(item);
+
             if (_room.GotSoccer())
                 _room.GetSoccer().OnGateRemove(item);
+
             bool result = false;
+
             foreach (Point current in item.GetCoords.Where(current => RemoveCoordinatedItem(item, current)))
                 result = true;
+
             HybridDictionary hybridDictionary = new HybridDictionary();
+
             foreach (Point current2 in item.GetCoords)
             {
                 int point = CoordinatesFormatter.PointToInt(current2);
+
                 if (CoordinatedItems.Contains(point))
                 {
                     List<RoomItem> value = (List<RoomItem>) CoordinatedItems[point];
+
                     if (!hybridDictionary.Contains(current2))
                         hybridDictionary.Add(current2, value);
                 }
+
                 SetDefaultValue(current2.X, current2.Y);
             }
+
             foreach (Point point2 in hybridDictionary.Keys)
             {
                 List<RoomItem> list = (List<RoomItem>) hybridDictionary[point2];
+
                 foreach (RoomItem current3 in list)
                     ConstructMapForItem(current3, point2);
             }
+
             if (GuildGates.ContainsKey(item.Coordinate))
                 GuildGates.Remove(item.Coordinate);
+
             _room.GetRoomItemHandler().OnHeightMapUpdate(hybridDictionary.Keys);
+
             hybridDictionary.Clear();
 
             return result;
@@ -697,10 +721,7 @@ namespace Yupi.Game.Rooms.User.Path
         /// </summary>
         /// <param name="item">The item.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool RemoveFromMap(RoomItem item)
-        {
-            return RemoveFromMap(item, true);
-        }
+        internal bool RemoveFromMap(RoomItem item) => RemoveFromMap(item, true);
 
         /// <summary>
         ///     Adds the item to map.
@@ -713,7 +734,9 @@ namespace Yupi.Game.Rooms.User.Path
             if (handleGameItem)
             {
                 AddSpecialItems(item);
+
                 Interaction interactionType = item.GetBaseItem().InteractionType;
+
                 if (interactionType != Interaction.Roller)
                     switch (interactionType)
                     {
@@ -761,36 +784,37 @@ namespace Yupi.Game.Rooms.User.Path
                         {
                             if (!GuildGates.ContainsKey(item.Coordinate))
                                 GuildGates.Add(item.Coordinate, item);
+
                             break;
                         }
                     }
                 else
                     _room.GetRoomItemHandler().Rollers.TryAdd(item.Id, item);
             }
+
             if (item.GetBaseItem().Type != 's')
                 return true;
+
             foreach (Point coord in item.GetCoords.Select(current => new Point(current.X, current.Y)))
-            {
                 AddCoordinatedItem(item, coord);
-            }
+
             if (item.X > Model.MapSizeX - 1)
             {
                 Model.AddX();
                 GenerateMaps();
+
                 return false;
             }
+
             if (item.Y > Model.MapSizeY - 1)
             {
                 Model.AddY();
                 GenerateMaps();
+
                 return false;
             }
 
-            foreach (Point coord in item.GetCoords)
-                if (!ConstructMapForItem(item, coord))
-                    return false;
-
-            return true;
+            return item.GetCoords.All(coord => ConstructMapForItem(item, coord));
         }
 
         /// <summary>
@@ -1126,16 +1150,18 @@ namespace Yupi.Game.Rooms.User.Path
                     return 0.0;
 
                 int point = CoordinatesFormatter.CombineXyCoord(x, y);
+
                 if (CoordinatedItems.Contains(point))
                 {
                     List<RoomItem> itemsOnSquare = (List<RoomItem>) CoordinatedItems[point];
                     return SqAbsoluteHeight(x, y, itemsOnSquare);
                 }
+
                 return Model.SqFloorHeight[x][y];
             }
             catch (Exception ex)
             {
-                ServerLogManager.LogException(ex, "Yupi.Game.Rooms.User.Path.Gamemap.SqAbsoluteHeight");
+                YupiLogManager.LogException(ex, "Registered Room Coordinate Calc Exception.");
                 return 0.0;
             }
         }
@@ -1169,7 +1195,7 @@ namespace Yupi.Game.Rooms.User.Path
             }
             catch (Exception e)
             {
-                ServerLogManager.LogException(e, "Yupi.Game.Rooms.User.Path.GameMap.SqAbsoluteHeight");
+                YupiLogManager.LogException(e, "Registered Room Coordinate Calc Exception.");
                 return 0.0;
             }
         }
@@ -1343,11 +1369,14 @@ namespace Yupi.Game.Rooms.User.Path
             try
             {
                 GameMap[x, y] = 0;
+
                 if (x == Model.DoorX && y == Model.DoorY)
                 {
                     GameMap[x, y] = 3;
+
                     return;
                 }
+
                 switch (Model.SqState[x][y])
                 {
                     case SquareState.Open:
@@ -1358,12 +1387,13 @@ namespace Yupi.Game.Rooms.User.Path
                         GameMap[x, y] = 2;
                         break;
                 }
+
                 ItemHeightMap[x, y] = 0.0;
                 EffectMap[x, y] = 0;
             }
             catch (Exception e)
             {
-                ServerLogManager.LogException(e.ToString());
+                YupiLogManager.LogException(e, "Registered Room Coordinate Calc Exception.");
             }
         }
 
@@ -1448,7 +1478,7 @@ namespace Yupi.Game.Rooms.User.Path
                     }
                     catch (Exception e)
                     {
-                        ServerLogManager.LogException(e.ToString());
+                        YupiLogManager.LogException(e, "Registered Room Coordinate Calc Exception.");
                     }
 
                     if (item.GetBaseItem().Walkable)
@@ -1481,7 +1511,7 @@ namespace Yupi.Game.Rooms.User.Path
             }
             catch (Exception ex)
             {
-                ServerLogManager.LogException(ex, "Yupi.Game.Rooms.User.Path.GameMap.ConstructMapForItem");
+                YupiLogManager.LogException(ex, "Failed to Create Room Model.");
             }
 
             return true;

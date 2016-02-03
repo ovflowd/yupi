@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Yupi.Data;
+using Yupi.Core.Io.Logger;
 using Yupi.Game.Items.Interfaces;
 using Yupi.Messages;
 using Yupi.Messages.Parsers;
@@ -415,7 +415,7 @@ namespace Yupi.Game.Rooms.User.Trade
             }
             catch (Exception ex)
             {
-                ServerLogManager.LogThreadException(ex.ToString(), "Trade task");
+                YupiLogManager.LogException(ex, "Failed Trading with User.");
             }
         }
 

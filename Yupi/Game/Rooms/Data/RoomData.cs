@@ -2,7 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
-using Yupi.Data;
+using Yupi.Core.Io.Logger;
 using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Browser.Models;
 using Yupi.Game.GameClients.Interfaces;
@@ -374,7 +374,7 @@ namespace Yupi.Game.Rooms.Data
             }
             catch (Exception ex)
             {
-                ServerLogManager.LogException(ex, "Yupi.Game.Rooms.RoomData.Fill");
+                YupiLogManager.LogException(ex, "Registered Room Serialization Exception.", "Yupi.Rooms");
             }
         }
 

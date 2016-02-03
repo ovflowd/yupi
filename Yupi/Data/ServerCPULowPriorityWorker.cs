@@ -24,7 +24,7 @@
 
 using System;
 using System.Diagnostics;
-using System.Reflection;
+using Yupi.Core.Io.Logger;
 using Yupi.Data.Base.Adapters.Interfaces;
 
 namespace Yupi.Data
@@ -96,7 +96,7 @@ namespace Yupi.Data
                 }
                 catch (Exception e)
                 {
-                    ServerLogManager.LogException(e, MethodBase.GetCurrentMethod());
+                    YupiLogManager.LogException(e, "Failed Processing LowPriorityWorker.");
                 }
             }
         }

@@ -23,6 +23,7 @@
 */
 
 using System;
+using Yupi.Core.Io.Logger;
 using Yupi.Data;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Messages;
@@ -173,7 +174,7 @@ namespace Yupi.Net.Packets
                 }
                 catch (Exception exception)
                 {
-                    ServerLogManager.LogException(exception, "Yupi.Net.Packets.ServerPacketParser.HandlePacketData");
+                    YupiLogManager.LogException(exception, "Failed Handling Connection Packet.");
                 }
             }
         }

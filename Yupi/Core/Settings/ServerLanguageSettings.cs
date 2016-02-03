@@ -24,7 +24,7 @@
 
 using System.Collections.Specialized;
 using System.Data;
-using Yupi.Core.Io;
+using Yupi.Core.Io.Logger;
 using Yupi.Data.Base.Adapters.Interfaces;
 
 namespace Yupi.Core.Settings
@@ -75,7 +75,7 @@ namespace Yupi.Core.Settings
             if (Texts.Contains(var))
                 return Texts[var].ToString();
 
-            Writer.WriteLine("Variable not found: " + var, "Yupi.Languages");
+            YupiWriterManager.WriteLine("Variable not found: " + var, "Yupi.Languages");
 
             return "Language variable not Found: " + var;
         }

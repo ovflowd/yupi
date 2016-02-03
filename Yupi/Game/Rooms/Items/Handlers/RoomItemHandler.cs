@@ -7,7 +7,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using Yupi.Core.Io;
-using Yupi.Data;
+using Yupi.Core.Io.Logger;
 using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Items;
@@ -1175,8 +1175,8 @@ namespace Yupi.Game.Rooms.Items.Handlers
                 }
                 catch (Exception ex)
                 {
-                    ServerLogManager.LogThreadException(ex.ToString(),
-                        $"rollers for room with ID {_room.RoomId}");
+                    YupiLogManager.LogException(ex, "Registered Game Thread Exception.", "Yupi.Items");
+
                     GotRollers = false;
                 }
             }

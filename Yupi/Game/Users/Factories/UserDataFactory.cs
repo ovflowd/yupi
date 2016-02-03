@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Yupi.Core.Io;
+using Yupi.Core.Io.Logger;
 using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Achievements.Structs;
 using Yupi.Game.Catalogs;
@@ -68,7 +68,8 @@ namespace Yupi.Game.Users.Factories
 
                 if (queryReactor.GetInteger() == 0)
                 {
-                    Writer.LogMessage("Key: " + sessionTicket + " isn't attached.", "Yupi.Users");
+                    YupiLogManager.LogMessage("Key: " + sessionTicket + " isn't attached.", "Yupi.Users");
+
                     return null;
                 }
 

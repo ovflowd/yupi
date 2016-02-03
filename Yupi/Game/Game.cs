@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Yupi.Core.Io;
 using Yupi.Core.Io.Interfaces;
+using Yupi.Core.Io.Logger;
 using Yupi.Core.Security;
 using Yupi.Core.Security.BlackWords;
 using Yupi.Data;
@@ -159,7 +160,7 @@ namespace Yupi.Game
         /// <param name="conns">The conns.</param>
         internal Game(int conns)
         {
-            Writer.WriteLine(@"Starting up Yupi Emulator for " + Environment.MachineName + "...", @"Yupi.Boot");
+            YupiWriterManager.WriteLine(@"Starting up Yupi Emulator for " + Environment.MachineName + "...", @"Yupi.Boot");
 
             _clientManager = new GameClientManager();
 
@@ -494,7 +495,7 @@ namespace Yupi.Game
 
             GetClientManager();
 
-            Writer.WriteLine("Database Manager destroyed", "Yupi.Game", ConsoleColor.DarkYellow);
+            YupiWriterManager.WriteLine("Database Manager destroyed", "Yupi.Game", ConsoleColor.DarkYellow);
         }
 
         /// <summary>
@@ -527,7 +528,7 @@ namespace Yupi.Game
                 }
                 catch (Exception ex)
                 {
-                    ServerLogManager.LogCriticalException($"Exception in Game Loop!: {ex}");
+                    YupiLogManager.LogCriticalException(ex, "Registered Game Loop Exception.", "Yupi.Users");
                 }
 
                 Thread.Sleep(GameLoopSleepTimeExt);

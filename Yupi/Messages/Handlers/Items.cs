@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using Yupi.Data;
+using Yupi.Core.Io.Logger;
 using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Catalogs;
 using Yupi.Game.Catalogs.Interfaces;
@@ -453,7 +453,8 @@ namespace Yupi.Messages.Handlers
             catch (Exception e)
             {
                 Session.SendMessage(StaticMessage.ErrorCantSetItem);
-                ServerLogManager.LogException(e.ToString());
+
+                YupiLogManager.LogException(e, "Failed Handling Item.", "Yupi.Items");
             }
         }
 

@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
+using Yupi.Core.Io.Logger;
 using Yupi.Core.Security;
 using Yupi.Core.Security.BlackWords.Structs;
-using Yupi.Data;
 using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Rooms.User;
 using Yupi.Game.Users;
@@ -336,7 +336,7 @@ namespace Yupi.Game.GameClients.Interfaces
             }
             catch (Exception ex)
             {
-                ServerLogManager.LogCriticalException($"Bug during user login: {ex}");
+                YupiLogManager.LogException(ex, "Registered Login Exception.", "Yupi.Users");
             }
 
             return false;

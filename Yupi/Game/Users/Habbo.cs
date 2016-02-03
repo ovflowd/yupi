@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Timers;
-using Yupi.Core.Io;
+using Yupi.Core.Io.Logger;
 using Yupi.Core.Settings;
 using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Achievements.Structs;
@@ -908,7 +908,7 @@ namespace Yupi.Game.Users
 
             Yupi.GetGame().GetClientManager().UnregisterClient(Id, UserName);
 
-            Writer.WriteLine(UserName + " left game. Reason: " + reason, "Yupi.Users",
+            YupiWriterManager.WriteLine(UserName + " left game. Reason: " + reason, "Yupi.Users",
                 ConsoleColor.DarkYellow);
 
             TimeSpan getOnlineSeconds = DateTime.Now - TimeLoggedOn;

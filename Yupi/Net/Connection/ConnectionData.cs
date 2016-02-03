@@ -26,7 +26,7 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 using Yupi.Core.Encryption.Hurlant.Crypto.Prng;
-using Yupi.Data;
+using Yupi.Core.Io.Logger;
 using Yupi.Messages.Parsers.Interfaces;
 using Yupi.Net.Sockets;
 
@@ -180,7 +180,7 @@ namespace Yupi.Net.Connection
             }
             catch (Exception ex)
             {
-                ServerLogManager.LogException(ex, "Yupi.Net.Connection.ConnectionData.ConnectionInformation");
+                YupiLogManager.LogException(ex, "Failed Receiving Connection Data.");
             }
         }
 

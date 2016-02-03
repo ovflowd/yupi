@@ -22,13 +22,14 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
+using System;
 using System.Globalization;
 using System.Numerics;
 using System.Text;
 using Yupi.Core.Encryption.Crypto.KeyExchange;
 using Yupi.Core.Encryption.Hurlant.Crypto.Rsa;
 using Yupi.Core.Encryption.Utils;
-using Yupi.Data;
+using Yupi.Core.Io.Logger;
 
 namespace Yupi.Core.Encryption
 {
@@ -61,10 +62,10 @@ namespace Yupi.Core.Encryption
 
                 return DiffieHellman.CalculateSharedKey(BigInteger.Parse(keyString));
             }
-            catch
+            catch(Exception e)
             {
-                ServerLogManager.LogCriticalException(
-                    "Sorry, the Encryption Handler stopped Inesperatelly. Please Restart Emulator.");
+                YupiLogManager.LogCriticalException(e, "Encryption System Crashed.", "Yupi.Users");
+
                 return 0;
             }
         }
@@ -78,10 +79,10 @@ namespace Yupi.Core.Encryption
 
                 return Converter.BytesToHexString(c);
             }
-            catch
+            catch(Exception e)
             {
-                ServerLogManager.LogCriticalException(
-                    "Sorry, the Encryption Handler stopped Inesperatelly. Please Restart Emulator.");
+                YupiLogManager.LogCriticalException(e, "Encryption System Crashed.", "Yupi.Users");
+
                 return null;
             }
         }

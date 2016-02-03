@@ -3,8 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Reflection;
-using Yupi.Data;
+using Yupi.Core.Io.Logger;
 using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Items.Interactions;
 using Yupi.Game.Items.Interactions.Enums;
@@ -160,9 +159,9 @@ namespace Yupi.Game.Items.Wired
                 else if (_wiredItems.Any(current => current != null && current.Type == type && current.Execute(stuff)))
                     return true;
             }
-            catch
+            catch(Exception e)
             {
-                ServerLogManager.LogException($"Error trying Execute Wired Furniture.");
+                YupiLogManager.LogException(e, "Registered Wired Handling Exception.", "Yupi.Wired");
             }
 
             return false;
@@ -195,7 +194,7 @@ namespace Yupi.Game.Items.Wired
             }
             catch (Exception e)
             {
-                ServerLogManager.LogException(e, MethodBase.GetCurrentMethod());
+                YupiLogManager.LogException(e, "Registered Wired Handling Exception.", "Yupi.Wired");
             }
         }
 

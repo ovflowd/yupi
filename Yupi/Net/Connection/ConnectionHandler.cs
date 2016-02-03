@@ -23,7 +23,7 @@
 */
 
 using System;
-using Yupi.Data;
+using Yupi.Core.Io.Logger;
 using Yupi.Net.Packets;
 using Yupi.Net.Sockets;
 
@@ -69,7 +69,7 @@ namespace Yupi.Net.Connection
             }
             catch (Exception ex)
             {
-                ServerLogManager.LogException(ex, "Yupi.Net.Connection.ConnectionHandler.ConnectionHandling");
+                YupiLogManager.LogException(ex, "Failed Handling New Connection.");
             }
         }
 
@@ -86,7 +86,7 @@ namespace Yupi.Net.Connection
             }
             catch (Exception ex)
             {
-                ServerLogManager.LogException(ex, "Yupi.Net.Connection.ConnectionHandler.ConnectionHandling");
+                YupiLogManager.LogException(ex, "Failed Releasing Old Connection.");
             }
         }
 

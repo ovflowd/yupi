@@ -27,7 +27,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
-using Yupi.Core.Io;
+using Yupi.Core.Io.Logger;
 using Yupi.Core.Security.BlackWords.Enums;
 using Yupi.Core.Security.BlackWords.Structs;
 using Yupi.Data.Base.Adapters.Interfaces;
@@ -74,7 +74,7 @@ namespace Yupi.Core.Security.BlackWords
                 }
             }
 
-            Writer.WriteLine("Loaded " + Words.Count + " BlackWords", "Yupi.Security");
+            YupiWriterManager.WriteLine("Loaded " + Words.Count + " BlackWords", "Yupi.Security");
             //Console.WriteLine();
         }
 
@@ -148,12 +148,12 @@ namespace Yupi.Core.Security.BlackWords
                     break;
 
                 case "all":
-                    Writer.WriteLine("Word type [all] it's reserved for system. Word: " + word, "Yupi.Security",
+                    YupiWriterManager.WriteLine("Word type [all] it's reserved for system. Word: " + word, "Yupi.Security",
                         ConsoleColor.DarkRed);
                     return;
 
                 default:
-                    Writer.WriteLine("Undefined type [" + typeStr + "] of word: " + word, "Yupi.Security",
+                    YupiWriterManager.WriteLine("Undefined type [" + typeStr + "] of word: " + word, "Yupi.Security",
                         ConsoleColor.DarkRed);
                     return;
             }

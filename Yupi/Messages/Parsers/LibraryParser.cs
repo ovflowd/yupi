@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Yupi.Core.Io;
+using Yupi.Core.Io.Logger;
 using Yupi.Messages.Handlers;
 
 namespace Yupi.Messages.Parsers
@@ -29,15 +29,15 @@ namespace Yupi.Messages.Parsers
             if (Outgoing.TryGetValue(packetName, out packetId))
                 return packetId;
 
-            Writer.WriteLine("Outgoing " + packetName + " doesn't exist.", "Yupi.Communication", ConsoleColor.Gray);
+            YupiWriterManager.WriteLine("Outgoing " + packetName + " doesn't exist.", "Yupi.Communication", ConsoleColor.Gray);
 
             return -1;
         }
 
         public static void Initialize()
         {
-            Writer.WriteLine($"Loaded {CountReleases} Habbo Releases", "Yupi.Communication");
-            Writer.WriteLine($"Loaded {Incoming.Count} Event Controllers", "Yupi.Communication");
+            YupiWriterManager.WriteLine($"Loaded {CountReleases} Habbo Releases", "Yupi.Communication");
+            YupiWriterManager.WriteLine($"Loaded {Incoming.Count} Event Controllers", "Yupi.Communication");
         }
 
         public static void HandlePacket(GameClientMessageHandler handler, ClientMessage message)
@@ -131,7 +131,7 @@ namespace Yupi.Messages.Parsers
                     {
                         //if (packetId == -1)
                         //    continue;
-                        //Writer.WriteLine("A Incoming Packet with same id was found: " + packetId, "Yupi.Communication");
+                        //YupiWriterManager.WriteLine("A Incoming Packet with same id was found: " + packetId, "Yupi.Communication");
                     }
                     else
                         Incoming.Add(packetId, new StaticRequestHandler(del));
@@ -178,7 +178,7 @@ namespace Yupi.Messages.Parsers
 
                 if (packetId != -1)
                 {
-                    //Writer.LogMessage("A Outgoing Packet With Same ID Was Encountred. Packet Id: " + packetId, false);
+                    //YupiWriterManager.LogMessage("A Outgoing Packet With Same ID Was Encountred. Packet Id: " + packetId, false);
                     if (!_registeredOutoings.Contains((uint) packetId))
                         _registeredOutoings.Add((uint) packetId);
                 }

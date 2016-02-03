@@ -25,7 +25,7 @@
 using System;
 using System.Linq;
 using System.Net.Sockets;
-using Yupi.Core.Io;
+using Yupi.Core.Io.Logger;
 
 namespace Yupi.Net.Sockets
 {
@@ -63,7 +63,7 @@ namespace Yupi.Net.Sockets
 
             if (GetConnectionAmount(iP) > maxIpConnectionCount)
             {
-                Writer.WriteLine(iP + " was banned by Anti-DDoS system.", "Yupi.Security", ConsoleColor.Blue);
+                YupiWriterManager.WriteLine(iP + " was banned by Anti-DDoS system.", "Yupi.Security", ConsoleColor.Blue);
 
                 _mLastIpBlocked = iP;
 

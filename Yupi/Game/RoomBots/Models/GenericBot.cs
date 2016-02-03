@@ -27,7 +27,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
-using Yupi.Data;
+using Yupi.Core.Io.Logger;
 using Yupi.Game.Commands;
 using Yupi.Game.RoomBots.Interfaces;
 using Yupi.Game.Rooms.User;
@@ -301,7 +301,7 @@ namespace Yupi.Game.RoomBots.Models
             }
             catch (Exception e)
             {
-                ServerLogManager.LogException(e.ToString());
+                YupiLogManager.LogException(e, "Registered Bot Execution Exception.");
             }
         }
 

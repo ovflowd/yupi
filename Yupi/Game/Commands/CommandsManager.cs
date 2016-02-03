@@ -26,7 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Yupi.Core.Io;
+using Yupi.Core.Io.Logger;
 using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Commands.Controllers;
 using Yupi.Game.Commands.Interfaces;
@@ -212,13 +212,13 @@ namespace Yupi.Game.Commands
                         {
                             if (AliasDictionary.ContainsKey(alias))
                             {
-                                Writer.WriteLine("Duplicate alias key: " + alias, "Yupi.Commands", ConsoleColor.DarkRed);
+                                YupiWriterManager.WriteLine("Duplicate alias key: " + alias, "Yupi.Commands", ConsoleColor.DarkRed);
                                 continue;
                             }
 
                             if (CommandsDictionary.ContainsKey(alias))
                             {
-                                Writer.WriteLine("An alias cannot have same name as a normal command", "Yupi.Commands",
+                                YupiWriterManager.WriteLine("An alias cannot have same name as a normal command", "Yupi.Commands",
                                     ConsoleColor.DarkRed);
                                 continue;
                             }

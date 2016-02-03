@@ -26,7 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Yupi.Core.Io;
+using Yupi.Core.Io.Logger;
 using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 
@@ -122,7 +122,7 @@ namespace Yupi.Core.Security
                     Word.Add(row[0].ToString().ToLower());
             }
 
-            Writer.WriteLine("Loaded " + Word.Count + " Bobba Filters", "Yupi.Security");
+            YupiWriterManager.WriteLine("Loaded " + Word.Count + " Bobba Filters", "Yupi.Security");
         }
 
         /// <summary>

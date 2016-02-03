@@ -10,11 +10,11 @@ using System.Text.RegularExpressions;
 using System.Web.Script.Serialization;
 using Yupi.Core.Encryption.Utils;
 using Yupi.Core.Io;
+using Yupi.Core.Io.Logger;
 using Yupi.Core.Security.BlackWords;
 using Yupi.Core.Security.BlackWords.Enums;
 using Yupi.Core.Security.BlackWords.Structs;
 using Yupi.Core.Settings;
-using Yupi.Data;
 using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Browser;
 using Yupi.Game.Browser.Models;
@@ -45,6 +45,7 @@ namespace Yupi.Messages.Handlers
     internal partial class GameClientMessageHandler
     {
         private int _floodCount;
+
         private DateTime _floodTime;
 
         public void GetPetBreeds()
@@ -78,11 +79,16 @@ namespace Yupi.Messages.Handlers
         {
             if (Yupi.ShutdownStarted || Session?.GetHabbo() == null)
                 return;
+
             uint num = Request.GetUInteger();
+
             RoomData roomData = Yupi.GetGame().GetRoomManager().GenerateRoomData(num);
+
             Session.GetHabbo().GetInventoryComponent().RunDbUpdate();
+
             if (roomData == null || roomData.Id == Session.GetHabbo().CurrentRoomId)
                 return;
+
             roomData.SerializeRoomData(Response, Session, !Session.GetHabbo().InRoom);
             PrepareRoomForUser(num, roomData.PassWord);
         }
@@ -109,7 +115,9 @@ namespace Yupi.Messages.Handlers
         {
             if (Session.GetHabbo() == null)
                 return;
+
             uint roomId = Request.GetUInteger();
+
             Session.GetHabbo().FavoriteRooms.Remove(roomId);
 
             GetResponse().Init(LibraryParser.OutgoingRequest("FavouriteRoomsUpdateMessageComposer"));
@@ -124,9 +132,7 @@ namespace Yupi.Messages.Handlers
 
         internal void OnlineConfirmationEvent()
         {
-            Writer.WriteLine(
-                Request.GetString() + " joined game. With IP " + Session.GetConnection().GetIp(), "Yupi.Users",
-                ConsoleColor.DarkGreen);
+            YupiWriterManager.WriteLine(Request.GetString() + " joined game. With IP " + Session.GetConnection().GetIp(), "Yupi.Users", ConsoleColor.DarkGreen);
 
             if (!ServerConfigurationSettings.Data.ContainsKey("welcome.message.enabled") ||
                 ServerConfigurationSettings.Data["welcome.message.enabled"] != "true")
@@ -145,15 +151,18 @@ namespace Yupi.Messages.Handlers
 
         internal void GoToHotelView()
         {
-            if (Session == null || Session.GetHabbo() == null)
+            if (Session?.GetHabbo() == null)
                 return;
+
             if (!Session.GetHabbo().InRoom)
                 return;
+
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
-            if (room != null)
-                room.GetRoomUserManager().RemoveUserFromRoom(Session, true, false);
+
+            room?.GetRoomUserManager().RemoveUserFromRoom(Session, true, false);
 
             HotelLandingManager hotelView = Yupi.GetGame().GetHotelView();
+
             if (hotelView.FurniRewardName != null)
             {
                 ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("LandingRewardMessageComposer"));
@@ -163,6 +172,7 @@ namespace Yupi.Messages.Handlers
                 serverMessage.AppendInteger(120 - Session.GetHabbo().Respect);
                 Session.SendMessage(serverMessage);
             }
+
             Session.CurrentRoomUserId = -1;
         }
 
@@ -175,7 +185,6 @@ namespace Yupi.Messages.Handlers
             goalMeter.AppendInteger(0); //my rank
             goalMeter.AppendInteger(onlineFriends); //totalAmount
             goalMeter.AppendInteger(onlineFriends >= 20 ? 1 : onlineFriends >= 50 ? 2 : onlineFriends >= 80 ? 3 : 0);
-            //communityHighestAchievedLevel
             goalMeter.AppendInteger(0); //scoreRemainingUntilNextLevel
             goalMeter.AppendInteger(0); //percentCompletionTowardsNextLevel
             goalMeter.AppendString("friendshipChallenge"); //Type
@@ -197,36 +206,43 @@ namespace Yupi.Messages.Handlers
             uint itemId = Request.GetUInteger();
             uint count = Request.GetUInteger();
 
-            if (Session == null || Session.GetHabbo() == null) return;
+            if (Session?.GetHabbo() == null)
+                return;
             Room room = Session.GetHabbo().CurrentRoom;
-            if (room == null || !room.CheckRights(Session, true)) return;
+
+            if (room == null || !room.CheckRights(Session, true))
+                return;
 
             RoomItem item = room.GetRoomItemHandler().GetItem(itemId);
+
             if (item == null)
                 return;
 
             string extraData = $"state{Convert.ToChar(9)}0";
+
             for (uint i = 1; i <= count; i++)
                 extraData = $"{extraData}{Convert.ToChar(9)}{Request.GetString()}";
 
             item.ExtraData = extraData;
-            room.GetRoomItemHandler()
-                .SetFloorItem(Session, item, item.X, item.Y, item.Rot, false, false, true);
+
+            room.GetRoomItemHandler().SetFloorItem(Session, item, item.X, item.Y, item.Rot, false, false, true);
         }
 
         internal void OnRoomUserAdd()
         {
             if (Session == null || GetResponse() == null)
                 return;
+
             QueuedServerMessage queuedServerMessage = new QueuedServerMessage(Session.GetConnection());
-            if (CurrentLoadingRoom == null || CurrentLoadingRoom.GetRoomUserManager() == null ||
-                CurrentLoadingRoom.GetRoomUserManager().UserList == null)
+
+            if (CurrentLoadingRoom?.GetRoomUserManager() == null || CurrentLoadingRoom.GetRoomUserManager().UserList == null)
                 return;
-            IEnumerable<RoomUser> list =
-                CurrentLoadingRoom.GetRoomUserManager()
-                    .UserList.Values.Where(current => current != null && !current.IsSpectator);
+
+            IEnumerable<RoomUser> list = CurrentLoadingRoom.GetRoomUserManager().UserList.Values.Where(current => current != null && !current.IsSpectator);
+
             Response.Init(LibraryParser.OutgoingRequest("SetRoomUserMessageComposer"));
             Response.StartArray();
+
             foreach (RoomUser current2 in list)
             {
                 try
@@ -236,10 +252,11 @@ namespace Yupi.Messages.Handlers
                 }
                 catch (Exception e)
                 {
-                    ServerLogManager.LogException(e.ToString());
+                    YupiLogManager.LogException(e, "Registered Room Manager Exception.");
                     Response.Clear();
                 }
             }
+
             Response.EndArray();
 
             queuedServerMessage.AppendResponse(GetResponse());
@@ -263,6 +280,7 @@ namespace Yupi.Messages.Handlers
             }
 
             ServerMessage serverMessage = CurrentLoadingRoom.GetRoomUserManager().SerializeStatusUpdates(true);
+
             if (serverMessage != null)
                 queuedServerMessage.AppendResponse(serverMessage);
 
@@ -270,9 +288,8 @@ namespace Yupi.Messages.Handlers
                 Yupi.GetGame().GetRoomEvents().SerializeEventInfo(CurrentLoadingRoom.RoomId);
 
             CurrentLoadingRoom.JustLoaded = false;
-            foreach (
-                RoomUser current4 in
-                    CurrentLoadingRoom.GetRoomUserManager().UserList.Values.Where(current4 => current4 != null))
+
+            foreach (RoomUser current4 in CurrentLoadingRoom.GetRoomUserManager().UserList.Values.Where(current4 => current4 != null))
             {
                 if (current4.IsBot)
                 {
@@ -291,6 +308,7 @@ namespace Yupi.Messages.Handlers
                     Response.AppendInteger(current4.DanceId);
                     queuedServerMessage.AppendResponse(GetResponse());
                 }
+
                 if (current4.IsAsleep)
                 {
                     ServerMessage sleepMsg = new ServerMessage(LibraryParser.OutgoingRequest("RoomUserIdleMessageComposer"));
@@ -298,6 +316,7 @@ namespace Yupi.Messages.Handlers
                     sleepMsg.AppendBool(true);
                     queuedServerMessage.AppendResponse(sleepMsg);
                 }
+
                 if (current4.CarryItemId > 0 && current4.CarryTimer > 0)
                 {
                     Response.Init(LibraryParser.OutgoingRequest("ApplyHanditemMessageComposer"));
@@ -305,15 +324,15 @@ namespace Yupi.Messages.Handlers
                     Response.AppendInteger(current4.CarryTimer);
                     queuedServerMessage.AppendResponse(GetResponse());
                 }
+
                 if (current4.IsBot)
                     continue;
+
                 try
                 {
-                    if (current4.GetClient() != null &&
-                        current4.GetClient().GetHabbo() != null)
+                    if (current4.GetClient() != null && current4.GetClient().GetHabbo() != null)
                     {
-                        if (current4.GetClient().GetHabbo().GetAvatarEffectsInventoryComponent() != null &&
-                            current4.CurrentEffect >= 1)
+                        if (current4.GetClient().GetHabbo().GetAvatarEffectsInventoryComponent() != null && current4.CurrentEffect >= 1)
                         {
                             Response.Init(LibraryParser.OutgoingRequest("ApplyEffectMessageComposer"));
                             Response.AppendInteger(current4.VirtualId);
@@ -321,31 +340,33 @@ namespace Yupi.Messages.Handlers
                             Response.AppendInteger(0);
                             queuedServerMessage.AppendResponse(GetResponse());
                         }
-                        ServerMessage serverMessage2 =
-                            new ServerMessage(LibraryParser.OutgoingRequest("UpdateUserDataMessageComposer"));
+
+                        ServerMessage serverMessage2 = new ServerMessage(LibraryParser.OutgoingRequest("UpdateUserDataMessageComposer"));
                         serverMessage2.AppendInteger(current4.VirtualId);
                         serverMessage2.AppendString(current4.GetClient().GetHabbo().Look);
                         serverMessage2.AppendString(current4.GetClient().GetHabbo().Gender.ToLower());
                         serverMessage2.AppendString(current4.GetClient().GetHabbo().Motto);
                         serverMessage2.AppendInteger(current4.GetClient().GetHabbo().AchievementPoints);
-                        if (CurrentLoadingRoom != null)
-                            CurrentLoadingRoom.SendMessage(serverMessage2);
+                        CurrentLoadingRoom?.SendMessage(serverMessage2);
                     }
                 }
-                catch (Exception pException)
+                catch (Exception e)
                 {
-                    ServerLogManager.LogException(pException, "Yupi.Messages.Handlers.Rooms.SendRoomData3");
+                    YupiLogManager.LogException(e, "Failed Broadcasting Room Data to Client.", "Yupi.Rooms");
                 }
             }
+
             queuedServerMessage.SendResponse();
         }
 
         internal void EnterOnRoom()
         {
-            if (Yupi.ShutdownStarted) return;
+            if (Yupi.ShutdownStarted)
+                return;
 
             uint id = Request.GetUInteger();
             string password = Request.GetString();
+
             PrepareRoomForUser(id, password);
         }
 
@@ -353,7 +374,7 @@ namespace Yupi.Messages.Handlers
         {
             try
             {
-                if (Session == null || Session.GetHabbo() == null || Session.GetHabbo().LoadingRoom == id)
+                if (Session?.GetHabbo() == null || Session.GetHabbo().LoadingRoom == id)
                     return;
 
                 if (Yupi.ShutdownStarted)
@@ -366,13 +387,17 @@ namespace Yupi.Messages.Handlers
                 QueuedServerMessage queuedServerMessage = new QueuedServerMessage(Session.GetConnection());
 
                 Room room;
+
                 if (Session.GetHabbo().InRoom)
                 {
                     room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
-                    if (room != null && room.GetRoomUserManager() != null)
+
+                    if (room?.GetRoomUserManager() != null)
                         room.GetRoomUserManager().RemoveUserFromRoom(Session, false, false);
                 }
+
                 room = Yupi.GetGame().GetRoomManager().LoadRoom(id);
+
                 if (room == null)
                     return;
 
@@ -387,7 +412,6 @@ namespace Yupi.Messages.Handlers
                     roomQueue.AppendInteger(1);
                     roomQueue.AppendString("visitors");
                     roomQueue.AppendInteger(room.UserCount - (int) room.RoomData.UsersNow);
-                    // Currently people are in the queue -1 ()
                     roomQueue.AppendString("spectators");
                     roomQueue.AppendInteger(1);
                     roomQueue.AppendInteger(1);
@@ -419,24 +443,23 @@ namespace Yupi.Messages.Handlers
                     {
                         ClearRoomLoading();
 
-                        ServerMessage serverMessage2 =
-                            new ServerMessage(LibraryParser.OutgoingRequest("RoomEnterErrorMessageComposer"));
+                        ServerMessage serverMessage2 = new ServerMessage(LibraryParser.OutgoingRequest("RoomEnterErrorMessageComposer"));
                         serverMessage2.AppendInteger(4);
                         Session.SendMessage(serverMessage2);
                         Response.Init(LibraryParser.OutgoingRequest("OutOfRoomMessageComposer"));
                         queuedServerMessage.AppendResponse(GetResponse());
                         queuedServerMessage.SendResponse();
+
                         return;
                     }
+
                     room.RemoveBan(Session.GetHabbo().Id);
                 }
+
                 Response.Init(LibraryParser.OutgoingRequest("PrepareRoomMessageComposer"));
                 queuedServerMessage.AppendResponse(GetResponse());
                 if (!isReload && !Session.GetHabbo().HasFuse("fuse_enter_any_room") &&
-                    !room.CheckRightsDoorBell(Session, true, true,
-                        room.RoomData.Group != null
-                            ? room.RoomData.Group.Members.ContainsKey(Session.GetHabbo().Id)
-                            : false) &&
+                    !room.CheckRightsDoorBell(Session, true, true, room.RoomData.Group != null && room.RoomData.Group.Members.ContainsKey(Session.GetHabbo().Id)) &&
                     !(Session.GetHabbo().IsTeleporting && Session.GetHabbo().TeleportingRoomId == id) &&
                     !Session.GetHabbo().IsHopping)
                 {
@@ -450,18 +473,20 @@ namespace Yupi.Messages.Handlers
                         else
                         {
                             Response.Init(LibraryParser.OutgoingRequest("DoorbellMessageComposer"));
-                            Response.AppendString("");
+                            Response.AppendString(string.Empty);
                             queuedServerMessage.AppendResponse(GetResponse());
-                            ServerMessage serverMessage3 =
-                                new ServerMessage(LibraryParser.OutgoingRequest("DoorbellMessageComposer"));
+
+                            ServerMessage serverMessage3 = new ServerMessage(LibraryParser.OutgoingRequest("DoorbellMessageComposer"));
                             serverMessage3.AppendString(Session.GetHabbo().UserName);
                             room.SendMessageToUsersWithRights(serverMessage3);
                         }
+
                         queuedServerMessage.SendResponse();
+
                         return;
                     }
-                    if (room.RoomData.State == 2 &&
-                        !string.Equals(pWd, room.RoomData.PassWord, StringComparison.CurrentCultureIgnoreCase))
+
+                    if (room.RoomData.State == 2 && !string.Equals(pWd, room.RoomData.PassWord, StringComparison.CurrentCultureIgnoreCase))
                     {
                         ClearRoomLoading();
 
@@ -476,6 +501,7 @@ namespace Yupi.Messages.Handlers
                             .Init(LibraryParser.OutgoingRequest("OutOfRoomMessageComposer"));
                         Session.GetMessageHandler().GetResponse();
                         Session.GetMessageHandler().SendResponse();
+
                         return;
                     }
                 }
@@ -486,50 +512,51 @@ namespace Yupi.Messages.Handlers
 
                 if (Session.GetHabbo().RecentlyVisitedRooms.Contains(room.RoomId))
                     Session.GetHabbo().RecentlyVisitedRooms.Remove(room.RoomId);
+
                 Session.GetHabbo().RecentlyVisitedRooms.AddFirst(room.RoomId);
             }
             catch (Exception e)
             {
-                ServerLogManager.LogException("PrepareRoomForUser. RoomId: " + id + "; UserId: " +
-                                              (Session?.GetHabbo().Id.ToString(CultureInfo.InvariantCulture) ?? "null") +
-                                              Environment.NewLine + e);
+                YupiLogManager.LogException("PrepareRoomForUser. RoomId: " + id + "; UserId: " + (Session?.GetHabbo().Id.ToString(CultureInfo.InvariantCulture) ?? "null") + Environment.NewLine + e, "Failed Preparing Room for User.");
             }
         }
 
-        internal void ReqLoadRoomForUser()
-        {
-            LoadRoomForUser().SendResponse();
-        }
+        internal void ReqLoadRoomForUser() => LoadRoomForUser().SendResponse();
 
         internal QueuedServerMessage LoadRoomForUser()
         {
             Room currentLoadingRoom = CurrentLoadingRoom;
+
             QueuedServerMessage queuedServerMessage = new QueuedServerMessage(Session.GetConnection());
-            if (currentLoadingRoom == null || !Session.GetHabbo().LoadingChecksPassed) return queuedServerMessage;
+
+            if (currentLoadingRoom == null || !Session.GetHabbo().LoadingChecksPassed)
+                return queuedServerMessage;
+
             if (Session.GetHabbo().FavouriteGroup > 0u)
             {
-                if (CurrentLoadingRoom.RoomData.Group != null &&
-                    !CurrentLoadingRoom.LoadedGroups.ContainsKey(CurrentLoadingRoom.RoomData.Group.Id))
-                    CurrentLoadingRoom.LoadedGroups.Add(CurrentLoadingRoom.RoomData.Group.Id,
-                        CurrentLoadingRoom.RoomData.Group.Badge);
-                if (!CurrentLoadingRoom.LoadedGroups.ContainsKey(Session.GetHabbo().FavouriteGroup) &&
-                    Yupi.GetGame().GetGroupManager().GetGroup(Session.GetHabbo().FavouriteGroup) != null)
-                    CurrentLoadingRoom.LoadedGroups.Add(Session.GetHabbo().FavouriteGroup,
-                        Yupi.GetGame().GetGroupManager().GetGroup(Session.GetHabbo().FavouriteGroup).Badge);
+                if (CurrentLoadingRoom.RoomData.Group != null && !CurrentLoadingRoom.LoadedGroups.ContainsKey(CurrentLoadingRoom.RoomData.Group.Id))
+                    CurrentLoadingRoom.LoadedGroups.Add(CurrentLoadingRoom.RoomData.Group.Id, CurrentLoadingRoom.RoomData.Group.Badge);
+
+                if (!CurrentLoadingRoom.LoadedGroups.ContainsKey(Session.GetHabbo().FavouriteGroup) && Yupi.GetGame().GetGroupManager().GetGroup(Session.GetHabbo().FavouriteGroup) != null)
+                    CurrentLoadingRoom.LoadedGroups.Add(Session.GetHabbo().FavouriteGroup, Yupi.GetGame().GetGroupManager().GetGroup(Session.GetHabbo().FavouriteGroup).Badge);
             }
+
             Response.Init(LibraryParser.OutgoingRequest("RoomGroupMessageComposer"));
             Response.AppendInteger(CurrentLoadingRoom.LoadedGroups.Count);
+
             foreach (KeyValuePair<uint, string> guild1 in CurrentLoadingRoom.LoadedGroups)
             {
                 Response.AppendInteger(guild1.Key);
                 Response.AppendString(guild1.Value);
             }
+
             queuedServerMessage.AppendResponse(GetResponse());
 
             Response.Init(LibraryParser.OutgoingRequest("InitialRoomInfoMessageComposer"));
             Response.AppendString(currentLoadingRoom.RoomData.ModelName);
             Response.AppendInteger(currentLoadingRoom.RoomId);
             queuedServerMessage.AppendResponse(GetResponse());
+
             if (Session.GetHabbo().SpectatorMode)
             {
                 Response.Init(LibraryParser.OutgoingRequest("SpectatorModeMessageComposer"));
@@ -543,6 +570,7 @@ namespace Yupi.Messages.Handlers
                 Response.AppendString(currentLoadingRoom.RoomData.WallPaper);
                 queuedServerMessage.AppendResponse(GetResponse());
             }
+
             if (currentLoadingRoom.RoomData.Floor != "0.0")
             {
                 Response.Init(LibraryParser.OutgoingRequest("RoomSpacesMessageComposer"));
@@ -592,8 +620,9 @@ namespace Yupi.Messages.Handlers
 
         internal void ClearRoomLoading()
         {
-            if (Session == null || Session.GetHabbo() == null)
+            if (Session?.GetHabbo() == null)
                 return;
+
             Session.GetHabbo().LoadingRoom = 0u;
             Session.GetHabbo().LoadingChecksPassed = false;
         }
@@ -601,10 +630,9 @@ namespace Yupi.Messages.Handlers
         internal void Move()
         {
             Room currentRoom = Session.GetHabbo().CurrentRoom;
-            if (currentRoom == null)
-                return;
 
-            RoomUser roomUserByHabbo = currentRoom.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().Id);
+            RoomUser roomUserByHabbo = currentRoom?.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().Id);
+
             if (roomUserByHabbo == null || !roomUserByHabbo.CanWalk)
                 return;
 
@@ -619,8 +647,7 @@ namespace Yupi.Messages.Handlers
             if (!roomUserByHabbo.RidingHorse)
                 return;
 
-            RoomUser roomUserByVirtualId =
-                currentRoom.GetRoomUserManager().GetRoomUserByVirtualId((int) roomUserByHabbo.HorseId);
+            RoomUser roomUserByVirtualId = currentRoom.GetRoomUserManager().GetRoomUserByVirtualId((int) roomUserByHabbo.HorseId);
 
             roomUserByVirtualId.MoveTo(targetX, targetY);
         }
@@ -638,11 +665,14 @@ namespace Yupi.Messages.Handlers
             if (Session.GetHabbo().UsersRooms.Count >= 75)
             {
                 Session.SendNotif(Yupi.GetLanguage().GetVar("user_has_more_then_75_rooms"));
+
                 return;
             }
+
             if (Yupi.GetUnixTimeStamp() - Session.GetHabbo().LastSqlQuery < 20)
             {
                 Session.SendNotif(Yupi.GetLanguage().GetVar("user_create_room_flood_error"));
+
                 return;
             }
 
@@ -653,9 +683,8 @@ namespace Yupi.Messages.Handlers
             int maxVisitors = Request.GetInteger();
             int tradeState = Request.GetInteger();
 
-            RoomData data = Yupi.GetGame()
-                .GetRoomManager()
-                .CreateRoom(Session, name, description, roomModel, category, maxVisitors, tradeState);
+            RoomData data = Yupi.GetGame().GetRoomManager().CreateRoom(Session, name, description, roomModel, category, maxVisitors, tradeState);
+
             if (data == null)
                 return;
 
@@ -679,14 +708,12 @@ namespace Yupi.Messages.Handlers
             GetResponse().AppendInteger(room.RoomData.State);
             GetResponse().AppendInteger(room.RoomData.Category);
             GetResponse().AppendInteger(room.RoomData.UsersMax);
-            GetResponse()
-                .AppendInteger(room.RoomData.Model.MapSizeX*room.RoomData.Model.MapSizeY > 200 ? 50 : 25);
-
+            GetResponse().AppendInteger(room.RoomData.Model.MapSizeX*room.RoomData.Model.MapSizeY > 200 ? 50 : 25);
             GetResponse().AppendInteger(room.TagCount);
+
             foreach (string s in room.RoomData.Tags)
-            {
                 GetResponse().AppendString(s);
-            }
+
             GetResponse().AppendInteger(room.RoomData.TradeState);
             GetResponse().AppendInteger(room.RoomData.AllowPets);
             GetResponse().AppendInteger(room.RoomData.AllowPetsEating);
@@ -745,17 +772,22 @@ namespace Yupi.Messages.Handlers
             uint id = Request.GetUInteger();
             int num = Request.GetInteger();
             int num2 = Request.GetInteger();
+
             Room room = Yupi.GetGame().GetRoomManager().LoadRoom(id);
+
             if (num == 0 && num2 == 1)
             {
                 SerializeRoomInformation(room, false);
+
                 return;
             }
+
             if (num == 1 && num2 == 0)
             {
                 SerializeRoomInformation(room, true);
                 return;
             }
+
             SerializeRoomInformation(room, true);
         }
 
@@ -763,15 +795,18 @@ namespace Yupi.Messages.Handlers
         {
             if (room == null)
                 return;
+
             room.RoomData.SerializeRoomData(GetResponse(), Session, true, null, show);
             SendResponse();
 
             DataTable table;
+
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery($"SELECT user_id FROM rooms_rights WHERE room_id={room.RoomId}");
                 table = queryReactor.GetTable();
             }
+
             Response.Init(LibraryParser.OutgoingRequest("LoadRoomRightsListMessageComposer"));
             GetResponse().AppendInteger(room.RoomData.Id);
             GetResponse().AppendInteger(table.Rows.Count);
@@ -785,18 +820,23 @@ namespace Yupi.Messages.Handlers
                 GetResponse().AppendInteger(habboForId.Id);
                 GetResponse().AppendString(habboForId.UserName);
             }
+
             SendResponse();
         }
 
         internal void SaveRoomData()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
+
             if (room == null || !room.CheckRights(Session, true))
                 return;
+
             Request.GetInteger();
 
             string oldName = room.RoomData.Name;
+
             room.RoomData.Name = Request.GetString();
+
             if (room.RoomData.Name.Length < 3)
             {
                 room.RoomData.Name = oldName;
@@ -805,17 +845,22 @@ namespace Yupi.Messages.Handlers
 
             room.RoomData.Description = Request.GetString();
             room.RoomData.State = Request.GetInteger();
+
             if (room.RoomData.State < 0 || room.RoomData.State > 2)
             {
                 room.RoomData.State = 0;
+
                 return;
             }
             room.RoomData.PassWord = Request.GetString();
             room.RoomData.UsersMax = Request.GetUInteger();
             room.RoomData.Category = Request.GetInteger();
+
             uint tagCount = Request.GetUInteger();
 
-            if (tagCount > 2) return;
+            if (tagCount > 2)
+                return;
+
             List<string> tags = new List<string>();
 
             for (int i = 0; i < tagCount; i++)
@@ -827,10 +872,14 @@ namespace Yupi.Messages.Handlers
             room.RoomData.AllowWalkThrough = Request.GetBool();
             room.RoomData.HideWall = Request.GetBool();
             room.RoomData.WallThickness = Request.GetInteger();
-            if (room.RoomData.WallThickness < -2 || room.RoomData.WallThickness > 1) room.RoomData.WallThickness = 0;
+
+            if (room.RoomData.WallThickness < -2 || room.RoomData.WallThickness > 1)
+                room.RoomData.WallThickness = 0;
 
             room.RoomData.FloorThickness = Request.GetInteger();
-            if (room.RoomData.FloorThickness < -2 || room.RoomData.FloorThickness > 1) room.RoomData.FloorThickness = 0;
+
+            if (room.RoomData.FloorThickness < -2 || room.RoomData.FloorThickness > 1)
+                room.RoomData.FloorThickness = 0;
 
             room.RoomData.WhoCanMute = Request.GetInteger();
             room.RoomData.WhoCanKick = Request.GetInteger();
@@ -839,42 +888,53 @@ namespace Yupi.Messages.Handlers
             room.RoomData.ChatBalloon = Request.GetUInteger();
             room.RoomData.ChatSpeed = Request.GetUInteger();
             room.RoomData.ChatMaxDistance = Request.GetUInteger();
-            if (room.RoomData.ChatMaxDistance > 90) room.RoomData.ChatMaxDistance = 90;
+
+            if (room.RoomData.ChatMaxDistance > 90)
+                room.RoomData.ChatMaxDistance = 90;
 
             room.RoomData.ChatFloodProtection = Request.GetUInteger(); //chat_flood_sensitivity
-            if (room.RoomData.ChatFloodProtection > 2) room.RoomData.ChatFloodProtection = 2;
+
+            if (room.RoomData.ChatFloodProtection > 2)
+                room.RoomData.ChatFloodProtection = 2;
 
             Request.GetBool(); //allow_dyncats_checkbox
             PublicCategory flatCat = Yupi.GetGame().GetNavigator().GetFlatCat(room.RoomData.Category);
-            if (flatCat == null || flatCat.MinRank > Session.GetHabbo().Rank) room.RoomData.Category = 0;
+
+            if (flatCat == null || flatCat.MinRank > Session.GetHabbo().Rank)
+                room.RoomData.Category = 0;
 
             room.ClearTags();
             room.AddTagRange(tags);
 
             RoomSettingsOkComposer(room.RoomId);
             RoomUpdatedOkComposer(room.RoomId);
+
             Session.GetHabbo().CurrentRoom.SendMessage(RoomFloorAndWallComposer(room));
             Session.GetHabbo().CurrentRoom.SendMessage(SerializeRoomChatOption(room));
+
             room.RoomData.SerializeRoomData(Response, Session, false, true);
         }
 
         internal void GetBannedUsers()
         {
             uint num = Request.GetUInteger();
+
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(num);
+
             if (room == null)
                 return;
+
             List<uint> list = room.BannedUsers();
             Response.Init(LibraryParser.OutgoingRequest("RoomBannedListMessageComposer"));
             Response.AppendInteger(num);
             Response.AppendInteger(list.Count);
+
             foreach (uint current in list)
             {
                 Response.AppendInteger(current);
-                Response.AppendString(Yupi.GetHabboById(current) != null
-                    ? Yupi.GetHabboById(current).UserName
-                    : "Undefined");
+                Response.AppendString(Yupi.GetHabboById(current) != null ? Yupi.GetHabboById(current).UserName : "Undefined");
             }
+
             SendResponse();
         }
 
@@ -883,12 +943,14 @@ namespace Yupi.Messages.Handlers
             Response.Init(LibraryParser.OutgoingRequest("LoadRoomRightsListMessageComposer"));
             Response.AppendInteger(Session.GetHabbo().CurrentRoom.RoomId);
             Response.AppendInteger(Session.GetHabbo().CurrentRoom.UsersWithRights.Count);
+
             foreach (uint current in Session.GetHabbo().CurrentRoom.UsersWithRights)
             {
                 Habbo habboForId = Yupi.GetHabboById(current);
                 Response.AppendInteger(current);
                 Response.AppendString(habboForId == null ? "Undefined" : habboForId.UserName);
             }
+
             SendResponse();
         }
 
@@ -897,12 +959,16 @@ namespace Yupi.Messages.Handlers
             uint num = Request.GetUInteger();
             uint num2 = Request.GetUInteger();
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(num2);
+
             if (room == null)
                 return;
+
             room.Unban(num);
+
             Response.Init(LibraryParser.OutgoingRequest("RoomUnbanUserMessageComposer"));
             Response.AppendInteger(num2);
             Response.AppendInteger(num);
+
             SendResponse();
         }
 
@@ -910,24 +976,29 @@ namespace Yupi.Messages.Handlers
         {
             uint num = Request.GetUInteger();
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
+
             if (room == null)
                 return;
+
             RoomUser roomUserByHabbo = room.GetRoomUserManager().GetRoomUserByHabbo(num);
+
             if (!room.CheckRights(Session, true))
                 return;
+
             if (room.UsersWithRights.Contains(num))
             {
                 Session.SendNotif(Yupi.GetLanguage().GetVar("no_room_rights_error"));
                 return;
             }
+
             if (num == 0)
-            {
                 return;
-            }
+
             room.UsersWithRights.Add(num);
+
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery(string.Concat(
-                    "INSERT INTO rooms_rights (room_id,user_id) VALUES (", room.RoomId, ",", num, ")"));
+                queryReactor.RunFastQuery(string.Concat("INSERT INTO rooms_rights (room_id,user_id) VALUES (", room.RoomId, ",", num, ")"));
+
             if (roomUserByHabbo != null && !roomUserByHabbo.IsBot)
             {
                 Response.Init(LibraryParser.OutgoingRequest("GiveRoomRightsMessageComposer"));
@@ -936,23 +1007,28 @@ namespace Yupi.Messages.Handlers
                 Response.AppendString(roomUserByHabbo.GetClient().GetHabbo().UserName);
                 SendResponse();
                 roomUserByHabbo.UpdateNeeded = true;
+
                 if (!roomUserByHabbo.IsBot)
                 {
-                    roomUserByHabbo.AddStatus("flatctrl 1", "");
+                    roomUserByHabbo.AddStatus("flatctrl 1", string.Empty);
                     Response.Init(LibraryParser.OutgoingRequest("RoomRightsLevelMessageComposer"));
                     Response.AppendInteger(1);
                     roomUserByHabbo.GetClient().SendMessage(GetResponse());
                 }
             }
+
             UsersWithRights();
         }
 
         internal void TakeRights()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
+
             if (room == null || !room.CheckRights(Session, true))
                 return;
+
             StringBuilder stringBuilder = new StringBuilder();
+
             int num = Request.GetInteger();
 
             {
@@ -960,11 +1036,16 @@ namespace Yupi.Messages.Handlers
                 {
                     if (i > 0)
                         stringBuilder.Append(" OR ");
+
                     uint num2 = Request.GetUInteger();
+
                     if (room.UsersWithRights.Contains(num2))
                         room.UsersWithRights.Remove(num2);
+
                     stringBuilder.Append(string.Concat("room_id = '", room.RoomId, "' AND user_id = '", num2, "'"));
+
                     RoomUser roomUserByHabbo = room.GetRoomUserManager().GetRoomUserByHabbo(num2);
+
                     if (roomUserByHabbo != null && !roomUserByHabbo.IsBot)
                     {
                         Response.Init(LibraryParser.OutgoingRequest("RoomRightsLevelMessageComposer"));
@@ -973,12 +1054,15 @@ namespace Yupi.Messages.Handlers
                         roomUserByHabbo.RemoveStatus("flatctrl 1");
                         roomUserByHabbo.UpdateNeeded = true;
                     }
+
                     Response.Init(LibraryParser.OutgoingRequest("RemoveRightsMessageComposer"));
                     Response.AppendInteger(room.RoomId);
                     Response.AppendInteger(num2);
                     SendResponse();
                 }
+
                 UsersWithRights();
+
                 using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     queryReactor.RunFastQuery($"DELETE FROM rooms_rights WHERE {stringBuilder}");
             }
@@ -987,39 +1071,51 @@ namespace Yupi.Messages.Handlers
         internal void TakeAllRights()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
+
             if (room == null || !room.CheckRights(Session, true))
                 return;
+
             DataTable table;
+
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery($"SELECT user_id FROM rooms_rights WHERE room_id={room.RoomId}");
                 table = queryReactor.GetTable();
             }
+
             foreach (DataRow dataRow in table.Rows)
             {
                 uint num = (uint) dataRow[0];
+
                 RoomUser roomUserByHabbo = room.GetRoomUserManager().GetRoomUserByHabbo(num);
                 Response.Init(LibraryParser.OutgoingRequest("RemoveRightsMessageComposer"));
                 Response.AppendInteger(room.RoomId);
                 Response.AppendInteger(num);
+
                 SendResponse();
+
                 if (roomUserByHabbo == null || roomUserByHabbo.IsBot)
                     continue;
+
                 Response.Init(LibraryParser.OutgoingRequest("RoomRightsLevelMessageComposer"));
                 Response.AppendInteger(0);
                 roomUserByHabbo.GetClient().SendMessage(GetResponse());
                 roomUserByHabbo.RemoveStatus("flatctrl 1");
                 roomUserByHabbo.UpdateNeeded = true;
             }
+
             using (IQueryAdapter queryreactor2 = Yupi.GetDatabaseManager().GetQueryReactor())
                 queryreactor2.RunFastQuery($"DELETE FROM rooms_rights WHERE room_id = {room.RoomId}");
+
             room.UsersWithRights.Clear();
+
             UsersWithRights();
         }
 
         internal void KickUser()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
+
             if (room == null)
                 return;
 
@@ -1028,13 +1124,17 @@ namespace Yupi.Messages.Handlers
                 return;
 
             uint pId = Request.GetUInteger();
+
             RoomUser roomUserByHabbo = room.GetRoomUserManager().GetRoomUserByHabbo(pId);
+
             if (roomUserByHabbo == null || roomUserByHabbo.IsBot)
                 return;
+
             if (room.CheckRights(roomUserByHabbo.GetClient(), true) ||
                 roomUserByHabbo.GetClient().GetHabbo().HasFuse("fuse_mod") ||
                 roomUserByHabbo.GetClient().GetHabbo().HasFuse("fuse_no_kick"))
                 return;
+
             room.GetRoomUserManager().RemoveUserFromRoom(roomUserByHabbo.GetClient(), true, true);
             roomUserByHabbo.GetClient().CurrentRoomUserId = -1;
         }
@@ -1042,25 +1142,35 @@ namespace Yupi.Messages.Handlers
         internal void BanUser()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
+
             if (room == null || (room.RoomData.WhoCanBan == 0 && !room.CheckRights(Session, true)) ||
                 (room.RoomData.WhoCanBan == 1 && !room.CheckRights(Session)))
                 return;
+
             int num = Request.GetInteger();
+
             Request.GetUInteger();
+
             string text = Request.GetString();
+
             RoomUser roomUserByHabbo = room.GetRoomUserManager().GetRoomUserByHabbo(Convert.ToUInt32(num));
+
             if (roomUserByHabbo == null || roomUserByHabbo.IsBot)
                 return;
+
             if (roomUserByHabbo.GetClient().GetHabbo().HasFuse("fuse_mod") ||
                 roomUserByHabbo.GetClient().GetHabbo().HasFuse("fuse_no_kick"))
                 return;
+
             long time = 0L;
+
             if (text.ToLower().Contains("hour"))
                 time = 3600L;
             else if (text.ToLower().Contains("day"))
                 time = 86400L;
             else if (text.ToLower().Contains("perm"))
                 time = 788922000L;
+
             room.AddBan(num, time);
             room.GetRoomUserManager().RemoveUserFromRoom(roomUserByHabbo.GetClient(), true, true);
             Session.CurrentRoomUserId = -1;
@@ -1069,12 +1179,13 @@ namespace Yupi.Messages.Handlers
         internal void SetHomeRoom()
         {
             uint roomId = Request.GetUInteger();
+
             RoomData data = Yupi.GetGame().GetRoomManager().GenerateRoomData(roomId);
 
             if (roomId != 0 && data == null)
             {
-                Session.GetHabbo().HomeRoom = roomId
-                    ;
+                Session.GetHabbo().HomeRoom = roomId;
+
                 using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     queryReactor.RunFastQuery(string.Concat("UPDATE users SET home_room = ", roomId,
                         " WHERE id = ", Session.GetHabbo().Id));
@@ -1089,22 +1200,29 @@ namespace Yupi.Messages.Handlers
         internal void DeleteRoom()
         {
             uint roomId = Request.GetUInteger();
-            if (Session == null || Session.GetHabbo() == null || Session.GetHabbo().UsersRooms == null)
+
+            if (Session?.GetHabbo() == null || Session.GetHabbo().UsersRooms == null)
                 return;
+
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(roomId);
+
             if (room == null)
                 return;
+
             if (room.RoomData.Owner != Session.GetHabbo().UserName && Session.GetHabbo().Rank <= 6u)
                 return;
+
             if (Session.GetHabbo().GetInventoryComponent() != null)
-                Session.GetHabbo()
-                    .GetInventoryComponent()
-                    .AddItemArray(room.GetRoomItemHandler().RemoveAllFurniture(Session));
+                Session.GetHabbo().GetInventoryComponent().AddItemArray(room.GetRoomItemHandler().RemoveAllFurniture(Session));
+
             RoomData roomData = room.RoomData;
+
             Yupi.GetGame().GetRoomManager().UnloadRoom(room, "Delete room");
             Yupi.GetGame().GetRoomManager().QueueVoteRemove(roomData);
+
             if (roomData == null || Session == null)
                 return;
+
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.RunFastQuery($"DELETE FROM rooms_data WHERE id = {roomId}");
@@ -1113,15 +1231,12 @@ namespace Yupi.Messages.Handlers
                 queryReactor.RunFastQuery($"DELETE FROM rooms_rights WHERE room_id = {roomId}");
                 queryReactor.RunFastQuery($"UPDATE users SET home_room = '0' WHERE home_room = {roomId}");
             }
+
             if (Session.GetHabbo().Rank > 5u && Session.GetHabbo().UserName != roomData.Owner)
-                Yupi.GetGame()
-                    .GetModerationTool()
-                    .LogStaffEntry(Session.GetHabbo().UserName, roomData.Name, "Room deletion",
-                        $"Deleted room ID {roomData.Id}");
-            RoomData roomData2 = (
-                from p in Session.GetHabbo().UsersRooms
-                where p.Id == roomId
-                select p).SingleOrDefault();
+                Yupi.GetGame().GetModerationTool().LogStaffEntry(Session.GetHabbo().UserName, roomData.Name, "Room deletion", $"Deleted room ID {roomData.Id}");
+
+            RoomData roomData2 = (from p in Session.GetHabbo().UsersRooms where p.Id == roomId select p).SingleOrDefault();
+
             if (roomData2 != null)
                 Session.GetHabbo().UsersRooms.Remove(roomData2);
         }
@@ -1129,26 +1244,30 @@ namespace Yupi.Messages.Handlers
         internal void LookAt()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
-            if (room == null)
-                return;
-            RoomUser roomUserByHabbo = room.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().Id);
+
+            RoomUser roomUserByHabbo = room?.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().Id);
+
             if (roomUserByHabbo == null)
                 return;
+
             roomUserByHabbo.UnIdle();
+
             int x = Request.GetInteger();
             int y = Request.GetInteger();
+
             if (x == roomUserByHabbo.X && y == roomUserByHabbo.Y)
                 return;
+
             int rotation = PathFinder.CalculateRotation(roomUserByHabbo.X, roomUserByHabbo.Y, x, y);
+
             roomUserByHabbo.SetRot(rotation, false);
             roomUserByHabbo.UpdateNeeded = true;
 
             if (!roomUserByHabbo.RidingHorse)
                 return;
-            RoomUser roomUserByVirtualId =
-                Session.GetHabbo()
-                    .CurrentRoom.GetRoomUserManager()
-                    .GetRoomUserByVirtualId(Convert.ToInt32(roomUserByHabbo.HorseId));
+
+            RoomUser roomUserByVirtualId = Session.GetHabbo().CurrentRoom.GetRoomUserManager().GetRoomUserByVirtualId(Convert.ToInt32(roomUserByHabbo.HorseId));
+
             roomUserByVirtualId.SetRot(rotation, false);
             roomUserByVirtualId.UpdateNeeded = true;
         }
@@ -1156,11 +1275,12 @@ namespace Yupi.Messages.Handlers
         internal void StartTyping()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
-            if (room == null)
-                return;
-            RoomUser roomUserByHabbo = room.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().Id);
+
+            RoomUser roomUserByHabbo = room?.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().Id);
+
             if (roomUserByHabbo == null)
                 return;
+
             ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("TypingStatusMessageComposer"));
             serverMessage.AppendInteger(roomUserByHabbo.VirtualId);
             serverMessage.AppendInteger(1);
@@ -1170,11 +1290,11 @@ namespace Yupi.Messages.Handlers
         internal void StopTyping()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
-            if (room == null)
-                return;
-            RoomUser roomUserByHabbo = room.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().Id);
+            RoomUser roomUserByHabbo = room?.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().Id);
+
             if (roomUserByHabbo == null)
                 return;
+
             ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("TypingStatusMessageComposer"));
             serverMessage.AppendInteger(roomUserByHabbo.VirtualId);
             serverMessage.AppendInteger(0);
@@ -1185,12 +1305,17 @@ namespace Yupi.Messages.Handlers
         {
             if (Session.GetHabbo().CurrentRoom == null)
                 return;
+
             string text = Request.GetString();
+
             Habbo habbo = Yupi.GetGame().GetClientManager().GetClientByUserName(text).GetHabbo();
+
             if (habbo == null)
                 return;
+
             if (Session.GetHabbo().MutedUsers.Contains(habbo.Id) || habbo.Rank > 4u)
                 return;
+
             Session.GetHabbo().MutedUsers.Add(habbo.Id);
             Response.Init(LibraryParser.OutgoingRequest("UpdateIgnoreStatusMessageComposer"));
             Response.AppendInteger(1);
@@ -1202,12 +1327,16 @@ namespace Yupi.Messages.Handlers
         {
             if (Session.GetHabbo().CurrentRoom == null)
                 return;
+
             string text = Request.GetString();
             Habbo habbo = Yupi.GetGame().GetClientManager().GetClientByUserName(text).GetHabbo();
+
             if (habbo == null)
                 return;
+
             if (!Session.GetHabbo().MutedUsers.Contains(habbo.Id))
                 return;
+
             Session.GetHabbo().MutedUsers.Remove(habbo.Id);
             Response.Init(LibraryParser.OutgoingRequest("UpdateIgnoreStatusMessageComposer"));
             Response.AppendInteger(3);
@@ -1218,15 +1347,19 @@ namespace Yupi.Messages.Handlers
         internal void CanCreateRoomEvent()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
+
             if (room == null || !room.CheckRights(Session, true))
                 return;
+
             bool b = true;
             int i = 0;
+
             if (room.RoomData.State != 0)
             {
                 b = false;
                 i = 3;
             }
+
             Response.AppendBool(b);
             Response.AppendInteger(i);
         }
@@ -1234,59 +1367,59 @@ namespace Yupi.Messages.Handlers
         internal void Sign()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
-            if (room == null)
-                return;
-            RoomUser roomUserByHabbo = room.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().Id);
+            RoomUser roomUserByHabbo = room?.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().Id);
+
             if (roomUserByHabbo == null)
                 return;
+
             roomUserByHabbo.UnIdle();
+
             int value = Request.GetInteger();
+
             roomUserByHabbo.AddStatus("sign", Convert.ToString(value));
             roomUserByHabbo.UpdateNeeded = true;
             roomUserByHabbo.SignTime = Yupi.GetUnixTimeStamp() + 5;
         }
 
-        internal void InitRoomGroupBadges()
-        {
-            Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().LoadingRoom);
-        }
+        internal void InitRoomGroupBadges() => Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().LoadingRoom);
 
         internal void RateRoom()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
-            if (room == null || Session.GetHabbo().RatedRooms.Contains(room.RoomId) ||
-                room.CheckRights(Session, true))
+
+            if (room == null || Session.GetHabbo().RatedRooms.Contains(room.RoomId) || room.CheckRights(Session, true))
                 return;
 
+            switch (Request.GetInteger())
             {
-                switch (Request.GetInteger())
-                {
-                    case -1:
-                        room.RoomData.Score--;
-                        room.RoomData.Score--;
-                        break;
+                case -1:
+                    room.RoomData.Score--;
+                    room.RoomData.Score--;
+                    break;
 
-                    case 0:
-                        return;
+                case 0:
+                    return;
 
-                    case 1:
-                        room.RoomData.Score++;
-                        room.RoomData.Score++;
-                        break;
+                case 1:
+                    room.RoomData.Score++;
+                    room.RoomData.Score++;
+                    break;
 
-                    default:
-                        return;
-                }
-                Yupi.GetGame().GetRoomManager().QueueVoteAdd(room.RoomData);
-                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                    queryReactor.RunFastQuery(string.Concat("UPDATE rooms_data SET score = ",
-                        room.RoomData.Score, " WHERE id = ", room.RoomId));
-                Session.GetHabbo().RatedRooms.Add(room.RoomId);
-                Response.Init(LibraryParser.OutgoingRequest("RoomRatingMessageComposer"));
-                Response.AppendInteger(room.RoomData.Score);
-                Response.AppendBool(room.CheckRights(Session, true));
-                SendResponse();
+                default:
+                    return;
             }
+
+            Yupi.GetGame().GetRoomManager().QueueVoteAdd(room.RoomData);
+
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.RunFastQuery(string.Concat("UPDATE rooms_data SET score = ", room.RoomData.Score, " WHERE id = ", room.RoomId));
+
+            Session.GetHabbo().RatedRooms.Add(room.RoomId);
+            Response.Init(LibraryParser.OutgoingRequest("RoomRatingMessageComposer"));
+            Response.AppendInteger(room.RoomData.Score);
+            Response.AppendBool(room.CheckRights(Session, true));
+
+            SendResponse();
         }
 
         internal void Dance()
@@ -1319,27 +1452,33 @@ namespace Yupi.Messages.Handlers
         internal void AnswerDoorbell()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
+
             if (room == null || !room.CheckRights(Session))
                 return;
+
             string userName = Request.GetString();
             bool flag = Request.GetBool();
+
             GameClient clientByUserName = Yupi.GetGame().GetClientManager().GetClientByUserName(userName);
+
             if (clientByUserName == null)
                 return;
+
             if (flag)
             {
                 clientByUserName.GetHabbo().LoadingChecksPassed = true;
-                clientByUserName.GetMessageHandler()
-                    .Response.Init(LibraryParser.OutgoingRequest("DoorbellOpenedMessageComposer"));
-                clientByUserName.GetMessageHandler().Response.AppendString("");
+
+                clientByUserName.GetMessageHandler().Response.Init(LibraryParser.OutgoingRequest("DoorbellOpenedMessageComposer"));
+                clientByUserName.GetMessageHandler().Response.AppendString(string.Empty);
                 clientByUserName.GetMessageHandler().SendResponse();
+
                 return;
             }
+
             if (clientByUserName.GetHabbo().CurrentRoomId != Session.GetHabbo().CurrentRoomId)
             {
-                clientByUserName.GetMessageHandler()
-                    .Response.Init(LibraryParser.OutgoingRequest("DoorbellNoOneMessageComposer"));
-                clientByUserName.GetMessageHandler().Response.AppendString("");
+                clientByUserName.GetMessageHandler().Response.Init(LibraryParser.OutgoingRequest("DoorbellNoOneMessageComposer"));
+                clientByUserName.GetMessageHandler().Response.AppendString(string.Empty);
                 clientByUserName.GetMessageHandler().SendResponse();
             }
         }
@@ -1349,14 +1488,19 @@ namespace Yupi.Messages.Handlers
             uint num = Request.GetUInteger();
             bool flag = Request.GetBool();
             string text = Request.GetString();
+
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
+
             if (room == null || !room.CheckRights(Session, true))
                 return;
+
             if (!flag)
             {
                 if (!room.WordFilter.Contains(text))
                     return;
+
                 room.WordFilter.Remove(text);
+
                 using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
                     queryReactor.SetQuery("DELETE FROM rooms_wordfilter WHERE room_id = @id AND word = @word");
@@ -1366,14 +1510,18 @@ namespace Yupi.Messages.Handlers
                     return;
                 }
             }
+
             if (room.WordFilter.Contains(text))
                 return;
+
             if (text.Contains("+"))
             {
                 Session.SendNotif(Yupi.GetLanguage().GetVar("character_error_plus"));
                 return;
             }
+
             room.WordFilter.Add(text);
+
             using (IQueryAdapter queryreactor2 = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryreactor2.SetQuery("INSERT INTO rooms_wordfilter (room_id, word) VALUES (@id, @word);");
@@ -1386,14 +1534,19 @@ namespace Yupi.Messages.Handlers
         internal void GetRoomFilter()
         {
             uint roomId = Request.GetUInteger();
+
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(roomId);
+
             if (room == null || !room.CheckRights(Session, true))
                 return;
+
             ServerMessage serverMessage = new ServerMessage();
             serverMessage.Init(LibraryParser.OutgoingRequest("RoomLoadFilterMessageComposer"));
             serverMessage.AppendInteger(room.WordFilter.Count);
+
             foreach (string current in room.WordFilter)
                 serverMessage.AppendString(current);
+
             Response = serverMessage;
             SendResponse();
         }
@@ -1401,11 +1554,15 @@ namespace Yupi.Messages.Handlers
         internal void ApplyRoomEffect()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
+
             if (room == null || !room.CheckRights(Session, true))
                 return;
+
             UserItem item = Session.GetHabbo().GetInventoryComponent().GetItem(Request.GetUInteger());
+
             if (item == null)
                 return;
+
             string type = "floor";
 
             if (item.BaseItem.Name.ToLower().Contains("wallpaper"))
@@ -1442,14 +1599,16 @@ namespace Yupi.Messages.Handlers
                         .ProgressUserAchievement(Session, "ACH_RoomDecoLandscape", 1);
                     break;
             }
+
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery(string.Concat("UPDATE rooms_data SET ", type,
-                    " = @extradata WHERE id = ", room.RoomId));
+                queryReactor.SetQuery(string.Concat("UPDATE rooms_data SET ", type, " = @extradata WHERE id = ", room.RoomId));
                 queryReactor.AddParameter("extradata", item.ExtraData);
                 queryReactor.RunQuery();
+
                 queryReactor.RunFastQuery($"DELETE FROM items_rooms WHERE id={item.Id} LIMIT 1");
             }
+
             Session.GetHabbo().GetInventoryComponent().RemoveItem(item.Id, false);
             ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("RoomSpacesMessageComposer"));
             serverMessage.AppendString(type);
@@ -1612,8 +1771,7 @@ namespace Yupi.Messages.Handlers
                     message.AppendString("floorplan_editor.error");
                     message.AppendInteger(1);
                     message.AppendString("errors");
-                    message.AppendString(
-                        "(general): too large height (max 64 tiles)\r(general): too large area (max 1800 tiles)");
+                    message.AppendString("(general): too large height (max 64 tiles)\r(general): too large area (max 1800 tiles)");
                     Session.SendMessage(message);
 
                     return;
@@ -1633,7 +1791,9 @@ namespace Yupi.Messages.Handlers
 
                 string[] lines = heightMap.Split((char) 13);
                 int lineWidth = lines[0].Length;
+
                 for (int i = 1; i < lines.Length; i++)
+                {
                     if (lines[i].Length != lineWidth)
                     {
                         ServerMessage message =
@@ -1646,23 +1806,24 @@ namespace Yupi.Messages.Handlers
 
                         return;
                     }
-                double doorZ = 0.0;
+                }
+
                 char charDoor = lines[doorY][doorX];
+
+                double doorZ;
+
                 if (charDoor >= (char) 97 && charDoor <= 119) // a-w
-                {
                     doorZ = charDoor - 87;
-                }
                 else
-                {
                     double.TryParse(charDoor.ToString(), out doorZ);
-                }
+
                 using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    queryReactor.SetQuery(
-                        "REPLACE INTO rooms_models_customs (roomid,door_x,door_y,door_z,door_dir,heightmap,poolmap) VALUES ('" +
-                        room.RoomId + "', '" + doorX + "','" +
-                        doorY + "','" + doorZ.ToString(CultureInfo.InvariantCulture).Replace(',', '.') + "','" +
-                        doorOrientation + "',@newmodel,'')");
+                    queryReactor.SetQuery("REPLACE INTO rooms_models_customs (roomid,door_x,door_y,door_z,door_dir,heightmap,poolmap)" +
+                                          " VALUES ('" + room.RoomId + "', '" + doorX + "','" + doorY + "','" + 
+                                          doorZ.ToString(CultureInfo.InvariantCulture).Replace(',', '.') + "','" +
+                                          doorOrientation + "',@newmodel,'')");
+
                     queryReactor.AddParameter("newmodel", heightMap);
                     queryReactor.RunQuery();
 
@@ -1671,15 +1832,15 @@ namespace Yupi.Messages.Handlers
                     room.RoomData.FloorThickness = floorThickness;
                     room.RoomData.Model.DoorZ = doorZ;
 
-                    Yupi.GetGame()
-                        .GetAchievementManager()
-                        .ProgressUserAchievement(Session, "ACH_RoomDecoHoleFurniCount", 1);
+                    Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(Session, "ACH_RoomDecoHoleFurniCount", 1);
 
-                    queryReactor.RunFastQuery(
-                        $"UPDATE rooms_data SET model_name = 'custom', wallthick = '{wallThickness}', floorthick = '{floorThickness}', walls_height = '{wallHeight}' WHERE id = {room.RoomId};");
-                    RoomModel roomModel = new RoomModel(doorX, doorY, doorZ, doorOrientation, heightMap, "", false, "");
+                    queryReactor.RunFastQuery($"UPDATE rooms_data SET model_name = 'custom', wallthick = '{wallThickness}', floorthick = '{floorThickness}', walls_height = '{wallHeight}' WHERE id = {room.RoomId};");
+
+                    RoomModel roomModel = new RoomModel(doorX, doorY, doorZ, doorOrientation, heightMap, string.Empty, false, string.Empty);
                     Yupi.GetGame().GetRoomManager().UpdateCustomModel(room.RoomId, roomModel);
+
                     room.ResetGameMap("custom", wallHeight, wallThickness, floorThickness);
+
                     Yupi.GetGame().GetRoomManager().UnloadRoom(room, "Reload floor");
 
                     ServerMessage forwardToRoom = new ServerMessage(LibraryParser.OutgoingRequest("RoomForwardMessageComposer"));
@@ -1691,7 +1852,7 @@ namespace Yupi.Messages.Handlers
 
         internal void PlantMonsterplant(RoomItem mopla, Room room)
         {
-            int rarity = 0, internalRarity = 0;
+            int rarity = 0, internalRarity;
 
             if (room == null || mopla == null)
                 return;
@@ -1718,14 +1879,12 @@ namespace Yupi.Messages.Handlers
             SendResponse();
 
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery(string.Concat("UPDATE pets_data SET room_id = '", room.RoomId,
-                    "', x = '", getX, "', y = '", getY, "' WHERE id = '", pet.PetId, "'"));
+                queryReactor.RunFastQuery(string.Concat("UPDATE pets_data SET room_id = '", room.RoomId, "', x = '", getX, "', y = '", getY, "' WHERE id = '", pet.PetId, "'"));
 
             pet.PlacedInRoom = true;
             pet.RoomId = room.RoomId;
 
-            RoomBot bot = new RoomBot(pet.PetId, pet.OwnerId, pet.RoomId, AiType.Pet, "freeroam", pet.Name, "", pet.Look,
-                getX, getY, 0.0, 4, null, null, "", 0, "");
+            RoomBot bot = new RoomBot(pet.PetId, pet.OwnerId, pet.RoomId, AiType.Pet, "freeroam", pet.Name, "", pet.Look, getX, getY, 0.0, 4, null, null, "", 0, "");
 
             room.GetRoomUserManager().DeployBot(bot, pet);
 
@@ -1776,8 +1935,7 @@ namespace Yupi.Messages.Handlers
                 return;
 
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery(
-                    $"UPDATE pets_data SET room_id = {room.RoomId}, x = {x}, y = {y} WHERE id = {petId}");
+                queryReactor.RunFastQuery($"UPDATE pets_data SET room_id = {room.RoomId}, x = {x}, y = {y} WHERE id = {petId}");
 
             pet.PlacedInRoom = true;
             pet.RoomId = room.RoomId;
@@ -1801,13 +1959,18 @@ namespace Yupi.Messages.Handlers
         internal void UpdateEventInfo()
         {
             Request.GetInteger();
+
             string original = Request.GetString();
             string original2 = Request.GetString();
+
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
+
             if (room == null || !room.CheckRights(Session, true) || room.RoomData.Event == null)
                 return;
+
             room.RoomData.Event.Name = original;
             room.RoomData.Event.Description = original2;
+
             Yupi.GetGame().GetRoomEvents().UpdateEvent(room.RoomData.Event);
         }
 
@@ -1818,15 +1981,15 @@ namespace Yupi.Messages.Handlers
             int num3 = num2;
 
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
-            if (room == null)
-                return;
-            RoomUser bot = room.GetRoomUserManager().GetBot(botId);
+            RoomUser bot = room?.GetRoomUserManager().GetBot(botId);
+
             if (bot == null || !bot.IsBot)
                 return;
 
             if (num3 == 2)
             {
                 string text = bot.BotData.RandomSpeech == null ? string.Empty : string.Join("\n", bot.BotData.RandomSpeech);
+
                 text += ";#;";
                 text += bot.BotData.AutomaticChat ? "true" : "false";
                 text += ";#;";
@@ -1842,6 +2005,7 @@ namespace Yupi.Messages.Handlers
                 SendResponse();
                 return;
             }
+
             if (num3 != 5)
                 return;
 
@@ -1901,8 +2065,7 @@ namespace Yupi.Messages.Handlers
 
                         using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                         {
-                            queryReactor.SetQuery(
-                                "UPDATE bots_data SET automatic_chat = @autochat, speaking_interval = @interval, mix_phrases = @mix_phrases, speech = @speech WHERE id = @botid");
+                            queryReactor.SetQuery("UPDATE bots_data SET automatic_chat = @autochat, speaking_interval = @interval, mix_phrases = @mix_phrases, speech = @speech WHERE id = @botid");
 
                             queryReactor.AddParameter("autochat", speak ? "1" : "0");
                             queryReactor.AddParameter("interval", speechDelay);
@@ -1921,7 +2084,7 @@ namespace Yupi.Messages.Handlers
                     }
                     catch (Exception e)
                     {
-                        ServerLogManager.LogException(e.ToString());
+                        YupiLogManager.LogException(e, "Failed Manage Bot Actions. BAD.", "Yupi.Rooms");
                         return;
                     }
                 case 3:
@@ -1951,17 +2114,21 @@ namespace Yupi.Messages.Handlers
                 default:
                     goto IL_439;
             }
-            if (bot.BotData.DanceId > 0) bot.BotData.DanceId = 0;
+
+            if (bot.BotData.DanceId > 0)
+                bot.BotData.DanceId = 0;
             else
             {
                 Random random = new Random();
                 bot.DanceId = (uint) random.Next(1, 4);
                 bot.BotData.DanceId = bot.DanceId;
             }
+
             ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("DanceStatusMessageComposer"));
             serverMessage.AppendInteger(bot.VirtualId);
             serverMessage.AppendInteger(bot.BotData.DanceId);
             Session.GetHabbo().CurrentRoom.SendMessage(serverMessage);
+
             IL_439:
             if (!flag)
             {
@@ -1981,7 +2148,6 @@ namespace Yupi.Messages.Handlers
 
         internal void RoomOnLoad()
         {
-            // TODO!
             Response.Init(LibraryParser.OutgoingRequest("SendRoomCampaignFurnitureMessageComposer"));
             Response.AppendInteger(0);
             SendResponse();
@@ -1990,8 +2156,10 @@ namespace Yupi.Messages.Handlers
         internal void MuteAll()
         {
             Room currentRoom = Session.GetHabbo().CurrentRoom;
+
             if (currentRoom == null || !currentRoom.CheckRights(Session, true))
                 return;
+
             currentRoom.RoomMuted = !currentRoom.RoomMuted;
 
             Response.Init(LibraryParser.OutgoingRequest("RoomMuteStatusMessageComposer"));
@@ -2011,7 +2179,9 @@ namespace Yupi.Messages.Handlers
         {
             if (Session.GetHabbo() == null)
                 return;
+
             uint num = Request.GetUInteger();
+
             Session.GetHabbo().FavoriteRooms.Remove(num);
             Response.Init(LibraryParser.OutgoingRequest("FavouriteRoomsUpdateMessageComposer"));
             Response.AppendInteger(num);
@@ -2019,20 +2189,21 @@ namespace Yupi.Messages.Handlers
             SendResponse();
 
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery(string.Concat("DELETE FROM users_favorites WHERE user_id = ",
-                    Session.GetHabbo().Id, " AND room_id = ", num));
+                queryReactor.RunFastQuery(string.Concat("DELETE FROM users_favorites WHERE user_id = ", Session.GetHabbo().Id, " AND room_id = ", num));
         }
 
         internal void RoomUserAction()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
-            if (room == null)
-                return;
-            RoomUser roomUserByHabbo = room.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().Id);
+            RoomUser roomUserByHabbo = room?.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().Id);
+
             if (roomUserByHabbo == null)
                 return;
+
             roomUserByHabbo.UnIdle();
+
             int num = Request.GetInteger();
+
             roomUserByHabbo.DanceId = 0;
 
             ServerMessage action = new ServerMessage(LibraryParser.OutgoingRequest("RoomUserActionMessageComposer"));
@@ -2087,14 +2258,13 @@ namespace Yupi.Messages.Handlers
             }
             catch (Exception ex)
             {
-                ServerLogManager.LogException(ex, "Yupi.Messages.Handlers.Rooms.GetRoomData2");
+                YupiLogManager.LogException(ex, "Failed Broadcasting Room Data to Client.", "Yupi.Rooms");
             }
         }
 
         internal void GetRoomData3()
         {
-            if (Session.GetHabbo().LoadingRoom <= 0u || !Session.GetHabbo().LoadingChecksPassed ||
-                CurrentLoadingRoom == null || Session == null)
+            if (Session.GetHabbo().LoadingRoom <= 0u || !Session.GetHabbo().LoadingChecksPassed ||  CurrentLoadingRoom == null || Session == null)
                 return;
 
             if (CurrentLoadingRoom.RoomData.UsersNow + 1 > CurrentLoadingRoom.RoomData.UsersMax &&
@@ -2123,11 +2293,14 @@ namespace Yupi.Messages.Handlers
                         {
                             GroupMember current = enumerator.Current;
 
-                            if (Yupi.GetHabboById(current.Id) == null)
+                            if (current != null && Yupi.GetHabboById(current.Id) == null)
                                 continue;
 
-                            Response.AppendInteger(current.Id);
-                            Response.AppendString(Yupi.GetHabboById(current.Id).UserName);
+                            if (current != null)
+                            {
+                                Response.AppendInteger(current.Id);
+                                Response.AppendString(Yupi.GetHabboById(current.Id).UserName);
+                            }
                         }
 
                         goto IL_220;
@@ -2174,8 +2347,11 @@ namespace Yupi.Messages.Handlers
                         {
                             GroupMember current3 = enumerator3.Current;
 
-                            Response.AppendInteger(current3.Id);
-                            Response.AppendString(Yupi.GetHabboById(current3.Id).UserName);
+                            if (current3 != null)
+                            {
+                                Response.AppendInteger(current3.Id);
+                                Response.AppendString(Yupi.GetHabboById(current3.Id).UserName);
+                            }
                         }
 
                         goto IL_423;

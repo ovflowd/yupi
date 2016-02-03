@@ -1,6 +1,6 @@
 using System;
 using System.Globalization;
-using Yupi.Data;
+using Yupi.Core.Io.Logger;
 using Yupi.Game.Rooms.Chat.Enums;
 
 namespace Yupi.Game.Rooms
@@ -192,7 +192,7 @@ namespace Yupi.Game.Rooms
             }
             catch (Exception e)
             {
-                ServerLogManager.LogCriticalException(e.ToString());
+                YupiLogManager.LogCriticalException(e, "Registered Room Serialization Exception.");
             }
         }
     }
