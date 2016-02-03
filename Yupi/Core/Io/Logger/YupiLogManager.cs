@@ -31,7 +31,8 @@ namespace Yupi.Core.Io.Logger
         /// <param name="writerHeader"></param>
         public static void LogException(string exceptionText, string writerBody = "Registered Game Exception.", string writerHeader = "Yupi.Error")
         {
-            _yupiLogManager.Error(exceptionText);
+            lock (_yupiLogManager)
+                _yupiLogManager.Error(exceptionText);
 
             YupiWriterManager.WriteLine(writerBody, writerHeader, ConsoleColor.DarkRed);
         }
@@ -44,7 +45,8 @@ namespace Yupi.Core.Io.Logger
         /// <param name="writerHeader"></param>
         public static void LogException(Exception exceptionLog, string writerBody = "Registered Game Exception.", string writerHeader = "Yupi.Error")
         {
-            _yupiLogManager.Error(exceptionLog);
+            lock (_yupiLogManager)
+                _yupiLogManager.Error(exceptionLog);
 
             YupiWriterManager.WriteLine(writerBody, writerHeader, ConsoleColor.DarkRed);
         }
@@ -57,7 +59,8 @@ namespace Yupi.Core.Io.Logger
         /// <param name="writerHeader"></param>
         public static void LogCriticalException(string exceptionText, string writerBody = "Registered Game Critical Exception.", string writerHeader = "Yupi.Error")
         {
-            _yupiLogManager.Fatal(exceptionText);
+            lock (_yupiLogManager)
+                _yupiLogManager.Fatal(exceptionText);
 
             YupiWriterManager.WriteLine(writerBody, writerHeader, ConsoleColor.Red);
         }
@@ -70,7 +73,8 @@ namespace Yupi.Core.Io.Logger
         /// <param name="writerHeader"></param>
         public static void LogCriticalException(Exception exceptionLog, string writerBody = "Registered Game Critical Exception.", string writerHeader = "Yupi.Error")
         {
-            _yupiLogManager.Fatal(exceptionLog);
+            lock (_yupiLogManager)
+                _yupiLogManager.Fatal(exceptionLog);
 
             YupiWriterManager.WriteLine(writerBody, writerHeader, ConsoleColor.Red);
         }
@@ -82,7 +86,8 @@ namespace Yupi.Core.Io.Logger
         /// <param name="writerHeader"></param>
         public static void LogMessage(string logText, string writerHeader = "Yupi.Infos")
         {
-            _yupiLogManager.Info(logText);
+            lock (_yupiLogManager)
+                _yupiLogManager.Info(logText);
 
             YupiWriterManager.WriteLine(logText, writerHeader, ConsoleColor.DarkGreen);
         }

@@ -6,9 +6,13 @@ using log4net.Core;
 
 namespace Yupi.Core.Io.Logger.Appenders
 {
-    public class AsynchronousFileAppender : RollingFileAppender
+    ///
+    /// Asynchronous file appender based on the article by Venu Gopal, but modified by Mario Di Vece
+    /// Original article: http://technico.qnownow.com/asynchronous-logging-to-a-file-using-log4net-c/
+    ///
+    public class AsynchronousFileAppender : FileAppender
     {
-        private readonly Queue<LoggingEvent> _pendingTasks;
+        private Queue<LoggingEvent> _pendingTasks;
         private readonly object _lockObject = new object();
         private readonly ManualResetEvent _manualResetEvent;
         private bool _onClosing;
@@ -50,12 +54,12 @@ namespace Yupi.Core.Io.Logger.Appenders
 
         private void LogMessages()
         {
+            LoggingEvent loggingEvent;
+
             //we keep on processing tasks until shutdown on repository is called
             while (!_onClosing)
             {
                 //fetch the next item from the pending queue
-                LoggingEvent loggingEvent;
-
                 while (!DeQueue(out loggingEvent))
                 {
                     //if they are no pending tasks sleep 10 seconds and try again
@@ -68,9 +72,7 @@ namespace Yupi.Core.Io.Logger.Appenders
 
                 //write the last event fetched from the queue to the log
                 if (loggingEvent != null)
-                {
                     base.Append(loggingEvent);
-                }
             }
 
             //we are done with our logging, sent the signal to the parent thread
@@ -97,6 +99,7 @@ namespace Yupi.Core.Io.Logger.Appenders
                 if (_pendingTasks.Count > 0)
                 {
                     loggingEvent = _pendingTasks.Dequeue();
+
                     return true;
                 }
 
@@ -122,5 +125,4 @@ namespace Yupi.Core.Io.Logger.Appenders
             base.OnClose();
         }
     }
-
 }
