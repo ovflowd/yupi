@@ -1175,7 +1175,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
                 }
                 catch (Exception ex)
                 {
-                    YupiLogManager.LogException(ex, "Registered Game Thread Exception.", "Yupi.Items");
+                    YupiLogManager.LogException(ex, "Registered HabboHotel Thread Exception.", "Yupi.Items");
 
                     GotRollers = false;
                 }

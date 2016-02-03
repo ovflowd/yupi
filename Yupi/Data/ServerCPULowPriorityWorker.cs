@@ -76,7 +76,7 @@ namespace Yupi.Data
 
                     int loadedRoomsCount = Yupi.GetGame().GetRoomManager().LoadedRoomsCount;
 
-                    DateTime dateTime = new DateTime((DateTime.Now - Yupi.ServerStarted).Ticks);
+                    DateTime dateTime = new DateTime((DateTime.Now - Yupi.YupiServerStartDateTime).Ticks);
 
                     Console.Title = string.Concat("Yupi | Time: ", int.Parse(dateTime.ToString("dd")) - 1, "d:",
                         dateTime.ToString("HH"), "h:", dateTime.ToString("mm"), "m | Conn: ", clientCount, " | Users: ",

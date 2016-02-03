@@ -189,6 +189,7 @@
     <Compile Include="Core\Algorithms\Astar\Interfaces\IPathNode.cs" />
     <Compile Include="Core\Algorithms\Astar\Interfaces\IWeightAddable.cs" />
     <Compile Include="Core\Algorithms\Astar\PriorityQueue.cs" />
+    <Compile Include="Core\Io\Logger\Appenders\YupiMySqlAppender.cs" />
     <Compile Include="Core\Io\Logger\Appenders\AsynchronousFileAppender.cs" />
     <Compile Include="Core\Io\Logger\YupiLogManager.cs" />
     <Compile Include="Data\Base\Adapters\Enums\RunType.cs" />
@@ -585,7 +586,7 @@
     <Compile Include="Game\Catalogs\Wrappers\GiftWrapper.cs" />
     <Compile Include="Game\Events\Interfaces\EventCategory.cs" />
     <Compile Include="Game\Events\EventManager.cs" />
-    <Compile Include="Game\Game.cs" />
+    <Compile Include="Game\HabboHotel.cs" />
     <Compile Include="Game\GameClients\Interfaces\GameClient.cs" />
     <Compile Include="Game\GameClients\GameClientManager.cs" />
     <Compile Include="Game\Groups\Structs\GroupBackGroundColours.cs" />
@@ -696,9 +697,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\app.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
   </ItemGroup>

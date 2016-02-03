@@ -29,6 +29,7 @@ using Yupi.Game.Users.Messenger.Structs;
 using Yupi.Messages.Factorys;
 using Yupi.Messages.Parsers;
 using Yupi.Net.Connection;
+using Yupi.Game;
 
 namespace Yupi
 {
@@ -38,34 +39,43 @@ namespace Yupi
     public static class Yupi
     {
         /// <summary>
-        ///     Yupi Environment: Main Thread of Yupi Emulator, SetUp's the Emulator
-        ///     Contains Load: Responsible of the Emulator Loadings
+        ///     Server Language
         /// </summary>
         internal static string ServerLanguage = "english";
 
         /// <summary>
         ///     The build of the server
         /// </summary>
-        internal static readonly string Build = "200", Version = "1.0";
+        internal static readonly string ServerBuild = "200";
+
+        internal static readonly string ServerVersion = "1.0";
 
         /// <summary>
         ///     The live currency type
         /// </summary>
-        internal static int LiveCurrencyType = 105, ConsoleTimer = 2000;
+        internal static int LiveCurrencyType = 105;
+
+        internal static int ConsoleCleanTimeInterval = 2000;
 
         /// <summary>
         ///     The is live
         /// </summary>
-        internal static bool IsLive,
-            SeparatedTasksInGameClientManager,
-            SeparatedTasksInMainLoops,
-            PacketDebugMode,
-            ConsoleTimerOn;
+        internal static bool IsLive;
+
+        internal static bool SeparatedTasksInGameClientManager;
+
+        internal static bool SeparatedTasksInMainLoops;
+
+        internal static bool PacketDebugMode;
+
+        internal static bool ConsoleTimerOn;
 
         /// <summary>
         ///     The staff alert minimum rank
         /// </summary>
-        internal static uint StaffAlertMinRank = 4, FriendRequestLimit = 1000;
+        internal static uint StaffAlertMinRank = 4;
+
+        internal static uint FriendRequestLimit = 1000;
 
         /// <summary>
         ///     Bobba Filter Muted Users by Filter
@@ -75,17 +85,17 @@ namespace Yupi
         /// <summary>
         ///     The manager
         /// </summary>
-        internal static DatabaseManager Manager;
+        internal static DatabaseManager YupiDatabaseManager;
 
         /// <summary>
         ///     The configuration data
         /// </summary>
-        internal static ServerDatabaseSettings ConfigData;
+        internal static ServerDatabaseSettings DatabaseSettings;
 
         /// <summary>
         ///     The server started
         /// </summary>
-        internal static DateTime ServerStarted;
+        internal static DateTime YupiServerStartDateTime;
 
         /// <summary>
         ///     The offline messages
@@ -95,7 +105,7 @@ namespace Yupi
         /// <summary>
         ///     The timer
         /// </summary>
-        internal static Timer Timer;
+        internal static Timer ConsoleRefreshTimer;
 
         /// <summary>
         ///     The culture information
@@ -105,32 +115,32 @@ namespace Yupi
         /// <summary>
         ///     The _plugins
         /// </summary>
-        public static Dictionary<string, IPlugin> Plugins;
+        internal static Dictionary<string, IPlugin> Plugins;
 
         /// <summary>
         ///     The users cached
         /// </summary>
-        public static readonly ConcurrentDictionary<uint, Habbo> UsersCached = new ConcurrentDictionary<uint, Habbo>();
+        internal static readonly ConcurrentDictionary<uint, Habbo> UsersCached = new ConcurrentDictionary<uint, Habbo>();
 
         /// <summary>
         ///     The _connection manager
         /// </summary>
-        private static ConnectionHandler _connectionManager;
+        internal static ConnectionHandler YupiUserConnectionManager;
 
         /// <summary>
         ///     The _default encoding
         /// </summary>
-        private static Encoding _defaultEncoding;
+        internal static Encoding YupiServerTextEncoding;
 
         /// <summary>
-        ///     The _game
+        ///     The GameServer
         /// </summary>
-        private static Game.Game _game;
+        internal static HabboHotel GameServer;
 
         /// <summary>
-        ///     The _languages
+        ///     The ServerLanguageVariables
         /// </summary>
-        private static ServerLanguageSettings _languages;
+        internal static ServerLanguageSettings ServerLanguageVariables;
 
         /// <summary>
         ///     The allowed special chars
@@ -242,17 +252,17 @@ namespace Yupi
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="ElapsedEventArgs" /> instance containing the event data.</param>
-        internal static void TimerElapsed(object sender, ElapsedEventArgs e)
+        internal static void ConsoleRefreshTimerElapsed(object sender, ElapsedEventArgs e)
         {
             Console.Clear();
             Console.WriteLine();
 
-            YupiWriterManager.WriteLine($"Console Cleared in: {DateTime.Now} Next Time on: {ConsoleTimer} Seconds ", "Yupi.Boot", ConsoleColor.DarkGreen);
+            YupiWriterManager.WriteLine($"Console Cleared in: {DateTime.Now} Next Time on: {ConsoleCleanTimeInterval} Seconds ", "Yupi.Boot", ConsoleColor.DarkGreen);
 
             Console.WriteLine();
             GC.Collect();
 
-            Timer.Start();
+            ConsoleRefreshTimer.Start();
         }
 
         /// <summary>
@@ -262,8 +272,8 @@ namespace Yupi
         {
             Console.Title = "Yupi Emulator | Starting [...]";
 
-            ServerStarted = DateTime.Now;
-            _defaultEncoding = Encoding.Default;
+            YupiServerStartDateTime = DateTime.Now;
+            YupiServerTextEncoding = Encoding.Default;
             MutedUsersByFilter = new Dictionary<uint, uint>();
 
             ChatEmotions.Initialize();
@@ -298,18 +308,20 @@ namespace Yupi
                     ConnectionTimeout = 10
                 };
 
-                Manager = new DatabaseManager(mySqlConnectionStringBuilder);
+                YupiDatabaseManager = new DatabaseManager(mySqlConnectionStringBuilder);
 
                 using (IQueryAdapter queryReactor = GetDatabaseManager().GetQueryReactor())
                 {
-                    ConfigData = new ServerDatabaseSettings(queryReactor);
+                    DatabaseSettings = new ServerDatabaseSettings(queryReactor);
                     PetCommandHandler.Init(queryReactor);
                     PetLocale.Init(queryReactor);
                     OfflineMessages = new Dictionary<uint, List<OfflineMessage>>();
                     OfflineMessage.InitOfflineMessages(queryReactor);
                 }
 
-                ConsoleTimer = int.Parse(ServerConfigurationSettings.Data["console.clear.time"]);
+                YupiLogManager.Init(MethodBase.GetCurrentMethod().DeclaringType);
+
+                ConsoleCleanTimeInterval = int.Parse(ServerConfigurationSettings.Data["console.clear.time"]);
                 ConsoleTimerOn = bool.Parse(ServerConfigurationSettings.Data["console.clear.enabled"]);
                 FriendRequestLimit = (uint) int.Parse(ServerConfigurationSettings.Data["client.maxrequests"]);
 
@@ -335,8 +347,7 @@ namespace Yupi
                     {
                         Plugins.Add(item.PluginName, item);
 
-                        YupiWriterManager.WriteLine("Loaded Plugin: " + item.PluginName + " Version: " + item.PluginVersion,
-                            "Yupi.Plugins", ConsoleColor.DarkBlue);
+                        YupiWriterManager.WriteLine("Loaded Plugin: " + item.PluginName + " ServerVersion: " + item.PluginVersion, "Yupi.Plugins", ConsoleColor.DarkBlue);
                     }
                 }
 
@@ -344,43 +355,43 @@ namespace Yupi
                 FurnitureDataManager.SetCache();
                 CrossDomainSettings.Set();
 
-                _game = new Game.Game(int.Parse(ServerConfigurationSettings.Data["game.tcp.conlimit"]));
+                GameServer = new HabboHotel(int.Parse(ServerConfigurationSettings.Data["game.tcp.conlimit"]));
 
-                _game.GetNavigator().LoadNewPublicRooms();
-                _game.ContinueLoading();
+                GameServer.ContinueLoading();
 
                 FurnitureDataManager.Clear();
 
                 if (ServerConfigurationSettings.Data.ContainsKey("server.lang"))
                     ServerLanguage = ServerConfigurationSettings.Data["server.lang"];
 
-                _languages = new ServerLanguageSettings(ServerLanguage);
+                ServerLanguageVariables = new ServerLanguageSettings(ServerLanguage);
 
-                YupiWriterManager.WriteLine("Loaded " + _languages.Count() + " Languages Vars", "Yupi.Boot");
+                YupiWriterManager.WriteLine("Loaded " + ServerLanguageVariables.Count() + " Languages Vars", "Yupi.Boot");
 
                 if (plugins != null)
-                    foreach (IPlugin itemTwo in plugins)
-                        itemTwo?.message_void();
+                {
+                    foreach (IPlugin plugin in plugins)
+                        plugin?.message_void();
+                }
 
                 if (ConsoleTimerOn)
-                    YupiWriterManager.WriteLine("Console Clear Timer is Enabled, with " + ConsoleTimer + " Seconds.", "Yupi.Boot");
+                    YupiWriterManager.WriteLine("Console Clear ConsoleRefreshTimer is Enabled, with " + ConsoleCleanTimeInterval + " Seconds.", "Yupi.Boot");
 
                 ClientMessageFactory.Init();
 
-                _connectionManager = new ConnectionHandler(int.Parse(ServerConfigurationSettings.Data["game.tcp.port"]),
+                YupiUserConnectionManager = new ConnectionHandler(int.Parse(ServerConfigurationSettings.Data["game.tcp.port"]),
                     int.Parse(ServerConfigurationSettings.Data["game.tcp.conlimit"]),
                     int.Parse(ServerConfigurationSettings.Data["game.tcp.conperip"]),
                     ServerConfigurationSettings.Data["game.tcp.antiddos"].ToLower() == "true",
                     ServerConfigurationSettings.Data["game.tcp.enablenagles"].ToLower() == "true");
                     
                 YupiWriterManager.WriteLine("Server Started at Port "
-                    + ServerConfigurationSettings.Data["game.tcp.port"].ToString() + " and Address "
-                    + ServerConfigurationSettings.Data["game.tcp.bindip"].ToString(), "Yupi.Boot");
+                    + ServerConfigurationSettings.Data["game.tcp.port"] + " and Address "
+                    + ServerConfigurationSettings.Data["game.tcp.bindip"], "Yupi.Boot");
 
                 if (LibraryParser.Config["Crypto.Enabled"] == "true")
                 {
-                    Handler.Initialize(LibraryParser.Config["Crypto.RSA.N"], LibraryParser.Config["Crypto.RSA.D"],
-                        LibraryParser.Config["Crypto.RSA.E"]);
+                    Handler.Initialize(LibraryParser.Config["Crypto.RSA.N"], LibraryParser.Config["Crypto.RSA.D"], LibraryParser.Config["Crypto.RSA.E"]);
 
                     YupiWriterManager.WriteLine("Started RSA crypto service", "Yupi.Crypto");
                 }
@@ -391,9 +402,9 @@ namespace Yupi
 
                 if (ConsoleTimerOn)
                 {
-                    Timer = new Timer {Interval = ConsoleTimer};
-                    Timer.Elapsed += TimerElapsed;
-                    Timer.Start();
+                    ConsoleRefreshTimer = new Timer {Interval = ConsoleCleanTimeInterval};
+                    ConsoleRefreshTimer.Elapsed += ConsoleRefreshTimerElapsed;
+                    ConsoleRefreshTimer.Start();
                 }
 
                 if (ServerConfigurationSettings.Data.ContainsKey("game.multithread.enabled"))
@@ -427,8 +438,6 @@ namespace Yupi
 
                     Console.ReadKey();
                 }
-
-                YupiLogManager.Stop();
 
                 Environment.Exit(1);
             }
@@ -587,32 +596,32 @@ namespace Yupi
         /// <summary>
         ///     Get the Database Configuration Data
         /// </summary>
-        /// <returns>ConfigData.</returns>
-        internal static ServerDatabaseSettings GetDbConfig() => ConfigData;
+        /// <returns>DatabaseSettings.</returns>
+        internal static ServerDatabaseSettings GetDbConfig() => DatabaseSettings;
 
         /// <summary>
         ///     Get's the Default Emulator Encoding
         /// </summary>
         /// <returns>Encoding.</returns>
-        internal static Encoding GetDefaultEncoding() => _defaultEncoding;
+        internal static Encoding GetDefaultEncoding() => YupiServerTextEncoding;
 
         /// <summary>
-        ///     Get's the Game Connection Manager Handler
+        ///     Get's the HabboHotel Connection YupiDatabaseManager Handler
         /// </summary>
         /// <returns>ConnectionHandling.</returns>
-        internal static ConnectionHandler GetConnectionManager() => _connectionManager;
+        internal static ConnectionHandler GetConnectionManager() => YupiUserConnectionManager;
 
         /// <summary>
-        ///     Get's the Game Environment Handler
+        ///     Get's the HabboHotel Environment Handler
         /// </summary>
-        /// <returns>Game.</returns>
-        internal static Game.Game GetGame() => _game;
+        /// <returns>HabboHotel.</returns>
+        internal static Game.HabboHotel GetGame() => GameServer;
 
         /// <summary>
         ///     Gets the language.
         /// </summary>
         /// <returns>Languages.</returns>
-        internal static ServerLanguageSettings GetLanguage() => _languages;
+        internal static ServerLanguageSettings GetLanguage() => ServerLanguageVariables;
 
         /// <summary>
         ///     Filter's SQL Injection Characters
@@ -630,10 +639,10 @@ namespace Yupi
         }
 
         /// <summary>
-        ///     Get's the Database Manager Handler
+        ///     Get's the Database YupiDatabaseManager Handler
         /// </summary>
         /// <returns>ConnectionManager.</returns>
-        internal static DatabaseManager GetDatabaseManager() => Manager;
+        internal static DatabaseManager GetDatabaseManager() => YupiDatabaseManager;
 
         /// <summary>
         ///     Perform's the Emulator Shutdown
@@ -670,7 +679,7 @@ namespace Yupi
             foreach (Group group in GetGame().GetGroupManager().Groups.Values)
                 group.UpdateForum();
 
-            using (IQueryAdapter queryReactor = Manager.GetQueryReactor())
+            using (IQueryAdapter queryReactor = YupiDatabaseManager.GetQueryReactor())
             {
                 queryReactor.RunFastQuery("UPDATE users SET online = '0'");
                 queryReactor.RunFastQuery("UPDATE rooms_data SET users_now = 0");
@@ -681,15 +690,13 @@ namespace Yupi
 
             GetGame().Destroy();
 
-            YupiWriterManager.WriteLine("Game Manager destroyed", "Yupi.Game", ConsoleColor.DarkYellow);
+            YupiWriterManager.WriteLine(" destroyed", "Yupi.Game", ConsoleColor.DarkYellow);
 
             TimeSpan span = DateTime.Now - now;
 
             YupiWriterManager.WriteLine("Elapsed " + TimeSpanToString(span) + "ms on Shutdown Proccess", "Yupi.Life", ConsoleColor.DarkYellow);
 
             IsLive = false;
-
-            YupiLogManager.Stop();
 
             if (restart)
                 Process.Start(Assembly.GetEntryAssembly().Location);

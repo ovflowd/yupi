@@ -430,7 +430,7 @@ namespace Yupi.Game.Rooms
             }
             catch (Exception ex)
             {
-                YupiLogManager.LogException(ex, "Registered Room Manager Crashing.");
+                YupiLogManager.LogException(ex, "Registered Room YupiDatabaseManager Crashing.");
             }
         }
 

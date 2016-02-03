@@ -13288,6 +13288,19 @@ CREATE TABLE `wordfilter` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Estrutura da tabela `server_system_logs`
+--
+
+CREATE TABLE `server_system_logs` (
+  `date` varchar(255) NOT NULL DEFAULT '',
+  `thread` varchar(255) NOT NULL DEFAULT '',
+  `level` varchar(255) NOT NULL DEFAULT '',
+  `logger` varchar(255) NOT NULL DEFAULT '',
+  `message` text NOT NULL,
+  `exception` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
 -- Indexes for dumped tables
 --
 

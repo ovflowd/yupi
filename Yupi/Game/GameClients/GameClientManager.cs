@@ -237,7 +237,7 @@ namespace Yupi.Game.GameClients
             }
             catch (Exception ex)
             {
-                YupiLogManager.LogException(ex, "Registered Game Thread Exception.");
+                YupiLogManager.LogException(ex, "Registered HabboHotel Thread Exception.");
             }
         }
 
@@ -400,7 +400,7 @@ namespace Yupi.Game.GameClients
 
             try
             {
-                YupiWriterManager.WriteLine("Closing Connection Manager...", "Yupi.Boot", ConsoleColor.DarkMagenta);
+                YupiWriterManager.WriteLine("Closing Connection YupiDatabaseManager...", "Yupi.Boot", ConsoleColor.DarkMagenta);
 
                 foreach (GameClient current3 in Clients.Values.Where(current3 => current3.GetConnection() != null))
                 {
@@ -408,12 +408,12 @@ namespace Yupi.Game.GameClients
 
                     Console.ForegroundColor = ConsoleColor.DarkMagenta;
 
-                    YupiWriterManager.WriteLine("Connection Manager Closed!", "Yupi.Boot", ConsoleColor.DarkMagenta);
+                    YupiWriterManager.WriteLine("Connection YupiDatabaseManager Closed!", "Yupi.Boot", ConsoleColor.DarkMagenta);
                 }
             }
             catch (Exception ex)
             {
-                YupiLogManager.LogCriticalException(ex, "Failed Closing Connection Manager.");
+                YupiLogManager.LogCriticalException(ex, "Failed Closing Connection YupiDatabaseManager.");
             }
 
             Clients.Clear();
@@ -499,7 +499,7 @@ namespace Yupi.Game.GameClients
             }
             catch (Exception ex)
             {
-                YupiLogManager.LogException(ex, "Registered Game Thread Exception.");
+                YupiLogManager.LogException(ex, "Registered HabboHotel Thread Exception.");
             }
         }
 
@@ -528,7 +528,7 @@ namespace Yupi.Game.GameClients
             }
             catch (Exception ex)
             {
-                YupiLogManager.LogException(ex, "Registered Game Thread Exception.");
+                YupiLogManager.LogException(ex, "Registered HabboHotel Thread Exception.");
             }
         }
     }

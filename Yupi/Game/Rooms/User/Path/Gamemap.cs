@@ -345,7 +345,7 @@ namespace Yupi.Game.Rooms.User.Path
         internal string GenerateMapDump()
         {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.AppendLine("Game map:");
+            stringBuilder.AppendLine("HabboHotel map:");
             for (int i = 0; i < Model.MapSizeY; i++)
             {
                 StringBuilder stringBuilder2 = new StringBuilder();

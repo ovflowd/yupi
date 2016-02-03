@@ -1377,7 +1377,7 @@ namespace Yupi.Game.Rooms.User
             {
                 roomUsers.CarryTimer--;
 
-                // If The Carry Timer is 0.. Remove CarryItem.
+                // If The Carry ConsoleRefreshTimer is 0.. Remove CarryItem.
                 if (roomUsers.CarryTimer <= 0)
                     roomUsers.CarryItem(0);
             }
@@ -1768,7 +1768,7 @@ namespace Yupi.Game.Rooms.User
             }
             catch (Exception ex)
             {
-                YupiLogManager.LogCriticalException(ex, "Registered Room User Manager Exception.", "Yupi.Users");
+                YupiLogManager.LogCriticalException(ex, "Registered Room User YupiDatabaseManager Exception.", "Yupi.Users");
             }
         }
 
@@ -1823,7 +1823,7 @@ namespace Yupi.Game.Rooms.User
             }
             catch (Exception ex)
             {
-                YupiLogManager.LogCriticalException(ex, "Registered Room User Manager Exception", "Yupi.Users");
+                YupiLogManager.LogCriticalException(ex, "Registered Room User YupiDatabaseManager Exception", "Yupi.Users");
             }
         }
 

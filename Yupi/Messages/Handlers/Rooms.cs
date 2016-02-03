@@ -252,7 +252,7 @@ namespace Yupi.Messages.Handlers
                 }
                 catch (Exception e)
                 {
-                    YupiLogManager.LogException(e, "Registered Room Manager Exception.");
+                    YupiLogManager.LogException(e, "Registered Room YupiDatabaseManager Exception.");
                     Response.Clear();
                 }
             }

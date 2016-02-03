@@ -43,8 +43,8 @@ namespace Yupi.Core.Settings
         /// <summary>
         ///     Gets the game.
         /// </summary>
-        /// <returns>Game.</returns>
-        internal static Game.Game GetGame() => Yupi.GetGame();
+        /// <returns>HabboHotel.</returns>
+        internal static Game.HabboHotel GetGame() => Yupi.GetGame();
 
         /// <summary>
         ///     Invokes the command.
@@ -158,7 +158,7 @@ namespace Yupi.Core.Settings
                         break;
 
                     case "status":
-                        TimeSpan uptime = DateTime.Now - Yupi.ServerStarted;
+                        TimeSpan uptime = DateTime.Now - Yupi.YupiServerStartDateTime;
 
                         Console.WriteLine("Server status:");
                         Console.WriteLine();

@@ -24,7 +24,7 @@ namespace Yupi.Game.Commands.Controllers
         public override bool Execute(GameClient session, string[] pms)
         {
             using (IQueryAdapter adapter = Yupi.GetDatabaseManager().GetQueryReactor())
-                Yupi.ConfigData = new ServerDatabaseSettings(adapter);
+                Yupi.DatabaseSettings = new ServerDatabaseSettings(adapter);
             session.SendNotif(Yupi.GetLanguage().GetVar("command_refresh_settings"));
             return true;
         }

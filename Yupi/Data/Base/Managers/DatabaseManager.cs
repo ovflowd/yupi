@@ -44,6 +44,8 @@ namespace Yupi.Data.Base.Managers
             _databaseClients = new List<DatabaseClient>((int) _serverDetails.MaximumPoolSize);
         }
 
+        public MySqlConnectionStringBuilder GetConnectionStringBuilder() => _serverDetails;
+
         private void SetServerDetails(MySqlConnectionStringBuilder serverDetails) => _serverDetails = serverDetails;
 
         private DatabaseClient AddConnection(bool needReturn = false)

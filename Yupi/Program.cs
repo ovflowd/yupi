@@ -27,11 +27,9 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
 using Yupi.Core.Settings;
-using Yupi.Core.Io.Logger;
 
 namespace Yupi
-{
-    
+{   
     internal class Program
     {
         internal const uint ScClose = 0xF060;
@@ -44,9 +42,6 @@ namespace Yupi
         [STAThread]
         public static void Main(string[] args)
         {
-
-            YupiLogManager.Init(MethodBase.GetCurrentMethod().DeclaringType);
-
             StartEverything();
 
             while (Yupi.IsLive)
@@ -83,7 +78,7 @@ namespace Yupi
             Console.WriteLine(@"     " + @"    d8'                 88               ");
             Console.WriteLine(@"     " + @"   d8'                  88               ");
             Console.WriteLine();
-            Console.WriteLine(@"     " + @"  BUILD " + Yupi.Version + "." + Yupi.Build + " RELEASE 63B CRYPTO BOTH SIDE");
+            Console.WriteLine(@"     " + @"  BUILD " + Yupi.ServerVersion + "." + Yupi.ServerBuild + " RELEASE 63B CRYPTO BOTH SIDE");
             Console.WriteLine(@"     " + @"  .NET Framework " + Environment.Version + "     C# 6 Roslyn");
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.White;

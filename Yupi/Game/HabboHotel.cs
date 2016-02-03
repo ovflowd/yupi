@@ -31,9 +31,9 @@ using Yupi.Messages.Enums;
 namespace Yupi.Game
 {
     /// <summary>
-    ///     Class Game.
+    ///     Class HabboHotel.
     /// </summary>
-    internal class Game
+    internal class HabboHotel
     {
         /// <summary>
         ///     The game loop enabled
@@ -155,10 +155,10 @@ namespace Yupi.Game
         internal bool ClientManagerCycleEnded, RoomManagerCycleEnded;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="Game" /> class.
+        ///     Initializes a new instance of the <see cref="HabboHotel" /> class.
         /// </summary>
         /// <param name="conns">The conns.</param>
-        internal Game(int conns)
+        internal HabboHotel(int conns)
         {
             YupiWriterManager.WriteLine(@"Starting up Yupi Emulator for " + Environment.MachineName + "...", @"Yupi.Boot");
 
@@ -443,6 +443,8 @@ namespace Yupi.Game
         {
             int catalogPageLoaded;
 
+            GetNavigator().LoadNewPublicRooms();
+
             PetTypeManager.Load();
 
             GetCatalogManager().Init(out catalogPageLoaded);
@@ -495,7 +497,7 @@ namespace Yupi.Game
 
             GetClientManager();
 
-            YupiWriterManager.WriteLine("Database Manager destroyed", "Yupi.Game", ConsoleColor.DarkYellow);
+            YupiWriterManager.WriteLine("Database YupiDatabaseManager destroyed", "Yupi.Game", ConsoleColor.DarkYellow);
         }
 
         /// <summary>
@@ -528,7 +530,7 @@ namespace Yupi.Game
                 }
                 catch (Exception ex)
                 {
-                    YupiLogManager.LogCriticalException(ex, "Registered Game Loop Exception.", "Yupi.Users");
+                    YupiLogManager.LogCriticalException(ex, "Registered HabboHotel Loop Exception.", "Yupi.Users");
                 }
 
                 Thread.Sleep(GameLoopSleepTimeExt);
