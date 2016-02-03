@@ -187,8 +187,7 @@ namespace Yupi
 
             List<IPlugin> plugins = new List<IPlugin>(pluginTypes.Count);
 
-            plugins.AddRange(
-                pluginTypes.Select(type => (IPlugin) Activator.CreateInstance(type)).Where(plugin => plugin != null));
+            plugins.AddRange(pluginTypes.Select(type => (IPlugin) Activator.CreateInstance(type)).Where(plugin => plugin != null));
 
             return plugins;
         }
@@ -248,8 +247,7 @@ namespace Yupi
             Console.Clear();
             Console.WriteLine();
 
-            YupiWriterManager.WriteLine($"Console Cleared in: {DateTime.Now} Next Time on: {ConsoleTimer} Seconds ", "Yupi.Boot",
-                ConsoleColor.DarkGreen);
+            YupiWriterManager.WriteLine($"Console Cleared in: {DateTime.Now} Next Time on: {ConsoleTimer} Seconds ", "Yupi.Boot", ConsoleColor.DarkGreen);
 
             Console.WriteLine();
             GC.Collect();
@@ -279,12 +277,10 @@ namespace Yupi
             try
             {
                 ServerConfigurationSettings.Load(Path.Combine(YupiVariablesDirectory, "Settings/main.ini"));
-                ServerConfigurationSettings.Load(Path.Combine(YupiVariablesDirectory, "Settings/Welcome/settings.ini"),
-                    true);
+                ServerConfigurationSettings.Load(Path.Combine(YupiVariablesDirectory, "Settings/Welcome/settings.ini"), true);
 
                 if (uint.Parse(ServerConfigurationSettings.Data["db.pool.maxsize"]) > MaxRecommendedMySqlConnections)
-                    YupiWriterManager.WriteLine("MySQL Max Conn is High!, Recommended Value: " + MaxRecommendedMySqlConnections,
-                        "Yupi.Data", ConsoleColor.DarkYellow);
+                    YupiWriterManager.WriteLine("MySQL Max Conn is High!, Recommended Value: " + MaxRecommendedMySqlConnections, "Yupi.Data", ConsoleColor.DarkYellow);
 
                 MySqlConnectionStringBuilder mySqlConnectionStringBuilder = new MySqlConnectionStringBuilder
                 {
@@ -298,8 +294,8 @@ namespace Yupi
                     Pooling = true,
                     AllowZeroDateTime = true,
                     ConvertZeroDateTime = true,
-                    DefaultCommandTimeout = 300u,
-                    ConnectionTimeout = 10u
+                    DefaultCommandTimeout = 300,
+                    ConnectionTimeout = 10
                 };
 
                 Manager = new DatabaseManager(mySqlConnectionStringBuilder);
@@ -321,12 +317,9 @@ namespace Yupi
                 LibraryParser.Library = new Dictionary<string, string>();
                 LibraryParser.Outgoing = new Dictionary<string, int>();
                 LibraryParser.Config = new Dictionary<string, string>();
-
-                if (ServerConfigurationSettings.Data.ContainsKey("client.build"))
-                    LibraryParser.ReleaseName = ServerConfigurationSettings.Data["client.build"];
-                else
-                    throw new Exception("Unable to Continue if No Release is configured to the Emulator Handle.");
-
+                
+                LibraryParser.ReleaseName = ServerConfigurationSettings.Data["client.build"];
+                
                 LibraryParser.RegisterLibrary();
                 LibraryParser.RegisterOutgoing();
                 LibraryParser.RegisterIncoming();
@@ -359,11 +352,11 @@ namespace Yupi
                 FurnitureDataManager.Clear();
 
                 if (ServerConfigurationSettings.Data.ContainsKey("server.lang"))
-                    ServerLanguage = Convert.ToString(ServerConfigurationSettings.Data["server.lang"]);
+                    ServerLanguage = ServerConfigurationSettings.Data["server.lang"];
 
                 _languages = new ServerLanguageSettings(ServerLanguage);
 
-                YupiWriterManager.WriteLine("Loaded " + _languages.Count() + " Languages Vars", "Yupi.Interpreters");
+                YupiWriterManager.WriteLine("Loaded " + _languages.Count() + " Languages Vars", "Yupi.Boot");
 
                 if (plugins != null)
                     foreach (IPlugin itemTwo in plugins)
@@ -374,15 +367,15 @@ namespace Yupi
 
                 ClientMessageFactory.Init();
 
-                YupiWriterManager.WriteLine(
-                    "Game server started at port " + int.Parse(ServerConfigurationSettings.Data["game.tcp.port"]),
-                    "Server.Game");
-
                 _connectionManager = new ConnectionHandler(int.Parse(ServerConfigurationSettings.Data["game.tcp.port"]),
                     int.Parse(ServerConfigurationSettings.Data["game.tcp.conlimit"]),
                     int.Parse(ServerConfigurationSettings.Data["game.tcp.conperip"]),
                     ServerConfigurationSettings.Data["game.tcp.antiddos"].ToLower() == "true",
                     ServerConfigurationSettings.Data["game.tcp.enablenagles"].ToLower() == "true");
+                    
+                YupiWriterManager.WriteLine("Server Started at Port "
+                    + ServerConfigurationSettings.Data["game.tcp.port"].ToString() + " and Address "
+                    + ServerConfigurationSettings.Data["game.tcp.bindip"].ToString(), "Yupi.Boot");
 
                 if (LibraryParser.Config["Crypto.Enabled"] == "true")
                 {
@@ -403,21 +396,16 @@ namespace Yupi
                     Timer.Start();
                 }
 
-                if (ServerConfigurationSettings.Data.ContainsKey("StaffAlert.MinLevel"))
-                    StaffAlertMinRank = uint.Parse(ServerConfigurationSettings.Data["StaffAlert.MinLevel"]);
-
                 if (ServerConfigurationSettings.Data.ContainsKey("game.multithread.enabled"))
                     SeparatedTasksInMainLoops = ServerConfigurationSettings.Data["game.multithread.enabled"] == "true";
 
                 if (ServerConfigurationSettings.Data.ContainsKey("client.multithread.enabled"))
-                    SeparatedTasksInGameClientManager =
-                        ServerConfigurationSettings.Data["client.multithread.enabled"] == "true";
+                    SeparatedTasksInGameClientManager = ServerConfigurationSettings.Data["client.multithread.enabled"] == "true";
 
                 if (ServerConfigurationSettings.Data.ContainsKey("debug.packet"))
-                    if (ServerConfigurationSettings.Data["debug.packet"] == "true")
-                        PacketDebugMode = true;
+                    PacketDebugMode = ServerConfigurationSettings.Data["debug.packet"] == "true";
 
-                YupiWriterManager.WriteLine("Yupi Emulator ready. Status: idle", "Yupi.Boot");
+                YupiWriterManager.WriteLine("Yupi Emulator ready.", "Yupi.Boot");
 
                 IsLive = true;
             }
@@ -510,8 +498,7 @@ namespace Yupi
         /// </summary>
         /// <param name="target">The target.</param>
         /// <returns>System.Int32.</returns>
-        internal static int DateTimeToUnix(DateTime target)
-            => Convert.ToInt32((target - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds);
+        internal static int DateTimeToUnix(DateTime target) => Convert.ToInt32((target - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds);
 
         /// <summary>
         ///     Get the Actual Time
@@ -593,6 +580,7 @@ namespace Yupi
         internal static bool IsNum(string theNum)
         {
             double num;
+            
             return double.TryParse(theNum, out num);
         }
 
@@ -650,18 +638,12 @@ namespace Yupi
         /// <summary>
         ///     Perform's the Emulator Shutdown
         /// </summary>
-        internal static void PerformShutDown()
-        {
-            PerformShutDown(false);
-        }
+        internal static void PerformShutDown() => PerformShutDown(false);
 
         /// <summary>
         ///     Performs the restart.
         /// </summary>
-        internal static void PerformRestart()
-        {
-            PerformShutDown(true);
-        }
+        internal static void PerformRestart() => PerformShutDown(true);
 
         /// <summary>
         ///     Shutdown the Emulator
