@@ -100,11 +100,13 @@ namespace Yupi.Game.GameClients.Interfaces
         /// <param name="settings">The settings.</param>
         internal void HandlePublicist(string word, string message, string method, BlackWordTypeSettings settings)
         {
-            if (GetHabbo() != null)
+            Habbo userPublicist = GetHabbo();
+
+            if (userPublicist != null)
             {
                 ServerMessage serverMessage;
 
-                if (GetHabbo().Rank < 5 && settings.MaxAdvices == PublicistCount++ && settings.AutoBan)
+                if (userPublicist.Rank < 5 && settings.MaxAdvices == PublicistCount++ && settings.AutoBan)
                 {
                     serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
                     serverMessage.AppendString("staffcloud");
@@ -112,44 +114,53 @@ namespace Yupi.Game.GameClients.Interfaces
                     serverMessage.AppendString("title");
                     serverMessage.AppendString("Staff Internal Alert");
                     serverMessage.AppendString("message");
-                    serverMessage.AppendString("O usuário " + GetHabbo().UserName + " Foi banido por enviar repetidamente palavras repetidas. A última palavra foi: " + word + ", na frase: " + message);
+                    serverMessage.AppendString("O usuário " + userPublicist.UserName + " Foi banido por enviar repetidamente palavras repetidas. A última palavra foi: " + word + ", na frase: " + message);
 
                     Yupi.GetGame().GetClientManager().StaffAlert(serverMessage);
 
-                    Yupi.GetGame().GetBanManager().BanUser(this, GetHabbo().UserName, 3600, "Você está passando muitos spams de outros hotéis. Por esta razão, sancioná-lo por 1 hora, de modo que você aprender a controlar-se.", true, true);
+                    Yupi.GetGame().GetBanManager().BanUser(this, userPublicist.UserName, 3600, "Você está passando muitos spams de outros hotéis. Por esta razão, sancioná-lo por 1 hora, de modo que você aprender a controlar-se.", true, true);
 
                     return;
                 }
 
-                string alert = settings.Alert.Replace("{0}", GetHabbo().UserName);
+                string alert = settings.Alert.Replace("{0}", userPublicist.UserName);
 
-                alert = alert.Replace("{1}", GetHabbo().Id.ToString());
+                alert = alert.Replace("{1}", userPublicist.Id.ToString());
                 alert = alert.Replace("{2}", word);
                 alert = alert.Replace("{3}", message);
                 alert = alert.Replace("{4}", method);
 
                 serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("UsersClassificationMessageComposer"));
                 serverMessage.AppendInteger(1);
-                serverMessage.AppendInteger(GetHabbo().Id);
-                serverMessage.AppendString(GetHabbo().UserName);
+                serverMessage.AppendInteger(userPublicist.Id);
+                serverMessage.AppendString(userPublicist.UserName);
                 serverMessage.AppendString("BadWord: " + word);
 
-                Yupi.GetGame().GetClientManager().StaffAlert(serverMessage);
+                Yupi.GetGame()?.GetClientManager()?.StaffAlert(serverMessage);
+
+                if (Yupi.GetGame().GetClientManager() == null)
+                    return;
 
                 foreach (GameClient client in Yupi.GetGame().GetClientManager().Clients.Values)
                 {
-                    if (client?.GetHabbo()?.Rank >= 5)
-                    {
-                        serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("WhisperMessageComposer"));
-                        serverMessage.AppendInteger(client.CurrentRoomUserId);
-                        serverMessage.AppendString(alert);
-                        serverMessage.AppendInteger(0);
-                        serverMessage.AppendInteger(34);
-                        serverMessage.AppendInteger(0);
-                        serverMessage.AppendInteger(true);
+                    if (client?.GetHabbo() == null)
+                        continue;
 
-                        client.SendMessage(serverMessage);
-                    }
+                    if (client.CurrentRoomUserId == 0)
+                        continue;
+
+                    if (client.GetHabbo().Rank < 5)
+                        continue;
+
+                    serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("WhisperMessageComposer"));
+                    serverMessage.AppendInteger(client.CurrentRoomUserId);
+                    serverMessage.AppendString(alert);
+                    serverMessage.AppendInteger(0);
+                    serverMessage.AppendInteger(34);
+                    serverMessage.AppendInteger(0);
+                    serverMessage.AppendInteger(true);
+
+                    client.SendMessage(serverMessage);
                 }
             }
         }

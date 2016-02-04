@@ -204,17 +204,13 @@ namespace Yupi.Game.Users.Messenger
         internal void CreateFriendship(uint friendId)
         {
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery(
-                    string.Concat("REPLACE INTO messenger_friendships (user_one_id,user_two_id) VALUES (", _userId, ",",
-                        friendId, ")"));
+                queryReactor.RunFastQuery(string.Concat("REPLACE INTO messenger_friendships (user_one_id,user_two_id) VALUES (", _userId, ",", friendId, ")"));
 
             OnNewFriendship(friendId);
 
             GameClient clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(friendId);
 
-            Yupi.GetGame()
-                .GetAchievementManager()
-                .ProgressUserAchievement(clientByUserId, "ACH_FriendListSize", 1, true);
+            Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(clientByUserId, "ACH_FriendListSize", 1, true);
 
             if (clientByUserId?.GetHabbo().GetMessenger() != null)
                 clientByUserId.GetHabbo().GetMessenger().OnNewFriendship(_userId);
@@ -228,36 +224,52 @@ namespace Yupi.Game.Users.Messenger
         {
             Habbo habbo = GetClient().GetHabbo();
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            Habbo habboFriend = Yupi.GetHabboById(friendId);
+
+            if (habbo != null && habboFriend != null)
             {
-                queryReactor.RunFastQuery(
-                    string.Concat("DELETE FROM messenger_friendships WHERE (user_one_id = ", _userId,
-                        " AND user_two_id = ", friendId, ") OR (user_two_id = ", _userId, " AND user_one_id = ",
-                        friendId, ")"));
+                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                {
+                    queryReactor.RunFastQuery(string.Concat("DELETE FROM messenger_friendships WHERE (user_one_id = ", habbo.Id, " AND user_two_id = ", habboFriend.Id, ")"));
 
-                queryReactor.RunFastQuery(string.Concat("SELECT id FROM users_relationships WHERE user_id=",
-                    habbo.Id, " AND target = ", friendId, " LIMIT 1"));
+                    queryReactor.RunFastQuery(string.Concat("SELECT id FROM users_relationships WHERE user_id = ", habbo.Id, " AND target = ", habboFriend.Id, " LIMIT 1"));
 
-                int id = queryReactor.GetInteger();
+                    object integerResultUser = queryReactor.GetInteger();
 
-                queryReactor.RunFastQuery(string.Concat("DELETE FROM users_relationships WHERE (user_id = ",
-                    habbo.Id, " AND target = ", friendId, ")"));
+                    int idUser;
 
-                if (id > 0)
-                    if (habbo.Relationships.ContainsKey(id))
-                        habbo.Relationships.Remove(id);
-            }
+                    int.TryParse(integerResultUser.ToString(), out idUser);
 
-            OnDestroyFriendship(friendId);
+                    if (idUser > 0 && habbo.Relationships.ContainsKey(idUser))
+                    {
+                        queryReactor.RunFastQuery(string.Concat("DELETE FROM users_relationships WHERE (user_id = ", habbo.Id, " AND target = ", habboFriend.Id, ")"));
 
-            GameClient clientRelationship = Yupi.GetGame().GetClientManager().GetClientByUserId(friendId);
+                        if (habbo.Relationships.ContainsKey(idUser))
+                            habbo.Relationships.Remove(idUser);
+                    }
 
-            if (clientRelationship?.GetHabbo().GetMessenger() != null)
-            {
-                clientRelationship.GetHabbo().GetMessenger().OnDestroyFriendship(_userId);
+                    queryReactor.RunFastQuery(string.Concat("DELETE FROM messenger_friendships WHERE (user_one_id = ", habboFriend.Id, " AND user_two_id = ", habbo.Id, ")"));
 
-                if (clientRelationship.GetHabbo().Relationships.ContainsKey((int) friendId))
-                    clientRelationship.GetHabbo().Relationships.Remove((int) friendId);
+                    queryReactor.RunFastQuery(string.Concat("SELECT id FROM users_relationships WHERE user_id = ", habboFriend.Id, " AND target = ", habbo.Id, " LIMIT 1"));
+
+                    object integerResultFriend = queryReactor.GetInteger();
+
+                    int idFriend;
+
+                    int.TryParse(integerResultFriend.ToString(), out idFriend);
+
+                    if (idFriend > 0 && habboFriend.Relationships.ContainsKey(idFriend))
+                    {
+                        queryReactor.RunFastQuery(string.Concat("DELETE FROM users_relationships WHERE (user_id = ", habboFriend.Id, " AND target = ", habbo.Id, ")"));
+
+                        if (habboFriend.Relationships.ContainsKey(idFriend))
+                            habboFriend.Relationships.Remove(idFriend);
+                    }
+                }
+
+                OnDestroyFriendship(habboFriend.Id);
+
+                habboFriend.GetMessenger().OnDestroyFriendship(habbo.Id);
             }
         }
 

@@ -46,30 +46,36 @@ namespace Yupi.Data.Base.Clients
 
         public void Disconnect()
         {
-            if (IsAvailable())
+            lock (ConnectionHandler.GetConnection())
             {
-                try
+                if (ConnectionHandler?.GetConnection()?.State == ConnectionState.Open)
                 {
-                    ConnectionHandler?.GetConnection()?.Close();
-                }
-                finally
-                {
-                    ConnectionHandler?.SetClosed();
+                    try
+                    {
+                        ConnectionHandler?.GetConnection()?.Close();
+                    }
+                    finally
+                    {
+                        ConnectionHandler?.SetClosed();
+                    }
                 }
             }
         }
 
         public void Connect()
         {
-            if (!IsAvailable())
+            lock (ConnectionHandler.GetConnection())
             {
-                try
+                if (ConnectionHandler?.GetConnection()?.State == ConnectionState.Closed)
                 {
-                    ConnectionHandler?.GetConnection()?.Open();
-                }
-                finally
-                {
-                    ConnectionHandler?.SetOpened();
+                    try
+                    {
+                        ConnectionHandler?.GetConnection()?.Open();
+                    }
+                    finally
+                    {
+                        ConnectionHandler?.SetOpened();
+                    }
                 }
             }
         }

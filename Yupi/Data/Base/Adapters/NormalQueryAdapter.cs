@@ -55,7 +55,12 @@ namespace Yupi.Data.Base.Adapters
 
             int result;
 
-            int.TryParse(BaseFetchCommand(FetchType.Integer).ToString(), out result);
+            object integerResult = BaseFetchCommand(FetchType.Integer);
+
+            if (integerResult == null)
+                return 0;
+
+            int.TryParse(integerResult.ToString(), out result);
 
             return result;
         }
@@ -67,7 +72,12 @@ namespace Yupi.Data.Base.Adapters
 
             DataRow dataRow = null;
 
-            DataSet dataSet = (DataSet)BaseFetchCommand(FetchType.Row);
+            object dataSetResult = BaseFetchCommand(FetchType.Row);
+
+            if (dataSetResult == null)
+                return null;
+
+            DataSet dataSet = (DataSet) dataSetResult;
 
             if (dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count == 1)
                 dataRow = dataSet.Tables[0].Rows[0];
@@ -93,7 +103,9 @@ namespace Yupi.Data.Base.Adapters
             if (!Client.IsAvailable())
                 return null;
 
-            DataTable dataTable = (DataTable)BaseFetchCommand(FetchType.Table);
+            object dataTableResult = BaseFetchCommand(FetchType.Table);
+
+            DataTable dataTable = (DataTable) dataTableResult;
 
             return dataTable;
         }

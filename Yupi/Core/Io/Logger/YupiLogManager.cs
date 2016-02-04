@@ -16,6 +16,13 @@ namespace Yupi.Core.Io.Logger
             _yupiLogManager = LogManager.GetLogger(declaringType);
         }
 
+        public static void Stop()
+        {
+            ILoggerRepository repository = LogManager.GetRepository();
+
+            repository.Shutdown();
+        }
+
         /// <summary>
         ///     Logs the exception.
         /// </summary>

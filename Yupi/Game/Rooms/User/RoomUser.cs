@@ -701,38 +701,38 @@ namespace Yupi.Game.Rooms.User
         /// <param name="textColor">Color of the text.</param>
         internal void Chat(GameClient session, string msg, bool shout, int count, int textColor = 0)
         {
+            if (session == null)
+                return;
+
             if (IsPet || IsBot)
             {
-                if (!IsPet)
-                    textColor = 2;
-
                 ServerMessage botChatmsg = new ServerMessage();
-                botChatmsg.Init(shout
-                    ? LibraryParser.OutgoingRequest("ShoutMessageComposer")
-                    : LibraryParser.OutgoingRequest("ChatMessageComposer"));
+
+                botChatmsg.Init(shout ? LibraryParser.OutgoingRequest("ShoutMessageComposer") : LibraryParser.OutgoingRequest("ChatMessageComposer"));
                 botChatmsg.AppendInteger(VirtualId);
                 botChatmsg.AppendString(msg);
                 botChatmsg.AppendInteger(0);
-                botChatmsg.AppendInteger(textColor);
+                botChatmsg.AppendInteger(!IsPet ? 2 : textColor);
                 botChatmsg.AppendInteger(0);
                 botChatmsg.AppendInteger(count);
 
                 GetRoom().SendMessage(botChatmsg);
+
                 return;
             }
 
-            if (msg.Length > 100) // si el mensaje es mayor que la máxima longitud (scripter)
+            if (msg.Length > 100)
                 return;
 
             if (!ServerSecurityChatFilter.CanTalk(session, msg))
                 return;
 
-            if (session?.GetHabbo() == null)
+            if (session.GetHabbo() == null)
                 return;
 
             BlackWord word;
 
-            if (!(msg.StartsWith(":deleteblackword ") && msg.StartsWith(":addblackword ") && session.GetHabbo().Rank > 4) && BlackWordsManager.Check(msg, BlackWordType.Hotel, out word))
+            if ((!msg.StartsWith(":deleteblackword ") || !msg.StartsWith(":addblackword ")) && session.GetHabbo().Rank < 5 && BlackWordsManager.Check(msg, BlackWordType.Hotel, out word))
             {
                 BlackWordTypeSettings settings = word.TypeSettings;
 
@@ -740,18 +740,18 @@ namespace Yupi.Game.Rooms.User
 
                 if (settings.ShowMessage)
                 {
-                    GetClient()
-                        .SendModeratorMessage("A mensagem contém a palavra: " + word.Word +
-                                              " que não é permitida, você poderá ser banido!");
+                    GetClient().SendModeratorMessage("A mensagem contém a palavra: " + word.Word + " que não é permitida, você poderá ser banido!");
+
                     return;
                 }
+
+                return;
             }
 
             if (!IsBot && IsFlooded && FloodExpiryTime <= Yupi.GetUnixTimeStamp())
                 IsFlooded = false;
-
             else if (!IsBot && IsFlooded)
-                return; // ciao flooders!
+                return; 
 
             if (session.GetHabbo().Rank < 4 && GetRoom().CheckMute(session))
                 return;
@@ -765,20 +765,20 @@ namespace Yupi.Game.Rooms.User
 
                 Habbo habbo = GetClient().GetHabbo();
 
+                if (habbo == null)
+                    return;
+
+                if (GetRoom() == null)
+                    return;
+
                 if (GetRoom().GetWiredHandler().ExecuteWired(Interaction.TriggerOnUserSay, this, msg))
                     return;
 
                 GetRoom().AddChatlog(session.GetHabbo().Id, msg, true);
 
-                uint rank = 1;
+                uint rank = habbo.Rank;
 
-                if (session.GetHabbo() != null)
-                    rank = session.GetHabbo().Rank;
-
-                msg = GetRoom()
-                    .WordFilter
-                    .Aggregate(msg,
-                        (current1, current) => Regex.Replace(current1, current, "bobba", RegexOptions.IgnoreCase));
+                msg = GetRoom().WordFilter.Aggregate(msg, (current1, current) => Regex.Replace(current1, current, "bobba", RegexOptions.IgnoreCase));
 
                 if (rank < 4)
                 {
@@ -787,10 +787,10 @@ namespace Yupi.Game.Rooms.User
                     if ((span.TotalSeconds > habbo.SpamProtectionTime) && habbo.SpamProtectionBol)
                     {
                         _floodCount = 0;
+
                         habbo.SpamProtectionBol = false;
                         habbo.SpamProtectionAbuse = 0;
                     }
-
                     else if (span.TotalSeconds > 4.0)
                         _floodCount = 0;
 
@@ -803,9 +803,12 @@ namespace Yupi.Game.Rooms.User
                         int i = habbo.SpamProtectionTime - span.Seconds;
 
                         message.AppendInteger(i);
+
                         IsFlooded = true;
+
                         FloodExpiryTime = Yupi.GetUnixTimeStamp() + i;
-                        GetClient().SendMessage(message);
+
+                        GetClient()?.SendMessage(message);
 
                         return;
                     }
@@ -828,13 +831,16 @@ namespace Yupi.Game.Rooms.User
                         message.AppendInteger(j);
 
                         IsFlooded = true;
+
                         FloodExpiryTime = Yupi.GetUnixTimeStamp() + j;
 
-                        GetClient().SendMessage(message);
+                        GetClient()?.SendMessage(message);
+
                         return;
                     }
 
                     habbo.SpamFloodTime = DateTime.Now;
+
                     _floodCount++;
                 }
 
@@ -847,23 +853,20 @@ namespace Yupi.Game.Rooms.User
             else if (!IsPet)
                 textColor = 2;
 
-            ServerMessage chatMsg = new ServerMessage();
-            chatMsg.Init(shout
-                ? LibraryParser.OutgoingRequest("ShoutMessageComposer")
-                : LibraryParser.OutgoingRequest("ChatMessageComposer"));
+            ServerMessage chatMsg = new ServerMessage(shout ? LibraryParser.OutgoingRequest("ShoutMessageComposer") : LibraryParser.OutgoingRequest("ChatMessageComposer"));
 
             chatMsg.AppendInteger(VirtualId);
             chatMsg.AppendString(msg);
             chatMsg.AppendInteger(ChatEmotions.GetEmotionsForText(msg));
             chatMsg.AppendInteger(textColor);
-            chatMsg.AppendInteger(0); // links count (foreach string string bool)
+            chatMsg.AppendInteger(0); 
             chatMsg.AppendInteger(count);
 
-            GetRoom().BroadcastChatMessage(chatMsg, this, session.GetHabbo().Id);
+            GetRoom()?.BroadcastChatMessage(chatMsg, this, session.GetHabbo().Id);
 
-            GetRoom().OnUserSay(this, msg, shout);
+            GetRoom()?.OnUserSay(this, msg, shout);
 
-            GetRoom().GetRoomUserManager().TurnHeads(X, Y, HabboId);
+            GetRoom()?.GetRoomUserManager()?.TurnHeads(X, Y, HabboId);
         }
 
         /// <summary>

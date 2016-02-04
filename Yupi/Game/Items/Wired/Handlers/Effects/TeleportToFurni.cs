@@ -41,11 +41,13 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
             if (!ToWorkConcurrentQueue.Any())
                 return true;
 
-            if (Room?.GetRoomItemHandler() == null || Room.GetRoomItemHandler().FloorItems == null)
+            if (Room?.GetRoomItemHandler() == null || Room?.GetRoomItemHandler()?.FloorItems == null)
                 return false;
 
             long num = Yupi.Now();
+
             List<RoomUser> toAdd = new List<RoomUser>();
+
             RoomUser roomUser;
 
             while (ToWorkConcurrentQueue.TryDequeue(out roomUser))
@@ -61,13 +63,13 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
                     return false;
                 }
 
-                if (_mNext - num < 500L && roomUser.GetClient().GetHabbo().GetAvatarEffectsInventoryComponent() != null)
-                    roomUser.GetClient().GetHabbo().GetAvatarEffectsInventoryComponent().ActivateCustomEffect(4);
+                if (_mNext - num < 500L && roomUser.GetClient()?.GetHabbo()?.GetAvatarEffectsInventoryComponent() != null)
+                    roomUser.GetClient()?.GetHabbo()?.GetAvatarEffectsInventoryComponent()?.ActivateCustomEffect(4);
 
-                toAdd.Add(roomUser);
+                toAdd?.Add(roomUser);
             }
 
-            foreach (RoomUser roomUserToAdd in toAdd.Where(roomUserToAdd => !ToWorkConcurrentQueue.Contains(roomUserToAdd)))
+            foreach (RoomUser roomUserToAdd in toAdd.Where(roomUserToAdd => roomUserToAdd != null && !ToWorkConcurrentQueue.Contains(roomUserToAdd)))
                 ToWorkConcurrentQueue.Enqueue(roomUserToAdd);
 
             toAdd.Clear();

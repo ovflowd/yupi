@@ -140,11 +140,22 @@ namespace Yupi.Messages.Handlers
             if (Session == null)
                 return;
 
-            Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(Session, "ACH_AllTimeHotelPresence", 1, true);
+            Yupi.GetGame()?.GetAchievementManager()?.ProgressUserAchievement(Session, "ACH_AllTimeHotelPresence", 1, true);
+
+            if (Session.GetHabbo() == null)
+                return;
 
             Session.TimePingedReceived = DateTime.Now;
+
+            int integerString = Request.GetIntegerFromString();
+
+            int integerResult;
+
+            int.TryParse(integerString.ToString(), out integerResult);
+
             Response.Init(LibraryParser.OutgoingRequest("LatencyTestResponseMessageComposer"));
-            Response.AppendInteger(Request.GetIntegerFromString());
+            Response.AppendInteger(integerString);
+
             SendResponse();
         }
 

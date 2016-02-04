@@ -45,25 +45,18 @@ namespace Yupi.Game.Items.Wired.Handlers.Triggers
 
             if (conditions.Any())
             {
-                foreach (IWiredItem current in conditions)
-                {
-                    if (!current.Execute(null))
-                        return false;
-
+                foreach (IWiredItem current in conditions.Where(current => current.Execute()))
                     WiredHandler.OnEvent(current);
-                }
             }
 
             if (effects.Any())
             {
-                foreach (IWiredItem current2 in effects)
-                {
-                    if (current2.Execute(null, Type))
-                        WiredHandler.OnEvent(current2);
-                }
+                foreach (IWiredItem current2 in effects.Where(current2 => current2.Execute(null, Type)))
+                    WiredHandler.OnEvent(current2);
             }
 
             _mNext = Yupi.Now() + Delay;
+
             return false;
         }
 

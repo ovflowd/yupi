@@ -93,30 +93,41 @@ namespace Yupi.Game.Items.Wired
 
         public static void SaveWired(IWiredItem fItem)
         {
-            if (fItem == null)
+            if (fItem?.Item == null)
                 return;
 
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 string text = string.Empty;
+
                 int num = 0;
 
-                foreach (RoomItem current in fItem.Items)
+                if (fItem.Items != null)
                 {
-                    if (num != 0) text += ";";
-                    text += current.Id;
-                    num++;
+                    foreach (RoomItem current in fItem.Items)
+                    {
+                        if (current == null)
+                            continue;
+
+                        if (num != 0)
+                            text += ";";
+
+                        text += current.Id;
+
+                        num++;
+                    }
                 }
 
                 if (fItem.OtherString == null)
                     fItem.OtherString = string.Empty;
+
                 if (fItem.OtherExtraString == null)
                     fItem.OtherExtraString = string.Empty;
+
                 if (fItem.OtherExtraString2 == null)
                     fItem.OtherExtraString2 = string.Empty;
 
-                queryReactor.SetQuery(
-                    "REPLACE INTO items_wireds VALUES (@id, @items, @delay, @string, @bool, @extrastring, @extrastring2)");
+                queryReactor.SetQuery("REPLACE INTO items_wireds VALUES (@id, @items, @delay, @string, @bool, @extrastring, @extrastring2)");
                 queryReactor.AddParameter("id", fItem.Item.Id);
                 queryReactor.AddParameter("items", text);
                 queryReactor.AddParameter("delay", fItem.Delay);
@@ -153,9 +164,10 @@ namespace Yupi.Game.Items.Wired
                     return false;
 
                 if (type == Interaction.TriggerCollision)
-                    foreach (
-                        IWiredItem wiredItem in _wiredItems.Where(wiredItem => wiredItem != null && wiredItem.Type == type))
+                {
+                    foreach (IWiredItem wiredItem in _wiredItems.Where(wiredItem => wiredItem != null && wiredItem.Type == type))
                         wiredItem.Execute(stuff);
+                }  
                 else if (_wiredItems.Any(current => current != null && current.Type == type && current.Execute(stuff)))
                     return true;
             }
@@ -172,11 +184,13 @@ namespace Yupi.Game.Items.Wired
             try
             {
                 Queue queue = new Queue();
+
                 lock (_cycleItems.SyncRoot)
                 {
                     while (_cycleItems.Count > 0)
                     {
                         IWiredItem wiredItem = (IWiredItem) _cycleItems.Dequeue();
+
                         IWiredCycler item = wiredItem as IWiredCycler;
 
                         if (item == null)
@@ -185,8 +199,10 @@ namespace Yupi.Game.Items.Wired
                         IWiredCycler wiredCycler = item;
 
                         if (!wiredCycler.OnCycle())
+                        {
                             if (!queue.Contains(item))
                                 queue.Enqueue(item);
+                        }    
                     }
                 }
 

@@ -49,6 +49,9 @@ namespace Yupi.Game.Items.Wired.Handlers.Triggers
                 {
                     RoomUser current3 = current;
 
+                    if (current3 == null)
+                        continue;
+
                     foreach (IWiredItem current2 in conditions.Where(current2 => current2.Execute(current3)))
                         WiredHandler.OnEvent(current2);
                 }
@@ -57,6 +60,9 @@ namespace Yupi.Game.Items.Wired.Handlers.Triggers
                     continue;
 
                 RoomUser current1 = current;
+
+                if (current1 == null)
+                    continue;
 
                 foreach (IWiredItem current3 in effects.Where(current3 => current3.Execute(current1, Type)))
                     WiredHandler.OnEvent(current3);

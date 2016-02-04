@@ -545,6 +545,7 @@ namespace Yupi.Messages.Handlers
                 Session.GetHabbo()
                     .GetInventoryComponent()
                     .AddNewItem(item.Id, item.BaseName, item.ExtraData, item.GroupId, true, true, 0, 0);
+
                 Session.GetHabbo().GetInventoryComponent().UpdateItems(false);
             }
         }

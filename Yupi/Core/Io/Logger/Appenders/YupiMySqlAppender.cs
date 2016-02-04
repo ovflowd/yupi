@@ -7,9 +7,6 @@ namespace Yupi.Core.Io.Logger.Appenders
     {
         public YupiMysqlAppender()
         {
-            //if (Yupi.GetDatabaseManager() == null)
-            //    return;
-
             MySqlConnectionStringBuilder stringBuilder = Yupi.GetDatabaseManager().GetConnectionStringBuilder();
 
             ConnectionType = "MySql.Data.MySqlClient.MySqlConnection, MySql.Data";

@@ -78,10 +78,13 @@ namespace Yupi.Data.Base.Managers
                 {
                     foreach (DatabaseClient databaseClient in _databaseClients)
                     {
-                        if (!databaseClient.IsAvailable())
-                            databaseClient.Dispose();
+                        lock (databaseClient)
+                        {
+                            if (databaseClient.IsAvailable())
+                                databaseClient.Disconnect();
 
-                        databaseClient.Disconnect();
+                            databaseClient.Dispose();
+                        }
                     }
                 }
             }
@@ -92,8 +95,16 @@ namespace Yupi.Data.Base.Managers
                     if (_databaseClients.Count > 0)
                     {
                         foreach (DatabaseClient databaseClient in _databaseClients.Where(c => !c.IsAvailable()))
-                            databaseClient.Dispose();
+                        {
+                            lock (databaseClient)
+                            {
+                                if (databaseClient.IsAvailable())
+                                    databaseClient.Disconnect();
 
+                                databaseClient.Dispose();
+                            }
+                        }
+                            
                         _databaseClients.RemoveAll(c => !c.IsAvailable());
                     }
                 }
@@ -108,18 +119,21 @@ namespace Yupi.Data.Base.Managers
                     return _databaseClients.First(c => c.IsAvailable() && c.GetConnectionHandler()?.GetState() != ConnectionState.Executing);
 
                 RemoveUnusedConnections();
-            }
 
-            return AddConnection(true);
+                return AddConnection(true);
+            }  
         }
 
         public IQueryAdapter GetQueryReactor()
         {
             DatabaseClient client = ReturnConnectedConnection();
 
-            client?.Connect();
+            lock (client)
+            {
+                client.Connect();
 
-            return client?.GetQueryReactor();
+                return client.GetQueryReactor();
+            }
         }
 
         public void Destroy()

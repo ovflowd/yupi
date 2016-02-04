@@ -813,6 +813,7 @@ namespace Yupi.Game.Rooms
                         GetRoomMusicController().Update(this);
 
                     GetWiredHandler().OnCycle();
+
                     WorkRoomKickQueue();
                 }
                 catch (Exception e)

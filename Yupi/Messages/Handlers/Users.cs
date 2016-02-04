@@ -926,56 +926,80 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         internal void SetRelationship()
         {
-            uint num = Request.GetUInteger();
-            int num2 = Request.GetInteger();
+            uint userId = Request.GetUInteger();
+            uint targetId = Request.GetUInteger();
 
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                if (targetId == 0)
                 {
-                    if (num2 == 0)
-                    {
-                        queryReactor.SetQuery(
-                            "SELECT id FROM users_relationships WHERE user_id=@id AND target=@target LIMIT 1");
-                        queryReactor.AddParameter("id", Session.GetHabbo().Id);
-                        queryReactor.AddParameter("target", num);
-                        int integer = queryReactor.GetInteger();
-                        queryReactor.SetQuery(
-                            "DELETE FROM users_relationships WHERE user_id=@id AND target=@target LIMIT 1");
-                        queryReactor.AddParameter("id", Session.GetHabbo().Id);
-                        queryReactor.AddParameter("target", num);
-                        queryReactor.RunQuery();
-                        if (Session.GetHabbo().Relationships.ContainsKey(integer))
-                            Session.GetHabbo().Relationships.Remove(integer);
-                    }
-                    else
-                    {
-                        queryReactor.SetQuery(
-                            "SELECT id FROM users_relationships WHERE user_id=@id AND target=@target LIMIT 1");
-                        queryReactor.AddParameter("id", Session.GetHabbo().Id);
-                        queryReactor.AddParameter("target", num);
-                        int integer2 = queryReactor.GetInteger();
-                        if (integer2 > 0)
-                        {
-                            queryReactor.SetQuery(
-                                "DELETE FROM users_relationships WHERE user_id=@id AND target=@target LIMIT 1");
-                            queryReactor.AddParameter("id", Session.GetHabbo().Id);
-                            queryReactor.AddParameter("target", num);
-                            queryReactor.RunQuery();
-                            if (Session.GetHabbo().Relationships.ContainsKey(integer2))
-                                Session.GetHabbo().Relationships.Remove(integer2);
-                        }
-                        queryReactor.SetQuery(
-                            "INSERT INTO users_relationships (user_id, target, type) VALUES (@id, @target, @type)");
-                        queryReactor.AddParameter("id", Session.GetHabbo().Id);
-                        queryReactor.AddParameter("target", num);
-                        queryReactor.AddParameter("type", num2);
-                        int num3 = (int) queryReactor.InsertQuery();
-                        Session.GetHabbo().Relationships.Add(num3, new Relationship(num3, (int) num, num2));
-                    }
+                    queryReactor.SetQuery("SELECT id FROM users_relationships WHERE user_id=@id AND target=@target LIMIT 1");
+                    queryReactor.AddParameter("id", Session.GetHabbo().Id);
+                    queryReactor.AddParameter("target", userId);
 
-                    GameClient clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(num);
-                    Session.GetHabbo().GetMessenger().UpdateFriend(num, clientByUserId, true);
+                    object integerResult = queryReactor.GetInteger();
+
+                    int integer;
+
+                    int.TryParse(integerResult.ToString(), out integer);
+
+                    if (integer > 0 && Session.GetHabbo().Relationships.ContainsKey(integer))
+                    {
+                        queryReactor.SetQuery("DELETE FROM users_relationships WHERE user_id=@id AND target=@target LIMIT 1");
+                        queryReactor.AddParameter("id", Session.GetHabbo().Id);
+                        queryReactor.AddParameter("target", userId);
+                        queryReactor.RunQuery();
+
+                        Session.GetHabbo().Relationships.Remove(integer);
+                    }                 
                 }
+                else
+                {
+                    queryReactor.SetQuery("SELECT id FROM users_relationships WHERE user_id=@id AND target=@target LIMIT 1");
+                    queryReactor.AddParameter("id", Session.GetHabbo().Id);
+                    queryReactor.AddParameter("target", userId);
+
+                    object integerResult = queryReactor.GetInteger();
+
+                    int integer;
+
+                    int.TryParse(integerResult.ToString(), out integer);
+
+                    if (integer > 0 && Session.GetHabbo().Relationships.ContainsKey(integer))
+                    {
+                        queryReactor.SetQuery("DELETE FROM users_relationships WHERE user_id=@id AND target=@target LIMIT 1");
+                        queryReactor.AddParameter("id", Session.GetHabbo().Id);
+                        queryReactor.AddParameter("target", userId);
+                        queryReactor.RunQuery();
+
+                        Session.GetHabbo().Relationships.Remove(integer);
+                    }
+                }
+
+                if (userId > 0 && targetId > 0)
+                {
+                    queryReactor.SetQuery("INSERT INTO users_relationships (user_id, target, type) VALUES (@id, @target, @type)");
+                    queryReactor.AddParameter("id", Session.GetHabbo().Id);
+                    queryReactor.AddParameter("target", userId);
+                    queryReactor.AddParameter("type", targetId);
+
+                    object integerResult = queryReactor.InsertQuery();
+
+                    int relationShipId;
+
+                    int.TryParse(integerResult.ToString(), out relationShipId);
+
+                    if(relationShipId > 0)
+                        Session.GetHabbo().Relationships.Add(relationShipId, new Relationship(relationShipId, (int)userId, (int)targetId));
+                }
+            }
+
+            if (userId > 0)
+            {
+                GameClient clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(userId);
+
+                if (clientByUserId != null)
+                    Session.GetHabbo().GetMessenger().UpdateFriend(userId, clientByUserId, true);
             }
         }
 

@@ -690,6 +690,8 @@ namespace Yupi
 
             GetGame().Destroy();
 
+            YupiLogManager.Stop();
+
             YupiWriterManager.WriteLine(" destroyed", "Yupi.Game", ConsoleColor.DarkYellow);
 
             TimeSpan span = DateTime.Now - now;

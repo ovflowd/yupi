@@ -490,8 +490,7 @@ namespace Yupi.Game.Users.Inventory.Components
         /// <param name="limtot">The limtot.</param>
         /// <param name="songCode">The song code.</param>
         /// <returns>UserItem.</returns>
-        internal UserItem AddNewItem(uint id, string baseName, string extraData, uint thGroup, bool insert,
-            bool fromRoom, uint limno, uint limtot, string songCode = "")
+        internal UserItem AddNewItem(uint id, string baseName, string extraData, uint thGroup, bool insert, bool fromRoom, uint limno, uint limtot, string songCode = "")
         {
             _isUpdated = false;
 
@@ -500,15 +499,13 @@ namespace Yupi.Game.Users.Inventory.Components
                 if (fromRoom)
                 {
                     using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                        queryReactor.RunFastQuery("UPDATE items_rooms SET user_id = '" + UserId +
-                                                  "', room_id= '0' WHERE (id='" + id + "')");
+                        queryReactor.RunFastQuery("UPDATE items_rooms SET user_id = '" + UserId + "', room_id= '0' WHERE (id='" + id + "')");
                 }
                 else
                 {
                     using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
-                        queryReactor.SetQuery(
-                            $"INSERT INTO items_rooms (item_name, user_id, group_id) VALUES ('{baseName}', '{UserId}', '{thGroup}');");
+                        queryReactor.SetQuery($"INSERT INTO items_rooms (item_name, user_id, group_id) VALUES ('{baseName}', '{UserId}', '{thGroup}');");
 
                         if (id == 0)
                             id = (uint) queryReactor.InsertQuery();
@@ -517,22 +514,17 @@ namespace Yupi.Game.Users.Inventory.Components
 
                         if (!string.IsNullOrEmpty(extraData))
                         {
-                            queryReactor.SetQuery(
-                                "UPDATE items_rooms SET extra_data = @extraData WHERE id = " + id);
+                            queryReactor.SetQuery("UPDATE items_rooms SET extra_data = @extraData WHERE id = " + id);
                             queryReactor.AddParameter("extraData", extraData);
+
                             queryReactor.RunQuery();
                         }
 
                         if (limno > 0)
-                            queryReactor.RunFastQuery(
-                                $"INSERT INTO items_limited VALUES ('{id}', '{limno}', '{limtot}');");
+                            queryReactor.RunFastQuery($"INSERT INTO items_limited VALUES ('{id}', '{limno}', '{limtot}');");
 
                         if (!string.IsNullOrEmpty(songCode))
-                        {
-                            queryReactor.SetQuery(
-                                $"UPDATE items_rooms SET songcode='{songCode}' WHERE id='{id}' LIMIT 1");
-                            queryReactor.RunQuery();
-                        }
+                            queryReactor.RunFastQuery($"UPDATE items_rooms SET songcode='{songCode}' WHERE id='{id}' LIMIT 1");
                     }
                 }
             }
@@ -545,12 +537,12 @@ namespace Yupi.Game.Users.Inventory.Components
             if (UserHoldsItem(id))
                 RemoveItem(id, false);
 
-            if (userItem.BaseItem.InteractionType == Interaction.MusicDisc)
+            if (userItem.BaseItem.InteractionType == Interaction.MusicDisc && !SongDisks.Contains(userItem.Id))
                 SongDisks.Add(userItem.Id, userItem);
 
-            if (userItem.IsWallItem)
+            if (userItem.IsWallItem && !_wallItems.Contains(userItem.Id))
                 _wallItems.Add(userItem.Id, userItem);
-            else
+            else if(!userItem.IsWallItem && !_floorItems.Contains(userItem.Id))
                 _floorItems.Add(userItem.Id, userItem);
 
             if (_mRemovedItems.Contains(id))
@@ -815,10 +807,7 @@ namespace Yupi.Game.Users.Inventory.Components
         /// </summary>
         /// <param name="itemId">The item identifier.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        private bool UserHoldsItem(uint itemId)
-        {
-            return SongDisks.Contains(itemId) || _floorItems.Contains(itemId) || _wallItems.Contains(itemId);
-        }
+        private bool UserHoldsItem(uint itemId) => SongDisks.Contains(itemId) || _floorItems.Contains(itemId) || _wallItems.Contains(itemId);
 
         /// <summary>
         ///     Gets the client.

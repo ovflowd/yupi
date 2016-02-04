@@ -189,6 +189,7 @@
     <Compile Include="Core\Algorithms\Astar\Interfaces\IPathNode.cs" />
     <Compile Include="Core\Algorithms\Astar\Interfaces\IWeightAddable.cs" />
     <Compile Include="Core\Algorithms\Astar\PriorityQueue.cs" />
+    <Compile Include="Core\Io\Logger\Appenders\AsynchronousMySqlAppender.cs" />
     <Compile Include="Core\Io\Logger\Appenders\YupiMySqlAppender.cs" />
     <Compile Include="Core\Io\Logger\Appenders\AsynchronousFileAppender.cs" />
     <Compile Include="Core\Io\Logger\YupiLogManager.cs" />
