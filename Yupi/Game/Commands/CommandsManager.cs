@@ -171,6 +171,8 @@ namespace Yupi.Game.Commands
             CommandsDictionary.Add("kill", new Kill());
             CommandsDictionary.Add("disco", new Disco());
 
+            CommandsDictionary.Add("machineban", new MachineBan());
+
             CommandsDictionary.Add("refresh_pet_commands", new RefreshPetCommands());
             CommandsDictionary.Add("refresh_pet_speeches", new RefreshPetSpeeches());
             CommandsDictionary.Add("refresh_bot_commands", new RefreshBotCommands());

@@ -114,11 +114,11 @@ namespace Yupi.Game.GameClients.Interfaces
                     serverMessage.AppendString("title");
                     serverMessage.AppendString("Staff Internal Alert");
                     serverMessage.AppendString("message");
-                    serverMessage.AppendString("O usuário " + userPublicist.UserName + " Foi banido por enviar repetidamente palavras repetidas. A última palavra foi: " + word + ", na frase: " + message);
+                    serverMessage.AppendString("O usuário " + userPublicist.UserName + " Fo Banido por Divulgar. A última palavra foi: " + word + ", na frase: " + message);
 
                     Yupi.GetGame().GetClientManager().StaffAlert(serverMessage);
 
-                    Yupi.GetGame().GetBanManager().BanUser(this, userPublicist.UserName, 3600, "Você está passando muitos spams de outros hotéis. Por esta razão, sancioná-lo por 1 hora, de modo que você aprender a controlar-se.", true, true);
+                    Yupi.GetGame().GetBanManager().BanUser(this, userPublicist.UserName, 788922000.0, "Você está divulgando Hoteis. Será banido para sempre..", true, true);
 
                     return;
                 }
@@ -235,30 +235,29 @@ namespace Yupi.Game.GameClients.Interfaces
                 Yupi.GetGame().GetClientManager().RegisterClient(this, userData.UserId, userData.User.UserName);
 
                 _habbo = userData.User;
+
                 userData.User.LoadData(userData);
 
                 string banReason = Yupi.GetGame().GetBanManager().GetBanReason(userData.User.UserName, ip, MachineId);
+                bool isBanned = Yupi.GetGame().GetBanManager().CheckIfIsBanned(userData.User.UserName, ip, MachineId);
 
-                if (!string.IsNullOrEmpty(banReason) || userData.User.UserName == null)
+                if (!string.IsNullOrEmpty(banReason) || isBanned)
                 {
                     SendNotifWithScroll(banReason);
+
                     using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
-                        queryReactor.SetQuery($"SELECT ip_last FROM users WHERE id={GetHabbo().Id} LIMIT 1");
+                        queryReactor.SetQuery($"SELECT ip_last FROM users WHERE id = {GetHabbo().Id} LIMIT 1");
 
                         string supaString = queryReactor.GetString();
 
-                        queryReactor.SetQuery(
-                            $"SELECT COUNT(0) FROM users_bans_access WHERE user_id={_habbo.Id} LIMIT 1");
+                        queryReactor.SetQuery($"SELECT COUNT(0) FROM users_bans_access WHERE user_id={_habbo.Id} LIMIT 1");
                         int integer = queryReactor.GetInteger();
 
                         if (integer > 0)
-                            queryReactor.RunFastQuery(
-                                "UPDATE users_bans_access SET attempts = attempts + 1, ip='" + supaString +
-                                "' WHERE user_id=" + GetHabbo().Id + " LIMIT 1");
+                            queryReactor.RunFastQuery("UPDATE users_bans_access SET attempts = attempts + 1, ip='" + supaString + "' WHERE user_id=" + GetHabbo().Id + " LIMIT 1");
                         else
-                            queryReactor.RunFastQuery("INSERT INTO users_bans_access (user_id, ip) VALUES (" +
-                                                      GetHabbo().Id + ", '" + supaString + "')");
+                            queryReactor.RunFastQuery("INSERT INTO users_bans_access (user_id, ip) VALUES (" + GetHabbo().Id + ", '" + supaString + "')");
                     }
 
                     return false;

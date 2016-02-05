@@ -82,15 +82,18 @@ namespace Yupi.Game.Support
                 switch (moderationBan.Type)
                 {
                     case ModerationBanType.UserName:
-                        if (!_bannedUsernames.Contains(text)) _bannedUsernames.Add(text, moderationBan);
+                        if (!_bannedUsernames.Contains(text))
+                            _bannedUsernames.Add(text, moderationBan);
                         break;
 
                     case ModerationBanType.Ip:
-                        if (!_bannedIPs.Contains(text)) _bannedIPs.Add(text, moderationBan);
+                        if (!_bannedIPs.Contains(text))
+                            _bannedIPs.Add(text, moderationBan);
                         break;
 
                     default:
-                        if (!_bannedMachines.ContainsKey(text)) _bannedMachines.Add(text, moderationBan);
+                        if (!_bannedMachines.ContainsKey(text))
+                            _bannedMachines.Add(text, moderationBan);
                         break;
                 }
             }
@@ -133,6 +136,38 @@ namespace Yupi.Game.Support
                 }
             }
             return string.Empty;
+        }
+
+        internal bool CheckIfIsBanned(string userName, string ip, string machineid)
+        {
+            if (_bannedUsernames.Contains(userName))
+            {
+                ModerationBan moderationBan = (ModerationBan)_bannedUsernames[userName];
+
+                if (!moderationBan.Expired)
+                    return true;
+            }
+            else
+            {
+                if (_bannedIPs.Contains(ip))
+                {
+                    ModerationBan moderationBan2 = (ModerationBan)_bannedIPs[ip];
+
+                    if (!moderationBan2.Expired)
+                        return true;
+                }
+                else
+                {
+                    if (!_bannedMachines.ContainsKey(machineid))
+                        return false;
+
+                    ModerationBan moderationBan3 = _bannedMachines[machineid];
+
+                    if (!moderationBan3.Expired)
+                        return true;
+                }
+            }
+            return false;
         }
 
         /// <summary>
