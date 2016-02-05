@@ -25,43 +25,33 @@ namespace Yupi.Game.Commands.Controllers
 
         public override bool Execute(GameClient session, string[] pms)
         {
-            string userName = pms[0];
-            if (string.IsNullOrEmpty(userName)) return true;
-            GameClient clientByUserName = Yupi.GetGame().GetClientManager().GetClientByUserName(userName);
-            if (clientByUserName == null || clientByUserName.GetHabbo() == null)
-            {
-                using (IQueryAdapter adapter = Yupi.GetDatabaseManager().GetQueryReactor())
-                {
-                    adapter.SetQuery(
-                        "SELECT username, rank, id, credits, activity_points, diamonds FROM users WHERE username=@user LIMIT 1");
-                    adapter.AddParameter("user", userName);
-                    DataRow row = adapter.GetRow();
-
-                    if (row == null)
-                    {
-                        session.SendWhisper(Yupi.GetLanguage().GetVar("user_not_found"));
-                        return true;
-                    }
-                    session.SendNotif(string.Format(Yupi.GetLanguage().GetVar("user_info_all"), userName, row[1],
-                        row[3], row[4], row[5]));
-                }
+            if (pms.Length != 1)
                 return true;
-            }
-            Habbo habbo = clientByUserName.GetHabbo();
+
+            if (string.IsNullOrEmpty(pms[0]))
+                return true;
+
+            string userName = Yupi.FilterInjectionChars(pms[0]);
+
+            Habbo userCached = Yupi.GetHabboForName(userName);
+
+            if (userCached == null)
+                return true;
+
             StringBuilder builder = new StringBuilder();
-            if (habbo.CurrentRoom != null)
+
+            if (userCached.CurrentRoom != null)
             {
-                builder.AppendFormat(" - ROOM INFORMATION [{0}] - \r", habbo.CurrentRoom.RoomId);
-                builder.AppendFormat("Owner: {0}\r", habbo.CurrentRoom.RoomData.Owner);
-                builder.AppendFormat("Room Name: {0}\r", habbo.CurrentRoom.RoomData.Name);
-                builder.Append(
-                    string.Concat("Current Users: ", habbo.CurrentRoom.UserCount, "/",
-                        habbo.CurrentRoom.RoomData.UsersMax));
+                builder.Append($" - ROOM INFORMATION [{userCached.CurrentRoom.RoomId}] - \r");
+                builder.Append($"Owner: {userCached.CurrentRoom.RoomData.Owner}\r");
+                builder.Append($"Room Name: {userCached.CurrentRoom.RoomData.Name}\r");
+                builder.Append($"Current Users: {userCached.CurrentRoom.UserCount} / {userCached.CurrentRoom.RoomData.UsersMax}");
             }
-            session.SendNotif(string.Concat("User info for: ", userName, " \rUser ID: ", habbo.Id, ":\rRank: ",
-                habbo.Rank, "\rCurrentTalentLevel: ", habbo.CurrentTalentLevel, " \rCurrent Room: ", habbo.CurrentRoomId,
-                " \rCredits: ", habbo.Credits, "\rDuckets: ", habbo.Duckets, "\rDiamonds: ", habbo.Diamonds,
-                "\rMuted: ", habbo.Muted.ToString(), "\r\r\r", builder.ToString()));
+
+            session.SendNotif(string.Concat("User info for: ", userName, " \rUser ID: ", userCached.Id, ":\rRank: ",
+                userCached.Rank, "\rCurrentTalentLevel: ", userCached.CurrentTalentLevel, " \rCurrent Room: ", userCached.CurrentRoomId,
+                " \rCredits: ", userCached.Credits, "\rDuckets: ", userCached.Duckets, "\rDiamonds: ", userCached.Diamonds,
+                "\rMuted: ", userCached.Muted.ToString(), "\r\r\r", builder.ToString()));
 
             return true;
         }

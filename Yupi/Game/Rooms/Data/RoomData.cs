@@ -444,8 +444,7 @@ namespace Yupi.Game.Rooms.Data
         /// <param name="isNotReload">if set to <c>true</c> [from view].</param>
         /// <param name="sendRoom">if set to <c>true</c> [send room].</param>
         /// <param name="show">if set to <c>true</c> [show].</param>
-        internal void SerializeRoomData(ServerMessage message, GameClient session, bool isNotReload,
-            bool? sendRoom = false, bool show = true)
+        internal void SerializeRoomData(ServerMessage message, GameClient session, bool isNotReload, bool? sendRoom = false, bool show = true)
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
 
@@ -453,8 +452,7 @@ namespace Yupi.Game.Rooms.Data
             message.AppendBool(show); //flatId
             Serialize(message, true, !isNotReload);
             message.AppendBool(isNotReload);
-            message.AppendBool(Yupi.GetGame().GetNavigator() != null &&
-                               Yupi.GetGame().GetNavigator().GetPublicItem(Id) != null); // staffPick
+            message.AppendBool(Yupi.GetGame().GetNavigator() != null && Yupi.GetGame().GetNavigator().GetPublicItem(Id) != null); // staffPick
             message.AppendBool(!isNotReload || session.GetHabbo().HasFuse("fuse_mod")); // bypass bell, pass ...
             message.AppendBool(room != null && room.RoomMuted); //roomMuted
             message.AppendInteger(WhoCanMute);

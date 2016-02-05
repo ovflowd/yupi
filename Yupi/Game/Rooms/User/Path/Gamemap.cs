@@ -68,6 +68,7 @@ namespace Yupi.Game.Rooms.User.Path
         {
             _room = room;
             DiagonalEnabled = true;
+
             StaticModel = Yupi.GetGame().GetRoomManager().GetModel(room.RoomData.ModelName, room.RoomId);
 
             if (StaticModel == null)

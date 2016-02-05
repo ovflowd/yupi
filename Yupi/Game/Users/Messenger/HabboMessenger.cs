@@ -333,12 +333,10 @@ namespace Yupi.Game.Users.Messenger
         /// <param name="friend">The friend.</param>
         internal void OnDestroyFriendship(uint friend)
         {
-            Friends.Remove(friend);
+            if(Friends.ContainsKey(friend))
+                Friends.Remove(friend);
 
-            GetClient()
-                .GetMessageHandler()
-                .GetResponse()
-                .Init(LibraryParser.OutgoingRequest("FriendUpdateMessageComposer"));
+            GetClient().GetMessageHandler().GetResponse().Init(LibraryParser.OutgoingRequest("FriendUpdateMessageComposer"));
             GetClient().GetMessageHandler().GetResponse().AppendInteger(0);
             GetClient().GetMessageHandler().GetResponse().AppendInteger(1);
             GetClient().GetMessageHandler().GetResponse().AppendInteger(-1);

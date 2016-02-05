@@ -134,8 +134,10 @@ namespace Yupi.Game.Rooms
         {
             if (model == "custom" && _roomModels.Contains($"custom_{roomId}"))
                 return (RoomModel) _roomModels[$"custom_{roomId}"];
+
             if (_roomModels.Contains(model))
                 return (RoomModel) _roomModels[model];
+
             return null;
         }
 

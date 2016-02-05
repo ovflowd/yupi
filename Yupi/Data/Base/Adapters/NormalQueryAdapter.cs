@@ -43,8 +43,12 @@ namespace Yupi.Data.Base.Adapters
         {
             lock (Command.Parameters)
             {
-                if (!Command.Parameters.Contains(parameterName))
-                    Command.Parameters.AddWithValue(parameterName, value);
+                string parameterSafeName = Yupi.FilterInjectionChars(parameterName);
+
+                object parameterSafeValue = Yupi.FilterInjectionChars(value.ToString());
+
+                if (!Command.Parameters.Contains(parameterSafeName))
+                    Command.Parameters.AddWithValue(parameterSafeName, parameterSafeValue);
             }
         }
 
@@ -127,7 +131,7 @@ namespace Yupi.Data.Base.Adapters
             if (!Client.IsAvailable())
                 return;
 
-            SetQuery(query);
+            SetQuery(Yupi.FilterInjectionChars(query));
 
             RunQuery();
         }

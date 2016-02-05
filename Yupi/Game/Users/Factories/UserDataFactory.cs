@@ -68,7 +68,7 @@ namespace Yupi.Game.Users.Factories
 
                 if (queryReactor.GetInteger() == 0)
                 {
-                    YupiLogManager.LogMessage("Key: " + sessionTicket + " isn't attached.", "Yupi.Users");
+                    YupiLogManager.LogMessage("Key: " + sessionTicket + " isn't attached.", "Yupi.Users", false);
 
                     return null;
                 }
@@ -238,7 +238,7 @@ namespace Yupi.Game.Users.Factories
                 let id = Convert.ToUInt32(row["id"])
                 let itemName = row["item_name"].ToString()
                 where Yupi.GetGame().GetItemManager().ContainsItemByName(itemName)
-                let extraData = !DBNull.Value.Equals(row[4]) ? (string) row[4] : string.Empty
+                let extraData = (string) row["extra_data"]
                 let theGroup = Convert.ToUInt32(row["group_id"])
                 let songCode = (string) row["songcode"]
                 select new UserItem(id, itemName, extraData, theGroup, songCode)).ToList();

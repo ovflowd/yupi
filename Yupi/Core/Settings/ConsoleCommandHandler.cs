@@ -208,13 +208,13 @@ namespace Yupi.Core.Settings
                         Console.WriteLine("status");
                         Console.WriteLine("restart");
                         Console.WriteLine("memstat");
-                        Console.WriteLine("flush catalog");
-                        Console.WriteLine("flush modeldata");
-                        Console.WriteLine("flush bans");
-                        Console.WriteLine("flush packets");
-                        Console.WriteLine("flush filter");
-                        Console.WriteLine("flush packets");
-                        Console.WriteLine("flush database");
+                        Console.WriteLine("reload catalogue");
+                        Console.WriteLine("reload modeldata");
+                        Console.WriteLine("reload bans");
+                        Console.WriteLine("reload packets");
+                        Console.WriteLine("reload filter");
+                        Console.WriteLine("reload packets");
+                        Console.WriteLine("reload database");
                         Console.WriteLine();
                         break;
 

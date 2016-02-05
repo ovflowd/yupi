@@ -63,15 +63,10 @@ namespace Yupi.Data
         /// </summary>
         internal static void Process()
         {
-            if (_lowPriorityStopWatch.ElapsedMilliseconds >= 30000 || !_isExecuted)
+            if (_lowPriorityStopWatch.ElapsedMilliseconds >= 10000 || !_isExecuted)
             {
-                _isExecuted = true;
-
-                _lowPriorityStopWatch.Restart();
-
                 try
                 {
-                    int realOnlineClientCount = Yupi.GetGame().GetClientManager().ClientCount();
                     int clientCount = Yupi.GetGame().GetClientManager().ClientCount();
 
                     int loadedRoomsCount = Yupi.GetGame().GetRoomManager().LoadedRoomsCount;
@@ -79,24 +74,20 @@ namespace Yupi.Data
                     DateTime dateTime = new DateTime((DateTime.Now - Yupi.YupiServerStartDateTime).Ticks);
 
                     Console.Title = string.Concat("Yupi | Time: ", int.Parse(dateTime.ToString("dd")) - 1, "d:",
-                        dateTime.ToString("HH"), "h:", dateTime.ToString("mm"), "m | Conn: ", clientCount, " | Users: ",
-                        realOnlineClientCount, " | Rooms: ", loadedRoomsCount);
+                        dateTime.ToString("HH"), "h:", dateTime.ToString("mm"), "m | Users: ",
+                        clientCount, " | Rooms: ", loadedRoomsCount);
 
-                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                    {
-                        if (clientCount > _userPeak || realOnlineClientCount > _userPeak)
-                            _userPeak = realOnlineClientCount;
+                    _isExecuted = true;
 
-                        queryReactor.RunFastQuery(string.Concat("UPDATE server_status SET stamp = '",
-                            Yupi.GetUnixTimeStamp(), "', users_online = ", realOnlineClientCount, ", rooms_loaded = ",
-                            loadedRoomsCount, ", server_ver = 'Yupi Emulator', userpeak = ", _userPeak));
-                    }
-
-                    Yupi.GetGame().GetNavigator().LoadNewPublicRooms();
+                    _lowPriorityStopWatch.Restart();
                 }
                 catch (Exception e)
                 {
                     YupiLogManager.LogException(e, "Failed Processing LowPriorityWorker.");
+
+                    _isExecuted = true;
+
+                    _lowPriorityStopWatch.Restart(); 
                 }
             }
         }

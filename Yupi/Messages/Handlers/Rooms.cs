@@ -775,6 +775,9 @@ namespace Yupi.Messages.Handlers
 
             Room room = Yupi.GetGame().GetRoomManager().LoadRoom(id);
 
+            if (room == null)
+                return;
+
             if (num == 0 && num2 == 1)
             {
                 SerializeRoomInformation(room, false);
@@ -785,6 +788,7 @@ namespace Yupi.Messages.Handlers
             if (num == 1 && num2 == 0)
             {
                 SerializeRoomInformation(room, true);
+
                 return;
             }
 
@@ -793,32 +797,38 @@ namespace Yupi.Messages.Handlers
 
         internal void SerializeRoomInformation(Room room, bool show)
         {
-            if (room == null)
+            if (room?.RoomData == null)
+                return;
+
+            if (Session == null)
                 return;
 
             room.RoomData.SerializeRoomData(GetResponse(), Session, true, null, show);
+
             SendResponse();
 
             DataTable table;
 
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery($"SELECT user_id FROM rooms_rights WHERE room_id={room.RoomId}");
+                queryReactor.SetQuery($"SELECT user_id FROM rooms_rights WHERE room_id = {room.RoomId}");
+
                 table = queryReactor.GetTable();
             }
 
+            int rowCount = table != null && table.Rows.Count > 0 ? table.Rows.Count : 0;
+
             Response.Init(LibraryParser.OutgoingRequest("LoadRoomRightsListMessageComposer"));
             GetResponse().AppendInteger(room.RoomData.Id);
-            GetResponse().AppendInteger(table.Rows.Count);
+            GetResponse().AppendInteger(rowCount);
 
-            foreach (
-                Habbo habboForId in
-                    table.Rows.Cast<DataRow>()
-                        .Select(dataRow => Yupi.GetHabboById((uint) dataRow[0]))
-                        .Where(habboForId => habboForId != null))
+            if (table != null && rowCount > 0)
             {
-                GetResponse().AppendInteger(habboForId.Id);
-                GetResponse().AppendString(habboForId.UserName);
+                foreach (Habbo habboForId in table.Rows.Cast<DataRow>().Select(dataRow => Yupi.GetHabboById((uint)dataRow["user_id"])).Where(habboForId => habboForId != null))
+                {
+                    GetResponse().AppendInteger(habboForId.Id);
+                    GetResponse().AppendString(habboForId.UserName);
+                }
             }
 
             SendResponse();
