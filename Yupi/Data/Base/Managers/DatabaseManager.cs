@@ -80,10 +80,22 @@ namespace Yupi.Data.Base.Managers
                     {
                         lock (databaseClient)
                         {
-                            if (databaseClient.IsAvailable())
-                                databaseClient.Disconnect();
+                            try
+                            {
+                                if (databaseClient == null)
+                                    continue;
 
-                            databaseClient.Dispose();
+                                if (databaseClient.IsAvailable())
+                                    databaseClient?.Disconnect();
+
+                                databaseClient?.Dispose();
+
+                                _databaseClients.Remove(databaseClient);
+                            }
+                            catch
+                            {
+                                _databaseClients.Remove(databaseClient);
+                            }
                         }
                     }
                 }
@@ -98,10 +110,22 @@ namespace Yupi.Data.Base.Managers
                         {
                             lock (databaseClient)
                             {
-                                if (databaseClient.IsAvailable())
-                                    databaseClient.Disconnect();
+                                try
+                                {
+                                    if (databaseClient == null)
+                                        continue;
 
-                                databaseClient.Dispose();
+                                    if (databaseClient.IsAvailable())
+                                        databaseClient?.Disconnect();
+
+                                    databaseClient?.Dispose();
+
+                                    _databaseClients.Remove(databaseClient);
+                                }
+                                catch
+                                {
+                                    _databaseClients.Remove(databaseClient);
+                                }
                             }
                         }
                             

@@ -332,8 +332,7 @@ namespace Yupi.Game.Groups
         /// <param name="searchVal">The search value.</param>
         /// <param name="page">The page.</param>
         /// <returns>ServerMessage.</returns>
-        internal ServerMessage SerializeGroupMembers(ServerMessage response, Group theGroup, uint reqType,
-            GameClient session, string searchVal = "", int page = 0)
+        internal ServerMessage SerializeGroupMembers(ServerMessage response, Group theGroup, uint reqType, GameClient session, string searchVal = "", int page = 0)
         {
             if (theGroup == null || session == null)
                 return null;
@@ -346,82 +345,94 @@ namespace Yupi.Game.Groups
             response.AppendInteger(theGroup.RoomId);
             response.AppendString(theGroup.Badge);
 
-            List<List<GroupMember>> list = Split(GetGroupUsersByString(theGroup, searchVal, reqType));
+            List<GroupMember> groupList = GetGroupUsersByString(theGroup, searchVal, reqType);
 
-            if (reqType == 0)
+            if(groupList != null)
             {
-                response.AppendInteger(list.Count);
+                List<List<GroupMember>> list = Split(groupList);
 
-                if (theGroup.Members.Count > 0 && list.Count > 0 && list[page] != null)
+                if(list != null)
                 {
-                    response.AppendInteger(list[page].Count);
-
-                    using (List<GroupMember>.Enumerator enumerator = list[page].GetEnumerator())
+                    if (reqType == 0)
                     {
-                        while (enumerator.MoveNext())
+                        response.AppendInteger(list.Count);
+
+                        if (theGroup.Members.Count > 0 && list.Count > 0 && list[page] != null)
                         {
-                            GroupMember current = enumerator.Current;
+                            response.AppendInteger(list[page].Count);
 
-                            AddGroupMemberIntoResponse(response, current);
-                        }
-                    }
-                }
-                else
-                    response.AppendInteger(0);
-            }
-            else if (reqType == 1)
-            {
-                response.AppendInteger(theGroup.Admins.Count);
-
-                List<GroupMember> paging = page <= list.Count ? list[page] : null;
-
-                if ((theGroup.Admins.Count > 0) && (list.Count > 0) && paging != null)
-                {
-                    response.AppendInteger(list[page].Count);
-
-                    using (List<GroupMember>.Enumerator enumerator = list[page].GetEnumerator())
-                    {
-                        while (enumerator.MoveNext())
-                        {
-                            GroupMember current = enumerator.Current;
-
-                            AddGroupMemberIntoResponse(response, current);
-                        }
-                    }
-                }
-                else
-                    response.AppendInteger(0);
-            }
-            else if (reqType == 2)
-            {
-                response.AppendInteger(theGroup.Requests.Count);
-
-                if (theGroup.Requests.Count > 0 && list.Count > 0 && list[page] != null)
-                {
-                    response.AppendInteger(list[page].Count);
-
-                    using (List<GroupMember>.Enumerator enumerator = list[page].GetEnumerator())
-                    {
-                        while (enumerator.MoveNext())
-                        {
-                            GroupMember current = enumerator.Current;
-
-                            response.AppendInteger(3);
-
-                            if (current != null)
+                            using (List<GroupMember>.Enumerator enumerator = list[page].GetEnumerator())
                             {
-                                response.AppendInteger(current.Id);
-                                response.AppendString(current.Name);
-                                response.AppendString(current.Look);
-                            }
+                                while (enumerator.MoveNext())
+                                {
+                                    GroupMember current = enumerator.Current;
 
-                            response.AppendString(string.Empty);
+                                    AddGroupMemberIntoResponse(response, current);
+                                }
+                            }
                         }
+                        else
+                            response.AppendInteger(0);
+                    }
+                    else if (reqType == 1)
+                    {
+                        response.AppendInteger(theGroup.Admins.Count);
+
+                        List<GroupMember> paging = page <= list.Count ? list[page] : null;
+
+                        if ((theGroup.Admins.Count > 0) && (list.Count > 0) && paging != null)
+                        {
+                            response.AppendInteger(list[page].Count);
+
+                            using (List<GroupMember>.Enumerator enumerator = list[page].GetEnumerator())
+                            {
+                                while (enumerator.MoveNext())
+                                {
+                                    GroupMember current = enumerator.Current;
+
+                                    AddGroupMemberIntoResponse(response, current);
+                                }
+                            }
+                        }
+                        else
+                            response.AppendInteger(0);
+                    }
+                    else if (reqType == 2)
+                    {
+                        response.AppendInteger(theGroup.Requests.Count);
+
+                        if (theGroup.Requests.Count > 0 && list.Count > 0 && list[page] != null)
+                        {
+                            response.AppendInteger(list[page].Count);
+
+                            using (List<GroupMember>.Enumerator enumerator = list[page].GetEnumerator())
+                            {
+                                while (enumerator.MoveNext())
+                                {
+                                    GroupMember current = enumerator.Current;
+
+                                    response.AppendInteger(3);
+
+                                    if (current != null)
+                                    {
+                                        response.AppendInteger(current.Id);
+                                        response.AppendString(current.Name);
+                                        response.AppendString(current.Look);
+                                    }
+
+                                    response.AppendString(string.Empty);
+                                }
+                            }
+                        }
+                        else
+                            response.AppendInteger(0);
                     }
                 }
                 else
                     response.AppendInteger(0);
             }
+            else
+                response.AppendInteger(0);
 
             response.AppendBool(session.GetHabbo().Id == theGroup.CreatorId);
             response.AppendInteger(14);
@@ -446,15 +457,13 @@ namespace Yupi.Game.Groups
             switch (req)
             {
                 case 0:
-                    using (Dictionary<uint, GroupMember>.ValueCollection.Enumerator enumerator = theGroup.Members.Values.GetEnumerator())
-                        while (enumerator.MoveNext())
-                            list.Add(enumerator.Current);
+
+                    list = theGroup.Members.Values.ToList();
+
                     break;
 
                 case 1:
-                    using (Dictionary<uint, GroupMember>.ValueCollection.Enumerator enumerator2 = theGroup.Admins.Values.GetEnumerator())
-                        while (enumerator2.MoveNext())
-                            list.Add(enumerator2.Current);
+                    list = theGroup.Admins.Values.ToList();
                     break;
 
                 case 2:

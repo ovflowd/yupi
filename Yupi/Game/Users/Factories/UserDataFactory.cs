@@ -35,6 +35,9 @@ namespace Yupi.Game.Users.Factories
         {
             errorCode = 1;
 
+            if (string.IsNullOrWhiteSpace(sessionTicket))
+                return null;
+
             DataTable groupsTable;
             DataRow dataRow;
             DataTable achievementsTable;
@@ -66,12 +69,13 @@ namespace Yupi.Game.Users.Factories
                 queryReactor.SetQuery("SELECT COUNT(auth_ticket) FROM users WHERE auth_ticket = @ticket");
                 queryReactor.AddParameter("ticket", sessionTicket);
 
-                if (queryReactor.GetInteger() == 0)
-                {
-                    YupiLogManager.LogMessage("Key: " + sessionTicket + " isn't attached.", "Yupi.Users", false);
+                int resultInteger = queryReactor.GetInteger();
 
+                //YupiLogManager.LogMessage("Key: " + sessionTicket + " isn't attached.", "Yupi.Users", false);
+                //Because User can also doesn't exists.
+
+                if (queryReactor.GetInteger() == 0)
                     return null;
-                }
 
                 // Get User Data
                 queryReactor.SetQuery("SELECT * FROM users WHERE auth_ticket = @ticket");
@@ -83,16 +87,16 @@ namespace Yupi.Game.Users.Factories
                 if (dataRow == null)
                     return null;
 
-                userId = (uint) dataRow["id"];
+                userId = (uint)dataRow["id"];
                 userName = dataRow["username"].ToString();
                 userLook = dataRow["look"].ToString();
 
-                int regDate = (int) dataRow["account_created"] == 0
+                int regDate = (int)dataRow["account_created"] == 0
                     ? Yupi.GetUnixTimeStamp()
-                    : (int) dataRow["account_created"];
+                    : (int)dataRow["account_created"];
 
                 // Check Register Date
-                if ((int) dataRow["account_created"] == 0)
+                if ((int)dataRow["account_created"] == 0)
                     queryReactor.RunFastQuery(
                         $"UPDATE users SET account_created = {regDate} WHERE id = {userId}");
 
@@ -191,153 +195,168 @@ namespace Yupi.Game.Users.Factories
                 // Get User Relationships Data
                 queryReactor.SetQuery($"SELECT * FROM users_relationships WHERE user_id = {userId}");
                 relationShipsTable = queryReactor.GetTable();
-            }
 
-            Dictionary<string, UserAchievement> achievements = new Dictionary<string, UserAchievement>();
 
-            foreach (DataRow row in achievementsTable.Rows)
-            {
-                string text = (string) row["achievement_group"];
-                uint level = (uint) row["achievement_level"], progress = (uint) row["user_progress"];
+                Dictionary<string, UserAchievement> achievements = new Dictionary<string, UserAchievement>();
 
-                achievements.Add(text, new UserAchievement(text, level, progress));
-            }
-
-            Dictionary<int, UserTalent> talents = new Dictionary<int, UserTalent>();
-
-            foreach (DataRow row in talentsTable.Rows)
-            {
-                int num2 = (int) row["talent_id"];
-                int state = (int) row["talent_state"];
-
-                talents.Add(num2, new UserTalent(num2, state));
-            }
-
-            List<uint> favorites = favoritesTable.Rows.Cast<DataRow>().Select(row => (uint) row["room_id"]).ToList();
-            List<uint> ignoreUsers = ignoresTable.Rows.Cast<DataRow>().Select(row => (uint) row["ignore_id"]).ToList();
-            List<string> tags = tagsTable.Rows.Cast<DataRow>().Select(row => row["tag"].ToString().Replace(" ", "")).ToList();
-
-            Dictionary<uint, RoomBot> inventoryBots =
-                botsTable.Rows.Cast<DataRow>()
-                    .Select(BotManager.GenerateBotFromRow)
-                    .ToDictionary(roomBot => roomBot.BotId);
-
-            List<Badge> badges =
-                badgesTable.Rows.Cast<DataRow>()
-                    .Select(dataRow8 => new Badge((string) dataRow8["badge_id"], (int) dataRow8["badge_slot"]))
-                    .ToList();
-
-            Subscription subscriptions = null;
-
-            if (subscriptionsRow != null)
-                subscriptions = new Subscription((int) subscriptionsRow["subscription_id"],
-                    (int) subscriptionsRow["timestamp_activated"], (int) subscriptionsRow["timestamp_expire"],
-                    (int) subscriptionsRow["timestamp_lastgift"]);
-
-            List<UserItem> items = (from DataRow row in itemsTable.Rows
-                let id = Convert.ToUInt32(row["id"])
-                let itemName = row["item_name"].ToString()
-                where Yupi.GetGame().GetItemManager().ContainsItemByName(itemName)
-                let extraData = (string) row["extra_data"]
-                let theGroup = Convert.ToUInt32(row["group_id"])
-                let songCode = (string) row["songcode"]
-                select new UserItem(id, itemName, extraData, theGroup, songCode)).ToList();
-
-            List<AvatarEffect> effects = (from DataRow row in effectsTable.Rows
-                let effectId = (int) row["effect_id"]
-                let totalDuration = (int) row["total_duration"]
-                let activated = Yupi.EnumToBool((string) row["is_activated"])
-                let activateTimestamp = (double) row["activated_stamp"]
-                let type = Convert.ToInt16(row["type"])
-                select new AvatarEffect(effectId, totalDuration, activated, activateTimestamp, type)).ToList();
-
-            HashSet<uint> pollSuggested = new HashSet<uint>();
-
-            foreach (uint pId in pollsTable.Rows.Cast<DataRow>().Select(row => (uint) row["poll_id"]))
-                pollSuggested.Add(pId);
-
-            Dictionary<uint, MessengerBuddy> friends = new Dictionary<uint, MessengerBuddy>();
-
-            foreach (DataRow row in friendsTable.Rows)
-            {
-                uint num4 = (uint) row["id"];
-                string pUsername = (string) row["username"];
-                string pLook = (string) row["look"];
-                string pMotto = (string) row["motto"];
-                bool pAppearOffline = Yupi.EnumToBool(row["hide_online"].ToString());
-                bool pHideInroom = Yupi.EnumToBool(row["hide_inroom"].ToString());
-
-                if (!Equals(num4, userId) && !friends.ContainsKey(num4))
-                    friends.Add(num4, new MessengerBuddy(num4, pUsername, pLook, pMotto, pAppearOffline, pHideInroom));
-            }
-
-            Dictionary<uint, MessengerRequest> friendsRequests = new Dictionary<uint, MessengerRequest>();
-
-            foreach (DataRow row in friendsRequestsTable.Rows)
-            {
-                uint num5 = Convert.ToUInt32(row["from_id"]);
-                uint num6 = Convert.ToUInt32(row["to_id"]);
-                string pUsername2 = row["username"].ToString();
-                string pLook = row["look"].ToString();
-
-                if (num5 != userId)
+                if (achievementsTable != null)
                 {
-                    if (!friendsRequests.ContainsKey(num5))
-                        friendsRequests.Add(num5, new MessengerRequest(userId, num5, pUsername2, pLook));
-                    else if (!friendsRequests.ContainsKey(num6))
-                        friendsRequests.Add(num6, new MessengerRequest(userId, num6, pUsername2, pLook));
+                    foreach (DataRow row in achievementsTable.Rows)
+                    {
+                        string text = (string)row["achievement_group"];
+                        uint level = (uint)row["achievement_level"], progress = (uint)row["user_progress"];
+
+                        achievements.Add(text, new UserAchievement(text, level, progress));
+                    }
                 }
+
+                Dictionary<int, UserTalent> talents = new Dictionary<int, UserTalent>();
+
+                if (talentsTable != null)
+                {
+                    foreach (DataRow row in talentsTable.Rows)
+                    {
+                        int num2 = (int)row["talent_id"];
+                        int state = (int)row["talent_state"];
+
+                        talents.Add(num2, new UserTalent(num2, state));
+                    }
+                }
+
+                List<uint> favorites = favoritesTable.Rows.Cast<DataRow>().Select(row => (uint)row["room_id"]).ToList();
+                List<uint> ignoreUsers = ignoresTable.Rows.Cast<DataRow>().Select(row => (uint)row["ignore_id"]).ToList();
+                List<string> tags = tagsTable.Rows.Cast<DataRow>().Select(row => row["tag"].ToString().Replace(" ", "")).ToList();
+
+                Dictionary<uint, RoomBot> inventoryBots =
+                    botsTable.Rows.Cast<DataRow>()
+                        .Select(BotManager.GenerateBotFromRow)
+                        .ToDictionary(roomBot => roomBot.BotId);
+
+                List<Badge> badges =
+                    badgesTable.Rows.Cast<DataRow>()
+                        .Select(dataRow8 => new Badge((string)dataRow8["badge_id"], (int)dataRow8["badge_slot"]))
+                        .ToList();
+
+                Subscription subscriptions = null;
+
+                if (subscriptionsRow != null)
+                    subscriptions = new Subscription((int)subscriptionsRow["subscription_id"],
+                        (int)subscriptionsRow["timestamp_activated"], (int)subscriptionsRow["timestamp_expire"],
+                        (int)subscriptionsRow["timestamp_lastgift"]);
+
+                List<UserItem> items = (from DataRow row in itemsTable.Rows
+                                        let id = Convert.ToUInt32(row["id"])
+                                        let itemName = row["item_name"].ToString()
+                                        where Yupi.GetGame().GetItemManager().ContainsItemByName(itemName)
+                                        let extraData = (string)row["extra_data"]
+                                        let theGroup = Convert.ToUInt32(row["group_id"])
+                                        let songCode = (string)row["songcode"]
+                                        select new UserItem(id, itemName, extraData, theGroup, songCode)).ToList();
+
+                List<AvatarEffect> effects = (from DataRow row in effectsTable.Rows
+                                              let effectId = (int)row["effect_id"]
+                                              let totalDuration = (int)row["total_duration"]
+                                              let activated = Yupi.EnumToBool((string)row["is_activated"])
+                                              let activateTimestamp = (double)row["activated_stamp"]
+                                              let type = Convert.ToInt16(row["type"])
+                                              select new AvatarEffect(effectId, totalDuration, activated, activateTimestamp, type)).ToList();
+
+                HashSet<uint> pollSuggested = new HashSet<uint>();
+
+                foreach (uint pId in pollsTable.Rows.Cast<DataRow>().Select(row => (uint)row["poll_id"]))
+                    pollSuggested.Add(pId);
+
+                Dictionary<uint, MessengerBuddy> friends = new Dictionary<uint, MessengerBuddy>();
+
+                foreach (DataRow row in friendsTable.Rows)
+                {
+                    uint num4 = (uint)row["id"];
+                    string pUsername = (string)row["username"];
+                    string pLook = (string)row["look"];
+                    string pMotto = (string)row["motto"];
+                    bool pAppearOffline = Yupi.EnumToBool(row["hide_online"].ToString());
+                    bool pHideInroom = Yupi.EnumToBool(row["hide_inroom"].ToString());
+
+                    if (!Equals(num4, userId) && !friends.ContainsKey(num4))
+                        friends.Add(num4, new MessengerBuddy(num4, pUsername, pLook, pMotto, pAppearOffline, pHideInroom));
+                }
+
+                Dictionary<uint, MessengerRequest> friendsRequests = new Dictionary<uint, MessengerRequest>();
+
+                foreach (DataRow row in friendsRequestsTable.Rows)
+                {
+                    uint num5 = Convert.ToUInt32(row["from_id"]);
+                    uint num6 = Convert.ToUInt32(row["to_id"]);
+                    string pUsername2 = row["username"].ToString();
+                    string pLook = row["look"].ToString();
+
+                    if (num5 != userId)
+                    {
+                        if (!friendsRequests.ContainsKey(num5))
+                            friendsRequests.Add(num5, new MessengerRequest(userId, num5, pUsername2, pLook));
+                        else if (!friendsRequests.ContainsKey(num6))
+                            friendsRequests.Add(num6, new MessengerRequest(userId, num6, pUsername2, pLook));
+                    }
+                }
+
+                HashSet<RoomData> myRooms = new HashSet<RoomData>();
+
+                foreach (DataRow row in myRoomsTable.Rows)
+                    myRooms.Add(Yupi.GetGame().GetRoomManager().FetchRoomData((uint)row["id"], row));
+
+                Dictionary<uint, Pet> pets = petsTable.Rows.Cast<DataRow>()
+                    .ToDictionary(row => (uint)row["id"], CatalogManager.GeneratePetFromRow);
+
+                Dictionary<int, int> quests = new Dictionary<int, int>();
+
+                foreach (DataRow row in questsTable.Rows)
+                {
+                    int key = (int)row["quest_id"];
+                    int value3 = (int)row["progress"];
+
+                    if (quests.ContainsKey(key))
+                        quests.Remove(key);
+
+                    quests.Add(key, value3);
+                }
+
+                HashSet<GroupMember> groups = new HashSet<GroupMember>();
+
+                if (groupsTable != null)
+                {
+                    foreach (DataRow row in groupsTable.Rows)
+                    {
+                        groups.Add(new GroupMember(userId, userName, userLook, (uint)row["group_id"],
+                            Convert.ToInt16(row["rank"]), (int)row["date_join"]));
+                    }
+                }
+
+                Dictionary<int, Relationship> relationShips = relationShipsTable.Rows.Cast<DataRow>()
+                    .ToDictionary(row => (int)row["id"],
+                        row => new Relationship((int)row["id"], (int)row["target"], Convert.ToInt32(row["type"].ToString())));
+
+                Habbo user = HabboFactory.GenerateHabbo(dataRow, statsTable, groups);
+
+                if (user == null)
+                    return null;
+
+                errorCode = 0;
+
+                if (user.Rank >= Yupi.StaffAlertMinRank)
+                    friends.Add(0,
+                        new MessengerBuddy(0, "Staff Chat",
+                            "hr-831-45.fa-1206-91.sh-290-1331.ha-3129-100.hd-180-2.cc-3039-73.ch-3215-92.lg-270-73",
+                            string.Empty, false, true));
+                else if (user.Rank >= Convert.ToUInt32(Yupi.GetDbConfig().DbData["ambassador.minrank"]))
+                    friends.Add(0,
+                        new MessengerBuddy(0, "Ambassador Chat",
+                            "hr-831-45.fa-1206-91.sh-290-1331.ha-3129-100.hd-180-2.cc-3039-73.ch-3215-92.lg-270-73",
+                            string.Empty, false, true));
+
+                return new UserData(userId, achievements, talents, favorites, ignoreUsers, tags, subscriptions, badges,
+                    items, effects, friends, friendsRequests, myRooms, pets, quests, user, inventoryBots, relationShips,
+                    pollSuggested, 0);
             }
-
-            HashSet<RoomData> myRooms = new HashSet<RoomData>();
-
-            foreach (DataRow row in myRoomsTable.Rows)
-                myRooms.Add(Yupi.GetGame().GetRoomManager().FetchRoomData((uint) row["id"], row));
-
-            Dictionary<uint, Pet> pets = petsTable.Rows.Cast<DataRow>()
-                .ToDictionary(row => (uint) row["id"], CatalogManager.GeneratePetFromRow);
-
-            Dictionary<int, int> quests = new Dictionary<int, int>();
-
-            foreach (DataRow row in questsTable.Rows)
-            {
-                int key = (int) row["quest_id"];
-                int value3 = (int) row["progress"];
-
-                if (quests.ContainsKey(key))
-                    quests.Remove(key);
-
-                quests.Add(key, value3);
-            }
-
-            HashSet<GroupMember> groups = new HashSet<GroupMember>();
-
-            foreach (DataRow row in groupsTable.Rows)
-                groups.Add(new GroupMember(userId, userName, userLook, (uint) row["group_id"],
-                    Convert.ToInt16(row["rank"]), (int) row["date_join"]));
-
-            Dictionary<int, Relationship> relationShips = relationShipsTable.Rows.Cast<DataRow>()
-                .ToDictionary(row => (int) row[0],
-                    row => new Relationship((int) row[0], (int) row[2], Convert.ToInt32(row[3].ToString())));
-
-            Habbo user = HabboFactory.GenerateHabbo(dataRow, statsTable, groups);
-
-            errorCode = 0;
-
-            if (user.Rank >= Yupi.StaffAlertMinRank)
-                friends.Add(0,
-                    new MessengerBuddy(0, "Staff Chat",
-                        "hr-831-45.fa-1206-91.sh-290-1331.ha-3129-100.hd-180-2.cc-3039-73.ch-3215-92.lg-270-73",
-                        string.Empty, false, true));
-            else if (user.Rank >= Convert.ToUInt32(Yupi.GetDbConfig().DbData["ambassador.minrank"]))
-                friends.Add(0,
-                    new MessengerBuddy(0, "Ambassador Chat",
-                        "hr-831-45.fa-1206-91.sh-290-1331.ha-3129-100.hd-180-2.cc-3039-73.ch-3215-92.lg-270-73",
-                        string.Empty, false, true));
-
-            return new UserData(userId, achievements, talents, favorites, ignoreUsers, tags, subscriptions, badges,
-                items, effects, friends, friendsRequests, myRooms, pets, quests, user, inventoryBots, relationShips,
-                pollSuggested, 0);
         }
 
         /// <summary>
@@ -347,32 +366,41 @@ namespace Yupi.Game.Users.Factories
         /// <returns>UserData.</returns>
         internal static UserData GetUserData(int userId)
         {
-            DataRow dataRow;
-            DataRow row;
-            DataTable table;
+            DataRow userInfo;
+            DataRow userStats;
+            DataTable userRelations;
+            DataTable userGroups;
+
+            if (userId == 0)
+                return null;
 
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery($"SELECT * FROM users WHERE id = {userId} LIMIT 1");
 
-                dataRow = queryReactor.GetRow();
+                userInfo = queryReactor.GetRow();
 
-                Yupi.GetGame().GetClientManager().LogClonesOut((uint) userId);
-
-                if (dataRow == null)
+                if (userInfo == null)
                     return null;
+
+                Yupi.GetGame().GetClientManager().LogClonesOut((uint)userId);
 
                 if (Yupi.GetGame().GetClientManager().GetClientByUserId((uint) userId) != null)
                     return null;
 
                 queryReactor.SetQuery($"SELECT * FROM groups_members WHERE user_id={userId}");
-                queryReactor.GetTable();
+                userGroups = queryReactor.GetTable();
+
+                queryReactor.RunFastQuery($"SELECT COUNT(id) FROM users_stats WHERE id = {userId}");
+
+                if (queryReactor.GetInteger() == 0)
+                    queryReactor.RunFastQuery($"INSERT INTO users_stats (id) VALUES ({userId});");
 
                 queryReactor.SetQuery($"SELECT * FROM users_stats WHERE id = {userId}");
-                row = queryReactor.GetRow();
+                userStats = queryReactor.GetRow();
 
                 queryReactor.SetQuery($"SELECT * FROM users_relationships WHERE user_id={userId}");
-                table = queryReactor.GetTable();
+                userRelations = queryReactor.GetTable();
             }
 
             Dictionary<string, UserAchievement> achievements = new Dictionary<string, UserAchievement>();
@@ -389,16 +417,31 @@ namespace Yupi.Game.Users.Factories
             Dictionary<uint, Pet> pets = new Dictionary<uint, Pet>();
             Dictionary<int, int> quests = new Dictionary<int, int>();
             Dictionary<uint, RoomBot> bots = new Dictionary<uint, RoomBot>();
-            HashSet<GroupMember> group = new HashSet<GroupMember>();
+            HashSet<GroupMember> groups = new HashSet<GroupMember>();
             HashSet<uint> pollData = new HashSet<uint>();
 
-            Dictionary<int, Relationship> dictionary = table.Rows.Cast<DataRow>()
+            Dictionary<int, Relationship> dictionary = userRelations.Rows.Cast<DataRow>()
                 .ToDictionary(dataRow2 => (int) dataRow2["id"],
                     dataRow2 =>
                         new Relationship((int) dataRow2["id"], (int) dataRow2["target"],
                             Convert.ToInt32(dataRow2["type"].ToString())));
 
-            Habbo user = HabboFactory.GenerateHabbo(dataRow, row, group);
+            string userName = userInfo["username"].ToString();
+            string userLook = userInfo["look"].ToString();
+
+            if (userGroups != null)
+            {
+                foreach (DataRow row in userGroups.Rows)
+                {
+                    groups.Add(new GroupMember((uint)userId, userName, userLook, (uint)row["group_id"],
+                        Convert.ToInt16(row["rank"]), (int)row["date_join"]));
+                }
+            }
+
+            Habbo user = HabboFactory.GenerateHabbo(userInfo, userStats, groups);
+
+            if (user == null)
+                return null;
 
             return new UserData((uint) userId, achievements, talents, favouritedRooms, ignores, tags, null, badges,
                 inventory,

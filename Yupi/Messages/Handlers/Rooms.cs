@@ -935,14 +935,23 @@ namespace Yupi.Messages.Handlers
                 return;
 
             List<uint> list = room.BannedUsers();
+
+            int listCount = 0;
+
+            if (list != null && list.Count != 0)
+                listCount = list.Count;
+
             Response.Init(LibraryParser.OutgoingRequest("RoomBannedListMessageComposer"));
             Response.AppendInteger(num);
-            Response.AppendInteger(list.Count);
+            Response.AppendInteger(listCount);
 
-            foreach (uint current in list)
+            if(listCount > 0)
             {
-                Response.AppendInteger(current);
-                Response.AppendString(Yupi.GetHabboById(current) != null ? Yupi.GetHabboById(current).UserName : "Undefined");
+                foreach (uint current in list)
+                {
+                    Response.AppendInteger(current);
+                    Response.AppendString(Yupi.GetHabboById(current) != null ? Yupi.GetHabboById(current).UserName : "Undefined");
+                }
             }
 
             SendResponse();
@@ -2767,19 +2776,34 @@ namespace Yupi.Messages.Handlers
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
-            RoomUser roomUserByHabbo = room?.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().Id);
+            if (room == null)
+                return;
+
+            if (Session == null)
+                return;
+
+            if (Session.GetHabbo() == null)
+                return;
+
+            RoomUser roomUserByHabbo = room.GetRoomUserManager()?.GetRoomUserByHabbo(Session.GetHabbo().Id);
 
             if (roomUserByHabbo == null)
                 return;
 
             string msg = Request.GetString();
+
+            if (msg == null)
+                msg = string.Empty;
+
             int bubble = Request.GetInteger();
 
             if (!roomUserByHabbo.IsBot)
+            {
                 if (bubble == 2 || (bubble == 23 && !Session.GetHabbo().HasFuse("fuse_mod")) || bubble < 0 ||
                     bubble > 29)
                     bubble = roomUserByHabbo.LastBubble;
-
+            }
+                
             roomUserByHabbo.Chat(Session, msg, true, -1, bubble);
         }
 

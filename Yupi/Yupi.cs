@@ -30,6 +30,7 @@ using Yupi.Messages.Factorys;
 using Yupi.Messages.Parsers;
 using Yupi.Net.Connection;
 using Yupi.Game;
+using System.Threading.Tasks;
 
 namespace Yupi
 {
@@ -210,6 +211,9 @@ namespace Yupi
         /// Table: users.id
         internal static Habbo GetHabboById(uint userId)
         {
+            if (userId == 0)
+                return null;
+
             GameClient clientByUserId = GetGame().GetClientManager().GetClientByUserId(userId);
 
             if (clientByUserId != null)
@@ -230,6 +234,9 @@ namespace Yupi
 
                 UserData userData = UserDataFactory.GetUserData((int) userId);
 
+                if (userData == null)
+                    return null;
+
                 if (UsersCached.ContainsKey(userId))
                     return UsersCached[userId];
 
@@ -237,6 +244,7 @@ namespace Yupi
                     return null;
 
                 UsersCached.TryAdd(userId, userData.User);
+
                 userData.User.InitInformation(userData);
 
                 return userData.User;

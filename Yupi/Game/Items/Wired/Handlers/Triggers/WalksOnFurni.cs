@@ -105,7 +105,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Triggers
             RoomItem roomItem = (RoomItem) stuff[1];
 
             int userPosition = roomUser.X;
-            int lastUserPosition = roomUser.CopyX;
+            int lastUserPosition = roomUser.LastSelectedX;
 
             if (!Items.Contains(roomItem) ||
                 (roomUser.LastItem != 0 && roomUser.LastItem == roomItem.Id && userPosition == lastUserPosition))

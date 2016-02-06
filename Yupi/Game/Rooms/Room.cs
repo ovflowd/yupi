@@ -1030,14 +1030,20 @@ namespace Yupi.Game.Rooms
         internal List<uint> BannedUsers()
         {
             List<uint> list = new List<uint>();
+
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery(
-                    $"SELECT user_id FROM rooms_bans WHERE expire > UNIX_TIMESTAMP() AND room_id={RoomId}");
+                queryReactor.SetQuery($"SELECT user_id FROM rooms_bans WHERE expire > UNIX_TIMESTAMP() AND room_id={RoomId}");
+
                 DataTable table = queryReactor.GetTable();
+
+                if (table == null)
+                    return null;
+
                 list.AddRange(from DataRow dataRow in table.Rows select (uint) dataRow[0]);
+
+                return list;
             }
-            return list;
         }
 
         /// <summary>

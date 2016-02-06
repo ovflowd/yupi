@@ -93,6 +93,8 @@ namespace Yupi.Net.Packets
         {
             if (length > 0 && _currentClient != null)
             {
+                short messageId = 0;
+
                 try
                 {
                     int pos;
@@ -116,8 +118,6 @@ namespace Yupi.Net.Packets
 
                             break;
                         }
-
-                        short messageId = 0;
 
                         if (_currentPacketLength == length - pos + _bufferPos)
                         {
@@ -174,7 +174,7 @@ namespace Yupi.Net.Packets
                 }
                 catch (Exception exception)
                 {
-                    YupiLogManager.LogException(exception, "Failed Handling Connection Packet.");
+                    YupiLogManager.LogException(exception, $"Failed Parsee Packet #{messageId}.");
                 }
             }
         }

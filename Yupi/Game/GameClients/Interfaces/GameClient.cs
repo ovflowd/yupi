@@ -223,11 +223,20 @@ namespace Yupi.Game.GameClients.Interfaces
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(authTicket))
+                    return false;
+
                 string ip = GetConnection().GetIp();
+
+                if (string.IsNullOrEmpty(ip))
+                    return false;
 
                 uint errorCode;
 
                 UserData userData = UserDataFactory.GetUserData(authTicket, out errorCode);
+
+                if (userData == null)
+                    return false;
 
                 if (errorCode == 1 || errorCode == 2)
                     return false;

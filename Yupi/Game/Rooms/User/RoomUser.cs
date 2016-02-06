@@ -230,8 +230,8 @@ namespace Yupi.Game.Rooms.User
         /// </summary>
         internal uint LastItem;
 
-        internal int LastSelectedX, CopyX;
-        internal int LastSelectedY, CopyY;
+        internal int LastSelectedX;
+        internal int LastSelectedY;
 
         /// <summary>
         ///     The locked tiles count

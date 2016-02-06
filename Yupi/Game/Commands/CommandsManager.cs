@@ -151,7 +151,6 @@ namespace Yupi.Game.Commands
             CommandsDictionary.Add("ipban", new BanUserIp());
             CommandsDictionary.Add("addblackword", new AddBlackWord());
             CommandsDictionary.Add("deleteblackword", new DeleteBlackWord());
-            CommandsDictionary.Add("developer", new Developer());
             CommandsDictionary.Add("spull", new SpullUser());
             CommandsDictionary.Add("startquestion", new StartQuestion());
             CommandsDictionary.Add("dc", new DisconnectUser());
