@@ -170,7 +170,7 @@ UpdateIgnoreStatusMessageComposer=2212
 TradeAcceptMessageComposer=1683
 TradeCloseMessageComposer=3218
 TradeCompletedMessageComposer=3756
-TradeConfirmationMessageComposer=2142
+TradeConfirmationMessageComposer=2669
 TradeStartMessageComposer=477
 TradeUpdateMessageComposer=2276
 
