@@ -84,6 +84,22 @@ namespace Yupi.Core.Io.Logger
         /// </summary>
         /// <param name="logText">The log text.</param>
         /// <param name="writerHeader"></param>
+        /// <param name="output"></param>
+        public static void LogWarning(string logText, string writerHeader = "Yupi.Infos", bool output = true)
+        {
+            lock (_yupiLogManager)
+                _yupiLogManager.Warn(logText);
+
+            if (output)
+                YupiWriterManager.WriteLine(logText, writerHeader, ConsoleColor.DarkYellow);
+        }
+
+        /// <summary>
+        ///     Logs the message.
+        /// </summary>
+        /// <param name="logText">The log text.</param>
+        /// <param name="writerHeader"></param>
+        /// <param name="output"></param>
         public static void LogMessage(string logText, string writerHeader = "Yupi.Infos", bool output = true)
         {
             lock (_yupiLogManager)

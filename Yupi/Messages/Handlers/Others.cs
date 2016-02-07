@@ -146,18 +146,6 @@ namespace Yupi.Messages.Handlers
                 return;
 
             Session.TimePingedReceived = DateTime.Now;
-
-            /*int integerString = Request.GetIntegerFromString();
-
-            int integerResult;
-
-            int.TryParse(integerString.ToString(), out integerResult);
-
-            Response.Init(LibraryParser.OutgoingRequest("LatencyTestResponseMessageComposer"));
-            Response.AppendInteger(integerString);
-
-            SendResponse();
-            */
         }
 
         /// <summary>

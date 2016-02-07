@@ -303,7 +303,8 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         internal void GetBalance()
         {
-            if (Session?.GetHabbo() == null) return;
+            if (Session?.GetHabbo() == null)
+                return;
 
             Session.GetHabbo().UpdateCreditsBalance();
             Session.GetHabbo().UpdateSeasonalCurrencyBalance();

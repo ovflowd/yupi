@@ -22,10 +22,12 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using MySql.Data.MySqlClient;
+using Yupi.Core.Io.Logger;
 using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Data.Base.Clients;
 
@@ -72,43 +74,56 @@ namespace Yupi.Data.Base.Managers
 
         private void RemoveUnusedConnections(bool removeAllCalled = false)
         {
-            if (removeAllCalled)
+            try
             {
-                lock (_databaseClients)
+                if (removeAllCalled)
                 {
-                    if (_databaseClients.Count > 0)
+                    lock (_databaseClients)
                     {
-                        foreach (DatabaseClient databaseClient in _databaseClients)
+                        if (_databaseClients.Count > 0)
                         {
-                            lock (databaseClient)
+                            foreach (DatabaseClient databaseClient in _databaseClients)
                             {
-                                if (databaseClient.IsAvailable())
-                                    databaseClient.Disconnect();
+                                if (databaseClient == null)
+                                    continue;
 
-                                databaseClient.Dispose();
+                                lock (databaseClient)
+                                {
+                                    if (databaseClient.IsAvailable())
+                                        databaseClient.Disconnect();
+
+                                    databaseClient.Dispose();
+                                }
                             }
                         }
-
-                        _databaseClients.Clear();
                     }
-                }
-            }
-            else
-            {
-                lock (_databaseClients)
-                {
-                    if (_databaseClients.Count > 0)
-                    {
-                        foreach (DatabaseClient databaseClient in _databaseClients.Where(c => !c.IsAvailable()))
-                        {
-                            lock (databaseClient)
-                                databaseClient.Dispose();
 
-                            _databaseClients.Remove(databaseClient);
+                    lock (_databaseClients)
+                        _databaseClients.Clear();
+                }
+                else
+                {
+                    lock (_databaseClients)
+                    {
+                        if (_databaseClients.Count > 0)
+                        {
+                            foreach (DatabaseClient databaseClient in _databaseClients.Where(c => !c.IsAvailable()))
+                            {
+                                lock (databaseClient)
+                                    databaseClient.Dispose();
+                            }
                         }
                     }
+
+                    lock (_databaseClients)
+                        _databaseClients.RemoveAll(c => !c.IsAvailable());
                 }
             }
+            catch
+            {
+                YupiLogManager.LogWarning("Failed Removing Database Unused Connection.", "Yupi.Data");
+            }
+           
         }
 
         private DatabaseClient ReturnConnectedConnection()

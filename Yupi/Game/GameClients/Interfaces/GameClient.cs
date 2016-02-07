@@ -235,7 +235,7 @@ namespace Yupi.Game.GameClients.Interfaces
 
                 UserData userData = UserDataFactory.GetUserData(authTicket, out errorCode);
 
-                if (userData == null)
+                if (userData?.User == null)
                     return false;
 
                 if (errorCode == 1 || errorCode == 2)
@@ -246,12 +246,13 @@ namespace Yupi.Game.GameClients.Interfaces
                 _habbo = userData.User;
 
                 userData.User.LoadData(userData);
-
-                string banReason = Yupi.GetGame().GetBanManager().GetBanReason(userData.User.UserName, ip, MachineId);
+ 
                 bool isBanned = Yupi.GetGame().GetBanManager().CheckIfIsBanned(userData.User.UserName, ip, MachineId);
 
-                if (!string.IsNullOrEmpty(banReason) || isBanned)
+                if (isBanned)
                 {
+                    string banReason = Yupi.GetGame().GetBanManager().GetBanReason(userData.User.UserName, ip, MachineId);
+
                     SendNotifWithScroll(banReason);
 
                     using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
