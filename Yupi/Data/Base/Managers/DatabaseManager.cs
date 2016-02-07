@@ -76,27 +76,20 @@ namespace Yupi.Data.Base.Managers
             {
                 lock (_databaseClients)
                 {
-                    foreach (DatabaseClient databaseClient in _databaseClients)
+                    if (_databaseClients.Count > 0)
                     {
-                        lock (databaseClient)
+                        foreach (DatabaseClient databaseClient in _databaseClients)
                         {
-                            try
+                            lock (databaseClient)
                             {
-                                if (databaseClient == null)
-                                    continue;
-
                                 if (databaseClient.IsAvailable())
-                                    databaseClient?.Disconnect();
+                                    databaseClient.Disconnect();
 
-                                databaseClient?.Dispose();
-
-                                _databaseClients.Remove(databaseClient);
-                            }
-                            catch
-                            {
-                                _databaseClients.Remove(databaseClient);
+                                databaseClient.Dispose();
                             }
                         }
+
+                        _databaseClients.Clear();
                     }
                 }
             }
@@ -109,27 +102,10 @@ namespace Yupi.Data.Base.Managers
                         foreach (DatabaseClient databaseClient in _databaseClients.Where(c => !c.IsAvailable()))
                         {
                             lock (databaseClient)
-                            {
-                                try
-                                {
-                                    if (databaseClient == null)
-                                        continue;
+                                databaseClient.Dispose();
 
-                                    if (databaseClient.IsAvailable())
-                                        databaseClient?.Disconnect();
-
-                                    databaseClient?.Dispose();
-
-                                    _databaseClients.Remove(databaseClient);
-                                }
-                                catch
-                                {
-                                    _databaseClients.Remove(databaseClient);
-                                }
-                            }
+                            _databaseClients.Remove(databaseClient);
                         }
-                            
-                        _databaseClients.RemoveAll(c => !c.IsAvailable());
                     }
                 }
             }

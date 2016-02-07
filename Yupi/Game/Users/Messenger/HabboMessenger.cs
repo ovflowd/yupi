@@ -448,21 +448,30 @@ namespace Yupi.Game.Users.Messenger
         /// <param name="message">The message.</param>
         internal void SendInstantMessage(uint toId, string message)
         {
-            BlackWord word;
+            if (string.IsNullOrEmpty(message))
+                return;
 
-            if (BlackWordsManager.Check(message, BlackWordType.Hotel, out word) && toId != 0)
+            if (toId != 0)
             {
-                BlackWordTypeSettings settings = word.TypeSettings;
+                BlackWord word;
 
-                GetClient().HandlePublicist(word.Word, message, "MESSENGER", settings);
-
-                if (settings.ShowMessage)
+                if (BlackWordsManager.Check(message, BlackWordType.Hotel, out word))
                 {
-                    GetClient()
-                        .SendModeratorMessage("A mensagem contém a palavra: " + word.Word +
-                                              " que não é permitida, você poderá ser banido!");
+                    BlackWordTypeSettings settings = word.TypeSettings;
 
-                    return;
+                    GameClient thisClient = GetClient();
+
+                    if (thisClient != null)
+                    {
+                        thisClient.HandlePublicist(word.Word, message, "MESSENGER", settings);
+
+                        if (settings.ShowMessage)
+                        {
+                            thisClient.SendModeratorMessage("A mensagem contém a palavra: " + word.Word + " que não é permitida, você poderá ser banido!");
+
+                            return;
+                        }
+                    }
                 }
             }
 

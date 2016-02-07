@@ -393,10 +393,14 @@ namespace Yupi.Game.GameClients.Interfaces
         /// <param name="message">The message.</param>
         internal void SendModeratorMessage(string message)
         {
+            if (string.IsNullOrWhiteSpace(message))
+                return;
+
             ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("AlertNotificationMessageComposer"));
 
             serverMessage.AppendString(message);
             serverMessage.AppendString(string.Empty);
+
             SendMessage(serverMessage);
         }
 

@@ -96,7 +96,7 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         internal void SendResponse()
         {
-            if (Response != null && Response.Id > 0 && Session != null && Session.GetConnection() != null)
+            if (Response != null && Response.Id > 0 && Session?.GetConnection() != null)
                 Session.GetConnection().SendData(Response.GetReversedBytes());
         }
 
@@ -147,7 +147,7 @@ namespace Yupi.Messages.Handlers
 
             Session.TimePingedReceived = DateTime.Now;
 
-            int integerString = Request.GetIntegerFromString();
+            /*int integerString = Request.GetIntegerFromString();
 
             int integerResult;
 
@@ -157,6 +157,7 @@ namespace Yupi.Messages.Handlers
             Response.AppendInteger(integerString);
 
             SendResponse();
+            */
         }
 
         /// <summary>
@@ -253,7 +254,6 @@ namespace Yupi.Messages.Handlers
             Habbo habbo = Session.GetHabbo();
 
             bool tradeLocked = Session.GetHabbo().CheckTrading();
-            bool canUseFloorEditor = true;
             //ServerExtraSettings.EveryoneUseFloor || Session.GetHabbo().Vip || Session.GetHabbo().Rank >= 4;
 
             Response.Init(LibraryParser.OutgoingRequest("UserObjectMessageComposer"));
@@ -284,7 +284,7 @@ namespace Yupi.Messages.Handlers
 
             Response.AppendString("BUILDER_AT_WORK");
             Response.AppendString(string.Empty);
-            Response.AppendBool(canUseFloorEditor);
+            Response.AppendBool(true);
 
             Response.AppendString("VOTE_IN_COMPETITIONS");
             Response.AppendString("requirement.unfulfilled.helper_level_2");
@@ -455,7 +455,7 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         internal void PurchaseTargetedOffer()
         {
-            uint offerId = Request.GetUInteger();
+            Request.GetUInteger();
             uint quantity = Request.GetUInteger();
 
             TargetedOffer offer = Yupi.GetGame().GetTargetedOfferManager().CurrentOffer;
@@ -516,12 +516,12 @@ namespace Yupi.Messages.Handlers
                             .ToList();
                     if (!rooms.Any())
                         return;
-                    if (rooms.Count() == 1)
+                    if (rooms.Count == 1)
                     {
                         roomId = rooms.First().Id;
                         break;
                     }
-                    roomId = rooms[Yupi.GetRandomNumber(0, rooms.Count())].Id;
+                    roomId = rooms[Yupi.GetRandomNumber(0, rooms.Count)].Id;
                     break;
             }
 
@@ -551,7 +551,7 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         internal void GetUcPanelHotel()
         {
-            int id = Request.GetInteger();
+            Request.GetInteger();
         }
 
         /// <summary>
@@ -568,7 +568,7 @@ namespace Yupi.Messages.Handlers
                 byte[] bytes = Request.GetBytes(count);
                 string outData = Converter.Deflate(bytes);
 
-                string url = WebManager.HttpPostJson(ServerExtraSettings.StoriesApiThumbnailServerUrl, outData);
+                WebManager.HttpPostJson(ServerExtraSettings.StoriesApiThumbnailServerUrl, outData);
 
                 ServerMessage thumb = new ServerMessage(LibraryParser.OutgoingRequest("ThumbnailSuccessMessageComposer"));
                 thumb.AppendBool(true);

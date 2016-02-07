@@ -2,6 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using Yupi.Core.Io.Logger;
 using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Browser.Models;
@@ -397,37 +398,49 @@ namespace Yupi.Game.Rooms.Data
             message.AppendInteger(TradeState);
             message.AppendInteger(Score);
             message.AppendInteger(0); // Ranking
-            message.AppendInteger(Category);
-
+            message.AppendInteger(Category > 0 ? Category : 0);
             message.AppendInteger(TagCount);
-            foreach (string current in Tags) message.AppendString(current);
+
+            foreach (string current in Tags.Where(current => current != null))
+                message.AppendString(current);
 
             string imageData = null;
 
             int enumType = enterRoom ? 32 : 0;
-            PublicItem publicItem = Yupi.GetGame().GetNavigator().GetPublicItem(Id);
-            if (publicItem != null && !string.IsNullOrEmpty(publicItem.Image))
+
+            PublicItem publicItem = Yupi.GetGame()?.GetNavigator()?.GetPublicItem(Id);
+
+            if (!string.IsNullOrEmpty(publicItem?.Image))
             {
                 imageData = publicItem.Image;
                 enumType += 1;
             }
 
-            if (Group != null) enumType += 2;
-            if (showEvents && Event != null) enumType += 4;
-            if (Type == "private") enumType += 8;
-            if (AllowPets) enumType += 16;
+
+            if (Group != null)
+                enumType += 2;
+
+            if (showEvents && Event != null)
+                enumType += 4;
+
+            if (Type == "private")
+                enumType += 8;
+
+            if (AllowPets)
+                enumType += 16;
+
             message.AppendInteger(enumType);
 
             if (imageData != null)
-            {
                 message.AppendString(imageData);
-            }
+
             if (Group != null)
             {
                 message.AppendInteger(Group.Id);
                 message.AppendString(Group.Name);
                 message.AppendString(Group.Badge);
             }
+
             if (showEvents && Event != null)
             {
                 message.AppendString(Event.Name);

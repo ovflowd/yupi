@@ -12,7 +12,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
     {
         public override void OnTrigger(GameClient session, RoomItem item, int request, bool hasRights)
         {
-            uint num = item.GetBaseItem().Modes - 1;
+            uint num = item.GetBaseItem().Modes >= 1 ? item.GetBaseItem().Modes - 1 : 0;
 
             if (session == null || !hasRights || num <= 0 || item.GetBaseItem().InteractionType == Interaction.Pinata)
                 return;
