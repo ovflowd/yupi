@@ -95,11 +95,10 @@ namespace Yupi.Data.Base.Managers
                                     databaseClient.Dispose();
                                 }
                             }
+                            
+                            _databaseClients.Clear();
                         }
                     }
-
-                    lock (_databaseClients)
-                        _databaseClients.Clear();
                 }
                 else
                 {
@@ -112,11 +111,10 @@ namespace Yupi.Data.Base.Managers
                                 lock (databaseClient)
                                     databaseClient.Dispose();
                             }
+                            
+                            _databaseClients.RemoveAll(c => !c.IsAvailable());
                         }
                     }
-
-                    lock (_databaseClients)
-                        _databaseClients.RemoveAll(c => !c.IsAvailable());
                 }
             }
             catch
@@ -157,9 +155,6 @@ namespace Yupi.Data.Base.Managers
                 return;
 
             RemoveUnusedConnections(true);
-
-            lock (_databaseClients)
-                _databaseClients.Clear();
         }
     }
 }
