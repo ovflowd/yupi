@@ -90,20 +90,20 @@ namespace Yupi.Game.Browser
         /// <param name="direct">if set to <c>true</c> [direct].</param>
         /// <param name="message">The message.</param>
         /// <param name="session">The session.</param>
-        internal static void SerializeSearchResultListStatics(string staticId, bool direct, ServerMessage message,
-            GameClient session)
+        /// <param name="opened"></param>
+        /// <param name="showImage"></param>
+        internal static void SerializeSearchResultListStatics(string staticId, bool direct, ServerMessage message, GameClient session, bool opened = false, bool showImage = false)
         {
             if (string.IsNullOrEmpty(staticId) || staticId == "official")
                 staticId = "official_view";
 
-            if (staticId != "hotel_view" && staticId != "roomads_view" && staticId != "myworld_view" &&
-                !staticId.StartsWith("category__") && staticId != "official_view")
+            if (staticId != "hotel_view" && staticId != "roomads_view" && staticId != "myworld_view" && !staticId.StartsWith("category__") && staticId != "official_view")
             {
                 message.AppendString(staticId);
                 message.AppendString(string.Empty);
                 message.AppendInteger(1);
-                message.AppendBool(staticId != "my" && staticId != "popular" && staticId != "official-root");
-                message.AppendInteger(staticId == "official-root" ? 1 : 0);
+                message.AppendBool(!opened); // staticId != "my" && staticId != "popular" && staticId != "official-root"
+                message.AppendInteger(showImage ? 1 : 0);
             }
 
             KeyValuePair<RoomData, uint>[] rooms;
@@ -112,7 +112,7 @@ namespace Yupi.Game.Browser
             {
                 case "hotel_view":
                     {
-                        SerializeSearchResultListStatics("popular", false, message, session);
+                        SerializeSearchResultListStatics("popular", false, message, session, true);
 
                         foreach (PublicCategory flat in Yupi.GetGame().GetNavigator().PrivateCategories.Values)
                             SerializeSearchResultListFlatcats(flat.Id, false, message);
@@ -121,8 +121,8 @@ namespace Yupi.Game.Browser
                     }
                 case "myworld_view":
                     {
-                        SerializeSearchResultListStatics("my", false, message, session);
-                        SerializeSearchResultListStatics("favorites", false, message, session);
+                        SerializeSearchResultListStatics("my", false, message, session, true, true);
+                        SerializeSearchResultListStatics("favorites", false, message, session, true);
                         SerializeSearchResultListStatics("my_groups", false, message, session);
                         SerializeSearchResultListStatics("history", false, message, session);
                         SerializeSearchResultListStatics("friends_rooms", false, message, session);
@@ -140,8 +140,8 @@ namespace Yupi.Game.Browser
                     }
                 case "official_view":
                     {
-                        SerializeSearchResultListStatics("official-root", false, message, session);
-                        SerializeSearchResultListStatics("staffpicks", false, message, session);
+                        SerializeSearchResultListStatics("official-root", false, message, session, true, true);
+                        SerializeSearchResultListStatics("staffpicks", false, message, session, true, true);
 
                         break;
                     }
