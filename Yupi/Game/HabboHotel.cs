@@ -518,10 +518,10 @@ namespace Yupi.Game
         {
             while (GameLoopActiveExt)
             {
-                ServerCpuLowPriorityWorker.Process();
-
                 try
                 {
+                    ServerCpuLowPriorityWorker.Process();
+
                     RoomManagerCycleEnded = false;
                     ClientManagerCycleEnded = false;
 

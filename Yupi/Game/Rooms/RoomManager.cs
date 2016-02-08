@@ -571,8 +571,8 @@ namespace Yupi.Game.Rooms
                 queryReactor.AddParameter("allowpetseat", Yupi.BoolToEnum(room.RoomData.AllowPetsEating));
                 queryReactor.AddParameter("allowwalk", Yupi.BoolToEnum(room.RoomData.AllowWalkThrough));
                 queryReactor.AddParameter("hidewall", Yupi.BoolToEnum(room.RoomData.HideWall));
-                queryReactor.AddParameter("floorthick", room.RoomData.WallThickness);
-                queryReactor.AddParameter("wallthick", Yupi.BoolToEnum(room.RoomData.AllowPets));
+                queryReactor.AddParameter("floorthick", room.RoomData.FloorThickness);
+                queryReactor.AddParameter("wallthick", room.RoomData.WallThickness);
                 queryReactor.AddParameter("whocanmute", room.RoomData.WhoCanMute);
                 queryReactor.AddParameter("kicksettings", room.RoomData.WhoCanKick);
                 queryReactor.AddParameter("bansettings", room.RoomData.WhoCanBan);

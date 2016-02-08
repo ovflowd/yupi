@@ -77,6 +77,8 @@ namespace Yupi.Data
                         dateTime.ToString("HH"), "h:", dateTime.ToString("mm"), "m | Users: ",
                         clientCount, " | Rooms: ", loadedRoomsCount);
 
+                    Yupi.GetGame().GetNavigator().LoadNewPublicRooms();
+
                     _isExecuted = true;
 
                     _lowPriorityStopWatch.Restart();
