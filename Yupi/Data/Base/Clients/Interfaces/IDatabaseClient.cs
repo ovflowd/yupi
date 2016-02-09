@@ -42,5 +42,7 @@ namespace Yupi.Data.Base.Clients.Interfaces
         MySqlCommand CreateCommand();
 
         bool IsAvailable();
+
+        void ReportDone();
     }
 }

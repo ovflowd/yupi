@@ -94,5 +94,10 @@ namespace Yupi.Data.Base.Clients
         public MySqlCommand CreateCommand() => GetConnectionHandler()?.GetConnection()?.CreateCommand();
 
         public MySqlConnectionHandler GetConnectionHandler() => ConnectionHandler;
+
+        public void ReportDone()
+        {
+            
+        }
     }
 }

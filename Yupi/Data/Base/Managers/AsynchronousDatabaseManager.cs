@@ -30,16 +30,17 @@ using MySql.Data.MySqlClient;
 using Yupi.Core.Io.Logger;
 using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Data.Base.Clients;
+using Yupi.Data.Base.Managers.Interfaces;
 
 namespace Yupi.Data.Base.Managers
 {
-    public class DatabaseManager
+    public class AsynchronousDatabaseManager : IDatabaseManager
     {
         private readonly List<DatabaseClient> _databaseClients;
 
         private MySqlConnectionStringBuilder _serverDetails;
 
-        public DatabaseManager(MySqlConnectionStringBuilder serverDetails)
+        public AsynchronousDatabaseManager(MySqlConnectionStringBuilder serverDetails)
         {
             SetServerDetails(serverDetails);
 

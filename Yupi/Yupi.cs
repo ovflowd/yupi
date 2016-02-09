@@ -30,7 +30,7 @@ using Yupi.Messages.Factorys;
 using Yupi.Messages.Parsers;
 using Yupi.Net.Connection;
 using Yupi.Game;
-using System.Threading.Tasks;
+using Yupi.Data.Base.Managers.Interfaces;
 
 namespace Yupi
 {
@@ -86,7 +86,7 @@ namespace Yupi
         /// <summary>
         ///     The manager
         /// </summary>
-        internal static DatabaseManager YupiDatabaseManager;
+        internal static IDatabaseManager YupiDatabaseManager;
 
         /// <summary>
         ///     The configuration data
@@ -240,7 +240,7 @@ namespace Yupi
                 if (UsersCached.ContainsKey(userId))
                     return UsersCached[userId];
 
-                if (userData?.User == null)
+                if (userData.User == null)
                     return null;
 
                 UsersCached.TryAdd(userId, userData.User);
@@ -316,7 +316,7 @@ namespace Yupi
                     ConnectionTimeout = 10
                 };
 
-                YupiDatabaseManager = new DatabaseManager(mySqlConnectionStringBuilder);
+                YupiDatabaseManager = new BasicDatabaseManager(mySqlConnectionStringBuilder);
 
                 using (IQueryAdapter queryReactor = GetDatabaseManager().GetQueryReactor())
                 {
@@ -623,7 +623,7 @@ namespace Yupi
         ///     Get's the HabboHotel Environment Handler
         /// </summary>
         /// <returns>HabboHotel.</returns>
-        internal static Game.HabboHotel GetGame() => GameServer;
+        internal static HabboHotel GetGame() => GameServer;
 
         /// <summary>
         ///     Gets the language.
@@ -650,7 +650,7 @@ namespace Yupi
         ///     Get's the Database YupiDatabaseManager Handler
         /// </summary>
         /// <returns>ConnectionManager.</returns>
-        internal static DatabaseManager GetDatabaseManager() => YupiDatabaseManager;
+        internal static IDatabaseManager GetDatabaseManager() => YupiDatabaseManager;
 
         /// <summary>
         ///     Perform's the Emulator Shutdown

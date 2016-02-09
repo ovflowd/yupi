@@ -56,7 +56,7 @@ namespace Yupi.Game.Browser
         /// <summary>
         ///     The in categories
         /// </summary>
-        internal Dictionary<int, string> InCategories;
+        internal Dictionary<string, NavigatorCategory> InCategories;
 
         /// <summary>
         ///     The new public rooms
@@ -79,7 +79,7 @@ namespace Yupi.Game.Browser
         internal HotelBrowserManager()
         {
             PrivateCategories = new HybridDictionary();
-            InCategories = new Dictionary<int, string>();
+            InCategories = new Dictionary<string, NavigatorCategory>();
             _publicItems = new Dictionary<uint, PublicItem>();
             NavigatorHeaders = new List<NavigatorHeader>();
             PromoCategories = new Dictionary<int, PromoCategory>();
@@ -109,41 +109,38 @@ namespace Yupi.Game.Browser
         public void Initialize(IQueryAdapter dbClient)
         {
             dbClient.SetQuery("SELECT * FROM navigator_flatcats WHERE enabled = '2'");
-            DataTable table = dbClient.GetTable();
+            DataTable navigatorFlatCats = dbClient.GetTable();
 
             dbClient.SetQuery("SELECT * FROM navigator_publics");
-            DataTable table2 = dbClient.GetTable();
-
-            dbClient.SetQuery("SELECT * FROM navigator_pubcats");
-            DataTable table3 = dbClient.GetTable();
+            DataTable navigatorPublicRooms = dbClient.GetTable();
 
             dbClient.SetQuery("SELECT * FROM navigator_promocats");
-            DataTable table4 = dbClient.GetTable();
+            DataTable navigatorPromoCats = dbClient.GetTable();
 
-            if (table4 != null)
+            if (navigatorPromoCats != null)
             {
                 PromoCategories.Clear();
 
-                foreach (DataRow dataRow in table4.Rows)
+                foreach (DataRow dataRow in navigatorPromoCats.Rows)
                     PromoCategories.Add((int) dataRow["id"],
                         new PromoCategory((int) dataRow["id"], (string) dataRow["caption"], (int) dataRow["min_rank"],
                             Yupi.EnumToBool((string) dataRow["visible"])));
             }
 
-            if (table != null)
+            if (navigatorFlatCats != null)
             {
                 PrivateCategories.Clear();
 
-                foreach (DataRow dataRow in table.Rows)
+                foreach (DataRow dataRow in navigatorFlatCats.Rows)
                     PrivateCategories.Add((int) dataRow["id"],
                         new PublicCategory((int) dataRow["id"], (string) dataRow["caption"], (int) dataRow["min_rank"]));
             }
 
-            if (table2 != null)
+            if (navigatorPublicRooms != null)
             {
                 _publicItems.Clear();
 
-                foreach (DataRow row in table2.Rows)
+                foreach (DataRow row in navigatorPublicRooms.Rows)
                 {
                     _publicItems.Add(Convert.ToUInt32(row["id"]),
                         new PublicItem(Convert.ToUInt32(row["id"]), int.Parse(row["bannertype"].ToString()),
@@ -156,12 +153,31 @@ namespace Yupi.Game.Browser
                 }
             }
 
-            if (table3 != null)
-            {
-                InCategories.Clear();
+            InitializeCategories();
+        }
 
-                foreach (DataRow dataRow in table3.Rows)
-                    InCategories.Add((int) dataRow["id"], (string) dataRow["caption"]);
+        public void InitializeCategories()
+        {
+            using (IQueryAdapter dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
+            {
+                dbClient.SetQuery("SELECT * FROM navigator_pubcats");
+                DataTable navigatorPublicCats = dbClient.GetTable();
+
+                dbClient.SetQuery("SELECT * FROM navigator_sub_pubcats");
+                DataTable navigatorSubCats = dbClient.GetTable();
+
+                List<NavigatorSubCategory> subCategories = new List<NavigatorSubCategory>();
+
+                if (navigatorSubCats != null)
+                    subCategories.AddRange(from DataRow dataRow in navigatorSubCats.Rows select new NavigatorSubCategory((int)dataRow["id"], (string)dataRow["caption"], (string)dataRow["main_cat"], (string)dataRow["default_state"] == "opened", (string)dataRow["default_size"] == "image"));
+
+                if (navigatorPublicCats != null)
+                {
+                    InCategories.Clear();
+
+                    foreach (DataRow dataRow in navigatorPublicCats.Rows)
+                        InCategories.Add((string)dataRow["caption"], new NavigatorCategory((int)dataRow["id"], (string)dataRow["caption"], (string)dataRow["default_state"] == "opened", (string)dataRow["default_size"] == "image", subCategories.Where(c => c.MainCategory == (string)dataRow["caption"]).ToList()));
+                }
             }
         }
 
@@ -343,43 +359,6 @@ namespace Yupi.Game.Browser
                 message.AppendInteger(cat.Id);
                 message.AppendInteger(cat.UsersNow);
                 message.AppendInteger(500);
-            }
-
-            return message;
-        }
-
-        /// <summary>
-        ///     Serializes the nv flat categories.
-        /// </summary>
-        /// <param name="myWorld">if set to <c>true</c> [my world].</param>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage SerializeNvFlatCategories(bool myWorld)
-        {
-            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("NavigatorMetaDataComposer"));
-            message.AppendInteger(InCategories.Count);
-            message.AppendString("categories");
-            message.AppendInteger(1);
-
-            if (myWorld)
-            {
-                message.AppendInteger(1);
-                message.AppendString("myworld_view");
-                message.AppendString("");
-                message.AppendString("br");
-
-                foreach (string item in InCategories.Values)
-                {
-                    message.AppendString(item);
-                    message.AppendInteger(1);
-                }
-            }
-            else
-            {
-                foreach (string item in InCategories.Values)
-                {
-                    message.AppendString(item);
-                    message.AppendInteger(0);
-                }
             }
 
             return message;
@@ -646,6 +625,8 @@ namespace Yupi.Game.Browser
             return serverMessage;
         }
 
+        internal NavigatorCategory GetNavigatorCategory(string navigatorCategoryCaption) => InCategories.FirstOrDefault(c => c.Key == navigatorCategoryCaption).Value;
+
         internal PublicItem GetPublicItem(uint roomId)
         {
             IEnumerable<KeyValuePair<uint, PublicItem>> search = _publicItems.Where(i => i.Value.RoomId == roomId);
@@ -727,7 +708,7 @@ namespace Yupi.Game.Browser
         internal ServerMessage SerializeNavigator(GameClient session, int mode)
         {
             if (mode >= 0)
-                return SerializeActiveRooms(mode);
+                return SerializeActiveRooms();
 
             ServerMessage reply = new ServerMessage(LibraryParser.OutgoingRequest("NavigatorListingsMessageComposer"));
 
@@ -848,9 +829,8 @@ namespace Yupi.Game.Browser
         /// <summary>
         ///     Serializes the active rooms.
         /// </summary>
-        /// <param name="category">The category.</param>
         /// <returns>ServerMessage.</returns>
-        private static ServerMessage SerializeActiveRooms(int category) => null;
+        private static ServerMessage SerializeActiveRooms() => null;
 
         /// <summary>
         ///     Serializes the navigator rooms.

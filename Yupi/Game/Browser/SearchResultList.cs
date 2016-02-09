@@ -112,36 +112,43 @@ namespace Yupi.Game.Browser
             {
                 case "hotel_view":
                     {
-                        SerializeSearchResultListStatics("popular", false, message, session, true);
+                        NavigatorCategory navCategory = Yupi.GetGame().GetNavigator().GetNavigatorCategory(staticId);
+
+                        foreach (NavigatorSubCategory subCategory in navCategory.SubCategories)
+                            SerializeSearchResultListStatics(subCategory.Caption, false, message, session, subCategory.IsOpened, subCategory.IsImage);
 
                         foreach (PublicCategory flat in Yupi.GetGame().GetNavigator().PrivateCategories.Values)
                             SerializeSearchResultListFlatcats(flat.Id, false, message);
 
                         break;
                     }
+                case "official_view":
+                    {
+                        NavigatorCategory navCategory = Yupi.GetGame().GetNavigator().GetNavigatorCategory(staticId);
+
+                        foreach (NavigatorSubCategory subCategory in navCategory.SubCategories)
+                            SerializeSearchResultListStatics(subCategory.Caption, false, message, session, subCategory.IsOpened, subCategory.IsImage);
+
+                    }
+                    break;
                 case "myworld_view":
                     {
-                        SerializeSearchResultListStatics("my", false, message, session, true, true);
-                        SerializeSearchResultListStatics("favorites", false, message, session, true);
-                        SerializeSearchResultListStatics("my_groups", false, message, session);
-                        SerializeSearchResultListStatics("history", false, message, session);
-                        SerializeSearchResultListStatics("friends_rooms", false, message, session);
+                        NavigatorCategory navCategory = Yupi.GetGame().GetNavigator().GetNavigatorCategory(staticId);
 
-                        break;
+                        foreach (NavigatorSubCategory subCategory in navCategory.SubCategories)
+                            SerializeSearchResultListStatics(subCategory.Caption, false, message, session, subCategory.IsOpened, subCategory.IsImage);
+
                     }
+                    break;
                 case "roomads_view":
                     {
                         foreach (PublicCategory flat in Yupi.GetGame().GetNavigator().PrivateCategories.Values)
                             SerializePromotionsResultListFlatcats(flat.Id, false, message);
 
-                        SerializeSearchResultListStatics("top_promotions", false, message, session);
+                        NavigatorCategory navCategory = Yupi.GetGame().GetNavigator().GetNavigatorCategory(staticId);
 
-                        break;
-                    }
-                case "official_view":
-                    {
-                        SerializeSearchResultListStatics("official-root", false, message, session, true, true);
-                        SerializeSearchResultListStatics("staffpicks", false, message, session, true, true);
+                        foreach (NavigatorSubCategory subCategory in navCategory.SubCategories)
+                            SerializeSearchResultListStatics(subCategory.Caption, false, message, session, subCategory.IsOpened, subCategory.IsImage);
 
                         break;
                     }
