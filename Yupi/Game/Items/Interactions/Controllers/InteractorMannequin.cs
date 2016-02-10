@@ -15,10 +15,10 @@ namespace Yupi.Game.Items.Interactions.Controllers
     {
         public override void OnTrigger(GameClient session, RoomItem item, int request, bool hasRights)
         {
-            if (!item.ExtraData.Contains(Convert.ToChar(5).ToString()))
+            if (!item.ExtraData.Contains('\u0005'.ToString()))
                 return;
 
-            string[] array = item.ExtraData.Split(Convert.ToChar(5));
+            string[] array = item.ExtraData.Split('\u0005');
 
             session.GetHabbo().Gender = array[0].ToUpper() == "F" ? "F" : "M";
 

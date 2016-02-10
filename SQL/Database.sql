@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 192.99.135.14:3397
--- Generation Time: 09-Fev-2016 às 18:27
--- Versão do servidor: 5.6.28
+-- Generation Time: Feb 10, 2016 at 08:14 PM
+-- Server version: 5.6.28
 -- PHP Version: 5.6.17
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -23,7 +23,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `achievements_data`
+-- Table structure for table `achievements_data`
 --
 
 DROP TABLE IF EXISTS `achievements_data`;
@@ -42,7 +42,7 @@ CREATE TABLE `achievements_data` (
 --
 
 --
--- Extraindo dados da tabela `achievements_data`
+-- Dumping data for table `achievements_data`
 --
 
 INSERT INTO `achievements_data` (`id`, `achievement_name`, `achievement_category`, `achievement_level`, `reward_pixels`, `reward_points`, `progress_needed`) VALUES
@@ -411,7 +411,7 @@ INSERT INTO `achievements_data` (`id`, `achievement_name`, `achievement_category
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `bots_commands`
+-- Table structure for table `bots_commands`
 --
 
 DROP TABLE IF EXISTS `bots_commands`;
@@ -436,7 +436,7 @@ CREATE TABLE `bots_commands` (
 --
 
 --
--- Extraindo dados da tabela `bots_commands`
+-- Dumping data for table `bots_commands`
 --
 
 INSERT INTO `bots_commands` (`id`, `bot_type`, `speech_input`, `speech_input_alias`, `speech_output`, `speech_is_from_speeches`, `speech_speeches_id`, `action_command`, `action_command_parameters`, `action_bot`, `force_command_execution`) VALUES
@@ -449,7 +449,7 @@ INSERT INTO `bots_commands` (`id`, `bot_type`, `speech_input`, `speech_input_ali
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `bots_data`
+-- Table structure for table `bots_data`
 --
 
 DROP TABLE IF EXISTS `bots_data`;
@@ -489,7 +489,7 @@ CREATE TABLE `bots_data` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `catalog_bots`
+-- Table structure for table `catalog_bots`
 --
 
 DROP TABLE IF EXISTS `catalog_bots`;
@@ -506,7 +506,7 @@ CREATE TABLE `catalog_bots` (
 --
 
 --
--- Extraindo dados da tabela `catalog_bots`
+-- Dumping data for table `catalog_bots`
 --
 
 INSERT INTO `catalog_bots` (`bot_type`, `bot_name`, `bot_look`, `bot_mission`, `bot_gender`) VALUES
@@ -516,7 +516,7 @@ INSERT INTO `catalog_bots` (`bot_type`, `bot_name`, `bot_look`, `bot_mission`, `
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `catalog_ecotron_items`
+-- Table structure for table `catalog_ecotron_items`
 --
 
 DROP TABLE IF EXISTS `catalog_ecotron_items`;
@@ -534,7 +534,7 @@ CREATE TABLE `catalog_ecotron_items` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `catalog_furnitures`
+-- Table structure for table `catalog_furnitures`
 --
 
 DROP TABLE IF EXISTS `catalog_furnitures`;
@@ -562,7 +562,7 @@ CREATE TABLE `catalog_furnitures` (
 --
 
 --
--- Extraindo dados da tabela `catalog_furnitures`
+-- Dumping data for table `catalog_furnitures`
 --
 
 INSERT INTO `catalog_furnitures` (`id`, `flat_id`, `item_name`, `type`, `stack_height`, `can_stack`, `allow_recycle`, `allow_trade`, `allow_marketplace_sell`, `allow_gift`, `allow_inventory_stack`, `interaction_type`, `interaction_modes_count`, `vending_ids`, `subscriber`, `effectid`) VALUES
@@ -7080,7 +7080,7 @@ INSERT INTO `catalog_furnitures` (`id`, `flat_id`, `item_name`, `type`, `stack_h
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `catalog_items`
+-- Table structure for table `catalog_items`
 --
 
 DROP TABLE IF EXISTS `catalog_items`;
@@ -7110,7 +7110,7 @@ CREATE TABLE `catalog_items` (
 --
 
 --
--- Extraindo dados da tabela `catalog_items`
+-- Dumping data for table `catalog_items`
 --
 
 INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `special_name`, `cost_credits`, `cost_diamonds`, `cost_loyalty`, `cost_duckets`, `amounts`, `achievement`, `song_id`, `limited_sells`, `limited_stack`, `offer_active`, `club_only`, `extradata`, `badge`, `order_num`) VALUES
@@ -13281,7 +13281,7 @@ INSERT INTO `catalog_items` (`id`, `page_id`, `item_names`, `special_name`, `cos
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `catalog_pages`
+-- Table structure for table `catalog_pages`
 --
 
 DROP TABLE IF EXISTS `catalog_pages`;
@@ -13314,7 +13314,7 @@ CREATE TABLE `catalog_pages` (
 --
 
 --
--- Extraindo dados da tabela `catalog_pages`
+-- Dumping data for table `catalog_pages`
 --
 
 INSERT INTO `catalog_pages` (`id`, `parent_id`, `code_name`, `caption`, `icon_image`, `visible`, `enabled`, `min_rank`, `club_only`, `order_num`, `page_layout`, `page_headline`, `page_teaser`, `page_special`, `page_text1`, `page_text2`, `page_text_details`, `page_text_teaser`, `vip_only`, `page_link_description`, `page_link_pagename`) VALUES
@@ -13577,7 +13577,7 @@ INSERT INTO `catalog_pages` (`id`, `parent_id`, `code_name`, `caption`, `icon_im
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `catalog_pets`
+-- Table structure for table `catalog_pets`
 --
 
 DROP TABLE IF EXISTS `catalog_pets`;
@@ -13593,7 +13593,7 @@ CREATE TABLE `catalog_pets` (
 --
 
 --
--- Extraindo dados da tabela `catalog_pets`
+-- Dumping data for table `catalog_pets`
 --
 
 INSERT INTO `catalog_pets` (`pet_type`, `pet_race_id`) VALUES
@@ -13617,7 +13617,7 @@ INSERT INTO `catalog_pets` (`pet_type`, `pet_race_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `catalog_targeted_offers`
+-- Table structure for table `catalog_targeted_offers`
 --
 
 DROP TABLE IF EXISTS `catalog_targeted_offers`;
@@ -13643,7 +13643,7 @@ CREATE TABLE `catalog_targeted_offers` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `catalog_wearables`
+-- Table structure for table `catalog_wearables`
 --
 
 DROP TABLE IF EXISTS `catalog_wearables`;
@@ -13658,7 +13658,7 @@ CREATE TABLE `catalog_wearables` (
 --
 
 --
--- Extraindo dados da tabela `catalog_wearables`
+-- Dumping data for table `catalog_wearables`
 --
 
 INSERT INTO `catalog_wearables` (`id`, `item_name`, `clothings`) VALUES
@@ -13718,7 +13718,7 @@ INSERT INTO `catalog_wearables` (`id`, `item_name`, `clothings`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `groups_badges_parts`
+-- Table structure for table `groups_badges_parts`
 --
 
 DROP TABLE IF EXISTS `groups_badges_parts`;
@@ -13734,7 +13734,7 @@ CREATE TABLE `groups_badges_parts` (
 --
 
 --
--- Extraindo dados da tabela `groups_badges_parts`
+-- Dumping data for table `groups_badges_parts`
 --
 
 INSERT INTO `groups_badges_parts` (`id`, `code`, `second_code`, `type`) VALUES
@@ -14222,7 +14222,7 @@ INSERT INTO `groups_badges_parts` (`id`, `code`, `second_code`, `type`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `groups_data`
+-- Table structure for table `groups_data`
 --
 
 DROP TABLE IF EXISTS `groups_data`;
@@ -14249,7 +14249,7 @@ CREATE TABLE `groups_data` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `groups_forums_data`
+-- Table structure for table `groups_forums_data`
 --
 
 DROP TABLE IF EXISTS `groups_forums_data`;
@@ -14278,7 +14278,7 @@ CREATE TABLE `groups_forums_data` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `groups_forums_posts`
+-- Table structure for table `groups_forums_posts`
 --
 
 DROP TABLE IF EXISTS `groups_forums_posts`;
@@ -14307,7 +14307,7 @@ CREATE TABLE `groups_forums_posts` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `groups_members`
+-- Table structure for table `groups_members`
 --
 
 DROP TABLE IF EXISTS `groups_members`;
@@ -14330,7 +14330,7 @@ CREATE TABLE `groups_members` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `groups_requests`
+-- Table structure for table `groups_requests`
 --
 
 DROP TABLE IF EXISTS `groups_requests`;
@@ -14350,7 +14350,7 @@ CREATE TABLE `groups_requests` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `hotelview_badges`
+-- Table structure for table `hotelview_badges`
 --
 
 DROP TABLE IF EXISTS `hotelview_badges`;
@@ -14365,7 +14365,7 @@ CREATE TABLE `hotelview_badges` (
 --
 
 --
--- Extraindo dados da tabela `hotelview_badges`
+-- Dumping data for table `hotelview_badges`
 --
 
 INSERT INTO `hotelview_badges` (`name`, `badge`, `enabled`) VALUES
@@ -14375,7 +14375,7 @@ INSERT INTO `hotelview_badges` (`name`, `badge`, `enabled`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `hotelview_promos`
+-- Table structure for table `hotelview_promos`
 --
 
 DROP TABLE IF EXISTS `hotelview_promos`;
@@ -14395,7 +14395,7 @@ CREATE TABLE `hotelview_promos` (
 --
 
 --
--- Extraindo dados da tabela `hotelview_promos`
+-- Dumping data for table `hotelview_promos`
 --
 
 INSERT INTO `hotelview_promos` (`index`, `header`, `body`, `button`, `in_game_promo`, `special_action`, `image`, `enabled`) VALUES
@@ -14405,7 +14405,7 @@ INSERT INTO `hotelview_promos` (`index`, `header`, `body`, `button`, `in_game_pr
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `hotelview_rewards_promos`
+-- Table structure for table `hotelview_rewards_promos`
 --
 
 DROP TABLE IF EXISTS `hotelview_rewards_promos`;
@@ -14423,7 +14423,7 @@ CREATE TABLE `hotelview_rewards_promos` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `items_groups`
+-- Table structure for table `items_groups`
 --
 
 DROP TABLE IF EXISTS `items_groups`;
@@ -14439,7 +14439,7 @@ CREATE TABLE `items_groups` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `items_highscores`
+-- Table structure for table `items_highscores`
 --
 
 DROP TABLE IF EXISTS `items_highscores`;
@@ -14457,7 +14457,7 @@ CREATE TABLE `items_highscores` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `items_hopper`
+-- Table structure for table `items_hopper`
 --
 
 DROP TABLE IF EXISTS `items_hopper`;
@@ -14476,14 +14476,14 @@ CREATE TABLE `items_hopper` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `items_limited`
+-- Table structure for table `items_limited`
 --
 
 DROP TABLE IF EXISTS `items_limited`;
 CREATE TABLE `items_limited` (
-  `item_id` int(55) NOT NULL,
-  `LimitedNo` int(55) NOT NULL,
-  `LimitedTot` int(55) NOT NULL
+  `item_id` int(11) NOT NULL,
+  `limited_number` int(11) NOT NULL,
+  `limited_total` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -14493,7 +14493,7 @@ CREATE TABLE `items_limited` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `items_moodlight`
+-- Table structure for table `items_moodlight`
 --
 
 DROP TABLE IF EXISTS `items_moodlight`;
@@ -14513,7 +14513,7 @@ CREATE TABLE `items_moodlight` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `items_pinatas`
+-- Table structure for table `items_pinatas`
 --
 
 DROP TABLE IF EXISTS `items_pinatas`;
@@ -14529,7 +14529,7 @@ CREATE TABLE `items_pinatas` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `items_rooms`
+-- Table structure for table `items_rooms`
 --
 
 DROP TABLE IF EXISTS `items_rooms`;
@@ -14557,7 +14557,7 @@ CREATE TABLE `items_rooms` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `items_songs`
+-- Table structure for table `items_songs`
 --
 
 DROP TABLE IF EXISTS `items_songs`;
@@ -14574,7 +14574,7 @@ CREATE TABLE `items_songs` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `items_songs_data`
+-- Table structure for table `items_songs_data`
 --
 
 DROP TABLE IF EXISTS `items_songs_data`;
@@ -14592,7 +14592,7 @@ CREATE TABLE `items_songs_data` (
 --
 
 --
--- Extraindo dados da tabela `items_songs_data`
+-- Dumping data for table `items_songs_data`
 --
 
 INSERT INTO `items_songs_data` (`id`, `codename`, `name`, `artist`, `song_data`, `length`) VALUES
@@ -14605,7 +14605,7 @@ INSERT INTO `items_songs_data` (`id`, `codename`, `name`, `artist`, `song_data`,
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `items_teleports`
+-- Table structure for table `items_teleports`
 --
 
 DROP TABLE IF EXISTS `items_teleports`;
@@ -14621,7 +14621,7 @@ CREATE TABLE `items_teleports` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `items_toners`
+-- Table structure for table `items_toners`
 --
 
 DROP TABLE IF EXISTS `items_toners`;
@@ -14640,7 +14640,7 @@ CREATE TABLE `items_toners` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `items_vouchers`
+-- Table structure for table `items_vouchers`
 --
 
 DROP TABLE IF EXISTS `items_vouchers`;
@@ -14659,7 +14659,7 @@ CREATE TABLE `items_vouchers` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `items_wireds`
+-- Table structure for table `items_wireds`
 --
 
 DROP TABLE IF EXISTS `items_wireds`;
@@ -14680,7 +14680,7 @@ CREATE TABLE `items_wireds` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `messenger_friendships`
+-- Table structure for table `messenger_friendships`
 --
 
 DROP TABLE IF EXISTS `messenger_friendships`;
@@ -14701,7 +14701,7 @@ CREATE TABLE `messenger_friendships` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `messenger_offline_messages`
+-- Table structure for table `messenger_offline_messages`
 --
 
 DROP TABLE IF EXISTS `messenger_offline_messages`;
@@ -14720,7 +14720,7 @@ CREATE TABLE `messenger_offline_messages` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `messenger_requests`
+-- Table structure for table `messenger_requests`
 --
 
 DROP TABLE IF EXISTS `messenger_requests`;
@@ -14737,7 +14737,7 @@ CREATE TABLE `messenger_requests` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `moderation_presets`
+-- Table structure for table `moderation_presets`
 --
 
 DROP TABLE IF EXISTS `moderation_presets`;
@@ -14755,7 +14755,7 @@ CREATE TABLE `moderation_presets` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `moderation_templates`
+-- Table structure for table `moderation_templates`
 --
 
 DROP TABLE IF EXISTS `moderation_templates`;
@@ -14777,7 +14777,7 @@ CREATE TABLE `moderation_templates` (
 --
 
 --
--- Extraindo dados da tabela `moderation_templates`
+-- Dumping data for table `moderation_templates`
 --
 
 INSERT INTO `moderation_templates` (`id`, `category`, `cName`, `caption`, `warning_message`, `ban_message`, `ban_hours`, `avatar_ban`, `mute`, `trade_lock`) VALUES
@@ -14791,7 +14791,7 @@ INSERT INTO `moderation_templates` (`id`, `category`, `cName`, `caption`, `warni
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `moderation_tickethints`
+-- Table structure for table `moderation_tickethints`
 --
 
 DROP TABLE IF EXISTS `moderation_tickethints`;
@@ -14807,7 +14807,7 @@ CREATE TABLE `moderation_tickethints` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `moderation_tickets`
+-- Table structure for table `moderation_tickets`
 --
 
 DROP TABLE IF EXISTS `moderation_tickets`;
@@ -14832,7 +14832,7 @@ CREATE TABLE `moderation_tickets` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `navigator_flatcats`
+-- Table structure for table `navigator_flatcats`
 --
 
 DROP TABLE IF EXISTS `navigator_flatcats`;
@@ -14848,7 +14848,7 @@ CREATE TABLE `navigator_flatcats` (
 --
 
 --
--- Extraindo dados da tabela `navigator_flatcats`
+-- Dumping data for table `navigator_flatcats`
 --
 
 INSERT INTO `navigator_flatcats` (`id`, `caption`, `enabled`, `min_rank`) VALUES
@@ -14857,7 +14857,7 @@ INSERT INTO `navigator_flatcats` (`id`, `caption`, `enabled`, `min_rank`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `navigator_promocats`
+-- Table structure for table `navigator_promocats`
 --
 
 DROP TABLE IF EXISTS `navigator_promocats`;
@@ -14873,7 +14873,7 @@ CREATE TABLE `navigator_promocats` (
 --
 
 --
--- Extraindo dados da tabela `navigator_promocats`
+-- Dumping data for table `navigator_promocats`
 --
 
 INSERT INTO `navigator_promocats` (`id`, `caption`, `visible`, `min_rank`) VALUES
@@ -14894,7 +14894,7 @@ INSERT INTO `navigator_promocats` (`id`, `caption`, `visible`, `min_rank`) VALUE
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `navigator_pubcats`
+-- Table structure for table `navigator_pubcats`
 --
 
 DROP TABLE IF EXISTS `navigator_pubcats`;
@@ -14910,7 +14910,7 @@ CREATE TABLE `navigator_pubcats` (
 --
 
 --
--- Extraindo dados da tabela `navigator_pubcats`
+-- Dumping data for table `navigator_pubcats`
 --
 
 INSERT INTO `navigator_pubcats` (`id`, `caption`, `default_state`, `default_size`) VALUES
@@ -14922,7 +14922,7 @@ INSERT INTO `navigator_pubcats` (`id`, `caption`, `default_state`, `default_size
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `navigator_publics`
+-- Table structure for table `navigator_publics`
 --
 
 DROP TABLE IF EXISTS `navigator_publics`;
@@ -14948,7 +14948,7 @@ CREATE TABLE `navigator_publics` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `navigator_sub_pubcats`
+-- Table structure for table `navigator_sub_pubcats`
 --
 
 DROP TABLE IF EXISTS `navigator_sub_pubcats`;
@@ -14967,7 +14967,7 @@ CREATE TABLE `navigator_sub_pubcats` (
 --
 
 --
--- Extraindo dados da tabela `navigator_sub_pubcats`
+-- Dumping data for table `navigator_sub_pubcats`
 --
 
 INSERT INTO `navigator_sub_pubcats` (`id`, `main_cat`, `caption`, `default_state`, `default_size`) VALUES
@@ -14984,7 +14984,7 @@ INSERT INTO `navigator_sub_pubcats` (`id`, `main_cat`, `caption`, `default_state
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `pets_commands`
+-- Table structure for table `pets_commands`
 --
 
 DROP TABLE IF EXISTS `pets_commands`;
@@ -15008,7 +15008,7 @@ CREATE TABLE `pets_commands` (
 --
 
 --
--- Extraindo dados da tabela `pets_commands`
+-- Dumping data for table `pets_commands`
 --
 
 INSERT INTO `pets_commands` (`id`, `input`, `status`, `gesture`, `experience`, `energy`, `level`, `pet_type`, `action`, `pet_speech`) VALUES
@@ -15021,7 +15021,7 @@ INSERT INTO `pets_commands` (`id`, `input`, `status`, `gesture`, `experience`, `
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `pets_data`
+-- Table structure for table `pets_data`
 --
 
 DROP TABLE IF EXISTS `pets_data`;
@@ -15067,7 +15067,7 @@ CREATE TABLE `pets_data` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `pets_plants`
+-- Table structure for table `pets_plants`
 --
 
 DROP TABLE IF EXISTS `pets_plants`;
@@ -15087,7 +15087,7 @@ CREATE TABLE `pets_plants` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `pets_races`
+-- Table structure for table `pets_races`
 --
 
 DROP TABLE IF EXISTS `pets_races`;
@@ -15105,7 +15105,7 @@ CREATE TABLE `pets_races` (
 --
 
 --
--- Extraindo dados da tabela `pets_races`
+-- Dumping data for table `pets_races`
 --
 
 INSERT INTO `pets_races` (`race_type`, `race_id`, `color_one`, `color_two`, `color_one_enabled`, `color_two_enabled`) VALUES
@@ -15308,7 +15308,7 @@ INSERT INTO `pets_races` (`race_type`, `race_id`, `color_one`, `color_two`, `col
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `pets_speech`
+-- Table structure for table `pets_speech`
 --
 
 DROP TABLE IF EXISTS `pets_speech`;
@@ -15322,7 +15322,7 @@ CREATE TABLE `pets_speech` (
 --
 
 --
--- Extraindo dados da tabela `pets_speech`
+-- Dumping data for table `pets_speech`
 --
 
 INSERT INTO `pets_speech` (`pet_id`, `responses`) VALUES
@@ -15356,7 +15356,7 @@ INSERT INTO `pets_speech` (`pet_id`, `responses`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `polls_data`
+-- Table structure for table `polls_data`
 --
 
 DROP TABLE IF EXISTS `polls_data`;
@@ -15378,7 +15378,7 @@ CREATE TABLE `polls_data` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `polls_questions`
+-- Table structure for table `polls_questions`
 --
 
 DROP TABLE IF EXISTS `polls_questions`;
@@ -15398,7 +15398,7 @@ CREATE TABLE `polls_questions` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `rooms_ads`
+-- Table structure for table `rooms_ads`
 --
 
 DROP TABLE IF EXISTS `rooms_ads`;
@@ -15419,7 +15419,7 @@ CREATE TABLE `rooms_ads` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `rooms_bans`
+-- Table structure for table `rooms_bans`
 --
 
 DROP TABLE IF EXISTS `rooms_bans`;
@@ -15436,7 +15436,7 @@ CREATE TABLE `rooms_bans` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `rooms_competitions`
+-- Table structure for table `rooms_competitions`
 --
 
 DROP TABLE IF EXISTS `rooms_competitions`;
@@ -15454,7 +15454,7 @@ CREATE TABLE `rooms_competitions` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `rooms_competitions_entries`
+-- Table structure for table `rooms_competitions_entries`
 --
 
 DROP TABLE IF EXISTS `rooms_competitions_entries`;
@@ -15473,7 +15473,7 @@ CREATE TABLE `rooms_competitions_entries` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `rooms_data`
+-- Table structure for table `rooms_data`
 --
 
 DROP TABLE IF EXISTS `rooms_data`;
@@ -15531,7 +15531,7 @@ CREATE TABLE `rooms_data` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `rooms_events`
+-- Table structure for table `rooms_events`
 --
 
 DROP TABLE IF EXISTS `rooms_events`;
@@ -15550,7 +15550,7 @@ CREATE TABLE `rooms_events` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `rooms_faq`
+-- Table structure for table `rooms_faq`
 --
 
 DROP TABLE IF EXISTS `rooms_faq`;
@@ -15564,7 +15564,7 @@ CREATE TABLE `rooms_faq` (
 --
 
 --
--- Extraindo dados da tabela `rooms_faq`
+-- Dumping data for table `rooms_faq`
 --
 
 INSERT INTO `rooms_faq` (`question`, `answer`) VALUES
@@ -15573,7 +15573,7 @@ INSERT INTO `rooms_faq` (`question`, `answer`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `rooms_models`
+-- Table structure for table `rooms_models`
 --
 
 DROP TABLE IF EXISTS `rooms_models`;
@@ -15594,7 +15594,7 @@ CREATE TABLE `rooms_models` (
 --
 
 --
--- Extraindo dados da tabela `rooms_models`
+-- Dumping data for table `rooms_models`
 --
 
 INSERT INTO `rooms_models` (`id`, `door_x`, `door_y`, `door_z`, `door_dir`, `heightmap`, `public_items`, `club_only`, `poolmap`) VALUES
@@ -15642,7 +15642,7 @@ INSERT INTO `rooms_models` (`id`, `door_x`, `door_y`, `door_z`, `door_dir`, `hei
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `rooms_models_customs`
+-- Table structure for table `rooms_models_customs`
 --
 
 DROP TABLE IF EXISTS `rooms_models_customs`;
@@ -15663,7 +15663,7 @@ CREATE TABLE `rooms_models_customs` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `rooms_rights`
+-- Table structure for table `rooms_rights`
 --
 
 DROP TABLE IF EXISTS `rooms_rights`;
@@ -15679,7 +15679,7 @@ CREATE TABLE `rooms_rights` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `rooms_wordfilter`
+-- Table structure for table `rooms_wordfilter`
 --
 
 DROP TABLE IF EXISTS `rooms_wordfilter`;
@@ -15695,7 +15695,7 @@ CREATE TABLE `rooms_wordfilter` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `server_blackwords`
+-- Table structure for table `server_blackwords`
 --
 
 DROP TABLE IF EXISTS `server_blackwords`;
@@ -15712,7 +15712,7 @@ CREATE TABLE `server_blackwords` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `server_fuserights`
+-- Table structure for table `server_fuserights`
 --
 
 DROP TABLE IF EXISTS `server_fuserights`;
@@ -15728,7 +15728,7 @@ CREATE TABLE `server_fuserights` (
 --
 
 --
--- Extraindo dados da tabela `server_fuserights`
+-- Dumping data for table `server_fuserights`
 --
 
 INSERT INTO `server_fuserights` (`fuse`, `min_rank`, `information`, `min_sub`) VALUES
@@ -15759,7 +15759,7 @@ INSERT INTO `server_fuserights` (`fuse`, `min_rank`, `information`, `min_sub`) V
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `server_fuses`
+-- Table structure for table `server_fuses`
 --
 
 DROP TABLE IF EXISTS `server_fuses`;
@@ -15777,7 +15777,7 @@ CREATE TABLE `server_fuses` (
 --
 
 --
--- Extraindo dados da tabela `server_fuses`
+-- Dumping data for table `server_fuses`
 --
 
 INSERT INTO `server_fuses` (`id`, `command`, `rank`, `params`, `description`, `alias`) VALUES
@@ -15808,7 +15808,7 @@ INSERT INTO `server_fuses` (`id`, `command`, `rank`, `params`, `description`, `a
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `server_langs`
+-- Table structure for table `server_langs`
 --
 
 DROP TABLE IF EXISTS `server_langs`;
@@ -15824,7 +15824,7 @@ CREATE TABLE `server_langs` (
 --
 
 --
--- Extraindo dados da tabela `server_langs`
+-- Dumping data for table `server_langs`
 --
 
 INSERT INTO `server_langs` (`id`, `lang`, `name`, `text`) VALUES
@@ -15983,7 +15983,7 @@ INSERT INTO `server_langs` (`id`, `lang`, `name`, `text`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `server_settings`
+-- Table structure for table `server_settings`
 --
 
 DROP TABLE IF EXISTS `server_settings`;
@@ -15998,7 +15998,7 @@ CREATE TABLE `server_settings` (
 --
 
 --
--- Extraindo dados da tabela `server_settings`
+-- Dumping data for table `server_settings`
 --
 
 INSERT INTO `server_settings` (`variable`, `value`, `description`) VALUES
@@ -16014,7 +16014,7 @@ INSERT INTO `server_settings` (`variable`, `value`, `description`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `server_stafflogs`
+-- Table structure for table `server_stafflogs`
 --
 
 DROP TABLE IF EXISTS `server_stafflogs`;
@@ -16036,7 +16036,7 @@ CREATE TABLE `server_stafflogs` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `server_status`
+-- Table structure for table `server_status`
 --
 
 DROP TABLE IF EXISTS `server_status`;
@@ -16057,7 +16057,7 @@ CREATE TABLE `server_status` (
 --
 
 --
--- Extraindo dados da tabela `server_status`
+-- Dumping data for table `server_status`
 --
 
 INSERT INTO `server_status` (`id`, `status`, `users_online`, `rooms_loaded`, `server_ver`, `stamp`, `minutesuptime`, `userpeak`, `bannerdata`) VALUES
@@ -16066,7 +16066,7 @@ INSERT INTO `server_status` (`id`, `status`, `users_online`, `rooms_loaded`, `se
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `server_system_logs`
+-- Table structure for table `server_system_logs`
 --
 
 DROP TABLE IF EXISTS `server_system_logs`;
@@ -16087,7 +16087,7 @@ CREATE TABLE `server_system_logs` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `talents_data`
+-- Table structure for table `talents_data`
 --
 
 DROP TABLE IF EXISTS `talents_data`;
@@ -16110,7 +16110,7 @@ CREATE TABLE `talents_data` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `users`
+-- Table structure for table `users`
 --
 
 DROP TABLE IF EXISTS `users`;
@@ -16166,7 +16166,7 @@ CREATE TABLE `users` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `users_achievements`
+-- Table structure for table `users_achievements`
 --
 
 DROP TABLE IF EXISTS `users_achievements`;
@@ -16184,7 +16184,7 @@ CREATE TABLE `users_achievements` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `users_badges`
+-- Table structure for table `users_badges`
 --
 
 DROP TABLE IF EXISTS `users_badges`;
@@ -16202,7 +16202,7 @@ CREATE TABLE `users_badges` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `users_bans`
+-- Table structure for table `users_bans`
 --
 
 DROP TABLE IF EXISTS `users_bans`;
@@ -16224,7 +16224,7 @@ CREATE TABLE `users_bans` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `users_bans_access`
+-- Table structure for table `users_bans_access`
 --
 
 DROP TABLE IF EXISTS `users_bans_access`;
@@ -16242,7 +16242,7 @@ CREATE TABLE `users_bans_access` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `users_chatlogs`
+-- Table structure for table `users_chatlogs`
 --
 
 DROP TABLE IF EXISTS `users_chatlogs`;
@@ -16260,7 +16260,7 @@ CREATE TABLE `users_chatlogs` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `users_clothing`
+-- Table structure for table `users_clothing`
 --
 
 DROP TABLE IF EXISTS `users_clothing`;
@@ -16277,7 +16277,7 @@ CREATE TABLE `users_clothing` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `users_effects`
+-- Table structure for table `users_effects`
 --
 
 DROP TABLE IF EXISTS `users_effects`;
@@ -16298,7 +16298,7 @@ CREATE TABLE `users_effects` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `users_favorites`
+-- Table structure for table `users_favorites`
 --
 
 DROP TABLE IF EXISTS `users_favorites`;
@@ -16314,7 +16314,7 @@ CREATE TABLE `users_favorites` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `users_gifts`
+-- Table structure for table `users_gifts`
 --
 
 DROP TABLE IF EXISTS `users_gifts`;
@@ -16338,7 +16338,7 @@ CREATE TABLE `users_gifts` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `users_ignores`
+-- Table structure for table `users_ignores`
 --
 
 DROP TABLE IF EXISTS `users_ignores`;
@@ -16354,7 +16354,7 @@ CREATE TABLE `users_ignores` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `users_info`
+-- Table structure for table `users_info`
 --
 
 DROP TABLE IF EXISTS `users_info`;
@@ -16377,7 +16377,7 @@ CREATE TABLE `users_info` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `users_polls`
+-- Table structure for table `users_polls`
 --
 
 DROP TABLE IF EXISTS `users_polls`;
@@ -16396,7 +16396,7 @@ CREATE TABLE `users_polls` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `users_preferences`
+-- Table structure for table `users_preferences`
 --
 
 DROP TABLE IF EXISTS `users_preferences`;
@@ -16420,7 +16420,7 @@ CREATE TABLE `users_preferences` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `users_quests`
+-- Table structure for table `users_quests`
 --
 
 DROP TABLE IF EXISTS `users_quests`;
@@ -16445,7 +16445,7 @@ CREATE TABLE `users_quests` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `users_quests_data`
+-- Table structure for table `users_quests_data`
 --
 
 DROP TABLE IF EXISTS `users_quests_data`;
@@ -16462,7 +16462,7 @@ CREATE TABLE `users_quests_data` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `users_rankings`
+-- Table structure for table `users_rankings`
 --
 
 DROP TABLE IF EXISTS `users_rankings`;
@@ -16480,7 +16480,7 @@ CREATE TABLE `users_rankings` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `users_relationships`
+-- Table structure for table `users_relationships`
 --
 
 DROP TABLE IF EXISTS `users_relationships`;
@@ -16498,7 +16498,7 @@ CREATE TABLE `users_relationships` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `users_rooms_visits`
+-- Table structure for table `users_rooms_visits`
 --
 
 DROP TABLE IF EXISTS `users_rooms_visits`;
@@ -16518,7 +16518,7 @@ CREATE TABLE `users_rooms_visits` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `users_stats`
+-- Table structure for table `users_stats`
 --
 
 DROP TABLE IF EXISTS `users_stats`;
@@ -16548,7 +16548,7 @@ CREATE TABLE `users_stats` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `users_subscriptions`
+-- Table structure for table `users_subscriptions`
 --
 
 DROP TABLE IF EXISTS `users_subscriptions`;
@@ -16567,7 +16567,7 @@ CREATE TABLE `users_subscriptions` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `users_tags`
+-- Table structure for table `users_tags`
 --
 
 DROP TABLE IF EXISTS `users_tags`;
@@ -16584,7 +16584,7 @@ CREATE TABLE `users_tags` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `users_talents`
+-- Table structure for table `users_talents`
 --
 
 DROP TABLE IF EXISTS `users_talents`;
@@ -16601,7 +16601,7 @@ CREATE TABLE `users_talents` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `users_videos_youtube`
+-- Table structure for table `users_videos_youtube`
 --
 
 DROP TABLE IF EXISTS `users_videos_youtube`;
@@ -16620,7 +16620,7 @@ CREATE TABLE `users_videos_youtube` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `users_wardrobe`
+-- Table structure for table `users_wardrobe`
 --
 
 DROP TABLE IF EXISTS `users_wardrobe`;
@@ -16638,7 +16638,7 @@ CREATE TABLE `users_wardrobe` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `wordfilter`
+-- Table structure for table `wordfilter`
 --
 
 DROP TABLE IF EXISTS `wordfilter`;
@@ -17579,20 +17579,20 @@ ALTER TABLE `wordfilter`
 --
 
 --
--- Limitadores para a tabela `pets_commands`
+-- Constraints for table `pets_commands`
 --
 ALTER TABLE `pets_commands`
   ADD CONSTRAINT `pet_speech_id` FOREIGN KEY (`pet_speech`) REFERENCES `pets_speech` (`pet_id`);
 
 DELIMITER $$
 --
--- Eventos
+-- Events
 --
 DROP EVENT `daily_pet_respect_points`$$
-CREATE DEFINER=`YOURUSER`@`YOURHOST` EVENT `daily_pet_respect_points` ON SCHEDULE EVERY 24 HOUR STARTS '2016-01-01 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO update users_stats set daily_pet_respect_points = 5 where daily_pet_respect_points = 0$$
+CREATE DEFINER=`pixar`@`192.99.135.12` EVENT `daily_pet_respect_points` ON SCHEDULE EVERY 24 HOUR STARTS '2016-01-01 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO update users_stats set daily_pet_respect_points = 5 where daily_pet_respect_points = 0$$
 
 DROP EVENT `daily_respect_points`$$
-CREATE DEFINER=`YOURUSER`@`YOURHOST` EVENT `daily_respect_points` ON SCHEDULE EVERY 24 HOUR STARTS '2016-01-01 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO update users_stats set daily_respect_points = 5 where daily_respect_points = 0$$
+CREATE DEFINER=`pixar`@`192.99.135.12` EVENT `daily_respect_points` ON SCHEDULE EVERY 24 HOUR STARTS '2016-01-01 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO update users_stats set daily_respect_points = 5 where daily_respect_points = 0$$
 
 DELIMITER ;
 

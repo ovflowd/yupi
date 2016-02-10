@@ -864,8 +864,7 @@ namespace Yupi.Messages.Handlers
                 string extraData = row["extradata"].ToString();
                 string itemName = row["item_name"].ToString();
 
-                queryReactor.RunFastQuery(
-                    $"UPDATE items_rooms SET item_name='{itemName}' WHERE id='{item.Id}'");
+                queryReactor.RunFastQuery($"UPDATE items_rooms SET item_name='{itemName}' WHERE id='{item.Id}'");
 
                 queryReactor.SetQuery("UPDATE items_rooms SET extra_data = @extraData WHERE id = " + item.Id);
                 queryReactor.AddParameter("extraData", extraData);
@@ -1682,7 +1681,7 @@ namespace Yupi.Messages.Handlers
                 return;
             uint petId = Request.GetUInteger();
             RoomUser pet = room.GetRoomUserManager().GetPet(petId);
-            if (pet == null || pet.PetData == null || pet.PetData.OwnerId != Session.GetHabbo().Id)
+            if (pet?.PetData == null || pet.PetData.OwnerId != Session.GetHabbo().Id)
                 return;
             bool isForHorse = true;
             {
@@ -2441,8 +2440,7 @@ namespace Yupi.Messages.Handlers
             if (userOne.LoveLockPartner == 0 || userTwo.LoveLockPartner == 0)
                 return;
 
-            item.ExtraData =
-                $"1{(char) 5}{userOne.GetUserName()}{(char) 5}{userTwo.GetUserName()}{(char) 5}{userOne.GetClient().GetHabbo().Look}{(char) 5}{userTwo.GetClient().GetHabbo().Look}{(char) 5}{DateTime.Now.ToString("dd/MM/yyyy")}";
+            item.ExtraData = $"1{'\u0005'}{userOne.GetUserName()}{'\u0005'}{userTwo.GetUserName()}{'\u0005'}{userOne.GetClient().GetHabbo().Look}{'\u0005'}{userTwo.GetClient().GetHabbo().Look}{'\u0005'}{DateTime.Now.ToString("dd/MM/yyyy")}";
 
             userOne.LoveLockPartner = 0;
             userTwo.LoveLockPartner = 0;
@@ -2556,15 +2554,21 @@ namespace Yupi.Messages.Handlers
         {
             uint pId = Request.GetUInteger();
             RoomItem item = Session.GetHabbo().CurrentRoom.GetRoomItemHandler().GetItem(pId);
+
             if (item == null)
                 return;
+
             if (!item.ExtraData.Contains(Convert.ToChar(5)))
                 return;
+
             if (!Session.GetHabbo().CurrentRoom.CheckRights(Session, true))
                 return;
+
             string[] array = item.ExtraData.Split(Convert.ToChar(5));
+
             array[0] = Session.GetHabbo().Gender.ToLower();
             array[1] = string.Empty;
+
             string[] array2 = Session.GetHabbo().Look.Split('.');
 
             foreach (

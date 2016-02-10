@@ -716,11 +716,12 @@ namespace Yupi.Game.Catalogs
 
                         if (!CheckPetName(petName) || (race.Length != 1 && race.Length != 2) || color.Length != 6)
                             return;
+
                         break;
 
                     case Interaction.Mannequin:
-                        extraData = string.Concat("m", Convert.ToChar(5), "lg-270-82.ch-210-66", Convert.ToChar(5),
-                            "Mannequin");
+                        extraData = string.Concat("m", '\u0005', "lg-270-82.ch-210-66", '\u0005', "Mannequin");
+
                         break;
 
                     case Interaction.VipGate:

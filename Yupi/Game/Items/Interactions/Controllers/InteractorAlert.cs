@@ -12,10 +12,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
             item.UpdateNeeded = true;
         }
 
-        public override void OnRemove(GameClient session, RoomItem item)
-        {
-            item.ExtraData = "0";
-        }
+        public override void OnRemove(GameClient session, RoomItem item) => item.ExtraData = "0";
 
         public override void OnTrigger(GameClient session, RoomItem item, int request, bool hasRights)
         {

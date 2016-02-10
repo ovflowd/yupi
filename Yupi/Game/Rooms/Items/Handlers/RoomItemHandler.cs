@@ -194,8 +194,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
 
                 if (roomItem.IsFloorItem)
                 {
-                    dbClient.SetQuery(
-                        $"UPDATE items_rooms SET room_id = {roomItem.RoomId}, extra_data = @extraData, x = {roomItem.X}, y = {roomItem.Y}, z = '{roomItem.Z.ToString(CultureInfo.InvariantCulture).Replace(',', '.')}', rot = {roomItem.Rot} WHERE id = {roomItem.Id}");
+                    dbClient.SetQuery($"UPDATE items_rooms SET room_id = {roomItem.RoomId}, extra_data = @extraData, x = {roomItem.X}, y = {roomItem.Y}, z = '{roomItem.Z.ToString(CultureInfo.InvariantCulture).Replace(',', '.')}', rot = {roomItem.Rot} WHERE id = {roomItem.Id}");
 
                     dbClient.AddParameter("extraData", roomItem.ExtraData);
 
@@ -203,8 +202,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
                 }
                 else
                 {
-                    dbClient.SetQuery(
-                        $"UPDATE items_rooms SET room_id = {roomItem.RoomId}, extra_data = @extraData, wall_pos = @wallPos WHERE id = {roomItem.Id}");
+                    dbClient.SetQuery($"UPDATE items_rooms SET room_id = {roomItem.RoomId}, extra_data = @extraData, wall_pos = @wallPos WHERE id = {roomItem.Id}");
 
                     dbClient.AddParameter("extraData", roomItem.ExtraData);
                     dbClient.AddParameter("wallPos", roomItem.WallCoord);
@@ -691,8 +689,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
         /// <param name="specialMove"></param>
         /// <param name="customHeight"></param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool SetFloorItem(GameClient session, RoomItem item, int newX, int newY, int newRot, bool newItem,
-            bool onRoller, bool sendMessage, bool updateRoomUserStatuses, bool specialMove, double? customHeight = null)
+        internal bool SetFloorItem(GameClient session, RoomItem item, int newX, int newY, int newRot, bool newItem, bool onRoller, bool sendMessage, bool updateRoomUserStatuses, bool specialMove, double? customHeight = null)
         {
             bool flag = false;
 

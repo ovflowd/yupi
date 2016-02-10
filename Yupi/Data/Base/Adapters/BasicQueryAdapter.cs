@@ -20,20 +20,20 @@ namespace Yupi.Data.Base.Adapters
 
         public void AddParameter(string parameterName, object value)
         {
-            string parameterSafeName = Yupi.FilterInjectionChars(parameterName);
+            //string parameterSafeName = Yupi.FilterInjectionChars(parameterName);
 
-            object parameterSafeValue = Yupi.FilterInjectionChars(value.ToString());
+            //object parameterSafeValue = Yupi.FilterInjectionChars(value.ToString());
 
-            if (!Command.Parameters.Contains(parameterSafeName))
-                Command.Parameters.AddWithValue(parameterSafeName, parameterSafeValue);
+            if (!Command.Parameters.Contains(parameterName))
+                Command.Parameters.AddWithValue(parameterName, value.ToString());
         }
 
         public void AddParameter(string parameterName, byte[] data)
         {
-            string parameterSafeName = Yupi.FilterInjectionChars(parameterName);
+            //string parameterSafeName = Yupi.FilterInjectionChars(parameterName);
 
-            if (!Command.Parameters.Contains(parameterSafeName))
-                Command.Parameters.Add(new MySqlParameter(parameterSafeName, MySqlDbType.Blob, data.Length));
+            if (!Command.Parameters.Contains(parameterName))
+                Command.Parameters.Add(new MySqlParameter(parameterName, MySqlDbType.Blob, data.Length));
         }
 
         public int GetInteger()
@@ -112,7 +112,9 @@ namespace Yupi.Data.Base.Adapters
             if (!Client.IsAvailable())
                 return;
 
-            SetQuery(Yupi.FilterInjectionChars(query));
+            //SetQuery(Yupi.FilterInjectionChars(query));
+
+            SetQuery(query);
 
             RunQuery();
         }

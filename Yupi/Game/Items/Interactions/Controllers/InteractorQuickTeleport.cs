@@ -65,7 +65,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
 
         public override void OnTrigger(GameClient session, RoomItem item, int request, bool hasRights)
         {
-            if (item == null || item.GetRoom() == null || session == null || session.GetHabbo() == null)
+            if (item?.GetRoom() == null || session?.GetHabbo() == null)
                 return;
 
             RoomUser roomUserByHabbo = item.GetRoom().GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().Id);
@@ -87,7 +87,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
 
         public override void OnUserWalk(GameClient session, RoomItem item, RoomUser user)
         {
-            if (item == null || item.GetRoom() == null || session == null || session.GetHabbo() == null)
+            if (item?.GetRoom() == null || session?.GetHabbo() == null)
                 return;
 
             RoomUser roomUserByHabbo = item.GetRoom().GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().Id);

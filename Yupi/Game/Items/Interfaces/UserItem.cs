@@ -205,7 +205,7 @@ namespace Yupi.Game.Items.Interfaces
                     case Interaction.Mannequin:
                         message.AppendInteger(1);
 
-                        if (!ExtraData.Contains(Convert.ToChar(5).ToString()))
+                        if (!ExtraData.Contains('\u0005'.ToString()))
                         {
                             message.AppendInteger(3); // Count Of Values
                             message.AppendString("GENDER");
@@ -217,7 +217,7 @@ namespace Yupi.Game.Items.Interfaces
                         }
                         else
                         {
-                            string[] extradatas = ExtraData.Split((char) 5);
+                            string[] extradatas = ExtraData.Split('\u0005');
 
                             message.AppendInteger(3); // Count Of Values
                             message.AppendString("GENDER");
