@@ -22,7 +22,6 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-using System;
 using Helios.Net;
 using Helios.Topology;
 using Yupi.Core.Encryption.Hurlant.Crypto.Prng;
@@ -76,7 +75,7 @@ namespace Yupi.Net.Connection
 
         private void OnReceive(NetworkData incomingData, IConnection responseChannel)
         {
-            ConnectionManager.ServerPrint(responseChannel.RemoteHost, $"recieved {incomingData.Length} bytes");
+            ConnectionManager.ServerPrint(responseChannel.RemoteHost, $"recieved {incomingData.Length} bytes.");
 
             try
             {
@@ -96,7 +95,7 @@ namespace Yupi.Net.Connection
 
         public void SendData(byte[] dataBytes)
         {
-            YupiWriterManager.WriteLine($"Sending: {dataBytes.Length} bytes.", "Yupi.Net");
+            ConnectionManager.ServerPrint(ConnectionChannel.RemoteHost, $"sending {dataBytes.Length} bytes.");
 
             Arc4ClientSide?.Parse(ref dataBytes);
 
