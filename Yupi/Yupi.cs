@@ -421,7 +421,9 @@ namespace Yupi
 
                 ClientMessageFactory.Init();
 
-                YupiUserConnectionManager = new ConnectionManager(new InitialPacketParser(), new ServerFactorySettings(TransportType.Tcp, IPAddress.Any, int.Parse(ServerConfigurationSettings.Data["game.tcp.port"]), 2, 4072, true));
+                ServerFactorySettings.Init(TransportType.Tcp, IPAddress.Any, int.Parse(ServerConfigurationSettings.Data["game.tcp.port"]), 2, 4072, true);
+
+                YupiUserConnectionManager = new ConnectionManager(new InitialPacketParser());
 
                 YupiUserConnectionManager.Start();
 

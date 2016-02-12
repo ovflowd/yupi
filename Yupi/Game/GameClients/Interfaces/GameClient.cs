@@ -23,7 +23,7 @@ namespace Yupi.Game.GameClients.Interfaces
     public class GameClient
     {
         /// <summary>
-        ///     The CLient Connection
+        ///     The Client Connection
         /// </summary>
         private ConnectionHandler _connection;
 
@@ -201,12 +201,23 @@ namespace Yupi.Game.GameClients.Interfaces
             if (packetParser != null)
                 packetParser.PolicyRequest += PolicyRequest;
 
+            Console.WriteLine("Policy Request OK.");
+
             InitialPacketParser initialPacketParser = _connection.DataParser as InitialPacketParser;
 
             if (initialPacketParser != null)
                 initialPacketParser.SwitchParserRequest += SwitchParserRequest;
 
-            _connection.StartReceivingData();
+            Console.WriteLine("Switch Parser Request OK.");
+
+            try
+            {
+                _connection.StartReceivingData();
+            }
+            catch (Exception e)
+            {
+               YupiWriterManager.WriteLine($"Error Start Receiving: {e}", "Yupi.Net");
+            }
         }
 
         /// <summary>
@@ -575,6 +586,8 @@ namespace Yupi.Game.GameClients.Interfaces
         /// </summary>
         private void PolicyRequest()
         {
+            Console.WriteLine("Policy Request Sending.");
+
             _connection.SendData(CrossDomainSettings.XmlPolicyBytes);
         }
     }

@@ -7,39 +7,39 @@ namespace Yupi.Net.Settings
         /// <summary>
         ///     Accepted Connection Count
         /// </summary>
-        protected uint AcceptedConnections;
+        protected static uint AcceptedConnections;
 
         /// <summary>
         ///     Server Buffer Size
         /// </summary>
-        internal int BufferSize;
+        internal static int BufferSize;
 
         /// <summary>
         ///     Worker Threads
         /// </summary>
-        internal int WorkerThreads;
+        internal static int WorkerThreads;
 
         /// <summary>
         ///     Server Port
         /// </summary>
-        internal int ServerPort;
+        internal static int ServerPort;
 
         /// <summary>
         ///     Allowed Addresses
         /// </summary>
-        internal IPAddress AllowedAddresses;
+        internal static IPAddress AllowedAddresses;
 
         /// <summary>
         ///     Server Transport Type
         /// </summary>
-        internal TransportType ServerTransportType;
+        internal static TransportType ServerTransportType;
 
         /// <summary>
         ///     Connection Delay
         /// </summary>
-        internal bool ConnectionNoDelay;
+        internal static bool ConnectionNoDelay;
 
-        internal ServerFactorySettings(TransportType serverTransportType, IPAddress allowedAddress, int serverPort, int workerThreads, int bufferSize, bool noDelay)
+        internal static void Init(TransportType serverTransportType, IPAddress allowedAddress, int serverPort, int workerThreads, int bufferSize, bool noDelay)
         {
             ServerTransportType = serverTransportType;
             AllowedAddresses = allowedAddress;
@@ -52,11 +52,11 @@ namespace Yupi.Net.Settings
         /// <summary>
         ///     Add Connection Id and Return
         /// </summary>
-        internal uint AddConnection() => AcceptedConnections++;
+        internal static uint AddConnection() => AcceptedConnections++;
 
         /// <summary>
         ///     Return Accepted Connections Count
         /// </summary>
-        internal uint CountAcceptedConnections() => AcceptedConnections;
+        internal static uint CountAcceptedConnections() => AcceptedConnections;
     }
 }

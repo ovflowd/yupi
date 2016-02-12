@@ -22,11 +22,13 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
+using System;
 using Helios.Net;
 using Helios.Topology;
 using Yupi.Core.Encryption.Hurlant.Crypto.Prng;
 using Yupi.Core.Io.Logger;
 using Yupi.Messages.Parsers.Interfaces;
+using Yupi.Net.Settings;
 
 namespace Yupi.Net.Connection
 {
@@ -58,12 +60,12 @@ namespace Yupi.Net.Connection
         /// <summary>
         ///     The ar c4 client side
         /// </summary>
-        internal Arc4 Arc4ClientSide;
+        public Arc4 Arc4ClientSide;
 
         /// <summary>
         ///     The ar c4 server side
         /// </summary>
-        internal Arc4 Arc4ServerSide;
+        public Arc4 Arc4ServerSide;
 
         public ConnectionHandler(INode connectionInfo, IConnection connectionChannel, IDataParser dataParser, uint connectionId)
         {
@@ -73,54 +75,107 @@ namespace Yupi.Net.Connection
             DataParser = dataParser;
         }
 
-        private void OnReceive(NetworkData incomingData, IConnection responseChannel)
+        public void OnReceive(NetworkData incomingData, IConnection responseChannel)
         {
-            YupiWriterManager.WriteLine("Received: ", "Yupi.Net");
+            YupiWriterManager.WriteLine($"Received: {incomingData.Length} bytes.", "Yupi.Net");
 
-            HandlePacketData(incomingData.Buffer, incomingData.Length);
+            if (!responseChannel.IsOpen())
+                return;
+
+            responseChannel.Receive += HandlePacketData;
         }
 
-        private void HandlePacketData(byte[] dataBytes, int dataLength)
+        public void HandlePacketData(NetworkData incomingData, IConnection responseChannel)
         {
+            Console.WriteLine("Comecou Packet Data");
+
+            if (!responseChannel.IsOpen())
+                return;
+
+            Console.WriteLine("Handle Packet Data");
+
             try
+            {
+                if (incomingData.Length != 0)
+                {
+                    HandleFinallyData(incomingData.Buffer, incomingData.Length);
+                }
+                else
+                    Disconnect();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Chamado Disconnect  Handle.");
+
+                Disconnect(e);
+            }
+            finally
+            {
+                Console.WriteLine("Chamado Start  Handle.");
+
+                StartReceivingData();
+            }    
+        }
+
+        private void HandleFinallyData(byte[] dataBytes, int dataLength)
+        {
+            if (DataParser != null)
             {
                 Arc4ServerSide?.Parse(ref dataBytes);
 
                 DataParser.HandlePacketData(dataBytes, dataLength);
             }
-            finally
-            {
-                StartReceivingData();
-            }
         }
 
-        private void HandlePacketData(NetworkData incomingData, IConnection responseChannel)
+        public void StartReceivingData()
         {
+            Console.WriteLine("Start Receiving OK.");
+
             try
             {
-                byte[] dataBytes = incomingData.Buffer;
-
-                Arc4ServerSide?.Parse(ref dataBytes);
-
-                DataParser.HandlePacketData(dataBytes, incomingData.Length);
+                ConnectionChannel.BeginReceive(OnReceive);
             }
-            finally
+            catch (Exception e)
             {
-                StartReceivingData();
-            }    
-        }
-
-        public void StartReceivingData() => ConnectionChannel.BeginReceive(OnReceive);
+               Disconnect(e);
+            }  
+        } 
 
         public void SendData(byte[] dataBytes)
         {
+            YupiWriterManager.WriteLine($"Sending: {dataBytes.Length} bytes.", "Yupi.Net");
+
             Arc4ClientSide?.Parse(ref dataBytes);
 
-            NetworkData networkData = NetworkData.Create(ConnectionChannel.RemoteHost, dataBytes, dataBytes.Length);
+            try
+            {
+                NetworkData networkData = NetworkData.Create(ConnectionChannel.RemoteHost, dataBytes, dataBytes.Length);
 
-            ConnectionChannel.Send(networkData);
+                ConnectionChannel.Send(networkData);
+            }
+            catch (Exception e)
+            {
+                Disconnect(e);
+            }
         }
 
-        public void Disconnect() => ConnectionChannel.Close();
+        public void Disconnect() => Disconnect(null);
+
+        public void Disconnect(Exception ex)
+        {
+            try
+            {
+                ConnectionChannel.Close();
+            }
+            catch (Exception e)
+            {
+                YupiWriterManager.WriteLine($"Error: {e}", "Yupi.Net");
+            }
+
+            if(ex != null)
+                YupiWriterManager.WriteLine($"Error: {ex}", "Yupi.Net");
+
+            DataParser.Dispose();
+        } 
     }
 }

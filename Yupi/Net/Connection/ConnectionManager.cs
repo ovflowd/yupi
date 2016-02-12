@@ -1,4 +1,5 @@
 ﻿using System;
+using Helios.Exceptions;
 using Helios.Net;
 using Helios.Reactor;
 using Helios.Reactor.Bootstrap;
@@ -22,38 +23,31 @@ namespace Yupi.Net.Connection
         public IDataParser DataParser;
 
         /// <summary>
-        ///     Server Settings
-        /// </summary>
-        private readonly ServerFactorySettings _serverSettings;
-
-        /// <summary>
         ///     Add Connection to Count
         /// </summary>
-        public uint AddConnection() => _serverSettings.AddConnection();
+        public uint AddConnection() => ServerFactorySettings.AddConnection();
 
         /// <summary>
         ///     Count Accepted Connections
         /// </summary>
-        public uint CountAcceptedConnections() => _serverSettings.CountAcceptedConnections();
+        public uint CountAcceptedConnections() => ServerFactorySettings.CountAcceptedConnections();
 
-        public ConnectionManager(IDataParser dataParser, ServerFactorySettings serverSettings)
+        public ConnectionManager(IDataParser dataParser)
         {
             DataParser = dataParser;
 
-            _serverSettings = serverSettings;
-
             IServerFactory serverFactory = new ServerBootstrap()
-                .SetTransport(_serverSettings.ServerTransportType)
+                .SetTransport(ServerFactorySettings.ServerTransportType)
                 .OnConnect(OnConnection)
                 .OnDisconnect(OnDisconnection)
                 .OnError(OnError)
-                .WorkerThreads(_serverSettings.WorkerThreads)
-                .BufferSize(_serverSettings.BufferSize)
+                .WorkerThreads(ServerFactorySettings.WorkerThreads)
+                .BufferSize(ServerFactorySettings.BufferSize)
                 .Build();
 
             INode node = NodeBuilder.BuildNode()
-                .Host(_serverSettings.AllowedAddresses)
-                .WithPort(_serverSettings.ServerPort);
+                .Host(ServerFactorySettings.AllowedAddresses)
+                .WithPort(ServerFactorySettings.ServerPort);
 
             _reactor = serverFactory.NewReactor(node);
         }
@@ -62,11 +56,9 @@ namespace Yupi.Net.Connection
 
         public void Start() => _reactor.Start();
 
-        private void OnDisconnection(Exception exception, IConnection closedChannel)
+        private void OnDisconnection(HeliosConnectionException exception, IConnection closedChannel)
         {
             YupiWriterManager.WriteLine($"Disconnected: {exception}", "Yupi.Net");
-
-            closedChannel.Close();
         }
 
         private void OnConnection(INode remoteAddress, IConnection responseChannel)
@@ -75,7 +67,11 @@ namespace Yupi.Net.Connection
 
             ConnectionHandler currentConnection = new ConnectionHandler(remoteAddress, responseChannel, DataParser.Clone() as IDataParser, AddConnection());
 
+            Console.WriteLine("Handler OK.");
+
             Yupi.GetGame().GetClientManager().CreateAndStartClient(currentConnection.ConnectionId, currentConnection);
+
+            Console.WriteLine("Client OK.");
         }
 
         private void OnError(Exception ex, IConnection connection) => YupiWriterManager.WriteLine($"Error: {ex}", "Yupi.Net");

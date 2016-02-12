@@ -37,16 +37,9 @@ namespace Yupi.Game.Commands.Controllers
                 return true;
             }
 
-            try
-            {
-                user.GetConnection().Disconnect();
+            user.GetConnection().Disconnect();
 
-                Yupi.GetGame().GetModerationTool().LogStaffEntry(session.GetHabbo().UserName, user.GetHabbo().UserName, "dc", $"Disconnect User[{pms[1]}]");
-            }
-            catch
-            {
-
-            }
+            Yupi.GetGame().GetModerationTool().LogStaffEntry(session.GetHabbo().UserName, user.GetHabbo().UserName, "dc", $"Disconnect User[{pms[1]}]");
 
             return true;
         }
