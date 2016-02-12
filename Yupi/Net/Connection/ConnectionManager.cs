@@ -12,7 +12,7 @@ using Yupi.Net.Settings;
 
 namespace Yupi.Net.Connection
 {
-    internal class ConnectionManager
+    public class ConnectionManager
     {
         /// <summary>
         ///     Connection Reactor
@@ -34,10 +34,7 @@ namespace Yupi.Net.Connection
         /// </summary>
         public static uint CountAcceptedConnections() => ServerFactorySettings.CountAcceptedConnections();
 
-        public static void ServerPrint(INode node, string message)
-        {
-            Console.WriteLine("[{0}] {1}:{2}: {3}", DateTime.UtcNow, node.Host, node.Port, message);
-        }
+        public static void ServerPrint(INode node, string message) => Console.WriteLine("[{0}] {1}:{2}: {3}", DateTime.UtcNow, node.Host, node.Port, message);
 
         public static void Init(IDataParser dataParser)
         {

@@ -92,12 +92,7 @@ namespace Yupi.Net.Connection
             }
         }
 
-        public void StartReceivingData()
-        {
-            Console.WriteLine("Start Receiving OK.");
-
-            ConnectionChannel.BeginReceive(OnReceive);
-        } 
+        public void StartReceivingData() => ConnectionChannel.BeginReceive(OnReceive);
 
         public void SendData(byte[] dataBytes)
         {
