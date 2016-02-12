@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Yupi.NewNet.Settings
+namespace Yupi.Net.Settings
 {
     internal class ServerFactorySettings
     {

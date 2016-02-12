@@ -10,7 +10,7 @@ using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Users.Messenger.Structs;
 using Yupi.Messages;
 using Yupi.Messages.Parsers;
-using Yupi.NewNet.Connection;
+using Yupi.Net.Connection;
 
 namespace Yupi.Game.GameClients
 {

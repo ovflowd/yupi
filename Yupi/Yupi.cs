@@ -29,9 +29,9 @@ using Yupi.Messages.Factorys;
 using Yupi.Messages.Parsers;
 using Yupi.Game;
 using Yupi.Data.Base.Managers.Interfaces;
+using Yupi.Net.Connection;
 using Yupi.Net.Packets;
-using Yupi.NewNet.Connection;
-using Yupi.NewNet.Settings;
+using Yupi.Net.Settings;
 
 namespace Yupi
 {

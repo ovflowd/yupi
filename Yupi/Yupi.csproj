@@ -573,7 +573,7 @@
     <Compile Include="Core\Security\UserChatInputFilter.cs" />
     <Compile Include="Core\Settings\ServerDatabaseSettings.cs" />
     <Compile Include="Core\Settings\ServerConfigurationSettings.cs" />
-    <Compile Include="NewNet\Connection\ConnectionHandler.cs" />
+    <Compile Include="Net\Connection\ConnectionHandler.cs" />
     <Compile Include="Core\Settings\ConsoleCommandHandler.cs" />
     <Compile Include="Core\Settings\ServerExtraSettings.cs" />
     <Compile Include="Game\Achievements\Structs\Achievement.cs" />
@@ -671,8 +671,8 @@
     <Compile Include="Game\Users\Data\Models\UserData.cs" />
     <Compile Include="Game\Users\Factories\UserDataFactory.cs" />
     <Compile Include="Game\Users\Data\Exceptions\UserDataNotFoundException.cs" />
-    <Compile Include="NewNet\Connection\ConnectionManager.cs" />
-    <Compile Include="NewNet\Settings\ServerFactorySettings.cs" />
+    <Compile Include="Net\Connection\ConnectionManager.cs" />
+    <Compile Include="Net\Settings\ServerFactorySettings.cs" />
     <Compile Include="Yupi.cs" />
     <Compile Include="Messages\ClientMessage.cs" />
     <Compile Include="Messages\Handlers\Others.cs" />
@@ -718,7 +718,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Game\Users\Inventory\Structs\" />
-    <Folder Include="Net\Connection\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Yupi.NewNet.Connection;
+using Yupi.Net.Connection;
 
 namespace Yupi.Messages
 {

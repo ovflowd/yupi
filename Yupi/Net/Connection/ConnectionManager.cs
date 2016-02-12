@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Net;
-using Helios.Exceptions;
 using Helios.Net;
 using Helios.Reactor;
 using Helios.Reactor.Bootstrap;
 using Helios.Topology;
 using Yupi.Core.Io.Logger;
 using Yupi.Messages.Parsers.Interfaces;
-using Yupi.Net.Packets;
-using Yupi.NewNet.Settings;
+using Yupi.Net.Settings;
 
-namespace Yupi.NewNet.Connection
+namespace Yupi.Net.Connection
 {
     internal class ConnectionManager
     {

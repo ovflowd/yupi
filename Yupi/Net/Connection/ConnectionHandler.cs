@@ -28,7 +28,7 @@ using Yupi.Core.Encryption.Hurlant.Crypto.Prng;
 using Yupi.Core.Io.Logger;
 using Yupi.Messages.Parsers.Interfaces;
 
-namespace Yupi.NewNet.Connection
+namespace Yupi.Net.Connection
 {
     /// <summary>
     ///     Class ConnectionHandler.

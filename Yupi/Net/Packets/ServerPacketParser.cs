@@ -29,7 +29,7 @@ using Yupi.Game.GameClients.Interfaces;
 using Yupi.Messages;
 using Yupi.Messages.Factorys;
 using Yupi.Messages.Parsers.Interfaces;
-using Yupi.NewNet.Connection;
+using Yupi.Net.Connection;
 
 namespace Yupi.Net.Packets
 {

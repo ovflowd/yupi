@@ -12,8 +12,8 @@ using Yupi.Messages;
 using Yupi.Messages.Enums;
 using Yupi.Messages.Handlers;
 using Yupi.Messages.Parsers;
+using Yupi.Net.Connection;
 using Yupi.Net.Packets;
-using Yupi.NewNet.Connection;
 
 namespace Yupi.Game.GameClients.Interfaces
 {
