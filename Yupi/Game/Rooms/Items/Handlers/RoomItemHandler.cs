@@ -323,7 +323,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
 
                 roomGamemap.RemoveSpecialItem(item);
 
-                ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("PickUpFloorItemMessageComposer"));
+                ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("PickUpFloorItemMessageComposer"));
                 serverMessage.AppendString(item.Id.ToString());
                 serverMessage.AppendBool(false); //expired
                 serverMessage.AppendInteger(item.UserId); //pickerId
@@ -345,7 +345,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
             {
                 item.Interactor.OnRemove(session, item);
 
-                ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("PickUpWallItemMessageComposer"));
+                ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("PickUpWallItemMessageComposer"));
                 serverMessage.AppendString(item.Id.ToString());
                 serverMessage.AppendInteger(item.UserId);
                 _room.SendMessage(serverMessage);
@@ -569,14 +569,14 @@ namespace Yupi.Game.Rooms.Items.Handlers
         {
             if (item.IsWallItem)
             {
-                ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("PickUpWallItemMessageComposer"));
+                ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("PickUpWallItemMessageComposer"));
                 serverMessage.AppendString(item.Id.ToString());
                 serverMessage.AppendInteger(wasPicked ? item.UserId : 0);
                 _room.SendMessage(serverMessage);
             }
             else if (item.IsFloorItem)
             {
-                ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("PickUpFloorItemMessageComposer"));
+                ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("PickUpFloorItemMessageComposer"));
                 serverMessage.AppendString(item.Id.ToString());
                 serverMessage.AppendBool(false); //expired
                 serverMessage.AppendInteger(wasPicked ? item.UserId : 0); //pickerId
@@ -610,7 +610,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
         internal ServerMessage UpdateItemOnRoller(RoomItem item, Point nextCoord, uint rolledId, double nextZ)
         {
             ServerMessage serverMessage = new ServerMessage();
-            serverMessage.Init(LibraryParser.OutgoingRequest("ItemAnimationMessageComposer"));
+            serverMessage.Init(PacketLibraryManager.OutgoingRequest("ItemAnimationMessageComposer"));
             serverMessage.AppendInteger(item.X);
             serverMessage.AppendInteger(item.Y);
             serverMessage.AppendInteger(nextCoord.X);
@@ -635,7 +635,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
         internal ServerMessage UpdateUserOnRoller(RoomUser user, Point nextCoord, uint rollerId, double nextZ)
         {
             ServerMessage serverMessage = new ServerMessage(0);
-            serverMessage.Init(LibraryParser.OutgoingRequest("ItemAnimationMessageComposer"));
+            serverMessage.Init(PacketLibraryManager.OutgoingRequest("ItemAnimationMessageComposer"));
             serverMessage.AppendInteger(user.X);
             serverMessage.AppendInteger(user.Y);
             serverMessage.AppendInteger(nextCoord.X);
@@ -886,7 +886,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
 
                 if (sendMessage)
                 {
-                    ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("AddFloorItemMessageComposer"));
+                    ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("AddFloorItemMessageComposer"));
                     item.Serialize(serverMessage);
 
                     serverMessage.AppendString(_room.RoomData.Group != null
@@ -903,7 +903,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
                 {
                     if (specialMove)
                     {
-                        ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("ItemAnimationMessageComposer"));
+                        ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("ItemAnimationMessageComposer"));
                         message.AppendInteger(oldCoord.X);
                         message.AppendInteger(oldCoord.Y);
                         message.AppendInteger(newX);
@@ -917,7 +917,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
                     }
                     else
                     {
-                        ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("UpdateRoomItemMessageComposer"));
+                        ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("UpdateRoomItemMessageComposer"));
                         item.Serialize(message);
                         _room.SendMessage(message);
                     }
@@ -957,7 +957,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
                 item.Y, item.Rot);
             item.SetState(item.X, item.Y, item.Z, affectedTiles);
 
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("AddFloorItemMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("AddFloorItemMessageComposer"));
             item.Serialize(serverMessage);
             serverMessage.AppendString(_room.RoomData.Group != null ? session.GetHabbo().UserName : _room.RoomData.Owner);
             _room.SendMessage(serverMessage);
@@ -971,7 +971,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
         /// <param name="affectedTiles">The affected tiles.</param>
         internal void OnHeightMapUpdate(Dictionary<int, ThreeDCoord> affectedTiles)
         {
-            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("UpdateFurniStackMapMessageComposer"));
+            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("UpdateFurniStackMapMessageComposer"));
             message.AppendByte((byte) affectedTiles.Count);
 
             foreach (ThreeDCoord coord in affectedTiles.Values)
@@ -990,7 +990,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
         /// <param name="affectedTiles">The affected tiles.</param>
         internal void OnHeightMapUpdate(ICollection affectedTiles)
         {
-            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("UpdateFurniStackMapMessageComposer"));
+            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("UpdateFurniStackMapMessageComposer"));
             message.AppendByte((byte) affectedTiles.Count);
 
             foreach (Point coord in affectedTiles)
@@ -1010,7 +1010,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
         /// <param name="newCoords">The new coords.</param>
         internal void OnHeightMapUpdate(List<Point> oldCoords, List<Point> newCoords)
         {
-            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("UpdateFurniStackMapMessageComposer"));
+            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("UpdateFurniStackMapMessageComposer"));
             message.AppendByte((byte) (oldCoords.Count + newCoords.Count));
 
             foreach (Point coord in oldCoords)
@@ -1088,7 +1088,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
             if (!sendUpdate)
                 return true;
 
-            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("UpdateRoomItemMessageComposer"));
+            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("UpdateRoomItemMessageComposer"));
             item.Serialize(message);
             _room.SendMessage(message);
 
@@ -1120,7 +1120,7 @@ namespace Yupi.Game.Rooms.Items.Handlers
             WallItems.TryAdd(item.Id, item);
             AddOrUpdateItem(item.Id);
 
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("AddWallItemMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("AddWallItemMessageComposer"));
             item.Serialize(serverMessage);
             serverMessage.AppendString(_room.RoomData.Owner);
             _room.SendMessage(serverMessage);

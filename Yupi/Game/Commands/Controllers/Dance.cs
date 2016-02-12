@@ -32,7 +32,7 @@ namespace Yupi.Game.Commands.Controllers
                 result = 0;
             }
             ServerMessage message = new ServerMessage();
-            message.Init(LibraryParser.OutgoingRequest("DanceStatusMessageComposer"));
+            message.Init(PacketLibraryManager.OutgoingRequest("DanceStatusMessageComposer"));
             message.AppendInteger(session.CurrentRoomUserId);
             message.AppendInteger(result);
             session.GetHabbo().CurrentRoom.SendMessage(message);

@@ -26,7 +26,7 @@ namespace Yupi.Game.Commands.Controllers
             string msg = string.Join(" ", pms);
 
             ServerMessage message =
-                new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
+                new ServerMessage(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
             message.AppendString("staffcloud");
             message.AppendInteger(2);
             message.AppendString("title");

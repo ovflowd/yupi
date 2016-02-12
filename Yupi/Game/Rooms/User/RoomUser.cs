@@ -675,7 +675,7 @@ namespace Yupi.Game.Rooms.User
             if (!IsAsleep)
                 return;
             IsAsleep = false;
-            ServerMessage sleep = new ServerMessage(LibraryParser.OutgoingRequest("RoomUserIdleMessageComposer"));
+            ServerMessage sleep = new ServerMessage(PacketLibraryManager.OutgoingRequest("RoomUserIdleMessageComposer"));
             sleep.AppendInteger(VirtualId);
             sleep.AppendBool(false);
             GetRoom().SendMessage(sleep);
@@ -708,7 +708,7 @@ namespace Yupi.Game.Rooms.User
             {
                 ServerMessage botChatmsg = new ServerMessage();
 
-                botChatmsg.Init(shout ? LibraryParser.OutgoingRequest("ShoutMessageComposer") : LibraryParser.OutgoingRequest("ChatMessageComposer"));
+                botChatmsg.Init(shout ? PacketLibraryManager.OutgoingRequest("ShoutMessageComposer") : PacketLibraryManager.OutgoingRequest("ChatMessageComposer"));
                 botChatmsg.AppendInteger(VirtualId);
                 botChatmsg.AppendString(msg);
                 botChatmsg.AppendInteger(0);
@@ -798,7 +798,7 @@ namespace Yupi.Game.Rooms.User
 
                     if ((span.TotalSeconds < habbo.SpamProtectionTime) && habbo.SpamProtectionBol)
                     {
-                        message = new ServerMessage(LibraryParser.OutgoingRequest("FloodFilterMessageComposer"));
+                        message = new ServerMessage(PacketLibraryManager.OutgoingRequest("FloodFilterMessageComposer"));
 
                         int i = habbo.SpamProtectionTime - span.Seconds;
 
@@ -815,7 +815,7 @@ namespace Yupi.Game.Rooms.User
 
                     if ((span.TotalSeconds < 4.0) && (_floodCount > 5) && (rank < 5))
                     {
-                        message = new ServerMessage(LibraryParser.OutgoingRequest("FloodFilterMessageComposer"));
+                        message = new ServerMessage(PacketLibraryManager.OutgoingRequest("FloodFilterMessageComposer"));
 
                         habbo.SpamProtectionCount++;
 
@@ -853,7 +853,7 @@ namespace Yupi.Game.Rooms.User
             else if (!IsPet)
                 textColor = 2;
 
-            ServerMessage chatMsg = new ServerMessage(shout ? LibraryParser.OutgoingRequest("ShoutMessageComposer") : LibraryParser.OutgoingRequest("ChatMessageComposer"));
+            ServerMessage chatMsg = new ServerMessage(shout ? PacketLibraryManager.OutgoingRequest("ShoutMessageComposer") : PacketLibraryManager.OutgoingRequest("ChatMessageComposer"));
 
             chatMsg.AppendInteger(VirtualId);
             chatMsg.AppendString(msg);
@@ -1055,7 +1055,7 @@ namespace Yupi.Game.Rooms.User
         {
             CarryItemId = item;
             CarryTimer = item > 0 ? 240 : 0;
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("ApplyHanditemMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("ApplyHanditemMessageComposer"));
             serverMessage.AppendInteger(VirtualId);
             serverMessage.AppendInteger(item);
             GetRoom().SendMessage(serverMessage);

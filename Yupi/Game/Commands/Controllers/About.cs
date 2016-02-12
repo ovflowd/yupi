@@ -25,7 +25,7 @@ namespace Yupi.Game.Commands.Controllers
         public override bool Execute(GameClient client, string[] pms)
         {
             ServerMessage message =
-                new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
+                new ServerMessage(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
 
             message.AppendString("Yupi");
             message.AppendInteger(4);

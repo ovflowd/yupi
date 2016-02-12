@@ -76,7 +76,7 @@ namespace Yupi.Game.Achievements
             AchievementLevelFactory.GetAchievementLevels(out Achievements, dbClient);
 
             AchievementDataCached =
-                new ServerMessage(LibraryParser.OutgoingRequest("SendAchievementsRequirementsMessageComposer"));
+                new ServerMessage(PacketLibraryManager.OutgoingRequest("SendAchievementsRequirementsMessageComposer"));
             AchievementDataCached.AppendInteger(Achievements.Count);
 
             foreach (Achievement ach in Achievements.Values)
@@ -363,7 +363,7 @@ namespace Yupi.Game.Achievements
                 // Send User New Data
                 GameClientMessageHandler messageHandler = session.GetMessageHandler();
 
-                messageHandler.GetResponse().Init(LibraryParser.OutgoingRequest("UpdateUserDataMessageComposer"));
+                messageHandler.GetResponse().Init(PacketLibraryManager.OutgoingRequest("UpdateUserDataMessageComposer"));
                 messageHandler.GetResponse().AppendInteger(-1);
                 messageHandler.GetResponse().AppendString(user.Look);
                 messageHandler.GetResponse().AppendString(user.Gender.ToLower());

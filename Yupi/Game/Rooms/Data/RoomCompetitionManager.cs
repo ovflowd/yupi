@@ -53,7 +53,7 @@ namespace Yupi.Game.Rooms.Data
 
         internal ServerMessage AppendEntrySubmitMessage(ServerMessage message, int status, Room room = null)
         {
-            message.Init(LibraryParser.OutgoingRequest("CompetitionEntrySubmitResultMessageComposer"));
+            message.Init(PacketLibraryManager.OutgoingRequest("CompetitionEntrySubmitResultMessageComposer"));
 
             message.AppendInteger(Id);
             message.AppendString(Name);
@@ -101,7 +101,7 @@ namespace Yupi.Game.Rooms.Data
 
         internal ServerMessage AppendVoteMessage(ServerMessage message, Habbo user, int status = 0)
         {
-            message.Init(LibraryParser.OutgoingRequest("CompetitionVotingInfoMessageComposer"));
+            message.Init(PacketLibraryManager.OutgoingRequest("CompetitionVotingInfoMessageComposer"));
 
             message.AppendInteger(Id);
             message.AppendString(Name);

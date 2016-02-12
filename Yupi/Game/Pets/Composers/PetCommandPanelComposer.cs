@@ -11,7 +11,7 @@ namespace Yupi.Game.Pets.Composers
         internal static void GenerateMessage(Pet pet, Dictionary<uint, PetCommand> totalPetCommands,
             Dictionary<uint, PetCommand> petCommands, GameClient owner)
         {
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("PetTrainerPanelMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("PetTrainerPanelMessageComposer"));
 
             serverMessage.AppendInteger(pet.PetId);
 

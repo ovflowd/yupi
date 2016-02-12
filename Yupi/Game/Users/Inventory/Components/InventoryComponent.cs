@@ -150,7 +150,7 @@ namespace Yupi.Game.Users.Inventory.Components
 
             _mClient.GetMessageHandler()
                 .GetResponse()
-                .Init(LibraryParser.OutgoingRequest("UpdateInventoryMessageComposer"));
+                .Init(PacketLibraryManager.OutgoingRequest("UpdateInventoryMessageComposer"));
 
             GetClient().GetMessageHandler().SendResponse();
         }
@@ -236,7 +236,7 @@ namespace Yupi.Game.Users.Inventory.Components
         internal bool RemovePet(uint petId)
         {
             _isUpdated = false;
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("RemovePetFromInventoryComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("RemovePetFromInventoryComposer"));
             serverMessage.AppendInteger(petId);
             GetClient().SendMessage(serverMessage);
             _inventoryPets.Remove(petId);
@@ -384,7 +384,7 @@ namespace Yupi.Game.Users.Inventory.Components
 
             _mClient.GetMessageHandler()
                 .GetResponse()
-                .Init(LibraryParser.OutgoingRequest("UpdateInventoryMessageComposer"));
+                .Init(PacketLibraryManager.OutgoingRequest("UpdateInventoryMessageComposer"));
 
             _mClient.GetMessageHandler().SendResponse();
         }
@@ -569,7 +569,7 @@ namespace Yupi.Game.Users.Inventory.Components
             GetClient()
                 .GetMessageHandler()
                 .GetResponse()
-                .Init(LibraryParser.OutgoingRequest("RemoveInventoryObjectMessageComposer"));
+                .Init(PacketLibraryManager.OutgoingRequest("RemoveInventoryObjectMessageComposer"));
 
             GetClient().GetMessageHandler().GetResponse().AppendInteger(id);
             //this.GetClient().GetMessageHandler().GetResponse().AppendInt32(Convert.ToInt32(this.GetClient().GetHabbo().Id));
@@ -600,7 +600,7 @@ namespace Yupi.Game.Users.Inventory.Components
             if (i > 2800)
                 _mClient.SendMessage(StaticMessage.AdviceMaxItems);
 
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("LoadInventoryMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("LoadInventoryMessageComposer"));
             serverMessage.AppendInteger(1);
             serverMessage.AppendInteger(0);
             serverMessage.AppendInteger(i > 2800 ? 2800 : i);
@@ -646,7 +646,7 @@ namespace Yupi.Game.Users.Inventory.Components
         /// <returns>ServerMessage.</returns>
         internal ServerMessage SerializeWallItemInventory()
         {
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("LoadInventoryMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("LoadInventoryMessageComposer"));
             serverMessage.AppendString("I");
             serverMessage.AppendInteger(1);
             serverMessage.AppendInteger(1);
@@ -662,7 +662,7 @@ namespace Yupi.Game.Users.Inventory.Components
         /// <returns>ServerMessage.</returns>
         internal ServerMessage SerializePetInventory()
         {
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("PetInventoryMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("PetInventoryMessageComposer"));
             serverMessage.AppendInteger(1);
             serverMessage.AppendInteger(1);
             serverMessage.AppendInteger(_inventoryPets.Count);
@@ -680,7 +680,7 @@ namespace Yupi.Game.Users.Inventory.Components
         internal ServerMessage SerializeBotInventory()
         {
             ServerMessage serverMessage = new ServerMessage();
-            serverMessage.Init(LibraryParser.OutgoingRequest("BotInventoryMessageComposer"));
+            serverMessage.Init(PacketLibraryManager.OutgoingRequest("BotInventoryMessageComposer"));
 
             serverMessage.AppendInteger(_inventoryBots.Count);
             foreach (RoomBot current in _inventoryBots.Values)
@@ -749,7 +749,7 @@ namespace Yupi.Game.Users.Inventory.Components
         /// <returns>ServerMessage.</returns>
         internal ServerMessage SerializeMusicDiscs()
         {
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("SongsLibraryMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("SongsLibraryMessageComposer"));
 
             serverMessage.AppendInteger(SongDisks.Count);
 
@@ -794,7 +794,7 @@ namespace Yupi.Game.Users.Inventory.Components
         internal void SendNewItems(uint id)
         {
             ServerMessage serverMessage = new ServerMessage();
-            serverMessage.Init(LibraryParser.OutgoingRequest("NewInventoryObjectMessageComposer"));
+            serverMessage.Init(PacketLibraryManager.OutgoingRequest("NewInventoryObjectMessageComposer"));
             serverMessage.AppendInteger(1);
             serverMessage.AppendInteger(1);
             serverMessage.AppendInteger(1);

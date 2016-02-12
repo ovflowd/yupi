@@ -42,7 +42,7 @@ namespace Yupi.Game.Achievements.Composers
         /// <returns>ServerMessage.</returns>
         internal static ServerMessage Compose(GameClient session, Talent talent)
         {
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("TalentLevelUpMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("TalentLevelUpMessageComposer"));
 
             serverMessage.AppendString(talent.Type);
             serverMessage.AppendInteger(talent.Level);

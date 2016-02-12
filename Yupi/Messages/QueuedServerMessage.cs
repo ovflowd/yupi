@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Yupi.Net.Connection;
 
 namespace Yupi.Messages
 {

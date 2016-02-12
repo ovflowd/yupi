@@ -162,7 +162,7 @@ namespace Yupi.Game.Users.Messenger
 
             ServerMessage serverMessage = new ServerMessage();
 
-            serverMessage.Init(LibraryParser.OutgoingRequest("ConsoleMessengerActionMessageComposer"));
+            serverMessage.Init(PacketLibraryManager.OutgoingRequest("ConsoleMessengerActionMessageComposer"));
 
             serverMessage.AppendString(GetClient().GetHabbo().Id.ToString());
             serverMessage.AppendInteger(type);
@@ -336,7 +336,7 @@ namespace Yupi.Game.Users.Messenger
             if(Friends.ContainsKey(friend))
                 Friends.Remove(friend);
 
-            GetClient().GetMessageHandler().GetResponse().Init(LibraryParser.OutgoingRequest("FriendUpdateMessageComposer"));
+            GetClient().GetMessageHandler().GetResponse().Init(PacketLibraryManager.OutgoingRequest("FriendUpdateMessageComposer"));
             GetClient().GetMessageHandler().GetResponse().AppendInteger(0);
             GetClient().GetMessageHandler().GetResponse().AppendInteger(1);
             GetClient().GetMessageHandler().GetResponse().AppendInteger(-1);
@@ -391,7 +391,7 @@ namespace Yupi.Game.Users.Messenger
             {
                 client.GetMessageHandler()
                     .GetResponse()
-                    .Init(LibraryParser.OutgoingRequest("NotAcceptingRequestsMessageComposer"));
+                    .Init(PacketLibraryManager.OutgoingRequest("NotAcceptingRequestsMessageComposer"));
 
                 client.GetMessageHandler().GetResponse().AppendInteger(39);
                 client.GetMessageHandler().GetResponse().AppendInteger(3);
@@ -421,7 +421,7 @@ namespace Yupi.Game.Users.Messenger
                 clientByUsername.GetHabbo().GetMessenger().OnNewRequest(_userId, messengerRequest);
 
                 ServerMessage serverMessage =
-                    new ServerMessage(LibraryParser.OutgoingRequest("ConsoleSendFriendRequestMessageComposer"));
+                    new ServerMessage(PacketLibraryManager.OutgoingRequest("ConsoleSendFriendRequestMessageComposer"));
 
                 messengerRequest.Serialize(serverMessage);
                 clientByUsername.SendMessage(serverMessage);
@@ -483,7 +483,7 @@ namespace Yupi.Game.Users.Messenger
 
             if (toId == 0) // Staff Chat
             {
-                ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("ConsoleChatMessageComposer"));
+                ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("ConsoleChatMessageComposer"));
 
                 serverMessage.AppendInteger(0); //userid
                 serverMessage.AppendString(GetClient().GetHabbo().UserName + " : " + message);
@@ -536,7 +536,7 @@ namespace Yupi.Game.Users.Messenger
         /// <param name="convoId">The convo identifier.</param>
         internal void DeliverInstantMessage(string message, uint convoId)
         {
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("ConsoleChatMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("ConsoleChatMessageComposer"));
 
             serverMessage.AppendInteger(convoId);
             serverMessage.AppendString(message);
@@ -552,7 +552,7 @@ namespace Yupi.Game.Users.Messenger
         /// <param name="conversationId">The conversation identifier.</param>
         internal void DeliverInstantMessageError(int errorId, uint conversationId)
         {
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("ConsoleChatErrorMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("ConsoleChatErrorMessageComposer"));
 
             serverMessage.AppendInteger(errorId);
             serverMessage.AppendInteger(conversationId);
@@ -567,7 +567,7 @@ namespace Yupi.Game.Users.Messenger
         /// <returns>ServerMessage.</returns>
         internal ServerMessage SerializeCategories()
         {
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("LoadFriendsCategories"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("LoadFriendsCategories"));
 
             serverMessage.AppendInteger(2000);
             serverMessage.AppendInteger(300);
@@ -584,7 +584,7 @@ namespace Yupi.Game.Users.Messenger
         /// <returns>ServerMessage.</returns>
         internal ServerMessage SerializeFriends()
         {
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("LoadFriendsMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("LoadFriendsMessageComposer"));
 
             serverMessage.AppendInteger(1);
             serverMessage.AppendInteger(0);
@@ -608,7 +608,7 @@ namespace Yupi.Game.Users.Messenger
         /// <returns>ServerMessage.</returns>
         internal ServerMessage SerializeOfflineMessages(OfflineMessage message)
         {
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("ConsoleChatMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("ConsoleChatMessageComposer"));
 
             serverMessage.AppendInteger(message.FromId);
             serverMessage.AppendString(message.Message);
@@ -624,7 +624,7 @@ namespace Yupi.Game.Users.Messenger
         /// <returns>ServerMessage.</returns>
         internal ServerMessage SerializeUpdate(MessengerBuddy friend)
         {
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("FriendUpdateMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("FriendUpdateMessageComposer"));
 
             serverMessage.AppendInteger(0);
             serverMessage.AppendInteger(1);
@@ -641,7 +641,7 @@ namespace Yupi.Game.Users.Messenger
         /// <returns>ServerMessage.</returns>
         internal ServerMessage SerializeRequests()
         {
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("FriendRequestsMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("FriendRequestsMessageComposer"));
             serverMessage.AppendInteger(Requests.Count > Yupi.FriendRequestLimit
                 ? (int) Yupi.FriendRequestLimit
                 : Requests.Count);
@@ -677,7 +677,7 @@ namespace Yupi.Game.Users.Messenger
                     list2.Add(current);
             }
 
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("ConsoleSearchFriendMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("ConsoleSearchFriendMessageComposer"));
 
             serverMessage.AppendInteger(list.Count);
 

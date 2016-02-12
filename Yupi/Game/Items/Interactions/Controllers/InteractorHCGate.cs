@@ -17,7 +17,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
 
             if (!ishc)
             {
-                ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("CustomUserNotificationMessageComposer"));
+                ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("CustomUserNotificationMessageComposer"));
                 message.AppendInteger(3);
                 session.SendMessage(message);
                 return;

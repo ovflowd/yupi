@@ -158,6 +158,10 @@
     <AssemblyName>Yupi</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Helios, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Helios.1.4.2\lib\net45\Helios.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
@@ -255,10 +259,6 @@
     <Compile Include="Data\FurnitureDataManager.cs" />
     <Compile Include="Data\Structs\FurnitureData.cs" />
     <Compile Include="Core\Settings\ServerLanguageSettings.cs" />
-    <Compile Include="Net\Connection\ConnectionData.cs" />
-    <Compile Include="Net\Sockets\SocketConnectionSettings.cs" />
-    <Compile Include="Net\Sockets\SocketConnectionCheck.cs" />
-    <Compile Include="Net\Sockets\SocketConnectionManager.cs" />
     <Compile Include="Game\Catalogs\Composers\TargetedOfferComposer.cs" />
     <Compile Include="Game\Catalogs\TargetedOfferManager.cs" />
     <Compile Include="Game\Catalogs\Interfaces\TargetedOffer.cs" />
@@ -563,8 +563,7 @@
     <Compile Include="Messages\Handlers\Navigator.cs" />
     <Compile Include="Messages\Handlers\Rooms.cs" />
     <Compile Include="Messages\Handlers\Users.cs" />
-    <Compile Include="Net\Sockets\Exceptions\SocketInitializationException.cs" />
-    <Compile Include="Messages\Parsers\LibraryParser.cs" />
+    <Compile Include="Messages\Parsers\PacketLibraryManager.cs" />
     <Compile Include="Messages\Enums\StaticMessages.cs" />
     <Compile Include="Core\Security\BlackWords\Structs\BlackWord.cs" />
     <Compile Include="Core\Security\BlackWords\BlackWordsManager.cs" />
@@ -574,7 +573,7 @@
     <Compile Include="Core\Security\UserChatInputFilter.cs" />
     <Compile Include="Core\Settings\ServerDatabaseSettings.cs" />
     <Compile Include="Core\Settings\ServerConfigurationSettings.cs" />
-    <Compile Include="Net\Connection\ConnectionHandler.cs" />
+    <Compile Include="NewNet\Connection\ConnectionHandler.cs" />
     <Compile Include="Core\Settings\ConsoleCommandHandler.cs" />
     <Compile Include="Core\Settings\ServerExtraSettings.cs" />
     <Compile Include="Game\Achievements\Structs\Achievement.cs" />
@@ -672,13 +671,14 @@
     <Compile Include="Game\Users\Data\Models\UserData.cs" />
     <Compile Include="Game\Users\Factories\UserDataFactory.cs" />
     <Compile Include="Game\Users\Data\Exceptions\UserDataNotFoundException.cs" />
+    <Compile Include="NewNet\Connection\ConnectionManager.cs" />
     <Compile Include="Yupi.cs" />
     <Compile Include="Messages\ClientMessage.cs" />
     <Compile Include="Messages\Handlers\Others.cs" />
     <Compile Include="Messages\HabboEncoding.cs" />
     <Compile Include="Messages\QueuedServerMessage.cs" />
     <Compile Include="Messages\ServerMessage.cs" />
-    <Compile Include="Messages\Parsers\PacketLibrary.cs" />
+    <Compile Include="Messages\Library\PacketLibrary.cs" />
     <Compile Include="Net\Packets\ServerPacketParser.cs" />
     <Compile Include="Net\Packets\InitialPacketParser.cs" />
     <Compile Include="Program.cs" />
@@ -717,6 +717,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Game\Users\Inventory\Structs\" />
+    <Folder Include="Net\Connection\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -74,7 +74,7 @@ namespace Yupi.Core.Security.BlackWords
                 }
             }
 
-            YupiWriterManager.WriteLine("Loaded " + Words.Count + " BlackWords", "Yupi.Security");
+            YupiWriterManager.WriteLine("Loaded " + Words.Count + " BlackWords", "Yupi.Safe");
             //Console.WriteLine();
         }
 
@@ -148,12 +148,12 @@ namespace Yupi.Core.Security.BlackWords
                     break;
 
                 case "all":
-                    YupiWriterManager.WriteLine("Word type [all] it's reserved for system. Word: " + word, "Yupi.Security",
+                    YupiWriterManager.WriteLine("Word type [all] it's reserved for system. Word: " + word, "Yupi.Safe",
                         ConsoleColor.DarkRed);
                     return;
 
                 default:
-                    YupiWriterManager.WriteLine("Undefined type [" + typeStr + "] of word: " + word, "Yupi.Security",
+                    YupiWriterManager.WriteLine("Undefined type [" + typeStr + "] of word: " + word, "Yupi.Safe",
                         ConsoleColor.DarkRed);
                     return;
             }

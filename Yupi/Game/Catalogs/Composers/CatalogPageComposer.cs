@@ -32,7 +32,7 @@ namespace Yupi.Game.Catalogs.Composers
             if (type == "NORMAL")
                 sortedPages = pages.Where(x => x.ParentId == -1 && x.MinRank <= rank).OrderBy(x => x.OrderNum);
 
-            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("CatalogueIndexMessageComposer"));
+            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("CatalogueIndexMessageComposer"));
 
             message.AppendBool(true);
             message.AppendInteger(0);
@@ -88,7 +88,7 @@ namespace Yupi.Game.Catalogs.Composers
         /// <returns>ServerMessage.</returns>
         internal static ServerMessage ComposePage(CatalogPage page)
         {
-            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("CataloguePageMessageComposer"));
+            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("CataloguePageMessageComposer"));
             message.AppendInteger(page.PageId);
 
             switch (page.Layout)
@@ -465,7 +465,7 @@ namespace Yupi.Game.Catalogs.Composers
         /// <returns>ServerMessage.</returns>
         internal static ServerMessage ComposeClubPurchasePage(GameClient session, int windowId)
         {
-            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("CatalogueClubPageMessageComposer"));
+            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("CatalogueClubPageMessageComposer"));
             List<CatalogItem> habboClubItems = Yupi.GetGame().GetCatalogManager().HabboClubItems;
 
             message.AppendInteger(habboClubItems.Count);
@@ -544,7 +544,7 @@ namespace Yupi.Game.Catalogs.Composers
             uint limitedStack = 0,
             uint limitedSelled = 0)
         {
-            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("PurchaseOKMessageComposer"));
+            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("PurchaseOKMessageComposer"));
             message.AppendInteger(itemId);
             message.AppendString(itemName);
             message.AppendBool(false);

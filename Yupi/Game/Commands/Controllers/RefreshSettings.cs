@@ -25,7 +25,9 @@ namespace Yupi.Game.Commands.Controllers
         {
             using (IQueryAdapter adapter = Yupi.GetDatabaseManager().GetQueryReactor())
                 Yupi.DatabaseSettings = new ServerDatabaseSettings(adapter);
+
             session.SendNotif(Yupi.GetLanguage().GetVar("command_refresh_settings"));
+
             return true;
         }
     }

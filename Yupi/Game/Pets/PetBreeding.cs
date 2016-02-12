@@ -81,7 +81,7 @@ namespace Yupi.Game.Pets
         /// <returns>ServerMessage.</returns>
         internal static ServerMessage GetMessage(uint furniId, Pet pet1, Pet pet2)
         {
-            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("PetBreedMessageComposer"));
+            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("PetBreedMessageComposer"));
 
             message.AppendInteger(furniId);
             message.AppendInteger(pet1.PetId);

@@ -6,6 +6,7 @@ using Yupi.Core.Io.Interfaces;
 using Yupi.Core.Io.Logger;
 using Yupi.Core.Security;
 using Yupi.Core.Security.BlackWords;
+using Yupi.Core.Settings;
 using Yupi.Data;
 using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Achievements;
@@ -26,7 +27,9 @@ using Yupi.Game.Support;
 using Yupi.Game.Users;
 using Yupi.Game.Users.Fuses;
 using Yupi.Game.Users.Guides;
+using Yupi.Game.Users.Messenger.Structs;
 using Yupi.Messages.Enums;
+using Yupi.Messages.Parsers;
 
 namespace Yupi.Game
 {
@@ -157,8 +160,7 @@ namespace Yupi.Game
         /// <summary>
         ///     Initializes a new instance of the <see cref="HabboHotel" /> class.
         /// </summary>
-        /// <param name="conns">The conns.</param>
-        internal HabboHotel(int conns)
+        internal HabboHotel()
         {
             YupiWriterManager.WriteLine(@"Starting up Yupi Emulator for " + Environment.MachineName + "...", @"Yupi.Boot");
 
@@ -168,7 +170,8 @@ namespace Yupi.Game
             {
                 AbstractBar bar = new AnimatedBar();
 
-                const int wait = 15, end = 5;
+                const int wait = 15;
+                const int end = 5;
 
                 uint itemsLoaded;
                 uint navigatorLoaded;
@@ -176,8 +179,23 @@ namespace Yupi.Game
                 uint achievementLoaded;
                 uint pollLoaded;
 
-                Progress(bar, wait, end, "Cleaning dirty in database...");
+                Progress(bar, wait, end, "Cleaning dirty in DataBase...");
                 DatabaseCleanup(queryReactor);
+
+                Progress(bar, wait, end, "Loading Packet Library...");
+                PacketLibraryManager.Init();
+
+                Progress(bar, wait, end, "Loading Chat Emotions...");
+                ChatEmotions.Initialize();
+
+                Progress(bar, wait, end, "Loading Furniture Data...");
+                FurnitureDataManager.SetCache();
+
+                Progress(bar, wait, end, "Loading Pet Commands...");
+                PetCommandHandler.Init(queryReactor);
+
+                Progress(bar, wait, end, "Loading Pet Speeches...");
+                PetLocale.Init(queryReactor);
 
                 Progress(bar, wait, end, "Loading Bans...");
                 _banManager = new ModerationBanManager();
@@ -252,20 +270,82 @@ namespace Yupi.Game
                 Progress(bar, wait, end, "Loading Achievements...");
                 _achievementManager = new AchievementManager(queryReactor, out achievementLoaded);
 
+                Progress(bar, wait, end, "Loading Guides...");
+                _guideManager = new GuideManager();
+
+                Progress(bar, wait, end, "Wait for Continue Loading...");
+            }
+        }
+
+        internal void Init()
+        {
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            {
+                AbstractBar bar = new AnimatedBar();
+
+                const int wait = 15;
+                const int end = 5;
+
+                int catalogPageLoaded;
+
+                Progress(bar, wait, end, "Loading Offline Messages...");
+                OfflineMessage.InitOfflineMessages(queryReactor);
+
                 Progress(bar, wait, end, "Loading StaticMessages ...");
                 StaticMessagesManager.Load();
 
-                Progress(bar, wait, end, "Loading Guides ...");
-                _guideManager = new GuideManager();
-
-                Progress(bar, wait, end, "Loading and Registering Commands...");
+                Progress(bar, wait, end, "Loading Commands...");
                 CommandsManager.Register();
 
+                Progress(bar, wait, end, "Loading Cache Manager...");
                 CacheManager.StartProcess();
 
-                //Progress(bar, wait, end, "Loading ServerMutantManager...");
-                //this.ServerMutantManager = new ServerMutantManager();
+                Progress(bar, wait, end, "Loading Cross Domain Data...");
+                CrossDomainSettings.Set();
 
+                Progress(bar, wait, end, "Loading Public Rooms...");
+                _navigatorManager.LoadNewPublicRooms();
+
+                Progress(bar, wait, end, "Loading Pets Types...");
+                PetTypeManager.Load();
+
+                Progress(bar, wait, end, "Loading Catalog Manager...");
+                _catalog.Init(out catalogPageLoaded);
+
+                Progress(bar, wait, end, "Clearing Furni Data...");
+                FurnitureDataManager.Clear();
+
+                Progress(bar, wait, end, "Loading Server Extra Settings...");
+                ServerExtraSettings.RunExtraSettings();
+
+                Progress(bar, wait, end, "Loading Chat Filter...");
+                UserChatInputFilter.Load();
+
+                Progress(bar, wait, end, "Loading Chat Security Module...");
+                ServerSecurityChatFilter.Load();
+
+                Progress(bar, wait, end, "Loading Server Black Words Service...");
+                BlackWordsManager.Load();
+
+                Progress(bar, wait, end, "Loading Sound Machine Module...");
+                SoundMachineSongManager.Load();
+
+                Progress(bar, wait, end, "Loading Server CPU Low Priority Worker...");
+                ServerCpuLowPriorityWorker.Load();
+
+                Progress(bar, wait, end, "Loading Rooms Voting System...");
+                _roomManager.InitVotedRooms();
+
+                Progress(bar, wait, end, "Loading Rooms Competition System...");
+                _roomManager.LoadCompetitionManager();
+
+                Progress(bar, wait, end, "Starting Main Game Loop...");
+                StartGameLoop();
+
+                Progress(bar, wait, end, "Starting Exchange Service...");
+                _pixelManager.StartTimer();
+
+                Progress(bar, wait, end, "Wait...");
                 Console.Write("\r".PadLeft(Console.WindowWidth - Console.CursorLeft - 1));
             }
         }
@@ -435,34 +515,6 @@ namespace Yupi.Game
         /// </summary>
         /// <returns>ClothesManagerManager.</returns>
         internal ClothingManager GetClothingManager() => _clothingManager;
-
-        /// <summary>
-        ///     Continues the loading.
-        /// </summary>
-        internal void ContinueLoading()
-        {
-            int catalogPageLoaded;
-
-            GetNavigator().LoadNewPublicRooms();
-
-            PetTypeManager.Load();
-
-            GetCatalogManager().Init(out catalogPageLoaded);
-
-            UserChatInputFilter.Load();
-            ServerSecurityChatFilter.Load();
-            BlackWordsManager.Load();
-            SoundMachineSongManager.Load();
-            ServerCpuLowPriorityWorker.Load();
-
-            GetRoomManager().InitVotedRooms();
-
-            GetRoomManager().LoadCompetitionManager();
-
-            StartGameLoop();
-
-            GetPixelManager().StartTimer();
-        }
 
         /// <summary>
         ///     Starts the game loop.

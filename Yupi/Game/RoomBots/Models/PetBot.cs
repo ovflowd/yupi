@@ -243,7 +243,7 @@ namespace Yupi.Game.RoomBots.Models
 
                     if (coord == new Point())
                     {
-                        ServerMessage alert = new ServerMessage(LibraryParser.OutgoingRequest("PetBreedErrorMessageComposer"));
+                        ServerMessage alert = new ServerMessage(PacketLibraryManager.OutgoingRequest("PetBreedErrorMessageComposer"));
 
                         alert.AppendInteger(0);
 

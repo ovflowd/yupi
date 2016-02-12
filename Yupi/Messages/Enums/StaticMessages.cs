@@ -56,21 +56,21 @@ namespace Yupi.Messages.Enums
         {
             Cache.Clear();
 
-            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
+            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
             message.AppendString("furni_placement_error");
             message.AppendInteger(1);
             message.AppendString("message");
             message.AppendString("${room.error.cant_set_item}");
             Cache.Add(StaticMessage.ErrorCantSetItem, message.GetReversedBytes());
 
-            message = new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
+            message = new ServerMessage(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
             message.AppendString("furni_placement_error");
             message.AppendInteger(1);
             message.AppendString("message");
             message.AppendString("${room.error.cant_set_not_owner}");
             Cache.Add(StaticMessage.ErrorCantSetNotOwner, message.GetReversedBytes());
 
-            message = new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
+            message = new ServerMessage(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
             message.AppendString("game_promo_small");
             message.AppendInteger(4);
             message.AppendString("title");
@@ -83,7 +83,7 @@ namespace Yupi.Messages.Enums
             message.AppendString("${mod.alert.link}");
             Cache.Add(StaticMessage.NewWayToOpenCommandsList, message.GetReversedBytes());
 
-            message = new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
+            message = new ServerMessage(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
             message.AppendString(string.Empty);
             message.AppendInteger(4);
             message.AppendString("title");
@@ -96,7 +96,7 @@ namespace Yupi.Messages.Enums
             message.AppendString("ok");
             Cache.Add(StaticMessage.UserNotFound, message.GetReversedBytes());
 
-            message = new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
+            message = new ServerMessage(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
             message.AppendString(string.Empty);
             message.AppendInteger(4);
             message.AppendString("title");
@@ -110,7 +110,7 @@ namespace Yupi.Messages.Enums
             message.AppendString("ok");
             Cache.Add(StaticMessage.AdviceMaxItems, message.GetReversedBytes());
 
-            message = new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
+            message = new ServerMessage(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
             message.AppendString(string.Empty);
             message.AppendInteger(4);
             message.AppendString("title");
@@ -124,7 +124,7 @@ namespace Yupi.Messages.Enums
             message.AppendString("ok");
             Cache.Add(StaticMessage.AdvicePurchaseMaxItems, message.GetReversedBytes());
 
-            message = new ServerMessage(LibraryParser.OutgoingRequest("CatalogueOfferConfigMessageComposer"));
+            message = new ServerMessage(PacketLibraryManager.OutgoingRequest("CatalogueOfferConfigMessageComposer"));
             message.AppendInteger(100); // purchase_limit
             message.AppendInteger(6); // offer_multiplier
             message.AppendInteger(2); // free_objets_per_multiplier
@@ -134,7 +134,7 @@ namespace Yupi.Messages.Enums
             message.AppendInteger(99);
             Cache.Add(StaticMessage.CatalogOffersConfiguration, message.GetReversedBytes());
 
-            message = new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
+            message = new ServerMessage(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
             message.AppendString(string.Empty);
             message.AppendInteger(4);
             message.AppendString("title");

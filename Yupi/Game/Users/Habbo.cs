@@ -808,7 +808,7 @@ namespace Yupi.Game.Users
         {
             GameClient client = GetClient();
             ServerMessage serverMessage = new ServerMessage();
-            serverMessage.Init(LibraryParser.OutgoingRequest("SubscriptionStatusMessageComposer"));
+            serverMessage.Init(PacketLibraryManager.OutgoingRequest("SubscriptionStatusMessageComposer"));
             serverMessage.AppendString("club_habbo");
             if (client.GetHabbo().GetSubscriptionManager().HasSubscription)
             {
@@ -850,7 +850,7 @@ namespace Yupi.Game.Users
 
             client.SendMessage(serverMessage);
 
-            ServerMessage serverMessage2 = new ServerMessage(LibraryParser.OutgoingRequest("UserClubRightsMessageComposer"));
+            ServerMessage serverMessage2 = new ServerMessage(PacketLibraryManager.OutgoingRequest("UserClubRightsMessageComposer"));
 
             serverMessage2.AppendInteger(GetSubscriptionManager().HasSubscription ? 2 : 0);
             serverMessage2.AppendInteger(Rank);
@@ -1001,7 +1001,7 @@ namespace Yupi.Game.Users
 
             _mClient.GetMessageHandler()
                 .GetResponse()
-                .Init(LibraryParser.OutgoingRequest("CreditsBalanceMessageComposer"));
+                .Init(PacketLibraryManager.OutgoingRequest("CreditsBalanceMessageComposer"));
             _mClient.GetMessageHandler().GetResponse().AppendString($"{Credits}.0");
             _mClient.GetMessageHandler().SendResponse();
         }
@@ -1016,7 +1016,7 @@ namespace Yupi.Game.Users
 
             _mClient.GetMessageHandler()
                 .GetResponse()
-                .Init(LibraryParser.OutgoingRequest("ActivityPointsMessageComposer"));
+                .Init(PacketLibraryManager.OutgoingRequest("ActivityPointsMessageComposer"));
             _mClient.GetMessageHandler().GetResponse().AppendInteger(3);
             _mClient.GetMessageHandler().GetResponse().AppendInteger(0);
             _mClient.GetMessageHandler().GetResponse().AppendInteger(Duckets);
@@ -1037,7 +1037,7 @@ namespace Yupi.Game.Users
 
             _mClient.GetMessageHandler()
                 .GetResponse()
-                .Init(LibraryParser.OutgoingRequest("ActivityPointsMessageComposer"));
+                .Init(PacketLibraryManager.OutgoingRequest("ActivityPointsMessageComposer"));
             _mClient.GetMessageHandler().GetResponse().AppendInteger(3);
             _mClient.GetMessageHandler().GetResponse().AppendInteger(0);
             _mClient.GetMessageHandler().GetResponse().AppendInteger(Duckets);
@@ -1059,7 +1059,7 @@ namespace Yupi.Game.Users
 
             _mClient.GetMessageHandler()
                 .GetResponse()
-                .Init(LibraryParser.OutgoingRequest("ActivityPointsNotificationMessageComposer"));
+                .Init(PacketLibraryManager.OutgoingRequest("ActivityPointsNotificationMessageComposer"));
             _mClient.GetMessageHandler().GetResponse().AppendInteger(Duckets);
             _mClient.GetMessageHandler().GetResponse().AppendInteger(change);
             _mClient.GetMessageHandler().GetResponse().AppendInteger(0);
@@ -1077,7 +1077,7 @@ namespace Yupi.Game.Users
 
             _mClient.GetMessageHandler()
                 .GetResponse()
-                .Init(LibraryParser.OutgoingRequest("ActivityPointsNotificationMessageComposer"));
+                .Init(PacketLibraryManager.OutgoingRequest("ActivityPointsNotificationMessageComposer"));
             _mClient.GetMessageHandler().GetResponse().AppendInteger(Diamonds);
             _mClient.GetMessageHandler().GetResponse().AppendInteger(change);
             _mClient.GetMessageHandler().GetResponse().AppendInteger(5);
@@ -1096,7 +1096,7 @@ namespace Yupi.Game.Users
             {
                 _mClient.GetMessageHandler()
                     .GetResponse()
-                    .Init(LibraryParser.OutgoingRequest("VoucherValidMessageComposer"));
+                    .Init(PacketLibraryManager.OutgoingRequest("VoucherValidMessageComposer"));
                 _mClient.GetMessageHandler().GetResponse().AppendString(productName);
                 _mClient.GetMessageHandler().GetResponse().AppendString(productDescription);
                 _mClient.GetMessageHandler().SendResponse();
@@ -1105,7 +1105,7 @@ namespace Yupi.Game.Users
 
             _mClient.GetMessageHandler()
                 .GetResponse()
-                .Init(LibraryParser.OutgoingRequest("VoucherErrorMessageComposer"));
+                .Init(PacketLibraryManager.OutgoingRequest("VoucherErrorMessageComposer"));
             _mClient.GetMessageHandler().GetResponse().AppendString("1");
             _mClient.GetMessageHandler().SendResponse();
         }

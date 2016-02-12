@@ -44,7 +44,7 @@ namespace Yupi.Game.Groups.Composers
         {
             string string1 = string.Empty, string2 = string.Empty, string3 = string.Empty, string4 = string.Empty;
 
-            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("GroupForumDataMessageComposer"));
+            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("GroupForumDataMessageComposer"));
 
             message.AppendInteger(group.Id);
             message.AppendString(group.Name);

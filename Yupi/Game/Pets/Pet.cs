@@ -401,7 +401,7 @@ namespace Yupi.Game.Pets
             if (ownerSession == null)
                 return;
 
-            ServerMessage levelNotify = new ServerMessage(LibraryParser.OutgoingRequest("NotifyNewPetLevelMessageComposer"));
+            ServerMessage levelNotify = new ServerMessage(PacketLibraryManager.OutgoingRequest("NotifyNewPetLevelMessageComposer"));
 
             SerializeInventory(levelNotify, true);
 

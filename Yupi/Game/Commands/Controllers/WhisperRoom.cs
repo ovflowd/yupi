@@ -23,7 +23,7 @@ namespace Yupi.Game.Commands.Controllers
             foreach (GameClient client in Yupi.GetGame().GetClientManager().Clients.Values)
             {
                 ServerMessage serverMessage = new ServerMessage();
-                serverMessage.Init(LibraryParser.OutgoingRequest("WhisperMessageComposer"));
+                serverMessage.Init(PacketLibraryManager.OutgoingRequest("WhisperMessageComposer"));
                 serverMessage.AppendInteger(room.RoomId);
                 serverMessage.AppendString(message);
                 serverMessage.AppendInteger(0);

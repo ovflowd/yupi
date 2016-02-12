@@ -77,7 +77,7 @@ namespace Yupi.Game.Support
         /// <param name="ticket">The ticket.</param>
         internal static void SendTicketToModerators(SupportTicket ticket)
         {
-            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("ModerationToolIssueMessageComposer"));
+            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("ModerationToolIssueMessageComposer"));
             message = ticket.Serialize(message);
 
             Yupi.GetGame().GetClientManager().StaffAlert(message);
@@ -131,7 +131,7 @@ namespace Yupi.Game.Support
             GameClient clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(userId);
             clientByUserId.GetMessageHandler()
                 .GetResponse()
-                .Init(LibraryParser.OutgoingRequest("ModerationActionResultMessageComposer"));
+                .Init(PacketLibraryManager.OutgoingRequest("ModerationActionResultMessageComposer"));
             clientByUserId.GetMessageHandler().GetResponse().AppendInteger(userId);
             clientByUserId.GetMessageHandler().GetResponse().AppendBool(false);
             clientByUserId.GetMessageHandler().SendResponse();
@@ -146,7 +146,7 @@ namespace Yupi.Game.Support
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(data.Id);
 
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("ModerationRoomToolMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("ModerationRoomToolMessageComposer"));
             serverMessage.AppendInteger(data.Id);
             serverMessage.AppendInteger(data.UsersNow);
 
@@ -288,7 +288,7 @@ namespace Yupi.Game.Support
         /// <exception cref="System.NullReferenceException">User not found in database.</exception>
         internal static ServerMessage SerializeUserInfo(uint userId)
         {
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("ModerationToolUserToolMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("ModerationToolUserToolMessageComposer"));
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 if (queryReactor != null)
@@ -344,7 +344,7 @@ namespace Yupi.Game.Support
         internal static ServerMessage SerializeRoomVisits(uint userId)
         {
             ServerMessage serverMessage =
-                new ServerMessage(LibraryParser.OutgoingRequest("ModerationToolRoomVisitsMessageComposer"));
+                new ServerMessage(PacketLibraryManager.OutgoingRequest("ModerationToolRoomVisitsMessageComposer"));
             serverMessage.AppendInteger(userId);
 
             GameClient user = Yupi.GetGame().GetClientManager().GetClientByUserId(userId);
@@ -395,7 +395,7 @@ namespace Yupi.Game.Support
                 DataTable table = queryReactor.GetTable();
 
                 ServerMessage serverMessage =
-                    new ServerMessage(LibraryParser.OutgoingRequest("ModerationToolUserChatlogMessageComposer"));
+                    new ServerMessage(PacketLibraryManager.OutgoingRequest("ModerationToolUserChatlogMessageComposer"));
                 serverMessage.AppendInteger(userId);
                 serverMessage.AppendString(Yupi.GetGame().GetClientManager().GetNameById(userId));
 
@@ -496,7 +496,7 @@ namespace Yupi.Game.Support
 
             if (room != null)
             {
-                message.Init(LibraryParser.OutgoingRequest("ModerationToolIssueChatlogMessageComposer"));
+                message.Init(PacketLibraryManager.OutgoingRequest("ModerationToolIssueChatlogMessageComposer"));
 
                 message.AppendInteger(ticket.TicketId);
                 message.AppendInteger(ticket.SenderId);
@@ -539,7 +539,7 @@ namespace Yupi.Game.Support
 
             if (room?.RoomData != null)
             {
-                message.Init(LibraryParser.OutgoingRequest("ModerationToolRoomChatlogMessageComposer"));
+                message.Init(PacketLibraryManager.OutgoingRequest("ModerationToolRoomChatlogMessageComposer"));
                 message.AppendByte(1);
                 message.AppendShort(2);
                 message.AppendString("roomName");
@@ -573,7 +573,7 @@ namespace Yupi.Game.Support
         /// <returns>ServerMessage.</returns>
         internal ServerMessage SerializeTool(GameClient session)
         {
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("LoadModerationToolMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("LoadModerationToolMessageComposer"));
 
             serverMessage.AppendInteger(Tickets.Count);
 
@@ -772,7 +772,7 @@ namespace Yupi.Game.Support
         /// <param name="userId">The user identifier.</param>
         internal void SerializeOpenTickets(ref QueuedServerMessage serverMessages, uint userId)
         {
-            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("ModerationToolIssueMessageComposer"));
+            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("ModerationToolIssueMessageComposer"));
 
             foreach (
                 SupportTicket current in
@@ -896,7 +896,7 @@ namespace Yupi.Game.Support
 
                 senderClient.GetMessageHandler()
                     .GetResponse()
-                    .Init(LibraryParser.OutgoingRequest("ModerationToolUpdateIssueMessageComposer"));
+                    .Init(PacketLibraryManager.OutgoingRequest("ModerationToolUpdateIssueMessageComposer"));
                 senderClient.GetMessageHandler().GetResponse().AppendInteger(1);
                 senderClient.GetMessageHandler().GetResponse().AppendInteger(ticket.TicketId);
                 senderClient.GetMessageHandler().GetResponse().AppendInteger(ticket.ModeratorId);
@@ -909,7 +909,7 @@ namespace Yupi.Game.Support
                 senderClient.GetMessageHandler().GetResponse().AppendInteger(0);
                 senderClient.GetMessageHandler()
                     .GetResponse()
-                    .Init(LibraryParser.OutgoingRequest("ModerationTicketResponseMessageComposer"));
+                    .Init(PacketLibraryManager.OutgoingRequest("ModerationTicketResponseMessageComposer"));
                 senderClient.GetMessageHandler().GetResponse().AppendInteger(statusCode);
                 senderClient.GetMessageHandler().SendResponse();
             }

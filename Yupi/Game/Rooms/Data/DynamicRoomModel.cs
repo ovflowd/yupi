@@ -240,7 +240,7 @@ namespace Yupi.Game.Rooms.Data
         /// <returns>ServerMessage.</returns>
         private ServerMessage SerializeHeightmap()
         {
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("FloorMapMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("FloorMapMessageComposer"));
             serverMessage.AppendBool(true);
             serverMessage.AppendInteger(_mRoom.RoomData.WallHeight);
             StringBuilder stringBuilder = new StringBuilder();

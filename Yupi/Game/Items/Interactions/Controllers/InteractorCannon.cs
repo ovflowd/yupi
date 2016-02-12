@@ -92,7 +92,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
             Timer timer = (Timer) source;
             timer.Stop();
 
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
             serverMessage.AppendString("room.kick.cannonball");
             serverMessage.AppendInteger(2);
             serverMessage.AppendString("link");

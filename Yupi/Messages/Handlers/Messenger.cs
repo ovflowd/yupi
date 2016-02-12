@@ -118,7 +118,7 @@ namespace Yupi.Messages.Handlers
             if (clientByUserId.GetHabbo().GetMessenger() == null || clientByUserId.GetHabbo().CurrentRoom == null)
             {
                 if (Session.GetHabbo().GetMessenger() == null) return;
-                Response.Init(LibraryParser.OutgoingRequest("FollowFriendErrorMessageComposer"));
+                Response.Init(PacketLibraryManager.OutgoingRequest("FollowFriendErrorMessageComposer"));
                 Response.AppendInteger(2);
                 SendResponse();
                 Session.GetHabbo().GetMessenger().UpdateFriend(userId, clientByUserId, true);
@@ -127,13 +127,13 @@ namespace Yupi.Messages.Handlers
             if (Session.GetHabbo().Rank < 4 && Session.GetHabbo().GetMessenger() != null &&
                 !Session.GetHabbo().GetMessenger().FriendshipExists(userId))
             {
-                Response.Init(LibraryParser.OutgoingRequest("FollowFriendErrorMessageComposer"));
+                Response.Init(PacketLibraryManager.OutgoingRequest("FollowFriendErrorMessageComposer"));
                 Response.AppendInteger(0);
                 SendResponse();
                 return;
             }
 
-            ServerMessage roomFwd = new ServerMessage(LibraryParser.OutgoingRequest("RoomForwardMessageComposer"));
+            ServerMessage roomFwd = new ServerMessage(PacketLibraryManager.OutgoingRequest("RoomForwardMessageComposer"));
             roomFwd.AppendInteger(clientByUserId.GetHabbo().CurrentRoom.RoomId);
             Session.SendMessage(roomFwd);
         }
@@ -147,7 +147,7 @@ namespace Yupi.Messages.Handlers
             List<uint> list = new List<uint>();
             for (int i = 0; i < num; i++) list.Add(Request.GetUInteger());
             string s = Request.GetString();
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("ConsoleInvitationMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("ConsoleInvitationMessageComposer"));
             serverMessage.AppendInteger(Session.GetHabbo().Id);
             serverMessage.AppendString(s);
             foreach (GameClient clientByUserId in (from current in list

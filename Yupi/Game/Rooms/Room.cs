@@ -985,7 +985,7 @@ namespace Yupi.Game.Rooms
         /// </summary>
         internal void Destroy()
         {
-            SendMessage(new ServerMessage(LibraryParser.OutgoingRequest("OutOfRoomMessageComposer")));
+            SendMessage(new ServerMessage(PacketLibraryManager.OutgoingRequest("OutOfRoomMessageComposer")));
             Dispose();
         }
 
@@ -1242,7 +1242,7 @@ namespace Yupi.Game.Rooms
             RoomItem[] array2 = array;
             foreach (RoomItem roomItem in array2)
             {
-                ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("UpdateRoomItemMessageComposer"));
+                ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("UpdateRoomItemMessageComposer"));
                 roomItem.Serialize(serverMessage);
                 list.Add(serverMessage);
             }
@@ -1252,7 +1252,7 @@ namespace Yupi.Game.Rooms
             foreach (RoomItem roomItem2 in array4)
             {
                 ServerMessage serverMessage2 =
-                    new ServerMessage(LibraryParser.OutgoingRequest("UpdateRoomWallItemMessageComposer"));
+                    new ServerMessage(PacketLibraryManager.OutgoingRequest("UpdateRoomWallItemMessageComposer"));
                 roomItem2.Serialize(serverMessage2);
                 list.Add(serverMessage2);
             }

@@ -82,7 +82,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
                 double zToSet = position ? double.Parse(positions[2]) : fItem.Z;
 
 
-                ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("ItemAnimationMessageComposer"));
+                ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("ItemAnimationMessageComposer"));
                 serverMessage.AppendInteger(fItem.X);
                 serverMessage.AppendInteger(fItem.Y);
                 serverMessage.AppendInteger(xToSet);

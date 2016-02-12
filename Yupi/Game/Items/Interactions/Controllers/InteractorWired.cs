@@ -40,7 +40,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
             {
                 case Interaction.TriggerTimer:
                 {
-                    ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
+                    ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredTriggerMessageComposer"));
                     serverMessage.AppendBool(false);
                     serverMessage.AppendInteger(5);
                     serverMessage.AppendInteger(list.Count);
@@ -59,7 +59,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 }
                 case Interaction.TriggerRoomEnter:
                 {
-                    ServerMessage serverMessage2 = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
+                    ServerMessage serverMessage2 = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredTriggerMessageComposer"));
                     serverMessage2.AppendBool(false);
                     serverMessage2.AppendInteger(0);
                     serverMessage2.AppendInteger(list.Count);
@@ -78,7 +78,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 }
                 case Interaction.TriggerGameEnd:
                 {
-                    ServerMessage serverMessage3 = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
+                    ServerMessage serverMessage3 = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredTriggerMessageComposer"));
                     serverMessage3.AppendBool(false);
                     serverMessage3.AppendInteger(0);
                     serverMessage3.AppendInteger(list.Count);
@@ -97,7 +97,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 }
                 case Interaction.TriggerGameStart:
                 {
-                    ServerMessage serverMessage4 = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
+                    ServerMessage serverMessage4 = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredTriggerMessageComposer"));
                     serverMessage4.AppendBool(false);
                     serverMessage4.AppendInteger(0);
                     serverMessage4.AppendInteger(list.Count);
@@ -116,7 +116,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 }
                 case Interaction.TriggerLongRepeater:
                 {
-                    ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
+                    ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredTriggerMessageComposer"));
                     serverMessage.AppendBool(false);
                     serverMessage.AppendInteger(5);
                     serverMessage.AppendInteger(0);
@@ -134,7 +134,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
 
                 case Interaction.TriggerRepeater:
                 {
-                    ServerMessage serverMessage5 = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
+                    ServerMessage serverMessage5 = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredTriggerMessageComposer"));
                     serverMessage5.AppendBool(false);
                     serverMessage5.AppendInteger(5);
                     serverMessage5.AppendInteger(list.Count);
@@ -153,7 +153,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 }
                 case Interaction.TriggerOnUserSay:
                 {
-                    ServerMessage serverMessage6 = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
+                    ServerMessage serverMessage6 = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredTriggerMessageComposer"));
                     serverMessage6.AppendBool(false);
                     serverMessage6.AppendInteger(0);
                     serverMessage6.AppendInteger(list.Count);
@@ -172,7 +172,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 }
                 case Interaction.TriggerScoreAchieved:
                 {
-                    ServerMessage serverMessage7 = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
+                    ServerMessage serverMessage7 = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredTriggerMessageComposer"));
                     serverMessage7.AppendBool(false);
                     serverMessage7.AppendInteger(5);
                     serverMessage7.AppendInteger(0);
@@ -190,7 +190,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 }
                 case Interaction.TriggerStateChanged:
                 {
-                    ServerMessage serverMessage8 = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
+                    ServerMessage serverMessage8 = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredTriggerMessageComposer"));
                     serverMessage8.AppendBool(false);
                     serverMessage8.AppendInteger(5);
                     serverMessage8.AppendInteger(list.Count);
@@ -209,7 +209,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 }
                 case Interaction.TriggerWalkOnFurni:
                 {
-                    ServerMessage serverMessage9 = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
+                    ServerMessage serverMessage9 = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredTriggerMessageComposer"));
                     serverMessage9.AppendBool(false);
                     serverMessage9.AppendInteger(5);
                     serverMessage9.AppendInteger(list.Count);
@@ -228,7 +228,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 }
                 case Interaction.ActionMuteUser:
                 {
-                    ServerMessage serverMessage18 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                    ServerMessage serverMessage18 = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
                     serverMessage18.AppendBool(false);
                     serverMessage18.AppendInteger(5);
                     serverMessage18.AppendInteger(0);
@@ -246,7 +246,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 }
                 case Interaction.TriggerWalkOffFurni:
                 {
-                    ServerMessage serverMessage10 = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
+                    ServerMessage serverMessage10 = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredTriggerMessageComposer"));
                     serverMessage10.AppendBool(false);
                     serverMessage10.AppendInteger(5);
                     serverMessage10.AppendInteger(list.Count);
@@ -267,7 +267,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
 
                 case Interaction.TriggerCollision:
                 {
-                    ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
+                    ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredTriggerMessageComposer"));
                     serverMessage.AppendBool(false);
                     serverMessage.AppendInteger(5);
                     serverMessage.AppendInteger(0);
@@ -285,7 +285,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 case Interaction.ActionGiveScore:
                 {
                     // Por hacer.
-                    ServerMessage serverMessage11 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                    ServerMessage serverMessage11 = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
                     serverMessage11.AppendBool(false);
                     serverMessage11.AppendInteger(5);
                     serverMessage11.AppendInteger(0);
@@ -316,7 +316,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 case Interaction.ConditionGroupMember:
                 case Interaction.ConditionNotGroupMember:
                 {
-                    ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("WiredConditionMessageComposer"));
+                    ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredConditionMessageComposer"));
                     message.AppendBool(false);
                     message.AppendInteger(5);
                     message.AppendInteger(0);
@@ -334,7 +334,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 case Interaction.ConditionItemsDontMatch:
                 {
                     ServerMessage serverMessage21 =
-                        new ServerMessage(LibraryParser.OutgoingRequest("WiredConditionMessageComposer"));
+                        new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredConditionMessageComposer"));
                     serverMessage21.AppendBool(false);
                     serverMessage21.AppendInteger(5);
                     serverMessage21.AppendInteger(list.Count);
@@ -365,7 +365,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
 
                 case Interaction.ActionPosReset:
                 {
-                    ServerMessage serverMessage12 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                    ServerMessage serverMessage12 = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
                     serverMessage12.AppendBool(false);
                     serverMessage12.AppendInteger(5);
                     serverMessage12.AppendInteger(list.Count);
@@ -397,7 +397,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 }
                 case Interaction.ActionMoveRotate:
                 {
-                    ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                    ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
                     serverMessage.AppendBool(false);
                     serverMessage.AppendInteger(5);
 
@@ -421,7 +421,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
 
                 case Interaction.ActionMoveToDir:
                 {
-                    ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                    ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
                     serverMessage.AppendBool(false);
                     serverMessage.AppendInteger(5);
 
@@ -445,7 +445,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
 
                 case Interaction.ActionResetTimer:
                 {
-                    ServerMessage serverMessage14 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                    ServerMessage serverMessage14 = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
                     serverMessage14.AppendBool(false);
                     serverMessage14.AppendInteger(0);
                     serverMessage14.AppendInteger(0);
@@ -465,7 +465,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 case Interaction.ActionKickUser:
                 case Interaction.ActionEffectUser:
                 {
-                    ServerMessage serverMessage15 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                    ServerMessage serverMessage15 = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
                     serverMessage15.AppendBool(false);
                     serverMessage15.AppendInteger(0);
                     serverMessage15.AppendInteger(list.Count);
@@ -484,7 +484,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 }
                 case Interaction.ActionTeleportTo:
                 {
-                    ServerMessage serverMessage16 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                    ServerMessage serverMessage16 = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
                     serverMessage16.AppendBool(false);
                     serverMessage16.AppendInteger(5);
 
@@ -505,7 +505,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 }
                 case Interaction.ActionToggleState:
                 {
-                    ServerMessage serverMessage17 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                    ServerMessage serverMessage17 = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
                     serverMessage17.AppendBool(false);
                     serverMessage17.AppendInteger(5);
                     serverMessage17.AppendInteger(list.Count);
@@ -525,7 +525,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 case Interaction.ActionGiveReward:
                 {
                     if (!session.GetHabbo().HasFuse("fuse_use_superwired")) return;
-                    ServerMessage serverMessage18 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                    ServerMessage serverMessage18 = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
                     serverMessage18.AppendBool(false);
                     serverMessage18.AppendInteger(5);
                     serverMessage18.AppendInteger(0);
@@ -548,7 +548,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 case Interaction.ConditionNegativeHowManyUsers:
                 {
                     ServerMessage serverMessage19 =
-                        new ServerMessage(LibraryParser.OutgoingRequest("WiredConditionMessageComposer"));
+                        new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredConditionMessageComposer"));
                     serverMessage19.AppendBool(false);
                     serverMessage19.AppendInteger(5);
                     serverMessage19.AppendInteger(0);
@@ -580,7 +580,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 case Interaction.ConditionTriggererNotOnFurni:
                 {
                     ServerMessage serverMessage19 =
-                        new ServerMessage(LibraryParser.OutgoingRequest("WiredConditionMessageComposer"));
+                        new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredConditionMessageComposer"));
                     serverMessage19.AppendBool(false);
                     serverMessage19.AppendInteger(5);
                     serverMessage19.AppendInteger(list.Count);
@@ -599,7 +599,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 case Interaction.ConditionFurniHasFurni:
                 {
                     ServerMessage serverMessage =
-                        new ServerMessage(LibraryParser.OutgoingRequest("WiredConditionMessageComposer"));
+                        new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredConditionMessageComposer"));
                     serverMessage.AppendBool(false);
                     serverMessage.AppendInteger(5);
                     serverMessage.AppendInteger(list.Count);
@@ -620,7 +620,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 case Interaction.ConditionTimeMoreThan:
                 {
                     ServerMessage serverMessage21 =
-                        new ServerMessage(LibraryParser.OutgoingRequest("WiredConditionMessageComposer"));
+                        new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredConditionMessageComposer"));
                     serverMessage21.AppendBool(false);
                     serverMessage21.AppendInteger(0);
                     serverMessage21.AppendInteger(0);
@@ -644,7 +644,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                     int effect;
                     int.TryParse(extraInfo, out effect);
                     ServerMessage serverMessage21 =
-                        new ServerMessage(LibraryParser.OutgoingRequest("WiredConditionMessageComposer"));
+                        new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredConditionMessageComposer"));
                     serverMessage21.AppendBool(false);
                     serverMessage21.AppendInteger(5);
                     serverMessage21.AppendInteger(0);
@@ -664,7 +664,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 case Interaction.ConditionUserHasFurni:
                 {
                     ServerMessage serverMessage21 =
-                        new ServerMessage(LibraryParser.OutgoingRequest("WiredConditionMessageComposer"));
+                        new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredConditionMessageComposer"));
                     serverMessage21.AppendBool(false);
                     serverMessage21.AppendInteger(5);
                     serverMessage21.AppendInteger(0);
@@ -694,7 +694,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                     }
 
                     ServerMessage serverMessage21 =
-                        new ServerMessage(LibraryParser.OutgoingRequest("WiredConditionMessageComposer"));
+                        new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredConditionMessageComposer"));
                     serverMessage21.AppendBool(false);
                     serverMessage21.AppendInteger(5);
                     serverMessage21.AppendInteger(0);
@@ -711,7 +711,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 }
                 case Interaction.ActionJoinTeam:
                 {
-                    ServerMessage serverMessage15 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                    ServerMessage serverMessage15 = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
                     serverMessage15.AppendBool(false);
                     serverMessage15.AppendInteger(0);
                     serverMessage15.AppendInteger(0);
@@ -729,7 +729,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 }
                 case Interaction.ActionLeaveTeam:
                 {
-                    ServerMessage serverMessage15 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                    ServerMessage serverMessage15 = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
                     serverMessage15.AppendBool(false);
                     serverMessage15.AppendInteger(0);
                     serverMessage15.AppendInteger(0);
@@ -746,7 +746,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 }
                 case Interaction.TriggerBotReachedAvatar:
                 {
-                    ServerMessage serverMessage2 = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
+                    ServerMessage serverMessage2 = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredTriggerMessageComposer"));
                     serverMessage2.AppendBool(false);
                     serverMessage2.AppendInteger(0);
                     serverMessage2.AppendInteger(list.Count);
@@ -765,7 +765,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 }
                 case Interaction.TriggerBotReachedStuff:
                 {
-                    ServerMessage serverMessage2 = new ServerMessage(LibraryParser.OutgoingRequest("WiredTriggerMessageComposer"));
+                    ServerMessage serverMessage2 = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredTriggerMessageComposer"));
                     serverMessage2.AppendBool(false);
                     serverMessage2.AppendInteger(5);
                     serverMessage2.AppendInteger(list.Count);
@@ -784,7 +784,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 }
                 case Interaction.ActionBotClothes:
                 {
-                    ServerMessage serverMessage15 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                    ServerMessage serverMessage15 = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
                     serverMessage15.AppendBool(false);
                     serverMessage15.AppendInteger(0);
                     serverMessage15.AppendInteger(0);
@@ -801,7 +801,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 }
                 case Interaction.ActionBotFollowAvatar:
                 {
-                    ServerMessage serverMessage15 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                    ServerMessage serverMessage15 = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
                     serverMessage15.AppendBool(false);
                     serverMessage15.AppendInteger(0);
                     serverMessage15.AppendInteger(0);
@@ -818,7 +818,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 }
                 case Interaction.ActionBotGiveHanditem:
                 {
-                    ServerMessage serverMessage15 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                    ServerMessage serverMessage15 = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
                     serverMessage15.AppendBool(false);
                     serverMessage15.AppendInteger(0);
                     serverMessage15.AppendInteger(0);
@@ -836,7 +836,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 }
                 case Interaction.ActionBotMove:
                 {
-                    ServerMessage serverMessage15 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                    ServerMessage serverMessage15 = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
                     serverMessage15.AppendBool(false);
                     serverMessage15.AppendInteger(5);
                     serverMessage15.AppendInteger(list.Count);
@@ -854,7 +854,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 }
                 case Interaction.ActionBotTalk:
                 {
-                    ServerMessage serverMessage15 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                    ServerMessage serverMessage15 = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
                     serverMessage15.AppendBool(false);
                     serverMessage15.AppendInteger(0);
                     serverMessage15.AppendInteger(0);
@@ -872,7 +872,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 }
                 case Interaction.ActionBotTalkToAvatar:
                 {
-                    ServerMessage serverMessage15 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                    ServerMessage serverMessage15 = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
                     serverMessage15.AppendBool(false);
                     serverMessage15.AppendInteger(0);
                     serverMessage15.AppendInteger(0);
@@ -890,7 +890,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 }
                 case Interaction.ActionBotTeleport:
                 {
-                    ServerMessage serverMessage15 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                    ServerMessage serverMessage15 = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
                     serverMessage15.AppendBool(false);
                     serverMessage15.AppendInteger(5);
                     serverMessage15.AppendInteger(list.Count);
@@ -908,7 +908,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 }
                 case Interaction.ActionChase:
                 {
-                    ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                    ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
                     serverMessage.AppendBool(false);
                     serverMessage.AppendInteger(5);
 
@@ -931,7 +931,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 case Interaction.ConditionUserHasHanditem:
                 {
                     ServerMessage serverMessage21 =
-                        new ServerMessage(LibraryParser.OutgoingRequest("WiredConditionMessageComposer"));
+                        new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredConditionMessageComposer"));
                     serverMessage21.AppendBool(false);
                     serverMessage21.AppendInteger(0);
                     serverMessage21.AppendInteger(0);
@@ -946,7 +946,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 }
                 case Interaction.ActionCallStacks:
                 {
-                    ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                    ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
                     serverMessage.AppendBool(false);
                     serverMessage.AppendInteger(5);
                     serverMessage.AppendInteger(list.Count);
@@ -976,7 +976,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
 
                 case Interaction.SpecialRandom:
                 {
-                    ServerMessage serverMessage24 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                    ServerMessage serverMessage24 = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
                     serverMessage24.AppendBool(false);
                     serverMessage24.AppendInteger(5);
                     serverMessage24.AppendInteger(list.Count);
@@ -995,7 +995,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
                 }
                 case Interaction.SpecialUnseen:
                 {
-                    ServerMessage serverMessage25 = new ServerMessage(LibraryParser.OutgoingRequest("WiredEffectMessageComposer"));
+                    ServerMessage serverMessage25 = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
                     serverMessage25.AppendBool(false);
                     serverMessage25.AppendInteger(5);
                     serverMessage25.AppendInteger(list.Count);

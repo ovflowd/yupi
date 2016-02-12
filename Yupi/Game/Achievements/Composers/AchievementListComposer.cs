@@ -43,7 +43,7 @@ namespace Yupi.Game.Achievements.Composers
         /// <returns>ServerMessage.</returns>
         internal static ServerMessage Compose(GameClient session, List<Achievement> achievements)
         {
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("AchievementListMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("AchievementListMessageComposer"));
 
             serverMessage.AppendInteger(achievements.Count);
 

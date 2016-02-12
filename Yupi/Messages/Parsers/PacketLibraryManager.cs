@@ -4,11 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Yupi.Core.Io.Logger;
+using Yupi.Core.Settings;
 using Yupi.Messages.Handlers;
 
 namespace Yupi.Messages.Parsers
 {
-    internal static class LibraryParser
+    internal static class PacketLibraryManager
     {
         public delegate void ParamLess();
 
@@ -29,15 +30,34 @@ namespace Yupi.Messages.Parsers
             if (Outgoing.TryGetValue(packetName, out packetId))
                 return packetId;
 
-            YupiWriterManager.WriteLine("Outgoing " + packetName + " doesn't exist.", "Yupi.Communication", ConsoleColor.Gray);
+           YupiLogManager.LogWarning("Outgoing " + packetName + " doesn't exist.", "Yupi.Communication");
 
             return -1;
         }
 
-        public static void Initialize()
+        public static void Configure()
         {
-            YupiWriterManager.WriteLine($"Loaded {CountReleases} Habbo Releases", "Yupi.Communication");
-            YupiWriterManager.WriteLine($"Loaded {Incoming.Count} Event Controllers", "Yupi.Communication");
+            Incoming = new Dictionary<int, StaticRequestHandler>();
+            Library = new Dictionary<string, string>();
+            Outgoing = new Dictionary<string, int>();
+            Config = new Dictionary<string, string>();
+
+            ReleaseName = ServerConfigurationSettings.Data["client.build"];
+        }
+
+        public static void Register()
+        {
+            RegisterLibrary();
+            RegisterOutgoing();
+            RegisterIncoming();
+            RegisterConfig();
+        }
+
+        public static void Init()
+        {
+            Configure();
+
+            Register();
         }
 
         public static void HandlePacket(GameClientMessageHandler handler, ClientMessage message)
@@ -88,52 +108,36 @@ namespace Yupi.Messages.Parsers
             Library.Clear();
             Config.Clear();
 
-            RegisterLibrary();
-            RegisterConfig();
-            RegisterIncoming();
-            RegisterOutgoing();
+            Register();
         }
 
         internal static void RegisterIncoming()
         {
             CountReleases = 0;
 
-            string[] filePaths = Directory.GetFiles($"{Yupi.YupiVariablesDirectory}\\Packets\\{ReleaseName}", "*.incoming");
+            string[] filePaths = Directory.GetFiles($@"{Yupi.YupiVariablesDirectory}\Packets\{ReleaseName}", "*.incoming");
 
             foreach (string[] fileContents in filePaths.Select(currentFile => File.ReadAllLines(currentFile, Encoding.UTF8)))
             {
                 CountReleases++;
 
-                foreach (
-                    string[] fields in
-                        fileContents.Where(line => !string.IsNullOrEmpty(line) && !line.StartsWith("["))
-                            .Select(line => line.Replace(" ", string.Empty).Split('=')))
+                foreach (string[] fields in fileContents.Where(line => !string.IsNullOrEmpty(line) && !line.StartsWith("[")).Select(line => line.Replace(" ", string.Empty).Split('=')))
                 {
                     string packetName = fields[0];
 
                     if (fields[1].Contains('/'))
                         fields[1] = fields[1].Split('/')[0];
 
-                    int packetId = fields[1].ToLower().Contains('x')
-                        ? Convert.ToInt32(fields[1], 16)
-                        : Convert.ToInt32(fields[1]);
+                    int packetId = fields[1].ToLower().Contains('x') ? Convert.ToInt32(fields[1], 16) : Convert.ToInt32(fields[1]);
 
                     if (!Library.ContainsKey(packetName))
                         continue;
 
                     string libValue = Library[packetName];
 
-                    PacketLibrary.GetProperty del =
-                        (PacketLibrary.GetProperty)
-                            Delegate.CreateDelegate(typeof (PacketLibrary.GetProperty), typeof (PacketLibrary), libValue);
+                    PacketLibrary.GetProperty del = (PacketLibrary.GetProperty) Delegate.CreateDelegate(typeof (PacketLibrary.GetProperty), typeof (PacketLibrary), libValue);
 
-                    if (Incoming.ContainsKey(packetId))
-                    {
-                        //if (packetId == -1)
-                        //    continue;
-                        //YupiWriterManager.WriteLine("A Incoming Packet with same id was found: " + packetId, "Yupi.Communication");
-                    }
-                    else
+                    if (!Incoming.ContainsKey(packetId))
                         Incoming.Add(packetId, new StaticRequestHandler(del));
                 }
             }
@@ -141,14 +145,9 @@ namespace Yupi.Messages.Parsers
 
         internal static void RegisterConfig()
         {
-            string[] filePaths = Directory.GetFiles($"{Yupi.YupiVariablesDirectory}\\Packets\\{ReleaseName}", "*.inf");
-            foreach (
-                string[] fields in
-                    filePaths.Select(File.ReadAllLines)
-                        .SelectMany(
-                            fileContents =>
-                                fileContents.Where(line => !string.IsNullOrEmpty(line) && !line.StartsWith("["))
-                                    .Select(line => line.Split('='))))
+            string[] filePaths = Directory.GetFiles($@"{Yupi.YupiVariablesDirectory}\Packets\{ReleaseName}", "*.inf");
+
+            foreach (string[] fields in filePaths.Select(File.ReadAllLines).SelectMany(fileContents => fileContents.Where(line => !string.IsNullOrEmpty(line) && !line.StartsWith("[")).Select(line => line.Split('='))))
             {
                 if (fields[1].Contains('/'))
                     fields[1] = fields[1].Split('/')[0];
@@ -161,14 +160,9 @@ namespace Yupi.Messages.Parsers
         {
             _registeredOutoings = new List<uint>();
 
-            string[] filePaths = Directory.GetFiles($"{Yupi.YupiVariablesDirectory}\\Packets\\{ReleaseName}", "*.outgoing");
-            foreach (
-                string[] fields in
-                    filePaths.Select(File.ReadAllLines)
-                        .SelectMany(
-                            fileContents =>
-                                fileContents.Where(line => !string.IsNullOrEmpty(line) && !line.StartsWith("["))
-                                    .Select(line => line.Replace(" ", string.Empty).Split('='))))
+            string[] filePaths = Directory.GetFiles($@"{Yupi.YupiVariablesDirectory}\Packets\{ReleaseName}", "*.outgoing");
+
+            foreach (string[] fields in filePaths.Select(File.ReadAllLines).SelectMany(fileContents => fileContents.Where(line => !string.IsNullOrEmpty(line) && !line.StartsWith("[")).Select(line => line.Replace(" ", string.Empty).Split('='))))
             {
                 if (fields[1].Contains('/'))
                     fields[1] = fields[1].Split('/')[0];
@@ -178,7 +172,6 @@ namespace Yupi.Messages.Parsers
 
                 if (packetId != -1)
                 {
-                    //YupiWriterManager.LogMessage("A Outgoing Packet With Same ID Was Encountred. Packet Id: " + packetId, false);
                     if (!_registeredOutoings.Contains((uint) packetId))
                         _registeredOutoings.Add((uint) packetId);
                 }
@@ -192,17 +185,16 @@ namespace Yupi.Messages.Parsers
 
         internal static void RegisterLibrary()
         {
-            string[] filePaths = Directory.GetFiles($"{Yupi.YupiVariablesDirectory}\\Packets\\{ReleaseName}", "*.library");
-            foreach (
-                string[] fields in
-                    filePaths.Select(File.ReadAllLines)
-                        .SelectMany(fileContents => fileContents.Select(line => line.Split('='))))
+            string[] filePaths = Directory.GetFiles($@"{Yupi.YupiVariablesDirectory}\Packets\{ReleaseName}", "*.library");
+
+            foreach (string[] fields in filePaths.Select(File.ReadAllLines).SelectMany(fileContents => fileContents.Select(line => line.Split('='))))
             {
                 if (fields[1].Contains('/'))
                     fields[1] = fields[1].Split('/')[0];
 
                 string incomingName = fields[0];
                 string libraryName = fields[1];
+
                 Library.Add(incomingName, libraryName);
             }
         }

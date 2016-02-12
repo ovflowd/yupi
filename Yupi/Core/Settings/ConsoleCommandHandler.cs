@@ -104,7 +104,7 @@ namespace Yupi.Core.Settings
                                 break;
 
                             case "packets":
-                                LibraryParser.ReloadDictionarys();
+                                PacketLibraryManager.ReloadDictionarys();
                                 Console.WriteLine("> Packets Reloaded Suceffuly...");
                                 Console.WriteLine();
                                 break;
@@ -120,7 +120,7 @@ namespace Yupi.Core.Settings
                                 GetGame()
                                     .GetClientManager()
                                     .QueueBroadcaseMessage(
-                                        new ServerMessage(LibraryParser.OutgoingRequest("PublishShopMessageComposer")));
+                                        new ServerMessage(PacketLibraryManager.OutgoingRequest("PublishShopMessageComposer")));
                                 Console.WriteLine("Catalogue was re-loaded.");
                                 Console.WriteLine();
                                 break;

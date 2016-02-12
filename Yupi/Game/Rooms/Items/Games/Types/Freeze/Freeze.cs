@@ -95,7 +95,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
                 if (avatar.Team != winningTeam) continue;
                 avatar.UnIdle();
                 avatar.DanceId = 0;
-                ServerMessage waveAtWin = new ServerMessage(LibraryParser.OutgoingRequest("RoomUserActionMessageComposer"));
+                ServerMessage waveAtWin = new ServerMessage(PacketLibraryManager.OutgoingRequest("RoomUserActionMessageComposer"));
                 waveAtWin.AppendInteger(avatar.VirtualId);
                 waveAtWin.AppendInteger(1);
                 _room.SendMessage(waveAtWin);
@@ -263,7 +263,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
                 roomUser.ShieldCounter = 11;
                 _room.GetGameManager().AddPointToTeam(roomUser.Team, 30, null);
                 ServerMessage serverMessage = new ServerMessage();
-                serverMessage.Init(LibraryParser.OutgoingRequest("UpdateFreezeLivesMessageComposer"));
+                serverMessage.Init(PacketLibraryManager.OutgoingRequest("UpdateFreezeLivesMessageComposer"));
                 serverMessage.AppendInteger(roomUser.InternalRoomId);
                 serverMessage.AppendInteger(roomUser.FreezeLives);
                 roomUser.GetClient().SendMessage(serverMessage);
@@ -357,7 +357,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
                         _room.GetGameManager().AddPointToTeam(user.Team, 10, user);
                     }
                     ServerMessage serverMessage = new ServerMessage();
-                    serverMessage.Init(LibraryParser.OutgoingRequest("UpdateFreezeLivesMessageComposer"));
+                    serverMessage.Init(PacketLibraryManager.OutgoingRequest("UpdateFreezeLivesMessageComposer"));
                     serverMessage.AppendInteger(user.InternalRoomId);
                     serverMessage.AppendInteger(user.FreezeLives);
                     user.GetClient().SendMessage(serverMessage);
@@ -390,7 +390,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
             if (user.FreezeLives <= 0)
             {
                 ServerMessage serverMessage = new ServerMessage();
-                serverMessage.Init(LibraryParser.OutgoingRequest("UpdateFreezeLivesMessageComposer"));
+                serverMessage.Init(PacketLibraryManager.OutgoingRequest("UpdateFreezeLivesMessageComposer"));
                 serverMessage.AppendInteger(user.InternalRoomId);
                 serverMessage.AppendInteger(user.FreezeLives);
                 user.GetClient().SendMessage(serverMessage);
@@ -426,7 +426,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
                 _room.GetGameManager().AddPointToTeam(user.Team, -10, user);
                 user.ApplyEffect(12);
                 ServerMessage serverMessage = new ServerMessage();
-                serverMessage.Init(LibraryParser.OutgoingRequest("UpdateFreezeLivesMessageComposer"));
+                serverMessage.Init(PacketLibraryManager.OutgoingRequest("UpdateFreezeLivesMessageComposer"));
                 serverMessage.AppendInteger(user.InternalRoomId);
                 serverMessage.AppendInteger(user.FreezeLives);
                 user.GetClient().SendMessage(serverMessage);

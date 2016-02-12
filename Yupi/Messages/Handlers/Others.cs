@@ -88,7 +88,7 @@ namespace Yupi.Messages.Handlers
         internal void HandleRequest(ClientMessage request)
         {
             Request = request;
-            LibraryParser.HandlePacket(this, request);
+            PacketLibraryManager.HandlePacket(this, request);
         }
 
         /// <summary>
@@ -153,16 +153,16 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         internal void InitCrypto()
         {
-            if (LibraryParser.Config["Crypto.Enabled"] == "false")
+            if (PacketLibraryManager.Config["Crypto.Enabled"] == "false")
             {
-                Response.Init(LibraryParser.OutgoingRequest("InitCryptoMessageComposer"));
+                Response.Init(PacketLibraryManager.OutgoingRequest("InitCryptoMessageComposer"));
                 Response.AppendString("Yupi");
                 Response.AppendString("Disabled Crypto");
                 SendResponse();
                 return;
             }
 
-            Response.Init(LibraryParser.OutgoingRequest("InitCryptoMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingRequest("InitCryptoMessageComposer"));
             Response.AppendString(Handler.GetRsaDiffieHellmanPrimeKey());
             Response.AppendString(Handler.GetRsaDiffieHellmanGeneratorKey());
             SendResponse();
@@ -176,9 +176,9 @@ namespace Yupi.Messages.Handlers
             string cipherKey = Request.GetString();
             BigInteger sharedKey = Handler.CalculateDiffieHellmanSharedKey(cipherKey);
 
-            if (LibraryParser.Config["Crypto.Enabled"] == "false")
+            if (PacketLibraryManager.Config["Crypto.Enabled"] == "false")
             {
-                Response.Init(LibraryParser.OutgoingRequest("SecretKeyMessageComposer"));
+                Response.Init(PacketLibraryManager.OutgoingRequest("SecretKeyMessageComposer"));
                 Response.AppendString("Crypto disabled");
                 Response.AppendBool(false); //Rc4 clientside.
                 SendResponse();
@@ -186,7 +186,7 @@ namespace Yupi.Messages.Handlers
             }
             if (sharedKey != 0)
             {
-                Response.Init(LibraryParser.OutgoingRequest("SecretKeyMessageComposer"));
+                Response.Init(PacketLibraryManager.OutgoingRequest("SecretKeyMessageComposer"));
                 Response.AppendString(Handler.GetRsaDiffieHellmanPublicKey());
                 Response.AppendBool(ServerExtraSettings.EncryptionClientSide);
                 SendResponse();
@@ -244,7 +244,7 @@ namespace Yupi.Messages.Handlers
             bool tradeLocked = Session.GetHabbo().CheckTrading();
             //ServerExtraSettings.EveryoneUseFloor || Session.GetHabbo().Vip || Session.GetHabbo().Rank >= 4;
 
-            Response.Init(LibraryParser.OutgoingRequest("UserObjectMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingRequest("UserObjectMessageComposer"));
             Response.AppendInteger(habbo.Id);
             Response.AppendString(habbo.UserName);
             Response.AppendString(habbo.Look);
@@ -261,13 +261,13 @@ namespace Yupi.Messages.Handlers
             Response.AppendBool(false);
             SendResponse();
 
-            Response.Init(LibraryParser.OutgoingRequest("BuildersClubMembershipMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingRequest("BuildersClubMembershipMessageComposer"));
             Response.AppendInteger(Session.GetHabbo().BuildersExpire);
             Response.AppendInteger(Session.GetHabbo().BuildersItemsMax);
             Response.AppendInteger(2);
             SendResponse();
 
-            Response.Init(LibraryParser.OutgoingRequest("SendPerkAllowancesMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingRequest("SendPerkAllowancesMessageComposer"));
             Response.AppendInteger(11);
 
             Response.AppendString("BUILDER_AT_WORK");
@@ -323,13 +323,13 @@ namespace Yupi.Messages.Handlers
 
             Session.GetHabbo().InitMessenger();
 
-            GetResponse().Init(LibraryParser.OutgoingRequest("CitizenshipStatusMessageComposer"));
+            GetResponse().Init(PacketLibraryManager.OutgoingRequest("CitizenshipStatusMessageComposer"));
             GetResponse().AppendString("citizenship");
             GetResponse().AppendInteger(1);
             GetResponse().AppendInteger(4);
             SendResponse();
 
-            GetResponse().Init(LibraryParser.OutgoingRequest("GameCenterGamesListMessageComposer"));
+            GetResponse().Init(PacketLibraryManager.OutgoingRequest("GameCenterGamesListMessageComposer"));
             GetResponse().AppendInteger(1);
             GetResponse().AppendInteger(18);
             GetResponse().AppendString("elisa_habbo_stories");
@@ -339,11 +339,11 @@ namespace Yupi.Messages.Handlers
             GetResponse().AppendString("");
             SendResponse();
 
-            GetResponse().Init(LibraryParser.OutgoingRequest("AchievementPointsMessageComposer"));
+            GetResponse().Init(PacketLibraryManager.OutgoingRequest("AchievementPointsMessageComposer"));
             GetResponse().AppendInteger(Session.GetHabbo().AchievementPoints);
             SendResponse();
 
-            GetResponse().Init(LibraryParser.OutgoingRequest("FigureSetIdsMessageComposer"));
+            GetResponse().Init(PacketLibraryManager.OutgoingRequest("FigureSetIdsMessageComposer"));
             Session.GetHabbo().ClothesManagerManager.Serialize(GetResponse());
             SendResponse();
 
@@ -404,7 +404,7 @@ namespace Yupi.Messages.Handlers
                 }
             }
 
-            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("CameraPurchaseOk"));
+            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("CameraPurchaseOk"));
 
             Session.SendMessage(message);
         }
@@ -515,7 +515,7 @@ namespace Yupi.Messages.Handlers
 
             if (roomId == 0)
                 return;
-            ServerMessage roomFwd = new ServerMessage(LibraryParser.OutgoingRequest("RoomForwardMessageComposer"));
+            ServerMessage roomFwd = new ServerMessage(PacketLibraryManager.OutgoingRequest("RoomForwardMessageComposer"));
             roomFwd.AppendInteger(roomId);
             Session.SendMessage(roomFwd);
         }
@@ -558,7 +558,7 @@ namespace Yupi.Messages.Handlers
 
                 WebManager.HttpPostJson(ServerExtraSettings.StoriesApiThumbnailServerUrl, outData);
 
-                ServerMessage thumb = new ServerMessage(LibraryParser.OutgoingRequest("ThumbnailSuccessMessageComposer"));
+                ServerMessage thumb = new ServerMessage(PacketLibraryManager.OutgoingRequest("ThumbnailSuccessMessageComposer"));
                 thumb.AppendBool(true);
                 thumb.AppendBool(false);
                 Session.SendMessage(thumb);

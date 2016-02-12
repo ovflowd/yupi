@@ -160,7 +160,7 @@ namespace Yupi.Game.Rooms.Data
                 return;
             }
             ServerMessage serverMessage = new ServerMessage();
-            serverMessage.Init(LibraryParser.OutgoingRequest("RoomEventMessageComposer"));
+            serverMessage.Init(PacketLibraryManager.OutgoingRequest("RoomEventMessageComposer"));
             serverMessage.AppendInteger(roomId);
             serverMessage.AppendInteger(room.RoomData.OwnerId);
             serverMessage.AppendString(room.RoomData.Owner);

@@ -18,7 +18,7 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         internal void InitHelpTool()
         {
-            Response.Init(LibraryParser.OutgoingRequest("OpenHelpToolMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingRequest("OpenHelpToolMessageComposer"));
 
             if (!Yupi.GetGame().GetModerationTool().UsersHasPendingTicket(Session.GetHabbo().Id))
             {
@@ -62,7 +62,7 @@ namespace Yupi.Messages.Handlers
                 chats.Add(Request.GetString());
             }
 
-            Response.Init(LibraryParser.OutgoingRequest("TicketUserAlert"));
+            Response.Init(PacketLibraryManager.OutgoingRequest("TicketUserAlert"));
 
             if (Yupi.GetGame().GetModerationTool().UsersHasPendingTicket(Session.GetHabbo().Id))
             {
@@ -101,7 +101,7 @@ namespace Yupi.Messages.Handlers
 
             Yupi.GetGame().GetModerationTool().DeletePendingTicketForUser(Session.GetHabbo().Id);
 
-            Response.Init(LibraryParser.OutgoingRequest("OpenHelpToolMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingRequest("OpenHelpToolMessageComposer"));
             Response.AppendInteger(0);
             SendResponse();
         }
@@ -260,7 +260,7 @@ namespace Yupi.Messages.Handlers
 
             string message = Request.GetString();
 
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
             serverMessage.AppendString("admin");
             serverMessage.AppendInteger(3);
             serverMessage.AppendString("message");

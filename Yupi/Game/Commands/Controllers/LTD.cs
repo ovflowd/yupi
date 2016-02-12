@@ -36,8 +36,8 @@ namespace Yupi.Game.Commands.Controllers
             Yupi.GetGame()
                 .GetClientManager()
                 .QueueBroadcaseMessage(
-                    new ServerMessage(LibraryParser.OutgoingRequest("PublishShopMessageComposer")));
-            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
+                    new ServerMessage(PacketLibraryManager.OutgoingRequest("PublishShopMessageComposer")));
+            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
             message.AppendString("ninja_promo_LTD");
             message.AppendInteger(4);
             message.AppendString("title");

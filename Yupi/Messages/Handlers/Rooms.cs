@@ -58,7 +58,7 @@ namespace Yupi.Messages.Handlers
 
             List<PetRace> races = PetTypeManager.GetRacesByPetType(petType);
 
-            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("SellablePetBreedsMessageComposer"));
+            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("SellablePetBreedsMessageComposer"));
 
             message.AppendString(type);
             message.AppendInteger(races.Count);
@@ -100,7 +100,7 @@ namespace Yupi.Messages.Handlers
 
             uint roomId = Request.GetUInteger();
 
-            GetResponse().Init(LibraryParser.OutgoingRequest("FavouriteRoomsUpdateMessageComposer"));
+            GetResponse().Init(PacketLibraryManager.OutgoingRequest("FavouriteRoomsUpdateMessageComposer"));
             GetResponse().AppendInteger(roomId);
             GetResponse().AppendBool(true);
             SendResponse();
@@ -120,7 +120,7 @@ namespace Yupi.Messages.Handlers
 
             Session.GetHabbo().FavoriteRooms.Remove(roomId);
 
-            GetResponse().Init(LibraryParser.OutgoingRequest("FavouriteRoomsUpdateMessageComposer"));
+            GetResponse().Init(PacketLibraryManager.OutgoingRequest("FavouriteRoomsUpdateMessageComposer"));
             GetResponse().AppendInteger(roomId);
             GetResponse().AppendBool(false);
             SendResponse();
@@ -165,7 +165,7 @@ namespace Yupi.Messages.Handlers
 
             if (hotelView.FurniRewardName != null)
             {
-                ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("LandingRewardMessageComposer"));
+                ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("LandingRewardMessageComposer"));
                 serverMessage.AppendString(hotelView.FurniRewardName);
                 serverMessage.AppendInteger(hotelView.FurniRewardId);
                 serverMessage.AppendInteger(120);
@@ -179,7 +179,7 @@ namespace Yupi.Messages.Handlers
         internal void LandingCommunityGoal()
         {
             int onlineFriends = Session.GetHabbo().GetMessenger().Friends.Count(x => x.Value.IsOnline);
-            ServerMessage goalMeter = new ServerMessage(LibraryParser.OutgoingRequest("LandingCommunityChallengeMessageComposer"));
+            ServerMessage goalMeter = new ServerMessage(PacketLibraryManager.OutgoingRequest("LandingCommunityChallengeMessageComposer"));
             goalMeter.AppendBool(true); //
             goalMeter.AppendInteger(0); //points
             goalMeter.AppendInteger(0); //my rank
@@ -240,7 +240,7 @@ namespace Yupi.Messages.Handlers
 
             IEnumerable<RoomUser> list = CurrentLoadingRoom.GetRoomUserManager().UserList.Values.Where(current => current != null && !current.IsSpectator);
 
-            Response.Init(LibraryParser.OutgoingRequest("SetRoomUserMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingRequest("SetRoomUserMessageComposer"));
             Response.StartArray();
 
             foreach (RoomUser current2 in list)
@@ -263,7 +263,7 @@ namespace Yupi.Messages.Handlers
             queuedServerMessage.AppendResponse(RoomFloorAndWallComposer(CurrentLoadingRoom));
             queuedServerMessage.AppendResponse(GetResponse());
 
-            Response.Init(LibraryParser.OutgoingRequest("RoomOwnershipMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingRequest("RoomOwnershipMessageComposer"));
             Response.AppendInteger(CurrentLoadingRoom.RoomId);
             Response.AppendBool(CurrentLoadingRoom.CheckRights(Session, true));
             queuedServerMessage.AppendResponse(GetResponse());
@@ -272,7 +272,7 @@ namespace Yupi.Messages.Handlers
             {
                 if (habboForId == null) continue;
 
-                GetResponse().Init(LibraryParser.OutgoingRequest("GiveRoomRightsMessageComposer"));
+                GetResponse().Init(PacketLibraryManager.OutgoingRequest("GiveRoomRightsMessageComposer"));
                 GetResponse().AppendInteger(CurrentLoadingRoom.RoomId);
                 GetResponse().AppendInteger(habboForId.Id);
                 GetResponse().AppendString(habboForId.UserName);
@@ -295,7 +295,7 @@ namespace Yupi.Messages.Handlers
                 {
                     if (current4.BotData.DanceId > 0)
                     {
-                        Response.Init(LibraryParser.OutgoingRequest("DanceStatusMessageComposer"));
+                        Response.Init(PacketLibraryManager.OutgoingRequest("DanceStatusMessageComposer"));
                         Response.AppendInteger(current4.VirtualId);
                         Response.AppendInteger(current4.BotData.DanceId);
                         queuedServerMessage.AppendResponse(GetResponse());
@@ -303,7 +303,7 @@ namespace Yupi.Messages.Handlers
                 }
                 else if (current4.IsDancing)
                 {
-                    Response.Init(LibraryParser.OutgoingRequest("DanceStatusMessageComposer"));
+                    Response.Init(PacketLibraryManager.OutgoingRequest("DanceStatusMessageComposer"));
                     Response.AppendInteger(current4.VirtualId);
                     Response.AppendInteger(current4.DanceId);
                     queuedServerMessage.AppendResponse(GetResponse());
@@ -311,7 +311,7 @@ namespace Yupi.Messages.Handlers
 
                 if (current4.IsAsleep)
                 {
-                    ServerMessage sleepMsg = new ServerMessage(LibraryParser.OutgoingRequest("RoomUserIdleMessageComposer"));
+                    ServerMessage sleepMsg = new ServerMessage(PacketLibraryManager.OutgoingRequest("RoomUserIdleMessageComposer"));
                     sleepMsg.AppendInteger(current4.VirtualId);
                     sleepMsg.AppendBool(true);
                     queuedServerMessage.AppendResponse(sleepMsg);
@@ -319,7 +319,7 @@ namespace Yupi.Messages.Handlers
 
                 if (current4.CarryItemId > 0 && current4.CarryTimer > 0)
                 {
-                    Response.Init(LibraryParser.OutgoingRequest("ApplyHanditemMessageComposer"));
+                    Response.Init(PacketLibraryManager.OutgoingRequest("ApplyHanditemMessageComposer"));
                     Response.AppendInteger(current4.VirtualId);
                     Response.AppendInteger(current4.CarryTimer);
                     queuedServerMessage.AppendResponse(GetResponse());
@@ -334,14 +334,14 @@ namespace Yupi.Messages.Handlers
                     {
                         if (current4.GetClient().GetHabbo().GetAvatarEffectsInventoryComponent() != null && current4.CurrentEffect >= 1)
                         {
-                            Response.Init(LibraryParser.OutgoingRequest("ApplyEffectMessageComposer"));
+                            Response.Init(PacketLibraryManager.OutgoingRequest("ApplyEffectMessageComposer"));
                             Response.AppendInteger(current4.VirtualId);
                             Response.AppendInteger(current4.CurrentEffect);
                             Response.AppendInteger(0);
                             queuedServerMessage.AppendResponse(GetResponse());
                         }
 
-                        ServerMessage serverMessage2 = new ServerMessage(LibraryParser.OutgoingRequest("UpdateUserDataMessageComposer"));
+                        ServerMessage serverMessage2 = new ServerMessage(PacketLibraryManager.OutgoingRequest("UpdateUserDataMessageComposer"));
                         serverMessage2.AppendInteger(current4.VirtualId);
                         serverMessage2.AppendString(current4.GetClient().GetHabbo().Look);
                         serverMessage2.AppendString(current4.GetClient().GetHabbo().Gender.ToLower());
@@ -404,7 +404,7 @@ namespace Yupi.Messages.Handlers
                 if (room.UserCount >= room.RoomData.UsersMax && !Session.GetHabbo().HasFuse("fuse_enter_full_rooms") &&
                     Session.GetHabbo().Id != (ulong) room.RoomData.OwnerId)
                 {
-                    ServerMessage roomQueue = new ServerMessage(LibraryParser.OutgoingRequest("RoomsQueue"));
+                    ServerMessage roomQueue = new ServerMessage(PacketLibraryManager.OutgoingRequest("RoomsQueue"));
 
                     roomQueue.AppendInteger(2);
                     roomQueue.AppendString("visitors");
@@ -423,10 +423,10 @@ namespace Yupi.Messages.Handlers
                     //ClearRoomLoading();
                     return;
 
-                    /* var serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("RoomEnterErrorMessageComposer"));
+                    /* var serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("RoomEnterErrorMessageComposer"));
                      serverMessage.AppendInteger(1);
                      Session.SendMessage(serverMessage);
-                     var message = new ServerMessage(LibraryParser.OutgoingRequest("OutOfRoomMessageComposer"));
+                     var message = new ServerMessage(PacketLibraryManager.OutgoingRequest("OutOfRoomMessageComposer"));
                      Session.SendMessage(message);
 
                      ClearRoomLoading();
@@ -443,10 +443,10 @@ namespace Yupi.Messages.Handlers
                     {
                         ClearRoomLoading();
 
-                        ServerMessage serverMessage2 = new ServerMessage(LibraryParser.OutgoingRequest("RoomEnterErrorMessageComposer"));
+                        ServerMessage serverMessage2 = new ServerMessage(PacketLibraryManager.OutgoingRequest("RoomEnterErrorMessageComposer"));
                         serverMessage2.AppendInteger(4);
                         Session.SendMessage(serverMessage2);
-                        Response.Init(LibraryParser.OutgoingRequest("OutOfRoomMessageComposer"));
+                        Response.Init(PacketLibraryManager.OutgoingRequest("OutOfRoomMessageComposer"));
                         queuedServerMessage.AppendResponse(GetResponse());
                         queuedServerMessage.SendResponse();
 
@@ -456,7 +456,7 @@ namespace Yupi.Messages.Handlers
                     room.RemoveBan(Session.GetHabbo().Id);
                 }
 
-                Response.Init(LibraryParser.OutgoingRequest("PrepareRoomMessageComposer"));
+                Response.Init(PacketLibraryManager.OutgoingRequest("PrepareRoomMessageComposer"));
                 queuedServerMessage.AppendResponse(GetResponse());
                 if (!isReload && !Session.GetHabbo().HasFuse("fuse_enter_any_room") &&
                     !room.CheckRightsDoorBell(Session, true, true, room.RoomData.Group != null && room.RoomData.Group.Members.ContainsKey(Session.GetHabbo().Id)) &&
@@ -467,16 +467,16 @@ namespace Yupi.Messages.Handlers
                     {
                         if (room.UserCount == 0)
                         {
-                            Response.Init(LibraryParser.OutgoingRequest("DoorbellNoOneMessageComposer"));
+                            Response.Init(PacketLibraryManager.OutgoingRequest("DoorbellNoOneMessageComposer"));
                             queuedServerMessage.AppendResponse(GetResponse());
                         }
                         else
                         {
-                            Response.Init(LibraryParser.OutgoingRequest("DoorbellMessageComposer"));
+                            Response.Init(PacketLibraryManager.OutgoingRequest("DoorbellMessageComposer"));
                             Response.AppendString(string.Empty);
                             queuedServerMessage.AppendResponse(GetResponse());
 
-                            ServerMessage serverMessage3 = new ServerMessage(LibraryParser.OutgoingRequest("DoorbellMessageComposer"));
+                            ServerMessage serverMessage3 = new ServerMessage(PacketLibraryManager.OutgoingRequest("DoorbellMessageComposer"));
                             serverMessage3.AppendString(Session.GetHabbo().UserName);
                             room.SendMessageToUsersWithRights(serverMessage3);
                         }
@@ -492,13 +492,13 @@ namespace Yupi.Messages.Handlers
 
                         Session.GetMessageHandler()
                             .GetResponse()
-                            .Init(LibraryParser.OutgoingRequest("RoomErrorMessageComposer"));
+                            .Init(PacketLibraryManager.OutgoingRequest("RoomErrorMessageComposer"));
                         Session.GetMessageHandler().GetResponse().AppendInteger(-100002);
                         Session.GetMessageHandler().SendResponse();
 
                         Session.GetMessageHandler()
                             .GetResponse()
-                            .Init(LibraryParser.OutgoingRequest("OutOfRoomMessageComposer"));
+                            .Init(PacketLibraryManager.OutgoingRequest("OutOfRoomMessageComposer"));
                         Session.GetMessageHandler().GetResponse();
                         Session.GetMessageHandler().SendResponse();
 
@@ -541,7 +541,7 @@ namespace Yupi.Messages.Handlers
                     CurrentLoadingRoom.LoadedGroups.Add(Session.GetHabbo().FavouriteGroup, Yupi.GetGame().GetGroupManager().GetGroup(Session.GetHabbo().FavouriteGroup).Badge);
             }
 
-            Response.Init(LibraryParser.OutgoingRequest("RoomGroupMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingRequest("RoomGroupMessageComposer"));
             Response.AppendInteger(CurrentLoadingRoom.LoadedGroups.Count);
 
             foreach (KeyValuePair<uint, string> guild1 in CurrentLoadingRoom.LoadedGroups)
@@ -552,20 +552,20 @@ namespace Yupi.Messages.Handlers
 
             queuedServerMessage.AppendResponse(GetResponse());
 
-            Response.Init(LibraryParser.OutgoingRequest("InitialRoomInfoMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingRequest("InitialRoomInfoMessageComposer"));
             Response.AppendString(currentLoadingRoom.RoomData.ModelName);
             Response.AppendInteger(currentLoadingRoom.RoomId);
             queuedServerMessage.AppendResponse(GetResponse());
 
             if (Session.GetHabbo().SpectatorMode)
             {
-                Response.Init(LibraryParser.OutgoingRequest("SpectatorModeMessageComposer"));
+                Response.Init(PacketLibraryManager.OutgoingRequest("SpectatorModeMessageComposer"));
                 queuedServerMessage.AppendResponse(GetResponse());
             }
 
             if (currentLoadingRoom.RoomData.WallPaper != "0.0")
             {
-                Response.Init(LibraryParser.OutgoingRequest("RoomSpacesMessageComposer"));
+                Response.Init(PacketLibraryManager.OutgoingRequest("RoomSpacesMessageComposer"));
                 Response.AppendString("wallpaper");
                 Response.AppendString(currentLoadingRoom.RoomData.WallPaper);
                 queuedServerMessage.AppendResponse(GetResponse());
@@ -573,45 +573,45 @@ namespace Yupi.Messages.Handlers
 
             if (currentLoadingRoom.RoomData.Floor != "0.0")
             {
-                Response.Init(LibraryParser.OutgoingRequest("RoomSpacesMessageComposer"));
+                Response.Init(PacketLibraryManager.OutgoingRequest("RoomSpacesMessageComposer"));
                 Response.AppendString("floor");
                 Response.AppendString(currentLoadingRoom.RoomData.Floor);
                 queuedServerMessage.AppendResponse(GetResponse());
             }
 
-            Response.Init(LibraryParser.OutgoingRequest("RoomSpacesMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingRequest("RoomSpacesMessageComposer"));
             Response.AppendString("landscape");
             Response.AppendString(currentLoadingRoom.RoomData.LandScape);
             queuedServerMessage.AppendResponse(GetResponse());
 
             if (currentLoadingRoom.CheckRights(Session, true))
             {
-                Response.Init(LibraryParser.OutgoingRequest("RoomRightsLevelMessageComposer"));
+                Response.Init(PacketLibraryManager.OutgoingRequest("RoomRightsLevelMessageComposer"));
                 Response.AppendInteger(4);
                 queuedServerMessage.AppendResponse(GetResponse());
-                Response.Init(LibraryParser.OutgoingRequest("HasOwnerRightsMessageComposer"));
+                Response.Init(PacketLibraryManager.OutgoingRequest("HasOwnerRightsMessageComposer"));
                 queuedServerMessage.AppendResponse(GetResponse());
             }
             else if (currentLoadingRoom.CheckRights(Session, false, true))
             {
-                Response.Init(LibraryParser.OutgoingRequest("RoomRightsLevelMessageComposer"));
+                Response.Init(PacketLibraryManager.OutgoingRequest("RoomRightsLevelMessageComposer"));
                 Response.AppendInteger(1);
                 queuedServerMessage.AppendResponse(GetResponse());
             }
             else
             {
-                Response.Init(LibraryParser.OutgoingRequest("RoomRightsLevelMessageComposer"));
+                Response.Init(PacketLibraryManager.OutgoingRequest("RoomRightsLevelMessageComposer"));
                 Response.AppendInteger(0);
                 queuedServerMessage.AppendResponse(GetResponse());
             }
 
-            Response.Init(LibraryParser.OutgoingRequest("RoomRatingMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingRequest("RoomRatingMessageComposer"));
             Response.AppendInteger(currentLoadingRoom.RoomData.Score);
             Response.AppendBool(!Session.GetHabbo().RatedRooms.Contains(currentLoadingRoom.RoomId) &&
                                 !currentLoadingRoom.CheckRights(Session, true));
             queuedServerMessage.AppendResponse(GetResponse());
 
-            Response.Init(LibraryParser.OutgoingRequest("RoomUpdateMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingRequest("RoomUpdateMessageComposer"));
             Response.AppendInteger(currentLoadingRoom.RoomId);
             queuedServerMessage.AppendResponse(GetResponse());
 
@@ -654,7 +654,7 @@ namespace Yupi.Messages.Handlers
 
         internal void CanCreateRoom()
         {
-            Response.Init(LibraryParser.OutgoingRequest("CanCreateRoomMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingRequest("CanCreateRoomMessageComposer"));
             Response.AppendInteger(Session.GetHabbo().UsersRooms.Count >= 75 ? 1 : 0);
             Response.AppendInteger(75);
             SendResponse();
@@ -689,7 +689,7 @@ namespace Yupi.Messages.Handlers
                 return;
 
             Session.GetHabbo().LastSqlQuery = Yupi.GetUnixTimeStamp();
-            Response.Init(LibraryParser.OutgoingRequest("OnCreateRoomInfoMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingRequest("OnCreateRoomInfoMessageComposer"));
             Response.AppendInteger(data.Id);
             Response.AppendString(data.Name);
             SendResponse();
@@ -701,7 +701,7 @@ namespace Yupi.Messages.Handlers
             if (room == null)
                 return;
 
-            GetResponse().Init(LibraryParser.OutgoingRequest("RoomSettingsDataMessageComposer"));
+            GetResponse().Init(PacketLibraryManager.OutgoingRequest("RoomSettingsDataMessageComposer"));
             GetResponse().AppendInteger(room.RoomId);
             GetResponse().AppendString(room.RoomData.Name);
             GetResponse().AppendString(room.RoomData.Description);
@@ -735,21 +735,21 @@ namespace Yupi.Messages.Handlers
 
         internal void RoomSettingsOkComposer(uint roomId)
         {
-            GetResponse().Init(LibraryParser.OutgoingRequest("RoomSettingsSavedMessageComposer"));
+            GetResponse().Init(PacketLibraryManager.OutgoingRequest("RoomSettingsSavedMessageComposer"));
             GetResponse().AppendInteger(roomId);
             SendResponse();
         }
 
         internal void RoomUpdatedOkComposer(uint roomId)
         {
-            GetResponse().Init(LibraryParser.OutgoingRequest("RoomUpdateMessageComposer"));
+            GetResponse().Init(PacketLibraryManager.OutgoingRequest("RoomUpdateMessageComposer"));
             GetResponse().AppendInteger(roomId);
             SendResponse();
         }
 
         internal static ServerMessage RoomFloorAndWallComposer(Room room)
         {
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("RoomFloorWallLevelsMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("RoomFloorWallLevelsMessageComposer"));
             serverMessage.AppendBool(room.RoomData.HideWall);
             serverMessage.AppendInteger(room.RoomData.WallThickness);
             serverMessage.AppendInteger(room.RoomData.FloorThickness);
@@ -758,7 +758,7 @@ namespace Yupi.Messages.Handlers
 
         internal static ServerMessage SerializeRoomChatOption(Room room)
         {
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("RoomChatOptionsMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("RoomChatOptionsMessageComposer"));
             serverMessage.AppendInteger(room.RoomData.ChatType);
             serverMessage.AppendInteger(room.RoomData.ChatBalloon);
             serverMessage.AppendInteger(room.RoomData.ChatSpeed);
@@ -818,7 +818,7 @@ namespace Yupi.Messages.Handlers
 
             int rowCount = table != null && table.Rows.Count > 0 ? table.Rows.Count : 0;
 
-            Response.Init(LibraryParser.OutgoingRequest("LoadRoomRightsListMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingRequest("LoadRoomRightsListMessageComposer"));
             GetResponse().AppendInteger(room.RoomData.Id);
             GetResponse().AppendInteger(rowCount);
 
@@ -941,7 +941,7 @@ namespace Yupi.Messages.Handlers
             if (list != null && list.Count != 0)
                 listCount = list.Count;
 
-            Response.Init(LibraryParser.OutgoingRequest("RoomBannedListMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingRequest("RoomBannedListMessageComposer"));
             Response.AppendInteger(num);
             Response.AppendInteger(listCount);
 
@@ -959,7 +959,7 @@ namespace Yupi.Messages.Handlers
 
         internal void UsersWithRights()
         {
-            Response.Init(LibraryParser.OutgoingRequest("LoadRoomRightsListMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingRequest("LoadRoomRightsListMessageComposer"));
             Response.AppendInteger(Session.GetHabbo().CurrentRoom.RoomId);
             Response.AppendInteger(Session.GetHabbo().CurrentRoom.UsersWithRights.Count);
 
@@ -984,7 +984,7 @@ namespace Yupi.Messages.Handlers
 
             room.Unban(num);
 
-            Response.Init(LibraryParser.OutgoingRequest("RoomUnbanUserMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingRequest("RoomUnbanUserMessageComposer"));
             Response.AppendInteger(num2);
             Response.AppendInteger(num);
 
@@ -1020,7 +1020,7 @@ namespace Yupi.Messages.Handlers
 
             if (roomUserByHabbo != null && !roomUserByHabbo.IsBot)
             {
-                Response.Init(LibraryParser.OutgoingRequest("GiveRoomRightsMessageComposer"));
+                Response.Init(PacketLibraryManager.OutgoingRequest("GiveRoomRightsMessageComposer"));
                 Response.AppendInteger(room.RoomId);
                 Response.AppendInteger(roomUserByHabbo.GetClient().GetHabbo().Id);
                 Response.AppendString(roomUserByHabbo.GetClient().GetHabbo().UserName);
@@ -1030,7 +1030,7 @@ namespace Yupi.Messages.Handlers
                 if (!roomUserByHabbo.IsBot)
                 {
                     roomUserByHabbo.AddStatus("flatctrl 1", string.Empty);
-                    Response.Init(LibraryParser.OutgoingRequest("RoomRightsLevelMessageComposer"));
+                    Response.Init(PacketLibraryManager.OutgoingRequest("RoomRightsLevelMessageComposer"));
                     Response.AppendInteger(1);
                     roomUserByHabbo.GetClient().SendMessage(GetResponse());
                 }
@@ -1067,14 +1067,14 @@ namespace Yupi.Messages.Handlers
 
                     if (roomUserByHabbo != null && !roomUserByHabbo.IsBot)
                     {
-                        Response.Init(LibraryParser.OutgoingRequest("RoomRightsLevelMessageComposer"));
+                        Response.Init(PacketLibraryManager.OutgoingRequest("RoomRightsLevelMessageComposer"));
                         Response.AppendInteger(0);
                         roomUserByHabbo.GetClient().SendMessage(GetResponse());
                         roomUserByHabbo.RemoveStatus("flatctrl 1");
                         roomUserByHabbo.UpdateNeeded = true;
                     }
 
-                    Response.Init(LibraryParser.OutgoingRequest("RemoveRightsMessageComposer"));
+                    Response.Init(PacketLibraryManager.OutgoingRequest("RemoveRightsMessageComposer"));
                     Response.AppendInteger(room.RoomId);
                     Response.AppendInteger(num2);
                     SendResponse();
@@ -1107,7 +1107,7 @@ namespace Yupi.Messages.Handlers
                 uint num = (uint) dataRow[0];
 
                 RoomUser roomUserByHabbo = room.GetRoomUserManager().GetRoomUserByHabbo(num);
-                Response.Init(LibraryParser.OutgoingRequest("RemoveRightsMessageComposer"));
+                Response.Init(PacketLibraryManager.OutgoingRequest("RemoveRightsMessageComposer"));
                 Response.AppendInteger(room.RoomId);
                 Response.AppendInteger(num);
 
@@ -1116,7 +1116,7 @@ namespace Yupi.Messages.Handlers
                 if (roomUserByHabbo == null || roomUserByHabbo.IsBot)
                     continue;
 
-                Response.Init(LibraryParser.OutgoingRequest("RoomRightsLevelMessageComposer"));
+                Response.Init(PacketLibraryManager.OutgoingRequest("RoomRightsLevelMessageComposer"));
                 Response.AppendInteger(0);
                 roomUserByHabbo.GetClient().SendMessage(GetResponse());
                 roomUserByHabbo.RemoveStatus("flatctrl 1");
@@ -1209,7 +1209,7 @@ namespace Yupi.Messages.Handlers
                     queryReactor.RunFastQuery(string.Concat("UPDATE users SET home_room = ", roomId,
                         " WHERE id = ", Session.GetHabbo().Id));
 
-                Response.Init(LibraryParser.OutgoingRequest("HomeRoomMessageComposer"));
+                Response.Init(PacketLibraryManager.OutgoingRequest("HomeRoomMessageComposer"));
                 Response.AppendInteger(roomId);
                 Response.AppendInteger(0);
                 SendResponse();
@@ -1300,7 +1300,7 @@ namespace Yupi.Messages.Handlers
             if (roomUserByHabbo == null)
                 return;
 
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("TypingStatusMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("TypingStatusMessageComposer"));
             serverMessage.AppendInteger(roomUserByHabbo.VirtualId);
             serverMessage.AppendInteger(1);
             room.SendMessage(serverMessage);
@@ -1314,7 +1314,7 @@ namespace Yupi.Messages.Handlers
             if (roomUserByHabbo == null)
                 return;
 
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("TypingStatusMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("TypingStatusMessageComposer"));
             serverMessage.AppendInteger(roomUserByHabbo.VirtualId);
             serverMessage.AppendInteger(0);
             room.SendMessage(serverMessage);
@@ -1336,7 +1336,7 @@ namespace Yupi.Messages.Handlers
                 return;
 
             Session.GetHabbo().MutedUsers.Add(habbo.Id);
-            Response.Init(LibraryParser.OutgoingRequest("UpdateIgnoreStatusMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingRequest("UpdateIgnoreStatusMessageComposer"));
             Response.AppendInteger(1);
             Response.AppendString(text);
             SendResponse();
@@ -1357,7 +1357,7 @@ namespace Yupi.Messages.Handlers
                 return;
 
             Session.GetHabbo().MutedUsers.Remove(habbo.Id);
-            Response.Init(LibraryParser.OutgoingRequest("UpdateIgnoreStatusMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingRequest("UpdateIgnoreStatusMessageComposer"));
             Response.AppendInteger(3);
             Response.AppendString(text);
             SendResponse();
@@ -1434,7 +1434,7 @@ namespace Yupi.Messages.Handlers
                 queryReactor.RunFastQuery(string.Concat("UPDATE rooms_data SET score = ", room.RoomData.Score, " WHERE id = ", room.RoomId));
 
             Session.GetHabbo().RatedRooms.Add(room.RoomId);
-            Response.Init(LibraryParser.OutgoingRequest("RoomRatingMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingRequest("RoomRatingMessageComposer"));
             Response.AppendInteger(room.RoomData.Score);
             Response.AppendBool(room.CheckRights(Session, true));
 
@@ -1461,7 +1461,7 @@ namespace Yupi.Messages.Handlers
 
             roomUserByHabbo.DanceId = num;
 
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("DanceStatusMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("DanceStatusMessageComposer"));
 
             serverMessage.AppendInteger(roomUserByHabbo.VirtualId);
             serverMessage.AppendInteger(num);
@@ -1487,7 +1487,7 @@ namespace Yupi.Messages.Handlers
             {
                 clientByUserName.GetHabbo().LoadingChecksPassed = true;
 
-                clientByUserName.GetMessageHandler().Response.Init(LibraryParser.OutgoingRequest("DoorbellOpenedMessageComposer"));
+                clientByUserName.GetMessageHandler().Response.Init(PacketLibraryManager.OutgoingRequest("DoorbellOpenedMessageComposer"));
                 clientByUserName.GetMessageHandler().Response.AppendString(string.Empty);
                 clientByUserName.GetMessageHandler().SendResponse();
 
@@ -1496,7 +1496,7 @@ namespace Yupi.Messages.Handlers
 
             if (clientByUserName.GetHabbo().CurrentRoomId != Session.GetHabbo().CurrentRoomId)
             {
-                clientByUserName.GetMessageHandler().Response.Init(LibraryParser.OutgoingRequest("DoorbellNoOneMessageComposer"));
+                clientByUserName.GetMessageHandler().Response.Init(PacketLibraryManager.OutgoingRequest("DoorbellNoOneMessageComposer"));
                 clientByUserName.GetMessageHandler().Response.AppendString(string.Empty);
                 clientByUserName.GetMessageHandler().SendResponse();
             }
@@ -1560,7 +1560,7 @@ namespace Yupi.Messages.Handlers
                 return;
 
             ServerMessage serverMessage = new ServerMessage();
-            serverMessage.Init(LibraryParser.OutgoingRequest("RoomLoadFilterMessageComposer"));
+            serverMessage.Init(PacketLibraryManager.OutgoingRequest("RoomLoadFilterMessageComposer"));
             serverMessage.AppendInteger(room.WordFilter.Count);
 
             foreach (string current in room.WordFilter)
@@ -1629,7 +1629,7 @@ namespace Yupi.Messages.Handlers
             }
 
             Session.GetHabbo().GetInventoryComponent().RemoveItem(item.Id, false);
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("RoomSpacesMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("RoomSpacesMessageComposer"));
             serverMessage.AppendString(type);
             serverMessage.AppendString(item.ExtraData);
             room.SendMessage(serverMessage);
@@ -1709,7 +1709,7 @@ namespace Yupi.Messages.Handlers
         internal void GetPromotionableRooms()
         {
             ServerMessage serverMessage = new ServerMessage();
-            serverMessage.Init(LibraryParser.OutgoingRequest("CatalogPromotionGetRoomsMessageComposer"));
+            serverMessage.Init(PacketLibraryManager.OutgoingRequest("CatalogPromotionGetRoomsMessageComposer"));
             serverMessage.AppendBool(true);
             serverMessage.AppendInteger(Session.GetHabbo().UsersRooms.Count);
 
@@ -1786,7 +1786,7 @@ namespace Yupi.Messages.Handlers
 
                 if (heightMap.Length > 1800)
                 {
-                    ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
+                    ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
                     message.AppendString("floorplan_editor.error");
                     message.AppendInteger(1);
                     message.AppendString("errors");
@@ -1798,7 +1798,7 @@ namespace Yupi.Messages.Handlers
 
                 if (heightMap.Split((char) 13).Length - 1 < doorY)
                 {
-                    ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
+                    ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
                     message.AppendString("floorplan_editor.error");
                     message.AppendInteger(1);
                     message.AppendString("errors");
@@ -1816,7 +1816,7 @@ namespace Yupi.Messages.Handlers
                     if (lines[i].Length != lineWidth)
                     {
                         ServerMessage message =
-                            new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
+                            new ServerMessage(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
                         message.AppendString("floorplan_editor.error");
                         message.AppendInteger(1);
                         message.AppendString("errors");
@@ -1862,7 +1862,7 @@ namespace Yupi.Messages.Handlers
 
                     Yupi.GetGame().GetRoomManager().UnloadRoom(room, "Reload floor");
 
-                    ServerMessage forwardToRoom = new ServerMessage(LibraryParser.OutgoingRequest("RoomForwardMessageComposer"));
+                    ServerMessage forwardToRoom = new ServerMessage(PacketLibraryManager.OutgoingRequest("RoomForwardMessageComposer"));
                     forwardToRoom.AppendInteger(room.RoomId);
                     Session.SendMessage(forwardToRoom);
                 }
@@ -1893,7 +1893,7 @@ namespace Yupi.Messages.Handlers
 
             Pet pet = CatalogManager.CreatePet(Session.GetHabbo().Id, "Monsterplant", "pet_monster", "0", "0", rarity);
 
-            Response.Init(LibraryParser.OutgoingRequest("SendMonsterplantIdMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingRequest("SendMonsterplantIdMessageComposer"));
             Response.AppendInteger(pet.PetId);
             SendResponse();
 
@@ -2016,7 +2016,7 @@ namespace Yupi.Messages.Handlers
                 text += ";#;";
                 text += bot.BotData.MixPhrases ? "true" : "false";
 
-                ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("BotSpeechListMessageComposer"));
+                ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("BotSpeechListMessageComposer"));
                 serverMessage.AppendInteger(botId);
                 serverMessage.AppendInteger(num2);
                 serverMessage.AppendString(text);
@@ -2028,7 +2028,7 @@ namespace Yupi.Messages.Handlers
             if (num3 != 5)
                 return;
 
-            ServerMessage serverMessage2 = new ServerMessage(LibraryParser.OutgoingRequest("BotSpeechListMessageComposer"));
+            ServerMessage serverMessage2 = new ServerMessage(PacketLibraryManager.OutgoingRequest("BotSpeechListMessageComposer"));
             serverMessage2.AppendInteger(botId);
             serverMessage2.AppendInteger(num2);
             serverMessage2.AppendString(bot.BotData.Name);
@@ -2143,7 +2143,7 @@ namespace Yupi.Messages.Handlers
                 bot.BotData.DanceId = bot.DanceId;
             }
 
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("DanceStatusMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("DanceStatusMessageComposer"));
             serverMessage.AppendInteger(bot.VirtualId);
             serverMessage.AppendInteger(bot.BotData.DanceId);
             Session.GetHabbo().CurrentRoom.SendMessage(serverMessage);
@@ -2151,7 +2151,7 @@ namespace Yupi.Messages.Handlers
             IL_439:
             if (!flag)
             {
-                ServerMessage serverMessage2 = new ServerMessage(LibraryParser.OutgoingRequest("SetRoomUserMessageComposer"));
+                ServerMessage serverMessage2 = new ServerMessage(PacketLibraryManager.OutgoingRequest("SetRoomUserMessageComposer"));
                 serverMessage2.AppendInteger(1);
                 bot.Serialize(serverMessage2, room.GetGameMap().GotPublicPool);
                 room.SendMessage(serverMessage2);
@@ -2160,14 +2160,14 @@ namespace Yupi.Messages.Handlers
 
         internal void BotErrorComposer(int errorid)
         {
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("GeneralErrorHabboMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("GeneralErrorHabboMessageComposer"));
             serverMessage.AppendInteger(errorid);
             Session.SendMessage(serverMessage);
         }
 
         internal void RoomOnLoad()
         {
-            Response.Init(LibraryParser.OutgoingRequest("SendRoomCampaignFurnitureMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingRequest("SendRoomCampaignFurnitureMessageComposer"));
             Response.AppendInteger(0);
             SendResponse();
         }
@@ -2181,14 +2181,14 @@ namespace Yupi.Messages.Handlers
 
             currentRoom.RoomMuted = !currentRoom.RoomMuted;
 
-            Response.Init(LibraryParser.OutgoingRequest("RoomMuteStatusMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingRequest("RoomMuteStatusMessageComposer"));
             Response.AppendBool(currentRoom.RoomMuted);
             Session.SendMessage(Response);
         }
 
         internal void HomeRoom()
         {
-            GetResponse().Init(LibraryParser.OutgoingRequest("HomeRoomMessageComposer"));
+            GetResponse().Init(PacketLibraryManager.OutgoingRequest("HomeRoomMessageComposer"));
             GetResponse().AppendInteger(Session.GetHabbo().HomeRoom);
             GetResponse().AppendInteger(0);
             SendResponse();
@@ -2202,7 +2202,7 @@ namespace Yupi.Messages.Handlers
             uint num = Request.GetUInteger();
 
             Session.GetHabbo().FavoriteRooms.Remove(num);
-            Response.Init(LibraryParser.OutgoingRequest("FavouriteRoomsUpdateMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingRequest("FavouriteRoomsUpdateMessageComposer"));
             Response.AppendInteger(num);
             Response.AppendBool(false);
             SendResponse();
@@ -2225,7 +2225,7 @@ namespace Yupi.Messages.Handlers
 
             roomUserByHabbo.DanceId = 0;
 
-            ServerMessage action = new ServerMessage(LibraryParser.OutgoingRequest("RoomUserActionMessageComposer"));
+            ServerMessage action = new ServerMessage(PacketLibraryManager.OutgoingRequest("RoomUserActionMessageComposer"));
             action.AppendInteger(roomUserByHabbo.VirtualId);
             action.AppendInteger(num);
             room.SendMessage(action);
@@ -2234,7 +2234,7 @@ namespace Yupi.Messages.Handlers
             {
                 roomUserByHabbo.IsAsleep = true;
 
-                ServerMessage sleep = new ServerMessage(LibraryParser.OutgoingRequest("RoomUserIdleMessageComposer"));
+                ServerMessage sleep = new ServerMessage(PacketLibraryManager.OutgoingRequest("RoomUserIdleMessageComposer"));
                 sleep.AppendInteger(roomUserByHabbo.VirtualId);
                 sleep.AppendBool(roomUserByHabbo.IsAsleep);
                 room.SendMessage(sleep);
@@ -2263,7 +2263,7 @@ namespace Yupi.Messages.Handlers
 
                     if (roomData.Model == null || CurrentLoadingRoom.GetGameMap() == null)
                     {
-                        Session.SendMessage(new ServerMessage(LibraryParser.OutgoingRequest("OutOfRoomMessageComposer")));
+                        Session.SendMessage(new ServerMessage(PacketLibraryManager.OutgoingRequest("OutOfRoomMessageComposer")));
                         ClearRoomLoading();
                     }
                     else
@@ -2289,7 +2289,7 @@ namespace Yupi.Messages.Handlers
             if (CurrentLoadingRoom.RoomData.UsersNow + 1 > CurrentLoadingRoom.RoomData.UsersMax &&
                 !Session.GetHabbo().HasFuse("fuse_enter_full_rooms"))
             {
-                ServerMessage roomFull = new ServerMessage(LibraryParser.OutgoingRequest("RoomEnterErrorMessageComposer"));
+                ServerMessage roomFull = new ServerMessage(PacketLibraryManager.OutgoingRequest("RoomEnterErrorMessageComposer"));
                 roomFull.AppendInteger(1);
                 return;
             }
@@ -2298,7 +2298,7 @@ namespace Yupi.Messages.Handlers
             RoomItem[] array = CurrentLoadingRoom.GetRoomItemHandler().FloorItems.Values.ToArray();
             RoomItem[] array2 = CurrentLoadingRoom.GetRoomItemHandler().WallItems.Values.ToArray();
 
-            Response.Init(LibraryParser.OutgoingRequest("RoomFloorItemsMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingRequest("RoomFloorItemsMessageComposer"));
 
             if (CurrentLoadingRoom.RoomData.Group != null)
             {
@@ -2352,7 +2352,7 @@ namespace Yupi.Messages.Handlers
                 roomItem.Serialize(Response);
 
             queuedServerMessage.AppendResponse(GetResponse());
-            Response.Init(LibraryParser.OutgoingRequest("RoomWallItemsMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingRequest("RoomWallItemsMessageComposer"));
 
             if (CurrentLoadingRoom.RoomData.Group != null)
             {
@@ -2447,7 +2447,7 @@ namespace Yupi.Messages.Handlers
 
             if (Yupi.GetUnixTimeStamp() < Session.GetHabbo().FloodTime && Session.GetHabbo().FloodTime != 0)
             {
-                ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("FloodFilterMessageComposer"));
+                ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("FloodFilterMessageComposer"));
                 serverMessage.AppendInteger(Session.GetHabbo().FloodTime - Yupi.GetUnixTimeStamp());
 
                 Session.SendMessage(serverMessage);
@@ -2461,7 +2461,7 @@ namespace Yupi.Messages.Handlers
                 Session.GetHabbo().GotPollData(poll.Id))
                 return;
 
-            Response.Init(LibraryParser.OutgoingRequest("SuggestPollMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingRequest("SuggestPollMessageComposer"));
             poll.Serialize(Response);
 
             SendResponse();
@@ -2474,7 +2474,7 @@ namespace Yupi.Messages.Handlers
             if (Session == null)
                 return;
 
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("LandingWidgetMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("LandingWidgetMessageComposer"));
 
             if (!string.IsNullOrEmpty(text))
             {
@@ -2504,7 +2504,7 @@ namespace Yupi.Messages.Handlers
 
             ServerMessage message =
                 hotelView.SmallPromoComposer(
-                    new ServerMessage(LibraryParser.OutgoingRequest("LandingPromosMessageComposer")));
+                    new ServerMessage(PacketLibraryManager.OutgoingRequest("LandingPromosMessageComposer")));
             Session.SendMessage(message);
         }
 
@@ -2513,7 +2513,7 @@ namespace Yupi.Messages.Handlers
             uint key = Request.GetUInteger();
             Poll poll = Yupi.GetGame().GetPollManager().Polls[key];
 
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("PollQuestionsMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("PollQuestionsMessageComposer"));
 
             serverMessage.AppendInteger(poll.Id);
             serverMessage.AppendString(poll.PollName);
@@ -2568,7 +2568,7 @@ namespace Yupi.Messages.Handlers
                 else
                     poll.AnswersNegative++;
 
-                ServerMessage answered = new ServerMessage(LibraryParser.OutgoingRequest("MatchingPollAnsweredMessageComposer"));
+                ServerMessage answered = new ServerMessage(PacketLibraryManager.OutgoingRequest("MatchingPollAnsweredMessageComposer"));
 
                 answered.AppendInteger(Session.GetHabbo().Id);
                 answered.AppendString(text);
@@ -2715,7 +2715,7 @@ namespace Yupi.Messages.Handlers
 
             roomUserByHabbo.UnIdle();
 
-            ServerMessage whisp = new ServerMessage(LibraryParser.OutgoingRequest("WhisperMessageComposer"));
+            ServerMessage whisp = new ServerMessage(PacketLibraryManager.OutgoingRequest("WhisperMessageComposer"));
             whisp.AppendInteger(roomUserByHabbo.VirtualId);
             whisp.AppendString(msg);
             whisp.AppendInteger(0);
@@ -2738,7 +2738,7 @@ namespace Yupi.Messages.Handlers
                 if (current2 != null && current2.HabboId != roomUserByHabbo2.HabboId &&
                     current2.HabboId != roomUserByHabbo.HabboId && current2.GetClient() != null)
                 {
-                    ServerMessage whispStaff = new ServerMessage(LibraryParser.OutgoingRequest("WhisperMessageComposer"));
+                    ServerMessage whispStaff = new ServerMessage(PacketLibraryManager.OutgoingRequest("WhisperMessageComposer"));
 
                     whispStaff.AppendInteger(roomUserByHabbo.VirtualId);
                     whispStaff.AppendString($"Whisper to {text2}: {msg}");
@@ -2809,7 +2809,7 @@ namespace Yupi.Messages.Handlers
 
         public void GetFloorPlanUsedCoords()
         {
-            Response.Init(LibraryParser.OutgoingRequest("GetFloorPlanUsedCoordsMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingRequest("GetFloorPlanUsedCoordsMessageComposer"));
 
             Room room = Session.GetHabbo().CurrentRoom;
 
@@ -2838,7 +2838,7 @@ namespace Yupi.Messages.Handlers
             if (room == null)
                 return;
 
-            Response.Init(LibraryParser.OutgoingRequest("SetFloorPlanDoorMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingRequest("SetFloorPlanDoorMessageComposer"));
             Response.AppendInteger(room.GetGameMap().Model.DoorX);
             Response.AppendInteger(room.GetGameMap().Model.DoorY);
             Response.AppendInteger(room.GetGameMap().Model.DoorOrientation);
@@ -2863,7 +2863,7 @@ namespace Yupi.Messages.Handlers
 
             Session.GetHabbo().SpectatorMode = true;
 
-            ServerMessage forwardToRoom = new ServerMessage(LibraryParser.OutgoingRequest("RoomForwardMessageComposer"));
+            ServerMessage forwardToRoom = new ServerMessage(PacketLibraryManager.OutgoingRequest("RoomForwardMessageComposer"));
             forwardToRoom.AppendInteger(1);
 
             Session.SendMessage(forwardToRoom);
@@ -2902,7 +2902,7 @@ namespace Yupi.Messages.Handlers
                     queryReactor.RunQuery();
                 }
 
-                ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("CameraStorageUrlMessageComposer"));
+                ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("CameraStorageUrlMessageComposer"));
                 message.AppendString(url);
 
                 Session.SendMessage(message);

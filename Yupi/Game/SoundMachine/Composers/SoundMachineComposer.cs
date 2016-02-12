@@ -20,7 +20,7 @@ namespace Yupi.Game.SoundMachine.Composers
         /// <returns>ServerMessage.</returns>
         public static ServerMessage Compose(List<SongData> songs)
         {
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("SongsMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("SongsMessageComposer"));
             serverMessage.AppendInteger(songs.Count);
 
             foreach (SongData current in songs)
@@ -45,7 +45,7 @@ namespace Yupi.Game.SoundMachine.Composers
         /// <returns>ServerMessage.</returns>
         public static ServerMessage ComposePlayingComposer(uint songId, int playlistItemNumber, int syncTimestampMs)
         {
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("JukeboxNowPlayingMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("JukeboxNowPlayingMessageComposer"));
 
             if (songId == 0u)
             {
@@ -83,7 +83,7 @@ namespace Yupi.Game.SoundMachine.Composers
         /// <returns>ServerMessage.</returns>
         internal static ServerMessage Compose(int playlistCapacity, List<SongInstance> playlist)
         {
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("JukeboxPlaylistMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("JukeboxPlaylistMessageComposer"));
 
             serverMessage.AppendInteger(playlistCapacity);
             serverMessage.AppendInteger(playlist.Count);
@@ -106,7 +106,7 @@ namespace Yupi.Game.SoundMachine.Composers
         /// <returns>ServerMessage.</returns>
         internal static ServerMessage Compose(uint songId, int playlistItemNumber, int syncTimestampMs)
         {
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("JukeboxNowPlayingMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("JukeboxNowPlayingMessageComposer"));
 
             if (songId == 0u)
             {
@@ -135,7 +135,7 @@ namespace Yupi.Game.SoundMachine.Composers
         /// <returns>ServerMessage.</returns>
         internal static ServerMessage SerializeSongInventory(HybridDictionary songs)
         {
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("SongsLibraryMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("SongsLibraryMessageComposer"));
 
             if (songs == null)
             {

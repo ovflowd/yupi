@@ -27,7 +27,7 @@ namespace Yupi.Messages.Handlers
 
             if (songId != 0u)
             {
-                ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("RetrieveSongIDMessageComposer"));
+                ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("RetrieveSongIDMessageComposer"));
                 serverMessage.AppendString(text);
                 serverMessage.AppendInteger(songId);
                 Session.SendMessage(serverMessage);

@@ -196,7 +196,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Banzai
                         .ProgressUserAchievement(avatar.GetClient(), "ACH_BattleBallWinner", 1);
                 }
 
-                ServerMessage waveAtWin = new ServerMessage(LibraryParser.OutgoingRequest("RoomUserActionMessageComposer"));
+                ServerMessage waveAtWin = new ServerMessage(PacketLibraryManager.OutgoingRequest("RoomUserActionMessageComposer"));
                 waveAtWin.AppendInteger(avatar.VirtualId);
                 waveAtWin.AppendInteger(1);
                 _room.SendMessage(waveAtWin);
@@ -218,7 +218,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Banzai
             item.UpdateNeeded = true;
             item.UpdateState();
 
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("ItemAnimationMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("ItemAnimationMessageComposer"));
             serverMessage.AppendInteger(oldRoomCoord.X);
             serverMessage.AppendInteger(oldRoomCoord.Y);
             serverMessage.AppendInteger(newX);

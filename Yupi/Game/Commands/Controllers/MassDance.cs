@@ -40,7 +40,7 @@ namespace Yupi.Game.Commands.Controllers
             foreach (RoomUser roomUser in roomUsers)
             {
                 ServerMessage message =
-                    new ServerMessage(LibraryParser.OutgoingRequest("DanceStatusMessageComposer"));
+                    new ServerMessage(PacketLibraryManager.OutgoingRequest("DanceStatusMessageComposer"));
                 message.AppendInteger(roomUser.VirtualId);
                 message.AppendInteger(danceId);
                 room.SendMessage(message);

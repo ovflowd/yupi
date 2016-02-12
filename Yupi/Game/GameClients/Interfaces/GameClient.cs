@@ -12,7 +12,6 @@ using Yupi.Messages;
 using Yupi.Messages.Enums;
 using Yupi.Messages.Handlers;
 using Yupi.Messages.Parsers;
-using Yupi.Net.Connection;
 using Yupi.Net.Packets;
 
 namespace Yupi.Game.GameClients.Interfaces
@@ -108,7 +107,7 @@ namespace Yupi.Game.GameClients.Interfaces
 
                 if (userPublicist.Rank < 5 && settings.MaxAdvices == PublicistCount++ && settings.AutoBan)
                 {
-                    serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
+                    serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
                     serverMessage.AppendString("staffcloud");
                     serverMessage.AppendInteger(2);
                     serverMessage.AppendString("title");
@@ -130,7 +129,7 @@ namespace Yupi.Game.GameClients.Interfaces
                 alert = alert.Replace("{3}", message);
                 alert = alert.Replace("{4}", method);
 
-                serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("UsersClassificationMessageComposer"));
+                serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("UsersClassificationMessageComposer"));
                 serverMessage.AppendInteger(1);
                 serverMessage.AppendInteger(userPublicist.Id);
                 serverMessage.AppendString(userPublicist.UserName);
@@ -152,7 +151,7 @@ namespace Yupi.Game.GameClients.Interfaces
                     if (client.GetHabbo().Rank < 5)
                         continue;
 
-                    serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("WhisperMessageComposer"));
+                    serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("WhisperMessageComposer"));
                     serverMessage.AppendInteger(client.CurrentRoomUserId);
                     serverMessage.AppendString(alert);
                     serverMessage.AppendInteger(0);
@@ -280,26 +279,26 @@ namespace Yupi.Game.GameClients.Interfaces
 
                 QueuedServerMessage queuedServerMessage = new QueuedServerMessage(_connection);
 
-                ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("UniqueMachineIDMessageComposer"));
+                ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("UniqueMachineIDMessageComposer"));
 
                 serverMessage.AppendString(MachineId);
                 queuedServerMessage.AppendResponse(serverMessage);
 
                 queuedServerMessage.AppendResponse(
-                    new ServerMessage(LibraryParser.OutgoingRequest("AuthenticationOKMessageComposer")));
+                    new ServerMessage(PacketLibraryManager.OutgoingRequest("AuthenticationOKMessageComposer")));
 
-                ServerMessage serverMessage2 = new ServerMessage(LibraryParser.OutgoingRequest("HomeRoomMessageComposer"));
+                ServerMessage serverMessage2 = new ServerMessage(PacketLibraryManager.OutgoingRequest("HomeRoomMessageComposer"));
 
                 serverMessage2.AppendInteger(_habbo.HomeRoom);
                 serverMessage2.AppendInteger(_habbo.HomeRoom);
                 queuedServerMessage.AppendResponse(serverMessage2);
 
-                serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("MinimailCountMessageComposer"));
+                serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("MinimailCountMessageComposer"));
 
                 serverMessage.AppendInteger(_habbo.MinimailUnreadMessages);
                 queuedServerMessage.AppendResponse(serverMessage);
 
-                serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("FavouriteRoomsMessageComposer"));
+                serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("FavouriteRoomsMessageComposer"));
 
                 serverMessage.AppendInteger(30);
 
@@ -315,24 +314,24 @@ namespace Yupi.Game.GameClients.Interfaces
 
                 queuedServerMessage.AppendResponse(serverMessage);
 
-                ServerMessage rightsMessage = new ServerMessage(LibraryParser.OutgoingRequest("UserClubRightsMessageComposer"));
+                ServerMessage rightsMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("UserClubRightsMessageComposer"));
 
                 rightsMessage.AppendInteger(userData.User.GetSubscriptionManager().HasSubscription ? 2 : 0);
                 rightsMessage.AppendInteger(userData.User.Rank);
                 rightsMessage.AppendInteger(0);
                 queuedServerMessage.AppendResponse(rightsMessage);
 
-                serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("EnableNotificationsMessageComposer"));
+                serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("EnableNotificationsMessageComposer"));
                 serverMessage.AppendBool(true); //isOpen
                 serverMessage.AppendBool(false);
                 queuedServerMessage.AppendResponse(serverMessage);
 
-                serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("EnableTradingMessageComposer"));
+                serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("EnableTradingMessageComposer"));
                 serverMessage.AppendBool(true);
                 queuedServerMessage.AppendResponse(serverMessage);
                 userData.User.UpdateCreditsBalance();
 
-                serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("ActivityPointsMessageComposer"));
+                serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("ActivityPointsMessageComposer"));
                 serverMessage.AppendInteger(2);
                 serverMessage.AppendInteger(0);
                 serverMessage.AppendInteger(userData.User.Duckets);
@@ -368,7 +367,7 @@ namespace Yupi.Game.GameClients.Interfaces
         /// <param name="message">The message.</param>
         internal void SendNotifWithScroll(string message)
         {
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("MOTDNotificationMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("MOTDNotificationMessageComposer"));
 
             serverMessage.AppendInteger(1);
             serverMessage.AppendString(message);
@@ -381,7 +380,7 @@ namespace Yupi.Game.GameClients.Interfaces
         /// <param name="message">The message.</param>
         internal void SendBroadcastMessage(string message)
         {
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("BroadcastNotifMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("BroadcastNotifMessageComposer"));
 
             serverMessage.AppendString(message);
             serverMessage.AppendString(string.Empty);
@@ -397,7 +396,7 @@ namespace Yupi.Game.GameClients.Interfaces
             if (string.IsNullOrWhiteSpace(message))
                 return;
 
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("AlertNotificationMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("AlertNotificationMessageComposer"));
 
             serverMessage.AppendString(message);
             serverMessage.AppendString(string.Empty);
@@ -420,7 +419,7 @@ namespace Yupi.Game.GameClients.Interfaces
             if (roomUserByHabbo == null)
                 return;
 
-            ServerMessage whisp = new ServerMessage(LibraryParser.OutgoingRequest("WhisperMessageComposer"));
+            ServerMessage whisp = new ServerMessage(PacketLibraryManager.OutgoingRequest("WhisperMessageComposer"));
 
             whisp.AppendInteger(roomUserByHabbo.VirtualId);
             whisp.AppendString(message);
@@ -453,7 +452,7 @@ namespace Yupi.Game.GameClients.Interfaces
         public static byte[] GetBytesNotif(string message, string title = "Aviso", string picture = "")
         {
             using (
-                ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"))
+                ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"))
                 )
             {
                 serverMessage.AppendString(picture);

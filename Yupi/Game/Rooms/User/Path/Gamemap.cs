@@ -990,7 +990,7 @@ namespace Yupi.Game.Rooms.User.Path
                         _room.GetRoomUserManager().GetRoomUserByVirtualId(Convert.ToInt32(user.HorseId));
                     roomUserByVirtualId.IsWalking = false;
                     roomUserByVirtualId.RemoveStatus("mv");
-                    ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("UpdateUserStatusMessageComposer"));
+                    ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("UpdateUserStatusMessageComposer"));
                     message.AppendInteger(1);
                     roomUserByVirtualId.SerializeStatus(message, "");
                     user.GetClient().GetHabbo().CurrentRoom.SendMessage(message);
@@ -1084,7 +1084,7 @@ namespace Yupi.Game.Rooms.User.Path
                 RoomUser roomUserByVirtualId =
                     _room.GetRoomUserManager().GetRoomUserByVirtualId(Convert.ToInt32(user.HorseId));
 
-                ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("UpdateUserStatusMessageComposer"));
+                ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("UpdateUserStatusMessageComposer"));
                 message.AppendInteger(1);
                 if (roomUserByVirtualId != null)
                 {
@@ -1613,7 +1613,7 @@ namespace Yupi.Game.Rooms.User.Path
         private ServerMessage NewHeightMap()
         {
             ServerMessage serverMessage = new ServerMessage();
-            serverMessage.Init(LibraryParser.OutgoingRequest("HeightMapMessageComposer"));
+            serverMessage.Init(PacketLibraryManager.OutgoingRequest("HeightMapMessageComposer"));
             serverMessage.AppendInteger(Model.MapSizeX);
             serverMessage.AppendInteger(Model.MapSizeX*Model.MapSizeY);
             for (int i = 0; i < Model.MapSizeY; i++)

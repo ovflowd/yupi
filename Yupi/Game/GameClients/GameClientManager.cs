@@ -10,7 +10,6 @@ using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Users.Messenger.Structs;
 using Yupi.Messages;
 using Yupi.Messages.Parsers;
-using Yupi.Net.Connection;
 
 namespace Yupi.Game.GameClients
 {
@@ -170,7 +169,7 @@ namespace Yupi.Game.GameClients
         internal void SendSuperNotif(string title, string notice, string picture, GameClient client, string link,
             string linkTitle, bool broadCast, bool Event)
         {
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("SuperNotificationMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
 
             serverMessage.AppendString(picture);
             serverMessage.AppendInteger(4);
@@ -298,6 +297,7 @@ namespace Yupi.Game.GameClients
             GameClient gameClient = new GameClient(clientId, connection);
 
             Clients.AddOrUpdate(clientId, gameClient, (key, value) => gameClient);
+
             _clientsAddQueue.Enqueue(gameClient);
         }
 

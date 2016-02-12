@@ -49,7 +49,7 @@ namespace Yupi.Game.Commands.Controllers
         {
             if (poll == null || poll.Type != PollType.Matching)
                 return;
-            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("MatchingPollMessageComposer"));
+            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("MatchingPollMessageComposer"));
             message.AppendString("MATCHING_POLL");
             message.AppendInteger(poll.Id);
             message.AppendInteger(poll.Id);
@@ -78,7 +78,7 @@ namespace Yupi.Game.Commands.Controllers
                     if (user.AnsweredPool)
                     {
                         ServerMessage result =
-                            new ServerMessage(LibraryParser.OutgoingRequest("MatchingPollResultMessageComposer"));
+                            new ServerMessage(PacketLibraryManager.OutgoingRequest("MatchingPollResultMessageComposer"));
                         result.AppendInteger(poll.Id);
                         result.AppendInteger(2);
                         result.AppendString("0");

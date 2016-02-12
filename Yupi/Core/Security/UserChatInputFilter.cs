@@ -90,7 +90,7 @@ namespace Yupi.Core.Security
                 Dictionary.Add(mode, dic);
             }
 
-            YupiWriterManager.WriteLine("Loaded " + Dictionary.Count + " filter modes.", "Yupi.Security");
+            YupiWriterManager.WriteLine("Loaded " + Dictionary.Count + " filter modes.", "Yupi.Safe");
         }
 
         /// <summary>

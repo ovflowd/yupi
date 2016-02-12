@@ -491,7 +491,7 @@ namespace Yupi.Game.Items.Wired
                 }
             }
 
-            session.SendMessage(new ServerMessage(LibraryParser.OutgoingRequest("SaveWiredMessageComposer")));
+            session.SendMessage(new ServerMessage(PacketLibraryManager.OutgoingRequest("SaveWiredMessageComposer")));
         }
 
         private static List<RoomItem> GetFurniItems(ClientMessage request, Room room)

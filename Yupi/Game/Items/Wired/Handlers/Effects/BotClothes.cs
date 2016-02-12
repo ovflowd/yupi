@@ -54,7 +54,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
                 return false;
 
             bot.BotData.Look = OtherExtraString;
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("SetRoomUserMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("SetRoomUserMessageComposer"));
             serverMessage.AppendInteger(1);
             bot.Serialize(serverMessage, false);
             Room.SendMessage(serverMessage);

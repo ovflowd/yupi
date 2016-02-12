@@ -20,7 +20,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
             if (item.ExtraData == "" || data.Length < 4)
                 return;
 
-            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("InternalLinkMessageComposer"));
+            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("InternalLinkMessageComposer"));
 
             message.AppendString(data[3]);
             session.SendMessage(message);

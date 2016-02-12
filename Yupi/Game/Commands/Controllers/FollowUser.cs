@@ -33,7 +33,7 @@ namespace Yupi.Game.Commands.Controllers
                 client.GetHabbo().CurrentRoom == session.GetHabbo().CurrentRoom)
                 return false;
             ServerMessage roomFwd =
-                new ServerMessage(LibraryParser.OutgoingRequest("RoomForwardMessageComposer"));
+                new ServerMessage(PacketLibraryManager.OutgoingRequest("RoomForwardMessageComposer"));
             roomFwd.AppendInteger(client.GetHabbo().CurrentRoom.RoomId);
             session.SendMessage(roomFwd);
 

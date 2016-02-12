@@ -79,7 +79,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
 
             if (amountLeft == 1)
             {
-                ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("WiredRewardAlertMessageComposer"));
+                ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredRewardAlertMessageComposer"));
 
                 message.AppendInteger(0);
                 user.GetClient().SendMessage(message);
@@ -97,7 +97,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
 
                 int random = Yupi.GetRandomNumber(0, 100);
 
-                ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("WiredRewardAlertMessageComposer"));
+                ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredRewardAlertMessageComposer"));
 
                 if (!unique && percentage < random)
                     continue;
@@ -142,7 +142,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
                             .AddNewItem(0u, roomItem.Name, "0", 0u, true, false, 0, 0);
                         user.GetClient()
                             .SendMessage(
-                                new ServerMessage(LibraryParser.OutgoingRequest("UpdateInventoryMessageComposer")));
+                                new ServerMessage(PacketLibraryManager.OutgoingRequest("UpdateInventoryMessageComposer")));
                     }
 
                     message.AppendInteger(6);
@@ -152,7 +152,7 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
 
             if (!premied)
             {
-                ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("WiredRewardAlertMessageComposer"));
+                ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("WiredRewardAlertMessageComposer"));
                 message.AppendInteger(4);
                 user.GetClient().SendMessage(message);
             }

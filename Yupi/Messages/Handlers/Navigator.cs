@@ -39,7 +39,7 @@ namespace Yupi.Messages.Handlers
             RoomData roomData = Yupi.GetGame().GetRoomManager().GenerateRoomData(roomId);
             if (roomData == null)
                 return;
-            GetResponse().Init(LibraryParser.OutgoingRequest("453"));
+            GetResponse().Init(PacketLibraryManager.OutgoingRequest("453"));
             GetResponse().AppendInteger(roomData.Id);
             GetResponse().AppendString(roomData.CcTs);
             GetResponse().AppendInteger(roomData.Id);
@@ -97,7 +97,7 @@ namespace Yupi.Messages.Handlers
             UserSearchLog naviLogs = new UserSearchLog(Session.GetHabbo().NavigatorLogs.Count, value1, value2);
             if (!Session.GetHabbo().NavigatorLogs.ContainsKey(naviLogs.Id))
                 Session.GetHabbo().NavigatorLogs.Add(naviLogs.Id, naviLogs);
-            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("NavigatorSavedSearchesComposer"));
+            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("NavigatorSavedSearchesComposer"));
             message.AppendInteger(Session.GetHabbo().NavigatorLogs.Count);
             foreach (UserSearchLog navi in Session.GetHabbo().NavigatorLogs.Values)
             {
@@ -154,7 +154,7 @@ namespace Yupi.Messages.Handlers
             if (!Session.GetHabbo().NavigatorLogs.ContainsKey(searchId))
                 return;
             Session.GetHabbo().NavigatorLogs.Remove(searchId);
-            ServerMessage message = new ServerMessage(LibraryParser.OutgoingRequest("NavigatorSavedSearchesComposer"));
+            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("NavigatorSavedSearchesComposer"));
             message.AppendInteger(Session.GetHabbo().NavigatorLogs.Count);
             foreach (UserSearchLog navi in Session.GetHabbo().NavigatorLogs.Values)
             {
@@ -205,7 +205,7 @@ namespace Yupi.Messages.Handlers
             RoomData roomData = Yupi.GetGame().GetRoomManager().GenerateRoomData(roomId);
             if (roomData == null)
                 return;
-            GetResponse().Init(LibraryParser.OutgoingRequest("1491"));
+            GetResponse().Init(PacketLibraryManager.OutgoingRequest("1491"));
             GetResponse().AppendInteger(0);
             roomData.Serialize(GetResponse());
             SendResponse();

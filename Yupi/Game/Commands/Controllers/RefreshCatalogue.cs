@@ -35,7 +35,7 @@ namespace Yupi.Game.Commands.Controllers
 
             Yupi.GetGame()
                 .GetClientManager()
-                .QueueBroadcaseMessage(new ServerMessage(LibraryParser.OutgoingRequest("PublishShopMessageComposer")));
+                .QueueBroadcaseMessage(new ServerMessage(PacketLibraryManager.OutgoingRequest("PublishShopMessageComposer")));
 
             return true;
         }

@@ -122,7 +122,7 @@ namespace Yupi.Core.Security
                     Word.Add(row[0].ToString().ToLower());
             }
 
-            YupiWriterManager.WriteLine("Loaded " + Word.Count + " Bobba Filters", "Yupi.Security");
+            YupiWriterManager.WriteLine("Loaded " + Word.Count + " Bobba Filters", "Yupi.Safe");
         }
 
         /// <summary>

@@ -193,7 +193,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Soccer
             double newZ = _room.GetGameMap().Model.SqFloorHeight[newX][newY];
 
             ServerMessage mMessage = new ServerMessage();
-            mMessage.Init(LibraryParser.OutgoingRequest("ItemAnimationMessageComposer")); // Cf
+            mMessage.Init(PacketLibraryManager.OutgoingRequest("ItemAnimationMessageComposer")); // Cf
             mMessage.AppendInteger(item.Coordinate.X);
             mMessage.AppendInteger(item.Coordinate.Y);
             mMessage.AppendInteger(newX);
@@ -370,7 +370,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Soccer
         private void HandleFootballGameItems(Point ballItemCoord, RoomUser user)
         {
             if (user == null || _room == null || _room.GetGameManager() == null) return;
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("RoomUserActionMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("RoomUserActionMessageComposer"));
 
             if (_room.GetGameManager()
                 .GetItems(Team.Red)

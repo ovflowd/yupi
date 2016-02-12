@@ -32,7 +32,7 @@ namespace Yupi.Game.Commands.Controllers
             session.GetHabbo().CurrentRoom.RoomMuted = true;
 
             /*
-            var message = new ServerMessage(LibraryParser.OutgoingRequest("AlertNotificationMessageComposer"));
+            var message = new ServerMessage(PacketLibraryManager.OutgoingRequest("AlertNotificationMessageComposer"));
             message.AppendString(string.Format("The room was muted due to:\r{0}", string.Join(" ", pms)));
             message.AppendString(string.Empty);
             room.SendMessage(message);*/

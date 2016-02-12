@@ -43,7 +43,7 @@ namespace Yupi.Game.Commands.Controllers
             }
 
             client.GetHabbo().FloodTime = Yupi.GetUnixTimeStamp() + Convert.ToInt32(pms[1]);
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("FloodFilterMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("FloodFilterMessageComposer"));
             serverMessage.AppendInteger(Convert.ToInt32(pms[1]));
             client.SendMessage(serverMessage);
             return true;

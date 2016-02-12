@@ -70,7 +70,7 @@ namespace Yupi.Game.Items.Interactions.Controllers
 
                 ServerMessage serverMessage = new ServerMessage();
 
-                serverMessage.Init(LibraryParser.OutgoingRequest("ItemAnimationMessageComposer"));
+                serverMessage.Init(PacketLibraryManager.OutgoingRequest("ItemAnimationMessageComposer"));
 
                 serverMessage.AppendInteger(item.X);
                 serverMessage.AppendInteger(item.Y);

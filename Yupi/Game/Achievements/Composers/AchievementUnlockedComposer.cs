@@ -43,7 +43,7 @@ namespace Yupi.Game.Achievements.Composers
         /// <returns>ServerMessage.</returns>
         internal static ServerMessage Compose(Achievement achievement, uint level, uint pointReward, uint pixelReward)
         {
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("UnlockAchievementMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("UnlockAchievementMessageComposer"));
 
             serverMessage.AppendInteger(achievement.Id);
             serverMessage.AppendInteger(level);

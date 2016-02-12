@@ -468,7 +468,7 @@ namespace Yupi.Game.Rooms.Data
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
 
-            message.Init(LibraryParser.OutgoingRequest("RoomDataMessageComposer"));
+            message.Init(PacketLibraryManager.OutgoingRequest("RoomDataMessageComposer"));
             message.AppendBool(show); //flatId
             Serialize(message, true, !isNotReload);
             message.AppendBool(isNotReload);

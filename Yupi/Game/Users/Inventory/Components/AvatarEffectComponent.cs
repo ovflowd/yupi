@@ -67,7 +67,7 @@ namespace Yupi.Game.Users.Inventory.Components
         /// <returns>ServerMessage.</returns>
         internal ServerMessage GetPacket()
         {
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("EffectsInventoryMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("EffectsInventoryMessageComposer"));
 
             serverMessage.AppendInteger(_effects.Count);
 
@@ -103,7 +103,7 @@ namespace Yupi.Game.Users.Inventory.Components
             GetClient()
                 .GetMessageHandler()
                 .GetResponse()
-                .Init(LibraryParser.OutgoingRequest("AddEffectToInventoryMessageComposer"));
+                .Init(PacketLibraryManager.OutgoingRequest("AddEffectToInventoryMessageComposer"));
 
             GetClient().GetMessageHandler().GetResponse().AppendInteger(effectId);
             GetClient().GetMessageHandler().GetResponse().AppendInteger(type);
@@ -209,7 +209,7 @@ namespace Yupi.Game.Users.Inventory.Components
             GetClient()
                 .GetMessageHandler()
                 .GetResponse()
-                .Init(LibraryParser.OutgoingRequest("StopAvatarEffectMessageComposer"));
+                .Init(PacketLibraryManager.OutgoingRequest("StopAvatarEffectMessageComposer"));
 
             GetClient().GetMessageHandler().GetResponse().AppendInteger(effectId);
             GetClient().GetMessageHandler().SendResponse();
@@ -251,7 +251,7 @@ namespace Yupi.Game.Users.Inventory.Components
             if (setAsCurrentEffect)
                 CurrentEffect = effectId;
 
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("ApplyEffectMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("ApplyEffectMessageComposer"));
 
             serverMessage.AppendInteger(roomUserByHabbo.VirtualId);
             serverMessage.AppendInteger(effectId);

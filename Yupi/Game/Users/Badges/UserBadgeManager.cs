@@ -104,7 +104,7 @@ namespace Yupi.Game.Users.Badges
         {
             ServerMessage serverMessage = new ServerMessage();
 
-            serverMessage.Init(LibraryParser.OutgoingRequest("ReceiveBadgeMessageComposer"));
+            serverMessage.Init(PacketLibraryManager.OutgoingRequest("ReceiveBadgeMessageComposer"));
             serverMessage.AppendInteger(1);
             serverMessage.AppendString(badge);
 
@@ -120,7 +120,7 @@ namespace Yupi.Game.Users.Badges
         {
             ServerMessage serverMessage = new ServerMessage();
 
-            serverMessage.Init(LibraryParser.OutgoingRequest("WiredRewardAlertMessageComposer"));
+            serverMessage.Init(PacketLibraryManager.OutgoingRequest("WiredRewardAlertMessageComposer"));
             serverMessage.AppendInteger(success ? 7 : 1);
 
             return serverMessage;
@@ -165,7 +165,7 @@ namespace Yupi.Game.Users.Badges
         /// <returns>ServerMessage.</returns>
         internal ServerMessage Update(string badgeId)
         {
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("NewInventoryObjectMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("NewInventoryObjectMessageComposer"));
 
             serverMessage.AppendInteger(1);
             serverMessage.AppendInteger(4);
@@ -183,7 +183,7 @@ namespace Yupi.Game.Users.Badges
         {
             List<Badge> list = new List<Badge>();
 
-            ServerMessage serverMessage = new ServerMessage(LibraryParser.OutgoingRequest("LoadBadgesWidgetMessageComposer"));
+            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("LoadBadgesWidgetMessageComposer"));
             serverMessage.AppendInteger(Count);
 
             foreach (Badge badge in BadgeList.Values)
