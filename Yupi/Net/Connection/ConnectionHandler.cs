@@ -28,7 +28,6 @@ using Helios.Topology;
 using Yupi.Core.Encryption.Hurlant.Crypto.Prng;
 using Yupi.Core.Io.Logger;
 using Yupi.Messages.Parsers.Interfaces;
-using Yupi.Net.Settings;
 
 namespace Yupi.Net.Connection
 {
@@ -60,12 +59,12 @@ namespace Yupi.Net.Connection
         /// <summary>
         ///     The ar c4 client side
         /// </summary>
-        public Arc4 Arc4ClientSide;
+        internal Arc4 Arc4ClientSide;
 
         /// <summary>
         ///     The ar c4 server side
         /// </summary>
-        public Arc4 Arc4ServerSide;
+        internal Arc4 Arc4ServerSide;
 
         public ConnectionHandler(INode connectionInfo, IConnection connectionChannel, IDataParser dataParser, uint connectionId)
         {
@@ -75,55 +74,21 @@ namespace Yupi.Net.Connection
             DataParser = dataParser;
         }
 
-        public void OnReceive(NetworkData incomingData, IConnection responseChannel)
+        private void OnReceive(NetworkData incomingData, IConnection responseChannel)
         {
-            YupiWriterManager.WriteLine($"Received: {incomingData.Length} bytes.", "Yupi.Net");
-
-            if (!responseChannel.IsOpen())
-                return;
-
-            responseChannel.Receive += HandlePacketData;
-        }
-
-        public void HandlePacketData(NetworkData incomingData, IConnection responseChannel)
-        {
-            Console.WriteLine("Comecou Packet Data");
-
-            if (!responseChannel.IsOpen())
-                return;
-
-            Console.WriteLine("Handle Packet Data");
+            ConnectionManager.ServerPrint(responseChannel.RemoteHost, $"recieved {incomingData.Length} bytes");
 
             try
             {
-                if (incomingData.Length != 0)
-                {
-                    HandleFinallyData(incomingData.Buffer, incomingData.Length);
-                }
-                else
-                    Disconnect();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Chamado Disconnect  Handle.");
+                byte[] dataBytes = incomingData.Buffer;
 
-                Disconnect(e);
+                Arc4ServerSide?.Parse(ref dataBytes);
+
+                DataParser.HandlePacketData(dataBytes, incomingData.Length);
             }
             finally
             {
-                Console.WriteLine("Chamado Start  Handle.");
-
                 StartReceivingData();
-            }    
-        }
-
-        private void HandleFinallyData(byte[] dataBytes, int dataLength)
-        {
-            if (DataParser != null)
-            {
-                Arc4ServerSide?.Parse(ref dataBytes);
-
-                DataParser.HandlePacketData(dataBytes, dataLength);
             }
         }
 
@@ -131,14 +96,7 @@ namespace Yupi.Net.Connection
         {
             Console.WriteLine("Start Receiving OK.");
 
-            try
-            {
-                ConnectionChannel.BeginReceive(OnReceive);
-            }
-            catch (Exception e)
-            {
-               Disconnect(e);
-            }  
+            ConnectionChannel.BeginReceive(OnReceive);
         } 
 
         public void SendData(byte[] dataBytes)
@@ -153,27 +111,15 @@ namespace Yupi.Net.Connection
 
                 ConnectionChannel.Send(networkData);
             }
-            catch (Exception e)
+            catch
             {
-                Disconnect(e);
-            }
+                Disconnect();
+            }      
         }
 
-        public void Disconnect() => Disconnect(null);
-
-        public void Disconnect(Exception ex)
+        public void Disconnect()
         {
-            try
-            {
-                ConnectionChannel.Close();
-            }
-            catch (Exception e)
-            {
-                YupiWriterManager.WriteLine($"Error: {e}", "Yupi.Net");
-            }
-
-            if(ex != null)
-                YupiWriterManager.WriteLine($"Error: {ex}", "Yupi.Net");
+            ConnectionChannel.Close();
 
             DataParser.Dispose();
         } 

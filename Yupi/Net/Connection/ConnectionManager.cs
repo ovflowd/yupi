@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Net.Sockets;
+using System.Text;
 using Helios.Exceptions;
 using Helios.Net;
 using Helios.Reactor;
@@ -15,70 +17,59 @@ namespace Yupi.Net.Connection
         /// <summary>
         ///     Connection Reactor
         /// </summary>
-        private readonly IReactor _reactor;
+        public static IReactor Reactor;
 
         /// <summary>
         ///     Data Parser
         /// </summary>
-        public IDataParser DataParser;
+        public static IDataParser DataParser;
 
         /// <summary>
         ///     Add Connection to Count
         /// </summary>
-        public uint AddConnection() => ServerFactorySettings.AddConnection();
+        public static uint AddConnection() => ServerFactorySettings.AddConnection();
 
         /// <summary>
         ///     Count Accepted Connections
         /// </summary>
-        public uint CountAcceptedConnections() => ServerFactorySettings.CountAcceptedConnections();
+        public static uint CountAcceptedConnections() => ServerFactorySettings.CountAcceptedConnections();
 
-        public ConnectionManager(IDataParser dataParser)
+        public static void ServerPrint(INode node, string message)
+        {
+            Console.WriteLine("[{0}] {1}:{2}: {3}", DateTime.UtcNow, node.Host, node.Port, message);
+        }
+
+        public static void Init(IDataParser dataParser)
         {
             DataParser = dataParser;
 
             IServerFactory serverFactory = new ServerBootstrap()
                 .SetTransport(ServerFactorySettings.ServerTransportType)
-                .OnConnect(OnConnection)
-                .OnDisconnect(OnDisconnection)
-                .OnError(OnError)
                 .WorkerThreads(ServerFactorySettings.WorkerThreads)
                 .BufferSize(ServerFactorySettings.BufferSize)
                 .Build();
 
-            INode node = NodeBuilder.BuildNode()
+            Reactor = serverFactory.NewReactor(NodeBuilder.BuildNode()
                 .Host(ServerFactorySettings.AllowedAddresses)
-                .WithPort(ServerFactorySettings.ServerPort);
+                .WithPort(ServerFactorySettings.ServerPort));
 
-            _reactor = serverFactory.NewReactor(node);
+            Reactor.OnConnection += (node, channel) =>
+            {
+                ServerPrint(node, $"Accepting connection from... {node.Host}:{node.Port}");
+
+                ConnectionHandler currentConnection = new ConnectionHandler(node, channel, DataParser.Clone() as IDataParser, AddConnection());
+
+                Yupi.GetGame().GetClientManager().CreateAndStartClient(currentConnection.ConnectionId, currentConnection);
+            };
+
+            Reactor.OnDisconnection += (reason, address) =>
+            {
+                ServerPrint(address.RemoteHost, $"Closed connection to... {address.RemoteHost.Host}:{address.RemoteHost.Port} [Reason:{reason.Type}]");
+            };
         }
 
-        public void Stop() => _reactor.Stop();
+        public static void Stop() => Reactor.Stop();
 
-        public void Start() => _reactor.Start();
-
-        private void OnDisconnection(HeliosConnectionException exception, IConnection closedChannel)
-        {
-            YupiWriterManager.WriteLine($"Disconnected: {exception}", "Yupi.Net");
-        }
-
-        private void OnConnection(INode remoteAddress, IConnection responseChannel)
-        {
-            YupiWriterManager.WriteLine($"Connected: {remoteAddress.Host}", "Yupi.Net");
-
-            ConnectionHandler currentConnection = new ConnectionHandler(remoteAddress, responseChannel, DataParser.Clone() as IDataParser, AddConnection());
-
-            Console.WriteLine("Handler OK.");
-
-            Yupi.GetGame().GetClientManager().CreateAndStartClient(currentConnection.ConnectionId, currentConnection);
-
-            Console.WriteLine("Client OK.");
-        }
-
-        private void OnError(Exception ex, IConnection connection) => YupiWriterManager.WriteLine($"Error: {ex}", "Yupi.Net");
-
-        /// <summary>
-        ///     Destroys the Connection Manager
-        /// </summary>
-        public void Destroy() => _reactor.Stop();
+        public static void Start() => Reactor.Start();
     }
 }

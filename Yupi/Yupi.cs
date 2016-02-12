@@ -146,11 +146,6 @@ namespace Yupi
         internal static readonly ConcurrentDictionary<uint, Habbo> UsersCached = new ConcurrentDictionary<uint, Habbo>();
 
         /// <summary>
-        ///     The Connection Manager
-        /// </summary>
-        internal static ConnectionManager YupiUserConnectionManager;
-
-        /// <summary>
         ///     The Server Default Encoding
         /// </summary>
         internal static Encoding YupiServerTextEncoding;
@@ -423,9 +418,9 @@ namespace Yupi
 
                 ServerFactorySettings.Init(TransportType.Tcp, IPAddress.Any, int.Parse(ServerConfigurationSettings.Data["game.tcp.port"]), 2, 4072, true);
 
-                YupiUserConnectionManager = new ConnectionManager(new InitialPacketParser());
+                ConnectionManager.Init(new InitialPacketParser());
 
-                YupiUserConnectionManager.Start();
+                ConnectionManager.Start();
 
                 YupiWriterManager.WriteLine("Server Started at Port " + ServerConfigurationSettings.Data["game.tcp.port"] + " and Address " + ServerConfigurationSettings.Data["game.tcp.bindip"], "Yupi.Boot");
 
@@ -631,12 +626,6 @@ namespace Yupi
         internal static Encoding GetDefaultEncoding() => YupiServerTextEncoding;
 
         /// <summary>
-        ///     Get's the HabboHotel Connection YupiDatabaseManager Handler
-        /// </summary>
-        /// <returns>ConnectionHandling.</returns>
-        internal static ConnectionManager GetConnectionManager() => YupiUserConnectionManager;
-
-        /// <summary>
         ///     Get's the HabboHotel Environment Handler
         /// </summary>
         /// <returns>HabboHotel.</returns>
@@ -699,7 +688,7 @@ namespace Yupi
 
             GetGame().GetClientManager().CloseAll();
 
-            GetConnectionManager().Destroy();
+            ConnectionManager.Stop();
 
             foreach (Group group in GetGame().GetGroupManager().Groups.Values)
                 group.UpdateForum();
@@ -711,7 +700,7 @@ namespace Yupi
                 queryReactor.RunFastQuery("TRUNCATE TABLE users_rooms_visits");
             }
 
-            GetConnectionManager().Destroy();
+            ConnectionManager.Stop();
 
             GetGame().Destroy();
 
