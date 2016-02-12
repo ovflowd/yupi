@@ -672,6 +672,7 @@
     <Compile Include="Game\Users\Factories\UserDataFactory.cs" />
     <Compile Include="Game\Users\Data\Exceptions\UserDataNotFoundException.cs" />
     <Compile Include="NewNet\Connection\ConnectionManager.cs" />
+    <Compile Include="NewNet\Settings\ServerFactorySettings.cs" />
     <Compile Include="Yupi.cs" />
     <Compile Include="Messages\ClientMessage.cs" />
     <Compile Include="Messages\Handlers\Others.cs" />

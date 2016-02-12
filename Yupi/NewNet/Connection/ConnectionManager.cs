@@ -1,41 +1,91 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
+using Helios.Exceptions;
+using Helios.Net;
 using Helios.Reactor;
 using Helios.Reactor.Bootstrap;
 using Helios.Topology;
+using Yupi.Core.Io.Logger;
 using Yupi.Messages.Parsers.Interfaces;
+using Yupi.Net.Packets;
+using Yupi.NewNet.Settings;
 
 namespace Yupi.NewNet.Connection
 {
-    public class ConnectionManager
+    internal class ConnectionManager
     {
-        public IServerFactory ServerFactory;
-
-        public IReactor Reactor;
+        /// <summary>
+        ///     Connection Reactor
+        /// </summary>
+        private readonly IReactor _reactor;
 
         /// <summary>
-        ///     The _parser
+        ///     Data Parser
         /// </summary>
         public IDataParser DataParser;
 
         /// <summary>
-        ///     Count of accepeted connections
+        ///     Server Settings
         /// </summary>
-        public uint AcceptedConnections;
-
-        public void Init(int serverPort, int maxConnections, int maxConnectionsPerIp, IDataParser initialPacketData)
-        {
-            AcceptedConnections = 0;
-
-            DataParser = initialPacketData;
-
-            ServerFactory = new ServerBootstrap().SetTransport(TransportType.Tcp).Build();
-
-            Reactor = ServerFactory.NewReactor(NodeBuilder.BuildNode().Host(IPAddress.Any).WithPort(serverPort));
-        }
+        private readonly ServerFactorySettings _serverSettings;
 
         /// <summary>
-        ///     Destroys this instance.
+        ///     Add Connection to Count
         /// </summary>
-        public void Destroy() => Reactor.Stop();
+        public uint AddConnection() => _serverSettings.AddConnection();
+
+        /// <summary>
+        ///     Count Accepted Connections
+        /// </summary>
+        public uint CountAcceptedConnections() => _serverSettings.CountAcceptedConnections();
+
+        public ConnectionManager(IDataParser dataParser, ServerFactorySettings serverSettings)
+        {
+            DataParser = dataParser;
+
+            _serverSettings = serverSettings;
+
+            IServerFactory serverFactory = new ServerBootstrap()
+                .SetTransport(_serverSettings.ServerTransportType)
+                .OnConnect(OnConnection)
+                .OnDisconnect(OnDisconnection)
+                .OnError(OnError)
+                .WorkerThreads(_serverSettings.WorkerThreads)
+                .BufferSize(_serverSettings.BufferSize)
+                .Build();
+
+            INode node = NodeBuilder.BuildNode()
+                .Host(_serverSettings.AllowedAddresses)
+                .WithPort(_serverSettings.ServerPort);
+
+            _reactor = serverFactory.NewReactor(node);
+        }
+
+        public void Stop() => _reactor.Stop();
+
+        public void Start() => _reactor.Start();
+
+        private void OnDisconnection(Exception exception, IConnection closedChannel)
+        {
+            YupiWriterManager.WriteLine($"Disconnected: {exception}", "Yupi.Net");
+
+            closedChannel.Close();
+        }
+
+        private void OnConnection(INode remoteAddress, IConnection responseChannel)
+        {
+            YupiWriterManager.WriteLine($"Connected: {remoteAddress.Host}", "Yupi.Net");
+
+            ConnectionHandler currentConnection = new ConnectionHandler(remoteAddress, responseChannel, DataParser.Clone() as IDataParser, AddConnection());
+
+            Yupi.GetGame().GetClientManager().CreateAndStartClient(currentConnection.ConnectionId, currentConnection);
+        }
+
+        private void OnError(Exception ex, IConnection connection) => YupiWriterManager.WriteLine($"Error: {ex}", "Yupi.Net");
+
+        /// <summary>
+        ///     Destroys the Connection Manager
+        /// </summary>
+        public void Destroy() => _reactor.Stop();
     }
 }

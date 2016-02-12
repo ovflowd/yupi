@@ -22,13 +22,11 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-using System;
-using Helios.Exceptions;
 using Helios.Net;
 using Helios.Topology;
+using Yupi.Core.Encryption.Hurlant.Crypto.Prng;
 using Yupi.Core.Io.Logger;
 using Yupi.Messages.Parsers.Interfaces;
-using Yupi.Net.Packets;
 
 namespace Yupi.NewNet.Connection
 {
@@ -38,64 +36,91 @@ namespace Yupi.NewNet.Connection
     public class ConnectionHandler
     {
         /// <summary>
-        ///     The manager
+        ///     Connection Info
         /// </summary>
-        public ConnectionManager Manager;
+        public INode ConnectionInfo;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ConnectionHandler" /> class.
+        ///     Connection Data
         /// </summary>
-        /// <param name="port">The port.</param>
-        /// <param name="maxConnections">The maximum connections.</param>
-        /// <param name="connectionsPerIp">The connections per ip.</param>
-        public ConnectionHandler(int port, int maxConnections, int connectionsPerIp)
+        public IConnection ConnectionChannel;
+
+        /// <summary>
+        ///     Connection Identifier
+        /// </summary>
+        public uint ConnectionId;
+
+        /// <summary>
+        ///     Data Parser
+        /// </summary>
+        public IDataParser DataParser;
+
+        /// <summary>
+        ///     The ar c4 client side
+        /// </summary>
+        internal Arc4 Arc4ClientSide;
+
+        /// <summary>
+        ///     The ar c4 server side
+        /// </summary>
+        internal Arc4 Arc4ServerSide;
+
+        public ConnectionHandler(INode connectionInfo, IConnection connectionChannel, IDataParser dataParser, uint connectionId)
         {
-            Manager = new ConnectionManager();
-
-            Manager.Init(port, maxConnections, connectionsPerIp, new InitialPacketParser());
-
-            Manager.Reactor.OnConnection += OnConnection;
-
-            Manager.Reactor.OnDisconnection += OnDisconnection;
-
-            Manager.Reactor.OnError += OnError;
-
-            Manager.Reactor.OnReceive += OnReceive;
-
-            Manager.Reactor.Start();
+            ConnectionInfo = connectionInfo;
+            ConnectionChannel = connectionChannel;
+            ConnectionId = connectionId;
+            DataParser = dataParser;
         }
 
         private void OnReceive(NetworkData incomingData, IConnection responseChannel)
         {
-            YupiWriterManager.WriteLine("Recebeu...", "Yupi.Net");
+            YupiWriterManager.WriteLine("Received: ", "Yupi.Net");
 
-            responseChannel.BeginReceive();
+            HandlePacketData(incomingData.Buffer, incomingData.Length);
         }
 
-        private void OnDisconnection(HeliosConnectionException reason, IConnection closedChannel)
+        private void HandlePacketData(byte[] dataBytes, int dataLength)
         {
-            YupiWriterManager.WriteLine($"Disconnected: {reason}", "Yupi.Net");
+            try
+            {
+                Arc4ServerSide?.Parse(ref dataBytes);
+
+                DataParser.HandlePacketData(dataBytes, dataLength);
+            }
+            finally
+            {
+                StartReceivingData();
+            }
         }
 
-        private void OnConnection(INode remoteAddress, IConnection responseChannel)
+        private void HandlePacketData(NetworkData incomingData, IConnection responseChannel)
         {
-            YupiWriterManager.WriteLine("Opened Connection", "Yupi.Net");
+            try
+            {
+                byte[] dataBytes = incomingData.Buffer;
 
-            Manager.AcceptedConnections++;
+                Arc4ServerSide?.Parse(ref dataBytes);
 
-            ConnectionData connectionInfo = new ConnectionData(remoteAddress, responseChannel, Manager.DataParser.Clone() as IDataParser, Manager.AcceptedConnections);
-
-            Yupi.GetGame().GetClientManager().CreateAndStartClient(connectionInfo.GetConnectionId(), connectionInfo);
+                DataParser.HandlePacketData(dataBytes, incomingData.Length);
+            }
+            finally
+            {
+                StartReceivingData();
+            }    
         }
 
-        private void OnError(Exception ex, IConnection connection)
+        public void StartReceivingData() => ConnectionChannel.BeginReceive(OnReceive);
+
+        public void SendData(byte[] dataBytes)
         {
-            YupiWriterManager.WriteLine($"Error: {ex}", "Yupi.Net");
+            Arc4ClientSide?.Parse(ref dataBytes);
+
+            NetworkData networkData = NetworkData.Create(ConnectionChannel.RemoteHost, dataBytes, dataBytes.Length);
+
+            ConnectionChannel.Send(networkData);
         }
 
-        /// <summary>
-        ///     Destroys this instance.
-        /// </summary>
-        public void Destroy() => Manager.Destroy();
+        public void Disconnect() => ConnectionChannel.Close();
     }
 }

@@ -13,6 +13,7 @@ using Yupi.Messages.Enums;
 using Yupi.Messages.Handlers;
 using Yupi.Messages.Parsers;
 using Yupi.Net.Packets;
+using Yupi.NewNet.Connection;
 
 namespace Yupi.Game.GameClients.Interfaces
 {
@@ -22,9 +23,9 @@ namespace Yupi.Game.GameClients.Interfaces
     public class GameClient
     {
         /// <summary>
-        ///     The _connection
+        ///     The CLient Connection
         /// </summary>
-        private ConnectionData _connection;
+        private ConnectionHandler _connection;
 
         /// <summary>
         ///     The _disconnected
@@ -76,11 +77,14 @@ namespace Yupi.Game.GameClients.Interfaces
         /// </summary>
         /// <param name="clientId">The client identifier.</param>
         /// <param name="connection">The connection.</param>
-        internal GameClient(uint clientId, ConnectionData connection)
+        internal GameClient(uint clientId, ConnectionHandler connection)
         {
             ConnectionId = clientId;
+
             _connection = connection;
+
             CurrentRoomUserId = -1;
+
             PacketParser = new ServerPacketParser();
         }
 
@@ -168,7 +172,7 @@ namespace Yupi.Game.GameClients.Interfaces
         ///     Gets the connection.
         /// </summary>
         /// <returns>ConnectionInformation.</returns>
-        internal ConnectionData GetConnection() => _connection;
+        internal ConnectionHandler GetConnection() => _connection;
 
         /// <summary>
         ///     Gets the message handler.
@@ -192,17 +196,17 @@ namespace Yupi.Game.GameClients.Interfaces
 
             TimePingedReceived = DateTime.Now;
 
-            InitialPacketParser packetParser = _connection.Parser as InitialPacketParser;
+            InitialPacketParser packetParser = _connection.DataParser as InitialPacketParser;
 
             if (packetParser != null)
                 packetParser.PolicyRequest += PolicyRequest;
 
-            InitialPacketParser initialPacketParser = _connection.Parser as InitialPacketParser;
+            InitialPacketParser initialPacketParser = _connection.DataParser as InitialPacketParser;
 
             if (initialPacketParser != null)
                 initialPacketParser.SwitchParserRequest += SwitchParserRequest;
 
-            _connection.StartPacketProcessing();
+            _connection.StartReceivingData();
         }
 
         /// <summary>
@@ -225,7 +229,7 @@ namespace Yupi.Game.GameClients.Interfaces
                 if (string.IsNullOrWhiteSpace(authTicket))
                     return false;
 
-                string ip = GetConnection().GetIp();
+                string ip = GetConnection().ConnectionInfo.Host.ToString();
 
                 if (string.IsNullOrEmpty(ip))
                     return false;
@@ -503,7 +507,7 @@ namespace Yupi.Game.GameClients.Interfaces
             if (_disconnected)
                 return;
 
-            _connection?.Dispose();
+            _connection?.Disconnect();
             _disconnected = true;
         }
 
@@ -561,9 +565,9 @@ namespace Yupi.Game.GameClients.Interfaces
 
             PacketParser.SetConnection(_connection, this);
 
-            _connection.Parser.Dispose();
-            _connection.Parser = PacketParser;
-            _connection.Parser.HandlePacketData(data, amountOfBytes);
+            _connection.DataParser.Dispose();
+            _connection.DataParser = PacketParser;
+            _connection.DataParser.HandlePacketData(data, amountOfBytes);
         }
 
         /// <summary>

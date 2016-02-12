@@ -22,26 +22,30 @@ namespace Yupi.Game.Commands.Controllers
         public override bool Execute(GameClient session, string[] pms)
         {
             GameClient user = Yupi.GetGame().GetClientManager().GetClientByUserName(pms[0]);
-            if (user == null || user.GetHabbo() == null)
+
+            if (user?.GetHabbo() == null)
             {
                 session.SendWhisper(Yupi.GetLanguage().GetVar("user_not_found"));
+
                 return true;
             }
+
             if (user.GetHabbo().Rank >= session.GetHabbo().Rank)
             {
                 session.SendWhisper(Yupi.GetLanguage().GetVar("user_is_higher_rank"));
+
                 return true;
             }
+
             try
             {
-                user.GetConnection().Dispose();
-                Yupi.GetGame()
-                    .GetModerationTool()
-                    .LogStaffEntry(session.GetHabbo().UserName, user.GetHabbo().UserName, "dc",
-                        $"Disconnect User[{pms[1]}]");
+                user.GetConnection().Disconnect();
+
+                Yupi.GetGame().GetModerationTool().LogStaffEntry(session.GetHabbo().UserName, user.GetHabbo().UserName, "dc", $"Disconnect User[{pms[1]}]");
             }
             catch
             {
+
             }
 
             return true;

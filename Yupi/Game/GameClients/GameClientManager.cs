@@ -10,6 +10,7 @@ using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Users.Messenger.Structs;
 using Yupi.Messages;
 using Yupi.Messages.Parsers;
+using Yupi.NewNet.Connection;
 
 namespace Yupi.Game.GameClients
 {
@@ -292,7 +293,7 @@ namespace Yupi.Game.GameClients
         /// </summary>
         /// <param name="clientId">The client identifier.</param>
         /// <param name="connection">The connection.</param>
-        internal void CreateAndStartClient(uint clientId, ConnectionData connection)
+        internal void CreateAndStartClient(uint clientId, ConnectionHandler connection)
         {
             GameClient gameClient = new GameClient(clientId, connection);
 
@@ -404,7 +405,7 @@ namespace Yupi.Game.GameClients
 
                 foreach (GameClient current3 in Clients.Values.Where(current3 => current3.GetConnection() != null))
                 {
-                    current3.GetConnection().Dispose();
+                    current3.GetConnection().Disconnect();
 
                     Console.ForegroundColor = ConsoleColor.DarkMagenta;
 
@@ -432,6 +433,7 @@ namespace Yupi.Game.GameClients
                 return;
 
             GameClient old = (GameClient) _userNameRegister[oldName.ToLower()];
+
             _userNameRegister.Remove(oldName.ToLower());
             _userNameRegister.Add(newName.ToLower(), old);
         }

@@ -29,6 +29,7 @@ using Yupi.Game.GameClients.Interfaces;
 using Yupi.Messages;
 using Yupi.Messages.Factorys;
 using Yupi.Messages.Parsers.Interfaces;
+using Yupi.NewNet.Connection;
 
 namespace Yupi.Net.Packets
 {
@@ -181,10 +182,7 @@ namespace Yupi.Net.Packets
         /// <summary>
         ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
-        public void Dispose()
-        {
-            ServerMemoryContainer.GiveBuffer(_bufferedData);
-        }
+        public void Dispose() => ServerMemoryContainer.GiveBuffer(_bufferedData);
 
         /// <summary>
         ///     Creates a new object that is a copy of the current instance.
@@ -197,10 +195,7 @@ namespace Yupi.Net.Packets
         /// </summary>
         /// <param name="con">The con.</param>
         /// <param name="me">Me.</param>
-        public void SetConnection(ConnectionData con, GameClient me)
-        {
-            _currentClient = me;
-        }
+        public void SetConnection(ConnectionHandler con, GameClient me) => _currentClient = me;
 
         /// <summary>
         ///     Handles the message.

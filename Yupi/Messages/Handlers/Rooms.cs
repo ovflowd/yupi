@@ -132,7 +132,7 @@ namespace Yupi.Messages.Handlers
 
         internal void OnlineConfirmationEvent()
         {
-            YupiWriterManager.WriteLine(Request.GetString() + " joined game. With IP " + Session.GetConnection().GetIp(), "Yupi.Users", ConsoleColor.DarkGreen);
+            YupiWriterManager.WriteLine(Request.GetString() + " joined game. With IP " + Session.GetConnection().ConnectionInfo.Host, "Yupi.Users", ConsoleColor.DarkGreen);
 
             if (!ServerConfigurationSettings.Data.ContainsKey("welcome.message.enabled") ||
                 ServerConfigurationSettings.Data["welcome.message.enabled"] != "true")
@@ -2779,10 +2779,7 @@ namespace Yupi.Messages.Handlers
             if (room == null)
                 return;
 
-            if (Session == null)
-                return;
-
-            if (Session.GetHabbo() == null)
+            if (Session?.GetHabbo() == null)
                 return;
 
             RoomUser roomUserByHabbo = room.GetRoomUserManager()?.GetRoomUserByHabbo(Session.GetHabbo().Id);
@@ -2790,10 +2787,7 @@ namespace Yupi.Messages.Handlers
             if (roomUserByHabbo == null)
                 return;
 
-            string msg = Request.GetString();
-
-            if (msg == null)
-                msg = string.Empty;
+            string msg = Request.GetString() ?? string.Empty;
 
             int bubble = Request.GetInteger();
 
@@ -2819,7 +2813,7 @@ namespace Yupi.Messages.Handlers
             {
                 Point[] coords = room.GetGameMap().CoordinatedItems.Keys.OfType<Point>().ToArray();
 
-                Response.AppendInteger(coords.Count());
+                Response.AppendInteger(coords.Length);
 
                 foreach (Point point in coords)
                 {

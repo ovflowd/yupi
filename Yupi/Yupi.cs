@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Timers;
@@ -28,7 +29,9 @@ using Yupi.Messages.Factorys;
 using Yupi.Messages.Parsers;
 using Yupi.Game;
 using Yupi.Data.Base.Managers.Interfaces;
+using Yupi.Net.Packets;
 using Yupi.NewNet.Connection;
+using Yupi.NewNet.Settings;
 
 namespace Yupi
 {
@@ -143,12 +146,12 @@ namespace Yupi
         internal static readonly ConcurrentDictionary<uint, Habbo> UsersCached = new ConcurrentDictionary<uint, Habbo>();
 
         /// <summary>
-        ///     The _connection manager
+        ///     The Connection Manager
         /// </summary>
-        internal static ConnectionHandler YupiUserConnectionManager;
+        internal static ConnectionManager YupiUserConnectionManager;
 
         /// <summary>
-        ///     The _default encoding
+        ///     The Server Default Encoding
         /// </summary>
         internal static Encoding YupiServerTextEncoding;
 
@@ -418,10 +421,10 @@ namespace Yupi
 
                 ClientMessageFactory.Init();
 
-                YupiUserConnectionManager = new ConnectionHandler(int.Parse(ServerConfigurationSettings.Data["game.tcp.port"]),
-                    int.Parse(ServerConfigurationSettings.Data["game.tcp.conlimit"]),
-                    int.Parse(ServerConfigurationSettings.Data["game.tcp.conperip"]));
-                    
+                YupiUserConnectionManager = new ConnectionManager(new InitialPacketParser(), new ServerFactorySettings(TransportType.Tcp, IPAddress.Any, int.Parse(ServerConfigurationSettings.Data["game.tcp.port"]), 2, 4072, true));
+
+                YupiUserConnectionManager.Start();
+
                 YupiWriterManager.WriteLine("Server Started at Port " + ServerConfigurationSettings.Data["game.tcp.port"] + " and Address " + ServerConfigurationSettings.Data["game.tcp.bindip"], "Yupi.Boot");
 
                 if (PacketLibraryManager.Config["crypto.enabled"] == "true")
@@ -629,7 +632,7 @@ namespace Yupi
         ///     Get's the HabboHotel Connection YupiDatabaseManager Handler
         /// </summary>
         /// <returns>ConnectionHandling.</returns>
-        internal static ConnectionHandler GetConnectionManager() => YupiUserConnectionManager;
+        internal static ConnectionManager GetConnectionManager() => YupiUserConnectionManager;
 
         /// <summary>
         ///     Get's the HabboHotel Environment Handler

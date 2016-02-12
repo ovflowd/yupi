@@ -168,8 +168,7 @@ namespace Yupi.Core.Settings
                         Console.WriteLine("\tMinutes: {0}", uptime.Minutes);
                         Console.WriteLine();
                         Console.WriteLine("Stats:");
-                        Console.WriteLine("\tAccepted Connections: {0}",
-                            Yupi.GetConnectionManager().Manager.AcceptedConnections);
+                        Console.WriteLine("\tAccepted Connections: {0}", Yupi.GetConnectionManager().CountAcceptedConnections());
                         Console.WriteLine("\tActive Threads: {0}", Process.GetCurrentProcess().Threads.Count);
                         Console.WriteLine();
                         Console.WriteLine();

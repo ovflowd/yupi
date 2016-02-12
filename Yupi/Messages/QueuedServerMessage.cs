@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Yupi.NewNet.Connection;
 
 namespace Yupi.Messages
 {
@@ -15,15 +16,16 @@ namespace Yupi.Messages
         /// <summary>
         ///     The _user connection
         /// </summary>
-        private ConnectionData _userConnection;
+        private ConnectionHandler _userConnection;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="QueuedServerMessage" /> class.
         /// </summary>
         /// <param name="connection">The connection.</param>
-        public QueuedServerMessage(ConnectionData connection)
+        public QueuedServerMessage(ConnectionHandler connection)
         {
             _userConnection = connection;
+
             _packet = new List<byte>();
         }
 
@@ -46,19 +48,13 @@ namespace Yupi.Messages
         ///     Appends the response.
         /// </summary>
         /// <param name="message">The message.</param>
-        internal void AppendResponse(ServerMessage message)
-        {
-            AppendBytes(message.GetReversedBytes());
-        }
+        internal void AppendResponse(ServerMessage message) => AppendBytes(message.GetReversedBytes());
 
         /// <summary>
         ///     Adds the bytes.
         /// </summary>
         /// <param name="bytes">The bytes.</param>
-        internal void AddBytes(byte[] bytes)
-        {
-            AppendBytes(bytes);
-        }
+        internal void AddBytes(byte[] bytes) => AppendBytes(bytes);
 
         /// <summary>
         ///     Sends the response.
@@ -74,9 +70,6 @@ namespace Yupi.Messages
         ///     Appends the bytes.
         /// </summary>
         /// <param name="bytes">The bytes.</param>
-        private void AppendBytes(IEnumerable<byte> bytes)
-        {
-            _packet.AddRange(bytes);
-        }
+        private void AppendBytes(IEnumerable<byte> bytes) => _packet.AddRange(bytes);
     }
 }
