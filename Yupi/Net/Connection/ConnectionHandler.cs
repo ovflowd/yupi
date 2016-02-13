@@ -22,11 +22,12 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
+using System;
 using Helios.Net;
 using Helios.Topology;
 using Yupi.Core.Encryption.Hurlant.Crypto.Prng;
-using Yupi.Core.Io.Logger;
-using Yupi.Messages.Parsers.Interfaces;
+using Yupi.Core.Security;
+using Yupi.Net.Packets;
 
 namespace Yupi.Net.Connection
 {
@@ -38,12 +39,7 @@ namespace Yupi.Net.Connection
         /// <summary>
         ///     Connection Info
         /// </summary>
-        public INode ConnectionInfo;
-
-        /// <summary>
-        ///     Connection Data
-        /// </summary>
-        public IConnection ConnectionChannel;
+        private readonly INode _connectionInfo;
 
         /// <summary>
         ///     Connection Identifier
@@ -51,9 +47,19 @@ namespace Yupi.Net.Connection
         public uint ConnectionId;
 
         /// <summary>
+        ///     Get Ip Address
+        /// </summary>
+        public string GetIp() => _connectionInfo.Host.ToString();
+
+        /// <summary>
         ///     Data Parser
         /// </summary>
-        public IDataParser DataParser;
+        public ServerPacketParser DataParser;
+
+        /// <summary>
+        ///     Get Connection By Connection Info
+        /// </summary>
+        public IConnection GetResponseChannel() => _connectionInfo.GetConnection();
 
         /// <summary>
         ///     The ar c4 client side
@@ -65,15 +71,15 @@ namespace Yupi.Net.Connection
         /// </summary>
         internal Arc4 Arc4ServerSide;
 
-        public ConnectionHandler(INode connectionInfo, IConnection connectionChannel, IDataParser dataParser, uint connectionId)
+        public ConnectionHandler(INode connectionInfo, ServerPacketParser dataParser, uint connectionId)
         {
-            ConnectionInfo = connectionInfo;
-            ConnectionChannel = connectionChannel;
+            _connectionInfo = connectionInfo;
+
             ConnectionId = connectionId;
-            DataParser = dataParser;
+            DataParser = dataParser;    
         }
 
-        private void OnReceive(NetworkData incomingData, IConnection responseChannel)
+        public void OnReceive(NetworkData incomingData, IConnection responseChannel)
         {
             ConnectionManager.ServerPrint(responseChannel.RemoteHost, $"recieved {incomingData.Length} bytes.");
 
@@ -83,37 +89,91 @@ namespace Yupi.Net.Connection
 
                 Arc4ServerSide?.Parse(ref dataBytes);
 
-                DataParser.HandlePacketData(dataBytes, incomingData.Length);
+                DataParser.HandlePacketData(dataBytes, dataBytes.Length);
+            }
+            catch (Exception reason)
+            {
+                ConnectionManager.OnError(reason, responseChannel);
             }
             finally
             {
-                StartReceivingData();
+                StartReceivingData(responseChannel);
             }
         }
 
-        public void StartReceivingData() => ConnectionChannel.BeginReceive(OnReceive);
-
-        public void SendData(byte[] dataBytes)
+        public void StartReceivingInitialData(IConnection responseChannel)
         {
-            ConnectionManager.ServerPrint(ConnectionChannel.RemoteHost, $"sending {dataBytes.Length} bytes.");
+            responseChannel.BeginReceive(OnInitialReceive);
+        } 
+
+        public void OnInitialReceive(NetworkData incomingData, IConnection responseChannel)
+        {
+            ConnectionManager.ServerPrint(responseChannel.RemoteHost, $"initial received {incomingData.Length} bytes.");
+
+            try
+            {
+                byte[] dataBytes = incomingData.Buffer;
+
+                Arc4ServerSide?.Parse(ref dataBytes);
+
+                if (dataBytes[0] == 60)
+                    SendData(responseChannel, CrossDomainSettings.XmlPolicyBytes);
+                else if (dataBytes[0] != 67)
+                    SwitchToNormalReceive(responseChannel, dataBytes, dataBytes.Length);
+            }
+            catch (Exception reason)
+            {
+                ConnectionManager.OnError(reason, responseChannel);
+            }
+            finally
+            {
+                StartReceivingInitialData(responseChannel);
+            }
+        }
+
+        public void SwitchToNormalReceive(IConnection responseChannel, byte[] dataBytes, int amountOfBytes)
+        {
+            try
+            {
+                DataParser.SetConnection(this, Yupi.GetGame().GetClientManager().GetClient(ConnectionId));
+
+                DataParser.HandlePacketData(dataBytes, amountOfBytes);
+            }
+            catch (Exception reason)
+            {
+                ConnectionManager.OnError(reason, responseChannel);
+            }
+            finally
+            {
+                StartReceivingData(responseChannel);
+            }
+        }
+
+        public void StartReceivingData(IConnection responseChannel) => responseChannel.BeginReceive(OnReceive);
+
+        public void SendData(IConnection responseChannel, byte[] dataBytes)
+        {
+            ConnectionManager.ServerPrint(responseChannel.RemoteHost, $"sending {dataBytes.Length} bytes.");
 
             Arc4ClientSide?.Parse(ref dataBytes);
 
             try
             {
-                NetworkData networkData = NetworkData.Create(ConnectionChannel.RemoteHost, dataBytes, dataBytes.Length);
-
-                ConnectionChannel.Send(networkData);
+                responseChannel.Send(new NetworkData { Buffer = dataBytes, Length = dataBytes.Length, RemoteHost = responseChannel.RemoteHost });
             }
             catch
             {
-                Disconnect();
+                ConnectionManager.ServerPrint(responseChannel.RemoteHost, "failed sending data.");
+
+                Disconnect(responseChannel);
             }      
         }
 
-        public void Disconnect()
+        public void Disconnect(IConnection responseChannel)
         {
-            ConnectionChannel.Close();
+            ConnectionManager.ServerPrint(responseChannel.RemoteHost, "Disconnection Called..");
+
+            responseChannel.Close();
 
             DataParser.Dispose();
         } 

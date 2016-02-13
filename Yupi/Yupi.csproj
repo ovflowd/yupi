@@ -681,7 +681,6 @@
     <Compile Include="Messages\ServerMessage.cs" />
     <Compile Include="Messages\Library\PacketLibrary.cs" />
     <Compile Include="Net\Packets\ServerPacketParser.cs" />
-    <Compile Include="Net\Packets\InitialPacketParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Messages\Parsers\Interfaces\IDataParser.cs" />

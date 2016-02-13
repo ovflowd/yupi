@@ -1328,17 +1328,16 @@ namespace Yupi.Game.Rooms.User
         /// <param name="message">The message.</param>
         internal void SendMessage(byte[] message)
         {
-            if (GetClient() == null || GetClient().GetConnection() == null) return;
-            GetClient().GetConnection().SendData(message);
+            if (GetClient() == null || GetClient().GetConnection() == null)
+                return;
+
+            GetClient().GetConnection().SendData(GetClient().GetConnection().GetResponseChannel(), message);
         }
 
         /// <summary>
         ///     Gets the room.
         /// </summary>
         /// <returns>Room.</returns>
-        private Room GetRoom()
-        {
-            return _mRoom ?? (_mRoom = Yupi.GetGame().GetRoomManager().GetRoom(RoomId));
-        }
+        private Room GetRoom() => _mRoom ?? (_mRoom = Yupi.GetGame().GetRoomManager().GetRoom(RoomId));
     }
 }

@@ -97,7 +97,7 @@ namespace Yupi.Messages.Handlers
         internal void SendResponse()
         {
             if (Response != null && Response.Id > 0 && Session?.GetConnection() != null)
-                Session.GetConnection().SendData(Response.GetReversedBytes());
+                Session.GetConnection().SendData(Session.GetConnection().GetResponseChannel(), Response.GetReversedBytes());
         }
 
         /// <summary>

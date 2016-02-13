@@ -20,17 +20,23 @@ namespace Yupi.Game.GameClients
     internal class GameClientManager
     {
         /// <summary>
-        ///     The _badge queue
+        ///     The _badge Queue
         /// </summary>
         private readonly Queue _badgeQueue;
 
         /// <summary>
-        ///     The _broadcast queue
+        ///     The _broadcast Queue
         /// </summary>
         private readonly ConcurrentQueue<byte[]> _broadcastQueue;
 
+        /// <summary>
+        ///     The Add Clients Queue
+        /// </summary>
         private readonly ConcurrentQueue<GameClient> _clientsAddQueue;
 
+        /// <summary>
+        ///     The Remove Clients Queue
+        /// </summary>
         private readonly ConcurrentQueue<GameClient> _clientsToRemove;
 
         /// <summary>
@@ -85,19 +91,14 @@ namespace Yupi.Game.GameClients
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <returns>GameClient.</returns>
-        internal GameClient GetClientByUserId(uint userId)
-            => _userIdRegister.Contains(userId) ? (GameClient) _userIdRegister[userId] : null;
+        internal GameClient GetClientByUserId(uint userId) => _userIdRegister.Contains(userId) ? (GameClient) _userIdRegister[userId] : null;
 
         /// <summary>
         ///     Gets the name of the client by user.
         /// </summary>
         /// <param name="userName">Name of the user.</param>
         /// <returns>GameClient.</returns>
-        internal GameClient GetClientByUserName(string userName)
-            =>
-                _userNameRegister.Contains(userName.ToLower())
-                    ? (GameClient) _userNameRegister[userName.ToLower()]
-                    : null;
+        internal GameClient GetClientByUserName(string userName) => _userNameRegister.Contains(userName.ToLower()) ? (GameClient) _userNameRegister[userName.ToLower()] : null;
 
         /// <summary>
         ///     Gets the client.
@@ -106,22 +107,17 @@ namespace Yupi.Game.GameClients
         /// <returns>GameClient.</returns>
         internal GameClient GetClient(uint clientId) => Clients.ContainsKey(clientId) ? Clients[clientId] : null;
 
-        internal bool CheckClientOnlineStatus(uint clientId)
-        {
-            GameClient client = GetClient(clientId);
+        /// <summary>
+        ///     Check if Client is Online
+        /// </summary>
+        /// <param name="clientId">The client identifier.</param>
+        /// <returns>bool</returns>
+        internal bool CheckClientOnlineStatus(uint clientId) => GetClient(clientId)?.GetHabbo()?.IsOnline == true;
 
-            if (client != null)
-                return client.GetHabbo().Disconnected;
-
-            return false;
-        }
-
-        internal void RemoveNotOnlineUsers()
-        {
-            foreach (GameClient client in Clients.Values.Where(client => !CheckClientOnlineStatus(client.ConnectionId)))
-                client.Disconnect("Isn't Online...");
-        }
-
+        /// <summary>
+        ///     Return Online Clients Count
+        /// </summary>
+        /// <returns>Online Client Count.</returns>
         internal int GetOnlineClients() => Clients.Values.Count(client => !CheckClientOnlineStatus(client.ConnectionId));
 
         /// <summary>
@@ -153,8 +149,7 @@ namespace Yupi.Game.GameClients
         /// </summary>
         /// <param name="users">The users.</param>
         /// <returns>IEnumerable&lt;GameClient&gt;.</returns>
-        internal IEnumerable<GameClient> GetClientsById(Dictionary<uint, MessengerBuddy>.KeyCollection users)
-            => users.Select(GetClientByUserId).Where(clientByUserId => clientByUserId != null);
+        internal IEnumerable<GameClient> GetClientsById(Dictionary<uint, MessengerBuddy>.KeyCollection users) => users.Select(GetClientByUserId).Where(clientByUserId => clientByUserId != null);
 
         /// <summary>
         ///     Sends the super notif.
@@ -167,8 +162,7 @@ namespace Yupi.Game.GameClients
         /// <param name="linkTitle">The link title.</param>
         /// <param name="broadCast">if set to <c>true</c> [broad cast].</param>
         /// <param name="Event">if set to <c>true</c> [event].</param>
-        internal void SendSuperNotif(string title, string notice, string picture, GameClient client, string link,
-            string linkTitle, bool broadCast, bool Event)
+        internal void SendSuperNotif(string title, string notice, string picture, GameClient client, string link, string linkTitle, bool broadCast, bool Event)
         {
             ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
 
@@ -179,20 +173,22 @@ namespace Yupi.Game.GameClients
             serverMessage.AppendString("message");
 
             if (broadCast)
+            {
                 if (Event)
                 {
                     string text1 = Yupi.GetLanguage().GetVar("ha_event_one");
                     string text2 = Yupi.GetLanguage().GetVar("ha_event_two");
                     string text3 = Yupi.GetLanguage().GetVar("ha_event_three");
-                    serverMessage.AppendString(
-                        $"<b>{text1} {client.GetHabbo().CurrentRoom.RoomData.Owner}!</b>\r\n {text2} .\r\n<b>{text3}</b>\r\n{notice}");
+
+                    serverMessage.AppendString($"<b>{text1} {client.GetHabbo().CurrentRoom.RoomData.Owner}!</b>\r\n {text2} .\r\n<b>{text3}</b>\r\n{notice}");
                 }
                 else
                 {
                     string text4 = Yupi.GetLanguage().GetVar("ha_title");
-                    serverMessage.AppendString(string.Concat("<b>" + text4 + "</b>\r\n", notice, "\r\n- <i>",
-                        client.GetHabbo().UserName, "</i>"));
+
+                    serverMessage.AppendString(string.Concat("<b>" + text4 + "</b>\r\n", notice, "\r\n- <i>", client.GetHabbo().UserName, "</i>"));
                 }
+            }
             else
                 serverMessage.AppendString(notice);
 
@@ -259,12 +255,7 @@ namespace Yupi.Game.GameClients
         /// <param name="exclude">The exclude.</param>
         internal void AmbassadorAlert(ServerMessage message, uint exclude = 0u)
         {
-            IEnumerable<GameClient> gameClients =
-                Clients.Values.Where(
-                    x =>
-                        x.GetHabbo() != null &&
-                        x.GetHabbo().Rank >= Convert.ToUInt32(Yupi.GetDbConfig().DbData["ambassador.minrank"]) &&
-                        x.GetHabbo().Id != exclude);
+            IEnumerable<GameClient> gameClients = Clients.Values.Where(x => x.GetHabbo() != null && x.GetHabbo().Rank >= Convert.ToUInt32(Yupi.GetDbConfig().DbData["ambassador.minrank"]) && x.GetHabbo().Id != exclude);
 
             foreach (GameClient current in gameClients)
                 current.SendMessage(message);
@@ -278,14 +269,8 @@ namespace Yupi.Game.GameClients
         {
             byte[] bytes = message.GetReversedBytes();
 
-            foreach (
-                GameClient current in
-                    Clients.Values.Where(current => current?.GetHabbo() != null)
-                        .Where(
-                            current =>
-                                current.GetHabbo().Rank == 4u || current.GetHabbo().Rank == 5u ||
-                                current.GetHabbo().Rank == 6u))
-                current.GetConnection().SendData(bytes);
+            foreach (GameClient current in Clients.Values.Where(current => current?.GetHabbo() != null).Where(current => current.GetHabbo().Rank >= 4u))
+                current.GetConnection().SendData(current.GetConnection().GetResponseChannel(), bytes);
         }
 
         /// <summary>
@@ -317,10 +302,7 @@ namespace Yupi.Game.GameClients
         ///     Queues the broadcase message.
         /// </summary>
         /// <param name="message">The message.</param>
-        internal void QueueBroadcaseMessage(ServerMessage message)
-        {
-            _broadcastQueue.Enqueue(message.GetReversedBytes());
-        }
+        internal void QueueBroadcaseMessage(ServerMessage message) => _broadcastQueue.Enqueue(message.GetReversedBytes());
 
         /// <summary>
         ///     Queues the badge update.
@@ -339,6 +321,7 @@ namespace Yupi.Game.GameClients
         internal void LogClonesOut(uint userId)
         {
             GameClient clientByUserId = GetClientByUserId(userId);
+
             clientByUserId?.Disconnect("user null LogClonesOut");
         }
 
@@ -354,6 +337,7 @@ namespace Yupi.Game.GameClients
                 _userNameRegister[userName.ToLower()] = client;
             else
                 _userNameRegister.Add(userName.ToLower(), client);
+
             if (_userIdRegister.Contains(userId))
                 _userIdRegister[userId] = client;
             else
@@ -405,7 +389,7 @@ namespace Yupi.Game.GameClients
 
                 foreach (GameClient current3 in Clients.Values.Where(current3 => current3.GetConnection() != null))
                 {
-                    current3.GetConnection().Disconnect();
+                    current3.GetConnection().Disconnect(current3.GetConnection().GetResponseChannel());
 
                     Console.ForegroundColor = ConsoleColor.DarkMagenta;
 
@@ -445,7 +429,7 @@ namespace Yupi.Game.GameClients
                 GameClient client;
 
                 while (_clientsAddQueue.TryDequeue(out client))
-                    client.StartConnection();
+                    client.Ready();
             }
         }
 
@@ -521,7 +505,7 @@ namespace Yupi.Game.GameClients
                 _broadcastQueue.TryDequeue(out bytes);
 
                 foreach (GameClient current in Clients.Values.Where(current => current?.GetConnection() != null))
-                    current.GetConnection().SendData(bytes);
+                    current.GetConnection().SendData(current.GetConnection().GetResponseChannel(), bytes);
 
                 TimeSpan timeSpan = DateTime.Now - now;
 

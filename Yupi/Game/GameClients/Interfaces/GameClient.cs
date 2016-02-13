@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using Yupi.Core.Io.Logger;
-using Yupi.Core.Security;
 using Yupi.Core.Security.BlackWords.Structs;
 using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Rooms.User;
@@ -13,7 +12,6 @@ using Yupi.Messages.Enums;
 using Yupi.Messages.Handlers;
 using Yupi.Messages.Parsers;
 using Yupi.Net.Connection;
-using Yupi.Net.Packets;
 
 namespace Yupi.Game.GameClients.Interfaces
 {
@@ -58,11 +56,6 @@ namespace Yupi.Game.GameClients.Interfaces
         internal string MachineId;
 
         /// <summary>
-        ///     The packet parser
-        /// </summary>
-        internal ServerPacketParser PacketParser;
-
-        /// <summary>
         ///     The publicist count
         /// </summary>
         internal byte PublicistCount;
@@ -84,8 +77,6 @@ namespace Yupi.Game.GameClients.Interfaces
             _connection = connection;
 
             CurrentRoomUserId = -1;
-
-            PacketParser = new ServerPacketParser();
         }
 
         /// <summary>
@@ -187,40 +178,6 @@ namespace Yupi.Game.GameClients.Interfaces
         internal Habbo GetHabbo() => _habbo;
 
         /// <summary>
-        ///     Starts the connection.
-        /// </summary>
-        internal void StartConnection()
-        {
-            if (_connection == null)
-                return;
-
-            TimePingedReceived = DateTime.Now;
-
-            InitialPacketParser packetParser = _connection.DataParser as InitialPacketParser;
-
-            if (packetParser != null)
-                packetParser.PolicyRequest += PolicyRequest;
-
-            Console.WriteLine("Policy Request OK.");
-
-            InitialPacketParser initialPacketParser = _connection.DataParser as InitialPacketParser;
-
-            if (initialPacketParser != null)
-                initialPacketParser.SwitchParserRequest += SwitchParserRequest;
-
-            Console.WriteLine("Switch Parser Request OK.");
-
-            try
-            {
-                _connection.StartReceivingData();
-            }
-            catch (Exception e)
-            {
-               YupiWriterManager.WriteLine($"Error Start Receiving: {e}", "Yupi.Net");
-            }
-        }
-
-        /// <summary>
         ///     Initializes the handler.
         /// </summary>
         internal void InitHandler()
@@ -240,7 +197,7 @@ namespace Yupi.Game.GameClients.Interfaces
                 if (string.IsNullOrWhiteSpace(authTicket))
                     return false;
 
-                string ip = GetConnection().ConnectionInfo.Host.ToString();
+                string ip = GetConnection().GetIp();
 
                 if (string.IsNullOrEmpty(ip))
                     return false;
@@ -518,7 +475,8 @@ namespace Yupi.Game.GameClients.Interfaces
             if (_disconnected)
                 return;
 
-            _connection?.Disconnect();
+            _connection?.Disconnect(_connection.GetResponseChannel());
+
             _disconnected = true;
         }
 
@@ -536,7 +494,7 @@ namespace Yupi.Game.GameClients.Interfaces
 
             byte[] bytes = message.GetReversedBytes();
 
-            GetConnection().SendData(bytes);
+            GetConnection().SendData(_connection.GetResponseChannel(), bytes);
         }
 
         /// <summary>
@@ -548,7 +506,7 @@ namespace Yupi.Game.GameClients.Interfaces
             if (GetConnection() == null)
                 return;
 
-            GetConnection().SendData(bytes);
+            GetConnection().SendData(_connection.GetResponseChannel(), bytes);
         }
 
         /// <summary>
@@ -560,35 +518,15 @@ namespace Yupi.Game.GameClients.Interfaces
             if (GetConnection() == null)
                 return;
 
-            GetConnection().SendData(StaticMessagesManager.Get(type));
+            GetConnection().SendData(_connection.GetResponseChannel(), StaticMessagesManager.Get(type));
         }
 
         /// <summary>
-        ///     Switches the parser request.
+        ///     Starts the connection.
         /// </summary>
-        private void SwitchParserRequest(byte[] data, int amountOfBytes)
+        internal void Ready()
         {
-            if (_connection == null)
-                return;
-
-            if (_messageHandler == null)
-                InitHandler();
-
-            PacketParser.SetConnection(_connection, this);
-
-            _connection.DataParser.Dispose();
-            _connection.DataParser = PacketParser;
-            _connection.DataParser.HandlePacketData(data, amountOfBytes);
-        }
-
-        /// <summary>
-        ///     Policies the request.
-        /// </summary>
-        private void PolicyRequest()
-        {
-            Console.WriteLine("Policy Request Sending.");
-
-            _connection.SendData(CrossDomainSettings.XmlPolicyBytes);
+            TimePingedReceived = DateTime.Now;
         }
     }
 }

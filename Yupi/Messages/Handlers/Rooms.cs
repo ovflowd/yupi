@@ -132,7 +132,7 @@ namespace Yupi.Messages.Handlers
 
         internal void OnlineConfirmationEvent()
         {
-            YupiWriterManager.WriteLine(Request.GetString() + " joined game. With IP " + Session.GetConnection().ConnectionInfo.Host, "Yupi.Users", ConsoleColor.DarkGreen);
+            YupiWriterManager.WriteLine(Request.GetString() + " joined game. With IP " + Session.GetConnection().GetIp(), "Yupi.Users", ConsoleColor.DarkGreen);
 
             if (!ServerConfigurationSettings.Data.ContainsKey("welcome.message.enabled") ||
                 ServerConfigurationSettings.Data["welcome.message.enabled"] != "true")

@@ -418,7 +418,7 @@ namespace Yupi
 
                 ServerFactorySettings.Init(TransportType.Tcp, IPAddress.Any, int.Parse(ServerConfigurationSettings.Data["game.tcp.port"]), 2, 4072, true);
 
-                ConnectionManager.Init(new InitialPacketParser());
+                ConnectionManager.Init(new ServerPacketParser());
 
                 ConnectionManager.Start();
 
@@ -699,8 +699,6 @@ namespace Yupi
                 queryReactor.RunFastQuery("UPDATE rooms_data SET users_now = 0");
                 queryReactor.RunFastQuery("TRUNCATE TABLE users_rooms_visits");
             }
-
-            ConnectionManager.Stop();
 
             GetGame().Destroy();
 

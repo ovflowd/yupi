@@ -61,7 +61,7 @@ namespace Yupi.Messages
         /// </summary>
         internal void SendResponse()
         {
-            _userConnection?.SendData(_packet.ToArray());
+            _userConnection?.SendData(_userConnection.GetResponseChannel(), _packet.ToArray());
 
             Dispose();
         }

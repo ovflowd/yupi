@@ -1,8 +1,12 @@
 ﻿using System;
+using Helios.Net;
 using Helios.Reactor;
 using Helios.Reactor.Bootstrap;
 using Helios.Topology;
+using Helios.Util;
+using Yupi.Core.Security;
 using Yupi.Messages.Parsers.Interfaces;
+using Yupi.Net.Packets;
 using Yupi.Net.Settings;
 
 namespace Yupi.Net.Connection
@@ -17,7 +21,7 @@ namespace Yupi.Net.Connection
         /// <summary>
         ///     Data Parser
         /// </summary>
-        public static IDataParser DataParser;
+        public static ServerPacketParser DataParser;
 
         /// <summary>
         ///     Add Connection to Count
@@ -29,9 +33,12 @@ namespace Yupi.Net.Connection
         /// </summary>
         public static uint CountAcceptedConnections() => ServerFactorySettings.CountAcceptedConnections();
 
+        /// <summary>
+        ///     Print Pretty Message
+        /// </summary>
         public static void ServerPrint(INode node, string message) => Console.WriteLine("[{0}] {1}:{2}: {3}", DateTime.UtcNow, node.Host, node.Port, message);
 
-        public static void Init(IDataParser dataParser)
+        public static void Init(ServerPacketParser dataParser)
         {
             DataParser = dataParser;
 
@@ -45,20 +52,28 @@ namespace Yupi.Net.Connection
                 .Host(ServerFactorySettings.AllowedAddresses)
                 .WithPort(ServerFactorySettings.ServerPort));
 
+            Reactor.OnError += OnError;
+
             Reactor.OnConnection += (node, channel) =>
             {
-                ServerPrint(node, $"Accepting connection from... {node.Host}:{node.Port}");
+                ServerPrint(channel.RemoteHost, $"Accepting connection from... {node.Host}:{node.Port}");
 
-                ConnectionHandler currentConnection = new ConnectionHandler(node, channel, DataParser.Clone() as IDataParser, AddConnection());
+                uint currentConnection = AddConnection();
 
-                Yupi.GetGame().GetClientManager().CreateAndStartClient(currentConnection.ConnectionId, currentConnection);
+                ConnectionHandler connection = new ConnectionHandler(node, DataParser.Clone() as ServerPacketParser, currentConnection);
+
+                Yupi.GetGame().GetClientManager().CreateAndStartClient(currentConnection, connection);
+
+                connection.StartReceivingInitialData(channel);
             };
 
-            Reactor.OnDisconnection += (reason, address) =>
+            Reactor.OnDisconnection += (reason, channel) =>
             {
-                ServerPrint(address.RemoteHost, $"Closed connection to... {address.RemoteHost.Host}:{address.RemoteHost.Port} [Reason:{reason.Type}]");
+                ServerPrint(channel.RemoteHost, $"Closed connection due reason:{reason.Type}]");
             };
         }
+
+        public static void OnError(Exception reason, IConnection channel) => ServerPrint(channel.RemoteHost, $"Error in Connection... [Reason:{reason}]");
 
         public static void Stop() => Reactor.Stop();
 
