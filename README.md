@@ -12,4 +12,4 @@ Butterfly Emulator, originally created by Martinmine. Actually Based in a Butter
 
 ### Attention:
 <b>Development in MASTER Branch is DISCONTINUED. NIO Branch will be active. Since NIO Branch will Have Unstable And Beta Code.</b>
-See the YUPI STATEMENT IN ISSUE #66 (Clicking Here)
+See the YUPI STATEMENT IN ISSUE #66 Or Accessing Here: https://github.com/sant0ro/Yupi/issues/66
