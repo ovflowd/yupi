@@ -1,6 +1,6 @@
 # Yupi
 
-[![Build Status](https://travis-ci.org/sant0ro/Yupi.svg?branch=master)](https://travis-ci.org/sant0ro/Yupi)
+[![Build Status](https://travis-ci.org/sant0ro/Yupi.svg?branch=master)](https://travis-ci.org/sant0ro/Yupi) [![Gitter](https://badges.gitter.im/sant0ro/Yupi.svg)](https://gitter.im/sant0ro/Yupi?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) [![ZenHub] (https://raw.githubusercontent.com/ZenHubIO/support/master/zenhub-badge.png)] (https://zenhub.io)
 
 ## About
 
