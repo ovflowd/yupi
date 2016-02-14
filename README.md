@@ -1,15 +1,17 @@
 <pre>
-██╗   ██╗██╗   ██╗██████╗ ██╗
-╚██╗ ██╔╝██║   ██║██╔══██╗██║
- ╚████╔╝ ██║   ██║██████╔╝██║
-  ╚██╔╝  ██║   ██║██╔═══╝ ██║
-   ██║   ╚██████╔╝██║     ██║
-   ╚═╝    ╚═════╝ ╚═╝     ╚═╝
-                             
-  Private HH Emulator for Good Guys!
+                                    ▀▄    ▄ ▄   █ ▄▄  ▄█   ▄ 
+                                      █  █   █  █   █ ██  █  
+                                       ▀█ █   █ █▀▀▀  ██ █   
+                                       █  █   █ █     ▐█ █   
+                                     ▄▀   █▄ ▄█  █     ▐     
+                                           ▀▀▀    ▀      ▀   
+                                Private HH Emulator for Good Guys!
+                                       <sub>and for chocolate lovers</sub>
 </pre>
 
-[![Build Status](https://travis-ci.org/sant0ro/Yupi.svg?branch=nio)](https://travis-ci.org/sant0ro/Yupi) [![Github All Releases](https://img.shields.io/github/downloads/sant0ro/Yupi/total.svg)]() [![Gitter](https://badges.gitter.im/sant0ro/Yupi.svg)](https://gitter.im/sant0ro/Yupi) [![GitHub license](https://img.shields.io/badge/license-MIT-4DB798.svg)](https://raw.githubusercontent.com/sant0ro/Yupi/nio/LICENSE.md) [![GitHub issues](https://img.shields.io/github/issues-raw/sant0ro/Yupi.svg)](https://github.com/sant0ro/Yupi/issues) [![GitHub tag](https://img.shields.io/github/tag/sant0ro/Yupi.svg)]() [![ZenHub](https://img.shields.io/badge/supercharged%20by-zenhub.io-E97536.svg)](https://zenhub.io)
+[![Build Status](https://travis-ci.org/sant0ro/Yupi.svg?branch=nio)](https://travis-ci.org/sant0ro/Yupi) [![Github All Releases](https://img.shields.io/github/downloads/sant0ro/Yupi/total.svg)]() [![Gitter](https://badges.gitter.im/sant0ro/Yupi.svg)](https://gitter.im/sant0ro/Yupi) [![GitHub license](https://img.shields.io/badge/license-MIT-4DB798.svg)](https://raw.githubusercontent.com/sant0ro/Yupi/nio/LICENSE.md) [![GitHub issues](https://img.shields.io/github/issues/sant0ro/Yupi.svg)](https://github.com/sant0ro/Yupi/issues) [![GitHub Stage](https://img.shields.io/badge/stage-alpha-D7AF23.svg)](https://github.com/sant0ro/Yupi) [![GitHub tag](https://img.shields.io/github/tag/sant0ro/Yupi.svg)]() [![ZenHub](https://img.shields.io/badge/supercharged%20by-zenhub.io-E97536.svg)](https://zenhub.io)
+
+
 
 ## About
 
