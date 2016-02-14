@@ -9,7 +9,7 @@
   Private HH Emulator for Good Guys!
 </pre>
 
-[![Build Status](https://travis-ci.org/sant0ro/Yupi.svg?branch=master)](https://travis-ci.org/sant0ro/Yupi) [![Gitter](https://badges.gitter.im/sant0ro/Yupi.svg)](https://gitter.im/sant0ro/Yupi?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/sant0ro/Yupi/master/LICENSE.md) [![GitHub issues](https://img.shields.io/github/issues/sant0ro/Yupi.svg)](https://github.com/sant0ro/Yupi/issues) [![Github All Releases](https://img.shields.io/github/downloads/sant0ro/Yupi/total.svg)]() [![GitHub tag](https://img.shields.io/github/tag/sant0ro/Yupi.svg)]() [![ZenHub] (https://raw.githubusercontent.com/ZenHubIO/support/master/zenhub-badge.png)](https://zenhub.io)
+[![Build Status](https://travis-ci.org/sant0ro/Yupi.svg?branch=nio)](https://travis-ci.org/sant0ro/Yupi) [![Gitter](https://badges.gitter.im/sant0ro/Yupi.svg)](https://gitter.im/sant0ro/Yupi) [![GitHub license](https://img.shields.io/badge/license-MIT-4DB798.svg)](https://raw.githubusercontent.com/sant0ro/Yupi/master/LICENSE.md) [![GitHub issues](https://img.shields.io/github/issues/sant0ro/Yupi.svg)](https://github.com/sant0ro/Yupi/issues) [![Github All Releases](https://img.shields.io/github/downloads/sant0ro/Yupi/total.svg)]() [![GitHub tag](https://img.shields.io/github/tag/sant0ro/Yupi.svg)]() [![ZenHub] (https://img.shields.io/badge/supercharged%20by-zenhub.io-E97536.svg)](https://zenhub.io)
 
 ## About
 
