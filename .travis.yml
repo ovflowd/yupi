@@ -1,8 +1,8 @@
 language: csharp
 solution: Yupi.sln
 
-script:
-  - xbuild Yupi.sln /p:Configuration=Release /p:Platform="x64"
+#script:
+#  - xbuild Yupi.sln /p:Configuration=Release /p:Platform="x64"
 install:
   - nuget restore Yupi.sln -Verbosity detailed
   - nuget update Yupi.sln -Verbosity detailed
@@ -10,5 +10,5 @@ before_install:
   - pip install --user codecov
 after_success:
   - codecov
-mono:
-  - latest
+#mono:
+#  - latest
