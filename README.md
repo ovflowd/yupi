@@ -1,5 +1,7 @@
 # Yupi
 
+[![Join the chat at https://gitter.im/sant0ro/Yupi](https://badges.gitter.im/sant0ro/Yupi.svg)](https://gitter.im/sant0ro/Yupi?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Build Status](https://travis-ci.org/sant0ro/Yupi.svg?branch=master)](https://travis-ci.org/sant0ro/Yupi)
 
 ## About
