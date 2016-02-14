@@ -3,3 +3,7 @@ solution: Yupi.sln
 
 install:
   - nuget restore Yupi.sln
+before_install:
+  - pip install --user codecov
+after_success:
+  - codecov
