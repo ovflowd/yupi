@@ -336,7 +336,7 @@ namespace Yupi.Game.Rooms.Items.Games.Types.Banzai
 
                         _field.UpdateLocation(item.X, item.Y, (byte) (uint) team);
 
-                        foreach (PointField pointField in _field?.DoUpdate())
+                        foreach (PointField pointField in _field.DoUpdate())
                         {
                             if (pointField == null)
                                 continue;
