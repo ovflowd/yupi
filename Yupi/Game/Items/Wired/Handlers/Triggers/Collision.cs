@@ -10,8 +10,6 @@ namespace Yupi.Game.Items.Wired.Handlers.Triggers
 {
     public class Collision : IWiredItem
     {
-        private readonly WiredHandler _handler;
-
         public Collision(RoomItem item, WiredHandler handler, Room room)
         {
             Item = item;
