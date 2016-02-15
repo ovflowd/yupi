@@ -13,7 +13,7 @@ namespace Yupi.Messages.Handlers
     /// </summary>
     internal partial class GameClientMessageHandler
     {
-        /// <summary>
+        /// <summary> 
         ///     Gets the flat cats.
         /// </summary>
         internal void GetFlatCats()
