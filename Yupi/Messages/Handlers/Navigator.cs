@@ -20,6 +20,7 @@ namespace Yupi.Messages.Handlers
         {
             if (Session.GetHabbo() == null)
                 return;
+                
             Session.SendMessage(Yupi.GetGame().GetNavigator().SerializeFlatCategories(Session));
         }
 
@@ -28,6 +29,7 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         internal void EnterInquiredRoom()
         {
+            
         }
 
         /// <summary>
@@ -36,9 +38,12 @@ namespace Yupi.Messages.Handlers
         internal void GetPub()
         {
             uint roomId = Request.GetUInteger();
+            
             RoomData roomData = Yupi.GetGame().GetRoomManager().GenerateRoomData(roomId);
+            
             if (roomData == null)
                 return;
+                
             GetResponse().Init(PacketLibraryManager.OutgoingRequest("453"));
             GetResponse().AppendInteger(roomData.Id);
             GetResponse().AppendString(roomData.CcTs);
@@ -53,11 +58,15 @@ namespace Yupi.Messages.Handlers
         {
             Request.GetInteger();
             uint roomId = Request.GetUInteger();
+            
             Request.GetInteger();
+            
             RoomData roomData = Yupi.GetGame().GetRoomManager().GenerateRoomData(roomId);
+            
             if (roomData == null)
                 return;
-            PrepareRoomForUser(roomData.Id, "");
+                
+            PrepareRoomForUser(roomData.Id, string.Empty);
         }
 
         /// <summary>
@@ -67,6 +76,7 @@ namespace Yupi.Messages.Handlers
         {
             if (Session == null)
                 return;
+                
             Yupi.GetGame().GetNavigator().EnableNewNavigator(Session);
         }
 
@@ -77,8 +87,10 @@ namespace Yupi.Messages.Handlers
         {
             if (Session == null)
                 return;
+                
             string name = Request.GetString();
             string junk = Request.GetString();
+            
             Session.SendMessage(Yupi.GetGame().GetNavigator().SerializeNewNavigator(name, junk, Session));
         }
 
@@ -90,22 +102,29 @@ namespace Yupi.Messages.Handlers
             if (Session.GetHabbo().NavigatorLogs.Count > 50)
             {
                 Session.SendNotif(Yupi.GetLanguage().GetVar("navigator_max"));
+                
                 return;
             }
+            
             string value1 = Request.GetString();
             string value2 = Request.GetString();
+            
             UserSearchLog naviLogs = new UserSearchLog(Session.GetHabbo().NavigatorLogs.Count, value1, value2);
+            
             if (!Session.GetHabbo().NavigatorLogs.ContainsKey(naviLogs.Id))
                 Session.GetHabbo().NavigatorLogs.Add(naviLogs.Id, naviLogs);
+                
             ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("NavigatorSavedSearchesComposer"));
             message.AppendInteger(Session.GetHabbo().NavigatorLogs.Count);
+            
             foreach (UserSearchLog navi in Session.GetHabbo().NavigatorLogs.Values)
             {
                 message.AppendInteger(navi.Id);
                 message.AppendString(navi.Value1);
                 message.AppendString(navi.Value2);
-                message.AppendString("");
+                message.AppendString(string.Empty);
             }
+            
             Session.SendMessage(message);
         }
 
@@ -118,7 +137,7 @@ namespace Yupi.Messages.Handlers
         {
             GetResponse().AppendString(textOne);
             GetResponse().AppendString(textTwo);
-            GetResponse().AppendString("fr");
+            GetResponse().AppendString(string.Empty);
         }
 
         /// <summary>
@@ -130,6 +149,7 @@ namespace Yupi.Messages.Handlers
             int y = Request.GetInteger();
             int width = Request.GetInteger();
             int height = Request.GetInteger();
+            
             Session.GetHabbo().Preferences.NewnaviX = x;
             Session.GetHabbo().Preferences.NewnaviY = y;
             Session.GetHabbo().Preferences.NewnaviWidth = width;
@@ -140,10 +160,7 @@ namespace Yupi.Messages.Handlers
         /// <summary>
         ///     News the navigator add saved search.
         /// </summary>
-        internal void NewNavigatorAddSavedSearch()
-        {
-            SavedSearch();
-        }
+        internal void NewNavigatorAddSavedSearch() => SavedSearch();
 
         /// <summary>
         ///     News the navigator delete saved search.
@@ -151,36 +168,35 @@ namespace Yupi.Messages.Handlers
         internal void NewNavigatorDeleteSavedSearch()
         {
             int searchId = Request.GetInteger();
+            
             if (!Session.GetHabbo().NavigatorLogs.ContainsKey(searchId))
                 return;
+                
             Session.GetHabbo().NavigatorLogs.Remove(searchId);
+            
             ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("NavigatorSavedSearchesComposer"));
             message.AppendInteger(Session.GetHabbo().NavigatorLogs.Count);
+            
             foreach (UserSearchLog navi in Session.GetHabbo().NavigatorLogs.Values)
             {
                 message.AppendInteger(navi.Id);
                 message.AppendString(navi.Value1);
                 message.AppendString(navi.Value2);
-                message.AppendString("");
+                message.AppendString(string.Empty);
             }
+            
             Session.SendMessage(message);
         }
 
         /// <summary>
         ///     News the navigator collapse category.
         /// </summary>
-        internal void NewNavigatorCollapseCategory()
-        {
-            Request.GetString();
-        }
+        internal void NewNavigatorCollapseCategory() =>  Request.GetString();
 
         /// <summary>
         ///     News the navigator uncollapse category.
         /// </summary>
-        internal void NewNavigatorUncollapseCategory()
-        {
-            Request.GetString();
-        }
+        internal void NewNavigatorUncollapseCategory() => Request.GetString();
 
         /// <summary>
         ///     Gets the pubs.
@@ -189,6 +205,7 @@ namespace Yupi.Messages.Handlers
         {
             if (Session.GetHabbo() == null)
                 return;
+                
             Session.SendMessage(Yupi.GetGame().GetNavigator().SerializePublicRooms());
         }
 
@@ -199,15 +216,22 @@ namespace Yupi.Messages.Handlers
         {
             if (Session.GetHabbo() == null)
                 return;
+                
             uint roomId = Request.GetUInteger();
             Request.GetBool();
             Request.GetBool();
+            
             RoomData roomData = Yupi.GetGame().GetRoomManager().GenerateRoomData(roomId);
+            
             if (roomData == null)
                 return;
+            
+            // @TODO: What The Hell? Directly Packet ID?
             GetResponse().Init(PacketLibraryManager.OutgoingRequest("1491"));
+            
             GetResponse().AppendInteger(0);
             roomData.Serialize(GetResponse());
+            
             SendResponse();
         }
 
@@ -218,9 +242,8 @@ namespace Yupi.Messages.Handlers
         {
             if (Session.GetHabbo() == null)
                 return;
-            Session.SendMessage(Yupi.GetGame()
-                .GetNavigator()
-                .SerializeNavigator(Session, int.Parse(Request.GetString())));
+                
+            Session.SendMessage(Yupi.GetGame().GetNavigator().SerializeNavigator(Session, int.Parse(Request.GetString())));
         }
 
         /// <summary>
@@ -230,6 +253,7 @@ namespace Yupi.Messages.Handlers
         {
             if (Session.GetHabbo() == null)
                 return;
+                
             Session.SendMessage(Yupi.GetGame().GetNavigator().SerializeNavigator(Session, -1));
         }
 
@@ -240,6 +264,7 @@ namespace Yupi.Messages.Handlers
         {
             if (Session.GetHabbo() == null)
                 return;
+                
             Session.SendMessage(Yupi.GetGame().GetNavigator().SerializeNavigator(Session, -2));
         }
 
@@ -250,6 +275,7 @@ namespace Yupi.Messages.Handlers
         {
             if (Session.GetHabbo() == null)
                 return;
+                
             Session.SendMessage(Yupi.GetGame().GetNavigator().SerializeNavigator(Session, -2));
         }
 
@@ -260,6 +286,7 @@ namespace Yupi.Messages.Handlers
         {
             if (Session.GetHabbo() == null)
                 return;
+                
             Session.SendMessage(Yupi.GetGame().GetNavigator().SerializeNavigator(Session, -4));
         }
 
@@ -270,6 +297,7 @@ namespace Yupi.Messages.Handlers
         {
             if (Session.GetHabbo() == null)
                 return;
+                
             Session.SendMessage(Yupi.GetGame().GetNavigator().SerializeNavigator(Session, -5));
         }
 
@@ -284,6 +312,7 @@ namespace Yupi.Messages.Handlers
             if (Session.GetHabbo().OwnRoomsSerialized == false)
             {
                 Session.GetHabbo().UpdateRooms();
+                
                 Session.GetHabbo().OwnRoomsSerialized = true;
             }
 
@@ -297,6 +326,7 @@ namespace Yupi.Messages.Handlers
         {
             if (Session.GetHabbo() == null)
                 return;
+                
             Session.SendMessage(Yupi.GetGame().GetNavigator().SerializeNewFlatCategories());
         }
 
@@ -307,6 +337,7 @@ namespace Yupi.Messages.Handlers
         {
             if (Session.GetHabbo() == null)
                 return;
+                
             Session.SendMessage(Yupi.GetGame().GetNavigator().SerializeFavoriteRooms(Session));
         }
 
@@ -317,6 +348,7 @@ namespace Yupi.Messages.Handlers
         {
             if (Session.GetHabbo() == null)
                 return;
+                
             Session.SendMessage(Yupi.GetGame().GetNavigator().SerializeRecentRooms(Session));
         }
 
@@ -327,6 +359,7 @@ namespace Yupi.Messages.Handlers
         {
             if (Session.GetHabbo() == null)
                 return;
+                
             Session.SendMessage(Yupi.GetGame().GetNavigator().SerializePopularRoomTags());
         }
 
@@ -337,6 +370,7 @@ namespace Yupi.Messages.Handlers
         {
             if (Session.GetHabbo() == null)
                 return;
+                
             Session.SendMessage(HotelBrowserManager.SerializePromoted(Session, Request.GetInteger()));
         }
 
@@ -347,8 +381,8 @@ namespace Yupi.Messages.Handlers
         {
             if (Session.GetHabbo() == null)
                 return;
-            Session.SendMessage(
-                HotelBrowserManager.SerializeSearchResults(Request.GetString()));
+                
+            Session.SendMessage(HotelBrowserManager.SerializeSearchResults(Request.GetString()));
         }
 
         /// <summary>
@@ -358,6 +392,8 @@ namespace Yupi.Messages.Handlers
         {
             if (Session.GetHabbo() == null)
                 return;
+            
+            // What's this Code Above?
             //this.Session.SendMessage(MercuryEnvironment.GetGame().GetNavigator().SerializeSearchResults(string.Format("tag:{0}", this.Request.PopFixedString())));
         }
 
@@ -368,7 +404,10 @@ namespace Yupi.Messages.Handlers
         {
             if (Session.GetHabbo() == null)
                 return;
+                
             Request.GetInteger();
+            
+            // What's this Code Above?
             //this.Session.SendMessage(MercuryEnvironment.GetGame().GetNavigator().SerializeSearchResults(this.Request.PopFixedString()));
         }
 
@@ -381,6 +420,7 @@ namespace Yupi.Messages.Handlers
                 return;
 
             uint roomId = Request.GetUInteger();
+            
             string pWd = Request.GetString();
 
             PrepareRoomForUser(roomId, pWd);
@@ -392,8 +432,8 @@ namespace Yupi.Messages.Handlers
             
             Request.GetBool();
             
-            
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(roomId);
+            
             Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(Session, "ACH_Spr", 1, true);
             
             if (room == null)
@@ -403,7 +443,7 @@ namespace Yupi.Messages.Handlers
             {
                 PublicItem pubItem = Yupi.GetGame().GetNavigator().GetPublicItem(roomId);
                 
-                if (pubItem == null) // not picked
+                if (pubItem == null) // Isn't A Staff Pick Room
                 {
                     queryReactor.SetQuery("INSERT INTO navigator_publics (bannertype, room_id, category_parent_id) VALUES ('0', @roomId, '-2')");
                     
@@ -415,7 +455,7 @@ namespace Yupi.Messages.Handlers
                     
                     Yupi.GetGame().GetNavigator().AddPublicItem(publicItem);
                 }
-                else // picked
+                else // Is a Staff Pick Room
                 {
                     queryReactor.SetQuery("DELETE FROM navigator_publics WHERE id = @pubId");
                     
