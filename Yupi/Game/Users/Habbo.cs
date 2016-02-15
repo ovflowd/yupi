@@ -509,7 +509,6 @@ namespace Yupi.Game.Users
             Gender = gender.ToLower() == "f" ? "f" : "m";
             Credits = credits;
             Duckets = duckets;
-            _lastActivityPointsUpdate = lastActivityPointsUpdate;
             Diamonds = diamonds;
             AchievementPoints = achievementPoints;
             Muted = muted;
@@ -541,7 +540,6 @@ namespace Yupi.Game.Users
             PreviousOnline = lastOnline;
             RecentlyVisitedRooms = new LinkedList<uint>();
             CurrentQuestId = currentQuestId;
-            _currentQuestProgress = currentQuestProgress;
             IsHopping = false;
 
             FavouriteGroup = Yupi.GetGame().GetGroupManager().GetGroup((uint) favId) != null ? (uint) favId : 0;
