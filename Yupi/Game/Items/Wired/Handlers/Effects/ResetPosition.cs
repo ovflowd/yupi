@@ -19,7 +19,6 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
             OtherExtraString2 = string.Empty;
             Delay = 0;
             Items = new List<RoomItem>();
-            _mBanned = new List<Interaction>();
         }
 
         public Interaction Type => Interaction.ActionPosReset;
