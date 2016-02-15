@@ -30,10 +30,6 @@ namespace Yupi.Game.Users
     /// </summary>
     public class Habbo
     {
-        private readonly int _currentQuestProgress;
-
-        private readonly double _lastActivityPointsUpdate;
-
         /// <summary>
         ///     The _my groups
         /// </summary>
