@@ -103,41 +103,47 @@ namespace Yupi.Messages.Handlers
                     if (randomNmb == 1)
                     {
                         petType = PetBreeding.TerrierEpicRace[new Random().Next(PetBreeding.TerrierEpicRace.Length - 1)];
+                        
                         randomResult = 0;
                     }
                     else if (randomNmb <= 3)
                     {
                         petType = PetBreeding.TerrierRareRace[new Random().Next(PetBreeding.TerrierRareRace.Length - 1)];
+                        
                         randomResult = 1;
                     }
                     else if (randomNmb <= 6)
                     {
-                        petType =
-                            PetBreeding.TerrierNoRareRace[new Random().Next(PetBreeding.TerrierNoRareRace.Length - 1)];
+                        petType = PetBreeding.TerrierNoRareRace[new Random().Next(PetBreeding.TerrierNoRareRace.Length - 1)];
+                        
                         randomResult = 2;
                     }
                     else
                     {
-                        petType =
-                            PetBreeding.TerrierNormalRace[new Random().Next(PetBreeding.TerrierNormalRace.Length - 1)];
+                        petType = PetBreeding.TerrierNormalRace[new Random().Next(PetBreeding.TerrierNormalRace.Length - 1)];
+                        
                         randomResult = 3;
                     }
+                    
                     break;
 
                 case Interaction.BreedingBear:
                     if (randomNmb == 1)
                     {
                         petType = PetBreeding.BearEpicRace[new Random().Next(PetBreeding.BearEpicRace.Length - 1)];
+                        
                         randomResult = 0;
                     }
                     else if (randomNmb <= 3)
                     {
                         petType = PetBreeding.BearRareRace[new Random().Next(PetBreeding.BearRareRace.Length - 1)];
+                        
                         randomResult = 1;
                     }
                     else if (randomNmb <= 6)
                     {
                         petType = PetBreeding.BearNoRareRace[new Random().Next(PetBreeding.BearNoRareRace.Length - 1)];
+                        
                         randomResult = 2;
                     }
                     else
@@ -145,12 +151,11 @@ namespace Yupi.Messages.Handlers
                         petType = PetBreeding.BearNormalRace[new Random().Next(PetBreeding.BearNormalRace.Length - 1)];
                         randomResult = 3;
                     }
+                    
                     break;
             }
 
-            Pet pet = CatalogManager.CreatePet(Session.GetHabbo().Id, petName,
-                item.GetBaseItem().InteractionType == Interaction.BreedingTerrier ? "pet_terrierbaby" : "pet_bearbaby",
-                petType.ToString(), "ffffff");
+            Pet pet = CatalogManager.CreatePet(Session.GetHabbo().Id, petName, item.GetBaseItem().InteractionType == Interaction.BreedingTerrier ? "pet_terrierbaby" : "pet_bearbaby",  petType.ToString(), "ffffff");
 
             if (pet == null)
                 return;
@@ -2662,9 +2667,6 @@ namespace Yupi.Messages.Handlers
                 queryReactor.RunFastQuery("DELETE FROM items_rooms WHERE id = " + item.Id);
         }
 
-        internal void GetUserLook()
-        {
-            string oldLook = Request.GetString();
-        }
+        internal void GetUserLook() => Request.GetString();
     }
 }
