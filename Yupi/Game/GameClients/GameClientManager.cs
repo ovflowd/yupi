@@ -369,12 +369,12 @@ namespace Yupi.Game.GameClients
         /// </summary>
         private void GiveBadges()
         {
-            if (_badgeQueue.Count() == 0)
+            if (_badgeQueue.Count == 0)
                     return;
                     
             lock (_badgeQueue.SyncRoot)
             {
-                while (_badgeQueue.Count() > 0)
+                while (_badgeQueue.Count > 0)
                 {
                     string badge = (string) _badgeQueue.Dequeue();
 
