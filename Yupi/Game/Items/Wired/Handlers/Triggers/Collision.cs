@@ -16,7 +16,6 @@ namespace Yupi.Game.Items.Wired.Handlers.Triggers
             Room = room;
             OtherString = string.Empty;
             OtherBool = false;
-            _handler = handler;
         }
 
         public Interaction Type => Interaction.TriggerCollision;
