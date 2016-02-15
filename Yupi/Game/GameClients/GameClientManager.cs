@@ -30,16 +30,6 @@ namespace Yupi.Game.GameClients
         private readonly ConcurrentQueue<byte[]> _broadcastQueue;
 
         /// <summary>
-        ///     The Add Clients Queue
-        /// </summary>
-        private readonly ConcurrentQueue<GameClient> _clientsAddQueue;
-
-        /// <summary>
-        ///     The Remove Clients Queue
-        /// </summary>
-        private readonly ConcurrentQueue<GameClient> _clientsToRemove;
-
-        /// <summary>
         ///     The _id user name register
         /// </summary>
         private readonly HybridDictionary _idUserNameRegister;
@@ -70,10 +60,10 @@ namespace Yupi.Game.GameClients
         internal GameClientManager()
         {
             Clients = new ConcurrentDictionary<uint, GameClient>();
-            _clientsAddQueue = new ConcurrentQueue<GameClient>();
-            _clientsToRemove = new ConcurrentQueue<GameClient>();
+            
             _badgeQueue = new Queue();
             _broadcastQueue = new ConcurrentQueue<byte[]>();
+            
             _userNameRegister = new HybridDictionary();
             _userIdRegister = new HybridDictionary();
             _userNameIdRegister = new HybridDictionary();
@@ -125,24 +115,7 @@ namespace Yupi.Game.GameClients
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>System.String.</returns>
-        internal string GetNameById(uint id)
-        {
-            GameClient clientByUserId = GetClientByUserId(id);
-
-            if (clientByUserId != null)
-                return clientByUserId.GetHabbo().UserName;
-
-            string userName;
-
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-            {
-                queryReactor.SetQuery("SELECT username FROM users WHERE id = " + id);
-
-                userName = queryReactor.GetString();
-            }
-
-            return string.IsNullOrEmpty(userName) ? "Unknown User" : userName;
-        }
+        internal string GetNameById(uint id) => Yupi.GetHabboById(id)?.UserName;
 
         /// <summary>
         ///     Gets the clients by identifier.
@@ -172,27 +145,9 @@ namespace Yupi.Game.GameClients
             serverMessage.AppendString(title);
             serverMessage.AppendString("message");
 
-            if (broadCast)
-            {
-                if (Event)
-                {
-                    string text1 = Yupi.GetLanguage().GetVar("ha_event_one");
-                    string text2 = Yupi.GetLanguage().GetVar("ha_event_two");
-                    string text3 = Yupi.GetLanguage().GetVar("ha_event_three");
+            serverMessage.AppendString(broadCast ? (Event ? $"<b>{Yupi.GetLanguage().GetVar("ha_event_one")} {client.GetHabbo().CurrentRoom.RoomData.Owner}!</b>\r\n {Yupi.GetLanguage().GetVar("ha_event_two")} .\r\n<b>{Yupi.GetLanguage().GetVar("ha_event_three")}</b>\r\n{notice}" : $"<b>{Yupi.GetLanguage().GetVar("ha_title")}</b>\r\n{notice}\r\n- <i>{client.GetHabbo().UserName}</i>") : notice);
 
-                    serverMessage.AppendString($"<b>{text1} {client.GetHabbo().CurrentRoom.RoomData.Owner}!</b>\r\n {text2} .\r\n<b>{text3}</b>\r\n{notice}");
-                }
-                else
-                {
-                    string text4 = Yupi.GetLanguage().GetVar("ha_title");
-
-                    serverMessage.AppendString(string.Concat("<b>" + text4 + "</b>\r\n", notice, "\r\n- <i>", client.GetHabbo().UserName, "</i>"));
-                }
-            }
-            else
-                serverMessage.AppendString(notice);
-
-            if (link != string.Empty)
+            if (!string.IsNullOrWhiteSpace(link))
             {
                 serverMessage.AppendString("linkUrl");
                 serverMessage.AppendString(link);
@@ -224,8 +179,6 @@ namespace Yupi.Game.GameClients
         {
             try
             {
-                AddClients();
-                RemoveClients();
                 GiveBadges();
                 BroadcastPackets();
 
@@ -255,9 +208,7 @@ namespace Yupi.Game.GameClients
         /// <param name="exclude">The exclude.</param>
         internal void AmbassadorAlert(ServerMessage message, uint exclude = 0u)
         {
-            IEnumerable<GameClient> gameClients = Clients.Values.Where(x => x.GetHabbo() != null && x.GetHabbo().Rank >= Convert.ToUInt32(Yupi.GetDbConfig().DbData["ambassador.minrank"]) && x.GetHabbo().Id != exclude);
-
-            foreach (GameClient current in gameClients)
+            foreach (GameClient current in Clients.Values.Where(x => x.GetHabbo() != null && x.GetHabbo().Rank >= Convert.ToUInt32(Yupi.GetDbConfig().DbData["ambassador.minrank"]) && x.GetHabbo().Id != exclude))
                 current.SendMessage(message);
         }
 
@@ -283,8 +234,6 @@ namespace Yupi.Game.GameClients
             GameClient gameClient = new GameClient(clientId, connection);
 
             Clients.AddOrUpdate(clientId, gameClient, (key, value) => gameClient);
-
-            _clientsAddQueue.Enqueue(gameClient);
         }
 
         /// <summary>
@@ -294,8 +243,13 @@ namespace Yupi.Game.GameClients
         internal void DisposeConnection(uint clientId)
         {
             GameClient client = GetClient(clientId);
+            
+            if(client != null)
+            {
+                client.Stop();
 
-            _clientsToRemove.Enqueue(client);
+                Clients.TryRemove(client.ConnectionId, out client);
+            }
         }
 
         /// <summary>
@@ -322,7 +276,7 @@ namespace Yupi.Game.GameClients
         {
             GameClient clientByUserId = GetClientByUserId(userId);
 
-            clientByUserId?.Disconnect("user null LogClonesOut");
+            clientByUserId?.Disconnect("User Clones");
         }
 
         /// <summary>
@@ -364,7 +318,7 @@ namespace Yupi.Game.GameClients
             _userNameRegister.Remove(userName.ToLower());
 
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.SetQuery($"UPDATE users SET online='0' WHERE id={userid} LIMIT 1");
+                queryReactor.SetQuery($"UPDATE users SET online = '0' WHERE id = {userid} LIMIT 1");
         }
 
         /// <summary>
@@ -372,38 +326,26 @@ namespace Yupi.Game.GameClients
         /// </summary>
         internal void CloseAll()
         {
-            YupiWriterManager.WriteLine("Saving Inventary Content....", "Yupi.Boot", ConsoleColor.DarkCyan);
+            YupiWriterManager.WriteLine("Saving Inventary Content....", "Yupi.Data", ConsoleColor.DarkCyan);
 
-            foreach (GameClient current2 in Clients.Values.Where(current2 => current2.GetHabbo() != null))
-            {
+            foreach (GameClient current2 in Clients.Values.Where(current2 => current2?.GetHabbo() != null))
                 current2.GetHabbo().GetInventoryComponent().RunDbUpdate();
 
-                current2.GetHabbo().RunDbUpdate();
-            }
+            foreach (GameClient current3 in Clients.Values.Where(current3 => current3?.GetHabbo() != null))
+                current3.GetHabbo().RunDbUpdate();
 
-            YupiWriterManager.WriteLine("Inventary Content Saved!", "Yupi.Boot", ConsoleColor.DarkCyan);
+            YupiWriterManager.WriteLine("Inventary Content Saved!", "Yupi.Data", ConsoleColor.DarkCyan);
 
-            try
-            {
-                YupiWriterManager.WriteLine("Closing Connection YupiDatabaseManager...", "Yupi.Boot", ConsoleColor.DarkMagenta);
+            YupiWriterManager.WriteLine("Closing YupiDatabase Manager...", "Yupi.Data", ConsoleColor.DarkMagenta);
 
-                foreach (GameClient current3 in Clients.Values.Where(current3 => current3.GetConnection() != null))
-                {
-                    current3.GetConnection().Disconnect(current3.GetConnection().GetResponseChannel());
-
-                    Console.ForegroundColor = ConsoleColor.DarkMagenta;
-
-                    YupiWriterManager.WriteLine("Connection YupiDatabaseManager Closed!", "Yupi.Boot", ConsoleColor.DarkMagenta);
-                }
-            }
-            catch (Exception ex)
-            {
-                YupiLogManager.LogCriticalException(ex, "Failed Closing Connection YupiDatabaseManager.");
-            }
+            foreach (GameClient current4 in Clients.Values.Where(current4 => current4?.GetConnection() != null))
+                current4.GetConnection().Disconnect(current4.GetConnection().GetResponseChannel());
+                
+            YupiWriterManager.WriteLine("Yupi DataBase Manager Closed!", "Yupi.Data", ConsoleColor.DarkMagenta);
 
             Clients.Clear();
 
-            YupiWriterManager.WriteLine("Connections closed", "Yupi.Conn", ConsoleColor.DarkYellow);
+            YupiWriterManager.WriteLine("Connection Manager Closed!", "Yupi.Data", ConsoleColor.DarkYellow);
         }
 
         /// <summary>
@@ -422,70 +364,26 @@ namespace Yupi.Game.GameClients
             _userNameRegister.Add(newName.ToLower(), old);
         }
 
-        private void AddClients()
-        {
-            if (_clientsAddQueue.Count > 0)
-            {
-                GameClient client;
-
-                while (_clientsAddQueue.TryDequeue(out client))
-                    client.Ready();
-            }
-        }
-
-        private void RemoveClients()
-        {
-            if (_clientsToRemove.Count > 0)
-            {
-                GameClient client;
-
-                while (_clientsToRemove.TryDequeue(out client))
-                {
-                    if (client != null)
-                    {
-                        client.Stop();
-
-                        Clients.TryRemove(client.ConnectionId, out client);
-                    }
-                }
-            }
-        }
-
         /// <summary>
         ///     Gives the badges.
         /// </summary>
         private void GiveBadges()
         {
-            try
+            if (!_badgeQueue.Any())
+                    return;
+                    
+            lock (_badgeQueue.SyncRoot)
             {
-                DateTime now = DateTime.Now;
-
-                if (_badgeQueue.Count > 0)
+                while (_badgeQueue.Any())
                 {
-                    lock (_badgeQueue.SyncRoot)
-                    {
-                        while (_badgeQueue.Count > 0)
-                        {
-                            string badge = (string) _badgeQueue.Dequeue();
+                    string badge = (string) _badgeQueue.Dequeue();
 
-                            foreach (GameClient current in Clients.Values.Where(current => current.GetHabbo() != null))
-                            {
-                                current.GetHabbo().GetBadgeComponent().GiveBadge(badge, true, current);
-                                current.SendNotif(Yupi.GetLanguage().GetVar("user_earn_badge"));
-                            }
-                        }
-                    }
+                    foreach (GameClient current in Clients.Values.Where(current => current?.GetHabbo() != null))
+                        current.GetHabbo().GetBadgeComponent().GiveBadge(badge, true, current);
+                    
+                    foreach (GameClient current2 in Clients.Values.Where(current2 => current2?.GetHabbo() != null))            
+                        current2.SendNotif(Yupi.GetLanguage().GetVar("user_earn_badge"));
                 }
-
-                TimeSpan timeSpan = DateTime.Now - now;
-
-                if (timeSpan.TotalSeconds > 3.0)
-                    Console.WriteLine("GameClientManager.GiveBadges spent: {0} seconds in working.",
-                        timeSpan.TotalSeconds);
-            }
-            catch (Exception ex)
-            {
-                YupiLogManager.LogException(ex, "Registered HabboHotel Thread Exception.");
             }
         }
 
@@ -494,27 +392,20 @@ namespace Yupi.Game.GameClients
         /// </summary>
         private void BroadcastPackets()
         {
-            try
+            if (!_broadcastQueue.Any())
+                return;
+
+            lock(_broadcastQueue.SyncRoot)
             {
-                if (!_broadcastQueue.Any())
-                    return;
+                while (_broadcastQueue.Any())
+                {
+                    byte[] bytes;
+                        
+                    _broadcastQueue.TryDequeue(out bytes);
 
-                DateTime now = DateTime.Now;
-                byte[] bytes;
-
-                _broadcastQueue.TryDequeue(out bytes);
-
-                foreach (GameClient current in Clients.Values.Where(current => current?.GetConnection() != null))
-                    current.GetConnection().SendData(current.GetConnection().GetResponseChannel(), bytes);
-
-                TimeSpan timeSpan = DateTime.Now - now;
-
-                if (timeSpan.TotalSeconds > 3.0)
-                    Console.WriteLine("GameClientManager.BroadcastPackets spent: {0} seconds in working.", timeSpan.TotalSeconds);
-            }
-            catch (Exception ex)
-            {
-                YupiLogManager.LogException(ex, "Registered HabboHotel Thread Exception.");
+                    foreach (GameClient current in Clients.Values.Where(current => current?.GetConnection() != null))
+                        current.GetConnection().SendData(current.GetConnection().GetResponseChannel(), bytes);
+                }
             }
         }
     }
