@@ -369,12 +369,12 @@ namespace Yupi.Game.GameClients
         /// </summary>
         private void GiveBadges()
         {
-            if (!_badgeQueue.Any())
+            if (_badgeQueue.Count() == 0)
                     return;
                     
             lock (_badgeQueue.SyncRoot)
             {
-                while (_badgeQueue.Any())
+                while (_badgeQueue.Count() > 0)
                 {
                     string badge = (string) _badgeQueue.Dequeue();
 
@@ -394,19 +394,13 @@ namespace Yupi.Game.GameClients
         {
             if (!_broadcastQueue.Any())
                 return;
-
-            lock(_broadcastQueue.SyncRoot)
-            {
-                while (_broadcastQueue.Any())
-                {
-                    byte[] bytes;
+                
+            byte[] bytes;
                         
-                    _broadcastQueue.TryDequeue(out bytes);
+            _broadcastQueue.TryDequeue(out bytes);
 
-                    foreach (GameClient current in Clients.Values.Where(current => current?.GetConnection() != null))
-                        current.GetConnection().SendData(current.GetConnection().GetResponseChannel(), bytes);
-                }
-            }
+            foreach (GameClient current in Clients.Values.Where(current => current?.GetConnection() != null))
+                current.GetConnection().SendData(current.GetConnection().GetResponseChannel(), bytes);
         }
     }
 }
