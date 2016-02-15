@@ -10,8 +10,6 @@ namespace Yupi.Game.Items.Wired.Handlers.Effects
 {
     public class ResetPosition : IWiredItem
     {
-        private readonly List<Interaction> _mBanned;
-
         public ResetPosition(RoomItem item, Room room)
         {
             Item = item;
