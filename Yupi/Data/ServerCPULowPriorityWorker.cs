@@ -34,12 +34,14 @@ namespace Yupi.Data
     /// </summary>
     internal class ServerCpuLowPriorityWorker
     {
-        /// <summary>
-        ///     The _user peak
+         /// <summary>
+        ///     If Task is Executed
         /// </summary>
-        private static int _userPeak;
-
         private static bool _isExecuted;
+        
+        /// <summary>
+        ///     Stop Watch Executer
+        /// </summary>
         private static Stopwatch _lowPriorityStopWatch;
 
         /// <summary>
@@ -47,15 +49,9 @@ namespace Yupi.Data
         /// </summary>
         internal static void Load()
         {
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-            {
-                queryReactor.SetQuery("SELECT userpeak FROM server_status");
-
-                _userPeak = queryReactor.GetInteger();
-
-                _lowPriorityStopWatch = new Stopwatch();
-                _lowPriorityStopWatch.Start();
-            }
+             _lowPriorityStopWatch = new Stopwatch();
+             
+             _lowPriorityStopWatch.Start();
         }
 
         /// <summary>
@@ -67,29 +63,21 @@ namespace Yupi.Data
             {
                 try
                 {
-                    int clientCount = Yupi.GetGame().GetClientManager().ClientCount();
-
-                    int loadedRoomsCount = Yupi.GetGame().GetRoomManager().LoadedRoomsCount;
-
                     DateTime dateTime = new DateTime((DateTime.Now - Yupi.YupiServerStartDateTime).Ticks);
 
-                    Console.Title = string.Concat("Yupi | Time: ", int.Parse(dateTime.ToString("dd")) - 1, "d:",
-                        dateTime.ToString("HH"), "h:", dateTime.ToString("mm"), "m | Users: ",
-                        clientCount, " | Rooms: ", loadedRoomsCount);
+                    Console.Title = string.Concat("Yupi | Time: ", int.Parse(dateTime.ToString("dd")) - 1, "d:", dateTime.ToString("HH"), "h:", dateTime.ToString("mm"), "m | Users: ", Yupi.GetGame().GetClientManager().ClientCount(), " | Rooms: ", Yupi.GetGame().GetRoomManager().LoadedRoomsCount);
 
                     Yupi.GetGame().GetNavigator().LoadNewPublicRooms();
-
-                    _isExecuted = true;
-
-                    _lowPriorityStopWatch.Restart();
                 }
                 catch (Exception e)
                 {
                     YupiLogManager.LogException(e, "Failed Processing LowPriorityWorker.");
-
-                    _isExecuted = true;
-
-                    _lowPriorityStopWatch.Restart(); 
+                }
+                finally
+                {
+                     _isExecuted = true;
+                     
+                     _lowPriorityStopWatch.Restart();
                 }
             }
         }
