@@ -69,7 +69,7 @@ namespace Yupi.Game.Users.Factories
                 queryReactor.SetQuery("SELECT COUNT(auth_ticket) FROM users WHERE auth_ticket = @ticket");
                 queryReactor.AddParameter("ticket", sessionTicket);
 
-                int resultInteger = queryReactor.GetInteger();
+                //int resultInteger = queryReactor.GetInteger();
 
                 //YupiLogManager.LogMessage("Key: " + sessionTicket + " isn't attached.", "Yupi.Users", false);
                 //Because User can also doesn't exists.
