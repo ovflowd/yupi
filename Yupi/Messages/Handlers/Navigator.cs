@@ -389,33 +389,44 @@ namespace Yupi.Messages.Handlers
         internal void ToggleStaffPick()
         {
             uint roomId = Request.GetUInteger();
-            bool current = Request.GetBool();
+            
+            Request.GetBool();
+            
+            
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(roomId);
             Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(Session, "ACH_Spr", 1, true);
-            if (room == null) return;
+            
+            if (room == null)
+                return;
+            
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 PublicItem pubItem = Yupi.GetGame().GetNavigator().GetPublicItem(roomId);
+                
                 if (pubItem == null) // not picked
                 {
-                    queryReactor.SetQuery(
-                        "INSERT INTO navigator_publics (bannertype, room_id, category_parent_id) VALUES ('0', @roomId, '-2')");
+                    queryReactor.SetQuery("INSERT INTO navigator_publics (bannertype, room_id, category_parent_id) VALUES ('0', @roomId, '-2')");
+                    
                     queryReactor.AddParameter("roomId", room.RoomId);
-                    queryReactor.RunQuery();
-                    queryReactor.RunFastQuery("SELECT last_insert_id()");
-                    uint publicItemId = (uint) queryReactor.GetInteger();
-                    PublicItem publicItem = new PublicItem(publicItemId, 0, string.Empty, string.Empty, string.Empty,
-                        PublicImageType.Internal, room.RoomId, 0, -2, false, 1, string.Empty);
+                    
+                    uint lastInsertId = (uint) queryReactor.InsertQuery();
+                    
+                    PublicItem publicItem = new PublicItem(lastInsertId, 0, string.Empty, string.Empty, string.Empty, PublicImageType.Internal, room.RoomId, 0, -2, false, 1, string.Empty);
+                    
                     Yupi.GetGame().GetNavigator().AddPublicItem(publicItem);
                 }
                 else // picked
                 {
                     queryReactor.SetQuery("DELETE FROM navigator_publics WHERE id = @pubId");
+                    
                     queryReactor.AddParameter("pubId", pubItem.Id);
                     queryReactor.RunQuery();
+                    
                     Yupi.GetGame().GetNavigator().RemovePublicItem(pubItem.Id);
                 }
+                
                 room.RoomData.SerializeRoomData(Response, Session, false, true);
+                
                 Yupi.GetGame().GetNavigator().LoadNewPublicRooms();
             }
         }
