@@ -101,7 +101,7 @@ namespace Yupi.Data
                     return;
                 }
 
-                if (Yupi.GetGame().GetClientManager().Clients.ContainsKey(user.Key))
+                if (Yupi.GetGame().GetClientManager().GetClientByUserId(user.Key) != null)
                     continue;
 
                 if ((DateTime.Now - user.Value.LastUsed).TotalMilliseconds < 1800000)

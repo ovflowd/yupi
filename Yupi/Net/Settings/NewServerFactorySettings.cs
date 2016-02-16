@@ -2,7 +2,7 @@
 
 namespace Yupi.Net.Settings
 {
-    internal class ServerFactorySettings
+    internal class NewServerFactorySettings
     {
         /// <summary>
         ///     Accepted Connection Count
@@ -30,18 +30,12 @@ namespace Yupi.Net.Settings
         internal static IPAddress AllowedAddresses;
 
         /// <summary>
-        ///     Server Transport Type
-        /// </summary>
-        internal static TransportType ServerTransportType;
-
-        /// <summary>
         ///     Connection Delay
         /// </summary>
         internal static bool ConnectionNoDelay;
 
-        internal static void Init(TransportType serverTransportType, IPAddress allowedAddress, int serverPort, int workerThreads, int bufferSize, bool noDelay)
+        internal static void Init(IPAddress allowedAddress, int serverPort, int workerThreads, int bufferSize, bool noDelay)
         {
-            ServerTransportType = serverTransportType;
             AllowedAddresses = allowedAddress;
             ServerPort = serverPort;
             WorkerThreads = workerThreads;

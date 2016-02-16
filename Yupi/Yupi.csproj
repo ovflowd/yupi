@@ -76,11 +76,11 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>Build\Executables\x64\</OutputPath>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <FileAlignment>4096</FileAlignment>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <LangVersion>6</LangVersion>
@@ -159,8 +159,24 @@
     <AssemblyName>Yupi</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Helios, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Helios.1.4.2\lib\net45\Helios.dll</HintPath>
+    <Reference Include="DotNetty.Buffers, Version=0.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetty.Buffers.0.2.3\lib\net45\DotNetty.Buffers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DotNetty.Codecs, Version=0.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetty.Codecs.0.2.3\lib\net45\DotNetty.Codecs.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DotNetty.Common, Version=0.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetty.Common.0.2.3\lib\net45\DotNetty.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DotNetty.Handlers, Version=0.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetty.Handlers.0.2.3\lib\net45\DotNetty.Handlers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DotNetty.Transport, Version=0.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetty.Transport.0.2.3\lib\net45\DotNetty.Transport.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
@@ -189,6 +205,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Algorithms\Astar\PathNode.cs" />
+    <Compile Include="Core\Algorithms\Encryption\Converter.cs" />
     <Compile Include="Core\Algorithms\GameField\Algorithm\GametileUpdate.cs" />
     <Compile Include="Core\Algorithms\GameField\GameField.cs" />
     <Compile Include="Core\Algorithms\GameField\PointField.cs" />
@@ -224,15 +241,6 @@
     <Compile Include="Game\Groups\Composers\ForumDataMessageComposer.cs" />
     <Compile Include="Game\Groups\Structs\GroupForum.cs" />
     <Compile Include="Game\Pathfinding\Vectors\Coord.cs" />
-    <Compile Include="Core\Encryption\Crypto\KeyExchange\DiffieHellman.cs" />
-    <Compile Include="Core\Encryption\Handler.cs" />
-    <Compile Include="Core\Encryption\Hurlant\Crypto\Prng\ARC4.cs" />
-    <Compile Include="Core\Encryption\Hurlant\Crypto\Rsa\DoCalculateionDelegate.cs" />
-    <Compile Include="Core\Encryption\Hurlant\Crypto\Rsa\Pkcs1PadType.cs" />
-    <Compile Include="Core\Encryption\Hurlant\Crypto\Rsa\RsaKey.cs" />
-    <Compile Include="Core\Encryption\PrimeCalculator.cs" />
-    <Compile Include="Core\Encryption\Utils\Converter.cs" />
-    <Compile Include="Core\Encryption\Utils\Randomizer.cs" />
     <Compile Include="Data\Base\Clients\DatabaseClient.cs" />
     <Compile Include="Data\Base\Managers\AsynchronousDatabaseManager.cs" />
     <Compile Include="Data\Base\Exceptions\DatabaseException.cs" />
@@ -256,6 +264,9 @@
     <Compile Include="Core\Io\ServerUserChatTextHandler.cs" />
     <Compile Include="Core\Io\Logger\YupiWriterManager.cs" />
     <Compile Include="Game\Users\YoutubeVideo.cs" />
+    <Compile Include="Net\Connection\NewConnectionHandler.cs" />
+    <Compile Include="Net\Connection\NewConnectionManager.cs" />
+    <Compile Include="Net\Settings\NewServerFactorySettings.cs" />
     <Compile Include="Net\Web\WebManager.cs" />
     <Compile Include="Data\FurnitureDataManager.cs" />
     <Compile Include="Data\Structs\FurnitureData.cs" />
@@ -574,7 +585,7 @@
     <Compile Include="Core\Security\UserChatInputFilter.cs" />
     <Compile Include="Core\Settings\ServerDatabaseSettings.cs" />
     <Compile Include="Core\Settings\ServerConfigurationSettings.cs" />
-    <Compile Include="Net\Connection\ConnectionHandler.cs" />
+    <Compile Include="Net\Connection\ConnectionActor.cs" />
     <Compile Include="Core\Settings\ConsoleCommandHandler.cs" />
     <Compile Include="Core\Settings\ServerExtraSettings.cs" />
     <Compile Include="Game\Achievements\Structs\Achievement.cs" />
@@ -672,8 +683,6 @@
     <Compile Include="Game\Users\Data\Models\UserData.cs" />
     <Compile Include="Game\Users\Factories\UserDataFactory.cs" />
     <Compile Include="Game\Users\Data\Exceptions\UserDataNotFoundException.cs" />
-    <Compile Include="Net\Connection\ConnectionManager.cs" />
-    <Compile Include="Net\Settings\ServerFactorySettings.cs" />
     <Compile Include="Yupi.cs" />
     <Compile Include="Messages\ClientMessage.cs" />
     <Compile Include="Messages\Handlers\Others.cs" />

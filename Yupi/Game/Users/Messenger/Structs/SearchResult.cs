@@ -58,7 +58,7 @@ namespace Yupi.Game.Users.Messenger.Structs
             reply.AppendInteger(UserId);
             reply.AppendString(UserName);
             reply.AppendString(Motto);
-            reply.AppendBool(Yupi.GetGame().GetClientManager().GetClient(UserId) != null);
+            reply.AppendBool(Yupi.GetGame().GetClientManager().GetClientByUserId(UserId) != null);
             reply.AppendBool(false);
             reply.AppendString(string.Empty);
             reply.AppendInteger(0);

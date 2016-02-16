@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.Linq;
-using System.Numerics;
-using Yupi.Core.Encryption;
-using Yupi.Core.Encryption.Hurlant.Crypto.Prng;
-using Yupi.Core.Encryption.Utils;
+using Yupi.Core.Algorithms.Encryption;
 using Yupi.Core.Settings;
 using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Catalogs.Interfaces;
@@ -97,7 +94,7 @@ namespace Yupi.Messages.Handlers
         internal void SendResponse()
         {
             if (Response != null && Response.Id > 0 && Session?.GetConnection() != null)
-                Session.GetConnection().SendData(Session.GetConnection().GetResponseChannel(), Response.GetReversedBytes());
+                Session.GetConnection().SendData(Response.GetReversedBytes());
         }
 
         /// <summary>
@@ -153,18 +150,10 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         internal void InitCrypto()
         {
-            if (PacketLibraryManager.Config["Crypto.Enabled"] == "false")
-            {
-                Response.Init(PacketLibraryManager.OutgoingRequest("InitCryptoMessageComposer"));
-                Response.AppendString("Yupi");
-                Response.AppendString("Disabled Crypto");
-                SendResponse();
-                return;
-            }
-
             Response.Init(PacketLibraryManager.OutgoingRequest("InitCryptoMessageComposer"));
-            Response.AppendString(Handler.GetRsaDiffieHellmanPrimeKey());
-            Response.AppendString(Handler.GetRsaDiffieHellmanGeneratorKey());
+
+            Response.AppendString("Yupi");
+            Response.AppendString("Disabled Crypto");
             SendResponse();
         }
 
@@ -173,37 +162,15 @@ namespace Yupi.Messages.Handlers
         /// </summary>
         internal void SecretKey()
         {
-            string cipherKey = Request.GetString();
-            BigInteger sharedKey = Handler.CalculateDiffieHellmanSharedKey(cipherKey);
+            Request.GetString();
 
-            if (PacketLibraryManager.Config["Crypto.Enabled"] == "false")
-            {
-                Response.Init(PacketLibraryManager.OutgoingRequest("SecretKeyMessageComposer"));
-                Response.AppendString("Crypto disabled");
-                Response.AppendBool(false); //Rc4 clientside.
-                SendResponse();
-                return;
-            }
-            if (sharedKey != 0)
-            {
-                Response.Init(PacketLibraryManager.OutgoingRequest("SecretKeyMessageComposer"));
-                Response.AppendString(Handler.GetRsaDiffieHellmanPublicKey());
-                Response.AppendBool(ServerExtraSettings.EncryptionClientSide);
-                SendResponse();
+            Response.Init(PacketLibraryManager.OutgoingRequest("SecretKeyMessageComposer"));
 
-                byte[] data = sharedKey.ToByteArray();
+            Response.AppendString("Crypto disabled");
+            Response.AppendBool(false);
+            SendResponse();
 
-                if (data[data.Length - 1] == 0)
-                    Array.Resize(ref data, data.Length - 1);
-
-                Array.Reverse(data, 0, data.Length);
-
-                Session.GetConnection().Arc4ServerSide = new Arc4(data);
-                if (ServerExtraSettings.EncryptionClientSide)
-                    Session.GetConnection().Arc4ClientSide = new Arc4(data);
-            }
-            else
-                Session.Disconnect("crypto error");
+            return;
         }
 
         /// <summary>
@@ -549,18 +516,19 @@ namespace Yupi.Messages.Handlers
         {
             try
             {
-                // Disabled until recreate that function
-
                 int count = Request.GetInteger();
 
                 byte[] bytes = Request.GetBytes(count);
+
                 string outData = Converter.Deflate(bytes);
 
                 WebManager.HttpPostJson(ServerExtraSettings.StoriesApiThumbnailServerUrl, outData);
 
                 ServerMessage thumb = new ServerMessage(PacketLibraryManager.OutgoingRequest("ThumbnailSuccessMessageComposer"));
+
                 thumb.AppendBool(true);
                 thumb.AppendBool(false);
+
                 Session.SendMessage(thumb);
             }
             catch

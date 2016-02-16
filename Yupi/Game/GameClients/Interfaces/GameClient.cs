@@ -23,7 +23,7 @@ namespace Yupi.Game.GameClients.Interfaces
         /// <summary>
         ///     The Client Connection
         /// </summary>
-        private ConnectionHandler _connection;
+        private ConnectionActor _connection;
 
         /// <summary>
         ///     The _disconnected
@@ -65,25 +65,28 @@ namespace Yupi.Game.GameClients.Interfaces
         /// </summary>
         internal DateTime TimePingedReceived;
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="GameClient" /> class.
-        /// </summary>
-        /// <param name="clientId">The client identifier.</param>
-        /// <param name="connection">The connection.</param>
-        internal GameClient(uint clientId, ConnectionHandler connection)
-        {
-            ConnectionId = clientId;
-
-            _connection = connection;
-
-            CurrentRoomUserId = -1;
-        }
 
         /// <summary>
         ///     Gets the connection identifier.
         /// </summary>
         /// <value>The connection identifier.</value>
-        internal uint ConnectionId { get; private set; }
+        internal string ConnectionAddress;
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="GameClient" /> class.
+        /// </summary>
+        /// <param name="clientAddress">The client identifier.</param>
+        /// <param name="connection">The connection.</param>
+        internal GameClient(string clientAddress, ConnectionActor connection)
+        {
+            ConnectionAddress = clientAddress;
+
+            _connection = connection;
+
+            _connection.DataParser.SetConnection(_connection, this);
+
+            CurrentRoomUserId = -1;
+        }
 
         /// <summary>
         ///     Handles the publicist.
@@ -163,7 +166,7 @@ namespace Yupi.Game.GameClients.Interfaces
         ///     Gets the connection.
         /// </summary>
         /// <returns>ConnectionInformation.</returns>
-        internal ConnectionHandler GetConnection() => _connection;
+        internal ConnectionActor GetConnection() => _connection;
 
         /// <summary>
         ///     Gets the message handler.
@@ -197,7 +200,7 @@ namespace Yupi.Game.GameClients.Interfaces
                 if (string.IsNullOrWhiteSpace(authTicket))
                     return false;
 
-                string ip = GetConnection().GetIp();
+                string ip = GetConnection().IpAddress.ToString();
 
                 if (string.IsNullOrEmpty(ip))
                     return false;
@@ -475,7 +478,7 @@ namespace Yupi.Game.GameClients.Interfaces
             if (_disconnected)
                 return;
 
-            _connection?.Disconnect(_connection.GetResponseChannel());
+            _connection?.Disconnect();
 
             _disconnected = true;
         }
@@ -494,7 +497,7 @@ namespace Yupi.Game.GameClients.Interfaces
 
             byte[] bytes = message.GetReversedBytes();
 
-            GetConnection().SendData(_connection.GetResponseChannel(), bytes);
+            GetConnection().SendData(bytes);
         }
 
         /// <summary>
@@ -506,7 +509,7 @@ namespace Yupi.Game.GameClients.Interfaces
             if (GetConnection() == null)
                 return;
 
-            GetConnection().SendData(_connection.GetResponseChannel(), bytes);
+            GetConnection().SendData(bytes);
         }
 
         /// <summary>
@@ -518,7 +521,7 @@ namespace Yupi.Game.GameClients.Interfaces
             if (GetConnection() == null)
                 return;
 
-            GetConnection().SendData(_connection.GetResponseChannel(), StaticMessagesManager.Get(type));
+            GetConnection().SendData(StaticMessagesManager.Get(type));
         }
 
         /// <summary>

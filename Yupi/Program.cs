@@ -23,7 +23,6 @@
 */
 
 using System;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
 using Yupi.Core.Settings;
@@ -47,6 +46,7 @@ namespace Yupi
             while (Yupi.IsLive)
             {
                 Console.CursorVisible = true;
+
                 ConsoleCommandHandler.InvokeCommand(Console.ReadLine());
             }
         }

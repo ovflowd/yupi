@@ -16,7 +16,6 @@ namespace Yupi.Messages.Parsers
         internal static Dictionary<int, StaticRequestHandler> Incoming;
         internal static Dictionary<string, string> Library;
         internal static Dictionary<string, int> Outgoing;
-        internal static Dictionary<string, string> Config;
 
         private static List<uint> _registeredOutoings;
 
@@ -40,7 +39,6 @@ namespace Yupi.Messages.Parsers
             Incoming = new Dictionary<int, StaticRequestHandler>();
             Library = new Dictionary<string, string>();
             Outgoing = new Dictionary<string, int>();
-            Config = new Dictionary<string, string>();
 
             ReleaseName = ServerConfigurationSettings.Data["client.build"];
         }
@@ -50,7 +48,6 @@ namespace Yupi.Messages.Parsers
             RegisterLibrary();
             RegisterOutgoing();
             RegisterIncoming();
-            RegisterConfig();
         }
 
         public static void Init()
@@ -106,7 +103,6 @@ namespace Yupi.Messages.Parsers
             Incoming.Clear();
             Outgoing.Clear();
             Library.Clear();
-            Config.Clear();
 
             Register();
         }
@@ -140,19 +136,6 @@ namespace Yupi.Messages.Parsers
                     if (!Incoming.ContainsKey(packetId))
                         Incoming.Add(packetId, new StaticRequestHandler(del));
                 }
-            }
-        }
-
-        internal static void RegisterConfig()
-        {
-            string[] filePaths = Directory.GetFiles($@"{Yupi.YupiVariablesDirectory}\Packets\{ReleaseName}", "*.inf");
-
-            foreach (string[] fields in filePaths.Select(File.ReadAllLines).SelectMany(fileContents => fileContents.Where(line => !string.IsNullOrEmpty(line) && !line.StartsWith("[")).Select(line => line.Split('='))))
-            {
-                if (fields[1].Contains('/'))
-                    fields[1] = fields[1].Split('/')[0];
-
-                Config.Add(fields[0], fields[1]);
             }
         }
 

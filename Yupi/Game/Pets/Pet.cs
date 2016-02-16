@@ -336,7 +336,7 @@ namespace Yupi.Game.Pets
         ///     Gets the name of the owner.
         /// </summary>
         /// <value>The name of the owner.</value>
-        internal string OwnerName => Yupi.GetGame().GetClientManager().GetNameById(OwnerId);
+        internal string OwnerName => Yupi.GetGame().GetClientManager().GetUserNameByUserId(OwnerId);
 
         /// <summary>
         ///     Called when [respect].

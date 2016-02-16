@@ -397,7 +397,7 @@ namespace Yupi.Game.Support
                 ServerMessage serverMessage =
                     new ServerMessage(PacketLibraryManager.OutgoingRequest("ModerationToolUserChatlogMessageComposer"));
                 serverMessage.AppendInteger(userId);
-                serverMessage.AppendString(Yupi.GetGame().GetClientManager().GetNameById(userId));
+                serverMessage.AppendString(Yupi.GetGame().GetClientManager().GetUserNameByUserId(userId));
 
                 if (table != null)
                 {

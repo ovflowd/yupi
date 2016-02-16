@@ -11,7 +11,6 @@ using System.Text;
 using System.Timers;
 using log4net;
 using MySql.Data.MySqlClient;
-using Yupi.Core.Encryption;
 using Yupi.Core.Io.Logger;
 using Yupi.Core.Settings;
 using Yupi.Core.Util.Math;
@@ -391,6 +390,8 @@ namespace Yupi
                     ConnectionTimeout = 10
                 });
 
+                ServerExtraSettings.RunExtraSettings();
+
                 YupiLogManager.Init(MethodBase.GetCurrentMethod().DeclaringType);
                 
                 using (IQueryAdapter queryReactor = GetDatabaseManager().GetQueryReactor())
@@ -416,18 +417,13 @@ namespace Yupi
 
                 ClientMessageFactory.Init();
 
-                ServerFactorySettings.Init(TransportType.Tcp, IPAddress.Any, int.Parse(ServerConfigurationSettings.Data["game.tcp.port"]), 2, 4072, true);
+                NewServerFactorySettings.Init(IPAddress.Any, int.Parse(ServerConfigurationSettings.Data["game.tcp.port"]), 2, 4072, ServerConfigurationSettings.Data["game.tcp.enablenagles"] == "true");
 
-                ConnectionManager.Init(new ServerPacketParser());
+                ServerPacketParser parser = new ServerPacketParser();
 
-                ConnectionManager.Start();
+                NewConnectionManager.Init(parser);
 
-                YupiWriterManager.WriteLine("Server Started at Port " + ServerConfigurationSettings.Data["game.tcp.port"] + " and Address " + ServerConfigurationSettings.Data["game.tcp.bindip"], "Yupi.Boot");
-
-                if (PacketLibraryManager.Config["crypto.enabled"] == "true")
-                    Handler.Initialize(PacketLibraryManager.Config["crypto.rsa.n"], PacketLibraryManager.Config["crypto.rsa.d"], PacketLibraryManager.Config["crypto.rsa.e"]);
-
-                 YupiWriterManager.WriteLine(PacketLibraryManager.Config["crypto.enabled"] == "true" ? "Started RSA Crypto Service." : "The Crypto Service is Disabled.", "Yupi.Code", ConsoleColor.DarkYellow);
+                YupiWriterManager.WriteLine("Server Started at Port " + ServerConfigurationSettings.Data["game.tcp.port"] + " and Address " + ServerConfigurationSettings.Data["game.tcp.bindip"], "Yupi.Boot", ConsoleColor.DarkCyan);
 
                 if (ConsoleTimerOn)
                 {
@@ -436,7 +432,9 @@ namespace Yupi
                     ConsoleRefreshTimer.Start();
                 }
 
-                YupiWriterManager.WriteLine("Yupi Emulator ready.", "Yupi.Boot");
+                YupiWriterManager.WriteLine("The Encryption System is Removed from Yupi.", "Yupi.Info", ConsoleColor.DarkYellow);
+
+                YupiWriterManager.WriteLine("Yupi Emulator Ready.", "Yupi.Boot", ConsoleColor.DarkGreen);
 
                 IsLive = true;
             }
@@ -688,7 +686,7 @@ namespace Yupi
 
             GetGame().GetClientManager().CloseAll();
 
-            ConnectionManager.Stop();
+            NewConnectionManager.Stop();
 
             foreach (Group group in GetGame().GetGroupManager().Groups.Values)
                 group.UpdateForum();

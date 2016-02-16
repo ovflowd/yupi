@@ -572,7 +572,7 @@ namespace Yupi.Game.Users.Inventory.Components
                 .Init(PacketLibraryManager.OutgoingRequest("RemoveInventoryObjectMessageComposer"));
 
             GetClient().GetMessageHandler().GetResponse().AppendInteger(id);
-            //this.GetClient().GetMessageHandler().GetResponse().AppendInt32(Convert.ToInt32(this.GetClient().GetHabbo().Id));
+            //this.GetClientByAddress().GetMessageHandler().GetResponse().AppendInt32(Convert.ToInt32(this.GetClientByAddress().GetHabbo().Id));
 
             GetClient().GetMessageHandler().SendResponse();
             if (_mAddedItems.Contains(id))

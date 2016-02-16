@@ -82,7 +82,7 @@ namespace Yupi.Game.Users.Messenger
         /// </summary>
         internal void Destroy()
         {
-            IEnumerable<GameClient> clientsById = Yupi.GetGame().GetClientManager().GetClientsById(Friends.Keys);
+            IEnumerable<GameClient> clientsById = Yupi.GetGame().GetClientManager().GetClientsByUserIds(Friends.Keys);
 
             foreach (
                 GameClient current in
@@ -106,7 +106,7 @@ namespace Yupi.Game.Users.Messenger
             if (Friends == null)
                 return;
 
-            IEnumerable<GameClient> clientsById = Yupi.GetGame().GetClientManager().GetClientsById(Friends.Keys);
+            IEnumerable<GameClient> clientsById = Yupi.GetGame().GetClientManager().GetClientsByUserIds(Friends.Keys);
 
             if (clientsById == null)
                 return;

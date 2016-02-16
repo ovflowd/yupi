@@ -25,7 +25,6 @@
 using System;
 using System.Diagnostics;
 using Yupi.Core.Io.Logger;
-using Yupi.Data.Base.Adapters.Interfaces;
 
 namespace Yupi.Data
 {

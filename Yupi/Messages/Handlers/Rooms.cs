@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web.Script.Serialization;
-using Yupi.Core.Encryption.Utils;
+using Yupi.Core.Algorithms.Encryption;
 using Yupi.Core.Io;
 using Yupi.Core.Io.Logger;
 using Yupi.Core.Security.BlackWords;
@@ -132,7 +132,7 @@ namespace Yupi.Messages.Handlers
 
         internal void OnlineConfirmationEvent()
         {
-            YupiWriterManager.WriteLine(Request.GetString() + " joined game. With IP " + Session.GetConnection().GetIp(), "Yupi.Users", ConsoleColor.DarkGreen);
+            YupiWriterManager.WriteLine(Request.GetString() + " joined game. With IP " + Session.GetConnection().IpAddress, "Yupi.Users", ConsoleColor.DarkGreen);
 
             if (!ServerConfigurationSettings.Data.ContainsKey("welcome.message.enabled") ||
                 ServerConfigurationSettings.Data["welcome.message.enabled"] != "true")
@@ -2868,14 +2868,17 @@ namespace Yupi.Messages.Handlers
             try
             {
                 int count = Request.GetInteger();
+
                 byte[] bytes = Request.GetBytes(count);
                 string outData = Converter.Deflate(bytes);
 
                 string url = WebManager.HttpPostJson(ServerExtraSettings.StoriesApiServerUrl, outData);
+
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
 
                 dynamic jsonArray = serializer.Deserialize<object>(outData);
                 string encodedurl = ServerExtraSettings.StoriesApiHost + url;
+
                 encodedurl = encodedurl.Replace("\n", string.Empty);
 
                 int roomId = jsonArray["roomid"];
@@ -2883,8 +2886,7 @@ namespace Yupi.Messages.Handlers
 
                 using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    queryReactor.SetQuery(
-                        "INSERT INTO cms_stories_photos_preview (user_id,user_name,room_id,image_preview_url,image_url,type,date,tags) VALUES (@userid,@username,@roomid,@imagepreviewurl,@imageurl,@types,@dates,@tag)");
+                    queryReactor.SetQuery("INSERT INTO cms_stories_photos_preview (user_id,user_name,room_id,image_preview_url,image_url,type,date,tags) VALUES (@userid,@username,@roomid,@imagepreviewurl,@imageurl,@types,@dates,@tag)");
                     queryReactor.AddParameter("userid", Session.GetHabbo().Id);
                     queryReactor.AddParameter("username", Session.GetHabbo().UserName);
                     queryReactor.AddParameter("roomid", roomId);
@@ -2897,6 +2899,7 @@ namespace Yupi.Messages.Handlers
                 }
 
                 ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("CameraStorageUrlMessageComposer"));
+
                 message.AppendString(url);
 
                 Session.SendMessage(message);
@@ -2912,6 +2915,7 @@ namespace Yupi.Messages.Handlers
             Request.GetString();
 
             int code = Request.GetInteger();
+
             Room room = Session.GetHabbo().CurrentRoom;
             RoomData roomData = room?.RoomData;
 

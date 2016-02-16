@@ -16,13 +16,13 @@ namespace Yupi.Messages
         /// <summary>
         ///     The _user connection
         /// </summary>
-        private ConnectionHandler _userConnection;
+        private ConnectionActor _userConnection;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="QueuedServerMessage" /> class.
         /// </summary>
         /// <param name="connection">The connection.</param>
-        public QueuedServerMessage(ConnectionHandler connection)
+        public QueuedServerMessage(ConnectionActor connection)
         {
             _userConnection = connection;
 
@@ -61,7 +61,7 @@ namespace Yupi.Messages
         /// </summary>
         internal void SendResponse()
         {
-            _userConnection?.SendData(_userConnection.GetResponseChannel(), _packet.ToArray());
+            _userConnection?.SendData(_packet.ToArray());
 
             Dispose();
         }

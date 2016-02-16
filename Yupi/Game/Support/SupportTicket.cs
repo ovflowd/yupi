@@ -114,9 +114,9 @@ namespace Yupi.Game.Support
             RoomId = roomId;
             RoomName = roomName;
             Timestamp = timestamp;
-            _senderName = Yupi.GetGame().GetClientManager().GetNameById(senderId);
-            _reportedName = Yupi.GetGame().GetClientManager().GetNameById(reportedId);
-            _modName = Yupi.GetGame().GetClientManager().GetNameById(ModeratorId);
+            _senderName = Yupi.GetGame().GetClientManager().GetUserNameByUserId(senderId);
+            _reportedName = Yupi.GetGame().GetClientManager().GetUserNameByUserId(reportedId);
+            _modName = Yupi.GetGame().GetClientManager().GetUserNameByUserId(ModeratorId);
             ReportedChats = reportedChats;
         }
 

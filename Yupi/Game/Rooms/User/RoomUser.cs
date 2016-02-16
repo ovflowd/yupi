@@ -1233,7 +1233,7 @@ namespace Yupi.Game.Rooms.User
             }
             message.AppendString(BotData.Gender.ToLower());
             message.AppendInteger(BotData.OwnerId);
-            message.AppendString(Yupi.GetGame().GetClientManager().GetNameById(BotData.OwnerId));
+            message.AppendString(Yupi.GetGame().GetClientManager().GetUserNameByUserId(BotData.OwnerId));
             message.AppendInteger(5);
             message.AppendShort(1);
             message.AppendShort(2);
@@ -1331,7 +1331,7 @@ namespace Yupi.Game.Rooms.User
             if (GetClient() == null || GetClient().GetConnection() == null)
                 return;
 
-            GetClient().GetConnection().SendData(GetClient().GetConnection().GetResponseChannel(), message);
+            GetClient().GetConnection().SendData(message);
         }
 
         /// <summary>

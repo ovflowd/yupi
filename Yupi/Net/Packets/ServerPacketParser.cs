@@ -195,7 +195,7 @@ namespace Yupi.Net.Packets
         /// </summary>
         /// <param name="con">The con.</param>
         /// <param name="me">Me.</param>
-        public void SetConnection(ConnectionHandler con, GameClient me) => _currentClient = me;
+        public void SetConnection(ConnectionActor con, GameClient me) => _currentClient = me;
 
         /// <summary>
         ///     Handles the message.

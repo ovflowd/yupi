@@ -1,6 +1,4 @@
-﻿using System.Data;
-using System.Text;
-using Yupi.Data.Base.Adapters.Interfaces;
+﻿using System.Text;
 using Yupi.Game.Commands.Interfaces;
 using Yupi.Game.GameClients.Interfaces;
 using Yupi.Game.Users;

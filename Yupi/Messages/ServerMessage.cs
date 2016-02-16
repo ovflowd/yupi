@@ -93,10 +93,7 @@ namespace Yupi.Messages
         ///     When StartArray is called, it'll return _arrayCurrentBuffer. Else it will return _buffer.
         /// </summary>
         /// <value>The c message.</value>
-        private MemoryStream CurrentMessage
-        {
-            get { return _onArray ? _arrayCurrentBuffer : _buffer; }
-        }
+        private MemoryStream CurrentMessage => _onArray ? _arrayCurrentBuffer : _buffer;
 
         /// <summary>
         ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
@@ -109,9 +106,7 @@ namespace Yupi.Messages
             _buffer.Dispose();
 
             if (_onArray)
-            {
                 _arrayBuffer.Dispose();
-            }
 
             _disposed = true;
         }
@@ -133,9 +128,7 @@ namespace Yupi.Messages
         public void StartArray()
         {
             if (_onArray)
-            {
                 throw new InvalidOperationException("The array has already started.");
-            }
 
             _onArray = true;
             _arrayCount = 0;
@@ -194,10 +187,7 @@ namespace Yupi.Messages
         ///     Appends the server message.
         /// </summary>
         /// <param name="message">The message.</param>
-        public void AppendServerMessage(ServerMessage message)
-        {
-            AppendBytes(message.GetBytes(), false);
-        }
+        public void AppendServerMessage(ServerMessage message) => AppendBytes(message.GetBytes(), false);
 
         /// <summary>
         ///     Appends the server messages.
@@ -206,9 +196,7 @@ namespace Yupi.Messages
         public void AppendServerMessages(List<ServerMessage> messages)
         {
             foreach (ServerMessage message in messages)
-            {
                 AppendServerMessage(message);
-            }
         }
 
         /// <summary>
@@ -252,16 +240,12 @@ namespace Yupi.Messages
         public void AppendIntegersArray(string str, char delimiter, int lenght, int defaultValue = 0, int maxValue = 0)
         {
             if (string.IsNullOrEmpty(str))
-            {
                 throw new Exception("String is null or empty");
-            }
 
             string[] array = str.Split(delimiter);
 
             if (array.Length == 0)
-            {
                 return;
-            }
 
             uint i = 0;
 
@@ -311,9 +295,7 @@ namespace Yupi.Messages
         public void AppendBytes(byte[] b, bool isInt)
         {
             if (isInt)
-            {
                 Array.Reverse(b);
-            }
 
             CurrentMessage.Write(b, 0, b.Length);
         }

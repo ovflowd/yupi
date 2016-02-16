@@ -115,7 +115,7 @@ namespace Yupi.Messages.Handlers
             {
                 uint num = Request.GetUInteger();
 
-                if (Yupi.GetGame().GetClientManager().GetNameById(num) != "Unknown User")
+                if (Yupi.GetGame().GetClientManager().GetUserNameByUserId(num) != "Unknown User")
                     Session.SendMessage(ModerationTool.SerializeUserInfo(num));
                 else
                     Session.SendNotif(Yupi.GetLanguage().GetVar("help_information_error"));

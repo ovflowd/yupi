@@ -63,7 +63,7 @@ namespace Yupi.Core.Io
         internal static void Write(string format, string header = "", ConsoleColor color = ConsoleColor.White)
         {
             Console.ForegroundColor = ConsoleColor.Gray;
-            Console.Write(@"  " + @"[" + DateTime.Now + "] ");
+            Console.Write(@" " + @"[" + DateTime.Now + "] ");
 
             if (header != "")
             {

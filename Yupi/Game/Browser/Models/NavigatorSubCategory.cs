@@ -22,8 +22,6 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-using System.Collections.Generic;
-
 namespace Yupi.Game.Browser.Models
 {
     /// <summary>

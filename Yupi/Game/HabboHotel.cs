@@ -6,7 +6,6 @@ using Yupi.Core.Io.Interfaces;
 using Yupi.Core.Io.Logger;
 using Yupi.Core.Security;
 using Yupi.Core.Security.BlackWords;
-using Yupi.Core.Settings;
 using Yupi.Data;
 using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Game.Achievements;
@@ -162,7 +161,7 @@ namespace Yupi.Game
         /// </summary>
         internal HabboHotel()
         {
-            YupiWriterManager.WriteLine(@"Starting up Yupi Emulator for " + Environment.MachineName + "...", @"Yupi.Boot");
+            YupiWriterManager.WriteLine("Starting up Yupi Emulator for " + Environment.MachineName + "...", "Yupi.Boot", ConsoleColor.DarkGray);
 
             _clientManager = new GameClientManager();
 
@@ -170,7 +169,7 @@ namespace Yupi.Game
             {
                 AbstractBar bar = new AnimatedBar();
 
-                const int wait = 15;
+                const int wait = 5;
                 const int end = 5;
 
                 uint itemsLoaded;
@@ -283,7 +282,7 @@ namespace Yupi.Game
             {
                 AbstractBar bar = new AnimatedBar();
 
-                const int wait = 15;
+                const int wait = 5;
                 const int end = 5;
 
                 int catalogPageLoaded;
@@ -314,9 +313,6 @@ namespace Yupi.Game
 
                 Progress(bar, wait, end, "Clearing Furni Data...");
                 FurnitureDataManager.Clear();
-
-                Progress(bar, wait, end, "Loading Server Extra Settings...");
-                ServerExtraSettings.RunExtraSettings();
 
                 Progress(bar, wait, end, "Loading Chat Filter...");
                 UserChatInputFilter.Load();

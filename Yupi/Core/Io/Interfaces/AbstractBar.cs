@@ -34,7 +34,7 @@ namespace Yupi.Core.Io.Interfaces
         /// <param name="msg">Message to print</param>
         public void PrintMessage(string msg)
         {
-            Console.Write("  {0}", msg);
+            Console.Write(" {0}", msg);
             Console.Write("\r".PadLeft(Console.WindowWidth - Console.CursorLeft - 1));
         }
 

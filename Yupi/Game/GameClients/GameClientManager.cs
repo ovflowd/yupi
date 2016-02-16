@@ -52,14 +52,14 @@ namespace Yupi.Game.GameClients
         /// <summary>
         ///     The clients
         /// </summary>
-        internal ConcurrentDictionary<uint, GameClient> Clients;
+        internal ConcurrentDictionary<string, GameClient> Clients;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="GameClientManager" /> class.
         /// </summary>
         internal GameClientManager()
         {
-            Clients = new ConcurrentDictionary<uint, GameClient>();
+            Clients = new ConcurrentDictionary<string, GameClient>();
             
             _badgeQueue = new Queue();
             _broadcastQueue = new ConcurrentQueue<byte[]>();
@@ -95,34 +95,34 @@ namespace Yupi.Game.GameClients
         /// </summary>
         /// <param name="clientId">The client identifier.</param>
         /// <returns>GameClient.</returns>
-        internal GameClient GetClient(uint clientId) => Clients.ContainsKey(clientId) ? Clients[clientId] : null;
+        internal GameClient GetClientByAddress(string clientId) => Clients.ContainsKey(clientId) ? Clients[clientId] : null;
 
         /// <summary>
         ///     Check if Client is Online
         /// </summary>
-        /// <param name="clientId">The client identifier.</param>
+        /// <param name="clientAddress">The client identifier.</param>
         /// <returns>bool</returns>
-        internal bool CheckClientOnlineStatus(uint clientId) => GetClient(clientId)?.GetHabbo()?.IsOnline == true;
+        internal bool CheckClientOnlineStatus(string clientAddress) => GetClientByAddress(clientAddress)?.GetHabbo()?.IsOnline == true;
 
         /// <summary>
         ///     Return Online Clients Count
         /// </summary>
         /// <returns>Online Client Count.</returns>
-        internal int GetOnlineClients() => Clients.Values.Count(client => !CheckClientOnlineStatus(client.ConnectionId));
+        internal int GetOnlineClients() => Clients.Values.Count(client => !CheckClientOnlineStatus(client.ConnectionAddress));
 
         /// <summary>
         ///     Gets the name by identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>System.String.</returns>
-        internal string GetNameById(uint id) => Yupi.GetHabboById(id)?.UserName;
+        internal string GetUserNameByUserId(uint id) => Yupi.GetHabboById(id)?.UserName;
 
         /// <summary>
         ///     Gets the clients by identifier.
         /// </summary>
         /// <param name="users">The users.</param>
         /// <returns>IEnumerable&lt;GameClient&gt;.</returns>
-        internal IEnumerable<GameClient> GetClientsById(Dictionary<uint, MessengerBuddy>.KeyCollection users) => users.Select(GetClientByUserId).Where(clientByUserId => clientByUserId != null);
+        internal IEnumerable<GameClient> GetClientsByUserIds(Dictionary<uint, MessengerBuddy>.KeyCollection users) => users.Select(GetClientByUserId).Where(clientByUserId => clientByUserId != null);
 
         /// <summary>
         ///     Sends the super notif.
@@ -221,34 +221,36 @@ namespace Yupi.Game.GameClients
             byte[] bytes = message.GetReversedBytes();
 
             foreach (GameClient current in Clients.Values.Where(current => current?.GetHabbo() != null).Where(current => current.GetHabbo().Rank >= 4u))
-                current.GetConnection().SendData(current.GetConnection().GetResponseChannel(), bytes);
+                current.GetConnection().SendData(bytes);
         }
 
         /// <summary>
         ///     Creates the and start client.
         /// </summary>
-        /// <param name="clientId">The client identifier.</param>
+        /// <param name="clientAddress">The client identifier.</param>
         /// <param name="connection">The connection.</param>
-        internal void CreateAndStartClient(uint clientId, ConnectionHandler connection)
+        internal void AddClient(string clientAddress, ConnectionActor connection)
         {
-            GameClient gameClient = new GameClient(clientId, connection);
+            GameClient gameClient = new GameClient(clientAddress, connection);
 
-            Clients.AddOrUpdate(clientId, gameClient, (key, value) => gameClient);
+            Clients.AddOrUpdate(clientAddress, gameClient, (key, value) => gameClient);
         }
 
         /// <summary>
         ///     Disposes the connection.
         /// </summary>
-        /// <param name="clientId">The client identifier.</param>
-        internal void DisposeConnection(uint clientId)
+        /// <param name="clientAddress">The client identifier.</param>
+        internal void RemoveClient(string clientAddress)
         {
-            GameClient client = GetClient(clientId);
+            GameClient client = GetClientByAddress(clientAddress);
             
             if(client != null)
             {
                 client.Stop();
 
-                Clients.TryRemove(client.ConnectionId, out client);
+                client.GetConnection().Disconnect();
+
+                Clients.TryRemove(client.ConnectionAddress, out client);
             }
         }
 
@@ -339,7 +341,7 @@ namespace Yupi.Game.GameClients
             YupiWriterManager.WriteLine("Closing YupiDatabase Manager...", "Yupi.Data", ConsoleColor.DarkMagenta);
 
             foreach (GameClient current4 in Clients.Values.Where(current4 => current4?.GetConnection() != null))
-                current4.GetConnection().Disconnect(current4.GetConnection().GetResponseChannel());
+                current4.GetConnection().Disconnect();
                 
             YupiWriterManager.WriteLine("Yupi DataBase Manager Closed!", "Yupi.Data", ConsoleColor.DarkMagenta);
 
@@ -400,7 +402,7 @@ namespace Yupi.Game.GameClients
             _broadcastQueue.TryDequeue(out bytes);
 
             foreach (GameClient current in Clients.Values.Where(current => current?.GetConnection() != null))
-                current.GetConnection().SendData(current.GetConnection().GetResponseChannel(), bytes);
+                current.GetConnection().SendData(bytes);
         }
     }
 }

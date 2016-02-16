@@ -32,7 +32,6 @@ using Yupi.Data;
 using Yupi.Data.Base.Adapters.Interfaces;
 using Yupi.Messages;
 using Yupi.Messages.Parsers;
-using Yupi.Net.Connection;
 
 namespace Yupi.Core.Settings
 {
@@ -169,7 +168,7 @@ namespace Yupi.Core.Settings
                         Console.WriteLine("\tMinutes: {0}", uptime.Minutes);
                         Console.WriteLine();
                         Console.WriteLine("Stats:");
-                        Console.WriteLine("\tAccepted Connections: {0}", ConnectionManager.CountAcceptedConnections());
+                        Console.WriteLine("\tAccepted Connections: {0}", GetGame().GetClientManager().ClientCount());
                         Console.WriteLine("\tActive Threads: {0}", Process.GetCurrentProcess().Threads.Count);
                         Console.WriteLine();
                         Console.WriteLine();
