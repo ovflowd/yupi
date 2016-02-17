@@ -30,8 +30,8 @@ Butterfly Emulator, originally created by Martinmine. Actually Based in a Butter
 #### Pull Us!
 You can Help us with Awesome Pull Requests! Or doing a beautifull Fork! You have the Powder!
 
-#### Stable Bitch?
-Want a Stable version? Go to [Master Branch](https://github.com/sant0ro/Yupi/tree/master)
+#### Old Yupi?
+Want a the Old Version from Yupi? Go to [Master Branch](https://github.com/sant0ro/Yupi/tree/master)
 
 ## BSOD!
 
