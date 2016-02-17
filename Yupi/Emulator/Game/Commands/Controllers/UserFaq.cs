@@ -1,11 +1,11 @@
 ﻿using System.Data;
 using System.Text;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.Commands.Interfaces;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Rooms;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Commands.Interfaces;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Rooms;
 
-namespace Yupi.Game.Commands.Controllers
+namespace Yupi.Emulator.Game.Commands.Controllers
 {
     /// <summary>
     ///     Class FastWalk. This class cannot be inherited.

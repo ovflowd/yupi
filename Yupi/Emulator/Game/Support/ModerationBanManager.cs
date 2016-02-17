@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.GameClients.Interfaces;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.GameClients.Interfaces;
 
-namespace Yupi.Game.Support
+namespace Yupi.Emulator.Game.Support
 {
     /// <summary>
     ///     Class ModerationBanManager.

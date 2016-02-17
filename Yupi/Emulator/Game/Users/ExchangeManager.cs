@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
-using Yupi.Core.Io.Logger;
-using Yupi.Core.Settings;
-using Yupi.Game.GameClients.Interfaces;
+using Yupi.Emulator.Core.Io.Logger;
+using Yupi.Emulator.Core.Settings;
+using Yupi.Emulator.Game.GameClients.Interfaces;
 
-namespace Yupi.Game.Users
+namespace Yupi.Emulator.Game.Users
 {
     /// <summary>
     ///     Class CoinsManager.

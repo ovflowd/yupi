@@ -24,12 +24,12 @@
 
 using System.Data;
 using MySql.Data.MySqlClient;
-using Yupi.Data.Base.Adapters;
-using Yupi.Data.Base.Adapters.Handlers;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Data.Base.Clients.Interfaces;
+using Yupi.Emulator.Data.Base.Adapters;
+using Yupi.Emulator.Data.Base.Adapters.Handlers;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Data.Base.Clients.Interfaces;
 
-namespace Yupi.Data.Base.Clients
+namespace Yupi.Emulator.Data.Base.Clients
 {
     public class DatabaseClient : IDatabaseClient
     {

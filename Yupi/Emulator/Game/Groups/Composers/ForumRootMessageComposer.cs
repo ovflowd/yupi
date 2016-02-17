@@ -23,10 +23,10 @@
 */
 
 using System;
-using Yupi.Game.Groups.Structs;
-using Yupi.Messages;
+using Yupi.Emulator.Game.Groups.Structs;
+using Yupi.Emulator.Messages;
 
-namespace Yupi.Game.Groups.Composers
+namespace Yupi.Emulator.Game.Groups.Composers
 {
     /// <summary>
     ///     Class ForumRootMessageComposer.

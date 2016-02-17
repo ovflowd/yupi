@@ -1,8 +1,8 @@
-﻿using Yupi.Game.Catalogs.Interfaces;
-using Yupi.Messages;
-using Yupi.Messages.Parsers;
+﻿using Yupi.Emulator.Game.Catalogs.Interfaces;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Game.Catalogs.Composers
+namespace Yupi.Emulator.Game.Catalogs.Composers
 {
     internal class TargetedOfferComposer
     {

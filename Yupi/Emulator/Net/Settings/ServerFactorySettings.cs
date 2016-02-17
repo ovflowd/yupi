@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Yupi.Net.Settings
+namespace Yupi.Emulator.Net.Settings
 {
     internal class ServerFactorySettings
     {
@@ -34,14 +34,25 @@ namespace Yupi.Net.Settings
         /// </summary>
         internal static bool ConnectionNoDelay;
 
-        internal static void Init(IPAddress allowedAddress, int serverPort, int workerThreads, int bufferSize, bool noDelay)
+        internal static void Init(IPAddress allowedAddress, int serverPort, int bufferSize, bool noDelay, int boss, int worker)
         {
             AllowedAddresses = allowedAddress;
             ServerPort = serverPort;
-            WorkerThreads = workerThreads;
             BufferSize = bufferSize;
             ConnectionNoDelay = noDelay;
+            MaxBossSize = boss;
+            MaxWorkerSize = worker;
         }
+
+        /// <summary>
+        ///    Max Boss Size
+        /// </summary>
+        internal static int MaxBossSize;
+
+        /// <summary>
+        ///     Max Worker Size
+        /// </summary>
+        internal static int MaxWorkerSize;
 
         /// <summary>
         ///     Add Connection Id and Return

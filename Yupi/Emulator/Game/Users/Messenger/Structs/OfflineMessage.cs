@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Data;
-using Yupi.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 
-namespace Yupi.Game.Users.Messenger.Structs
+namespace Yupi.Emulator.Game.Users.Messenger.Structs
 {
     /// <summary>
     ///     Class OfflineMessage.

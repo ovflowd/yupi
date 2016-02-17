@@ -26,7 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Yupi.Core.Settings
+namespace Yupi.Emulator.Core.Settings
 {
     /// <summary>
     ///     Class ServerConfigurationSettings.

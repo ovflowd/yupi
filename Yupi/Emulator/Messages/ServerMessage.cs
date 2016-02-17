@@ -28,7 +28,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Yupi.Messages
+namespace Yupi.Emulator.Messages
 {
     /// <summary>
     ///     Class ServerMessage.

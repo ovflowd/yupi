@@ -1,7 +1,7 @@
 using System;
-using Yupi.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 
-namespace Yupi.Game.Items.Handlers
+namespace Yupi.Emulator.Game.Items.Handlers
 {
     /// <summary>
     ///     Class HopperHandler.

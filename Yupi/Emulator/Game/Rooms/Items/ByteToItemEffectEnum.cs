@@ -1,6 +1,6 @@
-using Yupi.Game.Rooms.Items.Enums;
+using Yupi.Emulator.Game.Rooms.Items.Enums;
 
-namespace Yupi.Game.Rooms.Items
+namespace Yupi.Emulator.Game.Rooms.Items
 {
     /// <summary>
     ///     Class ByteToItemEffectEnum.

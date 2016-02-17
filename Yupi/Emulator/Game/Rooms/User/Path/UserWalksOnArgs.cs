@@ -1,6 +1,6 @@
 using System;
 
-namespace Yupi.Game.Rooms.User.Path
+namespace Yupi.Emulator.Game.Rooms.User.Path
 {
     /// <summary>
     ///     Class UserWalksOnArgs.

@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data;
 using System.Linq;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.Catalogs;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Items.Interactions.Enums;
-using Yupi.Game.Items.Interfaces;
-using Yupi.Game.Pets;
-using Yupi.Game.RoomBots;
-using Yupi.Game.Rooms;
-using Yupi.Game.Users.Data.Models;
-using Yupi.Messages;
-using Yupi.Messages.Enums;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Catalogs;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Items.Interactions.Enums;
+using Yupi.Emulator.Game.Items.Interfaces;
+using Yupi.Emulator.Game.Pets;
+using Yupi.Emulator.Game.RoomBots;
+using Yupi.Emulator.Game.Rooms;
+using Yupi.Emulator.Game.Users.Data.Models;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Enums;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Game.Users.Inventory.Components
+namespace Yupi.Emulator.Game.Users.Inventory.Components
 {
     /// <summary>
     ///     Class InventoryComponent.
@@ -572,7 +572,7 @@ namespace Yupi.Game.Users.Inventory.Components
                 .Init(PacketLibraryManager.OutgoingRequest("RemoveInventoryObjectMessageComposer"));
 
             GetClient().GetMessageHandler().GetResponse().AppendInteger(id);
-            //this.GetClientByConnectionId().GetMessageHandler().GetResponse().AppendInt32(Convert.ToInt32(this.GetClientByConnectionId().GetHabbo().Id));
+            //this.GetClientByAddress().GetMessageHandler().GetResponse().AppendInt32(Convert.ToInt32(this.GetClientByAddress().GetHabbo().Id));
 
             GetClient().GetMessageHandler().SendResponse();
             if (_mAddedItems.Contains(id))

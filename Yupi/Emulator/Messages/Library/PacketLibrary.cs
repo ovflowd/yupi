@@ -1,6 +1,6 @@
-using Yupi.Messages.Handlers;
+using Yupi.Emulator.Messages.Handlers;
 
-namespace Yupi.Messages.Parsers
+namespace Yupi.Emulator.Messages.Library
 {
     /// <summary>
     ///     Class PacketLibrary.

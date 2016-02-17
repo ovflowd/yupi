@@ -27,12 +27,12 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
-using Yupi.Core.Io.Logger;
-using Yupi.Core.Security.BlackWords.Enums;
-using Yupi.Core.Security.BlackWords.Structs;
-using Yupi.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Core.Io.Logger;
+using Yupi.Emulator.Core.Security.BlackWords.Enums;
+using Yupi.Emulator.Core.Security.BlackWords.Structs;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 
-namespace Yupi.Core.Security.BlackWords
+namespace Yupi.Emulator.Core.Security.BlackWords
 {
     /// <summary>
     ///     Class BlackWordsManager.

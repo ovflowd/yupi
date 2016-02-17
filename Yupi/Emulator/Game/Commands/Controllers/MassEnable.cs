@@ -1,10 +1,10 @@
 ﻿using System.Linq;
-using Yupi.Game.Commands.Interfaces;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Rooms;
-using Yupi.Game.Rooms.User;
+using Yupi.Emulator.Game.Commands.Interfaces;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Rooms;
+using Yupi.Emulator.Game.Rooms.User;
 
-namespace Yupi.Game.Commands.Controllers
+namespace Yupi.Emulator.Game.Commands.Controllers
 {
     /// <summary>
     ///     Class MassEnable. This class cannot be inherited.

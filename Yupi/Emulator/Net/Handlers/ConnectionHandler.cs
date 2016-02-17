@@ -1,57 +1,74 @@
 ﻿using System;
+using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using DotNetty.Buffers;
 using DotNetty.Transport.Channels;
-using Yupi.Core.Security;
-using Yupi.Game.GameClients;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Net.Connection;
-using Yupi.Net.Packets;
+using MySql.Data.MySqlClient.Memcached;
+using Yupi.Emulator.Core.Security;
+using Yupi.Emulator.Game.GameClients;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Net.Connection;
 
-namespace Yupi.Net.Handlers
+namespace Yupi.Emulator.Net.Handlers
 {
     public class ConnectionHandler : ChannelHandlerAdapter
     {
         internal static GameClientManager GetClient() => Yupi.GetGame().GetClientManager();
 
-        public override Task DisconnectAsync(IChannelHandlerContext context)
+        public override Task CloseAsync(IChannelHandlerContext context)
         {
-            GetClient().RemoveClient(context.Channel.Id.ToString());
+            string clientAddress = (context.Channel.RemoteAddress as IPEndPoint)?.Address.ToString();
 
-            return context.DisconnectAsync();
+            GetClient().GetClientByAddress(clientAddress)?.GetConnection()?.Close();
+
+            return context.CloseAsync();
         }
 
         public override void ChannelRead(IChannelHandlerContext context, object message)
         {
             IByteBuffer dataBuffer = message as IByteBuffer;
 
-            ConnectionActor clientActor = GetClient().GetClientByConnectionId(context.Channel.Id.ToString())?.GetConnection();
+            string clientAddress = (context.Channel.RemoteAddress as IPEndPoint)?.Address.ToString();
 
-            Console.WriteLine($"Conexao de ID: {context.Channel.Id} Lendo.");
+            GameClient clientClient = GetClient().GetClientByAddress(clientAddress);
 
-            if (dataBuffer != null && clientActor != null)
+            if (dataBuffer != null)
             {
-                byte[] dataBytes = dataBuffer.ToArray();
+                ConnectionActor clientActor = clientClient.GetConnection();
 
-                Console.WriteLine("Eu Li " + dataBuffer.ToString(Encoding.UTF8) + $" Da Conexao de ID {context.Channel.Id}.");
-
-                if (!clientActor.HandShakeCompleted)
+                if (clientActor != null)
                 {
-                    if (dataBytes[0] == 60 && !clientActor.HandShakePartialCompleted)
+                    byte[] dataBytes = dataBuffer.ToArray();
+
+                    if (!clientActor.HandShakeCompleted)
                     {
-                        WriteAsync(context, CrossDomainSettings.XmlPolicyBytes);
+                        if (dataBytes[0] == 60 && !clientActor.HandShakePartialCompleted)
+                        {
+                            WriteAsync(context, CrossDomainSettings.XmlPolicyBytes);
 
-                        clientActor.HandShakePartialCompleted = true;
+                            clientActor.HandShakePartialCompleted = true;
 
-                        return;
+                            return;
+                        }
+
+                        if (dataBytes[0] != 67 && clientActor.HandShakePartialCompleted)
+                        {
+                            clientActor.HandShakeCompleted = true;
+
+                            clientClient.InitHandler();
+
+                            clientActor.DataParser.HandlePacketData(dataBytes, dataBytes.Length);
+
+                            return;
+                        }
                     }
 
-                    if (dataBytes[0] != 67 && clientActor.HandShakePartialCompleted)
-                        clientActor.HandShakeCompleted = true;
-                }
+                    clientActor.DataParser.HandlePacketData(dataBytes, dataBytes.Length);
 
-                clientActor.DataParser.HandlePacketData(dataBytes, dataBytes.Length);
+                    return;
+                }
             }
 
             context.WriteAndFlushAsync(message);
@@ -59,20 +76,13 @@ namespace Yupi.Net.Handlers
 
         public override void ExceptionCaught(IChannelHandlerContext context, Exception exception)
         {
-            //context.CloseAsync();
+            // ignored.
         }
 
-        public override void ChannelReadComplete(IChannelHandlerContext context)
-        {
-            Console.WriteLine($"Conexao de ID: {context.Channel.Id} Leu.");
-
-            context.Flush();
-        }
+        public override void ChannelReadComplete(IChannelHandlerContext context) => context.Flush();
 
         public override Task WriteAsync(IChannelHandlerContext context, object message)
         {
-            Console.WriteLine($"Conexao de ID: {context.Channel.Id} Escrevendo.");
-
             if (message is IByteBuffer)
                 return context.WriteAndFlushAsync(message);
 
@@ -83,7 +93,16 @@ namespace Yupi.Net.Handlers
 
         public override void ChannelRegistered(IChannelHandlerContext context)
         {
-            Console.WriteLine($"Conexao de ID: {context.Channel.Id} Estabelecida.");
+            string clientAddress = (context.Channel.RemoteAddress as IPEndPoint)?.Address.ToString();
+
+            if (clientAddress != null)
+            {
+                ConnectionActor connectionActor;
+
+                ConnectionManager.ClientConnections.TryGetValue(clientAddress, out connectionActor);
+
+                Yupi.GetGame().GetClientManager().AddOrUpdateClient(clientAddress, connectionActor);
+            }
         }
     }
 }

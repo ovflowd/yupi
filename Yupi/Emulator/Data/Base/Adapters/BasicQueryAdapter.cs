@@ -1,9 +1,9 @@
 ﻿using System.Data;
 using MySql.Data.MySqlClient;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Data.Base.Clients.Interfaces;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Data.Base.Clients.Interfaces;
 
-namespace Yupi.Data.Base.Adapters
+namespace Yupi.Emulator.Data.Base.Adapters
 {
     class BasicQueryAdapter : IQueryAdapter
     {

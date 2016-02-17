@@ -1,9 +1,9 @@
-﻿using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.Commands.Interfaces;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Users;
+﻿using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Commands.Interfaces;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Users;
 
-namespace Yupi.Game.Commands.Controllers
+namespace Yupi.Emulator.Game.Commands.Controllers
 {
     /// <summary>
     ///     Class UnBanUser. This class cannot be inherited.

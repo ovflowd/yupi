@@ -26,10 +26,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using Yupi.Game.Rooms.Data;
-using Yupi.Game.Users;
+using Yupi.Emulator.Game.Rooms.Data;
+using Yupi.Emulator.Game.Users;
 
-namespace Yupi.Data
+namespace Yupi.Emulator.Data
 {
     /// <summary>
     ///     Class CacheManager.

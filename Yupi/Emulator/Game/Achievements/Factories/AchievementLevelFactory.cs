@@ -25,11 +25,11 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using Yupi.Core.Io.Logger;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.Achievements.Structs;
+using Yupi.Emulator.Core.Io.Logger;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Achievements.Structs;
 
-namespace Yupi.Game.Achievements.Factories
+namespace Yupi.Emulator.Game.Achievements.Factories
 {
     /// <summary>
     ///     Class AchievementLevelFactory.

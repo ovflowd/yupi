@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Items.Interactions.Enums;
-using Yupi.Game.Items.Interfaces;
-using Yupi.Game.Items.Wired.Interfaces;
-using Yupi.Game.Rooms;
-using Yupi.Messages;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Items.Interactions.Enums;
+using Yupi.Emulator.Game.Items.Interfaces;
+using Yupi.Emulator.Game.Items.Wired.Interfaces;
+using Yupi.Emulator.Game.Rooms;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Game.Items.Wired
+namespace Yupi.Emulator.Game.Items.Wired
 {
     public static class WiredSaver
     {

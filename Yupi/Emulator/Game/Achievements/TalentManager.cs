@@ -25,12 +25,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.Achievements.Composers;
-using Yupi.Game.Achievements.Structs;
-using Yupi.Game.GameClients.Interfaces;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Achievements.Composers;
+using Yupi.Emulator.Game.Achievements.Structs;
+using Yupi.Emulator.Game.GameClients.Interfaces;
 
-namespace Yupi.Game.Achievements
+namespace Yupi.Emulator.Game.Achievements
 {
     /// <summary>
     ///     Class TalentManager.

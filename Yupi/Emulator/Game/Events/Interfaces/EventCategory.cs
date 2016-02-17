@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Yupi.Game.Rooms.Data;
+using Yupi.Emulator.Game.Rooms.Data;
 
-namespace Yupi.Game.Events.Interfaces
+namespace Yupi.Emulator.Game.Events.Interfaces
 {
     /// <summary>
     ///     Class EventCategory.

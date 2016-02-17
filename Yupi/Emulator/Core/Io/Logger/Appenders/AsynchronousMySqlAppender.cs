@@ -5,7 +5,7 @@ using log4net.Appender;
 using log4net.Core;
 using MySql.Data.MySqlClient;
 
-namespace Yupi.Core.Io.Logger.Appenders
+namespace Yupi.Emulator.Core.Io.Logger.Appenders
 {
     public class AsynchronousMySqlAppender : AdoNetAppender
     {

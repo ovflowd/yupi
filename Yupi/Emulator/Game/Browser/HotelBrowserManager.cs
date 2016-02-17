@@ -27,16 +27,16 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data;
 using System.Linq;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.Browser.Enums;
-using Yupi.Game.Browser.Models;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Rooms.Data;
-using Yupi.Game.Users;
-using Yupi.Messages;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Browser.Enums;
+using Yupi.Emulator.Game.Browser.Models;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Rooms.Data;
+using Yupi.Emulator.Game.Users;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Game.Browser
+namespace Yupi.Emulator.Game.Browser
 {
     /// <summary>
     ///     Class NavigatorManager.

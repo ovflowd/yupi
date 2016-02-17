@@ -24,12 +24,12 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Yupi.Game.RoomBots.Enumerators;
-using Yupi.Game.RoomBots.Interfaces;
-using Yupi.Game.RoomBots.Models;
-using Yupi.Game.Rooms.User;
+using Yupi.Emulator.Game.RoomBots.Enumerators;
+using Yupi.Emulator.Game.RoomBots.Interfaces;
+using Yupi.Emulator.Game.RoomBots.Models;
+using Yupi.Emulator.Game.Rooms.User;
 
-namespace Yupi.Game.RoomBots
+namespace Yupi.Emulator.Game.RoomBots
 {
     /// <summary>
     ///     Class RoomBot.

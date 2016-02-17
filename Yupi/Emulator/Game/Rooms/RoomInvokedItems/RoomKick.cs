@@ -1,4 +1,4 @@
-namespace Yupi.Game.Rooms.RoomInvokedItems
+namespace Yupi.Emulator.Game.Rooms.RoomInvokedItems
 {
     internal struct RoomKick
     {

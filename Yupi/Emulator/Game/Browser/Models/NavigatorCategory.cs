@@ -24,7 +24,7 @@
 
 using System.Collections.Generic;
 
-namespace Yupi.Game.Browser.Models
+namespace Yupi.Emulator.Game.Browser.Models
 {
     /// <summary>
     ///     Class Navigator Category.

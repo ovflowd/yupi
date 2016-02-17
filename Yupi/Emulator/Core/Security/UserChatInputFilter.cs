@@ -28,9 +28,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web.Script.Serialization;
-using Yupi.Core.Io.Logger;
+using Yupi.Emulator.Core.Io.Logger;
 
-namespace Yupi.Core.Security
+namespace Yupi.Emulator.Core.Security
 {
     /// <summary>
     ///     Class Filter.

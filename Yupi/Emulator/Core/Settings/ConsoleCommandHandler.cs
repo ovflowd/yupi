@@ -25,15 +25,15 @@
 using System;
 using System.Diagnostics;
 using System.Runtime;
-using Yupi.Core.Io.Logger;
-using Yupi.Core.Security;
-using Yupi.Core.Security.BlackWords;
-using Yupi.Data;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Messages;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Core.Io.Logger;
+using Yupi.Emulator.Core.Security;
+using Yupi.Emulator.Core.Security.BlackWords;
+using Yupi.Emulator.Data;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Core.Settings
+namespace Yupi.Emulator.Core.Settings
 {
     /// <summary>
     ///     Class ConsoleCommandHandling.

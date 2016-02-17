@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Yupi.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.GameClients.Interfaces;
 
-namespace Yupi.Game.Users.Guides
+namespace Yupi.Emulator.Game.Users.Guides
 {
     /// <summary>
     ///     Class GuideManager.

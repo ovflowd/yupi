@@ -1,7 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
-using Yupi.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 
-namespace Yupi.Data.Base.Managers.Interfaces
+namespace Yupi.Emulator.Data.Base.Managers.Interfaces
 {
     interface IDatabaseManager
     {

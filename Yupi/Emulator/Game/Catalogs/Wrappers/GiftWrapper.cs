@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Yupi.Game.Catalogs.Wrappers
+namespace Yupi.Emulator.Game.Catalogs.Wrappers
 {
     /// <summary>
     ///     Class GiftWrapper.

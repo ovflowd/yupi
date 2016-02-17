@@ -1,8 +1,8 @@
 using System.Data;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Messages;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Messages;
 
-namespace Yupi.Game.Items.Datas
+namespace Yupi.Emulator.Game.Items.Datas
 {
     /// <summary>
     ///     Class TonerData.

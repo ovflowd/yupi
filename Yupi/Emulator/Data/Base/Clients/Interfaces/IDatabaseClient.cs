@@ -24,10 +24,10 @@
 
 using System;
 using MySql.Data.MySqlClient;
-using Yupi.Data.Base.Adapters.Handlers;
-using Yupi.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Data.Base.Adapters.Handlers;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 
-namespace Yupi.Data.Base.Clients.Interfaces
+namespace Yupi.Emulator.Data.Base.Clients.Interfaces
 {
     public interface IDatabaseClient : IDisposable
     {

@@ -1,10 +1,10 @@
 ﻿using System;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Rooms;
-using Yupi.Game.Users.Guides;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Rooms;
+using Yupi.Emulator.Game.Users.Guides;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Messages.Handlers
+namespace Yupi.Emulator.Messages.Handlers
 {
     /// <summary>
     ///     Class GameClientMessageHandler.

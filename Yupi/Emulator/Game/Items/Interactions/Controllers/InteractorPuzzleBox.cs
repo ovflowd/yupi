@@ -2,16 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Items.Interactions.Models;
-using Yupi.Game.Items.Interfaces;
-using Yupi.Game.Pathfinding;
-using Yupi.Game.Rooms;
-using Yupi.Game.Rooms.User;
-using Yupi.Messages;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Items.Interactions.Models;
+using Yupi.Emulator.Game.Items.Interfaces;
+using Yupi.Emulator.Game.Pathfinding;
+using Yupi.Emulator.Game.Rooms;
+using Yupi.Emulator.Game.Rooms.User;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Game.Items.Interactions.Controllers
+namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 {
     internal class InteractorPuzzleBox : FurniInteractorModel
     {

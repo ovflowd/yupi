@@ -24,7 +24,7 @@
 
 using System;
 
-namespace Yupi.Game.Pathfinding.Vectors
+namespace Yupi.Emulator.Game.Pathfinding.Vectors
 {
     /// <summary>
     ///     Struct ThreeDCoord

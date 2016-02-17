@@ -1,9 +1,9 @@
 using System;
 using System.Globalization;
-using Yupi.Core.Io.Logger;
-using Yupi.Game.Rooms.Chat.Enums;
+using Yupi.Emulator.Core.Io.Logger;
+using Yupi.Emulator.Game.Rooms.Chat.Enums;
 
-namespace Yupi.Game.Rooms
+namespace Yupi.Emulator.Game.Rooms
 {
     /// <summary>
     ///     Class RoomModel.

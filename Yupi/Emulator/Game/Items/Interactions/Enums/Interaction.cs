@@ -1,4 +1,4 @@
-﻿namespace Yupi.Game.Items.Interactions.Enums
+﻿namespace Yupi.Emulator.Game.Items.Interactions.Enums
 {
     /// <summary>
     ///     Enum InteractionType

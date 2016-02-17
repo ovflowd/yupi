@@ -25,7 +25,7 @@
 using System;
 using System.Data;
 
-namespace Yupi.Data.Base.Adapters.Interfaces
+namespace Yupi.Emulator.Data.Base.Adapters.Interfaces
 {
     public interface IQueryAdapter : IDisposable
     {

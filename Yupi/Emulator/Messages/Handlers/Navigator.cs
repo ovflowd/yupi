@@ -1,12 +1,12 @@
-﻿using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.Browser;
-using Yupi.Game.Browser.Enums;
-using Yupi.Game.Browser.Models;
-using Yupi.Game.Rooms;
-using Yupi.Game.Rooms.Data;
-using Yupi.Messages.Parsers;
+﻿using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Browser;
+using Yupi.Emulator.Game.Browser.Enums;
+using Yupi.Emulator.Game.Browser.Models;
+using Yupi.Emulator.Game.Rooms;
+using Yupi.Emulator.Game.Rooms.Data;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Messages.Handlers
+namespace Yupi.Emulator.Messages.Handlers
 {
     /// <summary>
     ///     Class GameClientMessageHandler.

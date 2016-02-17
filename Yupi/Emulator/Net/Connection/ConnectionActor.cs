@@ -22,10 +22,11 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
+using System.Net;
 using DotNetty.Transport.Channels;
-using Yupi.Net.Packets;
+using Yupi.Emulator.Net.Packets;
 
-namespace Yupi.Net.Connection
+namespace Yupi.Emulator.Net.Connection
 {
     /// <summary>
     ///     Class ConnectionActor.
@@ -41,6 +42,11 @@ namespace Yupi.Net.Connection
         ///     Connection Id
         /// </summary>
         public string ConnectionId;
+
+        /// <summary>
+        ///     IP Address
+        /// </summary>
+        public string IpAddress;
 
         /// <summary>
         ///    Connection Channel
@@ -64,10 +70,25 @@ namespace Yupi.Net.Connection
             ConnectionChannel = context;
 
             ConnectionId = context.Id.ToString();
-            
+
+            IpAddress = (context.RemoteAddress as IPEndPoint)?.Address.ToString();
+
             HandShakeCompleted = false;
 
             HandShakePartialCompleted = false;
+        }
+
+        public void Close()
+        {
+            DataParser.Dispose();
+
+            Yupi.GetGame().GetClientManager().RemoveClient(ConnectionId);
+
+            ConnectionChannel.DisconnectAsync();
+
+            ConnectionChannel.CloseAsync();
+
+            ConnectionChannel.Flush();
         }
     }
 }

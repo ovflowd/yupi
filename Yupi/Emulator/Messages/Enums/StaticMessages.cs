@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Messages.Enums
+namespace Yupi.Emulator.Messages.Enums
 {
     /// <summary>
     ///     Enum StaticMessage

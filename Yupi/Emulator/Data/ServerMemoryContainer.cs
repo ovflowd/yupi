@@ -24,7 +24,7 @@
 
 using System.Collections;
 
-namespace Yupi.Data
+namespace Yupi.Emulator.Data
 {
     /// <summary>
     ///     Class ServerMemoryContainer.

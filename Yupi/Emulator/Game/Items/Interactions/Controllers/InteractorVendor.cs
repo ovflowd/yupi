@@ -1,12 +1,12 @@
 using System.Linq;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Items.Interactions.Models;
-using Yupi.Game.Items.Interfaces;
-using Yupi.Game.Pathfinding;
-using Yupi.Game.Rooms.User;
-using Yupi.Game.Rooms.User.Path;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Items.Interactions.Models;
+using Yupi.Emulator.Game.Items.Interfaces;
+using Yupi.Emulator.Game.Pathfinding;
+using Yupi.Emulator.Game.Rooms.User;
+using Yupi.Emulator.Game.Rooms.User.Path;
 
-namespace Yupi.Game.Items.Interactions.Controllers
+namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 {
     internal class InteractorVendor : FurniInteractorModel
     {

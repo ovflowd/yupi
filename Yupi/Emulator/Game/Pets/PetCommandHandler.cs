@@ -25,10 +25,10 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.Pets.Structs;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Pets.Structs;
 
-namespace Yupi.Game.Pets
+namespace Yupi.Emulator.Game.Pets
 {
     /// <summary>
     ///     Class PetCommandHandler.

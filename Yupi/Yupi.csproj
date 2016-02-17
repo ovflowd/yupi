@@ -76,11 +76,11 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>Build\Executables\x64\</OutputPath>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <FileAlignment>4096</FileAlignment>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
-    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <LangVersion>6</LangVersion>
@@ -153,31 +153,31 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>Yupi.Program</StartupObject>
+    <StartupObject>Yupi.Emulator.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyName>Yupi</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DotNetty.Buffers, Version=0.2.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Desktop\Netty\DotNetty.Buffers.dll</HintPath>
+      <HintPath>..\packages\DotNetty.Buffers.0.2.3\lib\net45\DotNetty.Buffers.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DotNetty.Codecs, Version=0.2.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Desktop\Netty\DotNetty.Codecs.dll</HintPath>
+      <HintPath>..\packages\DotNetty.Codecs.0.2.3\lib\net45\DotNetty.Codecs.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DotNetty.Common, Version=0.2.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Desktop\Netty\DotNetty.Common.dll</HintPath>
+      <HintPath>..\packages\DotNetty.Common.0.2.3\lib\net45\DotNetty.Common.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DotNetty.Handlers, Version=0.2.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Desktop\Netty\DotNetty.Handlers.dll</HintPath>
+      <HintPath>..\packages\DotNetty.Handlers.0.2.3\lib\net45\DotNetty.Handlers.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DotNetty.Transport, Version=0.2.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Desktop\Netty\DotNetty.Transport.dll</HintPath>
+      <HintPath>..\packages\DotNetty.Transport.0.2.3\lib\net45\DotNetty.Transport.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\Packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
@@ -206,6 +206,7 @@
   <ItemGroup>
     <Compile Include="Emulator\Core\Algorithms\Astar\PathNode.cs" />
     <Compile Include="Emulator\Core\Algorithms\Encryption\Converter.cs" />
+    <Compile Include="Emulator\Core\Algorithms\Encryption\Rc4.cs" />
     <Compile Include="Emulator\Core\Algorithms\GameField\Algorithm\GametileUpdate.cs" />
     <Compile Include="Emulator\Core\Algorithms\GameField\GameField.cs" />
     <Compile Include="Emulator\Core\Algorithms\GameField\PointField.cs" />
@@ -718,8 +719,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Properties\App.config" />
-    <None Include="Properties\Packages.config" />
     <None Include="Properties\App.manifest" />
   </ItemGroup>
   <ItemGroup>

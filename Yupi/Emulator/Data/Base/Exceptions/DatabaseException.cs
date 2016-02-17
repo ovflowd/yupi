@@ -24,7 +24,7 @@
 
 using System;
 
-namespace Yupi.Data.Base.Exceptions
+namespace Yupi.Emulator.Data.Base.Exceptions
 {
     public class DatabaseException : Exception
     {

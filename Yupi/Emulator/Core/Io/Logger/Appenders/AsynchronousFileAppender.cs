@@ -4,7 +4,7 @@ using System.Threading;
 using log4net.Appender;
 using log4net.Core;
 
-namespace Yupi.Core.Io.Logger.Appenders
+namespace Yupi.Emulator.Core.Io.Logger.Appenders
 {
     ///
     /// Asynchronous file appender based on the article by Venu Gopal, but modified by Mario Di Vece

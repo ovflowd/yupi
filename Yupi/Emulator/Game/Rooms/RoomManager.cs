@@ -5,15 +5,15 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data;
 using System.Linq;
-using Yupi.Core.Io.Logger;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.Browser.Models;
-using Yupi.Game.Events;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Rooms.Data;
-using Yupi.Game.Rooms.User;
+using Yupi.Emulator.Core.Io.Logger;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Browser.Models;
+using Yupi.Emulator.Game.Events;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Rooms.Data;
+using Yupi.Emulator.Game.Rooms.User;
 
-namespace Yupi.Game.Rooms
+namespace Yupi.Emulator.Game.Rooms
 {
     /// <summary>
     ///     Class RoomManager.

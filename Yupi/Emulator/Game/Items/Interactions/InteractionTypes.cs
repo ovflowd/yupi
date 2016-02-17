@@ -1,6 +1,6 @@
-using Yupi.Game.Items.Interactions.Enums;
+using Yupi.Emulator.Game.Items.Interactions.Enums;
 
-namespace Yupi.Game.Items.Interactions
+namespace Yupi.Emulator.Game.Items.Interactions
 {
     /// <summary>
     ///     Class InterractionTypes.

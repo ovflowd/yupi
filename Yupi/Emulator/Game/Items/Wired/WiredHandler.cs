@@ -3,18 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Yupi.Core.Io.Logger;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.Items.Interactions;
-using Yupi.Game.Items.Interactions.Enums;
-using Yupi.Game.Items.Interfaces;
-using Yupi.Game.Items.Wired.Handlers.Conditions;
-using Yupi.Game.Items.Wired.Handlers.Effects;
-using Yupi.Game.Items.Wired.Handlers.Triggers;
-using Yupi.Game.Items.Wired.Interfaces;
-using Yupi.Game.Rooms;
+using Yupi.Emulator.Core.Io.Logger;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Items.Interactions;
+using Yupi.Emulator.Game.Items.Interactions.Enums;
+using Yupi.Emulator.Game.Items.Interfaces;
+using Yupi.Emulator.Game.Items.Wired.Handlers.Conditions;
+using Yupi.Emulator.Game.Items.Wired.Handlers.Effects;
+using Yupi.Emulator.Game.Items.Wired.Handlers.Triggers;
+using Yupi.Emulator.Game.Items.Wired.Interfaces;
+using Yupi.Emulator.Game.Rooms;
 
-namespace Yupi.Game.Items.Wired
+namespace Yupi.Emulator.Game.Items.Wired
 {
     public class WiredHandler
     {

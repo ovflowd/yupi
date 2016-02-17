@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Users.Messenger.Structs;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Users.Messenger.Structs;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Messages.Handlers
+namespace Yupi.Emulator.Messages.Handlers
 {
     /// <summary>
     ///     Class GameClientMessageHandler.

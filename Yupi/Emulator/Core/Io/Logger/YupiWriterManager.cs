@@ -24,7 +24,7 @@
 
 using System;
 
-namespace Yupi.Core.Io.Logger
+namespace Yupi.Emulator.Core.Io.Logger
 {
     /// <summary>
     ///     Class YupiWriterManager.

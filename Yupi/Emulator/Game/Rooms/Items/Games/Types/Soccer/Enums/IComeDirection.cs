@@ -1,4 +1,4 @@
-namespace Yupi.Game.Rooms.Items.Games.Types.Soccer.Enums
+namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Soccer.Enums
 {
     internal enum IComeDirection
     {

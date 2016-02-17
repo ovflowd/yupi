@@ -1,11 +1,11 @@
 using System.Data;
 using System.Globalization;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.Groups.Structs;
-using Yupi.Game.Items.Interactions.Enums;
-using Yupi.Messages;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Groups.Structs;
+using Yupi.Emulator.Game.Items.Interactions.Enums;
+using Yupi.Emulator.Messages;
 
-namespace Yupi.Game.Items.Interfaces
+namespace Yupi.Emulator.Game.Items.Interfaces
 {
     /// <summary>
     ///     Class UserItem.

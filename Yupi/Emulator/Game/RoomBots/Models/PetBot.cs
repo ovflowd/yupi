@@ -26,17 +26,17 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using Yupi.Core.Io;
-using Yupi.Game.Items.Interactions.Enums;
-using Yupi.Game.Items.Interfaces;
-using Yupi.Game.Pets;
-using Yupi.Game.Pets.Enums;
-using Yupi.Game.Pets.Structs;
-using Yupi.Game.Rooms.User;
-using Yupi.Messages;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Core.Io;
+using Yupi.Emulator.Game.Items.Interactions.Enums;
+using Yupi.Emulator.Game.Items.Interfaces;
+using Yupi.Emulator.Game.Pets;
+using Yupi.Emulator.Game.Pets.Enums;
+using Yupi.Emulator.Game.Pets.Structs;
+using Yupi.Emulator.Game.Rooms.User;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Game.RoomBots.Models
+namespace Yupi.Emulator.Game.RoomBots.Models
 {
     /// <summary>
     ///     Class PetBot.

@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.SoundMachine.Songs;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.SoundMachine.Songs;
 
-namespace Yupi.Game.SoundMachine
+namespace Yupi.Emulator.Game.SoundMachine
 {
     /// <summary>
     ///     Class SongManager.

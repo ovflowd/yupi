@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Yupi.Core.Io.Logger;
-using Yupi.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Core.Io.Logger;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 
-namespace Yupi.Game.Users.Fuses
+namespace Yupi.Emulator.Game.Users.Fuses
 {
     /// <summary>
     ///     Class RoleManager.

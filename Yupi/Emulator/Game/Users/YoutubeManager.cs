@@ -4,10 +4,10 @@ using System.Data;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Web;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.GameClients.Interfaces;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.GameClients.Interfaces;
 
-namespace Yupi.Game.Users
+namespace Yupi.Emulator.Game.Users
 {
     /// <summary>
     ///     Class YoutubeManager.

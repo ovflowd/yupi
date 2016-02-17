@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Pets.Structs;
-using Yupi.Messages;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Pets.Structs;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Game.Pets.Composers
+namespace Yupi.Emulator.Game.Pets.Composers
 {
     internal class PetCommandPanelComposer
     {

@@ -22,9 +22,9 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-using Yupi.Core.Io;
+using Yupi.Emulator.Core.Io;
 
-namespace Yupi.Game.Items
+namespace Yupi.Emulator.Game.Items
 {
     /// <summary>
     ///     Class WallCoordinate.

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 
-namespace Yupi.Messages.Factorys
+namespace Yupi.Emulator.Messages.Factorys
 {
     internal class ClientMessageFactory
     {

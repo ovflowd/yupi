@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.Items.Interactions.Enums;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Items.Interactions.Enums;
 
-namespace Yupi.Game.Items.Interfaces
+namespace Yupi.Emulator.Game.Items.Interfaces
 {
     /// <summary>
     ///     Class Item.

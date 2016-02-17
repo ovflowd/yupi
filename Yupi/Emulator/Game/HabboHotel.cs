@@ -1,36 +1,36 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Yupi.Core.Io;
-using Yupi.Core.Io.Interfaces;
-using Yupi.Core.Io.Logger;
-using Yupi.Core.Security;
-using Yupi.Core.Security.BlackWords;
-using Yupi.Data;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.Achievements;
-using Yupi.Game.Browser;
-using Yupi.Game.Catalogs;
-using Yupi.Game.Commands;
-using Yupi.Game.GameClients;
-using Yupi.Game.Groups;
-using Yupi.Game.Items;
-using Yupi.Game.Items.Handlers;
-using Yupi.Game.Pets;
-using Yupi.Game.Polls;
-using Yupi.Game.RoomBots;
-using Yupi.Game.Rooms;
-using Yupi.Game.Rooms.Data;
-using Yupi.Game.SoundMachine;
-using Yupi.Game.Support;
-using Yupi.Game.Users;
-using Yupi.Game.Users.Fuses;
-using Yupi.Game.Users.Guides;
-using Yupi.Game.Users.Messenger.Structs;
-using Yupi.Messages.Enums;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Core.Io;
+using Yupi.Emulator.Core.Io.Interfaces;
+using Yupi.Emulator.Core.Io.Logger;
+using Yupi.Emulator.Core.Security;
+using Yupi.Emulator.Core.Security.BlackWords;
+using Yupi.Emulator.Data;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Achievements;
+using Yupi.Emulator.Game.Browser;
+using Yupi.Emulator.Game.Catalogs;
+using Yupi.Emulator.Game.Commands;
+using Yupi.Emulator.Game.GameClients;
+using Yupi.Emulator.Game.Groups;
+using Yupi.Emulator.Game.Items;
+using Yupi.Emulator.Game.Items.Handlers;
+using Yupi.Emulator.Game.Pets;
+using Yupi.Emulator.Game.Polls;
+using Yupi.Emulator.Game.RoomBots;
+using Yupi.Emulator.Game.Rooms;
+using Yupi.Emulator.Game.Rooms.Data;
+using Yupi.Emulator.Game.SoundMachine;
+using Yupi.Emulator.Game.Support;
+using Yupi.Emulator.Game.Users;
+using Yupi.Emulator.Game.Users.Fuses;
+using Yupi.Emulator.Game.Users.Guides;
+using Yupi.Emulator.Game.Users.Messenger.Structs;
+using Yupi.Emulator.Messages.Enums;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Game
+namespace Yupi.Emulator.Game
 {
     /// <summary>
     ///     Class HabboHotel.
@@ -157,6 +157,11 @@ namespace Yupi.Game
         internal bool ClientManagerCycleEnded, RoomManagerCycleEnded;
 
         /// <summary>
+        ///     Packet Debug Mode
+        /// </summary>
+        private readonly bool _packetDebugMode;
+
+        /// <summary>
         ///     Initializes a new instance of the <see cref="HabboHotel" /> class.
         /// </summary>
         internal HabboHotel()
@@ -177,6 +182,10 @@ namespace Yupi.Game
                 uint roomModelLoaded;
                 uint achievementLoaded;
                 uint pollLoaded;
+
+                _packetDebugMode = Yupi.PacketDebugMode;
+
+                Yupi.PacketDebugMode = false;
 
                 Progress(bar, wait, end, "Cleaning dirty in DataBase...");
                 DatabaseCleanup(queryReactor);
@@ -342,6 +351,9 @@ namespace Yupi.Game
                 _pixelManager.StartTimer();
 
                 Progress(bar, wait, end, "Wait...");
+
+                Yupi.PacketDebugMode = _packetDebugMode;
+
                 Console.Write("\r".PadLeft(Console.WindowWidth - Console.CursorLeft - 1));
             }
         }

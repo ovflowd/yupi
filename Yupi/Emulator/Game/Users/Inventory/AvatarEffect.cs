@@ -1,4 +1,4 @@
-namespace Yupi.Game.Users.Inventory
+namespace Yupi.Emulator.Game.Users.Inventory
 {
     /// <summary>
     ///     Class AvatarEffect.

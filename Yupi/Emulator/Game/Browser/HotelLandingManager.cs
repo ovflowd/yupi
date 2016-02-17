@@ -25,11 +25,11 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.Browser.Models;
-using Yupi.Messages;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Browser.Models;
+using Yupi.Emulator.Messages;
 
-namespace Yupi.Game.Browser
+namespace Yupi.Emulator.Game.Browser
 {
     /// <summary>
     ///     Class HotelView.

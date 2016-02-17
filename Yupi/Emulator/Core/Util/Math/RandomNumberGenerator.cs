@@ -24,7 +24,7 @@
 
 using System;
 
-namespace Yupi.Core.Util.Math
+namespace Yupi.Emulator.Core.Util.Math
 {
     /// <summary>
     ///     Class RandomNumberGenerator.

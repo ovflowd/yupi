@@ -1,10 +1,10 @@
 ﻿using MySql.Data.MySqlClient;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Data.Base.Clients;
-using Yupi.Data.Base.Clients.Interfaces;
-using Yupi.Data.Base.Managers.Interfaces;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Data.Base.Clients;
+using Yupi.Emulator.Data.Base.Clients.Interfaces;
+using Yupi.Emulator.Data.Base.Managers.Interfaces;
 
-namespace Yupi.Data.Base.Managers
+namespace Yupi.Emulator.Data.Base.Managers
 {
     class BasicDatabaseManager : IDatabaseManager
     {

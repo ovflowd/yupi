@@ -1,8 +1,8 @@
 using System;
-using Yupi.Game.Items.Interfaces;
-using Yupi.Game.Rooms.User;
+using Yupi.Emulator.Game.Items.Interfaces;
+using Yupi.Emulator.Game.Rooms.User;
 
-namespace Yupi.Game.Rooms.Items
+namespace Yupi.Emulator.Game.Rooms.Items
 {
     /// <summary>
     ///     Class ItemTriggeredArgs.

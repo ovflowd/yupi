@@ -1,7 +1,7 @@
-using Yupi.Game.Users;
-using Yupi.Messages.Handlers;
+using Yupi.Emulator.Game.Users;
+using Yupi.Emulator.Messages.Handlers;
 
-namespace Yupi.Game.Rooms.Items.Teleports
+namespace Yupi.Emulator.Game.Rooms.Items.Teleports
 {
     /// <summary>
     ///     Class TeleUserData.

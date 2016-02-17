@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.Items.Interfaces;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Items.Interfaces;
 
-namespace Yupi.Game.Items.Datas
+namespace Yupi.Emulator.Game.Items.Datas
 {
     /// <summary>
     ///     Class MoodlightData.

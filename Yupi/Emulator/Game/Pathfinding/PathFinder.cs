@@ -24,11 +24,11 @@
 
 using System;
 using System.Collections.Generic;
-using Yupi.Game.Pathfinding.Vectors;
-using Yupi.Game.Rooms.User;
-using Yupi.Game.Rooms.User.Path;
+using Yupi.Emulator.Game.Pathfinding.Vectors;
+using Yupi.Emulator.Game.Rooms.User;
+using Yupi.Emulator.Game.Rooms.User.Path;
 
-namespace Yupi.Game.Pathfinding
+namespace Yupi.Emulator.Game.Pathfinding
 {
     /// <summary>
     ///     Class PathFinder.

@@ -24,10 +24,10 @@
 
 using System;
 using System.Data;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.Pets.Enums;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Pets.Enums;
 
-namespace Yupi.Game.Pets
+namespace Yupi.Emulator.Game.Pets
 {
     /// <summary>
     ///     Class MoplaBreed.

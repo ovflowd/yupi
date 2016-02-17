@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using Yupi.Game.Polls.Enums;
-using Yupi.Messages;
+using Yupi.Emulator.Game.Polls.Enums;
+using Yupi.Emulator.Messages;
 
-namespace Yupi.Game.Polls
+namespace Yupi.Emulator.Game.Polls
 {
     /// <summary>
     ///     Class Poll.

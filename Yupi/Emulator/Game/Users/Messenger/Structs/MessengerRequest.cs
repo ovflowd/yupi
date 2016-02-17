@@ -1,6 +1,6 @@
-using Yupi.Messages;
+using Yupi.Emulator.Messages;
 
-namespace Yupi.Game.Users.Messenger.Structs
+namespace Yupi.Emulator.Game.Users.Messenger.Structs
 {
     /// <summary>
     ///     Class MessengerRequest.

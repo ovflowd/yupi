@@ -26,11 +26,11 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.RoomBots.Enumerators;
-using Yupi.Game.RoomBots.Interfaces;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.RoomBots.Enumerators;
+using Yupi.Emulator.Game.RoomBots.Interfaces;
 
-namespace Yupi.Game.RoomBots
+namespace Yupi.Emulator.Game.RoomBots
 {
     /// <summary>
     ///     Class BotManager.

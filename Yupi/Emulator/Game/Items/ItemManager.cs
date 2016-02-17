@@ -5,15 +5,15 @@ using System.Collections.Specialized;
 using System.Data;
 using System.Globalization;
 using System.Linq;
-using Yupi.Core.Io.Logger;
-using Yupi.Data;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.Catalogs.Wrappers;
-using Yupi.Game.Items.Interactions;
-using Yupi.Game.Items.Interactions.Enums;
-using Yupi.Game.Items.Interfaces;
+using Yupi.Emulator.Core.Io.Logger;
+using Yupi.Emulator.Data;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Catalogs.Wrappers;
+using Yupi.Emulator.Game.Items.Interactions;
+using Yupi.Emulator.Game.Items.Interactions.Enums;
+using Yupi.Emulator.Game.Items.Interfaces;
 
-namespace Yupi.Game.Items
+namespace Yupi.Emulator.Game.Items
 {
     /// <summary>
     ///     Class ItemManager.

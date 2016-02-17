@@ -26,12 +26,12 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using Yupi.Core.Algorithms.Astar;
-using Yupi.Core.Algorithms.Astar.Enums;
-using Yupi.Core.Algorithms.Astar.Interfaces;
-using Yupi.Core.Algorithms.GameField.Algorithm;
+using Yupi.Emulator.Core.Algorithms.Astar;
+using Yupi.Emulator.Core.Algorithms.Astar.Enums;
+using Yupi.Emulator.Core.Algorithms.Astar.Interfaces;
+using Yupi.Emulator.Core.Algorithms.GameField.Algorithm;
 
-namespace Yupi.Core.Algorithms.GameField
+namespace Yupi.Emulator.Core.Algorithms.GameField
 {
     public class GameField : IPathNode
     {

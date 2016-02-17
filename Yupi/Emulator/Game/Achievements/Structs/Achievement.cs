@@ -24,7 +24,7 @@
 
 using System.Collections.Generic;
 
-namespace Yupi.Game.Achievements.Structs
+namespace Yupi.Emulator.Game.Achievements.Structs
 {
     /// <summary>
     ///     Class Achievement.

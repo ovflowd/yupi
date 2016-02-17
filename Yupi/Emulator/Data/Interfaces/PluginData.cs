@@ -22,7 +22,7 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-namespace Yupi.Data.Interfaces
+namespace Yupi.Emulator.Data.Interfaces
 {
     /// <summary>
     ///     Description of IPlugin.

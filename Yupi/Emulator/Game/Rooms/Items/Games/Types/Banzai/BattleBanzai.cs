@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Drawing;
 using System.Linq;
-using Yupi.Core.Algorithms.GameField;
-using Yupi.Core.Io;
-using Yupi.Data.Collections;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Items.Interactions.Enums;
-using Yupi.Game.Items.Interfaces;
-using Yupi.Game.Rooms.Items.Games.Teams.Enums;
-using Yupi.Game.Rooms.User;
-using Yupi.Messages;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Core.Algorithms.GameField;
+using Yupi.Emulator.Core.Io;
+using Yupi.Emulator.Data.Collections;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Items.Interactions.Enums;
+using Yupi.Emulator.Game.Items.Interfaces;
+using Yupi.Emulator.Game.Rooms.Items.Games.Teams.Enums;
+using Yupi.Emulator.Game.Rooms.User;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Game.Rooms.Items.Games.Types.Banzai
+namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Banzai
 {
     internal class BattleBanzai
     {

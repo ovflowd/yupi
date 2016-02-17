@@ -2,22 +2,22 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.Achievements.Structs;
-using Yupi.Game.Catalogs;
-using Yupi.Game.Groups.Structs;
-using Yupi.Game.Items.Interfaces;
-using Yupi.Game.Pets;
-using Yupi.Game.RoomBots;
-using Yupi.Game.Rooms.Data;
-using Yupi.Game.Users.Badges.Models;
-using Yupi.Game.Users.Data.Models;
-using Yupi.Game.Users.Inventory;
-using Yupi.Game.Users.Messenger.Structs;
-using Yupi.Game.Users.Relationships;
-using Yupi.Game.Users.Subscriptions;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Achievements.Structs;
+using Yupi.Emulator.Game.Catalogs;
+using Yupi.Emulator.Game.Groups.Structs;
+using Yupi.Emulator.Game.Items.Interfaces;
+using Yupi.Emulator.Game.Pets;
+using Yupi.Emulator.Game.RoomBots;
+using Yupi.Emulator.Game.Rooms.Data;
+using Yupi.Emulator.Game.Users.Badges.Models;
+using Yupi.Emulator.Game.Users.Data.Models;
+using Yupi.Emulator.Game.Users.Inventory;
+using Yupi.Emulator.Game.Users.Messenger.Structs;
+using Yupi.Emulator.Game.Users.Relationships;
+using Yupi.Emulator.Game.Users.Subscriptions;
 
-namespace Yupi.Game.Users.Factories
+namespace Yupi.Emulator.Game.Users.Factories
 {
     /// <summary>
     ///     Class UserDataFactory.

@@ -1,16 +1,16 @@
 using System.Collections.Generic;
-using Yupi.Game.Achievements.Structs;
-using Yupi.Game.Items.Interfaces;
-using Yupi.Game.Pets;
-using Yupi.Game.RoomBots;
-using Yupi.Game.Rooms.Data;
-using Yupi.Game.Users.Badges.Models;
-using Yupi.Game.Users.Inventory;
-using Yupi.Game.Users.Messenger.Structs;
-using Yupi.Game.Users.Relationships;
-using Yupi.Game.Users.Subscriptions;
+using Yupi.Emulator.Game.Achievements.Structs;
+using Yupi.Emulator.Game.Items.Interfaces;
+using Yupi.Emulator.Game.Pets;
+using Yupi.Emulator.Game.RoomBots;
+using Yupi.Emulator.Game.Rooms.Data;
+using Yupi.Emulator.Game.Users.Badges.Models;
+using Yupi.Emulator.Game.Users.Inventory;
+using Yupi.Emulator.Game.Users.Messenger.Structs;
+using Yupi.Emulator.Game.Users.Relationships;
+using Yupi.Emulator.Game.Users.Subscriptions;
 
-namespace Yupi.Game.Users.Data.Models
+namespace Yupi.Emulator.Game.Users.Data.Models
 {
     /// <summary>
     ///     Class UserData.

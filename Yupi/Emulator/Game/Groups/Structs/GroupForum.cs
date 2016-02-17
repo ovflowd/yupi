@@ -22,7 +22,7 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-namespace Yupi.Game.Groups.Structs
+namespace Yupi.Emulator.Game.Groups.Structs
 {
     /// <summary>
     ///     Class GroupForum.

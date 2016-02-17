@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.Linq;
-using Yupi.Core.Algorithms.Encryption;
-using Yupi.Core.Settings;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.Catalogs.Interfaces;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Items.Interfaces;
-using Yupi.Game.Rooms;
-using Yupi.Game.Rooms.Data;
-using Yupi.Game.Users;
-using Yupi.Messages.Parsers;
-using Yupi.Net.Web;
+using Yupi.Emulator.Core.Algorithms.Encryption;
+using Yupi.Emulator.Core.Settings;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Catalogs.Interfaces;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Items.Interfaces;
+using Yupi.Emulator.Game.Rooms;
+using Yupi.Emulator.Game.Rooms.Data;
+using Yupi.Emulator.Game.Users;
+using Yupi.Emulator.Messages.Parsers;
+using Yupi.Emulator.Net.Web;
 
-namespace Yupi.Messages.Handlers
+namespace Yupi.Emulator.Messages.Handlers
 {
     /// <summary>
     ///     Class GameClientMessageHandler.
@@ -85,6 +85,7 @@ namespace Yupi.Messages.Handlers
         internal void HandleRequest(ClientMessage request)
         {
             Request = request;
+
             PacketLibraryManager.HandlePacket(this, request);
         }
 
@@ -169,8 +170,6 @@ namespace Yupi.Messages.Handlers
             Response.AppendString("Crypto disabled");
             Response.AppendBool(false);
             SendResponse();
-
-            return;
         }
 
         /// <summary>

@@ -1,6 +1,6 @@
 using System;
 
-namespace Yupi.Game.Rooms.Data
+namespace Yupi.Emulator.Game.Rooms.Data
 {
     /// <summary>
     ///     Delegate RoomEventDelegate

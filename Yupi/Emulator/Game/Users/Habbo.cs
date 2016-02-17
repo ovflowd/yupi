@@ -3,27 +3,27 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Timers;
-using Yupi.Core.Io.Logger;
-using Yupi.Core.Settings;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.Achievements.Structs;
-using Yupi.Game.Browser.Models;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Groups.Structs;
-using Yupi.Game.Rooms;
-using Yupi.Game.Rooms.Data;
-using Yupi.Game.Users.Badges;
-using Yupi.Game.Users.Data.Models;
-using Yupi.Game.Users.Inventory;
-using Yupi.Game.Users.Inventory.Components;
-using Yupi.Game.Users.Messenger;
-using Yupi.Game.Users.Messenger.Structs;
-using Yupi.Game.Users.Relationships;
-using Yupi.Game.Users.Subscriptions;
-using Yupi.Messages;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Core.Io.Logger;
+using Yupi.Emulator.Core.Settings;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Achievements.Structs;
+using Yupi.Emulator.Game.Browser.Models;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Groups.Structs;
+using Yupi.Emulator.Game.Rooms;
+using Yupi.Emulator.Game.Rooms.Data;
+using Yupi.Emulator.Game.Users.Badges;
+using Yupi.Emulator.Game.Users.Data.Models;
+using Yupi.Emulator.Game.Users.Inventory;
+using Yupi.Emulator.Game.Users.Inventory.Components;
+using Yupi.Emulator.Game.Users.Messenger;
+using Yupi.Emulator.Game.Users.Messenger.Structs;
+using Yupi.Emulator.Game.Users.Relationships;
+using Yupi.Emulator.Game.Users.Subscriptions;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Game.Users
+namespace Yupi.Emulator.Game.Users
 {
     /// <summary>
     ///     Class Habbo.

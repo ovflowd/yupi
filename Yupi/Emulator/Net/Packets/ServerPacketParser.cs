@@ -23,15 +23,15 @@
 */
 
 using System;
-using Yupi.Core.Io.Logger;
-using Yupi.Data;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Messages;
-using Yupi.Messages.Factorys;
-using Yupi.Messages.Parsers.Interfaces;
-using Yupi.Net.Connection;
+using Yupi.Emulator.Core.Io.Logger;
+using Yupi.Emulator.Data;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Factorys;
+using Yupi.Emulator.Messages.Parsers.Interfaces;
+using Yupi.Emulator.Net.Connection;
 
-namespace Yupi.Net.Packets
+namespace Yupi.Emulator.Net.Packets
 {
     /// <summary>
     ///     Class ServerPacketParser.
@@ -174,9 +174,11 @@ namespace Yupi.Net.Packets
                 }
                 catch (Exception exception)
                 {
-                    YupiLogManager.LogException(exception, $"Failed Parsee Packet #{messageId}.");
+                    YupiLogManager.LogException(exception, $"Failed Parse Packet #{messageId}.");
                 }
             }
+            else
+                Console.WriteLine("Dafuq");
         }
 
         /// <summary>
@@ -206,11 +208,9 @@ namespace Yupi.Net.Packets
         /// <param name="packetLength">Length of the packet.</param>
         private void HandleMessage(int messageId, byte[] packetContent, int position, int packetLength)
         {
-            using (
-                ClientMessage clientMessage = ClientMessageFactory.GetClientMessage(messageId, packetContent, position,
-                    packetLength))
-                if (_currentClient?.GetMessageHandler() != null)
-                    _currentClient.GetMessageHandler().HandleRequest(clientMessage);
+            using (ClientMessage clientMessage = ClientMessageFactory.GetClientMessage(messageId, packetContent, position, packetLength))
+                if (_currentClient.GetMessageHandler() != null)
+                    _currentClient.GetMessageHandler().HandleRequest(clientMessage); 
         }
 
         // ReSharper disable once MethodOverloadWithOptionalParameter

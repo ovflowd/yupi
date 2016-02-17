@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Yupi.Net.Connection;
+using Yupi.Emulator.Net.Connection;
 
-namespace Yupi.Messages
+namespace Yupi.Emulator.Messages
 {
     /// <summary>
     ///     Class QueuedServerMessage.

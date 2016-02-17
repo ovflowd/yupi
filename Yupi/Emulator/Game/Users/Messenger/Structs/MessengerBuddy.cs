@@ -1,11 +1,11 @@
 using System;
 using System.Linq;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Rooms;
-using Yupi.Game.Users.Relationships;
-using Yupi.Messages;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Rooms;
+using Yupi.Emulator.Game.Users.Relationships;
+using Yupi.Emulator.Messages;
 
-namespace Yupi.Game.Users.Messenger.Structs
+namespace Yupi.Emulator.Game.Users.Messenger.Structs
 {
     /// <summary>
     ///     Class MessengerBuddy.

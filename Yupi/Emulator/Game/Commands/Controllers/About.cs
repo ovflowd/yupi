@@ -1,10 +1,10 @@
 ﻿using System.Text;
-using Yupi.Game.Commands.Interfaces;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Messages;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Game.Commands.Interfaces;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Game.Commands.Controllers
+namespace Yupi.Emulator.Game.Commands.Controllers
 {
     /// <summary>
     ///     Class About. This class cannot be inherited.

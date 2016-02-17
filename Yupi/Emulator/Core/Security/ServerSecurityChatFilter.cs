@@ -26,11 +26,11 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Yupi.Core.Io.Logger;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.GameClients.Interfaces;
+using Yupi.Emulator.Core.Io.Logger;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.GameClients.Interfaces;
 
-namespace Yupi.Core.Security
+namespace Yupi.Emulator.Core.Security
 {
     /// <summary>
     ///     Class ServerSecurityChatFilter.

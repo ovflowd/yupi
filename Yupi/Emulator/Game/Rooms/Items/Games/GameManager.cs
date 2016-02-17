@@ -2,16 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using Yupi.Data.Collections;
-using Yupi.Game.Items.Interactions;
-using Yupi.Game.Items.Interactions.Enums;
-using Yupi.Game.Items.Interfaces;
-using Yupi.Game.Rooms.Data;
-using Yupi.Game.Rooms.Items.Games.Teams;
-using Yupi.Game.Rooms.Items.Games.Teams.Enums;
-using Yupi.Game.Rooms.User;
+using Yupi.Emulator.Data.Collections;
+using Yupi.Emulator.Game.Items.Interactions;
+using Yupi.Emulator.Game.Items.Interactions.Enums;
+using Yupi.Emulator.Game.Items.Interfaces;
+using Yupi.Emulator.Game.Rooms.Data;
+using Yupi.Emulator.Game.Rooms.Items.Games.Teams;
+using Yupi.Emulator.Game.Rooms.Items.Games.Teams.Enums;
+using Yupi.Emulator.Game.Rooms.User;
 
-namespace Yupi.Game.Rooms.Items.Games
+namespace Yupi.Emulator.Game.Rooms.Items.Games
 {
     internal class GameManager
     {

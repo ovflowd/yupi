@@ -1,4 +1,4 @@
-﻿namespace Yupi.Messages.Handlers
+﻿namespace Yupi.Emulator.Messages.Handlers
 {
     /// <summary>
     ///     Class GameClientMessageHandler.

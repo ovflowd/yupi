@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.Users.Messenger.Structs;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Users.Messenger.Structs;
 
-namespace Yupi.Game.Users.Messenger
+namespace Yupi.Emulator.Game.Users.Messenger
 {
     /// <summary>
     ///     Class SearchResultFactory.

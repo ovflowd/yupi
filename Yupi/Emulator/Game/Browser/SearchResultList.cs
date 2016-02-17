@@ -26,14 +26,14 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.Browser.Models;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Groups.Structs;
-using Yupi.Game.Rooms.Data;
-using Yupi.Messages;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Browser.Models;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Groups.Structs;
+using Yupi.Emulator.Game.Rooms.Data;
+using Yupi.Emulator.Messages;
 
-namespace Yupi.Game.Browser
+namespace Yupi.Emulator.Game.Browser
 {
     /// <summary>
     ///     Class SearchResultList.

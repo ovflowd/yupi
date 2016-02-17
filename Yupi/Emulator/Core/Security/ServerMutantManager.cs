@@ -24,9 +24,9 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Yupi.Game.Users.Figures;
+using Yupi.Emulator.Game.Users.Figures;
 
-namespace Yupi.Core.Security
+namespace Yupi.Emulator.Core.Security
 {
     /// <summary>
     ///     Class ServerMutantManager.

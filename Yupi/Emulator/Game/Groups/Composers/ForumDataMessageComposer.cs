@@ -22,11 +22,11 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-using Yupi.Game.Groups.Structs;
-using Yupi.Messages;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Game.Groups.Structs;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Game.Groups.Composers
+namespace Yupi.Emulator.Game.Groups.Composers
 {
     /// <summary>
     ///     Class ForumDataMessageComposer.

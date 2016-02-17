@@ -22,11 +22,11 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.RoomBots.Interfaces;
-using Yupi.Game.Rooms.User;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.RoomBots.Interfaces;
+using Yupi.Emulator.Game.Rooms.User;
 
-namespace Yupi.Game.RoomBots.Models
+namespace Yupi.Emulator.Game.RoomBots.Models
 {
     internal class BaseBot : BotAi
     {

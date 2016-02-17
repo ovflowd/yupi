@@ -3,16 +3,16 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using Yupi.Game.Items.Interactions.Enums;
-using Yupi.Game.Items.Interfaces;
-using Yupi.Game.Rooms.Items.Games.Teams;
-using Yupi.Game.Rooms.Items.Games.Teams.Enums;
-using Yupi.Game.Rooms.Items.Games.Types.Freeze.Enum;
-using Yupi.Game.Rooms.User;
-using Yupi.Messages;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Game.Items.Interactions.Enums;
+using Yupi.Emulator.Game.Items.Interfaces;
+using Yupi.Emulator.Game.Rooms.Items.Games.Teams;
+using Yupi.Emulator.Game.Rooms.Items.Games.Teams.Enums;
+using Yupi.Emulator.Game.Rooms.Items.Games.Types.Freeze.Enum;
+using Yupi.Emulator.Game.Rooms.User;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Game.Rooms.Items.Games.Types.Freeze
+namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Freeze
 {
     internal class Freeze
     {

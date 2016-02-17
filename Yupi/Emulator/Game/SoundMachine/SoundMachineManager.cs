@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
-using Yupi.Game.Items.Interfaces;
-using Yupi.Game.Rooms;
-using Yupi.Game.Rooms.User;
-using Yupi.Game.SoundMachine.Composers;
-using Yupi.Game.SoundMachine.Songs;
+using Yupi.Emulator.Game.Items.Interfaces;
+using Yupi.Emulator.Game.Rooms;
+using Yupi.Emulator.Game.Rooms.User;
+using Yupi.Emulator.Game.SoundMachine.Composers;
+using Yupi.Emulator.Game.SoundMachine.Songs;
 
-namespace Yupi.Game.SoundMachine
+namespace Yupi.Emulator.Game.SoundMachine
 {
     /// <summary>
     ///     Class RoomMusicController.

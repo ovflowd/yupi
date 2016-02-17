@@ -23,12 +23,12 @@
 */
 
 using System.Data;
-using Yupi.Data.Base.Adapters.Enums;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Data.Base.Adapters.Models;
-using Yupi.Data.Base.Clients.Interfaces;
+using Yupi.Emulator.Data.Base.Adapters.Enums;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Data.Base.Adapters.Models;
+using Yupi.Emulator.Data.Base.Clients.Interfaces;
 
-namespace Yupi.Data.Base.Adapters
+namespace Yupi.Emulator.Data.Base.Adapters
 {
     public class NormalQueryAdapter : BaseQueryAdapter, IQueryAdapter
     {

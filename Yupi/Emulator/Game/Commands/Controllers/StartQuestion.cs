@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
-using Yupi.Game.Commands.Interfaces;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Polls;
-using Yupi.Game.Polls.Enums;
-using Yupi.Game.Rooms;
-using Yupi.Game.Rooms.User;
-using Yupi.Game.Users;
-using Yupi.Messages;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Game.Commands.Interfaces;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Polls;
+using Yupi.Emulator.Game.Polls.Enums;
+using Yupi.Emulator.Game.Rooms;
+using Yupi.Emulator.Game.Rooms.User;
+using Yupi.Emulator.Game.Users;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Game.Commands.Controllers
+namespace Yupi.Emulator.Game.Commands.Controllers
 {
     /// <summary>
     ///     Class StartQuestion. This class cannot be inherited.

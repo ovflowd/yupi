@@ -24,7 +24,7 @@
 
 using System.Data;
 
-namespace Yupi.Game.RoomBots.Interfaces
+namespace Yupi.Emulator.Game.RoomBots.Interfaces
 {
     /// <summary>
     ///     Class CatalogBot.

@@ -4,20 +4,20 @@ using System.Collections.Specialized;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using Yupi.Core.Io.Logger;
-using Yupi.Core.Util.Coordinates;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Items.Interactions.Enums;
-using Yupi.Game.Items.Interfaces;
-using Yupi.Game.Items.Wired.Handlers;
-using Yupi.Game.Pathfinding.Vectors;
-using Yupi.Game.Rooms.Chat.Enums;
-using Yupi.Game.Rooms.Data;
-using Yupi.Game.Rooms.Items.Games.Teams.Enums;
-using Yupi.Messages;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Core.Io.Logger;
+using Yupi.Emulator.Core.Util.Coordinates;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Items.Interactions.Enums;
+using Yupi.Emulator.Game.Items.Interfaces;
+using Yupi.Emulator.Game.Items.Wired.Handlers;
+using Yupi.Emulator.Game.Pathfinding.Vectors;
+using Yupi.Emulator.Game.Rooms.Chat.Enums;
+using Yupi.Emulator.Game.Rooms.Data;
+using Yupi.Emulator.Game.Rooms.Items.Games.Teams.Enums;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Game.Rooms.User.Path
+namespace Yupi.Emulator.Game.Rooms.User.Path
 {
     /// <summary>
     ///     Class Gamemap.

@@ -1,7 +1,7 @@
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.Items.Interfaces;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Items.Interfaces;
 
-namespace Yupi.Game.SoundMachine.Songs
+namespace Yupi.Emulator.Game.SoundMachine.Songs
 {
     /// <summary>
     ///     Class SongItem.

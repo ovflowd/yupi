@@ -11,28 +11,28 @@ using System.Text;
 using System.Timers;
 using log4net;
 using MySql.Data.MySqlClient;
-using Yupi.Core.Io.Logger;
-using Yupi.Core.Settings;
-using Yupi.Core.Util.Math;
-using Yupi.Data;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Data.Base.Managers;
-using Yupi.Data.Interfaces;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Groups.Structs;
-using Yupi.Game.Users;
-using Yupi.Game.Users.Data.Models;
-using Yupi.Game.Users.Factories;
-using Yupi.Game.Users.Messenger.Structs;
-using Yupi.Messages.Factorys;
-using Yupi.Messages.Parsers;
-using Yupi.Game;
-using Yupi.Data.Base.Managers.Interfaces;
-using Yupi.Net.Connection;
-using Yupi.Net.Packets;
-using Yupi.Net.Settings;
+using Yupi.Emulator.Core.Io.Logger;
+using Yupi.Emulator.Core.Settings;
+using Yupi.Emulator.Core.Util.Math;
+using Yupi.Emulator.Data;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Data.Base.Managers;
+using Yupi.Emulator.Data.Base.Managers.Interfaces;
+using Yupi.Emulator.Data.Interfaces;
+using Yupi.Emulator.Game;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Groups.Structs;
+using Yupi.Emulator.Game.Users;
+using Yupi.Emulator.Game.Users.Data.Models;
+using Yupi.Emulator.Game.Users.Factories;
+using Yupi.Emulator.Game.Users.Messenger.Structs;
+using Yupi.Emulator.Messages.Factorys;
+using Yupi.Emulator.Messages.Parsers;
+using Yupi.Emulator.Net.Connection;
+using Yupi.Emulator.Net.Packets;
+using Yupi.Emulator.Net.Settings;
 
-namespace Yupi
+namespace Yupi.Emulator
 {
     /// <summary>
     ///     Class Yupi.
@@ -417,7 +417,7 @@ namespace Yupi
 
                 ClientMessageFactory.Init();
 
-                ServerFactorySettings.Init(IPAddress.Any, int.Parse(ServerConfigurationSettings.Data["game.tcp.port"]), 2, 4072, ServerConfigurationSettings.Data["game.tcp.enablenagles"] == "true");
+                ServerFactorySettings.Init(IPAddress.Any, int.Parse(ServerConfigurationSettings.Data["game.tcp.port"]), 4072, ServerConfigurationSettings.Data["game.tcp.enablenagles"] == "true", int.Parse(ServerConfigurationSettings.Data["game.tcp.boss.maxthreadsize"]), int.Parse(ServerConfigurationSettings.Data["game.tcp.work.maxthreadsize"]));
 
                 ConnectionManager.DataParser = new ServerPacketParser();
 

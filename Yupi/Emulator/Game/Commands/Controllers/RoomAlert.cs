@@ -1,7 +1,7 @@
-﻿using Yupi.Game.Commands.Interfaces;
-using Yupi.Game.GameClients.Interfaces;
+﻿using Yupi.Emulator.Game.Commands.Interfaces;
+using Yupi.Emulator.Game.GameClients.Interfaces;
 
-namespace Yupi.Game.Commands.Controllers
+namespace Yupi.Emulator.Game.Commands.Controllers
 {
     internal sealed class RoomAlert : Command
     {
@@ -22,8 +22,8 @@ namespace Yupi.Game.Commands.Controllers
                     session.GetHabbo()
                         .CurrentRoom.GetRoomUserManager()
                         .GetRoomUsers()
-                        .Where(user => !user.IsBot && user.GetClientByConnectionId() != null))
-                user.GetClientByConnectionId().SendNotif(alert);*/
+                        .Where(user => !user.IsBot && user.GetClientByAddress() != null))
+                user.GetClientByAddress().SendNotif(alert);*/
 
             session.GetHabbo().CurrentRoom.SendMessage(GameClient.GetBytesNotif(alert));
 

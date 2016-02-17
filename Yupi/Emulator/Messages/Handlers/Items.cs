@@ -3,30 +3,30 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using Yupi.Core.Io.Logger;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.Catalogs;
-using Yupi.Game.Catalogs.Interfaces;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Items;
-using Yupi.Game.Items.Datas;
-using Yupi.Game.Items.Interactions.Enums;
-using Yupi.Game.Items.Interfaces;
-using Yupi.Game.Items.Wired;
-using Yupi.Game.Items.Wired.Interfaces;
-using Yupi.Game.Pets;
-using Yupi.Game.Pets.Enums;
-using Yupi.Game.Pets.Structs;
-using Yupi.Game.RoomBots;
-using Yupi.Game.RoomBots.Enumerators;
-using Yupi.Game.Rooms;
-using Yupi.Game.Rooms.User;
-using Yupi.Game.Rooms.User.Trade;
-using Yupi.Game.Users;
-using Yupi.Messages.Enums;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Core.Io.Logger;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Catalogs;
+using Yupi.Emulator.Game.Catalogs.Interfaces;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Items;
+using Yupi.Emulator.Game.Items.Datas;
+using Yupi.Emulator.Game.Items.Interactions.Enums;
+using Yupi.Emulator.Game.Items.Interfaces;
+using Yupi.Emulator.Game.Items.Wired;
+using Yupi.Emulator.Game.Items.Wired.Interfaces;
+using Yupi.Emulator.Game.Pets;
+using Yupi.Emulator.Game.Pets.Enums;
+using Yupi.Emulator.Game.Pets.Structs;
+using Yupi.Emulator.Game.RoomBots;
+using Yupi.Emulator.Game.RoomBots.Enumerators;
+using Yupi.Emulator.Game.Rooms;
+using Yupi.Emulator.Game.Rooms.User;
+using Yupi.Emulator.Game.Rooms.User.Trade;
+using Yupi.Emulator.Game.Users;
+using Yupi.Emulator.Messages.Enums;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Messages.Handlers
+namespace Yupi.Emulator.Messages.Handlers
 {
     internal partial class GameClientMessageHandler
     {

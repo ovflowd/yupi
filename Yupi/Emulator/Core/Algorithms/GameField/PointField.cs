@@ -25,7 +25,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace Yupi.Core.Algorithms.GameField
+namespace Yupi.Emulator.Core.Algorithms.GameField
 {
     public class PointField
     {

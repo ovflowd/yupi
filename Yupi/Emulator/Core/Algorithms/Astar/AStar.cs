@@ -25,10 +25,10 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using Yupi.Core.Algorithms.Astar.Enums;
-using Yupi.Core.Algorithms.Astar.Interfaces;
+using Yupi.Emulator.Core.Algorithms.Astar.Enums;
+using Yupi.Emulator.Core.Algorithms.Astar.Interfaces;
 
-namespace Yupi.Core.Algorithms.Astar
+namespace Yupi.Emulator.Core.Algorithms.Astar
 {
     /// <summary>
     ///     Uses about 50 MB for a 1024x1024 grid.

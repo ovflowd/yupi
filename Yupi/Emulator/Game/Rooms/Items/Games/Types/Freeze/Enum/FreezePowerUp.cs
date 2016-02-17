@@ -1,4 +1,4 @@
-namespace Yupi.Game.Rooms.Items.Games.Types.Freeze.Enum
+namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Freeze.Enum
 {
     internal enum FreezePowerUp
     {

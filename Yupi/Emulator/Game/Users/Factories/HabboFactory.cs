@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Yupi.Game.Browser.Models;
-using Yupi.Game.Groups.Structs;
+using Yupi.Emulator.Game.Browser.Models;
+using Yupi.Emulator.Game.Groups.Structs;
 
-namespace Yupi.Game.Users.Factories
+namespace Yupi.Emulator.Game.Users.Factories
 {
     /// <summary>
     ///     Class HabboFactory.

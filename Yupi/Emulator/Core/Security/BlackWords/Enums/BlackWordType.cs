@@ -22,7 +22,7 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-namespace Yupi.Core.Security.BlackWords.Enums
+namespace Yupi.Emulator.Core.Security.BlackWords.Enums
 {
     /// <summary>
     ///     Enum BlackWordType

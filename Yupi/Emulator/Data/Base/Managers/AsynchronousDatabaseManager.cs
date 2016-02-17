@@ -26,12 +26,12 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using MySql.Data.MySqlClient;
-using Yupi.Core.Io.Logger;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Data.Base.Clients;
-using Yupi.Data.Base.Managers.Interfaces;
+using Yupi.Emulator.Core.Io.Logger;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Data.Base.Clients;
+using Yupi.Emulator.Data.Base.Managers.Interfaces;
 
-namespace Yupi.Data.Base.Managers
+namespace Yupi.Emulator.Data.Base.Managers
 {
     public class AsynchronousDatabaseManager : IDatabaseManager
     {

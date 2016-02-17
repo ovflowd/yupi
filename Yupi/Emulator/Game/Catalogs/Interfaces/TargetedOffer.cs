@@ -1,4 +1,4 @@
-﻿namespace Yupi.Game.Catalogs.Interfaces
+﻿namespace Yupi.Emulator.Game.Catalogs.Interfaces
 {
     internal class TargetedOffer
     {

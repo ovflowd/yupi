@@ -1,4 +1,4 @@
-namespace Yupi.Game.Rooms.Items.Games.Teams
+namespace Yupi.Emulator.Game.Rooms.Items.Games.Teams
 {
     /// <summary>
     ///     Delegate TeamScoreChangedDelegate

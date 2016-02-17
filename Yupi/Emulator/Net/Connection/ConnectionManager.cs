@@ -1,14 +1,15 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using DotNetty.Handlers.Logging;
 using DotNetty.Transport.Bootstrapping;
 using DotNetty.Transport.Channels;
 using DotNetty.Transport.Channels.Sockets;
-using Yupi.Net.Handlers;
-using Yupi.Net.Packets;
-using Yupi.Net.Settings;
+using Yupi.Emulator.Net.Handlers;
+using Yupi.Emulator.Net.Packets;
+using Yupi.Emulator.Net.Settings;
 
-namespace Yupi.Net.Connection
+namespace Yupi.Emulator.Net.Connection
 {
     class ConnectionManager
     {
@@ -22,15 +23,28 @@ namespace Yupi.Net.Connection
         /// </summary>
         public static IChannel ServerChannel;
 
+        /// <summary>
+        ///     Main Server Worker
+        /// </summary>
         public static IEventLoopGroup MainServerWorkers;
 
+        /// <summary>
+        ///     Child Server Workers
+        /// </summary>
         public static IEventLoopGroup ChildServerWorkers;
 
-        public static async Task RunServer()
-        {
-            MainServerWorkers = new MultithreadEventLoopGroup(1);
+        /// <summary>
+        ///     Client Connection Actors
+        /// </summary>
+        public static ConcurrentDictionary<string, ConnectionActor> ClientConnections; 
 
-            ChildServerWorkers = new MultithreadEventLoopGroup();
+        public static async Task RunServer()
+        {      
+            MainServerWorkers = ServerFactorySettings.MaxBossSize == 0 ? new MultithreadEventLoopGroup() : new MultithreadEventLoopGroup(ServerFactorySettings.MaxBossSize);
+
+            ChildServerWorkers = ServerFactorySettings.MaxWorkerSize == 0 ? new MultithreadEventLoopGroup() : new MultithreadEventLoopGroup(ServerFactorySettings.MaxWorkerSize);
+
+            ClientConnections = new ConcurrentDictionary<string, ConnectionActor>();
 
             try
             {
@@ -48,13 +62,22 @@ namespace Yupi.Net.Connection
                     .Handler(new LoggingHandler(LogLevel.INFO))
                     .ChildHandler(new ActionChannelInitializer<ISocketChannel>(channel =>
                     {
-                        Console.WriteLine($"Iniciando Conexao ID: {channel.Id}.");
-
                         channel.Pipeline.AddLast(new ConnectionHandler());
 
-                        ConnectionActor connection = new ConnectionActor(DataParser.Clone() as ServerPacketParser, channel);
+                        ConnectionActor connectionActor = new ConnectionActor(DataParser.Clone() as ServerPacketParser, channel);
 
-                        Yupi.GetGame().GetClientManager().AddClient(channel.Id.ToString(), connection);
+                        ConnectionActor oldConnection;
+
+                        ClientConnections.TryGetValue(connectionActor.IpAddress, out oldConnection);
+
+                        if (oldConnection != null)
+                        {
+                            connectionActor.HandShakeCompleted = oldConnection.HandShakeCompleted;
+
+                            connectionActor.HandShakePartialCompleted = oldConnection.HandShakePartialCompleted;
+                        }
+
+                        ClientConnections.AddOrUpdate(connectionActor.IpAddress, connectionActor, (key, value) => connectionActor);
                     }));
 
                 ServerChannel = await server.BindAsync(ServerFactorySettings.AllowedAddresses, ServerFactorySettings.ServerPort);

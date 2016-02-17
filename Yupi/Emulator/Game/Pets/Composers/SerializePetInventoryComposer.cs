@@ -1,6 +1,6 @@
-﻿using Yupi.Messages;
+﻿using Yupi.Emulator.Messages;
 
-namespace Yupi.Game.Pets.Composers
+namespace Yupi.Emulator.Game.Pets.Composers
 {
     internal class SerializePetInventoryComposer
     {

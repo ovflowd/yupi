@@ -24,7 +24,7 @@
 
 using System.Drawing;
 
-namespace Yupi.Core.Util.Coordinates
+namespace Yupi.Emulator.Core.Util.Coordinates
 {
     /// <summary>
     ///     Class CoordinatesFormatter.

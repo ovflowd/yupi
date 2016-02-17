@@ -26,7 +26,7 @@ using System;
 using System.Data;
 using MySql.Data.MySqlClient;
 
-namespace Yupi.Data.Base.Adapters.Handlers
+namespace Yupi.Emulator.Data.Base.Adapters.Handlers
 {
     public class MySqlConnectionHandler : IDisposable
     {

@@ -1,6 +1,6 @@
-using Yupi.Game.Rooms.Items;
+using Yupi.Emulator.Game.Rooms.Items;
 
-namespace Yupi.Game.Items
+namespace Yupi.Emulator.Game.Items
 {
     /// <summary>
     ///     Delegate OnItemTrigger

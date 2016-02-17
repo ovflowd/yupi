@@ -27,7 +27,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Yupi.Data.Collections
+namespace Yupi.Emulator.Data.Collections
 {
     public class QueuedDictionary<T, TV>
     {

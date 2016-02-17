@@ -24,7 +24,7 @@
 
 using System;
 
-namespace Yupi.Core.Io.Interfaces
+namespace Yupi.Emulator.Core.Io.Interfaces
 {
     public abstract class AbstractBar
     {

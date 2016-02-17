@@ -1,4 +1,4 @@
-namespace Yupi.Game.Users.Subscriptions
+namespace Yupi.Emulator.Game.Users.Subscriptions
 {
     /// <summary>
     ///     Class Subscription.

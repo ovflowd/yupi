@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using Yupi.Game.Catalogs.Composers;
-using Yupi.Messages;
+using Yupi.Emulator.Game.Catalogs.Composers;
+using Yupi.Emulator.Messages;
 
-namespace Yupi.Game.Catalogs.Interfaces
+namespace Yupi.Emulator.Game.Catalogs.Interfaces
 {
     /// <summary>
     ///     Class CatalogPage.

@@ -1,4 +1,4 @@
-namespace Yupi.Game.Rooms.Chat.Enums
+namespace Yupi.Emulator.Game.Rooms.Chat.Enums
 {
     /// <summary>
     ///     Enum SquareState

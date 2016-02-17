@@ -22,10 +22,10 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-using Yupi.Messages;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Game.Achievements.Composers
+namespace Yupi.Emulator.Game.Achievements.Composers
 {
     /// <summary>
     ///     Class AchievementScoreUpdateComposer.

@@ -28,15 +28,15 @@ using System.Collections.Specialized;
 using System.Data;
 using System.Linq;
 using System.Text;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Groups.Structs;
-using Yupi.Game.Rooms;
-using Yupi.Game.Users;
-using Yupi.Messages;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Groups.Structs;
+using Yupi.Emulator.Game.Rooms;
+using Yupi.Emulator.Game.Users;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Game.Groups
+namespace Yupi.Emulator.Game.Groups
 {
     /// <summary>
     ///     Class GroupManager.

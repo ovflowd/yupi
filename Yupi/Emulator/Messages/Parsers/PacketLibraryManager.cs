@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Yupi.Core.Io.Logger;
-using Yupi.Core.Settings;
-using Yupi.Messages.Handlers;
+using Yupi.Emulator.Core.Io.Logger;
+using Yupi.Emulator.Core.Settings;
+using Yupi.Emulator.Messages.Handlers;
+using Yupi.Emulator.Messages.Library;
 
-namespace Yupi.Messages.Parsers
+namespace Yupi.Emulator.Messages.Parsers
 {
     internal static class PacketLibraryManager
     {

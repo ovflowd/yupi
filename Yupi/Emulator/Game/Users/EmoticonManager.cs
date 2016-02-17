@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Yupi.Game.Users
+namespace Yupi.Emulator.Game.Users
 {
     internal enum ChatEmotion
     {

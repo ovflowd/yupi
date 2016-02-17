@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Yupi.Core.Io.Logger;
-using Yupi.Game.Items.Interfaces;
-using Yupi.Messages;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Core.Io.Logger;
+using Yupi.Emulator.Game.Items.Interfaces;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Game.Rooms.User.Trade
+namespace Yupi.Emulator.Game.Rooms.User.Trade
 {
     /// <summary>
     ///     Class Trade.

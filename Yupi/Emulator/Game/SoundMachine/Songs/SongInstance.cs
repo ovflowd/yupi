@@ -1,4 +1,4 @@
-namespace Yupi.Game.SoundMachine.Songs
+namespace Yupi.Emulator.Game.SoundMachine.Songs
 {
     /// <summary>
     ///     Class SongInstance.

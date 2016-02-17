@@ -4,15 +4,15 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using Yupi.Core.Io.Logger;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Users.Messenger.Structs;
-using Yupi.Messages;
-using Yupi.Messages.Parsers;
-using Yupi.Net.Connection;
+using Yupi.Emulator.Core.Io.Logger;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Users.Messenger.Structs;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Parsers;
+using Yupi.Emulator.Net.Connection;
 
-namespace Yupi.Game.GameClients
+namespace Yupi.Emulator.Game.GameClients
 {
     /// <summary>
     ///     Class GameClientManager..
@@ -93,22 +93,22 @@ namespace Yupi.Game.GameClients
         /// <summary>
         ///     Gets the client.
         /// </summary>
-        /// <param name="clientId">The client identifier.</param>
+        /// <param name="clientAddress">The client identifier.</param>
         /// <returns>GameClient.</returns>
-        internal GameClient GetClientByConnectionId(string clientId) => Clients.ContainsKey(clientId) ? Clients[clientId] : null;
+        internal GameClient GetClientByAddress(string clientAddress) => Clients.ContainsKey(clientAddress) ? Clients[clientAddress] : null;
 
         /// <summary>
         ///     Check if Client is Online
         /// </summary>
-        /// <param name="clientId">The client identifier.</param>
+        /// <param name="clientAddress">The client identifier.</param>
         /// <returns>bool</returns>
-        internal bool CheckClientOnlineStatus(string clientId) => GetClientByConnectionId(clientId)?.GetHabbo()?.IsOnline == true;
+        internal bool CheckClientOnlineStatus(string clientAddress) => GetClientByAddress(clientAddress)?.GetHabbo()?.IsOnline == true;
 
         /// <summary>
         ///     Return Online Clients Count
         /// </summary>
         /// <returns>Online Client Count.</returns>
-        internal int GetOnlineClients() => Clients.Values.Count(client => !CheckClientOnlineStatus(client.ConnectionId));
+        internal int GetOnlineClients() => Clients.Values.Count(client => !CheckClientOnlineStatus(client.ClientAddress));
 
         /// <summary>
         ///     Gets the name by identifier.
@@ -229,7 +229,7 @@ namespace Yupi.Game.GameClients
         /// </summary>
         /// <param name="clientAddress">The client identifier.</param>
         /// <param name="connection">The connection.</param>
-        internal void AddClient(string clientAddress, ConnectionActor connection)
+        internal void AddOrUpdateClient(string clientAddress, ConnectionActor connection)
         {
             GameClient gameClient = new GameClient(clientAddress, connection);
 
@@ -242,15 +242,13 @@ namespace Yupi.Game.GameClients
         /// <param name="clientAddress">The client identifier.</param>
         internal void RemoveClient(string clientAddress)
         {
-            GameClient client = GetClientByConnectionId(clientAddress);
+            GameClient client = GetClientByAddress(clientAddress);
             
             if(client != null)
             {
                 client.Stop();
 
-                client.GetConnection().ConnectionChannel.CloseAsync();
-
-                Clients.TryRemove(client.ConnectionId, out client);
+                Clients.TryRemove(client.ClientAddress, out client);
             }
         }
 
@@ -341,7 +339,7 @@ namespace Yupi.Game.GameClients
             YupiWriterManager.WriteLine("Closing YupiDatabase Manager...", "Yupi.Data", ConsoleColor.DarkMagenta);
 
             foreach (GameClient current4 in Clients.Values.Where(current4 => current4?.GetConnection() != null))
-                current4.GetConnection().ConnectionChannel.CloseAsync();
+                current4.GetConnection().Close();
                 
             YupiWriterManager.WriteLine("Yupi DataBase Manager Closed!", "Yupi.Data", ConsoleColor.DarkMagenta);
 

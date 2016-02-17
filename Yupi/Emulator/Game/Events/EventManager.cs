@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Yupi.Game.Events.Interfaces;
-using Yupi.Game.Rooms.Data;
+using Yupi.Emulator.Game.Events.Interfaces;
+using Yupi.Emulator.Game.Rooms.Data;
 
-namespace Yupi.Game.Events
+namespace Yupi.Emulator.Game.Events
 {
     /// <summary>
     ///     Class EventManager.

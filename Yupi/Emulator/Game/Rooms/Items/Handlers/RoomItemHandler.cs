@@ -6,23 +6,23 @@ using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
-using Yupi.Core.Io;
-using Yupi.Core.Io.Logger;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Items;
-using Yupi.Game.Items.Datas;
-using Yupi.Game.Items.Interactions.Enums;
-using Yupi.Game.Items.Interfaces;
-using Yupi.Game.Pathfinding.Vectors;
-using Yupi.Game.Pets;
-using Yupi.Game.Rooms.Chat.Enums;
-using Yupi.Game.Rooms.User;
-using Yupi.Game.Rooms.User.Path;
-using Yupi.Messages;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Core.Io;
+using Yupi.Emulator.Core.Io.Logger;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Items;
+using Yupi.Emulator.Game.Items.Datas;
+using Yupi.Emulator.Game.Items.Interactions.Enums;
+using Yupi.Emulator.Game.Items.Interfaces;
+using Yupi.Emulator.Game.Pathfinding.Vectors;
+using Yupi.Emulator.Game.Pets;
+using Yupi.Emulator.Game.Rooms.Chat.Enums;
+using Yupi.Emulator.Game.Rooms.User;
+using Yupi.Emulator.Game.Rooms.User.Path;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Game.Rooms.Items.Handlers
+namespace Yupi.Emulator.Game.Rooms.Items.Handlers
 {
     /// <summary>
     ///     Class RoomItemHandler.

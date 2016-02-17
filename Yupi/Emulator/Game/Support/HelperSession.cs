@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Yupi.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.GameClients.Interfaces;
 
-namespace Yupi.Game.Support
+namespace Yupi.Emulator.Game.Support
 {
     /// <summary>
     ///     Class HelperSession.

@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace Yupi.Game.Items.Wired.Handlers
+namespace Yupi.Emulator.Game.Items.Wired.Handlers
 {
     internal enum MovementState
     {

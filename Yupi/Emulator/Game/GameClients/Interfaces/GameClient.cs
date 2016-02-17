@@ -1,19 +1,19 @@
 using System;
 using System.Linq;
-using Yupi.Core.Io.Logger;
-using Yupi.Core.Security.BlackWords.Structs;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.Rooms.User;
-using Yupi.Game.Users;
-using Yupi.Game.Users.Data.Models;
-using Yupi.Game.Users.Factories;
-using Yupi.Messages;
-using Yupi.Messages.Enums;
-using Yupi.Messages.Handlers;
-using Yupi.Messages.Parsers;
-using Yupi.Net.Connection;
+using Yupi.Emulator.Core.Io.Logger;
+using Yupi.Emulator.Core.Security.BlackWords.Structs;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Rooms.User;
+using Yupi.Emulator.Game.Users;
+using Yupi.Emulator.Game.Users.Data.Models;
+using Yupi.Emulator.Game.Users.Factories;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Enums;
+using Yupi.Emulator.Messages.Handlers;
+using Yupi.Emulator.Messages.Parsers;
+using Yupi.Emulator.Net.Connection;
 
-namespace Yupi.Game.GameClients.Interfaces
+namespace Yupi.Emulator.Game.GameClients.Interfaces
 {
     /// <summary>
     ///     Class GameClient.
@@ -70,7 +70,7 @@ namespace Yupi.Game.GameClients.Interfaces
         ///     Gets the connection identifier.
         /// </summary>
         /// <value>The connection identifier.</value>
-        internal string ConnectionId;
+        internal string ClientAddress;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="GameClient" /> class.
@@ -79,7 +79,7 @@ namespace Yupi.Game.GameClients.Interfaces
         /// <param name="connection">The connection.</param>
         internal GameClient(string clientId, ConnectionActor connection)
         {
-            ConnectionId = clientId;
+            ClientAddress = clientId;
 
             _connection = connection;
 
@@ -186,6 +186,8 @@ namespace Yupi.Game.GameClients.Interfaces
         internal void InitHandler()
         {
             _messageHandler = new GameClientMessageHandler(this);
+
+            _connection.DataParser.SetConnection(_connection, this);
         }
 
         /// <summary>
@@ -478,7 +480,7 @@ namespace Yupi.Game.GameClients.Interfaces
             if (_disconnected)
                 return;
 
-            _connection?.ConnectionChannel.CloseAsync();
+            _connection?.Close();
 
             _disconnected = true;
         }

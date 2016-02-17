@@ -24,10 +24,10 @@
 
 using System.Data;
 using MySql.Data.MySqlClient;
-using Yupi.Data.Base.Adapters.Enums;
-using Yupi.Data.Base.Clients.Interfaces;
+using Yupi.Emulator.Data.Base.Adapters.Enums;
+using Yupi.Emulator.Data.Base.Clients.Interfaces;
 
-namespace Yupi.Data.Base.Adapters.Models
+namespace Yupi.Emulator.Data.Base.Adapters.Models
 {
     public abstract class BaseQueryAdapter
     {

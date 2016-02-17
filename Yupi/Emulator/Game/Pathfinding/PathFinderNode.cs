@@ -23,9 +23,9 @@
 */
 
 using System;
-using Yupi.Game.Pathfinding.Vectors;
+using Yupi.Emulator.Game.Pathfinding.Vectors;
 
-namespace Yupi.Game.Pathfinding
+namespace Yupi.Emulator.Game.Pathfinding
 {
     /// <summary>
     ///     Class PathFinderNode.

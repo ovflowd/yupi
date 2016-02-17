@@ -1,6 +1,6 @@
-using Yupi.Game.Rooms.Chat;
+using Yupi.Emulator.Game.Rooms.Chat;
 
-namespace Yupi.Game.Rooms.User
+namespace Yupi.Emulator.Game.Rooms.User
 {
     /// <summary>
     ///     Delegate RoomUserSaysDelegate

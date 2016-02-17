@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
-using Yupi.Core.Io;
-using Yupi.Data.Collections;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Items.Interactions.Enums;
-using Yupi.Game.Items.Interfaces;
-using Yupi.Game.Pathfinding;
-using Yupi.Game.Rooms.Items.Games.Teams.Enums;
-using Yupi.Game.Rooms.Items.Games.Types.Soccer.Enums;
-using Yupi.Game.Rooms.User;
-using Yupi.Game.Rooms.User.Path;
-using Yupi.Messages;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Core.Io;
+using Yupi.Emulator.Data.Collections;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Items.Interactions.Enums;
+using Yupi.Emulator.Game.Items.Interfaces;
+using Yupi.Emulator.Game.Pathfinding;
+using Yupi.Emulator.Game.Rooms.Items.Games.Teams.Enums;
+using Yupi.Emulator.Game.Rooms.Items.Games.Types.Soccer.Enums;
+using Yupi.Emulator.Game.Rooms.User;
+using Yupi.Emulator.Game.Rooms.User.Path;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Game.Rooms.Items.Games.Types.Soccer
+namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Soccer
 {
     internal class Soccer
     {

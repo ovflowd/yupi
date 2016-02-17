@@ -1,4 +1,4 @@
-﻿namespace Yupi.Game.Polls.Enums
+﻿namespace Yupi.Emulator.Game.Polls.Enums
 {
     internal enum PollType
     {

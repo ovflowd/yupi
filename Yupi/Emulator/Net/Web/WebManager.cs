@@ -25,7 +25,7 @@
 using System.IO;
 using System.Net;
 
-namespace Yupi.Net.Web
+namespace Yupi.Emulator.Net.Web
 {
     internal static class WebManager
     {

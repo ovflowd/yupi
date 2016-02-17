@@ -1,12 +1,12 @@
-﻿using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Items.Interactions.Enums;
-using Yupi.Game.Items.Interactions.Models;
-using Yupi.Game.Items.Interfaces;
-using Yupi.Game.Users;
-using Yupi.Messages;
-using Yupi.Messages.Parsers;
+﻿using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Items.Interactions.Enums;
+using Yupi.Emulator.Game.Items.Interactions.Models;
+using Yupi.Emulator.Game.Items.Interfaces;
+using Yupi.Emulator.Game.Users;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Game.Items.Interactions.Controllers
+namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 {
     internal class InteractorHcGate : FurniInteractorModel
     {

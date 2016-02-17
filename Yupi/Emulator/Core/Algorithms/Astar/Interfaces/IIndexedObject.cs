@@ -22,7 +22,7 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-namespace Yupi.Core.Algorithms.Astar.Interfaces
+namespace Yupi.Emulator.Core.Algorithms.Astar.Interfaces
 {
     public interface IWeightAlterable<T>
     {

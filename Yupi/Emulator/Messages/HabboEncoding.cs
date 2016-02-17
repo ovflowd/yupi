@@ -1,6 +1,6 @@
 using System;
 
-namespace Yupi.Messages
+namespace Yupi.Emulator.Messages
 {
     /// <summary>
     ///     Class HabboEncoding.

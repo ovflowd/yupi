@@ -25,11 +25,11 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.Groups.Composers;
-using Yupi.Messages;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Groups.Composers;
+using Yupi.Emulator.Messages;
 
-namespace Yupi.Game.Groups.Structs
+namespace Yupi.Emulator.Game.Groups.Structs
 {
     /// <summary>
     ///     Class Guild.

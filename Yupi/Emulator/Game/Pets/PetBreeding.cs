@@ -22,10 +22,10 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-using Yupi.Messages;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Game.Pets
+namespace Yupi.Emulator.Game.Pets
 {
     /// <summary>
     ///     Class PetBreeding.

@@ -1,11 +1,11 @@
 using System;
 using System.Data;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.Items.Interactions.Enums;
-using Yupi.Game.Items.Interfaces;
-using Yupi.Game.Rooms;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Items.Interactions.Enums;
+using Yupi.Emulator.Game.Items.Interfaces;
+using Yupi.Emulator.Game.Rooms;
 
-namespace Yupi.Game.Items.Handlers
+namespace Yupi.Emulator.Game.Items.Handlers
 {
     /// <summary>
     ///     Class TeleHandler.

@@ -23,12 +23,12 @@
 */
 
 using System.Data;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.Catalogs.Composers;
-using Yupi.Game.Catalogs.Interfaces;
-using Yupi.Messages;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Catalogs.Composers;
+using Yupi.Emulator.Game.Catalogs.Interfaces;
+using Yupi.Emulator.Messages;
 
-namespace Yupi.Game.Catalogs
+namespace Yupi.Emulator.Game.Catalogs
 {
     internal class TargetedOfferManager
     {

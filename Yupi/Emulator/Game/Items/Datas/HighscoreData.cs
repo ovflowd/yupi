@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Data;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.Items.Interfaces;
-using Yupi.Messages;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Items.Interfaces;
+using Yupi.Emulator.Messages;
 
-namespace Yupi.Game.Items.Datas
+namespace Yupi.Emulator.Game.Items.Datas
 {
     /// <summary>
     ///     Class HighscoreData.

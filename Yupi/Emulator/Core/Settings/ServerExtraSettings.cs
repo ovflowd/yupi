@@ -26,7 +26,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Yupi.Core.Settings
+namespace Yupi.Emulator.Core.Settings
 {
     /// <summary>
     ///     Class ServerExtraSettings.

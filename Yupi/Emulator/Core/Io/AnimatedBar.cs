@@ -24,9 +24,9 @@
 
 using System;
 using System.Collections.Generic;
-using Yupi.Core.Io.Interfaces;
+using Yupi.Emulator.Core.Io.Interfaces;
 
-namespace Yupi.Core.Io
+namespace Yupi.Emulator.Core.Io
 {
     public class AnimatedBar : AbstractBar
     {

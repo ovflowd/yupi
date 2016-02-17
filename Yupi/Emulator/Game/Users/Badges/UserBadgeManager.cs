@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Users.Badges.Models;
-using Yupi.Game.Users.Data.Models;
-using Yupi.Messages;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Users.Badges.Models;
+using Yupi.Emulator.Game.Users.Data.Models;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Game.Users.Badges
+namespace Yupi.Emulator.Game.Users.Badges
 {
     /// <summary>
     ///     Class BadgeComponent.

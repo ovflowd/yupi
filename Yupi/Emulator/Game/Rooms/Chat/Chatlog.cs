@@ -1,9 +1,9 @@
 using System;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.Users;
-using Yupi.Messages;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Users;
+using Yupi.Emulator.Messages;
 
-namespace Yupi.Game.Rooms.Chat
+namespace Yupi.Emulator.Game.Rooms.Chat
 {
     /// <summary>
     ///     Class Chatlog.

@@ -24,7 +24,7 @@
 
 using System;
 
-namespace Yupi.Core.Io
+namespace Yupi.Emulator.Core.Io
 {
     internal class ConsoleOutputWriter
     {

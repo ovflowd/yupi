@@ -1,4 +1,4 @@
-namespace Yupi.Game.Users.Figures
+namespace Yupi.Emulator.Game.Users.Figures
 {
     /// <summary>
     ///     Struct AvatarFigureParts

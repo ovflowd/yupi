@@ -1,10 +1,10 @@
 ﻿using System.Linq;
-using Yupi.Core.Settings;
-using Yupi.Game.Commands.Interfaces;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Messages.Enums;
+using Yupi.Emulator.Core.Settings;
+using Yupi.Emulator.Game.Commands.Interfaces;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Messages.Enums;
 
-namespace Yupi.Game.Commands.Controllers
+namespace Yupi.Emulator.Game.Commands.Controllers
 {
     /// <summary>
     ///     Class CommandList. This class cannot be inherited.

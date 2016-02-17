@@ -26,7 +26,7 @@ using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace Yupi.Core.Io
+namespace Yupi.Emulator.Core.Io
 {
     /// <summary>
     ///     Class ServerUserChatTextHandler.

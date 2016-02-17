@@ -1,6 +1,6 @@
-using Yupi.Game.Rooms.User;
+using Yupi.Emulator.Game.Rooms.User;
 
-namespace Yupi.Game.Rooms.Chat.Interfaces
+namespace Yupi.Emulator.Game.Rooms.Chat.Interfaces
 {
     /// <summary>
     ///     Struct InvokedChatMessage

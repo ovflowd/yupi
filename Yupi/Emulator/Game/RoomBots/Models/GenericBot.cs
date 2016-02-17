@@ -27,13 +27,13 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
-using Yupi.Core.Io.Logger;
-using Yupi.Game.Commands;
-using Yupi.Game.RoomBots.Interfaces;
-using Yupi.Game.Rooms.User;
-using Yupi.Game.Rooms.User.Path;
+using Yupi.Emulator.Core.Io.Logger;
+using Yupi.Emulator.Game.Commands;
+using Yupi.Emulator.Game.RoomBots.Interfaces;
+using Yupi.Emulator.Game.Rooms.User;
+using Yupi.Emulator.Game.Rooms.User.Path;
 
-namespace Yupi.Game.RoomBots.Models
+namespace Yupi.Emulator.Game.RoomBots.Models
 {
     /// <summary>
     ///     Class GenericBot.

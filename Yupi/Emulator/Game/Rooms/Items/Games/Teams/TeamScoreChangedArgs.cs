@@ -1,8 +1,8 @@
 using System;
-using Yupi.Game.Rooms.Items.Games.Teams.Enums;
-using Yupi.Game.Rooms.User;
+using Yupi.Emulator.Game.Rooms.Items.Games.Teams.Enums;
+using Yupi.Emulator.Game.Rooms.User;
 
-namespace Yupi.Game.Rooms.Items.Games.Teams
+namespace Yupi.Emulator.Game.Rooms.Items.Games.Teams
 {
     /// <summary>
     ///     Class TeamScoreChangedArgs.

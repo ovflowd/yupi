@@ -5,30 +5,30 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using Yupi.Core.Io;
-using Yupi.Core.Security;
-using Yupi.Core.Security.BlackWords;
-using Yupi.Core.Security.BlackWords.Enums;
-using Yupi.Core.Security.BlackWords.Structs;
-using Yupi.Game.Commands;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Items.Interactions;
-using Yupi.Game.Items.Interactions.Enums;
-using Yupi.Game.Items.Interfaces;
-using Yupi.Game.Pathfinding.Vectors;
-using Yupi.Game.Pets;
-using Yupi.Game.RoomBots;
-using Yupi.Game.RoomBots.Enumerators;
-using Yupi.Game.RoomBots.Interfaces;
-using Yupi.Game.Rooms.Items.Enums;
-using Yupi.Game.Rooms.Items.Games.Teams.Enums;
-using Yupi.Game.Rooms.Items.Games.Types.Freeze.Enum;
-using Yupi.Game.Users;
-using Yupi.Messages;
-using Yupi.Messages.Parsers;
-using Group = Yupi.Game.Groups.Structs.Group;
+using Yupi.Emulator.Core.Io;
+using Yupi.Emulator.Core.Security;
+using Yupi.Emulator.Core.Security.BlackWords;
+using Yupi.Emulator.Core.Security.BlackWords.Enums;
+using Yupi.Emulator.Core.Security.BlackWords.Structs;
+using Yupi.Emulator.Game.Commands;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Items.Interactions;
+using Yupi.Emulator.Game.Items.Interactions.Enums;
+using Yupi.Emulator.Game.Items.Interfaces;
+using Yupi.Emulator.Game.Pathfinding.Vectors;
+using Yupi.Emulator.Game.Pets;
+using Yupi.Emulator.Game.RoomBots;
+using Yupi.Emulator.Game.RoomBots.Enumerators;
+using Yupi.Emulator.Game.RoomBots.Interfaces;
+using Yupi.Emulator.Game.Rooms.Items.Enums;
+using Yupi.Emulator.Game.Rooms.Items.Games.Teams.Enums;
+using Yupi.Emulator.Game.Rooms.Items.Games.Types.Freeze.Enum;
+using Yupi.Emulator.Game.Users;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Parsers;
+using Group = Yupi.Emulator.Game.Groups.Structs.Group;
 
-namespace Yupi.Game.Rooms.User
+namespace Yupi.Emulator.Game.Rooms.User
 {
     /// <summary>
     ///     Class RoomUser.

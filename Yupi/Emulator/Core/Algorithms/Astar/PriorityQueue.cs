@@ -24,9 +24,9 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Yupi.Core.Algorithms.Astar.Interfaces;
+using Yupi.Emulator.Core.Algorithms.Astar.Interfaces;
 
-namespace Yupi.Core.Algorithms.Astar
+namespace Yupi.Emulator.Core.Algorithms.Astar
 {
     internal class PriorityQueue<T, TX> where T : IWeightAddable<TX>
     {

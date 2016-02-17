@@ -23,11 +23,11 @@
 */
 
 using System;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Rooms;
-using Yupi.Game.Rooms.User;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Rooms;
+using Yupi.Emulator.Game.Rooms.User;
 
-namespace Yupi.Game.RoomBots.Interfaces
+namespace Yupi.Emulator.Game.RoomBots.Interfaces
 {
     /// <summary>
     ///     Class BotAI.

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 
-namespace Yupi.Game.Items.Interfaces
+namespace Yupi.Emulator.Game.Items.Interfaces
 {
     /// <summary>
     ///     Class PinataItem.

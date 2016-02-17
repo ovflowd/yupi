@@ -1,4 +1,4 @@
-namespace Yupi.Game.Rooms.Items.Games.Teams.Enums
+namespace Yupi.Emulator.Game.Rooms.Items.Games.Teams.Enums
 {
     public enum Team
     {

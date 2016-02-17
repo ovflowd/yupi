@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Messages;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Messages;
 
-namespace Yupi.Game.Support
+namespace Yupi.Emulator.Game.Support
 {
     /// <summary>
     ///     Class SupportTicket.

@@ -24,9 +24,9 @@
 
 using System;
 using System.Diagnostics;
-using Yupi.Core.Io.Logger;
+using Yupi.Emulator.Core.Io.Logger;
 
-namespace Yupi.Data
+namespace Yupi.Emulator.Data
 {
     /// <summary>
     ///     Class ServerCpuLowPriorityWorker.

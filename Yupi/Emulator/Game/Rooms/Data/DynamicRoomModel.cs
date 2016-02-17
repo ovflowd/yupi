@@ -1,10 +1,10 @@
 using System;
 using System.Text;
-using Yupi.Game.Rooms.Chat.Enums;
-using Yupi.Messages;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Game.Rooms.Chat.Enums;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Game.Rooms.Data
+namespace Yupi.Emulator.Game.Rooms.Data
 {
     /// <summary>
     ///     Class DynamicRoomModel.

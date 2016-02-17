@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.Items.Interfaces;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Items.Interfaces;
 
-namespace Yupi.Game.Items
+namespace Yupi.Emulator.Game.Items
 {
     /// <summary>
     ///     Class ClothesManagerManager.

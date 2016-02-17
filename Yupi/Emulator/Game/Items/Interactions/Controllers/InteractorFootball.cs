@@ -1,6 +1,6 @@
-using Yupi.Game.Items.Interactions.Models;
+using Yupi.Emulator.Game.Items.Interactions.Models;
 
-namespace Yupi.Game.Items.Interactions.Controllers
+namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 {
     internal class InteractorFootball : FurniInteractorModel
     {

@@ -1,9 +1,9 @@
 ﻿using System;
-using Yupi.Game.Pets.Enums;
-using Yupi.Messages;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Game.Pets.Enums;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Game.Pets.Composers
+namespace Yupi.Emulator.Game.Pets.Composers
 {
     internal class PetInformationComposer
     {

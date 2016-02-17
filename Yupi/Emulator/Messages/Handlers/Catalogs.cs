@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Yupi.Game.Catalogs;
-using Yupi.Game.Catalogs.Composers;
-using Yupi.Game.Catalogs.Interfaces;
-using Yupi.Game.Catalogs.Wrappers;
-using Yupi.Game.Groups.Structs;
-using Yupi.Messages.Enums;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Game.Catalogs;
+using Yupi.Emulator.Game.Catalogs.Composers;
+using Yupi.Emulator.Game.Catalogs.Interfaces;
+using Yupi.Emulator.Game.Catalogs.Wrappers;
+using Yupi.Emulator.Game.Groups.Structs;
+using Yupi.Emulator.Messages.Enums;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Messages.Handlers
+namespace Yupi.Emulator.Messages.Handlers
 {
     /// <summary>
     ///     Class GameClientMessageHandler.

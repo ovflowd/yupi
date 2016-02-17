@@ -25,18 +25,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.Achievements.Composers;
-using Yupi.Game.Achievements.Factories;
-using Yupi.Game.Achievements.Structs;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Users;
-using Yupi.Game.Users.Subscriptions;
-using Yupi.Messages;
-using Yupi.Messages.Handlers;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Achievements.Composers;
+using Yupi.Emulator.Game.Achievements.Factories;
+using Yupi.Emulator.Game.Achievements.Structs;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Users;
+using Yupi.Emulator.Game.Users.Subscriptions;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Handlers;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Game.Achievements
+namespace Yupi.Emulator.Game.Achievements
 {
     /// <summary>
     ///     Class AchievementManager.

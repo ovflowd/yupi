@@ -1,11 +1,11 @@
-﻿using Yupi.Data;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.Commands.Interfaces;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Messages;
-using Yupi.Messages.Parsers;
+﻿using Yupi.Emulator.Data;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Commands.Interfaces;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Game.Commands.Controllers
+namespace Yupi.Emulator.Game.Commands.Controllers
 {
     /// <summary>
     ///     Class RefreshCatalogue. This class cannot be inherited.

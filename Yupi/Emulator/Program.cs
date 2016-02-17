@@ -25,9 +25,9 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
-using Yupi.Core.Settings;
+using Yupi.Emulator.Core.Settings;
 
-namespace Yupi
+namespace Yupi.Emulator
 {   
     internal class Program
     {

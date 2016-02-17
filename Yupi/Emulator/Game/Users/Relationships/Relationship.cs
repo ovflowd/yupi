@@ -1,4 +1,4 @@
-namespace Yupi.Game.Users.Relationships
+namespace Yupi.Emulator.Game.Users.Relationships
 {
     /// <summary>
     ///     Class Relationship.

@@ -1,6 +1,6 @@
 using System;
 
-namespace Yupi.Game.Users.Data.Exceptions
+namespace Yupi.Emulator.Game.Users.Data.Exceptions
 {
     /// <summary>
     ///     Class UserDataNotFoundException.

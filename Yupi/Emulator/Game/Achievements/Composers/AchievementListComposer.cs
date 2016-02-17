@@ -23,12 +23,12 @@
 */
 
 using System.Collections.Generic;
-using Yupi.Game.Achievements.Structs;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Messages;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Game.Achievements.Structs;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Game.Achievements.Composers
+namespace Yupi.Emulator.Game.Achievements.Composers
 {
     /// <summary>
     ///     Class AchievementListComposer.

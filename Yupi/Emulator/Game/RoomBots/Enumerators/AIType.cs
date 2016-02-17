@@ -1,4 +1,4 @@
-namespace Yupi.Game.RoomBots.Enumerators
+namespace Yupi.Emulator.Game.RoomBots.Enumerators
 {
     /// <summary>
     ///     Enum AIType

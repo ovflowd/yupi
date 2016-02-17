@@ -1,6 +1,6 @@
-﻿using Yupi.Messages;
+﻿using Yupi.Emulator.Messages;
 
-namespace Yupi.Game.Users
+namespace Yupi.Emulator.Game.Users
 {
     /// <summary>
     ///     Class YoutubeVideo.

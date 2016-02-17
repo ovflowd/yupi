@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
-using Yupi.Game.Items.Interactions.Enums;
-using Yupi.Game.Items.Interfaces;
-using Yupi.Game.Items.Wired.Interfaces;
-using Yupi.Game.Rooms;
-using Yupi.Game.Rooms.User;
-using Yupi.Messages;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Game.Items.Interactions.Enums;
+using Yupi.Emulator.Game.Items.Interfaces;
+using Yupi.Emulator.Game.Items.Wired.Interfaces;
+using Yupi.Emulator.Game.Rooms;
+using Yupi.Emulator.Game.Rooms.User;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Game.Items.Wired.Handlers.Effects
+namespace Yupi.Emulator.Game.Items.Wired.Handlers.Effects
 {
     public class GiveReward : IWiredItem
     {

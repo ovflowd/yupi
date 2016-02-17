@@ -1,11 +1,11 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using Yupi.Data.Collections;
-using Yupi.Game.Items.Interfaces;
-using Yupi.Game.Rooms.User;
+using Yupi.Emulator.Data.Collections;
+using Yupi.Emulator.Game.Items.Interfaces;
+using Yupi.Emulator.Game.Rooms.User;
 
-namespace Yupi.Game.Rooms.Items.Games.Handlers
+namespace Yupi.Emulator.Game.Rooms.Items.Games.Handlers
 {
     /// <summary>
     ///     Class GameItemHandler.

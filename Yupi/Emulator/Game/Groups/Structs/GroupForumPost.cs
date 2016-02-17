@@ -24,7 +24,7 @@
 
 using System.Data;
 
-namespace Yupi.Game.Groups.Structs
+namespace Yupi.Emulator.Game.Groups.Structs
 {
     /// <summary>
     ///     Class GroupForumPost.

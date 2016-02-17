@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 
-namespace Yupi.Game.Pets.Structs
+namespace Yupi.Emulator.Game.Pets.Structs
 {
     internal class PetType
     {

@@ -2,20 +2,20 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.Achievements.Structs;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Groups.Structs;
-using Yupi.Game.Rooms;
-using Yupi.Game.Rooms.Data;
-using Yupi.Game.Rooms.User;
-using Yupi.Game.Users;
-using Yupi.Game.Users.Badges.Models;
-using Yupi.Game.Users.Messenger.Structs;
-using Yupi.Game.Users.Relationships;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Achievements.Structs;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Groups.Structs;
+using Yupi.Emulator.Game.Rooms;
+using Yupi.Emulator.Game.Rooms.Data;
+using Yupi.Emulator.Game.Rooms.User;
+using Yupi.Emulator.Game.Users;
+using Yupi.Emulator.Game.Users.Badges.Models;
+using Yupi.Emulator.Game.Users.Messenger.Structs;
+using Yupi.Emulator.Game.Users.Relationships;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Messages.Handlers
+namespace Yupi.Emulator.Messages.Handlers
 {
     /// <summary>
     ///     Class GameClientMessageHandler.

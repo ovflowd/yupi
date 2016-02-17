@@ -25,15 +25,15 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Pets.Composers;
-using Yupi.Game.Pets.Enums;
-using Yupi.Game.Pets.Structs;
-using Yupi.Game.Rooms;
-using Yupi.Messages;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Pets.Composers;
+using Yupi.Emulator.Game.Pets.Enums;
+using Yupi.Emulator.Game.Pets.Structs;
+using Yupi.Emulator.Game.Rooms;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Game.Pets
+namespace Yupi.Emulator.Game.Pets
 {
     /// <summary>
     ///     Class Pet.

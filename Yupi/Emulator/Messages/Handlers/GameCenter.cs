@@ -1,8 +1,8 @@
 ﻿using System;
-using Yupi.Core.Settings;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Core.Settings;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Messages.Handlers
+namespace Yupi.Emulator.Messages.Handlers
 {
     /// <summary>
     ///     Class GameClientMessageHandler.

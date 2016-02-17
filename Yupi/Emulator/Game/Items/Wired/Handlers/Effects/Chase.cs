@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using Yupi.Game.Items.Interactions.Enums;
-using Yupi.Game.Items.Interfaces;
-using Yupi.Game.Items.Wired.Interfaces;
-using Yupi.Game.Rooms;
-using Yupi.Game.Rooms.User;
+using Yupi.Emulator.Game.Items.Interactions.Enums;
+using Yupi.Emulator.Game.Items.Interfaces;
+using Yupi.Emulator.Game.Items.Wired.Interfaces;
+using Yupi.Emulator.Game.Rooms;
+using Yupi.Emulator.Game.Rooms.User;
 
-namespace Yupi.Game.Items.Wired.Handlers.Effects
+namespace Yupi.Emulator.Game.Items.Wired.Handlers.Effects
 {
     internal class Chase : IWiredItem
     {

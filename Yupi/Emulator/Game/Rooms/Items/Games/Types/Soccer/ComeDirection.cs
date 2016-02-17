@@ -1,8 +1,8 @@
 using System.Drawing;
-using Yupi.Game.Rooms.Chat.Enums;
-using Yupi.Game.Rooms.Items.Games.Types.Soccer.Enums;
+using Yupi.Emulator.Game.Rooms.Chat.Enums;
+using Yupi.Emulator.Game.Rooms.Items.Games.Types.Soccer.Enums;
 
-namespace Yupi.Game.Rooms.Items.Games.Types.Soccer
+namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Soccer
 {
     public class ComeDirection
     {

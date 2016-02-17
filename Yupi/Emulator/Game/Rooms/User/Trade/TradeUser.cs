@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Items.Interfaces;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Items.Interfaces;
 
-namespace Yupi.Game.Rooms.User.Trade
+namespace Yupi.Emulator.Game.Rooms.User.Trade
 {
     /// <summary>
     ///     Class TradeUser.

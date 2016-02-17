@@ -28,23 +28,23 @@ using System.Collections.Specialized;
 using System.Data;
 using System.Globalization;
 using System.Linq;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.Catalogs.Composers;
-using Yupi.Game.Catalogs.Interfaces;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Groups.Structs;
-using Yupi.Game.Items.Interactions;
-using Yupi.Game.Items.Interactions.Enums;
-using Yupi.Game.Items.Interfaces;
-using Yupi.Game.Pets;
-using Yupi.Game.Pets.Enums;
-using Yupi.Game.RoomBots;
-using Yupi.Game.SoundMachine;
-using Yupi.Game.SoundMachine.Songs;
-using Yupi.Messages;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Catalogs.Composers;
+using Yupi.Emulator.Game.Catalogs.Interfaces;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Groups.Structs;
+using Yupi.Emulator.Game.Items.Interactions;
+using Yupi.Emulator.Game.Items.Interactions.Enums;
+using Yupi.Emulator.Game.Items.Interfaces;
+using Yupi.Emulator.Game.Pets;
+using Yupi.Emulator.Game.Pets.Enums;
+using Yupi.Emulator.Game.RoomBots;
+using Yupi.Emulator.Game.SoundMachine;
+using Yupi.Emulator.Game.SoundMachine.Songs;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Game.Catalogs
+namespace Yupi.Emulator.Game.Catalogs
 {
     /// <summary>
     ///     Class Catalog.

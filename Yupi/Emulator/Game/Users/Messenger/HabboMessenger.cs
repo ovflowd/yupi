@@ -2,17 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Yupi.Core.Security.BlackWords;
-using Yupi.Core.Security.BlackWords.Enums;
-using Yupi.Core.Security.BlackWords.Structs;
-using Yupi.Data.Base.Adapters.Interfaces;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Rooms.Data;
-using Yupi.Game.Users.Messenger.Structs;
-using Yupi.Messages;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Core.Security.BlackWords;
+using Yupi.Emulator.Core.Security.BlackWords.Enums;
+using Yupi.Emulator.Core.Security.BlackWords.Structs;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Rooms.Data;
+using Yupi.Emulator.Game.Users.Messenger.Structs;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Game.Users.Messenger
+namespace Yupi.Emulator.Game.Users.Messenger
 {
     /// <summary>
     ///     Class HabboMessenger.

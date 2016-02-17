@@ -25,7 +25,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Yupi.Game.Pathfinding
+namespace Yupi.Emulator.Game.Pathfinding
 {
     /// <summary>
     ///     Class MinHeap.

@@ -27,11 +27,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Xml;
-using Yupi.Core.Io.Logger;
-using Yupi.Core.Settings;
-using Yupi.Data.Structs;
+using Yupi.Emulator.Core.Io.Logger;
+using Yupi.Emulator.Core.Settings;
+using Yupi.Emulator.Data.Structs;
 
-namespace Yupi.Data
+namespace Yupi.Emulator.Data
 {
     /// <summary>
     ///     Class FurnitureDataManager.

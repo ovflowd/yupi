@@ -24,9 +24,9 @@
 
 using System.Collections.Generic;
 using System.Data;
-using Yupi.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 
-namespace Yupi.Core.Settings
+namespace Yupi.Emulator.Core.Settings
 {
     /// <summary>
     ///     Class ServerDatabaseSettings.

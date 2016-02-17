@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Items.Interfaces;
-using Yupi.Game.SoundMachine.Songs;
-using Yupi.Messages;
-using Yupi.Messages.Parsers;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Items.Interfaces;
+using Yupi.Emulator.Game.SoundMachine.Songs;
+using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Game.SoundMachine.Composers
+namespace Yupi.Emulator.Game.SoundMachine.Composers
 {
     /// <summary>
     ///     Class JukeboxComposer.

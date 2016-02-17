@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("UIoT")]
 [assembly: AssemblyProduct("Yupi Emulator")]
-[assembly: AssemblyCopyright("Claudio A. Santoro W., Kessiler R.")]
+[assembly: AssemblyCopyright("Claudio A. Santoro W.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 // Setting ComVisible to false makes the types in this assembly not visible

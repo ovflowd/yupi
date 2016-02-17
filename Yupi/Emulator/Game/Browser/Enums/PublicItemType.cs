@@ -22,7 +22,7 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-namespace Yupi.Game.Browser.Enums
+namespace Yupi.Emulator.Game.Browser.Enums
 {
     /// <summary>
     ///     Enum PublicItemType

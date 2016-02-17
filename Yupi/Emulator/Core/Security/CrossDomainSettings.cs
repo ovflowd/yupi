@@ -22,9 +22,9 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-using Yupi.Core.Settings;
+using Yupi.Emulator.Core.Settings;
 
-namespace Yupi.Core.Security
+namespace Yupi.Emulator.Core.Security
 {
     /// <summary>
     ///     Class CrossdomainPolicy.

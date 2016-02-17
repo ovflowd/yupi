@@ -1,7 +1,7 @@
 using System;
-using Yupi.Game.Rooms.User;
+using Yupi.Emulator.Game.Rooms.User;
 
-namespace Yupi.Game.Rooms.Chat
+namespace Yupi.Emulator.Game.Rooms.Chat
 {
     /// <summary>
     ///     Class UserSaysArgs.

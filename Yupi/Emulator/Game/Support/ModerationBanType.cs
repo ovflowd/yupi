@@ -1,4 +1,4 @@
-namespace Yupi.Game.Support
+namespace Yupi.Emulator.Game.Support
 {
     /// <summary>
     ///     Enum ModerationBanType

@@ -1,9 +1,9 @@
-﻿using Yupi.Game.GameClients.Interfaces;
-using Yupi.Game.Items.Interactions.Interfaces;
-using Yupi.Game.Items.Interfaces;
-using Yupi.Game.Rooms.User;
+﻿using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Items.Interactions.Interfaces;
+using Yupi.Emulator.Game.Items.Interfaces;
+using Yupi.Emulator.Game.Rooms.User;
 
-namespace Yupi.Game.Items.Interactions.Models
+namespace Yupi.Emulator.Game.Items.Interactions.Models
 {
     internal class FurniInteractorModel : IFurniInteractor
     {

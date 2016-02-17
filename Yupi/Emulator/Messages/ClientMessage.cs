@@ -1,8 +1,8 @@
 using System;
 using System.Text;
-using Yupi.Messages.Factorys;
+using Yupi.Emulator.Messages.Factorys;
 
-namespace Yupi.Messages
+namespace Yupi.Emulator.Messages
 {
     /// <summary>
     ///     Class ClientMessage.

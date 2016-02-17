@@ -1,4 +1,4 @@
-namespace Yupi.Game.Users.Badges.Models
+namespace Yupi.Emulator.Game.Users.Badges.Models
 {
     /// <summary>
     ///     Class Badge.
