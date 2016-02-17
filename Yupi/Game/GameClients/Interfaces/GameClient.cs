@@ -70,16 +70,16 @@ namespace Yupi.Game.GameClients.Interfaces
         ///     Gets the connection identifier.
         /// </summary>
         /// <value>The connection identifier.</value>
-        internal string ConnectionAddress;
+        internal string ConnectionId;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="GameClient" /> class.
         /// </summary>
-        /// <param name="clientAddress">The client identifier.</param>
+        /// <param name="clientId">The client identifier.</param>
         /// <param name="connection">The connection.</param>
-        internal GameClient(string clientAddress, ConnectionActor connection)
+        internal GameClient(string clientId, ConnectionActor connection)
         {
-            ConnectionAddress = clientAddress;
+            ConnectionId = clientId;
 
             _connection = connection;
 
@@ -200,7 +200,7 @@ namespace Yupi.Game.GameClients.Interfaces
                 if (string.IsNullOrWhiteSpace(authTicket))
                     return false;
 
-                string ip = GetConnection().IpAddress.ToString();
+                string ip = GetConnection().ConnectionId;
 
                 if (string.IsNullOrEmpty(ip))
                     return false;
@@ -478,7 +478,7 @@ namespace Yupi.Game.GameClients.Interfaces
             if (_disconnected)
                 return;
 
-            _connection?.Disconnect();
+            _connection?.ConnectionChannel.CloseAsync();
 
             _disconnected = true;
         }
@@ -497,7 +497,7 @@ namespace Yupi.Game.GameClients.Interfaces
 
             byte[] bytes = message.GetReversedBytes();
 
-            GetConnection().SendData(bytes);
+            GetConnection().ConnectionChannel.WriteAsync(bytes);
         }
 
         /// <summary>
@@ -509,7 +509,7 @@ namespace Yupi.Game.GameClients.Interfaces
             if (GetConnection() == null)
                 return;
 
-            GetConnection().SendData(bytes);
+            GetConnection().ConnectionChannel.WriteAsync(bytes);
         }
 
         /// <summary>
@@ -521,7 +521,7 @@ namespace Yupi.Game.GameClients.Interfaces
             if (GetConnection() == null)
                 return;
 
-            GetConnection().SendData(StaticMessagesManager.Get(type));
+            GetConnection().ConnectionChannel.WriteAsync(StaticMessagesManager.Get(type));
         }
 
         /// <summary>

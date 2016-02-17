@@ -70,6 +70,8 @@ namespace Yupi.Core.Settings
                     secondArgument = strArguments[1];
                 }
 
+                EraseLine();
+
                 switch (firstArgument)
                 {
                     case "shutdown":
@@ -145,11 +147,6 @@ namespace Yupi.Core.Settings
                                 UserChatInputFilter.Reload();
                                 BlackWordsManager.Reload();
                                 break;
-
-                            default:
-                                UnknownCommand(inputData);
-                                Console.WriteLine();
-                                break;
                         }
                         break;
 
@@ -216,10 +213,6 @@ namespace Yupi.Core.Settings
                         Console.WriteLine("reload database");
                         Console.WriteLine();
                         break;
-
-                    default:
-                        UnknownCommand(inputData);
-                        break;
                 }
             }
             catch (Exception)
@@ -231,10 +224,9 @@ namespace Yupi.Core.Settings
         /// <summary>
         ///     Unknowns the command.
         /// </summary>
-        /// <param name="command">The command.</param>
-        private static void UnknownCommand(string command)
+        private static void EraseLine()
         {
-            YupiWriterManager.WriteLine("Undefined Command: " + command, "Yupi.Commands");
+            Console.WriteLine("\r");
         }
     }
 }

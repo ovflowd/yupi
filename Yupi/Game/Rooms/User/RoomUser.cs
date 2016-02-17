@@ -1331,7 +1331,7 @@ namespace Yupi.Game.Rooms.User
             if (GetClient() == null || GetClient().GetConnection() == null)
                 return;
 
-            GetClient().GetConnection().SendData(message);
+            GetClient().GetConnection().ConnectionChannel.WriteAsync(message);
         }
 
         /// <summary>

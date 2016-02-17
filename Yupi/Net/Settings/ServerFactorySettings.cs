@@ -2,7 +2,7 @@
 
 namespace Yupi.Net.Settings
 {
-    internal class NewServerFactorySettings
+    internal class ServerFactorySettings
     {
         /// <summary>
         ///     Accepted Connection Count

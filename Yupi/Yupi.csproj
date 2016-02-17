@@ -160,24 +160,24 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DotNetty.Buffers, Version=0.2.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotNetty.Buffers.0.2.3\lib\net45\DotNetty.Buffers.dll</HintPath>
-      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Desktop\Netty\DotNetty.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="DotNetty.Codecs, Version=0.2.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotNetty.Codecs.0.2.3\lib\net45\DotNetty.Codecs.dll</HintPath>
-      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Desktop\Netty\DotNetty.Codecs.dll</HintPath>
     </Reference>
     <Reference Include="DotNetty.Common, Version=0.2.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotNetty.Common.0.2.3\lib\net45\DotNetty.Common.dll</HintPath>
-      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Desktop\Netty\DotNetty.Common.dll</HintPath>
     </Reference>
     <Reference Include="DotNetty.Handlers, Version=0.2.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotNetty.Handlers.0.2.3\lib\net45\DotNetty.Handlers.dll</HintPath>
-      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Desktop\Netty\DotNetty.Handlers.dll</HintPath>
     </Reference>
     <Reference Include="DotNetty.Transport, Version=0.2.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotNetty.Transport.0.2.3\lib\net45\DotNetty.Transport.dll</HintPath>
-      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Desktop\Netty\DotNetty.Transport.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
@@ -264,9 +264,9 @@
     <Compile Include="Core\Io\ServerUserChatTextHandler.cs" />
     <Compile Include="Core\Io\Logger\YupiWriterManager.cs" />
     <Compile Include="Game\Users\YoutubeVideo.cs" />
-    <Compile Include="Net\Connection\NewConnectionHandler.cs" />
-    <Compile Include="Net\Connection\NewConnectionManager.cs" />
-    <Compile Include="Net\Settings\NewServerFactorySettings.cs" />
+    <Compile Include="Net\Handlers\ConnectionHandler.cs" />
+    <Compile Include="Net\Connection\ConnectionManager.cs" />
+    <Compile Include="Net\Settings\ServerFactorySettings.cs" />
     <Compile Include="Net\Web\WebManager.cs" />
     <Compile Include="Data\FurnitureDataManager.cs" />
     <Compile Include="Data\Structs\FurnitureData.cs" />

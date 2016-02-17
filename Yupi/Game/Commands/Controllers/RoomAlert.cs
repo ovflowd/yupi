@@ -22,8 +22,8 @@ namespace Yupi.Game.Commands.Controllers
                     session.GetHabbo()
                         .CurrentRoom.GetRoomUserManager()
                         .GetRoomUsers()
-                        .Where(user => !user.IsBot && user.GetClientByAddress() != null))
-                user.GetClientByAddress().SendNotif(alert);*/
+                        .Where(user => !user.IsBot && user.GetClientByConnectionId() != null))
+                user.GetClientByConnectionId().SendNotif(alert);*/
 
             session.GetHabbo().CurrentRoom.SendMessage(GameClient.GetBytesNotif(alert));
 

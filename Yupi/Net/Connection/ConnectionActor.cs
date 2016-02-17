@@ -22,10 +22,7 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-using System.Net;
-using DotNetty.Buffers;
 using DotNetty.Transport.Channels;
-using Yupi.Core.Security;
 using Yupi.Net.Packets;
 
 namespace Yupi.Net.Connection
@@ -36,19 +33,19 @@ namespace Yupi.Net.Connection
     public class ConnectionActor
     {
         /// <summary>
-        ///     Connection Info
-        /// </summary>
-        public EndPoint IpAddress;
-
-        /// <summary>
-        ///     Server Chanbel Identifier
-        /// </summary>
-        public IChannel Channel;
-
-        /// <summary>
         ///     Data Parser
         /// </summary>
         public ServerPacketParser DataParser;
+
+        /// <summary>
+        ///     Connection Id
+        /// </summary>
+        public string ConnectionId;
+
+        /// <summary>
+        ///    Connection Channel
+        /// </summary>
+        public IChannel ConnectionChannel;
 
         /// <summary>
         ///     Is in HandShake Process
@@ -60,51 +57,17 @@ namespace Yupi.Net.Connection
         /// </summary>
         internal bool HandShakePartialCompleted;
 
-        public ConnectionActor(IChannel clientChannel, ServerPacketParser dataParser)
+        public ConnectionActor(ServerPacketParser dataParser, IChannel context)
         {
-            IpAddress = clientChannel.RemoteAddress;
-
             DataParser = dataParser;
 
-            Channel = clientChannel;
+            ConnectionChannel = context;
 
+            ConnectionId = context.Id.ToString();
+            
             HandShakeCompleted = false;
 
             HandShakePartialCompleted = false;
         }
-
-        public void OnReceive(IByteBuffer dataBuffer)
-        {
-            byte[] dataBytes = dataBuffer.ToArray();
-
-            if (!HandShakeCompleted)
-            {
-                if (dataBytes[0] == 60 && !HandShakePartialCompleted)
-                {
-                    SendData(CrossDomainSettings.XmlPolicyBytes);
-
-                    HandShakePartialCompleted = true;
-
-                    return;
-                }
-
-                if (dataBytes[0] != 67 && HandShakePartialCompleted)
-                    HandShakeCompleted = true;
-            }
-
-            DataParser.HandlePacketData(dataBytes, dataBytes.Length);
-        }
-
-        public void SendData(byte[] message)
-        {
-            Channel.WriteAsync(message);
-        }
-
-        public void Disconnect()
-        {
-            Channel.CloseAsync();
-
-            DataParser.Dispose();
-        } 
     }
 }

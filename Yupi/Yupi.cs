@@ -417,11 +417,11 @@ namespace Yupi
 
                 ClientMessageFactory.Init();
 
-                NewServerFactorySettings.Init(IPAddress.Any, int.Parse(ServerConfigurationSettings.Data["game.tcp.port"]), 2, 4072, ServerConfigurationSettings.Data["game.tcp.enablenagles"] == "true");
+                ServerFactorySettings.Init(IPAddress.Any, int.Parse(ServerConfigurationSettings.Data["game.tcp.port"]), 2, 4072, ServerConfigurationSettings.Data["game.tcp.enablenagles"] == "true");
 
-                ServerPacketParser parser = new ServerPacketParser();
+                ConnectionManager.DataParser = new ServerPacketParser();
 
-                NewConnectionManager.Init(parser);
+                ConnectionManager.Start();
 
                 YupiWriterManager.WriteLine("Server Started at Port " + ServerConfigurationSettings.Data["game.tcp.port"] + " and Address " + ServerConfigurationSettings.Data["game.tcp.bindip"], "Yupi.Boot", ConsoleColor.DarkCyan);
 
@@ -686,7 +686,7 @@ namespace Yupi
 
             GetGame().GetClientManager().CloseAll();
 
-            NewConnectionManager.Stop();
+            ConnectionManager.Stop();
 
             foreach (Group group in GetGame().GetGroupManager().Groups.Values)
                 group.UpdateForum();

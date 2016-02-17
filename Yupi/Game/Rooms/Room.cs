@@ -847,7 +847,7 @@ namespace Yupi.Game.Rooms
                     if (usersClient?.GetConnection() == null)
                         continue;
 
-                    usersClient.GetConnection().SendData(message);
+                    usersClient.GetConnection().ConnectionChannel.WriteAsync(message);
                 }
             }
             catch (Exception e)
@@ -971,7 +971,7 @@ namespace Yupi.Game.Rooms
                     if (!CheckRights(usersClient))
                         continue;
 
-                    usersClient.GetConnection().SendData(messagebytes);
+                    usersClient.GetConnection().ConnectionChannel.WriteAsync(messagebytes);
                 }
             }
             catch (Exception e)
