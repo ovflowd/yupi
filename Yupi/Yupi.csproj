@@ -161,37 +161,30 @@
   <ItemGroup>
     <Reference Include="DotNetty.Buffers, Version=0.2.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\Packages\DotNetty.Buffers.0.2.3\lib\net45\DotNetty.Buffers.dll</HintPath>
-      <HintPath>..\Packages\DotNetty.Buffers.0.2.3\lib\net45\DotNetty.Buffers.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="DotNetty.Codecs, Version=0.2.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\Packages\DotNetty.Codecs.0.2.3\lib\net45\DotNetty.Codecs.dll</HintPath>
-      <HintPath>..\Packages\DotNetty.Codecs.0.2.3\lib\net45\DotNetty.Codecs.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="DotNetty.Common, Version=0.2.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\Packages\DotNetty.Common.0.2.3\lib\net45\DotNetty.Common.dll</HintPath>
-      <HintPath>..\Packages\DotNetty.Common.0.2.3\lib\net45\DotNetty.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="DotNetty.Handlers, Version=0.2.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\Packages\DotNetty.Handlers.0.2.3\lib\net45\DotNetty.Handlers.dll</HintPath>
-      <HintPath>..\Packages\DotNetty.Handlers.0.2.3\lib\net45\DotNetty.Handlers.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="DotNetty.Transport, Version=0.2.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\Packages\DotNetty.Transport.0.2.3\lib\net45\DotNetty.Transport.dll</HintPath>
-      <HintPath>..\Packages\DotNetty.Transport.0.2.3\lib\net45\DotNetty.Transport.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\..\Packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
-      <HintPath>..\Packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Log4Net.Async, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\Packages\Log4Net.Async.2.0.0.0\lib\net40\Log4Net.Async.dll</HintPath>
-      <HintPath>..\Packages\Log4Net.Async.2.0.0.0\lib\net40\Log4Net.Async.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -199,7 +192,6 @@
   <ItemGroup>
     <Reference Include="MySql.Data, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>..\..\Packages\MySql.Data.6.9.8\lib\net45\MySql.Data.dll</HintPath>
-      <HintPath>..\Packages\MySql.Data.6.9.8\lib\net45\MySql.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
