@@ -160,24 +160,24 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DotNetty.Buffers, Version=0.2.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Desktop\Netty\DotNetty.Buffers.dll</HintPath>
+      <HintPath>..\Packages\DotNetty.Buffers.0.2.3\lib\net45\DotNetty.Buffers.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DotNetty.Codecs, Version=0.2.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Desktop\Netty\DotNetty.Codecs.dll</HintPath>
+      <HintPath>..\Packages\DotNetty.Codecs.0.2.3\lib\net45\DotNetty.Codecs.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DotNetty.Common, Version=0.2.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Desktop\Netty\DotNetty.Common.dll</HintPath>
+      <HintPath>..\Packages\DotNetty.Common.0.2.3\lib\net45\DotNetty.Common.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DotNetty.Handlers, Version=0.2.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Desktop\Netty\DotNetty.Handlers.dll</HintPath>
+      <HintPath>..\Packages\DotNetty.Handlers.0.2.3\lib\net45\DotNetty.Handlers.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DotNetty.Transport, Version=0.2.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Desktop\Netty\DotNetty.Transport.dll</HintPath>
+      <HintPath>..\Packages\DotNetty.Transport.0.2.3\lib\net45\DotNetty.Transport.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\Packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
