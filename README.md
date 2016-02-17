@@ -52,7 +52,7 @@ Yupi is ``fullified`` with horny bugs. You will love it. Also the features are A
 #### Features Lady?
 - ``C# 6`` we use ~~Marylin~~ Rosylin Monroe C Sharp!
 - ``NuGet`` we aread ready for continuos integration!
-- ``Helios`` we use reactive and NIO ready socket system!
+- ``DotNetty`` we use reactive and NIO ready socket system!
 - ``log4net`` we use asynchronous and fast logging system!
 - ``multi thread`` obviously we use threads!
 - ``MySQL`` using built-in MySQl ADO Adapter!
