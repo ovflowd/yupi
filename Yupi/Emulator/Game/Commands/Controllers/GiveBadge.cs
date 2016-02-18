@@ -22,17 +22,20 @@ namespace Yupi.Emulator.Game.Commands.Controllers
         public override bool Execute(GameClient session, string[] pms)
         {
             GameClient client = Yupi.GetGame().GetClientManager().GetClientByUserName(pms[0]);
+
             if (client == null)
             {
                 session.SendNotif(Yupi.GetLanguage().GetVar("user_not_found"));
+
                 return true;
             }
+
             client.GetHabbo().GetBadgeComponent().GiveBadge(pms[1], true, client);
+
             session.SendNotif(Yupi.GetLanguage().GetVar("command_badge_give_done"));
-            Yupi.GetGame()
-                .GetModerationTool()
-                .LogStaffEntry(session.GetHabbo().UserName, client.GetHabbo().UserName,
-                    "Badge", $"Badge given to user [{pms[1]}]");
+
+            Yupi.GetGame().GetModerationTool().LogStaffEntry(session.GetHabbo().UserName, client.GetHabbo().UserName, "Badge", $"Badge given to user [{pms[1]}]");
+
             return true;
         }
     }

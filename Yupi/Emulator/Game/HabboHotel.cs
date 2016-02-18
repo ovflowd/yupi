@@ -591,7 +591,7 @@ namespace Yupi.Emulator.Game
                 }
                 catch (Exception ex)
                 {
-                    YupiLogManager.LogCriticalException(ex, "Registered HabboHotel Loop Exception.", "Yupi.Users");
+                    YupiLogManager.LogCriticalException(ex, "Registered HabboHotel Loop Exception.", "Yupi.User");
                 }
 
                 Thread.Sleep(GameLoopSleepTimeExt);

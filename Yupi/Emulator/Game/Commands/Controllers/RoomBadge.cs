@@ -23,29 +23,17 @@ namespace Yupi.Emulator.Game.Commands.Controllers
 
         public override bool Execute(GameClient session, string[] pms)
         {
-            if (pms[0].Length < 2) return true;
+            if (pms[0].Length < 2)
+                return true;
+
             Room room = session.GetHabbo().CurrentRoom;
+
             foreach (RoomUser current in room.GetRoomUserManager().UserList.Values)
-            {
-                try
-                {
-                    if (!current.IsBot && current.GetClient() != null &&
-                        current.GetClient().GetHabbo() != null)
-                    {
-                        current.GetClient()
-                            .GetHabbo()
-                            .GetBadgeComponent()
-                            .GiveBadge(pms[0], true, current.GetClient());
-                    }
-                }
-                catch
-                {
-                }
-            }
-            Yupi.GetGame().GetModerationTool()
-                .LogStaffEntry(session.GetHabbo().UserName,
-                    string.Empty, "Badge",
-                    string.Concat("Roombadge in room [", room.RoomId, "] with badge [", pms[0], "]"));
+                if (!current.IsBot && current.GetClient() != null && current.GetClient().GetHabbo() != null)
+                    current.GetClient().GetHabbo().GetBadgeComponent().GiveBadge(pms[0], true, current.GetClient());
+
+            Yupi.GetGame().GetModerationTool().LogStaffEntry(session.GetHabbo().UserName, string.Empty, "Badge", string.Concat("Roombadge in room [", room.RoomId, "] with badge [", pms[0], "]"));
+
             return true;
         }
     }

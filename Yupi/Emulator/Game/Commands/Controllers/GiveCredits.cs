@@ -26,6 +26,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
             if (client == null)
             {
                 session.SendWhisper(Yupi.GetLanguage().GetVar("user_not_found"));
+
                 return true;
             }
 
@@ -34,14 +35,17 @@ namespace Yupi.Emulator.Game.Commands.Controllers
             if (!uint.TryParse(pms[1], out amount))
             {
                 session.SendWhisper(Yupi.GetLanguage().GetVar("enter_numbers"));
+
                 return true;
             }
 
             client.GetHabbo().Credits += amount;
+
             client.GetHabbo().UpdateCreditsBalance();
 
-            client.SendNotif(string.Format(Yupi.GetLanguage().GetVar("staff_gives_credits"), session.GetHabbo().UserName,
-                amount));
+            client.SendNotif(string.Format(Yupi.GetLanguage().GetVar("staff_gives_credits"), session.GetHabbo().UserName, amount));
+
+            Yupi.GetGame().GetModerationTool().LogStaffEntry(session.GetHabbo().UserName, string.Empty, "Credits", string.Concat("Give Credits to User [", pms[0], "] with amount [", pms[1], "]"));
 
             return true;
         }

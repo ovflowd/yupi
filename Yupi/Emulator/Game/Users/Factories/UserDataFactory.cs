@@ -70,7 +70,7 @@ namespace Yupi.Emulator.Game.Users.Factories
 
                 //int resultInteger = queryReactor.GetInteger();
 
-                //YupiLogManager.LogMessage("Key: " + sessionTicket + " isn't attached.", "Yupi.Users", false);
+                //YupiLogManager.LogMessage("Key: " + sessionTicket + " isn't attached.", "Yupi.User", false);
                 //Because User can also doesn't exists.
 
                 if (queryReactor.GetInteger() == 0)
@@ -101,7 +101,7 @@ namespace Yupi.Emulator.Game.Users.Factories
 
                 // Disconnect if user Already Logged-in, Doesn't need check. If user isn't logged, nothing will happen.
                 if (Yupi.GetGame().GetClientManager().GetClientByUserId(userId) != null)
-                    Yupi.GetGame().GetClientManager().GetClientByUserId(userId)?.Disconnect("User connected in other place");
+                    Yupi.GetGame().GetClientManager().GetClientByUserId(userId)?.Disconnect("User Logged In in Other Place.", true);
 
                 // Update User statusses
                 queryReactor.RunFastQuery($"UPDATE users SET online = 1 WHERE id = {userId};" +

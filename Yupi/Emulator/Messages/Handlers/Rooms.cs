@@ -133,7 +133,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
         internal void OnlineConfirmationEvent()
         {
-            YupiWriterManager.WriteLine(Request.GetString() + " joined game. With IP " + Session.GetConnection().IpAddress, "Yupi.Users", ConsoleColor.DarkGreen);
+            YupiWriterManager.WriteLine(Request.GetString() + " joined game. With IP " + Session.GetConnection().IpAddress, "Yupi.User", ConsoleColor.DarkGreen);
 
             if (!ServerConfigurationSettings.Data.ContainsKey("welcome.message.enabled") ||
                 ServerConfigurationSettings.Data["welcome.message.enabled"] != "true")
@@ -353,7 +353,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 }
                 catch (Exception e)
                 {
-                    YupiLogManager.LogException(e, "Failed Broadcasting Room Data to Client.", "Yupi.Rooms");
+                    YupiLogManager.LogException(e, "Failed Broadcasting Room Data to Client.", "Yupi.Room");
                 }
             }
 
@@ -2104,7 +2104,7 @@ namespace Yupi.Emulator.Messages.Handlers
                     }
                     catch (Exception e)
                     {
-                        YupiLogManager.LogException(e, "Failed Manage Bot Actions. BAD.", "Yupi.Rooms");
+                        YupiLogManager.LogException(e, "Failed Manage Bot Actions. BAD.", "Yupi.Room");
                         return;
                     }
                 case 3:
@@ -2278,7 +2278,7 @@ namespace Yupi.Emulator.Messages.Handlers
             }
             catch (Exception ex)
             {
-                YupiLogManager.LogException(ex, "Failed Broadcasting Room Data to Client.", "Yupi.Rooms");
+                YupiLogManager.LogException(ex, "Failed Broadcasting Room Data to Client.", "Yupi.Room");
             }
         }
 

@@ -18,7 +18,9 @@ namespace Yupi.Emulator.Net.Handlers
         {
             string clientAddress = (context.Channel.RemoteAddress as IPEndPoint)?.Address.ToString();
 
-            GetClient().GetClientByAddress(clientAddress)?.GetConnection()?.Close();
+            GetClient().GetClientByAddress(clientAddress)?.Disconnect();
+
+            GetClient().RemoveClient(clientAddress);
 
             return context.CloseAsync();
         }
@@ -29,18 +31,8 @@ namespace Yupi.Emulator.Net.Handlers
 
             GameClient client = GetClient().GetClientByAddress(clientAddress);
 
-            if (client?.GetConnection() != null && client.GetConnection().SameHandledCount >= 2 && client.GetConnection().HandShakeCompleted)
-                client.Disconnect("disconnected");
-        }
-
-        public override void ChannelInactive(IChannelHandlerContext context)
-        {
-            string clientAddress = (context.Channel.RemoteAddress as IPEndPoint)?.Address.ToString();
-
-            GameClient client = GetClient().GetClientByAddress(clientAddress);
-
-            if (client?.GetConnection() != null && client.GetConnection().SameHandledCount >= 2 && client.GetConnection().HandShakeCompleted)
-                client.Disconnect("disconnected");
+            if (client.GetConnection().HandShakeCompleted && client.GetConnection().ConnectionId == context.Channel.Id.ToString())
+                client.Disconnect("Left Game.", true);
         }
 
         public void ChannelInitialRead(IChannelHandlerContext context, GameClient client, byte[] dataBytes)
@@ -68,7 +60,11 @@ namespace Yupi.Emulator.Net.Handlers
                     if (!client.GetConnection().HandShakeCompleted || !client.GetConnection().HandShakePartialCompleted)
                         ChannelInitialRead(context, client, dataBytes);
 
-                    client.GetConnection().DataParser.HandlePacketData(dataBytes, dataBytes.Length);
+                    if (!client.GetConnection().HandShakePartialCompleted)
+                        client.GetConnection().Close();
+
+                    if (client.GetConnection().HandShakeCompleted)
+                        client.GetConnection().DataParser.HandlePacketData(dataBytes, dataBytes.Length);
 
                     return;
                 }

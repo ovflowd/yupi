@@ -276,10 +276,9 @@ namespace Yupi.Emulator.Game.Support
             }
 
             using (IQueryAdapter queryreactor5 = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryreactor5.RunFastQuery(
-                    $"UPDATE users_info SET bans = bans + 1 WHERE user_id = {client.GetHabbo().Id}");
+                queryreactor5.RunFastQuery($"UPDATE users_info SET bans = bans + 1 WHERE user_id = {client.GetHabbo().Id}");
 
-            client.Disconnect("banned");
+            client.Disconnect($"Banned from Server. Reason: {reason}.", true);
         }
 
         /// <summary>

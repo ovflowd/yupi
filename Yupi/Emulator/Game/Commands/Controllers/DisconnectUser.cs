@@ -37,7 +37,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
                 return true;
             }
 
-            user.GetConnection().Close();
+            user.Disconnect("Disconnected By Command.");
 
             Yupi.GetGame().GetModerationTool().LogStaffEntry(session.GetHabbo().UserName, user.GetHabbo().UserName, "dc", $"Disconnect User[{pms[1]}]");
 

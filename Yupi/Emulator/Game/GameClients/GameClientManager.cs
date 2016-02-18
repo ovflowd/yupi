@@ -108,7 +108,7 @@ namespace Yupi.Emulator.Game.GameClients
         ///     Return Online Clients Count
         /// </summary>
         /// <returns>Online Client Count.</returns>
-        internal int GetOnlineClients() => Clients.Values.Count(client => !CheckClientOnlineStatus(client.ClientAddress));
+        internal int GetOnlineClients() => Clients.Values.Count(client => CheckClientOnlineStatus(client.ClientAddress));
 
         /// <summary>
         ///     Gets the name by identifier.
@@ -180,6 +180,7 @@ namespace Yupi.Emulator.Game.GameClients
             try
             {
                 GiveBadges();
+
                 BroadcastPackets();
 
                 Yupi.GetGame().ClientManagerCycleEnded = true;
@@ -242,14 +243,9 @@ namespace Yupi.Emulator.Game.GameClients
         /// <param name="clientAddress">The client identifier.</param>
         internal void RemoveClient(string clientAddress)
         {
-            GameClient client = GetClientByAddress(clientAddress);
-            
-            if(client != null)
-            {
-                client.Stop();
+            GameClient client;
 
-                Clients.TryRemove(client.ClientAddress, out client);
-            }
+            Clients.TryRemove(clientAddress, out client);   
         }
 
         /// <summary>
@@ -259,16 +255,6 @@ namespace Yupi.Emulator.Game.GameClients
         internal void QueueBroadcaseMessage(SimpleServerMessageBuffer message) => _broadcastQueue.Enqueue(message.GetReversedBytes());
 
         /// <summary>
-        ///     Queues the badge update.
-        /// </summary>
-        /// <param name="badge">The badge.</param>
-        internal void QueueBadgeUpdate(string badge)
-        {
-            lock (_badgeQueue.SyncRoot)
-                _badgeQueue.Enqueue(badge);
-        }
-
-        /// <summary>
         ///     Logs the clones out.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
@@ -276,7 +262,7 @@ namespace Yupi.Emulator.Game.GameClients
         {
             GameClient clientByUserId = GetClientByUserId(userId);
 
-            clientByUserId?.Disconnect("User Clones");
+            clientByUserId?.Disconnect("User is Clone.");
         }
 
         /// <summary>
@@ -339,7 +325,7 @@ namespace Yupi.Emulator.Game.GameClients
             YupiWriterManager.WriteLine("Closing YupiDatabase Manager...", "Yupi.Data", ConsoleColor.DarkMagenta);
 
             foreach (GameClient current4 in Clients.Values.Where(current4 => current4?.GetConnection() != null))
-                current4.GetConnection().Close();
+                current4.Disconnect("Server Shutdown.");
                 
             YupiWriterManager.WriteLine("Yupi DataBase Manager Closed!", "Yupi.Data", ConsoleColor.DarkMagenta);
 
@@ -361,6 +347,7 @@ namespace Yupi.Emulator.Game.GameClients
             GameClient old = (GameClient) _userNameRegister[oldName.ToLower()];
 
             _userNameRegister.Remove(oldName.ToLower());
+
             _userNameRegister.Add(newName.ToLower(), old);
         }
 

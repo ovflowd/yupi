@@ -29,14 +29,17 @@ namespace Yupi.Emulator.Game.Commands.Controllers
                 session.SendWhisper(Yupi.GetLanguage().GetVar("user_not_found"));
                 return true;
             }
+
             if (user.GetHabbo().Rank >= session.GetHabbo().Rank)
             {
                 session.SendWhisper(Yupi.GetLanguage().GetVar("user_is_higher_rank"));
+
                 return true;
             }
 
             string userName = pms[0];
             string rank = pms[1];
+
             using (IQueryAdapter adapter = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 adapter.SetQuery("UPDATE users SET rank=@rank WHERE username=@user LIMIT 1");
@@ -46,6 +49,9 @@ namespace Yupi.Emulator.Game.Commands.Controllers
             }
 
             session.SendWhisper(Yupi.GetLanguage().GetVar("user_rank_update"));
+
+            Yupi.GetGame().GetModerationTool().LogStaffEntry(session.GetHabbo().UserName, string.Empty, "Rank", string.Concat("Give Rank to User [", pms[0], "] Rank Level [", pms[1], "]"));
+
             return true;
         }
     }

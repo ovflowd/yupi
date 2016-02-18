@@ -117,7 +117,7 @@ namespace Yupi.Emulator.Data
             }
             catch (NullReferenceException)
             {
-                YupiWriterManager.WriteLine("The content of the FurniData file is empty, impossible to parse.", "Yupi.XML", ConsoleColor.Red);
+                YupiWriterManager.WriteLine("The content of the FurniData file is empty, impossible to parse.", "Yupi.Data", ConsoleColor.Red);
             }
         }
 

@@ -109,12 +109,11 @@ namespace Yupi.Emulator.Game.Users.Factories
                 #region Return Generated Data
 
                 // Return new Generated Habbo Model
-                return new Habbo(id, userName, realName, ras, motto, look, gender, credits, activityPoints,
-                    lastActivityPointsUpdate, muted, homeRoom, respect, dailyRespectPoints, dailyPetRespectPoints,
-                    hasFriendRequestsDisabled, currentQuestId, currentQuestProgress, achievementPoints, regTimestamp,
-                    lastOnline, appearOffline, hideInRoom, vip, createDate, online, citizenship, diamonds, group, favId,
+                return new Habbo(id, userName, realName, ras, motto, look, gender, credits, activityPoints, muted, homeRoom, respect, dailyRespectPoints, dailyPetRespectPoints,
+                    hasFriendRequestsDisabled, currentQuestId, achievementPoints,
+                    lastOnline, appearOffline, hideInRoom, vip, createDate, citizenship, diamonds, group, favId,
                     lastChange, tradeLocked, tradeLockExpire, nuxPassed, buildersExpire, buildersItemsMax,
-                    buildersItemsUsed, releaseVersion, onDuty, navilogs, dailyCompetitionVotes, dutyLevel);
+                    buildersItemsUsed, onDuty, navilogs, dailyCompetitionVotes, dutyLevel);
 
                 #endregion
             }

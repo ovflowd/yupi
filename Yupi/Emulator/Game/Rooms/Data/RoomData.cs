@@ -383,7 +383,7 @@ namespace Yupi.Emulator.Game.Rooms.Data
             }
             catch (Exception ex)
             {
-                YupiLogManager.LogException(ex, "Registered Room Serialization Exception.", "Yupi.Rooms");
+                YupiLogManager.LogException(ex, "Registered Room Serialization Exception.", "Yupi.Room");
             }
         }
 

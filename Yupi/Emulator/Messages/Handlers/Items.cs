@@ -460,7 +460,7 @@ namespace Yupi.Emulator.Messages.Handlers
             {
                 Session.SendMessage(StaticMessage.ErrorCantSetItem);
 
-                YupiLogManager.LogException(e, "Failed Handling Item.", "Yupi.Items");
+                YupiLogManager.LogException(e, "Failed Handling Item.", "Yupi.Mobi");
             }
         }
 

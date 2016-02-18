@@ -481,7 +481,7 @@ namespace Yupi.Emulator.Game.Rooms.User
             }
             catch (Exception ex)
             {
-                YupiLogManager.LogException(ex, "Failed to Remove User from Room.", "Yupi.Rooms");
+                YupiLogManager.LogException(ex, "Failed to Remove User from Room.", "Yupi.Room");
             }
         }
 
@@ -997,7 +997,7 @@ namespace Yupi.Emulator.Game.Rooms.User
             }
             catch (Exception e)
             {
-                YupiLogManager.LogException(e, "Failed to Update User Status.", "Yupi.Users");
+                YupiLogManager.LogException(e, "Failed to Update User Status.", "Yupi.User");
             }
         }
 
@@ -1769,7 +1769,7 @@ namespace Yupi.Emulator.Game.Rooms.User
             }
             catch (Exception ex)
             {
-                YupiLogManager.LogCriticalException(ex, "Registered Room User YupiDatabaseManager Exception.", "Yupi.Users");
+                YupiLogManager.LogCriticalException(ex, "Registered Room User YupiDatabaseManager Exception.", "Yupi.User");
             }
         }
 
@@ -1824,7 +1824,7 @@ namespace Yupi.Emulator.Game.Rooms.User
             }
             catch (Exception ex)
             {
-                YupiLogManager.LogCriticalException(ex, "Registered Room User YupiDatabaseManager Exception", "Yupi.Users");
+                YupiLogManager.LogCriticalException(ex, "Registered Room User YupiDatabaseManager Exception", "Yupi.User");
             }
         }
 

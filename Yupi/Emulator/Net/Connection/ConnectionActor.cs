@@ -87,15 +87,9 @@ namespace Yupi.Emulator.Net.Connection
 
         public void Close()
         {
-            Yupi.GetGame().GetClientManager().RemoveClient(ConnectionId);
+            ConnectionChannel?.Flush();
 
-            DataParser.Dispose();
-
-            ConnectionChannel.DisconnectAsync();
-
-            ConnectionChannel.CloseAsync();
-
-            ConnectionChannel.Flush();
+            DataParser?.Dispose();
         }
     }
 }

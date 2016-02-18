@@ -247,7 +247,7 @@ namespace Yupi.Emulator
                 {
                     Plugins.Add(item.PluginName, item);
 
-                    YupiWriterManager.WriteLine("Loaded Plugin: " + item.PluginName + " ServerVersion: " + item.PluginVersion, "Yupi.Plugins", ConsoleColor.DarkBlue);
+                    YupiWriterManager.WriteLine("Loaded Plugin: " + item.PluginName + " ServerVersion: " + item.PluginVersion, "Yupi.Adon", ConsoleColor.DarkBlue);
                 }
             }
 
@@ -402,7 +402,7 @@ namespace Yupi.Emulator
                 GameServer.Init();
 
                 if (uint.Parse(ServerConfigurationSettings.Data["db.pool.maxsize"]) > MaxRecommendedMySqlConnections)
-                    YupiLogManager.LogWarning($"MySQL Max Pool Size is High: {ServerConfigurationSettings.Data["db.pool.maxsize"]}, Recommended Value: {MaxRecommendedMySqlConnections}.", "Yupi.Database", false);
+                    YupiLogManager.LogWarning($"MySQL Max Pool Size is High: {ServerConfigurationSettings.Data["db.pool.maxsize"]}, Recommended Value: {MaxRecommendedMySqlConnections}.", "Yupi.Data", false);
 
                 ServerLanguageVariables = new ServerLanguageSettings(ServerLanguage);
 

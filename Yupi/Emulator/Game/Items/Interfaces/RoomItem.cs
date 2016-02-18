@@ -610,7 +610,7 @@ namespace Yupi.Emulator.Game.Items.Interfaces
             _mRoom = pRoom;
 
             if (GetBaseItem() == null)
-                YupiLogManager.LogMessage($"Unknown Furniture Item: {baseName} (Id: #{id}).", "Yupi.Items");
+                YupiLogManager.LogMessage($"Unknown Furniture Item: {baseName} (Id: #{id}).", "Yupi.Mobi");
 
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
@@ -752,7 +752,7 @@ namespace Yupi.Emulator.Game.Items.Interfaces
             _mRoom = pRoom;
 
             if (GetBaseItem() == null)
-                YupiLogManager.LogMessage($"Unknown Furniture Item: {baseName} (Id: #{id}).", "Yupi.Items");
+                YupiLogManager.LogMessage($"Unknown Furniture Item: {baseName} (Id: #{id}).", "Yupi.Mobi");
 
             Id = id;
             RoomId = roomId;

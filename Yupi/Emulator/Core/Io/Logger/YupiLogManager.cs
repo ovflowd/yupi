@@ -29,7 +29,7 @@ namespace Yupi.Emulator.Core.Io.Logger
         /// <param name="exceptionText">The log text.</param>
         /// <param name="writerBody"></param>
         /// <param name="writerHeader"></param>
-        public static void LogException(string exceptionText, string writerBody = "Registered HabboHotel Exception.", string writerHeader = "Yupi.Error")
+        public static void LogException(string exceptionText, string writerBody = "Registered HabboHotel Exception.", string writerHeader = "Yupi.Fail")
         {
             lock (_yupiLogManager)
                 _yupiLogManager.Error(exceptionText);
@@ -43,7 +43,7 @@ namespace Yupi.Emulator.Core.Io.Logger
         /// <param name="exceptionLog"></param>
         /// <param name="writerBody"></param>
         /// <param name="writerHeader"></param>
-        public static void LogException(Exception exceptionLog, string writerBody = "Registered HabboHotel Exception.", string writerHeader = "Yupi.Error")
+        public static void LogException(Exception exceptionLog, string writerBody = "Registered HabboHotel Exception.", string writerHeader = "Yupi.Fail")
         {
             lock (_yupiLogManager)
                 _yupiLogManager.Error(exceptionLog);
@@ -55,7 +55,7 @@ namespace Yupi.Emulator.Core.Io.Logger
         /// <param name="exceptionText">The log text.</param>
         /// <param name="writerBody"></param>
         /// <param name="writerHeader"></param>
-        public static void LogCriticalException(string exceptionText, string writerBody = "Registered HabboHotel Critical Exception.", string writerHeader = "Yupi.Error")
+        public static void LogCriticalException(string exceptionText, string writerBody = "Registered HabboHotel Critical Exception.", string writerHeader = "Yupi.Fail")
         {
             lock (_yupiLogManager)
                 _yupiLogManager.Fatal(exceptionText);
@@ -69,7 +69,7 @@ namespace Yupi.Emulator.Core.Io.Logger
         /// <param name="exceptionLog"></param>
         /// <param name="writerBody"></param>
         /// <param name="writerHeader"></param>
-        public static void LogCriticalException(Exception exceptionLog, string writerBody = "Registered HabboHotel Critical Exception.", string writerHeader = "Yupi.Error")
+        public static void LogCriticalException(Exception exceptionLog, string writerBody = "Registered HabboHotel Critical Exception.", string writerHeader = "Yupi.Fail")
         {
             lock (_yupiLogManager)
                 _yupiLogManager.Fatal(exceptionLog);
@@ -83,7 +83,7 @@ namespace Yupi.Emulator.Core.Io.Logger
         /// <param name="logText">The log text.</param>
         /// <param name="writerHeader"></param>
         /// <param name="output"></param>
-        public static void LogWarning(string logText, string writerHeader = "Yupi.Infos", bool output = true)
+        public static void LogWarning(string logText, string writerHeader = "Yupi.Info", bool output = true)
         {
             lock (_yupiLogManager)
                 _yupiLogManager.Warn(logText);
@@ -98,7 +98,7 @@ namespace Yupi.Emulator.Core.Io.Logger
         /// <param name="logText">The log text.</param>
         /// <param name="writerHeader"></param>
         /// <param name="output"></param>
-        public static void LogMessage(string logText, string writerHeader = "Yupi.Infos", bool output = true)
+        public static void LogMessage(string logText, string writerHeader = "Yupi.Info", bool output = true)
         {
             lock (_yupiLogManager)
                 _yupiLogManager.Info(logText);

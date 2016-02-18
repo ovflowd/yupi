@@ -22,7 +22,6 @@ using Yupi.Emulator.Game.Users.Relationships;
 using Yupi.Emulator.Game.Users.Subscriptions;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
-using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Users
 {
@@ -438,7 +437,6 @@ namespace Yupi.Emulator.Game.Users
         /// <param name="gender">The gender.</param>
         /// <param name="credits">The credits.</param>
         /// <param name="duckets">The activity points.</param>
-        /// <param name="lastActivityPointsUpdate">The last activity points update.</param>
         /// <param name="muted">if set to <c>true</c> [muted].</param>
         /// <param name="homeRoom">The home room.</param>
         /// <param name="respect">The respect.</param>
@@ -446,15 +444,12 @@ namespace Yupi.Emulator.Game.Users
         /// <param name="dailyPetRespectPoints">The daily pet respect points.</param>
         /// <param name="hasFriendRequestsDisabled">if set to <c>true</c> [has friend requests disabled].</param>
         /// <param name="currentQuestId">The current quest identifier.</param>
-        /// <param name="currentQuestProgress">The current quest progress.</param>
         /// <param name="achievementPoints">The achievement points.</param>
-        /// <param name="regTimestamp">The reg timestamp.</param>
         /// <param name="lastOnline">The last online.</param>
         /// <param name="appearOffline">if set to <c>true</c> [appear offline].</param>
         /// <param name="hideInRoom">if set to <c>true</c> [hide in room].</param>
         /// <param name="vip">if set to <c>true</c> [vip].</param>
         /// <param name="createDate">The create date.</param>
-        /// <param name="online">if set to <c>true</c> [online].</param>
         /// <param name="citizenShip">The citizen ship.</param>
         /// <param name="diamonds">The diamonds.</param>
         /// <param name="groups">The groups.</param>
@@ -466,19 +461,17 @@ namespace Yupi.Emulator.Game.Users
         /// <param name="buildersExpire">The builders expire.</param>
         /// <param name="buildersItemsMax">The builders items maximum.</param>
         /// <param name="buildersItemsUsed">The builders items used.</param>
-        /// <param name="releaseVersion">The release version.</param>
         /// <param name="onDuty">if set to <c>true</c> [on duty].</param>
         /// <param name="naviLogs">The navi logs.</param>
         /// <param name="dailyCompetitionVotes"></param>
         /// <param name="dutyLevel"></param>
         internal Habbo(uint id, string userName, string realName, uint rank, string motto, string look, string gender,
-            uint credits, uint duckets, double lastActivityPointsUpdate, bool muted, uint homeRoom, int respect,
-            int dailyRespectPoints, int dailyPetRespectPoints, bool hasFriendRequestsDisabled, int currentQuestId,
-            int currentQuestProgress, uint achievementPoints, int regTimestamp, int lastOnline, bool appearOffline,
-            bool hideInRoom, bool vip, double createDate, bool online, string citizenShip, uint diamonds,
+            uint credits, uint duckets, bool muted, uint homeRoom, int respect,
+            int dailyRespectPoints, int dailyPetRespectPoints, bool hasFriendRequestsDisabled, int currentQuestId, uint achievementPoints, int lastOnline, bool appearOffline,
+            bool hideInRoom, bool vip, double createDate, string citizenShip, uint diamonds,
             HashSet<GroupMember> groups, int favId, int lastChange, bool tradeLocked, int tradeLockExpire,
             bool nuxPassed,
-            int buildersExpire, int buildersItemsMax, int buildersItemsUsed, int releaseVersion, bool onDuty,
+            int buildersExpire, int buildersItemsMax, int buildersItemsUsed, bool onDuty,
             Dictionary<int, UserSearchLog> naviLogs, int dailyCompetitionVotes, int dutyLevel)
         {
             Id = id;
@@ -876,7 +869,8 @@ namespace Yupi.Emulator.Game.Users
         ///     Called when [disconnect].
         /// </summary>
         /// <param name="reason">The reason.</param>
-        internal void OnDisconnect(string reason)
+        /// <param name="showConsole"></param>
+        internal void OnDisconnect(string reason, bool showConsole = false)
         {
             if (!IsOnline)
                 return;
@@ -903,7 +897,8 @@ namespace Yupi.Emulator.Game.Users
 
             Yupi.GetGame().GetClientManager().UnregisterClient(Id, UserName);
 
-            YupiWriterManager.WriteLine(UserName + " left game. Reason: " + reason, "Yupi.Users", ConsoleColor.DarkYellow);
+            if(showConsole)
+                YupiWriterManager.WriteLine(UserName + " left game. Reason: " + reason, "Yupi.User", ConsoleColor.DarkYellow);
 
             TimeSpan getOnlineSeconds = DateTime.Now - TimeLoggedOn;
 

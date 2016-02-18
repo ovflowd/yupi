@@ -711,7 +711,7 @@ namespace Yupi.Emulator.Game.Rooms
             }
             catch (Exception e)
             {
-                YupiLogManager.LogException(e, "Registered Room Exception.", "Yupi.Rooms");
+                YupiLogManager.LogException(e, "Registered Room Exception.", "Yupi.Room");
             }
 
             return false;
@@ -761,7 +761,7 @@ namespace Yupi.Emulator.Game.Rooms
             }
             catch (Exception e)
             {
-                YupiLogManager.LogException(e, "Registered Room Exception.", "Yupi.Rooms");
+                YupiLogManager.LogException(e, "Registered Room Exception.", "Yupi.Room");
             }
             return false;
         }
@@ -819,14 +819,14 @@ namespace Yupi.Emulator.Game.Rooms
                 }
                 catch (Exception e)
                 {
-                    YupiLogManager.LogException(e, "Registered Room Crashing.", "Yupi.Rooms");
+                    YupiLogManager.LogException(e, "Registered Room Crashing.", "Yupi.Room");
 
                     OnRoomCrash(e);
                 }
             }
             catch (Exception e)
             {
-                YupiLogManager.LogException(e, "Registered Room Crashing.", "Yupi.Rooms");
+                YupiLogManager.LogException(e, "Registered Room Crashing.", "Yupi.Room");
             }
         }
 
@@ -853,7 +853,7 @@ namespace Yupi.Emulator.Game.Rooms
             }
             catch (Exception e)
             {
-                YupiLogManager.LogException(e, "Failed to Send Outgoing Message to Client.", "Yupi.Users");
+                YupiLogManager.LogException(e, "Failed to Send Outgoing Message to Client.", "Yupi.User");
             }
         }
 
@@ -888,13 +888,13 @@ namespace Yupi.Emulator.Game.Rooms
                     }
                     catch (Exception e)
                     {
-                        YupiLogManager.LogException(e, "Failed Broadcasting Message to Client.", "Yupi.Users");
+                        YupiLogManager.LogException(e, "Failed Broadcasting Message to Client.", "Yupi.User");
                     }
                 }
             }
             catch (Exception e)
             {
-                YupiLogManager.LogException(e, "Failed Broadcasting Message to Client.", "Yupi.Users");
+                YupiLogManager.LogException(e, "Failed Broadcasting Message to Client.", "Yupi.User");
             }
         }
 
@@ -941,7 +941,7 @@ namespace Yupi.Emulator.Game.Rooms
             }
             catch (Exception e)
             {
-                YupiLogManager.LogException(e, "Failed to Broadcasting Message to Client.", "Yupi.Users");
+                YupiLogManager.LogException(e, "Failed to Broadcasting Message to Client.", "Yupi.User");
             }
         }
 
@@ -977,7 +977,7 @@ namespace Yupi.Emulator.Game.Rooms
             }
             catch (Exception e)
             {
-                YupiLogManager.LogException(e, "Failed to Broadcasting Message to Client.", "Yupi.Users");
+                YupiLogManager.LogException(e, "Failed to Broadcasting Message to Client.", "Yupi.User");
             }
         }
 
@@ -1417,7 +1417,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// <param name="e">The e.</param>
         private void OnRoomCrash(Exception e)
         {
-            YupiLogManager.LogMessage("Confirmning Room Crash.", "Yupi.Rooms");
+            YupiLogManager.LogMessage("Confirmning Room Crash.", "Yupi.Room");
 
             Yupi.GetGame().GetRoomManager().UnloadRoom(this, "Room crashed");
 

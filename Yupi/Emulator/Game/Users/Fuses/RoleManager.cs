@@ -56,7 +56,7 @@ namespace Yupi.Emulator.Game.Users.Fuses
                 if (!_cmdRights.ContainsKey(dataRow["command"].ToString()))
                     _cmdRights.Add(dataRow["command"].ToString(), dataRow["rank"].ToString());
                 else
-                    YupiWriterManager.WriteLine($"Duplicate Fuse Command \"{dataRow[0]}\" found", "Yupi.Fuses");
+                    YupiWriterManager.WriteLine($"Duplicate Fuse Command \"{dataRow[0]}\" found", "Yupi.Fuse");
 
             dbClient.SetQuery("SELECT * FROM server_fuserights");
 

@@ -26,11 +26,6 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         private ConnectionActor _connection;
 
         /// <summary>
-        ///     The _disconnected
-        /// </summary>
-        private bool _disconnected;
-
-        /// <summary>
         ///     The _habbo
         /// </summary>
         private Habbo _habbo;
@@ -64,7 +59,6 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         ///     The time pinged received
         /// </summary>
         internal DateTime TimePingedReceived;
-
 
         /// <summary>
         ///     Gets the connection identifier.
@@ -190,15 +184,20 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
             _connection.DataParser.SetConnection(_connection, this);
 
             _connection.HandShakeCompleted = true;
+
+            TimePingedReceived = DateTime.Now;
         }
 
         /// <summary>
         ///     Tries the login.
         /// </summary>
         /// <param name="authTicket">The authentication ticket.</param>
+        /// <param name="banReasonOut"></param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool TryLogin(string authTicket)
+        internal bool TryLogin(string authTicket, out string banReasonOut)
         {
+            banReasonOut = string.Empty;
+
             try
             {
                 if (string.IsNullOrWhiteSpace(authTicket))
@@ -230,6 +229,8 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
                 if (isBanned)
                 {
                     string banReason = Yupi.GetGame().GetBanManager().GetBanReason(userData.User.UserName, ip, MachineId);
+
+                    banReasonOut = banReason;
 
                     SendNotifWithScroll(banReason);
 
@@ -334,7 +335,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
             }
             catch (Exception ex)
             {
-                YupiLogManager.LogException(ex, "Registered Login Exception.", "Yupi.Users");
+                YupiLogManager.LogException(ex, "Registered Login Exception.", "Yupi.User");
             }
 
             return false;
@@ -445,41 +446,30 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         }
 
         /// <summary>
-        ///     Stops this instance.
-        /// </summary>
-        internal void Stop()
-        {
-            if(GetHabbo() != null)
-                GetHabbo().OnDisconnect("disconnect");
-
-            if (GetMessageHandler() != null)
-                GetMessageHandler().Destroy();
-
-            CurrentRoomUserId = -1;
-            _messageHandler = null;
-            _habbo = null;
-            _connection = null;
-        }
-
-        /// <summary>
         ///     Disconnects the specified reason.
         /// </summary>
         /// <param name="reason">The reason.</param>
-        internal void Disconnect(string reason)
+        /// <param name="showConsole"></param>
+        internal void Disconnect(string reason = "Left Game", bool showConsole = false)
         {
-            if (GetHabbo() != null)
+            if (GetConnection().HandShakeCompleted)
             {
-                GetHabbo().RunDbUpdate();
+                GetHabbo()?.RunDbUpdate();
 
-                GetHabbo().OnDisconnect(reason);
+                GetHabbo()?.OnDisconnect(reason, showConsole);
+
+                GetMessageHandler()?.Destroy();
             }
 
-            if (_disconnected)
-                return;
+            GetConnection()?.Close();
 
-            _connection?.Close();
+            CurrentRoomUserId = -1;
 
-            _disconnected = true;
+            _messageHandler = null;
+
+            _habbo = null;
+
+            _connection = null;
         }
 
         /// <summary>
@@ -521,14 +511,6 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
                 return;
 
             GetConnection().ConnectionChannel.WriteAsync(StaticMessagesManager.Get(type));
-        }
-
-        /// <summary>
-        ///     Starts the connection.
-        /// </summary>
-        internal void Ready()
-        {
-            TimePingedReceived = DateTime.Now;
         }
     }
 }

@@ -26,6 +26,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
             if (!uint.TryParse(pms[0], out amount))
             {
                 session.SendNotif(Yupi.GetLanguage().GetVar("enter_numbers"));
+
                 return true;
             }
 
@@ -35,10 +36,14 @@ namespace Yupi.Emulator.Game.Commands.Controllers
                     continue;
 
                 client.GetHabbo().Credits += amount;
+
                 client.GetHabbo().UpdateCreditsBalance();
-                client.SendNotif(Yupi.GetLanguage().GetVar("command_mass_credits_one_give") + amount +
-                                 Yupi.GetLanguage().GetVar("command_mass_credits_two_give"));
+
+                client.SendNotif(Yupi.GetLanguage().GetVar("command_mass_credits_one_give") + amount + Yupi.GetLanguage().GetVar("command_mass_credits_two_give"));
             }
+
+            Yupi.GetGame().GetModerationTool().LogStaffEntry(session.GetHabbo().UserName, string.Empty, "Credits", string.Concat("RoomCredits in room [", session.GetHabbo().CurrentRoom.RoomId, "] with amount [", pms[0], "]"));
+
 
             return true;
         }

@@ -223,7 +223,7 @@ namespace Yupi.Emulator.Game.Rooms
 
             room.Start(roomData, forceLoad);
 
-            YupiWriterManager.WriteLine($"Room #{id} was loaded", "Yupi.Rooms", ConsoleColor.DarkCyan);
+            YupiWriterManager.WriteLine($"Room #{id} was loaded", "Yupi.Room", ConsoleColor.DarkCyan);
 
             room.InitBots();
             room.InitPets();
@@ -505,7 +505,7 @@ namespace Yupi.Emulator.Game.Rooms
                     Yupi.GetGame().GetRoomManager().UnloadRoom(current, "RemoveAllRooms void called");
             }
 
-            YupiWriterManager.WriteLine("RoomManager Destroyed", "Yupi.Rooms", ConsoleColor.DarkYellow);
+            YupiWriterManager.WriteLine("RoomManager Destroyed", "Yupi.Room", ConsoleColor.DarkYellow);
         }
 
         /// <summary>
@@ -658,7 +658,7 @@ namespace Yupi.Emulator.Game.Rooms
             LoadedRooms.TryRemove(room.RoomId, out junkRoom);
 
             YupiWriterManager.WriteLine(string.Format("Room #{0} was unloaded, reason: " + reason, room.RoomId),
-                "Yupi.Rooms", ConsoleColor.DarkGray);
+                "Yupi.Room", ConsoleColor.DarkGray);
 
             room.Destroy();
         }

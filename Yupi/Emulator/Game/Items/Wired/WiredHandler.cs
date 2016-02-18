@@ -173,7 +173,7 @@ namespace Yupi.Emulator.Game.Items.Wired
             }
             catch(Exception e)
             {
-                YupiLogManager.LogException(e, "Registered Wired Handling Exception.", "Yupi.Wired");
+                YupiLogManager.LogException(e, "Registered Wired Handling Exception.", "Yupi.Wire");
             }
 
             return false;
@@ -210,7 +210,7 @@ namespace Yupi.Emulator.Game.Items.Wired
             }
             catch (Exception e)
             {
-                YupiLogManager.LogException(e, "Registered Wired Handling Exception.", "Yupi.Wired");
+                YupiLogManager.LogException(e, "Registered Wired Handling Exception.", "Yupi.Wire");
             }
         }
 

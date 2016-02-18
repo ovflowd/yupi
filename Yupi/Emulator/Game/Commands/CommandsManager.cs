@@ -213,14 +213,15 @@ namespace Yupi.Emulator.Game.Commands
                         {
                             if (AliasDictionary.ContainsKey(alias))
                             {
-                                YupiWriterManager.WriteLine("Duplicate alias key: " + alias, "Yupi.Commands", ConsoleColor.DarkRed);
+                                YupiWriterManager.WriteLine("Duplicate alias key: " + alias, "Yupi.Fuse", ConsoleColor.DarkRed);
+
                                 continue;
                             }
 
                             if (CommandsDictionary.ContainsKey(alias))
                             {
-                                YupiWriterManager.WriteLine("An alias cannot have same name as a normal command", "Yupi.Commands",
-                                    ConsoleColor.DarkRed);
+                                YupiWriterManager.WriteLine("An alias cannot have same name as a normal command", "Yupi.Fuse", ConsoleColor.DarkRed);
+
                                 continue;
                             }
 

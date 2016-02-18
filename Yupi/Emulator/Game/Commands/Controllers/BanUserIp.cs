@@ -44,7 +44,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
             }
             catch
             {
-                YupiLogManager.LogException($"An error occurred when {session.GetHabbo().UserName} tried to ban {user.GetHabbo().UserName}", "Failed Banning User.", "Yupi.Users");
+                YupiLogManager.LogException($"An error occurred when {session.GetHabbo().UserName} tried to ban {user.GetHabbo().UserName}", "Failed Banning User.", "Yupi.User");
             }
 
             return true;

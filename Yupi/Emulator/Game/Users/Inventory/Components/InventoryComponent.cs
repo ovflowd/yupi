@@ -562,15 +562,11 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// <param name="placedInroom">if set to <c>true</c> [placed inroom].</param>
         internal void RemoveItem(uint id, bool placedInroom)
         {
-            if (GetClient() == null || GetClient().GetHabbo() == null ||
-                GetClient().GetHabbo().GetInventoryComponent() == null)
-                GetClient().Disconnect("user null RemoveItem");
+            if (GetClient() == null || GetClient().GetHabbo() == null || GetClient().GetHabbo().GetInventoryComponent() == null) GetClient().Disconnect("Probably Packet Logger User.", true);
 
             _isUpdated = false;
-            GetClient()
-                .GetMessageHandler()
-                .GetResponse()
-                .Init(PacketLibraryManager.OutgoingRequest("RemoveInventoryObjectMessageComposer"));
+
+            GetClient().GetMessageHandler().GetResponse().Init(PacketLibraryManager.OutgoingRequest("RemoveInventoryObjectMessageComposer"));
 
             GetClient().GetMessageHandler().GetResponse().AppendInteger(id);
             //this.GetClientByAddress().GetMessageHandler().GetResponse().AppendInt32(Convert.ToInt32(this.GetClientByAddress().GetHabbo().Id));

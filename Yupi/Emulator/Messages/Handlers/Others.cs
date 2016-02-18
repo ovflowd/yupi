@@ -126,10 +126,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Disconnects the event.
         /// </summary>
-        internal void DisconnectEvent()
-        {
-            Session.Disconnect("close window");
-        }
+        internal void DisconnectEvent() => Session.Disconnect("Closed Client Page.", true);
 
         /// <summary>
         ///     Latencies the test.
@@ -191,8 +188,10 @@ namespace Yupi.Emulator.Messages.Handlers
             if (Session == null || Session.GetHabbo() != null)
                 return;
 
-            if (Session.TryLogin(Request.GetString()) == false)
-                Session.Disconnect("banned");
+            string banReason;
+
+            if (Session.TryLogin(Request.GetString(), out banReason) == false)
+                Session.Disconnect($"Banned from Server. Reason: {banReason}.", true);
 
             if (Session != null)
                 Session.TimePingedReceived = DateTime.Now;
