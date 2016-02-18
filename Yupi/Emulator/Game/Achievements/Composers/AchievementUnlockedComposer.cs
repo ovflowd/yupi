@@ -24,6 +24,7 @@
 
 using Yupi.Emulator.Game.Achievements.Structs;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Achievements.Composers
@@ -40,25 +41,25 @@ namespace Yupi.Emulator.Game.Achievements.Composers
         /// <param name="level">The level.</param>
         /// <param name="pointReward">The point reward.</param>
         /// <param name="pixelReward">The pixel reward.</param>
-        /// <returns>ServerMessage.</returns>
-        internal static ServerMessage Compose(Achievement achievement, uint level, uint pointReward, uint pixelReward)
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal static SimpleServerMessageBuffer Compose(Achievement achievement, uint level, uint pointReward, uint pixelReward)
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("UnlockAchievementMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UnlockAchievementMessageComposer"));
 
-            serverMessage.AppendInteger(achievement.Id);
-            serverMessage.AppendInteger(level);
-            serverMessage.AppendInteger(144);
-            serverMessage.AppendString($"{achievement.GroupName}{level}");
-            serverMessage.AppendInteger(pointReward);
-            serverMessage.AppendInteger(pixelReward);
-            serverMessage.AppendInteger(0);
-            serverMessage.AppendInteger(10);
-            serverMessage.AppendInteger(21);
-            serverMessage.AppendString(level > 1 ? $"{achievement.GroupName}{level - 1}" : string.Empty);
-            serverMessage.AppendString(achievement.Category);
-            serverMessage.AppendBool(true);
+            simpleServerMessageBuffer.AppendInteger(achievement.Id);
+            simpleServerMessageBuffer.AppendInteger(level);
+            simpleServerMessageBuffer.AppendInteger(144);
+            simpleServerMessageBuffer.AppendString($"{achievement.GroupName}{level}");
+            simpleServerMessageBuffer.AppendInteger(pointReward);
+            simpleServerMessageBuffer.AppendInteger(pixelReward);
+            simpleServerMessageBuffer.AppendInteger(0);
+            simpleServerMessageBuffer.AppendInteger(10);
+            simpleServerMessageBuffer.AppendInteger(21);
+            simpleServerMessageBuffer.AppendString(level > 1 ? $"{achievement.GroupName}{level - 1}" : string.Empty);
+            simpleServerMessageBuffer.AppendString(achievement.Category);
+            simpleServerMessageBuffer.AppendBool(true);
 
-            return serverMessage;
+            return simpleServerMessageBuffer;
         }
     }
 }

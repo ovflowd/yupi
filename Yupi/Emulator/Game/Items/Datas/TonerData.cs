@@ -1,6 +1,7 @@
 using System.Data;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Items.Datas
 {
@@ -55,19 +56,19 @@ namespace Yupi.Emulator.Game.Items.Datas
         /// <summary>
         ///     Generates the extra data.
         /// </summary>
-        /// <param name="message">The message.</param>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage GenerateExtraData(ServerMessage message)
+        /// <param name="message">The messageBuffer.</param>
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer GenerateExtraData(SimpleServerMessageBuffer messageBuffer)
         {
-            message.AppendInteger(0);
-            message.AppendInteger(5);
-            message.AppendInteger(4);
-            message.AppendInteger(Enabled);
-            message.AppendInteger(Data1);
-            message.AppendInteger(Data2);
-            message.AppendInteger(Data3);
+            messageBuffer.AppendInteger(0);
+            messageBuffer.AppendInteger(5);
+            messageBuffer.AppendInteger(4);
+            messageBuffer.AppendInteger(Enabled);
+            messageBuffer.AppendInteger(Data1);
+            messageBuffer.AppendInteger(Data2);
+            messageBuffer.AppendInteger(Data3);
 
-            return message;
+            return messageBuffer;
         }
     }
 }

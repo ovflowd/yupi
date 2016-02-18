@@ -32,7 +32,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
             session.GetHabbo().CurrentRoom.RoomMuted = false;
 
             /*
-            var message = new ServerMessage();
+            var message = new SimpleServerMessageBuffer();
             message.Load(PacketLibraryManager.OutgoingRequest("AlertNotificationMessageComposer"));
             message.AppendString("Room is now UnMuted.");
             message.AppendString("");

@@ -4,6 +4,7 @@ using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Rooms.User;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Commands.Controllers
@@ -39,11 +40,11 @@ namespace Yupi.Emulator.Game.Commands.Controllers
 
             foreach (RoomUser roomUser in roomUsers)
             {
-                ServerMessage message =
-                    new ServerMessage(PacketLibraryManager.OutgoingRequest("DanceStatusMessageComposer"));
-                message.AppendInteger(roomUser.VirtualId);
-                message.AppendInteger(danceId);
-                room.SendMessage(message);
+                SimpleServerMessageBuffer messageBuffer =
+                    new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("DanceStatusMessageComposer"));
+                messageBuffer.AppendInteger(roomUser.VirtualId);
+                messageBuffer.AppendInteger(danceId);
+                room.SendMessage(messageBuffer);
                 roomUser.DanceId = danceId;
             }
             return true;

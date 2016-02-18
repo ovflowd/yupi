@@ -4,6 +4,7 @@ using Yupi.Emulator.Game.Items.Interfaces;
 using Yupi.Emulator.Game.Items.Wired.Interfaces;
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Items.Wired.Handlers.Effects
@@ -79,17 +80,17 @@ namespace Yupi.Emulator.Game.Items.Wired.Handlers.Effects
                 double zToSet = position ? double.Parse(positions[2]) : fItem.Z;
 
 
-                ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("ItemAnimationMessageComposer"));
-                serverMessage.AppendInteger(fItem.X);
-                serverMessage.AppendInteger(fItem.Y);
-                serverMessage.AppendInteger(xToSet);
-                serverMessage.AppendInteger(yToSet);
-                serverMessage.AppendInteger(1);
-                serverMessage.AppendInteger(fItem.Id);
-                serverMessage.AppendString(fItem.Z.ToString(Yupi.CultureInfo));
-                serverMessage.AppendString(zToSet.ToString(Yupi.CultureInfo));
-                serverMessage.AppendInteger(0);
-                Room.SendMessage(serverMessage);
+                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("ItemAnimationMessageComposer"));
+                simpleServerMessageBuffer.AppendInteger(fItem.X);
+                simpleServerMessageBuffer.AppendInteger(fItem.Y);
+                simpleServerMessageBuffer.AppendInteger(xToSet);
+                simpleServerMessageBuffer.AppendInteger(yToSet);
+                simpleServerMessageBuffer.AppendInteger(1);
+                simpleServerMessageBuffer.AppendInteger(fItem.Id);
+                simpleServerMessageBuffer.AppendString(fItem.Z.ToString(Yupi.CultureInfo));
+                simpleServerMessageBuffer.AppendString(zToSet.ToString(Yupi.CultureInfo));
+                simpleServerMessageBuffer.AppendInteger(0);
+                Room.SendMessage(simpleServerMessageBuffer);
 
                 Room.GetRoomItemHandler()
                     .SetFloorItem(null, fItem, xToSet, yToSet, rotationToSet, false, false, false, false, false);

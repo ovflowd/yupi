@@ -1,4 +1,6 @@
-﻿namespace Yupi.Emulator.Messages.Handlers
+﻿using Yupi.Emulator.Messages.Buffers;
+
+namespace Yupi.Emulator.Messages.Handlers
 {
     /// <summary>
     ///     Class GameClientMessageHandler.
@@ -10,10 +12,10 @@
         /// </summary>
         internal void GetInventory()
         {
-            QueuedServerMessage queuedServerMessage = new QueuedServerMessage(Session.GetConnection());
+            QueuedServerMessageBuffer queuedServerMessageBuffer = new QueuedServerMessageBuffer(Session.GetConnection());
 
-            queuedServerMessage.AppendResponse(Session.GetHabbo().GetInventoryComponent().SerializeFloorItemInventory());
-            queuedServerMessage.SendResponse();
+            queuedServerMessageBuffer.AppendResponse(Session.GetHabbo().GetInventoryComponent().SerializeFloorItemInventory());
+            queuedServerMessageBuffer.SendResponse();
         }
     }
 }

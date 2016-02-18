@@ -23,6 +23,7 @@
 */
 
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Pets
@@ -78,113 +79,113 @@ namespace Yupi.Emulator.Game.Pets
         /// <param name="furniId">The furni identifier.</param>
         /// <param name="pet1">The pet1.</param>
         /// <param name="pet2">The pet2.</param>
-        /// <returns>ServerMessage.</returns>
-        internal static ServerMessage GetMessage(uint furniId, Pet pet1, Pet pet2)
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal static SimpleServerMessageBuffer GetMessage(uint furniId, Pet pet1, Pet pet2)
         {
-            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("PetBreedMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("PetBreedMessageComposer"));
 
-            message.AppendInteger(furniId);
-            message.AppendInteger(pet1.PetId);
-            message.AppendString(pet1.Name);
-            message.AppendInteger(pet1.Level);
-            message.AppendString(pet1.Look);
-            message.AppendString(pet1.OwnerName);
-            message.AppendInteger(pet2.PetId);
-            message.AppendString(pet2.Name);
-            message.AppendInteger(pet2.Level);
-            message.AppendString(pet2.Look);
-            message.AppendString(pet2.OwnerName);
-            message.AppendInteger(4);
+            messageBuffer.AppendInteger(furniId);
+            messageBuffer.AppendInteger(pet1.PetId);
+            messageBuffer.AppendString(pet1.Name);
+            messageBuffer.AppendInteger(pet1.Level);
+            messageBuffer.AppendString(pet1.Look);
+            messageBuffer.AppendString(pet1.OwnerName);
+            messageBuffer.AppendInteger(pet2.PetId);
+            messageBuffer.AppendString(pet2.Name);
+            messageBuffer.AppendInteger(pet2.Level);
+            messageBuffer.AppendString(pet2.Look);
+            messageBuffer.AppendString(pet2.OwnerName);
+            messageBuffer.AppendInteger(4);
 
-            message.AppendInteger(1);
+            messageBuffer.AppendInteger(1);
 
             switch (pet1.Type)
             {
                 case "pet_terrier":
-                    message.AppendInteger(TerrierEpicRace.Length);
+                    messageBuffer.AppendInteger(TerrierEpicRace.Length);
 
                     foreach (int value in TerrierEpicRace)
-                        message.AppendInteger(value);
+                        messageBuffer.AppendInteger(value);
 
                     break;
 
                 case "pet_bear":
-                    message.AppendInteger(BearEpicRace.Length);
+                    messageBuffer.AppendInteger(BearEpicRace.Length);
 
                     foreach (int value in BearEpicRace)
-                        message.AppendInteger(value);
+                        messageBuffer.AppendInteger(value);
 
                     break;
             }
 
-            message.AppendInteger(2);
+            messageBuffer.AppendInteger(2);
 
             switch (pet1.Type)
             {
                 case "pet_terrier":
-                    message.AppendInteger(TerrierRareRace.Length);
+                    messageBuffer.AppendInteger(TerrierRareRace.Length);
 
                     foreach (int value in TerrierRareRace)
-                        message.AppendInteger(value);
+                        messageBuffer.AppendInteger(value);
 
                     break;
 
                 case "pet_bear":
-                    message.AppendInteger(BearRareRace.Length);
+                    messageBuffer.AppendInteger(BearRareRace.Length);
 
                     foreach (int value in BearRareRace)
-                        message.AppendInteger(value);
+                        messageBuffer.AppendInteger(value);
 
                     break;
             }
 
-            message.AppendInteger(3);
+            messageBuffer.AppendInteger(3);
 
             switch (pet1.Type)
             {
                 case "pet_terrier":
-                    message.AppendInteger(TerrierNoRareRace.Length);
+                    messageBuffer.AppendInteger(TerrierNoRareRace.Length);
 
                     foreach (int value in TerrierNoRareRace)
-                        message.AppendInteger(value);
+                        messageBuffer.AppendInteger(value);
 
                     break;
 
                 case "pet_bear":
-                    message.AppendInteger(BearNoRareRace.Length);
+                    messageBuffer.AppendInteger(BearNoRareRace.Length);
 
                     foreach (int value in BearNoRareRace)
-                        message.AppendInteger(value);
+                        messageBuffer.AppendInteger(value);
 
                     break;
             }
 
-            message.AppendInteger(94);
+            messageBuffer.AppendInteger(94);
 
             switch (pet1.Type)
             {
                 case "pet_terrier":
-                    message.AppendInteger(TerrierNormalRace.Length);
+                    messageBuffer.AppendInteger(TerrierNormalRace.Length);
 
                     foreach (int value in TerrierNormalRace)
-                        message.AppendInteger(value);
+                        messageBuffer.AppendInteger(value);
 
                     break;
 
                 case "pet_bear":
-                    message.AppendInteger(BearNormalRace.Length);
+                    messageBuffer.AppendInteger(BearNormalRace.Length);
 
                     foreach (int value in BearNormalRace)
-                        message.AppendInteger(value);
+                        messageBuffer.AppendInteger(value);
 
                     break;
             }
 
-            message.AppendInteger(pet1.Type == "pet_terrier"
+            messageBuffer.AppendInteger(pet1.Type == "pet_terrier"
                 ? PetTypeManager.GetPetRaceIdByType("pet_terrierbaby")
                 : PetTypeManager.GetPetRaceIdByType("pet_bearbaby"));
 
-            return message;
+            return messageBuffer;
         }
     }
 }

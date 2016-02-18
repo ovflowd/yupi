@@ -9,7 +9,7 @@ using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Users.Messenger.Structs;
 using Yupi.Emulator.Messages;
-using Yupi.Emulator.Messages.Parsers;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Net.Connection;
 
 namespace Yupi.Emulator.Game.GameClients
@@ -137,39 +137,39 @@ namespace Yupi.Emulator.Game.GameClients
         /// <param name="Event">if set to <c>true</c> [event].</param>
         internal void SendSuperNotif(string title, string notice, string picture, GameClient client, string link, string linkTitle, bool broadCast, bool Event)
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
 
-            serverMessage.AppendString(picture);
-            serverMessage.AppendInteger(4);
-            serverMessage.AppendString("title");
-            serverMessage.AppendString(title);
-            serverMessage.AppendString("message");
+            simpleServerMessageBuffer.AppendString(picture);
+            simpleServerMessageBuffer.AppendInteger(4);
+            simpleServerMessageBuffer.AppendString("title");
+            simpleServerMessageBuffer.AppendString(title);
+            simpleServerMessageBuffer.AppendString("message");
 
-            serverMessage.AppendString(broadCast ? (Event ? $"<b>{Yupi.GetLanguage().GetVar("ha_event_one")} {client.GetHabbo().CurrentRoom.RoomData.Owner}!</b>\r\n {Yupi.GetLanguage().GetVar("ha_event_two")} .\r\n<b>{Yupi.GetLanguage().GetVar("ha_event_three")}</b>\r\n{notice}" : $"<b>{Yupi.GetLanguage().GetVar("ha_title")}</b>\r\n{notice}\r\n- <i>{client.GetHabbo().UserName}</i>") : notice);
+            simpleServerMessageBuffer.AppendString(broadCast ? (Event ? $"<b>{Yupi.GetLanguage().GetVar("ha_event_one")} {client.GetHabbo().CurrentRoom.RoomData.Owner}!</b>\r\n {Yupi.GetLanguage().GetVar("ha_event_two")} .\r\n<b>{Yupi.GetLanguage().GetVar("ha_event_three")}</b>\r\n{notice}" : $"<b>{Yupi.GetLanguage().GetVar("ha_title")}</b>\r\n{notice}\r\n- <i>{client.GetHabbo().UserName}</i>") : notice);
 
             if (!string.IsNullOrWhiteSpace(link))
             {
-                serverMessage.AppendString("linkUrl");
-                serverMessage.AppendString(link);
-                serverMessage.AppendString("linkTitle");
-                serverMessage.AppendString(linkTitle);
+                simpleServerMessageBuffer.AppendString("linkUrl");
+                simpleServerMessageBuffer.AppendString(link);
+                simpleServerMessageBuffer.AppendString("linkTitle");
+                simpleServerMessageBuffer.AppendString(linkTitle);
             }
             else
             {
-                serverMessage.AppendString("linkUrl");
-                serverMessage.AppendString("event:");
-                serverMessage.AppendString("linkTitle");
-                serverMessage.AppendString("ok");
+                simpleServerMessageBuffer.AppendString("linkUrl");
+                simpleServerMessageBuffer.AppendString("event:");
+                simpleServerMessageBuffer.AppendString("linkTitle");
+                simpleServerMessageBuffer.AppendString("ok");
             }
 
             if (broadCast)
             {
-                QueueBroadcaseMessage(serverMessage);
+                QueueBroadcaseMessage(simpleServerMessageBuffer);
 
                 return;
             }
 
-            client.SendMessage(serverMessage);
+            client.SendMessage(simpleServerMessageBuffer);
         }
 
         /// <summary>
@@ -195,7 +195,7 @@ namespace Yupi.Emulator.Game.GameClients
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="exclude">The exclude.</param>
-        internal void StaffAlert(ServerMessage message, uint exclude = 0u)
+        internal void StaffAlert(SimpleServerMessageBuffer message, uint exclude = 0u)
         {
             foreach (GameClient current in Clients.Values.Where(x => x.GetHabbo() != null && x.GetHabbo().Rank >= Yupi.StaffAlertMinRank && x.GetHabbo().Id != exclude))
                 current.SendMessage(message);
@@ -206,7 +206,7 @@ namespace Yupi.Emulator.Game.GameClients
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="exclude">The exclude.</param>
-        internal void AmbassadorAlert(ServerMessage message, uint exclude = 0u)
+        internal void AmbassadorAlert(SimpleServerMessageBuffer message, uint exclude = 0u)
         {
             foreach (GameClient current in Clients.Values.Where(x => x.GetHabbo() != null && x.GetHabbo().Rank >= Convert.ToUInt32(Yupi.GetDbConfig().DbData["ambassador.minrank"]) && x.GetHabbo().Id != exclude))
                 current.SendMessage(message);
@@ -216,7 +216,7 @@ namespace Yupi.Emulator.Game.GameClients
         ///     Mods the alert.
         /// </summary>
         /// <param name="message">The message.</param>
-        internal void ModAlert(ServerMessage message)
+        internal void ModAlert(SimpleServerMessageBuffer message)
         {
             byte[] bytes = message.GetReversedBytes();
 
@@ -256,7 +256,7 @@ namespace Yupi.Emulator.Game.GameClients
         ///     Queues the broadcase message.
         /// </summary>
         /// <param name="message">The message.</param>
-        internal void QueueBroadcaseMessage(ServerMessage message) => _broadcastQueue.Enqueue(message.GetReversedBytes());
+        internal void QueueBroadcaseMessage(SimpleServerMessageBuffer message) => _broadcastQueue.Enqueue(message.GetReversedBytes());
 
         /// <summary>
         ///     Queues the badge update.

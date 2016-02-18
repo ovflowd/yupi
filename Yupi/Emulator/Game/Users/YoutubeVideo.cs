@@ -1,4 +1,5 @@
 ﻿using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Users
 {
@@ -18,11 +19,11 @@ namespace Yupi.Emulator.Game.Users
             Description = description;
         }
 
-        internal void Serialize(ServerMessage message)
+        internal void Serialize(SimpleServerMessageBuffer messageBuffer)
         {
-            message.AppendString(VideoId);
-            message.AppendString(Name);
-            message.AppendString(Description);
+            messageBuffer.AppendString(VideoId);
+            messageBuffer.AppendString(Name);
+            messageBuffer.AppendString(Description);
         }
     }
 }

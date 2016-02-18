@@ -8,9 +8,9 @@ using Yupi.Emulator.Game.Users;
 using Yupi.Emulator.Game.Users.Data.Models;
 using Yupi.Emulator.Game.Users.Factories;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Enums;
 using Yupi.Emulator.Messages.Handlers;
-using Yupi.Emulator.Messages.Parsers;
 using Yupi.Emulator.Net.Connection;
 
 namespace Yupi.Emulator.Game.GameClients.Interfaces
@@ -101,19 +101,19 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
 
             if (userPublicist != null)
             {
-                ServerMessage serverMessage;
+                SimpleServerMessageBuffer simpleServerMessageBuffer;
 
                 if (userPublicist.Rank < 5 && settings.MaxAdvices == PublicistCount++ && settings.AutoBan)
                 {
-                    serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
-                    serverMessage.AppendString("staffcloud");
-                    serverMessage.AppendInteger(2);
-                    serverMessage.AppendString("title");
-                    serverMessage.AppendString("Staff Internal Alert");
-                    serverMessage.AppendString("message");
-                    serverMessage.AppendString("O usuário " + userPublicist.UserName + " Fo Banido por Divulgar. A última palavra foi: " + word + ", na frase: " + message);
+                    simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
+                    simpleServerMessageBuffer.AppendString("staffcloud");
+                    simpleServerMessageBuffer.AppendInteger(2);
+                    simpleServerMessageBuffer.AppendString("title");
+                    simpleServerMessageBuffer.AppendString("Staff Internal Alert");
+                    simpleServerMessageBuffer.AppendString("message");
+                    simpleServerMessageBuffer.AppendString("O usuário " + userPublicist.UserName + " Fo Banido por Divulgar. A última palavra foi: " + word + ", na frase: " + message);
 
-                    Yupi.GetGame().GetClientManager().StaffAlert(serverMessage);
+                    Yupi.GetGame().GetClientManager().StaffAlert(simpleServerMessageBuffer);
 
                     Yupi.GetGame().GetBanManager().BanUser(this, userPublicist.UserName, 788922000.0, "Você está divulgando Hoteis. Será banido para sempre..", true, true);
 
@@ -127,13 +127,13 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
                 alert = alert.Replace("{3}", message);
                 alert = alert.Replace("{4}", method);
 
-                serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("UsersClassificationMessageComposer"));
-                serverMessage.AppendInteger(1);
-                serverMessage.AppendInteger(userPublicist.Id);
-                serverMessage.AppendString(userPublicist.UserName);
-                serverMessage.AppendString("BadWord: " + word);
+                simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UsersClassificationMessageComposer"));
+                simpleServerMessageBuffer.AppendInteger(1);
+                simpleServerMessageBuffer.AppendInteger(userPublicist.Id);
+                simpleServerMessageBuffer.AppendString(userPublicist.UserName);
+                simpleServerMessageBuffer.AppendString("BadWord: " + word);
 
-                Yupi.GetGame()?.GetClientManager()?.StaffAlert(serverMessage);
+                Yupi.GetGame()?.GetClientManager()?.StaffAlert(simpleServerMessageBuffer);
 
                 if (Yupi.GetGame().GetClientManager() == null)
                     return;
@@ -149,15 +149,15 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
                     if (client.GetHabbo().Rank < 5)
                         continue;
 
-                    serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("WhisperMessageComposer"));
-                    serverMessage.AppendInteger(client.CurrentRoomUserId);
-                    serverMessage.AppendString(alert);
-                    serverMessage.AppendInteger(0);
-                    serverMessage.AppendInteger(34);
-                    serverMessage.AppendInteger(0);
-                    serverMessage.AppendInteger(true);
+                    simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WhisperMessageComposer"));
+                    simpleServerMessageBuffer.AppendInteger(client.CurrentRoomUserId);
+                    simpleServerMessageBuffer.AppendString(alert);
+                    simpleServerMessageBuffer.AppendInteger(0);
+                    simpleServerMessageBuffer.AppendInteger(34);
+                    simpleServerMessageBuffer.AppendInteger(0);
+                    simpleServerMessageBuffer.AppendInteger(true);
 
-                    client.SendMessage(serverMessage);
+                    client.SendMessage(simpleServerMessageBuffer);
                 }
             }
         }
@@ -188,6 +188,8 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
             _messageHandler = new GameClientMessageHandler(this);
 
             _connection.DataParser.SetConnection(_connection, this);
+
+            _connection.HandShakeCompleted = true;
         }
 
         /// <summary>
@@ -254,75 +256,75 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
 
                 userData.User.Init(this, userData);
 
-                QueuedServerMessage queuedServerMessage = new QueuedServerMessage(_connection);
+                QueuedServerMessageBuffer queuedServerMessageBuffer = new QueuedServerMessageBuffer(_connection);
 
-                ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("UniqueMachineIDMessageComposer"));
+                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UniqueMachineIDMessageComposer"));
 
-                serverMessage.AppendString(MachineId);
-                queuedServerMessage.AppendResponse(serverMessage);
+                simpleServerMessageBuffer.AppendString(MachineId);
+                queuedServerMessageBuffer.AppendResponse(simpleServerMessageBuffer);
 
-                queuedServerMessage.AppendResponse(
-                    new ServerMessage(PacketLibraryManager.OutgoingRequest("AuthenticationOKMessageComposer")));
+                queuedServerMessageBuffer.AppendResponse(
+                    new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("AuthenticationOKMessageComposer")));
 
-                ServerMessage serverMessage2 = new ServerMessage(PacketLibraryManager.OutgoingRequest("HomeRoomMessageComposer"));
+                SimpleServerMessageBuffer simpleServerMessage2 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("HomeRoomMessageComposer"));
 
-                serverMessage2.AppendInteger(_habbo.HomeRoom);
-                serverMessage2.AppendInteger(_habbo.HomeRoom);
-                queuedServerMessage.AppendResponse(serverMessage2);
+                simpleServerMessage2.AppendInteger(_habbo.HomeRoom);
+                simpleServerMessage2.AppendInteger(_habbo.HomeRoom);
+                queuedServerMessageBuffer.AppendResponse(simpleServerMessage2);
 
-                serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("MinimailCountMessageComposer"));
+                simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("MinimailCountMessageComposer"));
 
-                serverMessage.AppendInteger(_habbo.MinimailUnreadMessages);
-                queuedServerMessage.AppendResponse(serverMessage);
+                simpleServerMessageBuffer.AppendInteger(_habbo.MinimailUnreadMessages);
+                queuedServerMessageBuffer.AppendResponse(simpleServerMessageBuffer);
 
-                serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("FavouriteRoomsMessageComposer"));
+                simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("FavouriteRoomsMessageComposer"));
 
-                serverMessage.AppendInteger(30);
+                simpleServerMessageBuffer.AppendInteger(30);
 
                 if (userData.User.FavoriteRooms == null || !userData.User.FavoriteRooms.Any())
-                    serverMessage.AppendInteger(0);
+                    simpleServerMessageBuffer.AppendInteger(0);
                 else
                 {
-                    serverMessage.AppendInteger(userData.User.FavoriteRooms.Count);
+                    simpleServerMessageBuffer.AppendInteger(userData.User.FavoriteRooms.Count);
 
                     foreach (uint i in userData.User.FavoriteRooms)
-                        serverMessage.AppendInteger(i);
+                        simpleServerMessageBuffer.AppendInteger(i);
                 }
 
-                queuedServerMessage.AppendResponse(serverMessage);
+                queuedServerMessageBuffer.AppendResponse(simpleServerMessageBuffer);
 
-                ServerMessage rightsMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("UserClubRightsMessageComposer"));
+                SimpleServerMessageBuffer rightsMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UserClubRightsMessageComposer"));
 
-                rightsMessage.AppendInteger(userData.User.GetSubscriptionManager().HasSubscription ? 2 : 0);
-                rightsMessage.AppendInteger(userData.User.Rank);
-                rightsMessage.AppendInteger(0);
-                queuedServerMessage.AppendResponse(rightsMessage);
+                rightsMessageBuffer.AppendInteger(userData.User.GetSubscriptionManager().HasSubscription ? 2 : 0);
+                rightsMessageBuffer.AppendInteger(userData.User.Rank);
+                rightsMessageBuffer.AppendInteger(0);
+                queuedServerMessageBuffer.AppendResponse(rightsMessageBuffer);
 
-                serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("EnableNotificationsMessageComposer"));
-                serverMessage.AppendBool(true); //isOpen
-                serverMessage.AppendBool(false);
-                queuedServerMessage.AppendResponse(serverMessage);
+                simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("EnableNotificationsMessageComposer"));
+                simpleServerMessageBuffer.AppendBool(true); //isOpen
+                simpleServerMessageBuffer.AppendBool(false);
+                queuedServerMessageBuffer.AppendResponse(simpleServerMessageBuffer);
 
-                serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("EnableTradingMessageComposer"));
-                serverMessage.AppendBool(true);
-                queuedServerMessage.AppendResponse(serverMessage);
+                simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("EnableTradingMessageComposer"));
+                simpleServerMessageBuffer.AppendBool(true);
+                queuedServerMessageBuffer.AppendResponse(simpleServerMessageBuffer);
                 userData.User.UpdateCreditsBalance();
 
-                serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("ActivityPointsMessageComposer"));
-                serverMessage.AppendInteger(2);
-                serverMessage.AppendInteger(0);
-                serverMessage.AppendInteger(userData.User.Duckets);
-                serverMessage.AppendInteger(5);
-                serverMessage.AppendInteger(userData.User.Diamonds);
-                queuedServerMessage.AppendResponse(serverMessage);
+                simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("ActivityPointsMessageComposer"));
+                simpleServerMessageBuffer.AppendInteger(2);
+                simpleServerMessageBuffer.AppendInteger(0);
+                simpleServerMessageBuffer.AppendInteger(userData.User.Duckets);
+                simpleServerMessageBuffer.AppendInteger(5);
+                simpleServerMessageBuffer.AppendInteger(userData.User.Diamonds);
+                queuedServerMessageBuffer.AppendResponse(simpleServerMessageBuffer);
 
                 if (userData.User.HasFuse("fuse_mod"))
-                    queuedServerMessage.AppendResponse(Yupi.GetGame().GetModerationTool().SerializeTool(this));
+                    queuedServerMessageBuffer.AppendResponse(Yupi.GetGame().GetModerationTool().SerializeTool(this));
 
-                queuedServerMessage.AppendResponse(Yupi.GetGame().GetAchievementManager().AchievementDataCached);
+                queuedServerMessageBuffer.AppendResponse(Yupi.GetGame().GetAchievementManager().AchievementDataCached);
 
-                queuedServerMessage.AppendResponse(GetHabbo().GetAvatarEffectsInventoryComponent().GetPacket());
-                queuedServerMessage.SendResponse();
+                queuedServerMessageBuffer.AppendResponse(GetHabbo().GetAvatarEffectsInventoryComponent().GetPacket());
+                queuedServerMessageBuffer.SendResponse();
 
                 Yupi.GetGame().GetAchievementManager().TryProgressHabboClubAchievements(this);
                 Yupi.GetGame().GetAchievementManager().TryProgressRegistrationAchievements(this);
@@ -344,11 +346,11 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         /// <param name="message">The message.</param>
         internal void SendNotifWithScroll(string message)
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("MOTDNotificationMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("MOTDNotificationMessageComposer"));
 
-            serverMessage.AppendInteger(1);
-            serverMessage.AppendString(message);
-            SendMessage(serverMessage);
+            simpleServerMessageBuffer.AppendInteger(1);
+            simpleServerMessageBuffer.AppendString(message);
+            SendMessage(simpleServerMessageBuffer);
         }
 
         /// <summary>
@@ -357,11 +359,11 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         /// <param name="message">The message.</param>
         internal void SendBroadcastMessage(string message)
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("BroadcastNotifMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("BroadcastNotifMessageComposer"));
 
-            serverMessage.AppendString(message);
-            serverMessage.AppendString(string.Empty);
-            SendMessage(serverMessage);
+            simpleServerMessageBuffer.AppendString(message);
+            simpleServerMessageBuffer.AppendString(string.Empty);
+            SendMessage(simpleServerMessageBuffer);
         }
 
         /// <summary>
@@ -373,12 +375,12 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
             if (string.IsNullOrWhiteSpace(message))
                 return;
 
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("AlertNotificationMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("AlertNotificationMessageComposer"));
 
-            serverMessage.AppendString(message);
-            serverMessage.AppendString(string.Empty);
+            simpleServerMessageBuffer.AppendString(message);
+            simpleServerMessageBuffer.AppendString(string.Empty);
 
-            SendMessage(serverMessage);
+            SendMessage(simpleServerMessageBuffer);
         }
 
         /// <summary>
@@ -396,7 +398,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
             if (roomUserByHabbo == null)
                 return;
 
-            ServerMessage whisp = new ServerMessage(PacketLibraryManager.OutgoingRequest("WhisperMessageComposer"));
+            SimpleServerMessageBuffer whisp = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WhisperMessageComposer"));
 
             whisp.AppendInteger(roomUserByHabbo.VirtualId);
             whisp.AppendString(message);
@@ -414,10 +416,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         /// <param name="message">The message.</param>
         /// <param name="title">The title.</param>
         /// <param name="picture">The picture.</param>
-        internal void SendNotif(string message, string title = "Aviso", string picture = "")
-        {
-            SendMessage(GetBytesNotif(message, title, picture));
-        }
+        internal void SendNotif(string message, string title = "Aviso", string picture = "") => SendMessage(GetBytesNotif(message, title, picture));
 
         /// <summary>
         ///     Gets the bytes notif.
@@ -428,22 +427,20 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         /// <returns>System.Byte[].</returns>
         public static byte[] GetBytesNotif(string message, string title = "Aviso", string picture = "")
         {
-            using (
-                ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"))
-                )
+            using (SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer")))
             {
-                serverMessage.AppendString(picture);
-                serverMessage.AppendInteger(4);
-                serverMessage.AppendString("title");
-                serverMessage.AppendString(title);
-                serverMessage.AppendString("message");
-                serverMessage.AppendString(message);
-                serverMessage.AppendString("linkUrl");
-                serverMessage.AppendString("event:");
-                serverMessage.AppendString("linkTitle");
-                serverMessage.AppendString("ok");
+                simpleServerMessageBuffer.AppendString(picture);
+                simpleServerMessageBuffer.AppendInteger(4);
+                simpleServerMessageBuffer.AppendString("title");
+                simpleServerMessageBuffer.AppendString(title);
+                simpleServerMessageBuffer.AppendString("message");
+                simpleServerMessageBuffer.AppendString(message);
+                simpleServerMessageBuffer.AppendString("linkUrl");
+                simpleServerMessageBuffer.AppendString("event:");
+                simpleServerMessageBuffer.AppendString("linkTitle");
+                simpleServerMessageBuffer.AppendString("ok");
 
-                return serverMessage.GetReversedBytes();
+                return simpleServerMessageBuffer.GetReversedBytes();
             }
         }
 
@@ -452,11 +449,11 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         /// </summary>
         internal void Stop()
         {
+            if(GetHabbo() != null)
+                GetHabbo().OnDisconnect("disconnect");
+
             if (GetMessageHandler() != null)
                 GetMessageHandler().Destroy();
-
-            if (GetHabbo() != null)
-                GetHabbo().OnDisconnect("disconnect");
 
             CurrentRoomUserId = -1;
             _messageHandler = null;
@@ -489,7 +486,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         ///     Sends the message.
         /// </summary>
         /// <param name="message">The message.</param>
-        internal void SendMessage(ServerMessage message)
+        internal void SendMessage(SimpleServerMessageBuffer message)
         {
             if (message == null)
                 return;

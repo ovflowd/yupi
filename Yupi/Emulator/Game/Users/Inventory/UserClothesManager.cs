@@ -4,6 +4,7 @@ using System.Linq;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Emulator.Game.Items.Interfaces;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Users.Inventory
 {
@@ -66,37 +67,37 @@ namespace Yupi.Emulator.Game.Users.Inventory
         }
 
         /// <summary>
-        ///     Serializes the specified message.
+        ///     Serializes the specified messageBuffer.
         /// </summary>
-        /// <param name="message">The message.</param>
-        internal void Serialize(ServerMessage message)
+        /// <param name="message">The messageBuffer.</param>
+        internal void Serialize(SimpleServerMessageBuffer messageBuffer)
         {
-            message.StartArray();
+            messageBuffer.StartArray();
 
             foreach (
                 ClothingItem item1 in
                     Clothing.Select(clothing1 => Yupi.GetGame().GetClothingManager().GetClothesInFurni(clothing1)))
             {
                 foreach (int clothe in item1.Clothes)
-                    message.AppendInteger(clothe);
+                    messageBuffer.AppendInteger(clothe);
 
-                message.SaveArray();
+                messageBuffer.SaveArray();
             }
 
-            message.EndArray();
-            message.StartArray();
+            messageBuffer.EndArray();
+            messageBuffer.StartArray();
 
             foreach (
                 ClothingItem item2 in
                     Clothing.Select(clothing2 => Yupi.GetGame().GetClothingManager().GetClothesInFurni(clothing2)))
             {
                 foreach (int clothe in item2.Clothes)
-                    message.AppendString(item2.ItemName);
+                    messageBuffer.AppendString(item2.ItemName);
 
-                message.SaveArray();
+                messageBuffer.SaveArray();
             }
 
-            message.EndArray();
+            messageBuffer.EndArray();
         }
     }
 }

@@ -33,6 +33,7 @@ using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Users;
 using Yupi.Emulator.Game.Users.Subscriptions;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Handlers;
 using Yupi.Emulator.Messages.Parsers;
 
@@ -46,7 +47,7 @@ namespace Yupi.Emulator.Game.Achievements
         /// <summary>
         ///     The achievement data cached
         /// </summary>
-        internal ServerMessage AchievementDataCached;
+        internal SimpleServerMessageBuffer AchievementDataCached;
 
         /// <summary>
         ///     The achievements
@@ -76,7 +77,7 @@ namespace Yupi.Emulator.Game.Achievements
             AchievementLevelFactory.GetAchievementLevels(out Achievements, dbClient);
 
             AchievementDataCached =
-                new ServerMessage(PacketLibraryManager.OutgoingRequest("SendAchievementsRequirementsMessageComposer"));
+                new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("SendAchievementsRequirementsMessageComposer"));
             AchievementDataCached.AppendInteger(Achievements.Count);
 
             foreach (Achievement ach in Achievements.Values)
@@ -98,8 +99,8 @@ namespace Yupi.Emulator.Game.Achievements
         ///     Gets the list.
         /// </summary>
         /// <param name="session">The session.</param>
-        /// <param name="message">The message.</param>
-        internal void GetList(GameClient session, ClientMessage message)
+        /// <param name="message">The messageBuffer.</param>
+        internal void GetList(GameClient session, SimpleClientMessageBuffer messageBuffer)
             => session.SendMessage(AchievementListComposer.Compose(session, Achievements.Values.ToList()));
 
         /// <summary>

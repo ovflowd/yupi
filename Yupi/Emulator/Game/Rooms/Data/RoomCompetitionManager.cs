@@ -4,6 +4,7 @@ using System.Linq;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Emulator.Game.Users;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Rooms.Data
@@ -51,64 +52,64 @@ namespace Yupi.Emulator.Game.Rooms.Data
             return RequiredFurnis.All(furni => room.GetRoomItemHandler().HasFurniByItemName(furni));
         }
 
-        internal ServerMessage AppendEntrySubmitMessage(ServerMessage message, int status, Room room = null)
+        internal SimpleServerMessageBuffer AppendEntrySubmitMessage(SimpleServerMessageBuffer messageBuffer, int status, Room room = null)
         {
-            message.Init(PacketLibraryManager.OutgoingRequest("CompetitionEntrySubmitResultMessageComposer"));
+            messageBuffer.Init(PacketLibraryManager.OutgoingRequest("CompetitionEntrySubmitResultMessageComposer"));
 
-            message.AppendInteger(Id);
-            message.AppendString(Name);
-            message.AppendInteger(status);
+            messageBuffer.AppendInteger(Id);
+            messageBuffer.AppendString(Name);
+            messageBuffer.AppendInteger(status);
             // 0 : roomSent - 1 : send room - 2 : confirm register - 3 : neededFurnis - 4 : doorClosed - 6 : acceptRules
 
             if (status != 3)
             {
-                message.AppendInteger(0);
-                message.AppendInteger(0);
+                messageBuffer.AppendInteger(0);
+                messageBuffer.AppendInteger(0);
             }
             else
             {
-                message.StartArray();
+                messageBuffer.StartArray();
 
                 foreach (string furni in RequiredFurnis)
                 {
-                    message.AppendString(furni);
-                    message.SaveArray();
+                    messageBuffer.AppendString(furni);
+                    messageBuffer.SaveArray();
                 }
 
-                message.EndArray();
+                messageBuffer.EndArray();
 
                 if (room == null)
-                    message.AppendInteger(0);
+                    messageBuffer.AppendInteger(0);
                 else
                 {
-                    message.StartArray();
+                    messageBuffer.StartArray();
 
                     foreach (string furni in RequiredFurnis)
                     {
                         if (!room.GetRoomItemHandler().HasFurniByItemName(furni))
                         {
-                            message.AppendString(furni);
-                            message.SaveArray();
+                            messageBuffer.AppendString(furni);
+                            messageBuffer.SaveArray();
                         }
                     }
 
-                    message.EndArray();
+                    messageBuffer.EndArray();
                 }
             }
 
-            return message;
+            return messageBuffer;
         }
 
-        internal ServerMessage AppendVoteMessage(ServerMessage message, Habbo user, int status = 0)
+        internal SimpleServerMessageBuffer AppendVoteMessage(SimpleServerMessageBuffer messageBuffer, Habbo user, int status = 0)
         {
-            message.Init(PacketLibraryManager.OutgoingRequest("CompetitionVotingInfoMessageComposer"));
+            messageBuffer.Init(PacketLibraryManager.OutgoingRequest("CompetitionVotingInfoMessageComposer"));
 
-            message.AppendInteger(Id);
-            message.AppendString(Name);
-            message.AppendInteger(status); // 0 : vote - 1 : can't vote - 2 : you need the vote badge
-            message.AppendInteger(user.DailyCompetitionVotes);
+            messageBuffer.AppendInteger(Id);
+            messageBuffer.AppendString(Name);
+            messageBuffer.AppendInteger(status); // 0 : vote - 1 : can't vote - 2 : you need the vote badge
+            messageBuffer.AppendInteger(user.DailyCompetitionVotes);
 
-            return message;
+            return messageBuffer;
         }
     }
 

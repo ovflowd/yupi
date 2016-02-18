@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Yupi.Emulator.Game.Polls.Enums;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Polls
 {
@@ -86,15 +87,15 @@ namespace Yupi.Emulator.Game.Polls
         }
 
         /// <summary>
-        ///     Serializes the specified message.
+        ///     Serializes the specified messageBuffer.
         /// </summary>
-        /// <param name="message">The message.</param>
-        internal void Serialize(ServerMessage message)
+        /// <param name="message">The messageBuffer.</param>
+        internal void Serialize(SimpleServerMessageBuffer messageBuffer)
         {
-            message.AppendInteger(Id);
-            message.AppendString(string.Empty); //?
-            message.AppendString(PollInvitation);
-            message.AppendString("Test"); // whats this??
+            messageBuffer.AppendInteger(Id);
+            messageBuffer.AppendString(string.Empty); //?
+            messageBuffer.AppendString(PollInvitation);
+            messageBuffer.AppendString("Test"); // whats this??
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Yupi.Emulator.Game.Commands.Interfaces;
 using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Commands.Controllers
@@ -21,15 +22,15 @@ namespace Yupi.Emulator.Game.Commands.Controllers
             if (string.IsNullOrEmpty(message)) return true;
             foreach (GameClient client in Yupi.GetGame().GetClientManager().Clients.Values)
             {
-                ServerMessage serverMessage = new ServerMessage();
-                serverMessage.Init(PacketLibraryManager.OutgoingRequest("WhisperMessageComposer"));
-                serverMessage.AppendInteger(client.CurrentRoomUserId);
-                serverMessage.AppendString(message);
-                serverMessage.AppendInteger(0);
-                serverMessage.AppendInteger(36);
-                serverMessage.AppendInteger(0);
-                serverMessage.AppendInteger(-1);
-                client.SendMessage(serverMessage);
+                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
+                simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingRequest("WhisperMessageComposer"));
+                simpleServerMessageBuffer.AppendInteger(client.CurrentRoomUserId);
+                simpleServerMessageBuffer.AppendString(message);
+                simpleServerMessageBuffer.AppendInteger(0);
+                simpleServerMessageBuffer.AppendInteger(36);
+                simpleServerMessageBuffer.AppendInteger(0);
+                simpleServerMessageBuffer.AppendInteger(-1);
+                client.SendMessage(simpleServerMessageBuffer);
             }
             return true;
         }

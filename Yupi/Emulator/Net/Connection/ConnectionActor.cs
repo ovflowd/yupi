@@ -24,7 +24,7 @@
 
 using System.Net;
 using DotNetty.Transport.Channels;
-using Yupi.Emulator.Net.Packets;
+using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Net.Connection
 {
@@ -63,6 +63,11 @@ namespace Yupi.Emulator.Net.Connection
         /// </summary>
         internal bool HandShakePartialCompleted;
 
+        /// <summary>
+        ///     Count of Same IP Connection.
+        /// </summary>
+        internal int SameHandledCount;
+
         public ConnectionActor(ServerPacketParser dataParser, IChannel context)
         {
             DataParser = dataParser;
@@ -73,6 +78,8 @@ namespace Yupi.Emulator.Net.Connection
 
             IpAddress = (context.RemoteAddress as IPEndPoint)?.Address.ToString();
 
+            SameHandledCount = 0;
+
             HandShakeCompleted = false;
 
             HandShakePartialCompleted = false;
@@ -80,9 +87,9 @@ namespace Yupi.Emulator.Net.Connection
 
         public void Close()
         {
-            DataParser.Dispose();
-
             Yupi.GetGame().GetClientManager().RemoveClient(ConnectionId);
+
+            DataParser.Dispose();
 
             ConnectionChannel.DisconnectAsync();
 

@@ -5,6 +5,7 @@ using Yupi.Emulator.Game.Items.Wired.Interfaces;
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Rooms.User;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Items.Wired.Handlers.Effects
@@ -54,10 +55,10 @@ namespace Yupi.Emulator.Game.Items.Wired.Handlers.Effects
                 return false;
 
             bot.BotData.Look = OtherExtraString;
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("SetRoomUserMessageComposer"));
-            serverMessage.AppendInteger(1);
-            bot.Serialize(serverMessage, false);
-            Room.SendMessage(serverMessage);
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("SetRoomUserMessageComposer"));
+            simpleServerMessageBuffer.AppendInteger(1);
+            bot.Serialize(simpleServerMessageBuffer, false);
+            Room.SendMessage(simpleServerMessageBuffer);
 
             return true;
         }

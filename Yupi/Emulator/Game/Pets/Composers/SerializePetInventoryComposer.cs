@@ -1,21 +1,22 @@
 ﻿using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Pets.Composers
 {
     internal class SerializePetInventoryComposer
     {
-        internal static void GenerateMessage(Pet pet, ServerMessage message, bool levelAfterName = false)
+        internal static void GenerateMessage(Pet pet, SimpleServerMessageBuffer messageBuffer, bool levelAfterName = false)
         {
-            message.AppendInteger(pet.PetId);
-            message.AppendString(pet.Name);
+            messageBuffer.AppendInteger(pet.PetId);
+            messageBuffer.AppendString(pet.Name);
 
             if (levelAfterName)
-                message.AppendInteger(pet.Level);
+                messageBuffer.AppendInteger(pet.Level);
 
-            message.AppendInteger(pet.RaceId);
-            message.AppendInteger(pet.Race);
-            message.AppendString(pet.Type == "pet_monster" ? "ffffff" : pet.Color);
-            message.AppendInteger(pet.Type == "pet_monster" ? 0u : pet.RaceId);
+            messageBuffer.AppendInteger(pet.RaceId);
+            messageBuffer.AppendInteger(pet.Race);
+            messageBuffer.AppendString(pet.Type == "pet_monster" ? "ffffff" : pet.Color);
+            messageBuffer.AppendInteger(pet.Type == "pet_monster" ? 0u : pet.RaceId);
 
             if (pet.Type == "pet_monster" && pet.MoplaBreed != null)
             {
@@ -23,15 +24,15 @@ namespace Yupi.Emulator.Game.Pets.Composers
                 string[] array2 = array;
 
                 foreach (string s in array2)
-                    message.AppendInteger(int.Parse(s));
+                    messageBuffer.AppendInteger(int.Parse(s));
 
-                message.AppendInteger(pet.MoplaBreed.GrowingStatus);
+                messageBuffer.AppendInteger(pet.MoplaBreed.GrowingStatus);
 
                 return;
             }
 
-            message.AppendInteger(0);
-            message.AppendInteger(0);
+            messageBuffer.AppendInteger(0);
+            messageBuffer.AppendInteger(0);
         }
     }
 }

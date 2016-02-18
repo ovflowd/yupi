@@ -24,6 +24,7 @@
 
 using Yupi.Emulator.Game.Groups.Structs;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Groups.Composers
@@ -39,29 +40,29 @@ namespace Yupi.Emulator.Game.Groups.Composers
         /// <param name="group"></param>
         /// <param name="groupForum"></param>
         /// <param name="requesterId"></param>
-        /// <returns>ServerMessage.</returns>
-        internal static ServerMessage Compose(Group group, GroupForum groupForum, uint requesterId)
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal static SimpleServerMessageBuffer Compose(Group group, GroupForum groupForum, uint requesterId)
         {
             string string1 = string.Empty, string2 = string.Empty, string3 = string.Empty, string4 = string.Empty;
 
-            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("GroupForumDataMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("GroupForumDataMessageComposer"));
 
-            message.AppendInteger(group.Id);
-            message.AppendString(group.Name);
-            message.AppendString(group.Description);
-            message.AppendString(group.Badge);
-            message.AppendInteger(0);
-            message.AppendInteger(0);
-            message.AppendInteger(groupForum.ForumMessagesCount);
-            message.AppendInteger(0);
-            message.AppendInteger(0);
-            message.AppendInteger(groupForum.ForumLastPosterId);
-            message.AppendString(groupForum.ForumLastPosterName);
-            message.AppendInteger(groupForum.ForumLastPostTime);
-            message.AppendInteger(groupForum.WhoCanRead);
-            message.AppendInteger(groupForum.WhoCanPost);
-            message.AppendInteger(groupForum.WhoCanThread);
-            message.AppendInteger(groupForum.WhoCanMod);
+            messageBuffer.AppendInteger(group.Id);
+            messageBuffer.AppendString(group.Name);
+            messageBuffer.AppendString(group.Description);
+            messageBuffer.AppendString(group.Badge);
+            messageBuffer.AppendInteger(0);
+            messageBuffer.AppendInteger(0);
+            messageBuffer.AppendInteger(groupForum.ForumMessagesCount);
+            messageBuffer.AppendInteger(0);
+            messageBuffer.AppendInteger(0);
+            messageBuffer.AppendInteger(groupForum.ForumLastPosterId);
+            messageBuffer.AppendString(groupForum.ForumLastPosterName);
+            messageBuffer.AppendInteger(groupForum.ForumLastPostTime);
+            messageBuffer.AppendInteger(groupForum.WhoCanRead);
+            messageBuffer.AppendInteger(groupForum.WhoCanPost);
+            messageBuffer.AppendInteger(groupForum.WhoCanThread);
+            messageBuffer.AppendInteger(groupForum.WhoCanMod);
 
             if (groupForum.WhoCanRead == 1 && !group.Members.ContainsKey(requesterId))
                 string1 = "not_member";
@@ -84,15 +85,15 @@ namespace Yupi.Emulator.Game.Groups.Composers
             if (groupForum.WhoCanMod == 3 && requesterId != group.CreatorId)
                 string4 = "not_owner";
 
-            message.AppendString(string1);
-            message.AppendString(string2);
-            message.AppendString(string3);
-            message.AppendString(string4);
-            message.AppendString(string.Empty);
-            message.AppendBool(requesterId == group.CreatorId);
-            message.AppendBool(true);
+            messageBuffer.AppendString(string1);
+            messageBuffer.AppendString(string2);
+            messageBuffer.AppendString(string3);
+            messageBuffer.AppendString(string4);
+            messageBuffer.AppendString(string.Empty);
+            messageBuffer.AppendBool(requesterId == group.CreatorId);
+            messageBuffer.AppendBool(true);
 
-            return message;
+            return messageBuffer;
         }
     }
 }

@@ -23,6 +23,7 @@ using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Rooms.User;
 using Yupi.Emulator.Game.Rooms.User.Trade;
 using Yupi.Emulator.Game.Users;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Enums;
 using Yupi.Emulator.Messages.Parsers;
 
@@ -586,7 +587,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
             if (!room.GetRoomItemHandler().SetFloorItem(Session, item, x, y, rot, false, false, true, true, false))
             {
-                ServerMessage message3 = new ServerMessage(PacketLibraryManager.OutgoingRequest("UpdateRoomItemMessageComposer"));
+                SimpleServerMessageBuffer message3 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UpdateRoomItemMessageComposer"));
                 item.Serialize(message3);
                 room.SendMessage(message3);
 
@@ -653,9 +654,9 @@ namespace Yupi.Emulator.Messages.Handlers
 
             room.GetRoomItemHandler().AddOrUpdateItem(id);
 
-            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("UpdateRoomWallItemMessageComposer"));
-            item.Serialize(message);
-            room.SendMessage(message);
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UpdateRoomWallItemMessageComposer"));
+            item.Serialize(messageBuffer);
+            room.SendMessage(messageBuffer);
         }
 
         internal void TriggerItem()
@@ -689,9 +690,9 @@ namespace Yupi.Emulator.Messages.Handlers
 
                     room.TonerData.Enabled = room.TonerData.Enabled == 0 ? 1 : 0;
 
-                    ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("UpdateRoomItemMessageComposer"));
-                    item.Serialize(message);
-                    room.SendMessage(message);
+                    SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UpdateRoomItemMessageComposer"));
+                    item.Serialize(messageBuffer);
+                    room.SendMessage(messageBuffer);
 
                     item.UpdateState();
 
@@ -838,9 +839,9 @@ namespace Yupi.Emulator.Messages.Handlers
 
             item.MagicRemove = true;
 
-            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("UpdateRoomItemMessageComposer"));
-            item.Serialize(message);
-            currentRoom.SendMessage(message);
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UpdateRoomItemMessageComposer"));
+            item.Serialize(messageBuffer);
+            currentRoom.SendMessage(messageBuffer);
 
             Session.GetHabbo().LastGiftOpenTime = DateTime.Now;
             IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor();
@@ -896,11 +897,11 @@ namespace Yupi.Emulator.Messages.Handlers
                     Response.AppendString(extraData);
                     SendResponse();
 
-                    ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("AddFloorItemMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("AddFloorItemMessageComposer"));
 
-                    item.Serialize(serverMessage);
-                    serverMessage.AppendString(currentRoom.RoomData.Owner);
-                    currentRoom.SendMessage(serverMessage);
+                    item.Serialize(simpleServerMessageBuffer);
+                    simpleServerMessageBuffer.AppendString(currentRoom.RoomData.Owner);
+                    currentRoom.SendMessage(simpleServerMessageBuffer);
 
                     currentRoom.GetRoomItemHandler().SetFloorItem(Session, item, item.X, item.Y, 0, true, false, true);
                 }
@@ -1052,9 +1053,9 @@ namespace Yupi.Emulator.Messages.Handlers
             room.TonerData.Data3 = num3;
             room.TonerData.Enabled = 1;
 
-            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("UpdateRoomItemMessageComposer"));
-            item.Serialize(message);
-            room.SendMessage(message);
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UpdateRoomItemMessageComposer"));
+            item.Serialize(messageBuffer);
+            room.SendMessage(messageBuffer);
 
             item.UpdateState();
         }
@@ -1117,10 +1118,10 @@ namespace Yupi.Emulator.Messages.Handlers
             {
                 totalZ = room.GetGameMap().SqAbsoluteHeight(item.X, item.Y);
 
-                ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("UpdateTileStackMagicHeight"));
-                message.AppendInteger(item.Id);
-                message.AppendInteger(Convert.ToUInt32(totalZ*100));
-                Session.SendMessage(message);
+                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UpdateTileStackMagicHeight"));
+                messageBuffer.AppendInteger(item.Id);
+                messageBuffer.AppendInteger(Convert.ToUInt32(totalZ*100));
+                Session.SendMessage(messageBuffer);
             }
             else
             {
@@ -1133,10 +1134,10 @@ namespace Yupi.Emulator.Messages.Handlers
                 {
                     totalZ = room.RoomData.Model.SqFloorHeight[item.X][item.Y];
 
-                    ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("UpdateTileStackMagicHeight"));
-                    message.AppendInteger(item.Id);
-                    message.AppendInteger(Convert.ToUInt32(totalZ*100));
-                    Session.SendMessage(message);
+                    SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UpdateTileStackMagicHeight"));
+                    messageBuffer.AppendInteger(item.Id);
+                    messageBuffer.AppendInteger(Convert.ToUInt32(totalZ*100));
+                    Session.SendMessage(messageBuffer);
                 }
             }
 
@@ -1378,7 +1379,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 roomUserOne.CanWalk = false;
                 roomUserTwo.CanWalk = false;
 
-                ServerMessage lockDialogue = new ServerMessage(PacketLibraryManager.OutgoingRequest("LoveLockDialogueMessageComposer"));
+                SimpleServerMessageBuffer lockDialogue = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("LoveLockDialogueMessageComposer"));
                 lockDialogue.AppendInteger(loveLock.Id);
                 lockDialogue.AppendBool(true);
 
@@ -1633,45 +1634,45 @@ namespace Yupi.Emulator.Messages.Handlers
                 pet.PetData.AnyoneCanRide = 1;
             }
 
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("PetInfoMessageComposer"));
-            serverMessage.AppendInteger(pet.PetData.PetId);
-            serverMessage.AppendString(pet.PetData.Name);
-            serverMessage.AppendInteger(pet.PetData.Level);
-            serverMessage.AppendInteger(20);
-            serverMessage.AppendInteger(pet.PetData.Experience);
-            serverMessage.AppendInteger(pet.PetData.ExperienceGoal);
-            serverMessage.AppendInteger(pet.PetData.Energy);
-            serverMessage.AppendInteger(100);
-            serverMessage.AppendInteger(pet.PetData.Nutrition);
-            serverMessage.AppendInteger(150);
-            serverMessage.AppendInteger(pet.PetData.Respect);
-            serverMessage.AppendInteger(pet.PetData.OwnerId);
-            serverMessage.AppendInteger(pet.PetData.Age);
-            serverMessage.AppendString(pet.PetData.OwnerName);
-            serverMessage.AppendInteger(1);
-            serverMessage.AppendBool(pet.PetData.HaveSaddle);
-            serverMessage.AppendBool(
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("PetInfoMessageComposer"));
+            simpleServerMessageBuffer.AppendInteger(pet.PetData.PetId);
+            simpleServerMessageBuffer.AppendString(pet.PetData.Name);
+            simpleServerMessageBuffer.AppendInteger(pet.PetData.Level);
+            simpleServerMessageBuffer.AppendInteger(20);
+            simpleServerMessageBuffer.AppendInteger(pet.PetData.Experience);
+            simpleServerMessageBuffer.AppendInteger(pet.PetData.ExperienceGoal);
+            simpleServerMessageBuffer.AppendInteger(pet.PetData.Energy);
+            simpleServerMessageBuffer.AppendInteger(100);
+            simpleServerMessageBuffer.AppendInteger(pet.PetData.Nutrition);
+            simpleServerMessageBuffer.AppendInteger(150);
+            simpleServerMessageBuffer.AppendInteger(pet.PetData.Respect);
+            simpleServerMessageBuffer.AppendInteger(pet.PetData.OwnerId);
+            simpleServerMessageBuffer.AppendInteger(pet.PetData.Age);
+            simpleServerMessageBuffer.AppendString(pet.PetData.OwnerName);
+            simpleServerMessageBuffer.AppendInteger(1);
+            simpleServerMessageBuffer.AppendBool(pet.PetData.HaveSaddle);
+            simpleServerMessageBuffer.AppendBool(
                 Yupi.GetGame()
                     .GetRoomManager()
                     .GetRoom(pet.PetData.RoomId)
                     .GetRoomUserManager()
                     .GetRoomUserByVirtualId(pet.PetData.VirtualId)
                     .RidingHorse);
-            serverMessage.AppendInteger(0);
-            serverMessage.AppendInteger(pet.PetData.AnyoneCanRide);
-            serverMessage.AppendInteger(0);
-            serverMessage.AppendInteger(0);
-            serverMessage.AppendInteger(0);
-            serverMessage.AppendInteger(0);
-            serverMessage.AppendInteger(0);
-            serverMessage.AppendInteger(0);
-            serverMessage.AppendString(string.Empty);
-            serverMessage.AppendBool(false);
-            serverMessage.AppendInteger(-1);
-            serverMessage.AppendInteger(-1);
-            serverMessage.AppendInteger(-1);
-            serverMessage.AppendBool(false);
-            room.SendMessage(serverMessage);
+            simpleServerMessageBuffer.AppendInteger(0);
+            simpleServerMessageBuffer.AppendInteger(pet.PetData.AnyoneCanRide);
+            simpleServerMessageBuffer.AppendInteger(0);
+            simpleServerMessageBuffer.AppendInteger(0);
+            simpleServerMessageBuffer.AppendInteger(0);
+            simpleServerMessageBuffer.AppendInteger(0);
+            simpleServerMessageBuffer.AppendInteger(0);
+            simpleServerMessageBuffer.AppendInteger(0);
+            simpleServerMessageBuffer.AppendString(string.Empty);
+            simpleServerMessageBuffer.AppendBool(false);
+            simpleServerMessageBuffer.AppendInteger(-1);
+            simpleServerMessageBuffer.AppendInteger(-1);
+            simpleServerMessageBuffer.AppendInteger(-1);
+            simpleServerMessageBuffer.AppendBool(false);
+            room.SendMessage(simpleServerMessageBuffer);
         }
 
         internal void AddSaddle()
@@ -1783,46 +1784,46 @@ namespace Yupi.Emulator.Messages.Handlers
                 }
                 IL_40C:
                 room.GetRoomItemHandler().RemoveFurniture(Session, item.Id, false);
-                ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("SetRoomUserMessageComposer"));
-                serverMessage.AppendInteger(1);
-                pet.Serialize(serverMessage, false);
-                room.SendMessage(serverMessage);
+                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("SetRoomUserMessageComposer"));
+                simpleServerMessageBuffer.AppendInteger(1);
+                pet.Serialize(simpleServerMessageBuffer, false);
+                room.SendMessage(simpleServerMessageBuffer);
                 if (isForHorse)
                 {
-                    ServerMessage serverMessage2 = new ServerMessage(PacketLibraryManager.OutgoingRequest("SerializePetMessageComposer"));
-                    serverMessage2.AppendInteger(pet.PetData.VirtualId);
-                    serverMessage2.AppendInteger(pet.PetData.PetId);
-                    serverMessage2.AppendInteger(pet.PetData.RaceId);
-                    serverMessage2.AppendInteger(pet.PetData.Race);
-                    serverMessage2.AppendString(pet.PetData.Color.ToLower());
+                    SimpleServerMessageBuffer simpleServerMessage2 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("SerializePetMessageComposer"));
+                    simpleServerMessage2.AppendInteger(pet.PetData.VirtualId);
+                    simpleServerMessage2.AppendInteger(pet.PetData.PetId);
+                    simpleServerMessage2.AppendInteger(pet.PetData.RaceId);
+                    simpleServerMessage2.AppendInteger(pet.PetData.Race);
+                    simpleServerMessage2.AppendString(pet.PetData.Color.ToLower());
                     if (pet.PetData.HaveSaddle)
                     {
-                        serverMessage2.AppendInteger(2);
-                        serverMessage2.AppendInteger(3);
-                        serverMessage2.AppendInteger(4);
-                        serverMessage2.AppendInteger(9);
-                        serverMessage2.AppendInteger(0);
-                        serverMessage2.AppendInteger(3);
-                        serverMessage2.AppendInteger(pet.PetData.PetHair);
-                        serverMessage2.AppendInteger(pet.PetData.HairDye);
-                        serverMessage2.AppendInteger(3);
-                        serverMessage2.AppendInteger(pet.PetData.PetHair);
-                        serverMessage2.AppendInteger(pet.PetData.HairDye);
+                        simpleServerMessage2.AppendInteger(2);
+                        simpleServerMessage2.AppendInteger(3);
+                        simpleServerMessage2.AppendInteger(4);
+                        simpleServerMessage2.AppendInteger(9);
+                        simpleServerMessage2.AppendInteger(0);
+                        simpleServerMessage2.AppendInteger(3);
+                        simpleServerMessage2.AppendInteger(pet.PetData.PetHair);
+                        simpleServerMessage2.AppendInteger(pet.PetData.HairDye);
+                        simpleServerMessage2.AppendInteger(3);
+                        simpleServerMessage2.AppendInteger(pet.PetData.PetHair);
+                        simpleServerMessage2.AppendInteger(pet.PetData.HairDye);
                     }
                     else
                     {
-                        serverMessage2.AppendInteger(1);
-                        serverMessage2.AppendInteger(2);
-                        serverMessage2.AppendInteger(2);
-                        serverMessage2.AppendInteger(pet.PetData.PetHair);
-                        serverMessage2.AppendInteger(pet.PetData.HairDye);
-                        serverMessage2.AppendInteger(3);
-                        serverMessage2.AppendInteger(pet.PetData.PetHair);
-                        serverMessage2.AppendInteger(pet.PetData.HairDye);
+                        simpleServerMessage2.AppendInteger(1);
+                        simpleServerMessage2.AppendInteger(2);
+                        simpleServerMessage2.AppendInteger(2);
+                        simpleServerMessage2.AppendInteger(pet.PetData.PetHair);
+                        simpleServerMessage2.AppendInteger(pet.PetData.HairDye);
+                        simpleServerMessage2.AppendInteger(3);
+                        simpleServerMessage2.AppendInteger(pet.PetData.PetHair);
+                        simpleServerMessage2.AppendInteger(pet.PetData.HairDye);
                     }
-                    serverMessage2.AppendBool(pet.PetData.HaveSaddle);
-                    serverMessage2.AppendBool(pet.RidingHorse);
-                    room.SendMessage(serverMessage2);
+                    simpleServerMessage2.AppendBool(pet.PetData.HaveSaddle);
+                    simpleServerMessage2.AppendBool(pet.RidingHorse);
+                    room.SendMessage(simpleServerMessage2);
                 }
             }
         }
@@ -1854,28 +1855,28 @@ namespace Yupi.Emulator.Messages.Handlers
 
             Session.GetHabbo().GetInventoryComponent().UpdateItems(true);
 
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("SetRoomUserMessageComposer"));
-            serverMessage.AppendInteger(1);
-            pet.Serialize(serverMessage, false);
-            room.SendMessage(serverMessage);
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("SetRoomUserMessageComposer"));
+            simpleServerMessageBuffer.AppendInteger(1);
+            pet.Serialize(simpleServerMessageBuffer, false);
+            room.SendMessage(simpleServerMessageBuffer);
 
-            ServerMessage serverMessage2 = new ServerMessage(PacketLibraryManager.OutgoingRequest("SerializePetMessageComposer"));
-            serverMessage2.AppendInteger(pet.PetData.VirtualId);
-            serverMessage2.AppendInteger(pet.PetData.PetId);
-            serverMessage2.AppendInteger(pet.PetData.RaceId);
-            serverMessage2.AppendInteger(pet.PetData.Race);
-            serverMessage2.AppendString(pet.PetData.Color.ToLower());
-            serverMessage2.AppendInteger(1);
-            serverMessage2.AppendInteger(2);
-            serverMessage2.AppendInteger(2);
-            serverMessage2.AppendInteger(pet.PetData.PetHair);
-            serverMessage2.AppendInteger(pet.PetData.HairDye);
-            serverMessage2.AppendInteger(3);
-            serverMessage2.AppendInteger(pet.PetData.PetHair);
-            serverMessage2.AppendInteger(pet.PetData.HairDye);
-            serverMessage2.AppendBool(pet.PetData.HaveSaddle);
-            serverMessage2.AppendBool(pet.RidingHorse);
-            room.SendMessage(serverMessage2);
+            SimpleServerMessageBuffer simpleServerMessage2 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("SerializePetMessageComposer"));
+            simpleServerMessage2.AppendInteger(pet.PetData.VirtualId);
+            simpleServerMessage2.AppendInteger(pet.PetData.PetId);
+            simpleServerMessage2.AppendInteger(pet.PetData.RaceId);
+            simpleServerMessage2.AppendInteger(pet.PetData.Race);
+            simpleServerMessage2.AppendString(pet.PetData.Color.ToLower());
+            simpleServerMessage2.AppendInteger(1);
+            simpleServerMessage2.AppendInteger(2);
+            simpleServerMessage2.AppendInteger(2);
+            simpleServerMessage2.AppendInteger(pet.PetData.PetHair);
+            simpleServerMessage2.AppendInteger(pet.PetData.HairDye);
+            simpleServerMessage2.AppendInteger(3);
+            simpleServerMessage2.AppendInteger(pet.PetData.PetHair);
+            simpleServerMessage2.AppendInteger(pet.PetData.HairDye);
+            simpleServerMessage2.AppendBool(pet.PetData.HaveSaddle);
+            simpleServerMessage2.AppendBool(pet.RidingHorse);
+            room.SendMessage(simpleServerMessage2);
         }
 
         internal void CancelMountOnPet()
@@ -2069,26 +2070,26 @@ namespace Yupi.Emulator.Messages.Handlers
                     Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(clientByUserId, "ACH_HorseRent", 1);
             }
 
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("SerializePetMessageComposer"));
-            serverMessage.AppendInteger(pet.PetData.VirtualId);
-            serverMessage.AppendInteger(pet.PetData.PetId);
-            serverMessage.AppendInteger(pet.PetData.RaceId);
-            serverMessage.AppendInteger(pet.PetData.Race);
-            serverMessage.AppendString(pet.PetData.Color.ToLower());
-            serverMessage.AppendInteger(2);
-            serverMessage.AppendInteger(3);
-            serverMessage.AppendInteger(4);
-            serverMessage.AppendInteger(9);
-            serverMessage.AppendInteger(0);
-            serverMessage.AppendInteger(3);
-            serverMessage.AppendInteger(pet.PetData.PetHair);
-            serverMessage.AppendInteger(pet.PetData.HairDye);
-            serverMessage.AppendInteger(3);
-            serverMessage.AppendInteger(pet.PetData.PetHair);
-            serverMessage.AppendInteger(pet.PetData.HairDye);
-            serverMessage.AppendBool(pet.PetData.HaveSaddle);
-            serverMessage.AppendBool(pet.RidingHorse);
-            room.SendMessage(serverMessage);
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("SerializePetMessageComposer"));
+            simpleServerMessageBuffer.AppendInteger(pet.PetData.VirtualId);
+            simpleServerMessageBuffer.AppendInteger(pet.PetData.PetId);
+            simpleServerMessageBuffer.AppendInteger(pet.PetData.RaceId);
+            simpleServerMessageBuffer.AppendInteger(pet.PetData.Race);
+            simpleServerMessageBuffer.AppendString(pet.PetData.Color.ToLower());
+            simpleServerMessageBuffer.AppendInteger(2);
+            simpleServerMessageBuffer.AppendInteger(3);
+            simpleServerMessageBuffer.AppendInteger(4);
+            simpleServerMessageBuffer.AppendInteger(9);
+            simpleServerMessageBuffer.AppendInteger(0);
+            simpleServerMessageBuffer.AppendInteger(3);
+            simpleServerMessageBuffer.AppendInteger(pet.PetData.PetHair);
+            simpleServerMessageBuffer.AppendInteger(pet.PetData.HairDye);
+            simpleServerMessageBuffer.AppendInteger(3);
+            simpleServerMessageBuffer.AppendInteger(pet.PetData.PetHair);
+            simpleServerMessageBuffer.AppendInteger(pet.PetData.HairDye);
+            simpleServerMessageBuffer.AppendBool(pet.PetData.HaveSaddle);
+            simpleServerMessageBuffer.AppendBool(pet.RidingHorse);
+            room.SendMessage(simpleServerMessageBuffer);
         }
 
         internal void SaveWired()
@@ -2136,14 +2137,14 @@ namespace Yupi.Emulator.Messages.Handlers
             item.ExtraData = video;
             item.UpdateState();
 
-            ServerMessage serverMessage = new ServerMessage();
-            serverMessage.Init(PacketLibraryManager.OutgoingRequest("YouTubeLoadVideoMessageComposer"));
-            serverMessage.AppendInteger(num);
-            serverMessage.AppendString(video);
-            serverMessage.AppendInteger(0);
-            serverMessage.AppendInteger(0);
-            serverMessage.AppendInteger(0);
-            Response = serverMessage;
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
+            simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingRequest("YouTubeLoadVideoMessageComposer"));
+            simpleServerMessageBuffer.AppendInteger(num);
+            simpleServerMessageBuffer.AppendString(video);
+            simpleServerMessageBuffer.AppendInteger(0);
+            simpleServerMessageBuffer.AppendInteger(0);
+            simpleServerMessageBuffer.AppendInteger(0);
+            Response = simpleServerMessageBuffer;
 
             SendResponse();
         }
@@ -2315,10 +2316,10 @@ namespace Yupi.Emulator.Messages.Handlers
 
                 actualRoom.GetRoomItemHandler().FloorItems.TryAdd(newItem.Id, newItem);
 
-                ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("AddFloorItemMessageComposer"));
-                newItem.Serialize(message);
-                message.AppendString(Session.GetHabbo().UserName);
-                actualRoom.SendMessage(message);
+                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("AddFloorItemMessageComposer"));
+                newItem.Serialize(messageBuffer);
+                messageBuffer.AppendString(Session.GetHabbo().UserName);
+                actualRoom.SendMessage(messageBuffer);
                 actualRoom.GetGameMap().AddItemToMap(newItem);
             }
         }
@@ -2353,10 +2354,10 @@ namespace Yupi.Emulator.Messages.Handlers
 
                 actualRoom.GetRoomItemHandler().WallItems.TryAdd(newItem.Id, newItem);
 
-                ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("AddWallItemMessageComposer"));
-                newItem.Serialize(message);
-                message.AppendString(Session.GetHabbo().UserName);
-                Session.SendMessage(message);
+                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("AddWallItemMessageComposer"));
+                newItem.Serialize(messageBuffer);
+                messageBuffer.AppendString(Session.GetHabbo().UserName);
+                Session.SendMessage(messageBuffer);
                 actualRoom.GetGameMap().AddItemToMap(newItem);
             }
         }
@@ -2366,10 +2367,10 @@ namespace Yupi.Emulator.Messages.Handlers
             if (Session.GetHabbo().BuildersItemsUsed < 0)
                 Session.GetHabbo().BuildersItemsUsed = 0;
 
-            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("BuildersClubUpdateFurniCountMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("BuildersClubUpdateFurniCountMessageComposer"));
 
-            message.AppendInteger(Session.GetHabbo().BuildersItemsUsed);
-            Session.SendMessage(message);
+            messageBuffer.AppendInteger(Session.GetHabbo().BuildersItemsUsed);
+            Session.SendMessage(messageBuffer);
         }
 
         internal void ConfirmLoveLock()
@@ -2427,7 +2428,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 return;
             }
 
-            ServerMessage loock = new ServerMessage(PacketLibraryManager.OutgoingRequest("LoveLockDialogueSetLockedMessageComposer"));
+            SimpleServerMessageBuffer loock = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("LoveLockDialogueSetLockedMessageComposer"));
             loock.AppendInteger(item.Id);
 
             if (userIdOne == Session.GetHabbo().Id)
@@ -2461,11 +2462,11 @@ namespace Yupi.Emulator.Messages.Handlers
                 queryReactor.RunQuery();
             }
 
-            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("UpdateRoomItemMessageComposer"));
-            item.Serialize(message);
-            room.SendMessage(message);
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UpdateRoomItemMessageComposer"));
+            item.Serialize(messageBuffer);
+            room.SendMessage(messageBuffer);
 
-            loock = new ServerMessage(PacketLibraryManager.OutgoingRequest("LoveLockDialogueCloseMessageComposer"));
+            loock = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("LoveLockDialogueCloseMessageComposer"));
             loock.AppendInteger(item.Id);
             userOne.GetClient().SendMessage(loock);
             userTwo.GetClient().SendMessage(loock);
@@ -2519,9 +2520,9 @@ namespace Yupi.Emulator.Messages.Handlers
                 queryReactor.RunQuery();
             }
 
-            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("UpdateRoomItemMessageComposer"));
-            item.Serialize(message);
-            Session.SendMessage(message);
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UpdateRoomItemMessageComposer"));
+            item.Serialize(messageBuffer);
+            Session.SendMessage(messageBuffer);
         }
 
         internal void SaveMannequin()

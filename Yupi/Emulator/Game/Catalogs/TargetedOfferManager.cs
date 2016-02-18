@@ -27,6 +27,7 @@ using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Emulator.Game.Catalogs.Composers;
 using Yupi.Emulator.Game.Catalogs.Interfaces;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Catalogs
 {
@@ -59,7 +60,7 @@ namespace Yupi.Emulator.Game.Catalogs
             }
         }
 
-        public void GenerateMessage(ServerMessage message)
-            => TargetedOfferComposer.GenerateMessage(message, CurrentOffer);
+        public void GenerateMessage(SimpleServerMessageBuffer messageBuffer)
+            => TargetedOfferComposer.GenerateMessage(messageBuffer, CurrentOffer);
     }
 }

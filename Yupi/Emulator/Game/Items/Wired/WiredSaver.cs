@@ -7,13 +7,14 @@ using Yupi.Emulator.Game.Items.Interfaces;
 using Yupi.Emulator.Game.Items.Wired.Interfaces;
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Items.Wired
 {
     public static class WiredSaver
     {
-        public static void SaveWired(GameClient session, RoomItem item, ClientMessage request)
+        public static void SaveWired(GameClient session, RoomItem item, SimpleClientMessageBuffer request)
         {
             if (item == null || !item.IsWired)
                 return;
@@ -491,10 +492,10 @@ namespace Yupi.Emulator.Game.Items.Wired
                 }
             }
 
-            session.SendMessage(new ServerMessage(PacketLibraryManager.OutgoingRequest("SaveWiredMessageComposer")));
+            session.SendMessage(new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("SaveWiredMessageComposer")));
         }
 
-        private static List<RoomItem> GetFurniItems(ClientMessage request, Room room)
+        private static List<RoomItem> GetFurniItems(SimpleClientMessageBuffer request, Room room)
         {
             List<RoomItem> list = new List<RoomItem>();
             int itemCount = request.GetInteger();

@@ -4,6 +4,7 @@ using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Items.Interfaces;
 using Yupi.Emulator.Game.SoundMachine.Songs;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.SoundMachine.Composers
@@ -17,23 +18,23 @@ namespace Yupi.Emulator.Game.SoundMachine.Composers
         ///     Composes the specified songs.
         /// </summary>
         /// <param name="songs">The songs.</param>
-        /// <returns>ServerMessage.</returns>
-        public static ServerMessage Compose(List<SongData> songs)
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        public static SimpleServerMessageBuffer Compose(List<SongData> songs)
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("SongsMessageComposer"));
-            serverMessage.AppendInteger(songs.Count);
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("SongsMessageComposer"));
+            simpleServerMessageBuffer.AppendInteger(songs.Count);
 
             foreach (SongData current in songs)
             {
-                serverMessage.AppendInteger(current.Id);
-                serverMessage.AppendString(current.CodeName);
-                serverMessage.AppendString(current.Name);
-                serverMessage.AppendString(current.Data);
-                serverMessage.AppendInteger(current.LengthMiliseconds);
-                serverMessage.AppendString(current.Artist);
+                simpleServerMessageBuffer.AppendInteger(current.Id);
+                simpleServerMessageBuffer.AppendString(current.CodeName);
+                simpleServerMessageBuffer.AppendString(current.Name);
+                simpleServerMessageBuffer.AppendString(current.Data);
+                simpleServerMessageBuffer.AppendInteger(current.LengthMiliseconds);
+                simpleServerMessageBuffer.AppendString(current.Artist);
             }
 
-            return serverMessage;
+            return simpleServerMessageBuffer;
         }
 
         /// <summary>
@@ -42,37 +43,37 @@ namespace Yupi.Emulator.Game.SoundMachine.Composers
         /// <param name="songId">The song identifier.</param>
         /// <param name="playlistItemNumber">The playlist item number.</param>
         /// <param name="syncTimestampMs">The synchronize timestamp ms.</param>
-        /// <returns>ServerMessage.</returns>
-        public static ServerMessage ComposePlayingComposer(uint songId, int playlistItemNumber, int syncTimestampMs)
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        public static SimpleServerMessageBuffer ComposePlayingComposer(uint songId, int playlistItemNumber, int syncTimestampMs)
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("JukeboxNowPlayingMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("JukeboxNowPlayingMessageComposer"));
 
             if (songId == 0u)
             {
-                serverMessage.AppendInteger(-1);
-                serverMessage.AppendInteger(-1);
-                serverMessage.AppendInteger(-1);
-                serverMessage.AppendInteger(-1);
-                serverMessage.AppendInteger(0);
+                simpleServerMessageBuffer.AppendInteger(-1);
+                simpleServerMessageBuffer.AppendInteger(-1);
+                simpleServerMessageBuffer.AppendInteger(-1);
+                simpleServerMessageBuffer.AppendInteger(-1);
+                simpleServerMessageBuffer.AppendInteger(0);
             }
             else
             {
-                serverMessage.AppendInteger(songId);
-                serverMessage.AppendInteger(playlistItemNumber);
-                serverMessage.AppendInteger(songId);
-                serverMessage.AppendInteger(0);
-                serverMessage.AppendInteger(syncTimestampMs);
+                simpleServerMessageBuffer.AppendInteger(songId);
+                simpleServerMessageBuffer.AppendInteger(playlistItemNumber);
+                simpleServerMessageBuffer.AppendInteger(songId);
+                simpleServerMessageBuffer.AppendInteger(0);
+                simpleServerMessageBuffer.AppendInteger(syncTimestampMs);
             }
 
-            return serverMessage;
+            return simpleServerMessageBuffer;
         }
 
         /// <summary>
         ///     Composes the specified session.
         /// </summary>
         /// <param name="session">The session.</param>
-        /// <returns>ServerMessage.</returns>
-        internal static ServerMessage Compose(GameClient session)
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal static SimpleServerMessageBuffer Compose(GameClient session)
             => session.GetHabbo().GetInventoryComponent().SerializeMusicDiscs();
 
         /// <summary>
@@ -80,21 +81,21 @@ namespace Yupi.Emulator.Game.SoundMachine.Composers
         /// </summary>
         /// <param name="playlistCapacity">The playlist capacity.</param>
         /// <param name="playlist">The playlist.</param>
-        /// <returns>ServerMessage.</returns>
-        internal static ServerMessage Compose(int playlistCapacity, List<SongInstance> playlist)
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal static SimpleServerMessageBuffer Compose(int playlistCapacity, List<SongInstance> playlist)
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("JukeboxPlaylistMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("JukeboxPlaylistMessageComposer"));
 
-            serverMessage.AppendInteger(playlistCapacity);
-            serverMessage.AppendInteger(playlist.Count);
+            simpleServerMessageBuffer.AppendInteger(playlistCapacity);
+            simpleServerMessageBuffer.AppendInteger(playlist.Count);
 
             foreach (SongInstance current in playlist)
             {
-                serverMessage.AppendInteger(current.DiskItem.ItemId);
-                serverMessage.AppendInteger(current.SongData.Id);
+                simpleServerMessageBuffer.AppendInteger(current.DiskItem.ItemId);
+                simpleServerMessageBuffer.AppendInteger(current.SongData.Id);
             }
 
-            return serverMessage;
+            return simpleServerMessageBuffer;
         }
 
         /// <summary>
@@ -103,67 +104,67 @@ namespace Yupi.Emulator.Game.SoundMachine.Composers
         /// <param name="songId">The song identifier.</param>
         /// <param name="playlistItemNumber">The playlist item number.</param>
         /// <param name="syncTimestampMs">The synchronize timestamp ms.</param>
-        /// <returns>ServerMessage.</returns>
-        internal static ServerMessage Compose(uint songId, int playlistItemNumber, int syncTimestampMs)
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal static SimpleServerMessageBuffer Compose(uint songId, int playlistItemNumber, int syncTimestampMs)
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("JukeboxNowPlayingMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("JukeboxNowPlayingMessageComposer"));
 
             if (songId == 0u)
             {
-                serverMessage.AppendInteger(-1);
-                serverMessage.AppendInteger(-1);
-                serverMessage.AppendInteger(-1);
-                serverMessage.AppendInteger(-1);
-                serverMessage.AppendInteger(0);
+                simpleServerMessageBuffer.AppendInteger(-1);
+                simpleServerMessageBuffer.AppendInteger(-1);
+                simpleServerMessageBuffer.AppendInteger(-1);
+                simpleServerMessageBuffer.AppendInteger(-1);
+                simpleServerMessageBuffer.AppendInteger(0);
             }
             else
             {
-                serverMessage.AppendInteger(songId);
-                serverMessage.AppendInteger(playlistItemNumber);
-                serverMessage.AppendInteger(songId);
-                serverMessage.AppendInteger(0);
-                serverMessage.AppendInteger(syncTimestampMs);
+                simpleServerMessageBuffer.AppendInteger(songId);
+                simpleServerMessageBuffer.AppendInteger(playlistItemNumber);
+                simpleServerMessageBuffer.AppendInteger(songId);
+                simpleServerMessageBuffer.AppendInteger(0);
+                simpleServerMessageBuffer.AppendInteger(syncTimestampMs);
             }
 
-            return serverMessage;
+            return simpleServerMessageBuffer;
         }
 
         /// <summary>
         ///     Serializes the song inventory.
         /// </summary>
         /// <param name="songs">The songs.</param>
-        /// <returns>ServerMessage.</returns>
-        internal static ServerMessage SerializeSongInventory(HybridDictionary songs)
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal static SimpleServerMessageBuffer SerializeSongInventory(HybridDictionary songs)
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("SongsLibraryMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("SongsLibraryMessageComposer"));
 
             if (songs == null)
             {
-                serverMessage.AppendInteger(0);
+                simpleServerMessageBuffer.AppendInteger(0);
 
-                return serverMessage;
+                return simpleServerMessageBuffer;
             }
 
-            serverMessage.StartArray();
+            simpleServerMessageBuffer.StartArray();
 
             foreach (UserItem userItem in songs.Values)
             {
                 if (userItem == null)
                 {
-                    serverMessage.Clear();
+                    simpleServerMessageBuffer.Clear();
                     continue;
                 }
 
-                serverMessage.AppendInteger(userItem.Id);
+                simpleServerMessageBuffer.AppendInteger(userItem.Id);
 
                 SongData song = SoundMachineSongManager.GetSong(userItem.SongCode);
-                serverMessage.AppendInteger(song?.Id ?? 0);
+                simpleServerMessageBuffer.AppendInteger(song?.Id ?? 0);
 
-                serverMessage.SaveArray();
+                simpleServerMessageBuffer.SaveArray();
             }
 
-            serverMessage.EndArray();
-            return serverMessage;
+            simpleServerMessageBuffer.EndArray();
+            return simpleServerMessageBuffer;
         }
     }
 }

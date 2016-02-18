@@ -8,6 +8,7 @@ using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Rooms.User;
 using Yupi.Emulator.Game.Users;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Commands.Controllers
@@ -49,16 +50,16 @@ namespace Yupi.Emulator.Game.Commands.Controllers
         {
             if (poll == null || poll.Type != PollType.Matching)
                 return;
-            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("MatchingPollMessageComposer"));
-            message.AppendString("MATCHING_POLL");
-            message.AppendInteger(poll.Id);
-            message.AppendInteger(poll.Id);
-            message.AppendInteger(15580);
-            message.AppendInteger(poll.Id);
-            message.AppendInteger(29);
-            message.AppendInteger(5);
-            message.AppendString(poll.PollName);
-            client.GetHabbo().CurrentRoom.SendMessage(message);
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("MatchingPollMessageComposer"));
+            messageBuffer.AppendString("MATCHING_POLL");
+            messageBuffer.AppendInteger(poll.Id);
+            messageBuffer.AppendInteger(poll.Id);
+            messageBuffer.AppendInteger(15580);
+            messageBuffer.AppendInteger(poll.Id);
+            messageBuffer.AppendInteger(29);
+            messageBuffer.AppendInteger(5);
+            messageBuffer.AppendString(poll.PollName);
+            client.GetHabbo().CurrentRoom.SendMessage(messageBuffer);
         }
 
         internal static void MatchingPollResults(GameClient client, Poll poll)
@@ -77,8 +78,8 @@ namespace Yupi.Emulator.Game.Commands.Controllers
                     Habbo user = Yupi.GetHabboById(roomUser.UserId);
                     if (user.AnsweredPool)
                     {
-                        ServerMessage result =
-                            new ServerMessage(PacketLibraryManager.OutgoingRequest("MatchingPollResultMessageComposer"));
+                        SimpleServerMessageBuffer result =
+                            new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("MatchingPollResultMessageComposer"));
                         result.AppendInteger(poll.Id);
                         result.AppendInteger(2);
                         result.AppendString("0");

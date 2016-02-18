@@ -6,6 +6,7 @@ using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Rooms.User;
 using Yupi.Emulator.Game.Users.Data.Models;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Users.Inventory.Components
@@ -64,24 +65,24 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// <summary>
         ///     Gets the packet.
         /// </summary>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage GetPacket()
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer GetPacket()
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("EffectsInventoryMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("EffectsInventoryMessageComposer"));
 
-            serverMessage.AppendInteger(_effects.Count);
+            simpleServerMessageBuffer.AppendInteger(_effects.Count);
 
             foreach (AvatarEffect current in _effects)
             {
-                serverMessage.AppendInteger(current.EffectId);
-                serverMessage.AppendInteger(current.Type);
-                serverMessage.AppendInteger(current.TotalDuration);
-                serverMessage.AppendInteger(0);
-                serverMessage.AppendInteger(current.TimeLeft);
-                serverMessage.AppendBool(current.TotalDuration == -1);
+                simpleServerMessageBuffer.AppendInteger(current.EffectId);
+                simpleServerMessageBuffer.AppendInteger(current.Type);
+                simpleServerMessageBuffer.AppendInteger(current.TotalDuration);
+                simpleServerMessageBuffer.AppendInteger(0);
+                simpleServerMessageBuffer.AppendInteger(current.TimeLeft);
+                simpleServerMessageBuffer.AppendBool(current.TotalDuration == -1);
             }
 
-            return serverMessage;
+            return simpleServerMessageBuffer;
         }
 
         /// <summary>
@@ -251,13 +252,13 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
             if (setAsCurrentEffect)
                 CurrentEffect = effectId;
 
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("ApplyEffectMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("ApplyEffectMessageComposer"));
 
-            serverMessage.AppendInteger(roomUserByHabbo.VirtualId);
-            serverMessage.AppendInteger(effectId);
-            serverMessage.AppendInteger(0);
+            simpleServerMessageBuffer.AppendInteger(roomUserByHabbo.VirtualId);
+            simpleServerMessageBuffer.AppendInteger(effectId);
+            simpleServerMessageBuffer.AppendInteger(0);
 
-            userRoom.SendMessage(serverMessage);
+            userRoom.SendMessage(simpleServerMessageBuffer);
         }
 
         /// <summary>

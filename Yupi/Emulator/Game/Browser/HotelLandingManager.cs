@@ -28,6 +28,7 @@ using System.Data;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Emulator.Game.Browser.Models;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Browser
 {
@@ -101,16 +102,16 @@ namespace Yupi.Emulator.Game.Browser
         /// <summary>
         ///     Smalls the promo composer.
         /// </summary>
-        /// <param name="message">The message.</param>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage SmallPromoComposer(ServerMessage message)
+        /// <param name="message">The messageBuffer.</param>
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer SmallPromoComposer(SimpleServerMessageBuffer messageBuffer)
         {
-            message.AppendInteger(HotelViewPromosIndexers.Count);
+            messageBuffer.AppendInteger(HotelViewPromosIndexers.Count);
 
             foreach (HotelLandingPromos current in HotelViewPromosIndexers)
-                current.Serialize(message);
+                current.Serialize(messageBuffer);
 
-            return message;
+            return messageBuffer;
         }
 
         /// <summary>

@@ -2,6 +2,7 @@ using System;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Emulator.Game.Items.Interfaces;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Items.Handlers
 {
@@ -39,7 +40,7 @@ namespace Yupi.Emulator.Game.Items.Handlers
             }
         }
 
-        internal ServerMessage GetServerMessage(ServerMessage message, RoomItem item)
+        internal SimpleServerMessageBuffer GetServerMessage(SimpleServerMessageBuffer messageBuffer, RoomItem item)
         {
             int cracks = 0;
             int cracksMax = MaxCracks(item.GetBaseItem().Name);
@@ -64,12 +65,12 @@ namespace Yupi.Emulator.Game.Items.Handlers
             else if (cracks >= cracksMax*1/7)
                 state = "2";
 
-            message.AppendInteger(7);
-            message.AppendString(state); //state (0-7)
-            message.AppendInteger(cracks); //actual
-            message.AppendInteger(cracksMax); //max
+            messageBuffer.AppendInteger(7);
+            messageBuffer.AppendString(state); //state (0-7)
+            messageBuffer.AppendInteger(cracks); //actual
+            messageBuffer.AppendInteger(cracksMax); //max
 
-            return message;
+            return messageBuffer;
         }
     }
 }

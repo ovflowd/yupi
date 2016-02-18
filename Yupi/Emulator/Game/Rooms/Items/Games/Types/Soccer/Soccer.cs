@@ -14,6 +14,7 @@ using Yupi.Emulator.Game.Rooms.Items.Games.Types.Soccer.Enums;
 using Yupi.Emulator.Game.Rooms.User;
 using Yupi.Emulator.Game.Rooms.User.Path;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Soccer
@@ -192,18 +193,18 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Soccer
             bool itemIsOnGameItem = GameItemOverlaps(item);
             double newZ = _room.GetGameMap().Model.SqFloorHeight[newX][newY];
 
-            ServerMessage mMessage = new ServerMessage();
-            mMessage.Init(PacketLibraryManager.OutgoingRequest("ItemAnimationMessageComposer")); // Cf
-            mMessage.AppendInteger(item.Coordinate.X);
-            mMessage.AppendInteger(item.Coordinate.Y);
-            mMessage.AppendInteger(newX);
-            mMessage.AppendInteger(newY);
-            mMessage.AppendInteger(1);
-            mMessage.AppendInteger(item.Id);
-            mMessage.AppendString(ServerUserChatTextHandler.GetString(item.Z));
-            mMessage.AppendString(ServerUserChatTextHandler.GetString(newZ));
-            mMessage.AppendInteger(item.Id);
-            _room.SendMessage(mMessage);
+            SimpleServerMessageBuffer mMessageBuffer = new SimpleServerMessageBuffer();
+            mMessageBuffer.Init(PacketLibraryManager.OutgoingRequest("ItemAnimationMessageComposer")); // Cf
+            mMessageBuffer.AppendInteger(item.Coordinate.X);
+            mMessageBuffer.AppendInteger(item.Coordinate.Y);
+            mMessageBuffer.AppendInteger(newX);
+            mMessageBuffer.AppendInteger(newY);
+            mMessageBuffer.AppendInteger(1);
+            mMessageBuffer.AppendInteger(item.Id);
+            mMessageBuffer.AppendString(ServerUserChatTextHandler.GetString(item.Z));
+            mMessageBuffer.AppendString(ServerUserChatTextHandler.GetString(newZ));
+            mMessageBuffer.AppendInteger(item.Id);
+            _room.SendMessage(mMessageBuffer);
 
             if (oldRoomCoord.X == newX && oldRoomCoord.Y == newY)
                 return false;
@@ -370,7 +371,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Soccer
         private void HandleFootballGameItems(Point ballItemCoord, RoomUser user)
         {
             if (user == null || _room == null || _room.GetGameManager() == null) return;
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("RoomUserActionMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("RoomUserActionMessageComposer"));
 
             if (_room.GetGameManager()
                 .GetItems(Team.Red)
@@ -395,9 +396,9 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Soccer
                 .Any(current8 => current8.X == ballItemCoord.X && current8.Y == ballItemCoord.Y))
                 _room.GetGameManager().AddPointToTeam(Team.Yellow, user);
 
-            serverMessage.AppendInteger(user.VirtualId);
-            serverMessage.AppendInteger(0);
-            user.GetClient().GetHabbo().CurrentRoom.SendMessage(serverMessage);
+            simpleServerMessageBuffer.AppendInteger(user.VirtualId);
+            simpleServerMessageBuffer.AppendInteger(0);
+            user.GetClient().GetHabbo().CurrentRoom.SendMessage(simpleServerMessageBuffer);
         }
     }
 }

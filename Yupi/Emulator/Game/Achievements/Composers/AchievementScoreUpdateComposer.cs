@@ -23,6 +23,7 @@
 */
 
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Achievements.Composers
@@ -36,14 +37,14 @@ namespace Yupi.Emulator.Game.Achievements.Composers
         ///     Composes the specified score.
         /// </summary>
         /// <param name="score">The score.</param>
-        /// <returns>ServerMessage.</returns>
-        internal static ServerMessage Compose(uint score)
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal static SimpleServerMessageBuffer Compose(uint score)
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("AchievementPointsMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("AchievementPointsMessageComposer"));
 
-            serverMessage.AppendInteger(score);
+            simpleServerMessageBuffer.AppendInteger(score);
 
-            return serverMessage;
+            return simpleServerMessageBuffer;
         }
     }
 }

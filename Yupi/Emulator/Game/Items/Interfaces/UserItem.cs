@@ -4,6 +4,7 @@ using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Emulator.Game.Groups.Structs;
 using Yupi.Emulator.Game.Items.Interactions.Enums;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Items.Interfaces
 {
@@ -85,46 +86,46 @@ namespace Yupi.Emulator.Game.Items.Interfaces
         /// <summary>
         ///     Serializes the wall.
         /// </summary>
-        /// <param name="message">The message.</param>
+        /// <param name="message">The messageBuffer.</param>
         /// <param name="inventory">if set to <c>true</c> [inventory].</param>
-        internal void SerializeWall(ServerMessage message, bool inventory)
+        internal void SerializeWall(SimpleServerMessageBuffer messageBuffer, bool inventory)
         {
-            message.AppendInteger(Id);
-            message.AppendString(BaseItem.Type.ToString().ToUpper());
-            message.AppendInteger(Id);
-            message.AppendInteger(BaseItem.SpriteId);
+            messageBuffer.AppendInteger(Id);
+            messageBuffer.AppendString(BaseItem.Type.ToString().ToUpper());
+            messageBuffer.AppendInteger(Id);
+            messageBuffer.AppendInteger(BaseItem.SpriteId);
 
             if (BaseItem.Name.Contains("a2") || BaseItem.Name == "floor")
-                message.AppendInteger(3);
+                messageBuffer.AppendInteger(3);
             else if (BaseItem.Name.Contains("wallpaper") && BaseItem.Name != "wildwest_wallpaper")
-                message.AppendInteger(2);
+                messageBuffer.AppendInteger(2);
             else if (BaseItem.Name.Contains("landscape"))
-                message.AppendInteger(4);
+                messageBuffer.AppendInteger(4);
             else
-                message.AppendInteger(1);
+                messageBuffer.AppendInteger(1);
 
-            message.AppendInteger(0);
-            message.AppendString(ExtraData);
-            message.AppendBool(BaseItem.AllowRecycle);
-            message.AppendBool(BaseItem.AllowTrade);
-            message.AppendBool(BaseItem.AllowInventoryStack);
-            message.AppendBool(false); //SELLABLE_ICON
-            message.AppendInteger(-1); //secondsToExpiration
-            message.AppendBool(true); //hasRentPeriodStarted
-            message.AppendInteger(-1); //flatId
+            messageBuffer.AppendInteger(0);
+            messageBuffer.AppendString(ExtraData);
+            messageBuffer.AppendBool(BaseItem.AllowRecycle);
+            messageBuffer.AppendBool(BaseItem.AllowTrade);
+            messageBuffer.AppendBool(BaseItem.AllowInventoryStack);
+            messageBuffer.AppendBool(false); //SELLABLE_ICON
+            messageBuffer.AppendInteger(-1); //secondsToExpiration
+            messageBuffer.AppendBool(true); //hasRentPeriodStarted
+            messageBuffer.AppendInteger(-1); //flatId
         }
 
         /// <summary>
         ///     Serializes the floor.
         /// </summary>
-        /// <param name="message">The message.</param>
+        /// <param name="message">The messageBuffer.</param>
         /// <param name="inventory">if set to <c>true</c> [inventory].</param>
-        internal void SerializeFloor(ServerMessage message, bool inventory)
+        internal void SerializeFloor(SimpleServerMessageBuffer messageBuffer, bool inventory)
         {
-            message.AppendInteger(Id);
-            message.AppendString(BaseItem.Type.ToString(CultureInfo.InvariantCulture).ToUpper());
-            message.AppendInteger(Id);
-            message.AppendInteger(BaseItem.SpriteId);
+            messageBuffer.AppendInteger(Id);
+            messageBuffer.AppendString(BaseItem.Type.ToString(CultureInfo.InvariantCulture).ToUpper());
+            messageBuffer.AppendInteger(Id);
+            messageBuffer.AppendInteger(BaseItem.SpriteId);
             int extraParam = 0;
 
             try
@@ -143,7 +144,7 @@ namespace Yupi.Emulator.Game.Items.Interfaces
                 extraParam = 1001;
             }
 
-            message.AppendInteger(extraParam);
+            messageBuffer.AppendInteger(extraParam);
 
             if (BaseItem.IsGroupItem)
             {
@@ -151,34 +152,34 @@ namespace Yupi.Emulator.Game.Items.Interfaces
 
                 if (group != null)
                 {
-                    message.AppendInteger(2);
-                    message.AppendInteger(5);
-                    message.AppendString(ExtraData);
-                    message.AppendString(group.Id.ToString(CultureInfo.InvariantCulture));
-                    message.AppendString(group.Badge);
-                    message.AppendString(Yupi.GetGame().GetGroupManager().GetGroupColour(group.Colour1, true));
-                    message.AppendString(Yupi.GetGame().GetGroupManager().GetGroupColour(group.Colour2, false));
+                    messageBuffer.AppendInteger(2);
+                    messageBuffer.AppendInteger(5);
+                    messageBuffer.AppendString(ExtraData);
+                    messageBuffer.AppendString(group.Id.ToString(CultureInfo.InvariantCulture));
+                    messageBuffer.AppendString(group.Badge);
+                    messageBuffer.AppendString(Yupi.GetGame().GetGroupManager().GetGroupColour(group.Colour1, true));
+                    messageBuffer.AppendString(Yupi.GetGame().GetGroupManager().GetGroupColour(group.Colour2, false));
                 }
                 else
                 {
-                    message.AppendInteger(0);
-                    message.AppendString(string.Empty);
+                    messageBuffer.AppendInteger(0);
+                    messageBuffer.AppendString(string.Empty);
                 }
             }
             else if (LimitedStack > 0)
             {
-                message.AppendString(string.Empty);
-                message.AppendBool(true);
-                message.AppendBool(false);
-                message.AppendString(ExtraData);
+                messageBuffer.AppendString(string.Empty);
+                messageBuffer.AppendBool(true);
+                messageBuffer.AppendBool(false);
+                messageBuffer.AppendString(ExtraData);
             }
             else if ((BaseItem.InteractionType == Interaction.Moplaseed) &&
                      (BaseItem.InteractionType == Interaction.RareMoplaSeed))
             {
-                message.AppendInteger(1);
-                message.AppendInteger(1);
-                message.AppendString("rarity");
-                message.AppendString(ExtraData);
+                messageBuffer.AppendInteger(1);
+                messageBuffer.AppendInteger(1);
+                messageBuffer.AppendString("rarity");
+                messageBuffer.AppendString(ExtraData);
             }
             else
             {
@@ -186,79 +187,79 @@ namespace Yupi.Emulator.Game.Items.Interfaces
                 {
                     case Interaction.BadgeDisplay:
                         string[] extra = ExtraData.Split('|');
-                        message.AppendInteger(2);
-                        message.AppendInteger(4);
-                        message.AppendString("0");
-                        message.AppendString(extra[0]);
-                        message.AppendString(extra.Length > 1 ? extra[1] : "");
-                        message.AppendString(extra.Length > 1 ? extra[2] : "");
+                        messageBuffer.AppendInteger(2);
+                        messageBuffer.AppendInteger(4);
+                        messageBuffer.AppendString("0");
+                        messageBuffer.AppendString(extra[0]);
+                        messageBuffer.AppendString(extra.Length > 1 ? extra[1] : "");
+                        messageBuffer.AppendString(extra.Length > 1 ? extra[2] : "");
                         break;
 
                     case Interaction.YoutubeTv:
-                        message.AppendInteger(1);
-                        message.AppendInteger(1);
-                        message.AppendString("THUMBNAIL_URL");
-                        message.AppendString(ExtraData);
+                        messageBuffer.AppendInteger(1);
+                        messageBuffer.AppendInteger(1);
+                        messageBuffer.AppendString("THUMBNAIL_URL");
+                        messageBuffer.AppendString(ExtraData);
                         break;
 
                     case Interaction.Mannequin:
-                        message.AppendInteger(1);
+                        messageBuffer.AppendInteger(1);
 
                         if (!ExtraData.Contains('\u0005'.ToString()))
                         {
-                            message.AppendInteger(3); // Count Of Values
-                            message.AppendString("GENDER");
-                            message.AppendString("M");
-                            message.AppendString("FIGURE");
-                            message.AppendString(string.Empty);
-                            message.AppendString("OUTFIT_NAME");
-                            message.AppendString(string.Empty);
+                            messageBuffer.AppendInteger(3); // Count Of Values
+                            messageBuffer.AppendString("GENDER");
+                            messageBuffer.AppendString("M");
+                            messageBuffer.AppendString("FIGURE");
+                            messageBuffer.AppendString(string.Empty);
+                            messageBuffer.AppendString("OUTFIT_NAME");
+                            messageBuffer.AppendString(string.Empty);
                         }
                         else
                         {
                             string[] extradatas = ExtraData.Split('\u0005');
 
-                            message.AppendInteger(3); // Count Of Values
-                            message.AppendString("GENDER");
-                            message.AppendString(extradatas[0]);
-                            message.AppendString("FIGURE");
-                            message.AppendString(extradatas[1]);
-                            message.AppendString("OUTFIT_NAME");
-                            message.AppendString(extradatas[2]);
+                            messageBuffer.AppendInteger(3); // Count Of Values
+                            messageBuffer.AppendString("GENDER");
+                            messageBuffer.AppendString(extradatas[0]);
+                            messageBuffer.AppendString("FIGURE");
+                            messageBuffer.AppendString(extradatas[1]);
+                            messageBuffer.AppendString("OUTFIT_NAME");
+                            messageBuffer.AppendString(extradatas[2]);
                         }
                         break;
 
                     default:
-                        message.AppendInteger(0);
+                        messageBuffer.AppendInteger(0);
                         if (!BaseItem.IsGroupItem)
-                            message.AppendString(ExtraData);
+                            messageBuffer.AppendString(ExtraData);
                         break;
                 }
             }
 
             if (LimitedSellId > 0)
             {
-                message.AppendInteger(LimitedSellId);
-                message.AppendInteger(LimitedStack);
+                messageBuffer.AppendInteger(LimitedSellId);
+                messageBuffer.AppendInteger(LimitedStack);
             }
 
-            /* message.AppendInteger((BaseItem.InteractionType == InteractionType.gift) ? 9 : 0);
-                message.AppendInteger(0);
-                message.AppendString((BaseItem.InteractionType == InteractionType.gift)
+            /* messageBuffer.AppendInteger((BaseItem.InteractionType == InteractionType.gift) ? 9 : 0);
+                messageBuffer.AppendInteger(0);
+                messageBuffer.AppendString((BaseItem.InteractionType == InteractionType.gift)
                     ? string.Empty
                     : ExtraData);*/
 
-            message.AppendBool(BaseItem.AllowRecycle);
-            message.AppendBool(BaseItem.AllowTrade);
-            message.AppendBool(LimitedSellId <= 0 && BaseItem.AllowInventoryStack);
-            message.AppendBool(false); // sellable
-            message.AppendInteger(-1); // expireTime
-            message.AppendBool(true); // hasRentPeriodStarted
-            message.AppendInteger(-1); // flatId
+            messageBuffer.AppendBool(BaseItem.AllowRecycle);
+            messageBuffer.AppendBool(BaseItem.AllowTrade);
+            messageBuffer.AppendBool(LimitedSellId <= 0 && BaseItem.AllowInventoryStack);
+            messageBuffer.AppendBool(false); // sellable
+            messageBuffer.AppendInteger(-1); // expireTime
+            messageBuffer.AppendBool(true); // hasRentPeriodStarted
+            messageBuffer.AppendInteger(-1); // flatId
 
             if (BaseItem.Type != 's') return;
-            message.AppendString(string.Empty); //slotId
-            message.AppendInteger(0);
+            messageBuffer.AppendString(string.Empty); //slotId
+            messageBuffer.AppendInteger(0);
         }
     }
 }

@@ -12,6 +12,7 @@ using Yupi.Emulator.Game.Items.Interfaces;
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Rooms.Data;
 using Yupi.Emulator.Game.Users;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 using Yupi.Emulator.Net.Web;
 
@@ -30,12 +31,12 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     The request
         /// </summary>
-        protected ClientMessage Request;
+        protected SimpleClientMessageBuffer Request;
 
         /// <summary>
         ///     The response
         /// </summary>
-        protected ServerMessage Response;
+        protected SimpleServerMessageBuffer Response;
 
         /// <summary>
         ///     The session
@@ -49,7 +50,7 @@ namespace Yupi.Emulator.Messages.Handlers
         internal GameClientMessageHandler(GameClient session)
         {
             Session = session;
-            Response = new ServerMessage();
+            Response = new SimpleServerMessageBuffer();
         }
 
         /// <summary>
@@ -64,8 +65,8 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Gets the response.
         /// </summary>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage GetResponse()
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer GetResponse()
         {
             return Response;
         }
@@ -82,7 +83,7 @@ namespace Yupi.Emulator.Messages.Handlers
         ///     Handles the request.
         /// </summary>
         /// <param name="request">The request.</param>
-        internal void HandleRequest(ClientMessage request)
+        internal void HandleRequest(SimpleClientMessageBuffer request)
         {
             Request = request;
 
@@ -370,9 +371,9 @@ namespace Yupi.Emulator.Messages.Handlers
                 }
             }
 
-            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("CameraPurchaseOk"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("CameraPurchaseOk"));
 
-            Session.SendMessage(message);
+            Session.SendMessage(messageBuffer);
         }
 
         /// <summary>
@@ -481,7 +482,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
             if (roomId == 0)
                 return;
-            ServerMessage roomFwd = new ServerMessage(PacketLibraryManager.OutgoingRequest("RoomForwardMessageComposer"));
+            SimpleServerMessageBuffer roomFwd = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("RoomForwardMessageComposer"));
             roomFwd.AppendInteger(roomId);
             Session.SendMessage(roomFwd);
         }
@@ -523,7 +524,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
                 WebManager.HttpPostJson(ServerExtraSettings.StoriesApiThumbnailServerUrl, outData);
 
-                ServerMessage thumb = new ServerMessage(PacketLibraryManager.OutgoingRequest("ThumbnailSuccessMessageComposer"));
+                SimpleServerMessageBuffer thumb = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("ThumbnailSuccessMessageComposer"));
 
                 thumb.AppendBool(true);
                 thumb.AppendBool(false);

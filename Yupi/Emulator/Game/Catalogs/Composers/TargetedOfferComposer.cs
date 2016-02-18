@@ -1,49 +1,50 @@
 ﻿using Yupi.Emulator.Game.Catalogs.Interfaces;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Catalogs.Composers
 {
     internal class TargetedOfferComposer
     {
-        internal static void GenerateMessage(ServerMessage message, TargetedOffer offer)
+        internal static void GenerateMessage(SimpleServerMessageBuffer messageBuffer, TargetedOffer offer)
         {
-            message.Init(PacketLibraryManager.OutgoingRequest("TargetedOfferMessageComposer"));
-            message.AppendInteger(1);
-            message.AppendInteger(offer.Id);
-            message.AppendString(offer.Identifier);
-            message.AppendString(offer.Identifier);
-            message.AppendInteger(offer.CostCredits);
+            messageBuffer.Init(PacketLibraryManager.OutgoingRequest("TargetedOfferMessageComposer"));
+            messageBuffer.AppendInteger(1);
+            messageBuffer.AppendInteger(offer.Id);
+            messageBuffer.AppendString(offer.Identifier);
+            messageBuffer.AppendString(offer.Identifier);
+            messageBuffer.AppendInteger(offer.CostCredits);
 
             if (offer.CostDiamonds > 0)
             {
-                message.AppendInteger(offer.CostDiamonds);
-                message.AppendInteger(105);
+                messageBuffer.AppendInteger(offer.CostDiamonds);
+                messageBuffer.AppendInteger(105);
             }
             else
             {
-                message.AppendInteger(offer.CostDuckets);
-                message.AppendInteger(0);
+                messageBuffer.AppendInteger(offer.CostDuckets);
+                messageBuffer.AppendInteger(0);
             }
 
-            message.AppendInteger(offer.PurchaseLimit);
+            messageBuffer.AppendInteger(offer.PurchaseLimit);
 
             int timeLeft = offer.ExpirationTime - Yupi.GetUnixTimeStamp();
 
-            message.AppendInteger(timeLeft);
-            message.AppendString(offer.Title);
-            message.AppendString(offer.Description);
-            message.AppendString(offer.Image);
-            message.AppendString(string.Empty);
-            message.StartArray();
+            messageBuffer.AppendInteger(timeLeft);
+            messageBuffer.AppendString(offer.Title);
+            messageBuffer.AppendString(offer.Description);
+            messageBuffer.AppendString(offer.Image);
+            messageBuffer.AppendString(string.Empty);
+            messageBuffer.StartArray();
 
             foreach (string product in offer.Products)
             {
-                message.AppendString(product);
-                message.SaveArray();
+                messageBuffer.AppendString(product);
+                messageBuffer.SaveArray();
             }
 
-            message.EndArray();
+            messageBuffer.EndArray();
         }
     }
 }

@@ -1,4 +1,5 @@
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Users.Messenger.Structs
 {
@@ -48,7 +49,7 @@ namespace Yupi.Emulator.Game.Users.Messenger.Structs
         ///     Serializes the specified request.
         /// </summary>
         /// <param name="request">The request.</param>
-        internal void Serialize(ServerMessage request)
+        internal void Serialize(SimpleServerMessageBuffer request)
         {
             request.AppendInteger(From);
             request.AppendString(_userName);

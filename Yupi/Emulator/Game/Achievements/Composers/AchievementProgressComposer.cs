@@ -24,6 +24,7 @@
 
 using Yupi.Emulator.Game.Achievements.Structs;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Achievements.Composers
@@ -41,27 +42,27 @@ namespace Yupi.Emulator.Game.Achievements.Composers
         /// <param name="targetLevelData">The target level data.</param>
         /// <param name="totalLevels">The total levels.</param>
         /// <param name="userData">The user data.</param>
-        /// <returns>ServerMessage.</returns>
-        internal static ServerMessage Compose(Achievement achievement, uint targetLevel,
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal static SimpleServerMessageBuffer Compose(Achievement achievement, uint targetLevel,
             AchievementLevel targetLevelData, uint totalLevels, UserAchievement userData)
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("AchievementProgressMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("AchievementProgressMessageComposer"));
 
-            serverMessage.AppendInteger(achievement.Id);
-            serverMessage.AppendInteger(targetLevel);
-            serverMessage.AppendString($"{achievement.GroupName}{targetLevel}");
-            serverMessage.AppendInteger(targetLevelData.Requirement);
-            serverMessage.AppendInteger(targetLevelData.Requirement);
-            serverMessage.AppendInteger(targetLevelData.RewardPixels);
-            serverMessage.AppendInteger(0);
-            serverMessage.AppendInteger(userData.Progress);
-            serverMessage.AppendBool(userData.Level >= totalLevels);
-            serverMessage.AppendString(achievement.Category);
-            serverMessage.AppendString(string.Empty);
-            serverMessage.AppendInteger(totalLevels);
-            serverMessage.AppendInteger(0);
+            simpleServerMessageBuffer.AppendInteger(achievement.Id);
+            simpleServerMessageBuffer.AppendInteger(targetLevel);
+            simpleServerMessageBuffer.AppendString($"{achievement.GroupName}{targetLevel}");
+            simpleServerMessageBuffer.AppendInteger(targetLevelData.Requirement);
+            simpleServerMessageBuffer.AppendInteger(targetLevelData.Requirement);
+            simpleServerMessageBuffer.AppendInteger(targetLevelData.RewardPixels);
+            simpleServerMessageBuffer.AppendInteger(0);
+            simpleServerMessageBuffer.AppendInteger(userData.Progress);
+            simpleServerMessageBuffer.AppendBool(userData.Level >= totalLevels);
+            simpleServerMessageBuffer.AppendString(achievement.Category);
+            simpleServerMessageBuffer.AppendString(string.Empty);
+            simpleServerMessageBuffer.AppendInteger(totalLevels);
+            simpleServerMessageBuffer.AppendInteger(0);
 
-            return serverMessage;
+            return simpleServerMessageBuffer;
         }
     }
 }

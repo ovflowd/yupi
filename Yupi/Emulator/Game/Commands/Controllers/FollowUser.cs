@@ -1,6 +1,7 @@
 ﻿using Yupi.Emulator.Game.Commands.Interfaces;
 using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Commands.Controllers
@@ -32,8 +33,8 @@ namespace Yupi.Emulator.Game.Commands.Controllers
             if (client.GetHabbo().CurrentRoom == null ||
                 client.GetHabbo().CurrentRoom == session.GetHabbo().CurrentRoom)
                 return false;
-            ServerMessage roomFwd =
-                new ServerMessage(PacketLibraryManager.OutgoingRequest("RoomForwardMessageComposer"));
+            SimpleServerMessageBuffer roomFwd =
+                new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("RoomForwardMessageComposer"));
             roomFwd.AppendInteger(client.GetHabbo().CurrentRoom.RoomId);
             session.SendMessage(roomFwd);
 

@@ -34,6 +34,7 @@ using Yupi.Emulator.Game.Groups.Structs;
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Users;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Groups
@@ -313,7 +314,7 @@ namespace Yupi.Emulator.Game.Groups
             return list;
         }
 
-        internal void AddGroupMemberIntoResponse(ServerMessage response, GroupMember member)
+        internal void AddGroupMemberIntoResponse(SimpleServerMessageBuffer response, GroupMember member)
         {
             response.AppendInteger(member.Rank == 2 ? 0 : member.Rank == 1 ? 1 : 2);
             response.AppendInteger(member.Id);
@@ -331,8 +332,8 @@ namespace Yupi.Emulator.Game.Groups
         /// <param name="session">The session.</param>
         /// <param name="searchVal">The search value.</param>
         /// <param name="page">The page.</param>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage SerializeGroupMembers(ServerMessage response, Group theGroup, uint reqType, GameClient session, string searchVal = "", int page = 0)
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer SerializeGroupMembers(SimpleServerMessageBuffer response, Group theGroup, uint reqType, GameClient session, string searchVal = "", int page = 0)
         {
             if (theGroup == null || session == null)
                 return null;
@@ -497,7 +498,7 @@ namespace Yupi.Emulator.Game.Groups
         /// <param name="response">The response.</param>
         /// <param name="session">The session.</param>
         /// <param name="newWindow">if set to <c>true</c> [new window].</param>
-        internal void SerializeGroupInfo(Group group, ServerMessage response, GameClient session, bool newWindow = false)
+        internal void SerializeGroupInfo(Group group, SimpleServerMessageBuffer response, GameClient session, bool newWindow = false)
         {
             if (group == null || session == null)
                 return;
@@ -545,7 +546,7 @@ namespace Yupi.Emulator.Game.Groups
         /// <param name="session">The session.</param>
         /// <param name="room">The room.</param>
         /// <param name="newWindow">if set to <c>true</c> [new window].</param>
-        internal void SerializeGroupInfo(Group group, ServerMessage response, GameClient session, Room room,
+        internal void SerializeGroupInfo(Group group, SimpleServerMessageBuffer response, GameClient session, Room room,
             bool newWindow = false)
         {
             if (room == null || group == null)

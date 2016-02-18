@@ -1,4 +1,5 @@
 ﻿using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Pets.Composers
@@ -7,10 +8,10 @@ namespace Yupi.Emulator.Game.Pets.Composers
     {
         internal static void GenerateMessage(Pet pet)
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("RespectPetMessageComposer"));
-            serverMessage.AppendInteger(pet.VirtualId);
-            serverMessage.AppendBool(true);
-            pet.Room.SendMessage(serverMessage);
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("RespectPetMessageComposer"));
+            simpleServerMessageBuffer.AppendInteger(pet.VirtualId);
+            simpleServerMessageBuffer.AppendBool(true);
+            pet.Room.SendMessage(simpleServerMessageBuffer);
         }
     }
 }

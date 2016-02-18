@@ -27,6 +27,7 @@ using Yupi.Emulator.Game.Rooms.Items.Games.Types.Freeze;
 using Yupi.Emulator.Game.Rooms.User.Path;
 using Yupi.Emulator.Game.Users.Inventory.Components;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Rooms.User
@@ -194,12 +195,12 @@ namespace Yupi.Emulator.Game.Rooms.User
             UpdateUserStatus(roomUser, false);
             roomUser.UpdateNeeded = true;
 
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("SetRoomUserMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("SetRoomUserMessageComposer"));
 
-            serverMessage.AppendInteger(1);
-            roomUser.Serialize(serverMessage, _userRoom.GetGameMap().GotPublicPool);
+            simpleServerMessageBuffer.AppendInteger(1);
+            roomUser.Serialize(simpleServerMessageBuffer, _userRoom.GetGameMap().GotPublicPool);
 
-            _userRoom.SendMessage(serverMessage);
+            _userRoom.SendMessage(simpleServerMessageBuffer);
 
             roomUser.BotAi.OnSelfEnterRoom();
 
@@ -223,10 +224,10 @@ namespace Yupi.Emulator.Game.Rooms.User
             else
                 _bots.Add(roomUser.BotData.BotId, roomUser);
 
-            serverMessage.Init(PacketLibraryManager.OutgoingRequest("DanceStatusMessageComposer"));
-            serverMessage.AppendInteger(roomUser.VirtualId);
-            serverMessage.AppendInteger(roomUser.BotData.DanceId);
-            _userRoom.SendMessage(serverMessage);
+            simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingRequest("DanceStatusMessageComposer"));
+            simpleServerMessageBuffer.AppendInteger(roomUser.VirtualId);
+            simpleServerMessageBuffer.AppendInteger(roomUser.BotData.DanceId);
+            _userRoom.SendMessage(simpleServerMessageBuffer);
             PetCount++;
 
             return roomUser;
@@ -291,9 +292,9 @@ namespace Yupi.Emulator.Game.Rooms.User
 
             roomUserByVirtualId.BotAi.OnSelfLeaveRoom(kicked);
 
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("UserLeftRoomMessageComposer"));
-            serverMessage.AppendString(roomUserByVirtualId.VirtualId.ToString());
-            _userRoom.SendMessage(serverMessage);
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UserLeftRoomMessageComposer"));
+            simpleServerMessageBuffer.AppendString(roomUserByVirtualId.VirtualId.ToString());
+            _userRoom.SendMessage(simpleServerMessageBuffer);
 
             RoomUser roomUser;
 
@@ -411,9 +412,9 @@ namespace Yupi.Emulator.Game.Rooms.User
                 }
                 else if (notifyClient)
                 {
-                    ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("UserIsPlayingFreezeMessageComposer"));
-                    serverMessage.AppendBool(roomUserByHabbo.Team != Team.None);
-                    roomUserByHabbo.GetClient().SendMessage(serverMessage);
+                    SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UserIsPlayingFreezeMessageComposer"));
+                    simpleServerMessageBuffer.AppendBool(roomUserByHabbo.Team != Team.None);
+                    roomUserByHabbo.GetClient().SendMessage(simpleServerMessageBuffer);
 
                     session.GetMessageHandler().GetResponse().Init(PacketLibraryManager.OutgoingRequest("OutOfRoomMessageComposer"));
                     session.GetMessageHandler().GetResponse().AppendShort(2);
@@ -499,9 +500,9 @@ namespace Yupi.Emulator.Game.Rooms.User
             _userRoom.GetGameMap().GameMap[user.X, user.Y] = user.SqState;
             _userRoom.GetGameMap().RemoveUserFromMap(user, new Point(user.X, user.Y));
 
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("UserLeftRoomMessageComposer"));
-            serverMessage.AppendString(user.VirtualId.ToString());
-            _userRoom.SendMessage(serverMessage);
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UserLeftRoomMessageComposer"));
+            simpleServerMessageBuffer.AppendString(user.VirtualId.ToString());
+            _userRoom.SendMessage(simpleServerMessageBuffer);
 
             OnRemove(junk);
         }
@@ -634,8 +635,8 @@ namespace Yupi.Emulator.Game.Rooms.User
         ///     Serializes the status updates.
         /// </summary>
         /// <param name="all">if set to <c>true</c> [all].</param>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage SerializeStatusUpdates(bool all)
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer SerializeStatusUpdates(bool all)
         {
             List<RoomUser> list = new List<RoomUser>();
 
@@ -655,14 +656,14 @@ namespace Yupi.Emulator.Game.Rooms.User
             if (!list.Any())
                 return null;
 
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("UpdateUserStatusMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UpdateUserStatusMessageComposer"));
 
-            serverMessage.AppendInteger(list.Count);
+            simpleServerMessageBuffer.AppendInteger(list.Count);
 
             foreach (RoomUser current2 in list)
-                current2.SerializeStatus(serverMessage);
+                current2.SerializeStatus(simpleServerMessageBuffer);
 
-            return serverMessage;
+            return simpleServerMessageBuffer;
         }
 
         /// <summary>
@@ -893,12 +894,12 @@ namespace Yupi.Emulator.Game.Rooms.User
 
                             if (!user.IsBot && !user.OnCampingTent)
                             {
-                                ServerMessage updateFloorServerMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("UpdateFloorItemExtraDataMessageComposer"));
+                                SimpleServerMessageBuffer updateFloorSimpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UpdateFloorItemExtraDataMessageComposer"));
 
-                                updateFloorServerMessage.AppendString(item.Id.ToString());
-                                updateFloorServerMessage.AppendInteger(0);
-                                updateFloorServerMessage.AppendString("1");
-                                user.GetClient().SendMessage(updateFloorServerMessage);
+                                updateFloorSimpleServerMessageBuffer.AppendString(item.Id.ToString());
+                                updateFloorSimpleServerMessageBuffer.AppendInteger(0);
+                                updateFloorSimpleServerMessageBuffer.AppendString("1");
+                                user.GetClient().SendMessage(updateFloorSimpleServerMessageBuffer);
 
                                 user.OnCampingTent = true;
                                 user.LastItem = item.Id;
@@ -966,9 +967,9 @@ namespace Yupi.Emulator.Game.Rooms.User
                                         user.Team = Team.None;
                                     }
 
-                                    ServerMessage isPlayingFreezeMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("UserIsPlayingFreezeMessageComposer"));
-                                    isPlayingFreezeMessage.AppendBool(user.Team != Team.None);
-                                    user.GetClient().SendMessage(isPlayingFreezeMessage);
+                                    SimpleServerMessageBuffer isPlayingFreezeMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UserIsPlayingFreezeMessageComposer"));
+                                    isPlayingFreezeMessageBuffer.AppendBool(user.Team != Team.None);
+                                    user.GetClient().SendMessage(isPlayingFreezeMessageBuffer);
                                 }
 
                                 break;
@@ -1018,10 +1019,10 @@ namespace Yupi.Emulator.Game.Rooms.User
             {
                 roomUsers.IsAsleep = true;
 
-                ServerMessage sleepEffectMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("RoomUserIdleMessageComposer"));
-                sleepEffectMessage.AppendInteger(roomUsers.VirtualId);
-                sleepEffectMessage.AppendBool(true);
-                _userRoom.SendMessage(sleepEffectMessage);
+                SimpleServerMessageBuffer sleepEffectMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("RoomUserIdleMessageComposer"));
+                sleepEffectMessageBuffer.AppendInteger(roomUsers.VirtualId);
+                sleepEffectMessageBuffer.AppendBool(true);
+                _userRoom.SendMessage(sleepEffectMessageBuffer);
             }
 
             if (!roomUsers.IsOwner() && (roomUsers.IdleTime >= 300) && !roomUsers.IsBot && !roomUsers.IsPet)
@@ -1158,11 +1159,11 @@ namespace Yupi.Emulator.Game.Rooms.User
 
                     if (horseStopWalkRidingPet != null)
                     {
-                        ServerMessage horseStopWalkRidingPetMessage =
-                            new ServerMessage(PacketLibraryManager.OutgoingRequest("UpdateUserStatusMessageComposer"));
-                        horseStopWalkRidingPetMessage.AppendInteger(1);
-                        horseStopWalkRidingPet.SerializeStatus(horseStopWalkRidingPetMessage, "");
-                        _userRoom.SendMessage(horseStopWalkRidingPetMessage);
+                        SimpleServerMessageBuffer horseStopWalkRidingPetMessageBuffer =
+                            new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UpdateUserStatusMessageComposer"));
+                        horseStopWalkRidingPetMessageBuffer.AppendInteger(1);
+                        horseStopWalkRidingPet.SerializeStatus(horseStopWalkRidingPetMessageBuffer, "");
+                        _userRoom.SendMessage(horseStopWalkRidingPetMessageBuffer);
 
                         horseStopWalkRidingPet.IsWalking = false;
                         horseStopWalkRidingPet.ClearMovement();
@@ -1221,12 +1222,12 @@ namespace Yupi.Emulator.Game.Rooms.User
                         string thePet = "mv " + roomUsers.SetX + "," + roomUsers.SetY + "," +
                                      ServerUserChatTextHandler.GetString(horseRidingPet.SetZ);
 
-                        ServerMessage horseRidingPetMessage =
-                            new ServerMessage(PacketLibraryManager.OutgoingRequest("UpdateUserStatusMessageComposer"));
-                        horseRidingPetMessage.AppendInteger(2);
-                        roomUsers.SerializeStatus(horseRidingPetMessage, theUser);
-                        horseRidingPet.SerializeStatus(horseRidingPetMessage, thePet);
-                        _userRoom.SendMessage(horseRidingPetMessage);
+                        SimpleServerMessageBuffer horseRidingPetMessageBuffer =
+                            new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UpdateUserStatusMessageComposer"));
+                        horseRidingPetMessageBuffer.AppendInteger(2);
+                        roomUsers.SerializeStatus(horseRidingPetMessageBuffer, theUser);
+                        horseRidingPet.SerializeStatus(horseRidingPetMessageBuffer, thePet);
+                        _userRoom.SendMessage(horseRidingPetMessageBuffer);
 
                         horseRidingPet.RotBody = roomUsers.RotBody;
                         horseRidingPet.RotHead = roomUsers.RotBody;
@@ -1317,13 +1318,13 @@ namespace Yupi.Emulator.Game.Rooms.User
                         case Interaction.BedTent:
                             if (!roomUsers.IsBot && roomUsers.OnCampingTent)
                             {
-                                ServerMessage serverMessage = new ServerMessage();
-                                serverMessage.Init(
+                                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
+                                simpleServerMessageBuffer.Init(
                                     PacketLibraryManager.OutgoingRequest("UpdateFloorItemExtraDataMessageComposer"));
-                                serverMessage.AppendString(roomItem.Id.ToString());
-                                serverMessage.AppendInteger(0);
-                                serverMessage.AppendString("0");
-                                roomUsers.GetClient().SendMessage(serverMessage);
+                                simpleServerMessageBuffer.AppendString(roomItem.Id.ToString());
+                                simpleServerMessageBuffer.AppendInteger(0);
+                                simpleServerMessageBuffer.AppendString("0");
+                                roomUsers.GetClient().SendMessage(simpleServerMessageBuffer);
                                 roomUsers.OnCampingTent = false;
                             }
                             break;
@@ -1418,11 +1419,11 @@ namespace Yupi.Emulator.Game.Rooms.User
 
                 if (horseStopWalkRidingPet != null)
                 {
-                    ServerMessage horseStopWalkRidingPetMessage =
-                        new ServerMessage(PacketLibraryManager.OutgoingRequest("UpdateUserStatusMessageComposer"));
-                    horseStopWalkRidingPetMessage.AppendInteger(1);
-                    horseStopWalkRidingPet.SerializeStatus(horseStopWalkRidingPetMessage, "");
-                    _userRoom.SendMessage(horseStopWalkRidingPetMessage);
+                    SimpleServerMessageBuffer horseStopWalkRidingPetMessageBuffer =
+                        new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UpdateUserStatusMessageComposer"));
+                    horseStopWalkRidingPetMessageBuffer.AppendInteger(1);
+                    horseStopWalkRidingPet.SerializeStatus(horseStopWalkRidingPetMessageBuffer, "");
+                    _userRoom.SendMessage(horseStopWalkRidingPetMessageBuffer);
 
                     horseStopWalkRidingPet.IsWalking = false;
                     horseStopWalkRidingPet.ClearMovement();
@@ -1511,11 +1512,11 @@ namespace Yupi.Emulator.Game.Rooms.User
                         _userRoom.TonerData.Data2 = Yupi.GetRandomNumber(0, 255);
                         _userRoom.TonerData.Data3 = Yupi.GetRandomNumber(0, 255);
 
-                        ServerMessage tonerComposingMessage =
-                            new ServerMessage(PacketLibraryManager.OutgoingRequest("UpdateRoomItemMessageComposer"));
+                        SimpleServerMessageBuffer tonerComposingMessageBuffer =
+                            new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UpdateRoomItemMessageComposer"));
 
-                        tonerItem.Serialize(tonerComposingMessage);
-                        _userRoom.SendMessage(tonerComposingMessage);
+                        tonerItem.Serialize(tonerComposingMessageBuffer);
+                        _userRoom.SendMessage(tonerComposingMessageBuffer);
                     }
                 }
             }
@@ -1732,22 +1733,22 @@ namespace Yupi.Emulator.Game.Rooms.User
 
                     if (!user.IsSpectator)
                     {
-                        ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("SetRoomUserMessageComposer"));
-                        serverMessage.AppendInteger(1);
-                        user.Serialize(serverMessage, _userRoom.GetGameMap().GotPublicPool);
-                        _userRoom.SendMessage(serverMessage);
+                        SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("SetRoomUserMessageComposer"));
+                        simpleServerMessageBuffer.AppendInteger(1);
+                        user.Serialize(simpleServerMessageBuffer, _userRoom.GetGameMap().GotPublicPool);
+                        _userRoom.SendMessage(simpleServerMessageBuffer);
                     }
 
                     if (!user.IsBot && !user.IsPet)
                     {
-                        ServerMessage serverMessage2 = new ServerMessage();
-                        serverMessage2.Init(PacketLibraryManager.OutgoingRequest("UpdateUserDataMessageComposer"));
-                        serverMessage2.AppendInteger(user.VirtualId);
-                        serverMessage2.AppendString(client.GetHabbo().Look);
-                        serverMessage2.AppendString(client.GetHabbo().Gender.ToLower());
-                        serverMessage2.AppendString(client.GetHabbo().Motto);
-                        serverMessage2.AppendInteger(client.GetHabbo().AchievementPoints);
-                        _userRoom.SendMessage(serverMessage2);
+                        SimpleServerMessageBuffer simpleServerMessage2 = new SimpleServerMessageBuffer();
+                        simpleServerMessage2.Init(PacketLibraryManager.OutgoingRequest("UpdateUserDataMessageComposer"));
+                        simpleServerMessage2.AppendInteger(user.VirtualId);
+                        simpleServerMessage2.AppendString(client.GetHabbo().Look);
+                        simpleServerMessage2.AppendString(client.GetHabbo().Gender.ToLower());
+                        simpleServerMessage2.AppendString(client.GetHabbo().Motto);
+                        simpleServerMessage2.AppendInteger(client.GetHabbo().AchievementPoints);
+                        _userRoom.SendMessage(simpleServerMessage2);
                     }
 
                     if (_userRoom.RoomData.Owner != client.GetHabbo().UserName)

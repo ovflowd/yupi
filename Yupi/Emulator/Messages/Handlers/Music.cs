@@ -7,6 +7,7 @@ using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.SoundMachine;
 using Yupi.Emulator.Game.SoundMachine.Composers;
 using Yupi.Emulator.Game.SoundMachine.Songs;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Messages.Handlers
@@ -27,10 +28,10 @@ namespace Yupi.Emulator.Messages.Handlers
 
             if (songId != 0u)
             {
-                ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("RetrieveSongIDMessageComposer"));
-                serverMessage.AppendString(text);
-                serverMessage.AppendInteger(songId);
-                Session.SendMessage(serverMessage);
+                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("RetrieveSongIDMessageComposer"));
+                simpleServerMessageBuffer.AppendString(text);
+                simpleServerMessageBuffer.AppendInteger(songId);
+                Session.SendMessage(simpleServerMessageBuffer);
             }
         }
 

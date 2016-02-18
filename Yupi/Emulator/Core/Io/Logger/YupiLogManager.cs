@@ -47,8 +47,6 @@ namespace Yupi.Emulator.Core.Io.Logger
         {
             lock (_yupiLogManager)
                 _yupiLogManager.Error(exceptionLog);
-
-            YupiWriterManager.WriteLine(writerBody, writerHeader, ConsoleColor.DarkRed);
         }
 
         /// <summary>

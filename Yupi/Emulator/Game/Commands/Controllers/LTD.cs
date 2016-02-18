@@ -3,6 +3,7 @@ using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Emulator.Game.Commands.Interfaces;
 using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Commands.Controllers
@@ -36,21 +37,21 @@ namespace Yupi.Emulator.Game.Commands.Controllers
             Yupi.GetGame()
                 .GetClientManager()
                 .QueueBroadcaseMessage(
-                    new ServerMessage(PacketLibraryManager.OutgoingRequest("PublishShopMessageComposer")));
-            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
-            message.AppendString("ninja_promo_LTD");
-            message.AppendInteger(4);
-            message.AppendString("title");
-            message.AppendString("Novo Raro Limitado!");
-            message.AppendString("message");
-            message.AppendString(
+                    new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("PublishShopMessageComposer")));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
+            messageBuffer.AppendString("ninja_promo_LTD");
+            messageBuffer.AppendInteger(4);
+            messageBuffer.AppendString("title");
+            messageBuffer.AppendString("Novo Raro Limitado!");
+            messageBuffer.AppendString("message");
+            messageBuffer.AppendString(
                 "<i><h1>Como Assim?</h1>, Um Novo Raro Limitado foi Adicionado na Loja!<br> Descubra como ele é Abrindo a Loja!</br>");
-            message.AppendString("linkUrl");
-            message.AppendString("event:catalog/open/ultd_furni");
-            message.AppendString("linkTitle");
-            message.AppendString("Ver o Raro");
+            messageBuffer.AppendString("linkUrl");
+            messageBuffer.AppendString("event:catalog/open/ultd_furni");
+            messageBuffer.AppendString("linkTitle");
+            messageBuffer.AppendString("Ver o Raro");
 
-            Yupi.GetGame().GetClientManager().QueueBroadcaseMessage(message);
+            Yupi.GetGame().GetClientManager().QueueBroadcaseMessage(messageBuffer);
             return true;
         }
     }

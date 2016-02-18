@@ -9,6 +9,7 @@ using Yupi.Emulator.Game.Pathfinding;
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Rooms.User;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Items.Interactions.Controllers
@@ -68,21 +69,21 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 
                 double num = item.GetRoom().GetGameMap().SqAbsoluteHeight(point.X, point.Y);
 
-                ServerMessage serverMessage = new ServerMessage();
+                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
 
-                serverMessage.Init(PacketLibraryManager.OutgoingRequest("ItemAnimationMessageComposer"));
+                simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingRequest("ItemAnimationMessageComposer"));
 
-                serverMessage.AppendInteger(item.X);
-                serverMessage.AppendInteger(item.Y);
-                serverMessage.AppendInteger(point.X);
-                serverMessage.AppendInteger(point.Y);
-                serverMessage.AppendInteger(1);
-                serverMessage.AppendInteger(item.Id);
-                serverMessage.AppendString(item.Z.ToString(Yupi.CultureInfo));
-                serverMessage.AppendString(num.ToString(Yupi.CultureInfo));
-                serverMessage.AppendInteger(0);
+                simpleServerMessageBuffer.AppendInteger(item.X);
+                simpleServerMessageBuffer.AppendInteger(item.Y);
+                simpleServerMessageBuffer.AppendInteger(point.X);
+                simpleServerMessageBuffer.AppendInteger(point.Y);
+                simpleServerMessageBuffer.AppendInteger(1);
+                simpleServerMessageBuffer.AppendInteger(item.Id);
+                simpleServerMessageBuffer.AppendString(item.Z.ToString(Yupi.CultureInfo));
+                simpleServerMessageBuffer.AppendString(num.ToString(Yupi.CultureInfo));
+                simpleServerMessageBuffer.AppendInteger(0);
 
-                room.SendMessage(serverMessage);
+                room.SendMessage(simpleServerMessageBuffer);
 
                 item.GetRoom()
                     .GetRoomItemHandler()

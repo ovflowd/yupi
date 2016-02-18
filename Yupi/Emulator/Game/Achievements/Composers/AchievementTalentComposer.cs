@@ -25,6 +25,7 @@
 using Yupi.Emulator.Game.Achievements.Structs;
 using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Achievements.Composers
@@ -39,31 +40,31 @@ namespace Yupi.Emulator.Game.Achievements.Composers
         /// </summary>
         /// <param name="session">The session.</param>
         /// <param name="talent">The Talent.</param>
-        /// <returns>ServerMessage.</returns>
-        internal static ServerMessage Compose(GameClient session, Talent talent)
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal static SimpleServerMessageBuffer Compose(GameClient session, Talent talent)
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("TalentLevelUpMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("TalentLevelUpMessageComposer"));
 
-            serverMessage.AppendString(talent.Type);
-            serverMessage.AppendInteger(talent.Level);
-            serverMessage.AppendInteger(0);
+            simpleServerMessageBuffer.AppendString(talent.Type);
+            simpleServerMessageBuffer.AppendInteger(talent.Level);
+            simpleServerMessageBuffer.AppendInteger(0);
 
             if (talent.Type == "citizenship" && talent.Level == 4)
             {
-                serverMessage.AppendInteger(2);
-                serverMessage.AppendString("HABBO_CLUB_VIP_7_DAYS");
-                serverMessage.AppendInteger(7);
-                serverMessage.AppendString(talent.Prize);
-                serverMessage.AppendInteger(0);
+                simpleServerMessageBuffer.AppendInteger(2);
+                simpleServerMessageBuffer.AppendString("HABBO_CLUB_VIP_7_DAYS");
+                simpleServerMessageBuffer.AppendInteger(7);
+                simpleServerMessageBuffer.AppendString(talent.Prize);
+                simpleServerMessageBuffer.AppendInteger(0);
             }
             else
             {
-                serverMessage.AppendInteger(1);
-                serverMessage.AppendString(talent.Prize);
-                serverMessage.AppendInteger(0);
+                simpleServerMessageBuffer.AppendInteger(1);
+                simpleServerMessageBuffer.AppendString(talent.Prize);
+                simpleServerMessageBuffer.AppendInteger(0);
             }
 
-            return serverMessage;
+            return simpleServerMessageBuffer;
         }
     }
 }

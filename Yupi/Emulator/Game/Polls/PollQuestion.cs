@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Yupi.Emulator.Game.Polls.Enums;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Polls
 {
@@ -53,27 +54,27 @@ namespace Yupi.Emulator.Game.Polls
         }
 
         /// <summary>
-        ///     Serializes the specified message.
+        ///     Serializes the specified messageBuffer.
         /// </summary>
-        /// <param name="message">The message.</param>
+        /// <param name="message">The messageBuffer.</param>
         /// <param name="questionNumber">The question number.</param>
-        public void Serialize(ServerMessage message, int questionNumber)
+        public void Serialize(SimpleServerMessageBuffer messageBuffer, int questionNumber)
         {
-            message.AppendInteger(Index);
-            message.AppendInteger(questionNumber);
-            message.AppendInteger((int) AType);
-            message.AppendString(Question);
+            messageBuffer.AppendInteger(Index);
+            messageBuffer.AppendInteger(questionNumber);
+            messageBuffer.AppendInteger((int) AType);
+            messageBuffer.AppendString(Question);
 
             if (AType != PollAnswerType.Selection && AType != PollAnswerType.RadioSelection)
                 return;
 
-            message.AppendInteger(1);
-            message.AppendInteger(Answers.Count);
+            messageBuffer.AppendInteger(1);
+            messageBuffer.AppendInteger(Answers.Count);
 
             foreach (string current in Answers)
             {
-                message.AppendString(current);
-                message.AppendString(current);
+                messageBuffer.AppendString(current);
+                messageBuffer.AppendString(current);
             }
         }
     }

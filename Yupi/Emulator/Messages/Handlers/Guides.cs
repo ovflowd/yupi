@@ -2,6 +2,7 @@
 using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Users.Guides;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Messages.Handlers
@@ -41,16 +42,16 @@ namespace Yupi.Emulator.Messages.Handlers
                 return;
             }
 
-            ServerMessage onGuideSessionAttached =
-                new ServerMessage(PacketLibraryManager.OutgoingRequest("OnGuideSessionAttachedMessageComposer"));
+            SimpleServerMessageBuffer onGuideSessionAttached =
+                new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("OnGuideSessionAttachedMessageComposer"));
             onGuideSessionAttached.AppendBool(false);
             onGuideSessionAttached.AppendInteger(userId);
             onGuideSessionAttached.AppendString(message);
             onGuideSessionAttached.AppendInteger(30);
             Session.SendMessage(onGuideSessionAttached);
 
-            ServerMessage onGuideSessionAttached2 =
-                new ServerMessage(PacketLibraryManager.OutgoingRequest("OnGuideSessionAttachedMessageComposer"));
+            SimpleServerMessageBuffer onGuideSessionAttached2 =
+                new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("OnGuideSessionAttachedMessageComposer"));
             onGuideSessionAttached2.AppendBool(true);
             onGuideSessionAttached2.AppendInteger(userId);
             onGuideSessionAttached2.AppendString(message);
@@ -71,16 +72,16 @@ namespace Yupi.Emulator.Messages.Handlers
                 return;
 
             GameClient requester = Session.GetHabbo().GuideOtherUser;
-            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("OnGuideSessionStartedMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("OnGuideSessionStartedMessageComposer"));
 
-            message.AppendInteger(requester.GetHabbo().Id);
-            message.AppendString(requester.GetHabbo().UserName);
-            message.AppendString(requester.GetHabbo().Look);
-            message.AppendInteger(Session.GetHabbo().Id);
-            message.AppendString(Session.GetHabbo().UserName);
-            message.AppendString(Session.GetHabbo().Look);
-            requester.SendMessage(message);
-            Session.SendMessage(message);
+            messageBuffer.AppendInteger(requester.GetHabbo().Id);
+            messageBuffer.AppendString(requester.GetHabbo().UserName);
+            messageBuffer.AppendString(requester.GetHabbo().Look);
+            messageBuffer.AppendInteger(Session.GetHabbo().Id);
+            messageBuffer.AppendString(Session.GetHabbo().UserName);
+            messageBuffer.AppendString(Session.GetHabbo().Look);
+            requester.SendMessage(messageBuffer);
+            Session.SendMessage(messageBuffer);
         }
 
         /// <summary>
@@ -118,22 +119,22 @@ namespace Yupi.Emulator.Messages.Handlers
 
             Room room = Session.GetHabbo().CurrentRoom;
 
-            ServerMessage message =
-                new ServerMessage(PacketLibraryManager.OutgoingRequest("OnGuideSessionInvitedToGuideRoomMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer =
+                new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("OnGuideSessionInvitedToGuideRoomMessageComposer"));
 
             if (room == null)
             {
-                message.AppendInteger(0);
-                message.AppendString(string.Empty);
+                messageBuffer.AppendInteger(0);
+                messageBuffer.AppendString(string.Empty);
             }
             else
             {
-                message.AppendInteger(room.RoomId);
-                message.AppendString(room.RoomData.Name);
+                messageBuffer.AppendInteger(room.RoomId);
+                messageBuffer.AppendString(room.RoomData.Name);
             }
 
-            requester.SendMessage(message);
-            Session.SendMessage(message);
+            requester.SendMessage(messageBuffer);
+            Session.SendMessage(messageBuffer);
         }
 
         /// <summary>
@@ -145,7 +146,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 return;
 
             GameClient requester = Session.GetHabbo().GuideOtherUser;
-            ServerMessage visitRoom = new ServerMessage(PacketLibraryManager.OutgoingRequest("RoomForwardMessageComposer"));
+            SimpleServerMessageBuffer visitRoom = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("RoomForwardMessageComposer"));
             visitRoom.AppendInteger(requester.GetHabbo().CurrentRoomId);
             Session.SendMessage(visitRoom);
         }
@@ -157,11 +158,11 @@ namespace Yupi.Emulator.Messages.Handlers
         {
             string message = Request.GetString();
             GameClient requester = Session.GetHabbo().GuideOtherUser;
-            ServerMessage messageC = new ServerMessage(PacketLibraryManager.OutgoingRequest("OnGuideSessionMsgMessageComposer"));
-            messageC.AppendString(message);
-            messageC.AppendInteger(Session.GetHabbo().Id);
-            requester.SendMessage(messageC);
-            Session.SendMessage(messageC);
+            SimpleServerMessageBuffer messageBufferC = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("OnGuideSessionMsgMessageComposer"));
+            messageBufferC.AppendString(message);
+            messageBufferC.AppendInteger(Session.GetHabbo().Id);
+            requester.SendMessage(messageBufferC);
+            Session.SendMessage(messageBufferC);
         }
 
         /// <summary>
@@ -173,23 +174,23 @@ namespace Yupi.Emulator.Messages.Handlers
             //Request.GetBool();
 
             GameClient requester = Session.GetHabbo().GuideOtherUser;
-            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("OnGuideSessionDetachedMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("OnGuideSessionDetachedMessageComposer"));
 
             /* guide - close session  */
-            message.AppendInteger(2);
-            requester.SendMessage(message);
+            messageBuffer.AppendInteger(2);
+            requester.SendMessage(messageBuffer);
 
             /* user - close session */
-            ServerMessage message2 = new ServerMessage(PacketLibraryManager.OutgoingRequest("OnGuideSessionDetachedMessageComposer"));
-            message.AppendInteger(0);
+            SimpleServerMessageBuffer message2 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("OnGuideSessionDetachedMessageComposer"));
+            messageBuffer.AppendInteger(0);
             Session.SendMessage(message2);
 
             /* user - detach session */
-            ServerMessage message3 = new ServerMessage(PacketLibraryManager.OutgoingRequest("OnGuideSessionDetachedMessageComposer"));
+            SimpleServerMessageBuffer message3 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("OnGuideSessionDetachedMessageComposer"));
             Session.SendMessage(message3);
 
             /* guide - detach session */
-            ServerMessage message4 = new ServerMessage(PacketLibraryManager.OutgoingRequest("OnGuideSessionDetachedMessageComposer"));
+            SimpleServerMessageBuffer message4 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("OnGuideSessionDetachedMessageComposer"));
             requester.SendMessage(message4);
 
             Console.WriteLine("The Close was Called");
@@ -207,9 +208,9 @@ namespace Yupi.Emulator.Messages.Handlers
             //Response.Load(3485);
 
             /* user - cancell session */
-            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("OnGuideSessionDetachedMessageComposer"));
-            message.AppendInteger(2);
-            Session.SendMessage(message);
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("OnGuideSessionDetachedMessageComposer"));
+            messageBuffer.AppendInteger(2);
+            Session.SendMessage(messageBuffer);
 
             Console.WriteLine("The Cancell was Called");
         }
@@ -219,9 +220,9 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void GuideFeedback()
         {
-            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("OnGuideSessionDetachedMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("OnGuideSessionDetachedMessageComposer"));
 
-            Session.SendMessage(message);
+            Session.SendMessage(messageBuffer);
 
             Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(Session, "ACH_GuideFeedbackGiver", 1);
         }

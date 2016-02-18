@@ -4,6 +4,7 @@ using System.Data;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Rooms.Data
@@ -159,21 +160,21 @@ namespace Yupi.Emulator.Game.Rooms.Data
             {
                 return;
             }
-            ServerMessage serverMessage = new ServerMessage();
-            serverMessage.Init(PacketLibraryManager.OutgoingRequest("RoomEventMessageComposer"));
-            serverMessage.AppendInteger(roomId);
-            serverMessage.AppendInteger(room.RoomData.OwnerId);
-            serverMessage.AppendString(room.RoomData.Owner);
-            serverMessage.AppendInteger(1);
-            serverMessage.AppendInteger(1);
-            serverMessage.AppendString(@event.Name);
-            serverMessage.AppendString(@event.Description);
-            serverMessage.AppendInteger(0);
-            serverMessage.AppendInteger(
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
+            simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingRequest("RoomEventMessageComposer"));
+            simpleServerMessageBuffer.AppendInteger(roomId);
+            simpleServerMessageBuffer.AppendInteger(room.RoomData.OwnerId);
+            simpleServerMessageBuffer.AppendString(room.RoomData.Owner);
+            simpleServerMessageBuffer.AppendInteger(1);
+            simpleServerMessageBuffer.AppendInteger(1);
+            simpleServerMessageBuffer.AppendString(@event.Name);
+            simpleServerMessageBuffer.AppendString(@event.Description);
+            simpleServerMessageBuffer.AppendInteger(0);
+            simpleServerMessageBuffer.AppendInteger(
                 (int) Math.Floor((@event.Time - Yupi.GetUnixTimeStamp())/60.0));
 
-            serverMessage.AppendInteger(@event.Category);
-            room.SendMessage(serverMessage);
+            simpleServerMessageBuffer.AppendInteger(@event.Category);
+            room.SendMessage(simpleServerMessageBuffer);
         }
 
         /// <summary>

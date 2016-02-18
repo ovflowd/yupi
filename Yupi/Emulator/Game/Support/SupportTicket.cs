@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Support
 {
@@ -31,7 +32,7 @@ namespace Yupi.Emulator.Game.Support
         internal int Category;
 
         /// <summary>
-        ///     The message
+        ///     The messageBuffer
         /// </summary>
         internal string Message;
 
@@ -94,7 +95,7 @@ namespace Yupi.Emulator.Game.Support
         /// <param name="type">The type.</param>
         /// <param name="senderId">The sender identifier.</param>
         /// <param name="reportedId">The reported identifier.</param>
-        /// <param name="message">The message.</param>
+        /// <param name="message">The messageBuffer.</param>
         /// <param name="roomId">The room identifier.</param>
         /// <param name="roomName">Name of the room.</param>
         /// <param name="timestamp">The timestamp.</param>
@@ -246,38 +247,38 @@ namespace Yupi.Emulator.Game.Support
         }
 
         /// <summary>
-        ///     Serializes the specified message.
+        ///     Serializes the specified messageBuffer.
         /// </summary>
-        /// <param name="message">The message.</param>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage Serialize(ServerMessage message)
+        /// <param name="message">The messageBuffer.</param>
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer Serialize(SimpleServerMessageBuffer messageBuffer)
         {
-            message.AppendInteger(TicketId);
-            message.AppendInteger(TabId);
-            message.AppendInteger(Type); // type (3 or 4 for new style)
-            message.AppendInteger(Category);
-            message.AppendInteger((Yupi.GetUnixTimeStamp() - (int) Timestamp)*1000);
-            message.AppendInteger(Score);
-            message.AppendInteger(1);
-            message.AppendInteger(SenderId);
-            message.AppendString(_senderName);
-            message.AppendInteger(ReportedId);
-            message.AppendString(_reportedName);
-            message.AppendInteger(Status == TicketStatus.Picked ? ModeratorId : 0);
-            message.AppendString(_modName);
-            message.AppendString(Message);
-            message.AppendInteger(0);
+            messageBuffer.AppendInteger(TicketId);
+            messageBuffer.AppendInteger(TabId);
+            messageBuffer.AppendInteger(Type); // type (3 or 4 for new style)
+            messageBuffer.AppendInteger(Category);
+            messageBuffer.AppendInteger((Yupi.GetUnixTimeStamp() - (int) Timestamp)*1000);
+            messageBuffer.AppendInteger(Score);
+            messageBuffer.AppendInteger(1);
+            messageBuffer.AppendInteger(SenderId);
+            messageBuffer.AppendString(_senderName);
+            messageBuffer.AppendInteger(ReportedId);
+            messageBuffer.AppendString(_reportedName);
+            messageBuffer.AppendInteger(Status == TicketStatus.Picked ? ModeratorId : 0);
+            messageBuffer.AppendString(_modName);
+            messageBuffer.AppendString(Message);
+            messageBuffer.AppendInteger(0);
 
-            message.AppendInteger(ReportedChats.Count);
+            messageBuffer.AppendInteger(ReportedChats.Count);
 
             foreach (string str in ReportedChats)
             {
-                message.AppendString(str);
-                message.AppendInteger(-1);
-                message.AppendInteger(-1);
+                messageBuffer.AppendString(str);
+                messageBuffer.AppendInteger(-1);
+                messageBuffer.AppendInteger(-1);
             }
 
-            return message;
+            return messageBuffer;
         }
     }
 }

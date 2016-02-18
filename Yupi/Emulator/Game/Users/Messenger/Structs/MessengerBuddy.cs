@@ -4,6 +4,7 @@ using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Users.Relationships;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Users.Messenger.Structs
 {
@@ -106,34 +107,34 @@ namespace Yupi.Emulator.Game.Users.Messenger.Structs
         }
 
         /// <summary>
-        ///     Serializes the specified message.
+        ///     Serializes the specified messageBuffer.
         /// </summary>
-        /// <param name="message">The message.</param>
+        /// <param name="message">The messageBuffer.</param>
         /// <param name="session">The session.</param>
-        internal void Serialize(ServerMessage message, GameClient session)
+        internal void Serialize(SimpleServerMessageBuffer messageBuffer, GameClient session)
         {
             Relationship value =
                 session.GetHabbo().Relationships.FirstOrDefault(x => x.Value.UserId == Convert.ToInt32(Id)).Value;
 
             int i = value?.Type ?? 0;
 
-            message.AppendInteger(Id);
-            message.AppendString(UserName);
-            message.AppendInteger(IsOnline || Id == 0);
+            messageBuffer.AppendInteger(Id);
+            messageBuffer.AppendString(UserName);
+            messageBuffer.AppendInteger(IsOnline || Id == 0);
 
-            message.AppendBool(Id == 0 || (!_appearOffline || session.GetHabbo().Rank >= 4) && IsOnline);
-            message.AppendBool(Id != 0 && (!_hideInroom || session.GetHabbo().Rank >= 4) && InRoom);
+            messageBuffer.AppendBool(Id == 0 || (!_appearOffline || session.GetHabbo().Rank >= 4) && IsOnline);
+            messageBuffer.AppendBool(Id != 0 && (!_hideInroom || session.GetHabbo().Rank >= 4) && InRoom);
 
-            message.AppendString(IsOnline || Id == 0 ? _look : string.Empty);
+            messageBuffer.AppendString(IsOnline || Id == 0 ? _look : string.Empty);
 
-            message.AppendInteger(0);
-            message.AppendString(_motto);
-            message.AppendString(string.Empty);
-            message.AppendString(string.Empty);
-            message.AppendBool(true);
-            message.AppendBool(false);
-            message.AppendBool(false);
-            message.AppendShort(i);
+            messageBuffer.AppendInteger(0);
+            messageBuffer.AppendString(_motto);
+            messageBuffer.AppendString(string.Empty);
+            messageBuffer.AppendString(string.Empty);
+            messageBuffer.AppendBool(true);
+            messageBuffer.AppendBool(false);
+            messageBuffer.AppendBool(false);
+            messageBuffer.AppendShort(i);
         }
     }
 }

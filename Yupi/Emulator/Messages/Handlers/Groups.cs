@@ -10,6 +10,7 @@ using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Rooms.Data;
 using Yupi.Emulator.Game.Rooms.User;
 using Yupi.Emulator.Game.Users;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Messages.Handlers
@@ -167,31 +168,31 @@ namespace Yupi.Emulator.Messages.Handlers
 
             if (CurrentLoadingRoom != null)
             {
-                ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("RoomGroupMessageComposer"));
+                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("RoomGroupMessageComposer"));
 
-                serverMessage.AppendInteger(CurrentLoadingRoom.LoadedGroups.Count);
+                simpleServerMessageBuffer.AppendInteger(CurrentLoadingRoom.LoadedGroups.Count);
 
                 foreach (KeyValuePair<uint, string> current in CurrentLoadingRoom.LoadedGroups)
                 {
-                    serverMessage.AppendInteger(current.Key);
-                    serverMessage.AppendString(current.Value);
+                    simpleServerMessageBuffer.AppendInteger(current.Key);
+                    simpleServerMessageBuffer.AppendString(current.Value);
                 }
 
-                CurrentLoadingRoom.SendMessage(serverMessage);
+                CurrentLoadingRoom.SendMessage(simpleServerMessageBuffer);
             }
 
             if (CurrentLoadingRoom == null || Session.GetHabbo().FavouriteGroup != theGroup.Id)
                 return;
 
-            ServerMessage serverMessage2 = new ServerMessage(PacketLibraryManager.OutgoingRequest("ChangeFavouriteGroupMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessage2 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("ChangeFavouriteGroupMessageComposer"));
 
-            serverMessage2.AppendInteger(
+            simpleServerMessage2.AppendInteger(
                 CurrentLoadingRoom.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().Id).VirtualId);
-            serverMessage2.AppendInteger(theGroup.Id);
-            serverMessage2.AppendInteger(3);
-            serverMessage2.AppendString(theGroup.Name);
+            simpleServerMessage2.AppendInteger(theGroup.Id);
+            simpleServerMessage2.AppendInteger(3);
+            simpleServerMessage2.AppendString(theGroup.Name);
 
-            CurrentLoadingRoom.SendMessage(serverMessage2);
+            CurrentLoadingRoom.SendMessage(simpleServerMessage2);
         }
 
         /// <summary>
@@ -665,44 +666,44 @@ namespace Yupi.Emulator.Messages.Handlers
 
             if (threadId == 0)
             {
-                ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("GroupForumNewThreadMessageComposer"));
-                message.AppendInteger(groupId);
-                message.AppendInteger(threadId);
-                message.AppendInteger(Session.GetHabbo().Id);
-                message.AppendString(subject);
-                message.AppendString(content);
-                message.AppendBool(false);
-                message.AppendBool(false);
-                message.AppendInteger(Yupi.GetUnixTimeStamp() - timestamp);
-                message.AppendInteger(1);
-                message.AppendInteger(0);
-                message.AppendInteger(0);
-                message.AppendInteger(1);
-                message.AppendString(string.Empty);
-                message.AppendInteger(Yupi.GetUnixTimeStamp() - timestamp);
-                message.AppendByte(1);
-                message.AppendInteger(1);
-                message.AppendString(string.Empty);
-                message.AppendInteger(42);
-                Session.SendMessage(message);
+                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("GroupForumNewThreadMessageComposer"));
+                messageBuffer.AppendInteger(groupId);
+                messageBuffer.AppendInteger(threadId);
+                messageBuffer.AppendInteger(Session.GetHabbo().Id);
+                messageBuffer.AppendString(subject);
+                messageBuffer.AppendString(content);
+                messageBuffer.AppendBool(false);
+                messageBuffer.AppendBool(false);
+                messageBuffer.AppendInteger(Yupi.GetUnixTimeStamp() - timestamp);
+                messageBuffer.AppendInteger(1);
+                messageBuffer.AppendInteger(0);
+                messageBuffer.AppendInteger(0);
+                messageBuffer.AppendInteger(1);
+                messageBuffer.AppendString(string.Empty);
+                messageBuffer.AppendInteger(Yupi.GetUnixTimeStamp() - timestamp);
+                messageBuffer.AppendByte(1);
+                messageBuffer.AppendInteger(1);
+                messageBuffer.AppendString(string.Empty);
+                messageBuffer.AppendInteger(42);
+                Session.SendMessage(messageBuffer);
             }
             else
             {
-                ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("GroupForumNewResponseMessageComposer"));
-                message.AppendInteger(groupId);
-                message.AppendInteger(threadId);
-                message.AppendInteger(group.Forum.ForumMessagesCount);
-                message.AppendInteger(0);
-                message.AppendInteger(Session.GetHabbo().Id);
-                message.AppendString(Session.GetHabbo().UserName);
-                message.AppendString(Session.GetHabbo().Look);
-                message.AppendInteger(Yupi.GetUnixTimeStamp() - timestamp);
-                message.AppendString(content);
-                message.AppendByte(0);
-                message.AppendInteger(0);
-                message.AppendString(string.Empty);
-                message.AppendInteger(0);
-                Session.SendMessage(message);
+                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("GroupForumNewResponseMessageComposer"));
+                messageBuffer.AppendInteger(groupId);
+                messageBuffer.AppendInteger(threadId);
+                messageBuffer.AppendInteger(group.Forum.ForumMessagesCount);
+                messageBuffer.AppendInteger(0);
+                messageBuffer.AppendInteger(Session.GetHabbo().Id);
+                messageBuffer.AppendString(Session.GetHabbo().UserName);
+                messageBuffer.AppendString(Session.GetHabbo().Look);
+                messageBuffer.AppendInteger(Yupi.GetUnixTimeStamp() - timestamp);
+                messageBuffer.AppendString(content);
+                messageBuffer.AppendByte(0);
+                messageBuffer.AppendInteger(0);
+                messageBuffer.AppendString(string.Empty);
+                messageBuffer.AppendInteger(0);
+                Session.SendMessage(messageBuffer);
             }
         }
 
@@ -741,7 +742,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
                 if (thread.Pinned != pin)
                 {
-                    ServerMessage notif = new ServerMessage(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
+                    SimpleServerMessageBuffer notif = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
 
                     notif.AppendString(pin ? "forums.thread.pinned" : "forums.thread.unpinned");
                     notif.AppendInteger(0);
@@ -750,7 +751,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
                 if (thread.Locked != Lock)
                 {
-                    ServerMessage notif2 = new ServerMessage(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
+                    SimpleServerMessageBuffer notif2 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
 
                     notif2.AppendString(Lock ? "forums.thread.locked" : "forums.thread.unlocked");
                     notif2.AppendInteger(0);
@@ -760,27 +761,27 @@ namespace Yupi.Emulator.Messages.Handlers
                 if (thread.ParentId != 0)
                     return;
 
-                ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("GroupForumThreadUpdateMessageComposer"));
-                message.AppendInteger(groupId);
-                message.AppendInteger(thread.Id);
-                message.AppendInteger(thread.PosterId);
-                message.AppendString(thread.PosterName);
-                message.AppendString(thread.Subject);
-                message.AppendBool(pin);
-                message.AppendBool(Lock);
-                message.AppendInteger(Yupi.GetUnixTimeStamp() - thread.Timestamp);
-                message.AppendInteger(thread.MessageCount + 1);
-                message.AppendInteger(0);
-                message.AppendInteger(0);
-                message.AppendInteger(1);
-                message.AppendString(string.Empty);
-                message.AppendInteger(Yupi.GetUnixTimeStamp() - thread.Timestamp);
-                message.AppendByte(thread.Hidden ? 10 : 1);
-                message.AppendInteger(1);
-                message.AppendString(thread.Hider);
-                message.AppendInteger(0);
+                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("GroupForumThreadUpdateMessageComposer"));
+                messageBuffer.AppendInteger(groupId);
+                messageBuffer.AppendInteger(thread.Id);
+                messageBuffer.AppendInteger(thread.PosterId);
+                messageBuffer.AppendString(thread.PosterName);
+                messageBuffer.AppendString(thread.Subject);
+                messageBuffer.AppendBool(pin);
+                messageBuffer.AppendBool(Lock);
+                messageBuffer.AppendInteger(Yupi.GetUnixTimeStamp() - thread.Timestamp);
+                messageBuffer.AppendInteger(thread.MessageCount + 1);
+                messageBuffer.AppendInteger(0);
+                messageBuffer.AppendInteger(0);
+                messageBuffer.AppendInteger(1);
+                messageBuffer.AppendString(string.Empty);
+                messageBuffer.AppendInteger(Yupi.GetUnixTimeStamp() - thread.Timestamp);
+                messageBuffer.AppendByte(thread.Hidden ? 10 : 1);
+                messageBuffer.AppendInteger(1);
+                messageBuffer.AppendString(thread.Hider);
+                messageBuffer.AppendInteger(0);
 
-                Session.SendMessage(message);
+                Session.SendMessage(messageBuffer);
             }
         }
 
@@ -813,7 +814,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 }
 
                 GroupForumPost thread = new GroupForumPost(row);
-                ServerMessage notif = new ServerMessage(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
+                SimpleServerMessageBuffer notif = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
 
                 notif.AppendString(stateToSet == 20 ? "forums.thread.hidden" : "forums.thread.restored");
                 notif.AppendInteger(0);
@@ -822,27 +823,27 @@ namespace Yupi.Emulator.Messages.Handlers
                 if (thread.ParentId != 0)
                     return;
 
-                ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("GroupForumThreadUpdateMessageComposer"));
-                message.AppendInteger(groupId);
-                message.AppendInteger(thread.Id);
-                message.AppendInteger(thread.PosterId);
-                message.AppendString(thread.PosterName);
-                message.AppendString(thread.Subject);
-                message.AppendBool(thread.Pinned);
-                message.AppendBool(thread.Locked);
-                message.AppendInteger(Yupi.GetUnixTimeStamp() - thread.Timestamp);
-                message.AppendInteger(thread.MessageCount + 1);
-                message.AppendInteger(0);
-                message.AppendInteger(0);
-                message.AppendInteger(0);
-                message.AppendString(string.Empty);
-                message.AppendInteger(Yupi.GetUnixTimeStamp() - thread.Timestamp);
-                message.AppendByte(stateToSet);
-                message.AppendInteger(0);
-                message.AppendString(thread.Hider);
-                message.AppendInteger(0);
+                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("GroupForumThreadUpdateMessageComposer"));
+                messageBuffer.AppendInteger(groupId);
+                messageBuffer.AppendInteger(thread.Id);
+                messageBuffer.AppendInteger(thread.PosterId);
+                messageBuffer.AppendString(thread.PosterName);
+                messageBuffer.AppendString(thread.Subject);
+                messageBuffer.AppendBool(thread.Pinned);
+                messageBuffer.AppendBool(thread.Locked);
+                messageBuffer.AppendInteger(Yupi.GetUnixTimeStamp() - thread.Timestamp);
+                messageBuffer.AppendInteger(thread.MessageCount + 1);
+                messageBuffer.AppendInteger(0);
+                messageBuffer.AppendInteger(0);
+                messageBuffer.AppendInteger(0);
+                messageBuffer.AppendString(string.Empty);
+                messageBuffer.AppendInteger(Yupi.GetUnixTimeStamp() - thread.Timestamp);
+                messageBuffer.AppendByte(stateToSet);
+                messageBuffer.AppendInteger(0);
+                messageBuffer.AppendString(thread.Hider);
+                messageBuffer.AppendInteger(0);
 
-                Session.SendMessage(message);
+                Session.SendMessage(messageBuffer);
             }
         }
 
@@ -898,32 +899,32 @@ namespace Yupi.Emulator.Messages.Handlers
                     i++;
                 }
 
-                ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("GroupForumReadThreadMessageComposer"));
+                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("GroupForumReadThreadMessageComposer"));
 
-                message.AppendInteger(groupId);
-                message.AppendInteger(threadId);
-                message.AppendInteger(startIndex);
-                message.AppendInteger(b);
+                messageBuffer.AppendInteger(groupId);
+                messageBuffer.AppendInteger(threadId);
+                messageBuffer.AppendInteger(startIndex);
+                messageBuffer.AppendInteger(b);
 
                 int indx = 0;
 
                 foreach (GroupForumPost post in posts)
                 {
-                    message.AppendInteger(indx++ - 1);
-                    message.AppendInteger(indx - 1);
-                    message.AppendInteger(post.PosterId);
-                    message.AppendString(post.PosterName);
-                    message.AppendString(post.PosterLook);
-                    message.AppendInteger(Yupi.GetUnixTimeStamp() - post.Timestamp);
-                    message.AppendString(post.PostContent);
-                    message.AppendByte(0);
-                    message.AppendInteger(0);
-                    message.AppendString(post.Hider);
-                    message.AppendInteger(0);
-                    message.AppendInteger(0);
+                    messageBuffer.AppendInteger(indx++ - 1);
+                    messageBuffer.AppendInteger(indx - 1);
+                    messageBuffer.AppendInteger(post.PosterId);
+                    messageBuffer.AppendString(post.PosterName);
+                    messageBuffer.AppendString(post.PosterLook);
+                    messageBuffer.AppendInteger(Yupi.GetUnixTimeStamp() - post.Timestamp);
+                    messageBuffer.AppendString(post.PostContent);
+                    messageBuffer.AppendByte(0);
+                    messageBuffer.AppendInteger(0);
+                    messageBuffer.AppendString(post.Hider);
+                    messageBuffer.AppendInteger(0);
+                    messageBuffer.AppendInteger(0);
                 }
 
-                Session.SendMessage(message);
+                Session.SendMessage(messageBuffer);
             }
         }
 
@@ -953,33 +954,33 @@ namespace Yupi.Emulator.Messages.Handlers
 
                 List<GroupForumPost> threads = (from DataRow row in table.Rows select new GroupForumPost(row)).ToList();
 
-                ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("GroupForumThreadRootMessageComposer"));
-                message.AppendInteger(groupId);
-                message.AppendInteger(startIndex);
-                message.AppendInteger(threadCount);
+                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("GroupForumThreadRootMessageComposer"));
+                messageBuffer.AppendInteger(groupId);
+                messageBuffer.AppendInteger(startIndex);
+                messageBuffer.AppendInteger(threadCount);
 
                 foreach (GroupForumPost thread in threads)
                 {
-                    message.AppendInteger(thread.Id);
-                    message.AppendInteger(thread.PosterId);
-                    message.AppendString(thread.PosterName);
-                    message.AppendString(thread.Subject);
-                    message.AppendBool(thread.Pinned);
-                    message.AppendBool(thread.Locked);
-                    message.AppendInteger(Yupi.GetUnixTimeStamp() - thread.Timestamp);
-                    message.AppendInteger(thread.MessageCount + 1);
-                    message.AppendInteger(0);
-                    message.AppendInteger(0);
-                    message.AppendInteger(0);
-                    message.AppendString(string.Empty);
-                    message.AppendInteger(Yupi.GetUnixTimeStamp() - thread.Timestamp);
-                    message.AppendByte(thread.Hidden ? 10 : 1);
-                    message.AppendInteger(0);
-                    message.AppendString(thread.Hider);
-                    message.AppendInteger(0);
+                    messageBuffer.AppendInteger(thread.Id);
+                    messageBuffer.AppendInteger(thread.PosterId);
+                    messageBuffer.AppendString(thread.PosterName);
+                    messageBuffer.AppendString(thread.Subject);
+                    messageBuffer.AppendBool(thread.Pinned);
+                    messageBuffer.AppendBool(thread.Locked);
+                    messageBuffer.AppendInteger(Yupi.GetUnixTimeStamp() - thread.Timestamp);
+                    messageBuffer.AppendInteger(thread.MessageCount + 1);
+                    messageBuffer.AppendInteger(0);
+                    messageBuffer.AppendInteger(0);
+                    messageBuffer.AppendInteger(0);
+                    messageBuffer.AppendString(string.Empty);
+                    messageBuffer.AppendInteger(Yupi.GetUnixTimeStamp() - thread.Timestamp);
+                    messageBuffer.AppendByte(thread.Hidden ? 10 : 1);
+                    messageBuffer.AppendInteger(0);
+                    messageBuffer.AppendString(thread.Hider);
+                    messageBuffer.AppendInteger(0);
                 }
 
-                Session.SendMessage(message);
+                Session.SendMessage(messageBuffer);
             }
         }
 
@@ -1004,8 +1005,8 @@ namespace Yupi.Emulator.Messages.Handlers
             int selectType = Request.GetInteger();
             int startIndex = Request.GetInteger();
 
-            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("GroupForumListingsMessageComposer"));
-            message.AppendInteger(selectType);
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("GroupForumListingsMessageComposer"));
+            messageBuffer.AppendInteger(selectType);
             List<Group> groupList = new List<Group>();
 
             switch (selectType)
@@ -1026,20 +1027,20 @@ namespace Yupi.Emulator.Messages.Handlers
 
                         DataTable table = dbClient.GetTable();
 
-                        message.AppendInteger(qtdForums == 0 ? 1 : qtdForums);
-                        message.AppendInteger(startIndex);
+                        messageBuffer.AppendInteger(qtdForums == 0 ? 1 : qtdForums);
+                        messageBuffer.AppendInteger(startIndex);
 
                         groupList.AddRange(from DataRow rowGroupData in table.Rows
                             select uint.Parse(rowGroupData["group_id"].ToString())
                             into groupId
                             select Yupi.GetGame().GetGroupManager().GetGroup(groupId));
 
-                        message.AppendInteger(table.Rows.Count);
+                        messageBuffer.AppendInteger(table.Rows.Count);
 
                         foreach (Group theGroup in groupList)
-                            theGroup.SerializeForumRoot(message);
+                            theGroup.SerializeForumRoot(messageBuffer);
 
-                        Session.SendMessage(message);
+                        Session.SendMessage(messageBuffer);
                     }
                     break;
 
@@ -1049,25 +1050,25 @@ namespace Yupi.Emulator.Messages.Handlers
                             .UserGroups.Select(groupUser => Yupi.GetGame().GetGroupManager().GetGroup(groupUser.GroupId))
                             .Where(aGroup => aGroup != null && aGroup.Forum.Id != 0));
 
-                    message.AppendInteger(groupList.Count == 0 ? 1 : groupList.Count);
+                    messageBuffer.AppendInteger(groupList.Count == 0 ? 1 : groupList.Count);
 
                     groupList =
                         groupList.OrderByDescending(x => x.Forum.ForumMessagesCount).Skip(startIndex).Take(20).ToList();
 
-                    message.AppendInteger(startIndex);
-                    message.AppendInteger(groupList.Count);
+                    messageBuffer.AppendInteger(startIndex);
+                    messageBuffer.AppendInteger(groupList.Count);
 
                     foreach (Group theGroup in groupList)
-                        theGroup.SerializeForumRoot(message);
+                        theGroup.SerializeForumRoot(messageBuffer);
 
-                    Session.SendMessage(message);
+                    Session.SendMessage(messageBuffer);
                     break;
 
                 default:
-                    message.AppendInteger(1);
-                    message.AppendInteger(startIndex);
-                    message.AppendInteger(0);
-                    Session.SendMessage(message);
+                    messageBuffer.AppendInteger(1);
+                    messageBuffer.AppendInteger(startIndex);
+                    messageBuffer.AppendInteger(0);
+                    Session.SendMessage(messageBuffer);
                     break;
             }
         }
@@ -1513,7 +1514,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
                 Yupi.GetGame().GetGroupManager().DeleteGroup(@group.Id);
 
-                ServerMessage deleteGroup = new ServerMessage(PacketLibraryManager.OutgoingRequest("GroupDeletedMessageComposer"));
+                SimpleServerMessageBuffer deleteGroup = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("GroupDeletedMessageComposer"));
 
                 deleteGroup.AppendInteger(groupId);
                 room.SendMessage(deleteGroup);

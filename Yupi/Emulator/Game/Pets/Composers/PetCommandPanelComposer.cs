@@ -2,6 +2,7 @@
 using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Pets.Structs;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Pets.Composers
@@ -11,21 +12,21 @@ namespace Yupi.Emulator.Game.Pets.Composers
         internal static void GenerateMessage(Pet pet, Dictionary<uint, PetCommand> totalPetCommands,
             Dictionary<uint, PetCommand> petCommands, GameClient owner)
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("PetTrainerPanelMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("PetTrainerPanelMessageComposer"));
 
-            serverMessage.AppendInteger(pet.PetId);
+            simpleServerMessageBuffer.AppendInteger(pet.PetId);
 
-            serverMessage.AppendInteger(totalPetCommands.Count);
+            simpleServerMessageBuffer.AppendInteger(totalPetCommands.Count);
 
             foreach (uint sh in totalPetCommands.Keys)
-                serverMessage.AppendInteger(sh);
+                simpleServerMessageBuffer.AppendInteger(sh);
 
-            serverMessage.AppendInteger(petCommands.Count);
+            simpleServerMessageBuffer.AppendInteger(petCommands.Count);
 
             foreach (uint sh in petCommands.Keys)
-                serverMessage.AppendInteger(sh);
+                simpleServerMessageBuffer.AppendInteger(sh);
 
-            owner.SendMessage(serverMessage);
+            owner.SendMessage(simpleServerMessageBuffer);
         }
     }
 }

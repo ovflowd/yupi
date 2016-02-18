@@ -31,6 +31,7 @@ using Yupi.Emulator.Game.Pets.Enums;
 using Yupi.Emulator.Game.Pets.Structs;
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Pets
@@ -401,7 +402,7 @@ namespace Yupi.Emulator.Game.Pets
             if (ownerSession == null)
                 return;
 
-            ServerMessage levelNotify = new ServerMessage(PacketLibraryManager.OutgoingRequest("NotifyNewPetLevelMessageComposer"));
+            SimpleServerMessageBuffer levelNotify = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NotifyNewPetLevelMessageComposer"));
 
             SerializeInventory(levelNotify, true);
 
@@ -461,15 +462,15 @@ namespace Yupi.Emulator.Game.Pets
         /// <summary>
         ///     Serializes the inventory.
         /// </summary>
-        /// <param name="message">The message.</param>
+        /// <param name="message">The messageBuffer.</param>
         /// <param name="levelAfterName">if set to <c>true</c> [level after name].</param>
-        internal void SerializeInventory(ServerMessage message, bool levelAfterName = false)
-            => SerializePetInventoryComposer.GenerateMessage(this, message, levelAfterName);
+        internal void SerializeInventory(SimpleServerMessageBuffer messageBuffer, bool levelAfterName = false)
+            => SerializePetInventoryComposer.GenerateMessage(this, messageBuffer, levelAfterName);
 
         /// <summary>
         ///     Serializes the information.
         /// </summary>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage SerializeInfo() => PetInformationComposer.GenerateMessage(this);
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer SerializeInfo() => PetInformationComposer.GenerateMessage(this);
     }
 }

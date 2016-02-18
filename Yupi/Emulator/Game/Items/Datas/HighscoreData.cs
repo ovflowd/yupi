@@ -3,6 +3,7 @@ using System.Data;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Emulator.Game.Items.Interfaces;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Items.Datas
 {
@@ -52,31 +53,31 @@ namespace Yupi.Emulator.Game.Items.Datas
         ///     Generates the extra data.
         /// </summary>
         /// <param name="item">The item.</param>
-        /// <param name="message">The message.</param>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage GenerateExtraData(RoomItem item, ServerMessage message)
+        /// <param name="message">The messageBuffer.</param>
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer GenerateExtraData(RoomItem item, SimpleServerMessageBuffer messageBuffer)
         {
-            message.AppendInteger(6);
-            message.AppendString(item.ExtraData); //Ouvert/fermé
+            messageBuffer.AppendInteger(6);
+            messageBuffer.AppendString(item.ExtraData); //Ouvert/fermé
 
             if (item.GetBaseItem().Name.StartsWith("highscore_classic"))
-                message.AppendInteger(2);
+                messageBuffer.AppendInteger(2);
             else if (item.GetBaseItem().Name.StartsWith("highscore_mostwin"))
-                message.AppendInteger(1);
+                messageBuffer.AppendInteger(1);
             else if (item.GetBaseItem().Name.StartsWith("highscore_perteam"))
-                message.AppendInteger(0);
+                messageBuffer.AppendInteger(0);
 
-            message.AppendInteger(0); //Time : ["alltime", "daily", "weekly", "monthly"]
-            message.AppendInteger(Lines.Count); //Count
+            messageBuffer.AppendInteger(0); //Time : ["alltime", "daily", "weekly", "monthly"]
+            messageBuffer.AppendInteger(Lines.Count); //Count
 
             foreach (KeyValuePair<int, HighScoreLine> line in Lines)
             {
-                message.AppendInteger(line.Value.Score);
-                message.AppendInteger(1);
-                message.AppendString(line.Value.Username);
+                messageBuffer.AppendInteger(line.Value.Score);
+                messageBuffer.AppendInteger(1);
+                messageBuffer.AppendString(line.Value.Username);
             }
 
-            return message;
+            return messageBuffer;
         }
 
         /// <summary>

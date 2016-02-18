@@ -34,6 +34,7 @@ using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Rooms.Data;
 using Yupi.Emulator.Game.Users;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Browser
@@ -61,7 +62,7 @@ namespace Yupi.Emulator.Game.Browser
         /// <summary>
         ///     The new public rooms
         /// </summary>
-        internal ServerMessage NewPublicRooms, NewStaffPicks;
+        internal SimpleServerMessageBuffer NewPublicRooms, NewStaffPicks;
 
         /// <summary>
         ///     The private categories
@@ -213,7 +214,7 @@ namespace Yupi.Emulator.Game.Browser
         /// <param name="rooms">The rooms.</param>
         /// <param name="category">The category.</param>
         /// <param name="direct">if set to <c>true</c> [direct].</param>
-        public void SerializeNavigatorPopularRoomsNews(ref ServerMessage reply, KeyValuePair<RoomData, uint>[] rooms,
+        public void SerializeNavigatorPopularRoomsNews(ref SimpleServerMessageBuffer reply, KeyValuePair<RoomData, uint>[] rooms,
             int category, bool direct)
         {
             if (!rooms?.Any() ?? true)
@@ -248,11 +249,11 @@ namespace Yupi.Emulator.Game.Browser
         /// <summary>
         ///     Serializes the promotion categories.
         /// </summary>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage SerializePromotionCategories()
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer SerializePromotionCategories()
         {
-            ServerMessage categories =
-                new ServerMessage(PacketLibraryManager.OutgoingRequest("CatalogPromotionGetCategoriesMessageComposer"));
+            SimpleServerMessageBuffer categories =
+                new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("CatalogPromotionGetCategoriesMessageComposer"));
 
             categories.AppendInteger(PromoCategories.Count);
 
@@ -269,53 +270,53 @@ namespace Yupi.Emulator.Game.Browser
         /// <summary>
         ///     Serializes the new public rooms.
         /// </summary>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage SerializeNewPublicRooms()
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer SerializeNewPublicRooms()
         {
-            ServerMessage message = new ServerMessage();
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer();
 
-            message.StartArray();
+            messageBuffer.StartArray();
 
             foreach (PublicItem item in _publicItems.Values)
             {
                 if (item.ParentId == -1)
                 {
-                    message.Clear();
+                    messageBuffer.Clear();
 
                     if (item.RoomData == null)
                         continue;
 
-                    item.RoomData.Serialize(message);
+                    item.RoomData.Serialize(messageBuffer);
 
-                    message.SaveArray();
+                    messageBuffer.SaveArray();
                 }
             }
 
-            message.EndArray();
+            messageBuffer.EndArray();
 
-            return message;
+            return messageBuffer;
         }
 
-        internal ServerMessage SerializeNewStaffPicks()
+        internal SimpleServerMessageBuffer SerializeNewStaffPicks()
         {
-            ServerMessage message = new ServerMessage();
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer();
 
-            message.StartArray();
+            messageBuffer.StartArray();
 
             foreach (PublicItem item in _publicItems.Values.Where(t => t.ParentId == -2))
             {
-                message.Clear();
+                messageBuffer.Clear();
 
                 if (item.RoomData == null)
                     continue;
 
-                item.RoomData.Serialize(message);
-                message.SaveArray();
+                item.RoomData.Serialize(messageBuffer);
+                messageBuffer.SaveArray();
             }
 
-            message.EndArray();
+            messageBuffer.EndArray();
 
-            return message;
+            return messageBuffer;
         }
 
         /// <summary>
@@ -329,39 +330,39 @@ namespace Yupi.Emulator.Game.Browser
         /// <summary>
         ///     Serializes the nv recommend rooms.
         /// </summary>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage SerializeNvRecommendRooms()
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer SerializeNvRecommendRooms()
         {
-            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("NavigatorLiftedRoomsComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NavigatorLiftedRoomsComposer"));
 
-            message.AppendInteger(_publicItems.Count); //count
+            messageBuffer.AppendInteger(_publicItems.Count); //count
 
             foreach (PublicItem item in _publicItems.Values)
-                item.SerializeNew(message);
+                item.SerializeNew(messageBuffer);
 
-            return message;
+            return messageBuffer;
         }
 
         /// <summary>
         ///     Serializes the new flat categories.
         /// </summary>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage SerializeNewFlatCategories()
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer SerializeNewFlatCategories()
         {
             List<PublicCategory> flatcat = Yupi.GetGame().GetNavigator().PrivateCategories.OfType<PublicCategory>().ToList();
 
-            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("NavigatorNewFlatCategoriesMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NavigatorNewFlatCategoriesMessageComposer"));
 
-            message.AppendInteger(flatcat.Count);
+            messageBuffer.AppendInteger(flatcat.Count);
 
             foreach (PublicCategory cat in flatcat)
             {
-                message.AppendInteger(cat.Id);
-                message.AppendInteger(cat.UsersNow);
-                message.AppendInteger(500);
+                messageBuffer.AppendInteger(cat.Id);
+                messageBuffer.AppendInteger(cat.UsersNow);
+                messageBuffer.AppendInteger(500);
             }
 
-            return message;
+            return messageBuffer;
         }
 
         /// <summary>
@@ -370,10 +371,10 @@ namespace Yupi.Emulator.Game.Browser
         /// <param name="value1">The value1.</param>
         /// <param name="value2">The value2.</param>
         /// <param name="session">The session.</param>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage SerializeNewNavigator(string value1, string value2, GameClient session)
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer SerializeNewNavigator(string value1, string value2, GameClient session)
         {
-            ServerMessage newNavigator = new ServerMessage(PacketLibraryManager.OutgoingRequest("SearchResultSetComposer"));
+            SimpleServerMessageBuffer newNavigator = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("SearchResultSetComposer"));
 
             newNavigator.AppendString(value1);
             newNavigator.AppendString(value2);
@@ -393,7 +394,7 @@ namespace Yupi.Emulator.Game.Browser
         /// <param name="session">The session.</param>
         internal void EnableNewNavigator(GameClient session)
         {
-            ServerMessage navigatorMetaDataParser = new ServerMessage(PacketLibraryManager.OutgoingRequest("NavigatorMetaDataComposer"));
+            SimpleServerMessageBuffer navigatorMetaDataParser = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NavigatorMetaDataComposer"));
 
             navigatorMetaDataParser.AppendInteger(4);
             navigatorMetaDataParser.AppendString("official_view");
@@ -406,8 +407,8 @@ namespace Yupi.Emulator.Game.Browser
             navigatorMetaDataParser.AppendInteger(0);
             session.SendMessage(navigatorMetaDataParser);
 
-            ServerMessage navigatorLiftedRoomsParser =
-                new ServerMessage(PacketLibraryManager.OutgoingRequest("NavigatorLiftedRoomsComposer"));
+            SimpleServerMessageBuffer navigatorLiftedRoomsParser =
+                new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NavigatorLiftedRoomsComposer"));
             navigatorLiftedRoomsParser.AppendInteger(NavigatorHeaders.Count);
 
             foreach (NavigatorHeader navHeader in NavigatorHeaders)
@@ -420,20 +421,20 @@ namespace Yupi.Emulator.Game.Browser
 
             session.SendMessage(navigatorLiftedRoomsParser);
 
-            ServerMessage collapsedCategoriesMessageParser = new ServerMessage(PacketLibraryManager.OutgoingRequest("NavigatorCategorys"));
+            SimpleServerMessageBuffer collapsedCategoriesMessageBufferParser = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NavigatorCategorys"));
 
-            collapsedCategoriesMessageParser.AppendInteger(FlatCatsCount + 4);
+            collapsedCategoriesMessageBufferParser.AppendInteger(FlatCatsCount + 4);
 
             foreach (PublicCategory flat in PrivateCategories.Values)
-                collapsedCategoriesMessageParser.AppendString($"category__{flat.Caption}");
+                collapsedCategoriesMessageBufferParser.AppendString($"category__{flat.Caption}");
 
-            collapsedCategoriesMessageParser.AppendString("recommended");
-            collapsedCategoriesMessageParser.AppendString("new_ads");
-            collapsedCategoriesMessageParser.AppendString("staffpicks");
-            collapsedCategoriesMessageParser.AppendString("official");
-            session.SendMessage(collapsedCategoriesMessageParser);
+            collapsedCategoriesMessageBufferParser.AppendString("recommended");
+            collapsedCategoriesMessageBufferParser.AppendString("new_ads");
+            collapsedCategoriesMessageBufferParser.AppendString("staffpicks");
+            collapsedCategoriesMessageBufferParser.AppendString("official");
+            session.SendMessage(collapsedCategoriesMessageBufferParser);
 
-            ServerMessage searches = new ServerMessage(PacketLibraryManager.OutgoingRequest("NavigatorSavedSearchesComposer"));
+            SimpleServerMessageBuffer searches = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NavigatorSavedSearchesComposer"));
 
             searches.AppendInteger(session.GetHabbo().NavigatorLogs.Count);
 
@@ -447,7 +448,7 @@ namespace Yupi.Emulator.Game.Browser
 
             session.SendMessage(searches);
 
-            ServerMessage packetName = new ServerMessage(PacketLibraryManager.OutgoingRequest("NewNavigatorSizeMessageComposer"));
+            SimpleServerMessageBuffer packetName = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NewNavigatorSizeMessageComposer"));
             UserPreferences pref = session.GetHabbo().Preferences;
 
             packetName.AppendInteger(pref.NewnaviX);
@@ -464,33 +465,33 @@ namespace Yupi.Emulator.Game.Browser
         ///     Serializes the flat categories.
         /// </summary>
         /// <param name="session">The session.</param>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage SerializeFlatCategories(GameClient session)
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer SerializeFlatCategories(GameClient session)
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("FlatCategoriesMessageComposer"));
-            serverMessage.StartArray();
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("FlatCategoriesMessageComposer"));
+            simpleServerMessageBuffer.StartArray();
 
             foreach (PublicCategory flatCat in PrivateCategories.Values)
             {
-                serverMessage.Clear();
+                simpleServerMessageBuffer.Clear();
 
                 if (flatCat == null)
                     continue;
 
-                serverMessage.AppendInteger(flatCat.Id);
-                serverMessage.AppendString(flatCat.Caption);
-                serverMessage.AppendBool(flatCat.MinRank <= session.GetHabbo().Rank);
-                serverMessage.AppendBool(false);
-                serverMessage.AppendString("NONE");
-                serverMessage.AppendString(string.Empty);
-                serverMessage.AppendBool(false);
+                simpleServerMessageBuffer.AppendInteger(flatCat.Id);
+                simpleServerMessageBuffer.AppendString(flatCat.Caption);
+                simpleServerMessageBuffer.AppendBool(flatCat.MinRank <= session.GetHabbo().Rank);
+                simpleServerMessageBuffer.AppendBool(false);
+                simpleServerMessageBuffer.AppendString("NONE");
+                simpleServerMessageBuffer.AppendString(string.Empty);
+                simpleServerMessageBuffer.AppendBool(false);
 
-                serverMessage.SaveArray();
+                simpleServerMessageBuffer.SaveArray();
             }
 
-            serverMessage.EndArray();
+            simpleServerMessageBuffer.EndArray();
 
-            return serverMessage;
+            return simpleServerMessageBuffer;
         }
 
         /// <summary>
@@ -510,56 +511,56 @@ namespace Yupi.Emulator.Game.Browser
         /// <summary>
         ///     Serializes the public rooms.
         /// </summary>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage SerializePublicRooms()
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer SerializePublicRooms()
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("OfficialRoomsMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("OfficialRoomsMessageComposer"));
             PublicItem[] rooms =
                 _publicItems.Values.Where(current => current.ParentId <= 0 && current.RoomData != null).ToArray();
 
-            serverMessage.AppendInteger(rooms.Length);
+            simpleServerMessageBuffer.AppendInteger(rooms.Length);
 
             foreach (PublicItem current in rooms)
             {
-                current.Serialize(serverMessage);
+                current.Serialize(simpleServerMessageBuffer);
 
                 if (current.ItemType != PublicItemType.Category)
                     continue;
 
                 foreach (PublicItem current2 in _publicItems.Values.Where(x => x.ParentId == current.Id))
-                    current2.Serialize(serverMessage);
+                    current2.Serialize(simpleServerMessageBuffer);
             }
 
             if (!_publicItems.Values.Any(current => current.Recommended))
-                serverMessage.AppendInteger(0);
+                simpleServerMessageBuffer.AppendInteger(0);
             else
             {
                 PublicItem room = _publicItems.Values.First(current => current.Recommended);
 
                 if (room != null)
                 {
-                    serverMessage.AppendInteger(1);
-                    room.Serialize(serverMessage);
+                    simpleServerMessageBuffer.AppendInteger(1);
+                    room.Serialize(simpleServerMessageBuffer);
                 }
                 else
-                    serverMessage.AppendInteger(0);
+                    simpleServerMessageBuffer.AppendInteger(0);
             }
-            serverMessage.AppendInteger(0);
+            simpleServerMessageBuffer.AppendInteger(0);
 
-            return serverMessage;
+            return simpleServerMessageBuffer;
         }
 
         /// <summary>
         ///     Serializes the favorite rooms.
         /// </summary>
         /// <param name="session">The session.</param>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage SerializeFavoriteRooms(GameClient session)
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer SerializeFavoriteRooms(GameClient session)
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("NavigatorListingsMessageComposer"));
-            serverMessage.AppendInteger(6);
-            serverMessage.AppendString(string.Empty);
-            serverMessage.AppendInteger(session.GetHabbo().FavoriteRooms.Count);
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NavigatorListingsMessageComposer"));
+            simpleServerMessageBuffer.AppendInteger(6);
+            simpleServerMessageBuffer.AppendString(string.Empty);
+            simpleServerMessageBuffer.AppendInteger(session.GetHabbo().FavoriteRooms.Count);
 
             uint[] array = session.GetHabbo().FavoriteRooms.ToArray();
 
@@ -567,25 +568,25 @@ namespace Yupi.Emulator.Game.Browser
                 RoomData roomData in
                     array.Select(roomId => Yupi.GetGame().GetRoomManager().GenerateRoomData(roomId))
                         .Where(roomData => roomData != null))
-                roomData.Serialize(serverMessage);
+                roomData.Serialize(simpleServerMessageBuffer);
 
-            serverMessage.AppendBool(false);
+            simpleServerMessageBuffer.AppendBool(false);
 
-            return serverMessage;
+            return simpleServerMessageBuffer;
         }
 
         /// <summary>
         ///     Serializes the recent rooms.
         /// </summary>
         /// <param name="session">The session.</param>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage SerializeRecentRooms(GameClient session)
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer SerializeRecentRooms(GameClient session)
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("NavigatorListingsMessageComposer"));
-            serverMessage.AppendInteger(7);
-            serverMessage.AppendString(string.Empty);
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NavigatorListingsMessageComposer"));
+            simpleServerMessageBuffer.AppendInteger(7);
+            simpleServerMessageBuffer.AppendString(string.Empty);
 
-            serverMessage.StartArray();
+            simpleServerMessageBuffer.StartArray();
 
             foreach (
                 RoomData roomData in
@@ -593,36 +594,36 @@ namespace Yupi.Emulator.Game.Browser
                         .RecentlyVisitedRooms.Select(
                             current => Yupi.GetGame().GetRoomManager().GenerateRoomData(current)))
             {
-                roomData.Serialize(serverMessage);
-                serverMessage.SaveArray();
+                roomData.Serialize(simpleServerMessageBuffer);
+                simpleServerMessageBuffer.SaveArray();
             }
 
-            serverMessage.EndArray();
-            serverMessage.AppendBool(false);
+            simpleServerMessageBuffer.EndArray();
+            simpleServerMessageBuffer.AppendBool(false);
 
-            return serverMessage;
+            return simpleServerMessageBuffer;
         }
 
         /// <summary>
         ///     Serializes the event listing.
         /// </summary>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage SerializeEventListing()
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer SerializeEventListing()
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("NavigatorListingsMessageComposer"));
-            serverMessage.AppendInteger(16);
-            serverMessage.AppendString(string.Empty);
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NavigatorListingsMessageComposer"));
+            simpleServerMessageBuffer.AppendInteger(16);
+            simpleServerMessageBuffer.AppendString(string.Empty);
 
             KeyValuePair<RoomData, uint>[] eventRooms = Yupi.GetGame().GetRoomManager().GetEventRooms();
 
-            serverMessage.AppendInteger(eventRooms.Length);
+            simpleServerMessageBuffer.AppendInteger(eventRooms.Length);
 
             KeyValuePair<RoomData, uint>[] array = eventRooms;
 
             foreach (KeyValuePair<RoomData, uint> keyValuePair in array)
-                keyValuePair.Key.Serialize(serverMessage, true);
+                keyValuePair.Key.Serialize(simpleServerMessageBuffer, true);
 
-            return serverMessage;
+            return simpleServerMessageBuffer;
         }
 
         internal NavigatorCategory GetNavigatorCategory(string navigatorCategoryCaption) => InCategories.FirstOrDefault(c => c.Key == navigatorCategoryCaption).Value;
@@ -642,12 +643,12 @@ namespace Yupi.Emulator.Game.Browser
         /// <summary>
         ///     Serializes the popular room tags.
         /// </summary>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage SerializePopularRoomTags()
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer SerializePopularRoomTags()
         {
             Dictionary<string, int> dictionary = new Dictionary<string, int>();
 
-            ServerMessage result;
+            SimpleServerMessageBuffer result;
 
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
@@ -684,16 +685,16 @@ namespace Yupi.Emulator.Game.Browser
 
                 list2.Sort((firstPair, nextPair) => firstPair.Value.CompareTo(nextPair.Value));
 
-                ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("PopularRoomTagsMessageComposer"));
-                serverMessage.AppendInteger(list2.Count);
+                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("PopularRoomTagsMessageComposer"));
+                simpleServerMessageBuffer.AppendInteger(list2.Count);
 
                 foreach (KeyValuePair<string, int> current2 in list2)
                 {
-                    serverMessage.AppendString(current2.Key);
-                    serverMessage.AppendInteger(current2.Value);
+                    simpleServerMessageBuffer.AppendString(current2.Key);
+                    simpleServerMessageBuffer.AppendInteger(current2.Value);
                 }
 
-                result = serverMessage;
+                result = simpleServerMessageBuffer;
             }
 
             return result;
@@ -704,13 +705,13 @@ namespace Yupi.Emulator.Game.Browser
         /// </summary>
         /// <param name="session">The session.</param>
         /// <param name="mode">The mode.</param>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage SerializeNavigator(GameClient session, int mode)
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer SerializeNavigator(GameClient session, int mode)
         {
             if (mode >= 0)
                 return SerializeActiveRooms();
 
-            ServerMessage reply = new ServerMessage(PacketLibraryManager.OutgoingRequest("NavigatorListingsMessageComposer"));
+            SimpleServerMessageBuffer reply = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NavigatorListingsMessageComposer"));
 
             switch (mode)
             {
@@ -829,15 +830,15 @@ namespace Yupi.Emulator.Game.Browser
         /// <summary>
         ///     Serializes the active rooms.
         /// </summary>
-        /// <returns>ServerMessage.</returns>
-        private static ServerMessage SerializeActiveRooms() => null;
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        private static SimpleServerMessageBuffer SerializeActiveRooms() => null;
 
         /// <summary>
         ///     Serializes the navigator rooms.
         /// </summary>
         /// <param name="reply">The reply.</param>
         /// <param name="rooms">The rooms.</param>
-        private static void SerializeNavigatorRooms(ref ServerMessage reply, ICollection<RoomData> rooms)
+        private static void SerializeNavigatorRooms(ref SimpleServerMessageBuffer reply, ICollection<RoomData> rooms)
         {
             reply.AppendString(string.Empty);
 
@@ -865,7 +866,7 @@ namespace Yupi.Emulator.Game.Browser
         /// </summary>
         /// <param name="reply">The reply.</param>
         /// <param name="rooms">The rooms.</param>
-        private static void SerializeNavigatorPopularRooms(ref ServerMessage reply,
+        private static void SerializeNavigatorPopularRooms(ref SimpleServerMessageBuffer reply,
             ICollection<KeyValuePair<RoomData, uint>> rooms)
         {
             if (!rooms?.Any() ?? true)
@@ -891,7 +892,7 @@ namespace Yupi.Emulator.Game.Browser
         /// </summary>
         /// <param name="reply">The reply.</param>
         /// <param name="rooms">The rooms.</param>
-        private static void SerializeNavigatorRooms(ref ServerMessage reply,
+        private static void SerializeNavigatorRooms(ref SimpleServerMessageBuffer reply,
             ICollection<KeyValuePair<RoomData, int>> rooms)
         {
             reply.AppendString(string.Empty);
@@ -920,10 +921,10 @@ namespace Yupi.Emulator.Game.Browser
         /// </summary>
         /// <param name="session">The session.</param>
         /// <param name="mode">The mode.</param>
-        /// <returns>ServerMessage.</returns>
-        public static ServerMessage SerializePromoted(GameClient session, int mode)
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        public static SimpleServerMessageBuffer SerializePromoted(GameClient session, int mode)
         {
-            ServerMessage reply = new ServerMessage(PacketLibraryManager.OutgoingRequest("NavigatorListingsMessageComposer"));
+            SimpleServerMessageBuffer reply = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NavigatorListingsMessageComposer"));
 
             reply.AppendInteger(mode);
             reply.AppendString(string.Empty);
@@ -950,8 +951,8 @@ namespace Yupi.Emulator.Game.Browser
         ///     Serializes the search results.
         /// </summary>
         /// <param name="searchQuery">The search query.</param>
-        /// <returns>ServerMessage.</returns>
-        public static ServerMessage SerializeSearchResults(string searchQuery)
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        public static SimpleServerMessageBuffer SerializeSearchResults(string searchQuery)
         {
             bool containsOwner = false;
             bool containsGroup = false;
@@ -1036,17 +1037,17 @@ namespace Yupi.Emulator.Game.Browser
                 }
             }
 
-            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("NavigatorListingsMessageComposer"));
-            message.AppendInteger(8);
-            message.AppendString(originalQuery);
-            message.AppendInteger(rooms.Count);
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NavigatorListingsMessageComposer"));
+            messageBuffer.AppendInteger(8);
+            messageBuffer.AppendString(originalQuery);
+            messageBuffer.AppendInteger(rooms.Count);
 
             foreach (RoomData room in rooms)
-                room.Serialize(message);
+                room.Serialize(messageBuffer);
 
-            message.AppendBool(false);
+            messageBuffer.AppendBool(false);
 
-            return message;
+            return messageBuffer;
         }
     }
 }

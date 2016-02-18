@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Users.Messenger.Structs;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Messages.Handlers
@@ -133,7 +134,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 return;
             }
 
-            ServerMessage roomFwd = new ServerMessage(PacketLibraryManager.OutgoingRequest("RoomForwardMessageComposer"));
+            SimpleServerMessageBuffer roomFwd = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("RoomForwardMessageComposer"));
             roomFwd.AppendInteger(clientByUserId.GetHabbo().CurrentRoom.RoomId);
             Session.SendMessage(roomFwd);
         }
@@ -147,15 +148,15 @@ namespace Yupi.Emulator.Messages.Handlers
             List<uint> list = new List<uint>();
             for (int i = 0; i < num; i++) list.Add(Request.GetUInteger());
             string s = Request.GetString();
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("ConsoleInvitationMessageComposer"));
-            serverMessage.AppendInteger(Session.GetHabbo().Id);
-            serverMessage.AppendString(s);
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("ConsoleInvitationMessageComposer"));
+            simpleServerMessageBuffer.AppendInteger(Session.GetHabbo().Id);
+            simpleServerMessageBuffer.AppendString(s);
             foreach (GameClient clientByUserId in (from current in list
                 where Session.GetHabbo().GetMessenger().FriendshipExists(current)
                 select Yupi.GetGame().GetClientManager().GetClientByUserId(current))
                 .TakeWhile(
                     clientByUserId => clientByUserId != null))
-                clientByUserId.SendMessage(serverMessage);
+                clientByUserId.SendMessage(simpleServerMessageBuffer);
         }
     }
 }

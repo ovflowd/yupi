@@ -15,6 +15,7 @@ using Yupi.Emulator.Game.Rooms.Chat.Enums;
 using Yupi.Emulator.Game.Rooms.Data;
 using Yupi.Emulator.Game.Rooms.Items.Games.Teams.Enums;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Rooms.User.Path
@@ -52,7 +53,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// <summary>
         ///     The serialized floormap
         /// </summary>
-        internal ServerMessage SerializedFloormap;
+        internal SimpleServerMessageBuffer SerializedFloormap;
 
         /// <summary>
         ///     The walkable list
@@ -990,10 +991,10 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
                         _room.GetRoomUserManager().GetRoomUserByVirtualId(Convert.ToInt32(user.HorseId));
                     roomUserByVirtualId.IsWalking = false;
                     roomUserByVirtualId.RemoveStatus("mv");
-                    ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("UpdateUserStatusMessageComposer"));
-                    message.AppendInteger(1);
-                    roomUserByVirtualId.SerializeStatus(message, "");
-                    user.GetClient().GetHabbo().CurrentRoom.SendMessage(message);
+                    SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UpdateUserStatusMessageComposer"));
+                    messageBuffer.AppendInteger(1);
+                    roomUserByVirtualId.SerializeStatus(messageBuffer, "");
+                    user.GetClient().GetHabbo().CurrentRoom.SendMessage(messageBuffer);
                 }
             }
             else if (userForSquare != null && !_room.RoomData.AllowWalkThrough && !userForSquare.IsWalking)
@@ -1084,16 +1085,16 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
                 RoomUser roomUserByVirtualId =
                     _room.GetRoomUserManager().GetRoomUserByVirtualId(Convert.ToInt32(user.HorseId));
 
-                ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("UpdateUserStatusMessageComposer"));
-                message.AppendInteger(1);
+                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UpdateUserStatusMessageComposer"));
+                messageBuffer.AppendInteger(1);
                 if (roomUserByVirtualId != null)
                 {
                     roomUserByVirtualId.IsWalking = false;
                     roomUserByVirtualId.ClearMovement();
                     roomUserByVirtualId.RemoveStatus("mv");
-                    roomUserByVirtualId.SerializeStatus(message, "");
+                    roomUserByVirtualId.SerializeStatus(messageBuffer, "");
                 }
-                user.GetClient().GetHabbo().CurrentRoom.SendMessage(message);
+                user.GetClient().GetHabbo().CurrentRoom.SendMessage(messageBuffer);
             }
             else if (userForSquare != null && !_room.RoomData.AllowWalkThrough && !userForSquare.IsWalking)
                 return false;
@@ -1351,8 +1352,8 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// <summary>
         ///     Gets the new heightmap.
         /// </summary>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage GetNewHeightmap()
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer GetNewHeightmap()
         {
             if (SerializedFloormap != null)
                 return SerializedFloormap;
@@ -1609,22 +1610,22 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// <summary>
         ///     News the height map.
         /// </summary>
-        /// <returns>ServerMessage.</returns>
-        private ServerMessage NewHeightMap()
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        private SimpleServerMessageBuffer NewHeightMap()
         {
-            ServerMessage serverMessage = new ServerMessage();
-            serverMessage.Init(PacketLibraryManager.OutgoingRequest("HeightMapMessageComposer"));
-            serverMessage.AppendInteger(Model.MapSizeX);
-            serverMessage.AppendInteger(Model.MapSizeX*Model.MapSizeY);
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
+            simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingRequest("HeightMapMessageComposer"));
+            simpleServerMessageBuffer.AppendInteger(Model.MapSizeX);
+            simpleServerMessageBuffer.AppendInteger(Model.MapSizeX*Model.MapSizeY);
             for (int i = 0; i < Model.MapSizeY; i++)
             {
                 for (int j = 0; j < Model.MapSizeX; j++)
                 {
-                    serverMessage.AppendShort((short) (SqAbsoluteHeight(j, i)*256));
+                    simpleServerMessageBuffer.AppendShort((short) (SqAbsoluteHeight(j, i)*256));
                 }
             }
-            //  serverMessage.AppendShort(this.Model.SqFloorHeight[j, i] * 256);
-            return serverMessage;
+            //  SimpleServerMessageBuffer.AppendShort(this.Model.SqFloorHeight[j, i] * 256);
+            return simpleServerMessageBuffer;
         }
 
         internal MovementState GetChasingMovement(int x, int y)

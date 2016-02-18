@@ -10,6 +10,7 @@ using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Groups.Structs;
 using Yupi.Emulator.Game.Rooms.Chat;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Rooms.Data
@@ -387,29 +388,29 @@ namespace Yupi.Emulator.Game.Rooms.Data
         }
 
         /// <summary>
-        ///     Serializes the specified message.
+        ///     Serializes the specified messageBuffer.
         /// </summary>
-        /// <param name="message">The message.</param>
+        /// <param name="message">The messageBuffer.</param>
         /// <param name="showEvents">if set to <c>true</c> [show events].</param>
         /// <param name="enterRoom"></param>
-        internal void Serialize(ServerMessage message, bool showEvents = false, bool enterRoom = false)
+        internal void Serialize(SimpleServerMessageBuffer messageBuffer, bool showEvents = false, bool enterRoom = false)
         {
-            message.AppendInteger(Id);
-            message.AppendString(Name);
-            message.AppendInteger(OwnerId);
-            message.AppendString(Owner);
-            message.AppendInteger(State);
-            message.AppendInteger(UsersNow);
-            message.AppendInteger(UsersMax);
-            message.AppendString(Description);
-            message.AppendInteger(TradeState);
-            message.AppendInteger(Score);
-            message.AppendInteger(0); // Ranking
-            message.AppendInteger(Category > 0 ? Category : 0);
-            message.AppendInteger(TagCount);
+            messageBuffer.AppendInteger(Id);
+            messageBuffer.AppendString(Name);
+            messageBuffer.AppendInteger(OwnerId);
+            messageBuffer.AppendString(Owner);
+            messageBuffer.AppendInteger(State);
+            messageBuffer.AppendInteger(UsersNow);
+            messageBuffer.AppendInteger(UsersMax);
+            messageBuffer.AppendString(Description);
+            messageBuffer.AppendInteger(TradeState);
+            messageBuffer.AppendInteger(Score);
+            messageBuffer.AppendInteger(0); // Ranking
+            messageBuffer.AppendInteger(Category > 0 ? Category : 0);
+            messageBuffer.AppendInteger(TagCount);
 
             foreach (string current in Tags.Where(current => current != null))
-                message.AppendString(current);
+                messageBuffer.AppendString(current);
 
             string imageData = null;
 
@@ -436,62 +437,62 @@ namespace Yupi.Emulator.Game.Rooms.Data
             if (AllowPets)
                 enumType += 16;
 
-            message.AppendInteger(enumType);
+            messageBuffer.AppendInteger(enumType);
 
             if (imageData != null)
-                message.AppendString(imageData);
+                messageBuffer.AppendString(imageData);
 
             if (Group != null)
             {
-                message.AppendInteger(Group.Id);
-                message.AppendString(Group.Name);
-                message.AppendString(Group.Badge);
+                messageBuffer.AppendInteger(Group.Id);
+                messageBuffer.AppendString(Group.Name);
+                messageBuffer.AppendString(Group.Badge);
             }
 
             if (showEvents && Event != null)
             {
-                message.AppendString(Event.Name);
-                message.AppendString(Event.Description);
-                message.AppendInteger((int) Math.Floor((Event.Time - Yupi.GetUnixTimeStamp())/60.0));
+                messageBuffer.AppendString(Event.Name);
+                messageBuffer.AppendString(Event.Description);
+                messageBuffer.AppendInteger((int) Math.Floor((Event.Time - Yupi.GetUnixTimeStamp())/60.0));
             }
         }
 
         /// <summary>
         ///     Serializes the room data.
         /// </summary>
-        /// <param name="message">The message.</param>
+        /// <param name="message">The messageBuffer.</param>
         /// <param name="session">The session.</param>
         /// <param name="isNotReload">if set to <c>true</c> [from view].</param>
         /// <param name="sendRoom">if set to <c>true</c> [send room].</param>
         /// <param name="show">if set to <c>true</c> [show].</param>
-        internal void SerializeRoomData(ServerMessage message, GameClient session, bool isNotReload, bool? sendRoom = false, bool show = true)
+        internal void SerializeRoomData(SimpleServerMessageBuffer messageBuffer, GameClient session, bool isNotReload, bool? sendRoom = false, bool show = true)
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
 
-            message.Init(PacketLibraryManager.OutgoingRequest("RoomDataMessageComposer"));
-            message.AppendBool(show); //flatId
-            Serialize(message, true, !isNotReload);
-            message.AppendBool(isNotReload);
-            message.AppendBool(Yupi.GetGame().GetNavigator() != null && Yupi.GetGame().GetNavigator().GetPublicItem(Id) != null); // staffPick
-            message.AppendBool(!isNotReload || session.GetHabbo().HasFuse("fuse_mod")); // bypass bell, pass ...
-            message.AppendBool(room != null && room.RoomMuted); //roomMuted
-            message.AppendInteger(WhoCanMute);
-            message.AppendInteger(WhoCanKick);
-            message.AppendInteger(WhoCanBan);
-            message.AppendBool(room != null && room.CheckRights(session, true));
-            message.AppendInteger(ChatType);
-            message.AppendInteger(ChatBalloon);
-            message.AppendInteger(ChatSpeed);
-            message.AppendInteger(ChatMaxDistance);
-            message.AppendInteger(ChatFloodProtection);
+            messageBuffer.Init(PacketLibraryManager.OutgoingRequest("RoomDataMessageComposer"));
+            messageBuffer.AppendBool(show); //flatId
+            Serialize(messageBuffer, true, !isNotReload);
+            messageBuffer.AppendBool(isNotReload);
+            messageBuffer.AppendBool(Yupi.GetGame().GetNavigator() != null && Yupi.GetGame().GetNavigator().GetPublicItem(Id) != null); // staffPick
+            messageBuffer.AppendBool(!isNotReload || session.GetHabbo().HasFuse("fuse_mod")); // bypass bell, pass ...
+            messageBuffer.AppendBool(room != null && room.RoomMuted); //roomMuted
+            messageBuffer.AppendInteger(WhoCanMute);
+            messageBuffer.AppendInteger(WhoCanKick);
+            messageBuffer.AppendInteger(WhoCanBan);
+            messageBuffer.AppendBool(room != null && room.CheckRights(session, true));
+            messageBuffer.AppendInteger(ChatType);
+            messageBuffer.AppendInteger(ChatBalloon);
+            messageBuffer.AppendInteger(ChatSpeed);
+            messageBuffer.AppendInteger(ChatMaxDistance);
+            messageBuffer.AppendInteger(ChatFloodProtection);
             if (sendRoom == null) return;
 
             if (sendRoom.Value)
             {
                 if (Yupi.GetGame().GetRoomManager().GetRoom(Id) != null)
-                    Yupi.GetGame().GetRoomManager().GetRoom(Id).SendMessage(message);
+                    Yupi.GetGame().GetRoomManager().GetRoom(Id).SendMessage(messageBuffer);
             }
-            else session.SendMessage(message);
+            else session.SendMessage(messageBuffer);
         }
     }
 }

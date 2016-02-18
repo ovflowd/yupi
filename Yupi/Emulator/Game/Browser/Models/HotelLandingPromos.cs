@@ -23,6 +23,7 @@
 */
 
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Browser.Models
 {
@@ -92,8 +93,8 @@ namespace Yupi.Emulator.Game.Browser.Models
         ///     Serializes the specified composer.
         /// </summary>
         /// <param name="composer">The composer.</param>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage Serialize(ServerMessage composer)
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer Serialize(SimpleServerMessageBuffer composer)
         {
             composer.AppendInteger(_index);
             composer.AppendString(_header);

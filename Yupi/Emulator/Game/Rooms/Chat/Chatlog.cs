@@ -2,6 +2,7 @@ using System;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Emulator.Game.Users;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Rooms.Chat
 {
@@ -18,7 +19,7 @@ namespace Yupi.Emulator.Game.Rooms.Chat
         internal bool IsSaved;
 
         /// <summary>
-        ///     The message
+        ///     The messageBuffer
         /// </summary>
         internal string Message;
 
@@ -67,15 +68,15 @@ namespace Yupi.Emulator.Game.Rooms.Chat
             }
         }
 
-        internal void Serialize(ref ServerMessage message)
+        internal void Serialize(ref SimpleServerMessageBuffer messageBuffer)
         {
             Habbo habbo = Yupi.GetHabboById(UserId);
 
-            message.AppendInteger(Yupi.DifferenceInMilliSeconds(TimeStamp, DateTime.Now));
-            message.AppendInteger(UserId);
-            message.AppendString(habbo == null ? "*User not found*" : habbo.UserName);
-            message.AppendString(Message);
-            message.AppendBool(GlobalMessage);
+            messageBuffer.AppendInteger(Yupi.DifferenceInMilliSeconds(TimeStamp, DateTime.Now));
+            messageBuffer.AppendInteger(UserId);
+            messageBuffer.AppendString(habbo == null ? "*User not found*" : habbo.UserName);
+            messageBuffer.AppendString(Message);
+            messageBuffer.AppendBool(GlobalMessage);
         }
     }
 }

@@ -25,6 +25,7 @@
 using Yupi.Emulator.Game.Browser.Enums;
 using Yupi.Emulator.Game.Rooms.Data;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Browser.Models
 {
@@ -159,20 +160,20 @@ namespace Yupi.Emulator.Game.Browser.Models
         internal RoomData RoomInfo => RoomId > 0u ? Yupi.GetGame().GetRoomManager().GenerateRoomData(RoomId) : null;
 
         /// <summary>
-        ///     Serializes the specified message.
+        ///     Serializes the specified messageBuffer.
         /// </summary>
-        /// <param name="message">The message.</param>
-        internal void Serialize(ServerMessage message)
+        /// <param name="message">The messageBuffer.</param>
+        internal void Serialize(SimpleServerMessageBuffer messageBuffer)
         {
-            message.AppendInteger(Id);
-            message.AppendString(Caption);
-            message.AppendString(Description);
-            message.AppendInteger(Type);
-            message.AppendString(Caption);
-            message.AppendString(Image);
-            message.AppendInteger(ParentId);
-            message.AppendInteger(RoomInfo?.UsersNow ?? 0);
-            message.AppendInteger(ItemType == PublicItemType.None
+            messageBuffer.AppendInteger(Id);
+            messageBuffer.AppendString(Caption);
+            messageBuffer.AppendString(Description);
+            messageBuffer.AppendInteger(Type);
+            messageBuffer.AppendString(Caption);
+            messageBuffer.AppendString(Image);
+            messageBuffer.AppendInteger(ParentId);
+            messageBuffer.AppendInteger(RoomInfo?.UsersNow ?? 0);
+            messageBuffer.AppendInteger(ItemType == PublicItemType.None
                 ? 0
                 : (ItemType == PublicItemType.Tag
                     ? 1
@@ -185,16 +186,16 @@ namespace Yupi.Emulator.Game.Browser.Models
             switch (ItemType)
             {
                 case PublicItemType.Tag:
-                    message.AppendString(TagsToSearch);
+                    messageBuffer.AppendString(TagsToSearch);
                     break;
                 case PublicItemType.Category:
-                    message.AppendBool(false);
+                    messageBuffer.AppendBool(false);
                     break;
                 case PublicItemType.Flat:
-                    RoomInfo?.Serialize(message);
+                    RoomInfo?.Serialize(messageBuffer);
                     break;
                 case PublicItemType.PublicFlat:
-                    RoomInfo?.Serialize(message);
+                    RoomInfo?.Serialize(messageBuffer);
                     break;
             }
         }
@@ -202,13 +203,13 @@ namespace Yupi.Emulator.Game.Browser.Models
         /// <summary>
         ///     Serializes the new.
         /// </summary>
-        /// <param name="message">The message.</param>
-        internal void SerializeNew(ServerMessage message)
+        /// <param name="message">The messageBuffer.</param>
+        internal void SerializeNew(SimpleServerMessageBuffer messageBuffer)
         {
-            message.AppendInteger(RoomId);
-            message.AppendInteger(12);
-            message.AppendString(Image);
-            message.AppendString(Caption);
+            messageBuffer.AppendInteger(RoomId);
+            messageBuffer.AppendInteger(12);
+            messageBuffer.AppendString(Image);
+            messageBuffer.AppendString(Caption);
         }
     }
 }

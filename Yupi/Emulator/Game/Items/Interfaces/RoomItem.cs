@@ -27,6 +27,7 @@ using Yupi.Emulator.Game.Rooms.User;
 using Yupi.Emulator.Game.Rooms.User.Path;
 using Yupi.Emulator.Game.SoundMachine;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Items.Interfaces
@@ -1344,14 +1345,14 @@ namespace Yupi.Emulator.Game.Items.Interfaces
                             clientByUserId.GetMessageHandler().GetResponse().AppendInteger(clientByUserId.GetHabbo().AchievementPoints);
                             clientByUserId.GetMessageHandler().SendResponse();
 
-                            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("UpdateUserDataMessageComposer"));
-                            serverMessage.AppendInteger(InteractingUser2);
-                            serverMessage.AppendString(clientByUserId.GetHabbo().Look);
-                            serverMessage.AppendString(clientByUserId.GetHabbo().Gender.ToLower());
-                            serverMessage.AppendString(clientByUserId.GetHabbo().Motto);
-                            serverMessage.AppendInteger(clientByUserId.GetHabbo().AchievementPoints);
+                            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UpdateUserDataMessageComposer"));
+                            simpleServerMessageBuffer.AppendInteger(InteractingUser2);
+                            simpleServerMessageBuffer.AppendString(clientByUserId.GetHabbo().Look);
+                            simpleServerMessageBuffer.AppendString(clientByUserId.GetHabbo().Gender.ToLower());
+                            simpleServerMessageBuffer.AppendString(clientByUserId.GetHabbo().Motto);
+                            simpleServerMessageBuffer.AppendInteger(clientByUserId.GetHabbo().AchievementPoints);
 
-                            GetRoom().SendMessage(serverMessage);
+                            GetRoom().SendMessage(simpleServerMessageBuffer);
 
                             break;
                         }
@@ -1453,12 +1454,12 @@ namespace Yupi.Emulator.Game.Items.Interfaces
             if (!inRoom)
                 return;
 
-            ServerMessage serverMessage = new ServerMessage(0);
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(0);
 
             if (IsFloorItem)
             {
-                serverMessage.Init(PacketLibraryManager.OutgoingRequest("UpdateFloorItemExtraDataMessageComposer"));
-                serverMessage.AppendString(Id.ToString());
+                simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingRequest("UpdateFloorItemExtraDataMessageComposer"));
+                simpleServerMessageBuffer.AppendString(Id.ToString());
 
                 switch (GetBaseItem().InteractionType)
                 {
@@ -1485,48 +1486,48 @@ namespace Yupi.Emulator.Game.Items.Interfaces
                         }              
                     case Interaction.Mannequin:
                         {
-                            serverMessage.AppendInteger(1);
-                            serverMessage.AppendInteger(3);
+                            simpleServerMessageBuffer.AppendInteger(1);
+                            simpleServerMessageBuffer.AppendInteger(3);
 
                             if (ExtraData.Contains('\u0005'.ToString()))
                             {
                                 string[] mannequinData = ExtraData.Split('\u0005');
 
-                                serverMessage.AppendString("GENDER");
-                                serverMessage.AppendString(mannequinData[0]);
-                                serverMessage.AppendString("FIGURE");
-                                serverMessage.AppendString(mannequinData[1]);
-                                serverMessage.AppendString("OUTFIT_NAME");
-                                serverMessage.AppendString(mannequinData[2]);
+                                simpleServerMessageBuffer.AppendString("GENDER");
+                                simpleServerMessageBuffer.AppendString(mannequinData[0]);
+                                simpleServerMessageBuffer.AppendString("FIGURE");
+                                simpleServerMessageBuffer.AppendString(mannequinData[1]);
+                                simpleServerMessageBuffer.AppendString("OUTFIT_NAME");
+                                simpleServerMessageBuffer.AppendString(mannequinData[2]);
 
                                 break;
                             }
 
-                            serverMessage.AppendString("GENDER");
-                            serverMessage.AppendString(string.Empty);
-                            serverMessage.AppendString("FIGURE");
-                            serverMessage.AppendString(string.Empty);
-                            serverMessage.AppendString("OUTFIT_NAME");
-                            serverMessage.AppendString(string.Empty);
+                            simpleServerMessageBuffer.AppendString("GENDER");
+                            simpleServerMessageBuffer.AppendString(string.Empty);
+                            simpleServerMessageBuffer.AppendString("FIGURE");
+                            simpleServerMessageBuffer.AppendString(string.Empty);
+                            simpleServerMessageBuffer.AppendString("OUTFIT_NAME");
+                            simpleServerMessageBuffer.AppendString(string.Empty);
 
                             break;
                         }
                     case Interaction.Pinata:
                         {
-                            serverMessage.AppendInteger(7);
+                            simpleServerMessageBuffer.AppendInteger(7);
 
                             if (ExtraData.Length <= 0)
                             {
-                                serverMessage.AppendString("6");
-                                serverMessage.AppendInteger(0);
-                                serverMessage.AppendInteger(100);
+                                simpleServerMessageBuffer.AppendString("6");
+                                simpleServerMessageBuffer.AppendInteger(0);
+                                simpleServerMessageBuffer.AppendInteger(100);
 
                                 break;
                             }
 
-                            serverMessage.AppendString(int.Parse(ExtraData) == 100 ? "8" : "6");
-                            serverMessage.AppendInteger(int.Parse(ExtraData));
-                            serverMessage.AppendInteger(100);
+                            simpleServerMessageBuffer.AppendString(int.Parse(ExtraData) == 100 ? "8" : "6");
+                            simpleServerMessageBuffer.AppendInteger(int.Parse(ExtraData));
+                            simpleServerMessageBuffer.AppendInteger(100);
 
                             break;
                         }
@@ -1535,29 +1536,29 @@ namespace Yupi.Emulator.Game.Items.Interfaces
                             if (HighscoreData == null)
                                 HighscoreData = new HighscoreData(this);
 
-                            HighscoreData.GenerateExtraData(this, serverMessage);
+                            HighscoreData.GenerateExtraData(this, simpleServerMessageBuffer);
 
                             break;
                         }
                     case Interaction.CrackableEgg:
                         {
-                            Yupi.GetGame().GetCrackableEggHandler().GetServerMessage(serverMessage, this);
+                            Yupi.GetGame().GetCrackableEggHandler().GetServerMessage(simpleServerMessageBuffer, this);
 
                             break;
                         }
                     case Interaction.YoutubeTv:
                         {
-                            serverMessage.AppendInteger(1);
-                            serverMessage.AppendInteger(1);
-                            serverMessage.AppendString("THUMBNAIL_URL");
-                            serverMessage.AppendString(ExtraData);
+                            simpleServerMessageBuffer.AppendInteger(1);
+                            simpleServerMessageBuffer.AppendInteger(1);
+                            simpleServerMessageBuffer.AppendString("THUMBNAIL_URL");
+                            simpleServerMessageBuffer.AppendString(ExtraData);
 
                             break;
                         }
                     default:
                         {
-                            serverMessage.AppendInteger(0);
-                            serverMessage.AppendString(ExtraData);
+                            simpleServerMessageBuffer.AppendInteger(0);
+                            simpleServerMessageBuffer.AppendString(ExtraData);
 
                             break;
                         }  
@@ -1566,29 +1567,29 @@ namespace Yupi.Emulator.Game.Items.Interfaces
 
             if (IsWallItem)
             {
-                serverMessage.Init(PacketLibraryManager.OutgoingRequest("UpdateRoomWallItemMessageComposer"));
+                simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingRequest("UpdateRoomWallItemMessageComposer"));
 
-                Serialize(serverMessage);
+                Serialize(simpleServerMessageBuffer);
             }
 
-            GetRoom().SendMessage(serverMessage);
+            GetRoom().SendMessage(simpleServerMessageBuffer);
         }
 
         /// <summary>
-        ///     Serializes the specified message.
+        ///     Serializes the specified messageBuffer.
         /// </summary>
-        /// <param name="message">The message.</param>
-        internal void Serialize(ServerMessage message)
+        /// <param name="message">The messageBuffer.</param>
+        internal void Serialize(SimpleServerMessageBuffer messageBuffer)
         {
             if (IsFloorItem)
             {
-                message.AppendInteger(Id);
-                message.AppendInteger(GetBaseItem().SpriteId);
-                message.AppendInteger(X);
-                message.AppendInteger(Y);
-                message.AppendInteger(Rot);
-                message.AppendString(ServerUserChatTextHandler.GetString(Z));
-                message.AppendString(ServerUserChatTextHandler.GetString(GetBaseItem().Height));
+                messageBuffer.AppendInteger(Id);
+                messageBuffer.AppendInteger(GetBaseItem().SpriteId);
+                messageBuffer.AppendInteger(X);
+                messageBuffer.AppendInteger(Y);
+                messageBuffer.AppendInteger(Rot);
+                messageBuffer.AppendString(ServerUserChatTextHandler.GetString(Z));
+                messageBuffer.AppendString(ServerUserChatTextHandler.GetString(GetBaseItem().Height));
 
                 switch (GetBaseItem().InteractionType)
                 {
@@ -1601,68 +1602,68 @@ namespace Yupi.Emulator.Game.Items.Interfaces
 
                             if (itemGroup == null)
                             {
-                                message.AppendInteger(1);
-                                message.AppendInteger(0);
-                                message.AppendString(ExtraData);
+                                messageBuffer.AppendInteger(1);
+                                messageBuffer.AppendInteger(0);
+                                messageBuffer.AppendString(ExtraData);
 
                                 break;
                             }
 
-                            message.AppendInteger(0);
-                            message.AppendInteger(2);
-                            message.AppendInteger(5);
-                            message.AppendString(ExtraData);
-                            message.AppendString(GroupId.ToString());
-                            message.AppendString(itemGroup.Badge);
-                            message.AppendString(Yupi.GetGame().GetGroupManager().GetGroupColour(itemGroup.Colour1, true));
-                            message.AppendString(Yupi.GetGame().GetGroupManager().GetGroupColour(itemGroup.Colour2, false));
+                            messageBuffer.AppendInteger(0);
+                            messageBuffer.AppendInteger(2);
+                            messageBuffer.AppendInteger(5);
+                            messageBuffer.AppendString(ExtraData);
+                            messageBuffer.AppendString(GroupId.ToString());
+                            messageBuffer.AppendString(itemGroup.Badge);
+                            messageBuffer.AppendString(Yupi.GetGame().GetGroupManager().GetGroupColour(itemGroup.Colour1, true));
+                            messageBuffer.AppendString(Yupi.GetGame().GetGroupManager().GetGroupColour(itemGroup.Colour2, false));
 
                             break;
                         }
                     case Interaction.YoutubeTv:
                         {
-                            message.AppendInteger(0);
+                            messageBuffer.AppendInteger(0);
 
                             if (string.IsNullOrEmpty(ExtraData))
                             {
-                                message.AppendInteger(0);
-                                message.AppendString(string.Empty);
+                                messageBuffer.AppendInteger(0);
+                                messageBuffer.AppendString(string.Empty);
 
                                 break;
                             }
 
-                            message.AppendInteger(1);
-                            message.AppendInteger(1);
-                            message.AppendString("THUMBNAIL_URL");
-                            message.AppendString(ExtraData);
+                            messageBuffer.AppendInteger(1);
+                            messageBuffer.AppendInteger(1);
+                            messageBuffer.AppendString("THUMBNAIL_URL");
+                            messageBuffer.AppendString(ExtraData);
 
                             break;
                         }
                     case Interaction.MusicDisc:
                         {
-                            message.AppendInteger(SoundMachineSongManager.GetSongId(SongCode));
-                            message.AppendInteger(0);
-                            message.AppendString(ExtraData);
+                            messageBuffer.AppendInteger(SoundMachineSongManager.GetSongId(SongCode));
+                            messageBuffer.AppendInteger(0);
+                            messageBuffer.AppendString(ExtraData);
 
                             break;
                         }
                     case Interaction.Background:
                     case Interaction.WalkInternalLink:
                         {
-                            message.AppendInteger(0);
-                            message.AppendInteger(1);
+                            messageBuffer.AppendInteger(0);
+                            messageBuffer.AppendInteger(1);
 
                             if (!string.IsNullOrEmpty(ExtraData))
                             {
-                                message.AppendInteger(ExtraData.Split('\t').Length / 2);
+                                messageBuffer.AppendInteger(ExtraData.Split('\t').Length / 2);
 
                                 for (int i = 0; i <= ExtraData.Split('\t').Length - 1; i++)
-                                    message.AppendString(ExtraData.Split('\t')[i]);
+                                    messageBuffer.AppendString(ExtraData.Split('\t')[i]);
 
                                 break;
                             }
 
-                            message.AppendInteger(0);
+                            messageBuffer.AppendInteger(0);
 
                             break;
                         }
@@ -1692,74 +1693,74 @@ namespace Yupi.Emulator.Game.Items.Interfaces
 
                             int ribbonAndColor = giftRibbon * 1000 + giftColor;
 
-                            message.AppendInteger(ribbonAndColor);
-                            message.AppendInteger(1);
-                            message.AppendInteger(showGiver ? 6 : 4);
-                            message.AppendString("EXTRA_PARAM");
-                            message.AppendString(string.Empty);
-                            message.AppendString("MESSAGE");
-                            message.AppendString(giftMessage);
+                            messageBuffer.AppendInteger(ribbonAndColor);
+                            messageBuffer.AppendInteger(1);
+                            messageBuffer.AppendInteger(showGiver ? 6 : 4);
+                            messageBuffer.AppendString("EXTRA_PARAM");
+                            messageBuffer.AppendString(string.Empty);
+                            messageBuffer.AppendString("MESSAGE");
+                            messageBuffer.AppendString(giftMessage);
 
                             if (showGiver)
                             {
-                                message.AppendString("PURCHASER_NAME");
-                                message.AppendString(giverName);
-                                message.AppendString("PURCHASER_FIGURE");
-                                message.AppendString(giverLook);
+                                messageBuffer.AppendString("PURCHASER_NAME");
+                                messageBuffer.AppendString(giverName);
+                                messageBuffer.AppendString("PURCHASER_FIGURE");
+                                messageBuffer.AppendString(giverLook);
                             }
 
-                            message.AppendString("PRODUCT_CODE");
-                            message.AppendString(product);
-                            message.AppendString("state");
-                            message.AppendString(MagicRemove ? "1" : "0");
+                            messageBuffer.AppendString("PRODUCT_CODE");
+                            messageBuffer.AppendString(product);
+                            messageBuffer.AppendString("state");
+                            messageBuffer.AppendString(MagicRemove ? "1" : "0");
 
                             break;
                         }
                     case Interaction.Pinata:
                         {
-                            message.AppendInteger(0);
-                            message.AppendInteger(7);
-                            message.AppendString(ExtraData == "100" ? "8" : "6");
+                            messageBuffer.AppendInteger(0);
+                            messageBuffer.AppendInteger(7);
+                            messageBuffer.AppendString(ExtraData == "100" ? "8" : "6");
 
                             if (ExtraData.Length <= 0)
                             {
-                                message.AppendInteger(0);
-                                message.AppendInteger(100);
+                                messageBuffer.AppendInteger(0);
+                                messageBuffer.AppendInteger(100);
 
                                 break;
                             }
 
-                            message.AppendInteger(int.Parse(ExtraData));
-                            message.AppendInteger(100);
+                            messageBuffer.AppendInteger(int.Parse(ExtraData));
+                            messageBuffer.AppendInteger(100);
 
                             break;
                         }
                     case Interaction.Mannequin:
                         {
-                            message.AppendInteger(0);
-                            message.AppendInteger(1);
-                            message.AppendInteger(3);
+                            messageBuffer.AppendInteger(0);
+                            messageBuffer.AppendInteger(1);
+                            messageBuffer.AppendInteger(3);
 
                             if (ExtraData.Contains('\u0005'.ToString()))
                             {
                                 string[] mannequinData = ExtraData.Split('\u0005');
 
-                                message.AppendString("GENDER");
-                                message.AppendString(mannequinData[0]);
-                                message.AppendString("FIGURE");
-                                message.AppendString(mannequinData[1]);
-                                message.AppendString("OUTFIT_NAME");
-                                message.AppendString(mannequinData[2]);
+                                messageBuffer.AppendString("GENDER");
+                                messageBuffer.AppendString(mannequinData[0]);
+                                messageBuffer.AppendString("FIGURE");
+                                messageBuffer.AppendString(mannequinData[1]);
+                                messageBuffer.AppendString("OUTFIT_NAME");
+                                messageBuffer.AppendString(mannequinData[2]);
 
                                 break;
                             }
 
-                            message.AppendString("GENDER");
-                            message.AppendString(string.Empty);
-                            message.AppendString("FIGURE");
-                            message.AppendString(string.Empty);
-                            message.AppendString("OUTFIT_NAME");
-                            message.AppendString(string.Empty);
+                            messageBuffer.AppendString("GENDER");
+                            messageBuffer.AppendString(string.Empty);
+                            messageBuffer.AppendString("FIGURE");
+                            messageBuffer.AppendString(string.Empty);
+                            messageBuffer.AppendString("OUTFIT_NAME");
+                            messageBuffer.AppendString(string.Empty);
 
                             break;
                         }
@@ -1767,13 +1768,13 @@ namespace Yupi.Emulator.Game.Items.Interfaces
                         {
                             string[] badgeData = ExtraData.Split('|');
 
-                            message.AppendInteger(0);
-                            message.AppendInteger(2);
-                            message.AppendInteger(4);
-                            message.AppendString("0");
-                            message.AppendString(badgeData[0]);
-                            message.AppendString(badgeData.Length > 1 ? badgeData[1] : string.Empty);
-                            message.AppendString(badgeData.Length > 1 ? badgeData[2] : string.Empty);
+                            messageBuffer.AppendInteger(0);
+                            messageBuffer.AppendInteger(2);
+                            messageBuffer.AppendInteger(4);
+                            messageBuffer.AppendString("0");
+                            messageBuffer.AppendString(badgeData[0]);
+                            messageBuffer.AppendString(badgeData.Length > 1 ? badgeData[1] : string.Empty);
+                            messageBuffer.AppendString(badgeData.Length > 1 ? badgeData[2] : string.Empty);
 
                             break;
                         }
@@ -1781,23 +1782,23 @@ namespace Yupi.Emulator.Game.Items.Interfaces
                         {
                             string[] data = ExtraData.Split('\u0005');
 
-                            message.AppendInteger(0);
-                            message.AppendInteger(2);
-                            message.AppendInteger(data.Length);
+                            messageBuffer.AppendInteger(0);
+                            messageBuffer.AppendInteger(2);
+                            messageBuffer.AppendInteger(data.Length);
 
                             foreach (string datak in data)
-                                message.AppendString(datak);
+                                messageBuffer.AppendString(datak);
 
                             break;
                         }
                     case Interaction.Moplaseed:
                     case Interaction.RareMoplaSeed:
                         {
-                            message.AppendInteger(0);
-                            message.AppendInteger(1);
-                            message.AppendInteger(1);
-                            message.AppendString("rarity");
-                            message.AppendString(ExtraData);
+                            messageBuffer.AppendInteger(0);
+                            messageBuffer.AppendInteger(1);
+                            messageBuffer.AppendInteger(1);
+                            messageBuffer.AppendString("rarity");
+                            messageBuffer.AppendString(ExtraData);
 
                             break;
                         }
@@ -1806,35 +1807,35 @@ namespace Yupi.Emulator.Game.Items.Interfaces
                             if (_mRoom.TonerData == null)
                                 _mRoom.TonerData = new TonerData(Id);
 
-                            _mRoom.TonerData.GenerateExtraData(message);
+                            _mRoom.TonerData.GenerateExtraData(messageBuffer);
 
                             break;
                         }
                     case Interaction.AdsMpu:
                         {
-                            message.AppendInteger(0);
-                            message.AppendInteger(1);
+                            messageBuffer.AppendInteger(0);
+                            messageBuffer.AppendInteger(1);
 
                             if (!string.IsNullOrEmpty(ExtraData) && ExtraData.Contains('\t'))
                             {
                                 string[] backgroundData = ExtraData.Split('\t');
 
-                                message.AppendInteger(backgroundData.Length / 2);
+                                messageBuffer.AppendInteger(backgroundData.Length / 2);
 
                                 foreach (string dataStr in backgroundData)
-                                    message.AppendString(dataStr);
+                                    messageBuffer.AppendString(dataStr);
 
                                 break;
                             }
 
-                            message.AppendInteger(0);
+                            messageBuffer.AppendInteger(0);
 
                             break;
                         }
                     case Interaction.MysteryBox:
                         {
-                            message.AppendInteger(0);
-                            message.AppendInteger(0);
+                            messageBuffer.AppendInteger(0);
+                            messageBuffer.AppendInteger(0);
 
                             if (ExtraData.Contains('\u0005'.ToString()))
                             {
@@ -1844,14 +1845,14 @@ namespace Yupi.Emulator.Game.Items.Interfaces
 
                                 int secondProbability = int.Parse(mysterBoxData[1]);
 
-                                message.AppendString((3 * firstProbability - secondProbability).ToString());
+                                messageBuffer.AppendString((3 * firstProbability - secondProbability).ToString());
 
                                 break;
                             }
 
                             ExtraData = $"0{'\u0005'}0";
 
-                            message.AppendString("0");
+                            messageBuffer.AppendString("0");
 
                             break;
                         }
@@ -1860,17 +1861,17 @@ namespace Yupi.Emulator.Game.Items.Interfaces
                             if (HighscoreData == null)
                                 HighscoreData = new HighscoreData(this);
 
-                            message.AppendInteger(0);
+                            messageBuffer.AppendInteger(0);
 
-                            HighscoreData.GenerateExtraData(this, message);
+                            HighscoreData.GenerateExtraData(this, messageBuffer);
 
                             break;
                         }
                     case Interaction.CrackableEgg:
                         {
-                            message.AppendInteger(0);
+                            messageBuffer.AppendInteger(0);
 
-                            Yupi.GetGame().GetCrackableEggHandler().GetServerMessage(message, this);
+                            Yupi.GetGame().GetCrackableEggHandler().GetServerMessage(messageBuffer, this);
 
                             break;
                         }
@@ -1878,25 +1879,25 @@ namespace Yupi.Emulator.Game.Items.Interfaces
                         {
                             if (LimitedNo > 0)
                             {
-                                message.AppendInteger(1);
-                                message.AppendInteger(256);
-                                message.AppendString(ExtraData);
-                                message.AppendInteger(LimitedNo);
-                                message.AppendInteger(LimitedTot);
+                                messageBuffer.AppendInteger(1);
+                                messageBuffer.AppendInteger(256);
+                                messageBuffer.AppendString(ExtraData);
+                                messageBuffer.AppendInteger(LimitedNo);
+                                messageBuffer.AppendInteger(LimitedTot);
 
                                 break;
                             }
 
-                            message.AppendInteger(GetBaseItem().InteractionType == Interaction.TileStackMagic ? 0 : 1);
+                            messageBuffer.AppendInteger(GetBaseItem().InteractionType == Interaction.TileStackMagic ? 0 : 1);
 
-                            message.AppendInteger(0);
-                            message.AppendString(ExtraData);
+                            messageBuffer.AppendInteger(0);
+                            messageBuffer.AppendString(ExtraData);
 
                             break;
                         }
                 }
 
-                message.AppendInteger(-1);
+                messageBuffer.AppendInteger(-1);
 
                 switch (GetBaseItem().InteractionType)
                 {
@@ -1904,26 +1905,26 @@ namespace Yupi.Emulator.Game.Items.Interfaces
                     case Interaction.YoutubeTv:
                     case Interaction.Background:
                         {
-                            message.AppendInteger(2);
+                            messageBuffer.AppendInteger(2);
 
                             break;
                         }
                     case Interaction.Moplaseed:
                     case Interaction.RareMoplaSeed:
                         {
-                            message.AppendInteger(1);
+                            messageBuffer.AppendInteger(1);
 
                             break;
                         }
                     default:
                         {
-                            message.AppendInteger(GetBaseItem().Modes > 1 ? 1 : 0);
+                            messageBuffer.AppendInteger(GetBaseItem().Modes > 1 ? 1 : 0);
 
                             break;
                         }
                 }
 
-                message.AppendInteger(IsBuilder ? -12345678 : Convert.ToInt32(UserId));
+                messageBuffer.AppendInteger(IsBuilder ? -12345678 : Convert.ToInt32(UserId));
 
                 return;
             }
@@ -1931,16 +1932,16 @@ namespace Yupi.Emulator.Game.Items.Interfaces
             if (!IsWallItem)
                 return;
 
-            message.AppendString($"{Id}{string.Empty}");
-            message.AppendInteger(GetBaseItem().SpriteId);
-            message.AppendString(WallCoord?.ToString() ?? string.Empty);
+            messageBuffer.AppendString($"{Id}{string.Empty}");
+            messageBuffer.AppendInteger(GetBaseItem().SpriteId);
+            messageBuffer.AppendString(WallCoord?.ToString() ?? string.Empty);
 
             Interaction interactionType = GetBaseItem().InteractionType;
 
-            message.AppendString(interactionType == Interaction.PostIt ? ExtraData.Split(' ')[0] : ExtraData);
-            message.AppendInteger(-1);
-            message.AppendInteger(GetBaseItem().Modes > 1 ? 1 : 0);
-            message.AppendInteger(IsBuilder ? -12345678 : Convert.ToInt32(UserId));
+            messageBuffer.AppendString(interactionType == Interaction.PostIt ? ExtraData.Split(' ')[0] : ExtraData);
+            messageBuffer.AppendInteger(-1);
+            messageBuffer.AppendInteger(GetBaseItem().Modes > 1 ? 1 : 0);
+            messageBuffer.AppendInteger(IsBuilder ? -12345678 : Convert.ToInt32(UserId));
         }
 
         /// <summary>

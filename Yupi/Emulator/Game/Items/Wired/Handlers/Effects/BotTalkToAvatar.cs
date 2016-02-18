@@ -5,6 +5,7 @@ using Yupi.Emulator.Game.Items.Wired.Interfaces;
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Rooms.User;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Items.Wired.Handlers.Effects
@@ -56,7 +57,7 @@ namespace Yupi.Emulator.Game.Items.Wired.Handlers.Effects
 
             if (OtherBool)
             {
-                ServerMessage whisp = new ServerMessage(PacketLibraryManager.OutgoingRequest("WhisperMessageComposer"));
+                SimpleServerMessageBuffer whisp = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WhisperMessageComposer"));
                 whisp.AppendInteger(bot.VirtualId);
                 whisp.AppendString(OtherExtraString);
                 whisp.AppendInteger(0);

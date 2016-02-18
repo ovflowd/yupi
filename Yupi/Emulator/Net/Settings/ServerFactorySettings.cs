@@ -53,15 +53,5 @@ namespace Yupi.Emulator.Net.Settings
         ///     Max Worker Size
         /// </summary>
         internal static int MaxWorkerSize;
-
-        /// <summary>
-        ///     Add Connection Id and Return
-        /// </summary>
-        internal static uint AddConnection() => AcceptedConnections++;
-
-        /// <summary>
-        ///     Return Accepted Connections Count
-        /// </summary>
-        internal static uint CountAcceptedConnections() => AcceptedConnections;
     }
 }

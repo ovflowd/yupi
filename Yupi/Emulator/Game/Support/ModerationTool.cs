@@ -11,7 +11,7 @@ using Yupi.Emulator.Game.Rooms.Chat;
 using Yupi.Emulator.Game.Rooms.Data;
 using Yupi.Emulator.Game.Users;
 using Yupi.Emulator.Messages;
-using Yupi.Emulator.Messages.Parsers;
+using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Support
 {
@@ -31,7 +31,7 @@ namespace Yupi.Emulator.Game.Support
         internal Dictionary<uint, ModerationTemplate> ModerationTemplates;
 
         /// <summary>
-        ///     The room message presets
+        ///     The room messageBuffer presets
         /// </summary>
         internal List<string> RoomMessagePresets;
 
@@ -46,7 +46,7 @@ namespace Yupi.Emulator.Game.Support
         internal List<SupportTicket> Tickets;
 
         /// <summary>
-        ///     The user message presets
+        ///     The user messageBuffer presets
         /// </summary>
         internal List<string> UserMessagePresets;
 
@@ -77,10 +77,11 @@ namespace Yupi.Emulator.Game.Support
         /// <param name="ticket">The ticket.</param>
         internal static void SendTicketToModerators(SupportTicket ticket)
         {
-            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("ModerationToolIssueMessageComposer"));
-            message = ticket.Serialize(message);
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("ModerationToolIssueMessageComposer"));
 
-            Yupi.GetGame().GetClientManager().StaffAlert(message);
+            messageBuffer = ticket.Serialize(messageBuffer);
+
+            Yupi.GetGame().GetClientManager().StaffAlert(messageBuffer);
         }
 
         /// <summary>
@@ -91,9 +92,9 @@ namespace Yupi.Emulator.Game.Support
         /// <param name="kickUsers">if set to <c>true</c> [kick users].</param>
         /// <param name="lockRoom">if set to <c>true</c> [lock room].</param>
         /// <param name="inappropriateRoom">if set to <c>true</c> [inappropriate room].</param>
-        /// <param name="message">The message.</param>
+        /// <param name="messageBuffer">The messageBuffer.</param>
         internal static void PerformRoomAction(GameClient modSession, uint roomId, bool kickUsers, bool lockRoom,
-            bool inappropriateRoom, ServerMessage message)
+            bool inappropriateRoom, SimpleServerMessageBuffer messageBuffer)
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(roomId);
 
@@ -114,7 +115,7 @@ namespace Yupi.Emulator.Game.Support
                 room.RoomData.Name = "Inapropriado para a Gerência do Hotel";
                 room.RoomData.Description = "A descrição do quarto não é permitida.";
                 room.ClearTags();
-                room.RoomData.SerializeRoomData(message, modSession, false, true);
+                room.RoomData.SerializeRoomData(messageBuffer, modSession, false, true);
             }
 
             if (kickUsers)
@@ -129,9 +130,8 @@ namespace Yupi.Emulator.Game.Support
         internal static void ModActionResult(uint userId, bool result)
         {
             GameClient clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(userId);
-            clientByUserId.GetMessageHandler()
-                .GetResponse()
-                .Init(PacketLibraryManager.OutgoingRequest("ModerationActionResultMessageComposer"));
+
+            clientByUserId.GetMessageHandler().GetResponse().Init(PacketLibraryManager.OutgoingRequest("ModerationActionResultMessageComposer"));
             clientByUserId.GetMessageHandler().GetResponse().AppendInteger(userId);
             clientByUserId.GetMessageHandler().GetResponse().AppendBool(false);
             clientByUserId.GetMessageHandler().SendResponse();
@@ -141,33 +141,33 @@ namespace Yupi.Emulator.Game.Support
         ///     Serializes the room tool.
         /// </summary>
         /// <param name="data">The data.</param>
-        /// <returns>ServerMessage.</returns>
-        internal static ServerMessage SerializeRoomTool(RoomData data)
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal static SimpleServerMessageBuffer SerializeRoomTool(RoomData data)
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(data.Id);
 
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("ModerationRoomToolMessageComposer"));
-            serverMessage.AppendInteger(data.Id);
-            serverMessage.AppendInteger(data.UsersNow);
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("ModerationRoomToolMessageComposer"));
+            simpleServerMessageBuffer.AppendInteger(data.Id);
+            simpleServerMessageBuffer.AppendInteger(data.UsersNow);
 
             if (room != null)
-                serverMessage.AppendBool(room.GetRoomUserManager().GetRoomUserByHabbo(data.Owner) != null);
+                simpleServerMessageBuffer.AppendBool(room.GetRoomUserManager().GetRoomUserByHabbo(data.Owner) != null);
             else
-                serverMessage.AppendBool(false);
+                simpleServerMessageBuffer.AppendBool(false);
 
-            serverMessage.AppendInteger(room?.RoomData.OwnerId ?? 0);
-            serverMessage.AppendString(data.Owner);
-            serverMessage.AppendBool(room != null);
-            serverMessage.AppendString(data.Name);
-            serverMessage.AppendString(data.Description);
-            serverMessage.AppendInteger(data.TagCount);
+            simpleServerMessageBuffer.AppendInteger(room?.RoomData.OwnerId ?? 0);
+            simpleServerMessageBuffer.AppendString(data.Owner);
+            simpleServerMessageBuffer.AppendBool(room != null);
+            simpleServerMessageBuffer.AppendString(data.Name);
+            simpleServerMessageBuffer.AppendString(data.Description);
+            simpleServerMessageBuffer.AppendInteger(data.TagCount);
 
             foreach (string current in data.Tags)
-                serverMessage.AppendString(current);
+                simpleServerMessageBuffer.AppendString(current);
 
-            serverMessage.AppendBool(false);
+            simpleServerMessageBuffer.AppendBool(false);
 
-            return serverMessage;
+            return simpleServerMessageBuffer;
         }
 
         /// <summary>
@@ -175,7 +175,7 @@ namespace Yupi.Emulator.Game.Support
         /// </summary>
         /// <param name="modSession">The mod session.</param>
         /// <param name="userId">The user identifier.</param>
-        /// <param name="message">The message.</param>
+        /// <param name="message">The messageBuffer.</param>
         /// <param name="soft">if set to <c>true</c> [soft].</param>
         internal static void KickUser(GameClient modSession, uint userId, string message, bool soft)
         {
@@ -217,7 +217,7 @@ namespace Yupi.Emulator.Game.Support
         /// </summary>
         /// <param name="modSession">The mod session.</param>
         /// <param name="userId">The user identifier.</param>
-        /// <param name="message">The message.</param>
+        /// <param name="message">The messageBuffer.</param>
         /// <param name="caution">if set to <c>true</c> [caution].</param>
         internal static void AlertUser(GameClient modSession, uint userId, string message, bool caution)
         {
@@ -231,7 +231,7 @@ namespace Yupi.Emulator.Game.Support
         /// </summary>
         /// <param name="modSession">The mod session.</param>
         /// <param name="userId">The user identifier.</param>
-        /// <param name="message">The message.</param>
+        /// <param name="message">The messageBuffer.</param>
         /// <param name="length">The length.</param>
         internal static void LockTrade(GameClient modSession, uint userId, string message, int length)
         {
@@ -258,7 +258,7 @@ namespace Yupi.Emulator.Game.Support
         /// <param name="modSession">The mod session.</param>
         /// <param name="userId">The user identifier.</param>
         /// <param name="length">The length.</param>
-        /// <param name="message">The message.</param>
+        /// <param name="message">The messageBuffer.</param>
         internal static void BanUser(GameClient modSession, uint userId, int length, string message)
         {
             GameClient clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(userId);
@@ -284,11 +284,11 @@ namespace Yupi.Emulator.Game.Support
         ///     Serializes the user information.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
-        /// <returns>ServerMessage.</returns>
+        /// <returns>SimpleServerMessageBuffer.</returns>
         /// <exception cref="System.NullReferenceException">User not found in database.</exception>
-        internal static ServerMessage SerializeUserInfo(uint userId)
+        internal static SimpleServerMessageBuffer SerializeUserInfo(uint userId)
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("ModerationToolUserToolMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("ModerationToolUserToolMessageComposer"));
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 if (queryReactor != null)
@@ -303,61 +303,61 @@ namespace Yupi.Emulator.Game.Support
                     DataRow row = queryReactor.GetRow();
 
                     uint id = Convert.ToUInt32(row["id"]);
-                    serverMessage.AppendInteger(id);
-                    serverMessage.AppendString(row["username"].ToString());
-                    serverMessage.AppendString(row["look"].ToString());
+                    simpleServerMessageBuffer.AppendInteger(id);
+                    simpleServerMessageBuffer.AppendString(row["username"].ToString());
+                    simpleServerMessageBuffer.AppendString(row["look"].ToString());
                     double regTimestamp = (double) row["reg_timestamp"];
                     double loginTimestamp = (double) row["login_timestamp"];
                     int unixTimestamp = Yupi.GetUnixTimeStamp();
-                    serverMessage.AppendInteger(
+                    simpleServerMessageBuffer.AppendInteger(
                         (int) (regTimestamp > 0 ? Math.Ceiling((unixTimestamp - regTimestamp)/60.0) : regTimestamp));
-                    serverMessage.AppendInteger(
+                    simpleServerMessageBuffer.AppendInteger(
                         (int)
                             (loginTimestamp > 0 ? Math.Ceiling((unixTimestamp - loginTimestamp)/60.0) : loginTimestamp));
-                    serverMessage.AppendBool(true);
-                    serverMessage.AppendInteger(Convert.ToInt32(row["cfhs"]));
-                    serverMessage.AppendInteger(Convert.ToInt32(row["cfhs_abusive"]));
-                    serverMessage.AppendInteger(Convert.ToInt32(row["cautions"]));
-                    serverMessage.AppendInteger(Convert.ToInt32(row["bans"]));
+                    simpleServerMessageBuffer.AppendBool(true);
+                    simpleServerMessageBuffer.AppendInteger(Convert.ToInt32(row["cfhs"]));
+                    simpleServerMessageBuffer.AppendInteger(Convert.ToInt32(row["cfhs_abusive"]));
+                    simpleServerMessageBuffer.AppendInteger(Convert.ToInt32(row["cautions"]));
+                    simpleServerMessageBuffer.AppendInteger(Convert.ToInt32(row["bans"]));
 
-                    serverMessage.AppendInteger(0);
+                    simpleServerMessageBuffer.AppendInteger(0);
                     uint rank = (uint) row["rank"];
-                    serverMessage.AppendString(row["trade_lock"].ToString() == "1"
+                    simpleServerMessageBuffer.AppendString(row["trade_lock"].ToString() == "1"
                         ? Yupi.UnixToDateTime(int.Parse(row["trade_lock_expire"].ToString())).ToLongDateString()
                         : "Not trade-locked");
-                    serverMessage.AppendString(rank < 6 ? row["ip_last"].ToString() : "127.0.0.1");
-                    serverMessage.AppendInteger(id);
-                    serverMessage.AppendInteger(0);
+                    simpleServerMessageBuffer.AppendString(rank < 6 ? row["ip_last"].ToString() : "127.0.0.1");
+                    simpleServerMessageBuffer.AppendInteger(id);
+                    simpleServerMessageBuffer.AppendInteger(0);
 
-                    serverMessage.AppendString($"E-Mail:         {row["mail"]}");
-                    serverMessage.AppendString($"Rank ID:        {rank}");
+                    simpleServerMessageBuffer.AppendString($"E-Mail:         {row["mail"]}");
+                    simpleServerMessageBuffer.AppendString($"Rank ID:        {rank}");
                 }
             }
-            return serverMessage;
+            return simpleServerMessageBuffer;
         }
 
         /// <summary>
         ///     Serializes the room visits.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
-        /// <returns>ServerMessage.</returns>
-        internal static ServerMessage SerializeRoomVisits(uint userId)
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal static SimpleServerMessageBuffer SerializeRoomVisits(uint userId)
         {
-            ServerMessage serverMessage =
-                new ServerMessage(PacketLibraryManager.OutgoingRequest("ModerationToolRoomVisitsMessageComposer"));
-            serverMessage.AppendInteger(userId);
+            SimpleServerMessageBuffer simpleServerMessageBuffer =
+                new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("ModerationToolRoomVisitsMessageComposer"));
+            simpleServerMessageBuffer.AppendInteger(userId);
 
             GameClient user = Yupi.GetGame().GetClientManager().GetClientByUserId(userId);
 
             if (user?.GetHabbo() == null)
             {
-                serverMessage.AppendString("Not online");
-                serverMessage.AppendInteger(0);
-                return serverMessage;
+                simpleServerMessageBuffer.AppendString("Not online");
+                simpleServerMessageBuffer.AppendInteger(0);
+                return simpleServerMessageBuffer;
             }
 
-            serverMessage.AppendString(user.GetHabbo().UserName);
-            serverMessage.StartArray();
+            simpleServerMessageBuffer.AppendString(user.GetHabbo().UserName);
+            simpleServerMessageBuffer.StartArray();
 
             foreach (
                 RoomData roomData in
@@ -365,27 +365,27 @@ namespace Yupi.Emulator.Game.Support
                         .RecentlyVisitedRooms.Select(roomId => Yupi.GetGame().GetRoomManager().GenerateRoomData(roomId))
                         .Where(roomData => roomData != null))
             {
-                serverMessage.AppendInteger(roomData.Id);
-                serverMessage.AppendString(roomData.Name);
+                simpleServerMessageBuffer.AppendInteger(roomData.Id);
+                simpleServerMessageBuffer.AppendString(roomData.Name);
 
-                serverMessage.AppendInteger(0); //hour
-                serverMessage.AppendInteger(0); //min
+                simpleServerMessageBuffer.AppendInteger(0); //hour
+                simpleServerMessageBuffer.AppendInteger(0); //min
 
-                serverMessage.SaveArray();
+                simpleServerMessageBuffer.SaveArray();
             }
 
-            serverMessage.EndArray();
-            return serverMessage;
+            simpleServerMessageBuffer.EndArray();
+            return simpleServerMessageBuffer;
         }
 
         /// <summary>
         ///     Serializes the user chatlog.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
-        /// <returns>ServerMessage.</returns>
-        internal static ServerMessage SerializeUserChatlog(uint userId)
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal static SimpleServerMessageBuffer SerializeUserChatlog(uint userId)
         {
-            ServerMessage result;
+            SimpleServerMessageBuffer result;
 
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
@@ -394,14 +394,14 @@ namespace Yupi.Emulator.Game.Support
 
                 DataTable table = queryReactor.GetTable();
 
-                ServerMessage serverMessage =
-                    new ServerMessage(PacketLibraryManager.OutgoingRequest("ModerationToolUserChatlogMessageComposer"));
-                serverMessage.AppendInteger(userId);
-                serverMessage.AppendString(Yupi.GetGame().GetClientManager().GetUserNameByUserId(userId));
+                SimpleServerMessageBuffer simpleServerMessageBuffer =
+                    new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("ModerationToolUserChatlogMessageComposer"));
+                simpleServerMessageBuffer.AppendInteger(userId);
+                simpleServerMessageBuffer.AppendString(Yupi.GetGame().GetClientManager().GetUserNameByUserId(userId));
 
                 if (table != null)
                 {
-                    serverMessage.AppendInteger(table.Rows.Count);
+                    simpleServerMessageBuffer.AppendInteger(table.Rows.Count);
                     IEnumerator enumerator = table.Rows.GetEnumerator();
 
                     try
@@ -418,15 +418,15 @@ namespace Yupi.Emulator.Game.Support
 
                             if (table2 != null)
                             {
-                                serverMessage.AppendByte(1);
-                                serverMessage.AppendShort(2);
-                                serverMessage.AppendString("roomName");
-                                serverMessage.AppendByte(2);
-                                serverMessage.AppendString(roomData == null ? "This room was deleted" : roomData.Name);
-                                serverMessage.AppendString("roomId");
-                                serverMessage.AppendByte(1);
-                                serverMessage.AppendInteger((uint) dataRow["room_id"]);
-                                serverMessage.AppendShort(table2.Rows.Count);
+                                simpleServerMessageBuffer.AppendByte(1);
+                                simpleServerMessageBuffer.AppendShort(2);
+                                simpleServerMessageBuffer.AppendString("roomName");
+                                simpleServerMessageBuffer.AppendByte(2);
+                                simpleServerMessageBuffer.AppendString(roomData == null ? "This room was deleted" : roomData.Name);
+                                simpleServerMessageBuffer.AppendString("roomId");
+                                simpleServerMessageBuffer.AppendByte(1);
+                                simpleServerMessageBuffer.AppendInteger((uint) dataRow["room_id"]);
+                                simpleServerMessageBuffer.AppendShort(table2.Rows.Count);
                                 IEnumerator enumerator2 = table2.Rows.GetEnumerator();
                                 try
                                 {
@@ -440,13 +440,13 @@ namespace Yupi.Emulator.Game.Support
                                         if (habboForId == null)
                                             return null;
 
-                                        serverMessage.AppendInteger(
+                                        simpleServerMessageBuffer.AppendInteger(
                                             (int) (Yupi.GetUnixTimeStamp() - (double) dataRow2["timestamp"]));
 
-                                        serverMessage.AppendInteger(habboForId.Id);
-                                        serverMessage.AppendString(habboForId.UserName);
-                                        serverMessage.AppendString(dataRow2["message"].ToString());
-                                        serverMessage.AppendBool(false);
+                                        simpleServerMessageBuffer.AppendInteger(habboForId.Id);
+                                        simpleServerMessageBuffer.AppendString(habboForId.UserName);
+                                        simpleServerMessageBuffer.AppendString(dataRow2["message"].ToString());
+                                        simpleServerMessageBuffer.AppendBool(false);
                                     }
                                     continue;
                                 }
@@ -458,12 +458,12 @@ namespace Yupi.Emulator.Game.Support
                                 }
                             }
 
-                            serverMessage.AppendByte(1);
-                            serverMessage.AppendShort(0);
-                            serverMessage.AppendShort(0);
+                            simpleServerMessageBuffer.AppendByte(1);
+                            simpleServerMessageBuffer.AppendShort(0);
+                            simpleServerMessageBuffer.AppendShort(0);
                         }
 
-                        result = serverMessage;
+                        result = simpleServerMessageBuffer;
                         return result;
                     }
                     finally
@@ -474,8 +474,8 @@ namespace Yupi.Emulator.Game.Support
                     }
                 }
 
-                serverMessage.AppendInteger(0);
-                result = serverMessage;
+                simpleServerMessageBuffer.AppendInteger(0);
+                result = simpleServerMessageBuffer;
             }
             return result;
         }
@@ -486,41 +486,41 @@ namespace Yupi.Emulator.Game.Support
         /// <param name="ticket">The ticket.</param>
         /// <param name="roomData">The room data.</param>
         /// <param name="timestamp">The timestamp.</param>
-        /// <returns>ServerMessage.</returns>
+        /// <returns>SimpleServerMessageBuffer.</returns>
         /// <exception cref="System.NullReferenceException">No room found.</exception>
-        internal static ServerMessage SerializeTicketChatlog(SupportTicket ticket, RoomData roomData, double timestamp)
+        internal static SimpleServerMessageBuffer SerializeTicketChatlog(SupportTicket ticket, RoomData roomData, double timestamp)
         {
-            ServerMessage message = new ServerMessage();
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer();
 
             RoomData room = Yupi.GetGame().GetRoomManager().GenerateRoomData(ticket.RoomId);
 
             if (room != null)
             {
-                message.Init(PacketLibraryManager.OutgoingRequest("ModerationToolIssueChatlogMessageComposer"));
+                messageBuffer.Init(PacketLibraryManager.OutgoingRequest("ModerationToolIssueChatlogMessageComposer"));
 
-                message.AppendInteger(ticket.TicketId);
-                message.AppendInteger(ticket.SenderId);
-                message.AppendInteger(ticket.ReportedId);
-                message.AppendInteger(ticket.RoomId);
+                messageBuffer.AppendInteger(ticket.TicketId);
+                messageBuffer.AppendInteger(ticket.SenderId);
+                messageBuffer.AppendInteger(ticket.ReportedId);
+                messageBuffer.AppendInteger(ticket.RoomId);
 
-                message.AppendByte(1);
-                message.AppendShort(2);
-                message.AppendString("roomName");
-                message.AppendByte(2);
-                message.AppendString(ticket.RoomName);
-                message.AppendString("roomId");
-                message.AppendByte(1);
-                message.AppendInteger(ticket.RoomId);
+                messageBuffer.AppendByte(1);
+                messageBuffer.AppendShort(2);
+                messageBuffer.AppendString("roomName");
+                messageBuffer.AppendByte(2);
+                messageBuffer.AppendString(ticket.RoomName);
+                messageBuffer.AppendString("roomId");
+                messageBuffer.AppendByte(1);
+                messageBuffer.AppendInteger(ticket.RoomId);
 
                 List<Chatlog> tempChatlogs =
                     room.RoomChat.Reverse().Skip(Math.Max(0, room.RoomChat.Count() - 60)).Take(60).ToList();
 
-                message.AppendShort(tempChatlogs.Count);
+                messageBuffer.AppendShort(tempChatlogs.Count);
 
                 foreach (Chatlog chatLog in tempChatlogs)
-                    chatLog.Serialize(ref message);
+                    chatLog.Serialize(ref messageBuffer);
 
-                return message;
+                return messageBuffer;
             }
             return null;
         }
@@ -529,25 +529,25 @@ namespace Yupi.Emulator.Game.Support
         ///     Serializes the room chatlog.
         /// </summary>
         /// <param name="roomId">The room identifier.</param>
-        /// <returns>ServerMessage.</returns>
+        /// <returns>SimpleServerMessageBuffer.</returns>
         /// <exception cref="System.NullReferenceException">No room found.</exception>
-        internal static ServerMessage SerializeRoomChatlog(uint roomId)
+        internal static SimpleServerMessageBuffer SerializeRoomChatlog(uint roomId)
         {
-            ServerMessage message = new ServerMessage();
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer();
 
             Room room = Yupi.GetGame().GetRoomManager().LoadRoom(roomId);
 
             if (room?.RoomData != null)
             {
-                message.Init(PacketLibraryManager.OutgoingRequest("ModerationToolRoomChatlogMessageComposer"));
-                message.AppendByte(1);
-                message.AppendShort(2);
-                message.AppendString("roomName");
-                message.AppendByte(2);
-                message.AppendString(room.RoomData.Name);
-                message.AppendString("roomId");
-                message.AppendByte(1);
-                message.AppendInteger(room.RoomData.Id);
+                messageBuffer.Init(PacketLibraryManager.OutgoingRequest("ModerationToolRoomChatlogMessageComposer"));
+                messageBuffer.AppendByte(1);
+                messageBuffer.AppendShort(2);
+                messageBuffer.AppendString("roomName");
+                messageBuffer.AppendByte(2);
+                messageBuffer.AppendString(room.RoomData.Name);
+                messageBuffer.AppendString("roomId");
+                messageBuffer.AppendByte(1);
+                messageBuffer.AppendInteger(room.RoomData.Id);
 
                 List<Chatlog> tempChatlogs =
                     room.RoomData.RoomChat.Reverse()
@@ -555,12 +555,12 @@ namespace Yupi.Emulator.Game.Support
                         .Take(60)
                         .ToList();
 
-                message.AppendShort(tempChatlogs.Count);
+                messageBuffer.AppendShort(tempChatlogs.Count);
 
                 foreach (Chatlog chatLog in tempChatlogs)
-                    chatLog.Serialize(ref message);
+                    chatLog.Serialize(ref messageBuffer);
 
-                return message;
+                return messageBuffer;
             }
 
             return null;
@@ -570,25 +570,25 @@ namespace Yupi.Emulator.Game.Support
         ///     Serializes the tool.
         /// </summary>
         /// <param name="session">The session.</param>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage SerializeTool(GameClient session)
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer SerializeTool(GameClient session)
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("LoadModerationToolMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("LoadModerationToolMessageComposer"));
 
-            serverMessage.AppendInteger(Tickets.Count);
+            simpleServerMessageBuffer.AppendInteger(Tickets.Count);
 
             foreach (SupportTicket current in Tickets)
-                current.Serialize(serverMessage);
+                current.Serialize(simpleServerMessageBuffer);
 
-            serverMessage.AppendInteger(UserMessagePresets.Count);
+            simpleServerMessageBuffer.AppendInteger(UserMessagePresets.Count);
 
             foreach (string current2 in UserMessagePresets)
-                serverMessage.AppendString(current2);
+                simpleServerMessageBuffer.AppendString(current2);
 
             IEnumerable<ModerationTemplate> enumerable =
                 (from x in ModerationTemplates.Values where x.Category == -1 select x).ToArray();
 
-            serverMessage.AppendInteger(enumerable.Count());
+            simpleServerMessageBuffer.AppendInteger(enumerable.Count());
             using (IEnumerator<ModerationTemplate> enumerator3 = enumerable.GetEnumerator())
             {
                 bool first = true;
@@ -599,20 +599,20 @@ namespace Yupi.Emulator.Game.Support
                     IEnumerable<ModerationTemplate> enumerable2 =
                         (from x in ModerationTemplates.Values where x.Category == (long) (ulong) template.Id select x)
                             .ToArray();
-                    serverMessage.AppendString(template.CName);
-                    serverMessage.AppendBool(first);
-                    serverMessage.AppendInteger(enumerable2.Count());
+                    simpleServerMessageBuffer.AppendString(template.CName);
+                    simpleServerMessageBuffer.AppendBool(first);
+                    simpleServerMessageBuffer.AppendInteger(enumerable2.Count());
 
                     foreach (ModerationTemplate current3 in enumerable2)
                     {
-                        serverMessage.AppendString(current3.Caption);
-                        serverMessage.AppendString(current3.BanMessage);
-                        serverMessage.AppendInteger(current3.BanHours);
-                        serverMessage.AppendInteger(Yupi.BoolToInteger(current3.AvatarBan));
-                        serverMessage.AppendInteger(Yupi.BoolToInteger(current3.Mute));
-                        serverMessage.AppendInteger(Yupi.BoolToInteger(current3.TradeLock));
-                        serverMessage.AppendString(current3.WarningMessage);
-                        serverMessage.AppendBool(true);
+                        simpleServerMessageBuffer.AppendString(current3.Caption);
+                        simpleServerMessageBuffer.AppendString(current3.BanMessage);
+                        simpleServerMessageBuffer.AppendInteger(current3.BanHours);
+                        simpleServerMessageBuffer.AppendInteger(Yupi.BoolToInteger(current3.AvatarBan));
+                        simpleServerMessageBuffer.AppendInteger(Yupi.BoolToInteger(current3.Mute));
+                        simpleServerMessageBuffer.AppendInteger(Yupi.BoolToInteger(current3.TradeLock));
+                        simpleServerMessageBuffer.AppendString(current3.WarningMessage);
+                        simpleServerMessageBuffer.AppendBool(true);
                     }
 
                     first = false;
@@ -620,24 +620,24 @@ namespace Yupi.Emulator.Game.Support
             }
 
             // but = button
-            serverMessage.AppendBool(true); //ticket_queue_but
-            serverMessage.AppendBool(session.GetHabbo().HasFuse("fuse_chatlogs")); //chatlog_but
-            serverMessage.AppendBool(session.GetHabbo().HasFuse("fuse_alert")); //message_but
-            serverMessage.AppendBool(true); //modaction_but
-            serverMessage.AppendBool(session.GetHabbo().HasFuse("fuse_ban")); //ban_but
-            serverMessage.AppendBool(true);
-            serverMessage.AppendBool(session.GetHabbo().HasFuse("fuse_kick")); //kick_but
+            simpleServerMessageBuffer.AppendBool(true); //ticket_queue_but
+            simpleServerMessageBuffer.AppendBool(session.GetHabbo().HasFuse("fuse_chatlogs")); //chatlog_but
+            simpleServerMessageBuffer.AppendBool(session.GetHabbo().HasFuse("fuse_alert")); //message_but
+            simpleServerMessageBuffer.AppendBool(true); //modaction_but
+            simpleServerMessageBuffer.AppendBool(session.GetHabbo().HasFuse("fuse_ban")); //ban_but
+            simpleServerMessageBuffer.AppendBool(true);
+            simpleServerMessageBuffer.AppendBool(session.GetHabbo().HasFuse("fuse_kick")); //kick_but
 
-            serverMessage.AppendInteger(RoomMessagePresets.Count);
+            simpleServerMessageBuffer.AppendInteger(RoomMessagePresets.Count);
 
             foreach (string current4 in RoomMessagePresets)
-                serverMessage.AppendString(current4);
+                simpleServerMessageBuffer.AppendString(current4);
 
-            return serverMessage;
+            return simpleServerMessageBuffer;
         }
 
         /// <summary>
-        ///     Loads the message presets.
+        ///     Loads the messageBuffer presets.
         /// </summary>
         /// <param name="dbClient">The database client.</param>
         internal void LoadMessagePresets(IQueryAdapter dbClient)
@@ -646,10 +646,13 @@ namespace Yupi.Emulator.Game.Support
             RoomMessagePresets.Clear();
             SupportTicketHints.Clear();
             ModerationTemplates.Clear();
+
             dbClient.SetQuery("SELECT type,message FROM moderation_presets WHERE enabled = 2");
             DataTable table = dbClient.GetTable();
+
             dbClient.SetQuery("SELECT word,hint FROM moderation_tickethints");
             DataTable table2 = dbClient.GetTable();
+
             dbClient.SetQuery("SELECT * FROM moderation_templates");
             DataTable table3 = dbClient.GetTable();
 
@@ -711,10 +714,9 @@ namespace Yupi.Emulator.Game.Support
         /// <param name="category">The category.</param>
         /// <param name="type">The type.</param>
         /// <param name="reportedUser">The reported user.</param>
-        /// <param name="message">The message.</param>
+        /// <param name="message">The messageBuffer.</param>
         /// <param name="messages">The messages.</param>
-        internal void SendNewTicket(GameClient session, int category, int type, uint reportedUser, string message,
-            List<string> messages)
+        internal void SendNewTicket(GameClient session, int category, int type, uint reportedUser, string message, List<string> messages)
         {
             uint id;
 
@@ -722,19 +724,16 @@ namespace Yupi.Emulator.Game.Support
             {
                 using (IQueryAdapter dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    dbClient.SetQuery(
-                        string.Concat(
-                            "INSERT INTO moderation_tickets (score,type,status,sender_id,reported_id,moderator_id,message,room_id,room_name,timestamp) VALUES (1,'",
-                            category, "','open','", session.GetHabbo().Id, "','", reportedUser,
-                            "','0',@message,'0','','", Yupi.GetUnixTimeStamp(), "')"));
+                    dbClient.SetQuery(string.Concat("INSERT INTO moderation_tickets (score,type,status,sender_id,reported_id,moderator_id,message,room_id,room_name,timestamp) VALUES (1,'", category, "','open','", session.GetHabbo().Id, "','", reportedUser, "','0',@message,'0','','", Yupi.GetUnixTimeStamp(), "')"));
+
                     dbClient.AddParameter("message", message);
+
                     id = (uint) dbClient.InsertQuery();
-                    dbClient.RunFastQuery(
-                        $"UPDATE users_info SET cfhs = cfhs + 1 WHERE user_id = {session.GetHabbo().Id}");
+
+                    dbClient.RunFastQuery($"UPDATE users_info SET cfhs = cfhs + 1 WHERE user_id = {session.GetHabbo().Id}");
                 }
 
-                SupportTicket ticket = new SupportTicket(id, 1, category, type, session.GetHabbo().Id, reportedUser, message, 0u,
-                    "", Yupi.GetUnixTimeStamp(), messages);
+                SupportTicket ticket = new SupportTicket(id, 1, category, type, session.GetHabbo().Id, reportedUser, message, 0u, "", Yupi.GetUnixTimeStamp(), messages);
 
                 Tickets.Add(ticket);
                 SendTicketToModerators(ticket);
@@ -745,20 +744,17 @@ namespace Yupi.Emulator.Game.Support
 
                 using (IQueryAdapter dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    dbClient.SetQuery(
-                        string.Concat(
-                            "INSERT INTO moderation_tickets (score,type,status,sender_id,reported_id,moderator_id,message,room_id,room_name,timestamp) VALUES (1,'",
-                            category, "','open','", session.GetHabbo().Id, "','", reportedUser, "','0',@message,'",
-                            data.Id, "',@name,'", Yupi.GetUnixTimeStamp(), "')"));
+                    dbClient.SetQuery(string.Concat("INSERT INTO moderation_tickets (score,type,status,sender_id,reported_id,moderator_id,message,room_id,room_name,timestamp) VALUES (1,'", category, "','open','", session.GetHabbo().Id, "','", reportedUser, "','0',@message,'", data.Id, "',@name,'", Yupi.GetUnixTimeStamp(), "')"));
+
                     dbClient.AddParameter("message", message);
                     dbClient.AddParameter("name", data.Name);
+
                     id = (uint) dbClient.InsertQuery();
-                    dbClient.RunFastQuery(
-                        $"UPDATE users_info SET cfhs = cfhs + 1 WHERE user_id = {session.GetHabbo().Id}");
+
+                    dbClient.RunFastQuery($"UPDATE users_info SET cfhs = cfhs + 1 WHERE user_id = {session.GetHabbo().Id}");
                 }
 
-                SupportTicket ticket2 = new SupportTicket(id, 1, category, type, session.GetHabbo().Id, reportedUser, message,
-                    data.Id, data.Name, Yupi.GetUnixTimeStamp(), messages);
+                SupportTicket ticket2 = new SupportTicket(id, 1, category, type, session.GetHabbo().Id, reportedUser, message, data.Id, data.Name, Yupi.GetUnixTimeStamp(), messages);
 
                 Tickets.Add(ticket2);
                 SendTicketToModerators(ticket2);
@@ -768,11 +764,11 @@ namespace Yupi.Emulator.Game.Support
         /// <summary>
         ///     Serializes the open tickets.
         /// </summary>
-        /// <param name="serverMessages">The server messages.</param>
+        /// <param name="serverMessagesBuffer">The server messages.</param>
         /// <param name="userId">The user identifier.</param>
-        internal void SerializeOpenTickets(ref QueuedServerMessage serverMessages, uint userId)
+        internal void SerializeOpenTickets(ref QueuedServerMessageBuffer serverMessagesBuffer, uint userId)
         {
-            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("ModerationToolIssueMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("ModerationToolIssueMessageComposer"));
 
             foreach (
                 SupportTicket current in
@@ -782,8 +778,8 @@ namespace Yupi.Emulator.Game.Support
                             (current.Status == TicketStatus.Picked && current.ModeratorId == userId) ||
                             (current.Status == TicketStatus.Picked && current.ModeratorId == 0u)))
             {
-                message = current.Serialize(message);
-                serverMessages.AppendResponse(message);
+                messageBuffer = current.Serialize(messageBuffer);
+                serverMessagesBuffer.AppendResponse(messageBuffer);
             }
         }
 

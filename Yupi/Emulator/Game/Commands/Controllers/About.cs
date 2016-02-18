@@ -2,7 +2,7 @@
 using Yupi.Emulator.Game.Commands.Interfaces;
 using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Messages;
-using Yupi.Emulator.Messages.Parsers;
+using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Commands.Controllers
 {
@@ -24,14 +24,14 @@ namespace Yupi.Emulator.Game.Commands.Controllers
 
         public override bool Execute(GameClient client, string[] pms)
         {
-            ServerMessage message =
-                new ServerMessage(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer =
+                new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
 
-            message.AppendString("Yupi");
-            message.AppendInteger(4);
-            message.AppendString("title");
-            message.AppendString("Yupi");
-            message.AppendString("message");
+            messageBuffer.AppendString("Yupi");
+            messageBuffer.AppendInteger(4);
+            messageBuffer.AppendString("title");
+            messageBuffer.AppendString("Yupi");
+            messageBuffer.AppendString("message");
             StringBuilder info = new StringBuilder();
             info.Append("<h5><b>Yupi - Based on Azure Emulator</b><h5></br></br>");
             info.Append("<br />");
@@ -41,12 +41,12 @@ namespace Yupi.Emulator.Game.Commands.Controllers
                 "<b>Thanks to:</b> <br />Jamal, Mike Santifort, Martinmine, Rockster, The old Azure Team, Bruna F., and to all people that uses Yupi.<br /> <br /> ");
             info.AppendFormat(
                 "<b>Warning:</b><br />1. This emulator was planned to be used for ManiaHotel (maniahotel.com.br)  <br />2. Please don't sell this emulator or earn money with it<br />3. All rights reserved to Sulake Corporation Oy<br />4. All Emulator rights for Mania Dev<br />");
-            message.AppendString(info.ToString());
-            message.AppendString("linkUrl");
-            message.AppendString("event:");
-            message.AppendString("linkTitle");
-            message.AppendString("ok");
-            client.SendMessage(message);
+            messageBuffer.AppendString(info.ToString());
+            messageBuffer.AppendString("linkUrl");
+            messageBuffer.AppendString("event:");
+            messageBuffer.AppendString("linkTitle");
+            messageBuffer.AppendString("ok");
+            client.SendMessage(messageBuffer);
 
             return true;
         }

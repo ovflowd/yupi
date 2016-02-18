@@ -32,6 +32,7 @@ using Yupi.Emulator.Game.Rooms.User.Trade;
 using Yupi.Emulator.Game.SoundMachine;
 using Yupi.Emulator.Game.SoundMachine.Songs;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Rooms
@@ -532,7 +533,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Called when [user say].
         /// </summary>
         /// <param name="user">The user.</param>
-        /// <param name="message">The message.</param>
+        /// <param name="message">The messageBuffer.</param>
         /// <param name="shout">if set to <c>true</c> [shout].</param>
         internal void OnUserSay(RoomUser user, string message, bool shout)
         {
@@ -793,10 +794,10 @@ namespace Yupi.Emulator.Game.Rooms
                             return;
                         }
 
-                        ServerMessage serverMessage = GetRoomUserManager().SerializeStatusUpdates(false);
+                        SimpleServerMessageBuffer simpleServerMessageBuffer = GetRoomUserManager().SerializeStatusUpdates(false);
 
-                        if (serverMessage != null)
-                            SendMessage(serverMessage);
+                        if (simpleServerMessageBuffer != null)
+                            SendMessage(simpleServerMessageBuffer);
                     }
 
                     _gameItemHandler?.OnCycle();
@@ -830,9 +831,9 @@ namespace Yupi.Emulator.Game.Rooms
         }
 
         /// <summary>
-        ///     Sends the message.
+        ///     Sends the messageBuffer.
         /// </summary>
-        /// <param name="message">The message.</param>
+        /// <param name="message">The messageBuffer.</param>
         internal void SendMessage(byte[] message)
         {
             try
@@ -857,12 +858,12 @@ namespace Yupi.Emulator.Game.Rooms
         }
 
         /// <summary>
-        ///     Broadcasts the chat message.
+        ///     Broadcasts the chat messageBuffer.
         /// </summary>
         /// <param name="chatMsg">The chat MSG.</param>
         /// <param name="roomUser">The room user.</param>
         /// <param name="p">The p.</param>
-        internal void BroadcastChatMessage(ServerMessage chatMsg, RoomUser roomUser, uint p)
+        internal void BroadcastChatMessage(SimpleServerMessageBuffer chatMsg, RoomUser roomUser, uint p)
         {
             try
             {
@@ -898,20 +899,20 @@ namespace Yupi.Emulator.Game.Rooms
         }
 
         /// <summary>
-        ///     Sends the message.
+        ///     Sends the messageBuffer.
         /// </summary>
-        /// <param name="message">The message.</param>
-        internal void SendMessage(ServerMessage message)
+        /// <param name="message">The messageBuffer.</param>
+        internal void SendMessage(SimpleServerMessageBuffer messageBuffer)
         {
-            if (message != null)
-                SendMessage(message.GetReversedBytes());
+            if (messageBuffer != null)
+                SendMessage(messageBuffer.GetReversedBytes());
         }
 
         /// <summary>
-        ///     Sends the message.
+        ///     Sends the messageBuffer.
         /// </summary>
         /// <param name="messages">The messages.</param>
-        internal void SendMessage(List<ServerMessage> messages)
+        internal void SendMessage(List<SimpleServerMessageBuffer> messages)
         {
             if (messages.Count == 0)
                 return;
@@ -921,7 +922,7 @@ namespace Yupi.Emulator.Game.Rooms
                 byte[] totalBytes = new byte[0];
                 int currentWorking = 0;
 
-                foreach (ServerMessage message in messages)
+                foreach (SimpleServerMessageBuffer message in messages)
                 {
                     byte[] toAppend = message.GetReversedBytes();
 
@@ -945,12 +946,12 @@ namespace Yupi.Emulator.Game.Rooms
         }
 
         /// <summary>
-        ///     Sends the message to users with rights.
+        ///     Sends the messageBuffer to users with rights.
         /// </summary>
-        /// <param name="message">The message.</param>
-        internal void SendMessageToUsersWithRights(ServerMessage message)
+        /// <param name="message">The messageBuffer.</param>
+        internal void SendMessageToUsersWithRights(SimpleServerMessageBuffer messageBuffer)
         {
-            byte[] messagebytes = message.GetReversedBytes();
+            byte[] messagebytes = messageBuffer.GetReversedBytes();
 
             try
             {
@@ -985,7 +986,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// </summary>
         internal void Destroy()
         {
-            SendMessage(new ServerMessage(PacketLibraryManager.OutgoingRequest("OutOfRoomMessageComposer")));
+            SendMessage(new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("OutOfRoomMessageComposer")));
             Dispose();
         }
 
@@ -1237,24 +1238,24 @@ namespace Yupi.Emulator.Game.Rooms
         /// </summary>
         internal void UpdateFurniture()
         {
-            List<ServerMessage> list = new List<ServerMessage>();
+            List<SimpleServerMessageBuffer> list = new List<SimpleServerMessageBuffer>();
             RoomItem[] array = GetRoomItemHandler().FloorItems.Values.ToArray();
             RoomItem[] array2 = array;
             foreach (RoomItem roomItem in array2)
             {
-                ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("UpdateRoomItemMessageComposer"));
-                roomItem.Serialize(serverMessage);
-                list.Add(serverMessage);
+                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UpdateRoomItemMessageComposer"));
+                roomItem.Serialize(simpleServerMessageBuffer);
+                list.Add(simpleServerMessageBuffer);
             }
             Array.Clear(array, 0, array.Length);
             RoomItem[] array3 = GetRoomItemHandler().WallItems.Values.ToArray();
             RoomItem[] array4 = array3;
             foreach (RoomItem roomItem2 in array4)
             {
-                ServerMessage serverMessage2 =
-                    new ServerMessage(PacketLibraryManager.OutgoingRequest("UpdateRoomWallItemMessageComposer"));
-                roomItem2.Serialize(serverMessage2);
-                list.Add(serverMessage2);
+                SimpleServerMessageBuffer simpleServerMessage2 =
+                    new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UpdateRoomWallItemMessageComposer"));
+                roomItem2.Serialize(simpleServerMessage2);
+                list.Add(simpleServerMessage2);
             }
             Array.Clear(array3, 0, array3.Length);
             SendMessage(list);
@@ -1281,7 +1282,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Adds the chatlog.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        /// <param name="message">The message.</param>
+        /// <param name="message">The messageBuffer.</param>
         /// <param name="globalMessage"></param>
         internal void AddChatlog(uint id, string message, bool globalMessage)
         {

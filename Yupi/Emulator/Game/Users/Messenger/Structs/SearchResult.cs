@@ -1,4 +1,5 @@
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Users.Messenger.Structs
 {
@@ -53,7 +54,7 @@ namespace Yupi.Emulator.Game.Users.Messenger.Structs
         ///     Searializes the specified reply.
         /// </summary>
         /// <param name="reply">The reply.</param>
-        internal void Searialize(ServerMessage reply)
+        internal void Searialize(SimpleServerMessageBuffer reply)
         {
             reply.AppendInteger(UserId);
             reply.AppendString(UserName);

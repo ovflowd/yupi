@@ -1,32 +1,28 @@
 ﻿using System.Collections.Concurrent;
+using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Messages.Factorys
 {
     internal class ClientMessageFactory
     {
-        private static ConcurrentQueue<ClientMessage> _freeObjects;
+        private static ConcurrentQueue<SimpleClientMessageBuffer> _freeObjects;
 
-        internal static void Init()
+        internal static void Init() => _freeObjects = new ConcurrentQueue<SimpleClientMessageBuffer>();
+
+        internal static SimpleClientMessageBuffer GetClientMessage(int messageId, byte[] body, int position, int packetLength)
         {
-            _freeObjects = new ConcurrentQueue<ClientMessage>();
-        }
+            SimpleClientMessageBuffer messageBuffer;
 
-        internal static ClientMessage GetClientMessage(int messageId, byte[] body, int position, int packetLength)
-        {
-            ClientMessage message;
-
-            if (_freeObjects.Count > 0 && _freeObjects.TryDequeue(out message))
+            if (_freeObjects.Count > 0 && _freeObjects.TryDequeue(out messageBuffer))
             {
-                message.Init(messageId, body, position, packetLength);
-                return message;
+                messageBuffer.Init(messageId, body, position, packetLength);
+
+                return messageBuffer;
             }
 
-            return new ClientMessage(messageId, body, position, packetLength);
+            return new SimpleClientMessageBuffer(messageId, body, position, packetLength);
         }
 
-        internal static void ObjectCallback(ClientMessage message)
-        {
-            _freeObjects.Enqueue(message);
-        }
+        internal static void ObjectCallback(SimpleClientMessageBuffer messageBuffer) => _freeObjects.Enqueue(messageBuffer);
     }
 }

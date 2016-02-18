@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using Yupi.Emulator.Game.Catalogs.Composers;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Catalogs.Interfaces
 {
@@ -12,9 +13,9 @@ namespace Yupi.Emulator.Game.Catalogs.Interfaces
     internal class CatalogPage
     {
         /// <summary>
-        ///     The cached contents message
+        ///     The cached contents messageBuffer
         /// </summary>
-        internal ServerMessage CachedContentsMessage;
+        internal SimpleServerMessageBuffer CachedContentsMessageBuffer;
 
         /// <summary>
         ///     The caption
@@ -189,7 +190,7 @@ namespace Yupi.Emulator.Game.Catalogs.Interfaces
                     FlatOffers.Add(catalogItem.GetFirstBaseItem().FlatId, catalogItem.Id);
             }
 
-            CachedContentsMessage = CatalogPageComposer.ComposePage(this);
+            CachedContentsMessageBuffer = CatalogPageComposer.ComposePage(this);
         }
 
         /// <summary>

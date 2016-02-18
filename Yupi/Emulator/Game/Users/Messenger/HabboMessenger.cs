@@ -10,6 +10,7 @@ using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Rooms.Data;
 using Yupi.Emulator.Game.Users.Messenger.Structs;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Users.Messenger
@@ -160,16 +161,16 @@ namespace Yupi.Emulator.Game.Users.Messenger
             if (GetClient() == null)
                 return;
 
-            ServerMessage serverMessage = new ServerMessage();
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
 
-            serverMessage.Init(PacketLibraryManager.OutgoingRequest("ConsoleMessengerActionMessageComposer"));
+            simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingRequest("ConsoleMessengerActionMessageComposer"));
 
-            serverMessage.AppendString(GetClient().GetHabbo().Id.ToString());
-            serverMessage.AppendInteger(type);
-            serverMessage.AppendString(name);
+            simpleServerMessageBuffer.AppendString(GetClient().GetHabbo().Id.ToString());
+            simpleServerMessageBuffer.AppendInteger(type);
+            simpleServerMessageBuffer.AppendString(name);
 
             foreach (MessengerBuddy current in Friends.Values.Where(current => current.Client != null))
-                current.Client.SendMessage(serverMessage);
+                current.Client.SendMessage(simpleServerMessageBuffer);
         }
 
         /// <summary>
@@ -420,11 +421,11 @@ namespace Yupi.Emulator.Game.Users.Messenger
 
                 clientByUsername.GetHabbo().GetMessenger().OnNewRequest(_userId, messengerRequest);
 
-                ServerMessage serverMessage =
-                    new ServerMessage(PacketLibraryManager.OutgoingRequest("ConsoleSendFriendRequestMessageComposer"));
+                SimpleServerMessageBuffer simpleServerMessageBuffer =
+                    new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("ConsoleSendFriendRequestMessageComposer"));
 
-                messengerRequest.Serialize(serverMessage);
-                clientByUsername.SendMessage(serverMessage);
+                messengerRequest.Serialize(simpleServerMessageBuffer);
+                clientByUsername.SendMessage(simpleServerMessageBuffer);
             }
 
             return true;
@@ -483,16 +484,16 @@ namespace Yupi.Emulator.Game.Users.Messenger
 
             if (toId == 0) // Staff Chat
             {
-                ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("ConsoleChatMessageComposer"));
+                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("ConsoleChatMessageComposer"));
 
-                serverMessage.AppendInteger(0); //userid
-                serverMessage.AppendString(GetClient().GetHabbo().UserName + " : " + message);
-                serverMessage.AppendInteger(0);
+                simpleServerMessageBuffer.AppendInteger(0); //userid
+                simpleServerMessageBuffer.AppendString(GetClient().GetHabbo().UserName + " : " + message);
+                simpleServerMessageBuffer.AppendInteger(0);
 
                 if (GetClient().GetHabbo().Rank >= Yupi.StaffAlertMinRank)
-                    Yupi.GetGame().GetClientManager().StaffAlert(serverMessage, GetClient().GetHabbo().Id);
+                    Yupi.GetGame().GetClientManager().StaffAlert(simpleServerMessageBuffer, GetClient().GetHabbo().Id);
                 else if (GetClient().GetHabbo().Rank >= Convert.ToUInt32(Yupi.GetDbConfig().DbData["ambassador.minrank"]))
-                    Yupi.GetGame().GetClientManager().AmbassadorAlert(serverMessage, GetClient().GetHabbo().Id);
+                    Yupi.GetGame().GetClientManager().AmbassadorAlert(simpleServerMessageBuffer, GetClient().GetHabbo().Id);
             }
             else
             {
@@ -536,13 +537,13 @@ namespace Yupi.Emulator.Game.Users.Messenger
         /// <param name="convoId">The convo identifier.</param>
         internal void DeliverInstantMessage(string message, uint convoId)
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("ConsoleChatMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("ConsoleChatMessageComposer"));
 
-            serverMessage.AppendInteger(convoId);
-            serverMessage.AppendString(message);
-            serverMessage.AppendInteger(0);
+            simpleServerMessageBuffer.AppendInteger(convoId);
+            simpleServerMessageBuffer.AppendString(message);
+            simpleServerMessageBuffer.AppendInteger(0);
 
-            GetClient().SendMessage(serverMessage);
+            GetClient().SendMessage(simpleServerMessageBuffer);
         }
 
         /// <summary>
@@ -552,117 +553,117 @@ namespace Yupi.Emulator.Game.Users.Messenger
         /// <param name="conversationId">The conversation identifier.</param>
         internal void DeliverInstantMessageError(int errorId, uint conversationId)
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("ConsoleChatErrorMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("ConsoleChatErrorMessageComposer"));
 
-            serverMessage.AppendInteger(errorId);
-            serverMessage.AppendInteger(conversationId);
-            serverMessage.AppendString(string.Empty);
+            simpleServerMessageBuffer.AppendInteger(errorId);
+            simpleServerMessageBuffer.AppendInteger(conversationId);
+            simpleServerMessageBuffer.AppendString(string.Empty);
 
-            GetClient().SendMessage(serverMessage);
+            GetClient().SendMessage(simpleServerMessageBuffer);
         }
 
         /// <summary>
         ///     Serializes the categories.
         /// </summary>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage SerializeCategories()
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer SerializeCategories()
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("LoadFriendsCategories"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("LoadFriendsCategories"));
 
-            serverMessage.AppendInteger(2000);
-            serverMessage.AppendInteger(300);
-            serverMessage.AppendInteger(800);
-            serverMessage.AppendInteger(1100);
-            serverMessage.AppendInteger(0);
+            simpleServerMessageBuffer.AppendInteger(2000);
+            simpleServerMessageBuffer.AppendInteger(300);
+            simpleServerMessageBuffer.AppendInteger(800);
+            simpleServerMessageBuffer.AppendInteger(1100);
+            simpleServerMessageBuffer.AppendInteger(0);
 
-            return serverMessage;
+            return simpleServerMessageBuffer;
         }
 
         /// <summary>
         ///     Serializes the friends.
         /// </summary>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage SerializeFriends()
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer SerializeFriends()
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("LoadFriendsMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("LoadFriendsMessageComposer"));
 
-            serverMessage.AppendInteger(1);
-            serverMessage.AppendInteger(0);
-            serverMessage.AppendInteger(Friends.Count);
+            simpleServerMessageBuffer.AppendInteger(1);
+            simpleServerMessageBuffer.AppendInteger(0);
+            simpleServerMessageBuffer.AppendInteger(Friends.Count);
 
             GameClient client = GetClient();
 
             foreach (MessengerBuddy current in Friends.Values)
             {
                 current.UpdateUser();
-                current.Serialize(serverMessage, client);
+                current.Serialize(simpleServerMessageBuffer, client);
             }
 
-            return serverMessage;
+            return simpleServerMessageBuffer;
         }
 
         /// <summary>
         ///     Serializes the offline messages.
         /// </summary>
         /// <param name="message">The message.</param>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage SerializeOfflineMessages(OfflineMessage message)
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer SerializeOfflineMessages(OfflineMessage message)
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("ConsoleChatMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("ConsoleChatMessageComposer"));
 
-            serverMessage.AppendInteger(message.FromId);
-            serverMessage.AppendString(message.Message);
-            serverMessage.AppendInteger((int) (Yupi.GetUnixTimeStamp() - message.Timestamp));
+            simpleServerMessageBuffer.AppendInteger(message.FromId);
+            simpleServerMessageBuffer.AppendString(message.Message);
+            simpleServerMessageBuffer.AppendInteger((int) (Yupi.GetUnixTimeStamp() - message.Timestamp));
 
-            return serverMessage;
+            return simpleServerMessageBuffer;
         }
 
         /// <summary>
         ///     Serializes the update.
         /// </summary>
         /// <param name="friend">The friend.</param>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage SerializeUpdate(MessengerBuddy friend)
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer SerializeUpdate(MessengerBuddy friend)
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("FriendUpdateMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("FriendUpdateMessageComposer"));
 
-            serverMessage.AppendInteger(0);
-            serverMessage.AppendInteger(1);
-            serverMessage.AppendInteger(0);
-            friend.Serialize(serverMessage, GetClient());
-            serverMessage.AppendBool(false);
+            simpleServerMessageBuffer.AppendInteger(0);
+            simpleServerMessageBuffer.AppendInteger(1);
+            simpleServerMessageBuffer.AppendInteger(0);
+            friend.Serialize(simpleServerMessageBuffer, GetClient());
+            simpleServerMessageBuffer.AppendBool(false);
 
-            return serverMessage;
+            return simpleServerMessageBuffer;
         }
 
         /// <summary>
         ///     Serializes the requests.
         /// </summary>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage SerializeRequests()
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer SerializeRequests()
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("FriendRequestsMessageComposer"));
-            serverMessage.AppendInteger(Requests.Count > Yupi.FriendRequestLimit
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("FriendRequestsMessageComposer"));
+            simpleServerMessageBuffer.AppendInteger(Requests.Count > Yupi.FriendRequestLimit
                 ? (int) Yupi.FriendRequestLimit
                 : Requests.Count);
-            serverMessage.AppendInteger(Requests.Count > Yupi.FriendRequestLimit
+            simpleServerMessageBuffer.AppendInteger(Requests.Count > Yupi.FriendRequestLimit
                 ? (int) Yupi.FriendRequestLimit
                 : Requests.Count);
 
             IEnumerable<MessengerRequest> requests = Requests.Values.Take((int) Yupi.FriendRequestLimit);
 
             foreach (MessengerRequest current in requests)
-                current.Serialize(serverMessage);
+                current.Serialize(simpleServerMessageBuffer);
 
-            return serverMessage;
+            return simpleServerMessageBuffer;
         }
 
         /// <summary>
         ///     Performs the search.
         /// </summary>
         /// <param name="query">The query.</param>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage PerformSearch(string query)
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer PerformSearch(string query)
         {
             List<SearchResult> searchResult = SearchResultFactory.GetSearchResult(query);
 
@@ -677,19 +678,19 @@ namespace Yupi.Emulator.Game.Users.Messenger
                     list2.Add(current);
             }
 
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("ConsoleSearchFriendMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("ConsoleSearchFriendMessageComposer"));
 
-            serverMessage.AppendInteger(list.Count);
+            simpleServerMessageBuffer.AppendInteger(list.Count);
 
             foreach (SearchResult current2 in list)
-                current2.Searialize(serverMessage);
+                current2.Searialize(simpleServerMessageBuffer);
 
-            serverMessage.AppendInteger(list2.Count);
+            simpleServerMessageBuffer.AppendInteger(list2.Count);
 
             foreach (SearchResult current3 in list2)
-                current3.Searialize(serverMessage);
+                current3.Searialize(simpleServerMessageBuffer);
 
-            return serverMessage;
+            return simpleServerMessageBuffer;
         }
 
         /// <summary>

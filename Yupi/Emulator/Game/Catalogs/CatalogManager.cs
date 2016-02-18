@@ -42,6 +42,7 @@ using Yupi.Emulator.Game.RoomBots;
 using Yupi.Emulator.Game.SoundMachine;
 using Yupi.Emulator.Game.SoundMachine.Songs;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Catalogs
@@ -409,10 +410,10 @@ namespace Yupi.Emulator.Game.Catalogs
 
             if (item.ClubOnly && !session.GetHabbo().GetSubscriptionManager().HasSubscription)
             {
-                ServerMessage serverMessage =
-                    new ServerMessage(PacketLibraryManager.OutgoingRequest("CatalogPurchaseNotAllowedMessageComposer"));
-                serverMessage.AppendInteger(1);
-                session.SendMessage(serverMessage);
+                SimpleServerMessageBuffer simpleServerMessageBuffer =
+                    new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("CatalogPurchaseNotAllowedMessageComposer"));
+                simpleServerMessageBuffer.AppendInteger(1);
+                session.SendMessage(simpleServerMessageBuffer);
                 return;
             }
 
@@ -428,7 +429,7 @@ namespace Yupi.Emulator.Game.Catalogs
                 if (item.LimitedSelled >= item.LimitedStack)
                 {
                     session.SendMessage(
-                        new ServerMessage(PacketLibraryManager.OutgoingRequest("CatalogLimitedItemSoldOutMessageComposer")));
+                        new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("CatalogLimitedItemSoldOutMessageComposer")));
                     return;
                 }
 
@@ -570,8 +571,8 @@ namespace Yupi.Emulator.Game.Catalogs
 
                     session.GetHabbo().BuildersItemsMax += furniAmount;
 
-                    ServerMessage update =
-                        new ServerMessage(PacketLibraryManager.OutgoingRequest("BuildersClubMembershipMessageComposer"));
+                    SimpleServerMessageBuffer update =
+                        new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("BuildersClubMembershipMessageComposer"));
 
                     update.AppendInteger(session.GetHabbo().BuildersExpire);
                     update.AppendInteger(session.GetHabbo().BuildersItemsMax);
@@ -605,8 +606,8 @@ namespace Yupi.Emulator.Game.Catalogs
 
                     session.GetHabbo().BuildersExpire += timeAmount;
 
-                    ServerMessage update =
-                        new ServerMessage(PacketLibraryManager.OutgoingRequest("BuildersClubMembershipMessageComposer"));
+                    SimpleServerMessageBuffer update =
+                        new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("BuildersClubMembershipMessageComposer"));
 
                     update.AppendInteger(session.GetHabbo().BuildersExpire);
                     update.AppendInteger(session.GetHabbo().BuildersItemsMax);
@@ -817,8 +818,8 @@ namespace Yupi.Emulator.Game.Catalogs
 
                         queryReactor.SetQuery(
                             string.Concat(
-                                "INSERT INTO users_gifts (gift_id,item_id,extradata,giver_name,Message,ribbon,color,gift_sprite,show_sender,rare_id) VALUES (",
-                                insertId, ", ", baseItem.ItemId, ",@extradata, @name, @Message,", giftLazo, ",",
+                                "INSERT INTO users_gifts (gift_id,item_id,extradata,giver_name,message,ribbon,color,gift_sprite,show_sender,rare_id) VALUES (",
+                                insertId, ", ", baseItem.ItemId, ",@extradata, @name, @message,", giftLazo, ",",
                                 giftColor, ",", giftSpriteId, ",", undef ? 1 : 0, ",", limitedId, ")"));
                         queryReactor.AddParameter("extradata", extraData);
                         queryReactor.AddParameter("name", giftUser);

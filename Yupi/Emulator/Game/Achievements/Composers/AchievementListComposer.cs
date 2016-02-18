@@ -26,6 +26,7 @@ using System.Collections.Generic;
 using Yupi.Emulator.Game.Achievements.Structs;
 using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Achievements.Composers
@@ -40,12 +41,12 @@ namespace Yupi.Emulator.Game.Achievements.Composers
         /// </summary>
         /// <param name="session">The session.</param>
         /// <param name="achievements">The achievements.</param>
-        /// <returns>ServerMessage.</returns>
-        internal static ServerMessage Compose(GameClient session, List<Achievement> achievements)
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal static SimpleServerMessageBuffer Compose(GameClient session, List<Achievement> achievements)
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("AchievementListMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("AchievementListMessageComposer"));
 
-            serverMessage.AppendInteger(achievements.Count);
+            simpleServerMessageBuffer.AppendInteger(achievements.Count);
 
             foreach (Achievement achievement in achievements)
             {
@@ -62,24 +63,24 @@ namespace Yupi.Emulator.Game.Achievements.Composers
 
                 AchievementLevel oldLevel = achievement.Levels.ContainsKey(i - 1) ? achievement.Levels[i - 1] : achievementLevel;
 
-                serverMessage.AppendInteger(achievement.Id);
-                serverMessage.AppendInteger(i);
-                serverMessage.AppendString($"{achievement.GroupName}{i}");
-                serverMessage.AppendInteger(oldLevel.Requirement);
-                serverMessage.AppendInteger(achievementLevel.Requirement);
-                serverMessage.AppendInteger(achievementLevel.RewardPoints);
-                serverMessage.AppendInteger(0);
-                serverMessage.AppendInteger(achievementData?.Progress ?? 0);
-                serverMessage.AppendBool(!(achievementData == null || achievementData.Level < count));
-                serverMessage.AppendString(achievement.Category);
-                serverMessage.AppendString(string.Empty);
-                serverMessage.AppendInteger(count);
-                serverMessage.AppendInteger(0);
+                simpleServerMessageBuffer.AppendInteger(achievement.Id);
+                simpleServerMessageBuffer.AppendInteger(i);
+                simpleServerMessageBuffer.AppendString($"{achievement.GroupName}{i}");
+                simpleServerMessageBuffer.AppendInteger(oldLevel.Requirement);
+                simpleServerMessageBuffer.AppendInteger(achievementLevel.Requirement);
+                simpleServerMessageBuffer.AppendInteger(achievementLevel.RewardPoints);
+                simpleServerMessageBuffer.AppendInteger(0);
+                simpleServerMessageBuffer.AppendInteger(achievementData?.Progress ?? 0);
+                simpleServerMessageBuffer.AppendBool(!(achievementData == null || achievementData.Level < count));
+                simpleServerMessageBuffer.AppendString(achievement.Category);
+                simpleServerMessageBuffer.AppendString(string.Empty);
+                simpleServerMessageBuffer.AppendInteger(count);
+                simpleServerMessageBuffer.AppendInteger(0);
             }
 
-            serverMessage.AppendString(string.Empty);
+            simpleServerMessageBuffer.AppendString(string.Empty);
 
-            return serverMessage;
+            return simpleServerMessageBuffer;
         }
     }
 }

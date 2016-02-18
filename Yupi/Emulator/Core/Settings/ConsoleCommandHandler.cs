@@ -31,6 +31,7 @@ using Yupi.Emulator.Core.Security.BlackWords;
 using Yupi.Emulator.Data;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Core.Settings
@@ -122,7 +123,7 @@ namespace Yupi.Emulator.Core.Settings
                                 GetGame()
                                     .GetClientManager()
                                     .QueueBroadcaseMessage(
-                                        new ServerMessage(PacketLibraryManager.OutgoingRequest("PublishShopMessageComposer")));
+                                        new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("PublishShopMessageComposer")));
                                 Console.WriteLine("Catalogue was re-loaded.");
                                 Console.WriteLine();
                                 break;

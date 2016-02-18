@@ -25,6 +25,7 @@
 using System;
 using Yupi.Emulator.Game.Groups.Structs;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Groups.Composers
 {
@@ -39,23 +40,23 @@ namespace Yupi.Emulator.Game.Groups.Composers
         /// <param name="message"></param>
         /// <param name="group"></param>
         /// <param name="groupForum"></param>
-        /// <returns>ServerMessage.</returns>
-        internal static ServerMessage Compose(ServerMessage message, Group group, GroupForum groupForum)
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal static SimpleServerMessageBuffer Compose(SimpleServerMessageBuffer messageBuffer, Group group, GroupForum groupForum)
         {
-            message.AppendInteger(group.Id);
-            message.AppendString(group.Name);
-            message.AppendString(string.Empty);
-            message.AppendString(group.Badge);
-            message.AppendInteger(0);
-            message.AppendInteger((int) Math.Round(groupForum.ForumScore));
-            message.AppendInteger(groupForum.ForumMessagesCount);
-            message.AppendInteger(0);
-            message.AppendInteger(0);
-            message.AppendInteger(groupForum.ForumLastPosterId);
-            message.AppendString(groupForum.ForumLastPosterName);
-            message.AppendInteger(groupForum.ForumLastPostTime);
+            messageBuffer.AppendInteger(group.Id);
+            messageBuffer.AppendString(group.Name);
+            messageBuffer.AppendString(string.Empty);
+            messageBuffer.AppendString(group.Badge);
+            messageBuffer.AppendInteger(0);
+            messageBuffer.AppendInteger((int) Math.Round(groupForum.ForumScore));
+            messageBuffer.AppendInteger(groupForum.ForumMessagesCount);
+            messageBuffer.AppendInteger(0);
+            messageBuffer.AppendInteger(0);
+            messageBuffer.AppendInteger(groupForum.ForumLastPosterId);
+            messageBuffer.AppendString(groupForum.ForumLastPosterName);
+            messageBuffer.AppendInteger(groupForum.ForumLastPostTime);
 
-            return message;
+            return messageBuffer;
         }
     }
 }

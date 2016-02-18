@@ -4,7 +4,7 @@ using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Rooms.Data;
 using Yupi.Emulator.Game.Support;
-using Yupi.Emulator.Messages.Parsers;
+using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Messages.Handlers
 {
@@ -260,19 +260,19 @@ namespace Yupi.Emulator.Messages.Handlers
 
             string message = Request.GetString();
 
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
-            serverMessage.AppendString("admin");
-            serverMessage.AppendInteger(3);
-            serverMessage.AppendString("message");
-            serverMessage.AppendString($"{message}\r\n\r\n- {Session.GetHabbo().UserName}");
-            serverMessage.AppendString("link");
-            serverMessage.AppendString("event:");
-            serverMessage.AppendString("linkTitle");
-            serverMessage.AppendString("ok");
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
+            simpleServerMessageBuffer.AppendString("admin");
+            simpleServerMessageBuffer.AppendInteger(3);
+            simpleServerMessageBuffer.AppendString("message");
+            simpleServerMessageBuffer.AppendString($"{message}\r\n\r\n- {Session.GetHabbo().UserName}");
+            simpleServerMessageBuffer.AppendString("link");
+            simpleServerMessageBuffer.AppendString("event:");
+            simpleServerMessageBuffer.AppendString("linkTitle");
+            simpleServerMessageBuffer.AppendString("ok");
 
             Room room = Session.GetHabbo().CurrentRoom;
 
-            room?.SendMessage(serverMessage);
+            room?.SendMessage(simpleServerMessageBuffer);
         }
 
         /// <summary>

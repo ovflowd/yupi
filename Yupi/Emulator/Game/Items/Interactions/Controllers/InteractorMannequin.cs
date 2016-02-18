@@ -6,6 +6,7 @@ using Yupi.Emulator.Game.Items.Interactions.Models;
 using Yupi.Emulator.Game.Items.Interfaces;
 using Yupi.Emulator.Game.Rooms.User;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Items.Interactions.Controllers
@@ -79,15 +80,15 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 
             RoomUser roomUserByHabbo = item.GetRoom().GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().Id);
 
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("UpdateUserDataMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UpdateUserDataMessageComposer"));
 
-            serverMessage.AppendInteger(roomUserByHabbo.VirtualId);
-            serverMessage.AppendString(session.GetHabbo().Look);
-            serverMessage.AppendString(session.GetHabbo().Gender.ToLower());
-            serverMessage.AppendString(session.GetHabbo().Motto);
-            serverMessage.AppendInteger(session.GetHabbo().AchievementPoints);
+            simpleServerMessageBuffer.AppendInteger(roomUserByHabbo.VirtualId);
+            simpleServerMessageBuffer.AppendString(session.GetHabbo().Look);
+            simpleServerMessageBuffer.AppendString(session.GetHabbo().Gender.ToLower());
+            simpleServerMessageBuffer.AppendString(session.GetHabbo().Motto);
+            simpleServerMessageBuffer.AppendInteger(session.GetHabbo().AchievementPoints);
 
-            session.GetHabbo().CurrentRoom.SendMessage(serverMessage);
+            session.GetHabbo().CurrentRoom.SendMessage(simpleServerMessageBuffer);
         }
     }
 }

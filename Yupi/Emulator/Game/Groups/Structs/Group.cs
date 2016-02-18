@@ -28,6 +28,7 @@ using System.Globalization;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Emulator.Game.Groups.Composers;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Groups.Structs
 {
@@ -148,11 +149,11 @@ namespace Yupi.Emulator.Game.Groups.Structs
         }
 
         /// <summary>
-        ///     Forums the data message.
+        ///     Forums the data messageBuffer.
         /// </summary>
         /// <param name="requesterId">The requester identifier.</param>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage ForumDataMessage(uint requesterId)
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer ForumDataMessage(uint requesterId)
         {
             return ForumDataMessageComposer.Compose(this, Forum, requesterId);
         }
@@ -160,10 +161,10 @@ namespace Yupi.Emulator.Game.Groups.Structs
         /// <summary>
         ///     Serializes the forum root.
         /// </summary>
-        /// <param name="message">The message.</param>
-        internal void SerializeForumRoot(ServerMessage message)
+        /// <param name="message">The messageBuffer.</param>
+        internal void SerializeForumRoot(SimpleServerMessageBuffer messageBuffer)
         {
-            ForumRootMessageComposer.Compose(message, this, Forum);
+            ForumRootMessageComposer.Compose(messageBuffer, this, Forum);
         }
 
         internal void CreateForum()

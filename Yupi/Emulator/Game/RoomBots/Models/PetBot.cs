@@ -34,6 +34,7 @@ using Yupi.Emulator.Game.Pets.Enums;
 using Yupi.Emulator.Game.Pets.Structs;
 using Yupi.Emulator.Game.Rooms.User;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.RoomBots.Models
@@ -243,7 +244,7 @@ namespace Yupi.Emulator.Game.RoomBots.Models
 
                     if (coord == new Point())
                     {
-                        ServerMessage alert = new ServerMessage(PacketLibraryManager.OutgoingRequest("PetBreedErrorMessageComposer"));
+                        SimpleServerMessageBuffer alert = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("PetBreedErrorMessageComposer"));
 
                         alert.AppendInteger(0);
 

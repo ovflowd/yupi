@@ -13,6 +13,7 @@ using Yupi.Emulator.Game.RoomBots;
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Users.Data.Models;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Enums;
 using Yupi.Emulator.Messages.Parsers;
 
@@ -236,9 +237,9 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         internal bool RemovePet(uint petId)
         {
             _isUpdated = false;
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("RemovePetFromInventoryComposer"));
-            serverMessage.AppendInteger(petId);
-            GetClient().SendMessage(serverMessage);
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("RemovePetFromInventoryComposer"));
+            simpleServerMessageBuffer.AppendInteger(petId);
+            GetClient().SendMessage(simpleServerMessageBuffer);
             _inventoryPets.Remove(petId);
             return true;
         }
@@ -592,106 +593,106 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// <summary>
         ///     Serializes the floor item inventory.
         /// </summary>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage SerializeFloorItemInventory()
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer SerializeFloorItemInventory()
         {
             int i = _floorItems.Count + SongDisks.Count + _wallItems.Count;
 
             if (i > 2800)
                 _mClient.SendMessage(StaticMessage.AdviceMaxItems);
 
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("LoadInventoryMessageComposer"));
-            serverMessage.AppendInteger(1);
-            serverMessage.AppendInteger(0);
-            serverMessage.AppendInteger(i > 2800 ? 2800 : i);
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("LoadInventoryMessageComposer"));
+            simpleServerMessageBuffer.AppendInteger(1);
+            simpleServerMessageBuffer.AppendInteger(0);
+            simpleServerMessageBuffer.AppendInteger(i > 2800 ? 2800 : i);
 
             int inc = 0;
 
             foreach (UserItem userItem in _floorItems.Values)
             {
                 if (inc == 2800)
-                    return serverMessage;
+                    return simpleServerMessageBuffer;
 
                 inc++;
 
-                userItem.SerializeFloor(serverMessage, true);
+                userItem.SerializeFloor(simpleServerMessageBuffer, true);
             }
 
             foreach (UserItem userItem in _wallItems.Values)
             {
                 if (inc == 2800)
-                    return serverMessage;
+                    return simpleServerMessageBuffer;
 
                 inc++;
 
-                userItem.SerializeWall(serverMessage, true);
+                userItem.SerializeWall(simpleServerMessageBuffer, true);
             }
 
             foreach (UserItem userItem in SongDisks.Values)
             {
                 if (inc == 2800)
-                    return serverMessage;
+                    return simpleServerMessageBuffer;
 
                 inc++;
 
-                userItem.SerializeFloor(serverMessage, true);
+                userItem.SerializeFloor(simpleServerMessageBuffer, true);
             }
 
-            return serverMessage;
+            return simpleServerMessageBuffer;
         }
 
         /// <summary>
         ///     Serializes the wall item inventory.
         /// </summary>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage SerializeWallItemInventory()
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer SerializeWallItemInventory()
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("LoadInventoryMessageComposer"));
-            serverMessage.AppendString("I");
-            serverMessage.AppendInteger(1);
-            serverMessage.AppendInteger(1);
-            serverMessage.AppendInteger(_wallItems.Count);
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("LoadInventoryMessageComposer"));
+            simpleServerMessageBuffer.AppendString("I");
+            simpleServerMessageBuffer.AppendInteger(1);
+            simpleServerMessageBuffer.AppendInteger(1);
+            simpleServerMessageBuffer.AppendInteger(_wallItems.Count);
             foreach (UserItem userItem in _wallItems.Values)
-                userItem.SerializeWall(serverMessage, true);
-            return serverMessage;
+                userItem.SerializeWall(simpleServerMessageBuffer, true);
+            return simpleServerMessageBuffer;
         }
 
         /// <summary>
         ///     Serializes the pet inventory.
         /// </summary>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage SerializePetInventory()
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer SerializePetInventory()
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("PetInventoryMessageComposer"));
-            serverMessage.AppendInteger(1);
-            serverMessage.AppendInteger(1);
-            serverMessage.AppendInteger(_inventoryPets.Count);
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("PetInventoryMessageComposer"));
+            simpleServerMessageBuffer.AppendInteger(1);
+            simpleServerMessageBuffer.AppendInteger(1);
+            simpleServerMessageBuffer.AppendInteger(_inventoryPets.Count);
 
             foreach (Pet current in _inventoryPets.Values)
-                current.SerializeInventory(serverMessage);
+                current.SerializeInventory(simpleServerMessageBuffer);
 
-            return serverMessage;
+            return simpleServerMessageBuffer;
         }
 
         /// <summary>
         ///     Serializes the bot inventory.
         /// </summary>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage SerializeBotInventory()
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer SerializeBotInventory()
         {
-            ServerMessage serverMessage = new ServerMessage();
-            serverMessage.Init(PacketLibraryManager.OutgoingRequest("BotInventoryMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
+            simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingRequest("BotInventoryMessageComposer"));
 
-            serverMessage.AppendInteger(_inventoryBots.Count);
+            simpleServerMessageBuffer.AppendInteger(_inventoryBots.Count);
             foreach (RoomBot current in _inventoryBots.Values)
             {
-                serverMessage.AppendInteger(current.BotId);
-                serverMessage.AppendString(current.Name);
-                serverMessage.AppendString(current.Motto);
-                serverMessage.AppendString("m");
-                serverMessage.AppendString(current.Look);
+                simpleServerMessageBuffer.AppendInteger(current.BotId);
+                simpleServerMessageBuffer.AppendString(current.Name);
+                simpleServerMessageBuffer.AppendString(current.Motto);
+                simpleServerMessageBuffer.AppendString("m");
+                simpleServerMessageBuffer.AppendString(current.Look);
             }
-            return serverMessage;
+            return simpleServerMessageBuffer;
         }
 
         /// <summary>
@@ -746,12 +747,12 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// <summary>
         ///     Serializes the music discs.
         /// </summary>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage SerializeMusicDiscs()
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer SerializeMusicDiscs()
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("SongsLibraryMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("SongsLibraryMessageComposer"));
 
-            serverMessage.AppendInteger(SongDisks.Count);
+            simpleServerMessageBuffer.AppendInteger(SongDisks.Count);
 
             foreach (
                 UserItem current in
@@ -763,11 +764,11 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
 
                 uint.TryParse(current.ExtraData, out i);
 
-                serverMessage.AppendInteger(current.Id);
-                serverMessage.AppendInteger(i);
+                simpleServerMessageBuffer.AppendInteger(current.Id);
+                simpleServerMessageBuffer.AppendInteger(i);
             }
 
-            return serverMessage;
+            return simpleServerMessageBuffer;
         }
 
         /// <summary>
@@ -793,13 +794,13 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// <param name="id">The identifier.</param>
         internal void SendNewItems(uint id)
         {
-            ServerMessage serverMessage = new ServerMessage();
-            serverMessage.Init(PacketLibraryManager.OutgoingRequest("NewInventoryObjectMessageComposer"));
-            serverMessage.AppendInteger(1);
-            serverMessage.AppendInteger(1);
-            serverMessage.AppendInteger(1);
-            serverMessage.AppendInteger(id);
-            _mClient.SendMessage(serverMessage);
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
+            simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingRequest("NewInventoryObjectMessageComposer"));
+            simpleServerMessageBuffer.AppendInteger(1);
+            simpleServerMessageBuffer.AppendInteger(1);
+            simpleServerMessageBuffer.AppendInteger(1);
+            simpleServerMessageBuffer.AppendInteger(id);
+            _mClient.SendMessage(simpleServerMessageBuffer);
         }
 
         /// <summary>

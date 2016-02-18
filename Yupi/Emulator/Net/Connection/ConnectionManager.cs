@@ -5,8 +5,8 @@ using DotNetty.Handlers.Logging;
 using DotNetty.Transport.Bootstrapping;
 using DotNetty.Transport.Channels;
 using DotNetty.Transport.Channels.Sockets;
+using Yupi.Emulator.Messages.Parsers;
 using Yupi.Emulator.Net.Handlers;
-using Yupi.Emulator.Net.Packets;
 using Yupi.Emulator.Net.Settings;
 
 namespace Yupi.Emulator.Net.Connection
@@ -66,16 +66,8 @@ namespace Yupi.Emulator.Net.Connection
 
                         ConnectionActor connectionActor = new ConnectionActor(DataParser.Clone() as ServerPacketParser, channel);
 
-                        ConnectionActor oldConnection;
-
-                        ClientConnections.TryGetValue(connectionActor.IpAddress, out oldConnection);
-
-                        if (oldConnection != null)
-                        {
-                            connectionActor.HandShakeCompleted = oldConnection.HandShakeCompleted;
-
-                            connectionActor.HandShakePartialCompleted = oldConnection.HandShakePartialCompleted;
-                        }
+                        if (ClientConnections.ContainsKey(connectionActor.IpAddress))
+                            connectionActor.HandShakePartialCompleted = true;
 
                         ClientConnections.AddOrUpdate(connectionActor.IpAddress, connectionActor, (key, value) => connectionActor);
                     }));

@@ -5,6 +5,7 @@ using Yupi.Emulator.Game.Catalogs.Composers;
 using Yupi.Emulator.Game.Catalogs.Interfaces;
 using Yupi.Emulator.Game.Catalogs.Wrappers;
 using Yupi.Emulator.Game.Groups.Structs;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Enums;
 using Yupi.Emulator.Messages.Parsers;
 
@@ -43,7 +44,7 @@ namespace Yupi.Emulator.Messages.Handlers
             if (cPage == null || !cPage.Enabled || !cPage.Visible || cPage.MinRank > Session.GetHabbo().Rank)
                 return;
 
-            Session.SendMessage(cPage.CachedContentsMessage);
+            Session.SendMessage(cPage.CachedContentsMessageBuffer);
         }
 
         /// <summary>
@@ -213,10 +214,10 @@ namespace Yupi.Emulator.Messages.Handlers
 
             CatalogManager.LastSentOffer = num;
 
-            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("CatalogOfferMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("CatalogOfferMessageComposer"));
 
-            CatalogPageComposer.ComposeItem(catalogItem, message);
-            Session.SendMessage(message);
+            CatalogPageComposer.ComposeItem(catalogItem, messageBuffer);
+            Session.SendMessage(messageBuffer);
         }
 
         /// <summary>
@@ -244,7 +245,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
             Response.Init(PacketLibraryManager.OutgoingRequest("GroupFurniturePageMessageComposer"));
 
-            List<ServerMessage> responseList = new List<ServerMessage>();
+            List<SimpleServerMessageBuffer> responseList = new List<SimpleServerMessageBuffer>();
 
             foreach (
                 Group habboGroup in
@@ -254,7 +255,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 if (habboGroup == null)
                     continue;
 
-                ServerMessage subResponse = new ServerMessage();
+                SimpleServerMessageBuffer subResponse = new SimpleServerMessageBuffer();
                 subResponse.AppendInteger(habboGroup.Id);
                 subResponse.AppendString(habboGroup.Name);
                 subResponse.AppendString(habboGroup.Badge);

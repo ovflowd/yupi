@@ -49,9 +49,12 @@ namespace Yupi.Emulator.Net.Web
                 streamWriter.Close();
             }
 
-            HttpWebResponse httpResponse = (HttpWebResponse) httpWebRequest.GetResponse();
+            Stream httpResponseStream = httpWebRequest.GetResponse().GetResponseStream();
 
-            using (StreamReader streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            if (httpResponseStream == null)
+                return string.Empty;
+
+            using (StreamReader streamReader = new StreamReader(httpResponseStream))
                 return streamReader.ReadToEnd();
         }
     }

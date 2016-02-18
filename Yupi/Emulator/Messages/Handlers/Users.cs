@@ -13,6 +13,7 @@ using Yupi.Emulator.Game.Users;
 using Yupi.Emulator.Game.Users.Badges.Models;
 using Yupi.Emulator.Game.Users.Messenger.Structs;
 using Yupi.Emulator.Game.Users.Relationships;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Messages.Handlers
@@ -53,10 +54,10 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         public void OpenQuests()
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("QuestListMessageComposer"));
-            serverMessage.AppendInteger(0);
-            serverMessage.AppendBool(Request != null);
-            Session.SendMessage(serverMessage);
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("QuestListMessageComposer"));
+            simpleServerMessageBuffer.AppendInteger(0);
+            simpleServerMessageBuffer.AppendBool(Request != null);
+            Session.SendMessage(simpleServerMessageBuffer);
         }
 
         /// <summary>
@@ -80,11 +81,11 @@ namespace Yupi.Emulator.Messages.Handlers
 
             Session.GetHabbo().GetSubscriptionManager().GetSubscription();
 
-            ServerMessage serverMessage = new ServerMessage();
-            serverMessage.Init(PacketLibraryManager.OutgoingRequest("LoadCatalogClubGiftsMessageComposer"));
-            serverMessage.AppendInteger(0); // i
-            serverMessage.AppendInteger(0); // i2
-            serverMessage.AppendInteger(1);
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
+            simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingRequest("LoadCatalogClubGiftsMessageComposer"));
+            simpleServerMessageBuffer.AppendInteger(0); // i
+            simpleServerMessageBuffer.AppendInteger(0); // i2
+            simpleServerMessageBuffer.AppendInteger(1);
         }
 
         /// <summary>
@@ -193,12 +194,12 @@ namespace Yupi.Emulator.Messages.Handlers
                                           " LIMIT 1;UPDATE users_stats SET daily_respect_points = daily_respect_points - 1 WHERE id= " +
                                           Session.GetHabbo().Id + " LIMIT 1");
 
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("GiveRespectsMessageComposer"));
-            serverMessage.AppendInteger(roomUserByHabbo.GetClient().GetHabbo().Id);
-            serverMessage.AppendInteger(roomUserByHabbo.GetClient().GetHabbo().Respect);
-            room.SendMessage(serverMessage);
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("GiveRespectsMessageComposer"));
+            simpleServerMessageBuffer.AppendInteger(roomUserByHabbo.GetClient().GetHabbo().Id);
+            simpleServerMessageBuffer.AppendInteger(roomUserByHabbo.GetClient().GetHabbo().Respect);
+            room.SendMessage(simpleServerMessageBuffer);
 
-            ServerMessage thumbsUp = new ServerMessage(PacketLibraryManager.OutgoingRequest("RoomUserActionMessageComposer"));
+            SimpleServerMessageBuffer thumbsUp = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("RoomUserActionMessageComposer"));
             thumbsUp.AppendInteger(room.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().UserName).VirtualId);
             thumbsUp.AppendInteger(7);
             room.SendMessage(thumbsUp);
@@ -324,16 +325,16 @@ namespace Yupi.Emulator.Messages.Handlers
         internal void LoadSettings()
         {
             UserPreferences preferences = Session.GetHabbo().Preferences;
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("LoadVolumeMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("LoadVolumeMessageComposer"));
 
-            serverMessage.AppendIntegersArray(preferences.Volume, ',', 3, 0, 100);
+            simpleServerMessageBuffer.AppendIntegersArray(preferences.Volume, ',', 3, 0, 100);
 
-            serverMessage.AppendBool(preferences.PreferOldChat);
-            serverMessage.AppendBool(preferences.IgnoreRoomInvite);
-            serverMessage.AppendBool(preferences.DisableCameraFollow);
-            serverMessage.AppendInteger(3); // collapse friends (3 = no)
-            serverMessage.AppendInteger(preferences.ChatColor); //bubble
-            Session.SendMessage(serverMessage);
+            simpleServerMessageBuffer.AppendBool(preferences.PreferOldChat);
+            simpleServerMessageBuffer.AppendBool(preferences.IgnoreRoomInvite);
+            simpleServerMessageBuffer.AppendBool(preferences.DisableCameraFollow);
+            simpleServerMessageBuffer.AppendInteger(3); // collapse friends (3 = no)
+            simpleServerMessageBuffer.AppendInteger(preferences.ChatColor); //bubble
+            Session.SendMessage(simpleServerMessageBuffer);
         }
 
         /// <summary>
@@ -413,28 +414,28 @@ namespace Yupi.Emulator.Messages.Handlers
                 }
             }
 
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("UserBadgesMessageComposer"));
-            serverMessage.AppendInteger(Session.GetHabbo().Id);
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UserBadgesMessageComposer"));
+            simpleServerMessageBuffer.AppendInteger(Session.GetHabbo().Id);
 
-            serverMessage.StartArray();
+            simpleServerMessageBuffer.StartArray();
 
             foreach (
                 Badge badge in
                     Session.GetHabbo().GetBadgeComponent().BadgeList.Values.Cast<Badge>().Where(badge => badge.Slot > 0)
                 )
             {
-                serverMessage.AppendInteger(badge.Slot);
-                serverMessage.AppendString(badge.Code);
-                serverMessage.SaveArray();
+                simpleServerMessageBuffer.AppendInteger(badge.Slot);
+                simpleServerMessageBuffer.AppendString(badge.Code);
+                simpleServerMessageBuffer.SaveArray();
             }
 
-            serverMessage.EndArray();
+            simpleServerMessageBuffer.EndArray();
 
             if (Session.GetHabbo().InRoom &&
                 Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId) != null)
-                Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId).SendMessage(serverMessage);
+                Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId).SendMessage(simpleServerMessageBuffer);
             else
-                Session.SendMessage(serverMessage);
+                Session.SendMessage(simpleServerMessageBuffer);
         }
 
         /// <summary>
@@ -590,13 +591,13 @@ namespace Yupi.Emulator.Messages.Handlers
             if (roomUserByHabbo == null)
                 return;
 
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("UpdateUserDataMessageComposer"));
-            serverMessage.AppendInteger(roomUserByHabbo.VirtualId); //serverMessage.AppendInt32(-1);
-            serverMessage.AppendString(Session.GetHabbo().Look);
-            serverMessage.AppendString(Session.GetHabbo().Gender.ToLower());
-            serverMessage.AppendString(Session.GetHabbo().Motto);
-            serverMessage.AppendInteger(Session.GetHabbo().AchievementPoints);
-            currentRoom.SendMessage(serverMessage);
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UpdateUserDataMessageComposer"));
+            simpleServerMessageBuffer.AppendInteger(roomUserByHabbo.VirtualId); //SimpleServerMessageBuffer.AppendInt32(-1);
+            simpleServerMessageBuffer.AppendString(Session.GetHabbo().Look);
+            simpleServerMessageBuffer.AppendString(Session.GetHabbo().Gender.ToLower());
+            simpleServerMessageBuffer.AppendString(Session.GetHabbo().Motto);
+            simpleServerMessageBuffer.AppendInteger(Session.GetHabbo().AchievementPoints);
+            currentRoom.SendMessage(simpleServerMessageBuffer);
 
             if (Session.GetHabbo().GetMessenger() != null)
                 Session.GetHabbo().GetMessenger().OnStatusChanged(true);
@@ -629,13 +630,13 @@ namespace Yupi.Emulator.Messages.Handlers
                 if (roomUserByHabbo == null)
                     return;
 
-                ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("UpdateUserDataMessageComposer"));
-                serverMessage.AppendInteger(roomUserByHabbo.VirtualId); //serverMessage.AppendInt32(-1);
-                serverMessage.AppendString(Session.GetHabbo().Look);
-                serverMessage.AppendString(Session.GetHabbo().Gender.ToLower());
-                serverMessage.AppendString(Session.GetHabbo().Motto);
-                serverMessage.AppendInteger(Session.GetHabbo().AchievementPoints);
-                currentRoom.SendMessage(serverMessage);
+                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UpdateUserDataMessageComposer"));
+                simpleServerMessageBuffer.AppendInteger(roomUserByHabbo.VirtualId); //SimpleServerMessageBuffer.AppendInt32(-1);
+                simpleServerMessageBuffer.AppendString(Session.GetHabbo().Look);
+                simpleServerMessageBuffer.AppendString(Session.GetHabbo().Gender.ToLower());
+                simpleServerMessageBuffer.AppendString(Session.GetHabbo().Motto);
+                simpleServerMessageBuffer.AppendInteger(Session.GetHabbo().AchievementPoints);
+                currentRoom.SendMessage(simpleServerMessageBuffer);
             }
 
             Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(Session, "ACH_Motto", 1);
@@ -1140,7 +1141,7 @@ namespace Yupi.Emulator.Messages.Handlers
             {
                 Random rnd = new Random();
                 RoomData randomRoom = allRooms[rnd.Next(allRooms.Length)].Key;
-                ServerMessage success = new ServerMessage(PacketLibraryManager.OutgoingRequest("FindMoreFriendsSuccessMessageComposer"));
+                SimpleServerMessageBuffer success = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("FindMoreFriendsSuccessMessageComposer"));
                 if (randomRoom == null)
                 {
                     success.AppendBool(false);
@@ -1149,7 +1150,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 }
                 success.AppendBool(true);
                 Session.SendMessage(success);
-                ServerMessage roomFwd = new ServerMessage(PacketLibraryManager.OutgoingRequest("RoomForwardMessageComposer"));
+                SimpleServerMessageBuffer roomFwd = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("RoomForwardMessageComposer"));
                 roomFwd.AppendInteger(randomRoom.Id);
                 Session.SendMessage(roomFwd);
             }

@@ -1,6 +1,7 @@
 ﻿using Yupi.Emulator.Game.Commands.Interfaces;
 using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Commands.Controllers
@@ -25,16 +26,16 @@ namespace Yupi.Emulator.Game.Commands.Controllers
         {
             string msg = string.Join(" ", pms);
 
-            ServerMessage message =
-                new ServerMessage(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
-            message.AppendString("staffcloud");
-            message.AppendInteger(2);
-            message.AppendString("title");
-            message.AppendString("Staff Internal Alert");
-            message.AppendString("message");
-            message.AppendString(
+            SimpleServerMessageBuffer messageBuffer =
+                new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
+            messageBuffer.AppendString("staffcloud");
+            messageBuffer.AppendInteger(2);
+            messageBuffer.AppendString("title");
+            messageBuffer.AppendString("Staff Internal Alert");
+            messageBuffer.AppendString("message");
+            messageBuffer.AppendString(
                 $"{msg}\r\n- <i>Sender: {session.GetHabbo().UserName}</i>");
-            Yupi.GetGame().GetClientManager().StaffAlert(message);
+            Yupi.GetGame().GetClientManager().StaffAlert(messageBuffer);
             Yupi.GetGame()
                 .GetModerationTool()
                 .LogStaffEntry(session.GetHabbo().UserName, string.Empty, "StaffAlert",

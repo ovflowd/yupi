@@ -265,6 +265,7 @@
     <Compile Include="Emulator\Core\Io\ServerUserChatTextHandler.cs" />
     <Compile Include="Emulator\Core\Io\Logger\YupiWriterManager.cs" />
     <Compile Include="Emulator\Game\Users\YoutubeVideo.cs" />
+    <Compile Include="Emulator\Messages\StaticMessagesManager.cs" />
     <Compile Include="Emulator\Net\Handlers\ConnectionHandler.cs" />
     <Compile Include="Emulator\Net\Connection\ConnectionManager.cs" />
     <Compile Include="Emulator\Net\Settings\ServerFactorySettings.cs" />
@@ -576,7 +577,7 @@
     <Compile Include="Emulator\Messages\Handlers\Navigator.cs" />
     <Compile Include="Emulator\Messages\Handlers\Rooms.cs" />
     <Compile Include="Emulator\Messages\Handlers\Users.cs" />
-    <Compile Include="Emulator\Messages\Parsers\PacketLibraryManager.cs" />
+    <Compile Include="Emulator\Messages\PacketLibraryManager.cs" />
     <Compile Include="Emulator\Messages\Enums\StaticMessages.cs" />
     <Compile Include="Emulator\Core\Security\BlackWords\Structs\BlackWord.cs" />
     <Compile Include="Emulator\Core\Security\BlackWords\BlackWordsManager.cs" />
@@ -685,13 +686,13 @@
     <Compile Include="Emulator\Game\Users\Factories\UserDataFactory.cs" />
     <Compile Include="Emulator\Game\Users\Data\Exceptions\UserDataNotFoundException.cs" />
     <Compile Include="Emulator\Yupi.cs" />
-    <Compile Include="Emulator\Messages\ClientMessage.cs" />
+    <Compile Include="Emulator\Messages\Buffers\SimpleClientMessageBuffer.cs" />
     <Compile Include="Emulator\Messages\Handlers\Others.cs" />
-    <Compile Include="Emulator\Messages\HabboEncoding.cs" />
-    <Compile Include="Emulator\Messages\QueuedServerMessage.cs" />
-    <Compile Include="Emulator\Messages\ServerMessage.cs" />
+    <Compile Include="Emulator\Messages\Encoding\HabboEncoding.cs" />
+    <Compile Include="Emulator\Messages\Buffers\QueuedServerMessageBuffer.cs" />
+    <Compile Include="Emulator\Messages\Buffers\SimpleServerMessageBuffer.cs" />
     <Compile Include="Emulator\Messages\Library\PacketLibrary.cs" />
-    <Compile Include="Emulator\Net\Packets\ServerPacketParser.cs" />
+    <Compile Include="Emulator\Messages\Parsers\ServerPacketParser.cs" />
     <Compile Include="Emulator\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Emulator\Messages\Parsers\Interfaces\IDataParser.cs" />

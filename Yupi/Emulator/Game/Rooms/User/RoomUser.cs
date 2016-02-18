@@ -25,6 +25,7 @@ using Yupi.Emulator.Game.Rooms.Items.Games.Teams.Enums;
 using Yupi.Emulator.Game.Rooms.Items.Games.Types.Freeze.Enum;
 using Yupi.Emulator.Game.Users;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 using Group = Yupi.Emulator.Game.Groups.Structs.Group;
 
@@ -675,7 +676,7 @@ namespace Yupi.Emulator.Game.Rooms.User
             if (!IsAsleep)
                 return;
             IsAsleep = false;
-            ServerMessage sleep = new ServerMessage(PacketLibraryManager.OutgoingRequest("RoomUserIdleMessageComposer"));
+            SimpleServerMessageBuffer sleep = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("RoomUserIdleMessageComposer"));
             sleep.AppendInteger(VirtualId);
             sleep.AppendBool(false);
             GetRoom().SendMessage(sleep);
@@ -706,7 +707,7 @@ namespace Yupi.Emulator.Game.Rooms.User
 
             if (IsPet || IsBot)
             {
-                ServerMessage botChatmsg = new ServerMessage();
+                SimpleServerMessageBuffer botChatmsg = new SimpleServerMessageBuffer();
 
                 botChatmsg.Init(shout ? PacketLibraryManager.OutgoingRequest("ShoutMessageComposer") : PacketLibraryManager.OutgoingRequest("ChatMessageComposer"));
                 botChatmsg.AppendInteger(VirtualId);
@@ -794,28 +795,28 @@ namespace Yupi.Emulator.Game.Rooms.User
                     else if (span.TotalSeconds > 4.0)
                         _floodCount = 0;
 
-                    ServerMessage message;
+                    SimpleServerMessageBuffer messageBuffer;
 
                     if ((span.TotalSeconds < habbo.SpamProtectionTime) && habbo.SpamProtectionBol)
                     {
-                        message = new ServerMessage(PacketLibraryManager.OutgoingRequest("FloodFilterMessageComposer"));
+                        messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("FloodFilterMessageComposer"));
 
                         int i = habbo.SpamProtectionTime - span.Seconds;
 
-                        message.AppendInteger(i);
+                        messageBuffer.AppendInteger(i);
 
                         IsFlooded = true;
 
                         FloodExpiryTime = Yupi.GetUnixTimeStamp() + i;
 
-                        GetClient()?.SendMessage(message);
+                        GetClient()?.SendMessage(messageBuffer);
 
                         return;
                     }
 
                     if ((span.TotalSeconds < 4.0) && (_floodCount > 5) && (rank < 5))
                     {
-                        message = new ServerMessage(PacketLibraryManager.OutgoingRequest("FloodFilterMessageComposer"));
+                        messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("FloodFilterMessageComposer"));
 
                         habbo.SpamProtectionCount++;
 
@@ -828,13 +829,13 @@ namespace Yupi.Emulator.Game.Rooms.User
 
                         int j = habbo.SpamProtectionTime - span.Seconds;
 
-                        message.AppendInteger(j);
+                        messageBuffer.AppendInteger(j);
 
                         IsFlooded = true;
 
                         FloodExpiryTime = Yupi.GetUnixTimeStamp() + j;
 
-                        GetClient()?.SendMessage(message);
+                        GetClient()?.SendMessage(messageBuffer);
 
                         return;
                     }
@@ -853,7 +854,7 @@ namespace Yupi.Emulator.Game.Rooms.User
             else if (!IsPet)
                 textColor = 2;
 
-            ServerMessage chatMsg = new ServerMessage(shout ? PacketLibraryManager.OutgoingRequest("ShoutMessageComposer") : PacketLibraryManager.OutgoingRequest("ChatMessageComposer"));
+            SimpleServerMessageBuffer chatMsg = new SimpleServerMessageBuffer(shout ? PacketLibraryManager.OutgoingRequest("ShoutMessageComposer") : PacketLibraryManager.OutgoingRequest("ChatMessageComposer"));
 
             chatMsg.AppendInteger(VirtualId);
             chatMsg.AppendString(msg);
@@ -1055,10 +1056,10 @@ namespace Yupi.Emulator.Game.Rooms.User
         {
             CarryItemId = item;
             CarryTimer = item > 0 ? 240 : 0;
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("ApplyHanditemMessageComposer"));
-            serverMessage.AppendInteger(VirtualId);
-            serverMessage.AppendInteger(item);
-            GetRoom().SendMessage(serverMessage);
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("ApplyHanditemMessageComposer"));
+            simpleServerMessageBuffer.AppendInteger(VirtualId);
+            simpleServerMessageBuffer.AppendInteger(item);
+            GetRoom().SendMessage(simpleServerMessageBuffer);
         }
 
         /// <summary>
@@ -1141,13 +1142,13 @@ namespace Yupi.Emulator.Game.Rooms.User
         }
 
         /// <summary>
-        ///     Serializes the specified message.
+        ///     Serializes the specified messageBuffer.
         /// </summary>
-        /// <param name="message">The message.</param>
+        /// <param name="message">The messageBuffer.</param>
         /// <param name="gotPublicRoom">if set to <c>true</c> [got public room].</param>
-        internal void Serialize(ServerMessage message, bool gotPublicRoom)
+        internal void Serialize(SimpleServerMessageBuffer messageBuffer, bool gotPublicRoom)
         {
-            if (message == null)
+            if (messageBuffer == null)
                 return;
             if (IsSpectator)
                 return;
@@ -1163,97 +1164,97 @@ namespace Yupi.Emulator.Game.Rooms.User
                 if (habbo == null)
                     return;
 
-                message.AppendInteger(habbo.Id);
-                message.AppendString(habbo.UserName);
-                message.AppendString(habbo.Motto);
-                message.AppendString(habbo.Look);
-                message.AppendInteger(VirtualId);
-                message.AppendInteger(X);
-                message.AppendInteger(Y);
-                message.AppendString(ServerUserChatTextHandler.GetString(Z));
-                message.AppendInteger(0);
-                message.AppendInteger(1);
-                message.AppendString(habbo.Gender.ToLower());
+                messageBuffer.AppendInteger(habbo.Id);
+                messageBuffer.AppendString(habbo.UserName);
+                messageBuffer.AppendString(habbo.Motto);
+                messageBuffer.AppendString(habbo.Look);
+                messageBuffer.AppendInteger(VirtualId);
+                messageBuffer.AppendInteger(X);
+                messageBuffer.AppendInteger(Y);
+                messageBuffer.AppendString(ServerUserChatTextHandler.GetString(Z));
+                messageBuffer.AppendInteger(0);
+                messageBuffer.AppendInteger(1);
+                messageBuffer.AppendString(habbo.Gender.ToLower());
                 if (@group != null)
                 {
-                    message.AppendInteger(@group.Id);
-                    message.AppendInteger(0);
-                    message.AppendString(@group.Name);
+                    messageBuffer.AppendInteger(@group.Id);
+                    messageBuffer.AppendInteger(0);
+                    messageBuffer.AppendString(@group.Name);
                 }
                 else
                 {
-                    message.AppendInteger(0);
-                    message.AppendInteger(0);
-                    message.AppendString("");
+                    messageBuffer.AppendInteger(0);
+                    messageBuffer.AppendInteger(0);
+                    messageBuffer.AppendString("");
                 }
-                message.AppendString("");
-                message.AppendInteger(habbo.AchievementPoints);
-                message.AppendBool(false);
+                messageBuffer.AppendString("");
+                messageBuffer.AppendInteger(habbo.AchievementPoints);
+                messageBuffer.AppendBool(false);
                 return;
             }
 
             if (BotAi == null || BotData == null)
                 throw new NullReferenceException("BotAI or BotData is undefined");
 
-            message.AppendInteger(BotAi.BaseId);
-            message.AppendString(BotData.Name);
-            message.AppendString(BotData.Motto);
+            messageBuffer.AppendInteger(BotAi.BaseId);
+            messageBuffer.AppendString(BotData.Name);
+            messageBuffer.AppendString(BotData.Motto);
             if (BotData.AiType == AiType.Pet)
                 if (PetData.Type == "pet_monster")
-                    message.AppendString(PetData.MoplaBreed.PlantData);
+                    messageBuffer.AppendString(PetData.MoplaBreed.PlantData);
                 else if (PetData.HaveSaddle == Convert.ToBoolean(2))
-                    message.AppendString(string.Concat(BotData.Look.ToLower(), " 3 4 10 0 2 ", PetData.PetHair, " ",
+                    messageBuffer.AppendString(string.Concat(BotData.Look.ToLower(), " 3 4 10 0 2 ", PetData.PetHair, " ",
                         PetData.HairDye, " 3 ", PetData.PetHair, " ", PetData.HairDye));
                 else if (PetData.HaveSaddle == Convert.ToBoolean(1))
-                    message.AppendString(string.Concat(BotData.Look.ToLower(), " 3 2 ", PetData.PetHair, " ",
+                    messageBuffer.AppendString(string.Concat(BotData.Look.ToLower(), " 3 2 ", PetData.PetHair, " ",
                         PetData.HairDye, " 3 ", PetData.PetHair, " ", PetData.HairDye, " 4 9 0"));
                 else
-                    message.AppendString(string.Concat(BotData.Look.ToLower(), " 2 2 ", PetData.PetHair, " ",
+                    messageBuffer.AppendString(string.Concat(BotData.Look.ToLower(), " 2 2 ", PetData.PetHair, " ",
                         PetData.HairDye, " 3 ", PetData.PetHair, " ", PetData.HairDye));
             else
-                message.AppendString(BotData.Look.ToLower());
-            message.AppendInteger(VirtualId);
-            message.AppendInteger(X);
-            message.AppendInteger(Y);
-            message.AppendString(ServerUserChatTextHandler.GetString(Z));
-            message.AppendInteger(0);
-            message.AppendInteger(BotData.AiType == AiType.Generic ? 4 : 2);
+                messageBuffer.AppendString(BotData.Look.ToLower());
+            messageBuffer.AppendInteger(VirtualId);
+            messageBuffer.AppendInteger(X);
+            messageBuffer.AppendInteger(Y);
+            messageBuffer.AppendString(ServerUserChatTextHandler.GetString(Z));
+            messageBuffer.AppendInteger(0);
+            messageBuffer.AppendInteger(BotData.AiType == AiType.Generic ? 4 : 2);
             if (BotData.AiType == AiType.Pet)
             {
-                message.AppendInteger(PetData.RaceId);
-                message.AppendInteger(PetData.OwnerId);
-                message.AppendString(PetData.OwnerName);
-                message.AppendInteger(PetData.Type == "pet_monster" ? 0 : 1);
-                message.AppendBool(PetData.HaveSaddle);
-                message.AppendBool(RidingHorse);
-                message.AppendInteger(0);
-                message.AppendInteger(PetData.Type == "pet_monster" ? 1 : 0);
-                message.AppendString(PetData.Type == "pet_monster" ? PetData.MoplaBreed.GrowStatus : "");
+                messageBuffer.AppendInteger(PetData.RaceId);
+                messageBuffer.AppendInteger(PetData.OwnerId);
+                messageBuffer.AppendString(PetData.OwnerName);
+                messageBuffer.AppendInteger(PetData.Type == "pet_monster" ? 0 : 1);
+                messageBuffer.AppendBool(PetData.HaveSaddle);
+                messageBuffer.AppendBool(RidingHorse);
+                messageBuffer.AppendInteger(0);
+                messageBuffer.AppendInteger(PetData.Type == "pet_monster" ? 1 : 0);
+                messageBuffer.AppendString(PetData.Type == "pet_monster" ? PetData.MoplaBreed.GrowStatus : "");
                 return;
             }
-            message.AppendString(BotData.Gender.ToLower());
-            message.AppendInteger(BotData.OwnerId);
-            message.AppendString(Yupi.GetGame().GetClientManager().GetUserNameByUserId(BotData.OwnerId));
-            message.AppendInteger(5);
-            message.AppendShort(1);
-            message.AppendShort(2);
-            message.AppendShort(3);
-            message.AppendShort(4);
-            message.AppendShort(5);
+            messageBuffer.AppendString(BotData.Gender.ToLower());
+            messageBuffer.AppendInteger(BotData.OwnerId);
+            messageBuffer.AppendString(Yupi.GetGame().GetClientManager().GetUserNameByUserId(BotData.OwnerId));
+            messageBuffer.AppendInteger(5);
+            messageBuffer.AppendShort(1);
+            messageBuffer.AppendShort(2);
+            messageBuffer.AppendShort(3);
+            messageBuffer.AppendShort(4);
+            messageBuffer.AppendShort(5);
         }
 
         /// <summary>
         ///     Serializes the status.
         /// </summary>
-        /// <param name="message">The message.</param>
-        internal void SerializeStatus(ServerMessage message)
+        /// <param name="message">The messageBuffer.</param>
+        internal void SerializeStatus(SimpleServerMessageBuffer messageBuffer)
         {
-            message.AppendInteger(VirtualId);
-            message.AppendInteger(X);
-            message.AppendInteger(Y);
-            message.AppendString(ServerUserChatTextHandler.GetString(Z));
-            message.AppendInteger(RotHead);
-            message.AppendInteger(RotBody);
+            messageBuffer.AppendInteger(VirtualId);
+            messageBuffer.AppendInteger(X);
+            messageBuffer.AppendInteger(Y);
+            messageBuffer.AppendString(ServerUserChatTextHandler.GetString(Z));
+            messageBuffer.AppendInteger(RotHead);
+            messageBuffer.AppendInteger(RotBody);
 
             StringBuilder stringBuilder = new StringBuilder();
 
@@ -1280,7 +1281,7 @@ namespace Yupi.Emulator.Game.Rooms.User
 
             stringBuilder.Append("/");
 
-            message.AppendString(stringBuilder.ToString());
+            messageBuffer.AppendString(stringBuilder.ToString());
 
             if (!Statusses.ContainsKey("sign"))
                 return;
@@ -1292,19 +1293,19 @@ namespace Yupi.Emulator.Game.Rooms.User
         /// <summary>
         ///     Serializes the status.
         /// </summary>
-        /// <param name="message">The message.</param>
+        /// <param name="message">The messageBuffer.</param>
         /// <param name="status">The status.</param>
-        internal void SerializeStatus(ServerMessage message, string status)
+        internal void SerializeStatus(SimpleServerMessageBuffer messageBuffer, string status)
         {
             if (IsSpectator)
                 return;
-            message.AppendInteger(VirtualId);
-            message.AppendInteger(X);
-            message.AppendInteger(Y);
-            message.AppendString(ServerUserChatTextHandler.GetString(SetZ));
-            message.AppendInteger(RotHead);
-            message.AppendInteger(RotBody);
-            message.AppendString(status);
+            messageBuffer.AppendInteger(VirtualId);
+            messageBuffer.AppendInteger(X);
+            messageBuffer.AppendInteger(Y);
+            messageBuffer.AppendString(ServerUserChatTextHandler.GetString(SetZ));
+            messageBuffer.AppendInteger(RotHead);
+            messageBuffer.AppendInteger(RotBody);
+            messageBuffer.AppendString(status);
         }
 
         /// <summary>
@@ -1323,9 +1324,9 @@ namespace Yupi.Emulator.Game.Rooms.User
         }
 
         /// <summary>
-        ///     Sends the message.
+        ///     Sends the messageBuffer.
         /// </summary>
-        /// <param name="message">The message.</param>
+        /// <param name="message">The messageBuffer.</param>
         internal void SendMessage(byte[] message)
         {
             if (GetClient() == null || GetClient().GetConnection() == null)

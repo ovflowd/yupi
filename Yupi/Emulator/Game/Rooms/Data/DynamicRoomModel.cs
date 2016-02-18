@@ -2,6 +2,7 @@ using System;
 using System.Text;
 using Yupi.Emulator.Game.Rooms.Chat.Enums;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Rooms.Data
@@ -19,7 +20,7 @@ namespace Yupi.Emulator.Game.Rooms.Data
         /// <summary>
         ///     The _serialized heightmap
         /// </summary>
-        private ServerMessage _serializedHeightmap;
+        private SimpleServerMessageBuffer _serializedHeightmap;
 
         /// <summary>
         ///     The _static model
@@ -161,8 +162,8 @@ namespace Yupi.Emulator.Game.Rooms.Data
         /// <summary>
         ///     Gets the heightmap.
         /// </summary>
-        /// <returns>ServerMessage.</returns>
-        internal ServerMessage GetHeightmap()
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        internal SimpleServerMessageBuffer GetHeightmap()
         {
             if (HeightmapSerialized) return _serializedHeightmap;
             _serializedHeightmap = SerializeHeightmap();
@@ -237,12 +238,12 @@ namespace Yupi.Emulator.Game.Rooms.Data
         /// <summary>
         ///     Serializes the heightmap.
         /// </summary>
-        /// <returns>ServerMessage.</returns>
-        private ServerMessage SerializeHeightmap()
+        /// <returns>SimpleServerMessageBuffer.</returns>
+        private SimpleServerMessageBuffer SerializeHeightmap()
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("FloorMapMessageComposer"));
-            serverMessage.AppendBool(true);
-            serverMessage.AppendInteger(_mRoom.RoomData.WallHeight);
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("FloorMapMessageComposer"));
+            simpleServerMessageBuffer.AppendBool(true);
+            simpleServerMessageBuffer.AppendInteger(_mRoom.RoomData.WallHeight);
             StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < MapSizeY; i++)
             {
@@ -260,8 +261,8 @@ namespace Yupi.Emulator.Game.Rooms.Data
                 stringBuilder.Append(Convert.ToChar(13));
             }
             string s = stringBuilder.ToString();
-            serverMessage.AppendString(s);
-            return serverMessage;
+            simpleServerMessageBuffer.AppendString(s);
+            return simpleServerMessageBuffer;
         }
     }
 }

@@ -8,6 +8,7 @@ using Yupi.Emulator.Game.Items.Interfaces;
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Rooms.User;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Items.Interactions.Controllers
@@ -92,13 +93,13 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
             Timer timer = (Timer) source;
             timer.Stop();
 
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
-            serverMessage.AppendString("room.kick.cannonball");
-            serverMessage.AppendInteger(2);
-            serverMessage.AppendString("link");
-            serverMessage.AppendString("event:");
-            serverMessage.AppendString("linkTitle");
-            serverMessage.AppendString("ok");
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
+            simpleServerMessageBuffer.AppendString("room.kick.cannonball");
+            simpleServerMessageBuffer.AppendInteger(2);
+            simpleServerMessageBuffer.AppendString("link");
+            simpleServerMessageBuffer.AppendString("event:");
+            simpleServerMessageBuffer.AppendString("linkTitle");
+            simpleServerMessageBuffer.AppendString("ok");
 
             Room room = _mItem.GetRoom();
 
@@ -122,7 +123,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
             foreach (RoomUser user in toRemove)
             {
                 room.GetRoomUserManager().RemoveUserFromRoom(user.GetClient(), true, false);
-                user.GetClient().SendMessage(serverMessage);
+                user.GetClient().SendMessage(simpleServerMessageBuffer);
             }
 
             _mItem.OnCannonActing = false;

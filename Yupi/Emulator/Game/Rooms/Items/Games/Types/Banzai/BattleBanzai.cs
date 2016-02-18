@@ -12,6 +12,7 @@ using Yupi.Emulator.Game.Items.Interfaces;
 using Yupi.Emulator.Game.Rooms.Items.Games.Teams.Enums;
 using Yupi.Emulator.Game.Rooms.User;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Banzai
@@ -196,7 +197,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Banzai
                         .ProgressUserAchievement(avatar.GetClient(), "ACH_BattleBallWinner", 1);
                 }
 
-                ServerMessage waveAtWin = new ServerMessage(PacketLibraryManager.OutgoingRequest("RoomUserActionMessageComposer"));
+                SimpleServerMessageBuffer waveAtWin = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("RoomUserActionMessageComposer"));
                 waveAtWin.AppendInteger(avatar.VirtualId);
                 waveAtWin.AppendInteger(1);
                 _room.SendMessage(waveAtWin);
@@ -218,17 +219,17 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Banzai
             item.UpdateNeeded = true;
             item.UpdateState();
 
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("ItemAnimationMessageComposer"));
-            serverMessage.AppendInteger(oldRoomCoord.X);
-            serverMessage.AppendInteger(oldRoomCoord.Y);
-            serverMessage.AppendInteger(newX);
-            serverMessage.AppendInteger(newY);
-            serverMessage.AppendInteger(1);
-            serverMessage.AppendInteger(item.Id);
-            serverMessage.AppendString(ServerUserChatTextHandler.GetString(item.Z));
-            serverMessage.AppendString(ServerUserChatTextHandler.GetString(newZ));
-            serverMessage.AppendInteger(-1);
-            _room.SendMessage(serverMessage);
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("ItemAnimationMessageComposer"));
+            simpleServerMessageBuffer.AppendInteger(oldRoomCoord.X);
+            simpleServerMessageBuffer.AppendInteger(oldRoomCoord.Y);
+            simpleServerMessageBuffer.AppendInteger(newX);
+            simpleServerMessageBuffer.AppendInteger(newY);
+            simpleServerMessageBuffer.AppendInteger(1);
+            simpleServerMessageBuffer.AppendInteger(item.Id);
+            simpleServerMessageBuffer.AppendString(ServerUserChatTextHandler.GetString(item.Z));
+            simpleServerMessageBuffer.AppendString(ServerUserChatTextHandler.GetString(newZ));
+            simpleServerMessageBuffer.AppendInteger(-1);
+            _room.SendMessage(simpleServerMessageBuffer);
 
             _room.GetRoomItemHandler()
                 .SetFloorItem(client, item, newX, newY, item.Rot, false, false, false, false, false);

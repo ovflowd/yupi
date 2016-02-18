@@ -4,6 +4,7 @@ using System.Linq;
 using Yupi.Emulator.Core.Io.Logger;
 using Yupi.Emulator.Game.Items.Interfaces;
 using Yupi.Emulator.Messages;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Rooms.User.Trade
@@ -59,12 +60,12 @@ namespace Yupi.Emulator.Game.Rooms.User.Trade
                 tradeUser.GetRoomUser().AddStatus("trd", "");
                 tradeUser.GetRoomUser().UpdateNeeded = true;
             }
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("TradeStartMessageComposer"));
-            serverMessage.AppendInteger(userOneId);
-            serverMessage.AppendInteger(1);
-            serverMessage.AppendInteger(userTwoId);
-            serverMessage.AppendInteger(1);
-            SendMessageToUsers(serverMessage);
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("TradeStartMessageComposer"));
+            simpleServerMessageBuffer.AppendInteger(userOneId);
+            simpleServerMessageBuffer.AppendInteger(1);
+            simpleServerMessageBuffer.AppendInteger(userTwoId);
+            simpleServerMessageBuffer.AppendInteger(1);
+            SendMessageToUsers(simpleServerMessageBuffer);
         }
 
         /// <summary>
@@ -155,15 +156,15 @@ namespace Yupi.Emulator.Game.Rooms.User.Trade
                 return;
 
             tradeUser.HasAccepted = true;
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("TradeAcceptMessageComposer"));
-            serverMessage.AppendInteger(userId);
-            serverMessage.AppendInteger(1);
-            SendMessageToUsers(serverMessage);
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("TradeAcceptMessageComposer"));
+            simpleServerMessageBuffer.AppendInteger(userId);
+            simpleServerMessageBuffer.AppendInteger(1);
+            SendMessageToUsers(simpleServerMessageBuffer);
 
             if (!AllUsersAccepted)
                 return;
 
-            SendMessageToUsers(new ServerMessage(PacketLibraryManager.OutgoingRequest("TradeConfirmationMessageComposer")));
+            SendMessageToUsers(new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("TradeConfirmationMessageComposer")));
 
             _tradeStage++;
 
@@ -182,10 +183,10 @@ namespace Yupi.Emulator.Game.Rooms.User.Trade
                 return;
 
             tradeUser.HasAccepted = false;
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("TradeAcceptMessageComposer"));
-            serverMessage.AppendInteger(userId);
-            serverMessage.AppendInteger(0);
-            SendMessageToUsers(serverMessage);
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("TradeAcceptMessageComposer"));
+            simpleServerMessageBuffer.AppendInteger(userId);
+            simpleServerMessageBuffer.AppendInteger(0);
+            SendMessageToUsers(simpleServerMessageBuffer);
         }
 
         /// <summary>
@@ -200,10 +201,10 @@ namespace Yupi.Emulator.Game.Rooms.User.Trade
                 return;
             }
             tradeUser.HasAccepted = true;
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("TradeAcceptMessageComposer"));
-            serverMessage.AppendInteger(userId);
-            serverMessage.AppendInteger(1);
-            SendMessageToUsers(serverMessage);
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("TradeAcceptMessageComposer"));
+            simpleServerMessageBuffer.AppendInteger(userId);
+            simpleServerMessageBuffer.AppendInteger(1);
+            SendMessageToUsers(simpleServerMessageBuffer);
             if (!AllUsersAccepted)
             {
                 return;
@@ -229,34 +230,34 @@ namespace Yupi.Emulator.Game.Rooms.User.Trade
         /// </summary>
         internal void UpdateTradeWindow()
         {
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("TradeUpdateMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("TradeUpdateMessageComposer"));
 
             {
                 foreach (TradeUser tradeUser in _users.Where(tradeUser => tradeUser != null))
                 {
-                    serverMessage.AppendInteger(tradeUser.UserId);
-                    serverMessage.AppendInteger(tradeUser.OfferedItems.Count);
+                    simpleServerMessageBuffer.AppendInteger(tradeUser.UserId);
+                    simpleServerMessageBuffer.AppendInteger(tradeUser.OfferedItems.Count);
 
                     foreach (UserItem current in tradeUser.OfferedItems)
                     {
-                        serverMessage.AppendInteger(current.Id);
-                        serverMessage.AppendString(current.BaseItem.Type.ToString().ToLower());
-                        serverMessage.AppendInteger(current.Id);
-                        serverMessage.AppendInteger(current.BaseItem.SpriteId);
-                        serverMessage.AppendInteger(0);
-                        serverMessage.AppendBool(true);
-                        serverMessage.AppendInteger(0);
-                        serverMessage.AppendString(string.Empty);
-                        serverMessage.AppendInteger(0);
-                        serverMessage.AppendInteger(0);
-                        serverMessage.AppendInteger(0);
+                        simpleServerMessageBuffer.AppendInteger(current.Id);
+                        simpleServerMessageBuffer.AppendString(current.BaseItem.Type.ToString().ToLower());
+                        simpleServerMessageBuffer.AppendInteger(current.Id);
+                        simpleServerMessageBuffer.AppendInteger(current.BaseItem.SpriteId);
+                        simpleServerMessageBuffer.AppendInteger(0);
+                        simpleServerMessageBuffer.AppendBool(true);
+                        simpleServerMessageBuffer.AppendInteger(0);
+                        simpleServerMessageBuffer.AppendString(string.Empty);
+                        simpleServerMessageBuffer.AppendInteger(0);
+                        simpleServerMessageBuffer.AppendInteger(0);
+                        simpleServerMessageBuffer.AppendInteger(0);
 
                         if (current.BaseItem.Type == 's')
-                            serverMessage.AppendInteger(0);
+                            simpleServerMessageBuffer.AppendInteger(0);
                     }
                 }
 
-                SendMessageToUsers(serverMessage);
+                SendMessageToUsers(simpleServerMessageBuffer);
             }
         }
 
@@ -315,34 +316,34 @@ namespace Yupi.Emulator.Game.Rooms.User.Trade
                 GetTradeUser(_twoId).GetClient().GetHabbo().GetInventoryComponent().RunDbUpdate();
                 GetTradeUser(_oneId).GetClient().GetHabbo().GetInventoryComponent().RunDbUpdate();
             }
-            ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("NewInventoryObjectMessageComposer"));
-            serverMessage.AppendInteger(1);
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NewInventoryObjectMessageComposer"));
+            simpleServerMessageBuffer.AppendInteger(1);
             int i = 1;
             if (offeredItems.Any(current5 => current5.BaseItem.Type.ToString().ToLower() != "s"))
             {
                 i = 2;
             }
-            serverMessage.AppendInteger(i);
-            serverMessage.AppendInteger(offeredItems.Count);
+            simpleServerMessageBuffer.AppendInteger(i);
+            simpleServerMessageBuffer.AppendInteger(offeredItems.Count);
             foreach (UserItem current6 in offeredItems)
             {
-                serverMessage.AppendInteger(current6.Id);
+                simpleServerMessageBuffer.AppendInteger(current6.Id);
             }
-            GetTradeUser(_twoId).GetClient().SendMessage(serverMessage);
-            ServerMessage serverMessage2 = new ServerMessage(PacketLibraryManager.OutgoingRequest("NewInventoryObjectMessageComposer"));
-            serverMessage2.AppendInteger(1);
+            GetTradeUser(_twoId).GetClient().SendMessage(simpleServerMessageBuffer);
+            SimpleServerMessageBuffer simpleServerMessage2 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NewInventoryObjectMessageComposer"));
+            simpleServerMessage2.AppendInteger(1);
             i = 1;
             if (offeredItems2.Any(current7 => current7.BaseItem.Type.ToString().ToLower() != "s"))
             {
                 i = 2;
             }
-            serverMessage2.AppendInteger(i);
-            serverMessage2.AppendInteger(offeredItems2.Count);
+            simpleServerMessage2.AppendInteger(i);
+            simpleServerMessage2.AppendInteger(offeredItems2.Count);
             foreach (UserItem current8 in offeredItems2)
             {
-                serverMessage2.AppendInteger(current8.Id);
+                simpleServerMessage2.AppendInteger(current8.Id);
             }
-            GetTradeUser(_oneId).GetClient().SendMessage(serverMessage2);
+            GetTradeUser(_oneId).GetClient().SendMessage(simpleServerMessage2);
             GetTradeUser(_oneId).GetClient().GetHabbo().GetInventoryComponent().UpdateItems(false);
             GetTradeUser(_twoId).GetClient().GetHabbo().GetInventoryComponent().UpdateItems(false);
         }
@@ -359,7 +360,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Trade
                     tradeUser.GetRoomUser().RemoveStatus("trd");
                     tradeUser.GetRoomUser().UpdateNeeded = true;
                 }
-                SendMessageToUsers(new ServerMessage(PacketLibraryManager.OutgoingRequest("TradeCompletedMessageComposer")));
+                SendMessageToUsers(new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("TradeCompletedMessageComposer")));
                 GetRoom().ActiveTrades.Remove(this);
             }
         }
@@ -377,18 +378,18 @@ namespace Yupi.Emulator.Game.Rooms.User.Trade
                     tradeUser.GetRoomUser().RemoveStatus("trd");
                     tradeUser.GetRoomUser().UpdateNeeded = true;
                 }
-                ServerMessage serverMessage = new ServerMessage(PacketLibraryManager.OutgoingRequest("TradeCloseMessageComposer"));
-                serverMessage.AppendInteger(userId);
-                serverMessage.AppendInteger(0);
-                SendMessageToUsers(serverMessage);
+                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("TradeCloseMessageComposer"));
+                simpleServerMessageBuffer.AppendInteger(userId);
+                simpleServerMessageBuffer.AppendInteger(0);
+                SendMessageToUsers(simpleServerMessageBuffer);
             }
         }
 
         /// <summary>
-        ///     Sends the message to users.
+        ///     Sends the messageBuffer to users.
         /// </summary>
-        /// <param name="message">The message.</param>
-        internal void SendMessageToUsers(ServerMessage message)
+        /// <param name="message">The messageBuffer.</param>
+        internal void SendMessageToUsers(SimpleServerMessageBuffer messageBuffer)
         {
             if (_users == null)
             {
@@ -398,7 +399,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Trade
             {
                 foreach (TradeUser tradeUser in _users.Where(tradeUser => tradeUser != null && tradeUser.GetClient() != null))
                 {
-                    tradeUser.GetClient().SendMessage(message);
+                    tradeUser.GetClient().SendMessage(messageBuffer);
                 }
             }
         }

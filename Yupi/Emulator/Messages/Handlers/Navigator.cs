@@ -4,6 +4,7 @@ using Yupi.Emulator.Game.Browser.Enums;
 using Yupi.Emulator.Game.Browser.Models;
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Rooms.Data;
+using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Messages.Handlers
@@ -114,18 +115,18 @@ namespace Yupi.Emulator.Messages.Handlers
             if (!Session.GetHabbo().NavigatorLogs.ContainsKey(naviLogs.Id))
                 Session.GetHabbo().NavigatorLogs.Add(naviLogs.Id, naviLogs);
                 
-            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("NavigatorSavedSearchesComposer"));
-            message.AppendInteger(Session.GetHabbo().NavigatorLogs.Count);
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NavigatorSavedSearchesComposer"));
+            messageBuffer.AppendInteger(Session.GetHabbo().NavigatorLogs.Count);
             
             foreach (UserSearchLog navi in Session.GetHabbo().NavigatorLogs.Values)
             {
-                message.AppendInteger(navi.Id);
-                message.AppendString(navi.Value1);
-                message.AppendString(navi.Value2);
-                message.AppendString(string.Empty);
+                messageBuffer.AppendInteger(navi.Id);
+                messageBuffer.AppendString(navi.Value1);
+                messageBuffer.AppendString(navi.Value2);
+                messageBuffer.AppendString(string.Empty);
             }
             
-            Session.SendMessage(message);
+            Session.SendMessage(messageBuffer);
         }
 
         /// <summary>
@@ -174,18 +175,18 @@ namespace Yupi.Emulator.Messages.Handlers
                 
             Session.GetHabbo().NavigatorLogs.Remove(searchId);
             
-            ServerMessage message = new ServerMessage(PacketLibraryManager.OutgoingRequest("NavigatorSavedSearchesComposer"));
-            message.AppendInteger(Session.GetHabbo().NavigatorLogs.Count);
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NavigatorSavedSearchesComposer"));
+            messageBuffer.AppendInteger(Session.GetHabbo().NavigatorLogs.Count);
             
             foreach (UserSearchLog navi in Session.GetHabbo().NavigatorLogs.Values)
             {
-                message.AppendInteger(navi.Id);
-                message.AppendString(navi.Value1);
-                message.AppendString(navi.Value2);
-                message.AppendString(string.Empty);
+                messageBuffer.AppendInteger(navi.Id);
+                messageBuffer.AppendString(navi.Value1);
+                messageBuffer.AppendString(navi.Value2);
+                messageBuffer.AppendString(string.Empty);
             }
             
-            Session.SendMessage(message);
+            Session.SendMessage(messageBuffer);
         }
 
         /// <summary>
