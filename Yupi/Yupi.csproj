@@ -266,6 +266,7 @@
     <Compile Include="Emulator\Core\Io\Logger\YupiWriterManager.cs" />
     <Compile Include="Emulator\Game\Users\YoutubeVideo.cs" />
     <Compile Include="Emulator\Messages\StaticMessagesManager.cs" />
+    <Compile Include="Emulator\Net\Connection\ConnectionSecurity.cs" />
     <Compile Include="Emulator\Net\Handlers\ConnectionHandler.cs" />
     <Compile Include="Emulator\Net\Connection\ConnectionManager.cs" />
     <Compile Include="Emulator\Net\Settings\ServerFactorySettings.cs" />

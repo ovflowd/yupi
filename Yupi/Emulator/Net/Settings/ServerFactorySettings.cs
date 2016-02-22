@@ -5,19 +5,19 @@ namespace Yupi.Emulator.Net.Settings
     internal class ServerFactorySettings
     {
         /// <summary>
-        ///     Accepted Connection Count
-        /// </summary>
-        protected static uint AcceptedConnections;
-
-        /// <summary>
         ///     Server Buffer Size
         /// </summary>
         internal static int BufferSize;
 
         /// <summary>
-        ///     Worker Threads
+        ///     Max Connections By Address
         /// </summary>
-        internal static int WorkerThreads;
+        internal static int MaxConnectionsByAddress;
+
+        /// <summary>
+        ///     Enable Disconnecting when Reach Max Connections Amounts
+        /// </summary>
+        internal static bool EnableDisconnectWhenReachMaxConnectionsLimit;
 
         /// <summary>
         ///     Server Port
@@ -34,7 +34,7 @@ namespace Yupi.Emulator.Net.Settings
         /// </summary>
         internal static bool ConnectionNoDelay;
 
-        internal static void Init(IPAddress allowedAddress, int serverPort, int bufferSize, bool noDelay, int boss, int worker)
+        internal static void Init(IPAddress allowedAddress, int serverPort, int bufferSize, bool noDelay, int boss, int worker, bool dosAble, int conSize)
         {
             AllowedAddresses = allowedAddress;
             ServerPort = serverPort;
@@ -42,6 +42,8 @@ namespace Yupi.Emulator.Net.Settings
             ConnectionNoDelay = noDelay;
             MaxBossSize = boss;
             MaxWorkerSize = worker;
+            EnableDisconnectWhenReachMaxConnectionsLimit = dosAble;
+            MaxConnectionsByAddress = conSize;
         }
 
         /// <summary>

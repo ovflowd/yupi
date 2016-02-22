@@ -91,5 +91,12 @@ namespace Yupi.Emulator.Net.Connection
 
             DataParser?.Dispose();
         }
+
+        public void CompleteClose()
+        {
+            ConnectionChannel?.CloseAsync();
+
+            Close();
+        }
     }
 }

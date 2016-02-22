@@ -266,6 +266,15 @@ namespace Yupi.Emulator.Game.GameClients
         }
 
         /// <summary>
+        ///     Logs the clones out.
+        /// </summary>
+        internal void LogClonesOut(string ipAddress, string connectionId)
+        {
+            foreach(GameClient clientByAddress in Clients.Values.Where(client => client.ClientAddress == ipAddress && client.GetConnection()?.ConnectionId != connectionId && client.GetConnection()?.HandShakeCompleted == true))
+                clientByAddress.CompleteDisconnect("Only one User per Ip Address");
+        }
+
+        /// <summary>
         ///     Registers the client.
         /// </summary>
         /// <param name="client">The client.</param>

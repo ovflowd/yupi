@@ -18,9 +18,14 @@ namespace Yupi.Emulator.Net.Handlers
         {
             string clientAddress = (context.Channel.RemoteAddress as IPEndPoint)?.Address.ToString();
 
-            GetClient().GetClientByAddress(clientAddress)?.Disconnect();
+            if (clientAddress != null)
+            {
+                GetClient().RemoveClient(clientAddress);
 
-            GetClient().RemoveClient(clientAddress);
+                ConnectionActor connectionActor;
+
+                ConnectionManager.ClientConnections.TryRemove(clientAddress, out connectionActor);
+            }
 
             return context.CloseAsync();
         }
@@ -29,10 +34,15 @@ namespace Yupi.Emulator.Net.Handlers
         {
             string clientAddress = (context.Channel.RemoteAddress as IPEndPoint)?.Address.ToString();
 
-            GameClient client = GetClient().GetClientByAddress(clientAddress);
+            if (clientAddress != null)
+            {
+                GameClient client = GetClient().GetClientByAddress(clientAddress);
 
-            if (client.GetConnection().HandShakeCompleted && client.GetConnection().ConnectionId == context.Channel.Id.ToString())
-                client.Disconnect("Left Game.", true);
+                if (client?.GetConnection()?.HandShakeCompleted == true && client.GetConnection()?.ConnectionId == context.Channel?.Id?.ToString())
+                    client.CompleteDisconnect("Left Game", true);
+
+                ConnectionSecurity.RemoveClientCount(clientAddress);
+            }
         }
 
         public void ChannelInitialRead(IChannelHandlerContext context, GameClient client, byte[] dataBytes)
@@ -40,7 +50,7 @@ namespace Yupi.Emulator.Net.Handlers
             if (dataBytes[0] == 60)
                 WriteAsync(context, CrossDomainSettings.XmlPolicyBytes);
             else if (dataBytes[0] != 67)
-                client.InitHandler();
+                client?.InitHandler();
         }
 
         public override void ChannelRead(IChannelHandlerContext context, object message)
@@ -104,7 +114,9 @@ namespace Yupi.Emulator.Net.Handlers
                 {
                     connectionActor.SameHandledCount++;
 
-                    Yupi.GetGame().GetClientManager().AddOrUpdateClient(clientAddress, connectionActor);
+                    Yupi.GetGame().GetClientManager()?.AddOrUpdateClient(clientAddress, connectionActor);
+
+                    Yupi.GetGame().GetClientManager()?.LogClonesOut(clientAddress, connectionActor.ConnectionId);
                 }
             }
         }

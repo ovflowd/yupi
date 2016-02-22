@@ -473,6 +473,33 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         }
 
         /// <summary>
+        ///     Disconnects the specified reason.
+        /// </summary>
+        /// <param name="reason">The reason.</param>
+        /// <param name="showConsole"></param>
+        internal void CompleteDisconnect(string reason = "Left Game", bool showConsole = false)
+        {
+            if (GetConnection().HandShakeCompleted)
+            {
+                GetHabbo()?.RunDbUpdate();
+
+                GetHabbo()?.OnDisconnect(reason, showConsole);
+
+                GetMessageHandler()?.Destroy();
+            }
+
+            GetConnection()?.CompleteClose();
+
+            CurrentRoomUserId = -1;
+
+            _messageHandler = null;
+
+            _habbo = null;
+
+            _connection = null;
+        }
+
+        /// <summary>
         ///     Sends the message.
         /// </summary>
         /// <param name="message">The message.</param>

@@ -37,41 +37,10 @@ namespace Yupi.Emulator.Game.Users.Factories
             if (string.IsNullOrWhiteSpace(sessionTicket))
                 return null;
 
-            DataTable groupsTable;
-            DataRow dataRow;
-            DataTable achievementsTable;
-            DataTable talentsTable;
-            DataRow statsTable;
-            DataTable favoritesTable;
-            DataTable ignoresTable;
-            DataTable tagsTable;
-            DataRow subscriptionsRow;
-            DataTable badgesTable;
-            DataTable itemsTable;
-            DataTable effectsTable;
-            DataTable pollsTable;
-            DataTable friendsTable;
-            DataTable friendsRequestsTable;
-
-            DataTable relationShipsTable;
-            DataTable botsTable;
-            DataTable questsTable;
-            DataTable petsTable;
-
-            DataTable myRoomsTable;
-
-            uint userId;
-            string userName, userLook;
-
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery("SELECT COUNT(auth_ticket) FROM users WHERE auth_ticket = @ticket");
                 queryReactor.AddParameter("ticket", sessionTicket);
-
-                //int resultInteger = queryReactor.GetInteger();
-
-                //YupiLogManager.LogMessage("Key: " + sessionTicket + " isn't attached.", "Yupi.User", false);
-                //Because User can also doesn't exists.
 
                 if (queryReactor.GetInteger() == 0)
                     return null;
@@ -81,14 +50,15 @@ namespace Yupi.Emulator.Game.Users.Factories
 
                 // Execute User Data Query
                 queryReactor.AddParameter("ticket", sessionTicket);
-                dataRow = queryReactor.GetRow();
+
+                DataRow dataRow = queryReactor.GetRow();
 
                 if (dataRow == null)
                     return null;
 
-                userId = (uint)dataRow["id"];
-                userName = dataRow["username"].ToString();
-                userLook = dataRow["look"].ToString();
+                uint userId = (uint)dataRow["id"];
+                string userName = dataRow["username"].ToString();
+                string userLook = dataRow["look"].ToString();
 
                 int regDate = (int)dataRow["account_created"] == 0
                     ? Yupi.GetUnixTimeStamp()
@@ -114,86 +84,86 @@ namespace Yupi.Emulator.Game.Users.Factories
 
                 // Get User Achievements Data
                 queryReactor.SetQuery($"SELECT * FROM users_achievements WHERE user_id = {userId}");
-                achievementsTable = queryReactor.GetTable();
+                DataTable achievementsTable = queryReactor.GetTable();
 
                 // Get User Talent Data
                 queryReactor.SetQuery($"SELECT * FROM users_talents WHERE userid = {userId}");
-                talentsTable = queryReactor.GetTable();
+                DataTable talentsTable = queryReactor.GetTable();
 
                 // Get User Favorite Room
                 queryReactor.SetQuery($"SELECT room_id FROM users_favorites WHERE user_id = {userId}");
-                favoritesTable = queryReactor.GetTable();
+                DataTable favoritesTable = queryReactor.GetTable();
 
                 // Get User Ignored Users
                 queryReactor.SetQuery($"SELECT ignore_id FROM users_ignores WHERE user_id = {userId}");
-                ignoresTable = queryReactor.GetTable();
+                DataTable ignoresTable = queryReactor.GetTable();
 
                 // Get User Tags
                 queryReactor.SetQuery($"SELECT tag FROM users_tags WHERE user_id = {userId}");
-                tagsTable = queryReactor.GetTable();
+                DataTable tagsTable = queryReactor.GetTable();
 
                 // Get User Subscriptions
                 queryReactor.SetQuery(
                     $"SELECT * FROM users_subscriptions WHERE user_id = {userId} AND timestamp_expire > UNIX_TIMESTAMP() ORDER BY subscription_id DESC LIMIT 1");
-                subscriptionsRow = queryReactor.GetRow();
+                DataRow subscriptionsRow = queryReactor.GetRow();
 
                 // Get User Badges
                 queryReactor.SetQuery($"SELECT * FROM users_badges WHERE user_id = {userId}");
-                badgesTable = queryReactor.GetTable();
+                DataTable badgesTable = queryReactor.GetTable();
 
                 // Get User Inventory Items
                 queryReactor.SetQuery(
                     $"SELECT items_rooms.*, COALESCE(items_groups.group_id, 0) AS group_id FROM items_rooms LEFT OUTER JOIN items_groups ON items_rooms.id = items_groups.id WHERE room_id = 0 AND user_id={userId} LIMIT 8000");
-                itemsTable = queryReactor.GetTable();
+                DataTable itemsTable = queryReactor.GetTable();
 
                 // Get user Effects
                 queryReactor.SetQuery($"SELECT * FROM users_effects WHERE user_id = {userId}");
-                effectsTable = queryReactor.GetTable();
+                DataTable effectsTable = queryReactor.GetTable();
 
                 // Get User Polls
                 queryReactor.SetQuery(
                     $"SELECT poll_id FROM users_polls WHERE user_id = {userId} GROUP BY poll_id;");
-                pollsTable = queryReactor.GetTable();
+                DataTable pollsTable = queryReactor.GetTable();
 
                 // Get User Friends
                 queryReactor.SetQuery(
                     $"SELECT users.* FROM users JOIN messenger_friendships ON users.id = messenger_friendships.user_one_id WHERE messenger_friendships.user_two_id = {userId} UNION ALL SELECT users.* FROM users JOIN messenger_friendships ON users.id = messenger_friendships.user_two_id WHERE messenger_friendships.user_one_id = {userId}");
-                friendsTable = queryReactor.GetTable();
+                DataTable friendsTable = queryReactor.GetTable();
 
                 // Get User Stats
                 queryReactor.SetQuery($"SELECT * FROM users_stats WHERE id = {userId}");
-                statsTable = queryReactor.GetRow();
+                DataRow statsTable = queryReactor.GetRow();
 
                 // Get User Friends Requests
                 queryReactor.SetQuery(
                     $"SELECT messenger_requests.*,users.* FROM users JOIN messenger_requests ON users.id = messenger_requests.from_id WHERE messenger_requests.to_id = {userId}");
-                friendsRequestsTable = queryReactor.GetTable();
+                DataTable friendsRequestsTable = queryReactor.GetTable();
 
                 // Get User Rooms Data
                 queryReactor.SetQuery($"SELECT * FROM rooms_data WHERE owner = {userId} LIMIT 150");
-                myRoomsTable = queryReactor.GetTable();
+                DataTable myRoomsTable = queryReactor.GetTable();
 
                 // Get User Pets Data
                 queryReactor.SetQuery(
                     $"SELECT * FROM pets_data WHERE user_id = {userId} AND room_id = 0");
-                petsTable = queryReactor.GetTable();
+                DataTable petsTable = queryReactor.GetTable();
 
                 // Get User Quests Data
                 queryReactor.SetQuery($"SELECT * FROM users_quests_data WHERE user_id = {userId}");
-                questsTable = queryReactor.GetTable();
+                DataTable questsTable = queryReactor.GetTable();
 
                 // Get User Bots Data
                 queryReactor.SetQuery(
                     $"SELECT * FROM bots_data WHERE user_id = {userId} AND room_id = 0 AND ai_type='generic'");
-                botsTable = queryReactor.GetTable();
+                DataTable botsTable = queryReactor.GetTable();
 
                 // Get User Groups Data
                 queryReactor.SetQuery($"SELECT * FROM groups_members WHERE user_id = {userId}");
-                groupsTable = queryReactor.GetTable();
+                DataTable groupsTable = queryReactor.GetTable();
 
                 // Get User Relationships Data
                 queryReactor.SetQuery($"SELECT * FROM users_relationships WHERE user_id = {userId}");
-                relationShipsTable = queryReactor.GetTable();
+                DataTable relationShipsTable = queryReactor.GetTable();
 
 
                 Dictionary<string, UserAchievement> achievements = new Dictionary<string, UserAchievement>();

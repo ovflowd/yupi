@@ -359,8 +359,8 @@ namespace Yupi.Emulator
                 if (ServerConfigurationSettings.Data.ContainsKey("console.clear.enabled"))
                     ConsoleTimerOn = bool.Parse(ServerConfigurationSettings.Data["console.clear.enabled"]);
 
-                if (ServerConfigurationSettings.Data.ContainsKey("client.maxrequests"))
-                    FriendRequestLimit = uint.Parse(ServerConfigurationSettings.Data["client.maxrequests"]);
+                if (ServerConfigurationSettings.Data.ContainsKey("client.maxfriend.requests"))
+                    FriendRequestLimit = uint.Parse(ServerConfigurationSettings.Data["client.maxfriend.requests"]);
 
                 if (ServerConfigurationSettings.Data.ContainsKey("server.lang"))
                     ServerLanguage = ServerConfigurationSettings.Data["server.lang"];
@@ -417,7 +417,9 @@ namespace Yupi.Emulator
 
                 ClientMessageFactory.Init();
 
-                ServerFactorySettings.Init(IPAddress.Any, int.Parse(ServerConfigurationSettings.Data["game.tcp.port"]), 4072, ServerConfigurationSettings.Data["game.tcp.enablenagles"] == "true", int.Parse(ServerConfigurationSettings.Data["game.tcp.boss.maxthreadsize"]), int.Parse(ServerConfigurationSettings.Data["game.tcp.work.maxthreadsize"]));
+                ConnectionSecurity.Init();
+
+                ServerFactorySettings.Init(IPAddress.Any, int.Parse(ServerConfigurationSettings.Data["game.tcp.port"]), 4072, ServerConfigurationSettings.Data["game.tcp.enablenagles"] == "true", int.Parse(ServerConfigurationSettings.Data["game.tcp.boss.maxthreadsize"]), int.Parse(ServerConfigurationSettings.Data["game.tcp.work.maxthreadsize"]), ServerConfigurationSettings.Data["game.tcp.denialservice"] == "true", int.Parse(ServerConfigurationSettings.Data["game.tcp.max.connperip"]));
 
                 ConnectionManager.DataParser = new ServerPacketParser();
 

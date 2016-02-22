@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Net;
 using System.Threading.Tasks;
 using DotNetty.Handlers.Logging;
 using DotNetty.Transport.Bootstrapping;
@@ -62,14 +63,19 @@ namespace Yupi.Emulator.Net.Connection
                     .Handler(new LoggingHandler(LogLevel.INFO))
                     .ChildHandler(new ActionChannelInitializer<ISocketChannel>(channel =>
                     {
-                        channel.Pipeline.AddLast(new ConnectionHandler());
+                        string clientAddress = (channel.RemoteAddress as IPEndPoint)?.Address.ToString();
 
-                        ConnectionActor connectionActor = new ConnectionActor(DataParser.Clone() as ServerPacketParser, channel);
+                        if (ConnectionSecurity.CheckAvailability(clientAddress))
+                        {
+                            channel.Pipeline.AddLast(new ConnectionHandler());
 
-                        if (ClientConnections.ContainsKey(connectionActor.IpAddress))
-                            connectionActor.HandShakePartialCompleted = true;
+                            ConnectionActor connectionActor = new ConnectionActor(DataParser.Clone() as ServerPacketParser, channel);
 
-                        ClientConnections.AddOrUpdate(connectionActor.IpAddress, connectionActor, (key, value) => connectionActor);
+                            if (ClientConnections.ContainsKey(connectionActor.IpAddress))
+                                connectionActor.HandShakePartialCompleted = true;
+
+                            ClientConnections.AddOrUpdate(connectionActor.IpAddress, connectionActor, (key, value) => connectionActor);
+                        }
                     }));
 
                 ServerChannel = await server.BindAsync(ServerFactorySettings.AllowedAddresses, ServerFactorySettings.ServerPort);
