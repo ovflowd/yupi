@@ -14538,7 +14538,7 @@ CREATE TABLE `items_rooms` (
   `user_id` int(10) NOT NULL,
   `room_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
   `item_name` varchar(255) CHARACTER SET latin1 NOT NULL,
-  `extra_data` text NOT NULL,
+  `extra_data` varchar(7000) NOT NULL DEFAULT '',
   `x` int(11) NOT NULL DEFAULT '0',
   `y` int(11) NOT NULL DEFAULT '0',
   `z` double(10,3) NOT NULL DEFAULT '0.000',

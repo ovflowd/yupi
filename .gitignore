@@ -15,6 +15,8 @@
 #x64/
 #x86/
 #build/
+[Bb]uild/Executables/*
+![Bb]uild/Executables/*.s
 bld/
 [Bb]in/
 [Oo]bj/
