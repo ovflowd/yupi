@@ -22,15 +22,58 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
+using System.Data;
 using System.IO;
 using System.Net;
+using System.Net.Cache;
+using Newtonsoft.Json;
 
 namespace Yupi.Emulator.Net.Web
 {
     internal static class WebManager
     {
         /// <summary>
-        ///     HTTPs the post json.
+        ///     Does REST GET Request with jSON Return
+        /// </summary>
+        /// <param name="uri">The URI.</param>
+        /// <returns>System.String.</returns>
+        public static string HttpGetJson(string uri)
+        {
+            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(uri);
+
+            httpWebRequest.ContentType = "text/json";
+            httpWebRequest.Method = "GET";
+
+            Stream httpResponseStream = httpWebRequest.GetResponse().GetResponseStream();
+
+            if (httpResponseStream == null)
+                return string.Empty;
+
+            using (StreamReader streamReader = new StreamReader(httpResponseStream))
+                return streamReader.ReadToEnd();
+        }
+
+        /// <summary>
+        ///     Does REST GET Request with jSON Return
+        /// </summary>
+        /// <param name="uri">The URI.</param>
+        /// <returns>Dynamic</returns>
+        public static dynamic HttpGetJsonObject(string uri) => JsonConvert.DeserializeObject(new WebClient().DownloadString(uri));
+
+        /// <summary>
+        ///     Does REST GET Request with jSON Return
+        /// </summary>
+        /// <param name="uri">The URI.</param>
+        /// <returns>DataSet.</returns>
+        public static DataSet HttpGetJsonDataset(string uri)
+        {
+            WebClient client = new WebClient {CachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache)};
+
+            return JsonConvert.DeserializeObject<DataSet>(client.DownloadString(uri));
+        } 
+
+        /// <summary>
+        ///     Does REST POST Request with jSON Write and Return
         /// </summary>
         /// <param name="uri">The URI.</param>
         /// <param name="json">The json.</param>

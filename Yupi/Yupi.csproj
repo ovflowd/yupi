@@ -1,5 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Version;Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildCommunityTasksPath>$(SolutionDir)\.build</MSBuildCommunityTasksPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.Targets" />
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <OutputPath>bin\Debug\</OutputPath>
     <DebugSymbols>true</DebugSymbols>
@@ -194,6 +198,10 @@
       <HintPath>..\Packages\MySql.Data.6.9.8\lib\net45\MySql.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Core" />
@@ -231,6 +239,7 @@
     <Compile Include="Emulator\Data\Base\Adapters\NormalQueryAdapter.cs" />
     <Compile Include="Emulator\Data\Base\Managers\BasicDatabaseManager.cs" />
     <Compile Include="Emulator\Data\Base\Managers\Interfaces\IDatabaseManager.cs" />
+    <Compile Include="Emulator\Data\YupiUpdatesManager.cs" />
     <Compile Include="Emulator\Game\Achievements\Composers\AchievementTalentComposer.cs" />
     <Compile Include="Emulator\Game\Browser\Models\NavigatorSubCategory.cs" />
     <Compile Include="Emulator\Game\Browser\Models\NavigatorCategory.cs" />
@@ -744,4 +753,20 @@
     <BaseAddress>4194304</BaseAddress>
     <RegisterForComInterop>False</RegisterForComInterop>
   </PropertyGroup>
+  <PropertyGroup>
+    <Major>1</Major>
+    <Minor>0</Minor>
+    <Build>0</Build>
+    <Revision>0</Revision>
+    <Hash>0</Hash>
+  </PropertyGroup>
+  <Target Name="Version">
+    <GitVersion LocalPath="$(MSBuildProjectDirectory)">
+      <Output TaskParameter="CommitHash" PropertyName="Revision" />
+    </GitVersion>
+    <GitVersion LocalPath="$(MSBuildProjectDirectory)" Short="false">
+      <Output TaskParameter="CommitHash" PropertyName="Hash" />
+    </GitVersion>
+    <AssemblyInfo CodeLanguage="CS" OutputFile="Properties\AssemblyInfo.cs" AssemblyTitle="Yupi! Private HH Emulator" AssemblyDescription="Private Open Source HH Emulator for Cool Guys" AssemblyCompany="UIoT" AssemblyProduct="Yupi! Emulator" AssemblyCopyright="Claudio A. Santoro W., Kessiler R., Sulake Corp. Oy" ComVisible="false" CLSCompliant="false" AssemblyInformationalVersion="$(Hash)" AssemblyVersion="$(Major).$(Minor).$(Build)" AssemblyFileVersion="$(Major).$(Minor).$(Build).$(Revision)" />
+  </Target>
 </Project>

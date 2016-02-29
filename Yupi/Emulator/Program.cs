@@ -25,7 +25,9 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
+using Yupi.Emulator.Core.Io.Logger;
 using Yupi.Emulator.Core.Settings;
+using Yupi.Emulator.Data;
 
 namespace Yupi.Emulator
 {   
@@ -41,31 +43,42 @@ namespace Yupi.Emulator
         [STAThread]
         public static void Main(string[] args)
         {
-            StartEverything();
+            Console.Title = "Yupi! | Waiting for Input.";
 
-            while (Yupi.IsLive)
+            YupiUpdatesManager.Init();
+
+            YupiUpdatesManager.ShowInitialMessage();
+
+            ShowEnvironmentMessage(false);
+
+            YupiWriterManager.WriteLine("Waiting For Command Input...", "Yupi.Boot", ConsoleColor.DarkBlue);
+
+            while (Yupi.IsLive || Yupi.IsReady)
             {
                 Console.CursorVisible = true;
 
                 ConsoleCommandHandler.InvokeCommand(Console.ReadLine());
+
+                YupiWriterManager.WriteLine("Waiting For Command Input...", "Yupi.Boot", ConsoleColor.DarkBlue);
             }
         }
 
-        private static void StartEverything()
+        internal static void StartEverything()
         {
-            SetConsoleLayout();
-
             DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), ScClose, 0);
 
             InitEnvironment();
         }
 
-        public static void SetConsoleLayout()
+        public static void ShowEnvironmentMessage(bool needClear = true)
         {
-            Console.Clear();
-            Console.SetCursorPosition(0, 0);
+            Console.BackgroundColor = ConsoleColor.Black;
 
+            if(needClear)
+                Console.Clear();
+            
             Console.ForegroundColor = ConsoleColor.White;
+
             Console.WriteLine();
             Console.WriteLine(@"     " + @"                                    88 88");
             Console.WriteLine(@"     " + "                                    \"\" 88");
@@ -78,10 +91,14 @@ namespace Yupi.Emulator
             Console.WriteLine(@"     " + @"    d8'                 88               ");
             Console.WriteLine(@"     " + @"   d8'                  88               ");
             Console.WriteLine();
-            Console.WriteLine(@"     " + @"  BUILD " + Yupi.ServerVersion + "." + Yupi.ServerBuild + " RELEASE 63B CRYPTO BOTH SIDE");
-            Console.WriteLine(@"     " + @"  .NET Framework " + Environment.Version + "     C# 6 Roslyn");
+            Console.WriteLine(@"     " + @"  BUILD " + YupiUpdatesManager.GithubVersionTag + " RELEASE R63 POST SHUFFLE");
+            Console.WriteLine(@"     " + @"  .NET Framework " + Environment.Version + " C# 6 Roslyn");
             Console.WriteLine();
+            Console.WriteLine();
+
             Console.ForegroundColor = ConsoleColor.White;
+
+            Yupi.IsReady = true;
         }
 
         /// <summary>
@@ -91,6 +108,8 @@ namespace Yupi.Emulator
         {
             if (Yupi.IsLive)
                 return;
+
+            Yupi.IsReady = false;
 
             Console.CursorVisible = false;
 

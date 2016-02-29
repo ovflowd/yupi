@@ -65,9 +65,14 @@ namespace Yupi.Emulator
         internal static int ConsoleCleanTimeInterval = 2000;
 
         /// <summary>
-        ///     The is live
+        ///     Server is Started
         /// </summary>
         internal static bool IsLive;
+
+        /// <summary>
+        ///     Server is Ready
+        /// </summary>
+        internal static bool IsReady = false;
 
         /// <summary>
         ///     Multi Thread in Client
@@ -83,6 +88,16 @@ namespace Yupi.Emulator
         ///     Debug Packets
         /// </summary>
         internal static bool PacketDebugMode;
+
+        /// <summary>
+        ///     Github Update String URI
+        /// </summary>
+        internal static readonly string GithubUpdateFile = "https://raw.githubusercontent.com/sant0ro/Yupi/nio/UPDATES.json";
+
+        /// <summary>
+        ///     Github Update String URI
+        /// </summary>
+        internal static readonly string GithubCommitApi = "https://api.github.com/repos/sant0ro/Yupi/commits/HEAD";
 
         /// <summary>
         ///     Console Clean Timer
@@ -439,6 +454,7 @@ namespace Yupi.Emulator
                 YupiWriterManager.WriteLine("Yupi Emulator Ready.", "Yupi.Boot", ConsoleColor.DarkGreen);
 
                 IsLive = true;
+                IsReady = true;
             }
             catch (Exception e)
             {
@@ -675,6 +691,8 @@ namespace Yupi.Emulator
         /// Set a Different Message in Hotel
         internal static void PerformShutDown(bool restart)
         {
+            IsReady = false;
+
             DateTime now = DateTime.Now;
 
             CacheManager.StopProcess();
@@ -684,6 +702,7 @@ namespace Yupi.Emulator
             Console.Title = "Yupi Emulator | Shutting down...";
 
             GetGame().StopGameLoop();
+
             GetGame().GetRoomManager().RemoveAllRooms();
 
             GetGame().GetClientManager().CloseAll();
@@ -702,6 +721,8 @@ namespace Yupi.Emulator
 
             GetGame().Destroy();
 
+            YupiDatabaseManager.Destroy();
+
             YupiLogManager.Stop();
 
             YupiWriterManager.WriteLine(" destroyed", "Yupi.Game", ConsoleColor.DarkYellow);
@@ -712,12 +733,10 @@ namespace Yupi.Emulator
 
             IsLive = false;
 
+            IsReady = true;
+
             if (restart)
-                Process.Start(Assembly.GetEntryAssembly().Location);
-
-            Console.WriteLine("Closing...");
-
-            Environment.Exit(0);
+                Program.StartEverything();
         }
 
         /// <summary>

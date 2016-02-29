@@ -32,7 +32,6 @@ using Yupi.Emulator.Data;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
-using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Core.Settings
 {
@@ -53,13 +52,12 @@ namespace Yupi.Emulator.Core.Settings
         /// <param name="inputData">The input data.</param>
         internal static void InvokeCommand(string inputData)
         {
-            if (string.IsNullOrEmpty(inputData) && YupiWriterManager.DisabledState)
-                return;
-
             try
             {
-                if (inputData == null)
+                if (string.IsNullOrEmpty(inputData) || YupiWriterManager.DisabledState)
                     return;
+
+                Console.SetCursorPosition(0, Console.CursorTop - 2);
 
                 string firstArgument = inputData, secondArgument = string.Empty;
 
@@ -75,7 +73,50 @@ namespace Yupi.Emulator.Core.Settings
 
                 switch (firstArgument)
                 {
+                    case "clear":
+                    case "help":
+                    case "start":
+                    case "exit":
+                        break;
+                    default:
+                        if (!NotInitialized())
+                            return;
+                        break;
+                }
+
+                switch (firstArgument)
+                {
+                    case "start":
+
+                        YupiWriterManager.WriteLine("Issued Server Start.", "Yupi.Boot");
+
+                        Program.StartEverything();
+
+                        break;
+
+                    case "exit":
+
+                        if (Yupi.IsLive)
+                        {
+                            YupiWriterManager.WriteLine("Server Is Running. Issuing Shutdown.", "Yupi.Boot", ConsoleColor.DarkCyan);
+
+                            YupiLogManager.LogMessage($"Server Shutdowning at {DateTime.Now}.");
+
+                            YupiWriterManager.DisablePrimaryWriting(true);
+
+                            YupiWriterManager.WriteLine("Shutdown Initalized", "Yupi.Life", ConsoleColor.DarkYellow);
+
+                            Yupi.PerformShutDown();
+                        }
+
+                        YupiWriterManager.WriteLine("Exiting. Yupi Environment", "Yupi.Boot");
+
+                        Environment.Exit(0);
+
+                        break;
+
                     case "shutdown":
+
                         YupiLogManager.LogMessage($"Server Shutdowning at {DateTime.Now}.");
 
                         YupiWriterManager.DisablePrimaryWriting(true);
@@ -84,7 +125,10 @@ namespace Yupi.Emulator.Core.Settings
 
                         Yupi.PerformShutDown();
 
-                        Console.WriteLine();
+                        YupiWriterManager.DisablePrimaryWriting(false);
+
+                        YupiWriterManager.WriteLine("Waiting For Commands.", "Yupi.Boot");
+
                         break;
 
                     case "restart":
@@ -95,7 +139,11 @@ namespace Yupi.Emulator.Core.Settings
                         YupiWriterManager.WriteLine("Restart Initialized", "Yupi.Life", ConsoleColor.DarkYellow);
 
                         Yupi.PerformRestart();
-                        Console.WriteLine();
+
+                        YupiWriterManager.DisablePrimaryWriting(false);
+
+                        YupiWriterManager.WriteLine("Waiting For Commands.", "Yupi.Boot");
+
                         break;
 
                     case "reload":
@@ -152,7 +200,8 @@ namespace Yupi.Emulator.Core.Settings
                         break;
 
                     case "clear":
-                        Console.Clear();
+                        Program.ShowEnvironmentMessage();
+
                         break;
 
                     case "status":
@@ -199,19 +248,18 @@ namespace Yupi.Emulator.Core.Settings
                     }
 
                     case "help":
-                        Console.WriteLine("shutdown");
-                        Console.WriteLine("clear");
-                        Console.WriteLine("memory");
-                        Console.WriteLine("status");
-                        Console.WriteLine("restart");
-                        Console.WriteLine("memstat");
-                        Console.WriteLine("reload catalogue");
-                        Console.WriteLine("reload modeldata");
-                        Console.WriteLine("reload bans");
-                        Console.WriteLine("reload packets");
-                        Console.WriteLine("reload filter");
-                        Console.WriteLine("reload packets");
-                        Console.WriteLine("reload database");
+
+                        YupiWriterManager.WriteLine("Available Commands: \n", "Yupi.Comm", ConsoleColor.DarkCyan);
+
+                        Console.WriteLine("\tstart");
+                        Console.WriteLine("\texit");
+                        Console.WriteLine("\tshutdown");
+                        Console.WriteLine("\tclear");
+                        Console.WriteLine("\tmemory");
+                        Console.WriteLine("\tstatus");
+                        Console.WriteLine("\trestart");
+                        Console.WriteLine("\tmemstat");
+                        Console.WriteLine("\treload [catalogue|modeldata|bans|packets|filter|database]");
                         Console.WriteLine();
                         break;
                 }
@@ -228,6 +276,17 @@ namespace Yupi.Emulator.Core.Settings
         private static void EraseLine()
         {
             Console.WriteLine("\r");
+        }
+
+        private static bool NotInitialized()
+        {
+            if (!Yupi.IsLive)
+                YupiWriterManager.WriteLine("Server isn't Initialized.", "Yupi.Boot", ConsoleColor.DarkYellow);
+
+            if (!Yupi.IsLive)
+                return false;
+
+            return true;
         }
     }
 }
