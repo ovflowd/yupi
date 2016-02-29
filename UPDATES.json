@@ -1,12 +1,14 @@
 {
   "items": [
     {
-      "title": "Hello",
-      "message": "Black"
+      "title": "Yupi.Info",
+      "message": "Welcome to Yupi Emulator. Enjoy our Work!",
+      "color": "DarkCyan"
     },
     {
-      "title": "message",
-      "message": "kakak"
+      "title": "Yupi.Build",
+      "message": "Latest Yupi Emulator Build, provides Update Checker!",
+      "color": "White"
     }
   ]
 }
