@@ -1,1 +1,2 @@
-File for Informational Messages on Emulator.
+MESSAGE || HEADER || DARKYELLOW
+MESSAGE || HEADER || WHITE
