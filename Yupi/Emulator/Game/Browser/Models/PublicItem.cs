@@ -24,8 +24,6 @@
 
 using Yupi.Emulator.Game.Browser.Enums;
 using Yupi.Emulator.Game.Rooms.Data;
-using Yupi.Emulator.Messages;
-using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Browser.Models
 {
@@ -103,9 +101,7 @@ namespace Yupi.Emulator.Game.Browser.Models
         /// <param name="parentId">The parent identifier.</param>
         /// <param name="recommand">if set to <c>true</c> [recommand].</param>
         /// <param name="typeOfData">The type of data.</param>
-        /// <param name="tags">The tags.</param>
-        internal PublicItem(uint id, int type, string caption, string desc, string image, PublicImageType imageType,
-            uint roomId, int categoryId, int parentId, bool recommand, int typeOfData, string tags)
+        internal PublicItem(uint id, int type, string caption, string desc, string image, PublicImageType imageType, uint roomId, int categoryId, int parentId, bool recommand, int typeOfData)
         {
             Id = id;
             Type = type;
@@ -116,7 +112,6 @@ namespace Yupi.Emulator.Game.Browser.Models
             RoomId = roomId;
             CategoryId = categoryId;
             ParentId = parentId;
-
             Recommended = recommand;
 
             switch (typeOfData)
@@ -150,66 +145,6 @@ namespace Yupi.Emulator.Game.Browser.Models
         /// </summary>
         /// <value>The room data.</value>
         /// <exception cref="System.NullReferenceException"></exception>
-        internal RoomData RoomData
-            => RoomId == 0u ? new RoomData() : Yupi.GetGame().GetRoomManager().GenerateRoomData(RoomId);
-
-        /// <summary>
-        ///     Gets the room information.
-        /// </summary>
-        /// <value>The room information.</value>
-        internal RoomData RoomInfo => RoomId > 0u ? Yupi.GetGame().GetRoomManager().GenerateRoomData(RoomId) : null;
-
-        /// <summary>
-        ///     Serializes the specified messageBuffer.
-        /// </summary>
-        /// <param name="message">The messageBuffer.</param>
-        internal void Serialize(SimpleServerMessageBuffer messageBuffer)
-        {
-            messageBuffer.AppendInteger(Id);
-            messageBuffer.AppendString(Caption);
-            messageBuffer.AppendString(Description);
-            messageBuffer.AppendInteger(Type);
-            messageBuffer.AppendString(Caption);
-            messageBuffer.AppendString(Image);
-            messageBuffer.AppendInteger(ParentId);
-            messageBuffer.AppendInteger(RoomInfo?.UsersNow ?? 0);
-            messageBuffer.AppendInteger(ItemType == PublicItemType.None
-                ? 0
-                : (ItemType == PublicItemType.Tag
-                    ? 1
-                    : (ItemType == PublicItemType.Flat
-                        ? 2
-                        : (ItemType == PublicItemType.PublicFlat
-                            ? 2
-                            : (ItemType != PublicItemType.Category ? 0 : 4)))));
-
-            switch (ItemType)
-            {
-                case PublicItemType.Tag:
-                    messageBuffer.AppendString(TagsToSearch);
-                    break;
-                case PublicItemType.Category:
-                    messageBuffer.AppendBool(false);
-                    break;
-                case PublicItemType.Flat:
-                    RoomInfo?.Serialize(messageBuffer);
-                    break;
-                case PublicItemType.PublicFlat:
-                    RoomInfo?.Serialize(messageBuffer);
-                    break;
-            }
-        }
-
-        /// <summary>
-        ///     Serializes the new.
-        /// </summary>
-        /// <param name="message">The messageBuffer.</param>
-        internal void SerializeNew(SimpleServerMessageBuffer messageBuffer)
-        {
-            messageBuffer.AppendInteger(RoomId);
-            messageBuffer.AppendInteger(12);
-            messageBuffer.AppendString(Image);
-            messageBuffer.AppendString(Caption);
-        }
+        internal RoomData GetPublicRoomData => RoomId == 0u ? new RoomData() : Yupi.GetGame().GetRoomManager().GenerateRoomData(RoomId);
     }
 }

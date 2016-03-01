@@ -13,7 +13,6 @@ using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Rooms.Data;
 using Yupi.Emulator.Game.Users;
 using Yupi.Emulator.Messages.Buffers;
-using Yupi.Emulator.Messages.Parsers;
 using Yupi.Emulator.Net.Web;
 
 namespace Yupi.Emulator.Messages.Handlers
@@ -208,7 +207,6 @@ namespace Yupi.Emulator.Messages.Handlers
             Habbo habbo = Session.GetHabbo();
 
             bool tradeLocked = Session.GetHabbo().CheckTrading();
-            //ServerExtraSettings.EveryoneUseFloor || Session.GetHabbo().Vip || Session.GetHabbo().Rank >= 4;
 
             Response.Init(PacketLibraryManager.OutgoingRequest("UserObjectMessageComposer"));
             Response.AppendInteger(habbo.Id);
@@ -245,12 +243,8 @@ namespace Yupi.Emulator.Messages.Handlers
             Response.AppendBool(false);
 
             Response.AppendString("USE_GUIDE_TOOL");
-            Response.AppendString((Session.GetHabbo().TalentStatus == "helper" &&
-                                   Session.GetHabbo().CurrentTalentLevel >= 4) || (Session.GetHabbo().Rank >= 4)
-                ? string.Empty
-                : "requirement.unfulfilled.helper_level_4");
-            Response.AppendBool((Session.GetHabbo().TalentStatus == "helper" &&
-                                 Session.GetHabbo().CurrentTalentLevel >= 4) || (Session.GetHabbo().Rank >= 4));
+            Response.AppendString((Session.GetHabbo().TalentStatus == "helper" && Session.GetHabbo().CurrentTalentLevel >= 4) || (Session.GetHabbo().Rank >= 4) ? string.Empty : "requirement.unfulfilled.helper_level_4");
+            Response.AppendBool((Session.GetHabbo().TalentStatus == "helper" && Session.GetHabbo().CurrentTalentLevel >= 4) || (Session.GetHabbo().Rank >= 4));
 
             Response.AppendString("JUDGE_CHAT_REVIEWS");
             Response.AppendString("requirement.unfulfilled.helper_level_6");
@@ -266,8 +260,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
             Response.AppendString("CITIZEN");
             Response.AppendString(string.Empty);
-            Response.AppendBool(Session.GetHabbo().TalentStatus == "helper" ||
-                                Session.GetHabbo().CurrentTalentLevel >= 4);
+            Response.AppendBool(Session.GetHabbo().TalentStatus == "helper" || Session.GetHabbo().CurrentTalentLevel >= 4);
 
             Response.AppendString("MOUSE_ZOOM");
             Response.AppendString(string.Empty);
@@ -457,55 +450,39 @@ namespace Yupi.Emulator.Messages.Handlers
             switch (name)
             {
                 case "predefined_noob_lobby":
-                    roomId = Convert.ToUInt32(Yupi.GetDbConfig().DbData["noob.lobby.roomid"]);
-                    break;
-
-                case "random_friending_room":
-                    List<RoomData> rooms =
-                        Yupi.GetGame()
-                            .GetRoomManager()
-                            .GetActiveRooms()
-                            .Select(room => room.Key)
-                            .Where(room => room != null && room.UsersNow > 0)
-                            .ToList();
-                    if (!rooms.Any())
-                        return;
-                    if (rooms.Count == 1)
                     {
-                        roomId = rooms.First().Id;
+                        roomId = Convert.ToUInt32(Yupi.GetDbConfig().DbData["noob.lobby.roomid"]);
+
                         break;
                     }
-                    roomId = rooms[Yupi.GetRandomNumber(0, rooms.Count)].Id;
-                    break;
+                case "random_friending_room":
+                    {
+                        List<RoomData> rooms = Yupi.GetGame().GetRoomManager().GetActiveRooms().Select(room => room.Key).Where(room => room != null && room.UsersNow > 0).ToList();
+
+                        if (!rooms.Any())
+                            return;
+
+                        if (rooms.Count == 1)
+                        {
+                            roomId = rooms.First().Id;
+
+                            break;
+                        }
+
+                        roomId = rooms[Yupi.GetRandomNumber(0, rooms.Count)].Id;
+
+                        break;
+                    }
             }
 
             if (roomId == 0)
                 return;
+
             SimpleServerMessageBuffer roomFwd = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("RoomForwardMessageComposer"));
+
             roomFwd.AppendInteger(roomId);
+
             Session.SendMessage(roomFwd);
-        }
-
-        /// <summary>
-        ///     Gets the uc panel.
-        /// </summary>
-        internal void GetUcPanel()
-        {
-            string name = Request.GetString();
-            switch (name)
-            {
-                case "new":
-
-                    break;
-            }
-        }
-
-        /// <summary>
-        ///     Gets the uc panel hotel.
-        /// </summary>
-        internal void GetUcPanelHotel()
-        {
-            Request.GetInteger();
         }
 
         /// <summary>
@@ -532,7 +509,7 @@ namespace Yupi.Emulator.Messages.Handlers
             }
             catch
             {
-                Session.SendNotif("Por favor tente novamente, a área da foto possui muitos itens.");
+                Session.SendNotif("Please Try Again. This Area has too many elements.");
             }
         }
     }

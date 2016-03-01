@@ -16,7 +16,7 @@ using Yupi.Emulator.Messages.Parsers;
 namespace Yupi.Emulator.Game.Rooms.Data
 {
     /// <summary>
-    ///     Class RoomData.
+    ///     Class GetPublicRoomData.
     /// </summary>
     internal class RoomData
     {

@@ -57,7 +57,7 @@ namespace Yupi.Emulator.Game.Events.Interfaces
         /// <summary>
         ///     Gets the active rooms.
         /// </summary>
-        /// <returns>KeyValuePair&lt;RoomData, System.UInt32&gt;[].</returns>
+        /// <returns>KeyValuePair&lt;GetPublicRoomData, System.UInt32&gt;[].</returns>
         internal KeyValuePair<RoomData, uint>[] GetActiveRooms()
         {
             return _orderedEventRooms.ToArray();

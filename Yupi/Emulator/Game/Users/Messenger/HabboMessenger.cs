@@ -696,7 +696,7 @@ namespace Yupi.Emulator.Game.Users.Messenger
         /// <summary>
         ///     Gets the active friends rooms.
         /// </summary>
-        /// <returns>HashSet&lt;RoomData&gt;.</returns>
+        /// <returns>HashSet&lt;GetPublicRoomData&gt;.</returns>
         internal HashSet<RoomData> GetActiveFriendsRooms()
         {
             HashSet<RoomData> toReturn = new HashSet<RoomData>();

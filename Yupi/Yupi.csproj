@@ -167,16 +167,8 @@
       <HintPath>..\packages\DotNetty.Buffers.0.2.3\lib\net45\DotNetty.Buffers.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="DotNetty.Codecs, Version=0.2.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotNetty.Codecs.0.2.3\lib\net45\DotNetty.Codecs.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="DotNetty.Common, Version=0.2.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\DotNetty.Common.0.2.3\lib\net45\DotNetty.Common.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="DotNetty.Handlers, Version=0.2.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotNetty.Handlers.0.2.3\lib\net45\DotNetty.Handlers.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="DotNetty.Transport, Version=0.2.3.0, Culture=neutral, processorArchitecture=MSIL">
@@ -452,7 +444,7 @@
     <Compile Include="Emulator\Game\Commands\Controllers\UserInfo.cs" />
     <Compile Include="Emulator\Core\Security\CrossDomainSettings.cs" />
     <Compile Include="Emulator\Game\Users\Figures\AvatarFigureParts.cs" />
-    <Compile Include="Emulator\Data\ServerCPULowPriorityWorker.cs" />
+    <Compile Include="Emulator\Data\ServerStatusUpdater.cs" />
     <Compile Include="Emulator\Game\Browser\Models\NavigatorHeader.cs" />
     <Compile Include="Emulator\Game\Browser\Models\UserSearchLog.cs" />
     <Compile Include="Emulator\Game\Browser\Models\PromoCategory.cs" />

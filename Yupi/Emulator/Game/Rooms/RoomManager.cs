@@ -115,13 +115,13 @@ namespace Yupi.Emulator.Game.Rooms
         /// <summary>
         ///     Gets the active rooms.
         /// </summary>
-        /// <returns>KeyValuePair&lt;RoomData, System.UInt32&gt;[].</returns>
+        /// <returns>KeyValuePair&lt;GetPublicRoomData, System.UInt32&gt;[].</returns>
         internal KeyValuePair<RoomData, uint>[] GetActiveRooms() => _orderedActiveRooms?.ToArray();
 
         /// <summary>
         ///     Gets the voted rooms.
         /// </summary>
-        /// <returns>KeyValuePair&lt;RoomData, System.Int32&gt;[].</returns>
+        /// <returns>KeyValuePair&lt;GetPublicRoomData, System.Int32&gt;[].</returns>
         internal KeyValuePair<RoomData, int>[] GetVotedRooms() => _orderedVotedRooms?.ToArray();
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Generates the nullable room data.
         /// </summary>
         /// <param name="roomId">The room identifier.</param>
-        /// <returns>RoomData.</returns>
+        /// <returns>GetPublicRoomData.</returns>
         internal RoomData GenerateNullableRoomData(uint roomId)
         {
             if (GenerateRoomData(roomId) != null)
@@ -164,7 +164,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Generates the room data.
         /// </summary>
         /// <param name="roomId">The room identifier.</param>
-        /// <returns>RoomData.</returns>
+        /// <returns>GetPublicRoomData.</returns>
         internal RoomData GenerateRoomData(uint roomId)
         {
             if (LoadedRoomData.ContainsKey(roomId))
@@ -195,7 +195,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// <summary>
         ///     Gets the event rooms.
         /// </summary>
-        /// <returns>KeyValuePair&lt;RoomData, System.UInt32&gt;[].</returns>
+        /// <returns>KeyValuePair&lt;GetPublicRoomData, System.UInt32&gt;[].</returns>
         internal KeyValuePair<RoomData, uint>[] GetEventRooms()
         {
             return _eventManager.GetRooms();
@@ -241,7 +241,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// </summary>
         /// <param name="roomId">The room identifier.</param>
         /// <param name="dRow">The d row.</param>
-        /// <returns>RoomData.</returns>
+        /// <returns>GetPublicRoomData.</returns>
         internal RoomData FetchRoomData(uint roomId, DataRow dRow)
         {
             if (LoadedRoomData.ContainsKey(roomId))
@@ -280,7 +280,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// <param name="category">The category.</param>
         /// <param name="maxVisitors">The maximum visitors.</param>
         /// <param name="tradeState">State of the trade.</param>
-        /// <returns>RoomData.</returns>
+        /// <returns>GetPublicRoomData.</returns>
         internal RoomData CreateRoom(GameClient session, string name, string desc, string model, int category,
             int maxVisitors, int tradeState)
         {

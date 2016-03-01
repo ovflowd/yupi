@@ -337,7 +337,7 @@ namespace Yupi.Emulator.Game
                 SoundMachineSongManager.Load();
 
                 Progress(bar, wait, end, "Loading Server CPU Low Priority Worker...");
-                ServerCpuLowPriorityWorker.Load();
+                ServerStatusUpdater.Load();
 
                 Progress(bar, wait, end, "Loading Rooms Voting System...");
                 _roomManager.InitVotedRooms();
@@ -581,7 +581,7 @@ namespace Yupi.Emulator.Game
             {
                 try
                 {
-                    ServerCpuLowPriorityWorker.Process();
+                    ServerStatusUpdater.Process();
 
                     RoomManagerCycleEnded = false;
                     ClientManagerCycleEnded = false;

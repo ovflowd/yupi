@@ -35,7 +35,6 @@ using Yupi.Emulator.Game.Users.Subscriptions;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Handlers;
-using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Achievements
 {
@@ -62,7 +61,9 @@ namespace Yupi.Emulator.Game.Achievements
         internal AchievementManager(IQueryAdapter dbClient, out uint loadedAchs)
         {
             Achievements = new Dictionary<string, Achievement>();
+
             LoadAchievements(dbClient);
+
             loadedAchs = (uint) Achievements.Count;
         }
 
@@ -76,8 +77,8 @@ namespace Yupi.Emulator.Game.Achievements
 
             AchievementLevelFactory.GetAchievementLevels(out Achievements, dbClient);
 
-            AchievementDataCached =
-                new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("SendAchievementsRequirementsMessageComposer"));
+            AchievementDataCached = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("SendAchievementsRequirementsMessageComposer"));
+
             AchievementDataCached.AppendInteger(Achievements.Count);
 
             foreach (Achievement ach in Achievements.Values)
@@ -99,8 +100,7 @@ namespace Yupi.Emulator.Game.Achievements
         ///     Gets the list.
         /// </summary>
         /// <param name="session">The session.</param>
-        /// <param name="message">The messageBuffer.</param>
-        internal void GetList(GameClient session, SimpleClientMessageBuffer messageBuffer)
+        internal void GetList(GameClient session)
             => session.SendMessage(AchievementListComposer.Compose(session, Achievements.Values.ToList()));
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace Yupi.Emulator.Game.Achievements
 
                 double sinceMember = Yupi.GetUnixTimeStamp() - (int) session.GetHabbo().CreateDate;
 
-                uint daysSinceMember = Convert.ToUInt32(Math.Round(sinceMember/86400));
+                uint daysSinceMember = Convert.ToUInt32(Math.Round(sinceMember / 86400));
 
                 if (daysSinceMember == regAch.Progress)
                     return;

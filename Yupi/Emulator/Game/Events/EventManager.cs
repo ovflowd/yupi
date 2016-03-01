@@ -62,7 +62,7 @@ namespace Yupi.Emulator.Game.Events
         /// <summary>
         ///     Gets the rooms.
         /// </summary>
-        /// <returns>KeyValuePair&lt;RoomData, System.UInt32&gt;[].</returns>
+        /// <returns>KeyValuePair&lt;GetPublicRoomData, System.UInt32&gt;[].</returns>
         internal KeyValuePair<RoomData, uint>[] GetRooms() => _orderedEventRooms.ToArray();
 
         /// <summary>

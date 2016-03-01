@@ -1,4 +1,4 @@
-/**
+﻿/**
      Because i love chocolat...                                      
                                     88 88  
                                     "" 88  
@@ -30,7 +30,7 @@ using Yupi.Emulator.Core.Settings;
 using Yupi.Emulator.Data;
 
 namespace Yupi.Emulator
-{   
+{
     internal class Program
     {
         internal const uint ScClose = 0xF060;
@@ -39,28 +39,47 @@ namespace Yupi.Emulator
         ///     Main Void of Yupi.Emulator
         /// </summary>
         /// <param name="args">The arguments.</param>
-        [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.ControlAppDomain)]    
+        [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.ControlAppDomain)]
         [STAThread]
         public static void Main(string[] args)
         {
-            Console.Title = "Yupi! | Waiting for Input.";
+            StartProgram();
 
-            YupiUpdatesManager.Init();
+            ReadLoop();
+        }
 
-            YupiUpdatesManager.ShowInitialMessage();
-
-            ShowEnvironmentMessage(false);
-
-            YupiWriterManager.WriteLine("Waiting For Command Input...", "Yupi.Boot", ConsoleColor.DarkBlue);
-
+        internal static void ReadLoop()
+        {
             while (Yupi.IsLive || Yupi.IsReady)
             {
                 Console.CursorVisible = true;
 
                 ConsoleCommandHandler.InvokeCommand(Console.ReadLine());
 
-                YupiWriterManager.WriteLine("Waiting For Command Input...", "Yupi.Boot", ConsoleColor.DarkBlue);
+                YupiWriterManager.WriteLine("Waiting For Command Input...", "Yupi.Boot", ConsoleColor.DarkCyan);
             }
+        }
+
+        internal static void StartProgram()
+        {
+            YupiUpdatesManager.Init();
+
+            YupiUpdatesManager.ShowInitialMessage();
+
+            ShowEnvironmentMessage();
+
+            Yupi.IsReady = true;
+
+            Console.Title = "Yupi! | Waiting for Input.";
+
+            YupiWriterManager.WriteLine("Waiting For Command Input...", "Yupi.Boot", ConsoleColor.DarkCyan);
+        }
+
+        internal static void ResetConsole()
+        {
+            Console.Clear();
+
+            ShowEnvironmentMessage();
         }
 
         internal static void StartEverything()
@@ -70,35 +89,22 @@ namespace Yupi.Emulator
             InitEnvironment();
         }
 
-        public static void ShowEnvironmentMessage(bool needClear = true)
+        public static void ShowEnvironmentMessage()
         {
-            Console.BackgroundColor = ConsoleColor.Black;
-
-            if(needClear)
-                Console.Clear();
-            
             Console.ForegroundColor = ConsoleColor.White;
 
             Console.WriteLine();
-            Console.WriteLine(@"     " + @"                                    88 88");
-            Console.WriteLine(@"     " + "                                    \"\" 88");
-            Console.WriteLine(@"     " + @"                                       88");
-            Console.WriteLine(@"     " + @"8b       d8 88       88 8b,dPPYba,  88 88");
-            Console.WriteLine(@"     " + "`8b     d8' 88       88 88P'    \"8a 88 88 ");
-            Console.WriteLine(@"     " + " `8b   d8'  88       88 88       d8 88 \"\"");
-            Console.WriteLine(@"     " + "  `8b,d8'   \"8a,   ,a88 88b,   ,a8\" 88 aa");
-            Console.WriteLine(@"     " + "    Y88'     `\"YbbdP'Y8 88`YbbdP\"'  88 88");
-            Console.WriteLine(@"     " + @"    d8'                 88               ");
-            Console.WriteLine(@"     " + @"   d8'                  88               ");
+            Console.WriteLine(@"                " + @"██╗   ██╗██╗   ██╗██████╗ ██╗██╗");
+            Console.WriteLine(@"                " + @"╚██╗ ██╔╝██║   ██║██╔══██╗██║██║");
+            Console.WriteLine(@"                " + @" ╚████╔╝ ██║   ██║██████╔╝██║██║");
+            Console.WriteLine(@"                " + @"  ╚██╔╝  ██║   ██║██╔═══╝ ██║╚═╝");
+            Console.WriteLine(@"                " + @"   ██║   ╚██████╔╝██║     ██║██╗");
+            Console.WriteLine(@"                " + @"   ╚═╝    ╚═════╝ ╚═╝     ╚═╝╚═╝");
+            Console.WriteLine(@"                " + @"                                ");
             Console.WriteLine();
-            Console.WriteLine(@"     " + @"  BUILD " + YupiUpdatesManager.GithubVersionTag + " RELEASE R63 POST SHUFFLE");
-            Console.WriteLine(@"     " + @"  .NET Framework " + Environment.Version + " C# 6 Roslyn");
+            Console.WriteLine(@"        " + @"  BUILD " + YupiUpdatesManager.GithubVersionTag + " RELEASE R63 POST SHUFFLE");
+            Console.WriteLine(@"        " + @"  .NET Framework " + Environment.Version + " C# 6 Roslyn");
             Console.WriteLine();
-            Console.WriteLine();
-
-            Console.ForegroundColor = ConsoleColor.White;
-
-            Yupi.IsReady = true;
         }
 
         /// <summary>

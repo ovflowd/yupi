@@ -1,3 +1,27 @@
+/**
+     Because i love chocolat...                                      
+                                    88 88  
+                                    "" 88  
+                                       88  
+8b       d8 88       88 8b,dPPYba,  88 88  
+`8b     d8' 88       88 88P'    "8a 88 88  
+ `8b   d8'  88       88 88       d8 88 ""  
+  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa  
+    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88  
+    d8'                 88                 
+   d8'                  88     
+   
+   Private Habbo Hotel Emulating System
+   @author Claudio A. Santoro W.
+   @author Kessiler R.
+   @version dev-beta
+   @license MIT
+   @copyright Sulake Corporation Oy
+   @observation All Rights of Habbo, Habbo Hotel, and all Habbo contents and it's names, is copyright from Sulake
+   Corporation Oy. Yupi! has nothing linked with Sulake. 
+   This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
+*/
+
 using Yupi.Emulator.Messages.Handlers;
 
 namespace Yupi.Emulator.Messages.Library
@@ -126,15 +150,6 @@ namespace Yupi.Emulator.Messages.Library
         internal static void SendBullyReport(GameClientMessageHandler handler)
         {
             handler.SendBullyReport();
-        }
-
-        /// <summary>
-        ///     Navigators the get popular groups.
-        /// </summary>
-        /// <param name="handler">The handler.</param>
-        internal static void NavigatorGetPopularGroups(GameClientMessageHandler handler)
-        {
-            handler.GetPopularGroups();
         }
 
         /// <summary>
@@ -723,33 +738,6 @@ namespace Yupi.Emulator.Messages.Library
         }
 
         /// <summary>
-        ///     Gets the flat cats.
-        /// </summary>
-        /// <param name="handler">The handler.</param>
-        internal static void GetFlatCats(GameClientMessageHandler handler)
-        {
-            handler.GetFlatCats();
-        }
-
-        /// <summary>
-        ///     Enters the inquired room.
-        /// </summary>
-        /// <param name="handler">The handler.</param>
-        internal static void EnterInquiredRoom(GameClientMessageHandler handler)
-        {
-            handler.EnterInquiredRoom();
-        }
-
-        /// <summary>
-        ///     Gets the pubs.
-        /// </summary>
-        /// <param name="handler">The handler.</param>
-        internal static void GetPubs(GameClientMessageHandler handler)
-        {
-            handler.GetPubs();
-        }
-
-        /// <summary>
         ///     Saves the branding.
         /// </summary>
         /// <param name="handler">The handler.</param>
@@ -768,120 +756,12 @@ namespace Yupi.Emulator.Messages.Library
         }
 
         /// <summary>
-        ///     Gets the popular rooms.
-        /// </summary>
-        /// <param name="handler">The handler.</param>
-        internal static void GetPopularRooms(GameClientMessageHandler handler)
-        {
-            handler.GetPopularRooms();
-        }
-
-        /// <summary>
-        ///     Gets the recommended rooms.
-        /// </summary>
-        /// <param name="handler">The handler.</param>
-        internal static void GetRecommendedRooms(GameClientMessageHandler handler)
-        {
-            handler.GetRecommendedRooms();
-        }
-
-        /// <summary>
-        ///     Gets the high rated rooms.
-        /// </summary>
-        /// <param name="handler">The handler.</param>
-        internal static void GetHighRatedRooms(GameClientMessageHandler handler)
-        {
-            handler.GetHighRatedRooms();
-        }
-
-        /// <summary>
-        ///     Gets the friends rooms.
-        /// </summary>
-        /// <param name="handler">The handler.</param>
-        internal static void GetFriendsRooms(GameClientMessageHandler handler)
-        {
-            handler.GetFriendsRooms();
-        }
-
-        /// <summary>
-        ///     Gets the rooms with friends.
-        /// </summary>
-        /// <param name="handler">The handler.</param>
-        internal static void GetRoomsWithFriends(GameClientMessageHandler handler)
-        {
-            handler.GetRoomsWithFriends();
-        }
-
-        /// <summary>
-        ///     Gets the own rooms.
-        /// </summary>
-        /// <param name="handler">The handler.</param>
-        internal static void GetOwnRooms(GameClientMessageHandler handler)
-        {
-            handler.GetOwnRooms();
-        }
-
-        /// <summary>
         ///     News the navigator flat cats.
         /// </summary>
         /// <param name="handler">The handler.</param>
         internal static void NewNavigatorFlatCats(GameClientMessageHandler handler)
         {
             handler.NewNavigatorFlatCats();
-        }
-
-        /// <summary>
-        ///     Gets the favorite rooms.
-        /// </summary>
-        /// <param name="handler">The handler.</param>
-        internal static void GetFavoriteRooms(GameClientMessageHandler handler)
-        {
-            handler.GetFavoriteRooms();
-        }
-
-        /// <summary>
-        ///     Gets the recent rooms.
-        /// </summary>
-        /// <param name="handler">The handler.</param>
-        internal static void GetRecentRooms(GameClientMessageHandler handler)
-        {
-            handler.GetRecentRooms();
-        }
-
-        /// <summary>
-        ///     Gets the popular tags.
-        /// </summary>
-        /// <param name="handler">The handler.</param>
-        internal static void GetPopularTags(GameClientMessageHandler handler)
-        {
-            handler.GetPopularTags();
-        }
-
-        /// <summary>
-        ///     Performs the search.
-        /// </summary>
-        /// <param name="handler">The handler.</param>
-        internal static void PerformSearch(GameClientMessageHandler handler)
-        {
-            handler.PerformSearch();
-        }
-
-        /// <summary>
-        ///     Searches the by tag.
-        /// </summary>
-        /// <param name="handler">The handler.</param>
-        internal static void SearchByTag(GameClientMessageHandler handler)
-        {
-            handler.SearchByTag();
-        }
-
-        /// <summary>
-        ///     Performs the search2.
-        /// </summary>
-        /// <param name="handler">The handler.</param>
-        internal static void PerformSearch2(GameClientMessageHandler handler)
-        {
-            handler.PerformSearch2();
         }
 
         /// <summary>
@@ -1866,15 +1746,6 @@ namespace Yupi.Emulator.Messages.Library
         }
 
         /// <summary>
-        ///     Gets the event rooms.
-        /// </summary>
-        /// <param name="handler">The handler.</param>
-        internal static void GetEventRooms(GameClientMessageHandler handler)
-        {
-            handler.GetEventRooms();
-        }
-
-        /// <summary>
         ///     Starts the seasonal quest.
         /// </summary>
         /// <param name="handler">The handler.</param>
@@ -2541,24 +2412,6 @@ namespace Yupi.Emulator.Messages.Library
         }
 
         /// <summary>
-        ///     News the navigator collapse category.
-        /// </summary>
-        /// <param name="handler">The handler.</param>
-        internal static void NewNavigatorCollapseCategory(GameClientMessageHandler handler)
-        {
-            handler.NewNavigatorCollapseCategory();
-        }
-
-        /// <summary>
-        ///     News the navigator uncollapse category.
-        /// </summary>
-        /// <param name="handler">The handler.</param>
-        internal static void NewNavigatorUncollapseCategory(GameClientMessageHandler handler)
-        {
-            handler.NewNavigatorUncollapseCategory();
-        }
-
-        /// <summary>
         ///     Pets the breed result.
         /// </summary>
         /// <param name="handler">The handler.</param>
@@ -2646,24 +2499,6 @@ namespace Yupi.Emulator.Messages.Library
         internal static void GoToRoomByName(GameClientMessageHandler handler)
         {
             handler.GoToRoomByName();
-        }
-
-        /// <summary>
-        ///     Gets the uc panel.
-        /// </summary>
-        /// <param name="handler">The handler.</param>
-        internal static void GetUcPanel(GameClientMessageHandler handler)
-        {
-            handler.GetUcPanel();
-        }
-
-        /// <summary>
-        ///     Gets the uc panel hotel.
-        /// </summary>
-        /// <param name="handler">The handler.</param>
-        internal static void GetUcPanelHotel(GameClientMessageHandler handler)
-        {
-            handler.GetUcPanelHotel();
         }
 
         /// <summary>

@@ -35,7 +35,6 @@ using Yupi.Emulator.Game.Rooms.Data;
 using Yupi.Emulator.Game.Users;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
-using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Browser
 {
@@ -47,7 +46,7 @@ namespace Yupi.Emulator.Game.Browser
         /// <summary>
         ///     The _public items
         /// </summary>
-        private readonly Dictionary<uint, PublicItem> _publicItems;
+        public readonly Dictionary<uint, PublicItem> PublicItems;
 
         /// <summary>
         ///     The _navigator headers
@@ -80,14 +79,17 @@ namespace Yupi.Emulator.Game.Browser
         internal HotelBrowserManager()
         {
             PrivateCategories = new HybridDictionary();
+
             InCategories = new Dictionary<string, NavigatorCategory>();
-            _publicItems = new Dictionary<uint, PublicItem>();
+            PublicItems = new Dictionary<uint, PublicItem>();
+
             NavigatorHeaders = new List<NavigatorHeader>();
+
             PromoCategories = new Dictionary<int, PromoCategory>();
         }
 
         /// <summary>
-        ///     Gets the flat cats count.
+        ///     Get the Number of Flat Caegories
         /// </summary>
         /// <value>The flat cats count.</value>
         internal int FlatCatsCount => PrivateCategories.Count;
@@ -100,6 +102,7 @@ namespace Yupi.Emulator.Game.Browser
         public void Initialize(IQueryAdapter dbClient, out uint navLoaded)
         {
             Initialize(dbClient);
+
             navLoaded = (uint) NavigatorHeaders.Count;
         }
 
@@ -139,19 +142,17 @@ namespace Yupi.Emulator.Game.Browser
 
             if (navigatorPublicRooms != null)
             {
-                _publicItems.Clear();
+                PublicItems.Clear();
 
                 foreach (DataRow row in navigatorPublicRooms.Rows)
-                {
-                    _publicItems.Add(Convert.ToUInt32(row["id"]),
+                    PublicItems.Add(Convert.ToUInt32(row["id"]),
                         new PublicItem(Convert.ToUInt32(row["id"]), int.Parse(row["bannertype"].ToString()),
                             (string) row["caption"],
                             (string) row["description"], (string) row["image"],
                             row["image_type"].ToString().ToLower() == "internal"
                                 ? PublicImageType.Internal
                                 : PublicImageType.External, (uint) row["room_id"], 0, (int) row["category_parent_id"],
-                            row["recommended"].ToString() == "1", (int) row["typeofdata"], string.Empty));
-                }
+                            row["recommended"].ToString() == "1", (int) row["typeofdata"]));
             }
 
             InitializeCategories();
@@ -187,15 +188,15 @@ namespace Yupi.Emulator.Game.Browser
             if (item == null)
                 return;
 
-            _publicItems.Add(Convert.ToUInt32(item.Id), item);
+            PublicItems.Add(Convert.ToUInt32(item.Id), item);
         }
 
         public void RemovePublicItem(uint id)
         {
-            if (!_publicItems.ContainsKey(id))
+            if (!PublicItems.ContainsKey(id))
                 return;
 
-            _publicItems.Remove(id);
+            PublicItems.Remove(id);
         }
 
         /// <summary>
@@ -204,6 +205,7 @@ namespace Yupi.Emulator.Game.Browser
         public void LoadNewPublicRooms()
         {
             NewPublicRooms = SerializeNewPublicRooms();
+
             NewStaffPicks = SerializeNewStaffPicks();
         }
 
@@ -214,8 +216,7 @@ namespace Yupi.Emulator.Game.Browser
         /// <param name="rooms">The rooms.</param>
         /// <param name="category">The category.</param>
         /// <param name="direct">if set to <c>true</c> [direct].</param>
-        public void SerializeNavigatorPopularRoomsNews(ref SimpleServerMessageBuffer reply, KeyValuePair<RoomData, uint>[] rooms,
-            int category, bool direct)
+        public void SerializeNavigatorPopularRoomsNews(ref SimpleServerMessageBuffer reply, KeyValuePair<RoomData, uint>[] rooms, int category, bool direct)
         {
             if (!rooms?.Any() ?? true)
             {
@@ -277,16 +278,16 @@ namespace Yupi.Emulator.Game.Browser
 
             messageBuffer.StartArray();
 
-            foreach (PublicItem item in _publicItems.Values)
+            foreach (PublicItem item in PublicItems.Values)
             {
                 if (item.ParentId == -1)
                 {
                     messageBuffer.Clear();
 
-                    if (item.RoomData == null)
+                    if (item.GetPublicRoomData == null)
                         continue;
 
-                    item.RoomData.Serialize(messageBuffer);
+                    item.GetPublicRoomData.Serialize(messageBuffer);
 
                     messageBuffer.SaveArray();
                 }
@@ -303,14 +304,14 @@ namespace Yupi.Emulator.Game.Browser
 
             messageBuffer.StartArray();
 
-            foreach (PublicItem item in _publicItems.Values.Where(t => t.ParentId == -2))
+            foreach (PublicItem item in PublicItems.Values.Where(t => t.ParentId == -2))
             {
                 messageBuffer.Clear();
 
-                if (item.RoomData == null)
+                if (item.GetPublicRoomData == null)
                     continue;
 
-                item.RoomData.Serialize(messageBuffer);
+                item.GetPublicRoomData.Serialize(messageBuffer);
                 messageBuffer.SaveArray();
             }
 
@@ -326,22 +327,6 @@ namespace Yupi.Emulator.Game.Browser
         /// <returns>FlatCat.</returns>
         internal PublicCategory GetFlatCat(int id)
             => PrivateCategories.Contains(id) ? (PublicCategory) PrivateCategories[id] : null;
-
-        /// <summary>
-        ///     Serializes the nv recommend rooms.
-        /// </summary>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-        internal SimpleServerMessageBuffer SerializeNvRecommendRooms()
-        {
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NavigatorLiftedRoomsComposer"));
-
-            messageBuffer.AppendInteger(_publicItems.Count); //count
-
-            foreach (PublicItem item in _publicItems.Values)
-                item.SerializeNew(messageBuffer);
-
-            return messageBuffer;
-        }
 
         /// <summary>
         ///     Serializes the new flat categories.
@@ -389,10 +374,10 @@ namespace Yupi.Emulator.Game.Browser
         }
 
         /// <summary>
-        ///     Enables the new navigator.
+        ///     Initializes Navigator
         /// </summary>
         /// <param name="session">The session.</param>
-        internal void EnableNewNavigator(GameClient session)
+        internal void InitializeNavigator(GameClient session)
         {
             SimpleServerMessageBuffer navigatorMetaDataParser = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NavigatorMetaDataComposer"));
 
@@ -407,8 +392,8 @@ namespace Yupi.Emulator.Game.Browser
             navigatorMetaDataParser.AppendInteger(0);
             session.SendMessage(navigatorMetaDataParser);
 
-            SimpleServerMessageBuffer navigatorLiftedRoomsParser =
-                new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NavigatorLiftedRoomsComposer"));
+            SimpleServerMessageBuffer navigatorLiftedRoomsParser = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NavigatorLiftedRoomsComposer"));
+
             navigatorLiftedRoomsParser.AppendInteger(NavigatorHeaders.Count);
 
             foreach (NavigatorHeader navHeader in NavigatorHeaders)
@@ -443,7 +428,7 @@ namespace Yupi.Emulator.Game.Browser
                 searches.AppendInteger(navi.Id);
                 searches.AppendString(navi.Value1);
                 searches.AppendString(navi.Value2);
-                searches.AppendString("");
+                searches.AppendString(string.Empty);
             }
 
             session.SendMessage(searches);
@@ -460,348 +445,30 @@ namespace Yupi.Emulator.Game.Browser
 
             session.SendMessage(packetName);
         }
-
-        /// <summary>
-        ///     Serializes the flat categories.
-        /// </summary>
-        /// <param name="session">The session.</param>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-        internal SimpleServerMessageBuffer SerializeFlatCategories(GameClient session)
-        {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("FlatCategoriesMessageComposer"));
-            simpleServerMessageBuffer.StartArray();
-
-            foreach (PublicCategory flatCat in PrivateCategories.Values)
-            {
-                simpleServerMessageBuffer.Clear();
-
-                if (flatCat == null)
-                    continue;
-
-                simpleServerMessageBuffer.AppendInteger(flatCat.Id);
-                simpleServerMessageBuffer.AppendString(flatCat.Caption);
-                simpleServerMessageBuffer.AppendBool(flatCat.MinRank <= session.GetHabbo().Rank);
-                simpleServerMessageBuffer.AppendBool(false);
-                simpleServerMessageBuffer.AppendString("NONE");
-                simpleServerMessageBuffer.AppendString(string.Empty);
-                simpleServerMessageBuffer.AppendBool(false);
-
-                simpleServerMessageBuffer.SaveArray();
-            }
-
-            simpleServerMessageBuffer.EndArray();
-
-            return simpleServerMessageBuffer;
-        }
-
+       
         /// <summary>
         ///     Gets the name of the flat cat identifier by.
         /// </summary>
-        /// <param name="flatName">Name of the flat.</param>
-        /// <returns>System.Int32.</returns>
-        internal int GetFlatCatIdByName(string flatName)
-        {
-            foreach (PublicCategory flat in PrivateCategories.Values.Cast<PublicCategory>().Where(flat => flat.Caption == flatName)
-                )
-                return flat.Id;
-
-            return -1;
-        }
+        /// <param name="flatName">Name of the flat category.</param>
+        internal int GetFlatCatIdByName(string flatName) => PrivateCategories.Values.Cast<PublicCategory>().First(flat => flat?.Caption == flatName).Id;
 
         /// <summary>
-        ///     Serializes the public rooms.
+        ///     Gets a navigator category by caption
         /// </summary>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-        internal SimpleServerMessageBuffer SerializePublicRooms()
-        {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("OfficialRoomsMessageComposer"));
-            PublicItem[] rooms =
-                _publicItems.Values.Where(current => current.ParentId <= 0 && current.RoomData != null).ToArray();
-
-            simpleServerMessageBuffer.AppendInteger(rooms.Length);
-
-            foreach (PublicItem current in rooms)
-            {
-                current.Serialize(simpleServerMessageBuffer);
-
-                if (current.ItemType != PublicItemType.Category)
-                    continue;
-
-                foreach (PublicItem current2 in _publicItems.Values.Where(x => x.ParentId == current.Id))
-                    current2.Serialize(simpleServerMessageBuffer);
-            }
-
-            if (!_publicItems.Values.Any(current => current.Recommended))
-                simpleServerMessageBuffer.AppendInteger(0);
-            else
-            {
-                PublicItem room = _publicItems.Values.First(current => current.Recommended);
-
-                if (room != null)
-                {
-                    simpleServerMessageBuffer.AppendInteger(1);
-                    room.Serialize(simpleServerMessageBuffer);
-                }
-                else
-                    simpleServerMessageBuffer.AppendInteger(0);
-            }
-            simpleServerMessageBuffer.AppendInteger(0);
-
-            return simpleServerMessageBuffer;
-        }
-
-        /// <summary>
-        ///     Serializes the favorite rooms.
-        /// </summary>
-        /// <param name="session">The session.</param>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-        internal SimpleServerMessageBuffer SerializeFavoriteRooms(GameClient session)
-        {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NavigatorListingsMessageComposer"));
-            simpleServerMessageBuffer.AppendInteger(6);
-            simpleServerMessageBuffer.AppendString(string.Empty);
-            simpleServerMessageBuffer.AppendInteger(session.GetHabbo().FavoriteRooms.Count);
-
-            uint[] array = session.GetHabbo().FavoriteRooms.ToArray();
-
-            foreach (
-                RoomData roomData in
-                    array.Select(roomId => Yupi.GetGame().GetRoomManager().GenerateRoomData(roomId))
-                        .Where(roomData => roomData != null))
-                roomData.Serialize(simpleServerMessageBuffer);
-
-            simpleServerMessageBuffer.AppendBool(false);
-
-            return simpleServerMessageBuffer;
-        }
-
-        /// <summary>
-        ///     Serializes the recent rooms.
-        /// </summary>
-        /// <param name="session">The session.</param>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-        internal SimpleServerMessageBuffer SerializeRecentRooms(GameClient session)
-        {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NavigatorListingsMessageComposer"));
-            simpleServerMessageBuffer.AppendInteger(7);
-            simpleServerMessageBuffer.AppendString(string.Empty);
-
-            simpleServerMessageBuffer.StartArray();
-
-            foreach (
-                RoomData roomData in
-                    session.GetHabbo()
-                        .RecentlyVisitedRooms.Select(
-                            current => Yupi.GetGame().GetRoomManager().GenerateRoomData(current)))
-            {
-                roomData.Serialize(simpleServerMessageBuffer);
-                simpleServerMessageBuffer.SaveArray();
-            }
-
-            simpleServerMessageBuffer.EndArray();
-            simpleServerMessageBuffer.AppendBool(false);
-
-            return simpleServerMessageBuffer;
-        }
-
-        /// <summary>
-        ///     Serializes the event listing.
-        /// </summary>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-        internal SimpleServerMessageBuffer SerializeEventListing()
-        {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NavigatorListingsMessageComposer"));
-            simpleServerMessageBuffer.AppendInteger(16);
-            simpleServerMessageBuffer.AppendString(string.Empty);
-
-            KeyValuePair<RoomData, uint>[] eventRooms = Yupi.GetGame().GetRoomManager().GetEventRooms();
-
-            simpleServerMessageBuffer.AppendInteger(eventRooms.Length);
-
-            KeyValuePair<RoomData, uint>[] array = eventRooms;
-
-            foreach (KeyValuePair<RoomData, uint> keyValuePair in array)
-                keyValuePair.Key.Serialize(simpleServerMessageBuffer, true);
-
-            return simpleServerMessageBuffer;
-        }
-
+        /// <param name="navigatorCategoryCaption">Name of the category.</param>
         internal NavigatorCategory GetNavigatorCategory(string navigatorCategoryCaption) => InCategories.FirstOrDefault(c => c.Key == navigatorCategoryCaption).Value;
 
+        /// <summary>
+        ///     Gets a Public Room Data
+        /// </summary>
+        /// <param name="roomId">Public Room Id.</param>
         internal PublicItem GetPublicItem(uint roomId)
         {
-            IEnumerable<KeyValuePair<uint, PublicItem>> search = _publicItems.Where(i => i.Value.RoomId == roomId);
+            IEnumerable<KeyValuePair<uint, PublicItem>> search = PublicItems.Where(i => i.Value.RoomId == roomId);
 
-            IEnumerable<KeyValuePair<uint, PublicItem>> keyValuePairs = search as KeyValuePair<uint, PublicItem>[] ??
-                                                                        search.ToArray();
+            IEnumerable<KeyValuePair<uint, PublicItem>> keyValuePairs = search as KeyValuePair<uint, PublicItem>[] ?? search.ToArray();
 
-            return !keyValuePairs.Any() || keyValuePairs.FirstOrDefault().Value == null
-                ? null
-                : keyValuePairs.FirstOrDefault().Value;
-        }
-
-        /// <summary>
-        ///     Serializes the popular room tags.
-        /// </summary>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-        internal SimpleServerMessageBuffer SerializePopularRoomTags()
-        {
-            Dictionary<string, int> dictionary = new Dictionary<string, int>();
-
-            SimpleServerMessageBuffer result;
-
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-            {
-                queryReactor.SetQuery(
-                    "SELECT tags, users_now FROM rooms_data WHERE roomtype = 'private' AND users_now > 0 ORDER BY users_now DESC LIMIT 50");
-
-                DataTable table = queryReactor.GetTable();
-
-                if (table != null)
-                {
-                    foreach (DataRow dataRow in table.Rows)
-                    {
-                        int usersNow;
-
-                        if (!string.IsNullOrEmpty(dataRow["users_now"].ToString()))
-                            usersNow = (int) dataRow["users_now"];
-                        else
-                            usersNow = 0;
-
-                        string[] array = dataRow["tags"].ToString().Split(',');
-                        List<string> list = array.ToList();
-
-                        foreach (string current in list)
-                        {
-                            if (dictionary.ContainsKey(current))
-                                dictionary[current] += usersNow;
-                            else
-                                dictionary.Add(current, usersNow);
-                        }
-                    }
-                }
-
-                List<KeyValuePair<string, int>> list2 = new List<KeyValuePair<string, int>>(dictionary);
-
-                list2.Sort((firstPair, nextPair) => firstPair.Value.CompareTo(nextPair.Value));
-
-                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("PopularRoomTagsMessageComposer"));
-                simpleServerMessageBuffer.AppendInteger(list2.Count);
-
-                foreach (KeyValuePair<string, int> current2 in list2)
-                {
-                    simpleServerMessageBuffer.AppendString(current2.Key);
-                    simpleServerMessageBuffer.AppendInteger(current2.Value);
-                }
-
-                result = simpleServerMessageBuffer;
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        ///     Serializes the navigator.
-        /// </summary>
-        /// <param name="session">The session.</param>
-        /// <param name="mode">The mode.</param>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-        internal SimpleServerMessageBuffer SerializeNavigator(GameClient session, int mode)
-        {
-            if (mode >= 0)
-                return SerializeActiveRooms();
-
-            SimpleServerMessageBuffer reply = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NavigatorListingsMessageComposer"));
-
-            switch (mode)
-            {
-                case -6:
-                {
-                    reply.AppendInteger(14);
-
-                    List<RoomData> activeGRooms = new List<RoomData>();
-
-                    KeyValuePair<RoomData, uint>[] rooms = Yupi.GetGame().GetRoomManager().GetActiveRooms();
-
-                    if (rooms != null && rooms.Any())
-                    {
-                        activeGRooms.AddRange(from rd in rooms where rd.Key.GroupId != 0 select rd.Key);
-                        activeGRooms = activeGRooms.OrderByDescending(p => p.UsersNow).ToList();
-                    }
-
-                    SerializeNavigatorRooms(ref reply, activeGRooms);
-
-                    return reply;
-                }
-                case -5:
-                case -4:
-                {
-                    reply.AppendInteger(mode*-1);
-
-                    List<RoomData> activeFriends =
-                        session.GetHabbo()
-                            .GetMessenger()
-                            .GetActiveFriendsRooms()
-                            .OrderByDescending(p => p.UsersNow)
-                            .ToList();
-                    SerializeNavigatorRooms(ref reply, activeFriends);
-
-                    return reply;
-                }
-                case -3:
-                {
-                    reply.AppendInteger(5);
-                    SerializeNavigatorRooms(ref reply, session.GetHabbo().UsersRooms);
-
-                    return reply;
-                }
-                case -2:
-                {
-                    reply.AppendInteger(2);
-
-                    try
-                    {
-                        KeyValuePair<RoomData, int>[] rooms = Yupi.GetGame().GetRoomManager().GetVotedRooms();
-
-                        SerializeNavigatorRooms(ref reply, rooms);
-
-                        if (rooms != null)
-                            Array.Clear(rooms, 0, rooms.Length);
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e);
-                        reply.AppendString(string.Empty);
-                        reply.AppendInteger(0);
-                    }
-
-                    return reply;
-                }
-                case -1:
-                {
-                    reply.AppendInteger(1);
-                    reply.AppendString("-1");
-
-                    try
-                    {
-                        KeyValuePair<RoomData, uint>[] rooms = Yupi.GetGame().GetRoomManager().GetActiveRooms();
-
-                        SerializeNavigatorPopularRooms(ref reply, rooms);
-
-                        if (rooms != null)
-                            Array.Clear(rooms, 0, rooms.Length);
-                    }
-                    catch
-                    {
-                        reply.AppendInteger(0);
-                        reply.AppendBool(false);
-                    }
-
-                    return reply;
-                }
-            }
-
-            return reply;
+            return !keyValuePairs.Any() || keyValuePairs.FirstOrDefault().Value == null ? null : keyValuePairs.FirstOrDefault().Value;
         }
 
         /// <summary>
@@ -825,229 +492,6 @@ namespace Yupi.Emulator.Game.Browser
             }
 
             return 1;
-        }
-
-        /// <summary>
-        ///     Serializes the active rooms.
-        /// </summary>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-        private static SimpleServerMessageBuffer SerializeActiveRooms() => null;
-
-        /// <summary>
-        ///     Serializes the navigator rooms.
-        /// </summary>
-        /// <param name="reply">The reply.</param>
-        /// <param name="rooms">The rooms.</param>
-        private static void SerializeNavigatorRooms(ref SimpleServerMessageBuffer reply, ICollection<RoomData> rooms)
-        {
-            reply.AppendString(string.Empty);
-
-            if (!rooms?.Any() ?? true)
-            {
-                reply.AppendInteger(0);
-                reply.AppendBool(false);
-
-                return;
-            }
-
-            if (rooms != null)
-            {
-                reply.AppendInteger(rooms.Count);
-
-                foreach (RoomData pair in rooms)
-                    pair.Serialize(reply);
-            }
-
-            reply.AppendBool(false);
-        }
-
-        /// <summary>
-        ///     Serializes the navigator popular rooms.
-        /// </summary>
-        /// <param name="reply">The reply.</param>
-        /// <param name="rooms">The rooms.</param>
-        private static void SerializeNavigatorPopularRooms(ref SimpleServerMessageBuffer reply,
-            ICollection<KeyValuePair<RoomData, uint>> rooms)
-        {
-            if (!rooms?.Any() ?? true)
-            {
-                reply.AppendInteger(0);
-                reply.AppendBool(false);
-                return;
-            }
-
-            if (rooms != null)
-            {
-                reply.AppendInteger(rooms.Count);
-
-                foreach (KeyValuePair<RoomData, uint> pair in rooms)
-                    pair.Key.Serialize(reply);
-            }
-
-            reply.AppendBool(false);
-        }
-
-        /// <summary>
-        ///     Serializes the navigator rooms.
-        /// </summary>
-        /// <param name="reply">The reply.</param>
-        /// <param name="rooms">The rooms.</param>
-        private static void SerializeNavigatorRooms(ref SimpleServerMessageBuffer reply,
-            ICollection<KeyValuePair<RoomData, int>> rooms)
-        {
-            reply.AppendString(string.Empty);
-
-            if (!rooms?.Any() ?? true)
-            {
-                reply.AppendInteger(0);
-                reply.AppendBool(false);
-
-                return;
-            }
-
-            if (rooms != null)
-            {
-                reply.AppendInteger(rooms.Count);
-
-                foreach (KeyValuePair<RoomData, int> pair in rooms)
-                    pair.Key.Serialize(reply);
-            }
-
-            reply.AppendBool(false);
-        }
-
-        /// <summary>
-        ///     Serializes the promoted.
-        /// </summary>
-        /// <param name="session">The session.</param>
-        /// <param name="mode">The mode.</param>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-        public static SimpleServerMessageBuffer SerializePromoted(GameClient session, int mode)
-        {
-            SimpleServerMessageBuffer reply = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NavigatorListingsMessageComposer"));
-
-            reply.AppendInteger(mode);
-            reply.AppendString(string.Empty);
-
-            try
-            {
-                KeyValuePair<RoomData, uint>[] rooms = Yupi.GetGame().GetRoomManager().GetEventRooms();
-
-                SerializeNavigatorPopularRooms(ref reply, rooms);
-
-                if (rooms != null)
-                    Array.Clear(rooms, 0, rooms.Length);
-            }
-            catch
-            {
-                reply.AppendInteger(0);
-                reply.AppendBool(false);
-            }
-
-            return reply;
-        }
-
-        /// <summary>
-        ///     Serializes the search results.
-        /// </summary>
-        /// <param name="searchQuery">The search query.</param>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-        public static SimpleServerMessageBuffer SerializeSearchResults(string searchQuery)
-        {
-            bool containsOwner = false;
-            bool containsGroup = false;
-            string originalQuery = searchQuery;
-
-            if (searchQuery.StartsWith("owner:"))
-            {
-                searchQuery = searchQuery.Replace("owner:", string.Empty);
-                containsOwner = true;
-            }
-            else if (searchQuery.StartsWith("group:"))
-            {
-                searchQuery = searchQuery.Replace("group:", string.Empty);
-                containsGroup = true;
-            }
-
-            List<RoomData> rooms = new List<RoomData>();
-
-            if (!containsOwner)
-            {
-                bool initForeach = false;
-
-                KeyValuePair<RoomData, uint>[] activeRooms = Yupi.GetGame().GetRoomManager().GetActiveRooms();
-                try
-                {
-                    if (activeRooms != null && activeRooms.Any())
-                        initForeach = true;
-                }
-                catch
-                {
-                    initForeach = false;
-                }
-
-                if (initForeach)
-                {
-                    foreach (KeyValuePair<RoomData, uint> rms in activeRooms)
-                    {
-                        if (rms.Key.Name.ToLower().Contains(searchQuery.ToLower()) && rooms.Count <= 50)
-                            rooms.Add(rms.Key);
-                        else
-                            break;
-                    }
-                }
-            }
-
-            if (rooms.Count < 50 || containsOwner || containsGroup)
-            {
-                DataTable dTable;
-
-                using (IQueryAdapter dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
-                {
-                    if (containsOwner)
-                    {
-                        dbClient.SetQuery(
-                            "SELECT rooms_data.* FROM rooms_data LEFT OUTER JOIN users ON rooms_data.owner = users.id WHERE users.username = @query AND rooms_data.roomtype = 'private' LIMIT 50");
-                        dbClient.AddParameter("query", searchQuery);
-                        dTable = dbClient.GetTable();
-                    }
-                    else if (containsGroup)
-                    {
-                        dbClient.SetQuery(
-                            "SELECT * FROM rooms_data JOIN groups_data ON rooms_data.id = groups_data.room_id WHERE groups_data.group_name LIKE @query AND roomtype = 'private' LIMIT 50");
-                        dbClient.AddParameter("query", "%" + searchQuery + "%");
-                        dTable = dbClient.GetTable();
-                    }
-                    else
-                    {
-                        dbClient.SetQuery(
-                            "SELECT * FROM rooms_data WHERE caption = @query AND roomtype = 'private' LIMIT " +
-                            (50 - rooms.Count));
-                        dbClient.AddParameter("query", searchQuery);
-                        dTable = dbClient.GetTable();
-                    }
-                }
-
-                if (dTable != null)
-                {
-                    foreach (RoomData rData in dTable.Rows.Cast<DataRow>().Select(row => Yupi.GetGame()
-                        .GetRoomManager()
-                        .FetchRoomData(Convert.ToUInt32(row["id"]), row)).Where(rData => !rooms.Contains(rData)))
-                        rooms.Add(rData);
-                }
-            }
-
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NavigatorListingsMessageComposer"));
-            messageBuffer.AppendInteger(8);
-            messageBuffer.AppendString(originalQuery);
-            messageBuffer.AppendInteger(rooms.Count);
-
-            foreach (RoomData room in rooms)
-                room.Serialize(messageBuffer);
-
-            messageBuffer.AppendBool(false);
-
-            return messageBuffer;
         }
     }
 }

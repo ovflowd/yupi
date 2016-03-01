@@ -245,6 +245,7 @@ namespace Yupi.Emulator.Messages.Buffers
                 i++;
 
                 int value;
+
                 if (!int.TryParse(text, out value))
                     value = defaultValue;
 

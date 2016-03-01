@@ -27,7 +27,6 @@ using System.Collections.Generic;
 using System.Data;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Emulator.Game.Browser.Models;
-using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Browser
@@ -47,6 +46,9 @@ namespace Yupi.Emulator.Game.Browser
         /// </summary>
         internal string FurniRewardName;
 
+        /// <summary>
+        ///     Hotel View Badges
+        /// </summary>
         internal Dictionary<string, string> HotelViewBadges;
 
         /// <summary>
@@ -62,29 +64,9 @@ namespace Yupi.Emulator.Game.Browser
             HotelViewPromosIndexers = new List<HotelLandingPromos>();
             HotelViewBadges = new Dictionary<string, string>();
 
-            List();
+            LoadPromos();
             LoadReward();
-            LoadHvBadges();
-        }
-
-        /// <summary>
-        ///     Loads the specified index.
-        /// </summary>
-        /// <param name="index">The index.</param>
-        /// <returns>SmallPromo.</returns>
-        public static HotelLandingPromos Load(int index)
-        {
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-            {
-                queryReactor.SetQuery(
-                    "SELECT hotelview_promos.`index`,hotelview_promos.header,hotelview_promos.body,hotelview_promos.button,hotelview_promos.in_game_promo,hotelview_promos.special_action,hotelview_promos.image,hotelview_promos.enabled FROM hotelview_promos WHERE hotelview_promos.`index` = @x LIMIT 1");
-                queryReactor.AddParameter("x", index);
-
-                DataRow row = queryReactor.GetRow();
-
-                return new HotelLandingPromos(index, (string) row[1], (string) row[2], (string) row[3],
-                    Convert.ToInt32(row[4]), (string) row[5], (string) row[6]);
-            }
+            LoadBadges();
         }
 
         /// <summary>
@@ -93,16 +75,17 @@ namespace Yupi.Emulator.Game.Browser
         public void RefreshPromoList()
         {
             HotelViewPromosIndexers.Clear();
-            List();
-            LoadReward();
             HotelViewBadges.Clear();
-            LoadHvBadges();
+
+            LoadPromos();
+            LoadReward();       
+            LoadBadges();
         }
 
         /// <summary>
         ///     Smalls the promo composer.
         /// </summary>
-        /// <param name="message">The messageBuffer.</param>
+        /// <param name="messageBuffer">The messageBuffer.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
         internal SimpleServerMessageBuffer SmallPromoComposer(SimpleServerMessageBuffer messageBuffer)
         {
@@ -121,38 +104,39 @@ namespace Yupi.Emulator.Game.Browser
         {
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery(
-                    "SELECT hotelview_rewards_promos.furni_id, hotelview_rewards_promos.furni_name FROM hotelview_rewards_promos WHERE hotelview_rewards_promos.enabled = 1 LIMIT 1");
+                queryReactor.SetQuery("SELECT * FROM hotelview_rewards_promos WHERE enabled = '1' LIMIT 1");
 
                 DataRow row = queryReactor.GetRow();
 
                 if (row == null)
                     return;
 
-                FurniRewardId = Convert.ToInt32(row[0]);
-                FurniRewardName = Convert.ToString(row[1]);
+                FurniRewardId = Convert.ToInt32(row["furni_id"]);
+
+                FurniRewardName = Convert.ToString(row["furni_name"]);
             }
         }
 
         /// <summary>
         ///     Lists this instance.
         /// </summary>
-        private void List()
+        private void LoadPromos()
         {
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery(
-                    "SELECT * from hotelview_promos WHERE hotelview_promos.enabled = '1' ORDER BY hotelview_promos.`index` DESC");
+                queryReactor.SetQuery("SELECT * FROM hotelview_promos WHERE enabled = '1' ORDER BY id DESC");
+
                 DataTable table = queryReactor.GetTable();
 
+                if (table == null)
+                    return;
+
                 foreach (DataRow dataRow in table.Rows)
-                    HotelViewPromosIndexers.Add(new HotelLandingPromos(Convert.ToInt32(dataRow[0]), (string) dataRow[1],
-                        (string) dataRow[2], (string) dataRow[3], Convert.ToInt32(dataRow[4]), (string) dataRow[5],
-                        (string) dataRow[6]));
+                    HotelViewPromosIndexers.Add(new HotelLandingPromos(Convert.ToInt32(dataRow["index"]), (string) dataRow["header"], (string) dataRow["body"], (string) dataRow["button"], Convert.ToInt32(dataRow["in_game_promo"]), (string) dataRow["special_action"], (string) dataRow["image"]));
             }
         }
 
-        private void LoadHvBadges()
+        private void LoadBadges()
         {
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
@@ -160,8 +144,11 @@ namespace Yupi.Emulator.Game.Browser
 
                 DataTable table = queryReactor.GetTable();
 
+                if (table == null)
+                    return;
+
                 foreach (DataRow dataRow in table.Rows)
-                    HotelViewBadges.Add((string) dataRow[0], (string) dataRow[1]);
+                    HotelViewBadges.Add((string) dataRow["name"], (string) dataRow["badge"]);
             }
         }
     }

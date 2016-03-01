@@ -14380,7 +14380,7 @@ INSERT INTO `hotelview_badges` (`name`, `badge`, `enabled`) VALUES
 
 DROP TABLE IF EXISTS `hotelview_promos`;
 CREATE TABLE `hotelview_promos` (
-  `index` int(10) UNSIGNED NOT NULL,
+  `id` int(10) UNSIGNED NOT NULL,
   `header` varchar(255) NOT NULL DEFAULT '[Header Name]',
   `body` varchar(255) NOT NULL DEFAULT '[BODY]',
   `button` varchar(255) NOT NULL DEFAULT '[BUTTON]',
@@ -14398,9 +14398,8 @@ CREATE TABLE `hotelview_promos` (
 -- Dumping data for table `hotelview_promos`
 --
 
-INSERT INTO `hotelview_promos` (`index`, `header`, `body`, `button`, `in_game_promo`, `special_action`, `image`, `enabled`) VALUES
-(2, 'Hey! Pixar de Cara Nova!', 'É isso mesmo, Pixar Hotel com HabboWEB, e muito mais! Confire mais!', 'Acessando nosso Facebook!', '1', 'https://www.facebook.com/OficialPixarHotel/?fref=ts', 'web_promo_small/spromo_newweb15.png', '1'),
-(3, 'Finalmente! Estabilidade!', 'Após vários dias incansáveis de Manutenção e Reinicializações, Finalmente o Pixar está estável! O Bug de Crash do Emulador foi Corrigido.', 'Aproveite Agora!', '1', 'http://pixarhotel.com.br/', 'web_promo_small/KihabboSmll03.gif', '1');
+INSERT INTO `hotelview_promos` (`id`, `header`, `body`, `button`, `in_game_promo`, `special_action`, `image`, `enabled`) VALUES
+(1, 'Welcome to Yupi!!', 'Yupi Emulator is Right Here!', '', '1', '', 'web_promo_small/spromo_newweb15.png', '1');
 
 -- --------------------------------------------------------
 
@@ -14413,7 +14412,7 @@ CREATE TABLE `hotelview_rewards_promos` (
   `id` int(11) NOT NULL,
   `furni_id` int(11) NOT NULL DEFAULT '100',
   `furni_name` varchar(100) NOT NULL DEFAULT '',
-  `enabled` smallint(5) NOT NULL DEFAULT '0'
+  `enabled` enum('0','1') NOT NULL DEFAULT '1'
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -16778,7 +16777,7 @@ ALTER TABLE `hotelview_badges`
 -- Indexes for table `hotelview_promos`
 --
 ALTER TABLE `hotelview_promos`
-  ADD PRIMARY KEY (`index`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `hotelview_rewards_promos`
@@ -17353,7 +17352,7 @@ ALTER TABLE `groups_members`
 -- AUTO_INCREMENT for table `hotelview_promos`
 --
 ALTER TABLE `hotelview_promos`
-  MODIFY `index` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `hotelview_rewards_promos`
 --

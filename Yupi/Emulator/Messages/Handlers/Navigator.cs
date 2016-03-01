@@ -1,11 +1,33 @@
-﻿using Yupi.Emulator.Data.Base.Adapters.Interfaces;
-using Yupi.Emulator.Game.Browser;
+﻿/**
+     Because i love chocolat...                                      
+                                    88 88  
+                                    "" 88  
+                                       88  
+8b       d8 88       88 8b,dPPYba,  88 88  
+`8b     d8' 88       88 88P'    "8a 88 88  
+ `8b   d8'  88       88 88       d8 88 ""  
+  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa  
+    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88  
+    d8'                 88                 
+   d8'                  88     
+   
+   Private Habbo Hotel Emulating System
+   @author Claudio A. Santoro W.
+   @author Kessiler R.
+   @version dev-beta
+   @license MIT
+   @copyright Sulake Corporation Oy
+   @observation All Rights of Habbo, Habbo Hotel, and all Habbo contents and it's names, is copyright from Sulake
+   Corporation Oy. Yupi! has nothing linked with Sulake. 
+   This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
+*/
+
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Emulator.Game.Browser.Enums;
 using Yupi.Emulator.Game.Browser.Models;
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Rooms.Data;
 using Yupi.Emulator.Messages.Buffers;
-using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Messages.Handlers
 {
@@ -14,25 +36,6 @@ namespace Yupi.Emulator.Messages.Handlers
     /// </summary>
     internal partial class GameClientMessageHandler
     {
-        /// <summary> 
-        ///     Gets the flat cats.
-        /// </summary>
-        internal void GetFlatCats()
-        {
-            if (Session.GetHabbo() == null)
-                return;
-                
-            Session.SendMessage(Yupi.GetGame().GetNavigator().SerializeFlatCategories(Session));
-        }
-
-        /// <summary>
-        ///     Enters the inquired room.
-        /// </summary>
-        internal void EnterInquiredRoom()
-        {
-            
-        }
-
         /// <summary>
         ///     Gets the pub.
         /// </summary>
@@ -45,10 +48,13 @@ namespace Yupi.Emulator.Messages.Handlers
             if (roomData == null)
                 return;
                 
+            //@TODO: What The Hell? Direct Packet?
             GetResponse().Init(PacketLibraryManager.OutgoingRequest("453"));
+
             GetResponse().AppendInteger(roomData.Id);
             GetResponse().AppendString(roomData.CcTs);
             GetResponse().AppendInteger(roomData.Id);
+
             SendResponse();
         }
 
@@ -58,6 +64,7 @@ namespace Yupi.Emulator.Messages.Handlers
         internal void OpenPub()
         {
             Request.GetInteger();
+
             uint roomId = Request.GetUInteger();
             
             Request.GetInteger();
@@ -78,7 +85,7 @@ namespace Yupi.Emulator.Messages.Handlers
             if (Session == null)
                 return;
                 
-            Yupi.GetGame().GetNavigator().EnableNewNavigator(Session);
+            Yupi.GetGame().GetNavigator().InitializeNavigator(Session);
         }
 
         /// <summary>
@@ -90,6 +97,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 return;
                 
             string name = Request.GetString();
+
             string junk = Request.GetString();
             
             Session.SendMessage(Yupi.GetGame().GetNavigator().SerializeNewNavigator(name, junk, Session));
@@ -108,6 +116,7 @@ namespace Yupi.Emulator.Messages.Handlers
             }
             
             string value1 = Request.GetString();
+
             string value2 = Request.GetString();
             
             UserSearchLog naviLogs = new UserSearchLog(Session.GetHabbo().NavigatorLogs.Count, value1, value2);
@@ -116,6 +125,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 Session.GetHabbo().NavigatorLogs.Add(naviLogs.Id, naviLogs);
                 
             SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NavigatorSavedSearchesComposer"));
+
             messageBuffer.AppendInteger(Session.GetHabbo().NavigatorLogs.Count);
             
             foreach (UserSearchLog navi in Session.GetHabbo().NavigatorLogs.Values)
@@ -127,18 +137,6 @@ namespace Yupi.Emulator.Messages.Handlers
             }
             
             Session.SendMessage(messageBuffer);
-        }
-
-        /// <summary>
-        ///     Serializes the saved search.
-        /// </summary>
-        /// <param name="textOne">The text one.</param>
-        /// <param name="textTwo">The text two.</param>
-        internal void SerializeSavedSearch(string textOne, string textTwo)
-        {
-            GetResponse().AppendString(textOne);
-            GetResponse().AppendString(textTwo);
-            GetResponse().AppendString(string.Empty);
         }
 
         /// <summary>
@@ -190,27 +188,6 @@ namespace Yupi.Emulator.Messages.Handlers
         }
 
         /// <summary>
-        ///     News the navigator collapse category.
-        /// </summary>
-        internal void NewNavigatorCollapseCategory() =>  Request.GetString();
-
-        /// <summary>
-        ///     News the navigator uncollapse category.
-        /// </summary>
-        internal void NewNavigatorUncollapseCategory() => Request.GetString();
-
-        /// <summary>
-        ///     Gets the pubs.
-        /// </summary>
-        internal void GetPubs()
-        {
-            if (Session.GetHabbo() == null)
-                return;
-                
-            Session.SendMessage(Yupi.GetGame().GetNavigator().SerializePublicRooms());
-        }
-
-        /// <summary>
         ///     Gets the room information.
         /// </summary>
         internal void GetRoomInfo()
@@ -237,90 +214,6 @@ namespace Yupi.Emulator.Messages.Handlers
         }
 
         /// <summary>
-        ///     Gets the popular rooms.
-        /// </summary>
-        internal void GetPopularRooms()
-        {
-            if (Session.GetHabbo() == null)
-                return;
-                
-            Session.SendMessage(Yupi.GetGame().GetNavigator().SerializeNavigator(Session, int.Parse(Request.GetString())));
-        }
-
-        /// <summary>
-        ///     Gets the recommended rooms.
-        /// </summary>
-        internal void GetRecommendedRooms()
-        {
-            if (Session.GetHabbo() == null)
-                return;
-                
-            Session.SendMessage(Yupi.GetGame().GetNavigator().SerializeNavigator(Session, -1));
-        }
-
-        /// <summary>
-        ///     Gets the popular groups.
-        /// </summary>
-        internal void GetPopularGroups()
-        {
-            if (Session.GetHabbo() == null)
-                return;
-                
-            Session.SendMessage(Yupi.GetGame().GetNavigator().SerializeNavigator(Session, -2));
-        }
-
-        /// <summary>
-        ///     Gets the high rated rooms.
-        /// </summary>
-        internal void GetHighRatedRooms()
-        {
-            if (Session.GetHabbo() == null)
-                return;
-                
-            Session.SendMessage(Yupi.GetGame().GetNavigator().SerializeNavigator(Session, -2));
-        }
-
-        /// <summary>
-        ///     Gets the friends rooms.
-        /// </summary>
-        internal void GetFriendsRooms()
-        {
-            if (Session.GetHabbo() == null)
-                return;
-                
-            Session.SendMessage(Yupi.GetGame().GetNavigator().SerializeNavigator(Session, -4));
-        }
-
-        /// <summary>
-        ///     Gets the rooms with friends.
-        /// </summary>
-        internal void GetRoomsWithFriends()
-        {
-            if (Session.GetHabbo() == null)
-                return;
-                
-            Session.SendMessage(Yupi.GetGame().GetNavigator().SerializeNavigator(Session, -5));
-        }
-
-        /// <summary>
-        ///     Gets the own rooms.
-        /// </summary>
-        internal void GetOwnRooms()
-        {
-            if (Session == null || Session.GetHabbo() == null)
-                return;
-
-            if (Session.GetHabbo().OwnRoomsSerialized == false)
-            {
-                Session.GetHabbo().UpdateRooms();
-                
-                Session.GetHabbo().OwnRoomsSerialized = true;
-            }
-
-            Session.SendMessage(Yupi.GetGame().GetNavigator().SerializeNavigator(Session, -3));
-        }
-
-        /// <summary>
         ///     News the navigator flat cats.
         /// </summary>
         internal void NewNavigatorFlatCats()
@@ -329,87 +222,6 @@ namespace Yupi.Emulator.Messages.Handlers
                 return;
                 
             Session.SendMessage(Yupi.GetGame().GetNavigator().SerializeNewFlatCategories());
-        }
-
-        /// <summary>
-        ///     Gets the favorite rooms.
-        /// </summary>
-        internal void GetFavoriteRooms()
-        {
-            if (Session.GetHabbo() == null)
-                return;
-                
-            Session.SendMessage(Yupi.GetGame().GetNavigator().SerializeFavoriteRooms(Session));
-        }
-
-        /// <summary>
-        ///     Gets the recent rooms.
-        /// </summary>
-        internal void GetRecentRooms()
-        {
-            if (Session.GetHabbo() == null)
-                return;
-                
-            Session.SendMessage(Yupi.GetGame().GetNavigator().SerializeRecentRooms(Session));
-        }
-
-        /// <summary>
-        ///     Gets the popular tags.
-        /// </summary>
-        internal void GetPopularTags()
-        {
-            if (Session.GetHabbo() == null)
-                return;
-                
-            Session.SendMessage(Yupi.GetGame().GetNavigator().SerializePopularRoomTags());
-        }
-
-        /// <summary>
-        ///     Gets the event rooms.
-        /// </summary>
-        internal void GetEventRooms()
-        {
-            if (Session.GetHabbo() == null)
-                return;
-                
-            Session.SendMessage(HotelBrowserManager.SerializePromoted(Session, Request.GetInteger()));
-        }
-
-        /// <summary>
-        ///     Performs the search.
-        /// </summary>
-        internal void PerformSearch()
-        {
-            if (Session.GetHabbo() == null)
-                return;
-                
-            Session.SendMessage(HotelBrowserManager.SerializeSearchResults(Request.GetString()));
-        }
-
-        /// <summary>
-        ///     Searches the by tag.
-        /// </summary>
-        internal void SearchByTag()
-        {
-            if (Session.GetHabbo() == null)
-                return;
-            
-            // What's this Code Above?
-            //this.Session.SendMessage(MercuryEnvironment.GetGame().GetNavigator().SerializeSearchResults(string.Format("tag:{0}", this.Request.PopFixedString())));
-        }
-
-        /// <summary>
-        ///     Performs the search2.
-        /// </summary>
-        internal void PerformSearch2()
-        {
-            if (Session.GetHabbo() == null)
-                return;
-                
-            Request.GetInteger();
-            
-            // What's this Code Above?
-            //this.Session.SendMessage(MercuryEnvironment.GetGame().GetNavigator().SerializeSearchResults(this.Request.PopFixedString()));
         }
 
         /// <summary>
@@ -452,7 +264,7 @@ namespace Yupi.Emulator.Messages.Handlers
                     
                     uint lastInsertId = (uint) queryReactor.InsertQuery();
                     
-                    PublicItem publicItem = new PublicItem(lastInsertId, 0, string.Empty, string.Empty, string.Empty, PublicImageType.Internal, room.RoomId, 0, -2, false, 1, string.Empty);
+                    PublicItem publicItem = new PublicItem(lastInsertId, 0, string.Empty, string.Empty, string.Empty, PublicImageType.Internal, room.RoomId, 0, -2, false, 1);
                     
                     Yupi.GetGame().GetNavigator().AddPublicItem(publicItem);
                 }

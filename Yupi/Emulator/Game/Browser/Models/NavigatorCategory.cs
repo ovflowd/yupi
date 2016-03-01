@@ -63,6 +63,7 @@ namespace Yupi.Emulator.Game.Browser.Models
         /// <param name="caption">The caption.</param>
         /// <param name="isOpened"></param>
         /// <param name="isImage"></param>
+        /// <param name="subCategories"></param>
         internal NavigatorCategory(int id, string caption, bool isOpened, bool isImage, List<NavigatorSubCategory> subCategories)
         {
             Id = id;

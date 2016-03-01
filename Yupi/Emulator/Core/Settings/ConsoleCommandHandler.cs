@@ -200,7 +200,7 @@ namespace Yupi.Emulator.Core.Settings
                         break;
 
                     case "clear":
-                        Program.ShowEnvironmentMessage();
+                        Program.ResetConsole();
 
                         break;
 

@@ -27,10 +27,13 @@ namespace Yupi.Emulator.Game.Commands.Controllers
 
             if (string.IsNullOrEmpty(word))
             {
-                session.SendWhisper("Palabra inválida.");
+                session.SendWhisper("String Can't be Empty!");
+
                 return true;
             }
+
             BlackWordsManager.AddBlackWord(type, word);
+
             return true;
         }
     }

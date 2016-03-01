@@ -31,7 +31,6 @@ using Yupi.Emulator.Game.Browser.Models;
 using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Groups.Structs;
 using Yupi.Emulator.Game.Rooms.Data;
-using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Browser
@@ -46,7 +45,7 @@ namespace Yupi.Emulator.Game.Browser
         /// </summary>
         /// <param name="flatCatId">The flat cat identifier.</param>
         /// <param name="direct">if set to <c>true</c> [direct].</param>
-        /// <param name="message">The messageBuffer.</param>
+        /// <param name="messageBuffer">The messageBuffer.</param>
         internal static void SerializeSearchResultListFlatcats(int flatCatId, bool direct, SimpleServerMessageBuffer messageBuffer)
         {
             PublicCategory flatCat = Yupi.GetGame().GetNavigator().GetFlatCat(flatCatId);
@@ -61,6 +60,7 @@ namespace Yupi.Emulator.Game.Browser
             messageBuffer.AppendInteger(-1);
 
             KeyValuePair<RoomData, uint>[] rooms = Yupi.GetGame().GetRoomManager().GetActiveRooms();
+
             Yupi.GetGame().GetNavigator().SerializeNavigatorPopularRoomsNews(ref messageBuffer, rooms, flatCatId, direct);
         }
 
@@ -69,7 +69,7 @@ namespace Yupi.Emulator.Game.Browser
         /// </summary>
         /// <param name="flatCatId">The flat cat identifier.</param>
         /// <param name="direct">if set to <c>true</c> [direct].</param>
-        /// <param name="message">The messageBuffer.</param>
+        /// <param name="messageBuffer">The messageBuffer.</param>
         internal static void SerializePromotionsResultListFlatcats(int flatCatId, bool direct, SimpleServerMessageBuffer messageBuffer)
         {
             PublicCategory flatCat = Yupi.GetGame().GetNavigator().GetFlatCat(flatCatId);
@@ -81,6 +81,7 @@ namespace Yupi.Emulator.Game.Browser
             messageBuffer.AppendInteger(-1);
 
             KeyValuePair<RoomData, uint>[] rooms = Yupi.GetGame().GetRoomManager().GetEventRooms();
+
             Yupi.GetGame().GetNavigator().SerializeNavigatorPopularRoomsNews(ref messageBuffer, rooms, flatCatId, direct);
         }
 
@@ -89,7 +90,7 @@ namespace Yupi.Emulator.Game.Browser
         /// </summary>
         /// <param name="staticId">The static identifier.</param>
         /// <param name="direct">if set to <c>true</c> [direct].</param>
-        /// <param name="message">The messageBuffer.</param>
+        /// <param name="messageBuffer">The messageBuffer.</param>
         /// <param name="session">The session.</param>
         /// <param name="opened"></param>
         /// <param name="showImage"></param>
@@ -103,11 +104,11 @@ namespace Yupi.Emulator.Game.Browser
                 messageBuffer.AppendString(staticId);
                 messageBuffer.AppendString(string.Empty);
                 messageBuffer.AppendInteger(1);
-                messageBuffer.AppendBool(!opened); // staticId != "my" && staticId != "popular" && staticId != "official-root"
+                messageBuffer.AppendBool(!opened);
                 messageBuffer.AppendInteger(showImage ? 1 : 0);
             }
 
-            KeyValuePair<RoomData, uint>[] rooms;
+            KeyValuePair<RoomData, uint>[] activeRooms;
 
             switch (staticId)
             {
@@ -130,8 +131,8 @@ namespace Yupi.Emulator.Game.Browser
                         foreach (NavigatorSubCategory subCategory in navCategory.SubCategories)
                             SerializeSearchResultListStatics(subCategory.Caption, false, messageBuffer, session, subCategory.IsOpened, subCategory.IsImage);
 
+                        break;
                     }
-                    break;
                 case "myworld_view":
                     {
                         NavigatorCategory navCategory = Yupi.GetGame().GetNavigator().GetNavigatorCategory(staticId);
@@ -139,8 +140,8 @@ namespace Yupi.Emulator.Game.Browser
                         foreach (NavigatorSubCategory subCategory in navCategory.SubCategories)
                             SerializeSearchResultListStatics(subCategory.Caption, false, messageBuffer, session, subCategory.IsOpened, subCategory.IsImage);
 
+                        break;
                     }
-                    break;
                 case "roomads_view":
                     {
                         foreach (PublicCategory flat in Yupi.GetGame().GetNavigator().PrivateCategories.Values)
@@ -167,21 +168,18 @@ namespace Yupi.Emulator.Game.Browser
                     }
                 case "my":
                     {
-                        int i = 0;
-
                         messageBuffer.StartArray();
 
-                        foreach (RoomData data in session.GetHabbo().UsersRooms)
+                        int i = 0;
+
+                        foreach (RoomData data in session.GetHabbo().UsersRooms.Where(data => data != null))
                         {
-                            if (data != null)
-                            {
-                                data.Serialize(messageBuffer);
+                            data.Serialize(messageBuffer);
 
-                                messageBuffer.SaveArray();
+                            messageBuffer.SaveArray();
 
-                                if (i++ == (direct ? 100 : 8))
-                                    break;
-                            }
+                            if (i++ == (direct ? 100 : 8))
+                                break;
                         }
 
                         messageBuffer.EndArray();
@@ -190,30 +188,22 @@ namespace Yupi.Emulator.Game.Browser
                     }
                 case "favorites":
                     {
-                        if (session.GetHabbo().FavoriteRooms == null)
+                        if (session?.GetHabbo()?.FavoriteRooms == null)
                         {
                             messageBuffer.AppendInteger(0);
 
-                            return;
+                            break;
                         }
 
                         int i = 0;
 
-                        messageBuffer.AppendInteger(session.GetHabbo().FavoriteRooms.Count > (direct ? 40 : 8)
-                            ? (direct ? 40 : 8)
-                            : session.GetHabbo().FavoriteRooms.Count);
+                        messageBuffer.AppendInteger(session.GetHabbo().FavoriteRooms.Count > (direct ? 40 : 8) ? (direct ? 40 : 8) : session.GetHabbo().FavoriteRooms.Count);
 
-                        foreach (
-                            RoomData data in
-                                session.GetHabbo()
-                                    .FavoriteRooms.Select(dataId => Yupi.GetGame().GetRoomManager().GenerateRoomData(dataId))
-                                    .Where(data => data != null))
+                        foreach (RoomData data in session.GetHabbo().FavoriteRooms.Select(dataId => Yupi.GetGame().GetRoomManager().GenerateRoomData(dataId)).Where(data => data != null))
                         {
                             data.Serialize(messageBuffer);
 
-                            i++;
-
-                            if (i == (direct ? 40 : 8))
+                            if (i++ == (direct ? 40 : 8))
                                 break;
                         }
 
@@ -221,23 +211,16 @@ namespace Yupi.Emulator.Game.Browser
                     }
                 case "friends_rooms":
                     {
-                        int i = 0;
-
-                        if (session?.GetHabbo() == null || session.GetHabbo().GetMessenger() == null ||
-                            session.GetHabbo().GetMessenger().GetActiveFriendsRooms() == null)
+                        if (session?.GetHabbo()?.GetMessenger()?.GetActiveFriendsRooms() == null)
                         {
                             messageBuffer.AppendInteger(0);
 
-                            return;
+                            break;
                         }
 
-                        List<RoomData> roomsFriends =
-                            session.GetHabbo()
-                                .GetMessenger()
-                                .GetActiveFriendsRooms()
-                                .OrderByDescending(p => p.UsersNow)
-                                .Take(direct ? 40 : 8)
-                                .ToList();
+                        int i = 0;
+
+                        List<RoomData> roomsFriends = session.GetHabbo().GetMessenger().GetActiveFriendsRooms().OrderByDescending(p => p.UsersNow).Take(direct ? 40 : 8).ToList();
 
                         messageBuffer.AppendInteger(roomsFriends.Count);
 
@@ -245,9 +228,7 @@ namespace Yupi.Emulator.Game.Browser
                         {
                             data.Serialize(messageBuffer);
 
-                            i++;
-
-                            if (i == (direct ? 40 : 8))
+                            if (i++ == (direct ? 40 : 8))
                                 break;
                         }
 
@@ -259,29 +240,36 @@ namespace Yupi.Emulator.Game.Browser
                     }
                 case "popular":
                     {
-                        rooms = Yupi.GetGame().GetRoomManager().GetActiveRooms();
+                        activeRooms = Yupi.GetGame().GetRoomManager().GetActiveRooms();
 
-                        if (rooms == null)
+                        if (activeRooms == null)
                         {
                             messageBuffer.AppendInteger(0);
 
                             break;
                         }
 
-                        messageBuffer.AppendInteger(rooms.Length);
+                        messageBuffer.AppendInteger(activeRooms.Length);
 
-                        foreach (KeyValuePair<RoomData, uint> room in rooms)
+                        foreach (KeyValuePair<RoomData, uint> room in activeRooms)
                             room.Key.Serialize(messageBuffer);
 
                         break;
                     }
                 case "top_promotions":
                     {
-                        rooms = Yupi.GetGame().GetRoomManager().GetEventRooms();
+                        activeRooms = Yupi.GetGame().GetRoomManager().GetEventRooms();
 
-                        messageBuffer.AppendInteger(rooms.Length);
+                        if (activeRooms == null)
+                        {
+                            messageBuffer.AppendInteger(0);
 
-                        foreach (KeyValuePair<RoomData, uint> room in rooms)
+                            break;
+                        }
+
+                        messageBuffer.AppendInteger(activeRooms.Length);
+
+                        foreach (KeyValuePair<RoomData, uint> room in activeRooms)
                             room.Key.Serialize(messageBuffer);
 
                         break;
@@ -303,6 +291,7 @@ namespace Yupi.Emulator.Game.Browser
                                 if (data != null)
                                 {
                                     data.Serialize(messageBuffer);
+
                                     messageBuffer.SaveArray();
 
                                     if (i++ == (direct ? 40 : 8))
@@ -321,12 +310,7 @@ namespace Yupi.Emulator.Game.Browser
 
                         messageBuffer.StartArray();
 
-                        foreach (
-                            RoomData roomData in
-                                session.GetHabbo()
-                                    .RecentlyVisitedRooms.Select(
-                                        roomId => Yupi.GetGame().GetRoomManager().GenerateRoomData(roomId))
-                                    .Where(roomData => roomData != null))
+                        foreach (RoomData roomData in session.GetHabbo().RecentlyVisitedRooms.Select(roomId => Yupi.GetGame().GetRoomManager().GenerateRoomData(roomId)).Where(roomData => roomData != null))
                         {
                             roomData.Serialize(messageBuffer);
                             messageBuffer.SaveArray();
@@ -342,10 +326,7 @@ namespace Yupi.Emulator.Game.Browser
                 default:
                     {
                         if (staticId.StartsWith("category__"))
-                            SerializeSearchResultListFlatcats(
-                                Yupi.GetGame()
-                                    .GetNavigator()
-                                    .GetFlatCatIdByName(staticId.Replace("category__", string.Empty)), true, messageBuffer);
+                            SerializeSearchResultListFlatcats(Yupi.GetGame().GetNavigator().GetFlatCatIdByName(staticId.Replace("category__", string.Empty)), true, messageBuffer);
                         else
                             messageBuffer.AppendInteger(0);
 
@@ -358,7 +339,7 @@ namespace Yupi.Emulator.Game.Browser
         ///     Serializes the searches.
         /// </summary>
         /// <param name="searchQuery">The search query.</param>
-        /// <param name="message">The messageBuffer.</param>
+        /// <param name="messageBuffer">The messageBuffer.</param>
         /// <param name="session">The session.</param>
         internal static void SerializeSearches(string searchQuery, SimpleServerMessageBuffer messageBuffer, GameClient session)
         {
@@ -374,11 +355,13 @@ namespace Yupi.Emulator.Game.Browser
             if (searchQuery.StartsWith("owner:"))
             {
                 searchQuery = searchQuery.Replace("owner:", string.Empty);
+
                 containsOwner = true;
             }
             else if (searchQuery.StartsWith("group:"))
             {
                 searchQuery = searchQuery.Replace("group:", string.Empty);
+
                 containsGroup = true;
             }
 
@@ -386,8 +369,7 @@ namespace Yupi.Emulator.Game.Browser
 
             if (!containsOwner)
             {
-                bool initForeach = Yupi.GetGame().GetRoomManager().GetActiveRooms() != null &&
-                                  Yupi.GetGame().GetRoomManager().GetActiveRooms().Any();
+                bool initForeach = Yupi.GetGame().GetRoomManager().GetActiveRooms() != null && Yupi.GetGame().GetRoomManager().GetActiveRooms().Any();
 
                 if (initForeach)
                 {
@@ -409,36 +391,30 @@ namespace Yupi.Emulator.Game.Browser
                 {
                     if (containsOwner)
                     {
-                        dbClient.SetQuery(
-                            "SELECT rooms_data.* FROM rooms_data LEFT OUTER JOIN users ON rooms_data.owner = users.id WHERE users.username LIKE @query AND rooms_data.roomtype = 'private' LIMIT 50");
+                        dbClient.SetQuery("SELECT rooms_data.* FROM rooms_data LEFT OUTER JOIN users ON rooms_data.owner = users.id WHERE users.username LIKE @query AND rooms_data.roomtype = 'private' LIMIT 50");
                         dbClient.AddParameter("query", searchQuery);
+
                         dTable = dbClient.GetTable();
                     }
                     else if (containsGroup)
                     {
-                        dbClient.SetQuery(
-                            "SELECT * FROM rooms_data JOIN groups_data ON rooms_data.id = groups_data.room_id WHERE groups_data.group_name LIKE @query AND roomtype = 'private' LIMIT 50");
+                        dbClient.SetQuery("SELECT * FROM rooms_data JOIN groups_data ON rooms_data.id = groups_data.room_id WHERE groups_data.group_name LIKE @query AND roomtype = 'private' LIMIT 50");
                         dbClient.AddParameter("query", $"%{searchQuery}%");
+
                         dTable = dbClient.GetTable();
                     }
                     else
                     {
-                        dbClient.SetQuery(
-                            $"SELECT * FROM rooms_data WHERE caption LIKE @query AND roomtype = 'private' LIMIT {50 - rooms.Count}");
+                        dbClient.SetQuery($"SELECT * FROM rooms_data WHERE caption LIKE @query AND roomtype = 'private' LIMIT {50 - rooms.Count}");
                         dbClient.AddParameter("query", searchQuery);
+
                         dTable = dbClient.GetTable();
                     }
                 }
 
                 if (dTable != null)
                 {
-                    foreach (
-                        RoomData rData in
-                            dTable.Rows.Cast<DataRow>()
-                                .Select(
-                                    row =>
-                                        Yupi.GetGame().GetRoomManager().FetchRoomData(Convert.ToUInt32(row["id"]), row))
-                                .Where(rData => !rooms.Contains(rData)))
+                    foreach (RoomData rData in dTable.Rows.Cast<DataRow>().Select(row => Yupi.GetGame().GetRoomManager().FetchRoomData(Convert.ToUInt32(row["id"]), row)).Where(rData => !rooms.Contains(rData)))
                         rooms.Add(rData);
                 }
             }

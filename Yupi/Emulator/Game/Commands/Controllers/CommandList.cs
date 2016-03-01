@@ -27,6 +27,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
             if (ServerExtraSettings.NewPageCommands)
             {
                 session.SendMessage(StaticMessage.NewWayToOpenCommandsList);
+
                 return true;
             }
 
