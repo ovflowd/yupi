@@ -28,7 +28,6 @@ using Yupi.Emulator.Game.Rooms.User.Path;
 using Yupi.Emulator.Game.SoundMachine;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
-using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Items.Interfaces
 {
@@ -1337,7 +1336,7 @@ namespace Yupi.Emulator.Game.Items.Interfaces
 
                             clientByUserId.GetHabbo().Look = text;
 
-                            clientByUserId.GetMessageHandler().GetResponse().Init(PacketLibraryManager.OutgoingRequest("UpdateUserDataMessageComposer"));
+                            clientByUserId.GetMessageHandler().GetResponse().Init(PacketLibraryManager.SendRequest("UpdateUserDataMessageComposer"));
                             clientByUserId.GetMessageHandler().GetResponse().AppendInteger(-1);
                             clientByUserId.GetMessageHandler().GetResponse().AppendString(clientByUserId.GetHabbo().Look);
                             clientByUserId.GetMessageHandler().GetResponse().AppendString(clientByUserId.GetHabbo().Gender.ToLower());
@@ -1345,7 +1344,7 @@ namespace Yupi.Emulator.Game.Items.Interfaces
                             clientByUserId.GetMessageHandler().GetResponse().AppendInteger(clientByUserId.GetHabbo().AchievementPoints);
                             clientByUserId.GetMessageHandler().SendResponse();
 
-                            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UpdateUserDataMessageComposer"));
+                            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("UpdateUserDataMessageComposer"));
                             simpleServerMessageBuffer.AppendInteger(InteractingUser2);
                             simpleServerMessageBuffer.AppendString(clientByUserId.GetHabbo().Look);
                             simpleServerMessageBuffer.AppendString(clientByUserId.GetHabbo().Gender.ToLower());
@@ -1458,7 +1457,7 @@ namespace Yupi.Emulator.Game.Items.Interfaces
 
             if (IsFloorItem)
             {
-                simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingRequest("UpdateFloorItemExtraDataMessageComposer"));
+                simpleServerMessageBuffer.Init(PacketLibraryManager.SendRequest("UpdateFloorItemExtraDataMessageComposer"));
                 simpleServerMessageBuffer.AppendString(Id.ToString());
 
                 switch (GetBaseItem().InteractionType)
@@ -1567,7 +1566,7 @@ namespace Yupi.Emulator.Game.Items.Interfaces
 
             if (IsWallItem)
             {
-                simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingRequest("UpdateRoomWallItemMessageComposer"));
+                simpleServerMessageBuffer.Init(PacketLibraryManager.SendRequest("UpdateRoomWallItemMessageComposer"));
 
                 Serialize(simpleServerMessageBuffer);
             }

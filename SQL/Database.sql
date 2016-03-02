@@ -15535,9 +15535,9 @@ CREATE TABLE `rooms_data` (
 
 DROP TABLE IF EXISTS `rooms_events`;
 CREATE TABLE `rooms_events` (
-  `roomid` int(11) UNSIGNED NOT NULL DEFAULT '0',
+  `room_id` int(11) UNSIGNED NOT NULL DEFAULT '0',
   `name` varchar(255) NOT NULL,
-  `desc` text NOT NULL,
+  `description` text NOT NULL,
   `expire` int(255) NOT NULL DEFAULT '0',
   `category` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -16400,7 +16400,7 @@ CREATE TABLE `users_polls` (
 
 DROP TABLE IF EXISTS `users_preferences`;
 CREATE TABLE `users_preferences` (
-  `userid` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `volume` varchar(11) NOT NULL DEFAULT '100,100,100',
   `prefer_old_chat` enum('0','1') NOT NULL DEFAULT '0',
   `ignore_room_invite` enum('0','1') NOT NULL DEFAULT '0',
@@ -17030,7 +17030,7 @@ ALTER TABLE `rooms_data`
 -- Indexes for table `rooms_events`
 --
 ALTER TABLE `rooms_events`
-  ADD PRIMARY KEY (`roomid`);
+  ADD PRIMARY KEY (`room_id`);
 
 --
 -- Indexes for table `rooms_models`
@@ -17200,7 +17200,7 @@ ALTER TABLE `users_polls`
 -- Indexes for table `users_preferences`
 --
 ALTER TABLE `users_preferences`
-  ADD PRIMARY KEY (`userid`);
+  ADD PRIMARY KEY (`user_id`);
 
 --
 -- Indexes for table `users_quests`

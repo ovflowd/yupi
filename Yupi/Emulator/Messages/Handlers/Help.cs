@@ -18,7 +18,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void InitHelpTool()
         {
-            Response.Init(PacketLibraryManager.OutgoingRequest("OpenHelpToolMessageComposer"));
+            Response.Init(PacketLibraryManager.SendRequest("OpenHelpToolMessageComposer"));
 
             if (!Yupi.GetGame().GetModerationTool().UsersHasPendingTicket(Session.GetHabbo().Id))
             {
@@ -62,7 +62,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 chats.Add(Request.GetString());
             }
 
-            Response.Init(PacketLibraryManager.OutgoingRequest("TicketUserAlert"));
+            Response.Init(PacketLibraryManager.SendRequest("TicketUserAlert"));
 
             if (Yupi.GetGame().GetModerationTool().UsersHasPendingTicket(Session.GetHabbo().Id))
             {
@@ -101,7 +101,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
             Yupi.GetGame().GetModerationTool().DeletePendingTicketForUser(Session.GetHabbo().Id);
 
-            Response.Init(PacketLibraryManager.OutgoingRequest("OpenHelpToolMessageComposer"));
+            Response.Init(PacketLibraryManager.SendRequest("OpenHelpToolMessageComposer"));
             Response.AppendInteger(0);
             SendResponse();
         }
@@ -260,7 +260,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
             string message = Request.GetString();
 
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("SuperNotificationMessageComposer"));
             simpleServerMessageBuffer.AppendString("admin");
             simpleServerMessageBuffer.AppendInteger(3);
             simpleServerMessageBuffer.AppendString("message");

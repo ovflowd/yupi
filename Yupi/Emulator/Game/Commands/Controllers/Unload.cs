@@ -5,7 +5,6 @@ using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Rooms.User;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
-using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Commands.Controllers
 {
@@ -44,7 +43,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
 
             Yupi.GetGame().GetRoomManager().LoadRoom(roomId);
 
-            SimpleServerMessageBuffer roomFwd = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("RoomForwardMessageComposer"));
+            SimpleServerMessageBuffer roomFwd = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("RoomForwardMessageComposer"));
             roomFwd.AppendInteger(roomId);
 
             byte[] data = roomFwd.GetReversedBytes();

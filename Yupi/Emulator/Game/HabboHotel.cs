@@ -21,6 +21,7 @@ using Yupi.Emulator.Game.Polls;
 using Yupi.Emulator.Game.RoomBots;
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Rooms.Data;
+using Yupi.Emulator.Game.Rooms.Events;
 using Yupi.Emulator.Game.SoundMachine;
 using Yupi.Emulator.Game.Support;
 using Yupi.Emulator.Game.Users;
@@ -28,8 +29,6 @@ using Yupi.Emulator.Game.Users.Fuses;
 using Yupi.Emulator.Game.Users.Guides;
 using Yupi.Emulator.Game.Users.Messenger.Structs;
 using Yupi.Emulator.Messages;
-using Yupi.Emulator.Messages.Enums;
-using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game
 {
@@ -79,9 +78,9 @@ namespace Yupi.Emulator.Game
         private readonly CrackableEggHandler _crackableEggHandler;
 
         /// <summary>
-        ///     The _events
+        ///     The _eventsManager
         /// </summary>
-        private readonly RoomEvents _events;
+        private readonly RoomEventsManager _eventsManager;
 
         /// <summary>
         ///     The _group manager
@@ -258,7 +257,7 @@ namespace Yupi.Emulator.Game
                 _botManager = new BotManager();
 
                 Progress(bar, wait, end, "Loading Events...");
-                _events = new RoomEvents();
+                _eventsManager = new RoomEventsManager();
 
                 Progress(bar, wait, end, "Loading Talents...");
                 _talentManager = new TalentManager();
@@ -313,7 +312,7 @@ namespace Yupi.Emulator.Game
                 CrossDomainSettings.Set();
 
                 Progress(bar, wait, end, "Loading Public Rooms...");
-                _navigatorManager.LoadNewPublicRooms();
+                _navigatorManager.LoadPublicRooms();
 
                 Progress(bar, wait, end, "Loading Pets Types...");
                 PetTypeManager.Load();
@@ -432,8 +431,8 @@ namespace Yupi.Emulator.Game
         /// <summary>
         ///     Gets the room events.
         /// </summary>
-        /// <returns>RoomEvents.</returns>
-        internal RoomEvents GetRoomEvents() => _events;
+        /// <returns>RoomEventsManager.</returns>
+        internal RoomEventsManager GetRoomEvents() => _eventsManager;
 
         /// <summary>
         ///     Gets the guide manager.

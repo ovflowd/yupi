@@ -7,6 +7,7 @@ using Yupi.Emulator.Game.Items.Interactions;
 using Yupi.Emulator.Game.Items.Interactions.Enums;
 using Yupi.Emulator.Game.Items.Interfaces;
 using Yupi.Emulator.Game.Rooms.Data;
+using Yupi.Emulator.Game.Rooms.Events.Delegate;
 using Yupi.Emulator.Game.Rooms.Items.Games.Teams;
 using Yupi.Emulator.Game.Rooms.Items.Games.Teams.Enums;
 using Yupi.Emulator.Game.Rooms.User;

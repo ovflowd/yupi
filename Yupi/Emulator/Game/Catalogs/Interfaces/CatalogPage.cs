@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using Yupi.Emulator.Game.Catalogs.Composers;
-using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Catalogs.Interfaces

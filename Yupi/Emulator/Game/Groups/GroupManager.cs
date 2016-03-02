@@ -35,7 +35,6 @@ using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Users;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
-using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Groups
 {
@@ -506,7 +505,7 @@ namespace Yupi.Emulator.Game.Groups
             DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0);
             DateTime dateTime2 = dateTime.AddSeconds(group.CreateTime);
 
-            response.Init(PacketLibraryManager.OutgoingRequest("GroupDataMessageComposer"));
+            response.Init(PacketLibraryManager.SendRequest("GroupDataMessageComposer"));
 
             response.AppendInteger(group.Id);
             response.AppendBool(true);
@@ -555,7 +554,7 @@ namespace Yupi.Emulator.Game.Groups
             DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0);
             DateTime dateTime2 = dateTime.AddSeconds(group.CreateTime);
 
-            response.Init(PacketLibraryManager.OutgoingRequest("GroupDataMessageComposer"));
+            response.Init(PacketLibraryManager.SendRequest("GroupDataMessageComposer"));
 
             response.AppendInteger(group.Id);
             response.AppendBool(true);

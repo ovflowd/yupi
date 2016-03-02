@@ -13,7 +13,6 @@ using Yupi.Emulator.Game.Rooms.Items.Games.Teams.Enums;
 using Yupi.Emulator.Game.Rooms.User;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
-using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Banzai
 {
@@ -197,7 +196,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Banzai
                         .ProgressUserAchievement(avatar.GetClient(), "ACH_BattleBallWinner", 1);
                 }
 
-                SimpleServerMessageBuffer waveAtWin = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("RoomUserActionMessageComposer"));
+                SimpleServerMessageBuffer waveAtWin = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("RoomUserActionMessageComposer"));
                 waveAtWin.AppendInteger(avatar.VirtualId);
                 waveAtWin.AppendInteger(1);
                 _room.SendMessage(waveAtWin);
@@ -219,7 +218,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Banzai
             item.UpdateNeeded = true;
             item.UpdateState();
 
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("ItemAnimationMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("ItemAnimationMessageComposer"));
             simpleServerMessageBuffer.AppendInteger(oldRoomCoord.X);
             simpleServerMessageBuffer.AppendInteger(oldRoomCoord.Y);
             simpleServerMessageBuffer.AppendInteger(newX);

@@ -8,7 +8,6 @@ using Yupi.Emulator.Game.Items.Wired.Interfaces;
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
-using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 {
@@ -41,7 +40,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
             {
                 case Interaction.TriggerTimer:
                 {
-                    SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredTriggerMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredTriggerMessageComposer"));
                     simpleServerMessageBuffer.AppendBool(false);
                     simpleServerMessageBuffer.AppendInteger(5);
                     simpleServerMessageBuffer.AppendInteger(list.Count);
@@ -60,7 +59,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 }
                 case Interaction.TriggerRoomEnter:
                 {
-                    SimpleServerMessageBuffer simpleServerMessage2 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredTriggerMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessage2 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredTriggerMessageComposer"));
                     simpleServerMessage2.AppendBool(false);
                     simpleServerMessage2.AppendInteger(0);
                     simpleServerMessage2.AppendInteger(list.Count);
@@ -79,7 +78,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 }
                 case Interaction.TriggerGameEnd:
                 {
-                    SimpleServerMessageBuffer simpleServerMessage3 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredTriggerMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessage3 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredTriggerMessageComposer"));
                     simpleServerMessage3.AppendBool(false);
                     simpleServerMessage3.AppendInteger(0);
                     simpleServerMessage3.AppendInteger(list.Count);
@@ -98,7 +97,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 }
                 case Interaction.TriggerGameStart:
                 {
-                    SimpleServerMessageBuffer simpleServerMessage4 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredTriggerMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessage4 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredTriggerMessageComposer"));
                     simpleServerMessage4.AppendBool(false);
                     simpleServerMessage4.AppendInteger(0);
                     simpleServerMessage4.AppendInteger(list.Count);
@@ -117,7 +116,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 }
                 case Interaction.TriggerLongRepeater:
                 {
-                    SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredTriggerMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredTriggerMessageComposer"));
                     simpleServerMessageBuffer.AppendBool(false);
                     simpleServerMessageBuffer.AppendInteger(5);
                     simpleServerMessageBuffer.AppendInteger(0);
@@ -135,7 +134,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 
                 case Interaction.TriggerRepeater:
                 {
-                    SimpleServerMessageBuffer simpleServerMessage5 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredTriggerMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessage5 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredTriggerMessageComposer"));
                     simpleServerMessage5.AppendBool(false);
                     simpleServerMessage5.AppendInteger(5);
                     simpleServerMessage5.AppendInteger(list.Count);
@@ -154,7 +153,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 }
                 case Interaction.TriggerOnUserSay:
                 {
-                    SimpleServerMessageBuffer simpleServerMessage6 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredTriggerMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessage6 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredTriggerMessageComposer"));
                     simpleServerMessage6.AppendBool(false);
                     simpleServerMessage6.AppendInteger(0);
                     simpleServerMessage6.AppendInteger(list.Count);
@@ -173,7 +172,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 }
                 case Interaction.TriggerScoreAchieved:
                 {
-                    SimpleServerMessageBuffer simpleServerMessage7 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredTriggerMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessage7 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredTriggerMessageComposer"));
                     simpleServerMessage7.AppendBool(false);
                     simpleServerMessage7.AppendInteger(5);
                     simpleServerMessage7.AppendInteger(0);
@@ -191,7 +190,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 }
                 case Interaction.TriggerStateChanged:
                 {
-                    SimpleServerMessageBuffer simpleServerMessage8 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredTriggerMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessage8 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredTriggerMessageComposer"));
                     simpleServerMessage8.AppendBool(false);
                     simpleServerMessage8.AppendInteger(5);
                     simpleServerMessage8.AppendInteger(list.Count);
@@ -210,7 +209,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 }
                 case Interaction.TriggerWalkOnFurni:
                 {
-                    SimpleServerMessageBuffer simpleServerMessage9 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredTriggerMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessage9 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredTriggerMessageComposer"));
                     simpleServerMessage9.AppendBool(false);
                     simpleServerMessage9.AppendInteger(5);
                     simpleServerMessage9.AppendInteger(list.Count);
@@ -229,7 +228,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 }
                 case Interaction.ActionMuteUser:
                 {
-                    SimpleServerMessageBuffer simpleServerMessage18 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessage18 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredEffectMessageComposer"));
                     simpleServerMessage18.AppendBool(false);
                     simpleServerMessage18.AppendInteger(5);
                     simpleServerMessage18.AppendInteger(0);
@@ -247,7 +246,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 }
                 case Interaction.TriggerWalkOffFurni:
                 {
-                    SimpleServerMessageBuffer simpleServerMessage10 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredTriggerMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessage10 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredTriggerMessageComposer"));
                     simpleServerMessage10.AppendBool(false);
                     simpleServerMessage10.AppendInteger(5);
                     simpleServerMessage10.AppendInteger(list.Count);
@@ -268,7 +267,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 
                 case Interaction.TriggerCollision:
                 {
-                    SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredTriggerMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredTriggerMessageComposer"));
                     simpleServerMessageBuffer.AppendBool(false);
                     simpleServerMessageBuffer.AppendInteger(5);
                     simpleServerMessageBuffer.AppendInteger(0);
@@ -286,7 +285,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 case Interaction.ActionGiveScore:
                 {
                     // Por hacer.
-                    SimpleServerMessageBuffer simpleServerMessage11 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessage11 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredEffectMessageComposer"));
                     simpleServerMessage11.AppendBool(false);
                     simpleServerMessage11.AppendInteger(5);
                     simpleServerMessage11.AppendInteger(0);
@@ -317,7 +316,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 case Interaction.ConditionGroupMember:
                 case Interaction.ConditionNotGroupMember:
                 {
-                    SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredConditionMessageComposer"));
+                    SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredConditionMessageComposer"));
                     messageBuffer.AppendBool(false);
                     messageBuffer.AppendInteger(5);
                     messageBuffer.AppendInteger(0);
@@ -335,7 +334,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 case Interaction.ConditionItemsDontMatch:
                 {
                     SimpleServerMessageBuffer simpleServerMessage21 =
-                        new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredConditionMessageComposer"));
+                        new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredConditionMessageComposer"));
                     simpleServerMessage21.AppendBool(false);
                     simpleServerMessage21.AppendInteger(5);
                     simpleServerMessage21.AppendInteger(list.Count);
@@ -366,7 +365,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 
                 case Interaction.ActionPosReset:
                 {
-                    SimpleServerMessageBuffer simpleServerMessage12 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessage12 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredEffectMessageComposer"));
                     simpleServerMessage12.AppendBool(false);
                     simpleServerMessage12.AppendInteger(5);
                     simpleServerMessage12.AppendInteger(list.Count);
@@ -398,7 +397,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 }
                 case Interaction.ActionMoveRotate:
                 {
-                    SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredEffectMessageComposer"));
                     simpleServerMessageBuffer.AppendBool(false);
                     simpleServerMessageBuffer.AppendInteger(5);
 
@@ -422,7 +421,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 
                 case Interaction.ActionMoveToDir:
                 {
-                    SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredEffectMessageComposer"));
                     simpleServerMessageBuffer.AppendBool(false);
                     simpleServerMessageBuffer.AppendInteger(5);
 
@@ -446,7 +445,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 
                 case Interaction.ActionResetTimer:
                 {
-                    SimpleServerMessageBuffer simpleServerMessage14 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessage14 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredEffectMessageComposer"));
                     simpleServerMessage14.AppendBool(false);
                     simpleServerMessage14.AppendInteger(0);
                     simpleServerMessage14.AppendInteger(0);
@@ -466,7 +465,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 case Interaction.ActionKickUser:
                 case Interaction.ActionEffectUser:
                 {
-                    SimpleServerMessageBuffer simpleServerMessage15 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessage15 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredEffectMessageComposer"));
                     simpleServerMessage15.AppendBool(false);
                     simpleServerMessage15.AppendInteger(0);
                     simpleServerMessage15.AppendInteger(list.Count);
@@ -485,7 +484,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 }
                 case Interaction.ActionTeleportTo:
                 {
-                    SimpleServerMessageBuffer simpleServerMessage16 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessage16 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredEffectMessageComposer"));
                     simpleServerMessage16.AppendBool(false);
                     simpleServerMessage16.AppendInteger(5);
 
@@ -506,7 +505,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 }
                 case Interaction.ActionToggleState:
                 {
-                    SimpleServerMessageBuffer simpleServerMessage17 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessage17 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredEffectMessageComposer"));
                     simpleServerMessage17.AppendBool(false);
                     simpleServerMessage17.AppendInteger(5);
                     simpleServerMessage17.AppendInteger(list.Count);
@@ -526,7 +525,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 case Interaction.ActionGiveReward:
                 {
                     if (!session.GetHabbo().HasFuse("fuse_use_superwired")) return;
-                    SimpleServerMessageBuffer simpleServerMessage18 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessage18 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredEffectMessageComposer"));
                     simpleServerMessage18.AppendBool(false);
                     simpleServerMessage18.AppendInteger(5);
                     simpleServerMessage18.AppendInteger(0);
@@ -549,7 +548,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 case Interaction.ConditionNegativeHowManyUsers:
                 {
                     SimpleServerMessageBuffer simpleServerMessage19 =
-                        new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredConditionMessageComposer"));
+                        new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredConditionMessageComposer"));
                     simpleServerMessage19.AppendBool(false);
                     simpleServerMessage19.AppendInteger(5);
                     simpleServerMessage19.AppendInteger(0);
@@ -581,7 +580,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 case Interaction.ConditionTriggererNotOnFurni:
                 {
                     SimpleServerMessageBuffer simpleServerMessage19 =
-                        new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredConditionMessageComposer"));
+                        new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredConditionMessageComposer"));
                     simpleServerMessage19.AppendBool(false);
                     simpleServerMessage19.AppendInteger(5);
                     simpleServerMessage19.AppendInteger(list.Count);
@@ -600,7 +599,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 case Interaction.ConditionFurniHasFurni:
                 {
                     SimpleServerMessageBuffer simpleServerMessageBuffer =
-                        new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredConditionMessageComposer"));
+                        new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredConditionMessageComposer"));
                     simpleServerMessageBuffer.AppendBool(false);
                     simpleServerMessageBuffer.AppendInteger(5);
                     simpleServerMessageBuffer.AppendInteger(list.Count);
@@ -621,7 +620,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 case Interaction.ConditionTimeMoreThan:
                 {
                     SimpleServerMessageBuffer simpleServerMessage21 =
-                        new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredConditionMessageComposer"));
+                        new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredConditionMessageComposer"));
                     simpleServerMessage21.AppendBool(false);
                     simpleServerMessage21.AppendInteger(0);
                     simpleServerMessage21.AppendInteger(0);
@@ -645,7 +644,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                     int effect;
                     int.TryParse(extraInfo, out effect);
                     SimpleServerMessageBuffer simpleServerMessage21 =
-                        new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredConditionMessageComposer"));
+                        new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredConditionMessageComposer"));
                     simpleServerMessage21.AppendBool(false);
                     simpleServerMessage21.AppendInteger(5);
                     simpleServerMessage21.AppendInteger(0);
@@ -665,7 +664,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 case Interaction.ConditionUserHasFurni:
                 {
                     SimpleServerMessageBuffer simpleServerMessage21 =
-                        new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredConditionMessageComposer"));
+                        new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredConditionMessageComposer"));
                     simpleServerMessage21.AppendBool(false);
                     simpleServerMessage21.AppendInteger(5);
                     simpleServerMessage21.AppendInteger(0);
@@ -695,7 +694,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                     }
 
                     SimpleServerMessageBuffer simpleServerMessage21 =
-                        new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredConditionMessageComposer"));
+                        new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredConditionMessageComposer"));
                     simpleServerMessage21.AppendBool(false);
                     simpleServerMessage21.AppendInteger(5);
                     simpleServerMessage21.AppendInteger(0);
@@ -712,7 +711,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 }
                 case Interaction.ActionJoinTeam:
                 {
-                    SimpleServerMessageBuffer simpleServerMessage15 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessage15 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredEffectMessageComposer"));
                     simpleServerMessage15.AppendBool(false);
                     simpleServerMessage15.AppendInteger(0);
                     simpleServerMessage15.AppendInteger(0);
@@ -730,7 +729,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 }
                 case Interaction.ActionLeaveTeam:
                 {
-                    SimpleServerMessageBuffer simpleServerMessage15 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessage15 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredEffectMessageComposer"));
                     simpleServerMessage15.AppendBool(false);
                     simpleServerMessage15.AppendInteger(0);
                     simpleServerMessage15.AppendInteger(0);
@@ -747,7 +746,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 }
                 case Interaction.TriggerBotReachedAvatar:
                 {
-                    SimpleServerMessageBuffer simpleServerMessage2 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredTriggerMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessage2 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredTriggerMessageComposer"));
                     simpleServerMessage2.AppendBool(false);
                     simpleServerMessage2.AppendInteger(0);
                     simpleServerMessage2.AppendInteger(list.Count);
@@ -766,7 +765,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 }
                 case Interaction.TriggerBotReachedStuff:
                 {
-                    SimpleServerMessageBuffer simpleServerMessage2 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredTriggerMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessage2 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredTriggerMessageComposer"));
                     simpleServerMessage2.AppendBool(false);
                     simpleServerMessage2.AppendInteger(5);
                     simpleServerMessage2.AppendInteger(list.Count);
@@ -785,7 +784,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 }
                 case Interaction.ActionBotClothes:
                 {
-                    SimpleServerMessageBuffer simpleServerMessage15 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessage15 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredEffectMessageComposer"));
                     simpleServerMessage15.AppendBool(false);
                     simpleServerMessage15.AppendInteger(0);
                     simpleServerMessage15.AppendInteger(0);
@@ -802,7 +801,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 }
                 case Interaction.ActionBotFollowAvatar:
                 {
-                    SimpleServerMessageBuffer simpleServerMessage15 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessage15 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredEffectMessageComposer"));
                     simpleServerMessage15.AppendBool(false);
                     simpleServerMessage15.AppendInteger(0);
                     simpleServerMessage15.AppendInteger(0);
@@ -819,7 +818,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 }
                 case Interaction.ActionBotGiveHanditem:
                 {
-                    SimpleServerMessageBuffer simpleServerMessage15 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessage15 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredEffectMessageComposer"));
                     simpleServerMessage15.AppendBool(false);
                     simpleServerMessage15.AppendInteger(0);
                     simpleServerMessage15.AppendInteger(0);
@@ -837,7 +836,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 }
                 case Interaction.ActionBotMove:
                 {
-                    SimpleServerMessageBuffer simpleServerMessage15 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessage15 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredEffectMessageComposer"));
                     simpleServerMessage15.AppendBool(false);
                     simpleServerMessage15.AppendInteger(5);
                     simpleServerMessage15.AppendInteger(list.Count);
@@ -855,7 +854,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 }
                 case Interaction.ActionBotTalk:
                 {
-                    SimpleServerMessageBuffer simpleServerMessage15 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessage15 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredEffectMessageComposer"));
                     simpleServerMessage15.AppendBool(false);
                     simpleServerMessage15.AppendInteger(0);
                     simpleServerMessage15.AppendInteger(0);
@@ -873,7 +872,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 }
                 case Interaction.ActionBotTalkToAvatar:
                 {
-                    SimpleServerMessageBuffer simpleServerMessage15 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessage15 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredEffectMessageComposer"));
                     simpleServerMessage15.AppendBool(false);
                     simpleServerMessage15.AppendInteger(0);
                     simpleServerMessage15.AppendInteger(0);
@@ -891,7 +890,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 }
                 case Interaction.ActionBotTeleport:
                 {
-                    SimpleServerMessageBuffer simpleServerMessage15 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessage15 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredEffectMessageComposer"));
                     simpleServerMessage15.AppendBool(false);
                     simpleServerMessage15.AppendInteger(5);
                     simpleServerMessage15.AppendInteger(list.Count);
@@ -909,7 +908,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 }
                 case Interaction.ActionChase:
                 {
-                    SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredEffectMessageComposer"));
                     simpleServerMessageBuffer.AppendBool(false);
                     simpleServerMessageBuffer.AppendInteger(5);
 
@@ -932,7 +931,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 case Interaction.ConditionUserHasHanditem:
                 {
                     SimpleServerMessageBuffer simpleServerMessage21 =
-                        new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredConditionMessageComposer"));
+                        new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredConditionMessageComposer"));
                     simpleServerMessage21.AppendBool(false);
                     simpleServerMessage21.AppendInteger(0);
                     simpleServerMessage21.AppendInteger(0);
@@ -947,7 +946,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 }
                 case Interaction.ActionCallStacks:
                 {
-                    SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredEffectMessageComposer"));
                     simpleServerMessageBuffer.AppendBool(false);
                     simpleServerMessageBuffer.AppendInteger(5);
                     simpleServerMessageBuffer.AppendInteger(list.Count);
@@ -977,7 +976,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 
                 case Interaction.SpecialRandom:
                 {
-                    SimpleServerMessageBuffer simpleServerMessage24 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessage24 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredEffectMessageComposer"));
                     simpleServerMessage24.AppendBool(false);
                     simpleServerMessage24.AppendInteger(5);
                     simpleServerMessage24.AppendInteger(list.Count);
@@ -996,7 +995,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 }
                 case Interaction.SpecialUnseen:
                 {
-                    SimpleServerMessageBuffer simpleServerMessage25 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("WiredEffectMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessage25 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredEffectMessageComposer"));
                     simpleServerMessage25.AppendBool(false);
                     simpleServerMessage25.AppendInteger(5);
                     simpleServerMessage25.AppendInteger(list.Count);

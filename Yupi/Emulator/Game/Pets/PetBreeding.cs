@@ -24,7 +24,6 @@
 
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
-using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Pets
 {
@@ -82,7 +81,7 @@ namespace Yupi.Emulator.Game.Pets
         /// <returns>SimpleServerMessageBuffer.</returns>
         internal static SimpleServerMessageBuffer GetMessage(uint furniId, Pet pet1, Pet pet2)
         {
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("PetBreedMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("PetBreedMessageComposer"));
 
             messageBuffer.AppendInteger(furniId);
             messageBuffer.AppendInteger(pet1.PetId);

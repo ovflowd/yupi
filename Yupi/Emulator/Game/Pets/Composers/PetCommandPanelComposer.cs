@@ -3,7 +3,6 @@ using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Pets.Structs;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
-using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Pets.Composers
 {
@@ -12,7 +11,7 @@ namespace Yupi.Emulator.Game.Pets.Composers
         internal static void GenerateMessage(Pet pet, Dictionary<uint, PetCommand> totalPetCommands,
             Dictionary<uint, PetCommand> petCommands, GameClient owner)
         {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("PetTrainerPanelMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("PetTrainerPanelMessageComposer"));
 
             simpleServerMessageBuffer.AppendInteger(pet.PetId);
 

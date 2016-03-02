@@ -5,7 +5,6 @@ using Yupi.Emulator.Game.Items.Interfaces;
 using Yupi.Emulator.Game.SoundMachine.Songs;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
-using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.SoundMachine.Composers
 {
@@ -21,7 +20,7 @@ namespace Yupi.Emulator.Game.SoundMachine.Composers
         /// <returns>SimpleServerMessageBuffer.</returns>
         public static SimpleServerMessageBuffer Compose(List<SongData> songs)
         {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("SongsMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("SongsMessageComposer"));
             simpleServerMessageBuffer.AppendInteger(songs.Count);
 
             foreach (SongData current in songs)
@@ -46,7 +45,7 @@ namespace Yupi.Emulator.Game.SoundMachine.Composers
         /// <returns>SimpleServerMessageBuffer.</returns>
         public static SimpleServerMessageBuffer ComposePlayingComposer(uint songId, int playlistItemNumber, int syncTimestampMs)
         {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("JukeboxNowPlayingMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("JukeboxNowPlayingMessageComposer"));
 
             if (songId == 0u)
             {
@@ -84,7 +83,7 @@ namespace Yupi.Emulator.Game.SoundMachine.Composers
         /// <returns>SimpleServerMessageBuffer.</returns>
         internal static SimpleServerMessageBuffer Compose(int playlistCapacity, List<SongInstance> playlist)
         {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("JukeboxPlaylistMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("JukeboxPlaylistMessageComposer"));
 
             simpleServerMessageBuffer.AppendInteger(playlistCapacity);
             simpleServerMessageBuffer.AppendInteger(playlist.Count);
@@ -107,7 +106,7 @@ namespace Yupi.Emulator.Game.SoundMachine.Composers
         /// <returns>SimpleServerMessageBuffer.</returns>
         internal static SimpleServerMessageBuffer Compose(uint songId, int playlistItemNumber, int syncTimestampMs)
         {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("JukeboxNowPlayingMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("JukeboxNowPlayingMessageComposer"));
 
             if (songId == 0u)
             {
@@ -136,7 +135,7 @@ namespace Yupi.Emulator.Game.SoundMachine.Composers
         /// <returns>SimpleServerMessageBuffer.</returns>
         internal static SimpleServerMessageBuffer SerializeSongInventory(HybridDictionary songs)
         {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("SongsLibraryMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("SongsLibraryMessageComposer"));
 
             if (songs == null)
             {

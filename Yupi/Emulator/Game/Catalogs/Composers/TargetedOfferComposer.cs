@@ -1,7 +1,6 @@
 ﻿using Yupi.Emulator.Game.Catalogs.Interfaces;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
-using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Catalogs.Composers
 {
@@ -9,7 +8,7 @@ namespace Yupi.Emulator.Game.Catalogs.Composers
     {
         internal static void GenerateMessage(SimpleServerMessageBuffer messageBuffer, TargetedOffer offer)
         {
-            messageBuffer.Init(PacketLibraryManager.OutgoingRequest("TargetedOfferMessageComposer"));
+            messageBuffer.Init(PacketLibraryManager.SendRequest("TargetedOfferMessageComposer"));
             messageBuffer.AppendInteger(1);
             messageBuffer.AppendInteger(offer.Id);
             messageBuffer.AppendString(offer.Identifier);

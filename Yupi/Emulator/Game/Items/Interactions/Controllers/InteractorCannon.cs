@@ -9,7 +9,6 @@ using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Rooms.User;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
-using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 {
@@ -93,7 +92,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
             Timer timer = (Timer) source;
             timer.Stop();
 
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("SuperNotificationMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("SuperNotificationMessageComposer"));
             simpleServerMessageBuffer.AppendString("room.kick.cannonball");
             simpleServerMessageBuffer.AppendInteger(2);
             simpleServerMessageBuffer.AppendString("link");

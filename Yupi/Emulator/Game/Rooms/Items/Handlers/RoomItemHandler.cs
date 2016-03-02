@@ -21,7 +21,6 @@ using Yupi.Emulator.Game.Rooms.User;
 using Yupi.Emulator.Game.Rooms.User.Path;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
-using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Rooms.Items.Handlers
 {
@@ -324,7 +323,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
 
                 roomGamemap.RemoveSpecialItem(item);
 
-                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("PickUpFloorItemMessageComposer"));
+                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("PickUpFloorItemMessageComposer"));
                 simpleServerMessageBuffer.AppendString(item.Id.ToString());
                 simpleServerMessageBuffer.AppendBool(false); //expired
                 simpleServerMessageBuffer.AppendInteger(item.UserId); //pickerId
@@ -346,7 +345,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
             {
                 item.Interactor.OnRemove(session, item);
 
-                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("PickUpWallItemMessageComposer"));
+                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("PickUpWallItemMessageComposer"));
                 simpleServerMessageBuffer.AppendString(item.Id.ToString());
                 simpleServerMessageBuffer.AppendInteger(item.UserId);
                 _room.SendMessage(simpleServerMessageBuffer);
@@ -570,14 +569,14 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         {
             if (item.IsWallItem)
             {
-                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("PickUpWallItemMessageComposer"));
+                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("PickUpWallItemMessageComposer"));
                 simpleServerMessageBuffer.AppendString(item.Id.ToString());
                 simpleServerMessageBuffer.AppendInteger(wasPicked ? item.UserId : 0);
                 _room.SendMessage(simpleServerMessageBuffer);
             }
             else if (item.IsFloorItem)
             {
-                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("PickUpFloorItemMessageComposer"));
+                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("PickUpFloorItemMessageComposer"));
                 simpleServerMessageBuffer.AppendString(item.Id.ToString());
                 simpleServerMessageBuffer.AppendBool(false); //expired
                 simpleServerMessageBuffer.AppendInteger(wasPicked ? item.UserId : 0); //pickerId
@@ -611,7 +610,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         internal SimpleServerMessageBuffer UpdateItemOnRoller(RoomItem item, Point nextCoord, uint rolledId, double nextZ)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
-            simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingRequest("ItemAnimationMessageComposer"));
+            simpleServerMessageBuffer.Init(PacketLibraryManager.SendRequest("ItemAnimationMessageComposer"));
             simpleServerMessageBuffer.AppendInteger(item.X);
             simpleServerMessageBuffer.AppendInteger(item.Y);
             simpleServerMessageBuffer.AppendInteger(nextCoord.X);
@@ -636,7 +635,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         internal SimpleServerMessageBuffer UpdateUserOnRoller(RoomUser user, Point nextCoord, uint rollerId, double nextZ)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(0);
-            simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingRequest("ItemAnimationMessageComposer"));
+            simpleServerMessageBuffer.Init(PacketLibraryManager.SendRequest("ItemAnimationMessageComposer"));
             simpleServerMessageBuffer.AppendInteger(user.X);
             simpleServerMessageBuffer.AppendInteger(user.Y);
             simpleServerMessageBuffer.AppendInteger(nextCoord.X);
@@ -887,7 +886,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
 
                 if (sendMessage)
                 {
-                    SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("AddFloorItemMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("AddFloorItemMessageComposer"));
                     item.Serialize(simpleServerMessageBuffer);
 
                     simpleServerMessageBuffer.AppendString(_room.RoomData.Group != null
@@ -904,7 +903,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
                 {
                     if (specialMove)
                     {
-                        SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("ItemAnimationMessageComposer"));
+                        SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("ItemAnimationMessageComposer"));
                         messageBuffer.AppendInteger(oldCoord.X);
                         messageBuffer.AppendInteger(oldCoord.Y);
                         messageBuffer.AppendInteger(newX);
@@ -918,7 +917,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
                     }
                     else
                     {
-                        SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UpdateRoomItemMessageComposer"));
+                        SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("UpdateRoomItemMessageComposer"));
                         item.Serialize(messageBuffer);
                         _room.SendMessage(messageBuffer);
                     }
@@ -958,7 +957,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
                 item.Y, item.Rot);
             item.SetState(item.X, item.Y, item.Z, affectedTiles);
 
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("AddFloorItemMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("AddFloorItemMessageComposer"));
             item.Serialize(simpleServerMessageBuffer);
             simpleServerMessageBuffer.AppendString(_room.RoomData.Group != null ? session.GetHabbo().UserName : _room.RoomData.Owner);
             _room.SendMessage(simpleServerMessageBuffer);
@@ -972,7 +971,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         /// <param name="affectedTiles">The affected tiles.</param>
         internal void OnHeightMapUpdate(Dictionary<int, ThreeDCoord> affectedTiles)
         {
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UpdateFurniStackMapMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("UpdateFurniStackMapMessageComposer"));
             messageBuffer.AppendByte((byte) affectedTiles.Count);
 
             foreach (ThreeDCoord coord in affectedTiles.Values)
@@ -991,7 +990,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         /// <param name="affectedTiles">The affected tiles.</param>
         internal void OnHeightMapUpdate(ICollection affectedTiles)
         {
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UpdateFurniStackMapMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("UpdateFurniStackMapMessageComposer"));
             messageBuffer.AppendByte((byte) affectedTiles.Count);
 
             foreach (Point coord in affectedTiles)
@@ -1011,7 +1010,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         /// <param name="newCoords">The new coords.</param>
         internal void OnHeightMapUpdate(List<Point> oldCoords, List<Point> newCoords)
         {
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UpdateFurniStackMapMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("UpdateFurniStackMapMessageComposer"));
             messageBuffer.AppendByte((byte) (oldCoords.Count + newCoords.Count));
 
             foreach (Point coord in oldCoords)
@@ -1089,7 +1088,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
             if (!sendUpdate)
                 return true;
 
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UpdateRoomItemMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("UpdateRoomItemMessageComposer"));
             item.Serialize(messageBuffer);
             _room.SendMessage(messageBuffer);
 
@@ -1121,7 +1120,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
             WallItems.TryAdd(item.Id, item);
             AddOrUpdateItem(item.Id);
 
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("AddWallItemMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("AddWallItemMessageComposer"));
             item.Serialize(simpleServerMessageBuffer);
             simpleServerMessageBuffer.AppendString(_room.RoomData.Owner);
             _room.SendMessage(simpleServerMessageBuffer);

@@ -5,7 +5,6 @@ using Yupi.Emulator.Game.Items.Interfaces;
 using Yupi.Emulator.Game.Users;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
-using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 {
@@ -18,7 +17,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 
             if (!ishc)
             {
-                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("CustomUserNotificationMessageComposer"));
+                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("CustomUserNotificationMessageComposer"));
                 messageBuffer.AppendInteger(3);
                 session.SendMessage(messageBuffer);
                 return;

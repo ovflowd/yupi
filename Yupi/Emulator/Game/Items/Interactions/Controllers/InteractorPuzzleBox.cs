@@ -10,7 +10,6 @@ using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Rooms.User;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
-using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 {
@@ -71,7 +70,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 
                 SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
 
-                simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingRequest("ItemAnimationMessageComposer"));
+                simpleServerMessageBuffer.Init(PacketLibraryManager.SendRequest("ItemAnimationMessageComposer"));
 
                 simpleServerMessageBuffer.AppendInteger(item.X);
                 simpleServerMessageBuffer.AppendInteger(item.Y);

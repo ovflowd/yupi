@@ -171,7 +171,7 @@ namespace Yupi.Emulator.Core.Settings
                                 GetGame()
                                     .GetClientManager()
                                     .QueueBroadcaseMessage(
-                                        new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("PublishShopMessageComposer")));
+                                        new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("PublishShopMessageComposer")));
                                 Console.WriteLine("Catalogue was re-loaded.");
                                 Console.WriteLine();
                                 break;

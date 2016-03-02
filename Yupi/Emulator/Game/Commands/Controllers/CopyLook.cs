@@ -5,7 +5,6 @@ using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Rooms.User;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
-using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Commands.Controllers
 {
@@ -52,7 +51,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
             RoomUser myUser = room.GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().UserName);
             if (myUser == null) return true;
 
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UpdateUserDataMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("UpdateUserDataMessageComposer"));
             messageBuffer.AppendInteger(myUser.VirtualId);
             messageBuffer.AppendString(session.GetHabbo().Look);
             messageBuffer.AppendString(session.GetHabbo().Gender.ToLower());

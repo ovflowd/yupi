@@ -7,7 +7,6 @@ using Yupi.Emulator.Game.Rooms.User;
 using Yupi.Emulator.Game.Users.Data.Models;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
-using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Users.Inventory.Components
 {
@@ -68,7 +67,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// <returns>SimpleServerMessageBuffer.</returns>
         internal SimpleServerMessageBuffer GetPacket()
         {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("EffectsInventoryMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("EffectsInventoryMessageComposer"));
 
             simpleServerMessageBuffer.AppendInteger(_effects.Count);
 
@@ -104,7 +103,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
             GetClient()
                 .GetMessageHandler()
                 .GetResponse()
-                .Init(PacketLibraryManager.OutgoingRequest("AddEffectToInventoryMessageComposer"));
+                .Init(PacketLibraryManager.SendRequest("AddEffectToInventoryMessageComposer"));
 
             GetClient().GetMessageHandler().GetResponse().AppendInteger(effectId);
             GetClient().GetMessageHandler().GetResponse().AppendInteger(type);
@@ -210,7 +209,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
             GetClient()
                 .GetMessageHandler()
                 .GetResponse()
-                .Init(PacketLibraryManager.OutgoingRequest("StopAvatarEffectMessageComposer"));
+                .Init(PacketLibraryManager.SendRequest("StopAvatarEffectMessageComposer"));
 
             GetClient().GetMessageHandler().GetResponse().AppendInteger(effectId);
             GetClient().GetMessageHandler().SendResponse();
@@ -252,7 +251,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
             if (setAsCurrentEffect)
                 CurrentEffect = effectId;
 
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("ApplyEffectMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("ApplyEffectMessageComposer"));
 
             simpleServerMessageBuffer.AppendInteger(roomUserByHabbo.VirtualId);
             simpleServerMessageBuffer.AppendInteger(effectId);

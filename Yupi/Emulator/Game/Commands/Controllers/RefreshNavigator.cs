@@ -28,7 +28,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
                 Yupi.GetGame().GetRoomManager().LoadModels(adapter);
             }
 
-            Yupi.GetGame().GetNavigator().LoadNewPublicRooms();
+            Yupi.GetGame().GetNavigator().LoadPublicRooms();
 
             session.SendNotif(Yupi.GetLanguage().GetVar("command_refresh_navigator"));
             return true;

@@ -25,7 +25,6 @@
 using Yupi.Emulator.Game.Achievements.Structs;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
-using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Achievements.Composers
 {
@@ -44,7 +43,7 @@ namespace Yupi.Emulator.Game.Achievements.Composers
         /// <returns>SimpleServerMessageBuffer.</returns>
         internal static SimpleServerMessageBuffer Compose(Achievement achievement, uint level, uint pointReward, uint pixelReward)
         {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UnlockAchievementMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("UnlockAchievementMessageComposer"));
 
             simpleServerMessageBuffer.AppendInteger(achievement.Id);
             simpleServerMessageBuffer.AppendInteger(level);

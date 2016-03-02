@@ -15,7 +15,6 @@ using Yupi.Emulator.Game.Users.Data.Models;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Enums;
-using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Users.Inventory.Components
 {
@@ -151,7 +150,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
 
             _mClient.GetMessageHandler()
                 .GetResponse()
-                .Init(PacketLibraryManager.OutgoingRequest("UpdateInventoryMessageComposer"));
+                .Init(PacketLibraryManager.SendRequest("UpdateInventoryMessageComposer"));
 
             GetClient().GetMessageHandler().SendResponse();
         }
@@ -237,7 +236,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         internal bool RemovePet(uint petId)
         {
             _isUpdated = false;
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("RemovePetFromInventoryComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("RemovePetFromInventoryComposer"));
             simpleServerMessageBuffer.AppendInteger(petId);
             GetClient().SendMessage(simpleServerMessageBuffer);
             _inventoryPets.Remove(petId);
@@ -385,7 +384,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
 
             _mClient.GetMessageHandler()
                 .GetResponse()
-                .Init(PacketLibraryManager.OutgoingRequest("UpdateInventoryMessageComposer"));
+                .Init(PacketLibraryManager.SendRequest("UpdateInventoryMessageComposer"));
 
             _mClient.GetMessageHandler().SendResponse();
         }
@@ -566,7 +565,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
 
             _isUpdated = false;
 
-            GetClient().GetMessageHandler().GetResponse().Init(PacketLibraryManager.OutgoingRequest("RemoveInventoryObjectMessageComposer"));
+            GetClient().GetMessageHandler().GetResponse().Init(PacketLibraryManager.SendRequest("RemoveInventoryObjectMessageComposer"));
 
             GetClient().GetMessageHandler().GetResponse().AppendInteger(id);
             //this.GetClientByAddress().GetMessageHandler().GetResponse().AppendInt32(Convert.ToInt32(this.GetClientByAddress().GetHabbo().Id));
@@ -597,7 +596,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
             if (i > 2800)
                 _mClient.SendMessage(StaticMessage.AdviceMaxItems);
 
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("LoadInventoryMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("LoadInventoryMessageComposer"));
             simpleServerMessageBuffer.AppendInteger(1);
             simpleServerMessageBuffer.AppendInteger(0);
             simpleServerMessageBuffer.AppendInteger(i > 2800 ? 2800 : i);
@@ -643,7 +642,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// <returns>SimpleServerMessageBuffer.</returns>
         internal SimpleServerMessageBuffer SerializeWallItemInventory()
         {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("LoadInventoryMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("LoadInventoryMessageComposer"));
             simpleServerMessageBuffer.AppendString("I");
             simpleServerMessageBuffer.AppendInteger(1);
             simpleServerMessageBuffer.AppendInteger(1);
@@ -659,7 +658,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// <returns>SimpleServerMessageBuffer.</returns>
         internal SimpleServerMessageBuffer SerializePetInventory()
         {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("PetInventoryMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("PetInventoryMessageComposer"));
             simpleServerMessageBuffer.AppendInteger(1);
             simpleServerMessageBuffer.AppendInteger(1);
             simpleServerMessageBuffer.AppendInteger(_inventoryPets.Count);
@@ -677,7 +676,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         internal SimpleServerMessageBuffer SerializeBotInventory()
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
-            simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingRequest("BotInventoryMessageComposer"));
+            simpleServerMessageBuffer.Init(PacketLibraryManager.SendRequest("BotInventoryMessageComposer"));
 
             simpleServerMessageBuffer.AppendInteger(_inventoryBots.Count);
             foreach (RoomBot current in _inventoryBots.Values)
@@ -746,7 +745,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// <returns>SimpleServerMessageBuffer.</returns>
         internal SimpleServerMessageBuffer SerializeMusicDiscs()
         {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("SongsLibraryMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("SongsLibraryMessageComposer"));
 
             simpleServerMessageBuffer.AppendInteger(SongDisks.Count);
 
@@ -791,7 +790,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         internal void SendNewItems(uint id)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
-            simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingRequest("NewInventoryObjectMessageComposer"));
+            simpleServerMessageBuffer.Init(PacketLibraryManager.SendRequest("NewInventoryObjectMessageComposer"));
             simpleServerMessageBuffer.AppendInteger(1);
             simpleServerMessageBuffer.AppendInteger(1);
             simpleServerMessageBuffer.AppendInteger(1);

@@ -2,7 +2,6 @@
 using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
-using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Commands.Controllers
 {
@@ -23,7 +22,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
             foreach (GameClient client in Yupi.GetGame().GetClientManager().Clients.Values)
             {
                 SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
-                simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingRequest("WhisperMessageComposer"));
+                simpleServerMessageBuffer.Init(PacketLibraryManager.SendRequest("WhisperMessageComposer"));
                 simpleServerMessageBuffer.AppendInteger(client.CurrentRoomUserId);
                 simpleServerMessageBuffer.AppendString(message);
                 simpleServerMessageBuffer.AppendInteger(0);

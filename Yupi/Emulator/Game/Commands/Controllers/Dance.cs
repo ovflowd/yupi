@@ -2,7 +2,6 @@
 using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
-using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Commands.Controllers
 {
@@ -33,7 +32,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
                 result = 0;
             }
             SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer();
-            messageBuffer.Init(PacketLibraryManager.OutgoingRequest("DanceStatusMessageComposer"));
+            messageBuffer.Init(PacketLibraryManager.SendRequest("DanceStatusMessageComposer"));
             messageBuffer.AppendInteger(session.CurrentRoomUserId);
             messageBuffer.AppendInteger(result);
             session.GetHabbo().CurrentRoom.SendMessage(messageBuffer);

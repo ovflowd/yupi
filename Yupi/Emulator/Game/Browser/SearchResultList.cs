@@ -61,7 +61,7 @@ namespace Yupi.Emulator.Game.Browser
 
             KeyValuePair<RoomData, uint>[] rooms = Yupi.GetGame().GetRoomManager().GetActiveRooms();
 
-            Yupi.GetGame().GetNavigator().SerializeNavigatorPopularRoomsNews(ref messageBuffer, rooms, flatCatId, direct);
+            Yupi.GetGame().GetNavigator().SerializeNavigatorPromotedRooms(ref messageBuffer, rooms, flatCatId, direct);
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Yupi.Emulator.Game.Browser
 
             KeyValuePair<RoomData, uint>[] rooms = Yupi.GetGame().GetRoomManager().GetEventRooms();
 
-            Yupi.GetGame().GetNavigator().SerializeNavigatorPopularRoomsNews(ref messageBuffer, rooms, flatCatId, direct);
+            Yupi.GetGame().GetNavigator().SerializeNavigatorPromotedRooms(ref messageBuffer, rooms, flatCatId, direct);
         }
 
         /// <summary>
@@ -156,13 +156,13 @@ namespace Yupi.Emulator.Game.Browser
                     }
                 case "official-root":
                     {
-                        messageBuffer.AppendServerMessage(Yupi.GetGame().GetNavigator().NewPublicRooms);
+                        messageBuffer.AppendServerMessage(Yupi.GetGame().GetNavigator().SerializePublicRooms());
 
                         break;
                     }
                 case "staffpicks":
                     {
-                        messageBuffer.AppendServerMessage(Yupi.GetGame().GetNavigator().NewStaffPicks);
+                        messageBuffer.AppendServerMessage(Yupi.GetGame().GetNavigator().SerializeStaffPicks());
 
                         break;
                     }

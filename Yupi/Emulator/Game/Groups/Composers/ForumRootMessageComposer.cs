@@ -24,7 +24,6 @@
 
 using System;
 using Yupi.Emulator.Game.Groups.Structs;
-using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Groups.Composers

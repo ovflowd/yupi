@@ -445,7 +445,7 @@ namespace Yupi.Emulator
                 ServerLanguageVariables = new ServerLanguageSettings(ServerLanguage);
 
                 YupiWriterManager.WriteLine($"Loaded {ServerLanguageVariables.Count()} Languages Vars", "Yupi.Boot");
-                YupiWriterManager.WriteLine($"Loaded {PacketLibraryManager.CountReleases} Habbo Releases", "Yupi.Data");
+                YupiWriterManager.WriteLine($"Loaded {PacketLibraryManager.ReleasesCount} Habbo Releases", "Yupi.Data");
                 YupiWriterManager.WriteLine($"Loaded {PacketLibraryManager.Incoming.Count} Event Controllers", "Yupi.Data");
 
                 ReloadPlugins();

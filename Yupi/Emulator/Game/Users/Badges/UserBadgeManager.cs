@@ -7,7 +7,6 @@ using Yupi.Emulator.Game.Users.Badges.Models;
 using Yupi.Emulator.Game.Users.Data.Models;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
-using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Users.Badges
 {
@@ -105,7 +104,7 @@ namespace Yupi.Emulator.Game.Users.Badges
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
 
-            simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingRequest("ReceiveBadgeMessageComposer"));
+            simpleServerMessageBuffer.Init(PacketLibraryManager.SendRequest("ReceiveBadgeMessageComposer"));
             simpleServerMessageBuffer.AppendInteger(1);
             simpleServerMessageBuffer.AppendString(badge);
 
@@ -121,7 +120,7 @@ namespace Yupi.Emulator.Game.Users.Badges
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
 
-            simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingRequest("WiredRewardAlertMessageComposer"));
+            simpleServerMessageBuffer.Init(PacketLibraryManager.SendRequest("WiredRewardAlertMessageComposer"));
             simpleServerMessageBuffer.AppendInteger(success ? 7 : 1);
 
             return simpleServerMessageBuffer;
@@ -166,7 +165,7 @@ namespace Yupi.Emulator.Game.Users.Badges
         /// <returns>SimpleServerMessageBuffer.</returns>
         internal SimpleServerMessageBuffer Update(string badgeId)
         {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NewInventoryObjectMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("NewInventoryObjectMessageComposer"));
 
             simpleServerMessageBuffer.AppendInteger(1);
             simpleServerMessageBuffer.AppendInteger(4);
@@ -184,7 +183,7 @@ namespace Yupi.Emulator.Game.Users.Badges
         {
             List<Badge> list = new List<Badge>();
 
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("LoadBadgesWidgetMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("LoadBadgesWidgetMessageComposer"));
             simpleServerMessageBuffer.AppendInteger(Count);
 
             foreach (Badge badge in BadgeList.Values)

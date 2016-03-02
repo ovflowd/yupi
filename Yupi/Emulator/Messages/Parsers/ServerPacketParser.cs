@@ -40,7 +40,7 @@ namespace Yupi.Emulator.Messages.Parsers
     public class ServerPacketParser : IDataParser
     {
         /// <summary>
-        ///     Delegate HandlePacket
+        ///     Delegate ReceiveRequest
         /// </summary>
         /// <param name="message">The messageBuffer.</param>
         public delegate void HandlePacket(SimpleClientMessageBuffer messageBuffer);

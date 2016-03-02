@@ -4,7 +4,6 @@ using System.Linq;
 using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Users.Messenger.Structs;
 using Yupi.Emulator.Messages.Buffers;
-using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Messages.Handlers
 {
@@ -119,7 +118,7 @@ namespace Yupi.Emulator.Messages.Handlers
             if (clientByUserId.GetHabbo().GetMessenger() == null || clientByUserId.GetHabbo().CurrentRoom == null)
             {
                 if (Session.GetHabbo().GetMessenger() == null) return;
-                Response.Init(PacketLibraryManager.OutgoingRequest("FollowFriendErrorMessageComposer"));
+                Response.Init(PacketLibraryManager.SendRequest("FollowFriendErrorMessageComposer"));
                 Response.AppendInteger(2);
                 SendResponse();
                 Session.GetHabbo().GetMessenger().UpdateFriend(userId, clientByUserId, true);
@@ -128,13 +127,13 @@ namespace Yupi.Emulator.Messages.Handlers
             if (Session.GetHabbo().Rank < 4 && Session.GetHabbo().GetMessenger() != null &&
                 !Session.GetHabbo().GetMessenger().FriendshipExists(userId))
             {
-                Response.Init(PacketLibraryManager.OutgoingRequest("FollowFriendErrorMessageComposer"));
+                Response.Init(PacketLibraryManager.SendRequest("FollowFriendErrorMessageComposer"));
                 Response.AppendInteger(0);
                 SendResponse();
                 return;
             }
 
-            SimpleServerMessageBuffer roomFwd = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("RoomForwardMessageComposer"));
+            SimpleServerMessageBuffer roomFwd = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("RoomForwardMessageComposer"));
             roomFwd.AppendInteger(clientByUserId.GetHabbo().CurrentRoom.RoomId);
             Session.SendMessage(roomFwd);
         }
@@ -148,7 +147,7 @@ namespace Yupi.Emulator.Messages.Handlers
             List<uint> list = new List<uint>();
             for (int i = 0; i < num; i++) list.Add(Request.GetUInteger());
             string s = Request.GetString();
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("ConsoleInvitationMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("ConsoleInvitationMessageComposer"));
             simpleServerMessageBuffer.AppendInteger(Session.GetHabbo().Id);
             simpleServerMessageBuffer.AppendString(s);
             foreach (GameClient clientByUserId in (from current in list

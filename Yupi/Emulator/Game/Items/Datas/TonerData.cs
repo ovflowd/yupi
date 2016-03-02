@@ -1,6 +1,5 @@
 using System.Data;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
-using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Items.Datas

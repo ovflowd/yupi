@@ -33,7 +33,6 @@ using Yupi.Emulator.Game.SoundMachine;
 using Yupi.Emulator.Game.SoundMachine.Songs;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
-using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Rooms
 {
@@ -986,7 +985,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// </summary>
         internal void Destroy()
         {
-            SendMessage(new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("OutOfRoomMessageComposer")));
+            SendMessage(new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("OutOfRoomMessageComposer")));
             Dispose();
         }
 
@@ -1243,7 +1242,7 @@ namespace Yupi.Emulator.Game.Rooms
             RoomItem[] array2 = array;
             foreach (RoomItem roomItem in array2)
             {
-                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UpdateRoomItemMessageComposer"));
+                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("UpdateRoomItemMessageComposer"));
                 roomItem.Serialize(simpleServerMessageBuffer);
                 list.Add(simpleServerMessageBuffer);
             }
@@ -1253,7 +1252,7 @@ namespace Yupi.Emulator.Game.Rooms
             foreach (RoomItem roomItem2 in array4)
             {
                 SimpleServerMessageBuffer simpleServerMessage2 =
-                    new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("UpdateRoomWallItemMessageComposer"));
+                    new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("UpdateRoomWallItemMessageComposer"));
                 roomItem2.Serialize(simpleServerMessage2);
                 list.Add(simpleServerMessage2);
             }

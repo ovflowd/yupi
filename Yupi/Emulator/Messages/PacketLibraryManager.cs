@@ -6,7 +6,6 @@ using Yupi.Emulator.Core.Io.Logger;
 using Yupi.Emulator.Core.Settings;
 using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Handlers;
-using Yupi.Emulator.Messages.Library;
 
 namespace Yupi.Emulator.Messages
 {
@@ -33,32 +32,18 @@ namespace Yupi.Emulator.Messages
         internal static Dictionary<string, int> Outgoing;
 
         /// <summary>
-        ///     Registered Outgoing Request Counts
-        /// </summary>
-        private static List<uint> _registeredOutoings;
-
-        /// <summary>
         ///     Number of Releases
         /// </summary>
-        internal static int CountReleases;
+        internal static int ReleasesCount;
 
         /// <summary>
         ///     Release Name
         /// </summary>
         internal static string ReleaseName;
 
-        public static int OutgoingRequest(string packetName)
-        {
-            int packetId;
-
-            if (Outgoing.TryGetValue(packetName, out packetId))
-                return packetId;
-
-           YupiLogManager.LogWarning("Outgoing " + packetName + " doesn't exist.", "Yupi.Communication");
-
-            return -1;
-        }
-
+        /// <summary>
+        ///     Configure Dictionaries
+        /// </summary>
         public static void Configure()
         {
             Incoming = new Dictionary<int, StaticRequestHandler>();
@@ -68,61 +53,9 @@ namespace Yupi.Emulator.Messages
             ReleaseName = ServerConfigurationSettings.Data["client.build"];
         }
 
-        public static void Register()
-        {
-            RegisterLibrary();
-            RegisterOutgoing();
-            RegisterIncoming();
-        }
-
-        public static void Init()
-        {
-            Configure();
-
-            Register();
-        }
-
-        public static void HandlePacket(GameClientMessageHandler handler, SimpleClientMessageBuffer messageBuffer)
-        {
-            Console.ForegroundColor = ConsoleColor.DarkCyan;
-
-            if (Incoming.ContainsKey(messageBuffer.Id))
-            {
-                if (Yupi.PacketDebugMode)
-                {
-                    Console.WriteLine();
-                    Console.Write("INCOMING ");
-                    Console.ForegroundColor = ConsoleColor.DarkGreen;
-                    Console.Write("HANDLED ");
-                    Console.ForegroundColor = ConsoleColor.DarkGray;
-                    Console.Write(messageBuffer.Id + Environment.NewLine + messageBuffer);
-
-                    if (messageBuffer.Length > 0)
-                        Console.WriteLine();
-
-                    Console.WriteLine();
-                }
-
-                StaticRequestHandler staticRequestHandler = Incoming[messageBuffer.Id];
-
-                staticRequestHandler(handler);
-            }
-            else if (Yupi.PacketDebugMode)
-            {
-                Console.WriteLine();
-                Console.Write("INCOMING ");
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.Write("REFUSED ");
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write(messageBuffer.Id + Environment.NewLine + messageBuffer);
-
-                if (messageBuffer.Length > 0)
-                    Console.WriteLine();
-
-                Console.WriteLine();
-            }
-        }
-
+        /// <summary>
+        ///     Reload Dictionaries
+        /// </summary>
         internal static void ReloadDictionarys()
         {
             Incoming.Clear();
@@ -132,15 +65,78 @@ namespace Yupi.Emulator.Messages
             Register();
         }
 
+        /// <summary>
+        ///     Register Dictionaries
+        /// </summary>
+        public static void Register()
+        {
+            RegisterLibrary();
+            RegisterOutgoing();
+            RegisterIncoming();
+        }
+
+        /// <summary>
+        ///     Initialize
+        /// </summary>
+        public static void Init()
+        {
+            Configure();
+
+            Register();
+        }
+
+        /// <summary>
+        ///     Return Outgoing Packet Id
+        /// </summary>
+        public static int SendRequest(string packetName)
+        {
+            int packetId;
+
+            if (Outgoing.TryGetValue(packetName, out packetId))
+                return packetId;
+
+            YupiLogManager.LogWarning("Outgoing " + packetName + " doesn't exist.", "Yupi.Communication", false);
+
+            return -1;
+        }
+
+        /// <summary>
+        ///     Handle Incoming Request
+        /// </summary>
+        public static void ReceiveRequest(GameClientMessageHandler handler, SimpleClientMessageBuffer messageBuffer)
+        {
+            if (Incoming.ContainsKey(messageBuffer.Id))
+            {
+                if (Yupi.PacketDebugMode)
+                    YupiWriterManager.WriteLine(
+                        $"Handled: {messageBuffer.Id}: " + Environment.NewLine + messageBuffer + Environment.NewLine,
+                        "Yupi.Incoming", ConsoleColor.DarkGreen);
+
+                StaticRequestHandler staticRequestHandler = Incoming[messageBuffer.Id];
+
+                staticRequestHandler(handler);
+
+                return;
+            }
+
+            if (Yupi.PacketDebugMode)
+                YupiWriterManager.WriteLine(
+                    $"Refused: {messageBuffer.Id}: " + Environment.NewLine + messageBuffer + Environment.NewLine,
+                    "Yupi.Incoming", ConsoleColor.DarkYellow);
+        }
+
+        /// <summary>
+        ///     Register Incoming Packets
+        /// </summary>
         internal static void RegisterIncoming()
         {
-            CountReleases = 0;
+            ReleasesCount = 0;
 
             string[] filePaths = Directory.GetFiles($@"{Yupi.YupiVariablesDirectory}\Packets\{ReleaseName}", "*.incoming");
 
             foreach (string[] fileContents in filePaths.Select(currentFile => File.ReadAllLines(currentFile, System.Text.Encoding.UTF8)))
             {
-                CountReleases++;
+                ReleasesCount++;
 
                 foreach (string[] fields in fileContents.Where(line => !string.IsNullOrEmpty(line) && !line.StartsWith("[")).Select(line => line.Replace(" ", string.Empty).Split('=')))
                 {
@@ -156,18 +152,24 @@ namespace Yupi.Emulator.Messages
 
                     string libValue = Library[packetName];
 
-                    PacketLibrary.GetProperty del = (PacketLibrary.GetProperty) Delegate.CreateDelegate(typeof (PacketLibrary.GetProperty), typeof (PacketLibrary), libValue);
+                    if (packetId == -1 || Incoming.ContainsKey(packetId))
+                        continue;
 
-                    if (!Incoming.ContainsKey(packetId))
-                        Incoming.Add(packetId, new StaticRequestHandler(del));
+                    GameClientMessageHandler.GetProperty del =
+                        (GameClientMessageHandler.GetProperty)
+                            Delegate.CreateDelegate(typeof (GameClientMessageHandler.GetProperty),
+                                typeof (GameClientMessageHandler), libValue);
+
+                    Incoming.Add(packetId, new StaticRequestHandler(del));
                 }
             }
         }
 
+        /// <summary>
+        ///     Register Outgoing Packets
+        /// </summary>
         internal static void RegisterOutgoing()
         {
-            _registeredOutoings = new List<uint>();
-
             string[] filePaths = Directory.GetFiles($@"{Yupi.YupiVariablesDirectory}\Packets\{ReleaseName}", "*.outgoing");
 
             foreach (string[] fields in filePaths.Select(File.ReadAllLines).SelectMany(fileContents => fileContents.Where(line => !string.IsNullOrEmpty(line) && !line.StartsWith("[")).Select(line => line.Replace(" ", string.Empty).Split('='))))
@@ -176,21 +178,19 @@ namespace Yupi.Emulator.Messages
                     fields[1] = fields[1].Split('/')[0];
 
                 string packetName = fields[0];
+
                 int packetId = int.Parse(fields[1]);
 
-                if (packetId != -1)
-                {
-                    if (!_registeredOutoings.Contains((uint) packetId))
-                        _registeredOutoings.Add((uint) packetId);
-                }
+                if (packetId == -1 || Outgoing.ContainsKey(packetName))
+                    continue;
 
                 Outgoing.Add(packetName, packetId);
             }
-
-            _registeredOutoings.Clear();
-            _registeredOutoings = null;
         }
 
+        /// <summary>
+        ///     Register Incoming Packet Identifiers (Library)
+        /// </summary>
         internal static void RegisterLibrary()
         {
             string[] filePaths = Directory.GetFiles($@"{Yupi.YupiVariablesDirectory}\Packets\{ReleaseName}", "*.library");
@@ -201,12 +201,19 @@ namespace Yupi.Emulator.Messages
                     fields[1] = fields[1].Split('/')[0];
 
                 string incomingName = fields[0];
+
                 string libraryName = fields[1];
+
+                if (Library.ContainsKey(incomingName))
+                    continue;
 
                 Library.Add(incomingName, libraryName);
             }
         }
 
+        /// <summary>
+        ///     Request Delegate
+        /// </summary>
         internal delegate void StaticRequestHandler(GameClientMessageHandler handler);
     }
 }

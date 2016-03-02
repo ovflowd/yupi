@@ -43,7 +43,6 @@ using Yupi.Emulator.Game.SoundMachine;
 using Yupi.Emulator.Game.SoundMachine.Songs;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
-using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Catalogs
 {
@@ -411,7 +410,7 @@ namespace Yupi.Emulator.Game.Catalogs
             if (item.ClubOnly && !session.GetHabbo().GetSubscriptionManager().HasSubscription)
             {
                 SimpleServerMessageBuffer simpleServerMessageBuffer =
-                    new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("CatalogPurchaseNotAllowedMessageComposer"));
+                    new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("CatalogPurchaseNotAllowedMessageComposer"));
                 simpleServerMessageBuffer.AppendInteger(1);
                 session.SendMessage(simpleServerMessageBuffer);
                 return;
@@ -429,7 +428,7 @@ namespace Yupi.Emulator.Game.Catalogs
                 if (item.LimitedSelled >= item.LimitedStack)
                 {
                     session.SendMessage(
-                        new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("CatalogLimitedItemSoldOutMessageComposer")));
+                        new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("CatalogLimitedItemSoldOutMessageComposer")));
                     return;
                 }
 
@@ -513,7 +512,7 @@ namespace Yupi.Emulator.Game.Catalogs
                     {
                         session.GetMessageHandler()
                             .GetResponse()
-                            .Init(PacketLibraryManager.OutgoingRequest("GiftErrorMessageComposer"));
+                            .Init(PacketLibraryManager.SendRequest("GiftErrorMessageComposer"));
                         session.GetMessageHandler().GetResponse().AppendString(giftUser);
                         session.GetMessageHandler().SendResponse();
 
@@ -526,7 +525,7 @@ namespace Yupi.Emulator.Game.Catalogs
                     {
                         session.GetMessageHandler()
                             .GetResponse()
-                            .Init(PacketLibraryManager.OutgoingRequest("GiftErrorMessageComposer"));
+                            .Init(PacketLibraryManager.SendRequest("GiftErrorMessageComposer"));
                         session.GetMessageHandler().GetResponse().AppendString(giftUser);
                         session.GetMessageHandler().SendResponse();
 
@@ -572,7 +571,7 @@ namespace Yupi.Emulator.Game.Catalogs
                     session.GetHabbo().BuildersItemsMax += furniAmount;
 
                     SimpleServerMessageBuffer update =
-                        new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("BuildersClubMembershipMessageComposer"));
+                        new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("BuildersClubMembershipMessageComposer"));
 
                     update.AppendInteger(session.GetHabbo().BuildersExpire);
                     update.AppendInteger(session.GetHabbo().BuildersItemsMax);
@@ -607,7 +606,7 @@ namespace Yupi.Emulator.Game.Catalogs
                     session.GetHabbo().BuildersExpire += timeAmount;
 
                     SimpleServerMessageBuffer update =
-                        new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("BuildersClubMembershipMessageComposer"));
+                        new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("BuildersClubMembershipMessageComposer"));
 
                     update.AppendInteger(session.GetHabbo().BuildersExpire);
                     update.AppendInteger(session.GetHabbo().BuildersItemsMax);
@@ -794,7 +793,7 @@ namespace Yupi.Emulator.Game.Catalogs
 
                 session.GetMessageHandler()
                     .GetResponse()
-                    .Init(PacketLibraryManager.OutgoingRequest("UpdateInventoryMessageComposer"));
+                    .Init(PacketLibraryManager.SendRequest("UpdateInventoryMessageComposer"));
 
                 session.GetMessageHandler().SendResponse();
 
@@ -863,7 +862,7 @@ namespace Yupi.Emulator.Game.Catalogs
 
                 session.GetMessageHandler()
                     .GetResponse()
-                    .Init(PacketLibraryManager.OutgoingRequest("NewInventoryObjectMessageComposer"));
+                    .Init(PacketLibraryManager.SendRequest("NewInventoryObjectMessageComposer"));
 
                 session.GetMessageHandler().GetResponse().AppendInteger(1);
 

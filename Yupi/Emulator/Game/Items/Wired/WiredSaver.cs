@@ -8,7 +8,6 @@ using Yupi.Emulator.Game.Items.Wired.Interfaces;
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
-using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Items.Wired
 {
@@ -492,7 +491,7 @@ namespace Yupi.Emulator.Game.Items.Wired
                 }
             }
 
-            session.SendMessage(new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("SaveWiredMessageComposer")));
+            session.SendMessage(new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("SaveWiredMessageComposer")));
         }
 
         private static List<RoomItem> GetFurniItems(SimpleClientMessageBuffer request, Room room)

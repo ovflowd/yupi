@@ -32,7 +32,6 @@ using Yupi.Emulator.Game.Pets.Structs;
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
-using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Pets
 {
@@ -402,7 +401,7 @@ namespace Yupi.Emulator.Game.Pets
             if (ownerSession == null)
                 return;
 
-            SimpleServerMessageBuffer levelNotify = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NotifyNewPetLevelMessageComposer"));
+            SimpleServerMessageBuffer levelNotify = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("NotifyNewPetLevelMessageComposer"));
 
             SerializeInventory(levelNotify, true);
 

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Yupi.Emulator.Game.Polls.Enums;
-using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Polls

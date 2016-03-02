@@ -28,12 +28,11 @@ using System.Collections.Specialized;
 using System.Data;
 using System.Linq;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Browser.Composers;
 using Yupi.Emulator.Game.Browser.Enums;
 using Yupi.Emulator.Game.Browser.Models;
 using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Rooms.Data;
-using Yupi.Emulator.Game.Users;
-using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Browser
@@ -46,7 +45,7 @@ namespace Yupi.Emulator.Game.Browser
         /// <summary>
         ///     The _public items
         /// </summary>
-        public readonly Dictionary<uint, PublicItem> PublicItems;
+        public readonly Dictionary<uint, PublicItem> PublicRooms;
 
         /// <summary>
         ///     The _navigator headers
@@ -56,12 +55,7 @@ namespace Yupi.Emulator.Game.Browser
         /// <summary>
         ///     The in categories
         /// </summary>
-        internal Dictionary<string, NavigatorCategory> InCategories;
-
-        /// <summary>
-        ///     The new public rooms
-        /// </summary>
-        internal SimpleServerMessageBuffer NewPublicRooms, NewStaffPicks;
+        internal Dictionary<string, NavigatorCategory> NavigatorCategories;
 
         /// <summary>
         ///     The private categories
@@ -80,8 +74,9 @@ namespace Yupi.Emulator.Game.Browser
         {
             PrivateCategories = new HybridDictionary();
 
-            InCategories = new Dictionary<string, NavigatorCategory>();
-            PublicItems = new Dictionary<uint, PublicItem>();
+            NavigatorCategories = new Dictionary<string, NavigatorCategory>();
+
+            PublicRooms = new Dictionary<uint, PublicItem>();
 
             NavigatorHeaders = new List<NavigatorHeader>();
 
@@ -142,10 +137,10 @@ namespace Yupi.Emulator.Game.Browser
 
             if (navigatorPublicRooms != null)
             {
-                PublicItems.Clear();
+                PublicRooms.Clear();
 
                 foreach (DataRow row in navigatorPublicRooms.Rows)
-                    PublicItems.Add(Convert.ToUInt32(row["id"]),
+                    PublicRooms.Add(Convert.ToUInt32(row["id"]),
                         new PublicItem(Convert.ToUInt32(row["id"]), int.Parse(row["bannertype"].ToString()),
                             (string) row["caption"],
                             (string) row["description"], (string) row["image"],
@@ -175,38 +170,28 @@ namespace Yupi.Emulator.Game.Browser
 
                 if (navigatorPublicCats != null)
                 {
-                    InCategories.Clear();
+                    NavigatorCategories.Clear();
 
                     foreach (DataRow dataRow in navigatorPublicCats.Rows)
-                        InCategories.Add((string)dataRow["caption"], new NavigatorCategory((int)dataRow["id"], (string)dataRow["caption"], (string)dataRow["default_state"] == "opened", (string)dataRow["default_size"] == "image", subCategories.Where(c => c.MainCategory == (string)dataRow["caption"]).ToList()));
+                        NavigatorCategories.Add((string)dataRow["caption"], new NavigatorCategory((int)dataRow["id"], (string)dataRow["caption"], (string)dataRow["default_state"] == "opened", (string)dataRow["default_size"] == "image", subCategories.Where(c => c.MainCategory == (string)dataRow["caption"]).ToList()));
                 }
             }
         }
 
-        public void AddPublicItem(PublicItem item)
+        public void AddPublicRoom(PublicItem item)
         {
             if (item == null)
                 return;
 
-            PublicItems.Add(Convert.ToUInt32(item.Id), item);
+            PublicRooms.Add(Convert.ToUInt32(item.Id), item);
         }
 
-        public void RemovePublicItem(uint id)
+        public void RemovePublicRoom(uint id)
         {
-            if (!PublicItems.ContainsKey(id))
+            if (!PublicRooms.ContainsKey(id))
                 return;
 
-            PublicItems.Remove(id);
-        }
-
-        /// <summary>
-        ///     Loads the new public rooms.
-        /// </summary>
-        public void LoadNewPublicRooms()
-        {
-            NewPublicRooms = SerializeNewPublicRooms();
-
-            NewStaffPicks = SerializeNewStaffPicks();
+            PublicRooms.Remove(id);
         }
 
         /// <summary>
@@ -216,7 +201,7 @@ namespace Yupi.Emulator.Game.Browser
         /// <param name="rooms">The rooms.</param>
         /// <param name="category">The category.</param>
         /// <param name="direct">if set to <c>true</c> [direct].</param>
-        public void SerializeNavigatorPopularRoomsNews(ref SimpleServerMessageBuffer reply, KeyValuePair<RoomData, uint>[] rooms, int category, bool direct)
+        public void SerializeNavigatorPromotedRooms(ref SimpleServerMessageBuffer reply, KeyValuePair<RoomData, uint>[] rooms, int category, bool direct)
         {
             if (!rooms?.Any() ?? true)
             {
@@ -248,37 +233,16 @@ namespace Yupi.Emulator.Game.Browser
         }
 
         /// <summary>
-        ///     Serializes the promotion categories.
-        /// </summary>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-        internal SimpleServerMessageBuffer SerializePromotionCategories()
-        {
-            SimpleServerMessageBuffer categories =
-                new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("CatalogPromotionGetCategoriesMessageComposer"));
-
-            categories.AppendInteger(PromoCategories.Count);
-
-            foreach (PromoCategory cat in PromoCategories.Values)
-            {
-                categories.AppendInteger(cat.Id);
-                categories.AppendString(cat.Caption);
-                categories.AppendBool(cat.Visible);
-            }
-
-            return categories;
-        }
-
-        /// <summary>
         ///     Serializes the new public rooms.
         /// </summary>
         /// <returns>SimpleServerMessageBuffer.</returns>
-        internal SimpleServerMessageBuffer SerializeNewPublicRooms()
+        internal SimpleServerMessageBuffer SerializePublicRooms()
         {
             SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer();
 
             messageBuffer.StartArray();
 
-            foreach (PublicItem item in PublicItems.Values)
+            foreach (PublicItem item in PublicRooms.Values)
             {
                 if (item.ParentId == -1)
                 {
@@ -298,13 +262,13 @@ namespace Yupi.Emulator.Game.Browser
             return messageBuffer;
         }
 
-        internal SimpleServerMessageBuffer SerializeNewStaffPicks()
+        internal SimpleServerMessageBuffer SerializeStaffPicks()
         {
             SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer();
 
             messageBuffer.StartArray();
 
-            foreach (PublicItem item in PublicItems.Values.Where(t => t.ParentId == -2))
+            foreach (PublicItem item in PublicRooms.Values.Where(t => t.ParentId == -2))
             {
                 messageBuffer.Clear();
 
@@ -312,6 +276,7 @@ namespace Yupi.Emulator.Game.Browser
                     continue;
 
                 item.GetPublicRoomData.Serialize(messageBuffer);
+
                 messageBuffer.SaveArray();
             }
 
@@ -329,121 +294,20 @@ namespace Yupi.Emulator.Game.Browser
             => PrivateCategories.Contains(id) ? (PublicCategory) PrivateCategories[id] : null;
 
         /// <summary>
-        ///     Serializes the new flat categories.
-        /// </summary>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-        internal SimpleServerMessageBuffer SerializeNewFlatCategories()
-        {
-            List<PublicCategory> flatcat = Yupi.GetGame().GetNavigator().PrivateCategories.OfType<PublicCategory>().ToList();
-
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NavigatorNewFlatCategoriesMessageComposer"));
-
-            messageBuffer.AppendInteger(flatcat.Count);
-
-            foreach (PublicCategory cat in flatcat)
-            {
-                messageBuffer.AppendInteger(cat.Id);
-                messageBuffer.AppendInteger(cat.UsersNow);
-                messageBuffer.AppendInteger(500);
-            }
-
-            return messageBuffer;
-        }
-
-        /// <summary>
-        ///     Serlializes the new navigator.
-        /// </summary>
-        /// <param name="value1">The value1.</param>
-        /// <param name="value2">The value2.</param>
-        /// <param name="session">The session.</param>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-        internal SimpleServerMessageBuffer SerializeNewNavigator(string value1, string value2, GameClient session)
-        {
-            SimpleServerMessageBuffer newNavigator = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("SearchResultSetComposer"));
-
-            newNavigator.AppendString(value1);
-            newNavigator.AppendString(value2);
-            newNavigator.AppendInteger(value2.Length > 0 ? 1 : GetNewNavigatorLength(value1));
-
-            if (value2.Length > 0)
-                SearchResultList.SerializeSearches(value2, newNavigator, session);
-            else
-                SearchResultList.SerializeSearchResultListStatics(value1, true, newNavigator, session);
-
-            return newNavigator;
-        }
-
-        /// <summary>
         ///     Initializes Navigator
         /// </summary>
         /// <param name="session">The session.</param>
         internal void InitializeNavigator(GameClient session)
         {
-            SimpleServerMessageBuffer navigatorMetaDataParser = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NavigatorMetaDataComposer"));
+            session.SendMessage(NavigatorMetaDataComposer.Compose());
 
-            navigatorMetaDataParser.AppendInteger(4);
-            navigatorMetaDataParser.AppendString("official_view");
-            navigatorMetaDataParser.AppendInteger(0);
-            navigatorMetaDataParser.AppendString("hotel_view");
-            navigatorMetaDataParser.AppendInteger(0);
-            navigatorMetaDataParser.AppendString("roomads_view");
-            navigatorMetaDataParser.AppendInteger(0);
-            navigatorMetaDataParser.AppendString("myworld_view");
-            navigatorMetaDataParser.AppendInteger(0);
-            session.SendMessage(navigatorMetaDataParser);
+            session.SendMessage(NavigatorLiftedRoomsComposer.Compose());
+            
+            session.SendMessage(NavigatorCategoriesListComposer.Compose());
 
-            SimpleServerMessageBuffer navigatorLiftedRoomsParser = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NavigatorLiftedRoomsComposer"));
+            session.SendMessage(NavigatorSavedSearchesComposer.Compose(session.GetHabbo().NavigatorLogs));
 
-            navigatorLiftedRoomsParser.AppendInteger(NavigatorHeaders.Count);
-
-            foreach (NavigatorHeader navHeader in NavigatorHeaders)
-            {
-                navigatorLiftedRoomsParser.AppendInteger(navHeader.RoomId);
-                navigatorLiftedRoomsParser.AppendInteger(0);
-                navigatorLiftedRoomsParser.AppendString(navHeader.Image);
-                navigatorLiftedRoomsParser.AppendString(navHeader.Caption);
-            }
-
-            session.SendMessage(navigatorLiftedRoomsParser);
-
-            SimpleServerMessageBuffer collapsedCategoriesMessageBufferParser = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NavigatorCategorys"));
-
-            collapsedCategoriesMessageBufferParser.AppendInteger(FlatCatsCount + 4);
-
-            foreach (PublicCategory flat in PrivateCategories.Values)
-                collapsedCategoriesMessageBufferParser.AppendString($"category__{flat.Caption}");
-
-            collapsedCategoriesMessageBufferParser.AppendString("recommended");
-            collapsedCategoriesMessageBufferParser.AppendString("new_ads");
-            collapsedCategoriesMessageBufferParser.AppendString("staffpicks");
-            collapsedCategoriesMessageBufferParser.AppendString("official");
-            session.SendMessage(collapsedCategoriesMessageBufferParser);
-
-            SimpleServerMessageBuffer searches = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NavigatorSavedSearchesComposer"));
-
-            searches.AppendInteger(session.GetHabbo().NavigatorLogs.Count);
-
-            foreach (UserSearchLog navi in session.GetHabbo().NavigatorLogs.Values)
-            {
-                searches.AppendInteger(navi.Id);
-                searches.AppendString(navi.Value1);
-                searches.AppendString(navi.Value2);
-                searches.AppendString(string.Empty);
-            }
-
-            session.SendMessage(searches);
-
-            SimpleServerMessageBuffer packetName = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NewNavigatorSizeMessageComposer"));
-            UserPreferences pref = session.GetHabbo().Preferences;
-
-            packetName.AppendInteger(pref.NewnaviX);
-            packetName.AppendInteger(pref.NewnaviY);
-            packetName.AppendInteger(pref.NewnaviWidth);
-            packetName.AppendInteger(pref.NewnaviHeight);
-            packetName.AppendBool(false);
-            packetName.AppendInteger(1);
-
-            session.SendMessage(packetName);
+            session.SendMessage(NavigatorPreferencesComposer.Compose(session.GetHabbo().Preferences));
         }
        
         /// <summary>
@@ -456,15 +320,15 @@ namespace Yupi.Emulator.Game.Browser
         ///     Gets a navigator category by caption
         /// </summary>
         /// <param name="navigatorCategoryCaption">Name of the category.</param>
-        internal NavigatorCategory GetNavigatorCategory(string navigatorCategoryCaption) => InCategories.FirstOrDefault(c => c.Key == navigatorCategoryCaption).Value;
+        internal NavigatorCategory GetNavigatorCategory(string navigatorCategoryCaption) => NavigatorCategories.FirstOrDefault(c => c.Key == navigatorCategoryCaption).Value;
 
         /// <summary>
         ///     Gets a Public Room Data
         /// </summary>
         /// <param name="roomId">Public Room Id.</param>
-        internal PublicItem GetPublicItem(uint roomId)
+        internal PublicItem GetPublicRoom(uint roomId)
         {
-            IEnumerable<KeyValuePair<uint, PublicItem>> search = PublicItems.Where(i => i.Value.RoomId == roomId);
+            IEnumerable<KeyValuePair<uint, PublicItem>> search = PublicRooms.Where(i => i.Value.RoomId == roomId);
 
             IEnumerable<KeyValuePair<uint, PublicItem>> keyValuePairs = search as KeyValuePair<uint, PublicItem>[] ?? search.ToArray();
 
@@ -476,7 +340,7 @@ namespace Yupi.Emulator.Game.Browser
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>System.Int32.</returns>
-        private static int GetNewNavigatorLength(string value)
+        internal int GetNewNavigatorLength(string value)
         {
             switch (value)
             {

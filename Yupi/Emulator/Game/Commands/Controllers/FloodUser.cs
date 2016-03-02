@@ -3,7 +3,6 @@ using Yupi.Emulator.Game.Commands.Interfaces;
 using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
-using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Commands.Controllers
 {
@@ -44,7 +43,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
             }
 
             client.GetHabbo().FloodTime = Yupi.GetUnixTimeStamp() + Convert.ToInt32(pms[1]);
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("FloodFilterMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("FloodFilterMessageComposer"));
             simpleServerMessageBuffer.AppendInteger(Convert.ToInt32(pms[1]));
             client.SendMessage(simpleServerMessageBuffer);
             return true;

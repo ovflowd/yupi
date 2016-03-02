@@ -23,11 +23,11 @@
 */
 
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Browser.Composers;
 using Yupi.Emulator.Game.Browser.Enums;
 using Yupi.Emulator.Game.Browser.Models;
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Rooms.Data;
-using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Messages.Handlers
 {
@@ -49,7 +49,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 return;
                 
             //@TODO: What The Hell? Direct Packet?
-            GetResponse().Init(PacketLibraryManager.OutgoingRequest("453"));
+            GetResponse().Init(PacketLibraryManager.SendRequest("453"));
 
             GetResponse().AppendInteger(roomData.Id);
             GetResponse().AppendString(roomData.CcTs);
@@ -100,7 +100,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
             string junk = Request.GetString();
             
-            Session.SendMessage(Yupi.GetGame().GetNavigator().SerializeNewNavigator(name, junk, Session));
+            Session.SendMessage(NavigatorSearchListResultComposer.Compose(name, junk, Session));
         }
 
         /// <summary>
@@ -124,19 +124,7 @@ namespace Yupi.Emulator.Messages.Handlers
             if (!Session.GetHabbo().NavigatorLogs.ContainsKey(naviLogs.Id))
                 Session.GetHabbo().NavigatorLogs.Add(naviLogs.Id, naviLogs);
                 
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NavigatorSavedSearchesComposer"));
-
-            messageBuffer.AppendInteger(Session.GetHabbo().NavigatorLogs.Count);
-            
-            foreach (UserSearchLog navi in Session.GetHabbo().NavigatorLogs.Values)
-            {
-                messageBuffer.AppendInteger(navi.Id);
-                messageBuffer.AppendString(navi.Value1);
-                messageBuffer.AppendString(navi.Value2);
-                messageBuffer.AppendString(string.Empty);
-            }
-            
-            Session.SendMessage(messageBuffer);
+            Session.SendMessage(NavigatorSavedSearchesComposer.Compose(Session.GetHabbo().NavigatorLogs));
         }
 
         /// <summary>
@@ -151,8 +139,8 @@ namespace Yupi.Emulator.Messages.Handlers
             
             Session.GetHabbo().Preferences.NewnaviX = x;
             Session.GetHabbo().Preferences.NewnaviY = y;
-            Session.GetHabbo().Preferences.NewnaviWidth = width;
-            Session.GetHabbo().Preferences.NewnaviHeight = height;
+            Session.GetHabbo().Preferences.NavigatorWidth = width;
+            Session.GetHabbo().Preferences.NavigatorHeight = height;
             Session.GetHabbo().Preferences.Save();
         }
 
@@ -173,18 +161,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 
             Session.GetHabbo().NavigatorLogs.Remove(searchId);
             
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("NavigatorSavedSearchesComposer"));
-            messageBuffer.AppendInteger(Session.GetHabbo().NavigatorLogs.Count);
-            
-            foreach (UserSearchLog navi in Session.GetHabbo().NavigatorLogs.Values)
-            {
-                messageBuffer.AppendInteger(navi.Id);
-                messageBuffer.AppendString(navi.Value1);
-                messageBuffer.AppendString(navi.Value2);
-                messageBuffer.AppendString(string.Empty);
-            }
-            
-            Session.SendMessage(messageBuffer);
+            Session.SendMessage(NavigatorSavedSearchesComposer.Compose(Session.GetHabbo().NavigatorLogs));
         }
 
         /// <summary>
@@ -205,7 +182,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 return;
             
             // @TODO: What The Hell? Directly Packet ID?
-            GetResponse().Init(PacketLibraryManager.OutgoingRequest("1491"));
+            GetResponse().Init(PacketLibraryManager.SendRequest("1491"));
             
             GetResponse().AppendInteger(0);
             roomData.Serialize(GetResponse());
@@ -221,7 +198,7 @@ namespace Yupi.Emulator.Messages.Handlers
             if (Session.GetHabbo() == null)
                 return;
                 
-            Session.SendMessage(Yupi.GetGame().GetNavigator().SerializeNewFlatCategories());
+            Session.SendMessage(NavigatorFlatCategoriesListComposer.Compose());
         }
 
         /// <summary>
@@ -254,7 +231,7 @@ namespace Yupi.Emulator.Messages.Handlers
             
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                PublicItem pubItem = Yupi.GetGame().GetNavigator().GetPublicItem(roomId);
+                PublicItem pubItem = Yupi.GetGame().GetNavigator().GetPublicRoom(roomId);
                 
                 if (pubItem == null) // Isn't A Staff Pick Room
                 {
@@ -266,7 +243,7 @@ namespace Yupi.Emulator.Messages.Handlers
                     
                     PublicItem publicItem = new PublicItem(lastInsertId, 0, string.Empty, string.Empty, string.Empty, PublicImageType.Internal, room.RoomId, 0, -2, false, 1);
                     
-                    Yupi.GetGame().GetNavigator().AddPublicItem(publicItem);
+                    Yupi.GetGame().GetNavigator().AddPublicRoom(publicItem);
                 }
                 else // Is a Staff Pick Room
                 {
@@ -275,12 +252,10 @@ namespace Yupi.Emulator.Messages.Handlers
                     queryReactor.AddParameter("pubId", pubItem.Id);
                     queryReactor.RunQuery();
                     
-                    Yupi.GetGame().GetNavigator().RemovePublicItem(pubItem.Id);
+                    Yupi.GetGame().GetNavigator().RemovePublicRoom(pubItem.Id);
                 }
                 
                 room.RoomData.SerializeRoomData(Response, Session, false, true);
-                
-                Yupi.GetGame().GetNavigator().LoadNewPublicRooms();
             }
         }
     }

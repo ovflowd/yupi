@@ -8,7 +8,6 @@ using Yupi.Emulator.Game.Items.Interfaces;
 using Yupi.Emulator.Game.Pets;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
-using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.Catalogs.Composers
 {
@@ -33,7 +32,7 @@ namespace Yupi.Emulator.Game.Catalogs.Composers
             if (type == "NORMAL")
                 sortedPages = pages.Where(x => x.ParentId == -1 && x.MinRank <= rank).OrderBy(x => x.OrderNum);
 
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("CatalogueIndexMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("CatalogueIndexMessageComposer"));
 
             messageBuffer.AppendBool(true);
             messageBuffer.AppendInteger(0);
@@ -89,7 +88,7 @@ namespace Yupi.Emulator.Game.Catalogs.Composers
         /// <returns>SimpleServerMessageBuffer.</returns>
         internal static SimpleServerMessageBuffer ComposePage(CatalogPage page)
         {
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("CataloguePageMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("CataloguePageMessageComposer"));
             messageBuffer.AppendInteger(page.PageId);
 
             switch (page.Layout)
@@ -466,7 +465,7 @@ namespace Yupi.Emulator.Game.Catalogs.Composers
         /// <returns>SimpleServerMessageBuffer.</returns>
         internal static SimpleServerMessageBuffer ComposeClubPurchasePage(GameClient session, int windowId)
         {
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("CatalogueClubPageMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("CatalogueClubPageMessageComposer"));
             List<CatalogItem> habboClubItems = Yupi.GetGame().GetCatalogManager().HabboClubItems;
 
             messageBuffer.AppendInteger(habboClubItems.Count);
@@ -545,7 +544,7 @@ namespace Yupi.Emulator.Game.Catalogs.Composers
             uint limitedStack = 0,
             uint limitedSelled = 0)
         {
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingRequest("PurchaseOKMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("PurchaseOKMessageComposer"));
             messageBuffer.AppendInteger(itemId);
             messageBuffer.AppendString(itemName);
             messageBuffer.AppendBool(false);
