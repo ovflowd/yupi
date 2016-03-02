@@ -58,8 +58,6 @@ namespace Yupi.Emulator.Data
 
                 Console.Title = string.Concat("Yupi | Time: ", int.Parse(dateTime.ToString("dd")) - 1, "d:", dateTime.ToString("HH"), "h:", dateTime.ToString("mm"), "m | Users: ", Yupi.GetGame().GetClientManager().GetOnlineClients(), " | Rooms: ", Yupi.GetGame().GetRoomManager().LoadedRoomsCount);
 
-                Yupi.GetGame().GetNavigator().LoadPublicRooms();
-
                 _refreshInterval.Restart();
             }
         }

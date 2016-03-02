@@ -311,9 +311,6 @@ namespace Yupi.Emulator.Game
                 Progress(bar, wait, end, "Loading Cross Domain Data...");
                 CrossDomainSettings.Set();
 
-                Progress(bar, wait, end, "Loading Public Rooms...");
-                _navigatorManager.LoadPublicRooms();
-
                 Progress(bar, wait, end, "Loading Pets Types...");
                 PetTypeManager.Load();
 
