@@ -104,30 +104,6 @@ namespace Yupi.Emulator.Messages.Handlers
         }
 
         /// <summary>
-        ///     Saveds the search.
-        /// </summary>
-        internal void SavedSearch()
-        {
-            if (Session.GetHabbo().NavigatorLogs.Count > 50)
-            {
-                Session.SendNotif(Yupi.GetLanguage().GetVar("navigator_max"));
-                
-                return;
-            }
-            
-            string value1 = Request.GetString();
-
-            string value2 = Request.GetString();
-            
-            UserSearchLog naviLogs = new UserSearchLog(Session.GetHabbo().NavigatorLogs.Count, value1, value2);
-            
-            if (!Session.GetHabbo().NavigatorLogs.ContainsKey(naviLogs.Id))
-                Session.GetHabbo().NavigatorLogs.Add(naviLogs.Id, naviLogs);
-                
-            Session.SendMessage(NavigatorSavedSearchesComposer.Compose(Session.GetHabbo().NavigatorLogs));
-        }
-
-        /// <summary>
         ///     News the navigator resize.
         /// </summary>
         internal void NewNavigatorResize()
@@ -147,7 +123,27 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     News the navigator add saved search.
         /// </summary>
-        internal void NewNavigatorAddSavedSearch() => SavedSearch();
+        internal void NewNavigatorAddSavedSearch()
+        {
+            if (Session.GetHabbo().NavigatorLogs.Count > 50)
+            {
+                Session.SendNotif(Yupi.GetLanguage().GetVar("navigator_max"));
+
+                return;
+            }
+
+            string value1 = Request.GetString();
+
+            string value2 = Request.GetString();
+
+            UserSearchLog naviLogs = new UserSearchLog(Session.GetHabbo().NavigatorLogs.Count, value1, value2);
+
+            if (!Session.GetHabbo().NavigatorLogs.ContainsKey(naviLogs.Id))
+                Session.GetHabbo().NavigatorLogs.Add(naviLogs.Id, naviLogs);
+
+            Session.SendMessage(NavigatorSavedSearchesComposer.Compose(Session.GetHabbo().NavigatorLogs));
+
+        }
 
         /// <summary>
         ///     News the navigator delete saved search.

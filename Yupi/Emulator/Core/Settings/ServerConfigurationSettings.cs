@@ -78,6 +78,7 @@ namespace Yupi.Emulator.Core.Settings
                     }
 
                     streamReader.Close();
+                    streamReader.Dispose();
                 }
             }
             catch (Exception ex)

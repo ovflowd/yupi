@@ -1330,6 +1330,7 @@ namespace Yupi.Emulator.Messages.Handlers
             SendResponse();
         }
 
+        // Without VOID! //@TODO find void
         internal void TriggerLoveLock(RoomItem loveLock)
         {
             string[] loveLockParams = loveLock.ExtraData.Split(Convert.ToChar(5));
@@ -1878,7 +1879,7 @@ namespace Yupi.Emulator.Messages.Handlers
             room.SendMessage(simpleServerMessage2);
         }
 
-        internal void CancelMountOnPet()
+        internal void Unride()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
@@ -1975,7 +1976,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 roomUserByHabbo.CarryItem(0);
         }
 
-        internal void MountOnPet()
+        internal void Ride()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
@@ -2105,7 +2106,7 @@ namespace Yupi.Emulator.Messages.Handlers
             WiredSaver.SaveWired(Session, item, Request);
         }
 
-        internal void SaveWiredConditions()
+        internal void SaveWiredCondition()
         {
             uint pId = Request.GetUInteger();
 
@@ -2119,7 +2120,7 @@ namespace Yupi.Emulator.Messages.Handlers
             WiredSaver.SaveWired(Session, item, Request);
         }
 
-        internal void ChooseTvPlaylist()
+        internal void GetTvPlaylist()
         {
             uint num = Request.GetUInteger();
 
@@ -2251,6 +2252,7 @@ namespace Yupi.Emulator.Messages.Handlers
             Session.SendMessage(Session.GetHabbo().GetInventoryComponent().SerializeBotInventory());
         }
 
+        // No Void? //@WTF Why no void?
         internal void CancelMysteryBox()
         {
             Request.GetUInteger();

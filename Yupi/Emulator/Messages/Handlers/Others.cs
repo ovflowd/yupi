@@ -101,22 +101,6 @@ namespace Yupi.Emulator.Messages.Handlers
         }
 
         /// <summary>
-        ///     Adds the staff pick.
-        /// </summary>
-        internal void AddStaffPick()
-        {
-            Session.SendNotif(Yupi.GetLanguage().GetVar("addstaffpick_error_1"));
-        }
-
-        /// <summary>
-        ///     Gets the client version message event.
-        /// </summary>
-        internal void GetClientVersionMessageEvent()
-        {
-            Request.GetString();
-        }
-
-        /// <summary>
         ///     Pongs this instance.
         /// </summary>
         internal void Pong()
@@ -177,7 +161,9 @@ namespace Yupi.Emulator.Messages.Handlers
         internal void MachineId()
         {
             Request.GetString();
+
             string machineId = Request.GetString();
+
             Session.MachineId = machineId;
         }
 
@@ -211,6 +197,7 @@ namespace Yupi.Emulator.Messages.Handlers
             bool tradeLocked = Session.GetHabbo().CheckTrading();
 
             Response.Init(PacketLibraryManager.SendRequest("UserObjectMessageComposer"));
+
             Response.AppendInteger(habbo.Id);
             Response.AppendString(habbo.UserName);
             Response.AppendString(habbo.Look);
@@ -325,8 +312,7 @@ namespace Yupi.Emulator.Messages.Handlers
         {
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery(
-                    $"SELECT * FROM cms_stories_photos_preview WHERE user_id = {Session.GetHabbo().Id} AND type = 'PHOTO' ORDER BY id DESC LIMIT 1");
+                queryReactor.SetQuery($"SELECT * FROM cms_stories_photos_preview WHERE user_id = {Session.GetHabbo().Id} AND type = 'PHOTO' ORDER BY id DESC LIMIT 1");
 
                 DataTable table = queryReactor.GetTable();
 
@@ -376,27 +362,6 @@ namespace Yupi.Emulator.Messages.Handlers
         internal void OnClick()
         {
             //uselss only for debug reasons
-        }
-
-        /// <summary>
-        ///     Gets the friends count.
-        /// </summary>
-        /// <param name="userId">The user identifier.</param>
-        /// <returns>System.Int32.</returns>
-        private static int GetFriendsCount(uint userId)
-        {
-            int result;
-
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-            {
-                queryReactor.SetQuery(
-                    "SELECT COUNT(*) FROM messenger_friendships WHERE user_one_id = @id OR user_two_id = @id;");
-                queryReactor.AddParameter("id", userId);
-
-                result = queryReactor.GetInteger();
-            }
-
-            return result;
         }
 
         /// <summary>

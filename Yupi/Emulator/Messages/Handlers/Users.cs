@@ -49,7 +49,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Sends the bully report.
         /// </summary>
-        public void SendBullyReport()
+        internal void  SendBullyReport()
         {
             uint reportedId = Request.GetUInteger();
 
@@ -65,7 +65,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Opens the bully reporting.
         /// </summary>
-        public void OpenBullyReporting()
+        internal void  OpenBullyReporting()
         {
             Response.Init(PacketLibraryManager.SendRequest("OpenBullyReportMessageComposer"));
             Response.AppendInteger(0);
@@ -75,7 +75,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Opens the quests.
         /// </summary>
-        public void OpenQuests()
+        internal void  OpenQuests()
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("QuestListMessageComposer"));
             simpleServerMessageBuffer.AppendInteger(0);
@@ -86,7 +86,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Retrieves the citizenship.
         /// </summary>
-        internal void RetrieveCitizenship()
+        internal void RetriveCitizenShipStatus()
         {
             GetResponse().Init(PacketLibraryManager.SendRequest("CitizenshipStatusMessageComposer"));
             GetResponse().AppendString(Request.GetString());
@@ -109,16 +109,6 @@ namespace Yupi.Emulator.Messages.Handlers
             simpleServerMessageBuffer.AppendInteger(0); // i
             simpleServerMessageBuffer.AppendInteger(0); // i2
             simpleServerMessageBuffer.AppendInteger(1);
-        }
-
-        /// <summary>
-        ///     Chooses the club gift.
-        /// </summary>
-        internal void ChooseClubGift()
-        {
-            if (Session?.GetHabbo() == null)
-                return;
-            Request.GetString();
         }
 
         /// <summary>
@@ -244,6 +234,11 @@ namespace Yupi.Emulator.Messages.Handlers
                 Session.GetHabbo().GetAvatarEffectsInventoryComponent().ActivateCustomEffect(effectId);
         }
 
+        internal void EnableInventoryEffect()
+        {
+            EnableEffect();
+        }
+
         /// <summary>
         ///     Enables the effect.
         /// </summary>
@@ -345,7 +340,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Loads the settings.
         /// </summary>
-        internal void LoadSettings()
+        internal void GetVoume()
         {
             UserPreferences preferences = Session.GetHabbo().Preferences;
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("LoadVolumeMessageComposer"));
@@ -363,7 +358,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Saves the settings.
         /// </summary>
-        internal void SaveSettings()
+        internal void SaveVolume()
         {
             int num = Request.GetInteger();
             int num2 = Request.GetInteger();
@@ -476,6 +471,27 @@ namespace Yupi.Emulator.Messages.Handlers
             Response.AppendString(text);
             Response.AppendBool(Session.GetHabbo().GetBadgeComponent().HasBadge(text));
             SendResponse();
+        }
+
+        /// <summary>
+        ///     Gets the friends count.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>System.Int32.</returns>
+        internal static int GetFriendsCount(uint userId)
+        {
+            int result;
+
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+            {
+                queryReactor.SetQuery(
+                    "SELECT COUNT(*) FROM messenger_friendships WHERE user_one_id = @id OR user_two_id = @id;");
+                queryReactor.AddParameter("id", userId);
+
+                result = queryReactor.GetInteger();
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -742,7 +758,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Gets the bots inventory.
         /// </summary>
-        internal void GetBotsInventory()
+        internal void GetBotInv()
         {
             Session.SendMessage(Session.GetHabbo().GetInventoryComponent().SerializeBotInventory());
             SendResponse();
@@ -1026,22 +1042,6 @@ namespace Yupi.Emulator.Messages.Handlers
         }
 
         /// <summary>
-        ///     Receives the nux gifts.
-        /// </summary>
-        public void ReceiveNuxGifts()
-        {
-            // Newbie Gifts Removed from Yupi
-        }
-
-        /// <summary>
-        ///     Accepts the nux gifts.
-        /// </summary>
-        public void AcceptNuxGifts()
-        {
-            // Newbie Gifts Removed from Yupi
-        }
-
-        /// <summary>
         ///     Talentses this instance.
         /// </summary>
         /// <exception cref="System.NullReferenceException"></exception>
@@ -1126,7 +1126,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Completes the safety quiz.
         /// </summary>
-        internal void CompleteSafetyQuiz()
+        internal void CompleteSafteyQuiz()
         {
             Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(Session, "ACH_SafetyQuizGraduate", 1);
         }
@@ -1145,13 +1145,6 @@ namespace Yupi.Emulator.Messages.Handlers
             Response.AppendInteger(Convert.ToInt32(diff.TotalSeconds));
             SendResponse();
             Console.WriteLine(diff.TotalSeconds);
-        }
-
-        /// <summary>
-        ///     Hotels the view dailyquest.
-        /// </summary>
-        internal void HotelViewDailyquest()
-        {
         }
 
         internal void FindMoreFriends()
@@ -1217,10 +1210,6 @@ namespace Yupi.Emulator.Messages.Handlers
             }
             GetResponse().EndArray();
             SendResponse();
-        }
-
-        internal void FriendRequestListLoad()
-        {
         }
     }
 }

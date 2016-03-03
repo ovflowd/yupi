@@ -26,6 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Yupi.Emulator.Core.Io.Logger;
 using Yupi.Emulator.Messages.Encoding;
 
 namespace Yupi.Emulator.Messages.Buffers
@@ -324,16 +325,9 @@ namespace Yupi.Emulator.Messages.Buffers
             }
 
             if (Yupi.PacketDebugMode)
-            {
-                Console.ForegroundColor = ConsoleColor.DarkBlue;
-                Console.WriteLine();
-                Console.Write("OUTGOING ");
-                Console.ForegroundColor = ConsoleColor.DarkGreen;
-                Console.Write("PREPARED ");
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write(Id + Environment.NewLine + HabboEncoding.GetCharFilter(Yupi.GetDefaultEncoding().GetString(bytes)));
-                Console.WriteLine();
-            }
+                YupiWriterManager.WriteLine(
+                    $"Handled: {Id}: " + Environment.NewLine + HabboEncoding.GetCharFilter(Yupi.GetDefaultEncoding().GetString(bytes)) + Environment.NewLine,
+                    "Yupi.Outgoing", ConsoleColor.DarkGray);
 
             return bytes;
         }

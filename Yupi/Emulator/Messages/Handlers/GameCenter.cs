@@ -107,23 +107,9 @@ namespace Yupi.Emulator.Messages.Handlers
 
             Session.SendMessage(previousWinner);
 
-            /*SimpleServerMessageBuffer Products = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("GameCenterProductsMessageComposer"));
-            Products.AppendInteger(18);//gameId
-            Products.AppendInteger(0);//count
-            Products.AppendInteger(6526);
-            Products.AppendBool(false);
-            Session.SendMessage(Products);*/
-
             SimpleServerMessageBuffer allAchievements =
                 new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("GameCenterAllAchievementsMessageComposer"));
             allAchievements.AppendInteger(0); //count
-
-            //For Stories
-            /*PacketName5.AppendInteger(18);
-            PacketName5.AppendInteger(1);
-            PacketName5.AppendInteger(191);
-            PacketName5.AppendString("StoryChallengeChampion");
-            PacketName5.AppendInteger(20);*/
 
             allAchievements.AppendInteger(0); //gameId
             allAchievements.AppendInteger(0); //count

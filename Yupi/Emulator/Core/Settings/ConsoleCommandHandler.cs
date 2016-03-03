@@ -102,7 +102,7 @@ namespace Yupi.Emulator.Core.Settings
 
                             YupiLogManager.LogMessage($"Server Shutdowning at {DateTime.Now}.");
 
-                            YupiWriterManager.DisablePrimaryWriting(true);
+                            YupiWriterManager.DisablePrimaryWriting();
 
                             YupiWriterManager.WriteLine("Shutdown Initalized", "Yupi.Life", ConsoleColor.DarkYellow);
 
@@ -119,7 +119,7 @@ namespace Yupi.Emulator.Core.Settings
 
                         YupiLogManager.LogMessage($"Server Shutdowning at {DateTime.Now}.");
 
-                        YupiWriterManager.DisablePrimaryWriting(true);
+                        YupiWriterManager.DisablePrimaryWriting();
 
                         YupiWriterManager.WriteLine("Shutdown Initalized", "Yupi.Life", ConsoleColor.DarkYellow);
 
@@ -134,7 +134,7 @@ namespace Yupi.Emulator.Core.Settings
                     case "restart":
                         YupiLogManager.LogMessage($"Server Restarting at {DateTime.Now}.");
 
-                        YupiWriterManager.DisablePrimaryWriting(true);
+                        YupiWriterManager.DisablePrimaryWriting();
 
                         YupiWriterManager.WriteLine("Restart Initialized", "Yupi.Life", ConsoleColor.DarkYellow);
 

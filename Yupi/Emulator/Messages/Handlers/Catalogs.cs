@@ -18,7 +18,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Catalogues the index.
         /// </summary>
-        public void CatalogueIndex()
+        internal void CatalogueIndex()
         {
             uint rank = Session.GetHabbo().Rank;
 
@@ -32,7 +32,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Catalogues the page.
         /// </summary>
-        public void CataloguePage()
+        internal void CataloguePage()
         {
             uint pageId = Request.GetUInteger();
 
@@ -49,7 +49,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Catalogues the club page.
         /// </summary>
-        public void CatalogueClubPage()
+        internal void CatalogueClubPage()
         {
             int requestType = Request.GetInteger();
 
@@ -59,7 +59,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Reloads the ecotron.
         /// </summary>
-        public void ReloadEcotron()
+        internal void ReloadEcotron()
         {
             Response.Init(PacketLibraryManager.SendRequest("ReloadEcotronMessageComposer"));
             Response.AppendInteger(1);
@@ -70,7 +70,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Gifts the wrapping configuration.
         /// </summary>
-        public void GiftWrappingConfig()
+        internal void GiftWrappingConfig()
         {
             Response.Init(PacketLibraryManager.SendRequest("GiftWrappingConfigurationMessageComposer"));
             Response.AppendBool(true);
@@ -101,7 +101,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Gets the recycler rewards.
         /// </summary>
-        public void GetRecyclerRewards()
+        internal void RecyclerRewards()
         {
             Response.Init(PacketLibraryManager.SendRequest("RecyclerRewardsMessageComposer"));
 
@@ -134,7 +134,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Purchases the item.
         /// </summary>
-        public void PurchaseItem()
+        internal void PurchaseItem()
         {
             if (Session?.GetHabbo() == null)
                 return;
@@ -160,7 +160,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Purchases the gift.
         /// </summary>
-        public void PurchaseGift()
+        internal void PurchaseGift()
         {
             uint pageId = Request.GetUInteger();
             uint itemId = Request.GetUInteger();
@@ -181,7 +181,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Checks the name of the pet.
         /// </summary>
-        public void CheckPetName()
+        internal void CheckPetName()
         {
             string petName = Request.GetString();
             int i = 0;
@@ -202,7 +202,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Catalogues the offer.
         /// </summary>
-        public void CatalogueOffer()
+        internal void CatalogueSingleOffer()
         {
             uint num = Request.GetUInteger();
 
@@ -216,13 +216,14 @@ namespace Yupi.Emulator.Messages.Handlers
             SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("CatalogOfferMessageComposer"));
 
             CatalogPageComposer.ComposeItem(catalogItem, messageBuffer);
+
             Session.SendMessage(messageBuffer);
         }
 
         /// <summary>
         ///     Catalogues the offer configuration.
         /// </summary>
-        public void CatalogueOfferConfig()
+        internal void CatalogueOffersConfig()
         {
             Response.Init(PacketLibraryManager.SendRequest("CatalogueOfferConfigMessageComposer"));
             Response.AppendInteger(100);

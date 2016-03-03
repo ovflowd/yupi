@@ -15,8 +15,8 @@
 [assembly: System.Reflection.AssemblyCopyright("Claudio A. Santoro W., Kessiler R., Sulake Corp. Oy")]
 [assembly: System.Runtime.InteropServices.ComVisible(false)]
 [assembly: System.CLSCompliant(false)]
-[assembly: System.Reflection.AssemblyInformationalVersion("170b0aa5a0cce6ec65be1d90b3a72598ee32076d")]
+[assembly: System.Reflection.AssemblyInformationalVersion("39becc2f4deba222a5d6e8d69e4c80df39ff65b0")]
 [assembly: System.Reflection.AssemblyVersion("1.0.0")]
-[assembly: System.Reflection.AssemblyFileVersion("1.0.0.170b0aa")]
+[assembly: System.Reflection.AssemblyFileVersion("1.0.0.39becc2")]
 
 

@@ -67,7 +67,7 @@ namespace Yupi.Emulator.Core.Io.Logger
         /// <summary>
         ///     Disables the primary writing.
         /// </summary>
-        /// <param name="clearConsole">if set to <c>true</c> [clear console].</param>
-        public static void DisablePrimaryWriting(bool clearConsole) => _disabled = true;
+        /// <param name="disableState">if set to <c>true</c> [clear console].</param>
+        public static void DisablePrimaryWriting(bool disableState = true) => _disabled = disableState;
     }
 }

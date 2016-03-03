@@ -14,7 +14,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Calls the guide.
         /// </summary>
-        internal void CallGuide()
+        internal void GuideMessage()
         {
             Request.GetBool();
 
@@ -63,7 +63,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Answers the guide request.
         /// </summary>
-        internal void AnswerGuideRequest()
+        internal void GetGuideDetached()
         {
             bool state = Request.GetBool();
 
@@ -86,7 +86,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Opens the guide tool.
         /// </summary>
-        internal void OpenGuideTool()
+        internal void GetHelperTool()
         {
             GuideManager guideManager = Yupi.GetGame().GetGuideManager();
             bool onDuty = Request.GetBool();
@@ -112,7 +112,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Invites to room.
         /// </summary>
-        internal void InviteToRoom()
+        internal void InviteGuide()
         {
             GameClient requester = Session.GetHabbo().GuideOtherUser;
 
@@ -139,7 +139,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Visits the room.
         /// </summary>
-        internal void VisitRoom()
+        internal void VisitRoomGuide()
         {
             if (Session.GetHabbo().GuideOtherUser == null)
                 return;
@@ -153,7 +153,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Guides the speak.
         /// </summary>
-        internal void GuideSpeak()
+        internal void MessageFromAGuy()
         {
             string message = Request.GetString();
             GameClient requester = Session.GetHabbo().GuideOtherUser;
@@ -168,11 +168,10 @@ namespace Yupi.Emulator.Messages.Handlers
         ///     BETA
         ///     Closes the guide request.
         /// </summary>
-        internal void CloseGuideRequest()
+        internal void GuideEndSession()
         {
-            //Request.GetBool();
-
             GameClient requester = Session.GetHabbo().GuideOtherUser;
+
             SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("OnGuideSessionDetachedMessageComposer"));
 
             /* guide - close session  */
@@ -192,8 +191,6 @@ namespace Yupi.Emulator.Messages.Handlers
             SimpleServerMessageBuffer message4 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("OnGuideSessionDetachedMessageComposer"));
             requester.SendMessage(message4);
 
-            Console.WriteLine("The Close was Called");
-
             requester.GetHabbo().GuideOtherUser = null;
             Session.GetHabbo().GuideOtherUser = null;
         }
@@ -204,6 +201,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void CancelCallGuide()
         {
+            // @TODO what packet is this?
             //Response.Load(3485);
 
             /* user - cancell session */
@@ -211,18 +209,9 @@ namespace Yupi.Emulator.Messages.Handlers
             messageBuffer.AppendInteger(2);
             Session.SendMessage(messageBuffer);
 
-            Console.WriteLine("The Cancell was Called");
-        }
-
-        /// <summary>
-        ///     Guides the feedback.
-        /// </summary>
-        internal void GuideFeedback()
-        {
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("OnGuideSessionDetachedMessageComposer"));
-
-            Session.SendMessage(messageBuffer);
-
+            /* achievement */
+            SimpleServerMessageBuffer messageBuffer2 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("OnGuideSessionDetachedMessageComposer"));
+            Session.SendMessage(messageBuffer2);
             Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(Session, "ACH_GuideFeedbackGiver", 1);
         }
 
