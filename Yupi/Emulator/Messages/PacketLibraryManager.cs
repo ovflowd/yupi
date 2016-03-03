@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using Yupi.Emulator.Core.Io.Logger;
 using Yupi.Emulator.Core.Settings;
 using Yupi.Emulator.Messages.Buffers;
@@ -19,7 +20,7 @@ namespace Yupi.Emulator.Messages
         /// <summary>
         ///     Incoming Requests
         /// </summary>
-        internal static Dictionary<int, StaticRequestHandler> Incoming;
+        internal static Dictionary<int, MethodInfo> Incoming;
 
         /// <summary>
         ///     Incoming Request Library
@@ -46,7 +47,7 @@ namespace Yupi.Emulator.Messages
         /// </summary>
         public static void Configure()
         {
-            Incoming = new Dictionary<int, StaticRequestHandler>();
+            Incoming = new Dictionary<int, MethodInfo>();
             Library = new Dictionary<string, string>();
             Outgoing = new Dictionary<string, int>();
 
@@ -112,9 +113,9 @@ namespace Yupi.Emulator.Messages
                         $"Handled: {messageBuffer.Id}: " + Environment.NewLine + messageBuffer + Environment.NewLine,
                         "Yupi.Incoming", ConsoleColor.DarkGreen);
 
-                StaticRequestHandler staticRequestHandler = Incoming[messageBuffer.Id];
+                MethodInfo staticRequestHandler = Incoming[messageBuffer.Id];
 
-                staticRequestHandler(handler);
+                staticRequestHandler.Invoke(handler, null);
 
                 return;
             }
@@ -152,15 +153,12 @@ namespace Yupi.Emulator.Messages
 
                     string libValue = Library[packetName];
 
-                    if (packetId == -1 || Incoming.ContainsKey(packetId))
+                    if (Incoming.ContainsKey(packetId))
                         continue;
 
-                    GameClientMessageHandler.GetProperty del =
-                        (GameClientMessageHandler.GetProperty)
-                            Delegate.CreateDelegate(typeof (GameClientMessageHandler.GetProperty),
-                                typeof (GameClientMessageHandler), libValue);
+                    Type handlerType = typeof (GameClientMessageHandler);
 
-                    Incoming.Add(packetId, new StaticRequestHandler(del));
+                    Incoming.Add(packetId, handlerType.GetMethod(libValue, BindingFlags.NonPublic | BindingFlags.Instance));
                 }
             }
         }
@@ -210,10 +208,5 @@ namespace Yupi.Emulator.Messages
                 Library.Add(incomingName, libraryName);
             }
         }
-
-        /// <summary>
-        ///     Request Delegate
-        /// </summary>
-        internal delegate void StaticRequestHandler(GameClientMessageHandler handler);
     }
 }

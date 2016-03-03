@@ -132,7 +132,7 @@ namespace Yupi.Emulator.Game.Browser
                     return;
 
                 foreach (DataRow dataRow in table.Rows)
-                    HotelViewPromosIndexers.Add(new HotelLandingPromos(Convert.ToInt32(dataRow["index"]), (string) dataRow["header"], (string) dataRow["body"], (string) dataRow["button"], Convert.ToInt32(dataRow["in_game_promo"]), (string) dataRow["special_action"], (string) dataRow["image"]));
+                    HotelViewPromosIndexers.Add(new HotelLandingPromos(Convert.ToInt32(dataRow["id"]), (string) dataRow["header"], (string) dataRow["body"], (string) dataRow["button"], Convert.ToInt32(dataRow["in_game_promo"]), (string) dataRow["special_action"], (string) dataRow["image"]));
             }
         }
 

@@ -50,6 +50,7 @@ namespace Yupi.Emulator.Messages.Handlers
         internal GameClientMessageHandler(GameClient session)
         {
             Session = session;
+
             Response = new SimpleServerMessageBuffer();
         }
 
@@ -513,11 +514,5 @@ namespace Yupi.Emulator.Messages.Handlers
                 Session.SendNotif("Please Try Again. This Area has too many elements.");
             }
         }
-
-        /// <summary>
-        ///     Delegate GetProperty
-        /// </summary>
-        /// <param name="handler">The handler.</param>
-        internal delegate void GetProperty(GameClientMessageHandler handler);
     }
 }
