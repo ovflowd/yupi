@@ -1,14 +1,19 @@
 {
   "items": [
     {
-      "title": "Yupi.Info",
+      "title": "01/03/2016",
       "message": "Welcome to Yupi Emulator. Enjoy our Work!",
       "color": "DarkCyan"
     },
     {
-      "title": "Yupi.Repo",
+      "title": "03/03/2016",
       "message": "Latest Yupi Emulator Build, provides Update Checker!",
       "color": "White"
+    },
+    {
+      "title": "04/03/2016",
+      "message": "New Yupi is Finally Ready!! Check it out now!",
+      "color": "DarkGreen"
     }
   ]
 }
