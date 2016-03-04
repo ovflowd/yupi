@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Yupi.Emulator.Game.Rooms.Data;
+using Yupi.Emulator.Game.Rooms.Data.Models;
 
 namespace Yupi.Emulator.Game.Events.Interfaces
 {

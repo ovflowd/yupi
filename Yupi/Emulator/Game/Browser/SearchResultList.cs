@@ -30,7 +30,7 @@ using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Emulator.Game.Browser.Models;
 using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Groups.Structs;
-using Yupi.Emulator.Game.Rooms.Data;
+using Yupi.Emulator.Game.Rooms.Data.Models;
 using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Browser
@@ -168,18 +168,21 @@ namespace Yupi.Emulator.Game.Browser
                     }
                 case "my":
                     {
-                        messageBuffer.StartArray();
-
                         int i = 0;
 
-                        foreach (RoomData data in session.GetHabbo().UsersRooms.Where(data => data != null))
+                        messageBuffer.StartArray();
+
+                        foreach (RoomData data in session.GetHabbo().UsersRooms)
                         {
-                            data.Serialize(messageBuffer);
+                            if (data != null)
+                            {
+                                data.Serialize(messageBuffer);
 
-                            messageBuffer.SaveArray();
+                                messageBuffer.SaveArray();
 
-                            if (i++ == (direct ? 100 : 8))
-                                break;
+                                if (i++ == (direct ? 100 : 8))
+                                    break;
+                            }
                         }
 
                         messageBuffer.EndArray();
@@ -291,7 +294,6 @@ namespace Yupi.Emulator.Game.Browser
                                 if (data != null)
                                 {
                                     data.Serialize(messageBuffer);
-
                                     messageBuffer.SaveArray();
 
                                     if (i++ == (direct ? 40 : 8))
@@ -310,7 +312,12 @@ namespace Yupi.Emulator.Game.Browser
 
                         messageBuffer.StartArray();
 
-                        foreach (RoomData roomData in session.GetHabbo().RecentlyVisitedRooms.Select(roomId => Yupi.GetGame().GetRoomManager().GenerateRoomData(roomId)).Where(roomData => roomData != null))
+                        foreach (
+                            RoomData roomData in
+                                session.GetHabbo()
+                                    .RecentlyVisitedRooms.Select(
+                                        roomId => Yupi.GetGame().GetRoomManager().GenerateRoomData(roomId))
+                                    .Where(roomData => roomData != null))
                         {
                             roomData.Serialize(messageBuffer);
                             messageBuffer.SaveArray();

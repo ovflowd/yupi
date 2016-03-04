@@ -33,7 +33,7 @@ namespace Yupi.Emulator.Game.Rooms.Competitions.Composers
     {
         internal static SimpleServerMessageBuffer Compose(RoomCompetition competition, SimpleServerMessageBuffer messageBuffer, Habbo user, int status = 0)
         {
-            messageBuffer.Init(PacketLibraryManager.SendRequest("CompetitionVotingInfoMessageComposer"));
+            messageBuffer.Init(PacketLibraryManager.OutgoingHandler("CompetitionVotingInfoMessageComposer"));
 
             messageBuffer.AppendInteger(competition.Id);
             messageBuffer.AppendString(competition.Name);

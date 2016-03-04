@@ -4,11 +4,11 @@ using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Browser.Composers
 {
-    class NavigatorCategoriesListComposer
+    internal class NavigatorCategoriesListComposer
     {
         internal static SimpleServerMessageBuffer Compose()
         {
-            SimpleServerMessageBuffer collapsedCategories = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("NavigatorCategorys"));
+            SimpleServerMessageBuffer collapsedCategories = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("NavigatorCategorys"));
 
             collapsedCategories.AppendInteger(Yupi.GetGame().GetNavigator().FlatCatsCount + 4);
 

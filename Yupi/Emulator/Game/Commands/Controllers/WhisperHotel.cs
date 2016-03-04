@@ -22,7 +22,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
             foreach (GameClient client in Yupi.GetGame().GetClientManager().Clients.Values)
             {
                 SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
-                simpleServerMessageBuffer.Init(PacketLibraryManager.SendRequest("WhisperMessageComposer"));
+                simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingHandler("WhisperMessageComposer"));
                 simpleServerMessageBuffer.AppendInteger(client.CurrentRoomUserId);
                 simpleServerMessageBuffer.AppendString(message);
                 simpleServerMessageBuffer.AppendInteger(0);

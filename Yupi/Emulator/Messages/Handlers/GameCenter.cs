@@ -5,9 +5,9 @@ using Yupi.Emulator.Messages.Buffers;
 namespace Yupi.Emulator.Messages.Handlers
 {
     /// <summary>
-    ///     Class GameClientMessageHandler.
+    ///     Class MessageHandler.
     /// </summary>
-    internal partial class GameClientMessageHandler
+    internal partial class MessageHandler
     {
         /// <summary>
         ///     Games the center load game.
@@ -15,7 +15,7 @@ namespace Yupi.Emulator.Messages.Handlers
         internal void GameCenterLoadGame()
         {
             SimpleServerMessageBuffer achievements =
-                new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("GameCenterGameAchievementsMessageComposer"));
+                new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("GameCenterGameAchievementsMessageComposer"));
             achievements.AppendInteger(18);
             achievements.AppendInteger(1); //count
             achievements.AppendInteger(295); //id
@@ -35,7 +35,7 @@ namespace Yupi.Emulator.Messages.Handlers
             Session.SendMessage(achievements);
 
             SimpleServerMessageBuffer weeklyLeaderboard =
-                new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("GameCenterLeaderboardMessageComposer"));
+                new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("GameCenterLeaderboardMessageComposer"));
             weeklyLeaderboard.AppendInteger(2014);
             weeklyLeaderboard.AppendInteger(49);
             weeklyLeaderboard.AppendInteger(0);
@@ -53,7 +53,7 @@ namespace Yupi.Emulator.Messages.Handlers
             Session.SendMessage(weeklyLeaderboard);
 
             SimpleServerMessageBuffer weeklyLeaderboard2 =
-                new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("GameCenterLeaderboard2MessageComposer"));
+                new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("GameCenterLeaderboard2MessageComposer"));
             weeklyLeaderboard2.AppendInteger(2014);
             weeklyLeaderboard2.AppendInteger(49);
             weeklyLeaderboard2.AppendInteger(0);
@@ -71,7 +71,7 @@ namespace Yupi.Emulator.Messages.Handlers
             Session.SendMessage(weeklyLeaderboard2);
 
             SimpleServerMessageBuffer weeklyLeaderboard3 =
-                new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("GameCenterLeaderboard2MessageComposer"));
+                new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("GameCenterLeaderboard2MessageComposer"));
             weeklyLeaderboard3.AppendInteger(2014);
             weeklyLeaderboard3.AppendInteger(48);
             weeklyLeaderboard3.AppendInteger(0);
@@ -88,14 +88,14 @@ namespace Yupi.Emulator.Messages.Handlers
             weeklyLeaderboard3.AppendInteger(18);
             Session.SendMessage(weeklyLeaderboard3);
 
-            SimpleServerMessageBuffer gamesLeft = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("GameCenterGamesLeftMessageComposer"));
+            SimpleServerMessageBuffer gamesLeft = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("GameCenterGamesLeftMessageComposer"));
             gamesLeft.AppendInteger(18);
             gamesLeft.AppendInteger(-1);
             gamesLeft.AppendInteger(0);
             Session.SendMessage(gamesLeft);
 
             SimpleServerMessageBuffer previousWinner =
-                new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("GameCenterPreviousWinnerMessageComposer"));
+                new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("GameCenterPreviousWinnerMessageComposer"));
             previousWinner.AppendInteger(18);
             previousWinner.AppendInteger(0);
 
@@ -108,7 +108,7 @@ namespace Yupi.Emulator.Messages.Handlers
             Session.SendMessage(previousWinner);
 
             SimpleServerMessageBuffer allAchievements =
-                new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("GameCenterAllAchievementsMessageComposer"));
+                new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("GameCenterAllAchievementsMessageComposer"));
             allAchievements.AppendInteger(0); //count
 
             allAchievements.AppendInteger(0); //gameId
@@ -119,7 +119,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
             Session.SendMessage(allAchievements);
 
-            SimpleServerMessageBuffer enterInGame = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("GameCenterEnterInGameMessageComposer"));
+            SimpleServerMessageBuffer enterInGame = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("GameCenterEnterInGameMessageComposer"));
             enterInGame.AppendInteger(18);
             enterInGame.AppendInteger(0);
             Session.SendMessage(enterInGame);
@@ -130,11 +130,11 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void GameCenterJoinQueue()
         {
-            SimpleServerMessageBuffer joinQueue = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("GameCenterJoinGameQueueMessageComposer"));
+            SimpleServerMessageBuffer joinQueue = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("GameCenterJoinGameQueueMessageComposer"));
             joinQueue.AppendInteger(18);
             Session.SendMessage(joinQueue);
 
-            SimpleServerMessageBuffer loadGame = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("GameCenterLoadGameUrlMessageComposer"));
+            SimpleServerMessageBuffer loadGame = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("GameCenterLoadGameUrlMessageComposer"));
             loadGame.AppendInteger(18);
             loadGame.AppendString(Convert.ToString(Yupi.GetUnixTimeStamp()));
             loadGame.AppendString(ServerExtraSettings.GameCenterStoriesUrl);

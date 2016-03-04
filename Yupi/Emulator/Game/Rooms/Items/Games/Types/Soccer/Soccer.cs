@@ -193,7 +193,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Soccer
             double newZ = _room.GetGameMap().Model.SqFloorHeight[newX][newY];
 
             SimpleServerMessageBuffer mMessageBuffer = new SimpleServerMessageBuffer();
-            mMessageBuffer.Init(PacketLibraryManager.SendRequest("ItemAnimationMessageComposer")); // Cf
+            mMessageBuffer.Init(PacketLibraryManager.OutgoingHandler("ItemAnimationMessageComposer")); // Cf
             mMessageBuffer.AppendInteger(item.Coordinate.X);
             mMessageBuffer.AppendInteger(item.Coordinate.Y);
             mMessageBuffer.AppendInteger(newX);
@@ -370,7 +370,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Soccer
         private void HandleFootballGameItems(Point ballItemCoord, RoomUser user)
         {
             if (user == null || _room == null || _room.GetGameManager() == null) return;
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("RoomUserActionMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("RoomUserActionMessageComposer"));
 
             if (_room.GetGameManager()
                 .GetItems(Team.Red)

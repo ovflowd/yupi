@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Yupi.Emulator.Game.Browser.Models;
+using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
 
@@ -8,22 +9,33 @@ namespace Yupi.Emulator.Game.Browser.Composers
 {
     class NavigatorFlatCategoriesListComposer
     {
-        internal static SimpleServerMessageBuffer Compose()
+        internal static SimpleServerMessageBuffer Compose(GameClient session)
         {
-            List<PublicCategory> flatcat = Yupi.GetGame().GetNavigator().PrivateCategories.OfType<PublicCategory>().ToList();
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("FlatCategoriesMessageComposer"));
 
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("NavigatorNewFlatCategoriesMessageComposer"));
+            simpleServerMessageBuffer.StartArray();
 
-            messageBuffer.AppendInteger(flatcat.Count);
-
-            foreach (PublicCategory cat in flatcat)
+            foreach (PublicCategory flatCat in Yupi.GetGame().GetNavigator().PrivateCategories.Values)
             {
-                messageBuffer.AppendInteger(cat.Id);
-                messageBuffer.AppendInteger(cat.UsersNow);
-                messageBuffer.AppendInteger(500);
+                simpleServerMessageBuffer.Clear();
+
+                if (flatCat == null)
+                    continue;
+
+                simpleServerMessageBuffer.AppendInteger(flatCat.Id);
+                simpleServerMessageBuffer.AppendString(flatCat.Caption);
+                simpleServerMessageBuffer.AppendBool(flatCat.MinRank <= session.GetHabbo().Rank);
+                simpleServerMessageBuffer.AppendBool(false);
+                simpleServerMessageBuffer.AppendString("NONE");
+                simpleServerMessageBuffer.AppendString(string.Empty);
+                simpleServerMessageBuffer.AppendBool(false);
+
+                simpleServerMessageBuffer.SaveArray();
             }
 
-            return messageBuffer;
+            simpleServerMessageBuffer.EndArray();
+
+            return simpleServerMessageBuffer;
         }
     }
 }

@@ -28,7 +28,7 @@ using Yupi.Emulator.Messages.Enums;
 
 namespace Yupi.Emulator.Messages.Handlers
 {
-    internal partial class GameClientMessageHandler
+    internal partial class MessageHandler
     {
         internal void PetBreedCancel()
         {
@@ -191,7 +191,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
             Session.GetMessageHandler()
                 .GetResponse()
-                .Init(PacketLibraryManager.SendRequest("PetBreedResultMessageComposer"));
+                .Init(PacketLibraryManager.OutgoingHandler("PetBreedResultMessageComposer"));
             Session.GetMessageHandler().GetResponse().AppendInteger(pet.PetId);
             Session.GetMessageHandler().GetResponse().AppendInteger(randomResult);
             Session.GetMessageHandler().SendResponse();
@@ -234,7 +234,7 @@ namespace Yupi.Emulator.Messages.Handlers
             if ((petData = currentRoom.GetRoomUserManager().GetPet(petId).PetData) == null)
                 return;
 
-            Response.Init(PacketLibraryManager.SendRequest("PetTrainerPanelMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("PetTrainerPanelMessageComposer"));
             Response.AppendInteger(petData.PetId);
 
             Dictionary<uint, PetCommand> totalPetCommands = PetCommandHandler.GetAllPetCommands();
@@ -586,7 +586,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
             if (!room.GetRoomItemHandler().SetFloorItem(Session, item, x, y, rot, false, false, true, true, false))
             {
-                SimpleServerMessageBuffer message3 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("UpdateRoomItemMessageComposer"));
+                SimpleServerMessageBuffer message3 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UpdateRoomItemMessageComposer"));
                 item.Serialize(message3);
                 room.SendMessage(message3);
 
@@ -653,7 +653,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
             room.GetRoomItemHandler().AddOrUpdateItem(id);
 
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("UpdateRoomWallItemMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UpdateRoomWallItemMessageComposer"));
             item.Serialize(messageBuffer);
             room.SendMessage(messageBuffer);
         }
@@ -689,7 +689,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
                     room.TonerData.Enabled = room.TonerData.Enabled == 0 ? 1 : 0;
 
-                    SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("UpdateRoomItemMessageComposer"));
+                    SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UpdateRoomItemMessageComposer"));
                     item.Serialize(messageBuffer);
                     room.SendMessage(messageBuffer);
 
@@ -760,7 +760,7 @@ namespace Yupi.Emulator.Messages.Handlers
             if (item == null || item.GetBaseItem().InteractionType != Interaction.PostIt)
                 return;
 
-            Response.Init(PacketLibraryManager.SendRequest("LoadPostItMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("LoadPostItMessageComposer"));
             Response.AppendString(item.Id.ToString());
             Response.AppendString(item.ExtraData);
             SendResponse();
@@ -838,7 +838,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
             item.MagicRemove = true;
 
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("UpdateRoomItemMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UpdateRoomItemMessageComposer"));
             item.Serialize(messageBuffer);
             currentRoom.SendMessage(messageBuffer);
 
@@ -885,7 +885,7 @@ namespace Yupi.Emulator.Messages.Handlers
                     Session.SendNotif(Yupi.GetLanguage().GetVar("error_creating_gift"));
                 else
                 {
-                    Response.Init(PacketLibraryManager.SendRequest("OpenGiftMessageComposer"));
+                    Response.Init(PacketLibraryManager.OutgoingHandler("OpenGiftMessageComposer"));
 
                     Response.AppendString(item2.Type.ToString());
                     Response.AppendInteger(item2.SpriteId);
@@ -896,7 +896,7 @@ namespace Yupi.Emulator.Messages.Handlers
                     Response.AppendString(extraData);
                     SendResponse();
 
-                    SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("AddFloorItemMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("AddFloorItemMessageComposer"));
 
                     item.Serialize(simpleServerMessageBuffer);
                     simpleServerMessageBuffer.AppendString(currentRoom.RoomData.Owner);
@@ -910,7 +910,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 currentRoom.GetRoomItemHandler().RemoveFurniture(Session, item.Id, false);
 
                 queryReactor.RunFastQuery("DELETE FROM users_gifts WHERE gift_id = " + item.Id);
-                Response.Init(PacketLibraryManager.SendRequest("NewInventoryObjectMessageComposer"));
+                Response.Init(PacketLibraryManager.OutgoingHandler("NewInventoryObjectMessageComposer"));
                 Response.AppendInteger(1);
 
                 int i = 2;
@@ -932,7 +932,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 Session.GetHabbo().GetInventoryComponent().UpdateItems(true);
             }
 
-            Response.Init(PacketLibraryManager.SendRequest("UpdateInventoryMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("UpdateInventoryMessageComposer"));
             SendResponse();
         }
 
@@ -956,7 +956,7 @@ namespace Yupi.Emulator.Messages.Handlers
             if (room.MoodlightData == null)
                 return;
 
-            Response.Init(PacketLibraryManager.SendRequest("DimmerDataMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("DimmerDataMessageComposer"));
             Response.AppendInteger(room.MoodlightData.Presets.Count);
             Response.AppendInteger(room.MoodlightData.CurrentPreset);
 
@@ -1052,7 +1052,7 @@ namespace Yupi.Emulator.Messages.Handlers
             room.TonerData.Data3 = num3;
             room.TonerData.Enabled = 1;
 
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("UpdateRoomItemMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UpdateRoomItemMessageComposer"));
             item.Serialize(messageBuffer);
             room.SendMessage(messageBuffer);
 
@@ -1117,7 +1117,7 @@ namespace Yupi.Emulator.Messages.Handlers
             {
                 totalZ = room.GetGameMap().SqAbsoluteHeight(item.X, item.Y);
 
-                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("UpdateTileStackMagicHeight"));
+                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UpdateTileStackMagicHeight"));
                 messageBuffer.AppendInteger(item.Id);
                 messageBuffer.AppendInteger(Convert.ToUInt32(totalZ*100));
                 Session.SendMessage(messageBuffer);
@@ -1133,7 +1133,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 {
                     totalZ = room.RoomData.Model.SqFloorHeight[item.X][item.Y];
 
-                    SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("UpdateTileStackMagicHeight"));
+                    SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UpdateTileStackMagicHeight"));
                     messageBuffer.AppendInteger(item.Id);
                     messageBuffer.AppendInteger(Convert.ToUInt32(totalZ*100));
                     Session.SendMessage(messageBuffer);
@@ -1270,7 +1270,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
             Session.GetHabbo().GetInventoryComponent().UpdateItems(true);
 
-            Response.Init(PacketLibraryManager.SendRequest("RecyclingStateMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("RecyclingStateMessageComposer"));
             Response.AppendInteger(1);
             Response.AppendInteger(insertId);
             SendResponse();
@@ -1326,7 +1326,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
             Session.GetHabbo().GetInventoryComponent().RemoveItem(item.Id, false);
 
-            Response.Init(PacketLibraryManager.SendRequest("UpdateInventoryMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("UpdateInventoryMessageComposer"));
             SendResponse();
         }
 
@@ -1379,7 +1379,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 roomUserOne.CanWalk = false;
                 roomUserTwo.CanWalk = false;
 
-                SimpleServerMessageBuffer lockDialogue = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("LoveLockDialogueMessageComposer"));
+                SimpleServerMessageBuffer lockDialogue = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("LoveLockDialogueMessageComposer"));
                 lockDialogue.AppendInteger(loveLock.Id);
                 lockDialogue.AppendBool(true);
 
@@ -1634,7 +1634,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 pet.PetData.AnyoneCanRide = 1;
             }
 
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("PetInfoMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("PetInfoMessageComposer"));
             simpleServerMessageBuffer.AppendInteger(pet.PetData.PetId);
             simpleServerMessageBuffer.AppendString(pet.PetData.Name);
             simpleServerMessageBuffer.AppendInteger(pet.PetData.Level);
@@ -1784,13 +1784,13 @@ namespace Yupi.Emulator.Messages.Handlers
                 }
                 IL_40C:
                 room.GetRoomItemHandler().RemoveFurniture(Session, item.Id, false);
-                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("SetRoomUserMessageComposer"));
+                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SetRoomUserMessageComposer"));
                 simpleServerMessageBuffer.AppendInteger(1);
                 pet.Serialize(simpleServerMessageBuffer, false);
                 room.SendMessage(simpleServerMessageBuffer);
                 if (isForHorse)
                 {
-                    SimpleServerMessageBuffer simpleServerMessage2 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("SerializePetMessageComposer"));
+                    SimpleServerMessageBuffer simpleServerMessage2 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SerializePetMessageComposer"));
                     simpleServerMessage2.AppendInteger(pet.PetData.VirtualId);
                     simpleServerMessage2.AppendInteger(pet.PetData.PetId);
                     simpleServerMessage2.AppendInteger(pet.PetData.RaceId);
@@ -1855,12 +1855,12 @@ namespace Yupi.Emulator.Messages.Handlers
 
             Session.GetHabbo().GetInventoryComponent().UpdateItems(true);
 
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("SetRoomUserMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SetRoomUserMessageComposer"));
             simpleServerMessageBuffer.AppendInteger(1);
             pet.Serialize(simpleServerMessageBuffer, false);
             room.SendMessage(simpleServerMessageBuffer);
 
-            SimpleServerMessageBuffer simpleServerMessage2 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("SerializePetMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessage2 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SerializePetMessageComposer"));
             simpleServerMessage2.AppendInteger(pet.PetData.VirtualId);
             simpleServerMessage2.AppendInteger(pet.PetData.PetId);
             simpleServerMessage2.AppendInteger(pet.PetData.RaceId);
@@ -2070,7 +2070,7 @@ namespace Yupi.Emulator.Messages.Handlers
                     Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(clientByUserId, "ACH_HorseRent", 1);
             }
 
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("SerializePetMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SerializePetMessageComposer"));
             simpleServerMessageBuffer.AppendInteger(pet.PetData.VirtualId);
             simpleServerMessageBuffer.AppendInteger(pet.PetData.PetId);
             simpleServerMessageBuffer.AppendInteger(pet.PetData.RaceId);
@@ -2138,7 +2138,7 @@ namespace Yupi.Emulator.Messages.Handlers
             item.UpdateState();
 
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
-            simpleServerMessageBuffer.Init(PacketLibraryManager.SendRequest("YouTubeLoadVideoMessageComposer"));
+            simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingHandler("YouTubeLoadVideoMessageComposer"));
             simpleServerMessageBuffer.AppendInteger(num);
             simpleServerMessageBuffer.AppendString(video);
             simpleServerMessageBuffer.AppendInteger(0);
@@ -2168,7 +2168,7 @@ namespace Yupi.Emulator.Messages.Handlers
             if (videos == null)
                 return;
 
-            Response.Init(PacketLibraryManager.SendRequest("YouTubeLoadVideoMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("YouTubeLoadVideoMessageComposer"));
             Response.AppendInteger(itemId);
             Response.AppendString(item.ExtraData);
             Response.AppendInteger(0);
@@ -2179,7 +2179,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
             Response.Clear();
 
-            Response.Init(PacketLibraryManager.SendRequest("YouTubeLoadPlaylistsMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("YouTubeLoadPlaylistsMessageComposer"));
             Response.AppendInteger(itemId);
             Response.AppendInteger(videos.Count);
 
@@ -2317,7 +2317,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
                 actualRoom.GetRoomItemHandler().FloorItems.TryAdd(newItem.Id, newItem);
 
-                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("AddFloorItemMessageComposer"));
+                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("AddFloorItemMessageComposer"));
                 newItem.Serialize(messageBuffer);
                 messageBuffer.AppendString(Session.GetHabbo().UserName);
                 actualRoom.SendMessage(messageBuffer);
@@ -2355,7 +2355,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
                 actualRoom.GetRoomItemHandler().WallItems.TryAdd(newItem.Id, newItem);
 
-                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("AddWallItemMessageComposer"));
+                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("AddWallItemMessageComposer"));
                 newItem.Serialize(messageBuffer);
                 messageBuffer.AppendString(Session.GetHabbo().UserName);
                 Session.SendMessage(messageBuffer);
@@ -2368,7 +2368,7 @@ namespace Yupi.Emulator.Messages.Handlers
             if (Session.GetHabbo().BuildersItemsUsed < 0)
                 Session.GetHabbo().BuildersItemsUsed = 0;
 
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("BuildersClubUpdateFurniCountMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("BuildersClubUpdateFurniCountMessageComposer"));
 
             messageBuffer.AppendInteger(Session.GetHabbo().BuildersItemsUsed);
             Session.SendMessage(messageBuffer);
@@ -2429,7 +2429,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 return;
             }
 
-            SimpleServerMessageBuffer loock = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("LoveLockDialogueSetLockedMessageComposer"));
+            SimpleServerMessageBuffer loock = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("LoveLockDialogueSetLockedMessageComposer"));
             loock.AppendInteger(item.Id);
 
             if (userIdOne == Session.GetHabbo().Id)
@@ -2463,11 +2463,11 @@ namespace Yupi.Emulator.Messages.Handlers
                 queryReactor.RunQuery();
             }
 
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("UpdateRoomItemMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UpdateRoomItemMessageComposer"));
             item.Serialize(messageBuffer);
             room.SendMessage(messageBuffer);
 
-            loock = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("LoveLockDialogueCloseMessageComposer"));
+            loock = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("LoveLockDialogueCloseMessageComposer"));
             loock.AppendInteger(item.Id);
             userOne.GetClient().SendMessage(loock);
             userTwo.GetClient().SendMessage(loock);
@@ -2521,7 +2521,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 queryReactor.RunQuery();
             }
 
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("UpdateRoomItemMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UpdateRoomItemMessageComposer"));
             item.Serialize(messageBuffer);
             Session.SendMessage(messageBuffer);
         }
@@ -2657,7 +2657,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
             Session.GetHabbo().ClothesManagerManager.Add(clothes.ItemName);
 
-            GetResponse().Init(PacketLibraryManager.SendRequest("FigureSetIdsMessageComposer"));
+            GetResponse().Init(PacketLibraryManager.OutgoingHandler("FigureSetIdsMessageComposer"));
             Session.GetHabbo().ClothesManagerManager.Serialize(GetResponse());
 
             SendResponse();

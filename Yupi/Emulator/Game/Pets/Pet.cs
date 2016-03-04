@@ -401,7 +401,7 @@ namespace Yupi.Emulator.Game.Pets
             if (ownerSession == null)
                 return;
 
-            SimpleServerMessageBuffer levelNotify = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("NotifyNewPetLevelMessageComposer"));
+            SimpleServerMessageBuffer levelNotify = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("NotifyNewPetLevelMessageComposer"));
 
             SerializeInventory(levelNotify, true);
 

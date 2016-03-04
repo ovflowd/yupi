@@ -32,6 +32,7 @@ using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Groups.Structs;
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Rooms.Data;
+using Yupi.Emulator.Game.Rooms.Data.Models;
 using Yupi.Emulator.Game.Rooms.User;
 using Yupi.Emulator.Game.Users;
 using Yupi.Emulator.Game.Users.Badges.Models;
@@ -42,9 +43,9 @@ using Yupi.Emulator.Messages.Buffers;
 namespace Yupi.Emulator.Messages.Handlers
 {
     /// <summary>
-    ///     Class GameClientMessageHandler.
+    ///     Class MessageHandler.
     /// </summary>
-    internal partial class GameClientMessageHandler
+    internal partial class MessageHandler
     {
         /// <summary>
         ///     Sends the bully report.
@@ -57,7 +58,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 .GetModerationTool()
                 .SendNewTicket(Session, 104, 9, reportedId, string.Empty, new List<string>());
 
-            Response.Init(PacketLibraryManager.SendRequest("BullyReportSentMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("BullyReportSentMessageComposer"));
             Response.AppendInteger(0);
             SendResponse();
         }
@@ -67,7 +68,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void  OpenBullyReporting()
         {
-            Response.Init(PacketLibraryManager.SendRequest("OpenBullyReportMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("OpenBullyReportMessageComposer"));
             Response.AppendInteger(0);
             SendResponse();
         }
@@ -77,7 +78,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void  OpenQuests()
         {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("QuestListMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("QuestListMessageComposer"));
             simpleServerMessageBuffer.AppendInteger(0);
             simpleServerMessageBuffer.AppendBool(Request != null);
             Session.SendMessage(simpleServerMessageBuffer);
@@ -88,7 +89,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void RetriveCitizenShipStatus()
         {
-            GetResponse().Init(PacketLibraryManager.SendRequest("CitizenshipStatusMessageComposer"));
+            GetResponse().Init(PacketLibraryManager.OutgoingHandler("CitizenshipStatusMessageComposer"));
             GetResponse().AppendString(Request.GetString());
             GetResponse().AppendInteger(4);
             GetResponse().AppendInteger(4);
@@ -105,7 +106,7 @@ namespace Yupi.Emulator.Messages.Handlers
             Session.GetHabbo().GetSubscriptionManager().GetSubscription();
 
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
-            simpleServerMessageBuffer.Init(PacketLibraryManager.SendRequest("LoadCatalogClubGiftsMessageComposer"));
+            simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingHandler("LoadCatalogClubGiftsMessageComposer"));
             simpleServerMessageBuffer.AppendInteger(0); // i
             simpleServerMessageBuffer.AppendInteger(0); // i2
             simpleServerMessageBuffer.AppendInteger(1);
@@ -123,7 +124,7 @@ namespace Yupi.Emulator.Messages.Handlers
             if (roomUserByHabbo == null || roomUserByHabbo.IsBot)
                 return;
 
-            Response.Init(PacketLibraryManager.SendRequest("UserTagsMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("UserTagsMessageComposer"));
             Response.AppendInteger(roomUserByHabbo.GetClient().GetHabbo().Id);
             Response.AppendInteger(roomUserByHabbo.GetClient().GetHabbo().Tags.Count);
 
@@ -154,7 +155,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 roomUserByHabbo.GetClient().GetHabbo() != null)
             {
                 Session.GetHabbo().LastSelectedUser = roomUserByHabbo.UserId;
-                Response.Init(PacketLibraryManager.SendRequest("UserBadgesMessageComposer"));
+                Response.Init(PacketLibraryManager.OutgoingHandler("UserBadgesMessageComposer"));
                 Response.AppendInteger(roomUserByHabbo.GetClient().GetHabbo().Id);
 
                 Response.StartArray();
@@ -207,12 +208,12 @@ namespace Yupi.Emulator.Messages.Handlers
                                           " LIMIT 1;UPDATE users_stats SET daily_respect_points = daily_respect_points - 1 WHERE id= " +
                                           Session.GetHabbo().Id + " LIMIT 1");
 
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("GiveRespectsMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("GiveRespectsMessageComposer"));
             simpleServerMessageBuffer.AppendInteger(roomUserByHabbo.GetClient().GetHabbo().Id);
             simpleServerMessageBuffer.AppendInteger(roomUserByHabbo.GetClient().GetHabbo().Respect);
             room.SendMessage(simpleServerMessageBuffer);
 
-            SimpleServerMessageBuffer thumbsUp = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("RoomUserActionMessageComposer"));
+            SimpleServerMessageBuffer thumbsUp = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("RoomUserActionMessageComposer"));
             thumbsUp.AppendInteger(room.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().UserName).VirtualId);
             thumbsUp.AppendInteger(7);
             room.SendMessage(thumbsUp);
@@ -305,14 +306,14 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void GetUserInfo()
         {
-            GetResponse().Init(PacketLibraryManager.SendRequest("UpdateUserDataMessageComposer"));
+            GetResponse().Init(PacketLibraryManager.OutgoingHandler("UpdateUserDataMessageComposer"));
             GetResponse().AppendInteger(-1);
             GetResponse().AppendString(Session.GetHabbo().Look);
             GetResponse().AppendString(Session.GetHabbo().Gender.ToLower());
             GetResponse().AppendString(Session.GetHabbo().Motto);
             GetResponse().AppendInteger(Session.GetHabbo().AchievementPoints);
             SendResponse();
-            GetResponse().Init(PacketLibraryManager.SendRequest("AchievementPointsMessageComposer"));
+            GetResponse().Init(PacketLibraryManager.OutgoingHandler("AchievementPointsMessageComposer"));
             GetResponse().AppendInteger(Session.GetHabbo().AchievementPoints);
             SendResponse();
         }
@@ -343,7 +344,7 @@ namespace Yupi.Emulator.Messages.Handlers
         internal void GetVoume()
         {
             UserPreferences preferences = Session.GetHabbo().Preferences;
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("LoadVolumeMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("LoadVolumeMessageComposer"));
 
             simpleServerMessageBuffer.AppendIntegersArray(preferences.Volume, ',', 3, 0, 100);
 
@@ -432,7 +433,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 }
             }
 
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("UserBadgesMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UserBadgesMessageComposer"));
             simpleServerMessageBuffer.AppendInteger(Session.GetHabbo().Id);
 
             simpleServerMessageBuffer.StartArray();
@@ -467,7 +468,7 @@ namespace Yupi.Emulator.Messages.Handlers
         internal void PrepareCampaing()
         {
             string text = Request.GetString();
-            Response.Init(PacketLibraryManager.SendRequest("SendCampaignBadgeMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("SendCampaignBadgeMessageComposer"));
             Response.AppendString(text);
             Response.AppendBool(Session.GetHabbo().GetBadgeComponent().HasBadge(text));
             SendResponse();
@@ -510,7 +511,7 @@ namespace Yupi.Emulator.Messages.Handlers
             }
             DateTime createTime = new DateTime(1970, 1, 1, 0, 0, 0, 0).AddSeconds(habbo.CreateDate);
 
-            Response.Init(PacketLibraryManager.SendRequest("UserProfileMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("UserProfileMessageComposer"));
             Response.AppendInteger(habbo.Id);
             Response.AppendString(habbo.UserName);
             Response.AppendString(habbo.Look);
@@ -559,7 +560,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
             Response.AppendBool(true);
             SendResponse();
-            Response.Init(PacketLibraryManager.SendRequest("UserBadgesMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("UserBadgesMessageComposer"));
             Response.AppendInteger(habbo.Id);
             Response.StartArray();
 
@@ -602,14 +603,14 @@ namespace Yupi.Emulator.Messages.Handlers
 
             Session.GetMessageHandler()
                 .GetResponse()
-                .Init(PacketLibraryManager.SendRequest("UpdateAvatarAspectMessageComposer"));
+                .Init(PacketLibraryManager.OutgoingHandler("UpdateAvatarAspectMessageComposer"));
             Session.GetMessageHandler().GetResponse().AppendString(Session.GetHabbo().Look);
             Session.GetMessageHandler().GetResponse().AppendString(Session.GetHabbo().Gender.ToUpper());
             Session.GetMessageHandler().SendResponse();
 
             Session.GetMessageHandler()
                 .GetResponse()
-                .Init(PacketLibraryManager.SendRequest("UpdateUserDataMessageComposer"));
+                .Init(PacketLibraryManager.OutgoingHandler("UpdateUserDataMessageComposer"));
             Session.GetMessageHandler().GetResponse().AppendInteger(-1);
             Session.GetMessageHandler().GetResponse().AppendString(Session.GetHabbo().Look);
             Session.GetMessageHandler().GetResponse().AppendString(Session.GetHabbo().Gender.ToLower());
@@ -627,7 +628,7 @@ namespace Yupi.Emulator.Messages.Handlers
             if (roomUserByHabbo == null)
                 return;
 
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("UpdateUserDataMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UpdateUserDataMessageComposer"));
             simpleServerMessageBuffer.AppendInteger(roomUserByHabbo.VirtualId); //SimpleServerMessageBuffer.AppendInt32(-1);
             simpleServerMessageBuffer.AppendString(Session.GetHabbo().Look);
             simpleServerMessageBuffer.AppendString(Session.GetHabbo().Gender.ToLower());
@@ -666,7 +667,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 if (roomUserByHabbo == null)
                     return;
 
-                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("UpdateUserDataMessageComposer"));
+                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UpdateUserDataMessageComposer"));
                 simpleServerMessageBuffer.AppendInteger(roomUserByHabbo.VirtualId); //SimpleServerMessageBuffer.AppendInt32(-1);
                 simpleServerMessageBuffer.AppendString(Session.GetHabbo().Look);
                 simpleServerMessageBuffer.AppendString(Session.GetHabbo().Gender.ToLower());
@@ -683,7 +684,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void GetWardrobe()
         {
-            GetResponse().Init(PacketLibraryManager.SendRequest("LoadWardrobeMessageComposer"));
+            GetResponse().Init(PacketLibraryManager.OutgoingHandler("LoadWardrobeMessageComposer"));
             GetResponse().AppendInteger(0);
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
@@ -772,7 +773,7 @@ namespace Yupi.Emulator.Messages.Handlers
             string text = Request.GetString();
             if (text.ToLower() == Session.GetHabbo().UserName.ToLower())
             {
-                Response.Init(PacketLibraryManager.SendRequest("NameChangedUpdatesMessageComposer"));
+                Response.Init(PacketLibraryManager.OutgoingHandler("NameChangedUpdatesMessageComposer"));
                 Response.AppendInteger(0);
                 Response.AppendString(text);
                 Response.AppendInteger(0);
@@ -789,7 +790,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 char[] array2 = array;
                 if (array2.Any(c => !source.Contains(char.ToLower(c))))
                 {
-                    Response.Init(PacketLibraryManager.SendRequest("NameChangedUpdatesMessageComposer"));
+                    Response.Init(PacketLibraryManager.OutgoingHandler("NameChangedUpdatesMessageComposer"));
                     Response.AppendInteger(4);
                     Response.AppendString(text);
                     Response.AppendInteger(0);
@@ -799,7 +800,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 if (text.ToLower().Contains("mod") || text.ToLower().Contains("m0d") || text.Contains(" ") ||
                     text.ToLower().Contains("admin"))
                 {
-                    Response.Init(PacketLibraryManager.SendRequest("NameChangedUpdatesMessageComposer"));
+                    Response.Init(PacketLibraryManager.OutgoingHandler("NameChangedUpdatesMessageComposer"));
                     Response.AppendInteger(4);
                     Response.AppendString(text);
                     Response.AppendInteger(0);
@@ -807,7 +808,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 }
                 else if (text.Length > 15)
                 {
-                    Response.Init(PacketLibraryManager.SendRequest("NameChangedUpdatesMessageComposer"));
+                    Response.Init(PacketLibraryManager.OutgoingHandler("NameChangedUpdatesMessageComposer"));
                     Response.AppendInteger(3);
                     Response.AppendString(text);
                     Response.AppendInteger(0);
@@ -815,7 +816,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 }
                 else if (text.Length < 3)
                 {
-                    Response.Init(PacketLibraryManager.SendRequest("NameChangedUpdatesMessageComposer"));
+                    Response.Init(PacketLibraryManager.OutgoingHandler("NameChangedUpdatesMessageComposer"));
                     Response.AppendInteger(2);
                     Response.AppendString(text);
                     Response.AppendInteger(0);
@@ -823,7 +824,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 }
                 else if (string.IsNullOrWhiteSpace(@string))
                 {
-                    Response.Init(PacketLibraryManager.SendRequest("NameChangedUpdatesMessageComposer"));
+                    Response.Init(PacketLibraryManager.OutgoingHandler("NameChangedUpdatesMessageComposer"));
                     Response.AppendInteger(0);
                     Response.AppendString(text);
                     Response.AppendInteger(0);
@@ -833,7 +834,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 {
                     queryReactor.SetQuery("SELECT tag FROM users_tags ORDER BY RAND() LIMIT 3");
                     DataTable table = queryReactor.GetTable();
-                    Response.Init(PacketLibraryManager.SendRequest("NameChangedUpdatesMessageComposer"));
+                    Response.Init(PacketLibraryManager.OutgoingHandler("NameChangedUpdatesMessageComposer"));
                     Response.AppendInteger(5);
                     Response.AppendString(text);
                     Response.AppendInteger(table.Rows.Count);
@@ -872,12 +873,12 @@ namespace Yupi.Emulator.Messages.Handlers
 
                     Session.GetHabbo().LastChange = Yupi.GetUnixTimeStamp() + 43200;
                     Session.GetHabbo().UserName = text;
-                    Response.Init(PacketLibraryManager.SendRequest("UpdateUsernameMessageComposer"));
+                    Response.Init(PacketLibraryManager.OutgoingHandler("UpdateUsernameMessageComposer"));
                     Response.AppendInteger(0);
                     Response.AppendString(text);
                     Response.AppendInteger(0);
                     SendResponse();
-                    Response.Init(PacketLibraryManager.SendRequest("UpdateUserDataMessageComposer"));
+                    Response.Init(PacketLibraryManager.OutgoingHandler("UpdateUserDataMessageComposer"));
                     Response.AppendInteger(-1);
                     Response.AppendString(Session.GetHabbo().Look);
                     Response.AppendString(Session.GetHabbo().Gender.ToLower());
@@ -887,7 +888,7 @@ namespace Yupi.Emulator.Messages.Handlers
                     Session.GetHabbo().CurrentRoom.GetRoomUserManager().UpdateUser(userName, text);
                     if (Session.GetHabbo().CurrentRoom != null)
                     {
-                        Response.Init(PacketLibraryManager.SendRequest("UserUpdateNameInRoomMessageComposer"));
+                        Response.Init(PacketLibraryManager.OutgoingHandler("UserUpdateNameInRoomMessageComposer"));
                         Response.AppendInteger(Session.GetHabbo().Id);
                         Response.AppendInteger(Session.GetHabbo().CurrentRoom.RoomId);
                         Response.AppendString(text);
@@ -933,7 +934,7 @@ namespace Yupi.Emulator.Messages.Handlers
             int num = habboForId.Relationships.Count(x => x.Value.Type == 1);
             int num2 = habboForId.Relationships.Count(x => x.Value.Type == 2);
             int num3 = habboForId.Relationships.Count(x => x.Value.Type == 3);
-            Response.Init(PacketLibraryManager.SendRequest("RelationshipMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("RelationshipMessageComposer"));
             Response.AppendInteger(habboForId.Id);
             Response.AppendInteger(habboForId.Relationships.Count);
             foreach (Relationship current in habboForId.Relationships.Values)
@@ -1056,7 +1057,7 @@ namespace Yupi.Emulator.Messages.Handlers
             if (talents == null)
                 return;
 
-            Response.Init(PacketLibraryManager.SendRequest("TalentsTrackMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("TalentsTrackMessageComposer"));
 
             Response.AppendString(trackType);
             Response.AppendInteger(talents.Count);
@@ -1140,7 +1141,7 @@ namespace Yupi.Emulator.Messages.Handlers
             DateTime date;
             DateTime.TryParse(time, out date);
             TimeSpan diff = date - DateTime.Now;
-            Response.Init(PacketLibraryManager.SendRequest("HotelViewCountdownMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("HotelViewCountdownMessageComposer"));
             Response.AppendString(time);
             Response.AppendInteger(Convert.ToInt32(diff.TotalSeconds));
             SendResponse();
@@ -1154,7 +1155,7 @@ namespace Yupi.Emulator.Messages.Handlers
             {
                 Random rnd = new Random();
                 RoomData randomRoom = allRooms[rnd.Next(allRooms.Length)].Key;
-                SimpleServerMessageBuffer success = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("FindMoreFriendsSuccessMessageComposer"));
+                SimpleServerMessageBuffer success = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("FindMoreFriendsSuccessMessageComposer"));
                 if (randomRoom == null)
                 {
                     success.AppendBool(false);
@@ -1163,7 +1164,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 }
                 success.AppendBool(true);
                 Session.SendMessage(success);
-                SimpleServerMessageBuffer roomFwd = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("RoomForwardMessageComposer"));
+                SimpleServerMessageBuffer roomFwd = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("RoomForwardMessageComposer"));
                 roomFwd.AppendInteger(randomRoom.Id);
                 Session.SendMessage(roomFwd);
             }
@@ -1181,7 +1182,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
         internal void GetCameraPrice()
         {
-            GetResponse().Init(PacketLibraryManager.SendRequest("SetCameraPriceMessageComposer"));
+            GetResponse().Init(PacketLibraryManager.OutgoingHandler("SetCameraPriceMessageComposer"));
             GetResponse().AppendInteger(0); //credits
             GetResponse().AppendInteger(10); //duckets
             SendResponse();
@@ -1190,7 +1191,7 @@ namespace Yupi.Emulator.Messages.Handlers
         internal void GetHotelViewHallOfFame()
         {
             string code = Request.GetString();
-            GetResponse().Init(PacketLibraryManager.SendRequest("HotelViewHallOfFameMessageComposer"));
+            GetResponse().Init(PacketLibraryManager.OutgoingHandler("HotelViewHallOfFameMessageComposer"));
             GetResponse().AppendString(code);
             IEnumerable<HallOfFameElement> rankings = Yupi.GetGame().GetHallOfFame().Rankings.Where(e => e.Competition == code);
             GetResponse().StartArray();

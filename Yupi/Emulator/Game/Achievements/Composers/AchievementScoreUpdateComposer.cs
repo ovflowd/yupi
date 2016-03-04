@@ -39,7 +39,7 @@ namespace Yupi.Emulator.Game.Achievements.Composers
         /// <returns>SimpleServerMessageBuffer.</returns>
         internal static SimpleServerMessageBuffer Compose(uint score)
         {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("AchievementPointsMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("AchievementPointsMessageComposer"));
 
             simpleServerMessageBuffer.AppendInteger(score);
 

@@ -24,6 +24,8 @@
 
 using Yupi.Emulator.Game.Browser.Enums;
 using Yupi.Emulator.Game.Rooms.Data;
+using Yupi.Emulator.Game.Rooms.Data.Models;
+using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Browser.Models
 {
@@ -130,6 +132,45 @@ namespace Yupi.Emulator.Game.Browser.Models
                     break;
                 default:
                     ItemType = PublicItemType.None;
+                    break;
+            }
+        }
+
+        /// <summary>
+        ///     Gets the room information.
+        /// </summary>
+        /// <value>The room information.</value>
+        internal RoomData RoomInfo => RoomId > 0u ? Yupi.GetGame().GetRoomManager().GenerateRoomData(RoomId) : null;
+
+        /// <summary>
+        ///     Serializes the specified messageBuffer.
+        /// </summary>
+        /// <param name="messageBuffer">The messageBuffer.</param>
+        internal void Serialize(SimpleServerMessageBuffer messageBuffer)
+        {
+            messageBuffer.AppendInteger(Id);
+            messageBuffer.AppendString(Caption);
+            messageBuffer.AppendString(Description);
+            messageBuffer.AppendInteger(Type);
+            messageBuffer.AppendString(Caption);
+            messageBuffer.AppendString(Image);
+            messageBuffer.AppendInteger(ParentId);
+            messageBuffer.AppendInteger(RoomInfo?.UsersNow ?? 0);
+            messageBuffer.AppendInteger(ItemType == PublicItemType.None ? 0 : (ItemType == PublicItemType.Tag ? 1 : (ItemType == PublicItemType.Flat ? 2 : (ItemType == PublicItemType.PublicFlat ? 2 : (ItemType != PublicItemType.Category ? 0 : 4)))));
+
+            switch (ItemType)
+            {
+                case PublicItemType.Tag:
+                    messageBuffer.AppendString(TagsToSearch);
+                    break;
+                case PublicItemType.Category:
+                    messageBuffer.AppendBool(false);
+                    break;
+                case PublicItemType.Flat:
+                    RoomInfo?.Serialize(messageBuffer);
+                    break;
+                case PublicItemType.PublicFlat:
+                    RoomInfo?.Serialize(messageBuffer);
                     break;
             }
         }

@@ -42,7 +42,7 @@ namespace Yupi.Emulator.Game.Achievements.Composers
         /// <returns>SimpleServerMessageBuffer.</returns>
         internal static SimpleServerMessageBuffer Compose(GameClient session, Talent talent)
         {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("TalentLevelUpMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("TalentLevelUpMessageComposer"));
 
             simpleServerMessageBuffer.AppendString(talent.Type);
             simpleServerMessageBuffer.AppendInteger(talent.Level);

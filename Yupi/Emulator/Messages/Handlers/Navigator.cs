@@ -27,14 +27,14 @@ using Yupi.Emulator.Game.Browser.Composers;
 using Yupi.Emulator.Game.Browser.Enums;
 using Yupi.Emulator.Game.Browser.Models;
 using Yupi.Emulator.Game.Rooms;
-using Yupi.Emulator.Game.Rooms.Data;
+using Yupi.Emulator.Game.Rooms.Data.Models;
 
 namespace Yupi.Emulator.Messages.Handlers
 {
     /// <summary>
-    ///     Class GameClientMessageHandler.
+    ///     Class MessageHandler.
     /// </summary>
-    internal partial class GameClientMessageHandler
+    internal partial class MessageHandler
     {
         /// <summary>
         ///     Gets the pub.
@@ -49,7 +49,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 return;
                 
             //@TODO: What The Hell? Direct Packet?
-            GetResponse().Init(PacketLibraryManager.SendRequest("453"));
+            GetResponse().Init(PacketLibraryManager.OutgoingHandler("453"));
 
             GetResponse().AppendInteger(roomData.Id);
             GetResponse().AppendString(roomData.CcTs);
@@ -141,7 +141,7 @@ namespace Yupi.Emulator.Messages.Handlers
             if (!Session.GetHabbo().NavigatorLogs.ContainsKey(naviLogs.Id))
                 Session.GetHabbo().NavigatorLogs.Add(naviLogs.Id, naviLogs);
 
-            Session.SendMessage(NavigatorSavedSearchesComposer.Compose(Session.GetHabbo().NavigatorLogs));
+            Session.SendMessage(NavigatorSavedSearchesComposer.Compose(Session));
 
         }
 
@@ -157,7 +157,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 
             Session.GetHabbo().NavigatorLogs.Remove(searchId);
             
-            Session.SendMessage(NavigatorSavedSearchesComposer.Compose(Session.GetHabbo().NavigatorLogs));
+            Session.SendMessage(NavigatorSavedSearchesComposer.Compose(Session));
         }
 
         /// <summary>
@@ -178,7 +178,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 return;
             
             // @TODO: What The Hell? Directly Packet ID?
-            GetResponse().Init(PacketLibraryManager.SendRequest("1491"));
+            GetResponse().Init(PacketLibraryManager.OutgoingHandler("1491"));
             
             GetResponse().AppendInteger(0);
             roomData.Serialize(GetResponse());
@@ -194,7 +194,7 @@ namespace Yupi.Emulator.Messages.Handlers
             if (Session.GetHabbo() == null)
                 return;
                 
-            Session.SendMessage(NavigatorFlatCategoriesListComposer.Compose());
+            Session.SendMessage(NavigatorFlatCategoriesListComposer.Compose(Session));
         }
 
         /// <summary>

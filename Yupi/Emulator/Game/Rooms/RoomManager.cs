@@ -12,6 +12,7 @@ using Yupi.Emulator.Game.Events;
 using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Rooms.Competitions;
 using Yupi.Emulator.Game.Rooms.Data;
+using Yupi.Emulator.Game.Rooms.Data.Models;
 using Yupi.Emulator.Game.Rooms.User;
 
 namespace Yupi.Emulator.Game.Rooms

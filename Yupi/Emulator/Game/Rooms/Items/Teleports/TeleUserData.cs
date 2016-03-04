@@ -11,7 +11,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Teleports
         /// <summary>
         ///     The _m handler
         /// </summary>
-        private readonly GameClientMessageHandler _mHandler;
+        private readonly MessageHandler _mHandler;
 
         /// <summary>
         ///     The _room identifier
@@ -35,7 +35,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Teleports
         /// <param name="userRefference">The p user refference.</param>
         /// <param name="roomId">The room identifier.</param>
         /// <param name="teleId">The tele identifier.</param>
-        internal TeleUserData(GameClientMessageHandler handler, Habbo userRefference, uint roomId, uint teleId)
+        internal TeleUserData(MessageHandler handler, Habbo userRefference, uint roomId, uint teleId)
         {
             _mHandler = handler;
             _userRefference = userRefference;

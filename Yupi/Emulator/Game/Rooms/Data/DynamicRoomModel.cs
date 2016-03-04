@@ -263,7 +263,7 @@ namespace Yupi.Emulator.Game.Rooms.Data
         /// <returns>SimpleServerMessageBuffer.</returns>
         private SimpleServerMessageBuffer SerializeHeightmap()
         {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("FloorMapMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("FloorMapMessageComposer"));
             simpleServerMessageBuffer.AppendBool(true);
             simpleServerMessageBuffer.AppendInteger(_mRoom.RoomData.WallHeight);
             StringBuilder stringBuilder = new StringBuilder();

@@ -321,7 +321,7 @@ DeleteGroupMessageEvent=48
 [Games]
 GameCenterLoadGameMessageEvent=881
 GameCenterJoinQueueMessageEvent=2925
-ClickGamesMessageEvent=3989
+ClickGamesMessageEvent=-1
 
 [Polls]
 AcceptPollMessageEvent=360

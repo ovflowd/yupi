@@ -9,6 +9,7 @@ using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Rooms.Chat;
 using Yupi.Emulator.Game.Rooms.Data;
+using Yupi.Emulator.Game.Rooms.Data.Models;
 using Yupi.Emulator.Game.Users;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
@@ -77,7 +78,7 @@ namespace Yupi.Emulator.Game.Support
         /// <param name="ticket">The ticket.</param>
         internal static void SendTicketToModerators(SupportTicket ticket)
         {
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("ModerationToolIssueMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("ModerationToolIssueMessageComposer"));
 
             messageBuffer = ticket.Serialize(messageBuffer);
 
@@ -131,7 +132,7 @@ namespace Yupi.Emulator.Game.Support
         {
             GameClient clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(userId);
 
-            clientByUserId.GetMessageHandler().GetResponse().Init(PacketLibraryManager.SendRequest("ModerationActionResultMessageComposer"));
+            clientByUserId.GetMessageHandler().GetResponse().Init(PacketLibraryManager.OutgoingHandler("ModerationActionResultMessageComposer"));
             clientByUserId.GetMessageHandler().GetResponse().AppendInteger(userId);
             clientByUserId.GetMessageHandler().GetResponse().AppendBool(false);
             clientByUserId.GetMessageHandler().SendResponse();
@@ -146,7 +147,7 @@ namespace Yupi.Emulator.Game.Support
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(data.Id);
 
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("ModerationRoomToolMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("ModerationRoomToolMessageComposer"));
             simpleServerMessageBuffer.AppendInteger(data.Id);
             simpleServerMessageBuffer.AppendInteger(data.UsersNow);
 
@@ -288,7 +289,7 @@ namespace Yupi.Emulator.Game.Support
         /// <exception cref="System.NullReferenceException">User not found in database.</exception>
         internal static SimpleServerMessageBuffer SerializeUserInfo(uint userId)
         {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("ModerationToolUserToolMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("ModerationToolUserToolMessageComposer"));
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
                 if (queryReactor != null)
@@ -344,7 +345,7 @@ namespace Yupi.Emulator.Game.Support
         internal static SimpleServerMessageBuffer SerializeRoomVisits(uint userId)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer =
-                new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("ModerationToolRoomVisitsMessageComposer"));
+                new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("ModerationToolRoomVisitsMessageComposer"));
             simpleServerMessageBuffer.AppendInteger(userId);
 
             GameClient user = Yupi.GetGame().GetClientManager().GetClientByUserId(userId);
@@ -395,7 +396,7 @@ namespace Yupi.Emulator.Game.Support
                 DataTable table = queryReactor.GetTable();
 
                 SimpleServerMessageBuffer simpleServerMessageBuffer =
-                    new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("ModerationToolUserChatlogMessageComposer"));
+                    new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("ModerationToolUserChatlogMessageComposer"));
                 simpleServerMessageBuffer.AppendInteger(userId);
                 simpleServerMessageBuffer.AppendString(Yupi.GetGame().GetClientManager().GetUserNameByUserId(userId));
 
@@ -496,7 +497,7 @@ namespace Yupi.Emulator.Game.Support
 
             if (room != null)
             {
-                messageBuffer.Init(PacketLibraryManager.SendRequest("ModerationToolIssueChatlogMessageComposer"));
+                messageBuffer.Init(PacketLibraryManager.OutgoingHandler("ModerationToolIssueChatlogMessageComposer"));
 
                 messageBuffer.AppendInteger(ticket.TicketId);
                 messageBuffer.AppendInteger(ticket.SenderId);
@@ -539,7 +540,7 @@ namespace Yupi.Emulator.Game.Support
 
             if (room?.RoomData != null)
             {
-                messageBuffer.Init(PacketLibraryManager.SendRequest("ModerationToolRoomChatlogMessageComposer"));
+                messageBuffer.Init(PacketLibraryManager.OutgoingHandler("ModerationToolRoomChatlogMessageComposer"));
                 messageBuffer.AppendByte(1);
                 messageBuffer.AppendShort(2);
                 messageBuffer.AppendString("roomName");
@@ -573,7 +574,7 @@ namespace Yupi.Emulator.Game.Support
         /// <returns>SimpleServerMessageBuffer.</returns>
         internal SimpleServerMessageBuffer SerializeTool(GameClient session)
         {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("LoadModerationToolMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("LoadModerationToolMessageComposer"));
 
             simpleServerMessageBuffer.AppendInteger(Tickets.Count);
 
@@ -768,7 +769,7 @@ namespace Yupi.Emulator.Game.Support
         /// <param name="userId">The user identifier.</param>
         internal void SerializeOpenTickets(ref QueuedServerMessageBuffer serverMessagesBuffer, uint userId)
         {
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("ModerationToolIssueMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("ModerationToolIssueMessageComposer"));
 
             foreach (
                 SupportTicket current in
@@ -892,7 +893,7 @@ namespace Yupi.Emulator.Game.Support
 
                 senderClient.GetMessageHandler()
                     .GetResponse()
-                    .Init(PacketLibraryManager.SendRequest("ModerationToolUpdateIssueMessageComposer"));
+                    .Init(PacketLibraryManager.OutgoingHandler("ModerationToolUpdateIssueMessageComposer"));
                 senderClient.GetMessageHandler().GetResponse().AppendInteger(1);
                 senderClient.GetMessageHandler().GetResponse().AppendInteger(ticket.TicketId);
                 senderClient.GetMessageHandler().GetResponse().AppendInteger(ticket.ModeratorId);
@@ -905,7 +906,7 @@ namespace Yupi.Emulator.Game.Support
                 senderClient.GetMessageHandler().GetResponse().AppendInteger(0);
                 senderClient.GetMessageHandler()
                     .GetResponse()
-                    .Init(PacketLibraryManager.SendRequest("ModerationTicketResponseMessageComposer"));
+                    .Init(PacketLibraryManager.OutgoingHandler("ModerationTicketResponseMessageComposer"));
                 senderClient.GetMessageHandler().GetResponse().AppendInteger(statusCode);
                 senderClient.GetMessageHandler().SendResponse();
             }

@@ -8,7 +8,7 @@ namespace Yupi.Emulator.Game.Catalogs.Composers
     {
         internal static void GenerateMessage(SimpleServerMessageBuffer messageBuffer, TargetedOffer offer)
         {
-            messageBuffer.Init(PacketLibraryManager.SendRequest("TargetedOfferMessageComposer"));
+            messageBuffer.Init(PacketLibraryManager.OutgoingHandler("TargetedOfferMessageComposer"));
             messageBuffer.AppendInteger(1);
             messageBuffer.AppendInteger(offer.Id);
             messageBuffer.AppendString(offer.Identifier);

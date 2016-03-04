@@ -279,6 +279,8 @@
     <Compile Include="Emulator\Game\Rooms\Data\Composers\RoomDataComposer.cs" />
     <Compile Include="Emulator\Game\Rooms\Events\Composers\RoomEventComposer.cs" />
     <Compile Include="Emulator\Game\Users\YoutubeVideo.cs" />
+    <Compile Include="Emulator\Messages\Handlers\MessageHandler.cs" />
+    <Compile Include="Emulator\Messages\Library\PacketLibrary.cs" />
     <Compile Include="Emulator\Messages\StaticMessagesManager.cs" />
     <Compile Include="Emulator\Net\Connection\ConnectionSecurity.cs" />
     <Compile Include="Emulator\Net\Handlers\ConnectionHandler.cs" />

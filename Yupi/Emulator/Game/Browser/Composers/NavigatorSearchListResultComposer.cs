@@ -8,7 +8,7 @@ namespace Yupi.Emulator.Game.Browser.Composers
     {
         internal static SimpleServerMessageBuffer Compose(string value1, string value2, GameClient session)
         {
-            SimpleServerMessageBuffer newNavigator = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("SearchResultSetComposer"));
+            SimpleServerMessageBuffer newNavigator = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SearchResultSetComposer"));
 
             newNavigator.AppendString(value1);
             newNavigator.AppendString(value2);

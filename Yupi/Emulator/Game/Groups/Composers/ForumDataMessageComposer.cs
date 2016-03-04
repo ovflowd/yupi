@@ -44,7 +44,7 @@ namespace Yupi.Emulator.Game.Groups.Composers
         {
             string string1 = string.Empty, string2 = string.Empty, string3 = string.Empty, string4 = string.Empty;
 
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("GroupForumDataMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("GroupForumDataMessageComposer"));
 
             messageBuffer.AppendInteger(group.Id);
             messageBuffer.AppendString(group.Name);

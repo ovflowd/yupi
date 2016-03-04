@@ -99,6 +99,7 @@ namespace Yupi.Emulator.Core.Security
         public static void Reload()
         {
             Dictionary.Clear();
+
             Load();
         }
 

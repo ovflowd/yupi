@@ -161,7 +161,7 @@ namespace Yupi.Emulator.Game.GameClients
         /// <param name="Event">if set to <c>true</c> [event].</param>
         internal void SendSuperNotif(string title, string notice, string picture, GameClient client, string link, string linkTitle, bool broadCast, bool Event)
         {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("SuperNotificationMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SuperNotificationMessageComposer"));
 
             simpleServerMessageBuffer.AppendString(picture);
             simpleServerMessageBuffer.AppendInteger(4);

@@ -56,7 +56,7 @@ namespace Yupi.Emulator.Game.Items.Wired.Handlers.Effects
 
             if (OtherBool)
             {
-                SimpleServerMessageBuffer whisp = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WhisperMessageComposer"));
+                SimpleServerMessageBuffer whisp = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("WhisperMessageComposer"));
                 whisp.AppendInteger(bot.VirtualId);
                 whisp.AppendString(OtherExtraString);
                 whisp.AppendInteger(0);

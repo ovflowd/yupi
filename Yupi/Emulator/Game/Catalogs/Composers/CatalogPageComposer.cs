@@ -32,7 +32,7 @@ namespace Yupi.Emulator.Game.Catalogs.Composers
             if (type == "NORMAL")
                 sortedPages = pages.Where(x => x.ParentId == -1 && x.MinRank <= rank).OrderBy(x => x.OrderNum);
 
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("CatalogueIndexMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("CatalogueIndexMessageComposer"));
 
             messageBuffer.AppendBool(true);
             messageBuffer.AppendInteger(0);
@@ -88,7 +88,7 @@ namespace Yupi.Emulator.Game.Catalogs.Composers
         /// <returns>SimpleServerMessageBuffer.</returns>
         internal static SimpleServerMessageBuffer ComposePage(CatalogPage page)
         {
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("CataloguePageMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("CataloguePageMessageComposer"));
             messageBuffer.AppendInteger(page.PageId);
 
             switch (page.Layout)
@@ -465,7 +465,7 @@ namespace Yupi.Emulator.Game.Catalogs.Composers
         /// <returns>SimpleServerMessageBuffer.</returns>
         internal static SimpleServerMessageBuffer ComposeClubPurchasePage(GameClient session, int windowId)
         {
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("CatalogueClubPageMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("CatalogueClubPageMessageComposer"));
             List<CatalogItem> habboClubItems = Yupi.GetGame().GetCatalogManager().HabboClubItems;
 
             messageBuffer.AppendInteger(habboClubItems.Count);
@@ -544,7 +544,7 @@ namespace Yupi.Emulator.Game.Catalogs.Composers
             uint limitedStack = 0,
             uint limitedSelled = 0)
         {
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("PurchaseOKMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("PurchaseOKMessageComposer"));
             messageBuffer.AppendInteger(itemId);
             messageBuffer.AppendString(itemName);
             messageBuffer.AppendBool(false);

@@ -36,8 +36,8 @@ namespace Yupi.Emulator.Game.Commands.Controllers
             Yupi.GetGame()
                 .GetClientManager()
                 .QueueBroadcaseMessage(
-                    new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("PublishShopMessageComposer")));
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("SuperNotificationMessageComposer"));
+                    new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("PublishShopMessageComposer")));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SuperNotificationMessageComposer"));
             messageBuffer.AppendString("ninja_promo_LTD");
             messageBuffer.AppendInteger(4);
             messageBuffer.AppendString("title");

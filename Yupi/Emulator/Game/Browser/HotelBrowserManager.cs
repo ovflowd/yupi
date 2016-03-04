@@ -32,7 +32,7 @@ using Yupi.Emulator.Game.Browser.Composers;
 using Yupi.Emulator.Game.Browser.Enums;
 using Yupi.Emulator.Game.Browser.Models;
 using Yupi.Emulator.Game.GameClients.Interfaces;
-using Yupi.Emulator.Game.Rooms.Data;
+using Yupi.Emulator.Game.Rooms.Data.Models;
 using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Browser
@@ -107,7 +107,7 @@ namespace Yupi.Emulator.Game.Browser
         /// <param name="dbClient">The database client.</param>
         public void Initialize(IQueryAdapter dbClient)
         {
-            dbClient.SetQuery("SELECT * FROM navigator_flatcats WHERE enabled = '2'");
+            dbClient.SetQuery("SELECT * FROM navigator_flatcats WHERE `enabled` = '2'");
             DataTable navigatorFlatCats = dbClient.GetTable();
 
             dbClient.SetQuery("SELECT * FROM navigator_publics");
@@ -305,9 +305,9 @@ namespace Yupi.Emulator.Game.Browser
             
             session.SendMessage(NavigatorCategoriesListComposer.Compose());
 
-            session.SendMessage(NavigatorSavedSearchesComposer.Compose(session.GetHabbo().NavigatorLogs));
+            session.SendMessage(NavigatorSavedSearchesComposer.Compose(session));
 
-            session.SendMessage(NavigatorPreferencesComposer.Compose(session.GetHabbo().Preferences));
+            session.SendMessage(NavigatorPreferencesComposer.Compose(session));
         }
        
         /// <summary>

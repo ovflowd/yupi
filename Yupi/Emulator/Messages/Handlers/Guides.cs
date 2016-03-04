@@ -7,9 +7,9 @@ using Yupi.Emulator.Messages.Buffers;
 namespace Yupi.Emulator.Messages.Handlers
 {
     /// <summary>
-    ///     Class GameClientMessageHandler.
+    ///     Class MessageHandler.
     /// </summary>
-    internal partial class GameClientMessageHandler
+    internal partial class MessageHandler
     {
         /// <summary>
         ///     Calls the guide.
@@ -25,7 +25,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
             if (guideManager.GuidesCount <= 0)
             {
-                Response.Init(PacketLibraryManager.SendRequest("OnGuideSessionError"));
+                Response.Init(PacketLibraryManager.OutgoingHandler("OnGuideSessionError"));
                 Response.AppendInteger(0);
                 SendResponse();
                 return;
@@ -35,14 +35,14 @@ namespace Yupi.Emulator.Messages.Handlers
 
             if (guide == null)
             {
-                Response.Init(PacketLibraryManager.SendRequest("OnGuideSessionError"));
+                Response.Init(PacketLibraryManager.OutgoingHandler("OnGuideSessionError"));
                 Response.AppendInteger(0);
                 SendResponse();
                 return;
             }
 
             SimpleServerMessageBuffer onGuideSessionAttached =
-                new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("OnGuideSessionAttachedMessageComposer"));
+                new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("OnGuideSessionAttachedMessageComposer"));
             onGuideSessionAttached.AppendBool(false);
             onGuideSessionAttached.AppendInteger(userId);
             onGuideSessionAttached.AppendString(message);
@@ -50,7 +50,7 @@ namespace Yupi.Emulator.Messages.Handlers
             Session.SendMessage(onGuideSessionAttached);
 
             SimpleServerMessageBuffer onGuideSessionAttached2 =
-                new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("OnGuideSessionAttachedMessageComposer"));
+                new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("OnGuideSessionAttachedMessageComposer"));
             onGuideSessionAttached2.AppendBool(true);
             onGuideSessionAttached2.AppendInteger(userId);
             onGuideSessionAttached2.AppendString(message);
@@ -71,7 +71,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 return;
 
             GameClient requester = Session.GetHabbo().GuideOtherUser;
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("OnGuideSessionStartedMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("OnGuideSessionStartedMessageComposer"));
 
             messageBuffer.AppendInteger(requester.GetHabbo().Id);
             messageBuffer.AppendString(requester.GetHabbo().UserName);
@@ -101,7 +101,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 guideManager.RemoveGuide(Session);
 
             Session.GetHabbo().OnDuty = onDuty;
-            Response.Init(PacketLibraryManager.SendRequest("HelperToolConfigurationMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("HelperToolConfigurationMessageComposer"));
             Response.AppendBool(onDuty);
             Response.AppendInteger(guideManager.GuidesCount);
             Response.AppendInteger(guideManager.HelpersCount);
@@ -119,7 +119,7 @@ namespace Yupi.Emulator.Messages.Handlers
             Room room = Session.GetHabbo().CurrentRoom;
 
             SimpleServerMessageBuffer messageBuffer =
-                new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("OnGuideSessionInvitedToGuideRoomMessageComposer"));
+                new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("OnGuideSessionInvitedToGuideRoomMessageComposer"));
 
             if (room == null)
             {
@@ -145,7 +145,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 return;
 
             GameClient requester = Session.GetHabbo().GuideOtherUser;
-            SimpleServerMessageBuffer visitRoom = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("RoomForwardMessageComposer"));
+            SimpleServerMessageBuffer visitRoom = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("RoomForwardMessageComposer"));
             visitRoom.AppendInteger(requester.GetHabbo().CurrentRoomId);
             Session.SendMessage(visitRoom);
         }
@@ -157,7 +157,7 @@ namespace Yupi.Emulator.Messages.Handlers
         {
             string message = Request.GetString();
             GameClient requester = Session.GetHabbo().GuideOtherUser;
-            SimpleServerMessageBuffer messageBufferC = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("OnGuideSessionMsgMessageComposer"));
+            SimpleServerMessageBuffer messageBufferC = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("OnGuideSessionMsgMessageComposer"));
             messageBufferC.AppendString(message);
             messageBufferC.AppendInteger(Session.GetHabbo().Id);
             requester.SendMessage(messageBufferC);
@@ -172,23 +172,23 @@ namespace Yupi.Emulator.Messages.Handlers
         {
             GameClient requester = Session.GetHabbo().GuideOtherUser;
 
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("OnGuideSessionDetachedMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("OnGuideSessionDetachedMessageComposer"));
 
             /* guide - close session  */
             messageBuffer.AppendInteger(2);
             requester.SendMessage(messageBuffer);
 
             /* user - close session */
-            SimpleServerMessageBuffer message2 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("OnGuideSessionDetachedMessageComposer"));
+            SimpleServerMessageBuffer message2 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("OnGuideSessionDetachedMessageComposer"));
             messageBuffer.AppendInteger(0);
             Session.SendMessage(message2);
 
             /* user - detach session */
-            SimpleServerMessageBuffer message3 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("OnGuideSessionDetachedMessageComposer"));
+            SimpleServerMessageBuffer message3 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("OnGuideSessionDetachedMessageComposer"));
             Session.SendMessage(message3);
 
             /* guide - detach session */
-            SimpleServerMessageBuffer message4 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("OnGuideSessionDetachedMessageComposer"));
+            SimpleServerMessageBuffer message4 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("OnGuideSessionDetachedMessageComposer"));
             requester.SendMessage(message4);
 
             requester.GetHabbo().GuideOtherUser = null;
@@ -205,12 +205,12 @@ namespace Yupi.Emulator.Messages.Handlers
             //Response.Load(3485);
 
             /* user - cancell session */
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("OnGuideSessionDetachedMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("OnGuideSessionDetachedMessageComposer"));
             messageBuffer.AppendInteger(2);
             Session.SendMessage(messageBuffer);
 
             /* achievement */
-            SimpleServerMessageBuffer messageBuffer2 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("OnGuideSessionDetachedMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer2 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("OnGuideSessionDetachedMessageComposer"));
             Session.SendMessage(messageBuffer2);
             Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(Session, "ACH_GuideFeedbackGiver", 1);
         }

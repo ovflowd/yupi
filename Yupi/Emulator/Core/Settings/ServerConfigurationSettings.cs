@@ -74,6 +74,9 @@ namespace Yupi.Emulator.Core.Settings
                         string key = text.Substring(0, num);
                         string value = text.Substring(num + 1);
 
+                        if (Data.ContainsKey(key))
+                            Data.Remove(key);
+
                         Data.Add(key, value);
                     }
 

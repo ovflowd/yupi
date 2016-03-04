@@ -69,7 +69,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 
             session.GetMessageHandler()
                 .GetResponse()
-                .Init(PacketLibraryManager.SendRequest("UpdateUserDataMessageComposer"));
+                .Init(PacketLibraryManager.OutgoingHandler("UpdateUserDataMessageComposer"));
             session.GetMessageHandler().GetResponse().AppendInteger(-1);
             session.GetMessageHandler().GetResponse().AppendString(session.GetHabbo().Look);
             session.GetMessageHandler().GetResponse().AppendString(session.GetHabbo().Gender.ToLower());
@@ -79,7 +79,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 
             RoomUser roomUserByHabbo = item.GetRoom().GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().Id);
 
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("UpdateUserDataMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UpdateUserDataMessageComposer"));
 
             simpleServerMessageBuffer.AppendInteger(roomUserByHabbo.VirtualId);
             simpleServerMessageBuffer.AppendString(session.GetHabbo().Look);

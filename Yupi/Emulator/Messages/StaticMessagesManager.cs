@@ -22,21 +22,21 @@ namespace Yupi.Emulator.Messages
         {
             Cache.Clear();
 
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("SuperNotificationMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SuperNotificationMessageComposer"));
             messageBuffer.AppendString("furni_placement_error");
             messageBuffer.AppendInteger(1);
             messageBuffer.AppendString("message");
             messageBuffer.AppendString("${room.error.cant_set_item}");
             Cache.Add(StaticMessage.ErrorCantSetItem, messageBuffer.GetReversedBytes());
 
-            messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("SuperNotificationMessageComposer"));
+            messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SuperNotificationMessageComposer"));
             messageBuffer.AppendString("furni_placement_error");
             messageBuffer.AppendInteger(1);
             messageBuffer.AppendString("message");
             messageBuffer.AppendString("${room.error.cant_set_not_owner}");
             Cache.Add(StaticMessage.ErrorCantSetNotOwner, messageBuffer.GetReversedBytes());
 
-            messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("SuperNotificationMessageComposer"));
+            messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SuperNotificationMessageComposer"));
             messageBuffer.AppendString("game_promo_small");
             messageBuffer.AppendInteger(4);
             messageBuffer.AppendString("title");
@@ -49,7 +49,7 @@ namespace Yupi.Emulator.Messages
             messageBuffer.AppendString("${mod.alert.link}");
             Cache.Add(StaticMessage.NewWayToOpenCommandsList, messageBuffer.GetReversedBytes());
 
-            messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("SuperNotificationMessageComposer"));
+            messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SuperNotificationMessageComposer"));
             messageBuffer.AppendString(string.Empty);
             messageBuffer.AppendInteger(4);
             messageBuffer.AppendString("title");
@@ -62,7 +62,7 @@ namespace Yupi.Emulator.Messages
             messageBuffer.AppendString("ok");
             Cache.Add(StaticMessage.UserNotFound, messageBuffer.GetReversedBytes());
 
-            messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("SuperNotificationMessageComposer"));
+            messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SuperNotificationMessageComposer"));
             messageBuffer.AppendString(string.Empty);
             messageBuffer.AppendInteger(4);
             messageBuffer.AppendString("title");
@@ -75,7 +75,7 @@ namespace Yupi.Emulator.Messages
             messageBuffer.AppendString("ok");
             Cache.Add(StaticMessage.AdviceMaxItems, messageBuffer.GetReversedBytes());
 
-            messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("SuperNotificationMessageComposer"));
+            messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SuperNotificationMessageComposer"));
             messageBuffer.AppendString(string.Empty);
             messageBuffer.AppendInteger(4);
             messageBuffer.AppendString("title");
@@ -88,7 +88,7 @@ namespace Yupi.Emulator.Messages
             messageBuffer.AppendString("ok");
             Cache.Add(StaticMessage.AdvicePurchaseMaxItems, messageBuffer.GetReversedBytes());
 
-            messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("CatalogueOfferConfigMessageComposer"));
+            messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("CatalogueOfferConfigMessageComposer"));
             messageBuffer.AppendInteger(100);
             messageBuffer.AppendInteger(6);
             messageBuffer.AppendInteger(2);
@@ -98,7 +98,7 @@ namespace Yupi.Emulator.Messages
             messageBuffer.AppendInteger(99);
             Cache.Add(StaticMessage.CatalogOffersConfiguration, messageBuffer.GetReversedBytes());
 
-            messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("SuperNotificationMessageComposer"));
+            messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SuperNotificationMessageComposer"));
             messageBuffer.AppendString(string.Empty);
             messageBuffer.AppendInteger(4);
             messageBuffer.AppendString("title");

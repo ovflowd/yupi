@@ -92,7 +92,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
             Timer timer = (Timer) source;
             timer.Stop();
 
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("SuperNotificationMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SuperNotificationMessageComposer"));
             simpleServerMessageBuffer.AppendString("room.kick.cannonball");
             simpleServerMessageBuffer.AppendInteger(2);
             simpleServerMessageBuffer.AppendString("link");

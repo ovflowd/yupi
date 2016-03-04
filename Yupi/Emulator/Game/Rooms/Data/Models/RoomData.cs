@@ -35,7 +35,7 @@ using Yupi.Emulator.Game.Rooms.Data.Composers;
 using Yupi.Emulator.Game.Rooms.Events.Models;
 using Yupi.Emulator.Messages.Buffers;
 
-namespace Yupi.Emulator.Game.Rooms.Data
+namespace Yupi.Emulator.Game.Rooms.Data.Models
 {
     /// <summary>
     ///     Class GetPublicRoomData.
@@ -469,7 +469,7 @@ namespace Yupi.Emulator.Game.Rooms.Data
         /// <param name="messageBuffer">The messageBuffer.</param>
         /// <param name="showEvents">if set to <c>true</c> [show events].</param>
         /// <param name="enterRoom"></param>
-        internal void Serialize(SimpleServerMessageBuffer messageBuffer, bool showEvents = false, bool enterRoom = false) => RoomDataComposer.Serialize(messageBuffer, Yupi.GetGame().GetRoomManager().GetRoom(Id), showEvents, enterRoom);
+        internal void Serialize(SimpleServerMessageBuffer messageBuffer, bool showEvents = false, bool enterRoom = false) => RoomDataComposer.Serialize(messageBuffer, this, showEvents, enterRoom);
 
         /// <summary>
         ///     Serializes the room data.
@@ -481,19 +481,19 @@ namespace Yupi.Emulator.Game.Rooms.Data
         /// <param name="show">if set to <c>true</c> [show].</param>
         internal void SerializeRoomData(SimpleServerMessageBuffer messageBuffer, GameClient session, bool isNotReload, bool? sendRoom = false, bool show = true)
         {
-            RoomDataComposer.Compose(messageBuffer, session, Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId), isNotReload, sendRoom, show);
+            SimpleServerMessageBuffer roomDataBuffer = RoomDataComposer.Compose(messageBuffer, session, Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId), this, isNotReload, sendRoom, show);
 
             if (sendRoom == null)
                 return;
 
             if (sendRoom.Value && Yupi.GetGame().GetRoomManager().GetRoom(Id) != null)
             {
-                Yupi.GetGame().GetRoomManager().GetRoom(Id).SendMessage(messageBuffer);
+                Yupi.GetGame().GetRoomManager().GetRoom(Id).SendMessage(roomDataBuffer);
 
                 return;
             }
 
-            session.SendMessage(messageBuffer);
+            session.SendMessage(roomDataBuffer);
         }
     }
 }

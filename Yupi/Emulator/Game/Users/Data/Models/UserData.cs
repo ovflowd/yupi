@@ -4,6 +4,7 @@ using Yupi.Emulator.Game.Items.Interfaces;
 using Yupi.Emulator.Game.Pets;
 using Yupi.Emulator.Game.RoomBots;
 using Yupi.Emulator.Game.Rooms.Data;
+using Yupi.Emulator.Game.Rooms.Data.Models;
 using Yupi.Emulator.Game.Users.Badges.Models;
 using Yupi.Emulator.Game.Users.Inventory;
 using Yupi.Emulator.Game.Users.Messenger.Structs;

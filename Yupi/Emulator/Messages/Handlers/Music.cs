@@ -12,9 +12,9 @@ using Yupi.Emulator.Messages.Buffers;
 namespace Yupi.Emulator.Messages.Handlers
 {
     /// <summary>
-    ///     Class GameClientMessageHandler.
+    ///     Class MessageHandler.
     /// </summary>
-    internal partial class GameClientMessageHandler
+    internal partial class MessageHandler
     {
         /// <summary>
         ///     Retrieves the song identifier.
@@ -27,7 +27,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
             if (songId != 0u)
             {
-                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("RetrieveSongIDMessageComposer"));
+                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("RetrieveSongIDMessageComposer"));
                 simpleServerMessageBuffer.AppendString(text);
                 simpleServerMessageBuffer.AppendInteger(songId);
                 Session.SendMessage(simpleServerMessageBuffer);

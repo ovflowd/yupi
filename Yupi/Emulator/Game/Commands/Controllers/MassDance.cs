@@ -40,7 +40,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
             foreach (RoomUser roomUser in roomUsers)
             {
                 SimpleServerMessageBuffer messageBuffer =
-                    new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("DanceStatusMessageComposer"));
+                    new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("DanceStatusMessageComposer"));
                 messageBuffer.AppendInteger(roomUser.VirtualId);
                 messageBuffer.AppendInteger(danceId);
                 room.SendMessage(messageBuffer);

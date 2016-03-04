@@ -20,7 +20,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
             if (item.ExtraData == "" || data.Length < 4)
                 return;
 
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("InternalLinkMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("InternalLinkMessageComposer"));
 
             messageBuffer.AppendString(data[3]);
             session.SendMessage(messageBuffer);

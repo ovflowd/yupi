@@ -49,7 +49,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
         {
             if (poll == null || poll.Type != PollType.Matching)
                 return;
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("MatchingPollMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("MatchingPollMessageComposer"));
             messageBuffer.AppendString("MATCHING_POLL");
             messageBuffer.AppendInteger(poll.Id);
             messageBuffer.AppendInteger(poll.Id);
@@ -78,7 +78,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
                     if (user.AnsweredPool)
                     {
                         SimpleServerMessageBuffer result =
-                            new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("MatchingPollResultMessageComposer"));
+                            new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("MatchingPollResultMessageComposer"));
                         result.AppendInteger(poll.Id);
                         result.AppendInteger(2);
                         result.AppendString("0");

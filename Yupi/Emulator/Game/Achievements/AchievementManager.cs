@@ -77,7 +77,7 @@ namespace Yupi.Emulator.Game.Achievements
 
             AchievementLevelFactory.GetAchievementLevels(out Achievements, dbClient);
 
-            AchievementDataCached = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("SendAchievementsRequirementsMessageComposer"));
+            AchievementDataCached = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SendAchievementsRequirementsMessageComposer"));
 
             AchievementDataCached.AppendInteger(Achievements.Count);
 
@@ -362,9 +362,9 @@ namespace Yupi.Emulator.Game.Achievements
                 }
 
                 // Send User New Data
-                GameClientMessageHandler messageHandler = session.GetMessageHandler();
+                MessageHandler messageHandler = session.GetMessageHandler();
 
-                messageHandler.GetResponse().Init(PacketLibraryManager.SendRequest("UpdateUserDataMessageComposer"));
+                messageHandler.GetResponse().Init(PacketLibraryManager.OutgoingHandler("UpdateUserDataMessageComposer"));
                 messageHandler.GetResponse().AppendInteger(-1);
                 messageHandler.GetResponse().AppendString(user.Look);
                 messageHandler.GetResponse().AppendString(user.Gender.ToLower());

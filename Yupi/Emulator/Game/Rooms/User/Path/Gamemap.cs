@@ -990,7 +990,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
                         _room.GetRoomUserManager().GetRoomUserByVirtualId(Convert.ToInt32(user.HorseId));
                     roomUserByVirtualId.IsWalking = false;
                     roomUserByVirtualId.RemoveStatus("mv");
-                    SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("UpdateUserStatusMessageComposer"));
+                    SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UpdateUserStatusMessageComposer"));
                     messageBuffer.AppendInteger(1);
                     roomUserByVirtualId.SerializeStatus(messageBuffer, "");
                     user.GetClient().GetHabbo().CurrentRoom.SendMessage(messageBuffer);
@@ -1084,7 +1084,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
                 RoomUser roomUserByVirtualId =
                     _room.GetRoomUserManager().GetRoomUserByVirtualId(Convert.ToInt32(user.HorseId));
 
-                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("UpdateUserStatusMessageComposer"));
+                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UpdateUserStatusMessageComposer"));
                 messageBuffer.AppendInteger(1);
                 if (roomUserByVirtualId != null)
                 {
@@ -1613,7 +1613,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         private SimpleServerMessageBuffer NewHeightMap()
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
-            simpleServerMessageBuffer.Init(PacketLibraryManager.SendRequest("HeightMapMessageComposer"));
+            simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingHandler("HeightMapMessageComposer"));
             simpleServerMessageBuffer.AppendInteger(Model.MapSizeX);
             simpleServerMessageBuffer.AppendInteger(Model.MapSizeX*Model.MapSizeY);
             for (int i = 0; i < Model.MapSizeY; i++)

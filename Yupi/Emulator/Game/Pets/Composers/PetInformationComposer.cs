@@ -9,7 +9,7 @@ namespace Yupi.Emulator.Game.Pets.Composers
     {
         internal static SimpleServerMessageBuffer GenerateMessage(Pet pet)
         {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("PetInfoMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("PetInfoMessageComposer"));
 
             simpleServerMessageBuffer.AppendInteger(pet.PetId);
             simpleServerMessageBuffer.AppendString(pet.Name);

@@ -24,7 +24,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
         public override bool Execute(GameClient session, string[] pms)
         {
             string str = string.Join(" ", pms);
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("BroadcastNotifMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("BroadcastNotifMessageComposer"));
             messageBuffer.AppendString($"{str}\r\n- {session.GetHabbo().UserName}");
             Yupi.GetGame().GetClientManager().QueueBroadcaseMessage(messageBuffer);
 

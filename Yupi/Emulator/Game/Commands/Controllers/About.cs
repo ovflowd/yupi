@@ -24,7 +24,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
 
         public override bool Execute(GameClient client, string[] pms)
         {
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("SuperNotificationMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SuperNotificationMessageComposer"));
 
             messageBuffer.AppendString("Yupi");
             messageBuffer.AppendInteger(4);

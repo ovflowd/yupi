@@ -8,6 +8,7 @@ using Yupi.Emulator.Game.Groups.Structs;
 using Yupi.Emulator.Game.Items.Interfaces;
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Rooms.Data;
+using Yupi.Emulator.Game.Rooms.Data.Models;
 using Yupi.Emulator.Game.Rooms.User;
 using Yupi.Emulator.Game.Users;
 using Yupi.Emulator.Messages.Buffers;
@@ -15,9 +16,9 @@ using Yupi.Emulator.Messages.Buffers;
 namespace Yupi.Emulator.Messages.Handlers
 {
     /// <summary>
-    ///     Class GameClientMessageHandler.
+    ///     Class MessageHandler.
     /// </summary>
-    internal partial class GameClientMessageHandler
+    internal partial class MessageHandler
     {
         internal readonly ushort TotalPerPage = 20;
 
@@ -28,7 +29,7 @@ namespace Yupi.Emulator.Messages.Handlers
         {
             HashSet<RoomData> list = new HashSet<RoomData>(Session.GetHabbo().UsersRooms.Where(x => x.Group == null));
 
-            Response.Init(PacketLibraryManager.SendRequest("GroupPurchasePageMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("GroupPurchasePageMessageComposer"));
             Response.AppendInteger(10);
             Response.AppendInteger(list.Count);
 
@@ -63,7 +64,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void SerializeGroupPurchaseParts()
         {
-            Response.Init(PacketLibraryManager.SendRequest("GroupPurchasePartsMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("GroupPurchasePartsMessageComposer"));
             Response.AppendInteger(Yupi.GetGame().GetGroupManager().Bases.Count);
 
             foreach (GroupBases current in Yupi.GetGame().GetGroupManager().Bases)
@@ -148,7 +149,7 @@ namespace Yupi.Emulator.Messages.Handlers
                     !Yupi.GetGame().GetGroupManager().BackGroundColours.Contains(num3) ? 1 : num3, out theGroup);
 
             Session.SendMessage(CatalogPageComposer.PurchaseOk(0u, "CREATE_GUILD", 10));
-            Response.Init(PacketLibraryManager.SendRequest("GroupRoomMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("GroupRoomMessageComposer"));
             Response.AppendInteger(roomid);
             Response.AppendInteger(theGroup.Id);
             SendResponse();
@@ -171,7 +172,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
             if (CurrentLoadingRoom != null)
             {
-                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("RoomGroupMessageComposer"));
+                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("RoomGroupMessageComposer"));
 
                 simpleServerMessageBuffer.AppendInteger(CurrentLoadingRoom.LoadedGroups.Count);
 
@@ -187,7 +188,7 @@ namespace Yupi.Emulator.Messages.Handlers
             if (CurrentLoadingRoom == null || Session.GetHabbo().FavouriteGroup != theGroup.Id)
                 return;
 
-            SimpleServerMessageBuffer simpleServerMessage2 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("ChangeFavouriteGroupMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessage2 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("ChangeFavouriteGroupMessageComposer"));
 
             simpleServerMessage2.AppendInteger(
                 CurrentLoadingRoom.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().Id).VirtualId);
@@ -226,7 +227,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
             Group group = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
 
-            Response.Init(PacketLibraryManager.SendRequest("GroupMembersMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("GroupMembersMessageComposer"));
 
             Yupi.GetGame().GetGroupManager().SerializeGroupMembers(Response, group, reqType, Session, searchVal, page);
 
@@ -251,7 +252,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
             group.Admins.Add(num2, group.Members[num2]);
 
-            Response.Init(PacketLibraryManager.SendRequest("GroupMembersMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("GroupMembersMessageComposer"));
             Yupi.GetGame().GetGroupManager().SerializeGroupMembers(Response, group, 1u, Session);
 
             SendResponse();
@@ -265,7 +266,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 if (!roomUserByHabbo.Statusses.ContainsKey("flatctrl 1"))
                     roomUserByHabbo.AddStatus("flatctrl 1", "");
 
-                Response.Init(PacketLibraryManager.SendRequest("RoomRightsLevelMessageComposer"));
+                Response.Init(PacketLibraryManager.OutgoingHandler("RoomRightsLevelMessageComposer"));
                 Response.AppendInteger(1);
                 roomUserByHabbo.GetClient().SendMessage(GetResponse());
                 roomUserByHabbo.UpdateNeeded = true;
@@ -293,7 +294,7 @@ namespace Yupi.Emulator.Messages.Handlers
             group.Members[num2].Rank = 0;
             group.Admins.Remove(num2);
 
-            Response.Init(PacketLibraryManager.SendRequest("GroupMembersMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("GroupMembersMessageComposer"));
             Yupi.GetGame().GetGroupManager().SerializeGroupMembers(Response, group, 0u, Session);
             SendResponse();
 
@@ -305,7 +306,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 if (roomUserByHabbo.Statusses.ContainsKey("flatctrl 1"))
                     roomUserByHabbo.RemoveStatus("flatctrl 1");
 
-                Response.Init(PacketLibraryManager.SendRequest("RoomRightsLevelMessageComposer"));
+                Response.Init(PacketLibraryManager.OutgoingHandler("RoomRightsLevelMessageComposer"));
                 Response.AppendInteger(0);
                 roomUserByHabbo.GetClient().SendMessage(GetResponse());
                 roomUserByHabbo.UpdateNeeded = true;
@@ -348,7 +349,7 @@ namespace Yupi.Emulator.Messages.Handlers
             group.Admins.Add(userId, group.Members[userId]);
 
             Yupi.GetGame().GetGroupManager().SerializeGroupInfo(group, Response, Session);
-            Response.Init(PacketLibraryManager.SendRequest("GroupMembersMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("GroupMembersMessageComposer"));
             Yupi.GetGame().GetGroupManager().SerializeGroupMembers(Response, group, 0u, Session);
             SendResponse();
 
@@ -377,7 +378,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
             group.Requests.Remove(userId);
 
-            Response.Init(PacketLibraryManager.SendRequest("GroupMembersMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("GroupMembersMessageComposer"));
             Yupi.GetGame().GetGroupManager().SerializeGroupMembers(Response, group, 2u, Session);
             SendResponse();
 
@@ -470,7 +471,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 queryReactor.RunFastQuery(string.Concat("UPDATE users_stats SET favourite_group =",
                     theGroup.Id, " WHERE id=", Session.GetHabbo().Id, " LIMIT 1;"));
 
-            Response.Init(PacketLibraryManager.SendRequest("FavouriteGroupMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("FavouriteGroupMessageComposer"));
             Response.AppendInteger(Session.GetHabbo().Id);
             Session.SendMessage(Response);
 
@@ -479,7 +480,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 if (!Session.GetHabbo().CurrentRoom.LoadedGroups.ContainsKey(theGroup.Id))
                 {
                     Session.GetHabbo().CurrentRoom.LoadedGroups.Add(theGroup.Id, theGroup.Badge);
-                    Response.Init(PacketLibraryManager.SendRequest("RoomGroupMessageComposer"));
+                    Response.Init(PacketLibraryManager.OutgoingHandler("RoomGroupMessageComposer"));
                     Response.AppendInteger(Session.GetHabbo().CurrentRoom.LoadedGroups.Count);
 
                     foreach (KeyValuePair<uint, string> current in Session.GetHabbo().CurrentRoom.LoadedGroups)
@@ -492,7 +493,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 }
             }
 
-            Response.Init(PacketLibraryManager.SendRequest("ChangeFavouriteGroupMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("ChangeFavouriteGroupMessageComposer"));
             Response.AppendInteger(0);
             Response.AppendInteger(theGroup.Id);
             Response.AppendInteger(3);
@@ -513,10 +514,10 @@ namespace Yupi.Emulator.Messages.Handlers
                 queryReactor.RunFastQuery(
                     $"UPDATE users_stats SET favourite_group=0 WHERE id={Session.GetHabbo().Id} LIMIT 1;");
 
-            Response.Init(PacketLibraryManager.SendRequest("FavouriteGroupMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("FavouriteGroupMessageComposer"));
             Response.AppendInteger(Session.GetHabbo().Id);
             Session.SendMessage(Response);
-            Response.Init(PacketLibraryManager.SendRequest("ChangeFavouriteGroupMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("ChangeFavouriteGroupMessageComposer"));
             Response.AppendInteger(0);
             Response.AppendInteger(-1);
             Response.AppendInteger(-1);
@@ -585,7 +586,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
             if (threadId == 0)
             {
-                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("GroupForumNewThreadMessageComposer"));
+                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("GroupForumNewThreadMessageComposer"));
                 messageBuffer.AppendInteger(groupId);
                 messageBuffer.AppendInteger(threadId);
                 messageBuffer.AppendInteger(Session.GetHabbo().Id);
@@ -608,7 +609,7 @@ namespace Yupi.Emulator.Messages.Handlers
             }
             else
             {
-                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("GroupForumNewResponseMessageComposer"));
+                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("GroupForumNewResponseMessageComposer"));
                 messageBuffer.AppendInteger(groupId);
                 messageBuffer.AppendInteger(threadId);
                 messageBuffer.AppendInteger(group.Forum.ForumMessagesCount);
@@ -661,7 +662,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
                 if (thread.Pinned != pin)
                 {
-                    SimpleServerMessageBuffer notif = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("SuperNotificationMessageComposer"));
+                    SimpleServerMessageBuffer notif = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SuperNotificationMessageComposer"));
 
                     notif.AppendString(pin ? "forums.thread.pinned" : "forums.thread.unpinned");
                     notif.AppendInteger(0);
@@ -670,7 +671,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
                 if (thread.Locked != Lock)
                 {
-                    SimpleServerMessageBuffer notif2 = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("SuperNotificationMessageComposer"));
+                    SimpleServerMessageBuffer notif2 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SuperNotificationMessageComposer"));
 
                     notif2.AppendString(Lock ? "forums.thread.locked" : "forums.thread.unlocked");
                     notif2.AppendInteger(0);
@@ -680,7 +681,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 if (thread.ParentId != 0)
                     return;
 
-                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("GroupForumThreadUpdateMessageComposer"));
+                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("GroupForumThreadUpdateMessageComposer"));
                 messageBuffer.AppendInteger(groupId);
                 messageBuffer.AppendInteger(thread.Id);
                 messageBuffer.AppendInteger(thread.PosterId);
@@ -733,7 +734,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 }
 
                 GroupForumPost thread = new GroupForumPost(row);
-                SimpleServerMessageBuffer notif = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("SuperNotificationMessageComposer"));
+                SimpleServerMessageBuffer notif = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SuperNotificationMessageComposer"));
 
                 notif.AppendString(stateToSet == 20 ? "forums.thread.hidden" : "forums.thread.restored");
                 notif.AppendInteger(0);
@@ -742,7 +743,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 if (thread.ParentId != 0)
                     return;
 
-                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("GroupForumThreadUpdateMessageComposer"));
+                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("GroupForumThreadUpdateMessageComposer"));
                 messageBuffer.AppendInteger(groupId);
                 messageBuffer.AppendInteger(thread.Id);
                 messageBuffer.AppendInteger(thread.PosterId);
@@ -818,7 +819,7 @@ namespace Yupi.Emulator.Messages.Handlers
                     i++;
                 }
 
-                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("GroupForumReadThreadMessageComposer"));
+                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("GroupForumReadThreadMessageComposer"));
 
                 messageBuffer.AppendInteger(groupId);
                 messageBuffer.AppendInteger(threadId);
@@ -853,27 +854,23 @@ namespace Yupi.Emulator.Messages.Handlers
         internal void GetGroupForumThreadRoot()
         {
             uint groupId = Request.GetUInteger();
+
             int startIndex = Request.GetInteger();
 
             using (IQueryAdapter dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                dbClient.SetQuery(
-                    $"SELECT count(id) FROM groups_forums_posts WHERE group_id = '{groupId}' AND parent_id = 0");
+                dbClient.SetQuery($"SELECT count(id) FROM groups_forums_posts WHERE group_id = '{groupId}' AND parent_id = 0");
 
                 dbClient.GetInteger();
 
-                dbClient.SetQuery(
-                    $"SELECT * FROM groups_forums_posts WHERE group_id = '{groupId}' AND parent_id = 0 ORDER BY timestamp DESC, pinned DESC LIMIT @startIndex, @totalPerPage;");
-
-                dbClient.AddParameter("startIndex", startIndex);
-                dbClient.AddParameter("totalPerPage", TotalPerPage);
+                dbClient.SetQuery($"SELECT * FROM groups_forums_posts WHERE group_id = '{groupId}' AND parent_id = 0 ORDER BY timestamp DESC, pinned DESC LIMIT {startIndex}, {TotalPerPage}");
 
                 DataTable table = dbClient.GetTable();
                 int threadCount = table.Rows.Count <= TotalPerPage ? table.Rows.Count : TotalPerPage;
 
                 List<GroupForumPost> threads = (from DataRow row in table.Rows select new GroupForumPost(row)).ToList();
 
-                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("GroupForumThreadRootMessageComposer"));
+                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("GroupForumThreadRootMessageComposer"));
                 messageBuffer.AppendInteger(groupId);
                 messageBuffer.AppendInteger(startIndex);
                 messageBuffer.AppendInteger(threadCount);
@@ -924,7 +921,7 @@ namespace Yupi.Emulator.Messages.Handlers
             int selectType = Request.GetInteger();
             int startIndex = Request.GetInteger();
 
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("GroupForumListingsMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("GroupForumListingsMessageComposer"));
             messageBuffer.AppendInteger(selectType);
             List<Group> groupList = new List<Group>();
 
@@ -1007,7 +1004,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 Session.GetHabbo().Rank < 7)
                 return;
 
-            Response.Init(PacketLibraryManager.SendRequest("GroupDataEditMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("GroupDataEditMessageComposer"));
             Response.AppendInteger(0);
             Response.AppendBool(true);
             Response.AppendInteger(theGroup.Id);
@@ -1124,7 +1121,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
                     guild.Badge = badge;
 
-                    Response.Init(PacketLibraryManager.SendRequest("RoomGroupMessageComposer"));
+                    Response.Init(PacketLibraryManager.OutgoingHandler("RoomGroupMessageComposer"));
                     Response.AppendInteger(room.LoadedGroups.Count);
 
                     foreach (KeyValuePair<uint, string> current2 in room.LoadedGroups)
@@ -1149,7 +1146,7 @@ namespace Yupi.Emulator.Messages.Handlers
                     {
                         Session.GetHabbo().CurrentRoom.LoadedGroups[guildId] = guild.Badge;
 
-                        Response.Init(PacketLibraryManager.SendRequest("RoomGroupMessageComposer"));
+                        Response.Init(PacketLibraryManager.OutgoingHandler("RoomGroupMessageComposer"));
                         Response.AppendInteger(Session.GetHabbo().CurrentRoom.LoadedGroups.Count);
 
                         foreach (KeyValuePair<uint, string> current in Session.GetHabbo().CurrentRoom.LoadedGroups)
@@ -1227,7 +1224,7 @@ namespace Yupi.Emulator.Messages.Handlers
                         if (num2 == 1u)
                         {
                             current.RemoveStatus("flatctrl 1");
-                            Response.Init(PacketLibraryManager.SendRequest("RoomRightsLevelMessageComposer"));
+                            Response.Init(PacketLibraryManager.OutgoingHandler("RoomRightsLevelMessageComposer"));
                             Response.AppendInteger(0);
                             current.GetClient().SendMessage(GetResponse());
                         }
@@ -1236,7 +1233,7 @@ namespace Yupi.Emulator.Messages.Handlers
                             if (num2 == 0u && !current.Statusses.ContainsKey("flatctrl 1"))
                             {
                                 current.AddStatus("flatctrl 1", string.Empty);
-                                Response.Init(PacketLibraryManager.SendRequest("RoomRightsLevelMessageComposer"));
+                                Response.Init(PacketLibraryManager.OutgoingHandler("RoomRightsLevelMessageComposer"));
                                 Response.AppendInteger(1);
                                 current.GetClient().SendMessage(GetResponse());
                             }
@@ -1267,7 +1264,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
             if (userId == Session.GetHabbo().Id || guild.Admins.ContainsKey(Session.GetHabbo().Id))
             {
-                Response.Init(PacketLibraryManager.SendRequest("GroupAreYouSureMessageComposer"));
+                Response.Init(PacketLibraryManager.OutgoingHandler("GroupAreYouSureMessageComposer"));
                 Response.AppendInteger(userId);
                 Response.AppendInteger(0);
                 SendResponse();
@@ -1331,7 +1328,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
                 if (byeUser != null)
                 {
-                    Response.Init(PacketLibraryManager.SendRequest("GroupConfirmLeaveMessageComposer"));
+                    Response.Init(PacketLibraryManager.OutgoingHandler("GroupConfirmLeaveMessageComposer"));
                     Response.AppendInteger(guild);
                     Response.AppendInteger(type);
                     Response.AppendInteger(byeUser.Id);
@@ -1351,7 +1348,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
                     Room room = Session.GetHabbo().CurrentRoom;
 
-                    Response.Init(PacketLibraryManager.SendRequest("FavouriteGroupMessageComposer"));
+                    Response.Init(PacketLibraryManager.OutgoingHandler("FavouriteGroupMessageComposer"));
                     Response.AppendInteger(byeUser.Id);
 
                     if (room != null)
@@ -1359,7 +1356,7 @@ namespace Yupi.Emulator.Messages.Handlers
                     else
                         SendResponse();
 
-                    Response.Init(PacketLibraryManager.SendRequest("ChangeFavouriteGroupMessageComposer"));
+                    Response.Init(PacketLibraryManager.OutgoingHandler("ChangeFavouriteGroupMessageComposer"));
                     Response.AppendInteger(0);
                     Response.AppendInteger(-1);
                     Response.AppendInteger(-1);
@@ -1372,7 +1369,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 {
                     if (Yupi.GetGame().GetRoomManager().GetRoom(byeGuild.RoomId).GetRoomUserManager().GetRoomUserByHabbo(byeUser?.UserName) != null)
                     {
-                        Response.Init(PacketLibraryManager.SendRequest("RoomRightsLevelMessageComposer"));
+                        Response.Init(PacketLibraryManager.OutgoingHandler("RoomRightsLevelMessageComposer"));
 
                         Response.AppendInteger(0);
 
@@ -1382,13 +1379,13 @@ namespace Yupi.Emulator.Messages.Handlers
 
                 Yupi.GetGame().GetGroupManager().SerializeGroupInfo(byeGuild, Response, Session);
 
-                Response.Init(PacketLibraryManager.SendRequest("GroupMembersMessageComposer"));
+                Response.Init(PacketLibraryManager.OutgoingHandler("GroupMembersMessageComposer"));
 
                 Yupi.GetGame().GetGroupManager().SerializeGroupMembers(Response, byeGuild, 0u, Session);
 
                 SendResponse();
 
-                Response.Init(PacketLibraryManager.SendRequest("GroupRequestReloadMessageComposer"));
+                Response.Init(PacketLibraryManager.OutgoingHandler("GroupRequestReloadMessageComposer"));
                 Response.AppendInteger(guild);
 
                 SendResponse();
@@ -1457,7 +1454,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
                 Yupi.GetGame().GetGroupManager().DeleteGroup(@group.Id);
 
-                SimpleServerMessageBuffer deleteGroup = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("GroupDeletedMessageComposer"));
+                SimpleServerMessageBuffer deleteGroup = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("GroupDeletedMessageComposer"));
 
                 deleteGroup.AppendInteger(groupId);
                 room.SendMessage(deleteGroup);

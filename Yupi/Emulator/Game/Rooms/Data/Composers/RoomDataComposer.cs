@@ -26,62 +26,63 @@ using System;
 using System.Linq;
 using Yupi.Emulator.Game.Browser.Models;
 using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Rooms.Data.Models;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Rooms.Data.Composers
 {
-    class RoomDataComposer
+    internal class RoomDataComposer
     {
-        internal static SimpleServerMessageBuffer Compose(SimpleServerMessageBuffer roomDataMessage, GameClient session, Room room, bool isNotReload, bool? sendRoom = false, bool show = true)
+        internal static SimpleServerMessageBuffer Compose(SimpleServerMessageBuffer roomDataMessage, GameClient session, Room room, RoomData data, bool isNotReload, bool? sendRoom = false, bool show = true)
         {
-            roomDataMessage.Init(PacketLibraryManager.SendRequest("RoomDataMessageComposer"));
+            roomDataMessage.Init(PacketLibraryManager.OutgoingHandler("RoomDataMessageComposer"));
 
             roomDataMessage.AppendBool(show);
 
-            Serialize(roomDataMessage, room, true, !isNotReload);
+            Serialize(roomDataMessage, data, true, !isNotReload);
 
             roomDataMessage.AppendBool(isNotReload);
-            roomDataMessage.AppendBool(Yupi.GetGame().GetNavigator() != null && Yupi.GetGame().GetNavigator().GetPublicRoom(room.RoomData.Id) != null);
+            roomDataMessage.AppendBool(Yupi.GetGame().GetNavigator() != null && Yupi.GetGame().GetNavigator().GetPublicRoom(data.Id) != null);
             roomDataMessage.AppendBool(!isNotReload || session.GetHabbo().HasFuse("fuse_mod"));
-            roomDataMessage.AppendBool(room.RoomMuted);
-            roomDataMessage.AppendInteger(room.RoomData.WhoCanMute);
-            roomDataMessage.AppendInteger(room.RoomData.WhoCanKick);
-            roomDataMessage.AppendInteger(room.RoomData.WhoCanBan);
-            roomDataMessage.AppendBool(room.CheckRights(session, true));
-            roomDataMessage.AppendInteger(room.RoomData.ChatType);
-            roomDataMessage.AppendInteger(room.RoomData.ChatBalloon);
-            roomDataMessage.AppendInteger(room.RoomData.ChatSpeed);
-            roomDataMessage.AppendInteger(room.RoomData.ChatMaxDistance);
-            roomDataMessage.AppendInteger(room.RoomData.ChatFloodProtection);
+            roomDataMessage.AppendBool(room?.RoomMuted == true);
+            roomDataMessage.AppendInteger(data.WhoCanMute);
+            roomDataMessage.AppendInteger(data.WhoCanKick);
+            roomDataMessage.AppendInteger(data.WhoCanBan);
+            roomDataMessage.AppendBool(room?.CheckRights(session, true) == true);
+            roomDataMessage.AppendInteger(data.ChatType);
+            roomDataMessage.AppendInteger(data.ChatBalloon);
+            roomDataMessage.AppendInteger(data.ChatSpeed);
+            roomDataMessage.AppendInteger(data.ChatMaxDistance);
+            roomDataMessage.AppendInteger(data.ChatFloodProtection);
 
             return roomDataMessage;
         }
 
-        internal static SimpleServerMessageBuffer Serialize(SimpleServerMessageBuffer messageBuffer, Room room, bool showEvents = false, bool enterRoom = false)
+        internal static void Serialize(SimpleServerMessageBuffer messageBuffer, RoomData data, bool showEvents = false, bool enterRoom = false)
         {
-            messageBuffer.AppendInteger(room.RoomData.Id);
-            messageBuffer.AppendString(room.RoomData.Name);
-            messageBuffer.AppendInteger(room.RoomData.OwnerId);
-            messageBuffer.AppendString(room.RoomData.Owner);
-            messageBuffer.AppendInteger(room.RoomData.State);
-            messageBuffer.AppendInteger(room.RoomData.UsersNow);
-            messageBuffer.AppendInteger(room.RoomData.UsersMax);
-            messageBuffer.AppendString(room.RoomData.Description);
-            messageBuffer.AppendInteger(room.RoomData.TradeState);
-            messageBuffer.AppendInteger(room.RoomData.Score);
+            messageBuffer.AppendInteger(data.Id);
+            messageBuffer.AppendString(data.Name);
+            messageBuffer.AppendInteger(data.OwnerId);
+            messageBuffer.AppendString(data.Owner);
+            messageBuffer.AppendInteger(data.State);
+            messageBuffer.AppendInteger(data.UsersNow);
+            messageBuffer.AppendInteger(data.UsersMax);
+            messageBuffer.AppendString(data.Description);
+            messageBuffer.AppendInteger(data.TradeState);
+            messageBuffer.AppendInteger(data.Score);
             messageBuffer.AppendInteger(0);
-            messageBuffer.AppendInteger(room.RoomData.Category > 0 ? room.RoomData.Category : 0);
-            messageBuffer.AppendInteger(room.RoomData.TagCount);
+            messageBuffer.AppendInteger(data.Category > 0 ? data.Category : 0);
+            messageBuffer.AppendInteger(data.TagCount);
 
-            foreach (string current in room.RoomData.Tags.Where(current => current != null))
+            foreach (string current in data.Tags.Where(current => current != null))
                 messageBuffer.AppendString(current);
 
             string imageData = null;
 
             int enumType = enterRoom ? 32 : 0;
 
-            PublicItem publicItem = Yupi.GetGame()?.GetNavigator()?.GetPublicRoom(room.RoomData.Id);
+            PublicItem publicItem = Yupi.GetGame()?.GetNavigator()?.GetPublicRoom(data.Id);
 
             if (!string.IsNullOrEmpty(publicItem?.Image))
             {
@@ -90,16 +91,16 @@ namespace Yupi.Emulator.Game.Rooms.Data.Composers
                 enumType += 1;
             }
 
-            if (room.RoomData.Group != null)
+            if (data.Group != null)
                 enumType += 2;
 
-            if (showEvents && room.RoomData.Event != null)
+            if (showEvents && data.Event != null)
                 enumType += 4;
 
-            if (room.RoomData.Type == "private")
+            if (data.Type == "private")
                 enumType += 8;
 
-            if (room.RoomData.AllowPets)
+            if (data.AllowPets)
                 enumType += 16;
 
             messageBuffer.AppendInteger(enumType);
@@ -107,21 +108,19 @@ namespace Yupi.Emulator.Game.Rooms.Data.Composers
             if (imageData != null)
                 messageBuffer.AppendString(imageData);
 
-            if (room.RoomData.Group != null)
+            if (data.Group != null)
             {
-                messageBuffer.AppendInteger(room.RoomData.Group.Id);
-                messageBuffer.AppendString(room.RoomData.Group.Name);
-                messageBuffer.AppendString(room.RoomData.Group.Badge);
+                messageBuffer.AppendInteger(data.Group.Id);
+                messageBuffer.AppendString(data.Group.Name);
+                messageBuffer.AppendString(data.Group.Badge);
             }
 
-            if (showEvents && room.RoomData.Event != null)
+            if (showEvents && data.Event != null)
             {
-                messageBuffer.AppendString(room.RoomData.Event.Name);
-                messageBuffer.AppendString(room.RoomData.Event.Description);
-                messageBuffer.AppendInteger((int)Math.Floor((room.RoomData.Event.Time - Yupi.GetUnixTimeStamp()) / 60.0));
+                messageBuffer.AppendString(data.Event.Name);
+                messageBuffer.AppendString(data.Event.Description);
+                messageBuffer.AppendInteger((int)Math.Floor((data.Event.Time - Yupi.GetUnixTimeStamp()) / 60.0));
             }
-
-            return messageBuffer;
         }
     }
 }

@@ -51,7 +51,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
             RoomUser myUser = room.GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().UserName);
             if (myUser == null) return true;
 
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("UpdateUserDataMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UpdateUserDataMessageComposer"));
             messageBuffer.AppendInteger(myUser.VirtualId);
             messageBuffer.AppendString(session.GetHabbo().Look);
             messageBuffer.AppendString(session.GetHabbo().Gender.ToLower());

@@ -11,7 +11,7 @@ namespace Yupi.Emulator.Game.Pets.Composers
         internal static void GenerateMessage(Pet pet, Dictionary<uint, PetCommand> totalPetCommands,
             Dictionary<uint, PetCommand> petCommands, GameClient owner)
         {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("PetTrainerPanelMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("PetTrainerPanelMessageComposer"));
 
             simpleServerMessageBuffer.AppendInteger(pet.PetId);
 

@@ -95,7 +95,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Freeze
                 if (avatar.Team != winningTeam) continue;
                 avatar.UnIdle();
                 avatar.DanceId = 0;
-                SimpleServerMessageBuffer waveAtWin = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("RoomUserActionMessageComposer"));
+                SimpleServerMessageBuffer waveAtWin = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("RoomUserActionMessageComposer"));
                 waveAtWin.AppendInteger(avatar.VirtualId);
                 waveAtWin.AppendInteger(1);
                 _room.SendMessage(waveAtWin);
@@ -263,7 +263,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Freeze
                 roomUser.ShieldCounter = 11;
                 _room.GetGameManager().AddPointToTeam(roomUser.Team, 30, null);
                 SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
-                simpleServerMessageBuffer.Init(PacketLibraryManager.SendRequest("UpdateFreezeLivesMessageComposer"));
+                simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingHandler("UpdateFreezeLivesMessageComposer"));
                 simpleServerMessageBuffer.AppendInteger(roomUser.InternalRoomId);
                 simpleServerMessageBuffer.AppendInteger(roomUser.FreezeLives);
                 roomUser.GetClient().SendMessage(simpleServerMessageBuffer);
@@ -357,7 +357,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Freeze
                         _room.GetGameManager().AddPointToTeam(user.Team, 10, user);
                     }
                     SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
-                    simpleServerMessageBuffer.Init(PacketLibraryManager.SendRequest("UpdateFreezeLivesMessageComposer"));
+                    simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingHandler("UpdateFreezeLivesMessageComposer"));
                     simpleServerMessageBuffer.AppendInteger(user.InternalRoomId);
                     simpleServerMessageBuffer.AppendInteger(user.FreezeLives);
                     user.GetClient().SendMessage(simpleServerMessageBuffer);
@@ -390,7 +390,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Freeze
             if (user.FreezeLives <= 0)
             {
                 SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
-                simpleServerMessageBuffer.Init(PacketLibraryManager.SendRequest("UpdateFreezeLivesMessageComposer"));
+                simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingHandler("UpdateFreezeLivesMessageComposer"));
                 simpleServerMessageBuffer.AppendInteger(user.InternalRoomId);
                 simpleServerMessageBuffer.AppendInteger(user.FreezeLives);
                 user.GetClient().SendMessage(simpleServerMessageBuffer);
@@ -426,7 +426,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Freeze
                 _room.GetGameManager().AddPointToTeam(user.Team, -10, user);
                 user.ApplyEffect(12);
                 SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
-                simpleServerMessageBuffer.Init(PacketLibraryManager.SendRequest("UpdateFreezeLivesMessageComposer"));
+                simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingHandler("UpdateFreezeLivesMessageComposer"));
                 simpleServerMessageBuffer.AppendInteger(user.InternalRoomId);
                 simpleServerMessageBuffer.AppendInteger(user.FreezeLives);
                 user.GetClient().SendMessage(simpleServerMessageBuffer);

@@ -79,7 +79,7 @@ namespace Yupi.Emulator.Game.Items.Wired.Handlers.Effects
                 double zToSet = position ? double.Parse(positions[2]) : fItem.Z;
 
 
-                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("ItemAnimationMessageComposer"));
+                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("ItemAnimationMessageComposer"));
                 simpleServerMessageBuffer.AppendInteger(fItem.X);
                 simpleServerMessageBuffer.AppendInteger(fItem.Y);
                 simpleServerMessageBuffer.AppendInteger(xToSet);

@@ -675,7 +675,7 @@ namespace Yupi.Emulator.Game.Rooms.User
             if (!IsAsleep)
                 return;
             IsAsleep = false;
-            SimpleServerMessageBuffer sleep = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("RoomUserIdleMessageComposer"));
+            SimpleServerMessageBuffer sleep = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("RoomUserIdleMessageComposer"));
             sleep.AppendInteger(VirtualId);
             sleep.AppendBool(false);
             GetRoom().SendMessage(sleep);
@@ -708,7 +708,7 @@ namespace Yupi.Emulator.Game.Rooms.User
             {
                 SimpleServerMessageBuffer botChatmsg = new SimpleServerMessageBuffer();
 
-                botChatmsg.Init(shout ? PacketLibraryManager.SendRequest("ShoutMessageComposer") : PacketLibraryManager.SendRequest("ChatMessageComposer"));
+                botChatmsg.Init(shout ? PacketLibraryManager.OutgoingHandler("ShoutMessageComposer") : PacketLibraryManager.OutgoingHandler("ChatMessageComposer"));
                 botChatmsg.AppendInteger(VirtualId);
                 botChatmsg.AppendString(msg);
                 botChatmsg.AppendInteger(0);
@@ -798,7 +798,7 @@ namespace Yupi.Emulator.Game.Rooms.User
 
                     if ((span.TotalSeconds < habbo.SpamProtectionTime) && habbo.SpamProtectionBol)
                     {
-                        messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("FloodFilterMessageComposer"));
+                        messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("FloodFilterMessageComposer"));
 
                         int i = habbo.SpamProtectionTime - span.Seconds;
 
@@ -815,7 +815,7 @@ namespace Yupi.Emulator.Game.Rooms.User
 
                     if ((span.TotalSeconds < 4.0) && (_floodCount > 5) && (rank < 5))
                     {
-                        messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("FloodFilterMessageComposer"));
+                        messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("FloodFilterMessageComposer"));
 
                         habbo.SpamProtectionCount++;
 
@@ -853,7 +853,7 @@ namespace Yupi.Emulator.Game.Rooms.User
             else if (!IsPet)
                 textColor = 2;
 
-            SimpleServerMessageBuffer chatMsg = new SimpleServerMessageBuffer(shout ? PacketLibraryManager.SendRequest("ShoutMessageComposer") : PacketLibraryManager.SendRequest("ChatMessageComposer"));
+            SimpleServerMessageBuffer chatMsg = new SimpleServerMessageBuffer(shout ? PacketLibraryManager.OutgoingHandler("ShoutMessageComposer") : PacketLibraryManager.OutgoingHandler("ChatMessageComposer"));
 
             chatMsg.AppendInteger(VirtualId);
             chatMsg.AppendString(msg);
@@ -1055,7 +1055,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         {
             CarryItemId = item;
             CarryTimer = item > 0 ? 240 : 0;
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("ApplyHanditemMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("ApplyHanditemMessageComposer"));
             simpleServerMessageBuffer.AppendInteger(VirtualId);
             simpleServerMessageBuffer.AppendInteger(item);
             GetRoom().SendMessage(simpleServerMessageBuffer);

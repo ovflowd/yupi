@@ -11,9 +11,9 @@ using Yupi.Emulator.Messages.Enums;
 namespace Yupi.Emulator.Messages.Handlers
 {
     /// <summary>
-    ///     Class GameClientMessageHandler.
+    ///     Class MessageHandler.
     /// </summary>
-    internal partial class GameClientMessageHandler
+    internal partial class MessageHandler
     {
         /// <summary>
         ///     Catalogues the index.
@@ -61,7 +61,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void ReloadEcotron()
         {
-            Response.Init(PacketLibraryManager.SendRequest("ReloadEcotronMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("ReloadEcotronMessageComposer"));
             Response.AppendInteger(1);
             Response.AppendInteger(0);
             SendResponse();
@@ -72,7 +72,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void GiftWrappingConfig()
         {
-            Response.Init(PacketLibraryManager.SendRequest("GiftWrappingConfigurationMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("GiftWrappingConfigurationMessageComposer"));
             Response.AppendBool(true);
             Response.AppendInteger(1);
             Response.AppendInteger(GiftWrapper.GiftWrappersList.Count);
@@ -103,7 +103,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void RecyclerRewards()
         {
-            Response.Init(PacketLibraryManager.SendRequest("RecyclerRewardsMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("RecyclerRewardsMessageComposer"));
 
             List<int> ecotronRewardsLevels = Yupi.GetGame().GetCatalogManager().GetEcotronRewardsLevels();
 
@@ -193,7 +193,7 @@ namespace Yupi.Emulator.Messages.Handlers
             else if (!Yupi.IsValidAlphaNumeric(petName))
                 i = 3;
 
-            Response.Init(PacketLibraryManager.SendRequest("CheckPetNameMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("CheckPetNameMessageComposer"));
             Response.AppendInteger(i);
             Response.AppendString(petName);
             SendResponse();
@@ -213,7 +213,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
             CatalogManager.LastSentOffer = num;
 
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("CatalogOfferMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("CatalogOfferMessageComposer"));
 
             CatalogPageComposer.ComposeItem(catalogItem, messageBuffer);
 
@@ -225,7 +225,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void CatalogueOffersConfig()
         {
-            Response.Init(PacketLibraryManager.SendRequest("CatalogueOfferConfigMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("CatalogueOfferConfigMessageComposer"));
             Response.AppendInteger(100);
             Response.AppendInteger(6);
             Response.AppendInteger(1);
@@ -243,7 +243,7 @@ namespace Yupi.Emulator.Messages.Handlers
         {
             HashSet<GroupMember> userGroups = Yupi.GetGame().GetGroupManager().GetUserGroups(Session.GetHabbo().Id);
 
-            Response.Init(PacketLibraryManager.SendRequest("GroupFurniturePageMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("GroupFurniturePageMessageComposer"));
 
             List<SimpleServerMessageBuffer> responseList = new List<SimpleServerMessageBuffer>();
 

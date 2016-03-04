@@ -8,7 +8,7 @@ namespace Yupi.Emulator.Game.Browser.Composers
     {
         internal static SimpleServerMessageBuffer Compose()
         {
-            SimpleServerMessageBuffer categories = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("CatalogPromotionGetCategoriesMessageComposer"));
+            SimpleServerMessageBuffer categories = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("CatalogPromotionGetCategoriesMessageComposer"));
 
             categories.AppendInteger(Yupi.GetGame().GetNavigator().PromoCategories.Count);
 

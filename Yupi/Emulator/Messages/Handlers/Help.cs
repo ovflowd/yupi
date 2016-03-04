@@ -3,22 +3,23 @@ using System.Globalization;
 using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Rooms.Data;
+using Yupi.Emulator.Game.Rooms.Data.Models;
 using Yupi.Emulator.Game.Support;
 using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Messages.Handlers
 {
     /// <summary>
-    ///     Class GameClientMessageHandler.
+    ///     Class MessageHandler.
     /// </summary>
-    internal partial class GameClientMessageHandler
+    internal partial class MessageHandler
     {
         /// <summary>
         ///     Initializes the help tool.
         /// </summary>
         internal void InitHelpTool()
         {
-            Response.Init(PacketLibraryManager.SendRequest("OpenHelpToolMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("OpenHelpToolMessageComposer"));
 
             if (!Yupi.GetGame().GetModerationTool().UsersHasPendingTicket(Session.GetHabbo().Id))
             {
@@ -62,7 +63,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 chats.Add(Request.GetString());
             }
 
-            Response.Init(PacketLibraryManager.SendRequest("TicketUserAlert"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("TicketUserAlert"));
 
             if (Yupi.GetGame().GetModerationTool().UsersHasPendingTicket(Session.GetHabbo().Id))
             {
@@ -101,7 +102,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
             Yupi.GetGame().GetModerationTool().DeletePendingTicketForUser(Session.GetHabbo().Id);
 
-            Response.Init(PacketLibraryManager.SendRequest("OpenHelpToolMessageComposer"));
+            Response.Init(PacketLibraryManager.OutgoingHandler("OpenHelpToolMessageComposer"));
             Response.AppendInteger(0);
             SendResponse();
         }
@@ -260,7 +261,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
             string message = Request.GetString();
 
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("SuperNotificationMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SuperNotificationMessageComposer"));
             simpleServerMessageBuffer.AppendString("admin");
             simpleServerMessageBuffer.AppendInteger(3);
             simpleServerMessageBuffer.AppendString("message");

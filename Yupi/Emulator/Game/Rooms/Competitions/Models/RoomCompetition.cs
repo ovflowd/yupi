@@ -28,6 +28,7 @@ using System.Linq;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Emulator.Game.Rooms.Competitions.Composers;
 using Yupi.Emulator.Game.Rooms.Data;
+using Yupi.Emulator.Game.Rooms.Data.Models;
 using Yupi.Emulator.Game.Users;
 using Yupi.Emulator.Messages.Buffers;
 

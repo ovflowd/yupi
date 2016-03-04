@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Yupi.Emulator.Game.Browser.Models;
+﻿using Yupi.Emulator.Game.Browser.Models;
+using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
 
@@ -7,13 +7,13 @@ namespace Yupi.Emulator.Game.Browser.Composers
 {
     class NavigatorSavedSearchesComposer
     {
-        internal static SimpleServerMessageBuffer Compose(Dictionary<int, UserSearchLog> userSearchLogEntries)
+        internal static SimpleServerMessageBuffer Compose(GameClient session)
         {
-            SimpleServerMessageBuffer userSearchLog = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("NavigatorSavedSearchesComposer"));
+            SimpleServerMessageBuffer userSearchLog = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("NavigatorSavedSearchesComposer"));
 
-            userSearchLog.AppendInteger(userSearchLogEntries.Count);
+            userSearchLog.AppendInteger(session.GetHabbo().NavigatorLogs.Count);
 
-            foreach (UserSearchLog navi in userSearchLogEntries.Values)
+            foreach (UserSearchLog navi in session.GetHabbo().NavigatorLogs.Values)
             {
                 userSearchLog.AppendInteger(navi.Id);
                 userSearchLog.AppendString(navi.Value1);

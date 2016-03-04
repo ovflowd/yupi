@@ -81,7 +81,7 @@ namespace Yupi.Emulator.Game.Pets
         /// <returns>SimpleServerMessageBuffer.</returns>
         internal static SimpleServerMessageBuffer GetMessage(uint furniId, Pet pet1, Pet pet2)
         {
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("PetBreedMessageComposer"));
+            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("PetBreedMessageComposer"));
 
             messageBuffer.AppendInteger(furniId);
             messageBuffer.AppendInteger(pet1.PetId);

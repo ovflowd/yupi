@@ -8,7 +8,7 @@ namespace Yupi.Emulator.Game.Browser.Composers
     {
         internal static SimpleServerMessageBuffer Compose()
         {
-            SimpleServerMessageBuffer navigatorLiftedRooms = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("NavigatorLiftedRoomsComposer"));
+            SimpleServerMessageBuffer navigatorLiftedRooms = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("NavigatorLiftedRoomsComposer"));
 
             navigatorLiftedRooms.AppendInteger(Yupi.GetGame().GetNavigator().NavigatorHeaders.Count);
 

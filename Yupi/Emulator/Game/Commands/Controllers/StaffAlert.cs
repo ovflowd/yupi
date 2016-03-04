@@ -26,7 +26,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
             string msg = string.Join(" ", pms);
 
             SimpleServerMessageBuffer messageBuffer =
-                new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("SuperNotificationMessageComposer"));
+                new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SuperNotificationMessageComposer"));
             messageBuffer.AppendString("staffcloud");
             messageBuffer.AppendInteger(2);
             messageBuffer.AppendString("title");

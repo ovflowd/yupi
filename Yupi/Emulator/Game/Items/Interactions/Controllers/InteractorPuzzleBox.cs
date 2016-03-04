@@ -70,7 +70,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 
                 SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
 
-                simpleServerMessageBuffer.Init(PacketLibraryManager.SendRequest("ItemAnimationMessageComposer"));
+                simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingHandler("ItemAnimationMessageComposer"));
 
                 simpleServerMessageBuffer.AppendInteger(item.X);
                 simpleServerMessageBuffer.AppendInteger(item.Y);

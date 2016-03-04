@@ -32,7 +32,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
                 result = 0;
             }
             SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer();
-            messageBuffer.Init(PacketLibraryManager.SendRequest("DanceStatusMessageComposer"));
+            messageBuffer.Init(PacketLibraryManager.OutgoingHandler("DanceStatusMessageComposer"));
             messageBuffer.AppendInteger(session.CurrentRoomUserId);
             messageBuffer.AppendInteger(result);
             session.GetHabbo().CurrentRoom.SendMessage(messageBuffer);

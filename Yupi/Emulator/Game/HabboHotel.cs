@@ -321,7 +321,7 @@ namespace Yupi.Emulator.Game
                 FurnitureDataManager.Clear();
 
                 Progress(bar, wait, end, "Loading Chat Filter...");
-                UserChatInputFilter.Load();
+                UserChatInputFilter.Reload();
 
                 Progress(bar, wait, end, "Loading Chat Security Module...");
                 ServerSecurityChatFilter.Load();

@@ -150,7 +150,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
 
             _mClient.GetMessageHandler()
                 .GetResponse()
-                .Init(PacketLibraryManager.SendRequest("UpdateInventoryMessageComposer"));
+                .Init(PacketLibraryManager.OutgoingHandler("UpdateInventoryMessageComposer"));
 
             GetClient().GetMessageHandler().SendResponse();
         }
@@ -236,7 +236,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         internal bool RemovePet(uint petId)
         {
             _isUpdated = false;
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("RemovePetFromInventoryComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("RemovePetFromInventoryComposer"));
             simpleServerMessageBuffer.AppendInteger(petId);
             GetClient().SendMessage(simpleServerMessageBuffer);
             _inventoryPets.Remove(petId);
@@ -384,7 +384,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
 
             _mClient.GetMessageHandler()
                 .GetResponse()
-                .Init(PacketLibraryManager.SendRequest("UpdateInventoryMessageComposer"));
+                .Init(PacketLibraryManager.OutgoingHandler("UpdateInventoryMessageComposer"));
 
             _mClient.GetMessageHandler().SendResponse();
         }
@@ -565,7 +565,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
 
             _isUpdated = false;
 
-            GetClient().GetMessageHandler().GetResponse().Init(PacketLibraryManager.SendRequest("RemoveInventoryObjectMessageComposer"));
+            GetClient().GetMessageHandler().GetResponse().Init(PacketLibraryManager.OutgoingHandler("RemoveInventoryObjectMessageComposer"));
 
             GetClient().GetMessageHandler().GetResponse().AppendInteger(id);
             //this.GetClientByAddress().GetMessageHandler().GetResponse().AppendInt32(Convert.ToInt32(this.GetClientByAddress().GetHabbo().Id));
@@ -596,7 +596,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
             if (i > 2800)
                 _mClient.SendMessage(StaticMessage.AdviceMaxItems);
 
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("LoadInventoryMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("LoadInventoryMessageComposer"));
             simpleServerMessageBuffer.AppendInteger(1);
             simpleServerMessageBuffer.AppendInteger(0);
             simpleServerMessageBuffer.AppendInteger(i > 2800 ? 2800 : i);
@@ -642,7 +642,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// <returns>SimpleServerMessageBuffer.</returns>
         internal SimpleServerMessageBuffer SerializeWallItemInventory()
         {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("LoadInventoryMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("LoadInventoryMessageComposer"));
             simpleServerMessageBuffer.AppendString("I");
             simpleServerMessageBuffer.AppendInteger(1);
             simpleServerMessageBuffer.AppendInteger(1);
@@ -658,7 +658,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// <returns>SimpleServerMessageBuffer.</returns>
         internal SimpleServerMessageBuffer SerializePetInventory()
         {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("PetInventoryMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("PetInventoryMessageComposer"));
             simpleServerMessageBuffer.AppendInteger(1);
             simpleServerMessageBuffer.AppendInteger(1);
             simpleServerMessageBuffer.AppendInteger(_inventoryPets.Count);
@@ -676,7 +676,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         internal SimpleServerMessageBuffer SerializeBotInventory()
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
-            simpleServerMessageBuffer.Init(PacketLibraryManager.SendRequest("BotInventoryMessageComposer"));
+            simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingHandler("BotInventoryMessageComposer"));
 
             simpleServerMessageBuffer.AppendInteger(_inventoryBots.Count);
             foreach (RoomBot current in _inventoryBots.Values)
@@ -745,7 +745,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// <returns>SimpleServerMessageBuffer.</returns>
         internal SimpleServerMessageBuffer SerializeMusicDiscs()
         {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("SongsLibraryMessageComposer"));
+            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SongsLibraryMessageComposer"));
 
             simpleServerMessageBuffer.AppendInteger(SongDisks.Count);
 
@@ -790,7 +790,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         internal void SendNewItems(uint id)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
-            simpleServerMessageBuffer.Init(PacketLibraryManager.SendRequest("NewInventoryObjectMessageComposer"));
+            simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingHandler("NewInventoryObjectMessageComposer"));
             simpleServerMessageBuffer.AppendInteger(1);
             simpleServerMessageBuffer.AppendInteger(1);
             simpleServerMessageBuffer.AppendInteger(1);

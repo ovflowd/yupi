@@ -35,7 +35,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
 
             Yupi.GetGame().GetRoomManager().LoadRoom(roomId);
 
-            SimpleServerMessageBuffer roomFwd = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("RoomForwardMessageComposer"));
+            SimpleServerMessageBuffer roomFwd = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("RoomForwardMessageComposer"));
             roomFwd.AppendInteger(roomId);
 
             byte[] data = roomFwd.GetReversedBytes();

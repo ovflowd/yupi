@@ -17,7 +17,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 
             if (!ishc)
             {
-                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("CustomUserNotificationMessageComposer"));
+                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("CustomUserNotificationMessageComposer"));
                 messageBuffer.AppendInteger(3);
                 session.SendMessage(messageBuffer);
                 return;

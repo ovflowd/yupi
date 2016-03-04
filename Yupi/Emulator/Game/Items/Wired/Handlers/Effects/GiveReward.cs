@@ -79,7 +79,7 @@ namespace Yupi.Emulator.Game.Items.Wired.Handlers.Effects
 
             if (amountLeft == 1)
             {
-                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredRewardAlertMessageComposer"));
+                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("WiredRewardAlertMessageComposer"));
 
                 messageBuffer.AppendInteger(0);
                 user.GetClient().SendMessage(messageBuffer);
@@ -97,7 +97,7 @@ namespace Yupi.Emulator.Game.Items.Wired.Handlers.Effects
 
                 int random = Yupi.GetRandomNumber(0, 100);
 
-                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredRewardAlertMessageComposer"));
+                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("WiredRewardAlertMessageComposer"));
 
                 if (!unique && percentage < random)
                     continue;
@@ -142,7 +142,7 @@ namespace Yupi.Emulator.Game.Items.Wired.Handlers.Effects
                             .AddNewItem(0u, roomItem.Name, "0", 0u, true, false, 0, 0);
                         user.GetClient()
                             .SendMessage(
-                                new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("UpdateInventoryMessageComposer")));
+                                new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UpdateInventoryMessageComposer")));
                     }
 
                     messageBuffer.AppendInteger(6);
@@ -152,7 +152,7 @@ namespace Yupi.Emulator.Game.Items.Wired.Handlers.Effects
 
             if (!premied)
             {
-                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.SendRequest("WiredRewardAlertMessageComposer"));
+                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("WiredRewardAlertMessageComposer"));
                 messageBuffer.AppendInteger(4);
                 user.GetClient().SendMessage(messageBuffer);
             }

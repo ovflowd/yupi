@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using Yupi.Emulator.Core.Io.Logger;
 using Yupi.Emulator.Core.Settings;
 using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Handlers;
+using Yupi.Emulator.Messages.Library;
 
 namespace Yupi.Emulator.Messages
 {
@@ -20,7 +20,7 @@ namespace Yupi.Emulator.Messages
         /// <summary>
         ///     Incoming Requests
         /// </summary>
-        internal static Dictionary<int, MethodInfo> Incoming;
+        internal static Dictionary<int, StaticRequestHandler> Incoming;
 
         /// <summary>
         ///     Incoming Request Library
@@ -47,7 +47,7 @@ namespace Yupi.Emulator.Messages
         /// </summary>
         public static void Configure()
         {
-            Incoming = new Dictionary<int, MethodInfo>();
+            Incoming = new Dictionary<int, StaticRequestHandler>();
             Library = new Dictionary<string, string>();
             Outgoing = new Dictionary<string, int>();
 
@@ -89,7 +89,7 @@ namespace Yupi.Emulator.Messages
         /// <summary>
         ///     Return Outgoing Packet Id
         /// </summary>
-        public static int SendRequest(string packetName)
+        public static int OutgoingHandler(string packetName)
         {
             int packetId;
 
@@ -104,7 +104,7 @@ namespace Yupi.Emulator.Messages
         /// <summary>
         ///     Handle Incoming Request
         /// </summary>
-        public static void ReceiveRequest(GameClientMessageHandler handler, SimpleClientMessageBuffer messageBuffer)
+        public static void ReceiveRequest(MessageHandler handler, SimpleClientMessageBuffer messageBuffer)
         {
             if (Incoming.ContainsKey(messageBuffer.Id))
             {
@@ -113,9 +113,12 @@ namespace Yupi.Emulator.Messages
                         $"Handled: {messageBuffer.Id}: " + Environment.NewLine + messageBuffer + Environment.NewLine,
                         "Yupi.Incoming", ConsoleColor.DarkGreen);
 
-                MethodInfo staticRequestHandler = Incoming[messageBuffer.Id];
+                if (Incoming[messageBuffer.Id] == null)
+                    return;
 
-                staticRequestHandler.Invoke(handler, null);
+                StaticRequestHandler staticRequestHandler = Incoming[messageBuffer.Id];
+
+                staticRequestHandler(handler);
 
                 return;
             }
@@ -156,9 +159,9 @@ namespace Yupi.Emulator.Messages
                     if (Incoming.ContainsKey(packetId))
                         continue;
 
-                    Type handlerType = typeof (GameClientMessageHandler);
+                    PacketLibrary.GetProperty del = (PacketLibrary.GetProperty) Delegate.CreateDelegate(typeof(PacketLibrary.GetProperty), typeof(PacketLibrary), libValue);
 
-                    Incoming.Add(packetId, handlerType.GetMethod(libValue, BindingFlags.NonPublic | BindingFlags.Instance));
+                    Incoming.Add(packetId, new StaticRequestHandler(del));
                 }
             }
         }
@@ -208,5 +211,7 @@ namespace Yupi.Emulator.Messages
                 Library.Add(incomingName, libraryName);
             }
         }
+
+        internal delegate void StaticRequestHandler(MessageHandler handler);
     }
 }
