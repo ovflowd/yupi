@@ -19,6 +19,7 @@ addons:
     project:
       name: "TheDoct0r11/Yupi"
       description: "Build submitted via Travis CI"
+    notification_email: thedoct0r@mail2tor.com
     build_command_prepend: "xbuild /t:Clean"
     build_command:   "xbuild /t:Rebuild"
     branch_pattern: coverity_scan
