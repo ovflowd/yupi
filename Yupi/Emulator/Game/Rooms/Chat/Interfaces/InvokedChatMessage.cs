@@ -1,11 +1,12 @@
 using Yupi.Emulator.Game.Rooms.User;
+using System;
 
 namespace Yupi.Emulator.Game.Rooms.Chat.Interfaces
 {
     /// <summary>
     ///     Struct InvokedChatMessage
     /// </summary>
-    internal struct InvokedChatMessage
+    internal struct InvokedChatMessage : IDisposable
     {
         /// <summary>
         ///     The user
@@ -52,10 +53,11 @@ namespace Yupi.Emulator.Game.Rooms.Chat.Interfaces
         /// <summary>
         ///     Disposes this instance.
         /// </summary>
-        internal void Dispose()
+        public void Dispose()
         {
             User = null;
             Message = null;
+			// TODO Make user and message disposable???
         }
     }
 }

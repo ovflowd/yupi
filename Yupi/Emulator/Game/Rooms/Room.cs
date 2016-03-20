@@ -986,7 +986,10 @@ namespace Yupi.Emulator.Game.Rooms
         /// </summary>
         internal void Destroy()
         {
-            SendMessage(new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("OutOfRoomMessageComposer")));
+			// TODO Merge Destroy & Dispose ???
+			using(SimpleServerMessageBuffer message = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("OutOfRoomMessageComposer"))) {
+				SendMessage(message);
+			}
             Dispose();
         }
 
@@ -1034,6 +1037,7 @@ namespace Yupi.Emulator.Game.Rooms
 
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
+				// TODO NEVER interpret a query!!!
                 queryReactor.SetQuery($"SELECT user_id FROM rooms_bans WHERE expire > UNIX_TIMESTAMP() AND room_id={RoomId}");
 
                 DataTable table = queryReactor.GetTable();
@@ -1063,10 +1067,12 @@ namespace Yupi.Emulator.Game.Rooms
         /// <param name="userId">The user identifier.</param>
         internal void Unban(uint userId)
         {
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor()) {
                 queryReactor.RunFastQuery("DELETE FROM rooms_bans WHERE user_id=" + userId + " AND room_id=" +
                                           RoomId +
                                           " LIMIT 1");
+				// TODO Secure query
+			}
             Bans.Remove(userId);
         }
 
