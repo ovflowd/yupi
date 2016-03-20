@@ -7,7 +7,6 @@ using Yupi.Emulator.Game.Items.Interactions;
 using Yupi.Emulator.Game.Items.Interactions.Enums;
 using Yupi.Emulator.Game.Items.Interfaces;
 using Yupi.Emulator.Game.Rooms.Data;
-using Yupi.Emulator.Game.Rooms.Events.Delegate;
 using Yupi.Emulator.Game.Rooms.Items.Games.Teams;
 using Yupi.Emulator.Game.Rooms.Items.Games.Teams.Enums;
 using Yupi.Emulator.Game.Rooms.User;
@@ -39,11 +38,11 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games
             set { TeamPoints = value; }
         }
 
-        internal event TeamScoreChangedDelegate OnScoreChanged;
+		internal event EventHandler<TeamScoreChangedArgs> OnScoreChanged;
 
-        internal event RoomEventDelegate OnGameStart;
+		internal event EventHandler OnGameStart;
 
-        internal event RoomEventDelegate OnGameEnd;
+		internal event EventHandler OnGameEnd;
 
         internal void OnCycle()
         {

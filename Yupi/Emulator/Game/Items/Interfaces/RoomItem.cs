@@ -791,11 +791,11 @@ namespace Yupi.Emulator.Game.Items.Interfaces
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         public bool Equals(RoomItem comparedItem) => comparedItem.Id == Id;
 
-        internal event OnItemTrigger ItemTriggerEventHandler;
+		internal event EventHandler<ItemTriggeredArgs> ItemTriggerEventHandler;
 
-        internal event UserWalksFurniDelegate OnUserWalksOffFurni;
+		internal event EventHandler<UserWalksOnArgs> OnUserWalksOffFurni;
 
-        internal event UserWalksFurniDelegate OnUserWalksOnFurni;
+		internal event EventHandler<UserWalksOnArgs> OnUserWalksOnFurni;
 
         internal void SetState(int x, int y, double z) => SetState(x, y, z, Gamemap.GetAffectedTiles(GetBaseItem().Length, GetBaseItem().Width, x, y, Rot));
 

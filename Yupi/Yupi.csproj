@@ -354,7 +354,6 @@
     <Compile Include="Emulator\Game\Items\ItemManager.cs" />
     <Compile Include="Emulator\Game\Items\Datas\MoodlightData.cs" />
     <Compile Include="Emulator\Game\Items\Interfaces\MoodlightPreset.cs" />
-    <Compile Include="Emulator\Game\Items\OnItemTrigger.cs" />
     <Compile Include="Emulator\Game\Items\ClothingManager.cs" />
     <Compile Include="Emulator\Game\Items\Handlers\CrackableEggHandler.cs" />
     <Compile Include="Emulator\Game\Items\Handlers\PinataHandler.cs" />
@@ -470,7 +469,6 @@
     <Compile Include="Emulator\Game\Rooms\Room.cs" />
     <Compile Include="Emulator\Game\Rooms\Data\Models\RoomData.cs" />
     <Compile Include="Emulator\Game\Rooms\Events\Models\RoomEvent.cs" />
-    <Compile Include="Emulator\Game\Rooms\Events\Delegate\RoomEventDelegate.cs" />
     <Compile Include="Emulator\Game\Rooms\Events\RoomEventsManager.cs" />
     <Compile Include="Emulator\Game\Rooms\RoomInvokedItems\RoomAlert.cs" />
     <Compile Include="Emulator\Game\Rooms\RoomInvokedItems\RoomKick.cs" />
@@ -480,15 +478,12 @@
     <Compile Include="Emulator\Game\Rooms\User\RoomUser.cs" />
     <Compile Include="Emulator\Game\Rooms\Competitions\RoomCompetitionManager.cs" />
     <Compile Include="Emulator\Game\Rooms\User\RoomUserManager.cs" />
-    <Compile Include="Emulator\Game\Rooms\User\RoomUserSaysDelegate.cs" />
     <Compile Include="Emulator\Game\Rooms\Chat\Enums\SquareState.cs" />
     <Compile Include="Emulator\Game\Rooms\Items\Games\Teams\TeamScoreChangedArgs.cs" />
-    <Compile Include="Emulator\Game\Rooms\Items\Games\Teams\TeamScoreChangedDelegate.cs" />
     <Compile Include="Emulator\Game\Rooms\Items\Teleports\TeleUserData.cs" />
     <Compile Include="Emulator\Game\Rooms\User\Trade\Trade.cs" />
     <Compile Include="Emulator\Game\Rooms\User\Trade\TradeUser.cs" />
     <Compile Include="Emulator\Game\Rooms\Chat\UserSaysArgs.cs" />
-    <Compile Include="Emulator\Game\Rooms\User\Path\UserWalksFurniDelegate.cs" />
     <Compile Include="Emulator\Game\Rooms\User\Path\UserWalksOnArgs.cs" />
     <Compile Include="Emulator\Game\Items\Wired\Handlers\Conditions\DateRangeActive.cs" />
     <Compile Include="Emulator\Game\Items\Wired\Handlers\Conditions\FurniHasFurni.cs" />

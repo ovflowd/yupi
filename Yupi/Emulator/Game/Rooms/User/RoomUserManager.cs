@@ -19,7 +19,6 @@ using Yupi.Emulator.Game.Pets.Enums;
 using Yupi.Emulator.Game.RoomBots;
 using Yupi.Emulator.Game.RoomBots.Enumerators;
 using Yupi.Emulator.Game.Rooms.Data;
-using Yupi.Emulator.Game.Rooms.Events.Delegate;
 using Yupi.Emulator.Game.Rooms.Items;
 using Yupi.Emulator.Game.Rooms.Items.Enums;
 using Yupi.Emulator.Game.Rooms.Items.Games.Teams;
@@ -125,7 +124,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         /// <value>The user list.</value>
         internal ConcurrentDictionary<int, RoomUser> UserList { get; private set; }
 
-        internal event RoomEventDelegate OnUserEnter;
+		internal event EventHandler OnUserEnter;
 
         /// <summary>
         ///     Gets the room user by habbo.
