@@ -996,12 +996,12 @@ namespace Yupi.Emulator.Game.Rooms.User
 
             if (IsPet &&
                 allRoomItemForSquare.Any(
-                    p => InteractionTypes.AreFamiliar(GlobalInteractions.PetBreeding, p.GetBaseItem().InteractionType)))
+                    p => InteractionTypes.AreFamiliar(GlobalInteraction.PetBreeding, p.GetBaseItem().InteractionType)))
             {
                 RoomItem s =
                     allRoomItemForSquare.FirstOrDefault(
                         p =>
-                            InteractionTypes.AreFamiliar(GlobalInteractions.PetBreeding, p.GetBaseItem().InteractionType));
+                            InteractionTypes.AreFamiliar(GlobalInteraction.PetBreeding, p.GetBaseItem().InteractionType));
                 Z -= s.GetBaseItem().Height;
             }
 

@@ -309,7 +309,6 @@
     <Compile Include="Emulator\Game\Commands\Controllers\WhisperHotel.cs" />
     <Compile Include="Emulator\Game\Commands\Controllers\WhisperRoom.cs" />
     <Compile Include="Emulator\Game\Items\Datas\HighscoreData.cs" />
-    <Compile Include="Emulator\Game\Items\Interactions\Enums\GlobalInteractions.cs" />
     <Compile Include="Emulator\Game\Items\Interactions\Enums\Interaction.cs" />
     <Compile Include="Emulator\Game\Items\Interfaces\HighScoreLine.cs" />
     <Compile Include="Emulator\Game\Items\Handlers\HopperHandler.cs" />
@@ -699,6 +698,7 @@
     <Compile Include="Emulator\Data\ServerMemoryContainer.cs" />
     <Compile Include="Emulator\Core\Util\Coordinates\CoordinatesFormatter.cs" />
     <Compile Include="Emulator\Core\Util\Math\RandomNumberGenerator.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Enums\GlobalInteraction.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.1">

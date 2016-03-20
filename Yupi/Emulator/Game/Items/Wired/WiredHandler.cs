@@ -477,7 +477,7 @@ namespace Yupi.Emulator.Game.Items.Wired
         public List<IWiredItem> GetWiredsByType(Interaction type)
             => _wiredItems.Where(item => item != null && item.Type == type).ToList();
 
-        public List<IWiredItem> GetWiredsByTypes(GlobalInteractions type)
+        public List<IWiredItem> GetWiredsByTypes(GlobalInteraction type)
             =>
                 _wiredItems.Where(
                     item => item != null && InteractionTypes.AreFamiliar(type, item.Item.GetBaseItem().InteractionType))

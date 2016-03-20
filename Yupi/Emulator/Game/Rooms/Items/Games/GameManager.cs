@@ -340,7 +340,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games
         private void LockGate(RoomItem item)
         {
             Interaction interactionType = item.GetBaseItem().InteractionType;
-            if (!InteractionTypes.AreFamiliar(GlobalInteractions.GameGate, interactionType)) return;
+            if (!InteractionTypes.AreFamiliar(GlobalInteraction.GameGate, interactionType)) return;
             foreach (RoomUser current in _room.GetGameMap().GetRoomUsers(new Point(item.X, item.Y))) current.SqState = 0;
             _room.GetGameMap().GameMap[item.X, item.Y] = 0;
         }
@@ -348,7 +348,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games
         private void UnlockGate(RoomItem item)
         {
             Interaction interactionType = item.GetBaseItem().InteractionType;
-            if (!InteractionTypes.AreFamiliar(GlobalInteractions.GameGate, interactionType)) return;
+            if (!InteractionTypes.AreFamiliar(GlobalInteraction.GameGate, interactionType)) return;
 
             foreach (RoomUser current in _room.GetGameMap().GetRoomUsers(new Point(item.X, item.Y))) current.SqState = 1;
             _room.GetGameMap().GameMap[item.X, item.Y] = 1;

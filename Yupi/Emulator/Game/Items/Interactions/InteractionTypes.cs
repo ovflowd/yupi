@@ -13,16 +13,16 @@ namespace Yupi.Emulator.Game.Items.Interactions
         /// <param name="type">The type.</param>
         /// <param name="subType">Type of the sub.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal static bool AreFamiliar(GlobalInteractions type, Interaction subType)
+        internal static bool AreFamiliar(GlobalInteraction type, Interaction subType)
         {
             switch (type)
             {
-                case GlobalInteractions.Wired:
-                    return AreFamiliar(GlobalInteractions.WiredCondition, subType) ||
-                           AreFamiliar(GlobalInteractions.WiredEffect, subType) ||
-                           AreFamiliar(GlobalInteractions.WiredTrigger, subType);
+                case GlobalInteraction.Wired:
+                    return AreFamiliar(GlobalInteraction.WiredCondition, subType) ||
+                           AreFamiliar(GlobalInteraction.WiredEffect, subType) ||
+                           AreFamiliar(GlobalInteraction.WiredTrigger, subType);
 
-                case GlobalInteractions.Gate:
+                case GlobalInteraction.Gate:
                 {
                     switch (subType)
                     {
@@ -44,11 +44,11 @@ namespace Yupi.Emulator.Game.Items.Interactions
                     }
                     break;
                 }
-                case GlobalInteractions.GameGate:
-                    return AreFamiliar(GlobalInteractions.FreezeGate, subType) ||
-                           AreFamiliar(GlobalInteractions.BanzaiGate, subType);
+                case GlobalInteraction.GameGate:
+                    return AreFamiliar(GlobalInteraction.FreezeGate, subType) ||
+                           AreFamiliar(GlobalInteraction.BanzaiGate, subType);
 
-                case GlobalInteractions.BanzaiGate:
+                case GlobalInteraction.BanzaiGate:
                 {
                     switch (subType)
                     {
@@ -60,7 +60,7 @@ namespace Yupi.Emulator.Game.Items.Interactions
                     }
                     break;
                 }
-                case GlobalInteractions.FreezeGate:
+                case GlobalInteraction.FreezeGate:
                 {
                     switch (subType)
                     {
@@ -72,7 +72,7 @@ namespace Yupi.Emulator.Game.Items.Interactions
                     }
                     break;
                 }
-                case GlobalInteractions.PetBreeding:
+                case GlobalInteraction.PetBreeding:
                 {
                     switch (subType)
                     {
@@ -83,7 +83,7 @@ namespace Yupi.Emulator.Game.Items.Interactions
                     }
                     break;
                 }
-                case GlobalInteractions.Pet:
+                case GlobalInteraction.Pet:
                 {
                     switch (subType)
                     {
@@ -115,7 +115,7 @@ namespace Yupi.Emulator.Game.Items.Interactions
                     }
                     break;
                 }
-                case GlobalInteractions.WiredCondition:
+                case GlobalInteraction.WiredCondition:
                 {
                     switch (subType)
                     {
@@ -148,7 +148,7 @@ namespace Yupi.Emulator.Game.Items.Interactions
                 }
                     break;
 
-                case GlobalInteractions.WiredTrigger:
+                case GlobalInteraction.WiredTrigger:
                 {
                     switch (subType)
                     {
@@ -171,7 +171,7 @@ namespace Yupi.Emulator.Game.Items.Interactions
                 }
                     break;
 
-                case GlobalInteractions.WiredEffect:
+                case GlobalInteraction.WiredEffect:
                 {
                     switch (subType)
                     {
