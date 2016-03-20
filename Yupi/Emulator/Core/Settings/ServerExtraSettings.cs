@@ -164,17 +164,17 @@ namespace Yupi.Emulator.Core.Settings
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         internal static bool RunExtraSettings()
         {
-            if (File.Exists(Path.Combine(Yupi.YupiVariablesDirectory, "Settings/Welcome/message.txt")))
+            if (File.Exists(Path.Combine(Yupi.YupiVariablesDirectory, "Settings", "Welcome" ,"message.txt")))
                 WelcomeMessage =
-                    File.ReadAllText(Path.Combine(Yupi.YupiVariablesDirectory, "Settings/Welcome/message.txt"));
+                    File.ReadAllText(Path.Combine(Yupi.YupiVariablesDirectory, "Settings", "Welcome", "message.txt"));
 
-            if (!File.Exists(Path.Combine(Yupi.YupiVariablesDirectory, "Settings/other.ini")))
+            if (!File.Exists(Path.Combine(Yupi.YupiVariablesDirectory, "Settings", "other.ini")))
                 return false;
 
             foreach (
                 string[] settingsParameters in
                     from line in
-                        File.ReadAllLines(Path.Combine(Yupi.YupiVariablesDirectory, "Settings/other.ini"),
+				File.ReadAllLines(Path.Combine(Yupi.YupiVariablesDirectory, "Settings", "other.ini"),
                             Encoding.Default)
                     where !string.IsNullOrWhiteSpace(line) && line.Contains("=")
                     select line.Split('='))

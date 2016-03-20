@@ -387,9 +387,9 @@ namespace Yupi.Emulator
 
             try
             {
-                ServerConfigurationSettings.Load(Path.Combine(YupiVariablesDirectory, "Settings/main.ini"));
+                ServerConfigurationSettings.Load(Path.Combine(YupiVariablesDirectory, "Settings" ,"main.ini"));
 
-                ServerConfigurationSettings.Load(Path.Combine(YupiVariablesDirectory, "Settings/Welcome/settings.ini"), true);
+                ServerConfigurationSettings.Load(Path.Combine(YupiVariablesDirectory, "Settings", "Welcome", "settings.ini"), true);
 
                 if (ServerConfigurationSettings.Data.ContainsKey("console.clear.time"))
                     ConsoleCleanTimeInterval = int.Parse(ServerConfigurationSettings.Data["console.clear.time"]);

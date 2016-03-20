@@ -56,7 +56,7 @@ namespace Yupi.Emulator.Core.Security
         {
             foreach (
                 string line in
-                    File.ReadAllLines($"{Yupi.YupiVariablesDirectory}\\Settings\\filter.ini", Encoding.Default)
+				File.ReadAllLines(Path.Combine(Yupi.YupiVariablesDirectory, "Settings", "filter.ini"), Encoding.Default)
                         .Where(line => !line.StartsWith("#") || !line.StartsWith("//") || line.Contains("=")))
             {
                 string[] array = line.Split('=');
