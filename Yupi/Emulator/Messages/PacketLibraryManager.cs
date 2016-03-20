@@ -42,6 +42,11 @@ namespace Yupi.Emulator.Messages
         /// </summary>
         internal static string ReleaseName;
 
+		/// <summary>
+		/// The release directory.
+		/// </summary>
+		internal static string ReleaseDirectory;
+
         /// <summary>
         ///     Configure Dictionaries
         /// </summary>
@@ -52,6 +57,7 @@ namespace Yupi.Emulator.Messages
             Outgoing = new Dictionary<string, int>();
 
             ReleaseName = ServerConfigurationSettings.Data["client.build"];
+			ReleaseDirectory = Path.Combine (Yupi.YupiVariablesDirectory, "Packets", ReleaseName);
         }
 
         /// <summary>
@@ -136,7 +142,7 @@ namespace Yupi.Emulator.Messages
         {
             ReleasesCount = 0;
 
-            string[] filePaths = Directory.GetFiles($@"{Yupi.YupiVariablesDirectory}\Packets\{ReleaseName}", "*.incoming");
+			string[] filePaths = Directory.GetFiles(ReleaseDirectory, "*.incoming");
 
             foreach (string[] fileContents in filePaths.Select(currentFile => File.ReadAllLines(currentFile, System.Text.Encoding.UTF8)))
             {
@@ -171,7 +177,7 @@ namespace Yupi.Emulator.Messages
         /// </summary>
         internal static void RegisterOutgoing()
         {
-            string[] filePaths = Directory.GetFiles($@"{Yupi.YupiVariablesDirectory}\Packets\{ReleaseName}", "*.outgoing");
+			string[] filePaths = Directory.GetFiles(ReleaseDirectory, "*.outgoing");
 
             foreach (string[] fields in filePaths.Select(File.ReadAllLines).SelectMany(fileContents => fileContents.Where(line => !string.IsNullOrEmpty(line) && !line.StartsWith("[")).Select(line => line.Replace(" ", string.Empty).Split('='))))
             {
@@ -194,7 +200,7 @@ namespace Yupi.Emulator.Messages
         /// </summary>
         internal static void RegisterLibrary()
         {
-            string[] filePaths = Directory.GetFiles($@"{Yupi.YupiVariablesDirectory}\Packets\{ReleaseName}", "*.library");
+			string[] filePaths = Directory.GetFiles(ReleaseDirectory, "*.library");
 
             foreach (string[] fields in filePaths.Select(File.ReadAllLines).SelectMany(fileContents => fileContents.Select(line => line.Split('='))))
             {
