@@ -5,6 +5,7 @@ namespace Yupi.Emulator.Game.Users.Data.Exceptions
     /// <summary>
     ///     Class UserDataNotFoundException.
     /// </summary>
+	[Serializable]
     internal class UserDataNotFoundException : Exception
     {
         /// <summary>

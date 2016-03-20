@@ -126,7 +126,7 @@ namespace Yupi.Emulator
         public static extern int DeleteMenu(IntPtr hMenu, uint nPosition, int wFlags);
 
         [DllImport("user32.dll")]
-        private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
+		private static extern IntPtr GetSystemMenu(IntPtr hWnd, [MarshalAs (UnmanagedType.Bool)] bool bRevert);
 
         [DllImport("kernel32.dll")]
         private static extern IntPtr GetConsoleWindow();

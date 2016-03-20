@@ -26,6 +26,7 @@ using System;
 
 namespace Yupi.Emulator.Data.Base.Exceptions
 {
+	[Serializable]
     public class QueryException : Exception
     {
         private readonly string _triggeredQuery;

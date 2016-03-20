@@ -82,13 +82,6 @@ namespace Yupi.Emulator.Game.Pathfinding
             => obj is PathFinderNode && ((PathFinderNode) obj).Position.Equals(Position);
 
         /// <summary>
-        ///     Equalses the specified bread crumb.
-        /// </summary>
-        /// <param name="breadCrumb">The bread crumb.</param>
-        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        public bool Equals(PathFinderNode breadCrumb) => breadCrumb.Position.Equals(Position);
-
-        /// <summary>
         ///     Returns a hash code for this instance.
         /// </summary>
         /// <returns>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.</returns>

@@ -26,6 +26,7 @@ using System;
 
 namespace Yupi.Emulator.Data.Base.Exceptions
 {
+	[Serializable]
     public class DatabaseException : Exception
     {
         public DatabaseException(string message) : base(message)
