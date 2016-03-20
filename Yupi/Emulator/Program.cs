@@ -84,8 +84,6 @@ namespace Yupi.Emulator
 
         internal static void StartEverything()
         {
-            DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), ScClose, 0);
-
             InitEnvironment();
         }
 
@@ -121,14 +119,5 @@ namespace Yupi.Emulator
 
             Yupi.Initialize();
         }
-
-        [DllImport("user32.dll")]
-        public static extern int DeleteMenu(IntPtr hMenu, uint nPosition, int wFlags);
-
-        [DllImport("user32.dll")]
-		private static extern IntPtr GetSystemMenu(IntPtr hWnd, [MarshalAs (UnmanagedType.Bool)] bool bRevert);
-
-        [DllImport("kernel32.dll")]
-        private static extern IntPtr GetConsoleWindow();
     }
 }
