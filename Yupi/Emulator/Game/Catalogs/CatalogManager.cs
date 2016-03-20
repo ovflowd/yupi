@@ -869,7 +869,7 @@ namespace Yupi.Emulator.Game.Catalogs
                 int i = 1;
 
                 if (baseItem.Type == 's')
-                    i = InteractionTypes.AreFamiliar(GlobalInteractions.Pet, baseItem.InteractionType) ? 3 : 1;
+                    i = InteractionTypes.AreFamiliar(GlobalInteraction.Pet, baseItem.InteractionType) ? 3 : 1;
 
                 session.GetMessageHandler().GetResponse().AppendInteger(i);
 
@@ -885,7 +885,7 @@ namespace Yupi.Emulator.Game.Catalogs
 
                 session.GetHabbo().GetInventoryComponent().UpdateItems(false);
 
-                if (InteractionTypes.AreFamiliar(GlobalInteractions.Pet, baseItem.InteractionType))
+                if (InteractionTypes.AreFamiliar(GlobalInteraction.Pet, baseItem.InteractionType))
                     session.SendMessage(session.GetHabbo().GetInventoryComponent().SerializePetInventory());
             }
 

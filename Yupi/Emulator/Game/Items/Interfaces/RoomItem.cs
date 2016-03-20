@@ -217,7 +217,7 @@ namespace Yupi.Emulator.Game.Items.Interfaces
         ///     Gets a value indicating whether this instance is wired.
         /// </summary>
         /// <value><c>true</c> if this instance is wired; otherwise, <c>false</c>.</value>
-        public bool IsWired => InteractionTypes.AreFamiliar(GlobalInteractions.Wired, GetBaseItem().InteractionType);
+        public bool IsWired => InteractionTypes.AreFamiliar(GlobalInteraction.Wired, GetBaseItem().InteractionType);
 
         /// <summary>
         ///     Gets the affected tiles.
