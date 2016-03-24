@@ -202,11 +202,17 @@ namespace Yupi.Emulator.Messages.Handlers
             Session.GetHabbo().DailyRespectPoints--;
             roomUserByHabbo.GetClient().GetHabbo().Respect++;
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.RunFastQuery("UPDATE users_stats SET respect = respect + 1 WHERE id = " +
-                                          roomUserByHabbo.GetClient().GetHabbo().Id +
-                                          " LIMIT 1;UPDATE users_stats SET daily_respect_points = daily_respect_points - 1 WHERE id= " +
-                                          Session.GetHabbo().Id + " LIMIT 1");
+			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager ().GetQueryReactor ()) {
+				queryReactor.SetQuery ("UPDATE users_stats SET respect = respect + 1 WHERE id = @id");
+
+				// TODO Could this user be offline by now??? (RACE CONDITION !!!)
+				queryReactor.AddParameter ("id", roomUserByHabbo.GetClient ().GetHabbo ().Id);
+				queryReactor.RunQuery ();
+				// TODO These two queries should be run in a transaction!
+				queryReactor.SetQuery ("UPDATE users_stats SET daily_respect_points = daily_respect_points - 1 WHERE id = @id");
+				queryReactor.AddParameter ("id", Session.GetHabbo().Id);
+				queryReactor.RunQuery ();
+			}
 
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("GiveRespectsMessageComposer"));
             simpleServerMessageBuffer.AppendInteger(roomUserByHabbo.GetClient().GetHabbo().Id);
@@ -364,7 +370,7 @@ namespace Yupi.Emulator.Messages.Handlers
             int num = Request.GetInteger();
             int num2 = Request.GetInteger();
             int num3 = Request.GetInteger();
-            Session.GetHabbo().Preferences.Volume = num + "," + num2 + "," + num3;
+			Session.GetHabbo().Preferences.Volume = num.ToString() + "," + num2.ToString() + "," + num3.ToString();
             Session.GetHabbo().Preferences.Save();
         }
 
@@ -426,9 +432,10 @@ namespace Yupi.Emulator.Messages.Handlers
 
                 using (IQueryAdapter queryreactor2 = Yupi.GetDatabaseManager().GetQueryReactor())
                 {
-                    queryreactor2.SetQuery("UPDATE users_badges SET badge_slot = " + slot +
-                                           " WHERE badge_id = @badge AND user_id = " + Session.GetHabbo().Id);
-                    queryreactor2.AddParameter("badge", code);
+                    queryreactor2.SetQuery("UPDATE users_badges SET badge_slot = @slot WHERE badge_id = @badge AND user_id = @user");
+					queryreactor2.AddParameter("slot", slot);
+					queryreactor2.AddParameter("badge", code);
+					queryreactor2.AddParameter ("user", Session.GetHabbo ().Id);
                     queryreactor2.RunQuery();
                 }
             }
@@ -720,25 +727,27 @@ namespace Yupi.Emulator.Messages.Handlers
 
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery(string.Concat("SELECT null FROM users_wardrobe WHERE user_id = ",
-                    Session.GetHabbo().Id, " AND slot_id = ", num));
+				queryReactor.SetQuery("SELECT null FROM users_wardrobe WHERE user_id = @user AND slot_id = @slot");
+				queryReactor.AddParameter("user", Session.GetHabbo().Id);
+				queryReactor.AddParameter("slot", num);
                 queryReactor.AddParameter("look", text);
                 queryReactor.AddParameter("gender", text2);
                 if (queryReactor.GetRow() != null)
                 {
-                    queryReactor.SetQuery(
-                        string.Concat("UPDATE users_wardrobe SET look = @look, gender = @gender WHERE user_id = ",
-                            Session.GetHabbo().Id, " AND slot_id = ", num, ";"));
-                    queryReactor.AddParameter("look", text);
+                    queryReactor.SetQuery("UPDATE users_wardrobe SET look = @look, gender = @gender WHERE user_id = @user AND slot_id = @slot");
+					queryReactor.AddParameter("user", Session.GetHabbo().Id);
+					queryReactor.AddParameter("slot", num);
+					queryReactor.AddParameter("look", text);
                     queryReactor.AddParameter("gender", text2);
                     queryReactor.RunQuery();
                 }
                 else
                 {
                     queryReactor.SetQuery(
-                        string.Concat("INSERT INTO users_wardrobe (user_id,slot_id,look,gender) VALUES (",
-                            Session.GetHabbo().Id, ",", num, ",@look,@gender)"));
-                    queryReactor.AddParameter("look", text);
+                        "INSERT INTO users_wardrobe (user_id,slot_id,look,gender) VALUES (@user,@slot,@look,@gender)");
+					queryReactor.AddParameter("user", Session.GetHabbo().Id);
+					queryReactor.AddParameter("slot", num);
+					queryReactor.AddParameter("look", text);
                     queryReactor.AddParameter("gender", text2);
                     queryReactor.RunQuery();
                 }
@@ -786,6 +795,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 queryReactor.AddParameter("name", text);
                 string @string = queryReactor.GetString();
                 char[] array = text.ToLower().ToCharArray();
+				// TODO Use ASCII ???
                 const string source = "abcdefghijklmnopqrstuvwxyz1234567890.,_-;:?!@áéíóúÁÉÍÓÚñÑÜüÝý ";
                 char[] array2 = array;
                 if (array2.Any(c => !source.Contains(char.ToLower(c))))

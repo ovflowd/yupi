@@ -131,7 +131,7 @@ namespace Yupi.Emulator
         ///     The staff alert minimum rank
         /// </summary>
         internal static uint StaffAlertMinRank = 4;
-
+		// TODO Should these variables be readonly???
         /// <summary>
         ///     Max Friends Requests
         /// </summary>
