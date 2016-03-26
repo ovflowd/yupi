@@ -385,8 +385,10 @@ namespace Yupi.Emulator
 
             YupiVariablesDirectory = Path.Combine(YupiRootDirectory, "Variables");
 
+			#if !DEBUG
             try
             {
+			#endif
                 ServerConfigurationSettings.Load(Path.Combine(YupiVariablesDirectory, "Settings" ,"main.ini"));
 
                 ServerConfigurationSettings.Load(Path.Combine(YupiVariablesDirectory, "Settings", "Welcome", "settings.ini"), true);
@@ -478,9 +480,10 @@ namespace Yupi.Emulator
 
                 IsLive = true;
                 IsReady = true;
+			#if !DEBUG
             }
             catch (Exception e)
-            {
+			{
                 YupiWriterManager.WriteLine("Error When Starting Yupi Environment!" + Environment.NewLine + e.Message, "Yupi.Boot", ConsoleColor.Red);
                 YupiWriterManager.WriteLine("Please press Y to get more details or press other Key to Exit", "Yupi.Boot", ConsoleColor.Red);
 
@@ -500,6 +503,7 @@ namespace Yupi.Emulator
 
                 Environment.Exit(1);
             }
+			#endif
         }
 
         /// <summary>
