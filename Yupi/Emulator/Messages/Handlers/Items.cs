@@ -2617,7 +2617,7 @@ namespace Yupi.Emulator.Messages.Handlers
             array[1] = string.Empty;
 
             string[] array2 = Session.GetHabbo().Look.Split('.');
-
+			// TODO Use String.Join??? (need more knowlege about figure strings
             foreach (
                 string text in
                     array2.Where(
@@ -2625,9 +2625,7 @@ namespace Yupi.Emulator.Messages.Handlers
                             !text.Contains("hr") && !text.Contains("hd") && !text.Contains("he") && !text.Contains("ea") &&
                             !text.Contains("ha")))
             {
-				// TODO WHAT???
-                string[] array3;
-                (array3 = array)[1] = array3[1] + text} + ".";
+                array[1] += text + ".";
             }
 
             array[1] = array[1].TrimEnd('.');
