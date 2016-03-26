@@ -1056,7 +1056,7 @@ namespace Yupi.Emulator.Messages.Handlers
             if (room == null || !room.CheckRights(Session, true))
                 return;
 
-			List<int> users = new List<int> ();
+			List<uint> users = new List<uint> ();
 
             int num = Request.GetInteger();
 
@@ -1068,7 +1068,7 @@ namespace Yupi.Emulator.Messages.Handlers
                     if (room.UsersWithRights.Contains(num2))
                         room.UsersWithRights.Remove(num2);
 
-					rooms.Add (num2);
+					users.Add (num2);
                    
                     RoomUser roomUserByHabbo = room.GetRoomUserManager().GetRoomUserByHabbo(num2);
 
@@ -1108,7 +1108,8 @@ namespace Yupi.Emulator.Messages.Handlers
 
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery($"SELECT user_id FROM rooms_rights WHERE room_id={room.RoomId}");
+                queryReactor.SetQuery("SELECT user_id FROM rooms_rights WHERE room_id=@room");
+				queryReactor.AddParameter("room", room.RoomId);
                 table = queryReactor.GetTable();
             }
 
@@ -1133,8 +1134,10 @@ namespace Yupi.Emulator.Messages.Handlers
                 roomUserByHabbo.UpdateNeeded = true;
             }
 
-            using (IQueryAdapter queryreactor2 = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryreactor2.RunFastQuery($"DELETE FROM rooms_rights WHERE room_id = {room.RoomId}");
+			using (IQueryAdapter queryreactor2 = Yupi.GetDatabaseManager ().GetQueryReactor ()) {
+				// TODO Replace interpreted strings (bad practice for SQL!!!)
+				queryreactor2.RunFastQuery ($"DELETE FROM rooms_rights WHERE room_id = {room.RoomId}");
+			}
 
             room.UsersWithRights.Clear();
 
