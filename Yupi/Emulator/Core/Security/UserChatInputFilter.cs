@@ -54,9 +54,10 @@ namespace Yupi.Emulator.Core.Security
         /// </summary>
         public static void Load()
         {
+			// TODO Convert all files to UTF-8 and update all references to Encoding.Default (no Windows 1252!!!)
             foreach (
                 string line in
-				File.ReadAllLines(Path.Combine(Yupi.YupiVariablesDirectory, "Settings", "filter.ini"), Encoding.Default)
+				File.ReadAllLines(Path.Combine(Yupi.YupiVariablesDirectory, "Settings", "filter.ini"), Encoding.UTF8)
                         .Where(line => !line.StartsWith("#") || !line.StartsWith("//") || line.Contains("=")))
             {
                 string[] array = line.Split('=');
@@ -66,11 +67,11 @@ namespace Yupi.Emulator.Core.Security
 
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
 
-                dynamic items = serializer.Deserialize<object[]>(jsonStr);
+				string[][] items = serializer.Deserialize<string[][]>(jsonStr);
 
                 Dictionary<string, string> dic = new Dictionary<string, string>();
 
-                foreach (object[] item in items)
+                foreach (string[] item in items)
                 {
                     string key = item[0].ToString();
                     string value = string.Empty;
