@@ -71,6 +71,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <LangVersion>6</LangVersion>
     <Externalconsole>true</Externalconsole>
+    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <OutputPath>Build\Executables\x64\</OutputPath>
