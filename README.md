@@ -11,10 +11,18 @@
                                            <sub>and for chocolate lovers</sub>
 </pre>
 
-[![Build Status](https://travis-ci.org/sant0ro/Yupi.svg?branch=nio)](https://travis-ci.org/sant0ro/Yupi) [![Github All Releases](https://img.shields.io/github/downloads/sant0ro/Yupi/total.svg)]() [![Gitter](https://badges.gitter.im/sant0ro/Yupi.svg)](https://gitter.im/sant0ro/Yupi) [![GitHub license](https://img.shields.io/badge/license-MIT-4DB798.svg)](https://raw.githubusercontent.com/sant0ro/Yupi/nio/LICENSE.md) [![GitHub issues](https://img.shields.io/github/issues/sant0ro/Yupi.svg)](https://github.com/sant0ro/Yupi/issues) [![GitHub Stage](https://img.shields.io/badge/stage-alpha-D7AF23.svg)](https://github.com/sant0ro/Yupi) [![GitHub tag](https://img.shields.io/github/tag/sant0ro/Yupi.svg)]() [![ZenHub](https://img.shields.io/badge/supercharged%20by-zenhub.io-orange.svg)](https://zenhub.io)
+[![Build Status](https://travis-ci.org/sant0ro/Yupi.svg?branch=nio)](https://travis-ci.org/sant0ro/Yupi) [![Github All Releases](https://img.shields.io/github/downloads/sant0ro/Yupi/total.svg)]() [![Gitter](https://badges.gitter.im/sant0ro/Yupi.svg)](https://gitter.im/sant0ro/Yupi) [![GitHub license](https://img.shields.io/badge/license-MIT-4DB798.svg)](https://raw.githubusercontent.com/sant0ro/Yupi/nio/LICENSE.md) [![GitHub issues](https://img.shields.io/github/issues/sant0ro/Yupi.svg)](https://github.com/sant0ro/Yupi/issues)  [![ZenHub](https://img.shields.io/badge/supercharged-zenhub.io-orange.svg)](https://zenhub.io) [![GitHub Stage](https://img.shields.io/badge/stage-alpha-D7AF23.svg)](https://github.com/sant0ro/Yupi) [![Donate](https://img.shields.io/badge/donate-paypal-%23D6604A.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FLYXSZ5B3G9NC)
 
 &nbsp;&nbsp;&nbsp;<sup>**"Any fool can use a computer.  Many do.."**<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- *Ted Nelson*</sup>
+
+## Donate
+
+Yupi is open-source, and under <b>MIT License</b>
+Anyone can edit, download, do a copy, change credits, do whathever. Moreover, this is the official repository of the emulator.
+Me [Claudio Santoro](https://github.com/sant0ro) doesn't receive any budget, money or callback for this work. Also i never asked money before for anyone. Soo what are you waiting?
+
+[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FLYXSZ5B3G9NC)
 
 ## About
 
