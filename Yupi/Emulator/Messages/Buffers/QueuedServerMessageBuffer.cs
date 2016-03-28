@@ -23,30 +23,31 @@
 */
 
 using System.Collections.Generic;
-using Yupi.Emulator.Net.Connection;
+using Yupi.Net;
+using System;
 
 namespace Yupi.Emulator.Messages.Buffers
 {
     /// <summary>
     ///     Class QueuedServerMessageBuffer.
     /// </summary>
-    public class QueuedServerMessageBuffer
+    public class QueuedServerMessageBuffer : IDisposable
     {
         /// <summary>
         ///     The _packet
         /// </summary>
-        private readonly List<byte> _packet;
+        private List<byte> _packet;
 
         /// <summary>
         ///     The _user connection
         /// </summary>
-        private ConnectionActor _userConnection;
+        private ISession _userConnection;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="QueuedServerMessageBuffer" /> class.
         /// </summary>
         /// <param name="connection">The connection.</param>
-        public QueuedServerMessageBuffer(ConnectionActor connection)
+		public QueuedServerMessageBuffer(ISession connection)
         {
             _userConnection = connection;
 
@@ -62,10 +63,9 @@ namespace Yupi.Emulator.Messages.Buffers
         /// <summary>
         ///     Disposes this instance.
         /// </summary>
-        internal void Dispose()
+        public void Dispose()
         {
-            _packet.Clear();
-
+            _packet = null;
             _userConnection = null;
         }
 
@@ -73,28 +73,33 @@ namespace Yupi.Emulator.Messages.Buffers
         ///     Appends the response.
         /// </summary>
         /// <param name="messageBuffer">The messageBuffer.</param>
-        internal void AppendResponse(SimpleServerMessageBuffer messageBuffer) => AppendBytes(messageBuffer.GetReversedBytes());
+		internal void AppendResponse(SimpleServerMessageBuffer messageBuffer) {
+			AppendBytes (messageBuffer.GetReversedBytes ());
+		}
 
+		// TODO Remove alias
         /// <summary>
         ///     Adds the bytes.
         /// </summary>
         /// <param name="bytes">The bytes.</param>
-        internal void AddBytes(byte[] bytes) => AppendBytes(bytes);
+		internal void AddBytes(byte[] bytes) {
+			AppendBytes (bytes);
+		}
 
         /// <summary>
         ///     Sends the response.
         /// </summary>
         internal void SendResponse()
         {
-            _userConnection?.ConnectionChannel.WriteAsync(_packet.ToArray());
-
-            Dispose();
+            _userConnection?.Send(_packet.ToArray());
         }
 
         /// <summary>
         ///     Appends the bytes.
         /// </summary>
         /// <param name="bytes">The bytes.</param>
-        private void AppendBytes(IEnumerable<byte> bytes) => _packet.AddRange(bytes);
+		private void AppendBytes(IEnumerable<byte> bytes) {
+			_packet.AddRange (bytes);
+		}
     }
 }

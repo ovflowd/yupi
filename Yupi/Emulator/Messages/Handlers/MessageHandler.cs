@@ -71,7 +71,7 @@ namespace Yupi.Emulator.Messages.Handlers
         internal void SendResponse()
         {
             if (Response != null && Response.Id > 0 && Session?.GetConnection() != null)
-                Session.GetConnection().ConnectionChannel.WriteAsync(Response.GetReversedBytes());
+                Session.GetConnection().Send(Response.GetReversedBytes());
         }
     }
 }

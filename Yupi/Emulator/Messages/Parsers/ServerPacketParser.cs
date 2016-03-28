@@ -30,7 +30,6 @@ using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Encoding;
 using Yupi.Emulator.Messages.Factorys;
 using Yupi.Emulator.Messages.Parsers.Interfaces;
-using Yupi.Emulator.Net.Connection;
 
 namespace Yupi.Emulator.Messages.Parsers
 {
@@ -85,6 +84,7 @@ namespace Yupi.Emulator.Messages.Parsers
             _bufferedData = ServerMemoryContainer.TakeBuffer();
         }
 
+		// TODO Check this code
         /// <summary>
         ///     Handles the packet data.
         /// </summary>
@@ -185,6 +185,8 @@ namespace Yupi.Emulator.Messages.Parsers
         /// </summary>
         public void Dispose() => ServerMemoryContainer.GiveBuffer(_bufferedData);
 
+		// TODO THIS IS IN NO WAY AN EXACT COPY !!!
+
         /// <summary>
         ///     Creates a new object that is a copy of the current instance.
         /// </summary>
@@ -194,9 +196,8 @@ namespace Yupi.Emulator.Messages.Parsers
         /// <summary>
         ///     Sets the connection.
         /// </summary>
-        /// <param name="con">The con.</param>
         /// <param name="me">Me.</param>
-        public void SetConnection(ConnectionActor con, GameClient me) => _currentClient = me;
+        public void SetConnection(GameClient me) => _currentClient = me;
 
         /// <summary>
         ///     Handles the messageBuffer.
@@ -207,6 +208,7 @@ namespace Yupi.Emulator.Messages.Parsers
         /// <param name="packetLength">Length of the packet.</param>
         private void HandleMessage(int messageId, byte[] packetContent, int position, int packetLength)
         {
+			// TODO Why does every client need a own message handler?
             using (SimpleClientMessageBuffer simpleClientMessageBuffer = ClientMessageFactory.GetClientMessage(messageId, packetContent, position, packetLength))
                 if (_currentClient.GetMessageHandler() != null)
                     _currentClient.GetMessageHandler().HandleRequest(simpleClientMessageBuffer); 

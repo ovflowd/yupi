@@ -114,10 +114,12 @@ namespace Yupi.Emulator.Messages
         {
             if (Incoming.ContainsKey(messageBuffer.Id))
             {
+				#if DEBUG
                 if (Yupi.PacketDebugMode)
                     YupiWriterManager.WriteLine(
                         $"Handled: {messageBuffer.Id}: " + Environment.NewLine + messageBuffer + Environment.NewLine,
                         "Yupi.Incoming", ConsoleColor.DarkGreen);
+				#endif
 
                 if (Incoming[messageBuffer.Id] == null)
                     return;
@@ -125,14 +127,14 @@ namespace Yupi.Emulator.Messages
                 StaticRequestHandler staticRequestHandler = Incoming[messageBuffer.Id];
 
                 staticRequestHandler(handler);
-
-                return;
-            }
-
+			} else {
+			#if DEBUG
             if (Yupi.PacketDebugMode)
                 YupiWriterManager.WriteLine(
                     $"Refused: {messageBuffer.Id}: " + Environment.NewLine + messageBuffer + Environment.NewLine,
                     "Yupi.Incoming", ConsoleColor.DarkYellow);
+			#endif
+			}
         }
 
         /// <summary>

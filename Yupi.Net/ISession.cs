@@ -1,4 +1,4 @@
-/**
+﻿/**
      Because i love chocolat...                                      
                                     88 88  
                                     "" 88  
@@ -22,24 +22,18 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-using Yupi.Emulator.Core.Settings;
+using System;
+using System.Net;
 
-namespace Yupi.Emulator.Core.Security
+namespace Yupi.Net
 {
-    /// <summary>
-    ///     Class CrossdomainPolicy.
-    /// </summary>
-    internal static class CrossDomainSettings
-    {
-        internal static byte[] XmlPolicyBytes;
+	public interface ISession
+	{
+		IPAddress RemoteAddress { get; }
 
-        internal static void Set()
-        {
-            XmlPolicyBytes =
-                Yupi.GetDefaultEncoding()
-                    .GetBytes(
-                        "<?xml version=\"1.0\"?>\r\n<!DOCTYPE cross-domain-policy SYSTEM \"/xml/dtds/cross-domain-policy.dtd\">\r\n<cross-domain-policy>\r\n<allow-access-from domain=\"*\" to-ports=\"" +
-                        ServerConfigurationSettings.Data["game.tcp.port.proxy"] + "\" />\r\n</cross-domain-policy>\0");
-        }
-    }
+		void Send(ArraySegment<byte> data);
+		void Send(byte[] data);
+		void Close();
+	}
 }
+
