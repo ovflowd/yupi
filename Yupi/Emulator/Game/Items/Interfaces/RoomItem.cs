@@ -217,7 +217,7 @@ namespace Yupi.Emulator.Game.Items.Interfaces
         ///     Gets a value indicating whether this instance is wired.
         /// </summary>
         /// <value><c>true</c> if this instance is wired; otherwise, <c>false</c>.</value>
-        public bool IsWired => InteractionTypes.AreFamiliar(GlobalInteractions.Wired, GetBaseItem().InteractionType);
+        public bool IsWired => InteractionTypes.AreFamiliar(GlobalInteraction.Wired, GetBaseItem().InteractionType);
 
         /// <summary>
         ///     Gets the affected tiles.
@@ -791,11 +791,11 @@ namespace Yupi.Emulator.Game.Items.Interfaces
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         public bool Equals(RoomItem comparedItem) => comparedItem.Id == Id;
 
-        internal event OnItemTrigger ItemTriggerEventHandler;
+		internal event EventHandler<ItemTriggeredArgs> ItemTriggerEventHandler;
 
-        internal event UserWalksFurniDelegate OnUserWalksOffFurni;
+		internal event EventHandler<UserWalksOnArgs> OnUserWalksOffFurni;
 
-        internal event UserWalksFurniDelegate OnUserWalksOnFurni;
+		internal event EventHandler<UserWalksOnArgs> OnUserWalksOnFurni;
 
         internal void SetState(int x, int y, double z) => SetState(x, y, z, Gamemap.GetAffectedTiles(GetBaseItem().Length, GetBaseItem().Width, x, y, Rot));
 

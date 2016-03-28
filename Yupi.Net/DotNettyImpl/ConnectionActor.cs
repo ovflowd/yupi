@@ -22,26 +22,59 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-namespace Yupi.Emulator.Core.Util.Enumerators
+using System.Net;
+using DotNetty.Transport.Channels;
+
+namespace Yupi.Net.DotNettyImpl
 {
+	// TODO Delete
     /// <summary>
-    ///     Enum EndingType
+    ///     Class ConnectionActor.
     /// </summary>
-    internal enum TextEndingTypes
-    {
+    public class ConnectionActorDELETE
+	{
         /// <summary>
-        ///     The none
+        ///     Connection Id
         /// </summary>
-        None,
+        public string ConnectionId;
 
         /// <summary>
-        ///     The sequential
+        ///     IP Address
         /// </summary>
-        Sequential,
+        public string IpAddress;
 
         /// <summary>
-        ///     The continuous
+        ///    Connection Channel
         /// </summary>
-        Continuous
+        public IChannel ConnectionChannel;
+
+
+        /// <summary>
+        ///     Count of Same IP Connection.
+        /// </summary>
+        internal int SameHandledCount;
+
+		public ConnectionActorDELETE(IChannel context)
+        {
+            ConnectionChannel = context;
+
+            ConnectionId = context.Id.ToString();
+
+            IpAddress = (context.RemoteAddress as IPEndPoint)?.Address.ToString();
+
+            SameHandledCount = 0;
+        }
+
+        public void Close()
+        {
+            ConnectionChannel?.Flush();
+        }
+
+        public void CompleteClose()
+        {
+            ConnectionChannel?.CloseAsync();
+
+            Close();
+        }
     }
 }

@@ -45,7 +45,7 @@ namespace Yupi.Emulator.Data
         /// <summary>
         ///     The working
         /// </summary>
-        public static bool Working;
+        private static bool _working;
 
         /// <summary>
         ///     Starts the process.
@@ -56,7 +56,7 @@ namespace Yupi.Emulator.Data
 
             _thread.Start();
 
-            Working = true;
+            _working = true;
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Yupi.Emulator.Data
         {
             _thread.Abort();
 
-            Working = false;
+            _working = false;
         }
 
         /// <summary>
@@ -74,14 +74,14 @@ namespace Yupi.Emulator.Data
         /// </summary>
         private static void Process()
         {
-            while (Working)
+            while (_working)
             {
                 ClearUserCache();
                 ClearRoomsCache();
 
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
-
+				// TODO Mark TODO Tasks so that the IDE will find them ...
                 Thread.Sleep(1000000); // WTF? <<< #TODO WTF!!
             }
         }

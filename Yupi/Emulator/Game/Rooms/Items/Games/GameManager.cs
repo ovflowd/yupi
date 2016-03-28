@@ -7,7 +7,6 @@ using Yupi.Emulator.Game.Items.Interactions;
 using Yupi.Emulator.Game.Items.Interactions.Enums;
 using Yupi.Emulator.Game.Items.Interfaces;
 using Yupi.Emulator.Game.Rooms.Data;
-using Yupi.Emulator.Game.Rooms.Events.Delegate;
 using Yupi.Emulator.Game.Rooms.Items.Games.Teams;
 using Yupi.Emulator.Game.Rooms.Items.Games.Teams.Enums;
 using Yupi.Emulator.Game.Rooms.User;
@@ -39,11 +38,11 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games
             set { TeamPoints = value; }
         }
 
-        internal event TeamScoreChangedDelegate OnScoreChanged;
+		internal event EventHandler<TeamScoreChangedArgs> OnScoreChanged;
 
-        internal event RoomEventDelegate OnGameStart;
+		internal event EventHandler OnGameStart;
 
-        internal event RoomEventDelegate OnGameEnd;
+		internal event EventHandler OnGameEnd;
 
         internal void OnCycle()
         {
@@ -340,7 +339,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games
         private void LockGate(RoomItem item)
         {
             Interaction interactionType = item.GetBaseItem().InteractionType;
-            if (!InteractionTypes.AreFamiliar(GlobalInteractions.GameGate, interactionType)) return;
+            if (!InteractionTypes.AreFamiliar(GlobalInteraction.GameGate, interactionType)) return;
             foreach (RoomUser current in _room.GetGameMap().GetRoomUsers(new Point(item.X, item.Y))) current.SqState = 0;
             _room.GetGameMap().GameMap[item.X, item.Y] = 0;
         }
@@ -348,7 +347,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games
         private void UnlockGate(RoomItem item)
         {
             Interaction interactionType = item.GetBaseItem().InteractionType;
-            if (!InteractionTypes.AreFamiliar(GlobalInteractions.GameGate, interactionType)) return;
+            if (!InteractionTypes.AreFamiliar(GlobalInteraction.GameGate, interactionType)) return;
 
             foreach (RoomUser current in _room.GetGameMap().GetRoomUsers(new Point(item.X, item.Y))) current.SqState = 1;
             _room.GetGameMap().GameMap[item.X, item.Y] = 1;

@@ -69,7 +69,8 @@ namespace Yupi.Emulator.Game.Rooms.Competitions.Models
 
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
-                queryReactor.SetQuery("SELECT * FROM rooms_competitions_entries WHERE competition_id = " + Id);
+                queryReactor.SetQuery("SELECT * FROM rooms_competitions_entries WHERE competition_id = @competition_id");
+				queryReactor.AddParameter ("@competition_id", Id);
 
                 DataTable table = queryReactor.GetTable();
 

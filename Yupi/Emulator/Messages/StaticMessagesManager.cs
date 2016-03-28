@@ -4,6 +4,7 @@ using Yupi.Emulator.Messages.Enums;
 
 namespace Yupi.Emulator.Messages
 {
+	// TODO: Remove This Xit because is BAD. (The entire class)
     /// <summary>
     ///     Class StaticMessagesManager.
     ///     @TODO: Remove This Xit because is BAD. (The entire class)

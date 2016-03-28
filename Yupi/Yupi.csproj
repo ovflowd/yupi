@@ -71,6 +71,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <LangVersion>6</LangVersion>
     <Externalconsole>true</Externalconsole>
+    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <OutputPath>Build\Executables\x64\</OutputPath>
@@ -174,6 +175,22 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="SuperSocket.Common">
+      <HintPath>..\packages\SuperSocket.1.6.6\lib\net45\SuperSocket.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.SocketBase">
+      <HintPath>..\packages\SuperSocket.1.6.6\lib\net45\SuperSocket.SocketBase.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.Facility">
+      <HintPath>..\packages\SuperSocket.1.6.6\lib\net45\SuperSocket.Facility.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Configuration" />
+    <Reference Include="SuperSocket.SocketEngine">
+      <HintPath>..\packages\SuperSocket.Engine.1.6.6\lib\net45\SuperSocket.SocketEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.SocketService">
+      <HintPath>..\packages\SuperSocket.Engine.1.6.6\lib\net45\SuperSocket.SocketService.exe</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -264,10 +281,6 @@
     <Compile Include="Emulator\Messages\Handlers\MessageHandler.cs" />
     <Compile Include="Emulator\Messages\Library\PacketLibrary.cs" />
     <Compile Include="Emulator\Messages\StaticMessagesManager.cs" />
-    <Compile Include="Emulator\Net\Connection\ConnectionSecurity.cs" />
-    <Compile Include="Emulator\Net\Handlers\ConnectionHandler.cs" />
-    <Compile Include="Emulator\Net\Connection\ConnectionManager.cs" />
-    <Compile Include="Emulator\Net\Settings\ServerFactorySettings.cs" />
     <Compile Include="Emulator\Net\Web\WebManager.cs" />
     <Compile Include="Emulator\Data\FurnitureDataManager.cs" />
     <Compile Include="Emulator\Data\Structs\FurnitureData.cs" />
@@ -309,7 +322,6 @@
     <Compile Include="Emulator\Game\Commands\Controllers\WhisperHotel.cs" />
     <Compile Include="Emulator\Game\Commands\Controllers\WhisperRoom.cs" />
     <Compile Include="Emulator\Game\Items\Datas\HighscoreData.cs" />
-    <Compile Include="Emulator\Game\Items\Interactions\Enums\GlobalInteractions.cs" />
     <Compile Include="Emulator\Game\Items\Interactions\Enums\Interaction.cs" />
     <Compile Include="Emulator\Game\Items\Interfaces\HighScoreLine.cs" />
     <Compile Include="Emulator\Game\Items\Handlers\HopperHandler.cs" />
@@ -355,7 +367,6 @@
     <Compile Include="Emulator\Game\Items\ItemManager.cs" />
     <Compile Include="Emulator\Game\Items\Datas\MoodlightData.cs" />
     <Compile Include="Emulator\Game\Items\Interfaces\MoodlightPreset.cs" />
-    <Compile Include="Emulator\Game\Items\OnItemTrigger.cs" />
     <Compile Include="Emulator\Game\Items\ClothingManager.cs" />
     <Compile Include="Emulator\Game\Items\Handlers\CrackableEggHandler.cs" />
     <Compile Include="Emulator\Game\Items\Handlers\PinataHandler.cs" />
@@ -439,7 +450,6 @@
     <Compile Include="Emulator\Game\Commands\Controllers\Unload.cs" />
     <Compile Include="Emulator\Game\Commands\Controllers\UnMute.cs" />
     <Compile Include="Emulator\Game\Commands\Controllers\UserInfo.cs" />
-    <Compile Include="Emulator\Core\Security\CrossDomainSettings.cs" />
     <Compile Include="Emulator\Game\Users\Figures\AvatarFigureParts.cs" />
     <Compile Include="Emulator\Data\ServerStatusUpdater.cs" />
     <Compile Include="Emulator\Game\Browser\Models\NavigatorHeader.cs" />
@@ -471,7 +481,6 @@
     <Compile Include="Emulator\Game\Rooms\Room.cs" />
     <Compile Include="Emulator\Game\Rooms\Data\Models\RoomData.cs" />
     <Compile Include="Emulator\Game\Rooms\Events\Models\RoomEvent.cs" />
-    <Compile Include="Emulator\Game\Rooms\Events\Delegate\RoomEventDelegate.cs" />
     <Compile Include="Emulator\Game\Rooms\Events\RoomEventsManager.cs" />
     <Compile Include="Emulator\Game\Rooms\RoomInvokedItems\RoomAlert.cs" />
     <Compile Include="Emulator\Game\Rooms\RoomInvokedItems\RoomKick.cs" />
@@ -481,15 +490,12 @@
     <Compile Include="Emulator\Game\Rooms\User\RoomUser.cs" />
     <Compile Include="Emulator\Game\Rooms\Competitions\RoomCompetitionManager.cs" />
     <Compile Include="Emulator\Game\Rooms\User\RoomUserManager.cs" />
-    <Compile Include="Emulator\Game\Rooms\User\RoomUserSaysDelegate.cs" />
     <Compile Include="Emulator\Game\Rooms\Chat\Enums\SquareState.cs" />
     <Compile Include="Emulator\Game\Rooms\Items\Games\Teams\TeamScoreChangedArgs.cs" />
-    <Compile Include="Emulator\Game\Rooms\Items\Games\Teams\TeamScoreChangedDelegate.cs" />
     <Compile Include="Emulator\Game\Rooms\Items\Teleports\TeleUserData.cs" />
     <Compile Include="Emulator\Game\Rooms\User\Trade\Trade.cs" />
     <Compile Include="Emulator\Game\Rooms\User\Trade\TradeUser.cs" />
     <Compile Include="Emulator\Game\Rooms\Chat\UserSaysArgs.cs" />
-    <Compile Include="Emulator\Game\Rooms\User\Path\UserWalksFurniDelegate.cs" />
     <Compile Include="Emulator\Game\Rooms\User\Path\UserWalksOnArgs.cs" />
     <Compile Include="Emulator\Game\Items\Wired\Handlers\Conditions\DateRangeActive.cs" />
     <Compile Include="Emulator\Game\Items\Wired\Handlers\Conditions\FurniHasFurni.cs" />
@@ -586,7 +592,6 @@
     <Compile Include="Emulator\Core\Security\UserChatInputFilter.cs" />
     <Compile Include="Emulator\Core\Settings\ServerDatabaseSettings.cs" />
     <Compile Include="Emulator\Core\Settings\ServerConfigurationSettings.cs" />
-    <Compile Include="Emulator\Net\Connection\ConnectionActor.cs" />
     <Compile Include="Emulator\Core\Settings\ConsoleCommandHandler.cs" />
     <Compile Include="Emulator\Core\Settings\ServerExtraSettings.cs" />
     <Compile Include="Emulator\Game\Achievements\Structs\Achievement.cs" />
@@ -695,10 +700,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Emulator\Messages\Parsers\Interfaces\IDataParser.cs" />
     <Compile Include="Emulator\Data\Interfaces\PluginData.cs" />
-    <Compile Include="Emulator\Core\Util\Enumerators\TextEndingTypes.cs" />
     <Compile Include="Emulator\Data\ServerMemoryContainer.cs" />
     <Compile Include="Emulator\Core\Util\Coordinates\CoordinatesFormatter.cs" />
     <Compile Include="Emulator\Core\Util\Math\RandomNumberGenerator.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Enums\GlobalInteraction.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.1">
@@ -721,6 +726,10 @@
     <None Include="packages.config" />
     <None Include="Properties\App.config" />
     <None Include="Properties\app.manifest" />
+    <None Include="Config\log4net.config" />
+    <None Include="Config\log4net.unix.config" />
+    <None Include="supersocket.cmd" />
+    <None Include="supersocket.sh" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\Yupi.ico" />
@@ -749,4 +758,10 @@
     <Revision>0</Revision>
     <Hash>0</Hash>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Yupi.Net\Yupi.Net.csproj">
+      <Project>{8D09AE29-53E7-405D-9F9E-CDDE1164851A}</Project>
+      <Name>Yupi.Net</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

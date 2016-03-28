@@ -23,17 +23,36 @@
 */
 
 using System;
+using System.Runtime.Serialization;
 
 namespace Yupi.Emulator.Data.Base.Exceptions
 {
+	[Serializable]
     public class QueryException : Exception
     {
         private readonly string _triggeredQuery;
 
-        public QueryException(string message, string triggeredQuery) : base(message)
+		public QueryException() : base()
+		{
+		}
+
+		public QueryException(string message) : base(message)
+		{
+		}
+
+		public QueryException(string message, Exception innerException) : base(message, innerException)
+		{
+		}
+
+		public QueryException(string message, string triggeredQuery) : base(message)
         {
             _triggeredQuery = triggeredQuery;
         }
+
+		protected QueryException(SerializationInfo info, StreamingContext context) 
+			: base(info, context)
+		{
+		}
 
         public string GetQuery() => _triggeredQuery;
     }

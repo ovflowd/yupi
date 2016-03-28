@@ -131,7 +131,7 @@ namespace Yupi.Emulator.Game.Items
                         publicName = FurnitureDataManager.WallItems[name].Name;
                     }
                     else if ((name.StartsWith("pet_") || publicName.StartsWith("pet_")) &&
-                             InteractionTypes.AreFamiliar(GlobalInteractions.Pet, typeFromString))
+                             InteractionTypes.AreFamiliar(GlobalInteraction.Pet, typeFromString))
                     {
                         x = 1;
                         y = 1;
@@ -146,7 +146,7 @@ namespace Yupi.Emulator.Game.Items
                         GiftWrapper.Add(sprite);
 
                     // If Can Walk
-                    if (InteractionTypes.AreFamiliar(GlobalInteractions.Gate, typeFromString) ||
+                    if (InteractionTypes.AreFamiliar(GlobalInteraction.Gate, typeFromString) ||
                         (typeFromString == Interaction.BanzaiPyramid) || name.StartsWith("hole"))
                         canWalk = false;
 

@@ -3,7 +3,7 @@
     /// <summary>
     ///     Enum InteractionGlobalType
     /// </summary>
-    public enum GlobalInteractions
+    public enum GlobalInteraction
     {
         /// <summary>
         ///     The gate

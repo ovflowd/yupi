@@ -477,7 +477,7 @@ namespace Yupi.Emulator.Game.Items.Wired
         public List<IWiredItem> GetWiredsByType(Interaction type)
             => _wiredItems.Where(item => item != null && item.Type == type).ToList();
 
-        public List<IWiredItem> GetWiredsByTypes(GlobalInteractions type)
+        public List<IWiredItem> GetWiredsByTypes(GlobalInteraction type)
             =>
                 _wiredItems.Where(
                     item => item != null && InteractionTypes.AreFamiliar(type, item.Item.GetBaseItem().InteractionType))
@@ -502,12 +502,12 @@ namespace Yupi.Emulator.Game.Items.Wired
         }
 
         private static bool IsTrigger(Interaction type)
-            => InteractionTypes.AreFamiliar(GlobalInteractions.WiredTrigger, type);
+            => InteractionTypes.AreFamiliar(GlobalInteraction.WiredTrigger, type);
 
         private static bool IsEffect(Interaction type)
-            => InteractionTypes.AreFamiliar(GlobalInteractions.WiredEffect, type);
+            => InteractionTypes.AreFamiliar(GlobalInteraction.WiredEffect, type);
 
         private static bool IsCondition(Interaction type)
-            => InteractionTypes.AreFamiliar(GlobalInteractions.WiredCondition, type);
+            => InteractionTypes.AreFamiliar(GlobalInteraction.WiredCondition, type);
     }
 }

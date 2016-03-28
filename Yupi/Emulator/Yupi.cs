@@ -52,8 +52,8 @@ using Yupi.Emulator.Game.Users.Messenger.Structs;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Factorys;
 using Yupi.Emulator.Messages.Parsers;
-using Yupi.Emulator.Net.Connection;
-using Yupi.Emulator.Net.Settings;
+using Yupi.Net;
+using Yupi.Net.SuperSocketImpl;
 
 namespace Yupi.Emulator
 {
@@ -131,7 +131,7 @@ namespace Yupi.Emulator
         ///     The staff alert minimum rank
         /// </summary>
         internal static uint StaffAlertMinRank = 4;
-
+		// TODO Should these variables be readonly???
         /// <summary>
         ///     Max Friends Requests
         /// </summary>
@@ -191,6 +191,8 @@ namespace Yupi.Emulator
         ///     The GameServer
         /// </summary>
         internal static HabboHotel GameServer;
+
+		private static IServer TCPServer;
 
         /// <summary>
         ///     The ServerLanguageVariables
@@ -385,11 +387,13 @@ namespace Yupi.Emulator
 
             YupiVariablesDirectory = Path.Combine(YupiRootDirectory, "Variables");
 
+			#if !DEBUG
             try
             {
-                ServerConfigurationSettings.Load(Path.Combine(YupiVariablesDirectory, "Settings/main.ini"));
+			#endif
+                ServerConfigurationSettings.Load(Path.Combine(YupiVariablesDirectory, "Settings" ,"main.ini"));
 
-                ServerConfigurationSettings.Load(Path.Combine(YupiVariablesDirectory, "Settings/Welcome/settings.ini"), true);
+                ServerConfigurationSettings.Load(Path.Combine(YupiVariablesDirectory, "Settings", "Welcome", "settings.ini"), true);
 
                 if (ServerConfigurationSettings.Data.ContainsKey("console.clear.time"))
                     ConsoleCleanTimeInterval = int.Parse(ServerConfigurationSettings.Data["console.clear.time"]);
@@ -436,7 +440,7 @@ namespace Yupi.Emulator
                     DatabaseSettings = new ServerDatabaseSettings(queryReactor);
 
                 GameServer = new HabboHotel();    
-
+			// TODO Refactor (+rename)
                 GameServer.Init();
 
                 if (uint.Parse(ServerConfigurationSettings.Data["db.pool.maxsize"]) > MaxRecommendedMySqlConnections)
@@ -455,13 +459,26 @@ namespace Yupi.Emulator
 
                 ClientMessageFactory.Init();
 
-                ConnectionSecurity.Init();
+			// TODO Cleanup
+              //  ServerFactorySettings.Init(IPAddress.Any, int.Parse(ServerConfigurationSettings.Data["game.tcp.port"]), 4072, ServerConfigurationSettings.Data["game.tcp.enablenagles"] == "true", int.Parse(ServerConfigurationSettings.Data["game.tcp.boss.maxthreadsize"]), int.Parse(ServerConfigurationSettings.Data["game.tcp.work.maxthreadsize"]), ServerConfigurationSettings.Data["game.tcp.denialservice"] == "true", int.Parse(ServerConfigurationSettings.Data["game.tcp.max.connperip"]));
 
-                ServerFactorySettings.Init(IPAddress.Any, int.Parse(ServerConfigurationSettings.Data["game.tcp.port"]), 4072, ServerConfigurationSettings.Data["game.tcp.enablenagles"] == "true", int.Parse(ServerConfigurationSettings.Data["game.tcp.boss.maxthreadsize"]), int.Parse(ServerConfigurationSettings.Data["game.tcp.work.maxthreadsize"]), ServerConfigurationSettings.Data["game.tcp.denialservice"] == "true", int.Parse(ServerConfigurationSettings.Data["game.tcp.max.connperip"]));
+              //  ConnectionManager.DataParser = new ServerPacketParser();
 
-                ConnectionManager.DataParser = new ServerPacketParser();
+				IServerSettings settings = new ServerSettings() {
+					IP = "Any",
+					Port = int.Parse(ServerConfigurationSettings.Data["game.tcp.port"]),
+				 MaxWorkingThreads = 0, // Let the OS decide
+					MinWorkingThreads = 0,
+				MinIOThreads = 0,
+				 MaxIOThreads  = 0,
+				BufferSize = 4096,
+				 Backlog = 100,
+				 MaxConnections = 10000 // Maximum overall connections
+			};
 
-                ConnectionManager.Start();
+			// TODO Add selection for SuperSocket vs DotNetty
+			TCPServer = new SuperServer(settings);
+			TCPServer.Start();
 
                 YupiWriterManager.WriteLine("Server Started at Port " + ServerConfigurationSettings.Data["game.tcp.port"] + " and Address " + ServerConfigurationSettings.Data["game.tcp.bindip"], "Yupi.Boot", ConsoleColor.DarkCyan);
 
@@ -478,9 +495,10 @@ namespace Yupi.Emulator
 
                 IsLive = true;
                 IsReady = true;
+			#if !DEBUG
             }
             catch (Exception e)
-            {
+			{
                 YupiWriterManager.WriteLine("Error When Starting Yupi Environment!" + Environment.NewLine + e.Message, "Yupi.Boot", ConsoleColor.Red);
                 YupiWriterManager.WriteLine("Please press Y to get more details or press other Key to Exit", "Yupi.Boot", ConsoleColor.Red);
 
@@ -500,6 +518,7 @@ namespace Yupi.Emulator
 
                 Environment.Exit(1);
             }
+			#endif
         }
 
         /// <summary>
@@ -676,6 +695,7 @@ namespace Yupi.Emulator
         /// <returns>Languages.</returns>
         internal static ServerLanguageSettings GetLanguage() => ServerLanguageVariables;
 
+		// TODO Check where this method is used and replace the queries with Prepared statements
         /// <summary>
         ///     Filter's SQL Injection Characters
         /// </summary>
@@ -730,7 +750,7 @@ namespace Yupi.Emulator
 
             GetGame().GetClientManager().CloseAll();
 
-            ConnectionManager.Stop();
+			TCPServer.Stop();
 
             foreach (Group group in GetGame().GetGroupManager().Groups.Values)
                 group.UpdateForum();

@@ -52,8 +52,10 @@ namespace Yupi.Emulator.Core.Settings
         /// <param name="inputData">The input data.</param>
         internal static void InvokeCommand(string inputData)
         {
-            try
+			#if !DEBUG
+			try
             {
+			#endif
                 if (string.IsNullOrEmpty(inputData) || YupiWriterManager.DisabledState)
                     return;
 
@@ -263,11 +265,13 @@ namespace Yupi.Emulator.Core.Settings
                         Console.WriteLine();
                         break;
                 }
+			#if !DEBUG
             }
             catch (Exception)
             {
-                // ignored
+				// TODO Never ignore exceptions !!!
             }
+			#endif
         }
 
         /// <summary>
