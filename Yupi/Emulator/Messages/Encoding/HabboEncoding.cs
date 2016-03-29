@@ -31,6 +31,7 @@ namespace Yupi.Emulator.Messages.Encoding
     /// </summary>
     internal class HabboEncoding
     {
+		// TODO Size of int and short might change depending upon the platform
         private const short ShortLength = sizeof (short);
         private const int IntLength = sizeof (int);
 
@@ -69,6 +70,7 @@ namespace Yupi.Emulator.Messages.Encoding
         /// <returns>System.String.</returns>
         public static string GetCharFilter(string data)
         {
+			// TODO Why are lower ASCII letters replaced?
             for (int i = 0; i <= 13; i++)
                 data = data.Replace(Convert.ToChar(i) + "", "[" + i + "]");
 

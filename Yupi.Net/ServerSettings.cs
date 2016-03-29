@@ -32,19 +32,19 @@ namespace Yupi.Net
 
 		public int Port { get; set; }
 
-		public int MaxWorkingThreads { get; set; }
+		public int MaxWorkingThreads { get; set; } = 0;
 
-		public int MinWorkingThreads { get; set; }
+		public int MinWorkingThreads { get; set; } = 0;
 
-		public int MinIOThreads { get; set; }
+		public int MinIOThreads { get; set; } = 0;
 
-		public int MaxIOThreads { get; set; }
+		public int MaxIOThreads { get; set; } = 0;
 
-		public int BufferSize { get; set; }
+		public int BufferSize { get; set; } = 4096;
 
-		public int Backlog { get; set; }
+		public int Backlog { get; set; } = 100;
 
-		public int MaxConnections { get; set; }
+		public int MaxConnections { get; set; } = 1000;
 	}
 }
 

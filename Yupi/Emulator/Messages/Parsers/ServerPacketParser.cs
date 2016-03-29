@@ -223,19 +223,9 @@ namespace Yupi.Emulator.Messages.Parsers
         /// <param name="offset">The offset.</param>
         private void BufferCopy(byte[] data, int bytes, int offset = 0)
         {
+			// TODO Reimplement properly
             for (int i = 0; i < bytes - offset; i++)
                 _bufferedData[_bufferPos++] = data[i + offset];
-        }
-
-        /// <summary>
-        ///     Buffers the copy.
-        /// </summary>
-        /// <param name="data">The data.</param>
-        /// <param name="bytes">The bytes.</param>
-        private void BufferCopy(byte[] data, int bytes)
-        {
-            for (int i = 0; i < bytes; i++)
-                _bufferedData[_bufferPos++] = data[i];
         }
     }
 }
