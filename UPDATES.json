@@ -1,6 +1,11 @@
 {
   "items": [
     {
+      "title": "Special Thanks to:",
+      "message": "sant0ro, thedoct0r11, killuakira",
+      "color": "DarkRed"
+    },
+    {
       "title": "01/03/2016",
       "message": "Welcome to Yupi Emulator. Enjoy our Work!",
       "color": "DarkCyan"
@@ -18,6 +23,16 @@
     {
       "title": "15/03/2016",
       "message": "Yupi Latest Binaries Released!",
+      "color": "DarkGreen"
+    },
+    {
+      "title": "20/03/2016",
+      "message": "New Collaborator! Felix (TheDoct0r11)",
+      "color": "White"
+    },
+    {
+      "title": "29/03/2016",
+      "message": "Yupi uses now SuperSocket and ready for Linux!",
       "color": "DarkGreen"
     }
   ]
