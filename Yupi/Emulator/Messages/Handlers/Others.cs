@@ -97,7 +97,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 return;
 
             string banReason;
-
+			// TODO Don't compare to false
             if (Session.TryLogin(Request.GetString(), out banReason) == false)
                 Session.Disconnect($"Banned from Server. Reason: {banReason}.", true);
 

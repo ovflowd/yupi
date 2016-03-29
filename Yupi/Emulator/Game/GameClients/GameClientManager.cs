@@ -108,6 +108,12 @@ namespace Yupi.Emulator.Game.GameClients
         /// <returns>GameClient.</returns>
         internal GameClient GetClientByUserId(uint userId) => _userIdRegister.Contains(userId) ? (GameClient) _userIdRegister[userId] : null;
 
+		public GameClient GetClient(ISession session) {
+			GameClient client;
+			Clients.TryGetValue (session, out client);
+			return client;
+		}
+
         /// <summary>
         ///     Gets the name of the client by user.
         /// </summary>
@@ -119,7 +125,12 @@ namespace Yupi.Emulator.Game.GameClients
         ///     Return Online Clients Count
         /// </summary>
         /// <returns>Online Client Count.</returns>
-		internal int GetOnlineClients() => Clients.Values.Count(client => client.GetHabbo().IsOnline);
+		internal int GetOnlineClients() {
+			return Clients.Values.Count (client => {
+				bool? isOnline = client?.GetHabbo ()?.IsOnline;
+				return isOnline.HasValue && (bool)isOnline;
+			});
+		}
 
         /// <summary>
         ///     Gets the name by identifier.

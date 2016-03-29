@@ -28,7 +28,7 @@ using SuperSocket.SocketBase.Protocol;
 
 namespace Yupi.Net.SuperSocketImpl
 {
-	public class SuperSession : AppSession<SuperSession>, ISession
+	public class SuperSession : AppSession<SuperSession, SuperRequestInfo>, ISession
 	{
 		public System.Net.IPAddress RemoteAddress {
 			get {
@@ -36,21 +36,20 @@ namespace Yupi.Net.SuperSocketImpl
 			}
 		}
 
-		// TODO: http://docs.supersocket.net/v1-6/en-US/Implement-Your-Own-Communication-Protocol-with-IRequestInfo,-IReceiveFilter-and-etc
-
+		protected override void HandleUnknownRequest (SuperRequestInfo requestInfo)
+		{
+			// TODO
+		}
+	
 		protected override void OnSessionStarted()
 		{
 			// TODO
 		}
-
-		protected override void HandleUnknownRequest(StringRequestInfo requestInfo)
-		{
-			// TODO
-		}
-
+			
 		protected override void HandleException(Exception e)
 		{
 			// TODO
+			Console.WriteLine(e.ToString());
 			base.HandleException(e);
 		}
 

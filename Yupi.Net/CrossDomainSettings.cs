@@ -47,8 +47,8 @@ namespace Yupi.Net
 			xmlPolicyBytes = Encoding.ASCII.GetBytes(String.Join ("\r\n", lines));
 		}
 
-		public ReadOnlyCollection<byte> GetXML() {
-			return Array.AsReadOnly(xmlPolicyBytes);
+		public byte[] GetXML() {
+			return xmlPolicyBytes;
 		}
     }
 }

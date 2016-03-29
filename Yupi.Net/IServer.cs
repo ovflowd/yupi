@@ -26,8 +26,16 @@ using System;
 
 namespace Yupi.Net
 {
+	public delegate void MessageReceived(ISession session, int id, byte[] body);
+	public delegate void ConnectionOpened(ISession session);
+	public delegate void ConnectionClosed(ISession session);
+
 	public interface IServer
 	{
+		event MessageReceived OnMessageReceived;
+		event ConnectionOpened OnConnectionOpened;
+		event ConnectionClosed OnConnectionClosed;
+
 		/// <summary>
 		/// Starts this server instance.
 		/// </summary>
