@@ -34,7 +34,7 @@ using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Users.Messenger.Structs;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
-using Yupi.Emulator.Net.Connection;
+using Yupi.Net;
 
 namespace Yupi.Emulator.Game.GameClients
 {
@@ -76,14 +76,15 @@ namespace Yupi.Emulator.Game.GameClients
         /// <summary>
         ///     The clients
         /// </summary>
-        internal ConcurrentDictionary<string, GameClient> Clients;
+		internal ConcurrentDictionary<ISession, GameClient> Clients;
+		// TODO Keep reference in Yupi.Net
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="GameClientManager" /> class.
         /// </summary>
         internal GameClientManager()
         {
-            Clients = new ConcurrentDictionary<string, GameClient>();
+			Clients = new ConcurrentDictionary<ISession, GameClient>();
             
             _badgeQueue = new Queue();
             _broadcastQueue = new ConcurrentQueue<byte[]>();
@@ -107,6 +108,12 @@ namespace Yupi.Emulator.Game.GameClients
         /// <returns>GameClient.</returns>
         internal GameClient GetClientByUserId(uint userId) => _userIdRegister.Contains(userId) ? (GameClient) _userIdRegister[userId] : null;
 
+		public GameClient GetClient(ISession session) {
+			GameClient client;
+			Clients.TryGetValue (session, out client);
+			return client;
+		}
+
         /// <summary>
         ///     Gets the name of the client by user.
         /// </summary>
@@ -115,24 +122,15 @@ namespace Yupi.Emulator.Game.GameClients
         internal GameClient GetClientByUserName(string userName) => _userNameRegister.Contains(userName.ToLower()) ? (GameClient) _userNameRegister[userName.ToLower()] : null;
 
         /// <summary>
-        ///     Gets the client.
-        /// </summary>
-        /// <param name="clientAddress">The client identifier.</param>
-        /// <returns>GameClient.</returns>
-        internal GameClient GetClientByAddress(string clientAddress) => Clients.ContainsKey(clientAddress) ? Clients[clientAddress] : null;
-
-        /// <summary>
-        ///     Check if Client is Online
-        /// </summary>
-        /// <param name="clientAddress">The client identifier.</param>
-        /// <returns>bool</returns>
-        internal bool CheckClientOnlineStatus(string clientAddress) => GetClientByAddress(clientAddress)?.GetHabbo()?.IsOnline == true;
-
-        /// <summary>
         ///     Return Online Clients Count
         /// </summary>
         /// <returns>Online Client Count.</returns>
-        internal int GetOnlineClients() => Clients.Values.Count(client => CheckClientOnlineStatus(client.ClientAddress));
+		internal int GetOnlineClients() {
+			return Clients.Values.Count (client => {
+				bool? isOnline = client?.GetHabbo ()?.IsOnline;
+				return isOnline.HasValue && (bool)isOnline;
+			});
+		}
 
         /// <summary>
         ///     Gets the name by identifier.
@@ -246,7 +244,7 @@ namespace Yupi.Emulator.Game.GameClients
             byte[] bytes = message.GetReversedBytes();
 
             foreach (GameClient current in Clients.Values.Where(current => current?.GetHabbo() != null).Where(current => current.GetHabbo().Rank >= 4u))
-                current.GetConnection().ConnectionChannel.WriteAsync(bytes);
+                current.GetConnection().Send(bytes);
         }
 
         /// <summary>
@@ -254,22 +252,21 @@ namespace Yupi.Emulator.Game.GameClients
         /// </summary>
         /// <param name="clientAddress">The client identifier.</param>
         /// <param name="connection">The connection.</param>
-        internal void AddOrUpdateClient(string clientAddress, ConnectionActor connection)
+        internal void AddClient(ISession connection)
         {
-            GameClient gameClient = new GameClient(clientAddress, connection);
+            GameClient gameClient = new GameClient(connection);
 
-            Clients.AddOrUpdate(clientAddress, gameClient, (key, value) => gameClient);
+			Clients.TryAdd(connection, gameClient);
         }
 
         /// <summary>
         ///     Disposes the connection.
         /// </summary>
         /// <param name="clientAddress">The client identifier.</param>
-        internal void RemoveClient(string clientAddress)
+		internal void RemoveClient(ISession connection)
         {
             GameClient client;
-
-            Clients.TryRemove(clientAddress, out client);   
+			Clients.TryRemove(connection, out client);   
         }
 
         /// <summary>
@@ -287,15 +284,6 @@ namespace Yupi.Emulator.Game.GameClients
             GameClient clientByUserId = GetClientByUserId(userId);
 
             clientByUserId?.Disconnect("User is Clone.");
-        }
-
-        /// <summary>
-        ///     Logs the clones out.
-        /// </summary>
-        internal void LogClonesOut(string ipAddress, string connectionId)
-        {
-            foreach(GameClient clientByAddress in Clients.Values.Where(client => client.ClientAddress == ipAddress && client.GetConnection()?.ConnectionId != connectionId && client.GetConnection()?.HandShakeCompleted == true))
-                clientByAddress.CompleteDisconnect("Only one User per Ip Address");
         }
 
         /// <summary>
@@ -420,7 +408,7 @@ namespace Yupi.Emulator.Game.GameClients
             _broadcastQueue.TryDequeue(out bytes);
 
             foreach (GameClient current in Clients.Values.Where(current => current?.GetConnection() != null))
-                current.GetConnection().ConnectionChannel.WriteAsync(bytes);
+                current.GetConnection().Send(bytes);
         }
     }
 }

@@ -308,9 +308,6 @@ namespace Yupi.Emulator.Game
                 Progress(bar, wait, end, "Loading Cache Manager...");
                 CacheManager.StartProcess();
 
-                Progress(bar, wait, end, "Loading Cross Domain Data...");
-                CrossDomainSettings.Set();
-
                 Progress(bar, wait, end, "Loading Pets Types...");
                 PetTypeManager.Load();
 

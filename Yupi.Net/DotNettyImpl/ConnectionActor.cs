@@ -24,20 +24,15 @@
 
 using System.Net;
 using DotNetty.Transport.Channels;
-using Yupi.Emulator.Messages.Parsers;
 
-namespace Yupi.Emulator.Net.Connection
+namespace Yupi.Net.DotNettyImpl
 {
+	// TODO Delete
     /// <summary>
     ///     Class ConnectionActor.
     /// </summary>
-    public class ConnectionActor
-    {
-        /// <summary>
-        ///     Data Parser
-        /// </summary>
-        public ServerPacketParser DataParser;
-
+    public class ConnectionActorDELETE
+	{
         /// <summary>
         ///     Connection Id
         /// </summary>
@@ -53,25 +48,14 @@ namespace Yupi.Emulator.Net.Connection
         /// </summary>
         public IChannel ConnectionChannel;
 
-        /// <summary>
-        ///     Is in HandShake Process
-        /// </summary>
-        internal bool HandShakeCompleted;
-
-        /// <summary>
-        ///     Is in HandShake Process
-        /// </summary>
-        internal bool HandShakePartialCompleted;
 
         /// <summary>
         ///     Count of Same IP Connection.
         /// </summary>
         internal int SameHandledCount;
 
-        public ConnectionActor(ServerPacketParser dataParser, IChannel context)
+		public ConnectionActorDELETE(IChannel context)
         {
-            DataParser = dataParser;
-
             ConnectionChannel = context;
 
             ConnectionId = context.Id.ToString();
@@ -79,17 +63,11 @@ namespace Yupi.Emulator.Net.Connection
             IpAddress = (context.RemoteAddress as IPEndPoint)?.Address.ToString();
 
             SameHandledCount = 0;
-
-            HandShakeCompleted = false;
-
-            HandShakePartialCompleted = false;
         }
 
         public void Close()
         {
             ConnectionChannel?.Flush();
-
-            DataParser?.Dispose();
         }
 
         public void CompleteClose()

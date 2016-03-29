@@ -175,6 +175,22 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="SuperSocket.Common">
+      <HintPath>..\packages\SuperSocket.1.6.6\lib\net45\SuperSocket.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.SocketBase">
+      <HintPath>..\packages\SuperSocket.1.6.6\lib\net45\SuperSocket.SocketBase.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.Facility">
+      <HintPath>..\packages\SuperSocket.1.6.6\lib\net45\SuperSocket.Facility.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Configuration" />
+    <Reference Include="SuperSocket.SocketEngine">
+      <HintPath>..\packages\SuperSocket.Engine.1.6.6\lib\net45\SuperSocket.SocketEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.SocketService">
+      <HintPath>..\packages\SuperSocket.Engine.1.6.6\lib\net45\SuperSocket.SocketService.exe</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -265,10 +281,6 @@
     <Compile Include="Emulator\Messages\Handlers\MessageHandler.cs" />
     <Compile Include="Emulator\Messages\Library\PacketLibrary.cs" />
     <Compile Include="Emulator\Messages\StaticMessagesManager.cs" />
-    <Compile Include="Emulator\Net\Connection\ConnectionSecurity.cs" />
-    <Compile Include="Emulator\Net\Handlers\ConnectionHandler.cs" />
-    <Compile Include="Emulator\Net\Connection\ConnectionManager.cs" />
-    <Compile Include="Emulator\Net\Settings\ServerFactorySettings.cs" />
     <Compile Include="Emulator\Net\Web\WebManager.cs" />
     <Compile Include="Emulator\Data\FurnitureDataManager.cs" />
     <Compile Include="Emulator\Data\Structs\FurnitureData.cs" />
@@ -438,7 +450,6 @@
     <Compile Include="Emulator\Game\Commands\Controllers\Unload.cs" />
     <Compile Include="Emulator\Game\Commands\Controllers\UnMute.cs" />
     <Compile Include="Emulator\Game\Commands\Controllers\UserInfo.cs" />
-    <Compile Include="Emulator\Core\Security\CrossDomainSettings.cs" />
     <Compile Include="Emulator\Game\Users\Figures\AvatarFigureParts.cs" />
     <Compile Include="Emulator\Data\ServerStatusUpdater.cs" />
     <Compile Include="Emulator\Game\Browser\Models\NavigatorHeader.cs" />
@@ -581,7 +592,6 @@
     <Compile Include="Emulator\Core\Security\UserChatInputFilter.cs" />
     <Compile Include="Emulator\Core\Settings\ServerDatabaseSettings.cs" />
     <Compile Include="Emulator\Core\Settings\ServerConfigurationSettings.cs" />
-    <Compile Include="Emulator\Net\Connection\ConnectionActor.cs" />
     <Compile Include="Emulator\Core\Settings\ConsoleCommandHandler.cs" />
     <Compile Include="Emulator\Core\Settings\ServerExtraSettings.cs" />
     <Compile Include="Emulator\Game\Achievements\Structs\Achievement.cs" />
@@ -716,6 +726,10 @@
     <None Include="packages.config" />
     <None Include="Properties\App.config" />
     <None Include="Properties\app.manifest" />
+    <None Include="Config\log4net.config" />
+    <None Include="Config\log4net.unix.config" />
+    <None Include="supersocket.cmd" />
+    <None Include="supersocket.sh" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\Yupi.ico" />
@@ -744,4 +758,10 @@
     <Revision>0</Revision>
     <Hash>0</Hash>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Yupi.Net\Yupi.Net.csproj">
+      <Project>{8D09AE29-53E7-405D-9F9E-CDDE1164851A}</Project>
+      <Name>Yupi.Net</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

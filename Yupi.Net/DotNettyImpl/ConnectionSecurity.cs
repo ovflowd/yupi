@@ -23,27 +23,25 @@
 */
 
 using System.Collections.Generic;
-using Yupi.Emulator.Core.Io.Logger;
-using Yupi.Emulator.Net.Settings;
 
-namespace Yupi.Emulator.Net.Connection
+namespace Yupi.Net.DotNettyImpl
 {
     class ConnectionSecurity
     {
         /// <summary>
         ///     Server Connections By IP Address
         /// </summary>
-        internal static Dictionary<string, uint> ServerClientConnectionsByAddress;
+        private Dictionary<string, uint> ServerClientConnectionsByAddress;
 
         /// <summary>
         ///     Blocked Client Connections By IP Address
         /// </summary>
-        internal static List<string> BlockedClientConnectionsByAddress;
+		private List<string> BlockedClientConnectionsByAddress;
 
         /// <summary>
         ///     Initialize Security Manager
         /// </summary>
-        internal static void Init()
+		public ConnectionSecurity()
         {
             ServerClientConnectionsByAddress = new Dictionary<string, uint>();
 
@@ -51,62 +49,59 @@ namespace Yupi.Emulator.Net.Connection
         }
 
         /// <summary>
-        ///     Add new Client to List
+        ///     Add Client
         /// </summary>
-        internal static void AddNewClient(string clientAddress)
-            => ServerClientConnectionsByAddress.Add(clientAddress, 1);
-
-        /// <summary>
-        ///     Add Client Count
-        /// </summary>
-        internal static void AddClientCount(string clientAddress)
+        public void AddClient(string clientAddress)
         {
-            if (ServerClientConnectionsByAddress.ContainsKey(clientAddress))
-                ServerClientConnectionsByAddress[clientAddress]++;
+			if (ServerClientConnectionsByAddress.ContainsKey (clientAddress)) {
+				ServerClientConnectionsByAddress [clientAddress]++;
+			} else {
+				ServerClientConnectionsByAddress.Add (clientAddress, 1);
+			}
         }
 
         /// <summary>
-        ///     Remove Client Count
+        ///     Remove Client
         /// </summary>
-        internal static void RemoveClientCount(string clientAddress)
+        public void RemoveClient(string clientAddress)
         {
-            if (ServerClientConnectionsByAddress.ContainsKey(clientAddress))
-                ServerClientConnectionsByAddress[clientAddress]--;
+			if (ServerClientConnectionsByAddress.ContainsKey (clientAddress)) {
+				// TODO Should never get < 0
+				ServerClientConnectionsByAddress [clientAddress]--;
+			}
         }
 
         /// <summary>
         ///     Get Client Count
         /// </summary>
-        internal static uint GetClientCount(string clientAddress)
+        private uint GetClientCount(string clientAddress)
         {
             if (ServerClientConnectionsByAddress.ContainsKey(clientAddress))
                 return ServerClientConnectionsByAddress[clientAddress];
 
-            AddClientCount(clientAddress);
-
-            return 1;
+			return 0;
         }
 
         /// <summary>
         ///     Check Availability of New Connection
         /// </summary>
-        internal static bool CheckAvailability(string clientAddress)
+		public bool CheckClient(string clientAddress)
         {
             if (BlockedClientConnectionsByAddress.Contains(clientAddress))
                 return false;
 
-            if (!ServerFactorySettings.EnableDisconnectWhenReachMaxConnectionsLimit)
-                return true;
-
             if (!ServerClientConnectionsByAddress.ContainsKey(clientAddress))
             {
-                AddNewClient(clientAddress);
+                AddClient(clientAddress);
 
                 return true;
             }
 
+			// TODO Reimplement max connections
+			/*
             if (GetClientCount(clientAddress) >= ServerFactorySettings.MaxConnectionsByAddress)
             {
+                // TODO Drop all connections of this IP ?
                 if (!BlockedClientConnectionsByAddress.Contains(clientAddress))
                 {
                     BlockedClientConnectionsByAddress.Add(clientAddress);
@@ -116,8 +111,8 @@ namespace Yupi.Emulator.Net.Connection
 
                 return false;
             }
-
-            AddClientCount(clientAddress);
+            */
+            AddClient(clientAddress);
 
             return true;
         }

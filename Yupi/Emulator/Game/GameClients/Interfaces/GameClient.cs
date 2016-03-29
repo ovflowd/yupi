@@ -11,7 +11,9 @@ using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Enums;
 using Yupi.Emulator.Messages.Handlers;
-using Yupi.Emulator.Net.Connection;
+using Yupi.Net;
+using Yupi.Emulator.Messages.Parsers.Interfaces;
+using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.GameClients.Interfaces
 {
@@ -23,7 +25,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         /// <summary>
         ///     The Client Connection
         /// </summary>
-        private ConnectionActor _connection;
+        private ISession _connection;
 
         /// <summary>
         ///     The _habbo
@@ -60,26 +62,26 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         /// </summary>
         internal DateTime TimePingedReceived;
 
-        /// <summary>
-        ///     Gets the connection identifier.
-        /// </summary>
-        /// <value>The connection identifier.</value>
-        internal string ClientAddress;
+		// TODO Refactor to IDataParser
+		public ServerPacketParser DataParser;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="GameClient" /> class.
         /// </summary>
         /// <param name="clientId">The client identifier.</param>
         /// <param name="connection">The connection.</param>
-        internal GameClient(string clientId, ConnectionActor connection)
+		internal GameClient(ISession connection)
         {
-            ClientAddress = clientId;
-
             _connection = connection;
 
-            _connection.DataParser.SetConnection(_connection, this);
+			DataParser = new ServerPacketParser ();
+            DataParser.SetConnection(this);
 
             CurrentRoomUserId = -1;
+
+			_messageHandler = new MessageHandler(this);
+
+			TimePingedReceived = DateTime.Now;
         }
 
         /// <summary>
@@ -115,7 +117,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
                 }
 
                 string alert = settings.Alert.Replace("{0}", userPublicist.UserName);
-
+				// TODO use format
                 alert = alert.Replace("{1}", userPublicist.Id.ToString());
                 alert = alert.Replace("{2}", word);
                 alert = alert.Replace("{3}", message);
@@ -160,7 +162,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         ///     Gets the connection.
         /// </summary>
         /// <returns>ConnectionInformation.</returns>
-        internal ConnectionActor GetConnection() => _connection;
+		internal ISession GetConnection() => _connection;
 
         /// <summary>
         ///     Gets the message handler.
@@ -173,20 +175,6 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         /// </summary>
         /// <returns>Habbo.</returns>
         internal Habbo GetHabbo() => _habbo;
-
-        /// <summary>
-        ///     Initializes the handler.
-        /// </summary>
-        internal void InitHandler()
-        {
-            _messageHandler = new MessageHandler(this);
-
-            _connection.DataParser.SetConnection(_connection, this);
-
-            _connection.HandShakeCompleted = true;
-
-            TimePingedReceived = DateTime.Now;
-        }
 
         /// <summary>
         ///     Tries the login.
@@ -203,7 +191,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
                 if (string.IsNullOrWhiteSpace(authTicket))
                     return false;
 
-                string ip = GetConnection().ConnectionId;
+				string ip = GetConnection().RemoteAddress.ToString();
 
                 if (string.IsNullOrEmpty(ip))
                     return false;
@@ -214,7 +202,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
 
                 if (userData?.User == null)
                     return false;
-
+				// TODO Magic Number
                 if (errorCode == 1 || errorCode == 2)
                     return false;
 
@@ -452,43 +440,11 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         /// <param name="showConsole"></param>
         internal void Disconnect(string reason = "Left Game", bool showConsole = false)
         {
-            if (GetConnection().HandShakeCompleted)
-            {
-                GetHabbo()?.RunDbUpdate();
 
-                GetHabbo()?.OnDisconnect(reason, showConsole);
-
-                GetMessageHandler()?.Destroy();
-            }
-
+            GetHabbo()?.RunDbUpdate();
+            GetHabbo()?.OnDisconnect(reason, showConsole);
+            GetMessageHandler()?.Destroy();
             GetConnection()?.Close();
-
-            CurrentRoomUserId = -1;
-
-            _messageHandler = null;
-
-            _habbo = null;
-
-            _connection = null;
-        }
-
-        /// <summary>
-        ///     Disconnects the specified reason.
-        /// </summary>
-        /// <param name="reason">The reason.</param>
-        /// <param name="showConsole"></param>
-        internal void CompleteDisconnect(string reason = "Left Game", bool showConsole = false)
-        {
-            if (GetConnection().HandShakeCompleted)
-            {
-                GetHabbo()?.RunDbUpdate();
-
-                GetHabbo()?.OnDisconnect(reason, showConsole);
-
-                GetMessageHandler()?.Destroy();
-            }
-
-            GetConnection()?.CompleteClose();
 
             CurrentRoomUserId = -1;
 
@@ -513,7 +469,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
 
             byte[] bytes = message.GetReversedBytes();
 
-            GetConnection().ConnectionChannel.WriteAsync(bytes);
+            GetConnection().Send(bytes);
         }
 
         /// <summary>
@@ -525,7 +481,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
             if (GetConnection() == null)
                 return;
 
-            GetConnection().ConnectionChannel.WriteAsync(bytes);
+            GetConnection().Send(bytes);
         }
 
         /// <summary>
@@ -537,7 +493,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
             if (GetConnection() == null)
                 return;
 
-            GetConnection().ConnectionChannel.WriteAsync(StaticMessagesManager.Get(type));
+            GetConnection().Send(StaticMessagesManager.Get(type));
         }
     }
 }

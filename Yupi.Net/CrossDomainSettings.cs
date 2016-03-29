@@ -21,25 +21,34 @@
    Corporation Oy. Yupi! has nothing linked with Sulake. 
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
+using System.Text;
+using System;
+using System.Collections.ObjectModel;
 
-using Yupi.Emulator.Core.Settings;
-
-namespace Yupi.Emulator.Core.Security
+namespace Yupi.Net
 {
     /// <summary>
-    ///     Class CrossdomainPolicy.
+    ///     Cross Domain Policy for Adobe Flash Player
     /// </summary>
-    internal static class CrossDomainSettings
+    class CrossDomainSettings
     {
-        internal static byte[] XmlPolicyBytes;
+        private byte[] xmlPolicyBytes;
 
-        internal static void Set()
-        {
-            XmlPolicyBytes =
-                Yupi.GetDefaultEncoding()
-                    .GetBytes(
-                        "<?xml version=\"1.0\"?>\r\n<!DOCTYPE cross-domain-policy SYSTEM \"/xml/dtds/cross-domain-policy.dtd\">\r\n<cross-domain-policy>\r\n<allow-access-from domain=\"*\" to-ports=\"" +
-                        ServerConfigurationSettings.Data["game.tcp.port.proxy"] + "\" />\r\n</cross-domain-policy>\0");
-        }
+		public CrossDomainSettings(string domain, int port) {
+			string[] lines = new string[]
+			{
+				"<?xml version=\"1.0\"?>",
+				"<!DOCTYPE cross-domain-policy SYSTEM \"/xml/dtds/cross-domain-policy.dtd\">",
+				"<cross-domain-policy>",
+				"<allow-access-from domain=\""+ domain +"\" to-ports=\"" + port + "\" />",
+				"</cross-domain-policy>\0"
+			};
+
+			xmlPolicyBytes = Encoding.ASCII.GetBytes(String.Join ("\r\n", lines));
+		}
+
+		public byte[] GetXML() {
+			return xmlPolicyBytes;
+		}
     }
 }

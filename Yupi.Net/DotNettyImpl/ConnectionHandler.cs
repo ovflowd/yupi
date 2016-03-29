@@ -27,16 +27,26 @@ using System.Net;
 using System.Threading.Tasks;
 using DotNetty.Buffers;
 using DotNetty.Transport.Channels;
-using Yupi.Emulator.Core.Security;
-using Yupi.Emulator.Game.GameClients;
-using Yupi.Emulator.Game.GameClients.Interfaces;
-using Yupi.Emulator.Net.Connection;
 
-namespace Yupi.Emulator.Net.Handlers
+namespace Yupi.Net.DotNettyImpl
 {
-    public class ConnectionHandler : ChannelHandlerAdapter
+	public class ConnectionHandler : ChannelHandlerAdapter, ISession
     {
-        internal static GameClientManager GetClient() => Yupi.GetGame().GetClientManager();
+		private IChannel Channel;
+
+		public System.Net.IPAddress RemoteAddress {
+			get {
+				return (Channel.RemoteAddress as IPEndPoint)?.Address;
+			}
+		}
+
+		public ConnectionHandler(IChannel channel) {
+			this.Channel = channel;
+		}
+
+		public void Close() {
+			Channel.CloseAsync ();
+		}
 
         public override Task CloseAsync(IChannelHandlerContext context)
         {
@@ -44,47 +54,43 @@ namespace Yupi.Emulator.Net.Handlers
 
             if (clientAddress != null)
             {
-                GetClient().RemoveClient(clientAddress);
+				/*
+				if (client?.GetConnection()?.HandShakeCompleted == true && client.GetConnection()?.ConnectionId == context.Channel?.Id?.ToString())
+					client.CompleteDisconnect("Left Game", true);
 
-                ConnectionActor connectionActor;
+				ConnectionSecurity.RemoveClient(clientAddress);
 
-                ConnectionManager.ClientConnections.TryRemove(clientAddress, out connectionActor);
+                 GetClient().RemoveClient(clientAddress);   
+				// TODO Close callback
+				*/
             }
 
             return context.CloseAsync();
         }
 
-        public override void ChannelUnregistered(IChannelHandlerContext context)
+		// TODO Should be handled by application logic, not network logic
+		/*
+        public void ChannelInitialRead(IChannelHandlerContext context, byte[] dataBytes)
         {
-            string clientAddress = (context.Channel.RemoteAddress as IPEndPoint)?.Address.ToString();
+			if (dataBytes [0] == 60) {
+				WriteAsync (context, CrossDomainSettings.GetXML());
+				// TODO CLOSE
+			} else if (dataBytes [0] != 67) {
+				client?.InitHandler ();
+			}
 
-            if (clientAddress != null)
-            {
-                GameClient client = GetClient().GetClientByAddress(clientAddress);
-
-                if (client?.GetConnection()?.HandShakeCompleted == true && client.GetConnection()?.ConnectionId == context.Channel?.Id?.ToString())
-                    client.CompleteDisconnect("Left Game", true);
-
-                ConnectionSecurity.RemoveClientCount(clientAddress);
-            }
-        }
-
-        public void ChannelInitialRead(IChannelHandlerContext context, GameClient client, byte[] dataBytes)
-        {
-            if (dataBytes[0] == 60)
-                WriteAsync(context, CrossDomainSettings.XmlPolicyBytes);
-            else if (dataBytes[0] != 67)
-                client?.InitHandler();
-        }
-
+        }*/
+		
+		// TODO Use callback
         public override void ChannelRead(IChannelHandlerContext context, object message)
         {
             IByteBuffer dataBuffer = message as IByteBuffer;
 
             if (dataBuffer != null)
             {
-                string clientAddress = (context.Channel.RemoteAddress as IPEndPoint)?.Address.ToString();
+              //  string clientAddress = (context.Channel.RemoteAddress as IPEndPoint)?.Address.ToString();
 
+				/*
                 GameClient client = GetClient().GetClientByAddress(clientAddress);
 
                 if (client?.GetConnection() != null)
@@ -101,7 +107,7 @@ namespace Yupi.Emulator.Net.Handlers
                         client.GetConnection().DataParser.HandlePacketData(dataBytes, dataBytes.Length);
 
                     return;
-                }
+                }*/
             }
 
             context.WriteAndFlushAsync(message);
@@ -109,10 +115,24 @@ namespace Yupi.Emulator.Net.Handlers
 
         public override void ExceptionCaught(IChannelHandlerContext context, Exception exception)
         {
-            // ignored.
+			context.CloseAsync();
+			// TODO Log warning
         }
 
-        public override void ChannelReadComplete(IChannelHandlerContext context) => context.Flush();
+		public override void ChannelReadComplete(IChannelHandlerContext context)
+		{
+			context.Flush();
+		}
+
+		public void Send (byte[] data)
+		{
+			this.Channel.WriteAsync (data);
+		}
+
+		public void Send (ArraySegment<byte> data)
+		{
+			Send (data);
+		}
 
         public override Task WriteAsync(IChannelHandlerContext context, object message)
         {
@@ -126,23 +146,14 @@ namespace Yupi.Emulator.Net.Handlers
 
         public override void ChannelRegistered(IChannelHandlerContext context)
         {
+			// TODO Callback
+			/*
             string clientAddress = (context.Channel.RemoteAddress as IPEndPoint)?.Address.ToString();
 
             if (clientAddress != null)
             {
-                ConnectionActor connectionActor;
-
-                ConnectionManager.ClientConnections.TryGetValue(clientAddress, out connectionActor);
-
-                if (connectionActor != null)
-                {
-                    connectionActor.SameHandledCount++;
-
                     Yupi.GetGame().GetClientManager()?.AddOrUpdateClient(clientAddress, connectionActor);
-
-                    Yupi.GetGame().GetClientManager()?.LogClonesOut(clientAddress, connectionActor.ConnectionId);
-                }
-            }
+            }*/
         }
     }
 }
