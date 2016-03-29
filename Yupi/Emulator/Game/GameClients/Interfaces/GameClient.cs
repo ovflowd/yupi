@@ -63,7 +63,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         internal DateTime TimePingedReceived;
 
 		// TODO Refactor to IDataParser
-		private ServerPacketParser DataParser;
+		public ServerPacketParser DataParser;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="GameClient" /> class.
@@ -78,6 +78,10 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
             DataParser.SetConnection(this);
 
             CurrentRoomUserId = -1;
+
+			_messageHandler = new MessageHandler(this);
+
+			TimePingedReceived = DateTime.Now;
         }
 
         /// <summary>
@@ -173,16 +177,6 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         internal Habbo GetHabbo() => _habbo;
 
         /// <summary>
-        ///     Initializes the handler.
-        /// </summary>
-        internal void InitHandler()
-        {
-            _messageHandler = new MessageHandler(this);
-
-            TimePingedReceived = DateTime.Now;
-        }
-
-        /// <summary>
         ///     Tries the login.
         /// </summary>
         /// <param name="authTicket">The authentication ticket.</param>
@@ -208,7 +202,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
 
                 if (userData?.User == null)
                     return false;
-
+				// TODO Magic Number
                 if (errorCode == 1 || errorCode == 2)
                     return false;
 

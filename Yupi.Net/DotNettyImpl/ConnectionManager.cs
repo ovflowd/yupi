@@ -34,6 +34,12 @@ namespace Yupi.Net.DotNettyImpl
 {
 	class ConnectionManager : IServer
 	{
+		public event MessageReceived OnMessageReceived;
+
+		public event ConnectionOpened OnConnectionOpened;
+
+		public event ConnectionClosed OnConnectionClosed;
+
 		/// <summary>
 		///     Server Channel
 		/// </summary>

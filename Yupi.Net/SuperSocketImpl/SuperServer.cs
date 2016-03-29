@@ -25,15 +25,62 @@
 using System;
 using SuperSocket.SocketBase;
 using SuperSocket.SocketBase.Config;
+using SuperSocket.SocketBase.Protocol;
+using DotNetty.Transport.Bootstrapping;
+using SuperSocket.SocketBase.Logging;
 
 namespace Yupi.Net.SuperSocketImpl
 {
-	public class SuperServer : AppServer<SuperSession>, IServer
+	public class SuperServer : AppServer<SuperSession, SuperRequestInfo>, IServer
 	{
-		public SuperServer (IServerSettings settings)
-		{
-			RootConfig rootConfig = new RootConfig ();
+		public event MessageReceived OnMessageReceived = delegate{};
 
+		public event ConnectionOpened OnConnectionOpened = delegate{};
+
+		public event ConnectionClosed OnConnectionClosed = delegate{};
+
+		private CrossDomainSettings crossDomainSettings;
+
+		public SuperServer (IServerSettings settings) : base(new DefaultReceiveFilterFactory<SuperReceiveFilter, SuperRequestInfo>())
+		{
+			// TODO Add cross domain from host to settings
+			crossDomainSettings = new CrossDomainSettings ("*", settings.Port);
+
+			IRootConfig rootConfig = CreateRootConfig (settings);
+	
+			IServerConfig config = CreateServerConfig (settings);
+		
+			// TODO Switch LogFactory
+			Setup (rootConfig, config, logFactory: new ConsoleLogFactory());
+	
+			base.NewRequestReceived += (session, requestInfo) => {
+				if(requestInfo.Id == 0) {
+					session.Send(crossDomainSettings.GetXML());
+				} else {
+					OnMessageReceived (session, requestInfo.Id, requestInfo.Body);
+				}
+			};
+
+			base.NewSessionConnected += (session) => OnConnectionOpened(session);
+
+			base.SessionClosed += (SuperSession session, CloseReason value) => OnConnectionClosed(session);
+		}
+
+		private IServerConfig CreateServerConfig(IServerSettings settings) {
+			
+			ServerConfig config = new ServerConfig ();
+			config.Ip = settings.IP;
+			config.Port = settings.Port;
+			config.ReceiveBufferSize = settings.BufferSize;
+			config.SendBufferSize = settings.BufferSize;
+			config.ListenBacklog = settings.Backlog;
+			config.MaxConnectionNumber = settings.MaxConnections;
+
+			return config;
+		}
+
+		private IRootConfig CreateRootConfig(IServerSettings settings) {
+			RootConfig rootConfig = new RootConfig ();
 			if(settings.MaxWorkingThreads != 0)
 				rootConfig.MaxWorkingThreads = settings.MaxWorkingThreads;
 
@@ -42,19 +89,11 @@ namespace Yupi.Net.SuperSocketImpl
 
 			if(settings.MaxIOThreads != 0)
 				rootConfig.MaxCompletionPortThreads = settings.MaxIOThreads;
-			
+
 			if(settings.MinIOThreads != 0)
 				rootConfig.MinCompletionPortThreads = settings.MinIOThreads;
-	
-			ServerConfig config = new ServerConfig ();
-			config.Ip = settings.IP;
-			config.Port = settings.Port;
-			config.ReceiveBufferSize = settings.BufferSize;
-			config.SendBufferSize = settings.BufferSize;
-			config.ListenBacklog = settings.Backlog;
-			config.MaxConnectionNumber = settings.MaxConnections;
-		    
-			Setup (rootConfig, config);
+
+			return rootConfig;
 		}
 	}
 }

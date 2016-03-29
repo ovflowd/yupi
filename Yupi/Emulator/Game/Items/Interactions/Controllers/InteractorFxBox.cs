@@ -54,7 +54,7 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
                 {
                     session.GetHabbo().GetAvatarEffectsInventoryComponent().AddNewEffect(effectId, -1, 0);
                     session.GetHabbo().GetAvatarEffectsInventoryComponent().ActivateCustomEffect(effectId);
-
+					// TODO Is there a better way to do this delay? (Schedule on next tick perhaps?)
                     Thread.Sleep(500); //Wait 0.5 second until remove furniture. (Delay)
 
                     room.GetRoomItemHandler().RemoveFurniture(session, item.Id, false);
