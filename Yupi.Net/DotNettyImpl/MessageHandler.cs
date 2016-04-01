@@ -32,16 +32,19 @@ namespace Yupi.Net.DotNettyImpl
 {
 	public class MessageHandler : ChannelHandlerAdapter, ISession
     {
-		private IChannel Channel;
-		private MessageReceived OnMessage;
-		private ConnectionClosed OnConnectionClosed;
-		private ConnectionOpened OnConnectionOpened;
-
 		public IPAddress RemoteAddress {
 			get {
 				return ((IPEndPoint)Channel.RemoteAddress).Address;
 			}
 		}
+
+		private IChannel Channel;
+		private MessageReceived OnMessage;
+		private ConnectionClosed OnConnectionClosed;
+		private ConnectionOpened OnConnectionOpened;
+
+		private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger
+			(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
 		public MessageHandler (IChannel channel, MessageReceived onMessage, ConnectionClosed onConnectionClosed, ConnectionOpened onConnectionOpened)
 		{
@@ -70,8 +73,8 @@ namespace Yupi.Net.DotNettyImpl
 
         public override void ExceptionCaught(IChannelHandlerContext context, Exception exception)
         {
+			Logger.Warn ("A networking error occured", exception);
 			context.CloseAsync();
-			// TODO Log warning
         }
 
 		public void Send (byte[] data)

@@ -35,11 +35,11 @@ namespace Yupi.Net.SuperSocketImpl
 				return RemoteEndPoint.Address;
 			}
 		}
-			
+
 		protected override void HandleException(Exception e)
 		{
-			// TODO Log warning
-			base.HandleException(e);
+			Logger.Warn ("A networking error occured", e);
+			Disconnect ();
 		}
 
 		public void Send (byte[] data)

@@ -49,8 +49,7 @@ namespace Yupi.Net.SuperSocketImpl
 	
 			IServerConfig config = CreateServerConfig (settings);
 		
-			// TODO Switch LogFactory
-			Setup (rootConfig, config, logFactory: new ConsoleLogFactory());
+			Setup (rootConfig, config, logFactory: new Log4NetLogFactory());
 		
 			base.NewRequestReceived += HandleRequest;
 

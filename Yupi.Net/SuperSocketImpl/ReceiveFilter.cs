@@ -14,7 +14,7 @@ namespace Yupi.Net.SuperSocketImpl
 
 		protected override int GetBodyLengthFromHeader(byte[] header, int offset, int length)
 		{
-			return BinaryHelper.ToInt32(header, offset);
+			return BinaryHelper.ToInt(header, offset);
 		}
 
 		protected override RequestInfo ResolveRequestInfo(ArraySegment<byte> header, byte[] bodyBuffer, int offset, int length)

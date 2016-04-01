@@ -4,7 +4,7 @@ namespace Yupi.Net
 {
 	public class BinaryHelper
 	{
-		public static int ToInt32(byte[] data, int offset = 0) {
+		public static int ToInt(byte[] data, int offset = 0) {
 			CheckRange(data, offset, 4);
 
 			return (data[offset] << 24) | (data[offset + 1] << 16) | (data[offset + 2] << 8) | (data[offset + 3]);
