@@ -63,6 +63,11 @@ namespace Yupi.Net.SuperSocketImpl
 			// TODO
 			base.OnSessionClosed(reason);
 		}
+
+		public void Disconnect ()
+		{
+			base.Close ();
+		}
 	}
 }
 

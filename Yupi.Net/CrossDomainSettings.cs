@@ -30,7 +30,7 @@ namespace Yupi.Net
     /// <summary>
     ///     Cross Domain Policy for Adobe Flash Player
     /// </summary>
-    class CrossDomainSettings
+    public class CrossDomainSettings
     {
         private byte[] xmlPolicyBytes;
 
@@ -47,7 +47,7 @@ namespace Yupi.Net
 			xmlPolicyBytes = Encoding.ASCII.GetBytes(String.Join ("\r\n", lines));
 		}
 
-		public byte[] GetXML() {
+		public byte[] GetBytes() {
 			return xmlPolicyBytes;
 		}
     }

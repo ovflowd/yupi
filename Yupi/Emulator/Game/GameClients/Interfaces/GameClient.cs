@@ -444,7 +444,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
             GetHabbo()?.RunDbUpdate();
             GetHabbo()?.OnDisconnect(reason, showConsole);
             GetMessageHandler()?.Destroy();
-            GetConnection()?.Close();
+            GetConnection()?.Disconnect();
 
             CurrentRoomUserId = -1;
 

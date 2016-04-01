@@ -55,13 +55,13 @@ namespace Yupi.Net.SuperSocketImpl
 	
 			base.NewRequestReceived += (session, requestInfo) => {
 				if(requestInfo.Id == 0) {
-					session.Send(crossDomainSettings.GetXML());
+					session.Send(crossDomainSettings.GetBytes());
 				} else {
 					OnMessageReceived (session, requestInfo.Id, requestInfo.Body);
 				}
 			};
 
-			base.NewSessionConnected += (session) => OnConnectionOpened(session);
+			base.NewSessionConnected += (SuperSession session) => OnConnectionOpened(session);
 
 			base.SessionClosed += (SuperSession session, CloseReason value) => OnConnectionClosed(session);
 		}

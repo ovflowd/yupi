@@ -33,7 +33,7 @@ namespace Yupi.Net
 
 		void Send(ArraySegment<byte> data);
 		void Send(byte[] data);
-		void Close();
+		void Disconnect();
 	}
 }
 

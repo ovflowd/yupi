@@ -60,15 +60,15 @@
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="DotNetty.Codecs">
+      <HintPath>..\packages\DotNetty.Codecs-signed.0.2.3\lib\net45\DotNetty.Codecs.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SuperSocketImpl\SuperServer.cs" />
     <Compile Include="SuperSocketImpl\SuperSession.cs" />
     <Compile Include="DotNettyImpl\ConnectionManager.cs" />
-    <Compile Include="DotNettyImpl\ConnectionActor.cs" />
-    <Compile Include="DotNettyImpl\ConnectionSecurity.cs" />
-    <Compile Include="DotNettyImpl\ConnectionHandler.cs" />
     <Compile Include="IServerSettings.cs" />
     <Compile Include="ServerSettings.cs" />
     <Compile Include="ISession.cs" />
@@ -77,6 +77,10 @@
     <Compile Include="SuperSocketImpl\SuperReceiveFilter.cs" />
     <Compile Include="BinaryHelper.cs" />
     <Compile Include="SuperSocketImpl\SuperRequestInfo.cs" />
+    <Compile Include="DotNettyImpl\HeaderDecoder.cs" />
+    <Compile Include="DotNettyImpl\MessageHandler.cs" />
+    <Compile Include="ConnectionSecurity.cs" />
+    <Compile Include="DotNettyImpl\FlashPolicyHandler.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

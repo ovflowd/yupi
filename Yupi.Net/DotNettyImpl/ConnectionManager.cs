@@ -34,11 +34,11 @@ namespace Yupi.Net.DotNettyImpl
 {
 	class ConnectionManager : IServer
 	{
-		public event MessageReceived OnMessageReceived;
+		public event MessageReceived OnMessageReceived = delegate {};
 
-		public event ConnectionOpened OnConnectionOpened;
+		public event ConnectionOpened OnConnectionOpened = delegate {};
 
-		public event ConnectionClosed OnConnectionClosed;
+		public event ConnectionClosed OnConnectionClosed = delegate {};
 
 		/// <summary>
 		///     Server Channel
@@ -56,12 +56,13 @@ namespace Yupi.Net.DotNettyImpl
 		private IEventLoopGroup ChildServerWorkers;
 
 		private IServerSettings Settings;
-		private ConnectionSecurity Security;
 
-		public ConnectionManager (IServerSettings settings)
+		private CrossDomainSettings FlashPolicy;
+
+		public ConnectionManager (IServerSettings settings, CrossDomainSettings flashPolicy)
 		{
 			this.Settings = settings;
-			this.Security = new ConnectionSecurity ();
+			this.FlashPolicy = flashPolicy;
 		}
 		
 		public bool Start()
@@ -74,6 +75,9 @@ namespace Yupi.Net.DotNettyImpl
 			{
 				ServerBootstrap server = new ServerBootstrap();
 
+				HeaderDecoder headerDecoder = new HeaderDecoder();
+				FlashPolicyHandler flashHandler = new FlashPolicyHandler(FlashPolicy);
+
 				server
 					.Group(MainServerWorkers, ChildServerWorkers)
 					.Channel<TcpServerSocketChannel>()
@@ -85,12 +89,13 @@ namespace Yupi.Net.DotNettyImpl
 					.Option(ChannelOption.SoRcvbuf, this.Settings.BufferSize)
 					.ChildHandler(new ActionChannelInitializer<ISocketChannel>(channel =>
 						{
-							string clientAddress = (channel.RemoteAddress as IPEndPoint)?.Address.ToString();
-							// TODO Move security up (into OnConnect callback)
-							if (Security.CheckClient(clientAddress))
-							{
-								channel.Pipeline.AddLast(new ConnectionHandler(channel));
-							}
+							/*
+							 * Note: we have to create a new MessageHandler for each 
+							 * session because it has stateful properties.
+							 */
+							MessageHandler messageHandler = new MessageHandler(channel, OnMessageReceived, OnConnectionClosed, OnConnectionOpened);
+							channel.Pipeline.AddFirst(flashHandler);
+							channel.Pipeline.AddLast(headerDecoder, messageHandler);
 						}));
 
 				Task<IChannel> task = server.BindAsync(Settings.IP, Settings.Port);
