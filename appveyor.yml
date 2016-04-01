@@ -1,2 +1,13 @@
+version: {build}-{branch}
+
+configuration: Release
+
 before_build:
-  - nuget restore
+- nuget restore
+
+build:
+  verbosity: minimal
+
+artifacts:
+- path: Yupi\Build
+  name: Yupi
