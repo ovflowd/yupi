@@ -59,14 +59,14 @@ namespace Yupi.Emulator.Data
             try
             {
                 string xmlFileContent;
-                string cacheDirectory = $"{Yupi.YupiVariablesDirectory}\\Cache";
+				string cacheDirectory = Path.Combine(Yupi.YupiVariablesDirectory, "Cache");
 
                 Directory.CreateDirectory(cacheDirectory);
 
-                if (File.Exists($"{cacheDirectory}\\FurniDataCache.xml") && !forceReload)
-                    xmlFileContent = File.ReadAllText($"{cacheDirectory}\\FurniDataCache.xml");
+				if (File.Exists(Path.Combine(cacheDirectory, "FurniDataCache.xml")) && !forceReload)
+					xmlFileContent = File.ReadAllText(Path.Combine(cacheDirectory, "FurniDataCache.xml"));
                 else
-                    File.WriteAllText($"{cacheDirectory}\\FurniDataCache.xml",
+					File.WriteAllText(Path.Combine(cacheDirectory, "FurniDataCache.xml"),
                         xmlFileContent = wC.DownloadString(ServerExtraSettings.FurnitureDataUrl));
 
                 wC.Dispose();

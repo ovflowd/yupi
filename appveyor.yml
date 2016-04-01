@@ -10,4 +10,5 @@ build:
 
 artifacts:
 - path: Yupi\Build
-  name: Yupi
+  name: Yupi.zip
+  type: zip
