@@ -268,9 +268,9 @@ namespace Yupi.Emulator.Messages.Buffers
         /// </summary>
         /// <param name="s">The s.</param>
         /// <param name="isUtf8">If string is UTF8</param>
-        public void AppendString(string s, bool isUtf8 = false)
+        public void AppendString(string s)
         {
-            System.Text.Encoding encoding = isUtf8 ? System.Text.Encoding.UTF8 : Yupi.GetDefaultEncoding();
+            System.Text.Encoding encoding = System.Text.Encoding.UTF8;
 
             byte[] bytes = encoding.GetBytes(s);
 

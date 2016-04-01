@@ -600,7 +600,7 @@ namespace Yupi.Emulator.Game.Catalogs.Composers
             if (PetTypeManager.ItemIsPet(item.Name))
                 displayName = PetTypeManager.GetHabboPetType(item.Name);
 
-            messageBuffer.AppendString(displayName, true);
+            messageBuffer.AppendString(displayName);
             messageBuffer.AppendBool(false);
             messageBuffer.AppendInteger(item.CreditsCost);
 
