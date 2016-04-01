@@ -45,6 +45,11 @@ namespace Yupi.Emulator
         {
             StartProgram();
 
+			#if DEBUG
+			// Autostart on debug sessions
+			InitEnvironment();
+			#endif
+
             ReadLoop();
         }
 
