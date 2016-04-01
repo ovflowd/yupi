@@ -465,7 +465,7 @@ namespace Yupi.Emulator
 			int port = int.Parse(ServerConfigurationSettings.Data["game.tcp.port"]);
 			TCPServer = ServerFactory.CreateServer(port);
 
-			TCPServer.OnConnectionOpened += GetGame().GetClientManager().AddClient;
+			TCPServer.OnConnectionOpened += GetGame().GetClientManager().AddClient; // TODO Connection security!
 			TCPServer.OnConnectionClosed += GetGame().GetClientManager().RemoveClient;
 			TCPServer.OnMessageReceived += (ISession session, byte[] body) => {
 				// TODO Refactor DataParser !!!
