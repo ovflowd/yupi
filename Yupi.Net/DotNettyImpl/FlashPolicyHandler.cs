@@ -24,8 +24,8 @@ namespace Yupi.Net.DotNettyImpl
 
 			input.MarkReaderIndex ();
 
-			int magic1 = input.ReadInt ();
-			int magic2 = input.ReadInt ();
+			byte magic1 = input.ReadByte ();
+			byte magic2 = input.ReadByte ();
 
 			bool isFlashPolicyRequest = (magic1 == '<' && magic2 == 'p');
 

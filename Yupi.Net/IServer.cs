@@ -26,7 +26,7 @@ using System;
 
 namespace Yupi.Net
 {
-	public delegate void MessageReceived(ISession session, int id, byte[] body);
+	public delegate void MessageReceived(ISession session, byte[] body);
 	public delegate void ConnectionOpened(ISession session);
 	public delegate void ConnectionClosed(ISession session);
 

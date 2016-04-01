@@ -59,19 +59,11 @@ namespace Yupi.Net.DotNettyImpl
         {
             IByteBuffer dataBuffer = message as IByteBuffer;
 
-			if (dataBuffer.ReadableBytes < 2) {
-				// Invalid message (had length, but no id)
-				Disconnect();
-				return;
-			}
-
-			int id = dataBuffer.ReadShort ();
-
 			byte[] data = new byte[dataBuffer.ReadableBytes];
 
 			dataBuffer.ReadBytes (data);
 
-			OnMessage (this, id, data);
+			OnMessage (this, data);
 
 			dataBuffer.Release ();
         }

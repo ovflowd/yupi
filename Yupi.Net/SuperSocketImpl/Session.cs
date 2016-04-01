@@ -28,40 +28,23 @@ using SuperSocket.SocketBase.Protocol;
 
 namespace Yupi.Net.SuperSocketImpl
 {
-	public class SuperSession : AppSession<SuperSession, SuperRequestInfo>, ISession
+	public class Session : AppSession<Session, RequestInfo>, ISession
 	{
 		public System.Net.IPAddress RemoteAddress {
 			get {
 				return RemoteEndPoint.Address;
 			}
 		}
-
-		protected override void HandleUnknownRequest (SuperRequestInfo requestInfo)
-		{
-			// TODO
-		}
-	
-		protected override void OnSessionStarted()
-		{
-			// TODO
-		}
 			
 		protected override void HandleException(Exception e)
 		{
-			// TODO
-			Console.WriteLine(e.ToString());
+			// TODO Log warning
 			base.HandleException(e);
 		}
 
 		public void Send (byte[] data)
 		{
 			Send (new ArraySegment<byte> (data));
-		}
-
-		protected override void OnSessionClosed(CloseReason reason)
-		{ 
-			// TODO
-			base.OnSessionClosed(reason);
 		}
 
 		public void Disconnect ()

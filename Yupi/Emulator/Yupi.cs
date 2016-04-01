@@ -460,43 +460,26 @@ namespace Yupi.Emulator
                 ClientMessageFactory.Init();
 
 			// TODO Cleanup
-              //  ServerFactorySettings.Init(IPAddress.Any, int.Parse(ServerConfigurationSettings.Data["game.tcp.port"]), 4072, ServerConfigurationSettings.Data["game.tcp.enablenagles"] == "true", int.Parse(ServerConfigurationSettings.Data["game.tcp.boss.maxthreadsize"]), int.Parse(ServerConfigurationSettings.Data["game.tcp.work.maxthreadsize"]), ServerConfigurationSettings.Data["game.tcp.denialservice"] == "true", int.Parse(ServerConfigurationSettings.Data["game.tcp.max.connperip"]));
-
+             
               //  ConnectionManager.DataParser = new ServerPacketParser();
+			int port = int.Parse(ServerConfigurationSettings.Data["game.tcp.port"]);
+			TCPServer = ServerFactory.CreateServer(port);
 
-				IServerSettings settings = new ServerSettings() {
-					IP = "Any",
-					Port = int.Parse(ServerConfigurationSettings.Data["game.tcp.port"]),
-				 MaxWorkingThreads = 0, // Let the OS decide
-					MinWorkingThreads = 0,
-				MinIOThreads = 0,
-				 MaxIOThreads  = 0,
-				BufferSize = 4096,
-				 Backlog = 100,
-				 MaxConnections = 10000 // Maximum overall connections
-			};
-
-			// TODO Add selection for SuperSocket vs DotNetty
-			TCPServer = new SuperServer(settings);
 			TCPServer.OnConnectionOpened += GetGame().GetClientManager().AddClient;
 			TCPServer.OnConnectionClosed += GetGame().GetClientManager().RemoveClient;
-
-			TCPServer.OnMessageReceived += (ISession session, int id, byte[] body) => {
+			TCPServer.OnMessageReceived += (ISession session, byte[] body) => {
 				// TODO Refactor DataParser !!!
 
 				// TODO Had to reassemble the package since the DataParser is really ugly and to be fixed at a later point
 				byte[] data = new byte[body.Length + 6];
-				byte[] idData = BitConverter.GetBytes((short)id);
 				byte[] lengthData = BitConverter.GetBytes(body.Length + 6);
 
 				if(BitConverter.IsLittleEndian) {
-					Array.Reverse(idData);
 					Array.Reverse(lengthData);
 				}
 
 				Array.Copy(lengthData, 0, data, 0, 4);
-				Array.Copy(idData, 0, data, 4, 2);
-				Array.Copy(body, 0, data, 6, body.Length);
+				Array.Copy(body, 0, data, 4, body.Length);
 
 				GetGame().GetClientManager().GetClient(session).DataParser.HandlePacketData(data, data.Length);
 			};

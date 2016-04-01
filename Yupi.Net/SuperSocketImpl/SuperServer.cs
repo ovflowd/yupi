@@ -31,7 +31,7 @@ using SuperSocket.SocketBase.Logging;
 
 namespace Yupi.Net.SuperSocketImpl
 {
-	public class SuperServer : AppServer<SuperSession, SuperRequestInfo>, IServer
+	public class SuperServer : AppServer<Session, RequestInfo>, IServer
 	{
 		public event MessageReceived OnMessageReceived = delegate{};
 
@@ -39,12 +39,11 @@ namespace Yupi.Net.SuperSocketImpl
 
 		public event ConnectionClosed OnConnectionClosed = delegate{};
 
-		private CrossDomainSettings crossDomainSettings;
+		private CrossDomainSettings FlashPolicy;
 
-		public SuperServer (IServerSettings settings) : base(new DefaultReceiveFilterFactory<SuperReceiveFilter, SuperRequestInfo>())
+		public SuperServer (IServerSettings settings, CrossDomainSettings flashPolicy) : base(new DefaultReceiveFilterFactory<FlashReceiveFilter, RequestInfo>())
 		{
-			// TODO Add cross domain from host to settings
-			crossDomainSettings = new CrossDomainSettings ("*", settings.Port);
+			FlashPolicy = flashPolicy;
 
 			IRootConfig rootConfig = CreateRootConfig (settings);
 	
@@ -52,18 +51,21 @@ namespace Yupi.Net.SuperSocketImpl
 		
 			// TODO Switch LogFactory
 			Setup (rootConfig, config, logFactory: new ConsoleLogFactory());
-	
-			base.NewRequestReceived += (session, requestInfo) => {
-				if(requestInfo.Id == 0) {
-					session.Send(crossDomainSettings.GetBytes());
-				} else {
-					OnMessageReceived (session, requestInfo.Id, requestInfo.Body);
-				}
-			};
+		
+			base.NewRequestReceived += HandleRequest;
 
-			base.NewSessionConnected += (SuperSession session) => OnConnectionOpened(session);
+			base.NewSessionConnected += (Session session) => OnConnectionOpened(session);
 
-			base.SessionClosed += (SuperSession session, CloseReason value) => OnConnectionClosed(session);
+			base.SessionClosed += (Session session, CloseReason value) => OnConnectionClosed(session);
+		}
+
+		private void HandleRequest(Session session, RequestInfo requestInfo) {
+			if(requestInfo.IsFlashRequest) {
+				session.Send(FlashPolicy.GetBytes());
+				session.Disconnect ();
+			} else {
+				OnMessageReceived (session, requestInfo.Body);
+			}
 		}
 
 		private IServerConfig CreateServerConfig(IServerSettings settings) {
