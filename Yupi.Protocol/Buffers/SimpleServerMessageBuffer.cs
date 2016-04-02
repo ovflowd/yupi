@@ -37,7 +37,7 @@ namespace Yupi.Protocol.Buffers
     /// <summary>
     ///     Class SimpleServerMessageBuffer.
     /// </summary>
-    internal class SimpleServerMessageBuffer : IDisposable
+    public class SimpleServerMessageBuffer : IDisposable
     {
         /// <summary>
         ///     The buffer for the SimpleServerMessageBuffer.
@@ -77,7 +77,7 @@ namespace Yupi.Protocol.Buffers
         ///     Initializes a new instance of the <see cref="SimpleServerMessageBuffer" /> class.
         /// </summary>
         /// <param name="header">The header.</param>
-        public SimpleServerMessageBuffer(int header)
+        public SimpleServerMessageBuffer(short header)
             : this()
         {
             Init(header);
@@ -116,7 +116,7 @@ namespace Yupi.Protocol.Buffers
         ///     Initializes the specified header.
         /// </summary>
         /// <param name="header">The header.</param>
-        public void Init(int header)
+        public void Init(short header)
         {
             _buffer.SetLength(0);
             Id = header;
@@ -204,7 +204,7 @@ namespace Yupi.Protocol.Buffers
         ///     Appends the short.
         /// </summary>
         /// <param name="i">The i.</param>
-        public void AppendShort(int i)
+        public void AppendShort(short i)
         {
             short value = (short) i;
 
@@ -271,8 +271,8 @@ namespace Yupi.Protocol.Buffers
         public void AppendString(string s)
         {
 			byte[] bytes = Encoding.UTF8.GetBytes(s);
-
-            AppendShort(bytes.Length);
+			// TODO Pay attention to length!
+			AppendShort((short)bytes.Length);
             AppendBytes(bytes, false);
         }
 

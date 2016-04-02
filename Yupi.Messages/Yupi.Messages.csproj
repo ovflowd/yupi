@@ -3,9 +3,9 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9AE3ADAB-A767-4123-BE78-34E1DFCF33FB}</ProjectGuid>
+    <ProjectGuid>{5E653C7A-B60A-46CE-9448-F9AD50710D3B}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Yupi.Protocol</RootNamespace>
+    <RootNamespace>Yupi.Messages</RootNamespace>
     <AssemblyName>Yupi.Messages</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
@@ -44,22 +44,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Buffers\QueuedServerMessageBuffer.cs" />
-    <Compile Include="Buffers\SimpleServerMessageBuffer.cs" />
-    <Compile Include="ClientMessagePool.cs" />
-    <Compile Include="Buffers\ClientMessage.cs" />
+    <Compile Include="IMessageHandler.cs" />
+    <Compile Include="OrderAttribute.cs" />
+    <Compile Include="AbstractComposeable.cs" />
+    <Compile Include="IComposeable.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="Buffers\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\Yupi.Protocol\Yupi.Protocol.csproj">
+      <Project>{9AE3ADAB-A767-4123-BE78-34E1DFCF33FB}</Project>
+      <Name>Yupi.Protocol</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Yupi.Net\Yupi.Net.csproj">
       <Project>{8D09AE29-53E7-405D-9F9E-CDDE1164851A}</Project>
       <Name>Yupi.Net</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

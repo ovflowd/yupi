@@ -1,5 +1,5 @@
 ﻿using System;
-using Yupi.Messages.Buffers;
+using Yupi.Protocol.Buffers;
 using CodeProject.ObjectPool;
 
 namespace Yupi.Protocol
@@ -9,14 +9,14 @@ namespace Yupi.Protocol
 		private const int minObjects = 5;
 		private const int maxObjects = 20;
 
-		private ObjectPool<SimpleClientMessageBuffer> pool;
+		private ObjectPool<ClientMessage> pool;
 
 		public ClientMessagePool ()
 		{
-			pool = new ObjectPool<SimpleClientMessageBuffer> (minObjects, maxObjects, () => new SimpleClientMessageBuffer ());
+			pool = new ObjectPool<ClientMessage> (minObjects, maxObjects, () => new ClientMessage ());
 		}
 
-		public SimpleClientMessageBuffer GetMessageBuffer() {
+		public ClientMessage GetMessageBuffer() {
 			return pool.GetObject ();
 		}
 	}

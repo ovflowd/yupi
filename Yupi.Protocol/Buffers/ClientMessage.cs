@@ -32,7 +32,7 @@ namespace Yupi.Protocol.Buffers
     /// <summary>
     ///     Class SimpleClientMessageBuffer.
     /// </summary>
-    public class SimpleClientMessageBuffer : PooledObject
+    public class ClientMessage : PooledObject
     {
         /// <summary>
         ///     The _body
