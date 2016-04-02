@@ -12,8 +12,6 @@ using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Enums;
 using Yupi.Emulator.Messages.Handlers;
 using Yupi.Net;
-using Yupi.Emulator.Messages.Parsers.Interfaces;
-using Yupi.Emulator.Messages.Parsers;
 
 namespace Yupi.Emulator.Game.GameClients.Interfaces
 {

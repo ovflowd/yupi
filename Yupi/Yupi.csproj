@@ -708,7 +708,6 @@
     <Compile Include="Emulator\Messages\Buffers\SimpleServerMessageBuffer.cs" />
     <Compile Include="Emulator\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Emulator\Messages\Parsers\Interfaces\IDataParser.cs" />
     <Compile Include="Emulator\Data\Interfaces\PluginData.cs" />
     <Compile Include="Emulator\Data\ServerMemoryContainer.cs" />
     <Compile Include="Emulator\Core\Util\Coordinates\CoordinatesFormatter.cs" />

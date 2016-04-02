@@ -51,7 +51,6 @@ using Yupi.Emulator.Game.Users.Factories;
 using Yupi.Emulator.Game.Users.Messenger.Structs;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Factorys;
-using Yupi.Emulator.Messages.Parsers;
 using Yupi.Net;
 using Yupi.Net.SuperSocketImpl;
 
