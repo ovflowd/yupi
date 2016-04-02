@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yupi", "Yupi\Yupi.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yupi.Net", "Yupi.Net\Yupi.Net.csproj", "{8D09AE29-53E7-405D-9F9E-CDDE1164851A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yupi.Protocol", "Yupi.Protocol\Yupi.Protocol.csproj", "{9AE3ADAB-A767-4123-BE78-34E1DFCF33FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,18 @@ Global
 		{8D09AE29-53E7-405D-9F9E-CDDE1164851A}.Release|x64.Build.0 = Release|Any CPU
 		{8D09AE29-53E7-405D-9F9E-CDDE1164851A}.Release|x86.ActiveCfg = Release|Any CPU
 		{8D09AE29-53E7-405D-9F9E-CDDE1164851A}.Release|x86.Build.0 = Release|Any CPU
+		{9AE3ADAB-A767-4123-BE78-34E1DFCF33FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AE3ADAB-A767-4123-BE78-34E1DFCF33FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AE3ADAB-A767-4123-BE78-34E1DFCF33FB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9AE3ADAB-A767-4123-BE78-34E1DFCF33FB}.Debug|x64.Build.0 = Debug|Any CPU
+		{9AE3ADAB-A767-4123-BE78-34E1DFCF33FB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9AE3ADAB-A767-4123-BE78-34E1DFCF33FB}.Debug|x86.Build.0 = Debug|Any CPU
+		{9AE3ADAB-A767-4123-BE78-34E1DFCF33FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AE3ADAB-A767-4123-BE78-34E1DFCF33FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AE3ADAB-A767-4123-BE78-34E1DFCF33FB}.Release|x64.ActiveCfg = Release|Any CPU
+		{9AE3ADAB-A767-4123-BE78-34E1DFCF33FB}.Release|x64.Build.0 = Release|Any CPU
+		{9AE3ADAB-A767-4123-BE78-34E1DFCF33FB}.Release|x86.ActiveCfg = Release|Any CPU
+		{9AE3ADAB-A767-4123-BE78-34E1DFCF33FB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -27,10 +27,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Yupi.Emulator.Core.Io.Logger;
 
-namespace Yupi.Emulator.Messages.Buffers
+namespace Yupi.Protocol.Buffers
 {
+	// TODO Refactor
     /// <summary>
     ///     Class SimpleServerMessageBuffer.
     /// </summary>
@@ -322,15 +322,16 @@ namespace Yupi.Emulator.Messages.Buffers
                 bytes = finalBuffer.ToArray();
             }
 
-			if (Yupi.PacketDebugMode) {
+			//if (Yupi.PacketDebugMode) {
 				// string package = Encoding.UTF8.GetString (bytes);
 
+			// TODO Packet debugging
 				// TODO Escape special chars
 
 				/*YupiWriterManager.WriteLine(
 					$"Handled: {Id}: " + Environment.NewLine + package + Environment.NewLine,
 					"Yupi.Outgoing", ConsoleColor.DarkGray);*/
-			}
+			//}
 
             return bytes;
         }

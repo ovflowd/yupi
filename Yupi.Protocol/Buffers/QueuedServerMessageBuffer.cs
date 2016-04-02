@@ -23,10 +23,9 @@
 */
 
 using System.Collections.Generic;
-using Yupi.Net;
 using System;
 
-namespace Yupi.Emulator.Messages.Buffers
+namespace Yupi.Protocol.Buffers
 {
     /// <summary>
     ///     Class QueuedServerMessageBuffer.
@@ -39,18 +38,11 @@ namespace Yupi.Emulator.Messages.Buffers
         private List<byte> _packet;
 
         /// <summary>
-        ///     The _user connection
-        /// </summary>
-        private ISession _userConnection;
-
-        /// <summary>
         ///     Initializes a new instance of the <see cref="QueuedServerMessageBuffer" /> class.
         /// </summary>
         /// <param name="connection">The connection.</param>
-		public QueuedServerMessageBuffer(ISession connection)
+		public QueuedServerMessageBuffer()
         {
-            _userConnection = connection;
-
             _packet = new List<byte>();
         }
 
@@ -66,9 +58,8 @@ namespace Yupi.Emulator.Messages.Buffers
         public void Dispose()
         {
             _packet = null;
-            _userConnection = null;
         }
-
+			
         /// <summary>
         ///     Appends the response.
         /// </summary>
@@ -85,14 +76,6 @@ namespace Yupi.Emulator.Messages.Buffers
 		internal void AddBytes(byte[] bytes) {
 			AppendBytes (bytes);
 		}
-
-        /// <summary>
-        ///     Sends the response.
-        /// </summary>
-        internal void SendResponse()
-        {
-            _userConnection?.Send(_packet.ToArray());
-        }
 
         /// <summary>
         ///     Appends the bytes.

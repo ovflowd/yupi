@@ -23,12 +23,11 @@
 */
 
 using System;
-using Yupi.Emulator.Messages.Factorys;
 using System.Text;
 using Yupi.Net;
 using CodeProject.ObjectPool;
 
-namespace Yupi.Emulator.Messages.Buffers
+namespace Yupi.Protocol.Buffers
 {
     /// <summary>
     ///     Class SimpleClientMessageBuffer.
