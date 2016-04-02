@@ -23,15 +23,17 @@
 */
 
 using System;
-using Yupi.Emulator.Messages.Encoding;
 using Yupi.Emulator.Messages.Factorys;
+using System.Text;
+using Yupi.Net;
+using CodeProject.ObjectPool;
 
 namespace Yupi.Emulator.Messages.Buffers
 {
     /// <summary>
     ///     Class SimpleClientMessageBuffer.
     /// </summary>
-    public class SimpleClientMessageBuffer : IDisposable
+    public class SimpleClientMessageBuffer : PooledObject
     {
         /// <summary>
         ///     The _body
@@ -39,74 +41,25 @@ namespace Yupi.Emulator.Messages.Buffers
         private byte[] _body;
 
         /// <summary>
-        ///     The length
-        /// </summary>
-        internal int _length;
-
-        /// <summary>
         ///     The _position
         /// </summary>
         private int _position;
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="SimpleClientMessageBuffer" /> class.
-        /// </summary>
-        internal SimpleClientMessageBuffer(int messageId, byte[] body, int position, int packetLength)
+		public short Id { get; private set; }
+
+		public void Setup(byte[] body)
         {
-            Init(messageId, body, position, packetLength);
+			_body = body;
+			Id = GetShort ();
         }
-
-        /// <summary>
-        ///     Gets the identifier.
-        /// </summary>
-        /// <value>The identifier.</value>
-        internal int Id { get; private set; }
-
-        public int Length => _length;
-
-        /// <summary>
-        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-            ClientMessageFactory.ObjectCallback(this);
-
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        ///     Returns a <see cref="System.String" /> that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
-        public override string ToString()
-        {
-            string stringValue = string.Empty;
-
-            stringValue += System.Text.Encoding.Default.GetString(_body);
-
-            for (int i = 0; i < 13; i++)
-                stringValue = stringValue.Replace(char.ToString((char) i), $"[{i}]");
-
-            return stringValue;
-        }
-
-        /// <summary>
-        ///     Initializes the specified message identifier.
-        /// </summary>
-        internal void Init(int messageId, byte[] body, int position, int packetLength)
-        {
-            Id = messageId;
-            _body = body;
-            _position = position;
-            _length = packetLength;
-        }
-
-        /// <summary>
-        ///     Reads the bytes.
-        /// </summary>
-        /// <param name="len">The bytes length.</param>
-        /// <returns>System.Byte[].</returns>
-        internal byte[] ReadBytes(int len)
+			
+        protected override void OnResetState ()
+    	{
+			Id = 0;
+			_body = null;
+    	}
+			
+        private byte[] ReadBytes(int len)
         {
             byte[] arrayBytes = new byte[len];
 
@@ -115,13 +68,8 @@ namespace Yupi.Emulator.Messages.Buffers
 
             return arrayBytes;
         }
-
-        /// <summary>
-        ///     Gets the bytes.
-        /// </summary>
-        /// <param name="len">The bytes length.</param>
-        /// <returns>System.Byte[].</returns>
-        internal byte[] GetBytes(int len)
+			
+		public byte[] GetBytes(int len)
         {
             byte[] arrayBytes = new byte[len];
             int pos = _position;
@@ -135,82 +83,59 @@ namespace Yupi.Emulator.Messages.Buffers
 
             return arrayBytes;
         }
-
-        /// <summary>
-        ///     Gets the string.
-        /// </summary>
-        /// <returns>System.String.</returns>
-        internal string GetString() => GetString(System.Text.Encoding.UTF8);
-
-        /// <summary>
-        ///     Gets the string.
-        /// </summary>
-        /// <param name="encoding">The encoding.</param>
-        /// <returns>System.String.</returns>
-        internal string GetString(System.Text.Encoding encoding)
+			
+		public string GetString()
         {
-            int stringLength = GetInteger16();
+            int stringLength = GetShort();
 
-            if (stringLength == 0 || _position + stringLength > _body.Length)
-                return string.Empty;
+			if (stringLength == 0 || _position + stringLength > _body.Length) {
+				// TODO Print warning
+				return string.Empty;
+			}
 
-            string value = encoding.GetString(_body, _position, stringLength);
+			string value = Encoding.UTF8.GetString(_body, _position, stringLength);
 
             _position += stringLength;
 
             return value;
         }
-
-        /// <summary>
-        ///     Gets the integer from string.
-        /// </summary>
-        /// <returns>System.Int32.</returns>
-        internal int GetIntegerFromString()
+		/*	
+		public int GetIntegerFromString()
         {
             int result;
-
-            string stringValue = GetString(System.Text.Encoding.ASCII);
+			// TODO Where is this needed???
+            string stringValue = GetString();
 
             int.TryParse(stringValue, out result);
 
             return result;
-        }
+        }*/
+			
+		public bool GetBool() {
+			return _body[_position++] == 1;
+		}
+			
+		// TODO Rename
+		public short GetShort() {
+			short value = BinaryHelper.ToShort (_body, _position);
+			_position += 2;
+			return value;
+		}
+			
+		public int GetInteger() {
+			int value = BinaryHelper.ToInt (_body, _position);
+			_position += 4;
+			return value;
+		}
 
-        /// <summary>
-        ///     Gets the bool.
-        /// </summary>
-        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool GetBool() => _body[_position++] == 1;
-
-        /// <summary>
-        ///     Gets the integer16.
-        /// </summary>
-        /// <returns>System.Int16.</returns>
-        internal short GetInteger16() => HabboEncoding.DecodeInt16(_body, ref _position);
-
-        /// <summary>
-        ///     Gets the integer.
-        /// </summary>
-        /// <returns>System.Int32.</returns>
-        internal int GetInteger() => HabboEncoding.DecodeInt32(_body, ref _position);
-
-        internal bool GetIntegerAsBool() => HabboEncoding.DecodeInt32(_body, ref _position) == 1;
-
-        /// <summary>
-        ///     Gets the integer32.
-        /// </summary>
-        /// <returns>System.UInt32.</returns>
-        internal uint GetUInteger()
+		// TODO Probably inappropriate
+		public bool GetIntegerAsBool() {
+			return GetInteger () == 1;
+		}
+			
+		public uint GetUInt32()
         {
-            int value = GetInteger();
-
-            return value < 0 ? 0 : (uint) value;
+			return (uint)GetInteger ();
         }
-
-        /// <summary>
-        ///     Gets the integer16.
-        /// </summary>
-        /// <returns>System.UInt16.</returns>
-        internal ushort GetUInteger16() => (ushort) GetInteger16();
     }
 }

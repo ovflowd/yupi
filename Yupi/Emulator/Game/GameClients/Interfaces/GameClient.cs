@@ -62,9 +62,6 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         /// </summary>
         internal DateTime TimePingedReceived;
 
-		// TODO Refactor to IDataParser
-		public ServerPacketParser DataParser;
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="GameClient" /> class.
         /// </summary>
@@ -73,9 +70,6 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
 		internal GameClient(ISession connection)
         {
             _connection = connection;
-
-			DataParser = new ServerPacketParser ();
-            DataParser.SetConnection(this);
 
             CurrentRoomUserId = -1;
 

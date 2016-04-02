@@ -29,7 +29,7 @@ namespace Yupi.Emulator.Messages.Handlers
             int num = Request.GetInteger();
             for (int i = 0; i < num; i++)
             {
-                uint num2 = Request.GetUInteger();
+                uint num2 = Request.GetUInt32();
                 if (Session.GetHabbo().Relationships.ContainsKey(Convert.ToInt32(num2)))
                 {
                     Session.SendNotif(Yupi.GetLanguage().GetVar("buddy_error_1"));
@@ -57,7 +57,7 @@ namespace Yupi.Emulator.Messages.Handlers
             int num = Request.GetInteger();
             for (int i = 0; i < num; i++)
             {
-                uint num2 = Request.GetUInteger();
+                uint num2 = Request.GetUInt32();
                 MessengerRequest request = Session.GetHabbo().GetMessenger().GetRequest(num2);
                 if (request == null) continue;
                 if (request.To != Session.GetHabbo().Id) return;
@@ -77,7 +77,7 @@ namespace Yupi.Emulator.Messages.Handlers
             Request.GetInteger();
             if (!flag)
             {
-                uint sender = Request.GetUInteger();
+                uint sender = Request.GetUInt32();
                 Session.GetHabbo().GetMessenger().HandleRequest(sender);
                 return;
             }
@@ -100,7 +100,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void SendInstantMessenger()
         {
-            uint toId = Request.GetUInteger();
+            uint toId = Request.GetUInt32();
             string text = Request.GetString();
             if (Session.GetHabbo().GetMessenger() == null) return;
             if (!string.IsNullOrWhiteSpace(text)) Session.GetHabbo().GetMessenger().SendInstantMessage(toId, text);
@@ -111,7 +111,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void FollowBuddy()
         {
-            uint userId = Request.GetUInteger();
+            uint userId = Request.GetUInt32();
             GameClient clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(userId);
 
             if (clientByUserId == null || clientByUserId.GetHabbo() == null) return;
@@ -145,7 +145,7 @@ namespace Yupi.Emulator.Messages.Handlers
         {
             int num = Request.GetInteger();
             List<uint> list = new List<uint>();
-            for (int i = 0; i < num; i++) list.Add(Request.GetUInteger());
+            for (int i = 0; i < num; i++) list.Add(Request.GetUInt32());
             string s = Request.GetString();
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("ConsoleInvitationMessageComposer"));
             simpleServerMessageBuffer.AppendInteger(Session.GetHabbo().Id);

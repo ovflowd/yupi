@@ -113,6 +113,7 @@ namespace Yupi.Emulator.Game.Support
 
             if (inappropriateRoom)
             {
+				// TODO Translate
                 room.RoomData.Name = "Inapropriado para a Gerência do Hotel";
                 room.RoomData.Description = "A descrição do quarto não é permitida.";
                 room.ClearTags();

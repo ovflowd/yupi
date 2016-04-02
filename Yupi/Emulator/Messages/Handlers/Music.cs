@@ -45,7 +45,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
             for (int i = 0; i < num; i++)
             {
-                SongData song = SoundMachineSongManager.GetSong(Request.GetUInteger());
+                SongData song = SoundMachineSongManager.GetSong(Request.GetUInt32());
 
                 if (song != null)
                     list.Add(song);
@@ -74,7 +74,7 @@ namespace Yupi.Emulator.Messages.Handlers
             if (roomMusicController.PlaylistSize >= roomMusicController.PlaylistCapacity)
                 return;
 
-            uint num = Request.GetUInteger();
+            uint num = Request.GetUInt32();
 
             UserItem item = Session.GetHabbo().GetInventoryComponent().GetItem(num);
 

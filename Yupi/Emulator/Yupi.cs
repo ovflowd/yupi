@@ -457,8 +457,6 @@ namespace Yupi.Emulator
                 if (ConsoleTimerOn)
                     YupiWriterManager.WriteLine("Console Automatic Clear is Enabled, with " + ConsoleCleanTimeInterval + " Seconds.", "Yupi.Boot");
 
-                ClientMessageFactory.Init();
-
 			// TODO Cleanup
              
               //  ConnectionManager.DataParser = new ServerPacketParser();
@@ -468,20 +466,10 @@ namespace Yupi.Emulator
 			TCPServer.OnConnectionOpened += GetGame().GetClientManager().AddClient; // TODO Connection security!
 			TCPServer.OnConnectionClosed += GetGame().GetClientManager().RemoveClient;
 			TCPServer.OnMessageReceived += (ISession session, byte[] body) => {
-				// TODO Refactor DataParser !!!
-
-				// TODO Had to reassemble the package since the DataParser is really ugly and to be fixed at a later point
-				byte[] data = new byte[body.Length + 6];
-				byte[] lengthData = BitConverter.GetBytes(body.Length + 6);
-
-				if(BitConverter.IsLittleEndian) {
-					Array.Reverse(lengthData);
+				using(global::Yupi.Emulator.Messages.Buffers.SimpleClientMessageBuffer message = ClientMessageFactory.GetClientMessage()) {
+					message.Setup(body);
+					GetGame().GetClientManager().GetClient(session).GetMessageHandler().HandleRequest(message);
 				}
-
-				Array.Copy(lengthData, 0, data, 0, 4);
-				Array.Copy(body, 0, data, 4, body.Length);
-
-				GetGame().GetClientManager().GetClient(session).DataParser.HandlePacketData(data, data.Length);
 			};
 
 			TCPServer.Start();

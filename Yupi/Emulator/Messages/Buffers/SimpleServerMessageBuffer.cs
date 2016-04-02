@@ -26,8 +26,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using Yupi.Emulator.Core.Io.Logger;
-using Yupi.Emulator.Messages.Encoding;
 
 namespace Yupi.Emulator.Messages.Buffers
 {
@@ -270,9 +270,7 @@ namespace Yupi.Emulator.Messages.Buffers
         /// <param name="isUtf8">If string is UTF8</param>
         public void AppendString(string s)
         {
-            System.Text.Encoding encoding = System.Text.Encoding.UTF8;
-
-            byte[] bytes = encoding.GetBytes(s);
+			byte[] bytes = Encoding.UTF8.GetBytes(s);
 
             AppendShort(bytes.Length);
             AppendBytes(bytes, false);
@@ -310,7 +308,7 @@ namespace Yupi.Emulator.Messages.Buffers
         public byte[] GetReversedBytes()
         {
             byte[] bytes;
-
+			// TODO Why do we need to copy
             using (MemoryStream finalBuffer = new MemoryStream())
             {
                 byte[] length = BitConverter.GetBytes((int) CurrentMessage.Length);
@@ -324,18 +322,17 @@ namespace Yupi.Emulator.Messages.Buffers
                 bytes = finalBuffer.ToArray();
             }
 
-            if (Yupi.PacketDebugMode)
-                YupiWriterManager.WriteLine(
-                    $"Handled: {Id}: " + Environment.NewLine + HabboEncoding.GetCharFilter(Yupi.GetDefaultEncoding().GetString(bytes)) + Environment.NewLine,
-                    "Yupi.Outgoing", ConsoleColor.DarkGray);
+			if (Yupi.PacketDebugMode) {
+				string package = Encoding.UTF8.GetString (bytes);
+
+				// TODO Escape special chars
+
+				/*YupiWriterManager.WriteLine(
+					$"Handled: {Id}: " + Environment.NewLine + package + Environment.NewLine,
+					"Yupi.Outgoing", ConsoleColor.DarkGray);*/
+			}
 
             return bytes;
         }
-
-        /// <summary>
-        ///     Returns a <see cref="System.String" /> that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
-        public override string ToString() => HabboEncoding.GetCharFilter(Yupi.GetDefaultEncoding().GetString(GetReversedBytes()));
     }
 }

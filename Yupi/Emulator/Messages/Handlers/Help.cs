@@ -48,9 +48,9 @@ namespace Yupi.Emulator.Messages.Handlers
         {
             string message = Request.GetString();
             int category = Request.GetInteger();
-            uint reportedUser = Request.GetUInteger();
+            uint reportedUser = Request.GetUInt32();
 
-            Request.GetUInteger(); // roomId
+            Request.GetUInt32(); // roomId
 
             int messageCount = Request.GetInteger();
 
@@ -114,7 +114,7 @@ namespace Yupi.Emulator.Messages.Handlers
         {
             if (Session.GetHabbo().HasFuse("fuse_mod"))
             {
-                uint num = Request.GetUInteger();
+                uint num = Request.GetUInt32();
 
                 if (Yupi.GetGame().GetClientManager().GetUserNameByUserId(num) != "Unknown User")
                     Session.SendMessage(ModerationTool.SerializeUserInfo(num));
@@ -131,7 +131,7 @@ namespace Yupi.Emulator.Messages.Handlers
             if (!Session.GetHabbo().HasFuse("fuse_chatlogs"))
                 return;
 
-            Session.SendMessage(ModerationTool.SerializeUserChatlog(Request.GetUInteger()));
+            Session.SendMessage(ModerationTool.SerializeUserChatlog(Request.GetUInt32()));
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace Yupi.Emulator.Messages.Handlers
             }
 
             Request.GetInteger();
-            uint roomId = Request.GetUInteger();
+            uint roomId = Request.GetUInt32();
 
             if (Yupi.GetGame().GetRoomManager().GetRoom(roomId) != null)
                 Session.SendMessage(ModerationTool.SerializeRoomChatlog(roomId));
@@ -160,7 +160,7 @@ namespace Yupi.Emulator.Messages.Handlers
             if (!Session.GetHabbo().HasFuse("fuse_mod"))
                 return;
 
-            uint roomId = Request.GetUInteger();
+            uint roomId = Request.GetUInt32();
             RoomData data = Yupi.GetGame().GetRoomManager().GenerateNullableRoomData(roomId);
 
             Session.SendMessage(ModerationTool.SerializeRoomTool(data));
@@ -175,7 +175,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 return;
 
             Request.GetInteger();
-            uint ticketId = Request.GetUInteger();
+            uint ticketId = Request.GetUInt32();
 
             Yupi.GetGame().GetModerationTool().PickTicket(Session, ticketId);
         }
@@ -191,7 +191,7 @@ namespace Yupi.Emulator.Messages.Handlers
             int ticketCount = Request.GetInteger();
 
             for (int i = 0; i < ticketCount; i++)
-                Yupi.GetGame().GetModerationTool().ReleaseTicket(Session, Request.GetUInteger());
+                Yupi.GetGame().GetModerationTool().ReleaseTicket(Session, Request.GetUInt32());
         }
 
         /// <summary>
@@ -206,7 +206,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
             Request.GetInteger();
 
-            uint ticketId = Request.GetUInteger();
+            uint ticketId = Request.GetUInt32();
 
             if (ticketId <= 0)
                 return;
@@ -222,7 +222,7 @@ namespace Yupi.Emulator.Messages.Handlers
             if (!Session.GetHabbo().HasFuse("fuse_mod"))
                 return;
 
-            SupportTicket ticket = Yupi.GetGame().GetModerationTool().GetTicket(Request.GetUInteger());
+            SupportTicket ticket = Yupi.GetGame().GetModerationTool().GetTicket(Request.GetUInt32());
 
             if (ticket == null)
                 return;
@@ -242,7 +242,7 @@ namespace Yupi.Emulator.Messages.Handlers
         {
             if (Session.GetHabbo().HasFuse("fuse_mod"))
             {
-                uint userId = Request.GetUInteger();
+                uint userId = Request.GetUInt32();
 
                 if (userId > 0)
                     Session.SendMessage(ModerationTool.SerializeRoomVisits(userId));
@@ -284,7 +284,7 @@ namespace Yupi.Emulator.Messages.Handlers
             if (!Session.GetHabbo().HasFuse("fuse_mod"))
                 return;
 
-            uint roomId = Request.GetUInteger();
+            uint roomId = Request.GetUInt32();
             bool lockRoom = Request.GetIntegerAsBool();
             bool inappropriateRoom = Request.GetIntegerAsBool();
             bool kickUsers = Request.GetIntegerAsBool();
@@ -300,7 +300,7 @@ namespace Yupi.Emulator.Messages.Handlers
             if (!Session.GetHabbo().HasFuse("fuse_alert"))
                 return;
 
-            uint userId = Request.GetUInteger();
+            uint userId = Request.GetUInt32();
             string message = Request.GetString();
 
             ModerationTool.AlertUser(Session, userId, message, true);
@@ -314,7 +314,7 @@ namespace Yupi.Emulator.Messages.Handlers
             if (!Session.GetHabbo().HasFuse("fuse_alert"))
                 return;
 
-            uint userId = Request.GetUInteger();
+            uint userId = Request.GetUInt32();
             string message = Request.GetString();
 
             ModerationTool.AlertUser(Session, userId, message, false);
@@ -328,7 +328,7 @@ namespace Yupi.Emulator.Messages.Handlers
             if (!Session.GetHabbo().HasFuse("fuse_mute"))
                 return;
 
-            uint userId = Request.GetUInteger();
+            uint userId = Request.GetUInt32();
             string message = Request.GetString();
             GameClient clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(userId);
 
@@ -344,7 +344,7 @@ namespace Yupi.Emulator.Messages.Handlers
             if (!Session.GetHabbo().HasFuse("fuse_lock_trade"))
                 return;
 
-            uint userId = Request.GetUInteger();
+            uint userId = Request.GetUInt32();
             string message = Request.GetString();
             int length = Request.GetInteger()*3600;
 
@@ -359,7 +359,7 @@ namespace Yupi.Emulator.Messages.Handlers
             if (!Session.GetHabbo().HasFuse("fuse_kick"))
                 return;
 
-            uint userId = Request.GetUInteger();
+            uint userId = Request.GetUInt32();
             string message = Request.GetString();
 
             ModerationTool.KickUser(Session, userId, message, false);
@@ -373,7 +373,7 @@ namespace Yupi.Emulator.Messages.Handlers
             if (!Session.GetHabbo().HasFuse("fuse_ban"))
                 return;
 
-            uint userId = Request.GetUInteger();
+            uint userId = Request.GetUInt32();
             string message = Request.GetString();
             int length = Request.GetInteger()*3600;
 

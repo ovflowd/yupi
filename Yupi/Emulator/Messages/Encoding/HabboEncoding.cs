@@ -24,7 +24,7 @@
 
 using System;
 
-namespace Yupi.Emulator.Messages.Encoding
+namespace Yupi.Emulator.Messages.EncodingDELETE
 {
     /// <summary>
     ///     Class HabboEncoding.

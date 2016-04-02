@@ -282,8 +282,8 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void PurchaseTargetedOffer()
         {
-            Request.GetUInteger();
-            uint quantity = Request.GetUInteger();
+            Request.GetUInt32();
+            uint quantity = Request.GetUInt32();
 
             TargetedOffer offer = Yupi.GetGame().GetTargetedOfferManager().CurrentOffer;
 

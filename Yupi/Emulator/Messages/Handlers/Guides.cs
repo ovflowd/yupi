@@ -18,7 +18,15 @@ namespace Yupi.Emulator.Messages.Handlers
         {
             Request.GetBool();
 
-            int userId = Request.GetIntegerFromString();
+			string idAsString = Request.GetString ();
+
+			int userId;
+			int.TryParse (idAsString, out userId);
+
+			if (userId == 0) {
+				return;
+			}
+
             string message = Request.GetString();
 
             GuideManager guideManager = Yupi.GetGame().GetGuideManager();
@@ -223,7 +231,7 @@ namespace Yupi.Emulator.Messages.Handlers
             if (Session.GetHabbo().Rank < Convert.ToUInt32(Yupi.GetDbConfig().DbData["ambassador.minrank"]))
                 return;
 
-            uint userId = Request.GetUInteger();
+            uint userId = Request.GetUInt32();
 
             GameClient user = Yupi.GetGame().GetClientManager().GetClientByUserId(userId);
 

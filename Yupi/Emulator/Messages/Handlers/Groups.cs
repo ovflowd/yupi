@@ -121,7 +121,7 @@ namespace Yupi.Emulator.Messages.Handlers
             List<int> gStates = new List<int>();
             string name = Request.GetString();
             string description = Request.GetString();
-            uint roomid = Request.GetUInteger();
+            uint roomid = Request.GetUInt32();
             int color = Request.GetInteger();
             int num3 = Request.GetInteger();
 
@@ -204,7 +204,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void SerializeGroupInfo()
         {
-            uint groupId = Request.GetUInteger();
+            uint groupId = Request.GetUInt32();
             bool newWindow = Request.GetBool();
 
             Group group = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
@@ -220,10 +220,10 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void SerializeGroupMembers()
         {
-            uint groupId = Request.GetUInteger();
+            uint groupId = Request.GetUInt32();
             int page = Request.GetInteger();
             string searchVal = Request.GetString();
-            uint reqType = Request.GetUInteger();
+            uint reqType = Request.GetUInt32();
 
             Group group = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
 
@@ -239,8 +239,8 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void MakeGroupAdmin()
         {
-            uint num = Request.GetUInteger();
-            uint num2 = Request.GetUInteger();
+            uint num = Request.GetUInt32();
+            uint num2 = Request.GetUInt32();
 			// TODO Rename variables
             Group group = Yupi.GetGame().GetGroupManager().GetGroup(num);
 
@@ -286,8 +286,8 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void RemoveGroupAdmin()
         {
-            uint num = Request.GetUInteger();
-            uint num2 = Request.GetUInteger();
+            uint num = Request.GetUInt32();
+            uint num2 = Request.GetUInt32();
 
             Group group = Yupi.GetGame().GetGroupManager().GetGroup(num);
 
@@ -330,8 +330,8 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void AcceptMembership()
         {
-            uint groupId = Request.GetUInteger();
-            uint userId = Request.GetUInteger();
+            uint groupId = Request.GetUInt32();
+            uint userId = Request.GetUInt32();
 			// TODO Security is given userID assigned to connection?!
             Group group = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
 
@@ -384,8 +384,8 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void DeclineMembership()
         {
-            uint groupId = Request.GetUInteger();
-            uint userId = Request.GetUInteger();
+            uint groupId = Request.GetUInt32();
+            uint userId = Request.GetUInt32();
 
             Group group = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
 
@@ -426,7 +426,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void JoinGroup()
         {
-            uint groupId = Request.GetUInteger();
+            uint groupId = Request.GetUInt32();
 
             Group group = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
             Habbo user = Session.GetHabbo();
@@ -482,7 +482,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void MakeFav()
         {
-            uint groupId = Request.GetUInteger();
+            uint groupId = Request.GetUInt32();
 
             Group theGroup = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
 
@@ -538,7 +538,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void RemoveFav()
         {
-            Request.GetUInteger();
+            Request.GetUInt32();
             Session.GetHabbo().FavouriteGroup = 0;
 
 			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager ().GetQueryReactor ()) {
@@ -567,8 +567,8 @@ namespace Yupi.Emulator.Messages.Handlers
             if (Yupi.GetUnixTimeStamp() - Session.GetHabbo().LastSqlQuery < 20)
                 return;
 
-            uint groupId = Request.GetUInteger();
-            uint threadId = Request.GetUInteger();
+            uint groupId = Request.GetUInt32();
+            uint threadId = Request.GetUInt32();
             string subject = Request.GetString();
             string content = Request.GetString();
 
@@ -666,8 +666,8 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void UpdateForumThread()
         {
-            uint groupId = Request.GetUInteger();
-            uint threadId = Request.GetUInteger();
+            uint groupId = Request.GetUInt32();
+            uint threadId = Request.GetUInt32();
             bool pin = Request.GetBool();
             bool Lock = Request.GetBool();
 
@@ -744,8 +744,8 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void AlterForumThreadState()
         {
-            uint groupId = Request.GetUInteger();
-            uint threadId = Request.GetUInteger();
+            uint groupId = Request.GetUInt32();
+            uint threadId = Request.GetUInt32();
             int stateToSet = Request.GetInteger();
 
             using (IQueryAdapter dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
@@ -806,8 +806,8 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void ReadForumThread()
         {
-            uint groupId = Request.GetUInteger();
-            uint threadId = Request.GetUInteger();
+            uint groupId = Request.GetUInt32();
+            uint threadId = Request.GetUInt32();
             int startIndex = Request.GetInteger();
 
             Request.GetInteger();
@@ -887,7 +887,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void GetGroupForumThreadRoot()
         {
-            uint groupId = Request.GetUInteger();
+            uint groupId = Request.GetUInt32();
 
             int startIndex = Request.GetInteger();
 
@@ -939,7 +939,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void GetGroupForumData()
         {
-            uint groupId = Request.GetUInteger();
+            uint groupId = Request.GetUInt32();
 
             Group theGroup = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
 
@@ -1028,7 +1028,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void ManageGroup()
         {
-            uint groupId = Request.GetUInteger();
+            uint groupId = Request.GetUInt32();
             Group theGroup = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
 
             if (theGroup == null)
@@ -1097,7 +1097,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void UpdateGroupName()
         {
-            uint num = Request.GetUInteger();
+            uint num = Request.GetUInt32();
             string text = Request.GetString();
             string text2 = Request.GetString();
 
@@ -1129,7 +1129,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void UpdateGroupBadge()
         {
-            uint guildId = Request.GetUInteger();
+            uint guildId = Request.GetUInt32();
 
             Group guild = Yupi.GetGame().GetGroupManager().GetGroup(guildId);
 
@@ -1204,7 +1204,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void UpdateGroupColours()
         {
-            uint groupId = Request.GetUInteger();
+            uint groupId = Request.GetUInt32();
             int num = Request.GetInteger();
             int num2 = Request.GetInteger();
 
@@ -1235,9 +1235,9 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void UpdateGroupSettings()
         {
-            uint groupId = Request.GetUInteger();
-            uint num = Request.GetUInteger();
-            uint num2 = Request.GetUInteger();
+            uint groupId = Request.GetUInt32();
+            uint num = Request.GetUInt32();
+            uint num2 = Request.GetUInt32();
 
             Group theGroup = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
 
@@ -1297,8 +1297,8 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void RequestLeaveGroup()
         {
-            uint groupId = Request.GetUInteger();
-            uint userId = Request.GetUInteger();
+            uint groupId = Request.GetUInt32();
+            uint userId = Request.GetUInt32();
 
             Group guild = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
 
@@ -1319,9 +1319,9 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void ConfirmLeaveGroup()
         {
-            uint guild = Request.GetUInteger();
+            uint guild = Request.GetUInt32();
 
-            uint userId = Request.GetUInteger();
+            uint userId = Request.GetUInt32();
 
             Group byeGuild = Yupi.GetGame().GetGroupManager().GetGroup(guild);
 
@@ -1441,11 +1441,11 @@ namespace Yupi.Emulator.Messages.Handlers
 
         internal void UpdateForumSettings()
         {
-            uint guild = Request.GetUInteger();
-            uint whoCanRead = Request.GetUInteger();
-            uint whoCanPost = Request.GetUInteger();
-            uint whoCanThread = Request.GetUInteger();
-            uint whoCanMod = Request.GetUInteger();
+            uint guild = Request.GetUInt32();
+            uint whoCanRead = Request.GetUInt32();
+            uint whoCanPost = Request.GetUInt32();
+            uint whoCanThread = Request.GetUInt32();
+            uint whoCanMod = Request.GetUInt32();
 
             Group group = Yupi.GetGame().GetGroupManager().GetGroup(guild);
 
@@ -1474,7 +1474,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
         internal void DeleteGroup()
         {
-            uint groupId = Request.GetUInteger();
+            uint groupId = Request.GetUInt32();
 
             Group group = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(group.RoomId);

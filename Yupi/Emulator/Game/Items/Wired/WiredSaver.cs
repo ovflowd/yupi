@@ -501,7 +501,7 @@ namespace Yupi.Emulator.Game.Items.Wired
 
             for (int i = 0; i < itemCount; i++)
             {
-                RoomItem item = room.GetRoomItemHandler().GetItem(request.GetUInteger());
+				RoomItem item = room.GetRoomItemHandler().GetItem(request.GetUInt32());
 
                 if (item != null)
                     list.Add(item);

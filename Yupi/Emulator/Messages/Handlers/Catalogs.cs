@@ -34,7 +34,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void CataloguePage()
         {
-            uint pageId = Request.GetUInteger();
+            uint pageId = Request.GetUInt32();
 
             Request.GetInteger();
 
@@ -146,10 +146,10 @@ namespace Yupi.Emulator.Messages.Handlers
                 return;
             }
 
-            uint pageId = Request.GetUInteger();
-            uint itemId = Request.GetUInteger();
+            uint pageId = Request.GetUInt32();
+            uint itemId = Request.GetUInt32();
             string extraData = Request.GetString();
-            uint priceAmount = Request.GetUInteger();
+            uint priceAmount = Request.GetUInt32();
 
             Yupi.GetGame()
                 .GetCatalogManager()
@@ -162,8 +162,8 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void PurchaseGift()
         {
-            uint pageId = Request.GetUInteger();
-            uint itemId = Request.GetUInteger();
+            uint pageId = Request.GetUInt32();
+            uint itemId = Request.GetUInt32();
             string extraData = Request.GetString();
             string giftUser = Request.GetString();
             string giftMessage = Request.GetString();
@@ -204,7 +204,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void CatalogueSingleOffer()
         {
-            uint num = Request.GetUInteger();
+            uint num = Request.GetUInt32();
 
             CatalogItem catalogItem = Yupi.GetGame().GetCatalogManager().GetItemFromOffer(num);
 

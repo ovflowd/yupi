@@ -41,7 +41,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void GetPub()
         {
-            uint roomId = Request.GetUInteger();
+            uint roomId = Request.GetUInt32();
             
             RoomData roomData = Yupi.GetGame().GetRoomManager().GenerateRoomData(roomId);
             
@@ -65,7 +65,7 @@ namespace Yupi.Emulator.Messages.Handlers
         {
             Request.GetInteger();
 
-            uint roomId = Request.GetUInteger();
+            uint roomId = Request.GetUInt32();
             
             Request.GetInteger();
             
@@ -168,7 +168,7 @@ namespace Yupi.Emulator.Messages.Handlers
             if (Session.GetHabbo() == null)
                 return;
                 
-            uint roomId = Request.GetUInteger();
+            uint roomId = Request.GetUInt32();
             Request.GetBool();
             Request.GetBool();
             
@@ -205,7 +205,7 @@ namespace Yupi.Emulator.Messages.Handlers
             if (Session.GetHabbo() == null)
                 return;
 
-            uint roomId = Request.GetUInteger();
+            uint roomId = Request.GetUInt32();
             
             string pWd = Request.GetString();
 
@@ -214,7 +214,7 @@ namespace Yupi.Emulator.Messages.Handlers
 
         internal void ToggleStaffPick()
         {
-            uint roomId = Request.GetUInteger();
+            uint roomId = Request.GetUInt32();
             
             Request.GetBool();
             

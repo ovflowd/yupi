@@ -52,7 +52,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void  SendBullyReport()
         {
-            uint reportedId = Request.GetUInteger();
+            uint reportedId = Request.GetUInt32();
 
             Yupi.GetGame()
                 .GetModerationTool()
@@ -119,7 +119,7 @@ namespace Yupi.Emulator.Messages.Handlers
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
-            RoomUser roomUserByHabbo = room?.GetRoomUserManager().GetRoomUserByHabbo(Request.GetUInteger());
+            RoomUser roomUserByHabbo = room?.GetRoomUserManager().GetRoomUserByHabbo(Request.GetUInt32());
 
             if (roomUserByHabbo == null || roomUserByHabbo.IsBot)
                 return;
@@ -149,7 +149,7 @@ namespace Yupi.Emulator.Messages.Handlers
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
-            RoomUser roomUserByHabbo = room?.GetRoomUserManager().GetRoomUserByHabbo(Request.GetUInteger());
+            RoomUser roomUserByHabbo = room?.GetRoomUserManager().GetRoomUserByHabbo(Request.GetUInt32());
 
             if (roomUserByHabbo != null && !roomUserByHabbo.IsBot && roomUserByHabbo.GetClient() != null &&
                 roomUserByHabbo.GetClient().GetHabbo() != null)
@@ -188,7 +188,7 @@ namespace Yupi.Emulator.Messages.Handlers
             if (room == null || Session.GetHabbo().DailyRespectPoints <= 0)
                 return;
 
-            RoomUser roomUserByHabbo = room.GetRoomUserManager().GetRoomUserByHabbo(Request.GetUInteger());
+            RoomUser roomUserByHabbo = room.GetRoomUserManager().GetRoomUserByHabbo(Request.GetUInt32());
 
             if (roomUserByHabbo == null || roomUserByHabbo.GetClient().GetHabbo().Id == Session.GetHabbo().Id ||
                 roomUserByHabbo.IsBot)
@@ -273,11 +273,11 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void MuteUser()
         {
-            uint num = Request.GetUInteger();
+            uint num = Request.GetUInt32();
 
-            Request.GetUInteger();
+            Request.GetUInt32();
 
-            uint num2 = Request.GetUInteger();
+            uint num2 = Request.GetUInt32();
 
             Room currentRoom = Session.GetHabbo().CurrentRoom;
 
@@ -507,7 +507,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void LoadProfile()
         {
-            uint userId = Request.GetUInteger();
+            uint userId = Request.GetUInt32();
             Request.GetBool();
 
             Habbo habbo = Yupi.GetHabboById(userId);
@@ -719,7 +719,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void SaveWardrobe()
         {
-            uint num = Request.GetUInteger();
+            uint num = Request.GetUInt32();
             string text = Request.GetString();
             string text2 = Request.GetString().ToUpper() == "F" ? "F" : "M";
 
@@ -931,7 +931,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void GetRelationships()
         {
-            uint userId = Request.GetUInteger();
+            uint userId = Request.GetUInt32();
             Habbo habboForId = Yupi.GetHabboById(userId);
             if (habboForId == null)
                 return;
@@ -975,8 +975,8 @@ namespace Yupi.Emulator.Messages.Handlers
         /// </summary>
         internal void SetRelationship()
         {
-            uint userId = Request.GetUInteger();
-            uint targetId = Request.GetUInteger();
+            uint userId = Request.GetUInt32();
+            uint targetId = Request.GetUInt32();
 
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
