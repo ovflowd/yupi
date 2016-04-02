@@ -14,8 +14,8 @@
 
 | Branch  | Windows | Linux (Mono) | Artifacts |
 |---------|---------|--------------|-----------|
-| nio |  [![Build status](https://ci.appveyor.com/api/projects/status/github/sant0ro/Yupi?svg=true&branch=nio)](https://ci.appveyor.com/project/sant0ro/yupi) | [![Build Status](https://travis-ci.org/sant0ro/Yupi.svg?branch=nio)](https://travis-ci.org/sant0ro/Yupi) | [Artifacts](https://ci.appveyor.com/project/sant0ro/yupi/build/artifacts?branch=nio) |
-| linux | [![Build status](https://ci.appveyor.com/api/projects/status/github/sant0ro/Yupi?svg=true&branch=linux)](https://ci.appveyor.com/project/sant0ro/yupi) | [![Build Status](https://travis-ci.org/sant0ro/Yupi.svg?branch=linux)](https://travis-ci.org/sant0ro/Yupi) | [Artifacts](https://ci.appveyor.com/project/sant0ro/yupi/build/artifacts?branch=linux) |
+| nio |  [![Build status](https://ci.appveyor.com/api/projects/status/github/sant0ro/Yupi?svg=true&branch=nio)](https://ci.appveyor.com/project/sant0ro/yupi?branch=nio) | [![Build Status](https://travis-ci.org/sant0ro/Yupi.svg?branch=nio)](https://travis-ci.org/sant0ro/Yupi) | [Artifacts](https://ci.appveyor.com/project/sant0ro/yupi/build/artifacts?branch=nio) |
+| linux | [![Build status](https://ci.appveyor.com/api/projects/status/github/sant0ro/Yupi?svg=true&branch=linux)](https://ci.appveyor.com/project/sant0ro/yupi?branch=linux) | [![Build Status](https://travis-ci.org/sant0ro/Yupi.svg?branch=linux)](https://travis-ci.org/sant0ro/Yupi?branch=linux) | [Artifacts](https://ci.appveyor.com/project/sant0ro/yupi/build/artifacts?branch=linux) |
 
 [![Github All Releases](https://img.shields.io/github/downloads/sant0ro/Yupi/total.svg)]()
  [![Gitter](https://badges.gitter.im/sant0ro/Yupi.svg)](https://gitter.im/sant0ro/Yupi) [![GitHub license](https://img.shields.io/badge/license-MIT-4DB798.svg)](https://raw.githubusercontent.com/sant0ro/Yupi/nio/LICENSE.md)
