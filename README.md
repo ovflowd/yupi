@@ -1,7 +1,7 @@
 
 <sup>we're on [RaGEZONE](https://forum.ragezone.com/f331/yupi-6-rosylin-mysql-based-1087279/)</sup>
 <pre>
-                                        ▀▄    ▄ ▄   █ ▄▄  ▄█   ▄ 
+                                        ▀▄    ▄ ▄   █ ▄▄  ▄█   ▄
                                           █  █   █  █   █ ██  █  
                                            ▀█ █   █ █▀▀▀  ██ █   
                                            █  █   █ █     ▐█ █   
@@ -11,7 +11,21 @@
                                            <sub>and for chocolate lovers</sub>
 </pre>
 
-[![Build Status](https://travis-ci.org/sant0ro/Yupi.svg?branch=nio)](https://travis-ci.org/sant0ro/Yupi) [![Github All Releases](https://img.shields.io/github/downloads/sant0ro/Yupi/total.svg)]() [![Gitter](https://badges.gitter.im/sant0ro/Yupi.svg)](https://gitter.im/sant0ro/Yupi) [![GitHub license](https://img.shields.io/badge/license-MIT-4DB798.svg)](https://raw.githubusercontent.com/sant0ro/Yupi/nio/LICENSE.md) [![GitHub issues](https://img.shields.io/github/issues/sant0ro/Yupi.svg)](https://github.com/sant0ro/Yupi/issues)  [![ZenHub](https://img.shields.io/badge/supercharged-zenhub.io-orange.svg)](https://zenhub.io) [![GitHub Stage](https://img.shields.io/badge/stage-alpha-D7AF23.svg)](https://github.com/sant0ro/Yupi) [![Donate](https://img.shields.io/badge/donate-paypal-%23D6604A.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FLYXSZ5B3G9NC)
+
+| Branch  | Windows | Linux (Mono) | Artifacts
+|---------|:-------------------:|---------------:|
+| nio |  [![Build status](https://ci.appveyor.com/api/projects/status/github/sant0ro/Yupi?svg=true&branch=nio)](https://ci.appveyor.com/project/sant0ro/yupi) | [![Build Status](https://travis-ci.org/sant0ro/Yupi.svg?branch=nio)](https://travis-ci.org/sant0ro/Yupi) | [Artifacts](https://ci.appveyor.com/project/sant0ro/yupi/build/artifacts?branch=nio) |
+| linux | [![Build status](https://ci.appveyor.com/api/projects/status/github/sant0ro/Yupi?svg=true&branch=linux)](https://ci.appveyor.com/project/sant0ro/yupi) | [![Build Status](https://travis-ci.org/sant0ro/Yupi.svg?branch=linux)](https://travis-ci.org/sant0ro/Yupi) | [Artifacts](https://ci.appveyor.com/project/sant0ro/yupi/build/artifacts?branch=linux) |
+
+[![Github All Releases](https://img.shields.io/github/downloads/sant0ro/Yupi/total.svg)]()
+
+ [![Gitter](https://badges.gitter.im/sant0ro/Yupi.svg)](https://gitter.im/sant0ro/Yupi) [![GitHub license](https://img.shields.io/badge/license-MIT-4DB798.svg)](https://raw.githubusercontent.com/sant0ro/Yupi/nio/LICENSE.md)
+
+ [![GitHub issues](https://img.shields.io/github/issues/sant0ro/Yupi.svg)](https://github.com/sant0ro/Yupi/issues)  
+
+ [![ZenHub](https://img.shields.io/badge/supercharged-zenhub.io-orange.svg)](https://zenhub.io) [![GitHub Stage](https://img.shields.io/badge/stage-alpha-D7AF23.svg)](https://github.com/sant0ro/Yupi)
+
+ [![Donate](https://img.shields.io/badge/donate-paypal-%23D6604A.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FLYXSZ5B3G9NC)
 
 &nbsp;&nbsp;&nbsp;<sup>**"Any fool can use a computer.  Many do.."**<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- *Ted Nelson*</sup>
@@ -48,7 +62,7 @@ Want a the Old Version from Yupi? Go to [Master Branch](https://github.com/sant0
 - [x] Be in Windows Environment
 - [x] Download Visual Studio 2015
 - [x] Build it.
-- [x] Run it. 
+- [x] Run it.
 - [ ] Enjoy it, or not.
 
 #### Talk more!
@@ -70,8 +84,3 @@ Yupi is ``fullified`` with horny bugs. You will love it. Also the features are A
 
 #### Are ready?
 Let's go! Run Lady Run!
-
-
-
-
-
