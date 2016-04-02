@@ -322,8 +322,12 @@ namespace Yupi.Emulator.Game.GameClients
             if (!_idUserNameRegister.Contains(userId))
                 _idUserNameRegister.Add(userId, userName);
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.SetQuery($"UPDATE users SET online='1' WHERE id={userId} LIMIT 1");
+			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor()) 
+			{
+                queryReactor.SetQuery("UPDATE users SET online='1' WHERE id = @user");
+				queryReactor.AddParameter("user", userId);
+				queryReactor.RunQuery ();
+			}
         }
 
         /// <summary>
@@ -336,8 +340,12 @@ namespace Yupi.Emulator.Game.GameClients
             _userIdRegister.Remove(userid);
             _userNameRegister.Remove(userName.ToLower());
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                queryReactor.SetQuery($"UPDATE users SET online = '0' WHERE id = {userid} LIMIT 1");
+			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor()) 
+			{
+                queryReactor.SetQuery("UPDATE users SET online = '0' WHERE id = @user LIMIT 1");
+				queryReactor.AddParameter("user", userid);
+				queryReactor.RunQuery ();
+			}
         }
 
         /// <summary>
