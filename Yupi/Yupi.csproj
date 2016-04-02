@@ -704,7 +704,6 @@
     <Compile Include="Emulator\Yupi.cs" />
     <Compile Include="Emulator\Messages\Buffers\SimpleClientMessageBuffer.cs" />
     <Compile Include="Emulator\Messages\Handlers\Others.cs" />
-    <Compile Include="Emulator\Messages\Encoding\HabboEncoding.cs" />
     <Compile Include="Emulator\Messages\Buffers\QueuedServerMessageBuffer.cs" />
     <Compile Include="Emulator\Messages\Buffers\SimpleServerMessageBuffer.cs" />
     <Compile Include="Emulator\Program.cs" />
