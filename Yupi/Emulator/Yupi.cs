@@ -466,10 +466,12 @@ namespace Yupi.Emulator
 			TCPServer.OnConnectionOpened += GetGame().GetClientManager().AddClient; // TODO Connection security!
 			TCPServer.OnConnectionClosed += GetGame().GetClientManager().RemoveClient;
 			TCPServer.OnMessageReceived += (ISession session, byte[] body) => {
-				using(global::Yupi.Emulator.Messages.Buffers.SimpleClientMessageBuffer message = ClientMessageFactory.GetClientMessage()) {
-					message.Setup(body);
+				//using(global::Yupi.Emulator.Messages.Buffers.SimpleClientMessageBuffer message = ClientMessageFactory.GetClientMessage()) {
+				// TODO When using message pool the SimpleClientMessageBuffer becomes invalid (after several messages) -> DEBUG
+				global::Yupi.Emulator.Messages.Buffers.SimpleClientMessageBuffer message = new global::Yupi.Emulator.Messages.Buffers.SimpleClientMessageBuffer();
+				    message.Setup(body);
 					GetGame().GetClientManager().GetClient(session).GetMessageHandler().HandleRequest(message);
-				}
+				//}
 			};
 
 			TCPServer.Start();
