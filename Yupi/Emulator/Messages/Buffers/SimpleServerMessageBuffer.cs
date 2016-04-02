@@ -323,7 +323,7 @@ namespace Yupi.Emulator.Messages.Buffers
             }
 
 			if (Yupi.PacketDebugMode) {
-				string package = Encoding.UTF8.GetString (bytes);
+				// string package = Encoding.UTF8.GetString (bytes);
 
 				// TODO Escape special chars
 

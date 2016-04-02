@@ -99,23 +99,11 @@ namespace Yupi.Emulator.Messages.Buffers
 
             return value;
         }
-		/*	
-		public int GetIntegerFromString()
-        {
-            int result;
-			// TODO Where is this needed???
-            string stringValue = GetString();
-
-            int.TryParse(stringValue, out result);
-
-            return result;
-        }*/
 			
 		public bool GetBool() {
 			return _body[_position++] == 1;
 		}
 			
-		// TODO Rename
 		public short GetShort() {
 			short value = BinaryHelper.ToShort (_body, _position);
 			_position += 2;
