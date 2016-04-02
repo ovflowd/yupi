@@ -45,9 +45,8 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IMessageHandler.cs" />
-    <Compile Include="OrderAttribute.cs" />
-    <Compile Include="AbstractComposeable.cs" />
-    <Compile Include="IComposeable.cs" />
+    <Compile Include="IComposer.cs" />
+    <Compile Include="Router.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

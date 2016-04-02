@@ -110,7 +110,7 @@ namespace Yupi.Emulator.Messages
         /// <summary>
         ///     Handle Incoming Request
         /// </summary>
-        public static void ReceiveRequest(MessageHandler handler, SimpleClientMessageBuffer messageBuffer)
+        public static void ReceiveRequest(MessageHandler handler, ClientMessagemessageBuffer)
         {
             if (Incoming.ContainsKey(messageBuffer.Id))
             {
