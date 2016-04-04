@@ -53,10 +53,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="IMessageHandler.cs" />
     <Compile Include="IComposer.cs" />
     <Compile Include="Router.cs" />
     <Compile Include="PacketLibrary.cs" />
+    <Compile Include="Handlers\User\SendBullyReportMessageEvent.cs" />
+    <Compile Include="Composer\User\BullyReportSentMessageComposer.cs" />
+    <Compile Include="AbstractComposer.cs" />
+    <Compile Include="Handlers\User\OpenBullyReportingMessageEvent.cs" />
+    <Compile Include="Composer\User\OpenBullyReportMessageComposer.cs" />
+    <Compile Include="Handlers\User\OpenQuestsMessageEvent.cs" />
+    <Compile Include="Composer\User\QuestListMessageComposer.cs" />
+    <Compile Include="Handlers\User\RetrieveCitizenshipStatus.cs" />
+    <Compile Include="Composer\User\CitizenshipStatusMessageComposer.cs" />
+    <Compile Include="Handlers\User\GetCatalogClubGiftsMessageEvent.cs" />
+    <Compile Include="AbstractHandler.cs" />
+    <Compile Include="Composer\User\LoadCatalogClubGiftsMessageComposer.cs" />
+    <Compile Include="Handlers\User\GetUserTagsMessageEvent.cs" />
+    <Compile Include="Composer\User\UserTagsMessageComposer.cs" />
+    <Compile Include="Handlers\User\GetUserBadgesMessageEvent.cs" />
+    <Compile Include="Composer\User\UserBadgesMessageComposer.cs" />
+    <Compile Include="Handlers\User\GiveRespectMessageEvent.cs" />
+    <Compile Include="Composer\User\GiveRespectsMessageComposer.cs" />
+    <Compile Include="Composer\User\RoomUserActionMessageComposer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -68,6 +86,10 @@
       <Project>{8D09AE29-53E7-405D-9F9E-CDDE1164851A}</Project>
       <Name>Yupi.Net</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Yupi\Yupi.csproj">
+      <Project>{4F3B6B3F-7754-40C9-B3DD-8D83BFA59FE5}</Project>
+      <Name>Yupi</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -75,5 +97,16 @@
   <ItemGroup>
     <Folder Include="Composer\" />
     <Folder Include="Handlers\" />
+    <Folder Include="Handlers\User\" />
+    <Folder Include="Composer\User\" />
   </ItemGroup>
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <DotNetNamingPolicy DirectoryNamespaceAssociation="PrefixedFlat" ResourceNamePolicy="FileFormatDefault" />
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
 </Project>

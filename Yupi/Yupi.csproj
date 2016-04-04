@@ -290,7 +290,6 @@
     <Compile Include="Emulator\Game\Rooms\Data\Composers\RoomDataComposer.cs" />
     <Compile Include="Emulator\Game\Rooms\Events\Composers\RoomEventComposer.cs" />
     <Compile Include="Emulator\Game\Users\YoutubeVideo.cs" />
-    <Compile Include="Emulator\Messages\Handlers\MessageHandler.cs" />
     <Compile Include="Emulator\Messages\StaticMessagesManager.cs" />
     <Compile Include="Emulator\Net\Web\WebManager.cs" />
     <Compile Include="Emulator\Data\FurnitureDataManager.cs" />

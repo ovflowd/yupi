@@ -48,6 +48,7 @@
     <Compile Include="ClientMessagePool.cs" />
     <Compile Include="Buffers\ClientMessage.cs" />
     <Compile Include="Buffers\ServerMessage.cs" />
+    <Compile Include="ServerMessagePool.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

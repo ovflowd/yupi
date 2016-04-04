@@ -27,14 +27,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using CodeProject.ObjectPool;
 
 namespace Yupi.Protocol.Buffers
 {
-	// TODO Refactor
-    public class ServerMessage : IDisposable
+	// TODO Refactor + implement pooled object properly
+    public class ServerMessage : PooledObject, IDisposable
     {
         /// <summary>
-        ///     The buffer for the SimpleServerMessageBuffer.
+        ///     The buffer for the ServerMessage.
         /// </summary>
         private readonly MemoryStream _buffer;
 
@@ -59,19 +60,19 @@ namespace Yupi.Protocol.Buffers
         private bool _onArray, _disposed;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="SimpleServerMessageBuffer" /> class.
+        ///     Initializes a new instance of the <see cref="ServerMessage" /> class.
         /// </summary>
-        public SimpleServerMessageBuffer()
+        public ServerMessage()
         {
             Id = 0;
             _buffer = new MemoryStream();
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="SimpleServerMessageBuffer" /> class.
+        ///     Initializes a new instance of the <see cref="ServerMessage" /> class.
         /// </summary>
         /// <param name="header">The header.</param>
-        public SimpleServerMessageBuffer(short header)
+        public ServerMessage(short header)
             : this()
         {
             Init(header);
@@ -89,22 +90,6 @@ namespace Yupi.Protocol.Buffers
         /// </summary>
         /// <value>The c messageBuffer.</value>
         private MemoryStream CurrentMessage => _onArray ? _arrayCurrentBuffer : _buffer;
-
-        /// <summary>
-        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-            if (_disposed)
-                return;
-
-            _buffer.Dispose();
-
-            if (_onArray)
-                _arrayBuffer.Dispose();
-
-            _disposed = true;
-        }
 
         /// <summary>
         ///     Initializes the specified header.
@@ -179,29 +164,11 @@ namespace Yupi.Protocol.Buffers
         }
 
         /// <summary>
-        ///     Appends the server messageBuffer.
-        /// </summary>
-        /// <param name="message">The messageBuffer.</param>
-        public void AppendServerMessage(SimpleServerMessageBuffer message) => AppendBytes(message.GetBytes(), false);
-
-        /// <summary>
-        ///     Appends the server messages.
-        /// </summary>
-        /// <param name="messages">The messages.</param>
-        public void AppendServerMessages(List<SimpleServerMessageBuffer> messages)
-        {
-            foreach (SimpleServerMessageBuffer message in messages)
-                AppendServerMessage(message);
-        }
-
-        /// <summary>
         ///     Appends the short.
         /// </summary>
         /// <param name="i">The i.</param>
-        public void AppendShort(short i)
+        public void AppendShort(short value)
         {
-            short value = (short) i;
-
             AppendBytes(BitConverter.GetBytes(value), true);
         }
 
@@ -223,6 +190,7 @@ namespace Yupi.Protocol.Buffers
         /// <param name="i">if set to <c>true</c> [i].</param>
         public void AppendInteger(bool i) => AppendInteger(i ? 1 : 0);
 
+		/*
         public void AppendIntegersArray(string str, char delimiter, int lenght, int defaultValue = 0, int maxValue = 0)
         {
             if (string.IsNullOrEmpty(str))
@@ -250,8 +218,9 @@ namespace Yupi.Protocol.Buffers
                 AppendInteger(value);
             }
         }
-
-        /// <summary>
+*/
+    
+		/// <summary>
         ///     Appends the bool.
         /// </summary>
         /// <param name="b">if set to <c>true</c> [b].</param>
@@ -288,6 +257,15 @@ namespace Yupi.Protocol.Buffers
         /// </summary>
         /// <param name="number">The number.</param>
         public void AppendByte(int number) => CurrentMessage.WriteByte((byte) number);
+
+		public void Append<T>(List<T> list) where T : IConvertible {
+			AppendInteger (list.Count);
+
+			foreach (T item in list) {
+			//	Append (item);
+				// TODO Must refactor to generic
+			}
+		}
 
         /// <summary>
         ///     Gets the bytes.

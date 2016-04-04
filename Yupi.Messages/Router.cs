@@ -11,7 +11,7 @@ namespace Yupi.Messages
 		private static readonly log4net.ILog Logger = log4net.LogManager
 			.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-		private Dictionary<short, IMessageHandler> Incoming;
+		private Dictionary<short, AbstractHandler> Incoming;
 		private Dictionary<Type, IComposer> Outgoing;
 
 		private PacketLibrary library;
@@ -33,7 +33,7 @@ namespace Yupi.Messages
 		}
 
 		public void Handle (ISession session, ClientMessage message) {
-			IMessageHandler handler;
+			AbstractHandler handler;
 			Incoming.TryGetValue (message.Id, out handler);
 
 			if (handler == null) {
@@ -42,14 +42,14 @@ namespace Yupi.Messages
 				handler.HandleMessage (session, message);
 			}
 		}
-
+		// TODO Fix handler names in *.incoming
 		private void LoadHandlers() {
-			Incoming = new Dictionary<short, IMessageHandler> ();
+			Incoming = new Dictionary<short, AbstractHandler> ();
 
-			IEnumerable<Type> handlers = GetImplementing <IMessageHandler>();
+			IEnumerable<Type> handlers = GetImplementing <AbstractHandler>();
 
 			foreach (Type handlerType in handlers) {
-				IMessageHandler handler = (IMessageHandler)Activator.CreateInstance(handlerType);
+				AbstractHandler handler = (AbstractHandler)Activator.CreateInstance(handlerType);
 				Incoming.Add(library.GetIncomingId(handler.Name), handler);
 			}
 		}
