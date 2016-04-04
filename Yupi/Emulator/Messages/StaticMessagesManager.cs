@@ -114,12 +114,5 @@ namespace Yupi.Emulator.Messages
 
             messageBuffer.Dispose();
         }
-
-        /// <summary>
-        ///     Get Static Message Entry
-        /// </summary>
-        /// <param name="type">The type.</param>
-        /// <returns>System.Byte[].</returns>
-        public static byte[] Get(StaticMessage type) => Cache[type];
     }
 }

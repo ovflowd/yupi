@@ -45,9 +45,9 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Buffers\QueuedServerMessageBuffer.cs" />
-    <Compile Include="Buffers\SimpleServerMessageBuffer.cs" />
     <Compile Include="ClientMessagePool.cs" />
     <Compile Include="Buffers\ClientMessage.cs" />
+    <Compile Include="Buffers\ServerMessage.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

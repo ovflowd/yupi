@@ -64,7 +64,7 @@ namespace Yupi.Protocol.Buffers
         ///     Appends the response.
         /// </summary>
         /// <param name="messageBuffer">The messageBuffer.</param>
-		internal void AppendResponse(SimpleServerMessageBuffer messageBuffer) {
+		internal void AppendResponse(ServerMessage messageBuffer) {
 			AppendBytes (messageBuffer.GetReversedBytes ());
 		}
 

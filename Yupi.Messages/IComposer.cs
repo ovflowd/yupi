@@ -4,11 +4,9 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages
 {
-	public interface IComposer<T>
+	public interface IComposer
 	{
-		string Name { get; }
-
-		void Compose(ISession session, T data);
+		void SetId(short id);
 	}
 }
 

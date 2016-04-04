@@ -31,13 +31,7 @@ using System.Text;
 namespace Yupi.Protocol.Buffers
 {
 	// TODO Refactor
-    /// <summary>
-    ///     Class SimpleServerMessageBuffer.
-    /// </summary>
-    /// <summary>
-    ///     Class SimpleServerMessageBuffer.
-    /// </summary>
-    public class SimpleServerMessageBuffer : IDisposable
+    public class ServerMessage : IDisposable
     {
         /// <summary>
         ///     The buffer for the SimpleServerMessageBuffer.
