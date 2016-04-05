@@ -143,6 +143,22 @@
     <Compile Include="Composer\Music\SongsLibraryMessageComposer.cs" />
     <Compile Include="Handlers\Music\LoadJukeboxDiscsMessageEvent.cs" />
     <Compile Include="Handlers\Music\GetJukeboxPlaylistsMessageEvent.cs" />
+    <Compile Include="Handlers\Guides\OnGuideMessageEvent.cs" />
+    <Compile Include="Composer\Guides\OnGuideSessionError.cs" />
+    <Compile Include="Composer\Guides\OnGuideSessionAttachedMessageComposer.cs" />
+    <Compile Include="Handlers\Guides\OnGuideSessionDetachedMessageEvent.cs" />
+    <Compile Include="Composer\Guides\OnGuideSessionStartedMessageComposer.cs" />
+    <Compile Include="Handlers\Guides\GetHelperToolConfigurationMessageEvent.cs" />
+    <Compile Include="Composer\Guides\HelperToolConfigurationMessageComposer.cs" />
+    <Compile Include="Handlers\Guides\GuideInviteToRoom.cs" />
+    <Compile Include="Composer\Guides\OnGuideSessionInvitedToGuideRoomMessageComposer.cs" />
+    <Compile Include="Handlers\Guides\VisitRoomGuides.cs" />
+    <Compile Include="Handlers\Guides\AmbassadorAlertMessageEvent.cs" />
+    <Compile Include="Handlers\Guides\GuideToolMessageNew.cs" />
+    <Compile Include="Composer\Guides\OnGuideSessionMsgMessageComposer.cs" />
+    <Compile Include="Handlers\Guides\CancellInviteGuide.cs" />
+    <Compile Include="Composer\Guides\OnGuideSessionDetachedMessageComposer.cs" />
+    <Compile Include="Handlers\Guides\GuideEndSession.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -171,6 +187,8 @@
     <Folder Include="Composer\GameCenter\" />
     <Folder Include="Handlers\Music\" />
     <Folder Include="Composer\Music\" />
+    <Folder Include="Handlers\Guides\" />
+    <Folder Include="Composer\Guides\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

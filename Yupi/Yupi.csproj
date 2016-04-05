@@ -581,7 +581,6 @@
     <Compile Include="Emulator\Data\CacheManager.cs" />
     <Compile Include="Emulator\Messages\Handlers\Catalogs.cs" />
     <Compile Include="Emulator\Messages\Handlers\Groups.cs" />
-    <Compile Include="Emulator\Messages\Handlers\Guides.cs" />
     <Compile Include="Emulator\Messages\Handlers\Help.cs" />
     <Compile Include="Emulator\Messages\Handlers\Items.cs" />
     <Compile Include="Emulator\Messages\Handlers\Messenger.cs" />
