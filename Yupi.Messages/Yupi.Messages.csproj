@@ -122,6 +122,16 @@
     <Compile Include="Composer\User\SetCameraPriceMessageComposer.cs" />
     <Compile Include="Handlers\User\GetHotelViewHallOfFameMessageEvent.cs" />
     <Compile Include="Composer\User\HotelViewHallOfFameMessageComposer.cs" />
+    <Compile Include="Handlers\GameCenter\GameCenterLoadGameMessageEvent.cs" />
+    <Compile Include="Composer\GameCenter\GameCenterGameAchievementsMessageComposer.cs" />
+    <Compile Include="Composer\GameCenter\GameCenterLeaderboardMessageComposer.cs" />
+    <Compile Include="Composer\GameCenter\GameCenterLeaderboard2MessageComposer.cs" />
+    <Compile Include="Composer\GameCenter\GameCenterGamesLeftMessageComposer.cs" />
+    <Compile Include="Composer\GameCenter\GameCenterPreviousWinnerMessageComposer.cs" />
+    <Compile Include="Composer\GameCenter\GameCenterAllAchievementsMessageComposer.cs" />
+    <Compile Include="Composer\GameCenter\GameCenterEnterInGameMessageComposer.cs" />
+    <Compile Include="Composer\GameCenter\GameCenterJoinGameQueueMessageComposer.cs" />
+    <Compile Include="Composer\GameCenter\GameCenterLoadGameUrlMessageComposer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -146,6 +156,8 @@
     <Folder Include="Handlers\" />
     <Folder Include="Handlers\User\" />
     <Folder Include="Composer\User\" />
+    <Folder Include="Handlers\GameCenter\" />
+    <Folder Include="Composer\GameCenter\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
