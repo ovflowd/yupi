@@ -132,6 +132,17 @@
     <Compile Include="Composer\GameCenter\GameCenterEnterInGameMessageComposer.cs" />
     <Compile Include="Composer\GameCenter\GameCenterJoinGameQueueMessageComposer.cs" />
     <Compile Include="Composer\GameCenter\GameCenterLoadGameUrlMessageComposer.cs" />
+    <Compile Include="Handlers\User\LoadItemsInventoryMessageEvent.cs" />
+    <Compile Include="Handlers\Music\RetrieveSongIDMessageEvent.cs" />
+    <Compile Include="Composer\Music\RetrieveSongIDMessageComposer.cs" />
+    <Compile Include="Handlers\Music\GetMusicDataMessageEvent.cs" />
+    <Compile Include="Composer\Music\SongsMessageComposer.cs" />
+    <Compile Include="Handlers\Music\JukeboxAddPlaylistItemMessageEvent.cs" />
+    <Compile Include="Composer\Music\JukeboxPlaylistMessageComposer.cs" />
+    <Compile Include="Handlers\Music\JukeboxRemoveSongMessageEvent.cs" />
+    <Compile Include="Composer\Music\SongsLibraryMessageComposer.cs" />
+    <Compile Include="Handlers\Music\LoadJukeboxDiscsMessageEvent.cs" />
+    <Compile Include="Handlers\Music\GetJukeboxPlaylistsMessageEvent.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -158,6 +169,8 @@
     <Folder Include="Composer\User\" />
     <Folder Include="Handlers\GameCenter\" />
     <Folder Include="Composer\GameCenter\" />
+    <Folder Include="Handlers\Music\" />
+    <Folder Include="Composer\Music\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

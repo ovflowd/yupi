@@ -583,10 +583,8 @@
     <Compile Include="Emulator\Messages\Handlers\Groups.cs" />
     <Compile Include="Emulator\Messages\Handlers\Guides.cs" />
     <Compile Include="Emulator\Messages\Handlers\Help.cs" />
-    <Compile Include="Emulator\Messages\Handlers\Inventory.cs" />
     <Compile Include="Emulator\Messages\Handlers\Items.cs" />
     <Compile Include="Emulator\Messages\Handlers\Messenger.cs" />
-    <Compile Include="Emulator\Messages\Handlers\Music.cs" />
     <Compile Include="Emulator\Messages\Handlers\Navigator.cs" />
     <Compile Include="Emulator\Messages\Handlers\Rooms.cs" />
     <Compile Include="Emulator\Messages\Enums\StaticMessages.cs" />

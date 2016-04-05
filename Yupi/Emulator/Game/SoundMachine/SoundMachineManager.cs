@@ -11,7 +11,7 @@ namespace Yupi.Emulator.Game.SoundMachine
     /// <summary>
     ///     Class RoomMusicController.
     /// </summary>
-     class SoundMachineManager
+    public class SoundMachineManager
     {
         /// <summary>
         ///     The _m broadcast needed
@@ -150,7 +150,7 @@ namespace Yupi.Emulator.Game.SoundMachine
         public int AddDisk(SongItem diskItem)
         {
             uint songId = diskItem.SongId;
-
+			// TODO Magic constant
             if (songId == 0u)
                 return -1;
 

@@ -6,7 +6,7 @@ namespace Yupi.Emulator.Game.SoundMachine.Songs
     /// <summary>
     ///     Class SongItem.
     /// </summary>
-     class SongItem
+	public class SongItem
     {
         /// <summary>
         ///     The base item

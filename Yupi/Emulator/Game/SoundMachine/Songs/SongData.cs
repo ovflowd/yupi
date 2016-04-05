@@ -3,7 +3,7 @@ namespace Yupi.Emulator.Game.SoundMachine.Songs
     /// <summary>
     ///     Class SongData.
     /// </summary>
-     class SongData
+    public class SongData
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="SongData" /> class.
@@ -21,7 +21,7 @@ namespace Yupi.Emulator.Game.SoundMachine.Songs
             Name = name;
             Artist = artist;
             Data = data;
-            LengthSeconds = length;
+            LengthSeconds = length; // TODO Prefer millis as double is unsafe!
         }
 
         /// <summary>
@@ -64,6 +64,6 @@ namespace Yupi.Emulator.Game.SoundMachine.Songs
         ///     Gets the length miliseconds.
         /// </summary>
         /// <value>The length miliseconds.</value>
-        public int LengthMiliseconds => (int) (LengthSeconds*1000.0);
+        public int LengthMiliseconds => LengthSeconds*1000;
     }
 }
