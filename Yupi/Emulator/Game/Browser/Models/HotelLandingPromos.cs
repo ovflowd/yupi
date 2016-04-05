@@ -93,7 +93,7 @@ namespace Yupi.Emulator.Game.Browser.Models
         /// </summary>
         /// <param name="composer">The composer.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-        internal SimpleServerMessageBuffer Serialize(SimpleServerMessageBuffer composer)
+         SimpleServerMessageBuffer Serialize(SimpleServerMessageBuffer composer)
         {
             composer.AppendInteger(_index);
             composer.AppendString(_header);

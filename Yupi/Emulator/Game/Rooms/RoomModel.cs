@@ -8,84 +8,84 @@ namespace Yupi.Emulator.Game.Rooms
     /// <summary>
     ///     Class RoomModel.
     /// </summary>
-    internal class RoomModel
+     class RoomModel
     {
         private const string Letters = "abcdefghijklmnopqrstuvw";
 
         /// <summary>
         ///     The club only
         /// </summary>
-        internal bool ClubOnly;
+         bool ClubOnly;
 
         /// <summary>
         ///     The door orientation
         /// </summary>
-        internal int DoorOrientation;
+         int DoorOrientation;
 
         /// <summary>
         ///     The door x
         /// </summary>
-        internal int DoorX;
+         int DoorX;
 
         /// <summary>
         ///     The door y
         /// </summary>
-        internal int DoorY;
+         int DoorY;
 
         /// <summary>
         ///     The door z
         /// </summary>
-        internal double DoorZ;
+         double DoorZ;
 
         /// <summary>
         ///     The got public pool
         /// </summary>
-        internal bool GotPublicPool;
+         bool GotPublicPool;
 
         /// <summary>
         ///     The heightmap
         /// </summary>
-        internal string Heightmap;
+         string Heightmap;
 
         /// <summary>
         ///     The map size x
         /// </summary>
-        internal int MapSizeX;
+         int MapSizeX;
 
         /// <summary>
         ///     The map size y
         /// </summary>
-        internal int MapSizeY;
+         int MapSizeY;
 
         /// <summary>
         ///     The m room modelfx
         /// </summary>
-        internal byte[][] MRoomModelfx;
+         byte[][] MRoomModelfx;
 
         /// <summary>
         ///     The sq character
         /// </summary>
-        internal char[][] SqChar;
+         char[][] SqChar;
 
         /// <summary>
         ///     The sq floor height
         /// </summary>
-        internal short[][] SqFloorHeight;
+         short[][] SqFloorHeight;
 
         /// <summary>
         ///     The sq seat rot
         /// </summary>
-        internal byte[][] SqSeatRot;
+         byte[][] SqSeatRot;
 
         /// <summary>
         ///     The sq state
         /// </summary>
-        internal SquareState[][] SqState;
+         SquareState[][] SqState;
 
         /// <summary>
         ///     The static furni map
         /// </summary>
-        internal string StaticFurniMap;
+         string StaticFurniMap;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="RoomModel" /> class.
@@ -98,7 +98,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// <param name="staticFurniMap">The static furni map.</param>
         /// <param name="clubOnly">if set to <c>true</c> [club only].</param>
         /// <param name="poolmap">The poolmap.</param>
-        internal RoomModel(int doorX, int doorY, double doorZ, int doorOrientation, string heightmap,
+         RoomModel(int doorX, int doorY, double doorZ, int doorOrientation, string heightmap,
             string staticFurniMap, bool clubOnly, string poolmap)
         {
             try

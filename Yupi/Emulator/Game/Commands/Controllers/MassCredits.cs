@@ -6,7 +6,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class MassCredits. This class cannot be inherited.
     /// </summary>
-    internal sealed class MassCredits : Command
+     sealed class MassCredits : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="MassCredits" /> class.

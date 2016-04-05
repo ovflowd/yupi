@@ -7,7 +7,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class RefreshSongs. This class cannot be inherited.
     /// </summary>
-    internal sealed class RefreshSongs : Command
+     sealed class RefreshSongs : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="RefreshSongs" /> class.

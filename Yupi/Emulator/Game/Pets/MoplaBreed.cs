@@ -32,7 +32,7 @@ namespace Yupi.Emulator.Game.Pets
     /// <summary>
     ///     Class MoplaBreed.
     /// </summary>
-    internal class MoplaBreed
+     class MoplaBreed
     {
         /// <summary>
         ///     The _pet
@@ -57,18 +57,18 @@ namespace Yupi.Emulator.Game.Pets
         /// <summary>
         ///     The growing status
         /// </summary>
-        internal int GrowingStatus;
+         int GrowingStatus;
 
         /// <summary>
         ///     The live state
         /// </summary>
-        internal MoplaState LiveState;
+         MoplaState LiveState;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="MoplaBreed" /> class.
         /// </summary>
         /// <param name="row">The row.</param>
-        internal MoplaBreed(DataRow row)
+         MoplaBreed(DataRow row)
         {
             _petId = uint.Parse(row["pet_id"].ToString());
             _rarity = int.Parse(row["rarity"].ToString());
@@ -88,7 +88,7 @@ namespace Yupi.Emulator.Game.Pets
         /// <param name="breedData">The breed data.</param>
         /// <param name="liveState">State of the live.</param>
         /// <param name="growingStatus">The growing status.</param>
-        internal MoplaBreed(Pet pet, uint petId, int rarity, string moplaName, string breedData, int liveState,
+         MoplaBreed(Pet pet, uint petId, int rarity, string moplaName, string breedData, int liveState,
             int growingStatus)
         {
             _pet = pet;
@@ -104,27 +104,27 @@ namespace Yupi.Emulator.Game.Pets
         ///     Gets the grow status.
         /// </summary>
         /// <value>The grow status.</value>
-        internal string GrowStatus
+         string GrowStatus
             => LiveState == MoplaState.Dead ? "rip" : (LiveState == MoplaState.Grown ? "std" : $"grw{GrowingStatus}");
 
         /// <summary>
         ///     Gets the name.
         /// </summary>
         /// <value>The name.</value>
-        internal string Name { get; }
+         string Name { get; }
 
         /// <summary>
         ///     Gets the plant data.
         /// </summary>
         /// <value>The plant data.</value>
-        internal string PlantData { get; }
+         string PlantData { get; }
 
         /// <summary>
         ///     Creates the monsterplant breed.
         /// </summary>
         /// <param name="pet">The pet.</param>
         /// <returns>MoplaBreed.</returns>
-        internal static MoplaBreed CreateMonsterplantBreed(Pet pet)
+         static MoplaBreed CreateMonsterplantBreed(Pet pet)
         {
             if (pet.Type != "pet_monster")
                 return null;
@@ -151,7 +151,7 @@ namespace Yupi.Emulator.Game.Pets
         /// </summary>
         /// <param name="rarity">The rarity.</param>
         /// <returns>Tuple&lt;System.String, System.String&gt;.</returns>
-        internal static Tuple<string, string> GeneratePlantData(int rarity)
+         static Tuple<string, string> GeneratePlantData(int rarity)
         {
             string str = string.Empty;
 
@@ -594,7 +594,7 @@ namespace Yupi.Emulator.Game.Pets
         /// <summary>
         ///     Kills the plant.
         /// </summary>
-        internal void KillPlant()
+         void KillPlant()
         {
             LiveState = MoplaState.Dead;
             _dbUpdateNeeded = true;
@@ -605,7 +605,7 @@ namespace Yupi.Emulator.Game.Pets
         /// </summary>
         /// <param name="lastHealth">The last health.</param>
         /// <param name="untilGrown">The until grown.</param>
-        internal void OnTimerTick(DateTime lastHealth, DateTime untilGrown)
+         void OnTimerTick(DateTime lastHealth, DateTime untilGrown)
         {
             if (LiveState != 0)
                 return;
@@ -665,7 +665,7 @@ namespace Yupi.Emulator.Game.Pets
         ///     Revives the plant.
         /// </summary>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool RevivePlant()
+         bool RevivePlant()
         {
             if (LiveState != MoplaState.Dead)
                 return false;
@@ -674,7 +674,7 @@ namespace Yupi.Emulator.Game.Pets
             return true;
         }
 
-        internal void UpdateInDb()
+         void UpdateInDb()
         {
             using (IQueryAdapter adapter = Yupi.GetDatabaseManager().GetQueryReactor())
             {

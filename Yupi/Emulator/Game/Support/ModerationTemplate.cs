@@ -3,57 +3,57 @@ namespace Yupi.Emulator.Game.Support
     /// <summary>
     ///     Class ModerationTemplate.
     /// </summary>
-    internal class ModerationTemplate
+     class ModerationTemplate
     {
         /// <summary>
         ///     The avatar ban
         /// </summary>
-        internal bool AvatarBan;
+         bool AvatarBan;
 
         /// <summary>
         ///     The ban hours
         /// </summary>
-        internal short BanHours;
+         short BanHours;
 
         /// <summary>
         ///     The ban message
         /// </summary>
-        internal string BanMessage;
+         string BanMessage;
 
         /// <summary>
         ///     The caption
         /// </summary>
-        internal string Caption;
+         string Caption;
 
         /// <summary>
         ///     The category
         /// </summary>
-        internal short Category;
+         short Category;
 
         /// <summary>
         ///     The c name
         /// </summary>
-        internal string CName;
+         string CName;
 
         /// <summary>
         ///     The identifier
         /// </summary>
-        internal uint Id;
+         uint Id;
 
         /// <summary>
         ///     The mute
         /// </summary>
-        internal bool Mute;
+         bool Mute;
 
         /// <summary>
         ///     The trade lock
         /// </summary>
-        internal bool TradeLock;
+         bool TradeLock;
 
         /// <summary>
         ///     The warning message
         /// </summary>
-        internal string WarningMessage;
+         string WarningMessage;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="ModerationTemplate" /> class.
@@ -68,7 +68,7 @@ namespace Yupi.Emulator.Game.Support
         /// <param name="avatarBan">if set to <c>true</c> [avatar ban].</param>
         /// <param name="mute">if set to <c>true</c> [mute].</param>
         /// <param name="tradeLock">if set to <c>true</c> [trade lock].</param>
-        internal ModerationTemplate(uint id, short category, string cName, string caption, string warningMessage,
+         ModerationTemplate(uint id, short category, string cName, string caption, string warningMessage,
             string banMessage, short banHours, bool avatarBan, bool mute, bool tradeLock)
         {
             Id = id;

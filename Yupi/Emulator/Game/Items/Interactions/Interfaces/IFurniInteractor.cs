@@ -4,7 +4,7 @@ using Yupi.Emulator.Game.Rooms.User;
 
 namespace Yupi.Emulator.Game.Items.Interactions.Interfaces
 {
-    internal interface IFurniInteractor
+     interface IFurniInteractor
     {
         void OnPlace(GameClient session, RoomItem item);
 

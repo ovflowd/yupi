@@ -10,7 +10,7 @@ using Yupi.Emulator.Game.Rooms.User;
 
 namespace Yupi.Emulator.Game.Items.Wired.Handlers.Triggers
 {
-    internal class WalksOffFurni : IWiredItem, IWiredCycler
+     class WalksOffFurni : IWiredItem, IWiredCycler
     {
         private long _mNext;
 

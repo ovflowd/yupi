@@ -10,7 +10,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class Kill. This class cannot be inherited.
     /// </summary>
-    internal sealed class Kill : Command
+     sealed class Kill : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="Kill" /> class.

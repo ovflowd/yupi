@@ -49,49 +49,49 @@ namespace Yupi.Emulator.Game.Catalogs
     /// <summary>
     ///     Class Catalog.
     /// </summary>
-    internal class CatalogManager
+     class CatalogManager
     {
         /// <summary>
         ///     The last sent offer
         /// </summary>
-        internal static uint LastSentOffer;
+         static uint LastSentOffer;
 
         /// <summary>
         ///     The categories
         /// </summary>
-        internal HybridDictionary Categories;
+         HybridDictionary Categories;
 
         /// <summary>
         ///     The ecotron levels
         /// </summary>
-        internal List<int> EcotronLevels;
+         List<int> EcotronLevels;
 
         /// <summary>
         ///     The ecotron rewards
         /// </summary>
-        internal List<EcotronReward> EcotronRewards;
+         List<EcotronReward> EcotronRewards;
 
         /// <summary>
         ///     The flat offers
         /// </summary>
-        internal Dictionary<uint, uint> FlatOffers;
+         Dictionary<uint, uint> FlatOffers;
 
         /// <summary>
         ///     The habbo club items
         /// </summary>
-        internal List<CatalogItem> HabboClubItems;
+         List<CatalogItem> HabboClubItems;
 
         /// <summary>
         ///     The offers
         /// </summary>
-        internal HybridDictionary Offers;
+         HybridDictionary Offers;
 
         /// <summary>
         ///     Checks the name of the pet.
         /// </summary>
         /// <param name="petName">Name of the pet.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal static bool CheckPetName(string petName)
+         static bool CheckPetName(string petName)
             => petName.Length >= 3 && petName.Length <= 15 && Yupi.IsValidAlphaNumeric(petName);
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace Yupi.Emulator.Game.Catalogs
         /// <param name="color">The color.</param>
         /// <param name="rarity">The rarity.</param>
         /// <returns>Pet.</returns>
-        internal static Pet CreatePet(uint userId, string name, string type, string race, string color, int rarity = 0)
+         static Pet CreatePet(uint userId, string name, string type, string race, string color, int rarity = 0)
         {
             uint trace = Convert.ToUInt32(race);
 
@@ -152,7 +152,7 @@ namespace Yupi.Emulator.Game.Catalogs
         /// </summary>
         /// <param name="row">The row.</param>
         /// <returns>Pet.</returns>
-        internal static Pet GeneratePetFromRow(DataRow row)
+         static Pet GeneratePetFromRow(DataRow row)
         {
             MoplaBreed moplaBreed = null;
 
@@ -186,7 +186,7 @@ namespace Yupi.Emulator.Game.Catalogs
         /// </summary>
         /// <param name="offerId">The offer identifier.</param>
         /// <returns>CatalogItem.</returns>
-        internal CatalogItem GetItemFromOffer(uint offerId)
+         CatalogItem GetItemFromOffer(uint offerId)
         {
             CatalogItem result = null;
 
@@ -200,7 +200,7 @@ namespace Yupi.Emulator.Game.Catalogs
         ///     Initializes the specified database client.
         /// </summary>
         /// <param name="pageLoaded">The page loaded.</param>
-        internal void Init(out int pageLoaded)
+         void Init(out int pageLoaded)
         {
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 Init(queryReactor);
@@ -212,7 +212,7 @@ namespace Yupi.Emulator.Game.Catalogs
         ///     Initializes the specified database client.
         /// </summary>
         /// <param name="dbClient">The database client.</param>
-        internal void Init(IQueryAdapter dbClient)
+         void Init(IQueryAdapter dbClient)
         {
             Categories = new HybridDictionary();
             Offers = new HybridDictionary();
@@ -313,14 +313,14 @@ namespace Yupi.Emulator.Game.Catalogs
         /// </summary>
         /// <param name="itemId">The item identifier.</param>
         /// <returns>CatalogItem.</returns>
-        internal CatalogItem GetItem(uint itemId) => Offers.Contains(itemId) ? (CatalogItem) Offers[itemId] : null;
+         CatalogItem GetItem(uint itemId) => Offers.Contains(itemId) ? (CatalogItem) Offers[itemId] : null;
 
         /// <summary>
         ///     Gets the page.
         /// </summary>
         /// <param name="page">The page.</param>
         /// <returns>CatalogPage.</returns>
-        internal CatalogPage GetPage(uint page) => Categories.Contains(page) ? (CatalogPage) Categories[page] : null;
+         CatalogPage GetPage(uint page) => Categories.Contains(page) ? (CatalogPage) Categories[page] : null;
 
         /// <summary>
         ///     Handles the purchase.
@@ -338,7 +338,7 @@ namespace Yupi.Emulator.Game.Catalogs
         /// <param name="giftColor">Color of the gift.</param>
         /// <param name="undef">if set to <c>true</c> [undef].</param>
         /// <param name="theGroup">The theGroup.</param>
-        internal void HandlePurchase(GameClient session, uint pageId, uint itemId, string extraData, uint priceAmount,
+         void HandlePurchase(GameClient session, uint pageId, uint itemId, string extraData, uint priceAmount,
             bool isGift, string giftUser, string giftMessage, int giftSpriteId, int giftLazo, int giftColor, bool undef,
             uint theGroup)
         {
@@ -904,7 +904,7 @@ namespace Yupi.Emulator.Game.Catalogs
         /// <param name="limtot">The limtot.</param>
         /// <param name="songCode">The song code.</param>
         /// <returns>List&lt;UserItem&gt;.</returns>
-        internal List<UserItem> DeliverItems(GameClient session, Item item, uint amount, string extraData, uint limno,
+         List<UserItem> DeliverItems(GameClient session, Item item, uint amount, string extraData, uint limno,
             uint limtot, string songCode)
         {
             List<UserItem> list = new List<UserItem>();
@@ -1098,7 +1098,7 @@ namespace Yupi.Emulator.Game.Catalogs
         ///     Gets the random ecotron reward.
         /// </summary>
         /// <returns>EcotronReward.</returns>
-        internal EcotronReward GetRandomEcotronReward()
+         EcotronReward GetRandomEcotronReward()
         {
             uint level = 1u;
 
@@ -1120,7 +1120,7 @@ namespace Yupi.Emulator.Game.Catalogs
         ///     Gets the ecotron rewards.
         /// </summary>
         /// <returns>List&lt;EcotronReward&gt;.</returns>
-        internal List<EcotronReward> GetEcotronRewards()
+         List<EcotronReward> GetEcotronRewards()
         {
             return EcotronRewards;
         }
@@ -1129,7 +1129,7 @@ namespace Yupi.Emulator.Game.Catalogs
         ///     Gets the ecotron rewards levels.
         /// </summary>
         /// <returns>List&lt;System.Int32&gt;.</returns>
-        internal List<int> GetEcotronRewardsLevels()
+         List<int> GetEcotronRewardsLevels()
         {
             return EcotronLevels;
         }
@@ -1139,7 +1139,7 @@ namespace Yupi.Emulator.Game.Catalogs
         /// </summary>
         /// <param name="level">The level.</param>
         /// <returns>List&lt;EcotronReward&gt;.</returns>
-        internal List<EcotronReward> GetEcotronRewardsForLevel(uint level)
+         List<EcotronReward> GetEcotronRewardsForLevel(uint level)
         {
             return EcotronRewards.Where(current => current.RewardLevel == level).ToList();
         }

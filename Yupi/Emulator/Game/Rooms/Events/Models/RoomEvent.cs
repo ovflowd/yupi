@@ -27,32 +27,32 @@ namespace Yupi.Emulator.Game.Rooms.Events.Models
     /// <summary>
     ///     Class RoomEvent.
     /// </summary>
-    internal class RoomEvent
+     class RoomEvent
     {
         /// <summary>
         ///     The category
         /// </summary>
-        internal int Category;
+         int Category;
 
         /// <summary>
         ///     The description
         /// </summary>
-        internal string Description;
+         string Description;
 
         /// <summary>
         ///     The name
         /// </summary>
-        internal string Name;
+         string Name;
 
         /// <summary>
         ///     The room identifier
         /// </summary>
-        internal uint RoomId;
+         uint RoomId;
 
         /// <summary>
         ///     The time
         /// </summary>
-        internal int Time;
+         int Time;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="RoomEvent" /> class.
@@ -62,7 +62,7 @@ namespace Yupi.Emulator.Game.Rooms.Events.Models
         /// <param name="description">The description.</param>
         /// <param name="time">The time.</param>
         /// <param name="category">The category.</param>
-        internal RoomEvent(uint roomId, string name, string description, int time = 0, int category = 1)
+         RoomEvent(uint roomId, string name, string description, int time = 0, int category = 1)
         {
             RoomId = roomId;
             Name = name;
@@ -77,6 +77,6 @@ namespace Yupi.Emulator.Game.Rooms.Events.Models
         ///     Gets a value indicating whether this instance has expired.
         /// </summary>
         /// <value><c>true</c> if this instance has expired; otherwise, <c>false</c>.</value>
-        internal bool HasExpired => Yupi.GetUnixTimeStamp() > Time;
+         bool HasExpired => Yupi.GetUnixTimeStamp() > Time;
     }
 }

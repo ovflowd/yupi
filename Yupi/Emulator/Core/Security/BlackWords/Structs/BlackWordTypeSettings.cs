@@ -27,7 +27,7 @@ namespace Yupi.Emulator.Core.Security.BlackWords.Structs
     /// <summary>
     ///     Struct BlackWordTypeSettings
     /// </summary>
-    internal struct BlackWordTypeSettings
+     struct BlackWordTypeSettings
     {
         /// <summary>
         ///     The filter

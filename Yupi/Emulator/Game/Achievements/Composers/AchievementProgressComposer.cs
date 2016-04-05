@@ -31,7 +31,7 @@ namespace Yupi.Emulator.Game.Achievements.Composers
     /// <summary>
     ///     Class AchievementProgressComposer.
     /// </summary>
-    internal class AchievementProgressComposer
+     class AchievementProgressComposer
     {
         /// <summary>
         ///     Composes the specified achievement.
@@ -42,7 +42,7 @@ namespace Yupi.Emulator.Game.Achievements.Composers
         /// <param name="totalLevels">The total levels.</param>
         /// <param name="userData">The user data.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-        internal static SimpleServerMessageBuffer Compose(Achievement achievement, uint targetLevel,
+         static SimpleServerMessageBuffer Compose(Achievement achievement, uint targetLevel,
             AchievementLevel targetLevelData, uint totalLevels, UserAchievement userData)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("AchievementProgressMessageComposer"));

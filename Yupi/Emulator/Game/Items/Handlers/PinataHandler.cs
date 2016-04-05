@@ -11,7 +11,7 @@ namespace Yupi.Emulator.Game.Items.Handlers
     /// <summary>
     ///     Class PinataHandler.
     /// </summary>
-    internal class PinataHandler
+     class PinataHandler
     {
         /// <summary>
         ///     The Table
@@ -21,13 +21,13 @@ namespace Yupi.Emulator.Game.Items.Handlers
         /// <summary>
         ///     The pinatas
         /// </summary>
-        internal Dictionary<uint, PinataItem> Pinatas;
+         Dictionary<uint, PinataItem> Pinatas;
 
         /// <summary>
         ///     Initializes the specified database client.
         /// </summary>
         /// <param name="dbClient">The database client.</param>
-        internal void Initialize(IQueryAdapter dbClient)
+         void Initialize(IQueryAdapter dbClient)
         {
             dbClient.SetQuery("SELECT * FROM items_pinatas");
             Pinatas = new Dictionary<uint, PinataItem>();
@@ -46,7 +46,7 @@ namespace Yupi.Emulator.Game.Items.Handlers
         /// <param name="user">The user.</param>
         /// <param name="room">The room.</param>
         /// <param name="item">The item.</param>
-        internal void DeliverRandomPinataItem(RoomUser user, Room room, RoomItem item)
+         void DeliverRandomPinataItem(RoomUser user, Room room, RoomItem item)
         {
             if (room == null || item == null || item.GetBaseItem().InteractionType != Interaction.Pinata ||
                 !Pinatas.ContainsKey(item.GetBaseItem().ItemId))

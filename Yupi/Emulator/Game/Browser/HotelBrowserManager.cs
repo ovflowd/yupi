@@ -40,7 +40,7 @@ namespace Yupi.Emulator.Game.Browser
     /// <summary>
     ///     Class NavigatorManager.
     /// </summary>
-    internal class HotelBrowserManager
+     class HotelBrowserManager
     {
         /// <summary>
         ///     The _public items
@@ -55,22 +55,22 @@ namespace Yupi.Emulator.Game.Browser
         /// <summary>
         ///     The in categories
         /// </summary>
-        internal Dictionary<string, NavigatorCategory> NavigatorCategories;
+         Dictionary<string, NavigatorCategory> NavigatorCategories;
 
         /// <summary>
         ///     The private categories
         /// </summary>
-        internal HybridDictionary PrivateCategories;
+         HybridDictionary PrivateCategories;
 
         /// <summary>
         ///     The promo categories
         /// </summary>
-        internal Dictionary<int, PromoCategory> PromoCategories;
+         Dictionary<int, PromoCategory> PromoCategories;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="HotelBrowserManager" /> class.
         /// </summary>
-        internal HotelBrowserManager()
+         HotelBrowserManager()
         {
             PrivateCategories = new HybridDictionary();
 
@@ -87,7 +87,7 @@ namespace Yupi.Emulator.Game.Browser
         ///     Get the Number of Flat Caegories
         /// </summary>
         /// <value>The flat cats count.</value>
-        internal int FlatCatsCount => PrivateCategories.Count;
+         int FlatCatsCount => PrivateCategories.Count;
 
         /// <summary>
         ///     Initializes the specified database client.
@@ -144,7 +144,7 @@ namespace Yupi.Emulator.Game.Browser
                         new PublicItem(Convert.ToUInt32(row["id"]), int.Parse(row["bannertype"].ToString()),
                             (string) row["caption"],
                             (string) row["description"], (string) row["image"],
-                            row["image_type"].ToString().ToLower() == "internal"
+                            row["image_type"].ToString().ToLower() == ""
                                 ? PublicImageType.Internal
                                 : PublicImageType.External, (uint) row["room_id"], 0, (int) row["category_parent_id"],
                             row["recommended"].ToString() == "1", (int) row["typeofdata"]));
@@ -236,7 +236,7 @@ namespace Yupi.Emulator.Game.Browser
         ///     Serializes the new public rooms.
         /// </summary>
         /// <returns>SimpleServerMessageBuffer.</returns>
-        internal SimpleServerMessageBuffer SerializePublicRooms()
+         SimpleServerMessageBuffer SerializePublicRooms()
         {
             SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer();
 
@@ -262,7 +262,7 @@ namespace Yupi.Emulator.Game.Browser
             return messageBuffer;
         }
 
-        internal SimpleServerMessageBuffer SerializeStaffPicks()
+         SimpleServerMessageBuffer SerializeStaffPicks()
         {
             SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer();
 
@@ -290,14 +290,14 @@ namespace Yupi.Emulator.Game.Browser
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>FlatCat.</returns>
-        internal PublicCategory GetFlatCat(int id)
+         PublicCategory GetFlatCat(int id)
             => PrivateCategories.Contains(id) ? (PublicCategory) PrivateCategories[id] : null;
 
         /// <summary>
         ///     Initializes Navigator
         /// </summary>
         /// <param name="session">The session.</param>
-        internal void InitializeNavigator(GameClient session)
+         void InitializeNavigator(GameClient session)
         {
             session.SendMessage(NavigatorMetaDataComposer.Compose());
 
@@ -314,19 +314,19 @@ namespace Yupi.Emulator.Game.Browser
         ///     Gets the name of the flat cat identifier by.
         /// </summary>
         /// <param name="flatName">Name of the flat category.</param>
-        internal int GetFlatCatIdByName(string flatName) => PrivateCategories.Values.Cast<PublicCategory>().First(flat => flat?.Caption == flatName).Id;
+         int GetFlatCatIdByName(string flatName) => PrivateCategories.Values.Cast<PublicCategory>().First(flat => flat?.Caption == flatName).Id;
 
         /// <summary>
         ///     Gets a navigator category by caption
         /// </summary>
         /// <param name="navigatorCategoryCaption">Name of the category.</param>
-        internal NavigatorCategory GetNavigatorCategory(string navigatorCategoryCaption) => NavigatorCategories.FirstOrDefault(c => c.Key == navigatorCategoryCaption).Value;
+         NavigatorCategory GetNavigatorCategory(string navigatorCategoryCaption) => NavigatorCategories.FirstOrDefault(c => c.Key == navigatorCategoryCaption).Value;
 
         /// <summary>
         ///     Gets a Public Room Data
         /// </summary>
         /// <param name="roomId">Public Room Id.</param>
-        internal PublicItem GetPublicRoom(uint roomId)
+         PublicItem GetPublicRoom(uint roomId)
         {
             IEnumerable<KeyValuePair<uint, PublicItem>> search = PublicRooms.Where(i => i.Value.RoomId == roomId);
 
@@ -340,7 +340,7 @@ namespace Yupi.Emulator.Game.Browser
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>System.Int32.</returns>
-        internal int GetNewNavigatorLength(string value)
+         int GetNewNavigatorLength(string value)
         {
             switch (value)
             {

@@ -11,7 +11,7 @@ using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 {
-    internal class InteractorWired : FurniInteractorModel
+     class InteractorWired : FurniInteractorModel
     {
         public override void OnRemove(GameClient session, RoomItem item)
         {

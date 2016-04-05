@@ -12,15 +12,15 @@ namespace Yupi.Emulator.Game.Users
     /// <summary>
     ///     Class YoutubeManager.
     /// </summary>
-    internal class YoutubeManager
+     class YoutubeManager
     {
-        internal static readonly Regex YoutubeVideoRegex =
+         static readonly Regex YoutubeVideoRegex =
             new Regex(@"youtu(?:\.be|be\.com)/(?:.*v(?:/|=)|(?:.*/)?)([a-zA-Z0-9-_]+)", RegexOptions.IgnoreCase);
 
-        internal uint UserId;
-        internal Dictionary<string, YoutubeVideo> Videos;
+         uint UserId;
+         Dictionary<string, YoutubeVideo> Videos;
 
-        internal YoutubeManager(uint id)
+         YoutubeManager(uint id)
         {
             UserId = id;
             Videos = new Dictionary<string, YoutubeVideo>();

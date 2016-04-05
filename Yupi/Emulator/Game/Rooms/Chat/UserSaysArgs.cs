@@ -11,12 +11,12 @@ namespace Yupi.Emulator.Game.Rooms.Chat
         /// <summary>
         ///     The message
         /// </summary>
-        internal readonly string Message;
+         readonly string Message;
 
         /// <summary>
         ///     The user
         /// </summary>
-        internal readonly RoomUser User;
+         readonly RoomUser User;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="UserSaysArgs" /> class.

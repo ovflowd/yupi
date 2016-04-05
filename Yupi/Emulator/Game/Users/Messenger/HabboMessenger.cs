@@ -18,7 +18,7 @@ namespace Yupi.Emulator.Game.Users.Messenger
     /// <summary>
     ///     Class HabboMessenger.
     /// </summary>
-    internal class HabboMessenger
+     class HabboMessenger
     {
         /// <summary>
         ///     The _user identifier
@@ -28,23 +28,23 @@ namespace Yupi.Emulator.Game.Users.Messenger
         /// <summary>
         ///     The appear offline
         /// </summary>
-        internal bool AppearOffline;
+         bool AppearOffline;
 
         /// <summary>
         ///     The friends
         /// </summary>
-        internal Dictionary<uint, MessengerBuddy> Friends;
+         Dictionary<uint, MessengerBuddy> Friends;
 
         /// <summary>
         ///     The requests
         /// </summary>
-        internal Dictionary<uint, MessengerRequest> Requests;
+         Dictionary<uint, MessengerRequest> Requests;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="HabboMessenger" /> class.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
-        internal HabboMessenger(uint userId)
+         HabboMessenger(uint userId)
         {
             Requests = new Dictionary<uint, MessengerRequest>();
             Friends = new Dictionary<uint, MessengerBuddy>();
@@ -56,7 +56,7 @@ namespace Yupi.Emulator.Game.Users.Messenger
         /// </summary>
         /// <param name="friends">The friends.</param>
         /// <param name="requests">The requests.</param>
-        internal void Init(Dictionary<uint, MessengerBuddy> friends, Dictionary<uint, MessengerRequest> requests)
+         void Init(Dictionary<uint, MessengerBuddy> friends, Dictionary<uint, MessengerRequest> requests)
         {
             Requests = new Dictionary<uint, MessengerRequest>(requests);
             Friends = new Dictionary<uint, MessengerBuddy>(friends);
@@ -65,7 +65,7 @@ namespace Yupi.Emulator.Game.Users.Messenger
         /// <summary>
         ///     Clears the requests.
         /// </summary>
-        internal void ClearRequests()
+         void ClearRequests()
         {
             Requests.Clear();
         }
@@ -75,13 +75,13 @@ namespace Yupi.Emulator.Game.Users.Messenger
         /// </summary>
         /// <param name="senderId">The sender identifier.</param>
         /// <returns>MessengerRequest.</returns>
-        internal MessengerRequest GetRequest(uint senderId)
+         MessengerRequest GetRequest(uint senderId)
             => Requests.ContainsKey(senderId) ? Requests[senderId] : null;
 
         /// <summary>
         ///     Destroys this instance.
         /// </summary>
-        internal void Destroy()
+         void Destroy()
         {
             IEnumerable<GameClient> clientsById = Yupi.GetGame().GetClientManager().GetClientsByUserIds(Friends.Keys);
 
@@ -102,7 +102,7 @@ namespace Yupi.Emulator.Game.Users.Messenger
         ///     Called when [status changed].
         /// </summary>
         /// <param name="notification">if set to <c>true</c> [notification].</param>
-        internal void OnStatusChanged(bool notification)
+         void OnStatusChanged(bool notification)
         {
             if (Friends == null)
                 return;
@@ -136,7 +136,7 @@ namespace Yupi.Emulator.Game.Users.Messenger
         /// <param name="userid">The userid.</param>
         /// <param name="client">The client.</param>
         /// <param name="notification">if set to <c>true</c> [notification].</param>
-        internal void UpdateFriend(uint userid, GameClient client, bool notification)
+         void UpdateFriend(uint userid, GameClient client, bool notification)
         {
             if (!Friends.ContainsKey(userid))
                 return;
@@ -156,7 +156,7 @@ namespace Yupi.Emulator.Game.Users.Messenger
         /// </summary>
         /// <param name="type">The type.</param>
         /// <param name="name">The name.</param>
-        internal void SerializeMessengerAction(int type, string name)
+         void SerializeMessengerAction(int type, string name)
         {
             if (GetClient() == null)
                 return;
@@ -176,7 +176,7 @@ namespace Yupi.Emulator.Game.Users.Messenger
         /// <summary>
         ///     Handles all requests.
         /// </summary>
-        internal void HandleAllRequests()
+         void HandleAllRequests()
         {
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 queryReactor.RunFastQuery("DELETE FROM messenger_requests WHERE from_id = " + _userId +
@@ -189,7 +189,7 @@ namespace Yupi.Emulator.Game.Users.Messenger
         ///     Handles the request.
         /// </summary>
         /// <param name="sender">The sender.</param>
-        internal void HandleRequest(uint sender)
+         void HandleRequest(uint sender)
         {
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 queryReactor.RunFastQuery(string.Concat("DELETE FROM messenger_requests WHERE (from_id = ",
@@ -202,7 +202,7 @@ namespace Yupi.Emulator.Game.Users.Messenger
         ///     Creates the friendship.
         /// </summary>
         /// <param name="friendId">The friend identifier.</param>
-        internal void CreateFriendship(uint friendId)
+         void CreateFriendship(uint friendId)
         {
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 queryReactor.RunFastQuery(string.Concat("REPLACE INTO messenger_friendships (user_one_id,user_two_id) VALUES (", _userId, ",", friendId, ")"));
@@ -221,7 +221,7 @@ namespace Yupi.Emulator.Game.Users.Messenger
         ///     Destroys the friendship.
         /// </summary>
         /// <param name="friendId">The friend identifier.</param>
-        internal void DestroyFriendship(uint friendId)
+         void DestroyFriendship(uint friendId)
         {
             Habbo habbo = GetClient().GetHabbo();
 
@@ -278,7 +278,7 @@ namespace Yupi.Emulator.Game.Users.Messenger
         ///     Called when [new friendship].
         /// </summary>
         /// <param name="friendId">The friend identifier.</param>
-        internal void OnNewFriendship(uint friendId)
+         void OnNewFriendship(uint friendId)
         {
             GameClient clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(friendId);
 
@@ -319,20 +319,20 @@ namespace Yupi.Emulator.Game.Users.Messenger
         /// </summary>
         /// <param name="requestId">The request identifier.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool RequestExists(uint requestId) => Requests != null && Requests.ContainsKey(requestId);
+         bool RequestExists(uint requestId) => Requests != null && Requests.ContainsKey(requestId);
 
         /// <summary>
         ///     Friendships the exists.
         /// </summary>
         /// <param name="friendId">The friend identifier.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool FriendshipExists(uint friendId) => Friends.ContainsKey(friendId);
+         bool FriendshipExists(uint friendId) => Friends.ContainsKey(friendId);
 
         /// <summary>
         ///     Called when [destroy friendship].
         /// </summary>
         /// <param name="friend">The friend.</param>
-        internal void OnDestroyFriendship(uint friend)
+         void OnDestroyFriendship(uint friend)
         {
             if(Friends.ContainsKey(friend))
                 Friends.Remove(friend);
@@ -351,7 +351,7 @@ namespace Yupi.Emulator.Game.Users.Messenger
         /// </summary>
         /// <param name="userQuery">The user query.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool RequestBuddy(string userQuery)
+         bool RequestBuddy(string userQuery)
         {
             GameClient clientByUsername = Yupi.GetGame().GetClientManager().GetClientByUserName(userQuery);
 
@@ -436,7 +436,7 @@ namespace Yupi.Emulator.Game.Users.Messenger
         /// </summary>
         /// <param name="friendId">The friend identifier.</param>
         /// <param name="friendRequest"></param>
-        internal void OnNewRequest(uint friendId, MessengerRequest friendRequest)
+         void OnNewRequest(uint friendId, MessengerRequest friendRequest)
         {
             if (!Requests.ContainsKey(friendId))
                 Requests.Add(friendId, friendRequest);
@@ -447,7 +447,7 @@ namespace Yupi.Emulator.Game.Users.Messenger
         /// </summary>
         /// <param name="toId">To identifier.</param>
         /// <param name="message">The message.</param>
-        internal void SendInstantMessage(uint toId, string message)
+         void SendInstantMessage(uint toId, string message)
         {
             if (string.IsNullOrEmpty(message))
                 return;
@@ -535,7 +535,7 @@ namespace Yupi.Emulator.Game.Users.Messenger
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="convoId">The convo identifier.</param>
-        internal void DeliverInstantMessage(string message, uint convoId)
+         void DeliverInstantMessage(string message, uint convoId)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("ConsoleChatMessageComposer"));
 
@@ -551,7 +551,7 @@ namespace Yupi.Emulator.Game.Users.Messenger
         /// </summary>
         /// <param name="errorId">The error identifier.</param>
         /// <param name="conversationId">The conversation identifier.</param>
-        internal void DeliverInstantMessageError(int errorId, uint conversationId)
+         void DeliverInstantMessageError(int errorId, uint conversationId)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("ConsoleChatErrorMessageComposer"));
 
@@ -566,7 +566,7 @@ namespace Yupi.Emulator.Game.Users.Messenger
         ///     Serializes the categories.
         /// </summary>
         /// <returns>SimpleServerMessageBuffer.</returns>
-        internal SimpleServerMessageBuffer SerializeCategories()
+         SimpleServerMessageBuffer SerializeCategories()
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("LoadFriendsCategories"));
 
@@ -583,7 +583,7 @@ namespace Yupi.Emulator.Game.Users.Messenger
         ///     Serializes the friends.
         /// </summary>
         /// <returns>SimpleServerMessageBuffer.</returns>
-        internal SimpleServerMessageBuffer SerializeFriends()
+         SimpleServerMessageBuffer SerializeFriends()
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("LoadFriendsMessageComposer"));
 
@@ -607,7 +607,7 @@ namespace Yupi.Emulator.Game.Users.Messenger
         /// </summary>
         /// <param name="message">The message.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-        internal SimpleServerMessageBuffer SerializeOfflineMessages(OfflineMessage message)
+         SimpleServerMessageBuffer SerializeOfflineMessages(OfflineMessage message)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("ConsoleChatMessageComposer"));
 
@@ -623,7 +623,7 @@ namespace Yupi.Emulator.Game.Users.Messenger
         /// </summary>
         /// <param name="friend">The friend.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-        internal SimpleServerMessageBuffer SerializeUpdate(MessengerBuddy friend)
+         SimpleServerMessageBuffer SerializeUpdate(MessengerBuddy friend)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("FriendUpdateMessageComposer"));
 
@@ -640,7 +640,7 @@ namespace Yupi.Emulator.Game.Users.Messenger
         ///     Serializes the requests.
         /// </summary>
         /// <returns>SimpleServerMessageBuffer.</returns>
-        internal SimpleServerMessageBuffer SerializeRequests()
+         SimpleServerMessageBuffer SerializeRequests()
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("FriendRequestsMessageComposer"));
             simpleServerMessageBuffer.AppendInteger(Requests.Count > Yupi.FriendRequestLimit
@@ -663,7 +663,7 @@ namespace Yupi.Emulator.Game.Users.Messenger
         /// </summary>
         /// <param name="query">The query.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-        internal SimpleServerMessageBuffer PerformSearch(string query)
+         SimpleServerMessageBuffer PerformSearch(string query)
         {
             List<SearchResult> searchResult = SearchResultFactory.GetSearchResult(query);
 
@@ -697,7 +697,7 @@ namespace Yupi.Emulator.Game.Users.Messenger
         ///     Gets the active friends rooms.
         /// </summary>
         /// <returns>HashSet&lt;GetPublicRoomData&gt;.</returns>
-        internal HashSet<RoomData> GetActiveFriendsRooms()
+         HashSet<RoomData> GetActiveFriendsRooms()
         {
             HashSet<RoomData> toReturn = new HashSet<RoomData>();
 

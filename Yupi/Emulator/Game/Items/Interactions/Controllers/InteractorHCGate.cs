@@ -8,7 +8,7 @@ using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 {
-    internal class InteractorHcGate : FurniInteractorModel
+     class InteractorHcGate : FurniInteractorModel
     {
         public override void OnTrigger(GameClient session, RoomItem item, int request, bool hasRights)
         {

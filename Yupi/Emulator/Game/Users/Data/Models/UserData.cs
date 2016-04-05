@@ -16,107 +16,107 @@ namespace Yupi.Emulator.Game.Users.Data.Models
     /// <summary>
     ///     Class UserData.
     /// </summary>
-    internal class UserData
+     class UserData
     {
         /// <summary>
         ///     The achievements
         /// </summary>
-        internal Dictionary<string, UserAchievement> Achievements;
+         Dictionary<string, UserAchievement> Achievements;
 
         /// <summary>
         ///     The badges
         /// </summary>
-        internal List<Badge> Badges;
+         List<Badge> Badges;
 
         /// <summary>
         ///     The bots
         /// </summary>
-        internal Dictionary<uint, RoomBot> Bots;
+         Dictionary<uint, RoomBot> Bots;
 
         /// <summary>
         ///     The effects
         /// </summary>
-        internal List<AvatarEffect> Effects;
+         List<AvatarEffect> Effects;
 
         /// <summary>
         ///     The favourited rooms
         /// </summary>
-        internal List<uint> FavouritedRooms;
+         List<uint> FavouritedRooms;
 
         /// <summary>
         ///     The friends
         /// </summary>
-        internal Dictionary<uint, MessengerBuddy> Friends;
+         Dictionary<uint, MessengerBuddy> Friends;
 
         /// <summary>
         ///     The ignores
         /// </summary>
-        internal List<uint> Ignores;
+         List<uint> Ignores;
 
         /// <summary>
         ///     The inventory
         /// </summary>
-        internal List<UserItem> Inventory;
+         List<UserItem> Inventory;
 
         /// <summary>
         ///     The mini mail count
         /// </summary>
-        internal uint MiniMailCount;
+         uint MiniMailCount;
 
         /// <summary>
         ///     The pets
         /// </summary>
-        internal Dictionary<uint, Pet> Pets;
+         Dictionary<uint, Pet> Pets;
 
         /// <summary>
         ///     The quests
         /// </summary>
-        internal Dictionary<int, int> Quests;
+         Dictionary<int, int> Quests;
 
         /// <summary>
         ///     The relations
         /// </summary>
-        internal Dictionary<int, Relationship> Relations;
+         Dictionary<int, Relationship> Relations;
 
         /// <summary>
         ///     The requests
         /// </summary>
-        internal Dictionary<uint, MessengerRequest> Requests;
+         Dictionary<uint, MessengerRequest> Requests;
 
         /// <summary>
         ///     The rooms
         /// </summary>
-        internal HashSet<RoomData> Rooms;
+         HashSet<RoomData> Rooms;
 
         /// <summary>
         ///     The subscriptions
         /// </summary>
-        internal Subscription Subscriptions;
+         Subscription Subscriptions;
 
         /// <summary>
         ///     The suggested polls
         /// </summary>
-        internal HashSet<uint> SuggestedPolls;
+         HashSet<uint> SuggestedPolls;
 
         /// <summary>
         ///     The tags
         /// </summary>
-        internal List<string> Tags;
+         List<string> Tags;
 
         /// <summary>
         ///     The talents
         /// </summary>
-        internal Dictionary<int, UserTalent> Talents;
+         Dictionary<int, UserTalent> Talents;
 
         /// <summary>
         ///     The user
         /// </summary>
-        internal Habbo User;
+         Habbo User;
 
         /// <summary>
         ///     The user identifier
         /// </summary>
-        internal uint UserId;
+         uint UserId;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="UserData" /> class.

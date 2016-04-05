@@ -10,14 +10,14 @@ namespace Yupi.Emulator.Game.Users.Messenger
     /// <summary>
     ///     Class SearchResultFactory.
     /// </summary>
-    internal static class SearchResultFactory
+     static class SearchResultFactory
     {
         /// <summary>
         ///     Gets the search result.
         /// </summary>
         /// <param name="query">The query.</param>
         /// <returns>List&lt;SearchResult&gt;.</returns>
-        internal static List<SearchResult> GetSearchResult(string query)
+         static List<SearchResult> GetSearchResult(string query)
         {
             DataTable table;
 

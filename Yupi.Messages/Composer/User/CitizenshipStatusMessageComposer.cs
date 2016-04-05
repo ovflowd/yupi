@@ -1,12 +1,14 @@
 ﻿using System;
 using Yupi.Protocol.Buffers;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Net;
 
 namespace Yupi.Messages.User
 {
 	public class CitizenshipStatusMessageComposer : AbstractComposer<string>
 	{
 		// TODO Replace value with a proper name
-		public override void Compose (Yupi.Net.ISession session, string value)
+		public override void Compose (GameClient session, string value)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendString (value);

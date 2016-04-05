@@ -7,7 +7,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class MassBadge. This class cannot be inherited.
     /// </summary>
-    internal sealed class MassBadge : Command
+     sealed class MassBadge : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="MassBadge" /> class.

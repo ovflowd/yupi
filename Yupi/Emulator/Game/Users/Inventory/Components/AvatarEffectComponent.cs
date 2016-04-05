@@ -13,7 +13,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
     /// <summary>
     ///     Class AvatarEffectComponent.
     /// </summary>
-    internal class AvatarEffectComponent
+     class AvatarEffectComponent
     {
         /// <summary>
         ///     The _user identifier
@@ -33,7 +33,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// <summary>
         ///     The current effect
         /// </summary>
-        internal int CurrentEffect;
+         int CurrentEffect;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="AvatarEffectComponent" /> class.
@@ -41,7 +41,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// <param name="userId">The user identifier.</param>
         /// <param name="client">The client.</param>
         /// <param name="data">The data.</param>
-        internal AvatarEffectComponent(uint userId, GameClient client, UserData data)
+         AvatarEffectComponent(uint userId, GameClient client, UserData data)
         {
             _userId = userId;
             _session = client;
@@ -65,7 +65,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         ///     Gets the packet.
         /// </summary>
         /// <returns>SimpleServerMessageBuffer.</returns>
-        internal SimpleServerMessageBuffer GetPacket()
+         SimpleServerMessageBuffer GetPacket()
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("EffectsInventoryMessageComposer"));
 
@@ -90,7 +90,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// <param name="effectId">The effect identifier.</param>
         /// <param name="duration">The duration.</param>
         /// <param name="type">The type.</param>
-        internal void AddNewEffect(int effectId, int duration, short type)
+         void AddNewEffect(int effectId, int duration, short type)
         {
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 queryReactor.RunFastQuery(
@@ -118,13 +118,13 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// </summary>
         /// <param name="effectId">The effect identifier.</param>
         /// <returns><c>true</c> if the specified effect identifier has effect; otherwise, <c>false</c>.</returns>
-        internal bool HasEffect(int effectId) => effectId < 1 || _effects.Any(x => x.EffectId == effectId);
+         bool HasEffect(int effectId) => effectId < 1 || _effects.Any(x => x.EffectId == effectId);
 
         /// <summary>
         ///     Activates the effect.
         /// </summary>
         /// <param name="effectId">The effect identifier.</param>
-        internal void ActivateEffect(int effectId)
+         void ActivateEffect(int effectId)
         {
             if (!_session.GetHabbo().InRoom)
                 return;
@@ -155,7 +155,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// </summary>
         /// <param name="effectId">The effect identifier.</param>
         /// <param name="setAsCurrentEffect">if set to <c>true</c> [set as current effect].</param>
-        internal void ActivateCustomEffect(int effectId, bool setAsCurrentEffect = true)
+         void ActivateCustomEffect(int effectId, bool setAsCurrentEffect = true)
         {
             EnableInRoom(effectId, setAsCurrentEffect);
         }
@@ -163,7 +163,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// <summary>
         ///     Called when [room exit].
         /// </summary>
-        internal void OnRoomExit()
+         void OnRoomExit()
         {
             CurrentEffect = 0;
         }
@@ -171,7 +171,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// <summary>
         ///     Checks the expired.
         /// </summary>
-        internal void CheckExpired()
+         void CheckExpired()
         {
             if (!_effects.Any())
                 return;
@@ -188,7 +188,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         ///     Stops the effect.
         /// </summary>
         /// <param name="effectId">The effect identifier.</param>
-        internal void StopEffect(int effectId)
+         void StopEffect(int effectId)
         {
             List<AvatarEffect> avatarEffect = _effects.Where(x => x.EffectId == effectId).ToList();
 
@@ -221,7 +221,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// <summary>
         ///     Disposes this instance.
         /// </summary>
-        internal void Dispose()
+         void Dispose()
         {
             _effects.Clear();
             _effects = null;
@@ -232,7 +232,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         ///     Gets the client.
         /// </summary>
         /// <returns>GameClient.</returns>
-        internal GameClient GetClient() => _session;
+         GameClient GetClient() => _session;
 
         /// <summary>
         ///     Enables the in room.

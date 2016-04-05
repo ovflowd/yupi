@@ -32,18 +32,18 @@ namespace Yupi.Emulator.Core.Settings
     /// <summary>
     ///     Class Languages.
     /// </summary>
-    internal class ServerLanguageSettings
+     class ServerLanguageSettings
     {
         /// <summary>
         ///     The texts
         /// </summary>
-        internal HybridDictionary Texts;
+         HybridDictionary Texts;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="ServerLanguageSettings" /> class.
         /// </summary>
         /// <param name="language">The language.</param>
-        internal ServerLanguageSettings(string language)
+         ServerLanguageSettings(string language)
         {
             Texts = new HybridDictionary();
 
@@ -70,7 +70,7 @@ namespace Yupi.Emulator.Core.Settings
         /// </summary>
         /// <param name="var">The variable.</param>
         /// <returns>System.String.</returns>
-        internal string GetVar(string var)
+         string GetVar(string var)
         {
             if (Texts.Contains(var))
                 return Texts[var].ToString();
@@ -84,6 +84,6 @@ namespace Yupi.Emulator.Core.Settings
         ///     Counts this instance.
         /// </summary>
         /// <returns>System.Int32.</returns>
-        internal int Count() => Texts.Count;
+         int Count() => Texts.Count;
     }
 }

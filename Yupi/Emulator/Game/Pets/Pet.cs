@@ -38,47 +38,47 @@ namespace Yupi.Emulator.Game.Pets
     /// <summary>
     ///     Class Pet.
     /// </summary>
-    internal class Pet
+     class Pet
     {
         /// <summary>
         ///     The anyone can ride
         /// </summary>
-        internal int AnyoneCanRide;
+         int AnyoneCanRide;
 
         /// <summary>
         ///     The breading tile
         /// </summary>
-        internal Point BreadingTile;
+         Point BreadingTile;
 
         /// <summary>
         ///     The color
         /// </summary>
-        internal string Color;
+         string Color;
 
         /// <summary>
         ///     The creation stamp
         /// </summary>
-        internal double CreationStamp;
+         double CreationStamp;
 
         /// <summary>
         ///     The database state
         /// </summary>
-        internal DatabaseUpdateState DbState;
+         DatabaseUpdateState DbState;
 
         /// <summary>
         ///     The energy
         /// </summary>
-        internal uint Energy;
+         uint Energy;
 
         /// <summary>
         ///     The experience
         /// </summary>
-        internal uint Experience;
+         uint Experience;
 
         /// <summary>
         ///     The experience levels
         /// </summary>
-        internal int[] ExperienceLevels =
+         int[] ExperienceLevels =
         {
             100,
             200,
@@ -102,109 +102,109 @@ namespace Yupi.Emulator.Game.Pets
         /// <summary>
         ///     The hair dye
         /// </summary>
-        internal int HairDye;
+         int HairDye;
 
         /// <summary>
         ///     The have saddle
         /// </summary>
-        internal bool HaveSaddle;
+         bool HaveSaddle;
 
         /// <summary>
         ///     The last health
         /// </summary>
-        internal DateTime LastHealth;
+         DateTime LastHealth;
 
         /// <summary>
         ///     The mopla breed
         /// </summary>
-        internal MoplaBreed MoplaBreed;
+         MoplaBreed MoplaBreed;
 
         /// <summary>
         ///     The name
         /// </summary>
-        internal string Name;
+         string Name;
 
         /// <summary>
         ///     The nutrition
         /// </summary>
-        internal uint Nutrition;
+         uint Nutrition;
 
         /// <summary>
         ///     The owner identifier
         /// </summary>
-        internal uint OwnerId;
+         uint OwnerId;
 
         /// <summary>
         ///     The pet hair
         /// </summary>
-        internal int PetHair;
+         int PetHair;
 
         /// <summary>
         ///     The pet identifier
         /// </summary>
-        internal uint PetId;
+         uint PetId;
 
         /// <summary>
         ///     The placed in room
         /// </summary>
-        internal bool PlacedInRoom;
+         bool PlacedInRoom;
 
         /// <summary>
         ///     The race
         /// </summary>
-        internal uint Race;
+         uint Race;
 
-        internal uint RaceId;
+         uint RaceId;
 
         /// <summary>
         ///     The rarity
         /// </summary>
-        internal int Rarity;
+         int Rarity;
 
         /// <summary>
         ///     The respect
         /// </summary>
-        internal uint Respect;
+         uint Respect;
 
         /// <summary>
         ///     The room identifier
         /// </summary>
-        internal uint RoomId;
+         uint RoomId;
 
         /// <summary>
         ///     The type
         /// </summary>
-        internal string Type;
+         string Type;
 
         /// <summary>
         ///     The until grown
         /// </summary>
-        internal DateTime UntilGrown;
+         DateTime UntilGrown;
 
         /// <summary>
         ///     The virtual identifier
         /// </summary>
-        internal int VirtualId;
+         int VirtualId;
 
         /// <summary>
         ///     The waiting for breading
         /// </summary>
-        internal uint WaitingForBreading;
+         uint WaitingForBreading;
 
         /// <summary>
         ///     The x
         /// </summary>
-        internal int X;
+         int X;
 
         /// <summary>
         ///     The y
         /// </summary>
-        internal int Y;
+         int Y;
 
         /// <summary>
         ///     The z
         /// </summary>
-        internal double Z;
+         double Z;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Pet" /> class.
@@ -232,7 +232,7 @@ namespace Yupi.Emulator.Game.Pets
         /// <param name="untilGrown">The until grown.</param>
         /// <param name="moplaBreed">The mopla breed.</param>
         /// <param name="color"></param>
-        internal Pet(uint petId, uint ownerId, uint roomId, string name, string type, uint race,
+         Pet(uint petId, uint ownerId, uint roomId, string name, string type, uint race,
             uint experience, uint energy, uint nutrition, uint respect, double creationStamp, int x, int y, double z,
             bool havesaddle, int anyoneCanRide, int dye, int petHer, int rarity, DateTime lastHealth,
             DateTime untilGrown, MoplaBreed moplaBreed, string color)
@@ -270,37 +270,37 @@ namespace Yupi.Emulator.Game.Pets
         ///     Gets the maximum level.
         /// </summary>
         /// <value>The maximum level.</value>
-        internal static uint MaxLevel => 20;
+         static uint MaxLevel => 20;
 
         /// <summary>
         ///     Gets the maximum energy.
         /// </summary>
         /// <value>The maximum energy.</value>
-        internal static uint MaxEnergy => 100;
+         static uint MaxEnergy => 100;
 
         /// <summary>
         ///     Gets the maximum nutrition.
         /// </summary>
         /// <value>The maximum nutrition.</value>
-        internal static uint MaxNutrition => 150;
+         static uint MaxNutrition => 150;
 
         /// <summary>
         ///     Gets the room.
         /// </summary>
         /// <value>The room.</value>
-        internal Room Room => !IsInRoom ? null : Yupi.GetGame().GetRoomManager().GetRoom(RoomId);
+         Room Room => !IsInRoom ? null : Yupi.GetGame().GetRoomManager().GetRoom(RoomId);
 
         /// <summary>
         ///     Gets a value indicating whether this instance is in room.
         /// </summary>
         /// <value><c>true</c> if this instance is in room; otherwise, <c>false</c>.</value>
-        internal bool IsInRoom => RoomId > 0u;
+         bool IsInRoom => RoomId > 0u;
 
         /// <summary>
         ///     Gets the level.
         /// </summary>
         /// <value>The level.</value>
-        internal int Level
+         int Level
         {
             get
             {
@@ -318,30 +318,30 @@ namespace Yupi.Emulator.Game.Pets
         ///     Gets the experience goal.
         /// </summary>
         /// <value>The experience goal.</value>
-        internal int ExperienceGoal => ExperienceLevels[Level - 1];
+         int ExperienceGoal => ExperienceLevels[Level - 1];
 
         /// <summary>
         ///     Gets the age.
         /// </summary>
         /// <value>The age.</value>
-        internal int Age => (int) (DateTime.Now - Yupi.UnixToDateTime(CreationStamp)).TotalDays;
+         int Age => (int) (DateTime.Now - Yupi.UnixToDateTime(CreationStamp)).TotalDays;
 
         /// <summary>
         ///     Gets the look.
         /// </summary>
         /// <value>The look.</value>
-        internal string Look => string.Concat(RaceId, " ", Race, " ", Color);
+         string Look => string.Concat(RaceId, " ", Race, " ", Color);
 
         /// <summary>
         ///     Gets the name of the owner.
         /// </summary>
         /// <value>The name of the owner.</value>
-        internal string OwnerName => Yupi.GetGame().GetClientManager().GetUserNameByUserId(OwnerId);
+         string OwnerName => Yupi.GetGame().GetClientManager().GetUserNameByUserId(OwnerId);
 
         /// <summary>
         ///     Called when [respect].
         /// </summary>
-        internal void OnRespect()
+         void OnRespect()
         {
             Respect++;
 
@@ -372,7 +372,7 @@ namespace Yupi.Emulator.Game.Pets
         ///     Adds the experience.
         /// </summary>
         /// <param name="amount">The amount.</param>
-        internal void AddExperience(uint amount)
+         void AddExperience(uint amount)
         {
             int oldExperienceGoal = ExperienceGoal;
 
@@ -414,7 +414,7 @@ namespace Yupi.Emulator.Game.Pets
         ///     Pets the energy.
         /// </summary>
         /// <param name="add">if set to <c>true</c> [add].</param>
-        internal void PetEnergy(bool add)
+         void PetEnergy(bool add)
         {
             uint num;
 
@@ -463,13 +463,13 @@ namespace Yupi.Emulator.Game.Pets
         /// </summary>
         /// <param name="message">The messageBuffer.</param>
         /// <param name="levelAfterName">if set to <c>true</c> [level after name].</param>
-        internal void SerializeInventory(SimpleServerMessageBuffer messageBuffer, bool levelAfterName = false)
+         void SerializeInventory(SimpleServerMessageBuffer messageBuffer, bool levelAfterName = false)
             => SerializePetInventoryComposer.GenerateMessage(this, messageBuffer, levelAfterName);
 
         /// <summary>
         ///     Serializes the information.
         /// </summary>
         /// <returns>SimpleServerMessageBuffer.</returns>
-        internal SimpleServerMessageBuffer SerializeInfo() => PetInformationComposer.GenerateMessage(this);
+         SimpleServerMessageBuffer SerializeInfo() => PetInformationComposer.GenerateMessage(this);
     }
 }

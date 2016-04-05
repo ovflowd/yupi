@@ -27,22 +27,22 @@ namespace Yupi.Emulator.Game.Achievements.Structs
     /// <summary>
     ///     Class UserAchievement.
     /// </summary>
-    internal class UserAchievement
+     class UserAchievement
     {
         /// <summary>
         ///     The achievement group
         /// </summary>
-        internal readonly string AchievementGroup;
+         readonly string AchievementGroup;
 
         /// <summary>
         ///     The level
         /// </summary>
-        internal uint Level;
+         uint Level;
 
         /// <summary>
         ///     The progress
         /// </summary>
-        internal uint Progress;
+         uint Progress;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="UserAchievement" /> class.
@@ -50,15 +50,15 @@ namespace Yupi.Emulator.Game.Achievements.Structs
         /// <param name="achievementGroup">The achievement group.</param>
         /// <param name="level">The level.</param>
         /// <param name="progress">The progress.</param>
-        internal UserAchievement(string achievementGroup, uint level, uint progress)
+         UserAchievement(string achievementGroup, uint level, uint progress)
         {
             AchievementGroup = achievementGroup;
             Level = level;
             Progress = progress;
         }
 
-        internal void SetLevel(uint level) => Level = level;
+         void SetLevel(uint level) => Level = level;
 
-        internal void SetProgress(uint progress) => Progress = progress;
+         void SetProgress(uint progress) => Progress = progress;
     }
 }

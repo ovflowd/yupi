@@ -9,7 +9,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class PickPets. This class cannot be inherited.
     /// </summary>
-    internal sealed class PickPets : Command
+     sealed class PickPets : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="PickPets" /> class.

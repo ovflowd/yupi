@@ -8,109 +8,109 @@ namespace Yupi.Emulator.Game.Catalogs.Interfaces
     /// <summary>
     ///     Class CatalogItem.
     /// </summary>
-    internal class CatalogItem
+     class CatalogItem
     {
         /// <summary>
         ///     The club only
         /// </summary>
-        internal readonly bool ClubOnly;
+         readonly bool ClubOnly;
 
         /// <summary>
         ///     The credits cost
         /// </summary>
-        internal readonly uint CreditsCost;
+         readonly uint CreditsCost;
 
         /// <summary>
         ///     The diamonds cost
         /// </summary>
-        internal readonly uint DiamondsCost;
+         readonly uint DiamondsCost;
 
         /// <summary>
         ///     The duckets cost
         /// </summary>
-        internal readonly uint DucketsCost;
+         readonly uint DucketsCost;
 
         /// <summary>
         ///     The extra data
         /// </summary>
-        internal readonly string ExtraData;
+         readonly string ExtraData;
 
         /// <summary>
         ///     The have offer
         /// </summary>
-        internal readonly bool HaveOffer;
+         readonly bool HaveOffer;
 
         /// <summary>
         ///     The identifier
         /// </summary>
-        internal readonly uint Id;
+         readonly uint Id;
 
         /// <summary>
         ///     The is limited
         /// </summary>
-        internal readonly bool IsLimited;
+         readonly bool IsLimited;
 
         /// <summary>
         ///     The item identifier string
         /// </summary>
-        internal readonly string ItemNamesString;
+         readonly string ItemNamesString;
 
         /// <summary>
         ///     The limited stack
         /// </summary>
-        internal readonly uint LimitedStack;
+         readonly uint LimitedStack;
 
         /// <summary>
         ///     The name
         /// </summary>
-        internal readonly string Name;
+         readonly string Name;
 
         /// <summary>
         ///     The page identifier
         /// </summary>
-        internal readonly uint PageId;
+         readonly uint PageId;
 
         /// <summary>
         ///     The song identifier
         /// </summary>
-        internal readonly uint SongId;
+         readonly uint SongId;
 
         /// <summary>
         ///     The badge
         /// </summary>
-        internal string Badge;
+         string Badge;
 
         /// <summary>
         ///     The base identifier
         /// </summary>
-        internal uint BaseId;
+         uint BaseId;
 
         /// <summary>
         ///     The base name
         /// </summary>
-        internal string BaseName;
+         string BaseName;
 
         /// <summary>
         ///     The first amount
         /// </summary>
-        internal uint FirstAmount;
+         uint FirstAmount;
 
         /// <summary>
         ///     The items
         /// </summary>
-        internal Dictionary<Item, uint> Items;
+         Dictionary<Item, uint> Items;
 
         /// <summary>
         ///     The limited selled
         /// </summary>
-        internal uint LimitedSelled;
+         uint LimitedSelled;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="CatalogItem" /> class.
         /// </summary>
         /// <param name="row">The row.</param>
         /// <param name="name">The name.</param>
-        internal CatalogItem(DataRow row, string name)
+         CatalogItem(DataRow row, string name)
         {
             // Item Id
             Id = (uint) row["id"];
@@ -167,12 +167,12 @@ namespace Yupi.Emulator.Game.Catalogs.Interfaces
         /// </summary>
         /// <param name="itemId">The item ids.</param>
         /// <returns>Item.</returns>
-        internal Item GetBaseItem(uint itemId) => Yupi.GetGame().GetItemManager().GetItem(itemId);
+         Item GetBaseItem(uint itemId) => Yupi.GetGame().GetItemManager().GetItem(itemId);
 
         /// <summary>
         ///     Gets the first base item.
         /// </summary>
         /// <returns>Item.</returns>
-        internal Item GetFirstBaseItem() => GetBaseItem(BaseId);
+         Item GetFirstBaseItem() => GetBaseItem(BaseId);
     }
 }

@@ -10,7 +10,7 @@ namespace Yupi.Emulator.Game.Support
     /// <summary>
     ///     Class ModerationBanManager.
     /// </summary>
-    internal class ModerationBanManager
+     class ModerationBanManager
     {
         /// <summary>
         ///     The _banned i ps
@@ -30,7 +30,7 @@ namespace Yupi.Emulator.Game.Support
         /// <summary>
         ///     Initializes a new instance of the <see cref="ModerationBanManager" /> class.
         /// </summary>
-        internal ModerationBanManager()
+         ModerationBanManager()
         {
             _bannedUsernames = new HybridDictionary();
             _bannedIPs = new HybridDictionary();
@@ -41,7 +41,7 @@ namespace Yupi.Emulator.Game.Support
         ///     Loads the bans.
         /// </summary>
         /// <param name="dbClient">The database client.</param>
-        internal void LoadBans(IQueryAdapter dbClient)
+         void LoadBans(IQueryAdapter dbClient)
         {
             _bannedUsernames.Clear();
             _bannedIPs.Clear();
@@ -106,7 +106,7 @@ namespace Yupi.Emulator.Game.Support
         /// <param name="ip">The ip.</param>
         /// <param name="machineid">The machineid.</param>
         /// <returns>System.String.</returns>
-        internal string GetBanReason(string userName, string ip, string machineid)
+         string GetBanReason(string userName, string ip, string machineid)
         {
             if (_bannedUsernames.Contains(userName))
             {
@@ -138,7 +138,7 @@ namespace Yupi.Emulator.Game.Support
             return string.Empty;
         }
 
-        internal bool CheckIfIsBanned(string userName, string ip, string machineid)
+         bool CheckIfIsBanned(string userName, string ip, string machineid)
         {
             if (_bannedUsernames.Contains(userName))
             {
@@ -175,7 +175,7 @@ namespace Yupi.Emulator.Game.Support
         /// </summary>
         /// <param name="machineId">The machine identifier.</param>
         /// <returns>System.String.</returns>
-        internal string CheckMachineBan(string machineId)
+         string CheckMachineBan(string machineId)
         {
             return _bannedMachines.ContainsKey(machineId) ? _bannedMachines[machineId].ReasonMessage : string.Empty;
         }
@@ -189,7 +189,7 @@ namespace Yupi.Emulator.Game.Support
         /// <param name="reason">The reason.</param>
         /// <param name="ipBan">if set to <c>true</c> [ip ban].</param>
         /// <param name="machine">if set to <c>true</c> [machine].</param>
-        internal void BanUser(GameClient client, string moderator, double lengthSeconds, string reason, bool ipBan,
+         void BanUser(GameClient client, string moderator, double lengthSeconds, string reason, bool ipBan,
             bool machine)
         {
             ModerationBanType type = ModerationBanType.UserName;
@@ -285,7 +285,7 @@ namespace Yupi.Emulator.Game.Support
         ///     Unbans the user.
         /// </summary>
         /// <param name="userNameOrIp">The username or ip.</param>
-        internal void UnbanUser(string userNameOrIp)
+         void UnbanUser(string userNameOrIp)
         {
             _bannedUsernames.Remove(userNameOrIp);
             _bannedIPs.Remove(userNameOrIp);

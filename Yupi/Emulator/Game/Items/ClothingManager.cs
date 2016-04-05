@@ -9,18 +9,18 @@ namespace Yupi.Emulator.Game.Items
     /// <summary>
     ///     Class ClothesManagerManager.
     /// </summary>
-    internal class ClothingManager
+     class ClothingManager
     {
         /// <summary>
         ///     The clothing items
         /// </summary>
-        internal Dictionary<string, ClothingItem> ClothingItems;
+         Dictionary<string, ClothingItem> ClothingItems;
 
         /// <summary>
         ///     Initializes the specified database client.
         /// </summary>
         /// <param name="dbClient">The database client.</param>
-        internal void Initialize(IQueryAdapter dbClient)
+         void Initialize(IQueryAdapter dbClient)
         {
             dbClient.SetQuery("SELECT * FROM catalog_wearables");
 
@@ -37,6 +37,6 @@ namespace Yupi.Emulator.Game.Items
         /// </summary>
         /// <param name="name">The name.</param>
         /// <returns>ClothingItem.</returns>
-        internal ClothingItem GetClothesInFurni(string name) => ClothingItems.FirstOrDefault(p => p.Key == name).Value;
+         ClothingItem GetClothesInFurni(string name) => ClothingItems.FirstOrDefault(p => p.Key == name).Value;
     }
 }

@@ -7,7 +7,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class Freeze. This class cannot be inherited.
     /// </summary>
-    internal sealed class Freeze : Command
+     sealed class Freeze : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="Freeze" /> class.

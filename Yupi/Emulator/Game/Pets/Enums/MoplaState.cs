@@ -27,7 +27,7 @@ namespace Yupi.Emulator.Game.Pets.Enums
     /// <summary>
     ///     Enum MoplaState
     /// </summary>
-    internal enum MoplaState
+     enum MoplaState
     {
         /// <summary>
         ///     The alive

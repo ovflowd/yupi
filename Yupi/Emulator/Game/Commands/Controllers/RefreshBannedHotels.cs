@@ -8,7 +8,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class RefreshBannedHotels. This class cannot be inherited.
     /// </summary>
-    internal sealed class RefreshBannedHotels : Command
+     sealed class RefreshBannedHotels : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="RefreshBannedHotels" /> class.

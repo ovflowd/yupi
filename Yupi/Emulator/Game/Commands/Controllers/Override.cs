@@ -8,7 +8,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class Override. This class cannot be inherited.
     /// </summary>
-    internal sealed class Override : Command
+     sealed class Override : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="Override" /> class.

@@ -10,7 +10,7 @@ namespace Yupi.Emulator.Game.Items.Handlers
     /// <summary>
     ///     Class TeleHandler.
     /// </summary>
-    internal static class TeleHandler
+     static class TeleHandler
     {
         /// <summary>
         ///     Gets the linked tele.
@@ -18,7 +18,7 @@ namespace Yupi.Emulator.Game.Items.Handlers
         /// <param name="teleId">The tele identifier.</param>
         /// <param name="pRoom">The p room.</param>
         /// <returns>System.UInt32.</returns>
-        internal static uint GetLinkedTele(uint teleId, Room pRoom)
+         static uint GetLinkedTele(uint teleId, Room pRoom)
         {
             uint result;
 
@@ -39,7 +39,7 @@ namespace Yupi.Emulator.Game.Items.Handlers
         /// <param name="teleId">The tele identifier.</param>
         /// <param name="pRoom">The p room.</param>
         /// <returns>System.UInt32.</returns>
-        internal static uint GetTeleRoomId(uint teleId, Room pRoom)
+         static uint GetTeleRoomId(uint teleId, Room pRoom)
         {
             if (pRoom.GetRoomItemHandler().GetItem(teleId) != null)
                 return pRoom.RoomId;
@@ -63,7 +63,7 @@ namespace Yupi.Emulator.Game.Items.Handlers
         /// <param name="teleId">The tele identifier.</param>
         /// <param name="pRoom">The p room.</param>
         /// <returns><c>true</c> if [is tele linked] [the specified tele identifier]; otherwise, <c>false</c>.</returns>
-        internal static bool IsTeleLinked(uint teleId, Room pRoom)
+         static bool IsTeleLinked(uint teleId, Room pRoom)
         {
             uint linkedTele = GetLinkedTele(teleId, pRoom);
             if (linkedTele == 0u)

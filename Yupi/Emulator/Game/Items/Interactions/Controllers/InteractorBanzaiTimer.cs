@@ -5,7 +5,7 @@ using Yupi.Emulator.Game.Items.Interfaces;
 
 namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 {
-    internal class InteractorBanzaiTimer : FurniInteractorModel
+     class InteractorBanzaiTimer : FurniInteractorModel
     {
         public override void OnTrigger(GameClient session, RoomItem item, int request, bool hasRights)
         {

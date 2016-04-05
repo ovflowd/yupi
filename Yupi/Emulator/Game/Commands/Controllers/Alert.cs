@@ -7,7 +7,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class Alert. This class cannot be inherited.
     /// </summary>
-    internal sealed class Alert : Command
+     sealed class Alert : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="Alert" /> class.

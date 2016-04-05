@@ -31,7 +31,7 @@ namespace Yupi.Emulator.Game.Pathfinding
     ///     Class MinHeap.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    internal class MinHeap<T> where T : IComparable<T>
+     class MinHeap<T> where T : IComparable<T>
     {
         /// <summary>
         ///     The _array

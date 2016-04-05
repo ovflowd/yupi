@@ -39,22 +39,22 @@ namespace Yupi.Emulator.Game.Browser
         /// <summary>
         ///     The furni reward identifier
         /// </summary>
-        internal int FurniRewardId;
+         int FurniRewardId;
 
         /// <summary>
         ///     The furni reward name
         /// </summary>
-        internal string FurniRewardName;
+         string FurniRewardName;
 
         /// <summary>
         ///     Hotel View Badges
         /// </summary>
-        internal Dictionary<string, string> HotelViewBadges;
+         Dictionary<string, string> HotelViewBadges;
 
         /// <summary>
         ///     The hotel view promos indexers
         /// </summary>
-        internal List<HotelLandingPromos> HotelViewPromosIndexers;
+         List<HotelLandingPromos> HotelViewPromosIndexers;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="HotelLandingManager" /> class.
@@ -87,7 +87,7 @@ namespace Yupi.Emulator.Game.Browser
         /// </summary>
         /// <param name="messageBuffer">The messageBuffer.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-        internal SimpleServerMessageBuffer SmallPromoComposer(SimpleServerMessageBuffer messageBuffer)
+         SimpleServerMessageBuffer SmallPromoComposer(SimpleServerMessageBuffer messageBuffer)
         {
             messageBuffer.AppendInteger(HotelViewPromosIndexers.Count);
 

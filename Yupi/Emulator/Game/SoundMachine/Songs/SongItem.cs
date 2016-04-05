@@ -6,32 +6,32 @@ namespace Yupi.Emulator.Game.SoundMachine.Songs
     /// <summary>
     ///     Class SongItem.
     /// </summary>
-    internal class SongItem
+     class SongItem
     {
         /// <summary>
         ///     The base item
         /// </summary>
-        internal Item BaseItem;
+         Item BaseItem;
 
         /// <summary>
         ///     The extra data
         /// </summary>
-        internal string ExtraData;
+         string ExtraData;
 
         /// <summary>
         ///     The item identifier
         /// </summary>
-        internal uint ItemId;
+         uint ItemId;
 
         /// <summary>
         ///     The song code
         /// </summary>
-        internal string SongCode;
+         string SongCode;
 
         /// <summary>
         ///     The song identifier
         /// </summary>
-        internal uint SongId;
+         uint SongId;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="SongItem" /> class.
@@ -69,7 +69,7 @@ namespace Yupi.Emulator.Game.SoundMachine.Songs
         ///     Saves to database.
         /// </summary>
         /// <param name="roomId">The room identifier.</param>
-        internal void SaveToDatabase(uint roomId)
+         void SaveToDatabase(uint roomId)
         {
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 queryReactor.RunFastQuery(
@@ -79,7 +79,7 @@ namespace Yupi.Emulator.Game.SoundMachine.Songs
         /// <summary>
         ///     Removes from database.
         /// </summary>
-        internal void RemoveFromDatabase()
+         void RemoveFromDatabase()
         {
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 queryReactor.RunFastQuery($"DELETE FROM items_songs WHERE itemid = '{ItemId}'");

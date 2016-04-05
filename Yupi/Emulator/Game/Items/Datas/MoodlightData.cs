@@ -9,34 +9,34 @@ namespace Yupi.Emulator.Game.Items.Datas
     /// <summary>
     ///     Class MoodlightData.
     /// </summary>
-    internal class MoodlightData
+     class MoodlightData
     {
         /// <summary>
         ///     The current preset
         /// </summary>
-        internal int CurrentPreset;
+         int CurrentPreset;
 
         /// <summary>
         ///     The enabled
         /// </summary>
-        internal bool Enabled;
+         bool Enabled;
 
         /// <summary>
         ///     The item identifier
         /// </summary>
-        internal uint ItemId;
+         uint ItemId;
 
         /// <summary>
         ///     The presets
         /// </summary>
-        internal List<MoodlightPreset> Presets;
+         List<MoodlightPreset> Presets;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="MoodlightData" /> class.
         /// </summary>
         /// <param name="itemId">The item identifier.</param>
         /// <exception cref="System.NullReferenceException">No moodlightdata found in the database</exception>
-        internal MoodlightData(uint itemId)
+         MoodlightData(uint itemId)
         {
             ItemId = itemId;
             DataRow row;
@@ -64,7 +64,7 @@ namespace Yupi.Emulator.Game.Items.Datas
         /// </summary>
         /// <param name="data">The data.</param>
         /// <returns>MoodlightPreset.</returns>
-        internal static MoodlightPreset GeneratePreset(string data)
+         static MoodlightPreset GeneratePreset(string data)
         {
             string[] array = data.Split(',');
             if (!IsValidColor(array[0]))
@@ -80,7 +80,7 @@ namespace Yupi.Emulator.Game.Items.Datas
         /// </summary>
         /// <param name="colorCode">The color code.</param>
         /// <returns><c>true</c> if [is valid color] [the specified color code]; otherwise, <c>false</c>.</returns>
-        internal static bool IsValidColor(string colorCode)
+         static bool IsValidColor(string colorCode)
         {
             switch (colorCode)
             {
@@ -101,7 +101,7 @@ namespace Yupi.Emulator.Game.Items.Datas
         /// </summary>
         /// <param name="intensity">The intensity.</param>
         /// <returns><c>true</c> if [is valid intensity] [the specified intensity]; otherwise, <c>false</c>.</returns>
-        internal static bool IsValidIntensity(int intensity)
+         static bool IsValidIntensity(int intensity)
         {
             return intensity >= 0 && intensity <= 255;
         }
@@ -109,7 +109,7 @@ namespace Yupi.Emulator.Game.Items.Datas
         /// <summary>
         ///     Enables this instance.
         /// </summary>
-        internal void Enable()
+         void Enable()
         {
             Enabled = true;
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
@@ -119,7 +119,7 @@ namespace Yupi.Emulator.Game.Items.Datas
         /// <summary>
         ///     Disables this instance.
         /// </summary>
-        internal void Disable()
+         void Disable()
         {
             Enabled = false;
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
@@ -134,7 +134,7 @@ namespace Yupi.Emulator.Game.Items.Datas
         /// <param name="intensity">The intensity.</param>
         /// <param name="bgOnly">if set to <c>true</c> [bg only].</param>
         /// <param name="hax">if set to <c>true</c> [hax].</param>
-        internal void UpdatePreset(int preset, string color, int intensity, bool bgOnly, bool hax = false)
+         void UpdatePreset(int preset, string color, int intensity, bool bgOnly, bool hax = false)
         {
             if (!IsValidColor(color) || (!IsValidIntensity(intensity) && !hax))
                 return;
@@ -172,7 +172,7 @@ namespace Yupi.Emulator.Game.Items.Datas
         /// </summary>
         /// <param name="i">The i.</param>
         /// <returns>MoodlightPreset.</returns>
-        internal MoodlightPreset GetPreset(int i)
+         MoodlightPreset GetPreset(int i)
         {
             {
                 i--;
@@ -184,7 +184,7 @@ namespace Yupi.Emulator.Game.Items.Datas
         ///     Generates the extra data.
         /// </summary>
         /// <returns>System.String.</returns>
-        internal string GenerateExtraData()
+         string GenerateExtraData()
         {
             MoodlightPreset preset = GetPreset(CurrentPreset);
             StringBuilder stringBuilder = new StringBuilder();

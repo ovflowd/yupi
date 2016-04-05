@@ -31,18 +31,18 @@ namespace Yupi.Emulator.Core.Settings
     /// <summary>
     ///     Class ServerDatabaseSettings.
     /// </summary>
-    internal class ServerDatabaseSettings
+     class ServerDatabaseSettings
     {
         /// <summary>
         ///     The database data
         /// </summary>
-        internal Dictionary<string, string> DbData;
+         Dictionary<string, string> DbData;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="ServerDatabaseSettings" /> class.
         /// </summary>
         /// <param name="dbClient">The database client.</param>
-        internal ServerDatabaseSettings(IQueryAdapter dbClient)
+         ServerDatabaseSettings(IQueryAdapter dbClient)
         {
             DbData = new Dictionary<string, string>();
 

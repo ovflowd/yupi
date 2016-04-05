@@ -30,14 +30,14 @@ namespace Yupi.Emulator.Game.Achievements.Composers
     /// <summary>
     ///     Class AchievementScoreUpdateComposer.
     /// </summary>
-    internal class AchievementScoreUpdateComposer
+     class AchievementScoreUpdateComposer
     {
         /// <summary>
         ///     Composes the specified score.
         /// </summary>
         /// <param name="score">The score.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-        internal static SimpleServerMessageBuffer Compose(uint score)
+         static SimpleServerMessageBuffer Compose(uint score)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("AchievementPointsMessageComposer"));
 

@@ -27,22 +27,22 @@ namespace Yupi.Emulator.Game.Browser.Models
     /// <summary>
     ///     Struct NaviLogs
     /// </summary>
-    internal struct UserSearchLog
+     struct UserSearchLog
     {
         /// <summary>
         ///     The identifier
         /// </summary>
-        internal int Id;
+         int Id;
 
         /// <summary>
         ///     The value1
         /// </summary>
-        internal string Value1;
+         string Value1;
 
         /// <summary>
         ///     The value2
         /// </summary>
-        internal string Value2;
+         string Value2;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="UserSearchLog" /> struct.
@@ -50,7 +50,7 @@ namespace Yupi.Emulator.Game.Browser.Models
         /// <param name="id">The identifier.</param>
         /// <param name="value1">The value1.</param>
         /// <param name="value2">The value2.</param>
-        internal UserSearchLog(int id, string value1, string value2)
+         UserSearchLog(int id, string value1, string value2)
         {
             Id = id;
             Value1 = value1;

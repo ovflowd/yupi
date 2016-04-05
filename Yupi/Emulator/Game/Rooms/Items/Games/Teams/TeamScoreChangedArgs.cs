@@ -12,17 +12,17 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Teams
         /// <summary>
         ///     The points
         /// </summary>
-        internal readonly int Points;
+         readonly int Points;
 
         /// <summary>
         ///     The team
         /// </summary>
-        internal readonly Team Team;
+         readonly Team Team;
 
         /// <summary>
         ///     The user
         /// </summary>
-        internal readonly RoomUser User;
+         readonly RoomUser User;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="TeamScoreChangedArgs" /> class.

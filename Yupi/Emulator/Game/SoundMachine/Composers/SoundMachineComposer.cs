@@ -11,7 +11,7 @@ namespace Yupi.Emulator.Game.SoundMachine.Composers
     /// <summary>
     ///     Class JukeboxComposer.
     /// </summary>
-    internal class SoundMachineComposer
+     class SoundMachineComposer
     {
         /// <summary>
         ///     Composes the specified songs.
@@ -72,7 +72,7 @@ namespace Yupi.Emulator.Game.SoundMachine.Composers
         /// </summary>
         /// <param name="session">The session.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-        internal static SimpleServerMessageBuffer Compose(GameClient session)
+         static SimpleServerMessageBuffer Compose(GameClient session)
             => session.GetHabbo().GetInventoryComponent().SerializeMusicDiscs();
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace Yupi.Emulator.Game.SoundMachine.Composers
         /// <param name="playlistCapacity">The playlist capacity.</param>
         /// <param name="playlist">The playlist.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-        internal static SimpleServerMessageBuffer Compose(int playlistCapacity, List<SongInstance> playlist)
+         static SimpleServerMessageBuffer Compose(int playlistCapacity, List<SongInstance> playlist)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("JukeboxPlaylistMessageComposer"));
 
@@ -104,7 +104,7 @@ namespace Yupi.Emulator.Game.SoundMachine.Composers
         /// <param name="playlistItemNumber">The playlist item number.</param>
         /// <param name="syncTimestampMs">The synchronize timestamp ms.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-        internal static SimpleServerMessageBuffer Compose(uint songId, int playlistItemNumber, int syncTimestampMs)
+         static SimpleServerMessageBuffer Compose(uint songId, int playlistItemNumber, int syncTimestampMs)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("JukeboxNowPlayingMessageComposer"));
 
@@ -133,7 +133,7 @@ namespace Yupi.Emulator.Game.SoundMachine.Composers
         /// </summary>
         /// <param name="songs">The songs.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-        internal static SimpleServerMessageBuffer SerializeSongInventory(HybridDictionary songs)
+         static SimpleServerMessageBuffer SerializeSongInventory(HybridDictionary songs)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SongsLibraryMessageComposer"));
 

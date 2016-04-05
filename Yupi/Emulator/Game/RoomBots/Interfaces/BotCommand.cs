@@ -30,60 +30,60 @@ namespace Yupi.Emulator.Game.RoomBots.Interfaces
     /// <summary>
     ///     Class CatalogBot.
     /// </summary>
-    internal class BotCommand
+     class BotCommand
     {
         /// <summary>
         ///     The action bot
         /// </summary>
-        internal string ActionBot;
+         string ActionBot;
 
         /// <summary>
         ///     The action command
         /// </summary>
-        internal string ActionCommand;
+         string ActionCommand;
 
         /// <summary>
         ///     The action command parameters
         /// </summary>
-        internal string ActionCommandParameters;
+         string ActionCommandParameters;
 
         /// <summary>
         ///     The bot type
         /// </summary>
-        internal string BotType;
+         string BotType;
 
-        internal bool ForceBotCommand;
+         bool ForceBotCommand;
 
         /// <summary>
         ///     The speeches speech identifier
         /// </summary>
-        internal uint SpeechesSpeechId;
+         uint SpeechesSpeechId;
 
         /// <summary>
         ///     The bot SpeechInput
         /// </summary>
-        internal string SpeechInput;
+         string SpeechInput;
 
         /// <summary>
         ///     The bot SpeechInputAlias
         /// </summary>
-        internal string[] SpeechInputAlias;
+         string[] SpeechInputAlias;
 
         /// <summary>
         ///     The bot gender
         /// </summary>
-        internal bool SpeechIsFromSpeeches;
+         bool SpeechIsFromSpeeches;
 
         /// <summary>
         ///     The bot SpeechOutput
         /// </summary>
-        internal string SpeechOutput;
+         string SpeechOutput;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="CatalogBot" /> class.
         /// </summary>
         /// <param name="row">The row.</param>
-        internal BotCommand(DataRow row)
+         BotCommand(DataRow row)
         {
             BotType = row["bot_type"].ToString();
             SpeechInput = row["speech_input"].ToString();

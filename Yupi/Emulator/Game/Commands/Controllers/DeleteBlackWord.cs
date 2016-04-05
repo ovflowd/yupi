@@ -7,7 +7,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class Enable. This class cannot be inherited.
     /// </summary>
-    internal sealed class DeleteBlackWord : Command
+     sealed class DeleteBlackWord : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="DeleteBlackWord" /> class.

@@ -11,7 +11,7 @@ namespace Yupi.Emulator.Game.SoundMachine
     /// <summary>
     ///     Class RoomMusicController.
     /// </summary>
-    internal class SoundMachineManager
+     class SoundMachineManager
     {
         /// <summary>
         ///     The _m broadcast needed
@@ -327,7 +327,7 @@ namespace Yupi.Emulator.Game.SoundMachine
         ///     Broadcasts the current song data.
         /// </summary>
         /// <param name="instance">The instance.</param>
-        internal void BroadcastCurrentSongData(Room instance)
+         void BroadcastCurrentSongData(Room instance)
         {
             if (CurrentSong != null)
             {
@@ -343,7 +343,7 @@ namespace Yupi.Emulator.Game.SoundMachine
         ///     Called when [new user enter].
         /// </summary>
         /// <param name="user">The user.</param>
-        internal void OnNewUserEnter(RoomUser user)
+         void OnNewUserEnter(RoomUser user)
         {
             if (user.IsBot || user.GetClient() == null || CurrentSong == null)
                 return;
@@ -356,7 +356,7 @@ namespace Yupi.Emulator.Game.SoundMachine
         /// <summary>
         ///     Destroys this instance.
         /// </summary>
-        internal void Destroy()
+         void Destroy()
         {
             lock (_mLoadedDisks)
                 _mLoadedDisks?.Clear();

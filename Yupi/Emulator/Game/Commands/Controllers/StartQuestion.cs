@@ -15,7 +15,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class StartQuestion. This class cannot be inherited.
     /// </summary>
-    internal sealed class StartQuestion : Command
+     sealed class StartQuestion : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="StartQuestion" /> class.
@@ -45,7 +45,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
             return true;
         }
 
-        internal static void MatchingPollAnswer(GameClient client, Poll poll)
+         static void MatchingPollAnswer(GameClient client, Poll poll)
         {
             if (poll == null || poll.Type != PollType.Matching)
                 return;
@@ -61,7 +61,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
             client.GetHabbo().CurrentRoom.SendMessage(messageBuffer);
         }
 
-        internal static void MatchingPollResults(GameClient client, Poll poll)
+         static void MatchingPollResults(GameClient client, Poll poll)
         {
             Room room = client.GetHabbo().CurrentRoom;
             if (poll == null || poll.Type != PollType.Matching || room == null)

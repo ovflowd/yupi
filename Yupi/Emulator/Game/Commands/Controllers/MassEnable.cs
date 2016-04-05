@@ -9,7 +9,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class MassEnable. This class cannot be inherited.
     /// </summary>
-    internal sealed class MassEnable : Command
+     sealed class MassEnable : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="MassEnable" /> class.

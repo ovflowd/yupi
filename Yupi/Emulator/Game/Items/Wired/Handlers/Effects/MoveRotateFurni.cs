@@ -11,7 +11,7 @@ using Yupi.Emulator.Game.Rooms.User;
 
 namespace Yupi.Emulator.Game.Items.Wired.Handlers.Effects
 {
-    internal class MoveRotateFurni : IWiredItem, IWiredCycler
+     class MoveRotateFurni : IWiredItem, IWiredCycler
     {
         private readonly ConcurrentQueue<RoomItem> _toRemove = new ConcurrentQueue<RoomItem>();
         private int _rot, _dir, _cycles;

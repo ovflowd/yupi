@@ -8,7 +8,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class HabNam. This class cannot be inherited.
     /// </summary>
-    internal sealed class HabNam : Command
+     sealed class HabNam : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="HabNam" /> class.

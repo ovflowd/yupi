@@ -8,17 +8,17 @@ namespace Yupi.Emulator.Game.Items.Handlers
     /// <summary>
     ///     Class CrackableEggHandler.
     /// </summary>
-    internal class CrackableEggHandler
+     class CrackableEggHandler
     {
         /// <summary>
         ///     Initializes the specified database client.
         /// </summary>
         /// <param name="dbClient">The database client.</param>
-        internal void Initialize(IQueryAdapter dbClient)
+         void Initialize(IQueryAdapter dbClient)
         {
         }
 
-        internal int MaxCracks(string itemName)
+         int MaxCracks(string itemName)
         {
             switch (itemName)
             {
@@ -39,7 +39,7 @@ namespace Yupi.Emulator.Game.Items.Handlers
             }
         }
 
-        internal SimpleServerMessageBuffer GetServerMessage(SimpleServerMessageBuffer messageBuffer, RoomItem item)
+         SimpleServerMessageBuffer GetServerMessage(SimpleServerMessageBuffer messageBuffer, RoomItem item)
         {
             int cracks = 0;
             int cracksMax = MaxCracks(item.GetBaseItem().Name);

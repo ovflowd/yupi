@@ -12,7 +12,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class FaceLess. This class cannot be inherited.
     /// </summary>
-    internal sealed class FaceLess : Command
+     sealed class FaceLess : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="FaceLess" /> class.

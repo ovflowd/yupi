@@ -5,7 +5,7 @@ namespace Yupi.Messages.User
 {
 	public class GetCatalogClubGiftsMessageEvent : AbstractHandler
 	{
-		public void HandleMessage (Yupi.Net.ISession<GameClient> session, Yupi.Protocol.Buffers.ClientMessage message, Router router)
+		public void HandleMessage (GameClient session, Yupi.Protocol.Buffers.ClientMessage message, Router router)
 		{
 			router.GetComposer<LoadCatalogClubGiftsMessageComposer> ().Compose (session);
 		}

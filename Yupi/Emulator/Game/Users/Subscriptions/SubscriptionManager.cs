@@ -9,7 +9,7 @@ namespace Yupi.Emulator.Game.Users.Subscriptions
     /// <summary>
     ///     Class SubscriptionManager.
     /// </summary>
-    internal class SubscriptionManager
+     class SubscriptionManager
     {
         /// <summary>
         ///     The _user identifier
@@ -26,7 +26,7 @@ namespace Yupi.Emulator.Game.Users.Subscriptions
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="userData">The user data.</param>
-        internal SubscriptionManager(uint userId, UserData userData)
+         SubscriptionManager(uint userId, UserData userData)
         {
             _userId = userId;
             _subscription = userData.Subscriptions;
@@ -36,13 +36,13 @@ namespace Yupi.Emulator.Game.Users.Subscriptions
         ///     Gets a value indicating whether this instance has subscription.
         /// </summary>
         /// <value><c>true</c> if this instance has subscription; otherwise, <c>false</c>.</value>
-        internal bool HasSubscription => _subscription != null && _subscription.IsValid;
+         bool HasSubscription => _subscription != null && _subscription.IsValid;
 
         /// <summary>
         ///     Gets the subscription.
         /// </summary>
         /// <returns>Subscription.</returns>
-        internal Subscription GetSubscription()
+         Subscription GetSubscription()
         {
             return _subscription;
         }
@@ -51,7 +51,7 @@ namespace Yupi.Emulator.Game.Users.Subscriptions
         ///     Adds the subscription.
         /// </summary>
         /// <param name="dayLength">Length of the day.</param>
-        internal void AddSubscription(double dayLength)
+         void AddSubscription(double dayLength)
         {
             int num = (int) Math.Round(dayLength);
 
@@ -88,7 +88,7 @@ namespace Yupi.Emulator.Game.Users.Subscriptions
         /// <summary>
         ///     Reloads the subscription.
         /// </summary>
-        internal void ReloadSubscription()
+         void ReloadSubscription()
         {
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {

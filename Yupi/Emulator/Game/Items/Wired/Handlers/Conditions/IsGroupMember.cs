@@ -7,7 +7,7 @@ using Yupi.Emulator.Game.Rooms.User;
 
 namespace Yupi.Emulator.Game.Items.Wired.Handlers.Conditions
 {
-    internal class IsGroupMember : IWiredItem
+     class IsGroupMember : IWiredItem
     {
         public IsGroupMember(RoomItem item, Room room)
         {

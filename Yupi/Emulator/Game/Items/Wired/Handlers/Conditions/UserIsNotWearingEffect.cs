@@ -7,7 +7,7 @@ using Yupi.Emulator.Game.Rooms.User;
 
 namespace Yupi.Emulator.Game.Items.Wired.Handlers.Conditions
 {
-    internal class UserIsNotWearingEffect : IWiredItem
+     class UserIsNotWearingEffect : IWiredItem
     {
         public UserIsNotWearingEffect(RoomItem item, Room room)
         {

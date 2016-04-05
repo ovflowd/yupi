@@ -5,7 +5,7 @@ using Yupi.Emulator.Game.Rooms.Items.Games.Teams.Enums;
 
 namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 {
-    internal class InteractorBanzaiScoreCounter : FurniInteractorModel
+     class InteractorBanzaiScoreCounter : FurniInteractorModel
     {
         public override void OnPlace(GameClient session, RoomItem item)
         {

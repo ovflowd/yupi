@@ -50,7 +50,7 @@ namespace Yupi.Protocol.Buffers
         ///     Gets the get packet.
         /// </summary>
         /// <value>The get packet.</value>
-        internal byte[] GetPacket => _packet.ToArray();
+         byte[] GetPacket => _packet.ToArray();
 
         /// <summary>
         ///     Disposes this instance.
@@ -64,7 +64,7 @@ namespace Yupi.Protocol.Buffers
         ///     Appends the response.
         /// </summary>
         /// <param name="messageBuffer">The messageBuffer.</param>
-		internal void AppendResponse(ServerMessage messageBuffer) {
+		 void AppendResponse(ServerMessage messageBuffer) {
 			AppendBytes (messageBuffer.GetReversedBytes ());
 		}
 
@@ -73,7 +73,7 @@ namespace Yupi.Protocol.Buffers
         ///     Adds the bytes.
         /// </summary>
         /// <param name="bytes">The bytes.</param>
-		internal void AddBytes(byte[] bytes) {
+		 void AddBytes(byte[] bytes) {
 			AppendBytes (bytes);
 		}
 

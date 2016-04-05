@@ -125,17 +125,17 @@ namespace Yupi.Emulator.Game.Rooms
         /// <summary>
         ///     The active trades
         /// </summary>
-        internal ArrayList ActiveTrades;
+         ArrayList ActiveTrades;
 
         /// <summary>
         ///     The bans
         /// </summary>
-        internal Dictionary<long, double> Bans;
+         Dictionary<long, double> Bans;
 
         /// <summary>
         ///     The _containsBeds count of bed on room
         /// </summary>
-        internal int ContainsBeds;
+         int ContainsBeds;
 
         /// <summary>
         ///     The _m disposed
@@ -145,91 +145,91 @@ namespace Yupi.Emulator.Game.Rooms
         /// <summary>
         ///     The everyone got rights
         /// </summary>
-        internal bool EveryoneGotRights, RoomMuted;
+         bool EveryoneGotRights, RoomMuted;
 
         /// <summary>
         ///     The just loaded
         /// </summary>
         public bool JustLoaded = true;
 
-        internal DateTime LastTimerReset;
+         DateTime LastTimerReset;
 
         /// <summary>
         ///     The loaded groups
         /// </summary>
-        internal Dictionary<uint, string> LoadedGroups;
+         Dictionary<uint, string> LoadedGroups;
 
         /// <summary>
         ///     The moodlight data
         /// </summary>
-        internal MoodlightData MoodlightData;
+         MoodlightData MoodlightData;
 
         /// <summary>
         ///     The muted bots
         /// </summary>
-        internal bool MutedBots, DiscoMode, MutedPets;
+         bool MutedBots, DiscoMode, MutedPets;
 
         /// <summary>
         ///     The muted users
         /// </summary>
-        internal Dictionary<uint, uint> MutedUsers;
+         Dictionary<uint, uint> MutedUsers;
 
         /// <summary>
         ///     The team banzai
         /// </summary>
-        internal TeamManager TeamBanzai;
+         TeamManager TeamBanzai;
 
         /// <summary>
         ///     The team freeze
         /// </summary>
-        internal TeamManager TeamFreeze;
+         TeamManager TeamFreeze;
 
         /// <summary>
         ///     The toner data
         /// </summary>
-        internal TonerData TonerData;
+         TonerData TonerData;
 
         /// <summary>
         ///     The users with rights
         /// </summary>
-        internal List<uint> UsersWithRights;
+         List<uint> UsersWithRights;
 
         /// <summary>
         ///     The word filter
         /// </summary>
-        internal List<string> WordFilter;
+         List<string> WordFilter;
 
         /// <summary>
         ///     Gets the user count.
         /// </summary>
         /// <value>The user count.</value>
-        internal int UserCount => _roomUserManager?.GetRoomUserCount() ?? 0;
+         int UserCount => _roomUserManager?.GetRoomUserCount() ?? 0;
 
         /// <summary>
         ///     Gets the tag count.
         /// </summary>
         /// <value>The tag count.</value>
-        internal int TagCount => RoomData.Tags.Count;
+         int TagCount => RoomData.Tags.Count;
 
         /// <summary>
         ///     Gets the room identifier.
         /// </summary>
         /// <value>The room identifier.</value>
-        internal uint RoomId { get; private set; }
+         uint RoomId { get; private set; }
 
         /// <summary>
         ///     Gets a value indicating whether this instance can trade in room.
         /// </summary>
         /// <value><c>true</c> if this instance can trade in room; otherwise, <c>false</c>.</value>
-        internal bool CanTradeInRoom => true;
+         bool CanTradeInRoom => true;
 
         /// <summary>
         ///     Gets the room data.
         /// </summary>
         /// <value>The room data.</value>
-        internal RoomData RoomData { get; private set; }
+         RoomData RoomData { get; private set; }
 
-        internal void Start(RoomData data, bool forceLoad = false)
+         void Start(RoomData data, bool forceLoad = false)
         {
             InitializeFromRoomData(data, forceLoad);
             GetRoomItemHandler().LoadFurniture();
@@ -249,7 +249,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Gets the game map.
         /// </summary>
         /// <returns>Gamemap.</returns>
-        internal Gamemap GetGameMap()
+         Gamemap GetGameMap()
         {
             return _gameMap;
         }
@@ -258,7 +258,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Gets the room item handler.
         /// </summary>
         /// <returns>RoomItemHandler.</returns>
-        internal RoomItemHandler GetRoomItemHandler()
+         RoomItemHandler GetRoomItemHandler()
         {
             return _roomItemHandler;
         }
@@ -267,7 +267,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Gets the room user manager.
         /// </summary>
         /// <returns>RoomUserManager.</returns>
-        internal RoomUserManager GetRoomUserManager()
+         RoomUserManager GetRoomUserManager()
         {
             return _roomUserManager;
         }
@@ -276,7 +276,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Gets the soccer.
         /// </summary>
         /// <returns>Soccer.</returns>
-        internal Soccer GetSoccer()
+         Soccer GetSoccer()
         {
             return _soccer ?? (_soccer = new Soccer(this));
         }
@@ -285,7 +285,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Gets the team manager for banzai.
         /// </summary>
         /// <returns>TeamManager.</returns>
-        internal TeamManager GetTeamManagerForBanzai()
+         TeamManager GetTeamManagerForBanzai()
         {
             return TeamBanzai ?? (TeamBanzai = TeamManager.CreateTeamforGame("banzai"));
         }
@@ -294,7 +294,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Gets the team manager for freeze.
         /// </summary>
         /// <returns>TeamManager.</returns>
-        internal TeamManager GetTeamManagerForFreeze()
+         TeamManager GetTeamManagerForFreeze()
         {
             return TeamFreeze ?? (TeamFreeze = TeamManager.CreateTeamforGame("freeze"));
         }
@@ -303,7 +303,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Gets the banzai.
         /// </summary>
         /// <returns>BattleBanzai.</returns>
-        internal BattleBanzai GetBanzai()
+         BattleBanzai GetBanzai()
         {
             return _banzai ?? (_banzai = new BattleBanzai(this));
         }
@@ -312,7 +312,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Gets the freeze.
         /// </summary>
         /// <returns>Freeze.</returns>
-        internal Freeze GetFreeze()
+         Freeze GetFreeze()
         {
             return _freeze ?? (_freeze = new Freeze(this));
         }
@@ -321,7 +321,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Gets the game manager.
         /// </summary>
         /// <returns>GameManager.</returns>
-        internal GameManager GetGameManager()
+         GameManager GetGameManager()
         {
             return _game ?? (_game = new GameManager(this));
         }
@@ -330,7 +330,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Gets the game item handler.
         /// </summary>
         /// <returns>GameItemHandler.</returns>
-        internal GameItemHandler GetGameItemHandler()
+         GameItemHandler GetGameItemHandler()
         {
             return _gameItemHandler ?? (_gameItemHandler = new GameItemHandler(this));
         }
@@ -339,7 +339,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Gets the room music controller.
         /// </summary>
         /// <returns>RoomMusicController.</returns>
-        internal SoundMachineManager GetRoomMusicController()
+         SoundMachineManager GetRoomMusicController()
         {
             return _musicController ?? (_musicController = new SoundMachineManager());
         }
@@ -348,7 +348,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Gots the music controller.
         /// </summary>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool GotMusicController()
+         bool GotMusicController()
         {
             return _musicController != null;
         }
@@ -357,7 +357,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Gots the soccer.
         /// </summary>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool GotSoccer()
+         bool GotSoccer()
         {
             return _soccer != null;
         }
@@ -366,7 +366,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Gots the banzai.
         /// </summary>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool GotBanzai()
+         bool GotBanzai()
         {
             return _banzai != null;
         }
@@ -375,7 +375,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Gots the freeze.
         /// </summary>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool GotFreeze()
+         bool GotFreeze()
         {
             return _freeze != null;
         }
@@ -383,7 +383,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// <summary>
         ///     Starts the room processing.
         /// </summary>
-        internal void StartRoomProcessing()
+         void StartRoomProcessing()
         {
             _processTimer = new Timer(ProcessRoom, null, 500, 500);
         }
@@ -391,7 +391,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// <summary>
         ///     Initializes the user bots.
         /// </summary>
-        internal void InitUserBots()
+         void InitUserBots()
         {
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
@@ -412,7 +412,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// <summary>
         ///     Clears the tags.
         /// </summary>
-        internal void ClearTags()
+         void ClearTags()
         {
             RoomData.Tags.Clear();
         }
@@ -421,7 +421,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Adds the tag range.
         /// </summary>
         /// <param name="tags">The tags.</param>
-        internal void AddTagRange(List<string> tags)
+         void AddTagRange(List<string> tags)
         {
             RoomData.Tags.AddRange(tags);
         }
@@ -429,7 +429,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// <summary>
         ///     Initializes the bots.
         /// </summary>
-        internal void InitBots()
+         void InitBots()
         {
             List<RoomBot> botsForRoom = Yupi.GetGame().GetBotManager().GetBotsForRoom(RoomId);
             foreach (RoomBot current in botsForRoom.Where(current => !current.IsPet))
@@ -439,7 +439,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// <summary>
         ///     Initializes the pets.
         /// </summary>
-        internal void InitPets()
+         void InitPets()
         {
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
@@ -470,7 +470,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// </summary>
         /// <param name="bot">The bot.</param>
         /// <returns>RoomUser.</returns>
-        internal RoomUser DeployBot(RoomBot bot)
+         RoomUser DeployBot(RoomBot bot)
         {
             return _roomUserManager.DeployBot(bot, null);
         }
@@ -479,7 +479,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Queues the room kick.
         /// </summary>
         /// <param name="kick">The kick.</param>
-        internal void QueueRoomKick(RoomKick kick)
+         void QueueRoomKick(RoomKick kick)
         {
             lock (_roomKick.SyncRoot)
             {
@@ -490,7 +490,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// <summary>
         ///     Called when [room kick].
         /// </summary>
-        internal void OnRoomKick()
+         void OnRoomKick()
         {
             List<RoomUser> list = _roomUserManager.UserList.Values.Where(
                 current => !current.IsBot && current.GetClient().GetHabbo().Rank < 4u).ToList();
@@ -508,7 +508,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Called when [user enter].
         /// </summary>
         /// <param name="user">The user.</param>
-        internal void OnUserEnter(RoomUser user)
+         void OnUserEnter(RoomUser user)
         {
             GetWiredHandler().ExecuteWired(Interaction.TriggerRoomEnter, user);
 
@@ -535,7 +535,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// <param name="user">The user.</param>
         /// <param name="message">The messageBuffer.</param>
         /// <param name="shout">if set to <c>true</c> [shout].</param>
-        internal void OnUserSay(RoomUser user, string message, bool shout)
+         void OnUserSay(RoomUser user, string message, bool shout)
         {
             foreach (RoomUser current in _roomUserManager.UserList.Values)
             {
@@ -576,7 +576,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// <summary>
         ///     Loads the music.
         /// </summary>
-        internal void LoadMusic()
+         void LoadMusic()
         {
             DataTable table;
 
@@ -621,7 +621,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// <summary>
         ///     Loads the rights.
         /// </summary>
-        internal void LoadRights()
+         void LoadRights()
         {
             UsersWithRights = new List<uint>();
             DataTable dataTable;
@@ -642,7 +642,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// <summary>
         ///     Loads the bans.
         /// </summary>
-        internal void LoadBans()
+         void LoadBans()
         {
             Bans = new Dictionary<long, double>();
             DataTable table;
@@ -662,7 +662,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// </summary>
         /// <param name="session">The session.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool CheckRights(GameClient session)
+         bool CheckRights(GameClient session)
         {
             return CheckRights(session, false);
         }
@@ -675,7 +675,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// <param name="checkForGroups">if set to <c>true</c> [check for groups].</param>
         /// <param name="groupMembers"></param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool CheckRights(GameClient session, bool requireOwnerShip = false, bool checkForGroups = false,
+         bool CheckRights(GameClient session, bool requireOwnerShip = false, bool checkForGroups = false,
             bool groupMembers = false)
         {
             try
@@ -725,7 +725,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// <param name="checkForGroups">if set to <c>true</c> [check for groups].</param>
         /// <param name="groupMembers"></param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool CheckRightsDoorBell(GameClient session, bool requireOwnerShip = false, bool checkForGroups = false,
+         bool CheckRightsDoorBell(GameClient session, bool requireOwnerShip = false, bool checkForGroups = false,
             bool groupMembers = false)
         {
             try
@@ -769,7 +769,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// <summary>
         ///     Processes the room.
         /// </summary>
-        internal void ProcessRoom(object callItem)
+         void ProcessRoom(object callItem)
         {
             try
             {
@@ -834,7 +834,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Sends the messageBuffer.
         /// </summary>
         /// <param name="message">The messageBuffer.</param>
-        internal void SendMessage(byte[] message)
+         void SendMessage(byte[] message)
         {
             try
             {
@@ -863,7 +863,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// <param name="chatMsg">The chat MSG.</param>
         /// <param name="roomUser">The room user.</param>
         /// <param name="p">The p.</param>
-        internal void BroadcastChatMessage(SimpleServerMessageBuffer chatMsg, RoomUser roomUser, uint p)
+         void BroadcastChatMessage(SimpleServerMessageBuffer chatMsg, RoomUser roomUser, uint p)
         {
             try
             {
@@ -902,7 +902,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Sends the messageBuffer.
         /// </summary>
         /// <param name="message">The messageBuffer.</param>
-        internal void SendMessage(SimpleServerMessageBuffer messageBuffer)
+         void SendMessage(SimpleServerMessageBuffer messageBuffer)
         {
             if (messageBuffer != null)
                 SendMessage(messageBuffer.GetReversedBytes());
@@ -912,7 +912,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Sends the messageBuffer.
         /// </summary>
         /// <param name="messages">The messages.</param>
-        internal void SendMessage(List<SimpleServerMessageBuffer> messages)
+         void SendMessage(List<SimpleServerMessageBuffer> messages)
         {
             if (messages.Count == 0)
                 return;
@@ -949,7 +949,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Sends the messageBuffer to users with rights.
         /// </summary>
         /// <param name="message">The messageBuffer.</param>
-        internal void SendMessageToUsersWithRights(SimpleServerMessageBuffer messageBuffer)
+         void SendMessageToUsersWithRights(SimpleServerMessageBuffer messageBuffer)
         {
             byte[] messagebytes = messageBuffer.GetReversedBytes();
 
@@ -984,7 +984,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// <summary>
         ///     Destroys this instance.
         /// </summary>
-        internal void Destroy()
+         void Destroy()
         {
 			// TODO Merge Destroy & Dispose ???
 			using(SimpleServerMessageBuffer message = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("OutOfRoomMessageComposer"))) {
@@ -998,7 +998,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// </summary>
         /// <param name="pId">The p identifier.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool UserIsBanned(uint pId)
+         bool UserIsBanned(uint pId)
         {
             return Bans.ContainsKey(pId);
         }
@@ -1007,7 +1007,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Removes the ban.
         /// </summary>
         /// <param name="pId">The p identifier.</param>
-        internal void RemoveBan(uint pId)
+         void RemoveBan(uint pId)
         {
             Bans.Remove(pId);
         }
@@ -1017,7 +1017,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="time">The time.</param>
-        internal void AddBan(int userId, long time)
+         void AddBan(int userId, long time)
         {
             if (!Bans.ContainsKey(Convert.ToInt32(userId)))
                 Bans.Add(userId, Yupi.GetUnixTimeStamp() + time);
@@ -1031,7 +1031,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Banneds the users.
         /// </summary>
         /// <returns>List&lt;System.UInt32&gt;.</returns>
-        internal List<uint> BannedUsers()
+         List<uint> BannedUsers()
         {
             List<uint> list = new List<uint>();
 
@@ -1056,7 +1056,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// </summary>
         /// <param name="pId">The p identifier.</param>
         /// <returns><c>true</c> if [has ban expired] [the specified p identifier]; otherwise, <c>false</c>.</returns>
-        internal bool HasBanExpired(uint pId)
+         bool HasBanExpired(uint pId)
         {
             return !UserIsBanned(pId) || Bans[pId] < Yupi.GetUnixTimeStamp();
         }
@@ -1065,7 +1065,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Unbans the specified user identifier.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
-        internal void Unban(uint userId)
+         void Unban(uint userId)
         {
 			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor()) {
                 queryReactor.RunFastQuery("DELETE FROM rooms_bans WHERE user_id=" + userId + " AND room_id=" +
@@ -1081,7 +1081,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns><c>true</c> if [has active trade] [the specified user]; otherwise, <c>false</c>.</returns>
-        internal bool HasActiveTrade(RoomUser user)
+         bool HasActiveTrade(RoomUser user)
         {
             return !user.IsBot && HasActiveTrade(user.GetClient().GetHabbo().Id);
         }
@@ -1091,7 +1091,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <returns><c>true</c> if [has active trade] [the specified user identifier]; otherwise, <c>false</c>.</returns>
-        internal bool HasActiveTrade(uint userId)
+         bool HasActiveTrade(uint userId)
         {
             object[] array = ActiveTrades.ToArray();
             return array.Cast<Trade>().Any(trade => trade.ContainsUser(userId));
@@ -1102,7 +1102,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <returns>Trade.</returns>
-        internal Trade GetUserTrade(uint userId)
+         Trade GetUserTrade(uint userId)
         {
             object[] array = ActiveTrades.ToArray();
             return array.Cast<Trade>().FirstOrDefault(trade => trade.ContainsUser(userId));
@@ -1113,7 +1113,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// </summary>
         /// <param name="userOne">The user one.</param>
         /// <param name="userTwo">The user two.</param>
-        internal void TryStartTrade(RoomUser userOne, RoomUser userTwo)
+         void TryStartTrade(RoomUser userOne, RoomUser userTwo)
         {
             if (userOne == null || userTwo == null || userOne.IsBot || userTwo.IsBot || userOne.IsTrading ||
                 userTwo.IsTrading || HasActiveTrade(userOne) || HasActiveTrade(userTwo))
@@ -1125,7 +1125,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Tries the stop trade.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
-        internal void TryStopTrade(uint userId)
+         void TryStopTrade(uint userId)
         {
             Trade userTrade = GetUserTrade(userId);
             if (userTrade == null)
@@ -1138,7 +1138,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Sets the maximum users.
         /// </summary>
         /// <param name="maxUsers">The maximum users.</param>
-        internal void SetMaxUsers(uint maxUsers)
+         void SetMaxUsers(uint maxUsers)
         {
             RoomData.UsersMax = maxUsers;
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
@@ -1152,7 +1152,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// <param name="user">The maximum users.</param>
         /// <param name="goalX">Click To X.</param>
         /// <param name="goalY">Click To Y.</param>
-        internal bool MovedToBed(RoomUser user, ref int goalX, ref int goalY)
+         bool MovedToBed(RoomUser user, ref int goalX, ref int goalY)
         {
             if (ContainsBeds > 0)
             {
@@ -1204,7 +1204,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// <summary>
         ///     Flushes the settings.
         /// </summary>
-        internal void FlushSettings()
+         void FlushSettings()
         {
             _mCycleEnded = true;
 
@@ -1233,7 +1233,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// <summary>
         ///     Reloads the settings.
         /// </summary>
-        internal void ReloadSettings()
+         void ReloadSettings()
         {
             RoomData data = Yupi.GetGame().GetRoomManager().GenerateRoomData(RoomId);
             InitializeFromRoomData(data, false);
@@ -1242,7 +1242,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// <summary>
         ///     Updates the furniture.
         /// </summary>
-        internal void UpdateFurniture()
+         void UpdateFurniture()
         {
             List<SimpleServerMessageBuffer> list = new List<SimpleServerMessageBuffer>();
             RoomItem[] array = GetRoomItemHandler().FloorItems.Values.ToArray();
@@ -1272,7 +1272,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// </summary>
         /// <param name="session">The session.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool CheckMute(GameClient session)
+         bool CheckMute(GameClient session)
         {
             if (RoomMuted || session.GetHabbo().Muted)
                 return true;
@@ -1290,13 +1290,13 @@ namespace Yupi.Emulator.Game.Rooms
         /// <param name="id">The identifier.</param>
         /// <param name="message">The messageBuffer.</param>
         /// <param name="globalMessage"></param>
-        internal void AddChatlog(uint id, string message, bool globalMessage)
+         void AddChatlog(uint id, string message, bool globalMessage)
         {
             lock (RoomData.RoomChat)
                 RoomData.RoomChat.Push(new Chatlog(id, message, DateTime.Now, globalMessage));
         }
 
-        internal void SaveRoomChatlog()
+         void SaveRoomChatlog()
         {
             lock (RoomData.RoomChat)
             {
@@ -1315,7 +1315,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// <param name="wallHeight">Height of the wall.</param>
         /// <param name="wallThick">The wall thick.</param>
         /// <param name="floorThick">The floor thick.</param>
-        internal void ResetGameMap(string newModelName, int wallHeight, int wallThick, int floorThick)
+         void ResetGameMap(string newModelName, int wallHeight, int wallThick, int floorThick)
         {
             RoomData.ModelName = newModelName;
             RoomData.ModelName = newModelName;

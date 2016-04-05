@@ -8,7 +8,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class BanUser. This class cannot be inherited.
     /// </summary>
-    internal sealed class BanUser : Command
+     sealed class BanUser : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="BanUser" /> class.

@@ -29,38 +29,38 @@ namespace Yupi.Emulator.Game.RoomBots.Interfaces
     /// <summary>
     ///     Class CatalogBot.
     /// </summary>
-    internal class CatalogBot
+     class CatalogBot
     {
         /// <summary>
         ///     The bot gender
         /// </summary>
-        internal string BotGender;
+         string BotGender;
 
         /// <summary>
         ///     The bot look
         /// </summary>
-        internal string BotLook;
+         string BotLook;
 
         /// <summary>
         ///     The bot mission
         /// </summary>
-        internal string BotMission;
+         string BotMission;
 
         /// <summary>
         ///     The bot name
         /// </summary>
-        internal string BotName;
+         string BotName;
 
         /// <summary>
         ///     The bot type
         /// </summary>
-        internal string BotType;
+         string BotType;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="CatalogBot" /> class.
         /// </summary>
         /// <param name="row">The row.</param>
-        internal CatalogBot(DataRow row)
+         CatalogBot(DataRow row)
         {
             BotType = row["bot_type"].ToString();
             BotName = row["bot_name"].ToString();

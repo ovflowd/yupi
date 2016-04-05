@@ -12,6 +12,7 @@ using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Enums;
 using Yupi.Emulator.Messages.Handlers;
 using Yupi.Net;
+using Yupi.Protocol.Buffers;
 
 namespace Yupi.Emulator.Game.GameClients.Interfaces
 {
@@ -23,7 +24,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         /// <summary>
         ///     The Client Connection
         /// </summary>
-        private ISession _connection;
+		private ISession<GameClient> _connection;
 
         /// <summary>
         ///     The _habbo
@@ -38,34 +39,34 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         /// <summary>
         ///     The current room user identifier
         /// </summary>
-        internal int CurrentRoomUserId;
+         int CurrentRoomUserId;
 
         /// <summary>
         ///     The designed handler
         /// </summary>
-        internal int DesignedHandler = 1;
+         int DesignedHandler = 1;
 
         /// <summary>
         ///     The machine identifier
         /// </summary>
-        internal string MachineId;
+         string MachineId;
 
         /// <summary>
         ///     The publicist count
         /// </summary>
-        internal byte PublicistCount;
+         byte PublicistCount;
 
         /// <summary>
         ///     The time pinged received
         /// </summary>
-        internal DateTime TimePingedReceived;
+         DateTime TimePingedReceived;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="GameClient" /> class.
         /// </summary>
         /// <param name="clientId">The client identifier.</param>
         /// <param name="connection">The connection.</param>
-		internal GameClient(ISession connection)
+		 GameClient(ISession<GameClient> connection)
         {
             _connection = connection;
 
@@ -83,7 +84,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         /// <param name="message">The message.</param>
         /// <param name="method">The method.</param>
         /// <param name="settings">The settings.</param>
-        internal void HandlePublicist(string word, string message, string method, BlackWordTypeSettings settings)
+         void HandlePublicist(string word, string message, string method, BlackWordTypeSettings settings)
         {
             Habbo userPublicist = GetHabbo();
 
@@ -97,7 +98,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
                     simpleServerMessageBuffer.AppendString("staffcloud");
                     simpleServerMessageBuffer.AppendInteger(2);
                     simpleServerMessageBuffer.AppendString("title");
-                    simpleServerMessageBuffer.AppendString("Staff Internal Alert");
+                    simpleServerMessageBuffer.AppendString("Staff  Alert");
                     simpleServerMessageBuffer.AppendString("message");
                     simpleServerMessageBuffer.AppendString("O usuário " + userPublicist.UserName + " Fo Banido por Divulgar. A última palavra foi: " + word + ", na frase: " + message);
 
@@ -154,19 +155,19 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         ///     Gets the connection.
         /// </summary>
         /// <returns>ConnectionInformation.</returns>
-		internal ISession GetConnection() => _connection;
+		 ISession GetConnection() => _connection;
 
         /// <summary>
         ///     Gets the message handler.
         /// </summary>
         /// <returns>MessageHandler.</returns>
-        internal MessageHandler GetMessageHandler() => _messageHandler;
+         MessageHandler GetMessageHandler() => _messageHandler;
 
         /// <summary>
         ///     Gets the habbo.
         /// </summary>
         /// <returns>Habbo.</returns>
-        internal Habbo GetHabbo() => _habbo;
+         Habbo GetHabbo() => _habbo;
 
         /// <summary>
         ///     Tries the login.
@@ -174,7 +175,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         /// <param name="authTicket">The authentication ticket.</param>
         /// <param name="banReasonOut"></param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool TryLogin(string authTicket, out string banReasonOut)
+         bool TryLogin(string authTicket, out string banReasonOut)
         {
             banReasonOut = string.Empty;
 
@@ -325,7 +326,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         ///     Sends the notif with scroll.
         /// </summary>
         /// <param name="message">The message.</param>
-        internal void SendNotifWithScroll(string message)
+         void SendNotifWithScroll(string message)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("MOTDNotificationMessageComposer"));
 
@@ -338,7 +339,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         ///     Sends the broadcast message.
         /// </summary>
         /// <param name="message">The message.</param>
-        internal void SendBroadcastMessage(string message)
+         void SendBroadcastMessage(string message)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("BroadcastNotifMessageComposer"));
 
@@ -351,7 +352,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         ///     Sends the moderator message.
         /// </summary>
         /// <param name="message">The message.</param>
-        internal void SendModeratorMessage(string message)
+         void SendModeratorMessage(string message)
         {
             if (string.IsNullOrWhiteSpace(message))
                 return;
@@ -369,7 +370,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="fromWired"></param>
-        internal void SendWhisper(string message, bool fromWired = false)
+         void SendWhisper(string message, bool fromWired = false)
         {
             if (GetHabbo() == null || GetHabbo().CurrentRoom == null)
                 return;
@@ -397,7 +398,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         /// <param name="message">The message.</param>
         /// <param name="title">The title.</param>
         /// <param name="picture">The picture.</param>
-        internal void SendNotif(string message, string title = "Aviso", string picture = "") => SendMessage(GetBytesNotif(message, title, picture));
+         void SendNotif(string message, string title = "Aviso", string picture = "") => SendMessage(GetBytesNotif(message, title, picture));
 
         /// <summary>
         ///     Gets the bytes notif.
@@ -430,7 +431,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         /// </summary>
         /// <param name="reason">The reason.</param>
         /// <param name="showConsole"></param>
-        internal void Disconnect(string reason = "Left Game", bool showConsole = false)
+         void Disconnect(string reason = "Left Game", bool showConsole = false)
         {
 
             GetHabbo()?.RunDbUpdate();
@@ -447,45 +448,10 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
             _connection = null;
         }
 
-        /// <summary>
-        ///     Sends the message.
-        /// </summary>
-        /// <param name="message">The message.</param>
-        internal void SendMessage(SimpleServerMessageBuffer message)
-        {
-            if (message == null)
-                return;
+		public void Send(ServerMessage message) {
+			byte[] bytes = message.GetReversedBytes();
 
-            if (GetConnection() == null)
-                return;
-
-            byte[] bytes = message.GetReversedBytes();
-
-            GetConnection().Send(bytes);
-        }
-
-        /// <summary>
-        ///     Sends the message.
-        /// </summary>
-        /// <param name="bytes">The bytes.</param>
-        internal void SendMessage(byte[] bytes)
-        {
-            if (GetConnection() == null)
-                return;
-
-            GetConnection().Send(bytes);
-        }
-
-        /// <summary>
-        ///     Sends the message.
-        /// </summary>
-        /// <param name="type">The type.</param>
-        internal void SendMessage(StaticMessage type)
-        {
-            if (GetConnection() == null)
-                return;
-
-            GetConnection().Send(StaticMessagesManager.Get(type));
-        }
+			GetConnection().Send(bytes);
+		}
     }
 }

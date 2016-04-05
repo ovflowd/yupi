@@ -1,6 +1,6 @@
 namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Soccer.Enums
 {
-    internal enum IComeDirection
+     enum IComeDirection
     {
         Up,
         UpRight,

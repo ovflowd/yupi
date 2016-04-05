@@ -7,7 +7,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class Enable. This class cannot be inherited.
     /// </summary>
-    internal sealed class Enable : Command
+     sealed class Enable : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="Enable" /> class.

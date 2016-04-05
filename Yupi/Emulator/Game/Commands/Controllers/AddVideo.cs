@@ -6,7 +6,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class SetVideos. This class cannot be inherited.
     /// </summary>
-    internal sealed class AddVideo : Command
+     sealed class AddVideo : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="SetVideos" /> class.

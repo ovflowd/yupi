@@ -38,7 +38,7 @@ namespace Yupi.Emulator.Game.Browser
     /// <summary>
     ///     Class SearchResultList.
     /// </summary>
-    internal class SearchResultList
+     class SearchResultList
     {
         /// <summary>
         ///     Serializes the search result list flatcats.
@@ -46,7 +46,7 @@ namespace Yupi.Emulator.Game.Browser
         /// <param name="flatCatId">The flat cat identifier.</param>
         /// <param name="direct">if set to <c>true</c> [direct].</param>
         /// <param name="messageBuffer">The messageBuffer.</param>
-        internal static void SerializeSearchResultListFlatcats(int flatCatId, bool direct, SimpleServerMessageBuffer messageBuffer)
+         static void SerializeSearchResultListFlatcats(int flatCatId, bool direct, SimpleServerMessageBuffer messageBuffer)
         {
             PublicCategory flatCat = Yupi.GetGame().GetNavigator().GetFlatCat(flatCatId);
 
@@ -70,7 +70,7 @@ namespace Yupi.Emulator.Game.Browser
         /// <param name="flatCatId">The flat cat identifier.</param>
         /// <param name="direct">if set to <c>true</c> [direct].</param>
         /// <param name="messageBuffer">The messageBuffer.</param>
-        internal static void SerializePromotionsResultListFlatcats(int flatCatId, bool direct, SimpleServerMessageBuffer messageBuffer)
+         static void SerializePromotionsResultListFlatcats(int flatCatId, bool direct, SimpleServerMessageBuffer messageBuffer)
         {
             PublicCategory flatCat = Yupi.GetGame().GetNavigator().GetFlatCat(flatCatId);
 
@@ -94,7 +94,7 @@ namespace Yupi.Emulator.Game.Browser
         /// <param name="session">The session.</param>
         /// <param name="opened"></param>
         /// <param name="showImage"></param>
-        internal static void SerializeSearchResultListStatics(string staticId, bool direct, SimpleServerMessageBuffer messageBuffer, GameClient session, bool opened = false, bool showImage = false)
+         static void SerializeSearchResultListStatics(string staticId, bool direct, SimpleServerMessageBuffer messageBuffer, GameClient session, bool opened = false, bool showImage = false)
         {
             if (string.IsNullOrEmpty(staticId) || staticId == "official")
                 staticId = "official_view";
@@ -348,7 +348,7 @@ namespace Yupi.Emulator.Game.Browser
         /// <param name="searchQuery">The search query.</param>
         /// <param name="messageBuffer">The messageBuffer.</param>
         /// <param name="session">The session.</param>
-        internal static void SerializeSearches(string searchQuery, SimpleServerMessageBuffer messageBuffer, GameClient session)
+         static void SerializeSearches(string searchQuery, SimpleServerMessageBuffer messageBuffer, GameClient session)
         {
             messageBuffer.AppendString(string.Empty);
 

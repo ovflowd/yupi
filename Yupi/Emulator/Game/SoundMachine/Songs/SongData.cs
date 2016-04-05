@@ -3,7 +3,7 @@ namespace Yupi.Emulator.Game.SoundMachine.Songs
     /// <summary>
     ///     Class SongData.
     /// </summary>
-    internal class SongData
+     class SongData
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="SongData" /> class.

@@ -6,7 +6,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class EmptyUser. This class cannot be inherited.
     /// </summary>
-    internal sealed class EmptyUser : Command
+     sealed class EmptyUser : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="EmptyUser" /> class.

@@ -28,7 +28,7 @@ using Yupi.Emulator.Core.Algorithms.Astar.Interfaces;
 
 namespace Yupi.Emulator.Core.Algorithms.Astar
 {
-    internal class PriorityQueue<T, TX> where T : IWeightAddable<TX>
+     class PriorityQueue<T, TX> where T : IWeightAddable<TX>
     {
         public List<T> InnerList;
         protected IComparer<T> MComparer;

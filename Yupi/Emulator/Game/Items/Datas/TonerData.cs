@@ -7,28 +7,28 @@ namespace Yupi.Emulator.Game.Items.Datas
     /// <summary>
     ///     Class TonerData.
     /// </summary>
-    internal class TonerData
+     class TonerData
     {
         /// <summary>
         ///     The data1
         /// </summary>
-        internal int Data1, Data2, Data3;
+         int Data1, Data2, Data3;
 
         /// <summary>
         ///     The enabled
         /// </summary>
-        internal int Enabled;
+         int Enabled;
 
         /// <summary>
         ///     The item identifier
         /// </summary>
-        internal uint ItemId;
+         uint ItemId;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="TonerData" /> class.
         /// </summary>
         /// <param name="item">The item.</param>
-        internal TonerData(uint item)
+         TonerData(uint item)
         {
             ItemId = item;
             DataRow row;
@@ -57,7 +57,7 @@ namespace Yupi.Emulator.Game.Items.Datas
         /// </summary>
         /// <param name="message">The messageBuffer.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-        internal SimpleServerMessageBuffer GenerateExtraData(SimpleServerMessageBuffer messageBuffer)
+         SimpleServerMessageBuffer GenerateExtraData(SimpleServerMessageBuffer messageBuffer)
         {
             messageBuffer.AppendInteger(0);
             messageBuffer.AppendInteger(5);

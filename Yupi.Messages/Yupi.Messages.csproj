@@ -50,6 +50,7 @@
     <Reference Include="Log4Net.Async">
       <HintPath>..\packages\Log4Net.Async.2.0.0.0\lib\net40\Log4Net.Async.dll</HintPath>
     </Reference>
+    <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -75,6 +76,36 @@
     <Compile Include="Handlers\User\GiveRespectMessageEvent.cs" />
     <Compile Include="Composer\User\GiveRespectsMessageComposer.cs" />
     <Compile Include="Composer\User\RoomUserActionMessageComposer.cs" />
+    <Compile Include="Handlers\User\EnableInventoryEffectMessageEvent.cs" />
+    <Compile Include="Handlers\User\RoomSettingsMuteUserMessageEvent.cs" />
+    <Compile Include="Handlers\User\GetCurrencyBalanceMessageEvent.cs" />
+    <Compile Include="Handlers\User\GetSubscriptionDataMessageEvent.cs" />
+    <Compile Include="Handlers\User\UserGetVolumeSettingsMessageEvent.cs" />
+    <Compile Include="Composer\User\LoadVolumeMessageComposer.cs" />
+    <Compile Include="Handlers\User\SaveClientSettingsMessageEvent.cs" />
+    <Compile Include="Handlers\User\SetChatPreferenceMessageEvent.cs" />
+    <Compile Include="Handlers\User\SetInvitationsPreferenceMessageEvent.cs" />
+    <Compile Include="Handlers\User\LoadBadgeInventoryMessageEvent.cs" />
+    <Compile Include="Handlers\User\SetActivatedBadgesMessageEvent.cs" />
+    <Compile Include="Handlers\User\OpenAchievementsBoxMessageEvent.cs" />
+    <Compile Include="Handlers\User\SendBadgeCampaignMessageEvent.cs" />
+    <Compile Include="Composer\User\SendCampaignBadgeMessageComposer.cs" />
+    <Compile Include="Handlers\User\LoadUserProfileMessageEvent.cs" />
+    <Compile Include="Composer\User\UserProfileMessageComposer.cs" />
+    <Compile Include="Handlers\User\UserUpdateLookMessageEvent.cs" />
+    <Compile Include="Composer\User\UpdateAvatarAspectMessageComposer.cs" />
+    <Compile Include="Composer\User\UpdateUserDataMessageComposer.cs" />
+    <Compile Include="Handlers\User\UserUpdateMottoMessageEvent.cs" />
+    <Compile Include="Handlers\User\WardrobeMessageEvent.cs" />
+    <Compile Include="Composer\User\LoadWardrobeMessageComposer.cs" />
+    <Compile Include="Handlers\User\WardrobeUpdateMessageEvent.cs" />
+    <Compile Include="Handlers\User\LoadPetInventoryMessageEvent.cs" />
+    <Compile Include="Composer\User\LoadBotInventoryMessageEvent.cs" />
+    <Compile Include="Handlers\User\CheckUsernameMessageEvent.cs" />
+    <Compile Include="Composer\User\NameChangedUpdatesMessageComposer.cs" />
+    <Compile Include="Handlers\User\ChangeUsernameMessageEvent.cs" />
+    <Compile Include="Composer\User\UpdateUsernameMessageComposer.cs" />
+    <Compile Include="Composer\User\UserUpdateNameInRoomMessageComposer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

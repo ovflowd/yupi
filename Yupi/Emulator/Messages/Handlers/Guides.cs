@@ -9,12 +9,12 @@ namespace Yupi.Emulator.Messages.Handlers
     /// <summary>
     ///     Class MessageHandler.
     /// </summary>
-    internal partial class MessageHandler
+     partial class MessageHandler
     {
         /// <summary>
         ///     Calls the guide.
         /// </summary>
-        internal void GuideMessage()
+         void GuideMessage()
         {
             Request.GetBool();
 
@@ -71,7 +71,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Answers the guide request.
         /// </summary>
-        internal void GetGuideDetached()
+         void GetGuideDetached()
         {
             bool state = Request.GetBool();
 
@@ -94,7 +94,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Opens the guide tool.
         /// </summary>
-        internal void GetHelperTool()
+         void GetHelperTool()
         {
             GuideManager guideManager = Yupi.GetGame().GetGuideManager();
             bool onDuty = Request.GetBool();
@@ -120,7 +120,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Invites to room.
         /// </summary>
-        internal void InviteGuide()
+         void InviteGuide()
         {
             GameClient requester = Session.GetHabbo().GuideOtherUser;
 
@@ -147,7 +147,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Visits the room.
         /// </summary>
-        internal void VisitRoomGuide()
+         void VisitRoomGuide()
         {
             if (Session.GetHabbo().GuideOtherUser == null)
                 return;
@@ -161,7 +161,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Guides the speak.
         /// </summary>
-        internal void MessageFromAGuy()
+         void MessageFromAGuy()
         {
             string message = Request.GetString();
             GameClient requester = Session.GetHabbo().GuideOtherUser;
@@ -176,7 +176,7 @@ namespace Yupi.Emulator.Messages.Handlers
         ///     BETA
         ///     Closes the guide request.
         /// </summary>
-        internal void GuideEndSession()
+         void GuideEndSession()
         {
             GameClient requester = Session.GetHabbo().GuideOtherUser;
 
@@ -207,7 +207,7 @@ namespace Yupi.Emulator.Messages.Handlers
         ///     Cancels the call guide.
         ///     BETA
         /// </summary>
-        internal void CancelCallGuide()
+         void CancelCallGuide()
         {
             // @TODO what packet is this?
             //Response.Load(3485);
@@ -226,7 +226,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Ambassadors the alert.
         /// </summary>
-        internal void AmbassadorAlert()
+         void AmbassadorAlert()
         {
             if (Session.GetHabbo().Rank < Convert.ToUInt32(Yupi.GetDbConfig().DbData["ambassador.minrank"]))
                 return;

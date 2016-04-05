@@ -5,7 +5,7 @@ namespace Yupi.Emulator.Game.Browser.Composers
 {
     class NavigatorMetaDataComposer
     {
-        internal static SimpleServerMessageBuffer Compose()
+         static SimpleServerMessageBuffer Compose()
         {
             SimpleServerMessageBuffer navigatorMetaDataParser = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("NavigatorMetaDataComposer"));
 

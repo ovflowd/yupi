@@ -26,7 +26,7 @@ using System;
 
 namespace Yupi.Emulator.Core.Io
 {
-    internal class ConsoleOutputWriter
+     class ConsoleOutputWriter
     {
         /// <summary>
         ///     Writes the line.
@@ -34,7 +34,7 @@ namespace Yupi.Emulator.Core.Io
         /// <param name="format">The format.</param>
         /// <param name="header">The header.</param>
         /// <param name="color">The color.</param>
-        internal static void WriteLine(string format, string header, ConsoleColor color = ConsoleColor.White)
+         static void WriteLine(string format, string header, ConsoleColor color = ConsoleColor.White)
         {
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.Write(@" ");
@@ -60,7 +60,7 @@ namespace Yupi.Emulator.Core.Io
         /// <param name="format">The format.</param>
         /// <param name="header">The header.</param>
         /// <param name="color">The color.</param>
-        internal static void Write(string format, string header = "", ConsoleColor color = ConsoleColor.White)
+         static void Write(string format, string header = "", ConsoleColor color = ConsoleColor.White)
         {
             Console.ForegroundColor = ConsoleColor.Gray;
 			Console.Write(" " + "[" + DateTime.Now.ToString() + "] ");

@@ -2,12 +2,14 @@
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Rooms.User;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.User
 {
 	public class GiveRespectMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Net.ISession<Yupi.Emulator.Game.GameClients.Interfaces.GameClient> session, Yupi.Protocol.Buffers.ClientMessage message, Router router)
+		public override void HandleMessage (GameClient session, ClientMessage message, Router router)
 		{
 			Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 

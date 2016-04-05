@@ -31,9 +31,9 @@ using Yupi.Emulator.Data;
 
 namespace Yupi.Emulator
 {
-    internal class Program
+     class Program
     {
-        internal const uint ScClose = 0xF060;
+         const uint ScClose = 0xF060;
 
         /// <summary>
         ///     Main Void of Yupi.Emulator
@@ -53,7 +53,7 @@ namespace Yupi.Emulator
             ReadLoop();
         }
 
-        internal static void ReadLoop()
+         static void ReadLoop()
         {
             while (Yupi.IsLive || Yupi.IsReady)
             {
@@ -65,7 +65,7 @@ namespace Yupi.Emulator
             }
         }
 
-        internal static void StartProgram()
+         static void StartProgram()
         {
             YupiUpdatesManager.Init();
 
@@ -80,14 +80,14 @@ namespace Yupi.Emulator
             YupiWriterManager.WriteLine("Waiting For Command Input...", "Yupi.Boot", ConsoleColor.DarkCyan);
         }
 
-        internal static void ResetConsole()
+         static void ResetConsole()
         {
             Console.Clear();
 
             ShowEnvironmentMessage();
         }
 
-        internal static void StartEverything()
+         static void StartEverything()
         {
             InitEnvironment();
         }

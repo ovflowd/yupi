@@ -35,12 +35,12 @@ namespace Yupi.Emulator.Game
     /// <summary>
     ///     Class HabboHotel.
     /// </summary>
-    internal class HabboHotel
+     class HabboHotel
     {
         /// <summary>
         ///     The game loop enabled
         /// </summary>
-        internal static bool GameLoopEnabled = true;
+         static bool GameLoopEnabled = true;
 
         /// <summary>
         ///     The _achievement manager
@@ -154,7 +154,7 @@ namespace Yupi.Emulator.Game
         /// <summary>
         ///     The client manager cycle ended
         /// </summary>
-        internal bool ClientManagerCycleEnded, RoomManagerCycleEnded;
+         bool ClientManagerCycleEnded, RoomManagerCycleEnded;
 
         /// <summary>
         ///     Packet Debug Mode
@@ -164,7 +164,7 @@ namespace Yupi.Emulator.Game
         /// <summary>
         ///     Initializes a new instance of the <see cref="HabboHotel" /> class.
         /// </summary>
-        internal HabboHotel()
+         HabboHotel()
         {
             YupiWriterManager.WriteLine("Starting up Yupi Emulator for " + Environment.MachineName + "...", "Yupi.Boot", ConsoleColor.DarkGray);
 
@@ -285,7 +285,7 @@ namespace Yupi.Emulator.Game
             }
         }
 
-        internal void Init()
+         void Init()
         {
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
@@ -356,19 +356,19 @@ namespace Yupi.Emulator.Game
         ///     Gets a value indicating whether [game loop enabled ext].
         /// </summary>
         /// <value><c>true</c> if [game loop enabled ext]; otherwise, <c>false</c>.</value>
-        internal bool GameLoopEnabledExt => GameLoopEnabled;
+         bool GameLoopEnabledExt => GameLoopEnabled;
 
         /// <summary>
         ///     Gets a value indicating whether [game loop active ext].
         /// </summary>
         /// <value><c>true</c> if [game loop active ext]; otherwise, <c>false</c>.</value>
-        internal bool GameLoopActiveExt { get; private set; }
+         bool GameLoopActiveExt { get; private set; }
 
         /// <summary>
         ///     Gets the game loop sleep time ext.
         /// </summary>
         /// <value>The game loop sleep time ext.</value>
-        internal int GameLoopSleepTimeExt => 25;
+         int GameLoopSleepTimeExt => 25;
 
         /// <summary>
         ///     Progresses the specified bar.
@@ -402,126 +402,126 @@ namespace Yupi.Emulator.Game
         ///     Gets the client manager.
         /// </summary>
         /// <returns>GameClientManager.</returns>
-        internal GameClientManager GetClientManager() => _clientManager;
+         GameClientManager GetClientManager() => _clientManager;
 
         /// <summary>
         ///     Gets the ban manager.
         /// </summary>
         /// <returns>ModerationBanManager.</returns>
-        internal ModerationBanManager GetBanManager() => _banManager;
+         ModerationBanManager GetBanManager() => _banManager;
 
         /// <summary>
         ///     Gets the role manager.
         /// </summary>
         /// <returns>RoleManager.</returns>
-        internal RoleManager GetRoleManager() => _roleManager;
+         RoleManager GetRoleManager() => _roleManager;
 
         /// <summary>
         ///     Gets the catalog.
         /// </summary>
         /// <returns>Catalog.</returns>
-        internal CatalogManager GetCatalogManager() => _catalog;
+         CatalogManager GetCatalogManager() => _catalog;
 
         /// <summary>
         ///     Gets the room events.
         /// </summary>
         /// <returns>RoomEventsManager.</returns>
-        internal RoomEventsManager GetRoomEvents() => _eventsManager;
+         RoomEventsManager GetRoomEvents() => _eventsManager;
 
         /// <summary>
         ///     Gets the guide manager.
         /// </summary>
         /// <returns>GuideManager.</returns>
-        internal GuideManager GetGuideManager() => _guideManager;
+         GuideManager GetGuideManager() => _guideManager;
 
         /// <summary>
         ///     Gets the navigator.
         /// </summary>
         /// <returns>NavigatorManager.</returns>
-        internal HotelBrowserManager GetNavigator() => _navigatorManager;
+         HotelBrowserManager GetNavigator() => _navigatorManager;
 
         /// <summary>
         ///     Gets the item manager.
         /// </summary>
         /// <returns>ItemManager.</returns>
-        internal ItemManager GetItemManager() => _itemManager;
+         ItemManager GetItemManager() => _itemManager;
 
         /// <summary>
         ///     Gets the room manager.
         /// </summary>
         /// <returns>RoomManager.</returns>
-        internal RoomManager GetRoomManager() => _roomManager;
+         RoomManager GetRoomManager() => _roomManager;
 
         /// <summary>
         ///     Gets the pixel manager.
         /// </summary>
         /// <returns>CoinsManager.</returns>
-        internal ExchangeManager GetPixelManager() => _pixelManager;
+         ExchangeManager GetPixelManager() => _pixelManager;
 
         /// <summary>
         ///     Gets the hotel view.
         /// </summary>
         /// <returns>HotelView.</returns>
-        internal HotelLandingManager GetHotelView() => _hotelView;
+         HotelLandingManager GetHotelView() => _hotelView;
 
-        internal HallOfFame GetHallOfFame() => _hallOfFame;
+         HallOfFame GetHallOfFame() => _hallOfFame;
 
-        internal TargetedOfferManager GetTargetedOfferManager() => _targetedOfferManager;
+         TargetedOfferManager GetTargetedOfferManager() => _targetedOfferManager;
 
         /// <summary>
         ///     Gets the achievement manager.
         /// </summary>
         /// <returns>AchievementManager.</returns>
-        internal AchievementManager GetAchievementManager() => _achievementManager;
+         AchievementManager GetAchievementManager() => _achievementManager;
 
         /// <summary>
         ///     Gets the moderation tool.
         /// </summary>
         /// <returns>ModerationTool.</returns>
-        internal ModerationTool GetModerationTool() => _moderationTool;
+         ModerationTool GetModerationTool() => _moderationTool;
 
         /// <summary>
         ///     Gets the bot manager.
         /// </summary>
         /// <returns>BotManager.</returns>
-        internal BotManager GetBotManager() => _botManager;
+         BotManager GetBotManager() => _botManager;
 
         /// <summary>
         ///     Gets the group manager.
         /// </summary>
         /// <returns>GroupManager.</returns>
-        internal GroupManager GetGroupManager() => _groupManager;
+         GroupManager GetGroupManager() => _groupManager;
 
         /// <summary>
         ///     Gets the talent manager.
         /// </summary>
         /// <returns>TalentManager.</returns>
-        internal TalentManager GetTalentManager() => _talentManager;
+         TalentManager GetTalentManager() => _talentManager;
 
         /// <summary>
         ///     Gets the pinata handler.
         /// </summary>
         /// <returns>PinataHandler.</returns>
-        internal PinataHandler GetPinataHandler() => _pinataHandler;
+         PinataHandler GetPinataHandler() => _pinataHandler;
 
-        internal CrackableEggHandler GetCrackableEggHandler() => _crackableEggHandler;
+         CrackableEggHandler GetCrackableEggHandler() => _crackableEggHandler;
 
         /// <summary>
         ///     Gets the poll manager.
         /// </summary>
         /// <returns>PollManager.</returns>
-        internal PollManager GetPollManager() => _pollManager;
+         PollManager GetPollManager() => _pollManager;
 
         /// <summary>
         ///     Gets the clothing manager.
         /// </summary>
         /// <returns>ClothesManagerManager.</returns>
-        internal ClothingManager GetClothingManager() => _clothingManager;
+         ClothingManager GetClothingManager() => _clothingManager;
 
         /// <summary>
         ///     Starts the game loop.
         /// </summary>
-        internal void StartGameLoop()
+         void StartGameLoop()
         {
             GameLoopActiveExt = true;
 
@@ -533,7 +533,7 @@ namespace Yupi.Emulator.Game
         /// <summary>
         ///     Stops the game loop.
         /// </summary>
-        internal void StopGameLoop()
+         void StopGameLoop()
         {
             GameLoopActiveExt = false;
 
@@ -544,7 +544,7 @@ namespace Yupi.Emulator.Game
         /// <summary>
         ///     Destroys this instance.
         /// </summary>
-        internal void Destroy()
+         void Destroy()
         {
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                 DatabaseCleanup(queryReactor);
@@ -557,7 +557,7 @@ namespace Yupi.Emulator.Game
         /// <summary>
         ///     Reloaditemses this instance.
         /// </summary>
-        internal void ReloadItems()
+         void ReloadItems()
         {
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {

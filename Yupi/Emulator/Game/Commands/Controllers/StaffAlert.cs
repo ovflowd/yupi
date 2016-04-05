@@ -8,7 +8,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class HotelAlert. This class cannot be inherited.
     /// </summary>
-    internal sealed class StaffAlert : Command
+     sealed class StaffAlert : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="StaffAlert" /> class.
@@ -30,7 +30,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
             messageBuffer.AppendString("staffcloud");
             messageBuffer.AppendInteger(2);
             messageBuffer.AppendString("title");
-            messageBuffer.AppendString("Staff Internal Alert");
+            messageBuffer.AppendString("Staff  Alert");
             messageBuffer.AppendString("message");
             messageBuffer.AppendString(
                 $"{msg}\r\n- <i>Sender: {session.GetHabbo().UserName}</i>");

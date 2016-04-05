@@ -14,12 +14,12 @@ namespace Yupi.Emulator.Messages.Handlers
     /// <summary>
     ///     Class MessageHandler.
     /// </summary>
-    internal partial class MessageHandler
+     partial class MessageHandler
     {
         /// <summary>
         ///     Retrieves the song identifier.
         /// </summary>
-        internal void RetrieveSongId()
+         void RetrieveSongId()
         {
             string text = Request.GetString();
 
@@ -37,7 +37,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Gets the music data.
         /// </summary>
-        internal void GetMusicData()
+         void GetMusicData()
         {
             int num = Request.GetInteger();
 
@@ -59,7 +59,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Adds the playlist item.
         /// </summary>
-        internal void AddPlaylistItem()
+         void AddPlaylistItem()
         {
             if (Session?.GetHabbo() == null || Session.GetHabbo().CurrentRoom == null)
                 return;
@@ -102,7 +102,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Removes the playlist item.
         /// </summary>
-        internal void RemovePlaylistItem()
+         void RemovePlaylistItem()
         {
             if (Session?.GetHabbo() == null || Session.GetHabbo().CurrentRoom == null)
                 return;
@@ -140,7 +140,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Gets the disks.
         /// </summary>
-        internal void GetDisks()
+         void GetDisks()
         {
             if (Session?.GetHabbo() == null || Session.GetHabbo().GetInventoryComponent() == null)
                 return;
@@ -155,7 +155,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Gets the Play lists.
         /// </summary>
-        internal void GetPlaylists()
+         void GetPlaylists()
         {
             if (Session?.GetHabbo() == null || Session.GetHabbo().CurrentRoom == null)
                 return;

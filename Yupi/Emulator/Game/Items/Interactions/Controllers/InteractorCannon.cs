@@ -12,7 +12,7 @@ using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 {
-    internal class InteractorCannon : FurniInteractorModel
+     class InteractorCannon : FurniInteractorModel
     {
         private HashSet<Point> _mCoords;
         private RoomItem _mItem;

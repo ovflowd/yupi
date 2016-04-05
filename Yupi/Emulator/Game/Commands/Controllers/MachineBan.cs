@@ -7,7 +7,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class SuperBan. This class cannot be inherited.
     /// </summary>
-    internal sealed class MachineBan : Command
+     sealed class MachineBan : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="MachineBan" /> class.

@@ -10,12 +10,12 @@ namespace Yupi.Emulator.Messages.Handlers
     /// <summary>
     ///     Class MessageHandler.
     /// </summary>
-    internal partial class MessageHandler
+     partial class MessageHandler
     {
         /// <summary>
         ///     Friendses the list update.
         /// </summary>
-        internal void FriendsListUpdate()
+         void FriendsListUpdate()
         {
             Session.GetHabbo().GetMessenger();
         }
@@ -23,7 +23,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Removes the buddy.
         /// </summary>
-        internal void RemoveBuddy()
+         void RemoveBuddy()
         {
             if (Session.GetHabbo().GetMessenger() == null) return;
             int num = Request.GetInteger();
@@ -42,7 +42,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Searches the habbo.
         /// </summary>
-        internal void SearchHabbo()
+         void SearchHabbo()
         {
             if (Session.GetHabbo().GetMessenger() == null) return;
             Session.SendMessage(Session.GetHabbo().GetMessenger().PerformSearch(Request.GetString()));
@@ -51,7 +51,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Accepts the request.
         /// </summary>
-        internal void AcceptRequest()
+         void AcceptRequest()
         {
             if (Session.GetHabbo().GetMessenger() == null) return;
             int num = Request.GetInteger();
@@ -70,7 +70,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Declines the request.
         /// </summary>
-        internal void DeclineRequest()
+         void DeclineRequest()
         {
             if (Session.GetHabbo().GetMessenger() == null) return;
             bool flag = Request.GetBool();
@@ -87,7 +87,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Requests the buddy.
         /// </summary>
-        internal void RequestBuddy()
+         void RequestBuddy()
         {
             if (Session.GetHabbo().GetMessenger() == null)
                 return;
@@ -98,7 +98,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Sends the instant messenger.
         /// </summary>
-        internal void SendInstantMessenger()
+         void SendInstantMessenger()
         {
             uint toId = Request.GetUInt32();
             string text = Request.GetString();
@@ -109,7 +109,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Follows the buddy.
         /// </summary>
-        internal void FollowBuddy()
+         void FollowBuddy()
         {
             uint userId = Request.GetUInt32();
             GameClient clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(userId);
@@ -141,7 +141,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Sends the instant invite.
         /// </summary>
-        internal void SendInstantInvite()
+         void SendInstantInvite()
         {
             int num = Request.GetInteger();
             List<uint> list = new List<uint>();

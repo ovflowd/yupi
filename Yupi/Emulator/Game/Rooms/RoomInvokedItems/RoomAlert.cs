@@ -1,9 +1,9 @@
 namespace Yupi.Emulator.Game.Rooms.RoomInvokedItems
 {
-    internal class RoomAlert
+     class RoomAlert
     {
-        internal string Message;
-        internal int Minrank;
+         string Message;
+         int Minrank;
 
         public RoomAlert(string message, int minrank)
         {

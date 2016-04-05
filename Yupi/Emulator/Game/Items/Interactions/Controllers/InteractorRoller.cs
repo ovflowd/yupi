@@ -4,7 +4,7 @@ using Yupi.Emulator.Game.Items.Interfaces;
 
 namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 {
-    internal class InteractorRoller : FurniInteractorModel
+     class InteractorRoller : FurniInteractorModel
     {
         public override void OnTrigger(GameClient session, RoomItem item, int request, bool hasRights)
         {

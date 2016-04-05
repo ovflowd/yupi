@@ -5,12 +5,12 @@ namespace Yupi.Emulator.Messages.Handlers
     /// <summary>
     ///     Class MessageHandler.
     /// </summary>
-    internal partial class MessageHandler
+     partial class MessageHandler
     {
         /// <summary>
         ///     Gets the inventory.
         /// </summary>
-        internal void GetInventory()
+         void GetInventory()
         {
             QueuedServerMessageBuffer queuedServerMessageBuffer = new QueuedServerMessageBuffer(Session.GetConnection());
 

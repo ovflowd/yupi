@@ -46,19 +46,19 @@ namespace Yupi.Emulator.Game.Achievements
         /// <summary>
         ///     The achievement data cached
         /// </summary>
-        internal SimpleServerMessageBuffer AchievementDataCached;
+         SimpleServerMessageBuffer AchievementDataCached;
 
         /// <summary>
         ///     The achievements
         /// </summary>
-        internal Dictionary<string, Achievement> Achievements;
+         Dictionary<string, Achievement> Achievements;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="AchievementManager" /> class.
         /// </summary>
         /// <param name="dbClient">The database client.</param>
         /// <param name="loadedAchs">The loaded achs.</param>
-        internal AchievementManager(IQueryAdapter dbClient, out uint loadedAchs)
+         AchievementManager(IQueryAdapter dbClient, out uint loadedAchs)
         {
             Achievements = new Dictionary<string, Achievement>();
 
@@ -71,7 +71,7 @@ namespace Yupi.Emulator.Game.Achievements
         ///     Loads the achievements.
         /// </summary>
         /// <param name="dbClient">The database client.</param>
-        internal void LoadAchievements(IQueryAdapter dbClient)
+         void LoadAchievements(IQueryAdapter dbClient)
         {
             Achievements.Clear();
 
@@ -100,14 +100,14 @@ namespace Yupi.Emulator.Game.Achievements
         ///     Gets the list.
         /// </summary>
         /// <param name="session">The session.</param>
-        internal void GetList(GameClient session)
+         void GetList(GameClient session)
             => session.SendMessage(AchievementListComposer.Compose(session, Achievements.Values.ToList()));
 
         /// <summary>
         ///     Tries the progress login achievements.
         /// </summary>
         /// <param name="session">The session.</param>
-        internal void TryProgressLoginAchievements(GameClient session)
+         void TryProgressLoginAchievements(GameClient session)
         {
             if (session.GetHabbo() == null)
                 return;
@@ -129,7 +129,7 @@ namespace Yupi.Emulator.Game.Achievements
         ///     Tries the progress registration achievements.
         /// </summary>
         /// <param name="session">The session.</param>
-        internal void TryProgressRegistrationAchievements(GameClient session)
+         void TryProgressRegistrationAchievements(GameClient session)
         {
             if (session.GetHabbo() == null)
                 return;
@@ -165,7 +165,7 @@ namespace Yupi.Emulator.Game.Achievements
         ///     Tries the progress habbo club achievements.
         /// </summary>
         /// <param name="session">The session.</param>
-        internal void TryProgressHabboClubAchievements(GameClient session)
+         void TryProgressHabboClubAchievements(GameClient session)
         {
             if (session.GetHabbo() == null || !session.GetHabbo().GetSubscriptionManager().HasSubscription)
                 return;
@@ -229,7 +229,7 @@ namespace Yupi.Emulator.Game.Achievements
         /// <param name="progressAmount">The progress amount.</param>
         /// <param name="fromZero">if set to <c>true</c> [from zero].</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool ProgressUserAchievement(GameClient session, string achievementGroup, uint progressAmount,
+         bool ProgressUserAchievement(GameClient session, string achievementGroup, uint progressAmount,
             bool fromZero = false)
         {
             if (Achievements.ContainsKey(achievementGroup) && session?.GetHabbo() != null)
@@ -384,7 +384,7 @@ namespace Yupi.Emulator.Game.Achievements
         /// </summary>
         /// <param name="achievementGroup">The achievement group.</param>
         /// <returns>Achievement.</returns>
-        internal Achievement GetAchievement(string achievementGroup)
+         Achievement GetAchievement(string achievementGroup)
             => Achievements.ContainsKey(achievementGroup) ? Achievements[achievementGroup] : null;
     }
 }

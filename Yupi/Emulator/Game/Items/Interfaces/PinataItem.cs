@@ -7,23 +7,23 @@ namespace Yupi.Emulator.Game.Items.Interfaces
     /// <summary>
     ///     Class PinataItem.
     /// </summary>
-    internal class PinataItem
+     class PinataItem
     {
         /// <summary>
         ///     The item base identifier
         /// </summary>
-        internal uint ItemBaseId;
+         uint ItemBaseId;
 
         /// <summary>
         ///     The rewards
         /// </summary>
-        internal List<uint> Rewards;
+         List<uint> Rewards;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="PinataItem" /> class.
         /// </summary>
         /// <param name="row">The row.</param>
-        internal PinataItem(DataRow row)
+         PinataItem(DataRow row)
         {
             Rewards = new List<uint>();
             ItemBaseId = Convert.ToUInt32(row["item_baseid"]);

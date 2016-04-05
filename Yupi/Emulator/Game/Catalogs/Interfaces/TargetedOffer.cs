@@ -1,14 +1,14 @@
 ﻿namespace Yupi.Emulator.Game.Catalogs.Interfaces
 {
-    internal class TargetedOffer
+     class TargetedOffer
     {
-        internal uint CostCredits, CostDuckets, CostDiamonds;
-        internal int ExpirationTime;
-        internal int Id;
-        internal string Identifier;
-        internal string[] Products;
-        internal int PurchaseLimit;
-        internal string Title, Description, Image;
+         uint CostCredits, CostDuckets, CostDiamonds;
+         int ExpirationTime;
+         int Id;
+         string Identifier;
+         string[] Products;
+         int PurchaseLimit;
+         string Title, Description, Image;
 
         public TargetedOffer(int id, string identifier, uint costCredits, uint costDuckets, uint costDiamonds,
             int purchaseLimit, int expirationTime, string title, string description, string image, string products)

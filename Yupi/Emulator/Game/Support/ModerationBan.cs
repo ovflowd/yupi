@@ -3,27 +3,27 @@ namespace Yupi.Emulator.Game.Support
     /// <summary>
     ///     Struct ModerationBan
     /// </summary>
-    internal struct ModerationBan
+     struct ModerationBan
     {
         /// <summary>
         ///     The type
         /// </summary>
-        internal ModerationBanType Type;
+         ModerationBanType Type;
 
         /// <summary>
         ///     The variable
         /// </summary>
-        internal string Variable;
+         string Variable;
 
         /// <summary>
         ///     The reason message
         /// </summary>
-        internal string ReasonMessage;
+         string ReasonMessage;
 
         /// <summary>
         ///     The expire
         /// </summary>
-        internal double Expire;
+         double Expire;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="ModerationBan" /> struct.
@@ -32,7 +32,7 @@ namespace Yupi.Emulator.Game.Support
         /// <param name="variable">The variable.</param>
         /// <param name="reasonMessage">The reason message.</param>
         /// <param name="expire">The expire.</param>
-        internal ModerationBan(ModerationBanType type, string variable, string reasonMessage, double expire)
+         ModerationBan(ModerationBanType type, string variable, string reasonMessage, double expire)
         {
             Type = type;
             Variable = variable;
@@ -44,6 +44,6 @@ namespace Yupi.Emulator.Game.Support
         ///     Gets a value indicating whether this <see cref="ModerationBan" /> is expired.
         /// </summary>
         /// <value><c>true</c> if expired; otherwise, <c>false</c>.</value>
-        internal bool Expired => Yupi.GetUnixTimeStamp() >= Expire;
+         bool Expired => Yupi.GetUnixTimeStamp() >= Expire;
     }
 }

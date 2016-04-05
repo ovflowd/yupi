@@ -20,7 +20,7 @@ namespace Yupi.Emulator.Game.Rooms
     /// <summary>
     ///     Class RoomManager.
     /// </summary>
-    internal class RoomManager
+     class RoomManager
     {
         /// <summary>
         ///     The _active rooms
@@ -62,7 +62,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// </summary>
         private readonly Queue _votedRoomsRemoveQueue;
 
-        internal readonly ConcurrentDictionary<uint, RoomData> LoadedRoomData;
+         readonly ConcurrentDictionary<uint, RoomData> LoadedRoomData;
 
         private RoomCompetitionManager _competitionManager;
 
@@ -84,12 +84,12 @@ namespace Yupi.Emulator.Game.Rooms
         /// <summary>
         ///     The loaded rooms
         /// </summary>
-        internal ConcurrentDictionary<uint, Room> LoadedRooms;
+         ConcurrentDictionary<uint, Room> LoadedRooms;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="RoomManager" /> class.
         /// </summary>
-        internal RoomManager()
+         RoomManager()
         {
             LoadedRooms = new ConcurrentDictionary<uint, Room>();
             _roomModels = new HybridDictionary();
@@ -108,23 +108,23 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Gets the loaded rooms count.
         /// </summary>
         /// <value>The loaded rooms count.</value>
-        internal int LoadedRoomsCount => LoadedRooms.Count;
+         int LoadedRoomsCount => LoadedRooms.Count;
 
-        internal RoomCompetitionManager GetCompetitionManager() => _competitionManager;
+         RoomCompetitionManager GetCompetitionManager() => _competitionManager;
 
-        internal void LoadCompetitionManager() => _competitionManager = new RoomCompetitionManager();
+         void LoadCompetitionManager() => _competitionManager = new RoomCompetitionManager();
 
         /// <summary>
         ///     Gets the active rooms.
         /// </summary>
         /// <returns>KeyValuePair&lt;GetPublicRoomData, System.UInt32&gt;[].</returns>
-        internal KeyValuePair<RoomData, uint>[] GetActiveRooms() => _orderedActiveRooms?.ToArray();
+         KeyValuePair<RoomData, uint>[] GetActiveRooms() => _orderedActiveRooms?.ToArray();
 
         /// <summary>
         ///     Gets the voted rooms.
         /// </summary>
         /// <returns>KeyValuePair&lt;GetPublicRoomData, System.Int32&gt;[].</returns>
-        internal KeyValuePair<RoomData, int>[] GetVotedRooms() => _orderedVotedRooms?.ToArray();
+         KeyValuePair<RoomData, int>[] GetVotedRooms() => _orderedVotedRooms?.ToArray();
 
         /// <summary>
         ///     Gets the model.
@@ -132,7 +132,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// <param name="model">The model.</param>
         /// <param name="roomId">The room identifier.</param>
         /// <returns>RoomModel.</returns>
-        internal RoomModel GetModel(string model, uint roomId)
+         RoomModel GetModel(string model, uint roomId)
         {
             if (model == "custom" && _roomModels.Contains($"custom_{roomId}"))
                 return (RoomModel) _roomModels[$"custom_{roomId}"];
@@ -148,7 +148,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// </summary>
         /// <param name="roomId">The room identifier.</param>
         /// <returns>GetPublicRoomData.</returns>
-        internal RoomData GenerateNullableRoomData(uint roomId)
+         RoomData GenerateNullableRoomData(uint roomId)
         {
             if (GenerateRoomData(roomId) != null)
                 return GenerateRoomData(roomId);
@@ -167,7 +167,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// </summary>
         /// <param name="roomId">The room identifier.</param>
         /// <returns>GetPublicRoomData.</returns>
-        internal RoomData GenerateRoomData(uint roomId)
+         RoomData GenerateRoomData(uint roomId)
         {
             if (LoadedRoomData.ContainsKey(roomId))
             {
@@ -198,7 +198,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Gets the event rooms.
         /// </summary>
         /// <returns>KeyValuePair&lt;GetPublicRoomData, System.UInt32&gt;[].</returns>
-        internal KeyValuePair<RoomData, uint>[] GetEventRooms()
+         KeyValuePair<RoomData, uint>[] GetEventRooms()
         {
             return _eventManager.GetRooms();
         }
@@ -209,7 +209,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// <param name="id">The identifier.</param>
         /// <param name="forceLoad"></param>
         /// <returns>Room.</returns>
-        internal Room LoadRoom(uint id, bool forceLoad = false)
+         Room LoadRoom(uint id, bool forceLoad = false)
         {
             if (IsRoomLoaded(id))
                 return GetRoom(id);
@@ -232,7 +232,7 @@ namespace Yupi.Emulator.Game.Rooms
             return room;
         }
 
-        internal void RemoveRoomData(uint id)
+         void RemoveRoomData(uint id)
         {
             RoomData dataJunk;
             LoadedRoomData.TryRemove(id, out dataJunk);
@@ -244,7 +244,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// <param name="roomId">The room identifier.</param>
         /// <param name="dRow">The d row.</param>
         /// <returns>GetPublicRoomData.</returns>
-        internal RoomData FetchRoomData(uint roomId, DataRow dRow)
+         RoomData FetchRoomData(uint roomId, DataRow dRow)
         {
             if (LoadedRoomData.ContainsKey(roomId))
             {
@@ -265,7 +265,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// </summary>
         /// <param name="roomId">The room identifier.</param>
         /// <returns>Room.</returns>
-        internal Room GetRoom(uint roomId)
+         Room GetRoom(uint roomId)
         {
             Room result;
 
@@ -283,7 +283,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// <param name="maxVisitors">The maximum visitors.</param>
         /// <param name="tradeState">State of the trade.</param>
         /// <returns>GetPublicRoomData.</returns>
-        internal RoomData CreateRoom(GameClient session, string name, string desc, string model, int category,
+         RoomData CreateRoom(GameClient session, string name, string desc, string model, int category,
             int maxVisitors, int tradeState)
         {
             if (!_roomModels.Contains(model))
@@ -322,7 +322,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// <summary>
         ///     Initializes the voted rooms.
         /// </summary>
-        internal void InitVotedRooms()
+         void InitVotedRooms()
         {
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
@@ -344,7 +344,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// </summary>
         /// <param name="dbClient">The database client.</param>
         /// <param name="loadedModel">The loaded model.</param>
-        internal void LoadModels(IQueryAdapter dbClient, out uint loadedModel)
+         void LoadModels(IQueryAdapter dbClient, out uint loadedModel)
         {
             LoadModels(dbClient);
             loadedModel = (uint) _roomModels.Count;
@@ -354,7 +354,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Loads the models.
         /// </summary>
         /// <param name="dbClient">The database client.</param>
-        internal void LoadModels(IQueryAdapter dbClient)
+         void LoadModels(IQueryAdapter dbClient)
         {
             _roomModels.Clear();
 
@@ -400,7 +400,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// </summary>
         /// <param name="roomId"></param>
         /// <param name="modelData"></param>
-        internal void UpdateCustomModel(uint roomId, RoomModel modelData)
+         void UpdateCustomModel(uint roomId, RoomModel modelData)
         {
             string modelId = $"custom_{roomId}";
 
@@ -413,7 +413,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// <summary>
         ///     Called when [cycle].
         /// </summary>
-        internal void OnCycle()
+         void OnCycle()
         {
             try
             {
@@ -442,7 +442,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Queues the vote add.
         /// </summary>
         /// <param name="data">The data.</param>
-        internal void QueueVoteAdd(RoomData data)
+         void QueueVoteAdd(RoomData data)
         {
             lock (_votedRoomsAddQueue.SyncRoot)
             {
@@ -454,7 +454,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Queues the vote remove.
         /// </summary>
         /// <param name="data">The data.</param>
-        internal void QueueVoteRemove(RoomData data)
+         void QueueVoteRemove(RoomData data)
         {
             lock (_votedRoomsRemoveQueue.SyncRoot)
             {
@@ -466,7 +466,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Queues the active room update.
         /// </summary>
         /// <param name="data">The data.</param>
-        internal void QueueActiveRoomUpdate(RoomData data)
+         void QueueActiveRoomUpdate(RoomData data)
         {
             lock (_activeRoomsUpdateQueue.SyncRoot)
                 _activeRoomsUpdateQueue.Enqueue(data);
@@ -476,7 +476,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Queues the active room add.
         /// </summary>
         /// <param name="data">The data.</param>
-        internal void QueueActiveRoomAdd(RoomData data)
+         void QueueActiveRoomAdd(RoomData data)
         {
             lock (_activeRoomsAddQueue.SyncRoot)
             {
@@ -488,7 +488,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Queues the active room remove.
         /// </summary>
         /// <param name="data">The data.</param>
-        internal void QueueActiveRoomRemove(RoomData data)
+         void QueueActiveRoomRemove(RoomData data)
         {
             lock (ActiveRoomsRemoveQueue.SyncRoot)
             {
@@ -499,7 +499,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// <summary>
         ///     Removes all rooms.
         /// </summary>
-        internal void RemoveAllRooms()
+         void RemoveAllRooms()
         {
             lock (LoadedRooms)
             {
@@ -515,7 +515,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// </summary>
         /// <param name="room">The room.</param>
         /// <param name="reason">The reason.</param>
-        internal void UnloadRoom(Room room, string reason)
+         void UnloadRoom(Room room, string reason)
         {
             if (room?.RoomData == null || room.Disposed)
                 return;

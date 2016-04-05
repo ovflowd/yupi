@@ -39,15 +39,15 @@ namespace Yupi.Emulator.Core.Algorithms.Astar
             UserItem = inUserContext;
         }
 
-        public IPathNode UserItem { get; internal set; }
-        public double G { get; internal set; }
-        public double Optimal { get; internal set; }
-        public double F { get; internal set; }
+        public IPathNode UserItem { get;  set; }
+        public double G { get;  set; }
+        public double Optimal { get;  set; }
+        public double F { get;  set; }
 
         public PathNode Parent { get; set; }
 
-        public int X { get; internal set; }
-        public int Y { get; internal set; }
+        public int X { get;  set; }
+        public int Y { get;  set; }
 
         public bool BeenThere { get; set; }
 

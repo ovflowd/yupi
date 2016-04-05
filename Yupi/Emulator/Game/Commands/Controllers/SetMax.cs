@@ -6,7 +6,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class SetMax. This class cannot be inherited.
     /// </summary>
-    internal sealed class SetMax : Command
+     sealed class SetMax : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="SetMax" /> class.

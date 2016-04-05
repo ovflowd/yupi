@@ -11,7 +11,7 @@ using Yupi.Emulator.Game.Rooms;
 
 namespace Yupi.Emulator.Game.Items.Wired.Handlers.Effects
 {
-    internal class MoveToDir : IWiredItem
+     class MoveToDir : IWiredItem
     {
         private readonly ConcurrentQueue<RoomItem> _toRemove = new ConcurrentQueue<RoomItem>();
         private bool _needChange;

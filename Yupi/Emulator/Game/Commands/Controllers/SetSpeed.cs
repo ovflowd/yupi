@@ -6,7 +6,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class SetSpeed. This class cannot be inherited.
     /// </summary>
-    internal sealed class SetSpeed : Command
+     sealed class SetSpeed : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="SetSpeed" /> class.

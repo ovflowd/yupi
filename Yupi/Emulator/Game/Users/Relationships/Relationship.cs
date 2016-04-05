@@ -3,7 +3,7 @@ namespace Yupi.Emulator.Game.Users.Relationships
     /// <summary>
     ///     Class Relationship.
     /// </summary>
-    internal class Relationship
+     class Relationship
     {
         /// <summary>
         ///     The identifier

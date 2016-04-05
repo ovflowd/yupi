@@ -7,7 +7,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class Summon. This class cannot be inherited.
     /// </summary>
-    internal sealed class Summon : Command
+     sealed class Summon : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="Summon" /> class.

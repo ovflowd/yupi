@@ -53,337 +53,337 @@ namespace Yupi.Emulator.Game.Rooms.User
         /// <summary>
         ///     The allow override
         /// </summary>
-        internal bool AllowOverride;
+         bool AllowOverride;
 
         /// <summary>
         ///     The banzai power up
         /// </summary>
-        internal FreezePowerUp BanzaiPowerUp;
+         FreezePowerUp BanzaiPowerUp;
 
         /// <summary>
         ///     The bot ai
         /// </summary>
-        internal BotAi BotAi;
+         BotAi BotAi;
 
         /// <summary>
         ///     The bot data
         /// </summary>
-        internal RoomBot BotData;
+         RoomBot BotData;
 
         /// <summary>
         ///     The can walk
         /// </summary>
-        internal bool CanWalk;
+         bool CanWalk;
 
         /// <summary>
         ///     The carry item identifier
         /// </summary>
-        internal int CarryItemId;
+         int CarryItemId;
 
         /// <summary>
         ///     The carry timer
         /// </summary>
-        internal int CarryTimer;
+         int CarryTimer;
 
         /// <summary>
         ///     The current item effect
         /// </summary>
-        internal ItemEffectType CurrentItemEffect;
+         ItemEffectType CurrentItemEffect;
 
         /// <summary>
         ///     The dance identifier
         /// </summary>
-        internal uint DanceId;
+         uint DanceId;
 
         /// <summary>
         ///     The fast walking
         /// </summary>
-        internal bool FastWalking;
+         bool FastWalking;
 
         /// <summary>
         ///     The flood expiry time
         /// </summary>
-        internal int FloodExpiryTime;
+         int FloodExpiryTime;
 
         /// <summary>
         ///     The following owner
         /// </summary>
-        internal RoomUser FollowingOwner;
+         RoomUser FollowingOwner;
 
         /// <summary>
         ///     The freeze counter
         /// </summary>
-        internal int FreezeCounter;
+         int FreezeCounter;
 
         /// <summary>
         ///     The freezed
         /// </summary>
-        internal bool Freezed; //En el freeze
+         bool Freezed; //En el freeze
 
         /// <summary>
         ///     The freeze lives
         /// </summary>
-        internal int FreezeLives;
+         int FreezeLives;
 
         /// <summary>
         ///     The frozen
         /// </summary>
-        internal bool Frozen; //por comando
+         bool Frozen; //por comando
 
         /// <summary>
         ///     The gate identifier
         /// </summary>
-        internal uint GateId;
+         uint GateId;
 
         /// <summary>
         ///     The goal x
         /// </summary>
-        internal int GoalX;
+         int GoalX;
 
         /// <summary>
         ///     The goal y
         /// </summary>
-        internal int GoalY;
+         int GoalY;
 
         /// <summary>
         ///     The habbo identifier
         /// </summary>
-        internal uint HabboId;
+         uint HabboId;
 
         /// <summary>
         ///     The handeling ball status
         /// </summary>
-        internal int HandelingBallStatus = 0;
+         int HandelingBallStatus = 0;
 
         /// <summary>
         ///     The has path blocked
         /// </summary>
-        internal bool HasPathBlocked;
+         bool HasPathBlocked;
 
         /// <summary>
         ///     The horse identifier
         /// </summary>
-        internal uint HorseId;
+         uint HorseId;
 
         /// <summary>
         ///     The idle time
         /// </summary>
-        internal int IdleTime;
+         int IdleTime;
 
         /// <summary>
         ///     The interacting gate
         /// </summary>
-        internal bool InteractingGate;
+         bool InteractingGate;
 
         /// <summary>
-        ///     The internal room identifier
+        ///     The  room identifier
         /// </summary>
-        internal int InternalRoomId;
+         int InternalRoomId;
 
         /// <summary>
         ///     The is asleep
         /// </summary>
-        internal bool IsAsleep;
+         bool IsAsleep;
 
         /// <summary>
         ///     The is flooded
         /// </summary>
-        internal bool IsFlooded;
+         bool IsFlooded;
 
         /// <summary>
         ///     The is lying down
         /// </summary>
-        internal bool IsLyingDown;
+         bool IsLyingDown;
 
         /// <summary>
         ///     The is moonwalking
         /// </summary>
-        internal bool IsMoonwalking;
+         bool IsMoonwalking;
 
         /// <summary>
         ///     The is sitting
         /// </summary>
-        internal bool IsSitting;
+         bool IsSitting;
 
         /// <summary>
         ///     The is spectator
         /// </summary>
-        internal bool IsSpectator;
+         bool IsSpectator;
 
         /// <summary>
         ///     The is walking
         /// </summary>
-        internal bool IsWalking;
+         bool IsWalking;
 
         /// <summary>
         ///     The last bubble
         /// </summary>
-        internal int LastBubble = 0;
+         int LastBubble = 0;
 
         /// <summary>
         ///     The last interaction
         /// </summary>
-        internal int LastInteraction;
+         int LastInteraction;
 
         /// <summary>
         ///     The last item
         /// </summary>
-        internal uint LastItem;
+         uint LastItem;
 
-        internal int LastSelectedX;
-        internal int LastSelectedY;
+         int LastSelectedX;
+         int LastSelectedY;
 
         /// <summary>
         ///     The locked tiles count
         /// </summary>
-        internal uint LockedTilesCount;
+         uint LockedTilesCount;
 
         /// <summary>
         ///     The love lock partner
         /// </summary>
-        internal uint LoveLockPartner;
+         uint LoveLockPartner;
 
         /// <summary>
         ///     The on camping tent
         /// </summary>
-        internal bool OnCampingTent;
+         bool OnCampingTent;
 
         /// <summary>
         ///     The path
         /// </summary>
-        internal List<Vector2D> Path = new List<Vector2D>();
+         List<Vector2D> Path = new List<Vector2D>();
 
         /// <summary>
         ///     The path recalc needed
         /// </summary>
-        internal bool PathRecalcNeeded;
+         bool PathRecalcNeeded;
 
         /// <summary>
         ///     The path step
         /// </summary>
-        internal int PathStep = 1;
+         int PathStep = 1;
 
         /// <summary>
         ///     The pet data
         /// </summary>
-        internal Pet PetData;
+         Pet PetData;
 
         /// <summary>
         ///     The riding horse
         /// </summary>
-        internal bool RidingHorse;
+         bool RidingHorse;
 
         /// <summary>
         ///     The room identifier
         /// </summary>
-        internal uint RoomId;
+         uint RoomId;
 
         /// <summary>
         ///     The rot body
         /// </summary>
-        internal int RotBody;
+         int RotBody;
 
         /// <summary>
         ///     The rot head
         /// </summary>
-        internal int RotHead;
+         int RotHead;
 
         /// <summary>
         ///     The set step
         /// </summary>
-        internal bool SetStep;
+         bool SetStep;
 
         /// <summary>
         ///     The set x
         /// </summary>
-        internal int SetX;
+         int SetX;
 
         /// <summary>
         ///     The set y
         /// </summary>
-        internal int SetY;
+         int SetY;
 
         /// <summary>
         ///     The set z
         /// </summary>
-        internal double SetZ;
+         double SetZ;
 
         /// <summary>
         ///     The shield active
         /// </summary>
-        internal bool ShieldActive;
+         bool ShieldActive;
 
         /// <summary>
         ///     The shield counter
         /// </summary>
-        internal int ShieldCounter;
+         int ShieldCounter;
 
         /// <summary>
         ///     The sign time
         /// </summary>
-        internal int SignTime;
+         int SignTime;
 
         /// <summary>
         ///     The sq state
         /// </summary>
-        internal byte SqState;
+         byte SqState;
 
         /// <summary>
         ///     The statusses
         /// </summary>
-        internal Dictionary<string, string> Statusses;
+         Dictionary<string, string> Statusses;
 
         /// <summary>
         ///     The team
         /// </summary>
-        internal Team Team;
+         Team Team;
 
         /// <summary>
         ///     The tele delay
         /// </summary>
-        internal int TeleDelay;
+         int TeleDelay;
 
         /// <summary>
         ///     The teleport enabled
         /// </summary>
-        internal bool TeleportEnabled;
+         bool TeleportEnabled;
 
         /// <summary>
         ///     The throw ball at goal
         /// </summary>
-        internal bool ThrowBallAtGoal;
+         bool ThrowBallAtGoal;
 
         /// <summary>
         ///     The update needed
         /// </summary>
-        internal bool UpdateNeeded;
+         bool UpdateNeeded;
 
         /// <summary>
         ///     The user identifier
         /// </summary>
-        internal uint UserId;
+         uint UserId;
 
-        internal int UserTimeInCurrentRoom;
+         int UserTimeInCurrentRoom;
 
         /// <summary>
         ///     The virtual identifier
         /// </summary>
-        internal int VirtualId;
+         int VirtualId;
 
         /// <summary>
         ///     The x
         /// </summary>
-        internal int X;
+         int X;
 
         /// <summary>
         ///     The y
         /// </summary>
-        internal int Y;
+         int Y;
 
         /// <summary>
         ///     The z
         /// </summary>
-        internal double Z;
+         double Z;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="RoomUser" /> class.
@@ -393,7 +393,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         /// <param name="virtualId">The virtual identifier.</param>
         /// <param name="room">The room.</param>
         /// <param name="isSpectator">if set to <c>true</c> [is spectator].</param>
-        internal RoomUser(uint habboId, uint roomId, int virtualId, Room room, bool isSpectator)
+         RoomUser(uint habboId, uint roomId, int virtualId, Room room, bool isSpectator)
         {
             Freezed = false;
             HabboId = habboId;
@@ -432,7 +432,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         /// <param name="virtualId">The virtual identifier.</param>
         /// <param name="pClient">The p client.</param>
         /// <param name="room">The room.</param>
-        internal RoomUser(uint habboId, uint roomId, int virtualId, GameClient pClient, Room room)
+         RoomUser(uint habboId, uint roomId, int virtualId, GameClient pClient, Room room)
         {
             _mClient = pClient;
             Freezed = false;
@@ -472,13 +472,13 @@ namespace Yupi.Emulator.Game.Rooms.User
         ///     Gets the coordinate.
         /// </summary>
         /// <value>The coordinate.</value>
-        internal Point Coordinate => new Point(X, Y);
+         Point Coordinate => new Point(X, Y);
 
         /// <summary>
         ///     Gets the square behind.
         /// </summary>
         /// <value>The square behind.</value>
-        internal Point SquareBehind
+         Point SquareBehind
         {
             get
             {
@@ -532,7 +532,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         ///     Gets the square in front.
         /// </summary>
         /// <value>The square in front.</value>
-        internal Point SquareInFront
+         Point SquareInFront
         {
             get
             {
@@ -590,13 +590,13 @@ namespace Yupi.Emulator.Game.Rooms.User
         ///     Gets a value indicating whether this instance is pet.
         /// </summary>
         /// <value><c>true</c> if this instance is pet; otherwise, <c>false</c>.</value>
-        internal bool IsPet => IsBot && BotData.IsPet;
+         bool IsPet => IsBot && BotData.IsPet;
 
         /// <summary>
         ///     Gets the current effect.
         /// </summary>
         /// <value>The current effect.</value>
-        internal int CurrentEffect
+         int CurrentEffect
         {
             get
             {
@@ -611,13 +611,13 @@ namespace Yupi.Emulator.Game.Rooms.User
         ///     Gets a value indicating whether this instance is dancing.
         /// </summary>
         /// <value><c>true</c> if this instance is dancing; otherwise, <c>false</c>.</value>
-        internal bool IsDancing => DanceId >= 1;
+         bool IsDancing => DanceId >= 1;
 
         /// <summary>
         ///     Gets a value indicating whether [needs autokick].
         /// </summary>
         /// <value><c>true</c> if [needs autokick]; otherwise, <c>false</c>.</value>
-        internal bool NeedsAutokick => !IsBot &&
+         bool NeedsAutokick => !IsBot &&
                                        (GetClient() == null || GetClient().GetHabbo() == null ||
                                         (GetClient().GetHabbo().Rank <= 6u && IdleTime >= 1800));
 
@@ -625,13 +625,13 @@ namespace Yupi.Emulator.Game.Rooms.User
         ///     Gets a value indicating whether this instance is trading.
         /// </summary>
         /// <value><c>true</c> if this instance is trading; otherwise, <c>false</c>.</value>
-        internal bool IsTrading => !IsBot && Statusses.ContainsKey("trd");
+         bool IsTrading => !IsBot && Statusses.ContainsKey("trd");
 
         /// <summary>
         ///     Gets a value indicating whether this instance is bot.
         /// </summary>
         /// <value><c>true</c> if this instance is bot; otherwise, <c>false</c>.</value>
-        internal bool IsBot => BotData != null;
+         bool IsBot => BotData != null;
 
         /// <summary>
         ///     Equalses the specified compared user.
@@ -647,7 +647,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         ///     Gets the name of the user.
         /// </summary>
         /// <returns>System.String.</returns>
-        internal string GetUserName()
+         string GetUserName()
         {
             if (!IsBot)
                 return GetClient() != null ? GetClient().GetHabbo().UserName : string.Empty;
@@ -660,7 +660,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         ///     Determines whether this instance is owner.
         /// </summary>
         /// <returns><c>true</c> if this instance is owner; otherwise, <c>false</c>.</returns>
-        internal bool IsOwner()
+         bool IsOwner()
         {
             Room currentRoom = GetRoom();
             return !IsBot && currentRoom != null && GetUserName() == currentRoom.RoomData.Owner;
@@ -669,7 +669,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         /// <summary>
         ///     Uns the idle.
         /// </summary>
-        internal void UnIdle()
+         void UnIdle()
         {
             IdleTime = 0;
             if (!IsAsleep)
@@ -684,7 +684,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         /// <summary>
         ///     Disposes this instance.
         /// </summary>
-        internal void Dispose()
+         void Dispose()
         {
             Statusses.Clear();
             _mRoom = null;
@@ -699,7 +699,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         /// <param name="shout">if set to <c>true</c> [shout].</param>
         /// <param name="count">The count.</param>
         /// <param name="textColor">Color of the text.</param>
-        internal void Chat(GameClient session, string msg, bool shout, int count, int textColor = 0)
+         void Chat(GameClient session, string msg, bool shout, int count, int textColor = 0)
         {
             if (session == null)
                 return;
@@ -874,7 +874,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         /// </summary>
         /// <param name="muteTime">The mute time.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool IncrementAndCheckFlood(out int muteTime)
+         bool IncrementAndCheckFlood(out int muteTime)
         {
             muteTime = 20;
             TimeSpan timeSpan = DateTime.Now - GetClient().GetHabbo().SpamFloodTime;
@@ -903,7 +903,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         /// <summary>
         ///     Clears the movement.
         /// </summary>
-        internal void ClearMovement()
+         void ClearMovement()
         {
             IsWalking = false;
             GoalX = 0;
@@ -928,7 +928,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         ///     Moves to.
         /// </summary>
         /// <param name="c">The c.</param>
-        internal void MoveTo(Point c)
+         void MoveTo(Point c)
         {
             MoveTo(c.X, c.Y);
         }
@@ -938,7 +938,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         /// </summary>
         /// <param name="c">The c.</param>
         /// <param name="pOverride"></param>
-        internal void MoveTo(Point c, bool pOverride)
+         void MoveTo(Point c, bool pOverride)
         {
             MoveTo(c.X, c.Y, pOverride);
         }
@@ -949,7 +949,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         /// <param name="x">The p x.</param>
         /// <param name="y">The p y.</param>
         /// <param name="pOverride">if set to <c>true</c> [p override].</param>
-        internal void MoveTo(int x, int y, bool pOverride)
+         void MoveTo(int x, int y, bool pOverride)
         {
             if (TeleportEnabled)
             {
@@ -1020,7 +1020,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         /// </summary>
         /// <param name="pX">The p x.</param>
         /// <param name="pY">The p y.</param>
-        internal void MoveTo(int pX, int pY)
+         void MoveTo(int pX, int pY)
         {
             MoveTo(pX, pY, false);
         }
@@ -1028,7 +1028,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         /// <summary>
         ///     Unlocks the walking.
         /// </summary>
-        internal void UnlockWalking()
+         void UnlockWalking()
         {
             AllowOverride = false;
             CanWalk = true;
@@ -1040,7 +1040,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         /// <param name="pX">The p x.</param>
         /// <param name="pY">The p y.</param>
         /// <param name="pZ">The p z.</param>
-        internal void SetPos(int pX, int pY, double pZ)
+         void SetPos(int pX, int pY, double pZ)
         {
             X = pX;
             Y = pY;
@@ -1051,7 +1051,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         ///     Carries the item.
         /// </summary>
         /// <param name="item">The item.</param>
-        internal void CarryItem(int item)
+         void CarryItem(int item)
         {
             CarryItemId = item;
             CarryTimer = item > 0 ? 240 : 0;
@@ -1065,7 +1065,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         ///     Sets the rot.
         /// </summary>
         /// <param name="rotation">The rotation.</param>
-        internal void SetRot(int rotation)
+         void SetRot(int rotation)
         {
             SetRot(rotation, false);
         }
@@ -1075,7 +1075,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         /// </summary>
         /// <param name="rotation">The rotation.</param>
         /// <param name="headOnly">if set to <c>true</c> [head only].</param>
-        internal void SetRot(int rotation, bool headOnly)
+         void SetRot(int rotation, bool headOnly)
         {
             if (Statusses.ContainsKey("lay") || IsWalking) return;
             int num = RotBody - rotation;
@@ -1110,7 +1110,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         /// </summary>
         /// <param name="key">The key.</param>
         /// <param name="value">The value.</param>
-        internal void AddStatus(string key, string value)
+         void AddStatus(string key, string value)
         {
             if (!Statusses.ContainsKey(key))
                 Statusses.Add(key, value);
@@ -1122,7 +1122,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         ///     Removes the status.
         /// </summary>
         /// <param name="key">The key.</param>
-        internal void RemoveStatus(string key)
+         void RemoveStatus(string key)
         {
             if (Statusses.ContainsKey(key))
                 Statusses.Remove(key);
@@ -1132,7 +1132,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         ///     Applies the effect.
         /// </summary>
         /// <param name="effectId">The effect identifier.</param>
-        internal void ApplyEffect(int effectId)
+         void ApplyEffect(int effectId)
         {
             if (IsBot || GetClient() == null || GetClient().GetHabbo() == null ||
                 GetClient().GetHabbo().GetAvatarEffectsInventoryComponent() == null)
@@ -1145,7 +1145,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         /// </summary>
         /// <param name="message">The messageBuffer.</param>
         /// <param name="gotPublicRoom">if set to <c>true</c> [got public room].</param>
-        internal void Serialize(SimpleServerMessageBuffer messageBuffer, bool gotPublicRoom)
+         void Serialize(SimpleServerMessageBuffer messageBuffer, bool gotPublicRoom)
         {
             if (messageBuffer == null)
                 return;
@@ -1246,7 +1246,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         ///     Serializes the status.
         /// </summary>
         /// <param name="message">The messageBuffer.</param>
-        internal void SerializeStatus(SimpleServerMessageBuffer messageBuffer)
+         void SerializeStatus(SimpleServerMessageBuffer messageBuffer)
         {
             messageBuffer.AppendInteger(VirtualId);
             messageBuffer.AppendInteger(X);
@@ -1294,7 +1294,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         /// </summary>
         /// <param name="message">The messageBuffer.</param>
         /// <param name="status">The status.</param>
-        internal void SerializeStatus(SimpleServerMessageBuffer messageBuffer, string status)
+         void SerializeStatus(SimpleServerMessageBuffer messageBuffer, string status)
         {
             if (IsSpectator)
                 return;
@@ -1311,7 +1311,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         ///     Gets the client.
         /// </summary>
         /// <returns>GameClient.</returns>
-        internal GameClient GetClient()
+         GameClient GetClient()
         {
             if (IsBot)
                 return null;
@@ -1326,7 +1326,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         ///     Sends the messageBuffer.
         /// </summary>
         /// <param name="message">The messageBuffer.</param>
-        internal void SendMessage(byte[] message)
+         void SendMessage(byte[] message)
         {
             if (GetClient() == null || GetClient().GetConnection() == null)
                 return;

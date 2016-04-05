@@ -61,7 +61,7 @@ namespace Yupi.Emulator.Core.Io.Logger
         /// <param name="format">The format.</param>
         /// <param name="header">The header.</param>
         /// <param name="color">The color.</param>
-        internal static void Write(string format, string header, ConsoleColor color = ConsoleColor.White)
+         static void Write(string format, string header, ConsoleColor color = ConsoleColor.White)
             => ConsoleOutputWriter.Write(format, header, color);
 
         /// <summary>

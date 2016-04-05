@@ -32,13 +32,13 @@ using DotNetty.Transport.Channels.Sockets;
 
 namespace Yupi.Net.DotNettyImpl
 {
-	class ConnectionManager : IServer
+	class ConnectionManager<T> : IServer<T>
 	{
-		public event MessageReceived OnMessageReceived = delegate {};
+		public event MessageReceived<T> OnMessageReceived = delegate {};
 
-		public event ConnectionOpened OnConnectionOpened = delegate {};
+		public event ConnectionOpened<T> OnConnectionOpened = delegate {};
 
-		public event ConnectionClosed OnConnectionClosed = delegate {};
+		public event ConnectionClosed<T> OnConnectionClosed = delegate {};
 
 		/// <summary>
 		///     Server Channel
@@ -93,7 +93,7 @@ namespace Yupi.Net.DotNettyImpl
 							 * Note: we have to create a new MessageHandler for each 
 							 * session because it has stateful properties.
 							 */
-							MessageHandler messageHandler = new MessageHandler(channel, OnMessageReceived, OnConnectionClosed, OnConnectionOpened);
+							MessageHandler<T> messageHandler = new MessageHandler<T>(channel, OnMessageReceived, OnConnectionClosed, OnConnectionOpened);
 							channel.Pipeline.AddFirst(flashHandler);
 							channel.Pipeline.AddLast(headerDecoder, messageHandler);
 						}));

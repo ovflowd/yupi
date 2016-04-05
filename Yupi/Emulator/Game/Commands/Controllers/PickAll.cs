@@ -9,7 +9,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class PickAll. This class cannot be inherited.
     /// </summary>
-    internal sealed class PickAll : Command
+     sealed class PickAll : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="PickAll" /> class.

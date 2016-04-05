@@ -31,13 +31,13 @@ using SuperSocket.SocketBase.Logging;
 
 namespace Yupi.Net.SuperSocketImpl
 {
-	public class SuperServer : AppServer<Session, RequestInfo>, IServer
+	public class SuperServer<T> : AppServer<Session<T>, RequestInfo>, IServer<T>
 	{
-		public event MessageReceived OnMessageReceived = delegate{};
+		public event MessageReceived<T> OnMessageReceived = delegate{};
 
-		public event ConnectionOpened OnConnectionOpened = delegate{};
+		public event ConnectionOpened<T> OnConnectionOpened = delegate{};
 
-		public event ConnectionClosed OnConnectionClosed = delegate{};
+		public event ConnectionClosed<T> OnConnectionClosed = delegate{};
 
 		private CrossDomainSettings FlashPolicy;
 
@@ -53,12 +53,12 @@ namespace Yupi.Net.SuperSocketImpl
 		
 			base.NewRequestReceived += HandleRequest;
 
-			base.NewSessionConnected += (Session session) => OnConnectionOpened(session);
+			base.NewSessionConnected += (Session<T> session) => OnConnectionOpened(session);
 
-			base.SessionClosed += (Session session, CloseReason value) => OnConnectionClosed(session);
+			base.SessionClosed += (Session<T> session, CloseReason value) => OnConnectionClosed(session);
 		}
 
-		private void HandleRequest(Session session, RequestInfo requestInfo) {
+		private void HandleRequest(Session<T> session, RequestInfo requestInfo) {
 			if(requestInfo.IsFlashRequest) {
 				session.Send(FlashPolicy.GetBytes());
 				session.Disconnect ();

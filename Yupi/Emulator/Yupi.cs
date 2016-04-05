@@ -64,139 +64,139 @@ namespace Yupi.Emulator
         /// <summary>
         ///     Server Language
         /// </summary>
-        internal static string ServerLanguage = "english";
+         static string ServerLanguage = "english";
 
         /// <summary>
         ///     The build of the server
         /// </summary>
-        internal static readonly string ServerBuild = "300";
+         static readonly string ServerBuild = "300";
 
         /// <summary>
         ///    Server Version
         /// </summary>
-        internal static readonly string ServerVersion = "1.0";
+         static readonly string ServerVersion = "1.0";
 
         /// <summary>
         ///     The live currency type
         /// </summary>
-        internal static int LiveCurrencyType = 105;
+         static int LiveCurrencyType = 105;
 
         /// <summary>
         ///     Console Clear Interval
         /// </summary>
-        internal static int ConsoleCleanTimeInterval = 2000;
+         static int ConsoleCleanTimeInterval = 2000;
 
         /// <summary>
         ///     Server is Started
         /// </summary>
-        internal static bool IsLive;
+         static bool IsLive;
 
         /// <summary>
         ///     Server is Ready
         /// </summary>
-        internal static bool IsReady;
+         static bool IsReady;
 
         /// <summary>
         ///     Multi Thread in Client
         /// </summary>
-        internal static bool SeparatedTasksInGameClientManager;
+         static bool SeparatedTasksInGameClientManager;
 
         /// <summary>
         ///     Multi Thread in Game
         /// </summary>
-        internal static bool SeparatedTasksInMainLoops;
+         static bool SeparatedTasksInMainLoops;
 
         /// <summary>
         ///     Debug Packets
         /// </summary>
-        internal static bool PacketDebugMode;
+         static bool PacketDebugMode;
 
         /// <summary>
         ///     Github Update String URI
         /// </summary>
-        internal static readonly string GithubUpdateFile = "https://raw.githubusercontent.com/sant0ro/Yupi/nio/UPDATES.json";
+         static readonly string GithubUpdateFile = "https://raw.githubusercontent.com/sant0ro/Yupi/nio/UPDATES.json";
 
         /// <summary>
         ///     Github Update String URI
         /// </summary>
-        internal static readonly string GithubCommitApi = "https://api.github.com/repos/sant0ro/Yupi/commits/HEAD";
+         static readonly string GithubCommitApi = "https://api.github.com/repos/sant0ro/Yupi/commits/HEAD";
 
         /// <summary>
         ///     Console Clean Timer
         /// </summary>
-        internal static bool ConsoleTimerOn;
+         static bool ConsoleTimerOn;
 
         /// <summary>
         ///     The staff alert minimum rank
         /// </summary>
-        internal static uint StaffAlertMinRank = 4;
+         static uint StaffAlertMinRank = 4;
 		// TODO Should these variables be readonly???
         /// <summary>
         ///     Max Friends Requests
         /// </summary>
-        internal static uint FriendRequestLimit = 1000;
+         static uint FriendRequestLimit = 1000;
 
         /// <summary>
         ///     Bobba Filter Muted Users by Filter
         /// </summary>
-        internal static Dictionary<uint, uint> MutedUsersByFilter;
+         static Dictionary<uint, uint> MutedUsersByFilter;
 
         /// <summary>
         ///     The manager
         /// </summary>
-        internal static IDatabaseManager YupiDatabaseManager;
+         static IDatabaseManager YupiDatabaseManager;
 
         /// <summary>
         ///     The configuration data
         /// </summary>
-        internal static ServerDatabaseSettings DatabaseSettings;
+         static ServerDatabaseSettings DatabaseSettings;
 
         /// <summary>
         ///     The server started
         /// </summary>
-        internal static DateTime YupiServerStartDateTime;
+         static DateTime YupiServerStartDateTime;
 
         /// <summary>
         ///     The offline messages
         /// </summary>
-        internal static Dictionary<uint, List<OfflineMessage>> OfflineMessages;
+         static Dictionary<uint, List<OfflineMessage>> OfflineMessages;
 
         /// <summary>
         ///     The timer
         /// </summary>
-        internal static Timer ConsoleRefreshTimer;
+         static Timer ConsoleRefreshTimer;
 
         /// <summary>
         ///     The culture information
         /// </summary>
-        internal static CultureInfo CultureInfo;
+         static CultureInfo CultureInfo;
 
         /// <summary>
         ///     The _plugins
         /// </summary>
-        internal static Dictionary<string, IPlugin> Plugins;
+         static Dictionary<string, IPlugin> Plugins;
 
         /// <summary>
         ///     The users cached
         /// </summary>
-        internal static readonly ConcurrentDictionary<uint, Habbo> UsersCached = new ConcurrentDictionary<uint, Habbo>();
+         static readonly ConcurrentDictionary<uint, Habbo> UsersCached = new ConcurrentDictionary<uint, Habbo>();
 
         /// <summary>
         ///     The Server Default Encoding
         /// </summary>
-        internal static Encoding YupiServerTextEncoding;
+         static Encoding YupiServerTextEncoding;
 
         /// <summary>
         ///     The GameServer
         /// </summary>
-        internal static HabboHotel GameServer;
+         static HabboHotel GameServer;
 
 		private static IServer TCPServer;
 
         /// <summary>
         ///     The ServerLanguageVariables
         /// </summary>
-        internal static ServerLanguageSettings ServerLanguageVariables;
+         static ServerLanguageSettings ServerLanguageVariables;
 
         /// <summary>
         ///     The allowed special chars
@@ -209,23 +209,23 @@ namespace Yupi.Emulator
         /// <summary>
         ///    Yupi Variable Directory
         /// </summary>
-        internal static string YupiVariablesDirectory = string.Empty;
+         static string YupiVariablesDirectory = string.Empty;
 
         /// <summary>
         ///     Yupi Root Directory
         /// </summary>
-        internal static string YupiRootDirectory = string.Empty;
+         static string YupiRootDirectory = string.Empty;
 
         /// <summary>
         ///     Max Recommended MySQL Connection Amount
         /// </summary>
-        internal static uint MaxRecommendedMySqlConnections = 50;
+         static uint MaxRecommendedMySqlConnections = 50;
 
         /// <summary>
         ///     Check's if the Shutdown Has Started
         /// </summary>
         /// <value><c>true</c> if [shutdown started]; otherwise, <c>false</c>.</value>
-        internal static bool ShutdownStarted { get; set; }
+         static bool ShutdownStarted { get; set; }
 
         /// <summary>
         ///    Contains Any
@@ -274,7 +274,7 @@ namespace Yupi.Emulator
         ///     Reload Plugins Data
         /// </summary>
         /// <returns>ILog</returns>
-        internal static void ReloadPlugins()
+         static void ReloadPlugins()
         {
             Plugins = new Dictionary<string, IPlugin>();
 
@@ -303,7 +303,7 @@ namespace Yupi.Emulator
         /// <param name="userId">The user identifier.</param>
         /// <returns>Habbo.</returns>
         /// Table: users.id
-        internal static Habbo GetHabboById(uint userId)
+         static Habbo GetHabboById(uint userId)
         {
             if (userId == 0)
                 return null;
@@ -352,7 +352,7 @@ namespace Yupi.Emulator
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="ElapsedEventArgs" /> instance containing the event data.</param>
-        internal static void ConsoleRefreshTimerElapsed(object sender, ElapsedEventArgs e)
+         static void ConsoleRefreshTimerElapsed(object sender, ElapsedEventArgs e)
         {
             Console.Clear();
             Console.WriteLine();
@@ -368,7 +368,7 @@ namespace Yupi.Emulator
         /// <summary>
         ///     Main Void, Initializes the Emulator.
         /// </summary>
-        internal static void Initialize()
+         static void Initialize()
         {
             Console.Title = "Yupi Emulator | Starting [...]";
 
@@ -522,21 +522,21 @@ namespace Yupi.Emulator
         /// </summary>
         /// <param name="theEnum">The theEnum.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal static bool EnumToBool(string theEnum) => theEnum == "1";
+         static bool EnumToBool(string theEnum) => theEnum == "1";
 		// TODO Remove useless? methods
         /// <summary>
         ///     Convert's Boolean to Integer
         /// </summary>
         /// <param name="theBool">if set to <c>true</c> [theBool].</param>
         /// <returns>System.Int32.</returns>
-        internal static int BoolToInteger(bool theBool) => theBool ? 1 : 0;
+         static int BoolToInteger(bool theBool) => theBool ? 1 : 0;
 
         /// <summary>
         ///     Convert's Boolean to Enum
         /// </summary>
         /// <param name="theBool">if set to <c>true</c> [theBool].</param>
         /// <returns>System.String.</returns>
-        internal static string BoolToEnum(bool theBool) => theBool ? "1" : "0";
+         static string BoolToEnum(bool theBool) => theBool ? "1" : "0";
 
         /// <summary>
         ///     Generates a Random Number in the Interval Min,Max
@@ -544,13 +544,13 @@ namespace Yupi.Emulator
         /// <param name="min">The minimum.</param>
         /// <param name="max">The maximum.</param>
         /// <returns>System.Int32.</returns>
-        internal static int GetRandomNumber(int min, int max) => RandomNumberGenerator.Get(min, max);
+         static int GetRandomNumber(int min, int max) => RandomNumberGenerator.Get(min, max);
 
         /// <summary>
         ///     Get's the Actual Timestamp in Unix Format
         /// </summary>
         /// <returns>System.Int32.</returns>
-        internal static int GetUnixTimeStamp()
+         static int GetUnixTimeStamp()
             => (int) (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds;
 		// TODO Where is this used? Always prefer Database / Environment time
         /// <summary>
@@ -558,10 +558,10 @@ namespace Yupi.Emulator
         /// </summary>
         /// <param name="unixTimeStamp">The unix time stamp.</param>
         /// <returns>DateTime.</returns>
-        internal static DateTime UnixToDateTime(double unixTimeStamp)
+         static DateTime UnixToDateTime(double unixTimeStamp)
             => new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Local).AddSeconds(unixTimeStamp).ToLocalTime();
 
-        internal static DateTime UnixToDateTime(int unixTimeStamp)
+         static DateTime UnixToDateTime(int unixTimeStamp)
             => new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Local).AddSeconds(unixTimeStamp).ToLocalTime();
 
         /// <summary>
@@ -581,15 +581,15 @@ namespace Yupi.Emulator
         /// </summary>
         /// <param name="target">The target.</param>
         /// <returns>System.Int32.</returns>
-        internal static int DateTimeToUnix(DateTime target) => Convert.ToInt32((target - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds);
+         static int DateTimeToUnix(DateTime target) => Convert.ToInt32((target - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds);
 
         /// <summary>
         ///     Get the Actual Time
         /// </summary>
         /// <returns>System.Int64.</returns>
-        internal static long Now() => (long) (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
+         static long Now() => (long) (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
 
-        internal static int DifferenceInMilliSeconds(DateTime time, DateTime tFrom)
+         static int DifferenceInMilliSeconds(DateTime time, DateTime tFrom)
         {
             double time1 = tFrom.Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
             double time2 = time.Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
@@ -608,7 +608,7 @@ namespace Yupi.Emulator
         /// </summary>
         /// <param name="figure">The figure.</param>
         /// <returns>System.String.</returns>
-        internal static string FilterFigure(string figure)
+         static string FilterFigure(string figure)
             =>
                 figure.Any(character => !IsValid(character))
                     ? "lg-3023-1335.hr-828-45.sh-295-1332.hd-180-4.ea-3168-89.ca-1813-62.ch-235-1332"
@@ -619,7 +619,7 @@ namespace Yupi.Emulator
         /// </summary>
         /// <param name="inputStr">The input string.</param>
         /// <returns><c>true</c> if [is valid alpha numeric] [the specified input string]; otherwise, <c>false</c>.</returns>
-        internal static bool IsValidAlphaNumeric(string inputStr)
+         static bool IsValidAlphaNumeric(string inputStr)
             => !string.IsNullOrEmpty(inputStr.ToLower()) && inputStr.ToLower().All(IsValid);
 
         /// <summary>
@@ -628,7 +628,7 @@ namespace Yupi.Emulator
         /// <param name="userName">Name of the user.</param>
         /// <returns>Habbo.</returns>
         /// Table: users.username
-        internal static Habbo GetHabboForName(string userName)
+         static Habbo GetHabboForName(string userName)
         {
             try
             {
@@ -660,7 +660,7 @@ namespace Yupi.Emulator
         /// </summary>
         /// <param name="theNum">The theNum.</param>
         /// <returns><c>true</c> if the specified theNum is number; otherwise, <c>false</c>.</returns>
-        internal static bool IsNum(string theNum)
+         static bool IsNum(string theNum)
         {
             double num;
             
@@ -671,25 +671,25 @@ namespace Yupi.Emulator
         ///     Get the Database Configuration Data
         /// </summary>
         /// <returns>DatabaseSettings.</returns>
-        internal static ServerDatabaseSettings GetDbConfig() => DatabaseSettings;
+         static ServerDatabaseSettings GetDbConfig() => DatabaseSettings;
 
         /// <summary>
         ///     Get's the Default Emulator Encoding
         /// </summary>
         /// <returns>Encoding.</returns>
-        internal static Encoding GetDefaultEncoding() => YupiServerTextEncoding;
+         static Encoding GetDefaultEncoding() => YupiServerTextEncoding;
 
         /// <summary>
         ///     Get's the HabboHotel Environment Handler
         /// </summary>
         /// <returns>HabboHotel.</returns>
-        internal static HabboHotel GetGame() => GameServer;
+         static HabboHotel GetGame() => GameServer;
 
         /// <summary>
         ///     Gets the language.
         /// </summary>
         /// <returns>Languages.</returns>
-        internal static ServerLanguageSettings GetLanguage() => ServerLanguageVariables;
+         static ServerLanguageSettings GetLanguage() => ServerLanguageVariables;
 
 		// TODO Check where this method is used and replace the queries with Prepared statements
         /// <summary>
@@ -697,7 +697,7 @@ namespace Yupi.Emulator
         /// </summary>
         /// <param name="input">The input.</param>
         /// <returns>System.String.</returns>
-        internal static string FilterInjectionChars(string input)
+         static string FilterInjectionChars(string input)
         {
             input = input.Replace('\u0001', ' ');
             input = input.Replace('\u0002', ' ');
@@ -711,24 +711,24 @@ namespace Yupi.Emulator
         ///     Get's the Database YupiDatabaseManager Handler
         /// </summary>
         /// <returns>ConnectionManager.</returns>
-        internal static IDatabaseManager GetDatabaseManager() => YupiDatabaseManager;
+         static IDatabaseManager GetDatabaseManager() => YupiDatabaseManager;
 
         /// <summary>
         ///     Perform's the Emulator Shutdown
         /// </summary>
-        internal static void PerformShutDown() => PerformShutDown(false);
+         static void PerformShutDown() => PerformShutDown(false);
 
         /// <summary>
         ///     Performs the restart.
         /// </summary>
-        internal static void PerformRestart() => PerformShutDown(true);
+         static void PerformRestart() => PerformShutDown(true);
 
         /// <summary>
         ///     Shutdown the Emulator
         /// </summary>
         /// <param name="restart">if set to <c>true</c> [restart].</param>
         /// Set a Different Message in Hotel
-        internal static void PerformShutDown(bool restart)
+         static void PerformShutDown(bool restart)
         {
             IsReady = false;
 
@@ -785,7 +785,7 @@ namespace Yupi.Emulator
         /// </summary>
         /// <param name="span">The span.</param>
         /// <returns>System.String.</returns>
-        internal static string TimeSpanToString(TimeSpan span)
+         static string TimeSpanToString(TimeSpan span)
             => string.Concat(span.Seconds, " s, ", span.Milliseconds, " ms");
 
         /// <summary>

@@ -10,7 +10,7 @@ namespace Yupi.Emulator.Game.Users.Inventory
     /// <summary>
     ///     Class UserClothesManager.
     /// </summary>
-    internal class UserClothesManager
+     class UserClothesManager
     {
         /// <summary>
         ///     The _user identifier
@@ -20,13 +20,13 @@ namespace Yupi.Emulator.Game.Users.Inventory
         /// <summary>
         ///     The clothing
         /// </summary>
-        internal List<string> Clothing;
+         List<string> Clothing;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="UserClothesManager" /> class.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
-        internal UserClothesManager(uint userId)
+         UserClothesManager(uint userId)
         {
             _userId = userId;
 
@@ -50,7 +50,7 @@ namespace Yupi.Emulator.Game.Users.Inventory
         ///     Adds the specified clothing.
         /// </summary>
         /// <param name="clothing">The clothing.</param>
-        internal void Add(string clothing)
+         void Add(string clothing)
         {
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
@@ -69,7 +69,7 @@ namespace Yupi.Emulator.Game.Users.Inventory
         ///     Serializes the specified messageBuffer.
         /// </summary>
         /// <param name="message">The messageBuffer.</param>
-        internal void Serialize(SimpleServerMessageBuffer messageBuffer)
+         void Serialize(SimpleServerMessageBuffer messageBuffer)
         {
             messageBuffer.StartArray();
 

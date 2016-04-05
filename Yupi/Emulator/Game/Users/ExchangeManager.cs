@@ -11,7 +11,7 @@ namespace Yupi.Emulator.Game.Users
     /// <summary>
     ///     Class CoinsManager.
     /// </summary>
-    internal class ExchangeManager
+     class ExchangeManager
     {
         /// <summary>
         ///     The _timer
@@ -21,7 +21,7 @@ namespace Yupi.Emulator.Game.Users
         /// <summary>
         ///     Starts the timer.
         /// </summary>
-        internal void StartTimer()
+         void StartTimer()
         {
             if (!ServerExtraSettings.CurrencyLoopEnabled)
                 return;
@@ -35,7 +35,7 @@ namespace Yupi.Emulator.Game.Users
         /// </summary>
         /// <param name="source">The source.</param>
         /// <param name="e">The <see cref="ElapsedEventArgs" /> instance containing the event data.</param>
-        internal void GiveCoins(object source, ElapsedEventArgs e)
+         void GiveCoins(object source, ElapsedEventArgs e)
         {
             try
             {
@@ -64,7 +64,7 @@ namespace Yupi.Emulator.Game.Users
         /// <summary>
         ///     Destroys this instance.
         /// </summary>
-        internal void Destroy()
+         void Destroy()
         {
             _timer.Dispose();
             _timer = null;

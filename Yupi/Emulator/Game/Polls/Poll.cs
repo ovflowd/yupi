@@ -7,57 +7,57 @@ namespace Yupi.Emulator.Game.Polls
     /// <summary>
     ///     Class Poll.
     /// </summary>
-    internal class Poll
+     class Poll
     {
         /// <summary>
         ///     The answers negative
         /// </summary>
-        internal int AnswersNegative;
+         int AnswersNegative;
 
         /// <summary>
         ///     The answers positive
         /// </summary>
-        internal int AnswersPositive;
+         int AnswersPositive;
 
         /// <summary>
         ///     The identifier
         /// </summary>
-        internal uint Id;
+         uint Id;
 
         /// <summary>
         ///     The poll invitation
         /// </summary>
-        internal string PollInvitation;
+         string PollInvitation;
 
         /// <summary>
         ///     The poll name
         /// </summary>
-        internal string PollName;
+         string PollName;
 
         /// <summary>
         ///     The prize
         /// </summary>
-        internal string Prize;
+         string Prize;
 
         /// <summary>
         ///     The questions
         /// </summary>
-        internal List<PollQuestion> Questions;
+         List<PollQuestion> Questions;
 
         /// <summary>
         ///     The room identifier
         /// </summary>
-        internal uint RoomId;
+         uint RoomId;
 
         /// <summary>
         ///     The thanks
         /// </summary>
-        internal string Thanks;
+         string Thanks;
 
         /// <summary>
         ///     The type
         /// </summary>
-        internal PollType Type;
+         PollType Type;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Poll" /> class.
@@ -70,7 +70,7 @@ namespace Yupi.Emulator.Game.Polls
         /// <param name="prize">The prize.</param>
         /// <param name="type">The type.</param>
         /// <param name="questions">The questions.</param>
-        internal Poll(uint id, uint roomId, string pollName, string pollInvitation, string thanks, string prize,
+         Poll(uint id, uint roomId, string pollName, string pollInvitation, string thanks, string prize,
             int type, List<PollQuestion> questions)
         {
             Id = id;
@@ -89,7 +89,7 @@ namespace Yupi.Emulator.Game.Polls
         ///     Serializes the specified messageBuffer.
         /// </summary>
         /// <param name="message">The messageBuffer.</param>
-        internal void Serialize(SimpleServerMessageBuffer messageBuffer)
+         void Serialize(SimpleServerMessageBuffer messageBuffer)
         {
             messageBuffer.AppendInteger(Id);
             messageBuffer.AppendString(string.Empty); //?

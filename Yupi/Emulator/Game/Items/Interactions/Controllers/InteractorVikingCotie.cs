@@ -6,7 +6,7 @@ using Yupi.Emulator.Game.Rooms.User;
 
 namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 {
-    internal class InteractorVikingCotie : FurniInteractorModel
+     class InteractorVikingCotie : FurniInteractorModel
     {
         private RoomItem _mItem;
 

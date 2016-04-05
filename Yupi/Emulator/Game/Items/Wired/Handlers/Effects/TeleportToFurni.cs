@@ -11,7 +11,7 @@ using Yupi.Emulator.Game.Rooms.User;
 
 namespace Yupi.Emulator.Game.Items.Wired.Handlers.Effects
 {
-    internal class TeleportToFurni : IWiredItem, IWiredCycler
+     class TeleportToFurni : IWiredItem, IWiredCycler
     {
         private readonly List<Interaction> _mBanned;
 

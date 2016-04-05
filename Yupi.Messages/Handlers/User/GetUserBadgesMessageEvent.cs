@@ -7,7 +7,7 @@ namespace Yupi.Messages.User
 {
 	public class GetUserBadgesMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Net.ISession<GameClient> session, Yupi.Protocol.Buffers.ClientMessage message, Router router)
+		public override void HandleMessage (GameClient session, Yupi.Protocol.Buffers.ClientMessage message, Router router)
 		{
 			// TODO Refactor
 			Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.UserData.CurrentRoomId);

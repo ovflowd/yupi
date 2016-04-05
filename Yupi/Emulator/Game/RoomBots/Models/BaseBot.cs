@@ -28,12 +28,12 @@ using Yupi.Emulator.Game.Rooms.User;
 
 namespace Yupi.Emulator.Game.RoomBots.Models
 {
-    internal class BaseBot : BotAi
+     class BaseBot : BotAi
     {
         /// <summary>
         ///     Called when [self enter room].
         /// </summary>
-        internal override void OnSelfEnterRoom()
+         override void OnSelfEnterRoom()
         {
         }
 
@@ -41,7 +41,7 @@ namespace Yupi.Emulator.Game.RoomBots.Models
         ///     Called when [self leave room].
         /// </summary>
         /// <param name="kicked">if set to <c>true</c> [kicked].</param>
-        internal override void OnSelfLeaveRoom(bool kicked)
+         override void OnSelfLeaveRoom(bool kicked)
         {
         }
 
@@ -49,7 +49,7 @@ namespace Yupi.Emulator.Game.RoomBots.Models
         ///     Called when [user enter room].
         /// </summary>
         /// <param name="user">The user.</param>
-        internal override void OnUserEnterRoom(RoomUser user)
+         override void OnUserEnterRoom(RoomUser user)
         {
         }
 
@@ -57,7 +57,7 @@ namespace Yupi.Emulator.Game.RoomBots.Models
         ///     Called when [user leave room].
         /// </summary>
         /// <param name="client">The client.</param>
-        internal override void OnUserLeaveRoom(GameClient client)
+         override void OnUserLeaveRoom(GameClient client)
         {
         }
 
@@ -66,7 +66,7 @@ namespace Yupi.Emulator.Game.RoomBots.Models
         /// </summary>
         /// <param name="user">The user.</param>
         /// <param name="msg">The MSG.</param>
-        internal override void OnUserSay(RoomUser user, string msg)
+         override void OnUserSay(RoomUser user, string msg)
         {
         }
 
@@ -75,25 +75,25 @@ namespace Yupi.Emulator.Game.RoomBots.Models
         /// </summary>
         /// <param name="user">The user.</param>
         /// <param name="message">The message.</param>
-        internal override void OnUserShout(RoomUser user, string message)
+         override void OnUserShout(RoomUser user, string message)
         {
         }
 
         /// <summary>
         ///     Called when [timer tick].
         /// </summary>
-        internal override void OnTimerTick()
+         override void OnTimerTick()
         {
         }
 
-        internal override void OnChatTick()
+         override void OnChatTick()
         {
         }
 
         /// <summary>
         ///     Modifieds this instance.
         /// </summary>
-        internal override void Modified()
+         override void Modified()
         {
         }
     }

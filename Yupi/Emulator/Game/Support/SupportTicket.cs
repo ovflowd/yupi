@@ -8,7 +8,7 @@ namespace Yupi.Emulator.Game.Support
     /// <summary>
     ///     Class SupportTicket.
     /// </summary>
-    internal class SupportTicket
+     class SupportTicket
     {
         /// <summary>
         ///     The _reported name
@@ -28,62 +28,62 @@ namespace Yupi.Emulator.Game.Support
         /// <summary>
         ///     The category
         /// </summary>
-        internal int Category;
+         int Category;
 
         /// <summary>
         ///     The messageBuffer
         /// </summary>
-        internal string Message;
+         string Message;
 
         /// <summary>
         ///     The moderator identifier
         /// </summary>
-        internal uint ModeratorId;
+         uint ModeratorId;
 
         /// <summary>
         ///     The reported chats
         /// </summary>
-        internal List<string> ReportedChats;
+         List<string> ReportedChats;
 
         /// <summary>
         ///     The reported identifier
         /// </summary>
-        internal uint ReportedId;
+         uint ReportedId;
 
         /// <summary>
         ///     The room identifier
         /// </summary>
-        internal uint RoomId;
+         uint RoomId;
 
         /// <summary>
         ///     The room name
         /// </summary>
-        internal string RoomName;
+         string RoomName;
 
         /// <summary>
         ///     The score
         /// </summary>
-        internal int Score;
+         int Score;
 
         /// <summary>
         ///     The sender identifier
         /// </summary>
-        internal uint SenderId;
+         uint SenderId;
 
         /// <summary>
         ///     The status
         /// </summary>
-        internal TicketStatus Status;
+         TicketStatus Status;
 
         /// <summary>
         ///     The timestamp
         /// </summary>
-        internal double Timestamp;
+         double Timestamp;
 
         /// <summary>
         ///     The type
         /// </summary>
-        internal int Type;
+         int Type;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="SupportTicket" /> class.
@@ -99,7 +99,7 @@ namespace Yupi.Emulator.Game.Support
         /// <param name="roomName">Name of the room.</param>
         /// <param name="timestamp">The timestamp.</param>
         /// <param name="reportedChats">The reported chats.</param>
-        internal SupportTicket(uint id, int score, int category, int type, uint senderId, uint reportedId,
+         SupportTicket(uint id, int score, int category, int type, uint senderId, uint reportedId,
             string message, uint roomId, string roomName, double timestamp, List<string> reportedChats)
         {
             TicketId = id;
@@ -124,7 +124,7 @@ namespace Yupi.Emulator.Game.Support
         ///     Gets the tab identifier.
         /// </summary>
         /// <value>The tab identifier.</value>
-        internal int TabId
+         int TabId
         {
             get
             {
@@ -145,14 +145,14 @@ namespace Yupi.Emulator.Game.Support
         ///     Gets the ticket identifier.
         /// </summary>
         /// <value>The ticket identifier.</value>
-        internal uint TicketId { get; }
+         uint TicketId { get; }
 
         /// <summary>
         ///     Picks the specified p moderator identifier.
         /// </summary>
         /// <param name="pModeratorId">The p moderator identifier.</param>
         /// <param name="updateInDb">if set to <c>true</c> [update in database].</param>
-        internal void Pick(uint pModeratorId, bool updateInDb)
+         void Pick(uint pModeratorId, bool updateInDb)
         {
             Status = TicketStatus.Picked;
             ModeratorId = pModeratorId;
@@ -172,7 +172,7 @@ namespace Yupi.Emulator.Game.Support
         /// </summary>
         /// <param name="newStatus">The new status.</param>
         /// <param name="updateInDb">if set to <c>true</c> [update in database].</param>
-        internal void Close(TicketStatus newStatus, bool updateInDb)
+         void Close(TicketStatus newStatus, bool updateInDb)
         {
             Status = newStatus;
 
@@ -217,7 +217,7 @@ namespace Yupi.Emulator.Game.Support
         ///     Releases the specified update in database.
         /// </summary>
         /// <param name="updateInDb">if set to <c>true</c> [update in database].</param>
-        internal void Release(bool updateInDb)
+         void Release(bool updateInDb)
         {
             Status = TicketStatus.Open;
 
@@ -233,7 +233,7 @@ namespace Yupi.Emulator.Game.Support
         ///     Deletes the specified update in database.
         /// </summary>
         /// <param name="updateInDb">if set to <c>true</c> [update in database].</param>
-        internal void Delete(bool updateInDb)
+         void Delete(bool updateInDb)
         {
             Status = TicketStatus.Deleted;
 
@@ -250,7 +250,7 @@ namespace Yupi.Emulator.Game.Support
         /// </summary>
         /// <param name="message">The messageBuffer.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-        internal SimpleServerMessageBuffer Serialize(SimpleServerMessageBuffer messageBuffer)
+         SimpleServerMessageBuffer Serialize(SimpleServerMessageBuffer messageBuffer)
         {
             messageBuffer.AppendInteger(TicketId);
             messageBuffer.AppendInteger(TabId);

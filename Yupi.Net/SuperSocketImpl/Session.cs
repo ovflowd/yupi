@@ -28,13 +28,16 @@ using SuperSocket.SocketBase.Protocol;
 
 namespace Yupi.Net.SuperSocketImpl
 {
-	public class Session : AppSession<Session, RequestInfo>, ISession
+	public class Session<T> : AppSession<Session<T>, RequestInfo>, ISession<T>
 	{
 		public System.Net.IPAddress RemoteAddress {
 			get {
 				return RemoteEndPoint.Address;
 			}
 		}
+
+
+		public T UserData { get; set; }
 
 		protected override void HandleException(Exception e)
 		{

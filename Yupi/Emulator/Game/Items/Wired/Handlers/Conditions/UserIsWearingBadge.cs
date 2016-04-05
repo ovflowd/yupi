@@ -9,7 +9,7 @@ using Yupi.Emulator.Game.Users.Badges.Models;
 
 namespace Yupi.Emulator.Game.Items.Wired.Handlers.Conditions
 {
-    internal class UserIsWearingBadge : IWiredItem
+     class UserIsWearingBadge : IWiredItem
     {
         public UserIsWearingBadge(RoomItem item, Room room)
         {

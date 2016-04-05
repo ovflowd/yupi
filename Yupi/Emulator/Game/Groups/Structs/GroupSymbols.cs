@@ -24,13 +24,13 @@
 
 namespace Yupi.Emulator.Game.Groups.Structs
 {
-    internal struct GroupSymbols
+     struct GroupSymbols
     {
-        internal int Id;
-        internal string Value1;
-        internal string Value2;
+         int Id;
+         string Value1;
+         string Value2;
 
-        internal GroupSymbols(int id, string value1, string value2)
+         GroupSymbols(int id, string value1, string value2)
         {
             Id = id;
             Value1 = value1;

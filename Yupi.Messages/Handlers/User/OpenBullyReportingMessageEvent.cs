@@ -7,7 +7,7 @@ namespace Yupi.Messages.User
 {
 	public class OpenBullyReportingMessageEvent : AbstractHandler
 	{
-		public void HandleMessage (ISession<GameClient> session, ClientMessage message, Router router)
+		public void HandleMessage (GameClient session, ClientMessage message, Router router)
 		{
 			router.GetComposer<OpenBullyReportMessageComposer> ().Compose (session);
 		}

@@ -7,7 +7,7 @@ namespace Yupi.Emulator.Game.Users.Guides
     /// <summary>
     ///     Class GuideManager.
     /// </summary>
-    internal class GuideManager
+     class GuideManager
     {
         /// <summary>
         ///     The en cours
@@ -17,17 +17,17 @@ namespace Yupi.Emulator.Game.Users.Guides
         /// <summary>
         ///     The guardians on duty
         /// </summary>
-        internal List<GameClient> GuardiansOnDuty = new List<GameClient>();
+         List<GameClient> GuardiansOnDuty = new List<GameClient>();
 
         /// <summary>
         ///     The guides on duty
         /// </summary>
-        internal List<GameClient> GuidesOnDuty = new List<GameClient>();
+         List<GameClient> GuidesOnDuty = new List<GameClient>();
 
         /// <summary>
         ///     The helpers on duty
         /// </summary>
-        internal List<GameClient> HelpersOnDuty = new List<GameClient>();
+         List<GameClient> HelpersOnDuty = new List<GameClient>();
 
         /// <summary>
         ///     Gets or sets the guides count.

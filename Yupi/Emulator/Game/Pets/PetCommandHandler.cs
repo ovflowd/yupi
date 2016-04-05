@@ -33,7 +33,7 @@ namespace Yupi.Emulator.Game.Pets
     /// <summary>
     ///     Class PetCommandHandler.
     /// </summary>
-    internal class PetCommandHandler
+     class PetCommandHandler
     {
         /// <summary>
         ///     The _pet commands
@@ -44,7 +44,7 @@ namespace Yupi.Emulator.Game.Pets
         ///     Initializes the specified database client.
         /// </summary>
         /// <param name="dbClient">The database client.</param>
-        internal static void Init(IQueryAdapter dbClient)
+         static void Init(IQueryAdapter dbClient)
         {
             dbClient.SetQuery("SELECT * FROM pets_commands");
 
@@ -56,21 +56,21 @@ namespace Yupi.Emulator.Game.Pets
                 _petCommands.Add(uint.Parse(dataRow["id"].ToString()), new PetCommand(dataRow));
         }
 
-        internal static Dictionary<uint, PetCommand> GetAllPetCommands()
+         static Dictionary<uint, PetCommand> GetAllPetCommands()
             => _petCommands.ToDictionary(p => p.Key, p => p.Value);
 
-        internal static Dictionary<uint, PetCommand> GetPetCommandByPetType(string petType)
+         static Dictionary<uint, PetCommand> GetPetCommandByPetType(string petType)
             =>
                 _petCommands.Where(p => p.Value.PetTypes.Contains(petType.ToString()))
                     .ToDictionary(p => p.Key, p => p.Value);
 
-        internal static int GetPetCommandCountByPetType(string petType)
+         static int GetPetCommandCountByPetType(string petType)
             => _petCommands.Count(p => p.Value.PetTypes.Contains(petType.ToString()));
 
-        internal static PetCommand GetPetCommandById(uint commandId)
+         static PetCommand GetPetCommandById(uint commandId)
             => _petCommands.FirstOrDefault(p => p.Key == commandId).Value;
 
-        internal static PetCommand GetPetCommandByInput(string userInput)
+         static PetCommand GetPetCommandByInput(string userInput)
             => _petCommands.FirstOrDefault(p => p.Value.CommandInput.Contains(userInput)).Value;
     }
 }

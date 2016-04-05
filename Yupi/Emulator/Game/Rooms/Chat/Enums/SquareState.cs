@@ -3,7 +3,7 @@ namespace Yupi.Emulator.Game.Rooms.Chat.Enums
     /// <summary>
     ///     Enum SquareState
     /// </summary>
-    internal enum SquareState
+     enum SquareState
     {
         /// <summary>
         ///     The open

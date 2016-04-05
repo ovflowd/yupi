@@ -27,47 +27,47 @@ namespace Yupi.Emulator.Game.Achievements.Structs
     /// <summary>
     ///     Class Talent.
     /// </summary>
-    internal struct Talent
+     struct Talent
     {
         /// <summary>
         ///     The identifier
         /// </summary>
-        internal int Id;
+         int Id;
 
         /// <summary>
         ///     The type
         /// </summary>
-        internal string Type;
+         string Type;
 
         /// <summary>
         ///     The parent category
         /// </summary>
-        internal int ParentCategory;
+         int ParentCategory;
 
         /// <summary>
         ///     The level
         /// </summary>
-        internal int Level;
+         int Level;
 
         /// <summary>
         ///     The achievement group
         /// </summary>
-        internal string AchievementGroup;
+         string AchievementGroup;
 
         /// <summary>
         ///     The achievement level
         /// </summary>
-        internal uint AchievementLevel;
+         uint AchievementLevel;
 
         /// <summary>
         ///     The prize
         /// </summary>
-        internal string Prize;
+         string Prize;
 
         /// <summary>
         ///     The prize base item
         /// </summary>
-        internal uint PrizeBaseItem;
+         uint PrizeBaseItem;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Talent" /> class.
@@ -80,7 +80,7 @@ namespace Yupi.Emulator.Game.Achievements.Structs
         /// <param name="achLevel">The ach level.</param>
         /// <param name="prize">The prize.</param>
         /// <param name="prizeBaseItem">The prize base item.</param>
-        internal Talent(int id, string type, int parentCategory, int level, string achId, uint achLevel, string prize,
+         Talent(int id, string type, int parentCategory, int level, string achId, uint achLevel, string prize,
             uint prizeBaseItem)
         {
             Id = id;
@@ -97,7 +97,7 @@ namespace Yupi.Emulator.Game.Achievements.Structs
         ///     Gets the achievement.
         /// </summary>
         /// <returns>Achievement.</returns>
-        internal Achievement GetAchievement()
+         Achievement GetAchievement()
             =>
                 string.IsNullOrEmpty(AchievementGroup) || ParentCategory == -1
                     ? null

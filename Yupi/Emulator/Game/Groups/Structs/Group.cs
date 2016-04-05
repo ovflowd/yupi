@@ -34,79 +34,79 @@ namespace Yupi.Emulator.Game.Groups.Structs
     /// <summary>
     ///     Class Guild.
     /// </summary>
-    internal class Group
+     class Group
     {
         /// <summary>
         ///     The admin only deco
         /// </summary>
-        internal uint AdminOnlyDeco;
+         uint AdminOnlyDeco;
 
         /// <summary>
         ///     The admins
         /// </summary>
-        internal Dictionary<uint, GroupMember> Admins;
+         Dictionary<uint, GroupMember> Admins;
 
         /// <summary>
         ///     The badge
         /// </summary>
-        internal string Badge;
+         string Badge;
 
         /// <summary>
         ///     The colour1
         /// </summary>
-        internal int Colour1;
+         int Colour1;
 
         /// <summary>
         ///     The colour2
         /// </summary>
-        internal int Colour2;
+         int Colour2;
 
         /// <summary>
         ///     The create time
         /// </summary>
-        internal int CreateTime;
+         int CreateTime;
 
         /// <summary>
         ///     The creator identifier
         /// </summary>
-        internal uint CreatorId;
+         uint CreatorId;
 
         /// <summary>
         ///     The description
         /// </summary>
-        internal string Description;
+         string Description;
 
-        internal GroupForum Forum;
+         GroupForum Forum;
 
         /// <summary>
         ///     The identifier
         /// </summary>
-        internal uint Id;
+         uint Id;
 
         /// <summary>
         ///     The members
         /// </summary>
-        internal Dictionary<uint, GroupMember> Members;
+         Dictionary<uint, GroupMember> Members;
 
         /// <summary>
         ///     The name
         /// </summary>
-        internal string Name;
+         string Name;
 
         /// <summary>
         ///     The requests
         /// </summary>
-        internal Dictionary<uint, GroupMember> Requests;
+         Dictionary<uint, GroupMember> Requests;
 
         /// <summary>
         ///     The room identifier
         /// </summary>
-        internal uint RoomId;
+         uint RoomId;
 
         /// <summary>
         ///     The state
         /// </summary>
-        internal uint State;
+         uint State;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Group" /> class.
@@ -126,7 +126,7 @@ namespace Yupi.Emulator.Game.Groups.Structs
         /// <param name="state">The state.</param>
         /// <param name="adminOnlyDeco">The admin only deco.</param>
         /// <param name="forum"></param>
-        internal Group(uint id, string name, string desc, uint roomId, string badge, int create, uint creator,
+         Group(uint id, string name, string desc, uint roomId, string badge, int create, uint creator,
             int colour1, int colour2, Dictionary<uint, GroupMember> members, Dictionary<uint, GroupMember> requests,
             Dictionary<uint, GroupMember> admins, uint state, uint adminOnlyDeco, GroupForum forum)
         {
@@ -152,7 +152,7 @@ namespace Yupi.Emulator.Game.Groups.Structs
         /// </summary>
         /// <param name="requesterId">The requester identifier.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-        internal SimpleServerMessageBuffer ForumDataMessage(uint requesterId)
+         SimpleServerMessageBuffer ForumDataMessage(uint requesterId)
         {
             return ForumDataMessageComposer.Compose(this, Forum, requesterId);
         }
@@ -161,12 +161,12 @@ namespace Yupi.Emulator.Game.Groups.Structs
         ///     Serializes the forum root.
         /// </summary>
         /// <param name="message">The messageBuffer.</param>
-        internal void SerializeForumRoot(SimpleServerMessageBuffer messageBuffer)
+         void SerializeForumRoot(SimpleServerMessageBuffer messageBuffer)
         {
             ForumRootMessageComposer.Compose(messageBuffer, this, Forum);
         }
 
-        internal void CreateForum()
+         void CreateForum()
         {
             using (IQueryAdapter adapter = Yupi.GetDatabaseManager().GetQueryReactor())
             {
@@ -204,7 +204,7 @@ namespace Yupi.Emulator.Game.Groups.Structs
         /// <summary>
         ///     Updates the forum.
         /// </summary>
-        internal void UpdateForum(bool createForum = false)
+         void UpdateForum(bool createForum = false)
         {
             if (Forum.Id == 0 && !createForum)
                 return;

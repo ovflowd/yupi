@@ -8,7 +8,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class Dance. This class cannot be inherited.
     /// </summary>
-    internal sealed class Dance : Command
+     sealed class Dance : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="Dance" /> class.

@@ -13,12 +13,12 @@ namespace Yupi.Emulator.Messages.Handlers
     /// <summary>
     ///     Class MessageHandler.
     /// </summary>
-    internal partial class MessageHandler
+     partial class MessageHandler
     {
         /// <summary>
         ///     Catalogues the index.
         /// </summary>
-        internal void CatalogueIndex()
+         void CatalogueIndex()
         {
             uint rank = Session.GetHabbo().Rank;
 
@@ -32,7 +32,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Catalogues the page.
         /// </summary>
-        internal void CataloguePage()
+         void CataloguePage()
         {
             uint pageId = Request.GetUInt32();
 
@@ -49,7 +49,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Catalogues the club page.
         /// </summary>
-        internal void CatalogueClubPage()
+         void CatalogueClubPage()
         {
             int requestType = Request.GetInteger();
 
@@ -59,7 +59,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Reloads the ecotron.
         /// </summary>
-        internal void ReloadEcotron()
+         void ReloadEcotron()
         {
             Response.Init(PacketLibraryManager.OutgoingHandler("ReloadEcotronMessageComposer"));
             Response.AppendInteger(1);
@@ -70,7 +70,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Gifts the wrapping configuration.
         /// </summary>
-        internal void GiftWrappingConfig()
+         void GiftWrappingConfig()
         {
             Response.Init(PacketLibraryManager.OutgoingHandler("GiftWrappingConfigurationMessageComposer"));
             Response.AppendBool(true);
@@ -101,7 +101,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Gets the recycler rewards.
         /// </summary>
-        internal void RecyclerRewards()
+         void RecyclerRewards()
         {
             Response.Init(PacketLibraryManager.OutgoingHandler("RecyclerRewardsMessageComposer"));
 
@@ -134,7 +134,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Purchases the item.
         /// </summary>
-        internal void PurchaseItem()
+         void PurchaseItem()
         {
             if (Session?.GetHabbo() == null)
                 return;
@@ -160,7 +160,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Purchases the gift.
         /// </summary>
-        internal void PurchaseGift()
+         void PurchaseGift()
         {
             uint pageId = Request.GetUInt32();
             uint itemId = Request.GetUInt32();
@@ -181,7 +181,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Checks the name of the pet.
         /// </summary>
-        internal void CheckPetName()
+         void CheckPetName()
         {
             string petName = Request.GetString();
             int i = 0;
@@ -202,7 +202,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Catalogues the offer.
         /// </summary>
-        internal void CatalogueSingleOffer()
+         void CatalogueSingleOffer()
         {
             uint num = Request.GetUInt32();
 
@@ -223,7 +223,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Catalogues the offer configuration.
         /// </summary>
-        internal void CatalogueOffersConfig()
+         void CatalogueOffersConfig()
         {
             Response.Init(PacketLibraryManager.OutgoingHandler("CatalogueOfferConfigMessageComposer"));
             Response.AppendInteger(100);
@@ -239,7 +239,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Serializes the group furni page.
         /// </summary>
-        internal void SerializeGroupFurniPage()
+         void SerializeGroupFurniPage()
         {
             HashSet<GroupMember> userGroups = Yupi.GetGame().GetGroupManager().GetUserGroups(Session.GetHabbo().Id);
 

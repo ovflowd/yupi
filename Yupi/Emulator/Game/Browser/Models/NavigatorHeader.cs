@@ -27,22 +27,22 @@ namespace Yupi.Emulator.Game.Browser.Models
     /// <summary>
     ///     Struct NavigatorHeader
     /// </summary>
-    internal struct NavigatorHeader
+     struct NavigatorHeader
     {
         /// <summary>
         ///     The room identifier
         /// </summary>
-        internal uint RoomId;
+         uint RoomId;
 
         /// <summary>
         ///     The caption
         /// </summary>
-        internal string Caption;
+         string Caption;
 
         /// <summary>
         ///     The image
         /// </summary>
-        internal string Image;
+         string Image;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="NavigatorHeader" /> struct.
@@ -50,7 +50,7 @@ namespace Yupi.Emulator.Game.Browser.Models
         /// <param name="roomId">The room identifier.</param>
         /// <param name="caption">The caption.</param>
         /// <param name="image">The image.</param>
-        internal NavigatorHeader(uint roomId, string caption, string image)
+         NavigatorHeader(uint roomId, string caption, string image)
         {
             RoomId = roomId;
             Caption = caption;

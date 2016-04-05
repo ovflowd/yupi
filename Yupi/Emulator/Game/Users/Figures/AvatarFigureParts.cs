@@ -3,27 +3,27 @@ namespace Yupi.Emulator.Game.Users.Figures
     /// <summary>
     ///     Struct AvatarFigureParts
     /// </summary>
-    internal struct AvatarFigureParts
+     struct AvatarFigureParts
     {
         /// <summary>
         ///     The part
         /// </summary>
-        internal string Part;
+         string Part;
 
         /// <summary>
         ///     The part identifier
         /// </summary>
-        internal string PartId;
+         string PartId;
 
         /// <summary>
         ///     The gender
         /// </summary>
-        internal string Gender;
+         string Gender;
 
         /// <summary>
         ///     The colorable
         /// </summary>
-        internal string Colorable;
+         string Colorable;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="AvatarFigureParts" /> struct.

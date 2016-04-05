@@ -5,7 +5,7 @@ using Yupi.Emulator.Game.Rooms.User;
 
 namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 {
-    internal class InteractorQuickTeleport : FurniInteractorModel
+     class InteractorQuickTeleport : FurniInteractorModel
     {
         public override void OnPlace(GameClient session, RoomItem item)
         {

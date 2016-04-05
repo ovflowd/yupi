@@ -8,7 +8,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class PullUser. This class cannot be inherited.
     /// </summary>
-    internal sealed class SpullUser : Command
+     sealed class SpullUser : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="PullUser" /> class.

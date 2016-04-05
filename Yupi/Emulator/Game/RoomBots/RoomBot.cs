@@ -34,142 +34,142 @@ namespace Yupi.Emulator.Game.RoomBots
     /// <summary>
     ///     Class RoomBot.
     /// </summary>
-    internal class RoomBot
+     class RoomBot
     {
         /// <summary>
         ///     The ai type
         /// </summary>
-        internal AiType AiType;
+         AiType AiType;
 
         /// <summary>
         ///     The automatic chat
         /// </summary>
-        internal bool AutomaticChat, MixPhrases;
+         bool AutomaticChat, MixPhrases;
 
         /// <summary>
         ///     The bot identifier
         /// </summary>
-        internal uint BotId;
+         uint BotId;
 
         /// <summary>
         ///     The bot type
         /// </summary>
-        internal string BotType;
+         string BotType;
 
         /// <summary>
         ///     The dance identifier
         /// </summary>
-        internal uint DanceId;
+         uint DanceId;
 
         /// <summary>
         ///     The gender
         /// </summary>
-        internal string Gender;
+         string Gender;
 
         /// <summary>
         ///     The last spoken phrase
         /// </summary>
-        internal int LastSpokenPhrase;
+         int LastSpokenPhrase;
 
         /// <summary>
         ///     The look
         /// </summary>
-        internal string Look;
+         string Look;
 
         /// <summary>
         ///     The maximum x
         /// </summary>
-        internal int MaxX;
+         int MaxX;
 
         /// <summary>
         ///     The maximum y
         /// </summary>
-        internal int MaxY;
+         int MaxY;
 
         /// <summary>
         ///     The minimum x
         /// </summary>
-        internal int MinX;
+         int MinX;
 
         /// <summary>
         ///     The minimum y
         /// </summary>
-        internal int MinY;
+         int MinY;
 
         /// <summary>
         ///     The motto
         /// </summary>
-        internal string Motto;
+         string Motto;
 
         /// <summary>
         ///     The name
         /// </summary>
-        internal string Name;
+         string Name;
 
         /// <summary>
         ///     The owner identifier
         /// </summary>
-        internal uint OwnerId;
+         uint OwnerId;
 
         /// <summary>
         ///     The random speech
         /// </summary>
-        internal List<string> RandomSpeech;
+         List<string> RandomSpeech;
 
         /// <summary>
         ///     The responses
         /// </summary>
-        internal List<string> Responses;
+         List<string> Responses;
 
         /// <summary>
         ///     The room identifier
         /// </summary>
-        internal uint RoomId;
+         uint RoomId;
 
         /// <summary>
         ///     The room user
         /// </summary>
-        internal RoomUser RoomUser;
+         RoomUser RoomUser;
 
         /// <summary>
         ///     The rot
         /// </summary>
-        internal int Rot;
+         int Rot;
 
         /// <summary>
         ///     The speech interval
         /// </summary>
-        internal uint SpeechInterval;
+         uint SpeechInterval;
 
         /// <summary>
         ///     The virtual identifier
         /// </summary>
-        internal int VirtualId;
+         int VirtualId;
 
         /// <summary>
         ///     The walking mode
         /// </summary>
-        internal string WalkingMode;
+         string WalkingMode;
 
         /// <summary>
         ///     The was picked
         /// </summary>
-        internal bool WasPicked;
+         bool WasPicked;
 
         /// <summary>
         ///     The x
         /// </summary>
-        internal int X;
+         int X;
 
         /// <summary>
         ///     The y
         /// </summary>
-        internal int Y;
+         int Y;
 
         /// <summary>
         ///     The z
         /// </summary>
-        internal double Z;
+         double Z;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="RoomBot" /> class.
@@ -178,7 +178,7 @@ namespace Yupi.Emulator.Game.RoomBots
         /// <param name="ownerId">The owner identifier.</param>
         /// <param name="aiType">Type of the ai.</param>
         /// <param name="botType"></param>
-        internal RoomBot(uint botId, uint ownerId, AiType aiType, string botType)
+         RoomBot(uint botId, uint ownerId, AiType aiType, string botType)
         {
             OwnerId = ownerId;
             BotId = botId;
@@ -209,7 +209,7 @@ namespace Yupi.Emulator.Game.RoomBots
         /// <param name="gender">The gender.</param>
         /// <param name="dance">The dance.</param>
         /// <param name="botType"></param>
-        internal RoomBot(uint botId, uint ownerId, uint roomId, AiType aiType, string walkingMode, string name,
+         RoomBot(uint botId, uint ownerId, uint roomId, AiType aiType, string walkingMode, string name,
             string motto, string look, int x, int y, double z, int rot, List<string> speeches, List<string> responses,
             string gender, uint dance, string botType)
         {
@@ -240,7 +240,7 @@ namespace Yupi.Emulator.Game.RoomBots
         ///     Gets a value indicating whether this instance is pet.
         /// </summary>
         /// <value><c>true</c> if this instance is pet; otherwise, <c>false</c>.</value>
-        internal bool IsPet => AiType == AiType.Pet;
+         bool IsPet => AiType == AiType.Pet;
 
         /// <summary>
         ///     Updates the specified room identifier.
@@ -265,7 +265,7 @@ namespace Yupi.Emulator.Game.RoomBots
         /// <param name="speechInterval">The speech interval.</param>
         /// <param name="automaticChat">if set to <c>true</c> [automatic chat].</param>
         /// <param name="mixPhrases">if set to <c>true</c> [mix phrases].</param>
-        internal void Update(uint roomId, string walkingMode, string name, string motto, string look, int x, int y,
+         void Update(uint roomId, string walkingMode, string name, string motto, string look, int x, int y,
             double z, int rot, int minX, int minY, int maxX, int maxY, List<string> speeches, List<string> responses,
             string gender, uint dance, uint speechInterval, bool automaticChat, bool mixPhrases)
         {
@@ -299,7 +299,7 @@ namespace Yupi.Emulator.Game.RoomBots
         /// </summary>
         /// <param name="mixPhrases">if set to <c>true</c> [mix phrases].</param>
         /// <returns>System.String.</returns>
-        internal string GetRandomSpeech(bool mixPhrases)
+         string GetRandomSpeech(bool mixPhrases)
         {
             if (!RandomSpeech.Any())
                 return string.Empty;
@@ -323,7 +323,7 @@ namespace Yupi.Emulator.Game.RoomBots
         /// <param name="virtualId">The virtual identifier.</param>
         /// <param name="botId">The bot identifier.</param>
         /// <returns>BotAI.</returns>
-        internal BotAi GenerateBotAi(int virtualId, int botId)
+         BotAi GenerateBotAi(int virtualId, int botId)
         {
             AiType aiType = AiType;
 

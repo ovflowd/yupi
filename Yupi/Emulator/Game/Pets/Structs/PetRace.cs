@@ -29,7 +29,7 @@ namespace Yupi.Emulator.Game.Pets.Structs
     /// <summary>
     ///     Class PetRace.
     /// </summary>
-    internal class PetRace
+     class PetRace
     {
         /// <summary>
         ///     The color1

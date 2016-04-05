@@ -30,7 +30,7 @@ using DotNetty.Transport.Channels;
 
 namespace Yupi.Net.DotNettyImpl
 {
-	public class MessageHandler : ChannelHandlerAdapter, ISession
+	public class MessageHandler<T> : ChannelHandlerAdapter, ISession<T>
     {
 		public IPAddress RemoteAddress {
 			get {
@@ -38,15 +38,17 @@ namespace Yupi.Net.DotNettyImpl
 			}
 		}
 
+		public T UserData { get; set; }
+
 		private IChannel Channel;
-		private MessageReceived OnMessage;
-		private ConnectionClosed OnConnectionClosed;
-		private ConnectionOpened OnConnectionOpened;
+		private MessageReceived<T> OnMessage;
+		private ConnectionClosed<T> OnConnectionClosed;
+		private ConnectionOpened<T> OnConnectionOpened;
 
 		private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger
 			(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-		public MessageHandler (IChannel channel, MessageReceived onMessage, ConnectionClosed onConnectionClosed, ConnectionOpened onConnectionOpened)
+		public MessageHandler (IChannel channel, MessageReceived<T> onMessage, ConnectionClosed<T> onConnectionClosed, ConnectionOpened<T> onConnectionOpened)
 		{
 			this.Channel = channel;
 			this.OnMessage = onMessage;

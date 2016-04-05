@@ -765,5 +765,9 @@
       <Project>{8D09AE29-53E7-405D-9F9E-CDDE1164851A}</Project>
       <Name>Yupi.Net</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Yupi.Protocol\Yupi.Protocol.csproj">
+      <Project>{9AE3ADAB-A767-4123-BE78-34E1DFCF33FB}</Project>
+      <Name>Yupi.Protocol</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

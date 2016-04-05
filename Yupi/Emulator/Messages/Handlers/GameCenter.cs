@@ -7,12 +7,12 @@ namespace Yupi.Emulator.Messages.Handlers
     /// <summary>
     ///     Class MessageHandler.
     /// </summary>
-    internal partial class MessageHandler
+     partial class MessageHandler
     {
         /// <summary>
         ///     Games the center load game.
         /// </summary>
-        internal void GameCenterLoadGame()
+         void GameCenterLoadGame()
         {
             SimpleServerMessageBuffer achievements =
                 new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("GameCenterGameAchievementsMessageComposer"));
@@ -128,7 +128,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Games the center join queue.
         /// </summary>
-        internal void GameCenterJoinQueue()
+         void GameCenterJoinQueue()
         {
             SimpleServerMessageBuffer joinQueue = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("GameCenterJoinGameQueueMessageComposer"));
             joinQueue.AppendInteger(18);

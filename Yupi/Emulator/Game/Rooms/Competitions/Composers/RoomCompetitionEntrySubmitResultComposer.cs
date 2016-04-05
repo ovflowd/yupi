@@ -30,7 +30,7 @@ namespace Yupi.Emulator.Game.Rooms.Competitions.Composers
 {
     class RoomCompetitionEntrySubmitResultComposer
     {
-        internal static SimpleServerMessageBuffer Compose(RoomCompetition competition, SimpleServerMessageBuffer messageBuffer, int status, Room room = null)
+         static SimpleServerMessageBuffer Compose(RoomCompetition competition, SimpleServerMessageBuffer messageBuffer, int status, Room room = null)
         {
             messageBuffer.Init(PacketLibraryManager.OutgoingHandler("CompetitionEntrySubmitResultMessageComposer"));
 

@@ -5,14 +5,14 @@ namespace Yupi.Emulator.Game.Rooms.Items
     /// <summary>
     ///     Class ByteToItemEffectEnum.
     /// </summary>
-    internal static class ByteToItemEffectEnum
+     static class ByteToItemEffectEnum
     {
         /// <summary>
         ///     Parses the specified p byte.
         /// </summary>
         /// <param name="pByte">The p byte.</param>
         /// <returns>ItemEffectType.</returns>
-        internal static ItemEffectType Parse(byte pByte)
+         static ItemEffectType Parse(byte pByte)
         {
             switch (pByte)
             {

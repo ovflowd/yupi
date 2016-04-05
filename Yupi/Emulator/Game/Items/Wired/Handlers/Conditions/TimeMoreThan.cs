@@ -7,7 +7,7 @@ using Yupi.Emulator.Game.Rooms;
 
 namespace Yupi.Emulator.Game.Items.Wired.Handlers.Conditions
 {
-    internal class TimeMoreThan : IWiredItem
+     class TimeMoreThan : IWiredItem
     {
         public TimeMoreThan(RoomItem item, Room room)
         {

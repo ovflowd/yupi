@@ -29,83 +29,83 @@ namespace Yupi.Emulator.Game.Groups.Structs
     /// <summary>
     ///     Class GroupForumPost.
     /// </summary>
-    internal class GroupForumPost
+     class GroupForumPost
     {
         /// <summary>
         ///     The group identifier
         /// </summary>
-        internal uint GroupId;
+         uint GroupId;
 
         /// <summary>
         ///     The hidden
         /// </summary>
-        internal bool Hidden;
+         bool Hidden;
 
         /// <summary>
         ///     The hider
         /// </summary>
-        internal string Hider;
+         string Hider;
 
         /// <summary>
         ///     The identifier
         /// </summary>
-        internal uint Id;
+         uint Id;
 
         /// <summary>
         ///     The locked
         /// </summary>
-        internal bool Locked;
+         bool Locked;
 
         /// <summary>
         ///     The message count
         /// </summary>
-        internal int MessageCount;
+         int MessageCount;
 
         /// <summary>
         ///     The parent identifier
         /// </summary>
-        internal uint ParentId;
+         uint ParentId;
 
         /// <summary>
         ///     The pinned
         /// </summary>
-        internal bool Pinned;
+         bool Pinned;
 
         /// <summary>
         ///     The post content
         /// </summary>
-        internal string PostContent;
+         string PostContent;
 
         /// <summary>
         ///     The poster identifier
         /// </summary>
-        internal uint PosterId;
+         uint PosterId;
 
         /// <summary>
         ///     The poster look
         /// </summary>
-        internal string PosterLook;
+         string PosterLook;
 
         /// <summary>
         ///     The poster name
         /// </summary>
-        internal string PosterName;
+         string PosterName;
 
         /// <summary>
         ///     The subject
         /// </summary>
-        internal string Subject;
+         string Subject;
 
         /// <summary>
         ///     The timestamp
         /// </summary>
-        internal int Timestamp;
+         int Timestamp;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="GroupForumPost" /> class.
         /// </summary>
         /// <param name="row">The row.</param>
-        internal GroupForumPost(DataRow row)
+         GroupForumPost(DataRow row)
         {
             Id = uint.Parse(row["id"].ToString());
             ParentId = uint.Parse(row["parent_id"].ToString());

@@ -7,7 +7,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class MassDiamonds. This class cannot be inherited.
     /// </summary>
-    internal sealed class MassDiamonds : Command
+     sealed class MassDiamonds : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="MassDiamonds" /> class.

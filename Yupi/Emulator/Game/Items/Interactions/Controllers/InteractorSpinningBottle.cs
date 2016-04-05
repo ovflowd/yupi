@@ -4,7 +4,7 @@ using Yupi.Emulator.Game.Items.Interfaces;
 
 namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 {
-    internal class InteractorSpinningBottle : FurniInteractorModel
+     class InteractorSpinningBottle : FurniInteractorModel
     {
         public override void OnPlace(GameClient session, RoomItem item)
         {

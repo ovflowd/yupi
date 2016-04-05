@@ -34,12 +34,12 @@ namespace Yupi.Emulator.Messages.Handlers
     /// <summary>
     ///     Class MessageHandler.
     /// </summary>
-    internal partial class MessageHandler
+     partial class MessageHandler
     {
         /// <summary>
         ///     Gets the pub.
         /// </summary>
-        internal void GetPub()
+         void GetPub()
         {
             uint roomId = Request.GetUInt32();
             
@@ -61,7 +61,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Opens the pub.
         /// </summary>
-        internal void OpenPub()
+         void OpenPub()
         {
             Request.GetInteger();
 
@@ -80,7 +80,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     News the navigator.
         /// </summary>
-        internal void NewNavigator()
+         void NewNavigator()
         {
             if (Session == null)
                 return;
@@ -91,7 +91,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Searches the new navigator.
         /// </summary>
-        internal void SearchNewNavigator()
+         void SearchNewNavigator()
         {
             if (Session == null)
                 return;
@@ -106,7 +106,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     News the navigator resize.
         /// </summary>
-        internal void NewNavigatorResize()
+         void NewNavigatorResize()
         {
             int x = Request.GetInteger();
             int y = Request.GetInteger();
@@ -123,7 +123,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     News the navigator add saved search.
         /// </summary>
-        internal void NewNavigatorAddSavedSearch()
+         void NewNavigatorAddSavedSearch()
         {
             if (Session.GetHabbo().NavigatorLogs.Count > 50)
             {
@@ -148,7 +148,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     News the navigator delete saved search.
         /// </summary>
-        internal void NewNavigatorDeleteSavedSearch()
+         void NewNavigatorDeleteSavedSearch()
         {
             int searchId = Request.GetInteger();
             
@@ -163,7 +163,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Gets the room information.
         /// </summary>
-        internal void GetRoomInfo()
+         void GetRoomInfo()
         {
             if (Session.GetHabbo() == null)
                 return;
@@ -189,7 +189,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     News the navigator flat cats.
         /// </summary>
-        internal void NewNavigatorFlatCats()
+         void NewNavigatorFlatCats()
         {
             if (Session.GetHabbo() == null)
                 return;
@@ -200,7 +200,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Opens the flat.
         /// </summary>
-        internal void OpenFlat()
+         void OpenFlat()
         {
             if (Session.GetHabbo() == null)
                 return;
@@ -212,7 +212,7 @@ namespace Yupi.Emulator.Messages.Handlers
             PrepareRoomForUser(roomId, pWd);
         }
 
-        internal void ToggleStaffPick()
+         void ToggleStaffPick()
         {
             uint roomId = Request.GetUInt32();
             
@@ -237,7 +237,7 @@ namespace Yupi.Emulator.Messages.Handlers
                     
                     uint lastInsertId = (uint) queryReactor.InsertQuery();
                     
-                    PublicItem publicItem = new PublicItem(lastInsertId, 0, string.Empty, string.Empty, string.Empty, PublicImageType.Internal, room.RoomId, 0, -2, false, 1);
+					PublicItem publicItem = new PublicItem(lastInsertId, 0, string.Empty, string.Empty, string.Empty, PublicImageType.Internal, room.RoomId, 0, -2, false, 1);
                     
                     Yupi.GetGame().GetNavigator().AddPublicRoom(publicItem);
                 }

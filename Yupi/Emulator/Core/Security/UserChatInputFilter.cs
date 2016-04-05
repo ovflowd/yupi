@@ -35,7 +35,7 @@ namespace Yupi.Emulator.Core.Security
     /// <summary>
     ///     Class Filter.
     /// </summary>
-    internal static class UserChatInputFilter
+     static class UserChatInputFilter
     {
         /// <summary>
         ///     The dictionary

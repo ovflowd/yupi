@@ -18,7 +18,7 @@ namespace Yupi.Emulator.Game.Items
     /// <summary>
     ///     Class ItemManager.
     /// </summary>
-    internal class ItemManager
+     class ItemManager
     {
         /// <summary>
         ///     The items
@@ -28,7 +28,7 @@ namespace Yupi.Emulator.Game.Items
         /// <summary>
         ///     Initializes a new instance of the <see cref="ItemManager" /> class.
         /// </summary>
-        internal ItemManager()
+         ItemManager()
         {
             _items = new HybridDictionary();
         }
@@ -38,7 +38,7 @@ namespace Yupi.Emulator.Game.Items
         /// </summary>
         /// <param name="dbClient">The database client.</param>
         /// <param name="itemLoaded">The item loaded.</param>
-        internal void LoadItems(IQueryAdapter dbClient, out uint itemLoaded)
+         void LoadItems(IQueryAdapter dbClient, out uint itemLoaded)
         {
             LoadItems(dbClient);
             itemLoaded = (uint) _items.Count;
@@ -50,7 +50,7 @@ namespace Yupi.Emulator.Game.Items
         ///     Loads the items.
         /// </summary>
         /// <param name="dbClient">The database client.</param>
-        internal void LoadItems(IQueryAdapter dbClient)
+         void LoadItems(IQueryAdapter dbClient)
         {
             _items.Clear();
 
@@ -169,9 +169,9 @@ namespace Yupi.Emulator.Game.Items
             }
         }
 
-        internal Item GetItem(uint id) => (Item) _items[id];
+         Item GetItem(uint id) => (Item) _items[id];
 
-        internal bool GetItem(string itemName, out Item item)
+         bool GetItem(string itemName, out Item item)
         {
             foreach (DictionaryEntry entry in _items)
             {
@@ -186,12 +186,12 @@ namespace Yupi.Emulator.Game.Items
             return false;
         }
 
-        internal Item GetItemByName(string name)
+         Item GetItemByName(string name)
             =>
                 (from DictionaryEntry entry in _items select (Item) entry.Value).FirstOrDefault(
                     item => item.Name == name);
 
-        internal Item GetItemBySpriteId(int spriteId)
+         Item GetItemBySpriteId(int spriteId)
             =>
                 (from DictionaryEntry entry in _items select (Item) entry.Value).FirstOrDefault(
                     item => item.SpriteId == spriteId);
@@ -201,9 +201,9 @@ namespace Yupi.Emulator.Game.Items
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns><c>true</c> if the specified identifier contains item; otherwise, <c>false</c>.</returns>
-        internal bool ContainsItem(uint id) => _items.Contains(id);
+         bool ContainsItem(uint id) => _items.Contains(id);
 
-        internal bool ContainsItemByName(string name)
+         bool ContainsItemByName(string name)
             =>
                 (from DictionaryEntry entry in _items select (Item) entry.Value).FirstOrDefault(
                     item => item.Name == name) != null;

@@ -18,11 +18,11 @@ namespace Yupi.Messages
 	}
 
 	public class AbstractComposerVoid : AbstractComposer {
-		public abstract void Compose(ISession<GameClient> session);
+		public abstract void Compose(GameClient session);
 	}
 
 	public abstract class AbstractComposer<T> : AbstractComposer {
-		public abstract void Compose(ISession<GameClient> session, T value);
+		public abstract void Compose(GameClient session, T value);
 	}
 }
 

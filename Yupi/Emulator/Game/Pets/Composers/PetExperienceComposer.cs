@@ -3,9 +3,9 @@ using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Pets.Composers
 {
-    internal class PetExperienceComposer
+     class PetExperienceComposer
     {
-        internal static void GenerateMessage(Pet pet, uint amount)
+         static void GenerateMessage(Pet pet, uint amount)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("AddPetExperienceMessageComposer"));
 

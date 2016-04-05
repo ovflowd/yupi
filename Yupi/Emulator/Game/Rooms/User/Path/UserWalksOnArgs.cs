@@ -10,7 +10,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// <summary>
         ///     The user
         /// </summary>
-        internal readonly RoomUser User;
+         readonly RoomUser User;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="UserWalksOnArgs" /> class.

@@ -79,104 +79,104 @@ namespace Yupi.Emulator.Game.Users
         /// <summary>
         ///     The achievements
         /// </summary>
-        internal Dictionary<string, UserAchievement> Achievements;
+         Dictionary<string, UserAchievement> Achievements;
 
         /// <summary>
         ///     The answered polls
         /// </summary>
-        internal HashSet<uint> AnsweredPolls;
+         HashSet<uint> AnsweredPolls;
 
         // NEW
-        internal bool AnsweredPool = false;
+         bool AnsweredPool = false;
 
         /// <summary>
         ///     The appear offline
         /// </summary>
-        internal bool AppearOffline;
+         bool AppearOffline;
 
         /// <summary>
         ///     Bobba Filter
         /// </summary>
-        internal int BobbaFiltered = 0;
+         int BobbaFiltered = 0;
 
         /// <summary>
         ///     The builders expire
         /// </summary>
-        internal int BuildersExpire;
+         int BuildersExpire;
 
         /// <summary>
         ///     The builders items maximum
         /// </summary>
-        internal int BuildersItemsMax;
+         int BuildersItemsMax;
 
         /// <summary>
         ///     The builders items used
         /// </summary>
-        internal int BuildersItemsUsed;
+         int BuildersItemsUsed;
 
         /// <summary>
         ///     The _clothing manager
         /// </summary>
-        internal UserClothesManager ClothesManagerManager;
+         UserClothesManager ClothesManagerManager;
 
         /// <summary>
         ///     The create date
         /// </summary>
-        internal double CreateDate;
+         double CreateDate;
 
         /// <summary>
         ///     The credits
         /// </summary>
-        internal uint Credits, AchievementPoints;
+         uint Credits, AchievementPoints;
 
         /// <summary>
         ///     The current quest identifier
         /// </summary>
-        internal int CurrentQuestId;
+         int CurrentQuestId;
 
         /// <summary>
         ///     The current room identifier
         /// </summary>
-        internal uint CurrentRoomId;
+         uint CurrentRoomId;
 
         /// <summary>
         ///     The current talent level
         /// </summary>
-        internal int CurrentTalentLevel;
+         int CurrentTalentLevel;
 
-        internal bool DisableEventAlert;
+         bool DisableEventAlert;
 
         /// <summary>
         ///     The disconnected
         /// </summary>
-        internal bool IsOnline;
+         bool IsOnline;
 
         /// <summary>
         ///     The credits
         /// </summary>
-        internal uint Duckets;
+         uint Duckets;
 
-        internal int DutyLevel;
+         int DutyLevel;
 
         /// <summary>
         ///     The favorite rooms
         /// </summary>
-        internal List<uint> FavoriteRooms;
+         List<uint> FavoriteRooms;
 
         /// <summary>
         ///     The favourite group
         /// </summary>
-        internal uint FavouriteGroup;
+         uint FavouriteGroup;
 
         /// <summary>
         ///     The flood time
         /// </summary>
-        internal int FloodTime;
+         int FloodTime;
 
         /// <summary>
         ///     The friend count
         /// </summary>
-        internal uint FriendCount;
+         uint FriendCount;
 
         /// <summary>
         ///     The guide other user
@@ -186,208 +186,208 @@ namespace Yupi.Emulator.Game.Users
         /// <summary>
         ///     The has friend requests disabled
         /// </summary>
-        internal bool HasFriendRequestsDisabled;
+         bool HasFriendRequestsDisabled;
 
         /// <summary>
         ///     The hide in room
         /// </summary>
-        internal bool HideInRoom;
+         bool HideInRoom;
 
         /// <summary>
         ///     The home room
         /// </summary>
-        internal uint HomeRoom;
+         uint HomeRoom;
 
         /// <summary>
         ///     The hopper identifier
         /// </summary>
-        internal uint HopperId;
+         uint HopperId;
 
         /// <summary>
         ///     The identifier
         /// </summary>
-        internal uint Id;
+         uint Id;
 
         /// <summary>
         ///     The is hopping
         /// </summary>
-        internal bool IsHopping;
+         bool IsHopping;
 
         /// <summary>
         ///     The is teleporting
         /// </summary>
-        internal bool IsTeleporting;
+         bool IsTeleporting;
 
         /// <summary>
         ///     The last change
         /// </summary>
-        internal int LastChange;
+         int LastChange;
 
         /// <summary>
         ///     The last gift open time
         /// </summary>
-        internal DateTime LastGiftOpenTime;
+         DateTime LastGiftOpenTime;
 
         /// <summary>
         ///     The last gift purchase time
         /// </summary>
-        internal DateTime LastGiftPurchaseTime;
+         DateTime LastGiftPurchaseTime;
 
         /// <summary>
         ///     The last online
         /// </summary>
-        internal int LastOnline;
+         int LastOnline;
 
         /// <summary>
         ///     The last quest completed
         /// </summary>
-        internal int LastQuestCompleted = 0;
+         int LastQuestCompleted = 0;
 
         public uint LastSelectedUser = 0;
 
         /// <summary>
         ///     The last SQL query
         /// </summary>
-        internal int LastSqlQuery;
+         int LastSqlQuery;
 
         public DateTime LastUsed = DateTime.Now;
 
         /// <summary>
         ///     The loading checks passed
         /// </summary>
-        internal bool LoadingChecksPassed;
+         bool LoadingChecksPassed;
 
         /// <summary>
         ///     The loading room
         /// </summary>
-        internal uint LoadingRoom;
+         uint LoadingRoom;
 
         /// <summary>
         ///     The minimail unread messages
         /// </summary>
-        internal uint MinimailUnreadMessages;
+         uint MinimailUnreadMessages;
 
         /// <summary>
         ///     The muted
         /// </summary>
-        internal bool Muted;
+         bool Muted;
 
         /// <summary>
         ///     The muted users
         /// </summary>
-        internal List<uint> MutedUsers;
+         List<uint> MutedUsers;
 
         /// <summary>
         ///     The navigator logs
         /// </summary>
-        internal Dictionary<int, UserSearchLog> NavigatorLogs;
+         Dictionary<int, UserSearchLog> NavigatorLogs;
 
         /// <summary>
         ///     The nux passed
         /// </summary>
-        internal bool NuxPassed;
+         bool NuxPassed;
 
         /// <summary>
         ///     The on duty
         /// </summary>
-        internal bool OnDuty;
+         bool OnDuty;
 
         /// <summary>
         ///     The own rooms serialized
         /// </summary>
-        internal bool OwnRoomsSerialized = false;
+         bool OwnRoomsSerialized = false;
 
-        internal UserPreferences Preferences;
+         UserPreferences Preferences;
 
         /// <summary>
         ///     The previous online
         /// </summary>
-        internal int PreviousOnline;
+         int PreviousOnline;
 
         /// <summary>
         ///     The quests
         /// </summary>
-        internal Dictionary<int, int> Quests;
+         Dictionary<int, int> Quests;
 
         /// <summary>
         ///     The rank
         /// </summary>
-        internal uint Rank;
+         uint Rank;
 
         /// <summary>
         ///     The rated rooms
         /// </summary>
-        internal HashSet<uint> RatedRooms;
+         HashSet<uint> RatedRooms;
 
         /// <summary>
         ///     The recently visited rooms
         /// </summary>
-        internal LinkedList<uint> RecentlyVisitedRooms;
+         LinkedList<uint> RecentlyVisitedRooms;
 
         /// <summary>
         ///     The relationships
         /// </summary>
-        internal Dictionary<int, Relationship> Relationships;
+         Dictionary<int, Relationship> Relationships;
 
         /// <summary>
         ///     The release name
         /// </summary>
-        internal string ReleaseName;
+         string ReleaseName;
 
         /// <summary>
         ///     The respect
         /// </summary>
-        internal int Respect, DailyRespectPoints, DailyPetRespectPoints, DailyCompetitionVotes;
+         int Respect, DailyRespectPoints, DailyPetRespectPoints, DailyCompetitionVotes;
 
         /// <summary>
         ///     The spam flood time
         /// </summary>
-        internal DateTime SpamFloodTime;
+         DateTime SpamFloodTime;
 
         /// <summary>
         ///     The spam protection bol
         /// </summary>
-        internal bool SpamProtectionBol;
+         bool SpamProtectionBol;
 
         /// <summary>
         ///     The spam protection count
         /// </summary>
-        internal int SpamProtectionCount = 1, SpamProtectionTime, SpamProtectionAbuse;
+         int SpamProtectionCount = 1, SpamProtectionTime, SpamProtectionAbuse;
 
         /// <summary>
         ///     The spectator mode
         /// </summary>
-        internal bool SpectatorMode;
+         bool SpectatorMode;
 
         /// <summary>
         ///     The tags
         /// </summary>
-        internal List<string> Tags;
+         List<string> Tags;
 
         /// <summary>
         ///     The talents
         /// </summary>
-        internal Dictionary<int, UserTalent> Talents;
+         Dictionary<int, UserTalent> Talents;
 
         /// <summary>
         ///     The talent status
         /// </summary>
-        internal string TalentStatus;
+         string TalentStatus;
 
         /// <summary>
         ///     The teleporter identifier
         /// </summary>
-        internal uint TeleporterId;
+         uint TeleporterId;
 
         /// <summary>
         ///     The teleporting room identifier
         /// </summary>
-        internal uint TeleportingRoomId;
+         uint TeleportingRoomId;
 
         /// <summary>
         ///     TimeLoggedOn
         /// </summary>
-        internal DateTime TimeLoggedOn;
+         DateTime TimeLoggedOn;
 
         /// <summary>
         ///     The timer_ elapsed
@@ -397,34 +397,34 @@ namespace Yupi.Emulator.Game.Users
         /// <summary>
         ///     The trade locked
         /// </summary>
-        internal bool TradeLocked;
+         bool TradeLocked;
 
         /// <summary>
         ///     The trade lock expire
         /// </summary>
-        internal int TradeLockExpire;
+         int TradeLockExpire;
 
         /// <summary>
         ///     The user groups
         /// </summary>
-        internal HashSet<GroupMember> UserGroups;
+         HashSet<GroupMember> UserGroups;
 
         /// <summary>
         ///     The user name
         /// </summary>
-        internal string UserName, RealName, Motto, Look, Gender;
+         string UserName, RealName, Motto, Look, Gender;
 
         /// <summary>
         ///     The users rooms
         /// </summary>
-        internal HashSet<RoomData> UsersRooms;
+         HashSet<RoomData> UsersRooms;
 
         /// <summary>
         ///     The vip
         /// </summary>
-        internal bool Vip;
+         bool Vip;
 
-        internal YoutubeManager YoutubeManager;
+         YoutubeManager YoutubeManager;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Habbo" /> class.
@@ -466,7 +466,7 @@ namespace Yupi.Emulator.Game.Users
         /// <param name="naviLogs">The navi logs.</param>
         /// <param name="dailyCompetitionVotes"></param>
         /// <param name="dutyLevel"></param>
-        internal Habbo(uint id, string userName, string realName, uint rank, string motto, string look, string gender,
+         Habbo(uint id, string userName, string realName, uint rank, string motto, string look, string gender,
             uint credits, uint duckets, bool muted, uint homeRoom, int respect,
             int dailyRespectPoints, int dailyPetRespectPoints, bool hasFriendRequestsDisabled, int currentQuestId, uint achievementPoints, int lastOnline, bool appearOffline,
             bool hideInRoom, bool vip, double createDate, string citizenShip, uint diamonds,
@@ -555,7 +555,7 @@ namespace Yupi.Emulator.Game.Users
             DisableEventAlert = false;
         }
 
-        internal uint Diamonds
+         uint Diamonds
         {
             get
             {
@@ -587,7 +587,7 @@ namespace Yupi.Emulator.Game.Users
         ///     Gets the head part.
         /// </summary>
         /// <value>The head part.</value>
-        internal string HeadPart
+         string HeadPart
         {
             get
             {
@@ -614,32 +614,32 @@ namespace Yupi.Emulator.Game.Users
         ///     Gets a value indicating whether [in room].
         /// </summary>
         /// <value><c>true</c> if [in room]; otherwise, <c>false</c>.</value>
-        internal bool InRoom => CurrentRoomId >= 1 && CurrentRoom != null;
+         bool InRoom => CurrentRoomId >= 1 && CurrentRoom != null;
 
         /// <summary>
         ///     Gets the current room.
         /// </summary>
         /// <value>The current room.</value>
-        internal Room CurrentRoom
+         Room CurrentRoom
             => CurrentRoomId <= 0u ? null : Yupi.GetGame().GetRoomManager().GetRoom(CurrentRoomId);
 
         /// <summary>
         ///     Gets a value indicating whether this instance is helper.
         /// </summary>
         /// <value><c>true</c> if this instance is helper; otherwise, <c>false</c>.</value>
-        internal bool IsHelper => TalentStatus == "helper" || Rank >= 4;
+         bool IsHelper => TalentStatus == "helper" || Rank >= 4;
 
         /// <summary>
         ///     Gets a value indicating whether this instance is citizen.
         /// </summary>
         /// <value><c>true</c> if this instance is citizen; otherwise, <c>false</c>.</value>
-        internal bool IsCitizen => CurrentTalentLevel > 4;
+         bool IsCitizen => CurrentTalentLevel > 4;
 
         /// <summary>
         ///     Gets my groups.
         /// </summary>
         /// <value>My groups.</value>
-        internal List<uint> MyGroups
+         List<uint> MyGroups
         {
             get
             {
@@ -664,7 +664,7 @@ namespace Yupi.Emulator.Game.Users
         ///     Initializes the information.
         /// </summary>
         /// <param name="data">The data.</param>
-        internal void InitInformation(UserData data)
+         void InitInformation(UserData data)
         {
             _subscriptionManager = new SubscriptionManager(Id, data);
             _badgeComponent = new UserBadgeManager(Id, data);
@@ -683,7 +683,7 @@ namespace Yupi.Emulator.Game.Users
         /// </summary>
         /// <param name="client">The client.</param>
         /// <param name="data">The data.</param>
-        internal void Init(GameClient client, UserData data)
+         void Init(GameClient client, UserData data)
         {
             _mClient = client;
             _subscriptionManager = new SubscriptionManager(Id, data);
@@ -709,7 +709,7 @@ namespace Yupi.Emulator.Game.Users
         /// <summary>
         ///     Updates the rooms.
         /// </summary>
-        internal void UpdateRooms()
+         void UpdateRooms()
         {
             using (IQueryAdapter dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
             {
@@ -730,7 +730,7 @@ namespace Yupi.Emulator.Game.Users
         ///     Loads the data.
         /// </summary>
         /// <param name="data">The data.</param>
-        internal void LoadData(UserData data)
+         void LoadData(UserData data)
         {
             LoadAchievements(data.Achievements);
             LoadTalents(data.Talents);
@@ -744,7 +744,7 @@ namespace Yupi.Emulator.Game.Users
         /// </summary>
         /// <param name="cmd">The command.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool GotCommand(string cmd)
+         bool GotCommand(string cmd)
         {
             return Yupi.GetGame().GetRoleManager().RankGotCommand(Rank, cmd);
         }
@@ -754,7 +754,7 @@ namespace Yupi.Emulator.Game.Users
         /// </summary>
         /// <param name="fuse">The fuse.</param>
         /// <returns><c>true</c> if the specified fuse has fuse; otherwise, <c>false</c>.</returns>
-        internal bool HasFuse(string fuse)
+         bool HasFuse(string fuse)
         {
             return Yupi.GetGame().GetRoleManager().RankHasRight(Rank, fuse) ||
                    (GetSubscriptionManager().HasSubscription &&
@@ -767,7 +767,7 @@ namespace Yupi.Emulator.Game.Users
         ///     Loads the favorites.
         /// </summary>
         /// <param name="roomId">The room identifier.</param>
-        internal void LoadFavorites(List<uint> roomId)
+         void LoadFavorites(List<uint> roomId)
         {
             FavoriteRooms = roomId;
         }
@@ -776,7 +776,7 @@ namespace Yupi.Emulator.Game.Users
         ///     Loads the muted users.
         /// </summary>
         /// <param name="usersMuted">The users muted.</param>
-        internal void LoadMutedUsers(List<uint> usersMuted)
+         void LoadMutedUsers(List<uint> usersMuted)
         {
             MutedUsers = usersMuted;
         }
@@ -785,7 +785,7 @@ namespace Yupi.Emulator.Game.Users
         ///     Loads the tags.
         /// </summary>
         /// <param name="tags">The tags.</param>
-        internal void LoadTags(List<string> tags)
+         void LoadTags(List<string> tags)
         {
             Tags = tags;
         }
@@ -793,7 +793,7 @@ namespace Yupi.Emulator.Game.Users
         /// <summary>
         ///     Serializes the club.
         /// </summary>
-        internal void SerializeClub()
+         void SerializeClub()
         {
             GameClient client = GetClient();
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
@@ -852,7 +852,7 @@ namespace Yupi.Emulator.Game.Users
         ///     Loads the achievements.
         /// </summary>
         /// <param name="achievements">The achievements.</param>
-        internal void LoadAchievements(Dictionary<string, UserAchievement> achievements)
+         void LoadAchievements(Dictionary<string, UserAchievement> achievements)
         {
             Achievements = achievements;
         }
@@ -861,7 +861,7 @@ namespace Yupi.Emulator.Game.Users
         ///     Loads the talents.
         /// </summary>
         /// <param name="talents">The talents.</param>
-        internal void LoadTalents(Dictionary<int, UserTalent> talents)
+         void LoadTalents(Dictionary<int, UserTalent> talents)
         {
             Talents = talents;
         }
@@ -871,7 +871,7 @@ namespace Yupi.Emulator.Game.Users
         /// </summary>
         /// <param name="reason">The reason.</param>
         /// <param name="showConsole"></param>
-        internal void OnDisconnect(string reason, bool showConsole = false)
+         void OnDisconnect(string reason, bool showConsole = false)
         {
             if (!IsOnline)
                 return;
@@ -945,7 +945,7 @@ namespace Yupi.Emulator.Game.Users
         /// <summary>
         ///     Initializes the messenger.
         /// </summary>
-        internal void InitMessenger()
+         void InitMessenger()
         {
             GameClient client = GetClient();
 
@@ -974,7 +974,7 @@ namespace Yupi.Emulator.Game.Users
         /// <summary>
         ///     Updates the credits balance.
         /// </summary>
-        internal void UpdateCreditsBalance()
+         void UpdateCreditsBalance()
         {
             if (_mClient?.GetMessageHandler() == null || _mClient.GetMessageHandler().GetResponse() == null)
                 return;
@@ -989,7 +989,7 @@ namespace Yupi.Emulator.Game.Users
         /// <summary>
         ///     Updates the activity points balance.
         /// </summary>
-        internal void UpdateActivityPointsBalance()
+         void UpdateActivityPointsBalance()
         {
             if (_mClient?.GetMessageHandler() == null || _mClient.GetMessageHandler().GetResponse() == null)
                 return;
@@ -1010,7 +1010,7 @@ namespace Yupi.Emulator.Game.Users
         /// <summary>
         ///     Updates the seasonal currency balance.
         /// </summary>
-        internal void UpdateSeasonalCurrencyBalance()
+         void UpdateSeasonalCurrencyBalance()
         {
             if (_mClient?.GetMessageHandler() == null || _mClient.GetMessageHandler().GetResponse() == null)
                 return;
@@ -1032,7 +1032,7 @@ namespace Yupi.Emulator.Game.Users
         ///     Notifies the new pixels.
         /// </summary>
         /// <param name="change">The change.</param>
-        internal void NotifyNewPixels(uint change)
+         void NotifyNewPixels(uint change)
         {
             if (_mClient?.GetMessageHandler() == null || _mClient.GetMessageHandler().GetResponse() == null)
                 return;
@@ -1050,7 +1050,7 @@ namespace Yupi.Emulator.Game.Users
         ///     Notifies the new diamonds.
         /// </summary>
         /// <param name="change">The change.</param>
-        internal void NotifyNewDiamonds(int change)
+         void NotifyNewDiamonds(int change)
         {
             if (_mClient?.GetMessageHandler() == null || _mClient.GetMessageHandler().GetResponse() == null)
                 return;
@@ -1070,7 +1070,7 @@ namespace Yupi.Emulator.Game.Users
         /// <param name="isValid">if set to <c>true</c> [is valid].</param>
         /// <param name="productName">Name of the product.</param>
         /// <param name="productDescription">The product description.</param>
-        internal void NotifyVoucher(bool isValid, string productName, string productDescription)
+         void NotifyVoucher(bool isValid, string productName, string productDescription)
         {
             if (isValid)
             {
@@ -1093,7 +1093,7 @@ namespace Yupi.Emulator.Game.Users
         /// <summary>
         ///     Mutes this instance.
         /// </summary>
-        internal void Mute()
+         void Mute()
         {
             if (!Muted)
                 Muted = true;
@@ -1102,7 +1102,7 @@ namespace Yupi.Emulator.Game.Users
         /// <summary>
         ///     Uns the mute.
         /// </summary>
-        internal void UnMute()
+         void UnMute()
         {
             if (Muted)
                 GetClient().SendNotif("You were unmuted.");
@@ -1117,38 +1117,38 @@ namespace Yupi.Emulator.Game.Users
         ///     Gets the subscription manager.
         /// </summary>
         /// <returns>SubscriptionManager.</returns>
-        internal SubscriptionManager GetSubscriptionManager() => _subscriptionManager;
+         SubscriptionManager GetSubscriptionManager() => _subscriptionManager;
 
-        internal YoutubeManager GetYoutubeManager() => YoutubeManager;
+         YoutubeManager GetYoutubeManager() => YoutubeManager;
 
         /// <summary>
         ///     Gets the messenger.
         /// </summary>
         /// <returns>HabboMessenger.</returns>
-        internal HabboMessenger GetMessenger() => _messenger;
+         HabboMessenger GetMessenger() => _messenger;
 
         /// <summary>
         ///     Gets the badge component.
         /// </summary>
         /// <returns>BadgeComponent.</returns>
-        internal UserBadgeManager GetBadgeComponent() => _badgeComponent;
+         UserBadgeManager GetBadgeComponent() => _badgeComponent;
 
         /// <summary>
         ///     Gets the inventory component.
         /// </summary>
         /// <returns>InventoryComponent.</returns>
-        internal InventoryComponent GetInventoryComponent() => _inventoryComponent;
+         InventoryComponent GetInventoryComponent() => _inventoryComponent;
 
         /// <summary>
         ///     Gets the avatar effects inventory component.
         /// </summary>
         /// <returns>AvatarEffectComponent.</returns>
-        internal AvatarEffectComponent GetAvatarEffectsInventoryComponent() => _avatarEffectComponent;
+         AvatarEffectComponent GetAvatarEffectsInventoryComponent() => _avatarEffectComponent;
 
         /// <summary>
         ///     Runs the database update.
         /// </summary>
-        internal void RunDbUpdate()
+         void RunDbUpdate()
         {
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
@@ -1166,7 +1166,7 @@ namespace Yupi.Emulator.Game.Users
         /// </summary>
         /// <param name="p">The p.</param>
         /// <returns>System.Int32.</returns>
-        internal int GetQuestProgress(int p)
+         int GetQuestProgress(int p)
         {
             int result;
 
@@ -1180,7 +1180,7 @@ namespace Yupi.Emulator.Game.Users
         /// </summary>
         /// <param name="p">The p.</param>
         /// <returns>UserAchievement.</returns>
-        internal UserAchievement GetAchievementData(string p)
+         UserAchievement GetAchievementData(string p)
         {
             UserAchievement result;
 
@@ -1194,7 +1194,7 @@ namespace Yupi.Emulator.Game.Users
         /// </summary>
         /// <param name="t">The t.</param>
         /// <returns>UserTalent.</returns>
-        internal UserTalent GetTalentData(int t)
+         UserTalent GetTalentData(int t)
         {
             UserTalent result;
 
@@ -1207,7 +1207,7 @@ namespace Yupi.Emulator.Game.Users
         ///     Gets the current talent level.
         /// </summary>
         /// <returns>System.Int32.</returns>
-        internal int GetCurrentTalentLevel()
+         int GetCurrentTalentLevel()
             =>
                 Talents.Values.Select(current => Yupi.GetGame().GetTalentManager().GetTalent(current.TalentId).Level)
                     .Concat(new[] {1})
@@ -1216,7 +1216,7 @@ namespace Yupi.Emulator.Game.Users
         /// <summary>
         ///     _s the load my groups.
         /// </summary>
-        internal void _LoadMyGroups()
+         void _LoadMyGroups()
         {
             using (IQueryAdapter commitableQueryAdapter = Yupi.GetDatabaseManager().GetQueryReactor())
             {
@@ -1234,13 +1234,13 @@ namespace Yupi.Emulator.Game.Users
         /// </summary>
         /// <param name="pollId">The poll identifier.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool GotPollData(uint pollId) => AnsweredPolls.Contains(pollId);
+         bool GotPollData(uint pollId) => AnsweredPolls.Contains(pollId);
 
         /// <summary>
         ///     Checks the trading.
         /// </summary>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool CheckTrading()
+         bool CheckTrading()
         {
             if (!TradeLocked)
                 return true;

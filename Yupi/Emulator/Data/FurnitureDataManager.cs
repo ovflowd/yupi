@@ -36,7 +36,7 @@ namespace Yupi.Emulator.Data
     /// <summary>
     ///     Class FurnitureDataManager.
     /// </summary>
-    internal static class FurnitureDataManager
+     static class FurnitureDataManager
     {
         /// <summary>
         ///     The floor items

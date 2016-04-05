@@ -9,7 +9,7 @@ using Yupi.Emulator.Game.Rooms.User;
 
 namespace Yupi.Emulator.Game.Items.Wired.Handlers.Effects
 {
-    internal class Chase : IWiredItem
+     class Chase : IWiredItem
     {
         public Chase(RoomItem item, Room room)
         {

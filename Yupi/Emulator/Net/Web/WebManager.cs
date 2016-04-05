@@ -30,7 +30,7 @@ using Newtonsoft.Json;
 
 namespace Yupi.Emulator.Net.Web
 {
-    internal static class WebManager
+     static class WebManager
     {
         /// <summary>
         ///     Does REST GET Request with jSON Return

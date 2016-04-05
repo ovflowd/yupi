@@ -6,7 +6,7 @@ using Yupi.Emulator.Game.Rooms.User;
 
 namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 {
-    internal class InteractorGroupGate : FurniInteractorModel
+     class InteractorGroupGate : FurniInteractorModel
     {
         public override void OnUserWalk(GameClient session, RoomItem item, RoomUser user)
         {

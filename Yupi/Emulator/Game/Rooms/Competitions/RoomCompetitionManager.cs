@@ -31,9 +31,9 @@ namespace Yupi.Emulator.Game.Rooms.Competitions
     /// <summary>
     ///     Class RoomCompetitionManager.
     /// </summary>
-    internal class RoomCompetitionManager
+     class RoomCompetitionManager
     {
-        internal RoomCompetition Competition;
+         RoomCompetition Competition;
 
         public RoomCompetitionManager()
         {

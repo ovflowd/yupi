@@ -6,7 +6,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class RefreshGroups. This class cannot be inherited.
     /// </summary>
-    internal sealed class RefreshGroups : Command
+     sealed class RefreshGroups : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="RefreshGroups" /> class.

@@ -13,14 +13,14 @@ using Yupi.Emulator.Game.Rooms.User;
 
 namespace Yupi.Emulator.Game.Rooms.Items.Games
 {
-    internal class GameManager
+     class GameManager
     {
         private QueuedDictionary<uint, RoomItem> _blueTeamItems;
         private QueuedDictionary<uint, RoomItem> _greenTeamItems;
         private QueuedDictionary<uint, RoomItem> _redTeamItems;
         private Room _room;
         private QueuedDictionary<uint, RoomItem> _yellowTeamItems;
-        internal int[] TeamPoints;
+         int[] TeamPoints;
 
         public GameManager(Room room)
         {
@@ -32,19 +32,19 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games
             _room = room;
         }
 
-        internal int[] Points
+         int[] Points
         {
             get { return TeamPoints; }
             set { TeamPoints = value; }
         }
 
-		internal event EventHandler<TeamScoreChangedArgs> OnScoreChanged;
+		 event EventHandler<TeamScoreChangedArgs> OnScoreChanged;
 
-		internal event EventHandler OnGameStart;
+		 event EventHandler OnGameStart;
 
-		internal event EventHandler OnGameEnd;
+		 event EventHandler OnGameEnd;
 
-        internal void OnCycle()
+         void OnCycle()
         {
             _redTeamItems.OnCycle();
             _blueTeamItems.OnCycle();
@@ -52,7 +52,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games
             _yellowTeamItems.OnCycle();
         }
 
-        internal QueuedDictionary<uint, RoomItem> GetItems(Team team)
+         QueuedDictionary<uint, RoomItem> GetItems(Team team)
         {
             switch (team)
             {
@@ -73,7 +73,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games
             }
         }
 
-        internal Team GetWinningTeam()
+         Team GetWinningTeam()
         {
             int result = 1;
             int num = 0;
@@ -86,12 +86,12 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games
             return (Team) result;
         }
 
-        internal void AddPointToTeam(Team team, RoomUser user)
+         void AddPointToTeam(Team team, RoomUser user)
         {
             AddPointToTeam(team, 1, user);
         }
 
-        internal void AddPointToTeam(Team team, int points, RoomUser user)
+         void AddPointToTeam(Team team, int points, RoomUser user)
         {
             int num = TeamPoints[(int) team] += points;
 
@@ -110,7 +110,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games
             _room.GetWiredHandler().ExecuteWired(Interaction.TriggerScoreAchieved, user);
         }
 
-        internal void Reset()
+         void Reset()
         {
             {
                 AddPointToTeam(Team.Blue, GetScoreForTeam(Team.Blue)*-1, null);
@@ -120,7 +120,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games
             }
         }
 
-        internal void AddFurnitureToTeam(RoomItem item, Team team)
+         void AddFurnitureToTeam(RoomItem item, Team team)
         {
             switch (team)
             {
@@ -145,7 +145,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games
             }
         }
 
-        internal void RemoveFurnitureFromTeam(RoomItem item, Team team)
+         void RemoveFurnitureFromTeam(RoomItem item, Team team)
         {
             switch (team)
             {
@@ -170,7 +170,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games
             }
         }
 
-        internal RoomItem GetFirstScoreBoard(Team team)
+         RoomItem GetFirstScoreBoard(Team team)
         {
             switch (team)
             {
@@ -229,7 +229,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games
             return null;
         }
 
-        internal void UnlockGates()
+         void UnlockGates()
         {
             foreach (RoomItem current in _redTeamItems.Values) UnlockGate(current);
             foreach (RoomItem current2 in _greenTeamItems.Values) UnlockGate(current2);
@@ -237,7 +237,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games
             foreach (RoomItem current4 in _yellowTeamItems.Values) UnlockGate(current4);
         }
 
-        internal void LockGates()
+         void LockGates()
         {
             foreach (RoomItem current in _redTeamItems.Values) LockGate(current);
             foreach (RoomItem current2 in _greenTeamItems.Values) LockGate(current2);
@@ -245,7 +245,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games
             foreach (RoomItem current4 in _yellowTeamItems.Values) LockGate(current4);
         }
 
-        internal void StopGame()
+         void StopGame()
         {
             Team team = GetWinningTeam();
             RoomItem item = GetFirstHighscore();
@@ -275,18 +275,18 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games
             if (OnGameEnd != null) OnGameEnd(null, null);
         }
 
-        internal void StartGame()
+         void StartGame()
         {
             if (OnGameStart != null) OnGameStart(null, null);
             GetRoom().GetWiredHandler().ResetExtraString(Interaction.ActionGiveScore);
         }
 
-        internal Room GetRoom()
+         Room GetRoom()
         {
             return _room;
         }
 
-        internal void Destroy()
+         void Destroy()
         {
             Array.Clear(TeamPoints, 0, TeamPoints.Length);
             _redTeamItems.Destroy();
@@ -353,7 +353,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games
             _room.GetGameMap().GameMap[item.X, item.Y] = 1;
         }
 
-        internal RoomItem GetFirstHighscore()
+         RoomItem GetFirstHighscore()
         {
             using (IEnumerator<RoomItem> enumerator = _room.GetRoomItemHandler().FloorItems.Values.GetEnumerator())
             {

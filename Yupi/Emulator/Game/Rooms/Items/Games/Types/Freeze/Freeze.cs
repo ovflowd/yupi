@@ -14,7 +14,7 @@ using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Freeze
 {
-    internal class Freeze
+     class Freeze
     {
         private ConcurrentDictionary<uint, RoomItem> _freezeTiles, _freezeBlocks;
         private Random _rnd;
@@ -32,9 +32,9 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Freeze
 
         public bool IsFreezeActive => GameStarted;
 
-        internal bool GameStarted { get; private set; }
+         bool GameStarted { get; private set; }
 
-        internal RoomItem ExitTeleport { get; set; }
+         RoomItem ExitTeleport { get; set; }
 
         public static void CycleUser(RoomUser user)
         {
@@ -61,11 +61,11 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Freeze
             user.ApplyEffect((int) (user.Team + 39));
         }
 
-        internal static void OnCycle()
+         static void OnCycle()
         {
         }
 
-        internal void StartGame()
+         void StartGame()
         {
             GameStarted = true;
             CountTeamPoints();
@@ -83,7 +83,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Freeze
                 _room.GetGameMap().TeleportToItem(user, ExitTeleport);
         }
 
-        internal void StopGame()
+         void StopGame()
         {
             GameStarted = false;
             _room.GetGameManager().UnlockGates();
@@ -102,7 +102,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Freeze
             }
         }
 
-        internal void ResetGame()
+         void ResetGame()
         {
             foreach (
                 RoomItem roomItem in
@@ -120,7 +120,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Freeze
             }
         }
 
-        internal void OnUserWalk(RoomUser user)
+         void OnUserWalk(RoomUser user)
         {
             if (!GameStarted || user == null || user.Team == Team.None) return;
 
@@ -156,7 +156,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Freeze
                 PickUpPowerUp(roomItem, user);
         }
 
-        internal void OnFreezeTiles(RoomItem item, FreezePowerUp powerUp, uint userId)
+         void OnFreezeTiles(RoomItem item, FreezePowerUp powerUp, uint userId)
         {
             if (_room.GetRoomUserManager().GetRoomUserByHabbo(userId) == null || item == null) return;
 
@@ -183,29 +183,29 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Freeze
             HandleBanzaiFreezeItems(items);
         }
 
-        internal void AddFreezeTile(RoomItem item)
+         void AddFreezeTile(RoomItem item)
         {
             _freezeTiles.AddOrUpdate(item.Id, item, (k, v) => item);
         }
 
-        internal void RemoveFreezeTile(uint itemId)
+         void RemoveFreezeTile(uint itemId)
         {
             RoomItem junk;
             _freezeTiles.TryRemove(itemId, out junk);
         }
 
-        internal void AddFreezeBlock(RoomItem item)
+         void AddFreezeBlock(RoomItem item)
         {
             _freezeBlocks.AddOrUpdate(item.Id, item, (k, v) => item);
         }
 
-        internal void RemoveFreezeBlock(uint itemId)
+         void RemoveFreezeBlock(uint itemId)
         {
             RoomItem junk;
             _freezeBlocks.TryRemove(itemId, out junk);
         }
 
-        internal void Destroy()
+         void Destroy()
         {
             _freezeBlocks.Clear();
             _freezeTiles.Clear();
@@ -216,12 +216,12 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Freeze
             _rnd = null;
         }
 
-        internal void FreezeStart()
+         void FreezeStart()
         {
             throw new NotImplementedException();
         }
 
-        internal void FreezeEnd()
+         void FreezeEnd()
         {
             throw new NotImplementedException();
         }

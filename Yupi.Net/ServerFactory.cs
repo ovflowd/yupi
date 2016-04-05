@@ -2,9 +2,9 @@
 
 namespace Yupi.Net
 {
-	public class ServerFactory
+	public class ServerFactory<T>
 	{
-		public static IServer CreateServer(int port) {
+		public static IServer<T> CreateServer(int port) {
 			IServerSettings settings = new ServerSettings() {
 				IP = "Any",
 				Port = port,
@@ -20,11 +20,11 @@ namespace Yupi.Net
 			return CreateServer(settings);
 		}
 
-		public static IServer CreateServer(IServerSettings settings) {
+		public static IServer<T> CreateServer(IServerSettings settings) {
 			CrossDomainSettings flashPolicy = new CrossDomainSettings("*", settings.Port);
 
 			// TODO Add selection for SuperSocket vs DotNetty
-			return new SuperSocketImpl.SuperServer (settings, flashPolicy);
+			return new SuperSocketImpl.SuperServer<T> (settings, flashPolicy);
 		}
 	}
 }

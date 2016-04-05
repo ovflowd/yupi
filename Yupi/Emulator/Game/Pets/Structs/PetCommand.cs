@@ -29,36 +29,36 @@ namespace Yupi.Emulator.Game.Pets.Structs
     /// <summary>
     ///     Struct PetCommand
     /// </summary>
-    internal struct PetCommand
+     struct PetCommand
     {
         /// <summary>
         ///     The command identifier
         /// </summary>
-        internal int CommandId;
+         int CommandId;
 
         /// <summary>
         ///     The command input
         /// </summary>
-        internal string[] CommandInput;
+         string[] CommandInput;
 
-        internal string CommandAction;
+         string CommandAction;
 
         /// <summary>
         ///     The minimum rank
         /// </summary>
-        internal int MinLevel;
+         int MinLevel;
 
-        internal string PetStatus;
+         string PetStatus;
 
-        internal string PetGesture;
+         string PetGesture;
 
-        internal uint GainedExperience;
+         uint GainedExperience;
 
-        internal uint LostEnergy;
+         uint LostEnergy;
 
-        internal string[] PetTypes;
+         string[] PetTypes;
 
-        internal string PetSpeech;
+         string PetSpeech;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="PetCommand" /> struct.

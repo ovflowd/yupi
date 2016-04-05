@@ -29,7 +29,7 @@ namespace Yupi.Emulator.Game.Items
     /// <summary>
     ///     Class WallCoordinate.
     /// </summary>
-    internal class WallCoordinate
+     class WallCoordinate
     {
         /// <summary>
         ///     The _length x
@@ -102,7 +102,7 @@ namespace Yupi.Emulator.Game.Items
         ///     Generates the database shit.
         /// </summary>
         /// <returns>System.String.</returns>
-        internal string GenerateDbShit()
+         string GenerateDbShit()
             =>
                 "x: " + ServerUserChatTextHandler.Combine(_widthX, _widthY) + " y: " +
                 ServerUserChatTextHandler.Combine(_lengthX, _lengthY);
@@ -111,18 +111,18 @@ namespace Yupi.Emulator.Game.Items
         ///     Gets the x value.
         /// </summary>
         /// <returns>System.Double.</returns>
-        internal double GetXValue() => ServerUserChatTextHandler.Combine(_widthX, _widthY);
+         double GetXValue() => ServerUserChatTextHandler.Combine(_widthX, _widthY);
 
         /// <summary>
         ///     Gets the y value.
         /// </summary>
         /// <returns>System.Double.</returns>
-        internal double GetYValue() => ServerUserChatTextHandler.Combine(_lengthX, _lengthY);
+         double GetYValue() => ServerUserChatTextHandler.Combine(_lengthX, _lengthY);
 
         /// <summary>
         ///     ns this instance.
         /// </summary>
         /// <returns>System.Int32.</returns>
-        internal int N() => _side == 'l' ? 8 : 7;
+         int N() => _side == 'l' ? 8 : 7;
     }
 }

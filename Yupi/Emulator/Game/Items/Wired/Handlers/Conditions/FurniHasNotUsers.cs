@@ -7,7 +7,7 @@ using Yupi.Emulator.Game.Rooms;
 
 namespace Yupi.Emulator.Game.Items.Wired.Handlers.Conditions
 {
-    internal class FurniHasNotUsers : IWiredItem
+     class FurniHasNotUsers : IWiredItem
     {
         public FurniHasNotUsers(RoomItem item, Room room)
         {

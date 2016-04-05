@@ -6,7 +6,7 @@ using Yupi.Emulator.Game.Rooms.User;
 
 namespace Yupi.Emulator.Game.Commands.Controllers
 {
-    internal sealed class MakeSay : Command
+     sealed class MakeSay : Command
     {
         public MakeSay()
         {

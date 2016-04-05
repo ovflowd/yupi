@@ -8,7 +8,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class MoonWalk. This class cannot be inherited.
     /// </summary>
-    internal sealed class MoonWalk : Command
+     sealed class MoonWalk : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="MoonWalk" /> class.

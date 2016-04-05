@@ -19,12 +19,12 @@ namespace Yupi.Emulator.Messages.Handlers
     /// <summary>
     ///     Class MessageHandler.
     /// </summary>
-    internal partial class MessageHandler
+     partial class MessageHandler
     {
         /// <summary>
         ///     Pongs this instance.
         /// </summary>
-        internal void Pong()
+         void Pong()
         {
             Session.TimePingedReceived = DateTime.Now;
         }
@@ -32,12 +32,12 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Disconnects the event.
         /// </summary>
-        internal void DisconnectEvent() => Session.Disconnect("Closed Client Page.", true);
+         void DisconnectEvent() => Session.Disconnect("Closed Client Page.", true);
 
         /// <summary>
         ///     Latencies the test.
         /// </summary>
-        internal void LatencyTest()
+         void LatencyTest()
         {
             if (Session == null)
                 return;
@@ -53,7 +53,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Initializes the crypto.
         /// </summary>
-        internal void InitCrypto()
+         void InitCrypto()
         {
             Response.Init(PacketLibraryManager.OutgoingHandler("InitCryptoMessageComposer"));
 
@@ -65,7 +65,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Secrets the key.
         /// </summary>
-        internal void SecretKey()
+         void SecretKey()
         {
             Request.GetString();
 
@@ -79,7 +79,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Machines the identifier.
         /// </summary>
-        internal void MachineId()
+         void MachineId()
         {
             Request.GetString();
 
@@ -91,7 +91,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Logins the with ticket.
         /// </summary>
-        internal void LoginWithTicket()
+         void LoginWithTicket()
         {
             if (Session == null || Session.GetHabbo() != null)
                 return;
@@ -108,7 +108,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Informations the retrieve.
         /// </summary>
-        internal void InfoRetrieve()
+         void InfoRetrieve()
         {
             if (Session?.GetHabbo() == null)
                 return;
@@ -229,7 +229,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Habboes the camera.
         /// </summary>
-        internal void HabboCamera()
+         void HabboCamera()
         {
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
@@ -280,7 +280,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Targeteds the offer buy.
         /// </summary>
-        internal void PurchaseTargetedOffer()
+         void PurchaseTargetedOffer()
         {
             Request.GetUInt32();
             uint quantity = Request.GetUInt32();
@@ -322,7 +322,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Goes the name of to room by.
         /// </summary>
-        internal void GoToRoomByName()
+         void GoToRoomByName()
         {
             string name = Request.GetString();
             uint roomId = 0;
@@ -371,7 +371,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Saves the room thumbnail.
         /// </summary>
-        internal void SaveRoomThumbnail()
+         void SaveRoomThumbnail()
         {
             try
             {

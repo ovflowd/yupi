@@ -7,28 +7,28 @@ namespace Yupi.Emulator.Game.Items.Interfaces
     /// <summary>
     ///     Class ClothingItem.
     /// </summary>
-    internal class ClothingItem
+     class ClothingItem
     {
         /// <summary>
         ///     The clothes
         /// </summary>
-        internal List<int> Clothes;
+         List<int> Clothes;
 
         /// <summary>
         ///     The identifier
         /// </summary>
-        internal uint Id;
+         uint Id;
 
         /// <summary>
         ///     The item name
         /// </summary>
-        internal string ItemName;
+         string ItemName;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="ClothingItem" /> class.
         /// </summary>
         /// <param name="row">The row.</param>
-        internal ClothingItem(DataRow row)
+         ClothingItem(DataRow row)
         {
             Clothes = new List<int>();
             ItemName = Convert.ToString(row["item_name"]);

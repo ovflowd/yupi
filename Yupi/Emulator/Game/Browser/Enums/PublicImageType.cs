@@ -27,12 +27,12 @@ namespace Yupi.Emulator.Game.Browser.Enums
     /// <summary>
     ///     Enum PublicImageType
     /// </summary>
-    internal enum PublicImageType
+     enum PublicImageType
     {
         /// <summary>
-        ///     The internal
+        ///     The 
         /// </summary>
-        Internal,
+       Internal ,
 
         /// <summary>
         ///     The external

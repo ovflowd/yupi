@@ -8,7 +8,7 @@ using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 {
-    internal class InteractorWalkInternalLink : FurniInteractorModel
+     class InteractorWalkInternalLink : FurniInteractorModel
     {
         public override void OnUserWalk(GameClient session, RoomItem item, RoomUser user)
         {

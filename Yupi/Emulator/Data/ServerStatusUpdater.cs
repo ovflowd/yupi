@@ -30,7 +30,7 @@ namespace Yupi.Emulator.Data
     /// <summary>
     ///     Class ServerStatusUpdater.
     /// </summary>
-    internal class ServerStatusUpdater
+     class ServerStatusUpdater
     {
         /// <summary>
         ///     Server Status Stop Watch
@@ -40,7 +40,7 @@ namespace Yupi.Emulator.Data
         /// <summary>
         ///    Load Server Status Stop Watch
         /// </summary>
-        internal static void Load()
+         static void Load()
         {
             _refreshInterval = new Stopwatch();
 
@@ -50,7 +50,7 @@ namespace Yupi.Emulator.Data
         /// <summary>
         ///     Updates Yupi Environment Console Title Status
         /// </summary>
-        internal static void Process()
+         static void Process()
         {
             if (_refreshInterval.ElapsedMilliseconds >= 10000)
             {

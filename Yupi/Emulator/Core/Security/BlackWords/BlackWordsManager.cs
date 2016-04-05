@@ -37,7 +37,7 @@ namespace Yupi.Emulator.Core.Security.BlackWords
     /// <summary>
     ///     Class BlackWordsManager.
     /// </summary>
-    internal static class BlackWordsManager
+     static class BlackWordsManager
     {
         /// <summary>
         ///     The words

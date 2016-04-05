@@ -6,7 +6,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class GiveDuckets. This class cannot be inherited.
     /// </summary>
-    internal sealed class GiveDuckets : Command
+     sealed class GiveDuckets : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="GiveDuckets" /> class.

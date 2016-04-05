@@ -22,7 +22,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
     /// <summary>
     ///     Class Gamemap.
     /// </summary>
-    internal class Gamemap
+     class Gamemap
     {
         /// <summary>
         ///     The _room
@@ -37,27 +37,27 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// <summary>
         ///     The diagonal enabled
         /// </summary>
-        internal bool DiagonalEnabled;
+         bool DiagonalEnabled;
 
         /// <summary>
         ///     The got public pool
         /// </summary>
-        internal bool GotPublicPool;
+         bool GotPublicPool;
 
         /// <summary>
         ///     The guild gates
         /// </summary>
-        internal Dictionary<Point, RoomItem> GuildGates;
+         Dictionary<Point, RoomItem> GuildGates;
 
         /// <summary>
         ///     The serialized floormap
         /// </summary>
-        internal SimpleServerMessageBuffer SerializedFloormap;
+         SimpleServerMessageBuffer SerializedFloormap;
 
         /// <summary>
         ///     The walkable list
         /// </summary>
-        internal HashSet<Point> WalkableList;
+         HashSet<Point> WalkableList;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Gamemap" /> class.
@@ -88,37 +88,37 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         ///     Gets the model.
         /// </summary>
         /// <value>The model.</value>
-        internal DynamicRoomModel Model { get; private set; }
+         DynamicRoomModel Model { get; private set; }
 
         /// <summary>
         ///     Gets the static model.
         /// </summary>
         /// <value>The static model.</value>
-        internal RoomModel StaticModel { get; private set; }
+         RoomModel StaticModel { get; private set; }
 
         /// <summary>
         ///     Gets the effect map.
         /// </summary>
         /// <value>The effect map.</value>
-        internal byte[,] EffectMap { get; private set; }
+         byte[,] EffectMap { get; private set; }
 
         /// <summary>
         ///     Gets the coordinated items.
         /// </summary>
         /// <value>The coordinated items.</value>
-        internal HybridDictionary CoordinatedItems { get; private set; }
+         HybridDictionary CoordinatedItems { get; private set; }
 
         /// <summary>
         ///     Gets the game map.
         /// </summary>
         /// <value>The game map.</value>
-        internal byte[,] GameMap { get; private set; }
+         byte[,] GameMap { get; private set; }
 
         /// <summary>
         ///     Gets the item height map.
         /// </summary>
         /// <value>The item height map.</value>
-        internal double[,] ItemHeightMap { get; private set; }
+         double[,] ItemHeightMap { get; private set; }
 
         /// <summary>
         ///     Determines whether this instance can walk the specified p state.
@@ -126,7 +126,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// <param name="pState">State of the p.</param>
         /// <param name="pOverride">if set to <c>true</c> [p override].</param>
         /// <returns><c>true</c> if this instance can walk the specified p state; otherwise, <c>false</c>.</returns>
-        internal static bool CanWalk(byte pState, bool pOverride)
+         static bool CanWalk(byte pState, bool pOverride)
         {
             return pOverride || pState == 3 || pState == 1;
         }
@@ -140,7 +140,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// <param name="posY">The position y.</param>
         /// <param name="rotation">The rotation.</param>
         /// <returns>Dictionary&lt;System.Int32, ThreeDCoord&gt;.</returns>
-        internal static Dictionary<int, ThreeDCoord> GetAffectedTiles(int length, int width,
+         static Dictionary<int, ThreeDCoord> GetAffectedTiles(int length, int width,
             int posX, int posY, int rotation)
         {
             int x = 0;
@@ -206,7 +206,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// <param name="x2">The x2.</param>
         /// <param name="y2">The y2.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal static bool TilesTouching(int x1, int y1, int x2, int y2)
+         static bool TilesTouching(int x1, int y1, int x2, int y2)
         {
             return (Math.Abs(x1 - x2) <= 1 && Math.Abs(y1 - y2) <= 1) || (x1 == x2 && y1 == y2);
         }
@@ -219,7 +219,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// <param name="x2">The x2.</param>
         /// <param name="y2">The y2.</param>
         /// <returns>System.Int32.</returns>
-        internal static int TileDistance(int x1, int y1, int x2, int y2)
+         static int TileDistance(int x1, int y1, int x2, int y2)
         {
             return Math.Abs(x1 - x2) + Math.Abs(y1 - y2);
         }
@@ -229,7 +229,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// </summary>
         /// <param name="user">The user.</param>
         /// <param name="coord">The coord.</param>
-        internal void AddUserToMap(RoomUser user, Point coord)
+         void AddUserToMap(RoomUser user, Point coord)
         {
             int coordKey = CoordinatesFormatter.PointToInt(coord);
             List<RoomUser> users = (List<RoomUser>) _userMap[coordKey];
@@ -250,7 +250,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// </summary>
         /// <param name="user">The user.</param>
         /// <param name="item">The item.</param>
-        internal void TeleportToItem(RoomUser user, RoomItem item)
+         void TeleportToItem(RoomUser user, RoomItem item)
         {
             GameMap[user.X, user.Y] = user.SqState;
             UpdateUserMovement(new Point(user.Coordinate.X, user.Coordinate.Y),
@@ -275,7 +275,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// <param name="oldCoord">The old coord.</param>
         /// <param name="newCoord">The new coord.</param>
         /// <param name="user">The user.</param>
-        internal void UpdateUserMovement(Point oldCoord, Point newCoord, RoomUser user)
+         void UpdateUserMovement(Point oldCoord, Point newCoord, RoomUser user)
         {
             RemoveUserFromMap(user, oldCoord);
             AddUserToMap(user, newCoord);
@@ -286,7 +286,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// </summary>
         /// <param name="user">The user.</param>
         /// <param name="coord">The coord.</param>
-        internal void RemoveUserFromMap(RoomUser user, Point coord)
+         void RemoveUserFromMap(RoomUser user, Point coord)
         {
             int coordKey = CoordinatesFormatter.PointToInt(coord);
 
@@ -300,7 +300,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// </summary>
         /// <param name="coord">The coord.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool MapGotUser(Point coord)
+         bool MapGotUser(Point coord)
         {
             return GetRoomUsers(coord).Count > 0;
         }
@@ -310,7 +310,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// </summary>
         /// <param name="coord">The coord.</param>
         /// <returns>List&lt;RoomUser&gt;.</returns>
-        internal List<RoomUser> GetRoomUsers(Point coord)
+         List<RoomUser> GetRoomUsers(Point coord)
         {
             int coordKey = CoordinatesFormatter.PointToInt(coord);
             List<RoomUser> users = (List<RoomUser>) _userMap[coordKey];
@@ -323,7 +323,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         ///     Gets the random walkable square.
         /// </summary>
         /// <returns>Point.</returns>
-        internal Point GetRandomWalkableSquare()
+         Point GetRandomWalkableSquare()
         {
             if (!WalkableList.Any())
                 return new Point(0, 0);
@@ -343,7 +343,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         ///     Generates the map dump.
         /// </summary>
         /// <returns>System.String.</returns>
-        internal string GenerateMapDump()
+         string GenerateMapDump()
         {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.AppendLine("HabboHotel map:");
@@ -395,7 +395,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         ///     Adds to map.
         /// </summary>
         /// <param name="item">The item.</param>
-        internal void AddToMap(RoomItem item)
+         void AddToMap(RoomItem item)
         {
             AddItemToMap(item);
         }
@@ -404,7 +404,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         ///     Updates the map for item.
         /// </summary>
         /// <param name="item">The item.</param>
-        internal void UpdateMapForItem(RoomItem item)
+         void UpdateMapForItem(RoomItem item)
         {
             RemoveFromMap(item);
             AddToMap(item);
@@ -414,7 +414,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         ///     Generates the maps.
         /// </summary>
         /// <param name="checkLines">if set to <c>true</c> [check lines].</param>
-        internal void GenerateMaps(bool checkLines = true)
+         void GenerateMaps(bool checkLines = true)
         {
             try
             {
@@ -576,7 +576,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// </summary>
         /// <param name="item">The item.</param>
         /// <param name="coord">The coord.</param>
-        internal void AddCoordinatedItem(RoomItem item, Point coord)
+         void AddCoordinatedItem(RoomItem item, Point coord)
         {
             int coordKey = CoordinatesFormatter.PointToInt(coord);
 
@@ -600,7 +600,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// </summary>
         /// <param name="coord">The coord.</param>
         /// <returns>List&lt;RoomItem&gt;.</returns>
-        internal List<RoomItem> GetCoordinatedItems(Point coord)
+         List<RoomItem> GetCoordinatedItems(Point coord)
         {
             int coordKey = CoordinatesFormatter.PointToInt(coord);
 
@@ -618,7 +618,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// <param name="item">The item.</param>
         /// <param name="coord">The coord.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool RemoveCoordinatedItem(RoomItem item, Point coord)
+         bool RemoveCoordinatedItem(RoomItem item, Point coord)
         {
             int coordKey = CoordinatesFormatter.PointToInt(coord);
 
@@ -634,7 +634,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
             return false;
         }
 
-        internal List<RoomItem> GetCoordinatedHeighestItems(Point coord)
+         List<RoomItem> GetCoordinatedHeighestItems(Point coord)
         {
             int coordKey = CoordinatesFormatter.PointToInt(coord);
             List<RoomItem> items = (List<RoomItem>) CoordinatedItems[coordKey];
@@ -670,7 +670,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// <param name="item">The item.</param>
         /// <param name="handleGameItem">if set to <c>true</c> [handle game item].</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool RemoveFromMap(RoomItem item, bool handleGameItem)
+         bool RemoveFromMap(RoomItem item, bool handleGameItem)
         {
             RemoveSpecialItem(item);
 
@@ -722,7 +722,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// </summary>
         /// <param name="item">The item.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool RemoveFromMap(RoomItem item) => RemoveFromMap(item, true);
+         bool RemoveFromMap(RoomItem item) => RemoveFromMap(item, true);
 
         /// <summary>
         ///     Adds the item to map.
@@ -730,7 +730,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// <param name="item">The item.</param>
         /// <param name="handleGameItem">if set to <c>true</c> [handle game item].</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool AddItemToMap(RoomItem item, bool handleGameItem = true)
+         bool AddItemToMap(RoomItem item, bool handleGameItem = true)
         {
             if (handleGameItem)
             {
@@ -826,7 +826,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// <param name="Override">if set to <c>true</c> [override].</param>
         /// <param name="horseId">The horse identifier.</param>
         /// <returns><c>true</c> if this instance can walk the specified x; otherwise, <c>false</c>.</returns>
-        internal bool CanWalk(int x, int y, bool Override, uint horseId = 0u)
+         bool CanWalk(int x, int y, bool Override, uint horseId = 0u)
         {
             return _room.RoomData.AllowWalkThrough || Override ||
                    _room.GetRoomUserManager().GetUserForSquare(x, y) == null;
@@ -837,7 +837,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// </summary>
         /// <param name="coord">The coord.</param>
         /// <returns>System.Byte.</returns>
-        internal byte GetFloorStatus(Point coord)
+         byte GetFloorStatus(Point coord)
         {
             if (coord.X > GameMap.GetUpperBound(0) || coord.Y > GameMap.GetUpperBound(1))
                 return 1;
@@ -849,7 +849,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// </summary>
         /// <param name="coord">The coord.</param>
         /// <returns>System.Double.</returns>
-        internal double GetHeightForSquareFromData(Point coord)
+         double GetHeightForSquareFromData(Point coord)
         {
             try
             {
@@ -870,7 +870,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
         /// <returns><c>true</c> if this instance [can roll item here] the specified x; otherwise, <c>false</c>.</returns>
-        internal bool CanRollItemHere(int x, int y)
+         bool CanRollItemHere(int x, int y)
         {
             return ValidTile(x, y) && Model.SqState[x][y] != SquareState.Blocked;
         }
@@ -882,7 +882,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// <param name="y">The y.</param>
         /// <param name="pOverride">if set to <c>true</c> [p override].</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool SquareIsOpen(int x, int y, bool pOverride)
+         bool SquareIsOpen(int x, int y, bool pOverride)
         {
             return Model.MapSizeX - 1 >= x && Model.MapSizeY - 1 >= y && CanWalk(GameMap[x, y], pOverride);
         }
@@ -897,7 +897,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// <param name="Override">if set to <c>true</c> [override].</param>
         /// <param name="client">The client.</param>
         /// <returns><c>true</c> if [is valid step3] [the specified user]; otherwise, <c>false</c>.</returns>
-        internal bool IsValidStep3(RoomUser user, Vector2D @from, Vector2D to, bool endOfPath, bool Override,
+         bool IsValidStep3(RoomUser user, Vector2D @from, Vector2D to, bool endOfPath, bool Override,
             GameClient client)
         {
             if (user == null)
@@ -949,7 +949,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// <param name="endOfPath">if set to <c>true</c> [end of path].</param>
         /// <param name="Override">if set to <c>true</c> [override].</param>
         /// <returns><c>true</c> if [is valid step2] [the specified user]; otherwise, <c>false</c>.</returns>
-        internal bool IsValidStep2(RoomUser user, Point @from, Point to, bool endOfPath, bool Override)
+         bool IsValidStep2(RoomUser user, Point @from, Point to, bool endOfPath, bool Override)
         {
             if (user == null)
                 return false;
@@ -1009,7 +1009,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// <param name="y">The y.</param>
         /// <param name="user">The user.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool AntiChoques(int x, int y, RoomUser user)
+         bool AntiChoques(int x, int y, RoomUser user)
         {
             RoomUser roomUser;
             _room.GetRoomUserManager().ToSet.TryGetValue(new Point(x, y), out roomUser);
@@ -1020,7 +1020,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         ///     Gets the random valid walkable square.
         /// </summary>
         /// <returns>Point.</returns>
-        internal Point GetRandomValidWalkableSquare()
+         Point GetRandomValidWalkableSquare()
         {
             List<Point> walkableSquares = new List<Point>();
             for (int y = 0; y < GameMap.GetUpperBound(1) - 1; y++)
@@ -1047,7 +1047,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// <param name="endOfPath">if set to <c>true</c> [end of path].</param>
         /// <param name="Override">if set to <c>true</c> [override].</param>
         /// <returns><c>true</c> if [is valid step] [the specified user]; otherwise, <c>false</c>.</returns>
-        internal bool IsValidStep(RoomUser user, Vector2D @from, Vector2D to, bool endOfPath, bool Override)
+         bool IsValidStep(RoomUser user, Vector2D @from, Vector2D to, bool endOfPath, bool Override)
         {
             if (user == null)
                 return false;
@@ -1106,7 +1106,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool ValidTile2(int x, int y)
+         bool ValidTile2(int x, int y)
         {
             if (!ValidTile(x, y))
                 return false;
@@ -1128,7 +1128,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool ItemCanBePlacedHere(int x, int y)
+         bool ItemCanBePlacedHere(int x, int y)
         {
             return Model.MapSizeX - 1 >= x && Model.MapSizeY - 1 >= y && (x != Model.DoorX || y != Model.DoorY) &&
                    GameMap[x, y] == 1;
@@ -1140,7 +1140,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
         /// <returns>System.Double.</returns>
-        internal double SqAbsoluteHeight(int x, int y)
+         double SqAbsoluteHeight(int x, int y)
         {
             try
             {
@@ -1174,7 +1174,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// <param name="y">The y.</param>
         /// <param name="itemsOnSquare">The items on square.</param>
         /// <returns>System.Double.</returns>
-        internal double SqAbsoluteHeight(int x, int y, List<RoomItem> itemsOnSquare)
+         double SqAbsoluteHeight(int x, int y, List<RoomItem> itemsOnSquare)
         {
             try
             {
@@ -1207,7 +1207,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool ValidTile(int x, int y)
+         bool ValidTile(int x, int y)
         {
             return x > 0 && y > 0 && x < Model.MapSizeX && y < Model.MapSizeY;
         }
@@ -1218,7 +1218,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
         /// <returns>List&lt;RoomItem&gt;.</returns>
-        internal List<RoomItem> GetRoomItemForSquare(int x, int y)
+         List<RoomItem> GetRoomItemForSquare(int x, int y)
         {
             int point = CoordinatesFormatter.CombineXyCoord(x, y);
             List<RoomItem> list = new List<RoomItem>();
@@ -1237,7 +1237,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// <param name="y">The y.</param>
         /// <param name="type">The type.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool SquareHasFurni(int x, int y, Interaction type)
+         bool SquareHasFurni(int x, int y, Interaction type)
         {
             int point = CoordinatesFormatter.CombineXyCoord(x, y);
             if (!CoordinatedItems.Contains(point))
@@ -1257,7 +1257,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool SquareHasFurni(int x, int y)
+         bool SquareHasFurni(int x, int y)
         {
             int point = CoordinatesFormatter.CombineXyCoord(x, y);
             if (!CoordinatedItems.Contains(point))
@@ -1273,7 +1273,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// <param name="pX">The p x.</param>
         /// <param name="pY">The p y.</param>
         /// <returns>List&lt;RoomItem&gt;.</returns>
-        internal List<RoomItem> GetAllRoomItemForSquare(int pX, int pY)
+         List<RoomItem> GetAllRoomItemForSquare(int pX, int pY)
         {
             int point = CoordinatesFormatter.CombineXyCoord(pX, pY);
             List<RoomItem> list = new List<RoomItem>();
@@ -1291,7 +1291,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        internal bool SquareHasUsers(int x, int y)
+         bool SquareHasUsers(int x, int y)
         {
             return MapGotUser(new Point(x, y));
         }
@@ -1299,7 +1299,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// <summary>
         ///     Destroys this instance.
         /// </summary>
-        internal void Destroy()
+         void Destroy()
         {
             _userMap.Clear();
             Model.Destroy();
@@ -1325,7 +1325,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         /// <param name="z">The z.</param>
         /// <param name="exception">The exception.</param>
         /// <returns>RoomItem.</returns>
-        internal RoomItem GetHighestItemForSquare(int x, int y, out double z, RoomItem exception = null)
+         RoomItem GetHighestItemForSquare(int x, int y, out double z, RoomItem exception = null)
         {
             RoomItem roomItem = null;
             double num = -1.0;
@@ -1352,7 +1352,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         ///     Gets the new heightmap.
         /// </summary>
         /// <returns>SimpleServerMessageBuffer.</returns>
-        internal SimpleServerMessageBuffer GetNewHeightmap()
+         SimpleServerMessageBuffer GetNewHeightmap()
         {
             if (SerializedFloormap != null)
                 return SerializedFloormap;
@@ -1568,7 +1568,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         ///     Removes the special item.
         /// </summary>
         /// <param name="item">The item.</param>
-        internal void RemoveSpecialItem(RoomItem item)
+         void RemoveSpecialItem(RoomItem item)
         {
             switch (item.GetBaseItem().InteractionType)
             {
@@ -1627,7 +1627,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
             return simpleServerMessageBuffer;
         }
 
-        internal MovementState GetChasingMovement(int x, int y)
+         MovementState GetChasingMovement(int x, int y)
         {
             bool moveToLeft = true, moveToRight = true, moveToUp = true, moveToDown = true;
 
@@ -1675,7 +1675,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
             return movements[Yupi.GetRandomNumber(0, movements.Count)];
         }
 
-        internal bool IsValidValueItem(int x, int y)
+         bool IsValidValueItem(int x, int y)
         {
             if (x < 0 || y < 0 || x >= Model.MapSizeX || y >= Model.MapSizeY)
                 return false;

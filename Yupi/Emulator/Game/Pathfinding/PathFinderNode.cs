@@ -30,7 +30,7 @@ namespace Yupi.Emulator.Game.Pathfinding
     /// <summary>
     ///     Class PathFinderNode.
     /// </summary>
-    internal class PathFinderNode : IComparable<PathFinderNode>
+     class PathFinderNode : IComparable<PathFinderNode>
     {
         /// <summary>
         ///     The position

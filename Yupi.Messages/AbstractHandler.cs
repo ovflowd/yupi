@@ -17,7 +17,7 @@ namespace Yupi.Messages
 			}
 		}
 
-		public abstract void HandleMessage(ISession<GameClient> session, ClientMessage message, Router router);
+		public abstract void HandleMessage(GameClient session, ClientMessage message, Router router);
 	}
 }
 

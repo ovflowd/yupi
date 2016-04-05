@@ -31,7 +31,7 @@ namespace Yupi.Emulator.Game.Groups.Composers
     /// <summary>
     ///     Class ForumRootMessageComposer.
     /// </summary>
-    internal class ForumRootMessageComposer
+     class ForumRootMessageComposer
     {
         /// <summary>
         ///     Composes the specified session.
@@ -40,7 +40,7 @@ namespace Yupi.Emulator.Game.Groups.Composers
         /// <param name="group"></param>
         /// <param name="groupForum"></param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-        internal static SimpleServerMessageBuffer Compose(SimpleServerMessageBuffer messageBuffer, Group group, GroupForum groupForum)
+         static SimpleServerMessageBuffer Compose(SimpleServerMessageBuffer messageBuffer, Group group, GroupForum groupForum)
         {
             messageBuffer.AppendInteger(group.Id);
             messageBuffer.AppendString(group.Name);

@@ -8,29 +8,29 @@ namespace Yupi.Emulator.Game.Rooms.Chat
     /// <summary>
     ///     Class Chatlog.
     /// </summary>
-    internal class Chatlog
+     class Chatlog
     {
-        internal bool GlobalMessage;
+         bool GlobalMessage;
 
         /// <summary>
         ///     The is saved
         /// </summary>
-        internal bool IsSaved;
+         bool IsSaved;
 
         /// <summary>
         ///     The messageBuffer
         /// </summary>
-        internal string Message;
+         string Message;
 
         /// <summary>
         ///     The timestamp
         /// </summary>
-        internal DateTime TimeStamp;
+         DateTime TimeStamp;
 
         /// <summary>
         ///     The user identifier
         /// </summary>
-        internal uint UserId;
+         uint UserId;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Chatlog" /> class.
@@ -40,7 +40,7 @@ namespace Yupi.Emulator.Game.Rooms.Chat
         /// <param name="time">The time.</param>
         /// <param name="globalMessage"></param>
         /// <param name="fromDatabase">if set to <c>true</c> [from database].</param>
-        internal Chatlog(uint user, string msg, DateTime time, bool globalMessage, bool fromDatabase = false)
+         Chatlog(uint user, string msg, DateTime time, bool globalMessage, bool fromDatabase = false)
         {
             UserId = user;
             Message = msg;
@@ -53,7 +53,7 @@ namespace Yupi.Emulator.Game.Rooms.Chat
         ///     Saves the specified room identifier.
         /// </summary>
         /// <param name="roomId"></param>
-        internal void Save(uint roomId)
+         void Save(uint roomId)
         {
             if (IsSaved)
                 return;
@@ -67,7 +67,7 @@ namespace Yupi.Emulator.Game.Rooms.Chat
             }
         }
 
-        internal void Serialize(ref SimpleServerMessageBuffer messageBuffer)
+         void Serialize(ref SimpleServerMessageBuffer messageBuffer)
         {
             Habbo habbo = Yupi.GetHabboById(UserId);
 

@@ -1,6 +1,6 @@
 ﻿namespace Yupi.Emulator.Game.Polls.Enums
 {
-    internal enum PollType
+     enum PollType
     {
         /// <summary>
         ///     The opinion

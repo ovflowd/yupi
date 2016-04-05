@@ -3,7 +3,7 @@ namespace Yupi.Emulator.Game.RoomBots.Enumerators
     /// <summary>
     ///     Enum AIType
     /// </summary>
-    internal enum AiType
+     enum AiType
     {
         /// <summary>
         ///     The pet

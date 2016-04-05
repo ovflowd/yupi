@@ -30,7 +30,7 @@ namespace Yupi.Emulator.Game.Pathfinding.Vectors
     /// <summary>
     ///     Class Vector2D.
     /// </summary>
-    internal class Vector2D
+     class Vector2D
     {
         /// <summary>
         ///     The zero

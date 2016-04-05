@@ -32,9 +32,9 @@ using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Rooms.Data.Composers
 {
-    internal class RoomDataComposer
+     class RoomDataComposer
     {
-        internal static SimpleServerMessageBuffer Compose(SimpleServerMessageBuffer roomDataMessage, GameClient session, Room room, RoomData data, bool isNotReload, bool? sendRoom = false, bool show = true)
+         static SimpleServerMessageBuffer Compose(SimpleServerMessageBuffer roomDataMessage, GameClient session, Room room, RoomData data, bool isNotReload, bool? sendRoom = false, bool show = true)
         {
             roomDataMessage.Init(PacketLibraryManager.OutgoingHandler("RoomDataMessageComposer"));
 
@@ -59,7 +59,7 @@ namespace Yupi.Emulator.Game.Rooms.Data.Composers
             return roomDataMessage;
         }
 
-        internal static void Serialize(SimpleServerMessageBuffer messageBuffer, RoomData data, bool showEvents = false, bool enterRoom = false)
+         static void Serialize(SimpleServerMessageBuffer messageBuffer, RoomData data, bool showEvents = false, bool enterRoom = false)
         {
             messageBuffer.AppendInteger(data.Id);
             messageBuffer.AppendString(data.Name);

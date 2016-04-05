@@ -8,32 +8,32 @@ namespace Yupi.Emulator.Game.Polls
     /// <summary>
     ///     Class PollQuestion.
     /// </summary>
-    internal class PollQuestion
+     class PollQuestion
     {
         /// <summary>
         ///     The answers
         /// </summary>
-        internal List<string> Answers;
+         List<string> Answers;
 
         /// <summary>
         ///     a type
         /// </summary>
-        internal PollAnswerType AType;
+         PollAnswerType AType;
 
         /// <summary>
         ///     The correct answer
         /// </summary>
-        internal string CorrectAnswer;
+         string CorrectAnswer;
 
         /// <summary>
         ///     The index
         /// </summary>
-        internal uint Index;
+         uint Index;
 
         /// <summary>
         ///     The question
         /// </summary>
-        internal string Question;
+         string Question;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="PollQuestion" /> class.
@@ -43,7 +43,7 @@ namespace Yupi.Emulator.Game.Polls
         /// <param name="aType">a type.</param>
         /// <param name="answers">The answers.</param>
         /// <param name="correctAnswer">The correct answer.</param>
-        internal PollQuestion(uint index, string question, int aType, IEnumerable<string> answers, string correctAnswer)
+         PollQuestion(uint index, string question, int aType, IEnumerable<string> answers, string correctAnswer)
         {
             Index = index;
             Question = question;

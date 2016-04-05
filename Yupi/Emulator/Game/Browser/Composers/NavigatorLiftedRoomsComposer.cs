@@ -6,7 +6,7 @@ namespace Yupi.Emulator.Game.Browser.Composers
 {
     class NavigatorLiftedRoomsComposer
     {
-        internal static SimpleServerMessageBuffer Compose()
+         static SimpleServerMessageBuffer Compose()
         {
             SimpleServerMessageBuffer navigatorLiftedRooms = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("NavigatorLiftedRoomsComposer"));
 

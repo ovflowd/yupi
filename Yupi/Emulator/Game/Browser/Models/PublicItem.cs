@@ -32,62 +32,62 @@ namespace Yupi.Emulator.Game.Browser.Models
     /// <summary>
     ///     Class PublicItem.
     /// </summary>
-    internal class PublicItem
+     class PublicItem
     {
         /// <summary>
         ///     The caption
         /// </summary>
-        internal string Caption;
+         string Caption;
 
         /// <summary>
         ///     The category identifier
         /// </summary>
-        internal int CategoryId;
+         int CategoryId;
 
         /// <summary>
         ///     The description
         /// </summary>
-        internal string Description;
+         string Description;
 
         /// <summary>
         ///     The image
         /// </summary>
-        internal string Image;
+         string Image;
 
         /// <summary>
         ///     The image type
         /// </summary>
-        internal PublicImageType ImageType;
+         PublicImageType ImageType;
 
         /// <summary>
         ///     The item type
         /// </summary>
-        internal PublicItemType ItemType;
+         PublicItemType ItemType;
 
         /// <summary>
         ///     The parent identifier
         /// </summary>
-        internal int ParentId;
+         int ParentId;
 
         /// <summary>
         ///     The recommended
         /// </summary>
-        internal bool Recommended;
+         bool Recommended;
 
         /// <summary>
         ///     The room identifier
         /// </summary>
-        internal uint RoomId;
+         uint RoomId;
 
         /// <summary>
         ///     The tags to search
         /// </summary>
-        internal string TagsToSearch = string.Empty;
+         string TagsToSearch = string.Empty;
 
         /// <summary>
         ///     The type
         /// </summary>
-        internal int Type;
+         int Type;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="PublicItem" /> class.
@@ -103,7 +103,7 @@ namespace Yupi.Emulator.Game.Browser.Models
         /// <param name="parentId">The parent identifier.</param>
         /// <param name="recommand">if set to <c>true</c> [recommand].</param>
         /// <param name="typeOfData">The type of data.</param>
-        internal PublicItem(uint id, int type, string caption, string desc, string image, PublicImageType imageType, uint roomId, int categoryId, int parentId, bool recommand, int typeOfData)
+         PublicItem(uint id, int type, string caption, string desc, string image, PublicImageType imageType, uint roomId, int categoryId, int parentId, bool recommand, int typeOfData)
         {
             Id = id;
             Type = type;
@@ -140,13 +140,13 @@ namespace Yupi.Emulator.Game.Browser.Models
         ///     Gets the room information.
         /// </summary>
         /// <value>The room information.</value>
-        internal RoomData RoomInfo => RoomId > 0u ? Yupi.GetGame().GetRoomManager().GenerateRoomData(RoomId) : null;
+         RoomData RoomInfo => RoomId > 0u ? Yupi.GetGame().GetRoomManager().GenerateRoomData(RoomId) : null;
 
         /// <summary>
         ///     Serializes the specified messageBuffer.
         /// </summary>
         /// <param name="messageBuffer">The messageBuffer.</param>
-        internal void Serialize(SimpleServerMessageBuffer messageBuffer)
+         void Serialize(SimpleServerMessageBuffer messageBuffer)
         {
             messageBuffer.AppendInteger(Id);
             messageBuffer.AppendString(Caption);
@@ -179,13 +179,13 @@ namespace Yupi.Emulator.Game.Browser.Models
         ///     Gets the identifier.
         /// </summary>
         /// <value>The identifier.</value>
-        internal uint Id { get; set; }
+         uint Id { get; set; }
 
         /// <summary>
         ///     Gets the room data.
         /// </summary>
         /// <value>The room data.</value>
         /// <exception cref="System.NullReferenceException"></exception>
-        internal RoomData GetPublicRoomData => RoomId == 0u ? new RoomData() : Yupi.GetGame().GetRoomManager().GenerateRoomData(RoomId);
+         RoomData GetPublicRoomData => RoomId == 0u ? new RoomData() : Yupi.GetGame().GetRoomManager().GenerateRoomData(RoomId);
     }
 }

@@ -7,7 +7,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class RefreshPolls. This class cannot be inherited.
     /// </summary>
-    internal sealed class RefreshPolls : Command
+     sealed class RefreshPolls : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="RefreshPolls" /> class.

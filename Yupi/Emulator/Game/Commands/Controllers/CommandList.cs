@@ -9,7 +9,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class CommandList. This class cannot be inherited.
     /// </summary>
-    internal sealed class CommandList : Command
+     sealed class CommandList : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="CommandList" /> class.

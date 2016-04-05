@@ -7,7 +7,7 @@ namespace Yupi.Messages.User
 {
 	public class OpenQuestsMessageEvent : AbstractHandler
 	{
-		public void HandleMessage (ISession<GameClient> session, ClientMessage message, Router router)
+		public void HandleMessage (GameClient session, ClientMessage message, Router router)
 		{
 			router.GetComposer<QuestListMessageComposer> ().Compose (session);
 		}

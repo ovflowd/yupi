@@ -8,7 +8,7 @@ namespace Yupi.Messages.User
 {
 	public class UserTagsMessageComposer : AbstractComposer
 	{
-		public void Compose(ISession<GameClient> session, int userId, List<string> tags) {
+		public void Compose(GameClient session, int userId, List<string> tags) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (userId);
 				message.Append (tags);

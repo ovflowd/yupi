@@ -27,22 +27,22 @@ namespace Yupi.Emulator.Game.Groups.Structs
     /// <summary>
     ///     Struct GroupBases
     /// </summary>
-    internal struct GroupBases
+     struct GroupBases
     {
         /// <summary>
         ///     The identifier
         /// </summary>
-        internal int Id;
+         int Id;
 
         /// <summary>
         ///     The value1
         /// </summary>
-        internal string Value1;
+         string Value1;
 
         /// <summary>
         ///     The value2
         /// </summary>
-        internal string Value2;
+         string Value2;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="GroupBases" /> struct.
@@ -50,7 +50,7 @@ namespace Yupi.Emulator.Game.Groups.Structs
         /// <param name="id">The identifier.</param>
         /// <param name="value1">The value1.</param>
         /// <param name="value2">The value2.</param>
-        internal GroupBases(int id, string value1, string value2)
+         GroupBases(int id, string value1, string value2)
         {
             Id = id;
             Value1 = value1;

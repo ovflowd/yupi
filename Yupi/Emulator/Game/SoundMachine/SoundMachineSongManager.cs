@@ -10,12 +10,12 @@ namespace Yupi.Emulator.Game.SoundMachine
     /// <summary>
     ///     Class SongManager.
     /// </summary>
-    internal class SoundMachineSongManager
+     class SoundMachineSongManager
     {
         /// <summary>
         ///     The songs
         /// </summary>
-        internal static Dictionary<uint, SongData> Songs;
+         static Dictionary<uint, SongData> Songs;
 
         /// <summary>
         ///     The _cache timer
@@ -27,7 +27,7 @@ namespace Yupi.Emulator.Game.SoundMachine
         /// </summary>
         /// <param name="codeName">Name of the code.</param>
         /// <returns>System.UInt32.</returns>
-        internal static uint GetSongId(string codeName)
+         static uint GetSongId(string codeName)
             => (from current in Songs.Values where current.CodeName == codeName select current.Id).FirstOrDefault();
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Yupi.Emulator.Game.SoundMachine
         /// </summary>
         /// <param name="codeName">Name of the code.</param>
         /// <returns>SongData.</returns>
-        internal static SongData GetSong(string codeName)
+         static SongData GetSong(string codeName)
             => Songs.Values.FirstOrDefault(current => current.CodeName == codeName);
 
         /// <summary>
@@ -43,20 +43,20 @@ namespace Yupi.Emulator.Game.SoundMachine
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>SongData.</returns>
-        internal static SongData GetSongById(uint id) => Songs.Values.FirstOrDefault(current => current.Id == id);
+         static SongData GetSongById(uint id) => Songs.Values.FirstOrDefault(current => current.Id == id);
 
         /// <summary>
         ///     Gets the code by identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>String.</returns>
-        internal static string GetCodeById(uint id)
+         static string GetCodeById(uint id)
             => (from current in Songs.Values where current.Id == id select current.CodeName).FirstOrDefault();
 
         /// <summary>
         ///     Initializes this instance.
         /// </summary>
-        internal static void Load()
+         static void Load()
         {
             Songs = new Dictionary<uint, SongData>();
             _cacheTimer = new Dictionary<uint, double>();
@@ -76,7 +76,7 @@ namespace Yupi.Emulator.Game.SoundMachine
         /// <summary>
         ///     Processes the thread.
         /// </summary>
-        internal static void ProcessThread()
+         static void ProcessThread()
         {
             double num = Yupi.GetUnixTimeStamp();
 
@@ -94,7 +94,7 @@ namespace Yupi.Emulator.Game.SoundMachine
         /// </summary>
         /// <param name="dRow">The d row.</param>
         /// <returns>SongData.</returns>
-        internal static SongData GetSongFromDataRow(DataRow dRow)
+         static SongData GetSongFromDataRow(DataRow dRow)
             =>
                 new SongData(Convert.ToUInt32(dRow["id"]), dRow["codename"].ToString(), (string) dRow["name"],
                     (string) dRow["artist"], (string) dRow["song_data"], (double) dRow["length"]);
@@ -104,7 +104,7 @@ namespace Yupi.Emulator.Game.SoundMachine
         /// </summary>
         /// <param name="songId">The song identifier.</param>
         /// <returns>SongData.</returns>
-        internal static SongData GetSong(uint songId)
+         static SongData GetSong(uint songId)
         {
             SongData result;
 

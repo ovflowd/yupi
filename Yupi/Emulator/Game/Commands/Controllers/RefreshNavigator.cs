@@ -7,7 +7,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class RefreshNavigator. This class cannot be inherited.
     /// </summary>
-    internal sealed class RefreshNavigator : Command
+     sealed class RefreshNavigator : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="RefreshNavigator" /> class.

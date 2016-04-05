@@ -37,27 +37,27 @@ namespace Yupi.Emulator.Game.Rooms.Competitions.Models
     /// <summary>
     ///     Class RoomCompetition.
     /// </summary>
-    internal class RoomCompetition
+     class RoomCompetition
     {
         /// <summary>
         ///     Competition Entries
         /// </summary>
-        internal Dictionary<uint, RoomData> Entries;
+         Dictionary<uint, RoomData> Entries;
 
         /// <summary>
         ///     Competition Id
         /// </summary>
-        internal int Id;
+         int Id;
 
         /// <summary>
         ///     Competition Name
         /// </summary>
-        internal string Name;
+         string Name;
 
         /// <summary>
         ///     Required Furniture Ids
         /// </summary>
-        internal string[] RequiredFurnis;
+         string[] RequiredFurnis;
 
         public RoomCompetition(int id, string name, string requiredFurnis)
         {
@@ -97,7 +97,7 @@ namespace Yupi.Emulator.Game.Rooms.Competitions.Models
             }
         }
 
-        internal bool HasAllRequiredFurnis(Room room)
+         bool HasAllRequiredFurnis(Room room)
         {
             if (room == null)
                 return false;
@@ -105,9 +105,9 @@ namespace Yupi.Emulator.Game.Rooms.Competitions.Models
             return RequiredFurnis.All(furni => room.GetRoomItemHandler().HasFurniByItemName(furni));
         }
 
-        internal SimpleServerMessageBuffer AppendEntrySubmitMessage(SimpleServerMessageBuffer messageBuffer, int status, Room room = null) => RoomCompetitionEntrySubmitResultComposer.Compose(this, messageBuffer, status, room);
+         SimpleServerMessageBuffer AppendEntrySubmitMessage(SimpleServerMessageBuffer messageBuffer, int status, Room room = null) => RoomCompetitionEntrySubmitResultComposer.Compose(this, messageBuffer, status, room);
 
-        internal SimpleServerMessageBuffer AppendVoteMessage(SimpleServerMessageBuffer messageBuffer, Habbo user, int status = 0) => RoomCompetitionVotingInfoComposer.Compose(this, messageBuffer, user, status);
+         SimpleServerMessageBuffer AppendVoteMessage(SimpleServerMessageBuffer messageBuffer, Habbo user, int status = 0) => RoomCompetitionVotingInfoComposer.Compose(this, messageBuffer, user, status);
     }
 
 }

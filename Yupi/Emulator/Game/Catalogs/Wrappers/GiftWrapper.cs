@@ -5,7 +5,7 @@ namespace Yupi.Emulator.Game.Catalogs.Wrappers
     /// <summary>
     ///     Class GiftWrapper.
     /// </summary>
-    internal static class GiftWrapper
+     static class GiftWrapper
     {
         /// <summary>
         ///     The gift wrappers list

@@ -35,22 +35,22 @@ namespace Yupi.Emulator.Game.RoomBots
     /// <summary>
     ///     Class BotManager.
     /// </summary>
-    internal class BotManager
+     class BotManager
     {
         /// <summary>
         ///     The clothing items
         /// </summary>
-        internal static Dictionary<string, CatalogBot> CatalogBots;
+         static Dictionary<string, CatalogBot> CatalogBots;
 
         /// <summary>
         ///     The clothing items
         /// </summary>
-        internal static Dictionary<uint, BotCommand> BotCommands;
+         static Dictionary<uint, BotCommand> BotCommands;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="BotManager" /> class.
         /// </summary>
-        internal BotManager()
+         BotManager()
         {
             Bots = new List<RoomBot>();
 
@@ -62,7 +62,7 @@ namespace Yupi.Emulator.Game.RoomBots
         /// </summary>
         public List<RoomBot> Bots { get; }
 
-        internal void Initialize()
+         void Initialize()
         {
             LoadCatalogBots(Yupi.GetDatabaseManager().GetQueryReactor());
 
@@ -74,7 +74,7 @@ namespace Yupi.Emulator.Game.RoomBots
         /// </summary>
         /// <param name="row">The row.</param>
         /// <returns>RoomBot.</returns>
-        internal static RoomBot GenerateBotFromRow(DataRow row)
+         static RoomBot GenerateBotFromRow(DataRow row)
         {
             if (row == null)
                 return null;
@@ -101,7 +101,7 @@ namespace Yupi.Emulator.Game.RoomBots
         ///     Loads the bots commands.
         /// </summary>
         /// <param name="dbClient">The database client.</param>
-        internal void LoadBotsCommands(IQueryAdapter dbClient)
+         void LoadBotsCommands(IQueryAdapter dbClient)
         {
             dbClient.SetQuery("SELECT * FROM bots_commands");
 
@@ -117,7 +117,7 @@ namespace Yupi.Emulator.Game.RoomBots
         ///     Loads the catalog bots.
         /// </summary>
         /// <param name="dbClient">The database client.</param>
-        internal void LoadCatalogBots(IQueryAdapter dbClient)
+         void LoadCatalogBots(IQueryAdapter dbClient)
         {
             dbClient.SetQuery("SELECT * FROM catalog_bots");
 
@@ -135,7 +135,7 @@ namespace Yupi.Emulator.Game.RoomBots
         /// <param name="botType">Type of the bot.</param>
         /// <param name="userId">The user identifier.</param>
         /// <returns>RoomBot.</returns>
-        internal static RoomBot CreateBotFromCatalog(string botType, uint userId)
+         static RoomBot CreateBotFromCatalog(string botType, uint userId)
         {
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
@@ -155,7 +155,7 @@ namespace Yupi.Emulator.Game.RoomBots
         /// </summary>
         /// <param name="roomId">The room identifier.</param>
         /// <returns>List&lt;RoomBot&gt;.</returns>
-        internal List<RoomBot> GetBotsForRoom(uint roomId)
+         List<RoomBot> GetBotsForRoom(uint roomId)
             => new List<RoomBot>(from p in Bots where p.RoomId == roomId select p);
 
         /// <summary>
@@ -163,14 +163,14 @@ namespace Yupi.Emulator.Game.RoomBots
         /// </summary>
         /// <param name="botId">The bot identifier.</param>
         /// <returns>RoomBot.</returns>
-        internal RoomBot GetBot(uint botId) => Bots.FirstOrDefault(p => p.BotId == botId);
+         RoomBot GetBot(uint botId) => Bots.FirstOrDefault(p => p.BotId == botId);
 
         /// <summary>
         ///     Gets the catalog bot.
         /// </summary>
         /// <param name="botType">Type of the bot.</param>
         /// <returns>Yupi.Game.RoomBots.Interfaces.CatalogBot.</returns>
-        internal static CatalogBot GetCatalogBot(string botType)
+         static CatalogBot GetCatalogBot(string botType)
             => CatalogBots.FirstOrDefault(p => p.Key == botType).Value;
 
         /// <summary>
@@ -178,7 +178,7 @@ namespace Yupi.Emulator.Game.RoomBots
         /// </summary>
         /// <param name="commandId">The command identifier.</param>
         /// <returns>Yupi.Game.RoomBots.Interfaces.BotCommand.</returns>
-        internal static BotCommand GetBotCommandById(uint commandId)
+         static BotCommand GetBotCommandById(uint commandId)
             => BotCommands.FirstOrDefault(p => p.Key == commandId).Value;
 
         /// <summary>
@@ -186,7 +186,7 @@ namespace Yupi.Emulator.Game.RoomBots
         /// </summary>
         /// <param name="userInput">The user input.</param>
         /// <returns>Yupi.Game.RoomBots.Interfaces.BotCommand.</returns>
-        internal static BotCommand GetBotCommandByInput(string userInput)
+         static BotCommand GetBotCommandByInput(string userInput)
             =>
                 BotCommands.FirstOrDefault(
                     p => p.Value.SpeechInput == userInput || p.Value.SpeechInputAlias.Contains(userInput)).Value;
