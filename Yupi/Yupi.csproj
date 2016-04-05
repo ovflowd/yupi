@@ -590,7 +590,6 @@
     <Compile Include="Emulator\Messages\Handlers\Music.cs" />
     <Compile Include="Emulator\Messages\Handlers\Navigator.cs" />
     <Compile Include="Emulator\Messages\Handlers\Rooms.cs" />
-    <Compile Include="Emulator\Messages\Handlers\Users.cs" />
     <Compile Include="Emulator\Messages\Enums\StaticMessages.cs" />
     <Compile Include="Emulator\Core\Security\BlackWords\Structs\BlackWord.cs" />
     <Compile Include="Emulator\Core\Security\BlackWords\BlackWordsManager.cs" />

@@ -39,34 +39,34 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         /// <summary>
         ///     The current room user identifier
         /// </summary>
-         int CurrentRoomUserId;
+        public int CurrentRoomUserId;
 
         /// <summary>
         ///     The designed handler
         /// </summary>
-         int DesignedHandler = 1;
+		public int DesignedHandler = 1;
 
         /// <summary>
         ///     The machine identifier
         /// </summary>
-         string MachineId;
+		public string MachineId;
 
         /// <summary>
         ///     The publicist count
         /// </summary>
-         byte PublicistCount;
+		public byte PublicistCount;
 
         /// <summary>
         ///     The time pinged received
         /// </summary>
-         DateTime TimePingedReceived;
+		public DateTime TimePingedReceived;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="GameClient" /> class.
         /// </summary>
         /// <param name="clientId">The client identifier.</param>
         /// <param name="connection">The connection.</param>
-		 GameClient(ISession<GameClient> connection)
+		public GameClient(ISession<GameClient> connection)
         {
             _connection = connection;
 
@@ -84,7 +84,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         /// <param name="message">The message.</param>
         /// <param name="method">The method.</param>
         /// <param name="settings">The settings.</param>
-         void HandlePublicist(string word, string message, string method, BlackWordTypeSettings settings)
+		public void HandlePublicist(string word, string message, string method, BlackWordTypeSettings settings)
         {
             Habbo userPublicist = GetHabbo();
 
@@ -155,19 +155,19 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         ///     Gets the connection.
         /// </summary>
         /// <returns>ConnectionInformation.</returns>
-		 ISession GetConnection() => _connection;
+		public ISession GetConnection() => _connection;
 
         /// <summary>
         ///     Gets the message handler.
         /// </summary>
         /// <returns>MessageHandler.</returns>
-         MessageHandler GetMessageHandler() => _messageHandler;
+		public MessageHandler GetMessageHandler() => _messageHandler;
 
         /// <summary>
         ///     Gets the habbo.
         /// </summary>
         /// <returns>Habbo.</returns>
-         Habbo GetHabbo() => _habbo;
+		public Habbo GetHabbo() => _habbo;
 
         /// <summary>
         ///     Tries the login.
@@ -175,7 +175,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         /// <param name="authTicket">The authentication ticket.</param>
         /// <param name="banReasonOut"></param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-         bool TryLogin(string authTicket, out string banReasonOut)
+		public bool TryLogin(string authTicket, out string banReasonOut)
         {
             banReasonOut = string.Empty;
 
@@ -326,7 +326,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         ///     Sends the notif with scroll.
         /// </summary>
         /// <param name="message">The message.</param>
-         void SendNotifWithScroll(string message)
+		public void SendNotifWithScroll(string message)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("MOTDNotificationMessageComposer"));
 
@@ -339,7 +339,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         ///     Sends the broadcast message.
         /// </summary>
         /// <param name="message">The message.</param>
-         void SendBroadcastMessage(string message)
+		public void SendBroadcastMessage(string message)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("BroadcastNotifMessageComposer"));
 
@@ -352,7 +352,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         ///     Sends the moderator message.
         /// </summary>
         /// <param name="message">The message.</param>
-         void SendModeratorMessage(string message)
+		public void SendModeratorMessage(string message)
         {
             if (string.IsNullOrWhiteSpace(message))
                 return;
@@ -370,7 +370,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="fromWired"></param>
-         void SendWhisper(string message, bool fromWired = false)
+		public void SendWhisper(string message, bool fromWired = false)
         {
             if (GetHabbo() == null || GetHabbo().CurrentRoom == null)
                 return;
@@ -398,7 +398,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         /// <param name="message">The message.</param>
         /// <param name="title">The title.</param>
         /// <param name="picture">The picture.</param>
-         void SendNotif(string message, string title = "Aviso", string picture = "") => SendMessage(GetBytesNotif(message, title, picture));
+		public void SendNotif(string message, string title = "Aviso", string picture = "") => SendMessage(GetBytesNotif(message, title, picture));
 
         /// <summary>
         ///     Gets the bytes notif.
@@ -431,7 +431,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         /// </summary>
         /// <param name="reason">The reason.</param>
         /// <param name="showConsole"></param>
-         void Disconnect(string reason = "Left Game", bool showConsole = false)
+		public void Disconnect(string reason = "Left Game", bool showConsole = false)
         {
 
             GetHabbo()?.RunDbUpdate();
@@ -447,6 +447,10 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
 
             _connection = null;
         }
+		// TODO Remove
+		public void SendMessage(ServerMessage message) {
+			Send(message);
+		}
 
 		public void Send(ServerMessage message) {
 			byte[] bytes = message.GetReversedBytes();

@@ -106,6 +106,22 @@
     <Compile Include="Handlers\User\ChangeUsernameMessageEvent.cs" />
     <Compile Include="Composer\User\UpdateUsernameMessageComposer.cs" />
     <Compile Include="Composer\User\UserUpdateNameInRoomMessageComposer.cs" />
+    <Compile Include="Handlers\User\RelationshipsGetMessageEvent.cs" />
+    <Compile Include="Composer\User\RelationshipMessageComposer.cs" />
+    <Compile Include="Handlers\User\SetRelationshipMessageEvent.cs" />
+    <Compile Include="Handlers\User\GetTalentsTrackMessageEvent.cs" />
+    <Compile Include="Composer\User\TalentsTrackMessageComposer.cs" />
+    <Compile Include="Handlers\User\CompleteSafetyQuizMessageEvent.cs" />
+    <Compile Include="Handlers\User\HotelViewCountdownMessageEvent.cs" />
+    <Compile Include="Composer\User\HotelViewCountdownMessageComposer.cs" />
+    <Compile Include="Handlers\User\FindMoreFriendsMessageEvent.cs" />
+    <Compile Include="Composer\User\FindMoreFriendsSuccessMessageComposer.cs" />
+    <Compile Include="Composer\User\RoomForwardMessageComposer.cs" />
+    <Compile Include="Handlers\User\HotelViewRequestBadgeMessageEvent.cs" />
+    <Compile Include="Handlers\User\GetCameraPriceMessageEvent.cs" />
+    <Compile Include="Composer\User\SetCameraPriceMessageComposer.cs" />
+    <Compile Include="Handlers\User\GetHotelViewHallOfFameMessageEvent.cs" />
+    <Compile Include="Composer\User\HotelViewHallOfFameMessageComposer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

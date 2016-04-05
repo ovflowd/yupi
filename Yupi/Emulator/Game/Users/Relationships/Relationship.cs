@@ -3,18 +3,20 @@ namespace Yupi.Emulator.Game.Users.Relationships
     /// <summary>
     ///     Class Relationship.
     /// </summary>
-     class Relationship
+    public class Relationship
     {
         /// <summary>
         ///     The identifier
         /// </summary>
         public int Id;
 
+		// TODO Introduce ENUM
         /// <summary>
         ///     The type
         /// </summary>
         public int Type;
 
+		// TODO UserId = target, source seems to be missing from class (only in db)
         /// <summary>
         ///     The user identifier
         /// </summary>
