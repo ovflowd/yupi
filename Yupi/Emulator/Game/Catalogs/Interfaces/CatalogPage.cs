@@ -11,12 +11,7 @@ namespace Yupi.Emulator.Game.Catalogs.Interfaces
     /// </summary>
      public class CatalogPage
     {
-        /// <summary>
-        ///     The cached contents messageBuffer
-        /// </summary>
-     public SimpleServerMessageBuffer CachedContentsMessageBuffer;
-
-        /// <summary>
+             /// <summary>
         ///     The caption
         /// </summary>
      public string Caption;
@@ -188,8 +183,6 @@ namespace Yupi.Emulator.Game.Catalogs.Interfaces
                 if (!FlatOffers.ContainsKey(flatId))
                     FlatOffers.Add(catalogItem.GetFirstBaseItem().FlatId, catalogItem.Id);
             }
-
-            CachedContentsMessageBuffer = CatalogPageComposer.ComposePage(this);
         }
 
         /// <summary>

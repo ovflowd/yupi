@@ -322,22 +322,6 @@ namespace Yupi.Emulator.Game.Catalogs
         /// <returns>CatalogPage.</returns>
      public CatalogPage GetPage(uint page) => Categories.Contains(page) ? (CatalogPage) Categories[page] : null;
 
-        /// <summary>
-        ///     Handles the purchase.
-        /// </summary>
-        /// <param name="session">The session.</param>
-        /// <param name="pageId">The page identifier.</param>
-        /// <param name="itemId">The item identifier.</param>
-        /// <param name="extraData">The extra data.</param>
-        /// <param name="priceAmount">The price amount.</param>
-        /// <param name="isGift">if set to <c>true</c> [is gift].</param>
-        /// <param name="giftUser">The gift user.</param>
-        /// <param name="giftMessage">The gift message.</param>
-        /// <param name="giftSpriteId">The gift sprite identifier.</param>
-        /// <param name="giftLazo">The gift lazo.</param>
-        /// <param name="giftColor">Color of the gift.</param>
-        /// <param name="undef">if set to <c>true</c> [undef].</param>
-        /// <param name="theGroup">The theGroup.</param>
      public void HandlePurchase(GameClient session, uint pageId, uint itemId, string extraData, uint priceAmount,
             bool isGift, string giftUser, string giftMessage, int giftSpriteId, int giftLazo, int giftColor, bool undef,
             uint theGroup)

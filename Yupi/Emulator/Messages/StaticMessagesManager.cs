@@ -76,18 +76,6 @@ namespace Yupi.Emulator.Messages
             messageBuffer.AppendString("ok");
             Cache.Add(StaticMessage.AdviceMaxItems, messageBuffer.GetReversedBytes());
 
-            messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SuperNotificationMessageComposer"));
-            messageBuffer.AppendString(string.Empty);
-            messageBuffer.AppendInteger(4);
-            messageBuffer.AppendString("title");
-            messageBuffer.AppendString("${generic.notice}");
-            messageBuffer.AppendString("message");
-            messageBuffer.AppendString("You've exceeded the maximum furnis inventory. You can not buy more until you get rid of some furnis.");
-            messageBuffer.AppendString("linkUrl");
-            messageBuffer.AppendString("event:");
-            messageBuffer.AppendString("linkTitle");
-            messageBuffer.AppendString("ok");
-            Cache.Add(StaticMessage.AdvicePurchaseMaxItems, messageBuffer.GetReversedBytes());
 
             messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("CatalogueOfferConfigMessageComposer"));
             messageBuffer.AppendInteger(100);

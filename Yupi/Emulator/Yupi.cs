@@ -683,7 +683,9 @@ namespace Yupi.Emulator
         ///     Get's the HabboHotel Environment Handler
         /// </summary>
         /// <returns>HabboHotel.</returns>
-        public static HabboHotel GetGame() => GameServer;
+		public static HabboHotel GetGame() {
+			return GameServer;
+		}
 
         /// <summary>
         ///     Gets the language.

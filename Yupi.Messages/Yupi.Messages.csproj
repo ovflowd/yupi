@@ -159,6 +159,34 @@
     <Compile Include="Handlers\Guides\CancellInviteGuide.cs" />
     <Compile Include="Composer\Guides\OnGuideSessionDetachedMessageComposer.cs" />
     <Compile Include="Handlers\Guides\GuideEndSession.cs" />
+    <Compile Include="Handlers\Catalog\GetCatalogIndexMessageEvent.cs" />
+    <Compile Include="Handlers\Catalog\GetCatalogPageMessageEvent.cs" />
+    <Compile Include="Composer\Catalog\CataloguePageMessageComposer.cs" />
+    <Compile Include="Handlers\Catalog\GetCatalogClubPageMessageEvent.cs" />
+    <Compile Include="Composer\Catalog\CatalogueClubPageMessageComposer.cs" />
+    <Compile Include="Handlers\Catalog\ReloadRecyclerMessageEvent.cs" />
+    <Compile Include="Composer\Catalog\ReloadEcotronMessageComposer.cs" />
+    <Compile Include="Handlers\Catalog\GetGiftWrappingConfigurationMessageEvent.cs" />
+    <Compile Include="Composer\Catalog\GiftWrappingConfigurationMessageComposer.cs" />
+    <Compile Include="Handlers\Catalog\GetRecyclerRewardsMessageEvent.cs" />
+    <Compile Include="Composer\Catalog\RecyclerRewardsMessageComposer.cs" />
+    <Compile Include="Handlers\Catalog\PurchaseFromCatalogMessageEvent.cs" />
+    <Compile Include="Composer\Catalog\PurchaseOKMessageComposer.cs" />
+    <Compile Include="Composer\Notification\SuperNotificationMessageComposer.cs" />
+    <Compile Include="Handlers\Catalog\PurchaseFromCatalogAsGiftMessageEvent.cs" />
+    <Compile Include="Handlers\Catalog\CheckPetnameMessageEvent.cs" />
+    <Compile Include="Composer\Catalog\CheckPetNameMessageComposer.cs" />
+    <Compile Include="Handlers\Catalog\GetCatalogOfferMessageEvent.cs" />
+    <Compile Include="Composer\Catalog\CatalogOfferMessageComposer.cs" />
+    <Compile Include="Composer\Catalog\GetCatalogClubPageMessageEvent.cs" />
+    <Compile Include="Composer\Catalog\GetGiftWrappingConfigurationMessageEvent.cs" />
+    <Compile Include="Composer\Catalog\PurchaseFromCatalogAsGiftMessageEvent.cs" />
+    <Compile Include="Composer\Catalog\ReloadRecyclerMessageEvent.cs" />
+    <Compile Include="Composer\Catalog\CatalogueIndexMessageComposer.cs" />
+    <Compile Include="Composer\Catalog\CatalogueOfferConfigMessageComposer.cs" />
+    <Compile Include="Handlers\Catalog\CatalogueOfferConfigMessageEvent.cs" />
+    <Compile Include="Handlers\Catalog\GetGroupFurnitureMessageEvent.cs" />
+    <Compile Include="Composer\Catalog\GroupFurniturePageMessageComposer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -189,6 +217,7 @@
     <Folder Include="Composer\Music\" />
     <Folder Include="Handlers\Guides\" />
     <Folder Include="Composer\Guides\" />
+    <Folder Include="Composer\Notification\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
