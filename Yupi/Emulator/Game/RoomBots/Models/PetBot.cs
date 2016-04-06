@@ -41,7 +41,7 @@ namespace Yupi.Emulator.Game.RoomBots.Models
     /// <summary>
     ///     Class PetBot.
     /// </summary>
-     class PetBot : BaseBot
+     public class PetBot : BaseBot
     {
         /// <summary>
         ///     The _action timer
@@ -62,7 +62,7 @@ namespace Yupi.Emulator.Game.RoomBots.Models
         ///     Initializes a new instance of the <see cref="PetBot" /> class.
         /// </summary>
         /// <param name="virtualId">The virtual identifier.</param>
-         PetBot(int virtualId)
+     public PetBot(int virtualId)
         {
             _speechTimer = (uint) new Random((virtualId ^ 2) + DateTime.Now.Millisecond).Next(20, 80);
             _actionTimer = (uint) new Random((virtualId ^ 2) + DateTime.Now.Millisecond).Next(20, 50);
@@ -72,7 +72,7 @@ namespace Yupi.Emulator.Game.RoomBots.Models
         /// <summary>
         ///     Called when [self enter room].
         /// </summary>
-         override void OnSelfEnterRoom()
+     public override void OnSelfEnterRoom()
         {
             RoomUser roomUser = GetRoomUser();
 
@@ -91,7 +91,7 @@ namespace Yupi.Emulator.Game.RoomBots.Models
         ///     Called when [user enter room].
         /// </summary>
         /// <param name="user">The user.</param>
-         override void OnUserEnterRoom(RoomUser user)
+     public override void OnUserEnterRoom(RoomUser user)
         {
             if (user.GetClient() == null || user.GetClient().GetHabbo() == null)
                 return;
@@ -118,7 +118,7 @@ namespace Yupi.Emulator.Game.RoomBots.Models
         /// </summary>
         /// <param name="user">The user.</param>
         /// <param name="msg">The MSG.</param>
-         override void OnUserSay(RoomUser user, string msg)
+     public override void OnUserSay(RoomUser user, string msg)
         {
             RoomUser roomUser = GetRoomUser();
 
@@ -301,7 +301,7 @@ namespace Yupi.Emulator.Game.RoomBots.Models
         /// <summary>
         ///     Called when [timer tick].
         /// </summary>
-         override void OnTimerTick()
+     public override void OnTimerTick()
         {
             RoomUser roomUser = GetRoomUser();
 

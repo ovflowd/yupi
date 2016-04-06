@@ -11,7 +11,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class CopyLook. This class cannot be inherited.
     /// </summary>
-     sealed class CopyLook : Command
+     public sealed class CopyLook : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="CopyLook" /> class.

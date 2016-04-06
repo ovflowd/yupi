@@ -3,22 +3,22 @@ namespace Yupi.Emulator.Game.Items.Interfaces
     /// <summary>
     ///     Class MoodlightPreset.
     /// </summary>
-     class MoodlightPreset
+     public class MoodlightPreset
     {
         /// <summary>
         ///     The background only
         /// </summary>
-         bool BackgroundOnly;
+     public bool BackgroundOnly;
 
         /// <summary>
         ///     The color code
         /// </summary>
-         string ColorCode;
+     public string ColorCode;
 
         /// <summary>
         ///     The color intensity
         /// </summary>
-         int ColorIntensity;
+     public int ColorIntensity;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="MoodlightPreset" /> class.
@@ -26,7 +26,7 @@ namespace Yupi.Emulator.Game.Items.Interfaces
         /// <param name="colorCode">The color code.</param>
         /// <param name="colorIntensity">The color intensity.</param>
         /// <param name="backgroundOnly">if set to <c>true</c> [background only].</param>
-         MoodlightPreset(string colorCode, int colorIntensity, bool backgroundOnly)
+     public MoodlightPreset(string colorCode, int colorIntensity, bool backgroundOnly)
         {
             ColorCode = colorCode;
             ColorIntensity = colorIntensity;

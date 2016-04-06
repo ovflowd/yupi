@@ -7,7 +7,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class RefreshItems. This class cannot be inherited.
     /// </summary>
-     sealed class RefreshItems : Command
+     public sealed class RefreshItems : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="RefreshItems" /> class.

@@ -41,42 +41,42 @@ namespace Yupi.Emulator.Game.Groups
     /// <summary>
     ///     Class GroupManager.
     /// </summary>
-     class GroupManager
+     public class GroupManager
     {
         /// <summary>
         ///     The back ground colours
         /// </summary>
-         HybridDictionary BackGroundColours;
+     public HybridDictionary BackGroundColours;
 
         /// <summary>
         ///     The base colours
         /// </summary>
-         HashSet<GroupBaseColours> BaseColours;
+     public HashSet<GroupBaseColours> BaseColours;
 
         /// <summary>
         ///     The bases
         /// </summary>
-         HashSet<GroupBases> Bases;
+     public HashSet<GroupBases> Bases;
 
         /// <summary>
         ///     The groups
         /// </summary>
-         HybridDictionary Groups;
+     public HybridDictionary Groups;
 
         /// <summary>
         ///     The symbol colours
         /// </summary>
-         HybridDictionary SymbolColours;
+     public HybridDictionary SymbolColours;
 
         /// <summary>
         ///     The symbols
         /// </summary>
-         HashSet<GroupSymbols> Symbols;
+     public HashSet<GroupSymbols> Symbols;
 
         /// <summary>
         ///     Initializes the groups.
         /// </summary>
-         void InitGroups()
+     public void InitGroups()
         {
             Bases = new HashSet<GroupBases>();
             Symbols = new HashSet<GroupSymbols>();
@@ -127,7 +127,7 @@ namespace Yupi.Emulator.Game.Groups
         /// <summary>
         ///     Clears the information.
         /// </summary>
-         void ClearInfo()
+     public void ClearInfo()
         {
             Bases.Clear();
             Symbols.Clear();
@@ -147,7 +147,7 @@ namespace Yupi.Emulator.Game.Groups
         /// <param name="colour1">The colour1.</param>
         /// <param name="colour2">The colour2.</param>
         /// <param name="group">The theGroup.</param>
-         void CreateGroup(string name, string desc, uint roomId, string badge, GameClient session, int colour1,
+     public void CreateGroup(string name, string desc, uint roomId, string badge, GameClient session, int colour1,
             int colour2, out Group group)
         {
             Habbo user = session.GetHabbo();
@@ -199,7 +199,7 @@ namespace Yupi.Emulator.Game.Groups
         /// </summary>
         /// <param name="groupId">The theGroup identifier.</param>
         /// <returns>Guild.</returns>
-         Group GetGroup(uint groupId)
+     public Group GetGroup(uint groupId)
         {
             if (Groups == null)
                 return null;
@@ -294,7 +294,7 @@ namespace Yupi.Emulator.Game.Groups
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <returns>HashSet&lt;GroupUser&gt;.</returns>
-         HashSet<GroupMember> GetUserGroups(uint userId)
+     public HashSet<GroupMember> GetUserGroups(uint userId)
         {
             HashSet<GroupMember> list = new HashSet<GroupMember>();
 
@@ -313,7 +313,7 @@ namespace Yupi.Emulator.Game.Groups
             return list;
         }
 
-         void AddGroupMemberIntoResponse(SimpleServerMessageBuffer response, GroupMember member)
+     public void AddGroupMemberIntoResponse(SimpleServerMessageBuffer response, GroupMember member)
         {
             response.AppendInteger(member.Rank == 2 ? 0 : member.Rank == 1 ? 1 : 2);
             response.AppendInteger(member.Id);
@@ -332,7 +332,7 @@ namespace Yupi.Emulator.Game.Groups
         /// <param name="searchVal">The search value.</param>
         /// <param name="page">The page.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-         SimpleServerMessageBuffer SerializeGroupMembers(SimpleServerMessageBuffer response, Group theGroup, uint reqType, GameClient session, string searchVal = "", int page = 0)
+     public SimpleServerMessageBuffer SerializeGroupMembers(SimpleServerMessageBuffer response, Group theGroup, uint reqType, GameClient session, string searchVal = "", int page = 0)
         {
             if (theGroup == null || session == null)
                 return null;
@@ -450,7 +450,7 @@ namespace Yupi.Emulator.Game.Groups
         /// <param name="searchVal">The search value.</param>
         /// <param name="req">The req.</param>
         /// <returns>List&lt;GroupUser&gt;.</returns>
-         List<GroupMember> GetGroupUsersByString(Group theGroup, string searchVal, uint req)
+     public List<GroupMember> GetGroupUsersByString(Group theGroup, string searchVal, uint req)
         {
             List<GroupMember> list = new List<GroupMember>();
 
@@ -483,7 +483,7 @@ namespace Yupi.Emulator.Game.Groups
         /// <param name="theGroup">The theGroup.</param>
         /// <param name="searchVal">The search value.</param>
         /// <returns>List&lt;System.UInt32&gt;.</returns>
-         List<GroupMember> GetGroupRequestsByString(Group theGroup, string searchVal)
+     public List<GroupMember> GetGroupRequestsByString(Group theGroup, string searchVal)
             =>
                 string.IsNullOrWhiteSpace(searchVal)
                     ? theGroup.Requests.Values.ToList()
@@ -497,7 +497,7 @@ namespace Yupi.Emulator.Game.Groups
         /// <param name="response">The response.</param>
         /// <param name="session">The session.</param>
         /// <param name="newWindow">if set to <c>true</c> [new window].</param>
-         void SerializeGroupInfo(Group group, SimpleServerMessageBuffer response, GameClient session, bool newWindow = false)
+     public void SerializeGroupInfo(Group group, SimpleServerMessageBuffer response, GameClient session, bool newWindow = false)
         {
             if (group == null || session == null)
                 return;
@@ -545,7 +545,7 @@ namespace Yupi.Emulator.Game.Groups
         /// <param name="session">The session.</param>
         /// <param name="room">The room.</param>
         /// <param name="newWindow">if set to <c>true</c> [new window].</param>
-         void SerializeGroupInfo(Group group, SimpleServerMessageBuffer response, GameClient session, Room room,
+     public void SerializeGroupInfo(Group group, SimpleServerMessageBuffer response, GameClient session, Room room,
             bool newWindow = false)
         {
             if (room == null || group == null)
@@ -593,7 +593,7 @@ namespace Yupi.Emulator.Game.Groups
         /// <param name="guildBaseColor">Color of the guild base.</param>
         /// <param name="states">The states.</param>
         /// <returns>System.String.</returns>
-         string GenerateGuildImage(int guildBase, int guildBaseColor, List<int> states)
+     public string GenerateGuildImage(int guildBase, int guildBaseColor, List<int> states)
         {
             StringBuilder image = new StringBuilder($"b{guildBase:00}{guildBaseColor:00}");
 
@@ -609,7 +609,7 @@ namespace Yupi.Emulator.Game.Groups
         /// <param name="index">The index.</param>
         /// <param name="colour1">if set to <c>true</c> [colour1].</param>
         /// <returns>System.String.</returns>
-         string GetGroupColour(int index, bool colour1)
+     public string GetGroupColour(int index, bool colour1)
         {
             if (colour1)
             {
@@ -632,7 +632,7 @@ namespace Yupi.Emulator.Game.Groups
         ///     Deletes the theGroup.
         /// </summary>
         /// <param name="id">The identifier.</param>
-         void DeleteGroup(uint id)
+     public void DeleteGroup(uint id)
         {
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
@@ -654,7 +654,7 @@ namespace Yupi.Emulator.Game.Groups
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>System.Int32.</returns>
-         int GetMessageCountForThread(uint id)
+     public int GetMessageCountForThread(uint id)
         {
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {

@@ -1,6 +1,6 @@
 namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Freeze.Enum
 {
-     enum FreezePowerUp
+     public enum FreezePowerUp
     {
         None,
         BlueArrow,

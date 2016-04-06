@@ -6,7 +6,7 @@ using Yupi.Emulator.Game.Rooms;
 
 namespace Yupi.Emulator.Game.Items.Wired.Handlers.Conditions
 {
-     class NotHowManyUsersInRoom : IWiredItem
+     public class NotHowManyUsersInRoom : IWiredItem
     {
         public NotHowManyUsersInRoom(RoomItem item, Room room)
         {

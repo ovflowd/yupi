@@ -9,23 +9,23 @@ namespace Yupi.Emulator.Game.Items.Datas
     /// <summary>
     ///     Class HighscoreData.
     /// </summary>
-     class HighscoreData
+     public class HighscoreData
     {
         /// <summary>
         ///     The last identifier
         /// </summary>
-         int LastId;
+     public int LastId;
 
         /// <summary>
         ///     The lines
         /// </summary>
-         Dictionary<int, HighScoreLine> Lines;
+     public Dictionary<int, HighScoreLine> Lines;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="HighscoreData" /> class.
         /// </summary>
         /// <param name="roomItem">The room item.</param>
-         HighscoreData(RoomItem roomItem)
+     public HighscoreData(RoomItem roomItem)
         {
             Lines = new Dictionary<int, HighScoreLine>();
             uint itemId = roomItem.Id;
@@ -54,7 +54,7 @@ namespace Yupi.Emulator.Game.Items.Datas
         /// <param name="item">The item.</param>
         /// <param name="message">The messageBuffer.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-         SimpleServerMessageBuffer GenerateExtraData(RoomItem item, SimpleServerMessageBuffer messageBuffer)
+     public SimpleServerMessageBuffer GenerateExtraData(RoomItem item, SimpleServerMessageBuffer messageBuffer)
         {
             messageBuffer.AppendInteger(6);
             messageBuffer.AppendString(item.ExtraData); //Ouvert/fermé
@@ -85,7 +85,7 @@ namespace Yupi.Emulator.Game.Items.Datas
         /// <param name="item">The item.</param>
         /// <param name="username">The username.</param>
         /// <param name="score">The score.</param>
-         void AddUserScore(RoomItem item, string username, int score)
+     public void AddUserScore(RoomItem item, string username, int score)
         {
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {

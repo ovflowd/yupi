@@ -23,7 +23,7 @@ namespace Yupi.Emulator.Game.Users.Factories
     /// <summary>
     ///     Class UserDataFactory.
     /// </summary>
-     class UserDataFactory
+     public class UserDataFactory
     {
         /// <summary>
         ///     Gets the user data.
@@ -31,7 +31,7 @@ namespace Yupi.Emulator.Game.Users.Factories
         /// <param name="sessionTicket">The session ticket.</param>
         /// <param name="errorCode">The error code.</param>
         /// <returns>UserData.</returns>
-         static UserData GetUserData(string sessionTicket, out uint errorCode)
+     public static UserData GetUserData(string sessionTicket, out uint errorCode)
         {
             errorCode = 1;
 
@@ -334,7 +334,7 @@ namespace Yupi.Emulator.Game.Users.Factories
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <returns>UserData.</returns>
-         static UserData GetUserData(int userId)
+     public static UserData GetUserData(int userId)
         {
             DataRow userInfo;
             DataRow userStats;

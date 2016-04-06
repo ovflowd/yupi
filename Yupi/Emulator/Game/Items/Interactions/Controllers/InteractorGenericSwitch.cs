@@ -8,7 +8,7 @@ using Yupi.Emulator.Game.Rooms.User;
 
 namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 {
-     class InteractorGenericSwitch : FurniInteractorModel
+     public class InteractorGenericSwitch : FurniInteractorModel
     {
         public override void OnTrigger(GameClient session, RoomItem item, int request, bool hasRights)
         {

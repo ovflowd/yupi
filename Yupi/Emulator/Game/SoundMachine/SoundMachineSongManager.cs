@@ -15,7 +15,7 @@ namespace Yupi.Emulator.Game.SoundMachine
         /// <summary>
         ///     The songs
         /// </summary>
-         static Dictionary<uint, SongData> Songs;
+     public static Dictionary<uint, SongData> Songs;
 
         /// <summary>
         ///     The _cache timer

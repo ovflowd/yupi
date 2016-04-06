@@ -27,7 +27,7 @@ namespace Yupi.Emulator.Game.Pathfinding
     /// <summary>
     ///     Class Rotation.
     /// </summary>
-     static class Rotation
+     public static class Rotation
     {
         /// <summary>
         ///     Calculates the specified x1.
@@ -37,7 +37,7 @@ namespace Yupi.Emulator.Game.Pathfinding
         /// <param name="x2">The x2.</param>
         /// <param name="y2">The y2.</param>
         /// <returns>System.Int32.</returns>
-         static int Calculate(int x1, int y1, int x2, int y2)
+     public static int Calculate(int x1, int y1, int x2, int y2)
         {
             int result = 0;
 
@@ -70,7 +70,7 @@ namespace Yupi.Emulator.Game.Pathfinding
         /// <param name="y2">The y2.</param>
         /// <param name="moonwalk">if set to <c>true</c> [moonwalk].</param>
         /// <returns>System.Int32.</returns>
-         static int Calculate(int x1, int y1, int x2, int y2, bool moonwalk)
+     public static int Calculate(int x1, int y1, int x2, int y2, bool moonwalk)
             => !moonwalk ? Calculate(x1, y1, x2, y2) : RotationIverse(Calculate(x1, y1, x2, y2));
 
         /// <summary>
@@ -78,6 +78,6 @@ namespace Yupi.Emulator.Game.Pathfinding
         /// </summary>
         /// <param name="rot">The rot.</param>
         /// <returns>System.Int32.</returns>
-         static int RotationIverse(int rot) => rot > 3 ? rot - 4 : rot + 4;
+     public static int RotationIverse(int rot) => rot > 3 ? rot - 4 : rot + 4;
     }
 }

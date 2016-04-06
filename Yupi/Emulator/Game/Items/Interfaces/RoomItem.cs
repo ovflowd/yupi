@@ -54,67 +54,67 @@ namespace Yupi.Emulator.Game.Items.Interfaces
         /// <summary>
         ///     The ball is moving
         /// </summary>
-         bool BallIsMoving;
+     public bool BallIsMoving;
 
         /// <summary>
         ///     The ball value
         /// </summary>
-         int BallValue;
+     public int BallValue;
 
         /// <summary>
         ///     The base name
         /// </summary>
-         string BaseName;
+     public string BaseName;
 
         /// <summary>
         ///     The come direction
         /// </summary>
-         IComeDirection ComeDirection;
+     public IComeDirection ComeDirection;
 
         /// <summary>
         ///     The extra data
         /// </summary>
-         string ExtraData = string.Empty;
+     public string ExtraData = string.Empty;
 
         /// <summary>
         ///     The freeze power up
         /// </summary>
-         FreezePowerUp FreezePowerUp;
+     public FreezePowerUp FreezePowerUp;
 
         /// <summary>
         ///     The group data
         /// </summary>
-         string GroupData;
+     public string GroupData;
 
         /// <summary>
         ///     The group identifier
         /// </summary>
-         uint GroupId;
+     public uint GroupId;
 
         /// <summary>
         ///     The highscore data
         /// </summary>
-         HighscoreData HighscoreData;
+     public HighscoreData HighscoreData;
 
         /// <summary>
         ///     The identifier
         /// </summary>
-         uint Id;
+     public uint Id;
 
         /// <summary>
         ///     The interacting ball user
         /// </summary>
-         uint InteractingBallUser;
+     public uint InteractingBallUser;
 
         /// <summary>
         ///     The interacting user
         /// </summary>
-         uint InteractingUser;
+     public uint InteractingUser;
 
         /// <summary>
         ///     The interacting user2
         /// </summary>
-         uint InteractingUser2;
+     public uint InteractingUser2;
 
         /// <summary>
         ///     The interaction count
@@ -124,94 +124,94 @@ namespace Yupi.Emulator.Game.Items.Interfaces
         /// <summary>
         ///     The interaction count helper
         /// </summary>
-         byte InteractionCountHelper;
+     public byte InteractionCountHelper;
 
         /// <summary>
         ///     The is builder
         /// </summary>
-         bool IsBuilder;
+     public bool IsBuilder;
 
         /// <summary>
         ///     The is trans
         /// </summary>
-         bool IsTrans;
+     public bool IsTrans;
 
         /// <summary>
         ///     The limited no
         /// </summary>
-         int LimitedNo;
+     public int LimitedNo;
 
         /// <summary>
         ///     The limited tot
         /// </summary>
-         int LimitedTot;
+     public int LimitedTot;
 
         /// <summary>
         ///     The magic remove
         /// </summary>
-         bool MagicRemove;
+     public bool MagicRemove;
 
-         MovementDirection MoveToDirMovement = MovementDirection.None;
+     public MovementDirection MoveToDirMovement = MovementDirection.None;
 
         /// <summary>
         ///     The on cannon acting
         /// </summary>
-         bool OnCannonActing = false;
+     public bool OnCannonActing = false;
 
         /// <summary>
         ///     The pending reset
         /// </summary>
-         bool PendingReset;
+     public bool PendingReset;
 
         /// <summary>
         ///     The pets list
         /// </summary>
-         List<Pet> PetsList = new List<Pet>(2);
+     public List<Pet> PetsList = new List<Pet>(2);
 
         /// <summary>
         ///     The room identifier
         /// </summary>
-         uint RoomId;
+     public uint RoomId;
 
         /// <summary>
         ///     The rot
         /// </summary>
-         int Rot;
+     public int Rot;
 
         /// <summary>
         ///     The song code
         /// </summary>
-         string SongCode;
+     public string SongCode;
 
         /// <summary>
         ///     The team
         /// </summary>
-         Team Team;
+     public Team Team;
 
         /// <summary>
         ///     The update counter
         /// </summary>
-         int UpdateCounter;
+     public int UpdateCounter;
 
         /// <summary>
         ///     The user identifier
         /// </summary>
-         uint UserId;
+     public uint UserId;
 
         /// <summary>
         ///     The value
         /// </summary>
-         int Value;
+     public int Value;
 
         /// <summary>
         ///     The viking cotie burning
         /// </summary>
-         bool VikingCotieBurning;
+     public bool VikingCotieBurning;
 
         /// <summary>
         ///     The wall coord
         /// </summary>
-         WallCoordinate WallCoord;
+     public WallCoordinate WallCoord;
 
         /// <summary>
         ///     Gets a value indicating whether this instance is wired.
@@ -223,19 +223,19 @@ namespace Yupi.Emulator.Game.Items.Interfaces
         ///     Gets the affected tiles.
         /// </summary>
         /// <value>The affected tiles.</value>
-         Dictionary<int, ThreeDCoord> AffectedTiles { get; private set; }
+     public Dictionary<int, ThreeDCoord> AffectedTiles { get; private set; }
 
         /// <summary>
         ///     Gets the x.
         /// </summary>
         /// <value>The x.</value>
-         int X { get; private set; }
+     public int X { get; private set; }
 
         /// <summary>
         ///     Gets the y.
         /// </summary>
         /// <value>The y.</value>
-         int Y { get; private set; }
+     public int Y { get; private set; }
 
         /// <summary>
         ///     Gets the Z Coordinate
@@ -247,7 +247,7 @@ namespace Yupi.Emulator.Game.Items.Interfaces
         ///     Gets the Z Coordinate
         /// </summary>
         /// <value>The Z Coordinate</value>
-         double Z
+     public double Z
         {
             get
             {
@@ -263,7 +263,7 @@ namespace Yupi.Emulator.Game.Items.Interfaces
         ///     Gets or sets a value indicating whether [update needed].
         /// </summary>
         /// <value><c>true</c> if [update needed]; otherwise, <c>false</c>.</value>
-         bool UpdateNeeded
+     public bool UpdateNeeded
         {
             get { return _updateNeeded; }
             set
@@ -279,19 +279,19 @@ namespace Yupi.Emulator.Game.Items.Interfaces
         ///     Gets a value indicating whether this instance is roller.
         /// </summary>
         /// <value><c>true</c> if this instance is roller; otherwise, <c>false</c>.</value>
-         bool IsRoller { get; private set; }
+     public bool IsRoller { get; private set; }
 
         /// <summary>
         ///     Gets the coordinate.
         /// </summary>
         /// <value>The coordinate.</value>
-         Point Coordinate => new Point(X, Y);
+     public Point Coordinate => new Point(X, Y);
 
         /// <summary>
         ///     Gets the get coords.
         /// </summary>
         /// <value>The get coords.</value>
-         List<Point> GetCoords
+     public List<Point> GetCoords
         {
             get
             {
@@ -303,7 +303,7 @@ namespace Yupi.Emulator.Game.Items.Interfaces
             }
         }
 
-         double Height
+     public double Height
         {
             get
             {
@@ -329,7 +329,7 @@ namespace Yupi.Emulator.Game.Items.Interfaces
         ///     Gets the total height.
         /// </summary>
         /// <value>The total height.</value>
-         double TotalHeight
+     public double TotalHeight
         {
             get
             {
@@ -355,19 +355,19 @@ namespace Yupi.Emulator.Game.Items.Interfaces
         ///     Gets a value indicating whether this instance is wall item.
         /// </summary>
         /// <value><c>true</c> if this instance is wall item; otherwise, <c>false</c>.</value>
-         bool IsWallItem { get; set; }
+     public bool IsWallItem { get; set; }
 
         /// <summary>
         ///     Gets a value indicating whether this instance is floor item.
         /// </summary>
         /// <value><c>true</c> if this instance is floor item; otherwise, <c>false</c>.</value>
-         bool IsFloorItem { get; set; }
+     public bool IsFloorItem { get; set; }
 
         /// <summary>
         ///     Gets the square in front.
         /// </summary>
         /// <value>The square in front.</value>
-         Point SquareInFront
+     public Point SquareInFront
         {
             get
             {
@@ -401,7 +401,7 @@ namespace Yupi.Emulator.Game.Items.Interfaces
         ///     Gets the square behind.
         /// </summary>
         /// <value>The square behind.</value>
-         Point SquareBehind
+     public Point SquareBehind
         {
             get
             {
@@ -435,7 +435,7 @@ namespace Yupi.Emulator.Game.Items.Interfaces
         ///     Gets the interactor.
         /// </summary>
         /// <value>The interactor.</value>
-         IFurniInteractor Interactor
+     public IFurniInteractor Interactor
         {
             get
             {
@@ -575,7 +575,7 @@ namespace Yupi.Emulator.Game.Items.Interfaces
         /// <param name="eGroup">The group.</param>
         /// <param name="songCode">The song code.</param>
         /// <param name="isBuilder">if set to <c>true</c> [is builder].</param>
-         RoomItem(uint id, uint roomId, string baseName, string extraData, int x, int y, double z, int rot, Room pRoom, uint userid, uint eGroup, string songCode, bool isBuilder)
+     public RoomItem(uint id, uint roomId, string baseName, string extraData, int x, int y, double z, int rot, Room pRoom, uint userid, uint eGroup, string songCode, bool isBuilder)
         {
             Id = id;
             RoomId = roomId;
@@ -742,7 +742,7 @@ namespace Yupi.Emulator.Game.Items.Interfaces
         /// <param name="userid">The userid.</param>
         /// <param name="eGroup">The group.</param>
         /// <param name="isBuilder">if set to <c>true</c> [is builder].</param>
-         RoomItem(uint id, uint roomId, string baseName, string extraData, WallCoordinate wallCoord, Room pRoom, uint userid, uint eGroup, bool isBuilder)
+     public RoomItem(uint id, uint roomId, string baseName, string extraData, WallCoordinate wallCoord, Room pRoom, uint userid, uint eGroup, bool isBuilder)
         {
             BaseName = baseName;
 
@@ -797,7 +797,7 @@ namespace Yupi.Emulator.Game.Items.Interfaces
 
 		 event EventHandler<UserWalksOnArgs> OnUserWalksOnFurni;
 
-         void SetState(int x, int y, double z) => SetState(x, y, z, Gamemap.GetAffectedTiles(GetBaseItem().Length, GetBaseItem().Width, x, y, Rot));
+     public void SetState(int x, int y, double z) => SetState(x, y, z, Gamemap.GetAffectedTiles(GetBaseItem().Length, GetBaseItem().Width, x, y, Rot));
 
         /// <summary>
         ///     Sets the state.
@@ -806,7 +806,7 @@ namespace Yupi.Emulator.Game.Items.Interfaces
         /// <param name="y">The p y.</param>
         /// <param name="z">The p z.</param>
         /// <param name="tiles">The tiles.</param>
-         void SetState(int x, int y, double z, Dictionary<int, ThreeDCoord> tiles)
+     public void SetState(int x, int y, double z, Dictionary<int, ThreeDCoord> tiles)
         {
             X = x;
             Y = y;
@@ -819,12 +819,12 @@ namespace Yupi.Emulator.Game.Items.Interfaces
         ///     Called when [trigger].
         /// </summary>
         /// <param name="user">The user.</param>
-         void OnTrigger(RoomUser user) => ItemTriggerEventHandler?.Invoke(null, new ItemTriggeredArgs(user, this));
+     public void OnTrigger(RoomUser user) => ItemTriggerEventHandler?.Invoke(null, new ItemTriggeredArgs(user, this));
 
         /// <summary>
         ///     Destroys this instance.
         /// </summary>
-         void Destroy()
+     public void Destroy()
         {
             _mRoom = null;
 
@@ -838,7 +838,7 @@ namespace Yupi.Emulator.Game.Items.Interfaces
         /// <summary>
         ///     Processes the updates.
         /// </summary>
-         void ProcessUpdates()
+     public void ProcessUpdates()
         {
             UpdateCounter--;
 
@@ -1424,7 +1424,7 @@ namespace Yupi.Emulator.Game.Items.Interfaces
         /// </summary>
         /// <param name="cycles">The cycles.</param>
         /// <param name="setUpdate">if set to <c>true</c> [set update].</param>
-         void ReqUpdate(int cycles, bool setUpdate)
+     public void ReqUpdate(int cycles, bool setUpdate)
         {
             UpdateCounter = cycles;
 
@@ -1435,14 +1435,14 @@ namespace Yupi.Emulator.Game.Items.Interfaces
         /// <summary>
         ///     Updates the state.
         /// </summary>
-         void UpdateState() => UpdateState(true, true);
+     public void UpdateState() => UpdateState(true, true);
 
         /// <summary>
         ///     Updates the state.
         /// </summary>
         /// <param name="inDb">if set to <c>true</c> [in database].</param>
         /// <param name="inRoom">if set to <c>true</c> [in room].</param>
-         void UpdateState(bool inDb, bool inRoom)
+     public void UpdateState(bool inDb, bool inRoom)
         {
             if (GetRoom() == null)
                 return;
@@ -1578,7 +1578,7 @@ namespace Yupi.Emulator.Game.Items.Interfaces
         ///     Serializes the specified messageBuffer.
         /// </summary>
         /// <param name="message">The messageBuffer.</param>
-         void Serialize(SimpleServerMessageBuffer messageBuffer)
+     public void Serialize(SimpleServerMessageBuffer messageBuffer)
         {
             if (IsFloorItem)
             {
@@ -1946,25 +1946,25 @@ namespace Yupi.Emulator.Game.Items.Interfaces
         /// <summary>
         ///     Refreshes the item.
         /// </summary>
-         void RefreshItem() => _mBaseItem = null;
+     public void RefreshItem() => _mBaseItem = null;
 
         /// <summary>
         ///     Gets the base item.
         /// </summary>
         /// <returns>Item.</returns>
-         Item GetBaseItem() => _mBaseItem ?? (_mBaseItem = Yupi.GetGame().GetItemManager().GetItemByName(BaseName));
+     public Item GetBaseItem() => _mBaseItem ?? (_mBaseItem = Yupi.GetGame().GetItemManager().GetItemByName(BaseName));
 
         /// <summary>
         ///     Gets the room.
         /// </summary>
         /// <returns>Room.</returns>
-         Room GetRoom() => _mRoom ?? (_mRoom = Yupi.GetGame().GetRoomManager().GetRoom(RoomId));
+     public Room GetRoom() => _mRoom ?? (_mRoom = Yupi.GetGame().GetRoomManager().GetRoom(RoomId));
 
         /// <summary>
         ///     Users the walks on furni.
         /// </summary>
         /// <param name="user">The user.</param>
-         void UserWalksOnFurni(RoomUser user)
+     public void UserWalksOnFurni(RoomUser user)
         {
             OnUserWalksOnFurni?.Invoke(this, new UserWalksOnArgs(user));
 
@@ -1977,7 +1977,7 @@ namespace Yupi.Emulator.Game.Items.Interfaces
         ///     Users the walks off furni.
         /// </summary>
         /// <param name="user">The user.</param>
-         void UserWalksOffFurni(RoomUser user)
+     public void UserWalksOffFurni(RoomUser user)
         {
             OnUserWalksOffFurni?.Invoke(this, new UserWalksOnArgs(user));
 

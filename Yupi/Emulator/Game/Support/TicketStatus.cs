@@ -3,7 +3,7 @@ namespace Yupi.Emulator.Game.Support
     /// <summary>
     ///     Enum TicketStatus
     /// </summary>
-     enum TicketStatus
+     public enum TicketStatus
     {
         /// <summary>
         ///     The open

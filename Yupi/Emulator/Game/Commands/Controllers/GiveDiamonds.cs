@@ -6,7 +6,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class GiveDiamonds. This class cannot be inherited.
     /// </summary>
-     sealed class GiveDiamonds : Command
+     public sealed class GiveDiamonds : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="GiveDiamonds" /> class.

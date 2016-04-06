@@ -6,7 +6,7 @@ namespace Yupi.Emulator.Game.Browser.Composers
 {
     class NavigatorSearchListResultComposer
     {
-         static SimpleServerMessageBuffer Compose(string value1, string value2, GameClient session)
+     public static SimpleServerMessageBuffer Compose(string value1, string value2, GameClient session)
         {
             SimpleServerMessageBuffer newNavigator = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SearchResultSetComposer"));
 

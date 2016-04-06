@@ -33,7 +33,7 @@ namespace Yupi.Emulator.Game.Pathfinding
     /// <summary>
     ///     Class PathFinder.
     /// </summary>
-     class PathFinder
+     public class PathFinder
     {
         /// <summary>
         ///     The diag move points
@@ -187,7 +187,7 @@ namespace Yupi.Emulator.Game.Pathfinding
         /// <param name="x2">The x2.</param>
         /// <param name="y2">The y2.</param>
         /// <returns>System.Int32.</returns>
-         static int CalculateRotation(int x1, int y1, int x2, int y2)
+     public static int CalculateRotation(int x1, int y1, int x2, int y2)
         {
             int dX = x2 - x1, dY = y2 - y1;
 

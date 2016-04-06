@@ -50,7 +50,7 @@ namespace Yupi.Protocol.Buffers
         ///     Gets the get packet.
         /// </summary>
         /// <value>The get packet.</value>
-         byte[] GetPacket => _packet.ToArray();
+     public byte[] GetPacket => _packet.ToArray();
 
         /// <summary>
         ///     Disposes this instance.

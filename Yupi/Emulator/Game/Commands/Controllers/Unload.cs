@@ -11,7 +11,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class Unload. This class cannot be inherited.
     /// </summary>
-     sealed class Unload : Command
+     public sealed class Unload : Command
     {
         /// <summary>
         ///     The _re enter

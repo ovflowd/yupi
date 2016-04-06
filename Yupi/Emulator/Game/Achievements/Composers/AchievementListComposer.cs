@@ -33,7 +33,7 @@ namespace Yupi.Emulator.Game.Achievements.Composers
     /// <summary>
     ///     Class AchievementListComposer.
     /// </summary>
-     class AchievementListComposer
+     public class AchievementListComposer
     {
         /// <summary>
         ///     Composes the specified session.
@@ -41,7 +41,7 @@ namespace Yupi.Emulator.Game.Achievements.Composers
         /// <param name="session">The session.</param>
         /// <param name="achievements">The achievements.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-         static SimpleServerMessageBuffer Compose(GameClient session, List<Achievement> achievements)
+     public static SimpleServerMessageBuffer Compose(GameClient session, List<Achievement> achievements)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("AchievementListMessageComposer"));
 

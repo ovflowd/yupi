@@ -34,7 +34,7 @@ namespace Yupi.Emulator.Game.Rooms.User
     /// <summary>
     ///     Class RoomUserManager.
     /// </summary>
-     class RoomUserManager
+     public class RoomUserManager
     {
         /// <summary>
         ///     The _to remove
@@ -74,17 +74,17 @@ namespace Yupi.Emulator.Game.Rooms.User
         /// <summary>
         ///     To set
         /// </summary>
-         Dictionary<Point, RoomUser> ToSet;
+     public Dictionary<Point, RoomUser> ToSet;
 
         /// <summary>
         ///     The users by user identifier
         /// </summary>
-         HybridDictionary UsersByUserId;
+     public HybridDictionary UsersByUserId;
 
         /// <summary>
         ///     The users by user name
         /// </summary>
-         HybridDictionary UsersByUserName;
+     public HybridDictionary UsersByUserName;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="RoomUserManager" /> class.
@@ -116,13 +116,13 @@ namespace Yupi.Emulator.Game.Rooms.User
         ///     Gets the pet count.
         /// </summary>
         /// <value>The pet count.</value>
-         int PetCount { get; private set; }
+     public int PetCount { get; private set; }
 
         /// <summary>
         ///     Gets the user list.
         /// </summary>
         /// <value>The user list.</value>
-         ConcurrentDictionary<int, RoomUser> UserList { get; private set; }
+     public ConcurrentDictionary<int, RoomUser> UserList { get; private set; }
 
 		 event EventHandler OnUserEnter;
 
@@ -137,7 +137,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         ///     Gets the room user count.
         /// </summary>
         /// <returns>System.Int32.</returns>
-         int GetRoomUserCount() => UserList.Count - _bots.Count - _pets.Count;
+     public int GetRoomUserCount() => UserList.Count - _bots.Count - _pets.Count;
 
         /// <summary>
         ///     Deploys the bot.
@@ -145,7 +145,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         /// <param name="bot">The bot.</param>
         /// <param name="petData">The pet data.</param>
         /// <returns>RoomUser.</returns>
-         RoomUser DeployBot(RoomBot bot, Pet petData)
+     public RoomUser DeployBot(RoomBot bot, Pet petData)
         {
             int virtualId = _primaryPrivateUserId++;
 
@@ -246,7 +246,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         /// <param name="speak">if set to <c>true</c> [speak].</param>
         /// <param name="speechDelay">The speech delay.</param>
         /// <param name="mix">if set to <c>true</c> [mix].</param>
-         void UpdateBot(int virtualId, RoomUser roomUser, string name, string motto, string look, string gender,
+     public void UpdateBot(int virtualId, RoomUser roomUser, string name, string motto, string look, string gender,
             List<string> speech, List<string> responses, bool speak, uint speechDelay, bool mix)
         {
             RoomUser roomBot = GetRoomUserByVirtualId(virtualId);
@@ -275,7 +275,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         /// </summary>
         /// <param name="virtualId">The virtual identifier.</param>
         /// <param name="kicked">if set to <c>true</c> [kicked].</param>
-         void RemoveBot(int virtualId, bool kicked)
+     public void RemoveBot(int virtualId, bool kicked)
         {
             RoomUser roomUserByVirtualId = GetRoomUserByVirtualId(virtualId);
 
@@ -306,7 +306,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
         /// <returns>RoomUser.</returns>
-         RoomUser GetUserForSquare(int x, int y) => _userRoom.GetGameMap().GetRoomUsers(new Point(x, y)).FirstOrDefault();
+     public RoomUser GetUserForSquare(int x, int y) => _userRoom.GetGameMap().GetRoomUsers(new Point(x, y)).FirstOrDefault();
 
         /// <summary>
         ///     Adds the user to room.
@@ -314,7 +314,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         /// <param name="session">The session.</param>
         /// <param name="spectator">if set to <c>true</c> [spectator].</param>
         /// <param name="snow">if set to <c>true</c> [snow].</param>
-         void AddUserToRoom(GameClient session, bool spectator, bool snow = false)
+     public void AddUserToRoom(GameClient session, bool spectator, bool snow = false)
         {
             if (session?.GetHabbo() == null)
                 return;
@@ -357,7 +357,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         /// </summary>
         /// <param name="oldName">The old name.</param>
         /// <param name="newName">The new name.</param>
-         void UpdateUser(string oldName, string newName)
+     public void UpdateUser(string oldName, string newName)
         {
             if (oldName == newName)
                 return;
@@ -377,7 +377,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         /// <param name="session">The session.</param>
         /// <param name="notifyClient">if set to <c>true</c> [notify client].</param>
         /// <param name="notifyKick">if set to <c>true</c> [notify kick].</param>
-         void RemoveUserFromRoom(GameClient session, bool notifyClient, bool notifyKick)
+     public void RemoveUserFromRoom(GameClient session, bool notifyClient, bool notifyKick)
         {
             try
             {
@@ -488,7 +488,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         ///     Removes the room user.
         /// </summary>
         /// <param name="user">The user.</param>
-         void RemoveRoomUser(RoomUser user)
+     public void RemoveRoomUser(RoomUser user)
         {
             RoomUser junk;
 
@@ -511,7 +511,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         /// </summary>
         /// <param name="petId">The pet identifier.</param>
         /// <returns>RoomUser.</returns>
-         RoomUser GetPet(uint petId)
+     public RoomUser GetPet(uint petId)
         {
             if (_pets.Contains(petId))
                 return (RoomUser)_pets[petId];
@@ -524,7 +524,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         /// </summary>
         /// <param name="botId">The bot identifier.</param>
         /// <returns>RoomUser.</returns>
-         RoomUser GetBot(uint botId)
+     public RoomUser GetBot(uint botId)
         {
             if (_bots.Contains(botId))
                 return (RoomUser)_bots[botId];
@@ -532,13 +532,13 @@ namespace Yupi.Emulator.Game.Rooms.User
             return null;
         }
 
-         RoomUser GetBotByName(string name) => UserList.Values.FirstOrDefault(b => b.BotData != null && b.BotData.Name == name);
+     public RoomUser GetBotByName(string name) => UserList.Values.FirstOrDefault(b => b.BotData != null && b.BotData.Name == name);
 
         /// <summary>
         ///     Updates the user count.
         /// </summary>
         /// <param name="count">The count.</param>
-         void UpdateUserCount(uint count)
+     public void UpdateUserCount(uint count)
         {
             _roomUserCount = count;
             _userRoom.RoomData.UsersNow = count;
@@ -554,33 +554,33 @@ namespace Yupi.Emulator.Game.Rooms.User
         /// </summary>
         /// <param name="virtualId">The virtual identifier.</param>
         /// <returns>RoomUser.</returns>
-         RoomUser GetRoomUserByVirtualId(int virtualId) => UserList.ContainsKey(virtualId) ? UserList[virtualId] : null;
+     public RoomUser GetRoomUserByVirtualId(int virtualId) => UserList.ContainsKey(virtualId) ? UserList[virtualId] : null;
 
         /// <summary>
         ///     Gets the users in camping tent.
         /// </summary>
         /// <returns>List&lt;RoomUser&gt;.</returns>
-         List<RoomUser> GetUsersInCampingTent() => GetRoomUsers().Where(x => x.OnCampingTent).ToList();
+     public List<RoomUser> GetUsersInCampingTent() => GetRoomUsers().Where(x => x.OnCampingTent).ToList();
 
         /// <summary>
         ///     Gets the room users.
         /// </summary>
         /// <returns>HashSet&lt;RoomUser&gt;.</returns>
-         HashSet<RoomUser> GetRoomUsers() => new HashSet<RoomUser>(UserList.Values.Where(x => x.IsBot == false));
+     public HashSet<RoomUser> GetRoomUsers() => new HashSet<RoomUser>(UserList.Values.Where(x => x.IsBot == false));
 
         /// <summary>
         ///     Gets the room user by rank.
         /// </summary>
         /// <param name="minRank">The minimum rank.</param>
         /// <returns>List&lt;RoomUser&gt;.</returns>
-         List<RoomUser> GetRoomUserByRank(int minRank) => UserList.Values.Where(current => !current.IsBot && current.GetClient() != null && current.GetClient().GetHabbo() != null && current.GetClient().GetHabbo().Rank > (ulong)minRank).ToList();
+     public List<RoomUser> GetRoomUserByRank(int minRank) => UserList.Values.Where(current => !current.IsBot && current.GetClient() != null && current.GetClient().GetHabbo() != null && current.GetClient().GetHabbo().Rank > (ulong)minRank).ToList();
 
         /// <summary>
         ///     Gets the room user by habbo.
         /// </summary>
         /// <param name="pName">Name of the p.</param>
         /// <returns>RoomUser.</returns>
-         RoomUser GetRoomUserByHabbo(string pName)
+     public RoomUser GetRoomUserByHabbo(string pName)
         {
             if (UsersByUserName.Contains(pName.ToLower()))
                 return (RoomUser)UsersByUserName[pName.ToLower()];
@@ -592,7 +592,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         ///     Saves the pets.
         /// </summary>
         /// <param name="dbClient">The database client.</param>
-         void SavePets(IQueryAdapter dbClient)
+     public void SavePets(IQueryAdapter dbClient)
         {
             if (GetPets().Any())
                 UpdatePetsInDataBase();
@@ -601,7 +601,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         /// <summary>
         ///     Appends the pets update string.
         /// </summary>
-         void UpdatePetsInDataBase()
+     public void UpdatePetsInDataBase()
         {
             foreach (Pet current in GetPets().Where(p => p.DbState != DatabaseUpdateState.Updated))
             {
@@ -628,14 +628,14 @@ namespace Yupi.Emulator.Game.Rooms.User
         ///     Gets the pets.
         /// </summary>
         /// <returns>List&lt;Pet&gt;.</returns>
-         List<Pet> GetPets() => UserList.Where(c => c.Value.IsPet).Select(c => c.Value.PetData).ToList();
+     public List<Pet> GetPets() => UserList.Where(c => c.Value.IsPet).Select(c => c.Value.PetData).ToList();
 
         /// <summary>
         ///     Serializes the status updates.
         /// </summary>
         /// <param name="all">if set to <c>true</c> [all].</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-         SimpleServerMessageBuffer SerializeStatusUpdates(bool all)
+     public SimpleServerMessageBuffer SerializeStatusUpdates(bool all)
         {
             List<RoomUser> list = new List<RoomUser>();
 
@@ -670,7 +670,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         /// </summary>
         /// <param name="primaryCounter">The primary counter.</param>
         /// <param name="secondaryCounter">The secondary counter.</param>
-         void BackupCounters(ref int primaryCounter, ref int secondaryCounter)
+     public void BackupCounters(ref int primaryCounter, ref int secondaryCounter)
         {
             primaryCounter = _primaryPrivateUserId;
             secondaryCounter = _secondaryPrivateUserId;
@@ -681,7 +681,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         /// </summary>
         /// <param name="user">The user.</param>
         /// <param name="cycleGameItems">if set to <c>true</c> [cyclegameitems].</param>
-         void UpdateUserStatus(RoomUser user, bool cycleGameItems)
+     public void UpdateUserStatus(RoomUser user, bool cycleGameItems)
         {
             if (user == null)
                 return;
@@ -1006,13 +1006,13 @@ namespace Yupi.Emulator.Game.Rooms.User
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
         /// <param name="senderId">The sender identifier.</param>
-         void TurnHeads(int x, int y, uint senderId)
+     public void TurnHeads(int x, int y, uint senderId)
         {
             foreach (RoomUser current in UserList.Values.Where(current => current.HabboId != senderId && !current.RidingHorse && !current.IsPet))
                 current.SetRot(PathFinder.CalculateRotation(current.X, current.Y, x, y), true);
         }
 
-         void UserRoomTimeCycles(RoomUser roomUsers)
+     public void UserRoomTimeCycles(RoomUser roomUsers)
         {
             if (!roomUsers.IsAsleep && (roomUsers.IdleTime >= 600) && !roomUsers.IsBot && !roomUsers.IsPet)
             {
@@ -1033,7 +1033,7 @@ namespace Yupi.Emulator.Game.Rooms.User
             }
         }
 
-         void RoomUserBreedInteraction(RoomUser roomUsers)
+     public void RoomUserBreedInteraction(RoomUser roomUsers)
         {
             if (roomUsers.IsPet && ((roomUsers.PetData.Type == "pet_terrier") || (roomUsers.PetData.Type == "pet_bear")) && (roomUsers.PetData.WaitingForBreading > 0) && (roomUsers.PetData.BreadingTile.X == roomUsers.X) && (roomUsers.PetData.BreadingTile.Y == roomUsers.Y))
             {
@@ -1080,7 +1080,7 @@ namespace Yupi.Emulator.Game.Rooms.User
             }
         }
 
-         void UserSetPositionData(RoomUser roomUsers, Vector2D nextStep)
+     public void UserSetPositionData(RoomUser roomUsers, Vector2D nextStep)
         {
             // Check if the User is in a Horse or Not..
             if (roomUsers.RidingHorse && !roomUsers.IsPet)
@@ -1118,7 +1118,7 @@ namespace Yupi.Emulator.Game.Rooms.User
             }
         }
 
-         void CheckUserSittableLayable(RoomUser roomUsers)
+     public void CheckUserSittableLayable(RoomUser roomUsers)
         {
             // Check if User Is ina  Special Action..
 
@@ -1139,7 +1139,7 @@ namespace Yupi.Emulator.Game.Rooms.User
             }
         }
 
-         void UserGoToTile(RoomUser roomUsers, bool invalidStep)
+     public void UserGoToTile(RoomUser roomUsers, bool invalidStep)
         {
             // If The Tile that the user want to Walk is Invalid!
             if (invalidStep || (roomUsers.PathStep >= roomUsers.Path.Count) ||
@@ -1280,7 +1280,7 @@ namespace Yupi.Emulator.Game.Rooms.User
                 roomUsers.PathRecalcNeeded = true;
         }
 
-         bool UserCanWalkInTile(RoomUser roomUsers)
+     public bool UserCanWalkInTile(RoomUser roomUsers)
         {
             // Check if User CanWalk...
             if (_userRoom.GetGameMap().CanWalk(roomUsers.SetX, roomUsers.SetY, roomUsers.AllowOverride) ||
@@ -1345,7 +1345,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         ///     Turns the user thread
         /// </summary>
         /// <param name="roomUsers"></param>
-         void UserCycleOnRoom(RoomUser roomUsers)
+     public void UserCycleOnRoom(RoomUser roomUsers)
         {
             // Region Check User Elegibility
             if (!IsValid(roomUsers))
@@ -1488,7 +1488,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         ///     Called when [cycle].
         /// </summary>
         /// <param name="idleCount">The idle count.</param>
-         void OnCycle(ref int idleCount)
+     public void OnCycle(ref int idleCount)
         {
             // User in Room Count for Foreach..
             uint userInRoomCount = 0;
@@ -1561,7 +1561,7 @@ namespace Yupi.Emulator.Game.Rooms.User
         /// <summary>
         ///     Destroys this instance.
         /// </summary>
-         void Destroy()
+     public void Destroy()
         {
             _userRoom = null;
             UsersByUserName.Clear();

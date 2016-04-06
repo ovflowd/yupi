@@ -7,7 +7,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class MuteBots. This class cannot be inherited.
     /// </summary>
-     sealed class Disco : Command
+     public sealed class Disco : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="Disco" /> class.

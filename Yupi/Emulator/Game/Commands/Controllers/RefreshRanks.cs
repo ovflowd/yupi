@@ -7,7 +7,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class RefreshRanks. This class cannot be inherited.
     /// </summary>
-     sealed class RefreshRanks : Command
+     public sealed class RefreshRanks : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="RefreshRanks" /> class.

@@ -24,37 +24,37 @@ namespace Yupi.Emulator.Game.Support
         /// <summary>
         ///     Abusive suppot ticket cooldown
         /// </summary>
-         Dictionary<uint, double> AbusiveCooldown;
+     public Dictionary<uint, double> AbusiveCooldown;
 
         /// <summary>
         ///     The moderation templates
         /// </summary>
-         Dictionary<uint, ModerationTemplate> ModerationTemplates;
+     public Dictionary<uint, ModerationTemplate> ModerationTemplates;
 
         /// <summary>
         ///     The room messageBuffer presets
         /// </summary>
-         List<string> RoomMessagePresets;
+     public List<string> RoomMessagePresets;
 
         /// <summary>
         ///     The support ticket hints
         /// </summary>
-         StringDictionary SupportTicketHints;
+     public StringDictionary SupportTicketHints;
 
         /// <summary>
         ///     The tickets
         /// </summary>
-         List<SupportTicket> Tickets;
+     public List<SupportTicket> Tickets;
 
         /// <summary>
         ///     The user messageBuffer presets
         /// </summary>
-         List<string> UserMessagePresets;
+     public List<string> UserMessagePresets;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="ModerationTool" /> class.
         /// </summary>
-         ModerationTool()
+     public ModerationTool()
         {
             Tickets = new List<SupportTicket>();
             UserMessagePresets = new List<string>();
@@ -68,7 +68,7 @@ namespace Yupi.Emulator.Game.Support
         ///     Sends the ticket update to moderators.
         /// </summary>
         /// <param name="ticket">The ticket.</param>
-         static void SendTicketUpdateToModerators(SupportTicket ticket)
+     public static void SendTicketUpdateToModerators(SupportTicket ticket)
         {
         }
 
@@ -76,7 +76,7 @@ namespace Yupi.Emulator.Game.Support
         ///     Sends the ticket to moderators.
         /// </summary>
         /// <param name="ticket">The ticket.</param>
-         static void SendTicketToModerators(SupportTicket ticket)
+     public static void SendTicketToModerators(SupportTicket ticket)
         {
             SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("ModerationToolIssueMessageComposer"));
 
@@ -94,7 +94,7 @@ namespace Yupi.Emulator.Game.Support
         /// <param name="lockRoom">if set to <c>true</c> [lock room].</param>
         /// <param name="inappropriateRoom">if set to <c>true</c> [inappropriate room].</param>
         /// <param name="messageBuffer">The messageBuffer.</param>
-         static void PerformRoomAction(GameClient modSession, uint roomId, bool kickUsers, bool lockRoom,
+     public static void PerformRoomAction(GameClient modSession, uint roomId, bool kickUsers, bool lockRoom,
             bool inappropriateRoom, SimpleServerMessageBuffer messageBuffer)
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(roomId);
@@ -129,7 +129,7 @@ namespace Yupi.Emulator.Game.Support
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="result">if set to <c>true</c> [result].</param>
-         static void ModActionResult(uint userId, bool result)
+     public static void ModActionResult(uint userId, bool result)
         {
             GameClient clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(userId);
 
@@ -144,7 +144,7 @@ namespace Yupi.Emulator.Game.Support
         /// </summary>
         /// <param name="data">The data.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-         static SimpleServerMessageBuffer SerializeRoomTool(RoomData data)
+     public static SimpleServerMessageBuffer SerializeRoomTool(RoomData data)
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(data.Id);
 
@@ -179,7 +179,7 @@ namespace Yupi.Emulator.Game.Support
         /// <param name="userId">The user identifier.</param>
         /// <param name="message">The messageBuffer.</param>
         /// <param name="soft">if set to <c>true</c> [soft].</param>
-         static void KickUser(GameClient modSession, uint userId, string message, bool soft)
+     public static void KickUser(GameClient modSession, uint userId, string message, bool soft)
         {
             GameClient clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(userId);
 
@@ -221,7 +221,7 @@ namespace Yupi.Emulator.Game.Support
         /// <param name="userId">The user identifier.</param>
         /// <param name="message">The messageBuffer.</param>
         /// <param name="caution">if set to <c>true</c> [caution].</param>
-         static void AlertUser(GameClient modSession, uint userId, string message, bool caution)
+     public static void AlertUser(GameClient modSession, uint userId, string message, bool caution)
         {
             GameClient clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(userId);
 
@@ -235,7 +235,7 @@ namespace Yupi.Emulator.Game.Support
         /// <param name="userId">The user identifier.</param>
         /// <param name="message">The messageBuffer.</param>
         /// <param name="length">The length.</param>
-         static void LockTrade(GameClient modSession, uint userId, string message, int length)
+     public static void LockTrade(GameClient modSession, uint userId, string message, int length)
         {
             GameClient clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(userId);
 
@@ -261,7 +261,7 @@ namespace Yupi.Emulator.Game.Support
         /// <param name="userId">The user identifier.</param>
         /// <param name="length">The length.</param>
         /// <param name="message">The messageBuffer.</param>
-         static void BanUser(GameClient modSession, uint userId, int length, string message)
+     public static void BanUser(GameClient modSession, uint userId, int length, string message)
         {
             GameClient clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(userId);
 
@@ -288,7 +288,7 @@ namespace Yupi.Emulator.Game.Support
         /// <param name="userId">The user identifier.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
         /// <exception cref="System.NullReferenceException">User not found in database.</exception>
-         static SimpleServerMessageBuffer SerializeUserInfo(uint userId)
+     public static SimpleServerMessageBuffer SerializeUserInfo(uint userId)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("ModerationToolUserToolMessageComposer"));
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
@@ -343,7 +343,7 @@ namespace Yupi.Emulator.Game.Support
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-         static SimpleServerMessageBuffer SerializeRoomVisits(uint userId)
+     public static SimpleServerMessageBuffer SerializeRoomVisits(uint userId)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer =
                 new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("ModerationToolRoomVisitsMessageComposer"));
@@ -385,7 +385,7 @@ namespace Yupi.Emulator.Game.Support
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-         static SimpleServerMessageBuffer SerializeUserChatlog(uint userId)
+     public static SimpleServerMessageBuffer SerializeUserChatlog(uint userId)
         {
             SimpleServerMessageBuffer result;
 
@@ -490,7 +490,7 @@ namespace Yupi.Emulator.Game.Support
         /// <param name="timestamp">The timestamp.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
         /// <exception cref="System.NullReferenceException">No room found.</exception>
-         static SimpleServerMessageBuffer SerializeTicketChatlog(SupportTicket ticket, RoomData roomData, double timestamp)
+     public static SimpleServerMessageBuffer SerializeTicketChatlog(SupportTicket ticket, RoomData roomData, double timestamp)
         {
             SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer();
 
@@ -533,7 +533,7 @@ namespace Yupi.Emulator.Game.Support
         /// <param name="roomId">The room identifier.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
         /// <exception cref="System.NullReferenceException">No room found.</exception>
-         static SimpleServerMessageBuffer SerializeRoomChatlog(uint roomId)
+     public static SimpleServerMessageBuffer SerializeRoomChatlog(uint roomId)
         {
             SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer();
 
@@ -573,7 +573,7 @@ namespace Yupi.Emulator.Game.Support
         /// </summary>
         /// <param name="session">The session.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-         SimpleServerMessageBuffer SerializeTool(GameClient session)
+     public SimpleServerMessageBuffer SerializeTool(GameClient session)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("LoadModerationToolMessageComposer"));
 
@@ -642,7 +642,7 @@ namespace Yupi.Emulator.Game.Support
         ///     Loads the messageBuffer presets.
         /// </summary>
         /// <param name="dbClient">The database client.</param>
-         void LoadMessagePresets(IQueryAdapter dbClient)
+     public void LoadMessagePresets(IQueryAdapter dbClient)
         {
             UserMessagePresets.Clear();
             RoomMessagePresets.Clear();
@@ -696,7 +696,7 @@ namespace Yupi.Emulator.Game.Support
         ///     Loads the pending tickets.
         /// </summary>
         /// <param name="dbClient">The database client.</param>
-         void LoadPendingTickets(IQueryAdapter dbClient)
+     public void LoadPendingTickets(IQueryAdapter dbClient)
         {
             /*dbClient.SetQuery("SELECT * FROM moderation_tickets");
             DataTable table = dbClient.GetTable();
@@ -718,7 +718,7 @@ namespace Yupi.Emulator.Game.Support
         /// <param name="reportedUser">The reported user.</param>
         /// <param name="message">The messageBuffer.</param>
         /// <param name="messages">The messages.</param>
-         void SendNewTicket(GameClient session, int category, int type, uint reportedUser, string message, List<string> messages)
+     public void SendNewTicket(GameClient session, int category, int type, uint reportedUser, string message, List<string> messages)
         {
             uint id;
 
@@ -768,7 +768,7 @@ namespace Yupi.Emulator.Game.Support
         /// </summary>
         /// <param name="serverMessagesBuffer">The server messages.</param>
         /// <param name="userId">The user identifier.</param>
-         void SerializeOpenTickets(ref QueuedServerMessageBuffer serverMessagesBuffer, uint userId)
+     public void SerializeOpenTickets(ref QueuedServerMessageBuffer serverMessagesBuffer, uint userId)
         {
             SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("ModerationToolIssueMessageComposer"));
 
@@ -790,7 +790,7 @@ namespace Yupi.Emulator.Game.Support
         /// </summary>
         /// <param name="ticketId">The ticket identifier.</param>
         /// <returns>SupportTicket.</returns>
-         SupportTicket GetTicket(uint ticketId)
+     public SupportTicket GetTicket(uint ticketId)
         {
             return Tickets.FirstOrDefault(current => current.TicketId == ticketId);
         }
@@ -800,7 +800,7 @@ namespace Yupi.Emulator.Game.Support
         /// </summary>
         /// <param name="session">The session.</param>
         /// <param name="ticketId">The ticket identifier.</param>
-         void PickTicket(GameClient session, uint ticketId)
+     public void PickTicket(GameClient session, uint ticketId)
         {
             SupportTicket ticket = GetTicket(ticketId);
 
@@ -816,7 +816,7 @@ namespace Yupi.Emulator.Game.Support
         /// </summary>
         /// <param name="session">The session.</param>
         /// <param name="ticketId">The ticket identifier.</param>
-         void ReleaseTicket(GameClient session, uint ticketId)
+     public void ReleaseTicket(GameClient session, uint ticketId)
         {
             SupportTicket ticket = GetTicket(ticketId);
 
@@ -833,7 +833,7 @@ namespace Yupi.Emulator.Game.Support
         /// <param name="session">The session.</param>
         /// <param name="ticketId">The ticket identifier.</param>
         /// <param name="result">The result.</param>
-         void CloseTicket(GameClient session, uint ticketId, int result)
+     public void CloseTicket(GameClient session, uint ticketId, int result)
         {
             SupportTicket ticket = GetTicket(ticketId);
 
@@ -935,7 +935,7 @@ namespace Yupi.Emulator.Game.Support
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-         bool UsersHasPendingTicket(uint id)
+     public bool UsersHasPendingTicket(uint id)
         {
             return Tickets.Any(current => current.SenderId == id && current.Status == TicketStatus.Open);
         }
@@ -945,7 +945,7 @@ namespace Yupi.Emulator.Game.Support
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-         bool UsersHasAbusiveCooldown(uint id)
+     public bool UsersHasAbusiveCooldown(uint id)
         {
             foreach (KeyValuePair<uint, double> item in AbusiveCooldown)
             {
@@ -962,7 +962,7 @@ namespace Yupi.Emulator.Game.Support
         ///     Deletes the pending ticket for user.
         /// </summary>
         /// <param name="id">The identifier.</param>
-         void DeletePendingTicketForUser(uint id)
+     public void DeletePendingTicketForUser(uint id)
         {
             foreach (SupportTicket current in Tickets.Where(current => current.SenderId == id))
             {
@@ -977,7 +977,7 @@ namespace Yupi.Emulator.Game.Support
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>SupportTicket.</returns>
-         SupportTicket GetPendingTicketForUser(uint id)
+     public SupportTicket GetPendingTicketForUser(uint id)
         {
             return Tickets.FirstOrDefault(current => current.SenderId == id && current.Status == TicketStatus.Open);
         }
@@ -989,7 +989,7 @@ namespace Yupi.Emulator.Game.Support
         /// <param name="target">The target.</param>
         /// <param name="type">The type.</param>
         /// <param name="description">The description.</param>
-         void LogStaffEntry(string modName, string target, string type, string description)
+     public void LogStaffEntry(string modName, string target, string type, string description)
         {
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {

@@ -327,7 +327,7 @@ namespace Yupi.Emulator.Game.SoundMachine
         ///     Broadcasts the current song data.
         /// </summary>
         /// <param name="instance">The instance.</param>
-         void BroadcastCurrentSongData(Room instance)
+     public void BroadcastCurrentSongData(Room instance)
         {
             if (CurrentSong != null)
             {
@@ -343,7 +343,7 @@ namespace Yupi.Emulator.Game.SoundMachine
         ///     Called when [new user enter].
         /// </summary>
         /// <param name="user">The user.</param>
-         void OnNewUserEnter(RoomUser user)
+     public void OnNewUserEnter(RoomUser user)
         {
             if (user.IsBot || user.GetClient() == null || CurrentSong == null)
                 return;
@@ -356,7 +356,7 @@ namespace Yupi.Emulator.Game.SoundMachine
         /// <summary>
         ///     Destroys this instance.
         /// </summary>
-         void Destroy()
+     public void Destroy()
         {
             lock (_mLoadedDisks)
                 _mLoadedDisks?.Clear();

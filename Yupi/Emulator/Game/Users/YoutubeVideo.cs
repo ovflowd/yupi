@@ -5,20 +5,20 @@ namespace Yupi.Emulator.Game.Users
     /// <summary>
     ///     Class YoutubeVideo.
     /// </summary>
-     class YoutubeVideo
+     public class YoutubeVideo
     {
-         string Description;
-         string Name;
-         string VideoId;
+     public string Description;
+     public string Name;
+     public string VideoId;
 
-         YoutubeVideo(string videoId, string name, string description)
+     public YoutubeVideo(string videoId, string name, string description)
         {
             VideoId = videoId;
             Name = name;
             Description = description;
         }
 
-         void Serialize(SimpleServerMessageBuffer messageBuffer)
+     public void Serialize(SimpleServerMessageBuffer messageBuffer)
         {
             messageBuffer.AppendString(VideoId);
             messageBuffer.AppendString(Name);

@@ -6,7 +6,7 @@ using Yupi.Emulator.Game.Pets.Structs;
 
 namespace Yupi.Emulator.Game.Pets
 {
-     class PetTypeManager
+     public class PetTypeManager
     {
         /// <summary>
         ///     The _pet races
@@ -27,7 +27,7 @@ namespace Yupi.Emulator.Game.Pets
             }
         }
 
-         static void GetTypes(IQueryAdapter dbClient)
+     public static void GetTypes(IQueryAdapter dbClient)
         {
             dbClient.SetQuery("SELECT * FROM catalog_pets ORDER BY pet_race_id ASC");
 
@@ -43,7 +43,7 @@ namespace Yupi.Emulator.Game.Pets
         ///     Initializes the specified database client.
         /// </summary>
         /// <param name="dbClient">The database client.</param>
-         static void GetRaces(IQueryAdapter dbClient)
+     public static void GetRaces(IQueryAdapter dbClient)
         {
             dbClient.SetQuery("SELECT * FROM pets_races ORDER BY race_type ASC");
 

@@ -5,22 +5,22 @@ namespace Yupi.Emulator.Game.Catalogs.Interfaces
     /// <summary>
     ///     Class EcotronReward.
     /// </summary>
-     class EcotronReward
+     public class EcotronReward
     {
         /// <summary>
         ///     The base identifier
         /// </summary>
-         uint BaseId;
+     public uint BaseId;
 
         /// <summary>
         ///     The display identifier
         /// </summary>
-         uint DisplayId;
+     public uint DisplayId;
 
         /// <summary>
         ///     The reward level
         /// </summary>
-         uint RewardLevel;
+     public uint RewardLevel;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="EcotronReward" /> class.
@@ -28,7 +28,7 @@ namespace Yupi.Emulator.Game.Catalogs.Interfaces
         /// <param name="displayId">The display identifier.</param>
         /// <param name="baseId">The base identifier.</param>
         /// <param name="rewardLevel">The reward level.</param>
-         EcotronReward(uint displayId, uint baseId, uint rewardLevel)
+     public EcotronReward(uint displayId, uint baseId, uint rewardLevel)
         {
             DisplayId = displayId;
             BaseId = baseId;
@@ -39,7 +39,7 @@ namespace Yupi.Emulator.Game.Catalogs.Interfaces
         ///     Gets the base item.
         /// </summary>
         /// <returns>Item.</returns>
-         Item GetBaseItem()
+     public Item GetBaseItem()
         {
             return Yupi.GetGame().GetItemManager().GetItem(BaseId);
         }

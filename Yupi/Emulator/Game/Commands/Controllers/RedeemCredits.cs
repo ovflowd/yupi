@@ -6,7 +6,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class RedeemCredits.
     /// </summary>
-     sealed class RedeemCredits : Command
+     public sealed class RedeemCredits : Command
     {
         public RedeemCredits()
         {

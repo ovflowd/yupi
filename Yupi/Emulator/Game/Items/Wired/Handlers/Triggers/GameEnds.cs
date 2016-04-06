@@ -7,7 +7,7 @@ using Yupi.Emulator.Game.Rooms;
 
 namespace Yupi.Emulator.Game.Items.Wired.Handlers.Triggers
 {
-     class GameEnds : IWiredItem
+     public class GameEnds : IWiredItem
     {
         public GameEnds(RoomItem item, Room room)
         {

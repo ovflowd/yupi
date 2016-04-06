@@ -7,7 +7,7 @@ using Yupi.Emulator.Game.Rooms;
 
 namespace Yupi.Emulator.Game.Items.Wired.Handlers.Conditions
 {
-     class ItemsTypeMatches : IWiredItem
+     public class ItemsTypeMatches : IWiredItem
     {
         public ItemsTypeMatches(RoomItem item, Room room)
         {

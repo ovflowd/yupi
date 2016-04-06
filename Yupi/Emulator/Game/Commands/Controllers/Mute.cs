@@ -6,7 +6,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class Mute. This class cannot be inherited.
     /// </summary>
-     sealed class Mute : Command
+     public sealed class Mute : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="Mute" /> class.

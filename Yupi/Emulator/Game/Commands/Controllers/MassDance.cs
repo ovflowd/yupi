@@ -11,7 +11,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class MassDance. This class cannot be inherited.
     /// </summary>
-     sealed class MassDance : Command
+     public sealed class MassDance : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="MassDance" /> class.

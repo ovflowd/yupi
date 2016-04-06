@@ -35,12 +35,12 @@ namespace Yupi.Emulator.Core.Security
     /// <summary>
     ///     Class ServerSecurityChatFilter.
     /// </summary>
-     class ServerSecurityChatFilter
+     public class ServerSecurityChatFilter
     {
         /// <summary>
         ///     The word
         /// </summary>
-         static List<string> Word;
+     public static List<string> Word;
 
         /// <summary>
         ///     Determines whether this instance can talk the specified session.
@@ -48,7 +48,7 @@ namespace Yupi.Emulator.Core.Security
         /// <param name="session">The session.</param>
         /// <param name="message">The message.</param>
         /// <returns><c>true</c> if this instance can talk the specified session; otherwise, <c>false</c>.</returns>
-         static bool CanTalk(GameClient session, string message)
+     public static bool CanTalk(GameClient session, string message)
         {
             if (CheckForBannedPhrases(message) && session.GetHabbo().Rank < 4)
             {
@@ -105,7 +105,7 @@ namespace Yupi.Emulator.Core.Security
         /// <summary>
         ///     Initializes the swear word.
         /// </summary>
-         static void Load()
+     public static void Load()
         {
             Word = new List<string>();
             Word.Clear();
@@ -130,7 +130,7 @@ namespace Yupi.Emulator.Core.Security
         /// </summary>
         /// <param name="message">The message.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-         static bool CheckForBannedPhrases(string message)
+     public static bool CheckForBannedPhrases(string message)
         {
             message = message.ToLower();
 

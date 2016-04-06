@@ -7,7 +7,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class GiveCredits. This class cannot be inherited.
     /// </summary>
-     sealed class GiveRank : Command
+     public sealed class GiveRank : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="GiveCredits" /> class.

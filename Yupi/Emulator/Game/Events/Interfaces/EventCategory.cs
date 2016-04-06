@@ -9,7 +9,7 @@ namespace Yupi.Emulator.Game.Events.Interfaces
     /// <summary>
     ///     Class EventCategory.
     /// </summary>
-     class EventCategory
+     public class EventCategory
     {
         /// <summary>
         ///     The _add queue
@@ -40,7 +40,7 @@ namespace Yupi.Emulator.Game.Events.Interfaces
         ///     Initializes a new instance of the <see cref="EventCategory" /> class.
         /// </summary>
         /// <param name="categoryId">The category identifier.</param>
-         EventCategory(int categoryId)
+     public EventCategory(int categoryId)
         {
             CategoryId = categoryId;
             _events = new Dictionary<RoomData, uint>();
@@ -59,7 +59,7 @@ namespace Yupi.Emulator.Game.Events.Interfaces
         ///     Gets the active rooms.
         /// </summary>
         /// <returns>KeyValuePair&lt;GetPublicRoomData, System.UInt32&gt;[].</returns>
-         KeyValuePair<RoomData, uint>[] GetActiveRooms()
+     public KeyValuePair<RoomData, uint>[] GetActiveRooms()
         {
             return _orderedEventRooms.ToArray();
         }
@@ -67,7 +67,7 @@ namespace Yupi.Emulator.Game.Events.Interfaces
         /// <summary>
         ///     Called when [cycle].
         /// </summary>
-         void OnCycle()
+     public void OnCycle()
         {
             WorkRemoveQueue();
             WorkAddQueue();
@@ -79,7 +79,7 @@ namespace Yupi.Emulator.Game.Events.Interfaces
         ///     Queues the add event.
         /// </summary>
         /// <param name="data">The data.</param>
-         void QueueAddEvent(RoomData data)
+     public void QueueAddEvent(RoomData data)
         {
             lock (_addQueue.SyncRoot)
                 _addQueue.Enqueue(data);
@@ -89,7 +89,7 @@ namespace Yupi.Emulator.Game.Events.Interfaces
         ///     Queues the remove event.
         /// </summary>
         /// <param name="data">The data.</param>
-         void QueueRemoveEvent(RoomData data)
+     public void QueueRemoveEvent(RoomData data)
         {
             lock (_removeQueue.SyncRoot)
                 _removeQueue.Enqueue(data);
@@ -99,7 +99,7 @@ namespace Yupi.Emulator.Game.Events.Interfaces
         ///     Queues the update event.
         /// </summary>
         /// <param name="data">The data.</param>
-         void QueueUpdateEvent(RoomData data)
+     public void QueueUpdateEvent(RoomData data)
         {
             lock (_updateQueue.SyncRoot)
                 _updateQueue.Enqueue(data);

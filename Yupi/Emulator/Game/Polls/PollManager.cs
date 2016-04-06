@@ -8,17 +8,17 @@ namespace Yupi.Emulator.Game.Polls
     /// <summary>
     ///     Class PollManager.
     /// </summary>
-     class PollManager
+     public class PollManager
     {
         /// <summary>
         ///     The polls
         /// </summary>
-         Dictionary<uint, Poll> Polls;
+     public Dictionary<uint, Poll> Polls;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="PollManager" /> class.
         /// </summary>
-         PollManager()
+     public PollManager()
         {
             Polls = new Dictionary<uint, Poll>();
         }
@@ -28,7 +28,7 @@ namespace Yupi.Emulator.Game.Polls
         /// </summary>
         /// <param name="dbClient">The database client.</param>
         /// <param name="pollLoaded">The poll loaded.</param>
-         void Init(IQueryAdapter dbClient, out uint pollLoaded)
+     public void Init(IQueryAdapter dbClient, out uint pollLoaded)
         {
             Init(dbClient);
             pollLoaded = (uint) Polls.Count;
@@ -38,7 +38,7 @@ namespace Yupi.Emulator.Game.Polls
         ///     Initializes the specified database client.
         /// </summary>
         /// <param name="dbClient">The database client.</param>
-         void Init(IQueryAdapter dbClient)
+     public void Init(IQueryAdapter dbClient)
         {
             Polls.Clear();
 
@@ -77,7 +77,7 @@ namespace Yupi.Emulator.Game.Polls
         /// <param name="roomId">The room identifier.</param>
         /// <param name="poll">The poll.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-         bool TryGetPoll(uint roomId, out Poll poll)
+     public bool TryGetPoll(uint roomId, out Poll poll)
         {
             foreach (Poll current in Polls.Values.Where(current => current.RoomId == roomId))
             {
@@ -95,6 +95,6 @@ namespace Yupi.Emulator.Game.Polls
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>Poll.</returns>
-         Poll TryGetPollById(uint id) => Polls.Values.FirstOrDefault(current => current.Id == id);
+     public Poll TryGetPollById(uint id) => Polls.Values.FirstOrDefault(current => current.Id == id);
     }
 }

@@ -33,7 +33,7 @@ namespace Yupi.Emulator.Game.Rooms.Data
     /// <summary>
     ///     Class DynamicRoomModel.
     /// </summary>
-     class DynamicRoomModel
+     public class DynamicRoomModel
     {
         /// <summary>
         ///     The _m room
@@ -53,74 +53,74 @@ namespace Yupi.Emulator.Game.Rooms.Data
         /// <summary>
         ///     The club only
         /// </summary>
-         bool ClubOnly;
+     public bool ClubOnly;
 
         /// <summary>
         ///     The door orientation
         /// </summary>
-         int DoorOrientation;
+     public int DoorOrientation;
 
         /// <summary>
         ///     The door x
         /// </summary>
-         int DoorX;
+     public int DoorX;
 
         /// <summary>
         ///     The door y
         /// </summary>
-         int DoorY;
+     public int DoorY;
 
         /// <summary>
         ///     The door z
         /// </summary>
-         double DoorZ;
+     public double DoorZ;
 
         /// <summary>
         ///     The heightmap
         /// </summary>
-         string Heightmap;
+     public string Heightmap;
 
         /// <summary>
         ///     The heightmap serialized
         /// </summary>
-         bool HeightmapSerialized;
+     public bool HeightmapSerialized;
 
         /// <summary>
         ///     The map size x
         /// </summary>
-         int MapSizeX;
+     public int MapSizeX;
 
         /// <summary>
         ///     The map size y
         /// </summary>
-         int MapSizeY;
+     public int MapSizeY;
 
         /// <summary>
         ///     The sq character
         /// </summary>
-         char[][] SqChar;
+     public char[][] SqChar;
 
         /// <summary>
         ///     The sq floor height
         /// </summary>
-         short[][] SqFloorHeight;
+     public short[][] SqFloorHeight;
 
         /// <summary>
         ///     The sq seat rot
         /// </summary>
-         byte[][] SqSeatRot;
+     public byte[][] SqSeatRot;
 
         /// <summary>
         ///     The sq state
         /// </summary>
-         SquareState[][] SqState;
+     public SquareState[][] SqState;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="DynamicRoomModel" /> class.
         /// </summary>
         /// <param name="pModel">The p model.</param>
         /// <param name="room">The room.</param>
-         DynamicRoomModel(RoomModel pModel, Room room)
+     public DynamicRoomModel(RoomModel pModel, Room room)
         {
             _staticModel = pModel;
             DoorX = _staticModel.DoorX;
@@ -138,7 +138,7 @@ namespace Yupi.Emulator.Game.Rooms.Data
         /// <summary>
         ///     Generates this instance.
         /// </summary>
-         void Generate()
+     public void Generate()
         {
             SqState = new SquareState[MapSizeX][];
             for (int i = 0; i < MapSizeX; i++) SqState[i] = new SquareState[MapSizeY];
@@ -170,18 +170,18 @@ namespace Yupi.Emulator.Game.Rooms.Data
         /// <summary>
         ///     Refreshes the arrays.
         /// </summary>
-         void RefreshArrays() => Generate();
+     public void RefreshArrays() => Generate();
 
         /// <summary>
         ///     Sets the state of the update.
         /// </summary>
-         void SetUpdateState() => HeightmapSerialized = false;
+     public void SetUpdateState() => HeightmapSerialized = false;
 
         /// <summary>
         ///     Gets the heightmap.
         /// </summary>
         /// <returns>SimpleServerMessageBuffer.</returns>
-         SimpleServerMessageBuffer GetHeightmap()
+     public SimpleServerMessageBuffer GetHeightmap()
         {
             if (HeightmapSerialized)
                 return _serializedHeightmap;
@@ -196,7 +196,7 @@ namespace Yupi.Emulator.Game.Rooms.Data
         /// <summary>
         ///     Adds the x.
         /// </summary>
-         void AddX()
+     public void AddX()
         {
             {
                 MapSizeX++;
@@ -210,7 +210,7 @@ namespace Yupi.Emulator.Game.Rooms.Data
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
         /// <param name="z">The z.</param>
-         void OpenSquare(int x, int y, double z)
+     public void OpenSquare(int x, int y, double z)
         {
             if (z > 9.0) z = 9.0;
             if (z < 0.0) z = 0.0;
@@ -222,7 +222,7 @@ namespace Yupi.Emulator.Game.Rooms.Data
         /// <summary>
         ///     Adds the y.
         /// </summary>
-         void AddY()
+     public void AddY()
         {
             {
                 MapSizeY++;
@@ -235,7 +235,7 @@ namespace Yupi.Emulator.Game.Rooms.Data
         /// </summary>
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
-         void SetMapsize(int x, int y)
+     public void SetMapsize(int x, int y)
         {
             MapSizeX = x;
             MapSizeY = y;
@@ -245,7 +245,7 @@ namespace Yupi.Emulator.Game.Rooms.Data
         /// <summary>
         ///     Destroys this instance.
         /// </summary>
-         void Destroy()
+     public void Destroy()
         {
             Array.Clear(SqState, 0, SqState.Length);
             Array.Clear(SqFloorHeight, 0, SqFloorHeight.Length);

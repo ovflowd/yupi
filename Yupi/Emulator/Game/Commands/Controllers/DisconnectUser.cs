@@ -6,7 +6,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class DisconnectUser. This class cannot be inherited.
     /// </summary>
-     sealed class DisconnectUser : Command
+     public sealed class DisconnectUser : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="DisconnectUser" /> class.

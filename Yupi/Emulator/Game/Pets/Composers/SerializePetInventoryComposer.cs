@@ -2,9 +2,9 @@
 
 namespace Yupi.Emulator.Game.Pets.Composers
 {
-     class SerializePetInventoryComposer
+     public class SerializePetInventoryComposer
     {
-         static void GenerateMessage(Pet pet, SimpleServerMessageBuffer messageBuffer, bool levelAfterName = false)
+     public static void GenerateMessage(Pet pet, SimpleServerMessageBuffer messageBuffer, bool levelAfterName = false)
         {
             messageBuffer.AppendInteger(pet.PetId);
             messageBuffer.AppendString(pet.Name);

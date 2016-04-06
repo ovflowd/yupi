@@ -31,7 +31,7 @@ namespace Yupi.Emulator.Game.Pets
     /// <summary>
     ///     Class PetLocale.
     /// </summary>
-     class PetLocale
+     public class PetLocale
     {
         /// <summary>
         ///     The _values
@@ -42,7 +42,7 @@ namespace Yupi.Emulator.Game.Pets
         ///     Initializes the specified database client.
         /// </summary>
         /// <param name="dbClient">The database client.</param>
-         static void Init(IQueryAdapter dbClient)
+     public static void Init(IQueryAdapter dbClient)
         {
             _values = new Dictionary<string, string[]>();
 
@@ -58,7 +58,7 @@ namespace Yupi.Emulator.Game.Pets
         /// </summary>
         /// <param name="key">The key.</param>
         /// <returns>System.String[].</returns>
-         static string[] GetValue(string key)
+     public static string[] GetValue(string key)
         {
             string[] result;
 

@@ -12,12 +12,12 @@ namespace Yupi.Emulator.Messages.Handlers
     /// <summary>
     ///     Class MessageHandler.
     /// </summary>
-     partial class MessageHandler
+     public partial class MessageHandler
     {
         /// <summary>
         ///     Initializes the help tool.
         /// </summary>
-         void InitHelpTool()
+     public void InitHelpTool()
         {
             Response.Init(PacketLibraryManager.OutgoingHandler("OpenHelpToolMessageComposer"));
 
@@ -44,7 +44,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Submits the help ticket.
         /// </summary>
-         void SubmitHelpTicket()
+     public void SubmitHelpTicket()
         {
             string message = Request.GetString();
             int category = Request.GetInteger();
@@ -95,7 +95,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Deletes the pending CFH.
         /// </summary>
-         void DeletePendingCfh()
+     public void DeletePendingCfh()
         {
             if (!Yupi.GetGame().GetModerationTool().UsersHasPendingTicket(Session.GetHabbo().Id))
                 return;
@@ -110,7 +110,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Mods the get user information.
         /// </summary>
-         void ModGetUserInfo()
+     public void ModGetUserInfo()
         {
             if (Session.GetHabbo().HasFuse("fuse_mod"))
             {
@@ -126,7 +126,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Mods the get user chatlog.
         /// </summary>
-         void ModGetUserChatlog()
+     public void ModGetUserChatlog()
         {
             if (!Session.GetHabbo().HasFuse("fuse_chatlogs"))
                 return;
@@ -137,7 +137,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Mods the get room chatlog.
         /// </summary>
-         void ModGetRoomChatlog()
+     public void ModGetRoomChatlog()
         {
             if (!Session.GetHabbo().HasFuse("fuse_chatlogs"))
             {
@@ -155,7 +155,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Mods the get room tool.
         /// </summary>
-         void ModGetRoomTool()
+     public void ModGetRoomTool()
         {
             if (!Session.GetHabbo().HasFuse("fuse_mod"))
                 return;
@@ -169,7 +169,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Mods the pick ticket.
         /// </summary>
-         void ModPickTicket()
+     public void ModPickTicket()
         {
             if (!Session.GetHabbo().HasFuse("fuse_mod"))
                 return;
@@ -183,7 +183,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Mods the release ticket.
         /// </summary>
-         void ModReleaseTicket()
+     public void ModReleaseTicket()
         {
             if (!Session.GetHabbo().HasFuse("fuse_mod"))
                 return;
@@ -197,7 +197,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Mods the close ticket.
         /// </summary>
-         void ModCloseTicket()
+     public void ModCloseTicket()
         {
             if (!Session.GetHabbo().HasFuse("fuse_mod"))
                 return;
@@ -217,7 +217,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Mods the get ticket chatlog.
         /// </summary>
-         void ModGetTicketChatlog()
+     public void ModGetTicketChatlog()
         {
             if (!Session.GetHabbo().HasFuse("fuse_mod"))
                 return;
@@ -238,7 +238,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Mods the get room visits.
         /// </summary>
-         void ModGetRoomVisits()
+     public void ModGetRoomVisits()
         {
             if (Session.GetHabbo().HasFuse("fuse_mod"))
             {
@@ -252,7 +252,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Mods the send room alert.
         /// </summary>
-         void ModSendRoomAlert()
+     public void ModSendRoomAlert()
         {
             if (!Session.GetHabbo().HasFuse("fuse_alert"))
                 return;
@@ -279,7 +279,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Mods the perform room action.
         /// </summary>
-         void ModPerformRoomAction()
+     public void ModPerformRoomAction()
         {
             if (!Session.GetHabbo().HasFuse("fuse_mod"))
                 return;
@@ -295,7 +295,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Mods the send user caution.
         /// </summary>
-         void ModSendUserCaution()
+     public void ModSendUserCaution()
         {
             if (!Session.GetHabbo().HasFuse("fuse_alert"))
                 return;
@@ -309,7 +309,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Mods the send user message.
         /// </summary>
-         void ModSendUserMessage()
+     public void ModSendUserMessage()
         {
             if (!Session.GetHabbo().HasFuse("fuse_alert"))
                 return;
@@ -323,7 +323,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Mods the mute user.
         /// </summary>
-         void ModMuteUser()
+     public void ModMuteUser()
         {
             if (!Session.GetHabbo().HasFuse("fuse_mute"))
                 return;
@@ -339,7 +339,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Mods the lock trade.
         /// </summary>
-         void ModLockTrade()
+     public void ModLockTrade()
         {
             if (!Session.GetHabbo().HasFuse("fuse_lock_trade"))
                 return;
@@ -354,7 +354,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Mods the kick user.
         /// </summary>
-         void ModKickUser()
+     public void ModKickUser()
         {
             if (!Session.GetHabbo().HasFuse("fuse_kick"))
                 return;
@@ -368,7 +368,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Mods the ban user.
         /// </summary>
-         void ModBanUser()
+     public void ModBanUser()
         {
             if (!Session.GetHabbo().HasFuse("fuse_ban"))
                 return;

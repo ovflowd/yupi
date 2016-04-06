@@ -8,7 +8,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class RoomBadge. This class cannot be inherited.
     /// </summary>
-     sealed class RoomBadge : Command
+     public sealed class RoomBadge : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="RoomBadge" /> class.

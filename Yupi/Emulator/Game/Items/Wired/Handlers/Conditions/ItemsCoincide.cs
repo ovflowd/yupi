@@ -9,7 +9,7 @@ using Yupi.Emulator.Game.Rooms;
 
 namespace Yupi.Emulator.Game.Items.Wired.Handlers.Conditions
 {
-     class ItemsCoincide : IWiredItem
+     public class ItemsCoincide : IWiredItem
     {
         public ItemsCoincide(RoomItem item, Room room)
         {

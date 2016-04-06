@@ -29,22 +29,22 @@ namespace Yupi.Emulator.Game.Pathfinding.Vectors
     /// <summary>
     ///     Struct ThreeDCoord
     /// </summary>
-     struct ThreeDCoord : IEquatable<ThreeDCoord>
+     public struct ThreeDCoord : IEquatable<ThreeDCoord>
     {
         /// <summary>
         ///     The x
         /// </summary>
-         readonly int X;
+     public readonly int X;
 
         /// <summary>
         ///     The y
         /// </summary>
-         readonly int Y;
+     public readonly int Y;
 
         /// <summary>
         ///     The z
         /// </summary>
-         readonly int Z;
+     public readonly int Z;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="ThreeDCoord" /> struct.
@@ -52,7 +52,7 @@ namespace Yupi.Emulator.Game.Pathfinding.Vectors
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
         /// <param name="z">The z.</param>
-         ThreeDCoord(int x, int y, int z)
+     public ThreeDCoord(int x, int y, int z)
         {
             X = x;
             Y = y;

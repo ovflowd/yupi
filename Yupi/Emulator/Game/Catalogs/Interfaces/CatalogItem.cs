@@ -8,109 +8,109 @@ namespace Yupi.Emulator.Game.Catalogs.Interfaces
     /// <summary>
     ///     Class CatalogItem.
     /// </summary>
-     class CatalogItem
+     public class CatalogItem
     {
         /// <summary>
         ///     The club only
         /// </summary>
-         readonly bool ClubOnly;
+     public readonly bool ClubOnly;
 
         /// <summary>
         ///     The credits cost
         /// </summary>
-         readonly uint CreditsCost;
+     public readonly uint CreditsCost;
 
         /// <summary>
         ///     The diamonds cost
         /// </summary>
-         readonly uint DiamondsCost;
+     public readonly uint DiamondsCost;
 
         /// <summary>
         ///     The duckets cost
         /// </summary>
-         readonly uint DucketsCost;
+     public readonly uint DucketsCost;
 
         /// <summary>
         ///     The extra data
         /// </summary>
-         readonly string ExtraData;
+     public readonly string ExtraData;
 
         /// <summary>
         ///     The have offer
         /// </summary>
-         readonly bool HaveOffer;
+     public readonly bool HaveOffer;
 
         /// <summary>
         ///     The identifier
         /// </summary>
-         readonly uint Id;
+     public readonly uint Id;
 
         /// <summary>
         ///     The is limited
         /// </summary>
-         readonly bool IsLimited;
+     public readonly bool IsLimited;
 
         /// <summary>
         ///     The item identifier string
         /// </summary>
-         readonly string ItemNamesString;
+     public readonly string ItemNamesString;
 
         /// <summary>
         ///     The limited stack
         /// </summary>
-         readonly uint LimitedStack;
+     public readonly uint LimitedStack;
 
         /// <summary>
         ///     The name
         /// </summary>
-         readonly string Name;
+     public readonly string Name;
 
         /// <summary>
         ///     The page identifier
         /// </summary>
-         readonly uint PageId;
+     public readonly uint PageId;
 
         /// <summary>
         ///     The song identifier
         /// </summary>
-         readonly uint SongId;
+     public readonly uint SongId;
 
         /// <summary>
         ///     The badge
         /// </summary>
-         string Badge;
+     public string Badge;
 
         /// <summary>
         ///     The base identifier
         /// </summary>
-         uint BaseId;
+     public uint BaseId;
 
         /// <summary>
         ///     The base name
         /// </summary>
-         string BaseName;
+     public string BaseName;
 
         /// <summary>
         ///     The first amount
         /// </summary>
-         uint FirstAmount;
+     public uint FirstAmount;
 
         /// <summary>
         ///     The items
         /// </summary>
-         Dictionary<Item, uint> Items;
+     public Dictionary<Item, uint> Items;
 
         /// <summary>
         ///     The limited selled
         /// </summary>
-         uint LimitedSelled;
+     public uint LimitedSelled;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="CatalogItem" /> class.
         /// </summary>
         /// <param name="row">The row.</param>
         /// <param name="name">The name.</param>
-         CatalogItem(DataRow row, string name)
+     public CatalogItem(DataRow row, string name)
         {
             // Item Id
             Id = (uint) row["id"];
@@ -167,12 +167,12 @@ namespace Yupi.Emulator.Game.Catalogs.Interfaces
         /// </summary>
         /// <param name="itemId">The item ids.</param>
         /// <returns>Item.</returns>
-         Item GetBaseItem(uint itemId) => Yupi.GetGame().GetItemManager().GetItem(itemId);
+     public Item GetBaseItem(uint itemId) => Yupi.GetGame().GetItemManager().GetItem(itemId);
 
         /// <summary>
         ///     Gets the first base item.
         /// </summary>
         /// <returns>Item.</returns>
-         Item GetFirstBaseItem() => GetBaseItem(BaseId);
+     public Item GetFirstBaseItem() => GetBaseItem(BaseId);
     }
 }

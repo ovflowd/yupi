@@ -5,7 +5,7 @@ using Yupi.Emulator.Game.Rooms.User;
 
 namespace Yupi.Emulator.Game.Items.Interactions.Models
 {
-     class FurniInteractorModel : IFurniInteractor
+     public class FurniInteractorModel : IFurniInteractor
     {
         public virtual void OnPlace(GameClient session, RoomItem item)
         {

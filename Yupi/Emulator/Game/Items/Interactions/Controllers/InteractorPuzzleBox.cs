@@ -13,7 +13,7 @@ using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 {
-     class InteractorPuzzleBox : FurniInteractorModel
+     public class InteractorPuzzleBox : FurniInteractorModel
     {
         public override void OnTrigger(GameClient session, RoomItem item, int request, bool hasRights)
         {

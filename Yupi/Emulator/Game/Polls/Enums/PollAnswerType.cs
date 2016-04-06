@@ -3,7 +3,7 @@
     /// <summary>
     ///     Enum PollAnswerType
     /// </summary>
-     enum PollAnswerType
+     public enum PollAnswerType
     {
         /// <summary>
         ///     The radio selection

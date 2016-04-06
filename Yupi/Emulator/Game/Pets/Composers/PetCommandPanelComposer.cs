@@ -6,9 +6,9 @@ using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Pets.Composers
 {
-     class PetCommandPanelComposer
+     public class PetCommandPanelComposer
     {
-         static void GenerateMessage(Pet pet, Dictionary<uint, PetCommand> totalPetCommands,
+     public static void GenerateMessage(Pet pet, Dictionary<uint, PetCommand> totalPetCommands,
             Dictionary<uint, PetCommand> petCommands, GameClient owner)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("PetTrainerPanelMessageComposer"));

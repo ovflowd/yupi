@@ -8,7 +8,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class Lay. This class cannot be inherited.
     /// </summary>
-     sealed class Lay : Command
+     public sealed class Lay : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="Lay" /> class.

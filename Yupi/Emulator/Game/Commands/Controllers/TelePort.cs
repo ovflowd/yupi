@@ -8,7 +8,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class TelePort. This class cannot be inherited.
     /// </summary>
-     sealed class TelePort : Command
+     public sealed class TelePort : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="TelePort" /> class.

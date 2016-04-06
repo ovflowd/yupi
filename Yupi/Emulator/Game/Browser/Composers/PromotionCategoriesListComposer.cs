@@ -6,7 +6,7 @@ namespace Yupi.Emulator.Game.Browser.Composers
 {
     class PromotionCategoriesListComposer
     {
-         static SimpleServerMessageBuffer Compose()
+     public static SimpleServerMessageBuffer Compose()
         {
             SimpleServerMessageBuffer categories = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("CatalogPromotionGetCategoriesMessageComposer"));
 

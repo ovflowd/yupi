@@ -40,7 +40,7 @@ namespace Yupi.Emulator.Game.Rooms.Data.Models
     /// <summary>
     ///     Class GetPublicRoomData.
     /// </summary>
-     class RoomData
+     public class RoomData
     {
         /// <summary>
         ///     Room Model
@@ -50,127 +50,127 @@ namespace Yupi.Emulator.Game.Rooms.Data.Models
         /// <summary>
         ///     Allow Pets in Room
         /// </summary>
-         bool AllowPets;
+     public bool AllowPets;
 
         /// <summary>
         ///     Allow Other Users Pets Eat in Room
         /// </summary>
-         bool AllowPetsEating;
+     public bool AllowPetsEating;
 
         /// <summary>
         ///     Allow Users Walk Through Other Users
         /// </summary>
-         bool AllowWalkThrough;
+     public bool AllowWalkThrough;
 
         /// <summary>
         ///     Hide Wall in Room
         /// </summary>
-         bool HideWall;
+     public bool HideWall;
 
         /// <summary>
         ///     Allow Override Room Rights
         /// </summary>
-         bool AllowRightsOverride;
+     public bool AllowRightsOverride;
 
         /// <summary>
         ///     Room Category
         /// </summary>
-         int Category;
+     public int Category;
 
         /// <summary>
         ///     What the Hell?
         /// </summary>
-         string CcTs;
+     public string CcTs;
 
         /// <summary>
         ///     Chat Balloon Type
         /// </summary>
-         uint ChatBalloon;
+     public uint ChatBalloon;
 
         /// <summary>
         ///     Chat Walk Speed
         /// </summary>
-         uint ChatSpeed;
+     public uint ChatSpeed;
 
         /// <summary>
         ///     Chat Max Distance each Other Message
         /// </summary>
-         uint ChatMaxDistance;
+     public uint ChatMaxDistance;
 
         /// <summary>
         ///     Chat Flood Protection
         /// </summary>
-         uint ChatFloodProtection;
+     public uint ChatFloodProtection;
 
         /// <summary>
         ///     Room Chat Type
         /// </summary>
-         int ChatType;
+     public int ChatType;
 
         /// <summary>
         ///     Is Room In Competition
         /// </summary>
-         int CompetitionStatus;
+     public int CompetitionStatus;
 
         /// <summary>
         ///     Amount of Votes of the Room
         /// </summary>
-         int CompetitionVotes;
+     public int CompetitionVotes;
 
         /// <summary>
         ///     Room Description
         /// </summary>
-         string Description;
+     public string Description;
 
         /// <summary>
         ///     Disable Pull Users in Room
         /// </summary>
-         bool DisablePull = false;
+     public bool DisablePull = false;
 
         /// <summary>
         ///     Disable Push Users in Room
         /// </summary>
-         bool DisablePush = false;
+     public bool DisablePush = false;
 
         /// <summary>
         ///     Room Event
         /// </summary>
-         RoomEvent Event;
+     public RoomEvent Event;
 
         /// <summary>
         ///     Floor String?
         /// </summary>
-         string Floor;
+     public string Floor;
 
         /// <summary>
         ///     Room Flor Thickness
         /// </summary>
-         int FloorThickness;
+     public int FloorThickness;
 
         /// <summary>
         ///     Room Game Identifier
         /// </summary>
-         int GameId;
+     public int GameId;
 
         /// <summary>
         ///     Room Group
         /// </summary>
-         Group Group;
+     public Group Group;
 
         /// <summary>
         ///     Room Group Id
         /// </summary>
-         uint GroupId;
+     public uint GroupId;
 
         /// <summary>
         ///     Room Id
         /// </summary>
-         uint Id;
+     public uint Id;
 
         /// <summary>
         ///     Landscape String
         /// </summary>
-         string LandScape;
+     public string LandScape;
 
         /// <summary>
         ///     Last Time when Room was Used
@@ -180,131 +180,131 @@ namespace Yupi.Emulator.Game.Rooms.Data.Models
         /// <summary>
         ///     Room Model Name
         /// </summary>
-         string ModelName;
+     public string ModelName;
 
         /// <summary>
         ///     Room Name
         /// </summary>
-         string Name;
+     public string Name;
 
         /// <summary>
         ///     Room Owner
         /// </summary>
-         string Owner;
+     public string Owner;
 
         /// <summary>
         ///     Room Owner Id
         /// </summary>
-         uint OwnerId;
+     public uint OwnerId;
 
         /// <summary>
         ///     Room Password
         /// </summary>
-         string PassWord;
+     public string PassWord;
 
         /// <summary>
         ///     Room Chat Log
         /// </summary>
-         ConcurrentStack<Chatlog> RoomChat;
+     public ConcurrentStack<Chatlog> RoomChat;
 
         /// <summary>
         ///     Room Score
         /// </summary>
-         int Score;
+     public int Score;
 
         /// <summary>
         ///     Room Locked State
         /// </summary>
-         int State;
+     public int State;
 
         /// <summary>
         ///     Room Tags
         /// </summary>
-         List<string> Tags;
+     public List<string> Tags;
 
         /// <summary>
         ///     Room Trade State
         /// </summary>
-         int TradeState;
+     public int TradeState;
 
         /// <summary>
         ///     Room Type
         /// </summary>
-         string Type;
+     public string Type;
 
         /// <summary>
         ///     Amount of Users on Room
         /// </summary>
-         uint UsersNow;
+     public uint UsersNow;
 
         /// <summary>
         ///     Max Amount of Users on Room
         /// </summary>
-         uint UsersMax;
+     public uint UsersMax;
 
         /// <summary>
         ///     Room Wall Height
         /// </summary>
-         int WallHeight;
+     public int WallHeight;
 
         /// <summary>
         ///     The wall paper
         /// </summary>
-         string WallPaper;
+     public string WallPaper;
 
         /// <summary>
         ///     Room Wall Tchickness
         /// </summary>
-         int WallThickness;
+     public int WallThickness;
 
         /// <summary>
         ///     Who Can Ban Users in Room
         /// </summary>
-         int WhoCanBan;
+     public int WhoCanBan;
 
         /// <summary>
         ///     Who Can Kick Users in Room
         /// </summary>
-         int WhoCanKick;
+     public int WhoCanKick;
 
         /// <summary>
         ///     Who Can Mute Users in Room
         /// </summary>
-         int WhoCanMute;
+     public int WhoCanMute;
 
         /// <summary>
         ///     Room Private Black Words
         /// </summary>
-         List<string> WordFilter;
+     public List<string> WordFilter;
 
         /// <summary>
         ///     Room Tags Count
         /// </summary>
         /// <value>The tag count.</value>
-         int TagCount => Tags.Count;
+     public int TagCount => Tags.Count;
 
         /// <summary>
         ///     Gets a value indicating whether this instance has event.
         /// </summary>
         /// <value><c>true</c> if this instance has event; otherwise, <c>false</c>.</value>
-         bool HasEvent => false;
+     public bool HasEvent => false;
 
         /// <summary>
         ///     Gets the model.
         /// </summary>
         /// <value>The model.</value>
-         RoomModel Model => _model ?? (_model = Yupi.GetGame().GetRoomManager().GetModel(ModelName, Id));
+     public RoomModel Model => _model ?? (_model = Yupi.GetGame().GetRoomManager().GetModel(ModelName, Id));
 
         /// <summary>
         ///     Resets the model.
         /// </summary>
-         void ResetModel() => _model = Yupi.GetGame().GetRoomManager().GetModel(ModelName, Id);
+     public void ResetModel() => _model = Yupi.GetGame().GetRoomManager().GetModel(ModelName, Id);
 
         /// <summary>
         ///     Fills the null.
         /// </summary>
         /// <param name="id">The identifier.</param>
-         void FillNull(uint id)
+     public void FillNull(uint id)
         {
             Id = id;
             Name = "Unknown Room";
@@ -348,7 +348,7 @@ namespace Yupi.Emulator.Game.Rooms.Data.Models
         ///     Fills the specified row.
         /// </summary>
         /// <param name="row">The row.</param>
-         void Fill(DataRow row)
+     public void Fill(DataRow row)
         {
             try
             {
@@ -469,7 +469,7 @@ namespace Yupi.Emulator.Game.Rooms.Data.Models
         /// <param name="messageBuffer">The messageBuffer.</param>
         /// <param name="showEvents">if set to <c>true</c> [show events].</param>
         /// <param name="enterRoom"></param>
-         void Serialize(SimpleServerMessageBuffer messageBuffer, bool showEvents = false, bool enterRoom = false) => RoomDataComposer.Serialize(messageBuffer, this, showEvents, enterRoom);
+     public void Serialize(SimpleServerMessageBuffer messageBuffer, bool showEvents = false, bool enterRoom = false) => RoomDataComposer.Serialize(messageBuffer, this, showEvents, enterRoom);
 
         /// <summary>
         ///     Serializes the room data.
@@ -479,7 +479,7 @@ namespace Yupi.Emulator.Game.Rooms.Data.Models
         /// <param name="isNotReload">if set to <c>true</c> [from view].</param>
         /// <param name="sendRoom">if set to <c>true</c> [send room].</param>
         /// <param name="show">if set to <c>true</c> [show].</param>
-         void SerializeRoomData(SimpleServerMessageBuffer messageBuffer, GameClient session, bool isNotReload, bool? sendRoom = false, bool show = true)
+     public void SerializeRoomData(SimpleServerMessageBuffer messageBuffer, GameClient session, bool isNotReload, bool? sendRoom = false, bool show = true)
         {
             SimpleServerMessageBuffer roomDataBuffer = RoomDataComposer.Compose(messageBuffer, session, Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId), this, isNotReload, sendRoom, show);
 

@@ -10,7 +10,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Handlers
     /// <summary>
     ///     Class GameItemHandler.
     /// </summary>
-     class GameItemHandler
+     public class GameItemHandler
     {
         /// <summary>
         ///     The _banzai pyramids
@@ -41,7 +41,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Handlers
         /// <summary>
         ///     Called when [cycle].
         /// </summary>
-         void OnCycle()
+     public void OnCycle()
         {
             CyclePyramids();
             CycleRandomTeleports();
@@ -52,7 +52,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Handlers
         /// </summary>
         /// <param name="item">The item.</param>
         /// <param name="itemId">The item identifier.</param>
-         void AddPyramid(RoomItem item, uint itemId)
+     public void AddPyramid(RoomItem item, uint itemId)
         {
             if (_banzaiPyramids.ContainsKey(itemId))
             {
@@ -66,7 +66,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Handlers
         ///     Removes the pyramid.
         /// </summary>
         /// <param name="itemId">The item identifier.</param>
-         void RemovePyramid(uint itemId)
+     public void RemovePyramid(uint itemId)
         {
             RoomItem e;
             _banzaiPyramids.TryRemove(itemId, out e);
@@ -77,7 +77,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Handlers
         /// </summary>
         /// <param name="item">The item.</param>
         /// <param name="itemId">The item identifier.</param>
-         void AddTeleport(RoomItem item, uint itemId)
+     public void AddTeleport(RoomItem item, uint itemId)
         {
             if (_banzaiTeleports.ContainsKey(itemId))
             {
@@ -91,7 +91,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Handlers
         ///     Removes the teleport.
         /// </summary>
         /// <param name="itemId">The item identifier.</param>
-         void RemoveTeleport(uint itemId)
+     public void RemoveTeleport(uint itemId)
         {
             _banzaiTeleports.Remove(itemId);
         }
@@ -101,7 +101,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Handlers
         /// </summary>
         /// <param name="user">The user.</param>
         /// <param name="item">The item.</param>
-         void OnTeleportRoomUserEnter(RoomUser user, RoomItem item)
+     public void OnTeleportRoomUserEnter(RoomUser user, RoomItem item)
         {
             List<RoomItem> items = _banzaiTeleports.Inner.Values.Where(p => p.Id != item.Id).ToList();
 
@@ -133,7 +133,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Handlers
         /// <summary>
         ///     Destroys this instance.
         /// </summary>
-         void Destroy()
+     public void Destroy()
         {
             if (_banzaiTeleports != null)
             {

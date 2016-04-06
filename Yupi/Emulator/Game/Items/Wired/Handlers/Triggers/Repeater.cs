@@ -10,7 +10,7 @@ using Yupi.Emulator.Game.Rooms.User;
 
 namespace Yupi.Emulator.Game.Items.Wired.Handlers.Triggers
 {
-     class Repeater : IWiredItem, IWiredCycler
+     public class Repeater : IWiredItem, IWiredCycler
     {
         private long _mNext;
 

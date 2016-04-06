@@ -31,138 +31,138 @@ namespace Yupi.Emulator.Core.Settings
     /// <summary>
     ///     Class ServerExtraSettings.
     /// </summary>
-     class ServerExtraSettings
+     public class ServerExtraSettings
     {
         /// <summary>
         ///     The currency loop enabled
         /// </summary>
-         static bool CurrencyLoopEnabled = true;
+     public static bool CurrencyLoopEnabled = true;
 
         /// <summary>
         ///     The Currently loop time in minutes
         /// </summary>
-         static int CurrentlyLoopTimeInMinutes = 15;
+     public static int CurrentlyLoopTimeInMinutes = 15;
 
         /// <summary>
         ///     The credits to give
         /// </summary>
-         static int CreditsToGive = 3000;
+     public static int CreditsToGive = 3000;
 
         /// <summary>
         ///     The pixels to give
         /// </summary>
-         static int PixelsToGive = 100;
+     public static int PixelsToGive = 100;
 
         /// <summary>
         ///     The youtube thumbnail suburl
         /// </summary>
-         static string YoutubeThumbnailSuburl = "youtubethumbnail.php?Video";
+     public static string YoutubeThumbnailSuburl = "youtubethumbnail.php?Video";
 
         /// <summary>
         ///     The diamonds loop enabled
         /// </summary>
-         static bool DiamondsLoopEnabled = true;
+     public static bool DiamondsLoopEnabled = true;
 
         /// <summary>
         ///     The diamonds vip only
         /// </summary>
-         static bool DiamondsVipOnly = true;
+     public static bool DiamondsVipOnly = true;
 
         /// <summary>
         ///     The diamonds to give
         /// </summary>
-         static int DiamondsToGive = 1;
+     public static int DiamondsToGive = 1;
 
         /// <summary>
         ///     The change name staff
         /// </summary>
-         static bool ChangeNameStaff = true;
+     public static bool ChangeNameStaff = true;
 
         /// <summary>
         ///     The change name vip
         /// </summary>
-         static bool ChangeNameVip = true;
+     public static bool ChangeNameVip = true;
 
         /// <summary>
         ///     The change name everyone
         /// </summary>
-         static bool ChangeNameEveryone = true;
+     public static bool ChangeNameEveryone = true;
 
         /// <summary>
         ///     The ne w_users_gifts_ enabled
         /// </summary>
-         static bool NewUsersGiftsEnabled = true;
+     public static bool NewUsersGiftsEnabled = true;
 
         /// <summary>
         ///     The ServerCamera from Stories
         /// </summary>
-         static string StoriesApiServerUrl = "";
+     public static string StoriesApiServerUrl = "";
 
         /// <summary>
         ///     The ServerCamera from Stories
         /// </summary>
-         static string StoriesApiThumbnailServerUrl = "";
+     public static string StoriesApiThumbnailServerUrl = "";
 
         /// <summary>
         ///     The ServerCamera from Stories
         /// </summary>
-         static string StoriesApiHost = "";
+     public static string StoriesApiHost = "";
 
         /// <summary>
         ///     The enable beta camera
         /// </summary>
-         static bool EnableBetaCamera = true;
+     public static bool EnableBetaCamera = true;
 
         /// <summary>
         ///     The new user gift yttv2 identifier
         /// </summary>
-         static uint NewUserGiftYttv2Id = 4930;
+     public static uint NewUserGiftYttv2Id = 4930;
 
         /// <summary>
         ///     The everyone use floor
         /// </summary>
-         static bool EveryoneUseFloor = true;
+     public static bool EveryoneUseFloor = true;
 
         /// <summary>
         ///     The new page commands
         /// </summary>
-         static bool NewPageCommands;
+     public static bool NewPageCommands;
 
         /// <summary>
         ///     The figure data URL
         /// </summary>
-         static string FigureDataUrl = "http://localhost/gamedata/figuredata/1.xml";
+     public static string FigureDataUrl = "http://localhost/gamedata/figuredata/1.xml";
 
         /// <summary>
         ///     The furniture data URL
         /// </summary>
-         static string FurnitureDataUrl;
+     public static string FurnitureDataUrl;
 
         /// <summary>
         ///     The admin can use HTML
         /// </summary>
-         static bool AdminCanUseHtml = true;
+     public static bool AdminCanUseHtml = true;
 
         /// <summary>
         ///     The encryption client side
         /// </summary>
-         static bool EncryptionClientSide;
+     public static bool EncryptionClientSide;
 
         /// <summary>
         ///     The welcome message
         /// </summary>
-         static string WelcomeMessage = "";
+     public static string WelcomeMessage = "";
 
         /// <summary>
         ///     The game center stories URL
         /// </summary>
-         static string GameCenterStoriesUrl;
+     public static string GameCenterStoriesUrl;
 
         /// <summary>
         ///     Runs the extra settings.
         /// </summary>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-         static bool RunExtraSettings()
+     public static bool RunExtraSettings()
         {
             if (File.Exists(Path.Combine(Yupi.YupiVariablesDirectory, "Settings", "Welcome" ,"message.txt")))
                 WelcomeMessage =

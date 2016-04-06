@@ -10,7 +10,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class FastWalk. This class cannot be inherited.
     /// </summary>
-     sealed class UserFaq : Command
+     public sealed class UserFaq : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="FastWalk" /> class.

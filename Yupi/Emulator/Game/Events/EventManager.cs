@@ -10,7 +10,7 @@ namespace Yupi.Emulator.Game.Events
     /// <summary>
     ///     Class EventManager.
     /// </summary>
-     class EventManager
+     public class EventManager
     {
         /// <summary>
         ///     The _add queue
@@ -64,12 +64,12 @@ namespace Yupi.Emulator.Game.Events
         ///     Gets the rooms.
         /// </summary>
         /// <returns>KeyValuePair&lt;GetPublicRoomData, System.UInt32&gt;[].</returns>
-         KeyValuePair<RoomData, uint>[] GetRooms() => _orderedEventRooms.ToArray();
+     public KeyValuePair<RoomData, uint>[] GetRooms() => _orderedEventRooms.ToArray();
 
         /// <summary>
         ///     Called when [cycle].
         /// </summary>
-         void OnCycle()
+     public void OnCycle()
         {
             WorkRemoveQueue();
             WorkAddQueue();
@@ -85,7 +85,7 @@ namespace Yupi.Emulator.Game.Events
         /// </summary>
         /// <param name="data">The data.</param>
         /// <param name="roomEventCategory">The room event category.</param>
-         void QueueAddEvent(RoomData data, int roomEventCategory)
+     public void QueueAddEvent(RoomData data, int roomEventCategory)
         {
             lock (_addQueue.SyncRoot)
                 _addQueue.Enqueue(data);
@@ -98,7 +98,7 @@ namespace Yupi.Emulator.Game.Events
         /// </summary>
         /// <param name="data">The data.</param>
         /// <param name="roomEventCategory">The room event category.</param>
-         void QueueRemoveEvent(RoomData data, int roomEventCategory)
+     public void QueueRemoveEvent(RoomData data, int roomEventCategory)
         {
             lock (_removeQueue.SyncRoot)
                 _removeQueue.Enqueue(data);
@@ -111,7 +111,7 @@ namespace Yupi.Emulator.Game.Events
         /// </summary>
         /// <param name="data">The data.</param>
         /// <param name="roomEventCategory">The room event category.</param>
-         void QueueUpdateEvent(RoomData data, int roomEventCategory)
+     public void QueueUpdateEvent(RoomData data, int roomEventCategory)
         {
             lock (_updateQueue.SyncRoot)
                 _updateQueue.Enqueue(data);

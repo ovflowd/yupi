@@ -6,14 +6,14 @@ namespace Yupi.Emulator.Game.Items.Handlers
     /// <summary>
     ///     Class HopperHandler.
     /// </summary>
-     static class HopperHandler
+     public static class HopperHandler
     {
         /// <summary>
         ///     Gets a hopper.
         /// </summary>
         /// <param name="curRoom">The current room.</param>
         /// <returns>System.UInt32.</returns>
-         static uint GetAHopper(uint curRoom)
+     public static uint GetAHopper(uint curRoom)
         {
             uint result;
 
@@ -34,7 +34,7 @@ namespace Yupi.Emulator.Game.Items.Handlers
         /// </summary>
         /// <param name="nextRoom">The next room.</param>
         /// <returns>System.UInt32.</returns>
-         static uint GetHopperId(uint nextRoom)
+     public static uint GetHopperId(uint nextRoom)
         {
             uint result;
 

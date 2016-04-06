@@ -35,18 +35,18 @@ namespace Yupi.Emulator.Game.Achievements
     /// <summary>
     ///     Class TalentManager.
     /// </summary>
-     class TalentManager
+     public class TalentManager
     {
         /// <summary>
         ///     The talents
         /// </summary>
-         Dictionary<int, Talent> Talents = new Dictionary<int, Talent>();
+     public Dictionary<int, Talent> Talents = new Dictionary<int, Talent>();
 
         /// <summary>
         ///     Initializes the specified database client.
         /// </summary>
         /// <param name="dbClient">The database client.</param>
-         void Initialize(IQueryAdapter dbClient)
+     public void Initialize(IQueryAdapter dbClient)
         {
             dbClient.SetQuery("SELECT * FROM talents_data ORDER BY `order_num` ASC");
 
@@ -71,7 +71,7 @@ namespace Yupi.Emulator.Game.Achievements
         /// </summary>
         /// <param name="talentId">The talent identifier.</param>
         /// <returns>Talent.</returns>
-         Talent GetTalent(int talentId) => Talents[talentId];
+     public Talent GetTalent(int talentId) => Talents[talentId];
 
         /// <summary>
         ///     Levels the is completed.
@@ -80,7 +80,7 @@ namespace Yupi.Emulator.Game.Achievements
         /// <param name="trackType">Type of the track.</param>
         /// <param name="talentLevel">The talent level.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-         bool LevelIsCompleted(GameClient session, string trackType, int talentLevel) =>
+     public bool LevelIsCompleted(GameClient session, string trackType, int talentLevel) =>
             GetTalents(trackType, talentLevel).All(
                 current =>
                     !session.GetHabbo().Achievements.ContainsKey(current.AchievementGroup) ||
@@ -91,7 +91,7 @@ namespace Yupi.Emulator.Game.Achievements
         /// </summary>
         /// <param name="session">The session.</param>
         /// <param name="talent">The talent.</param>
-         void CompleteUserTalent(GameClient session, Talent talent)
+     public void CompleteUserTalent(GameClient session, Talent talent)
         {
             if (session?.GetHabbo() == null || session.GetHabbo().CurrentTalentLevel < talent.Level ||
                 session.GetHabbo().Talents.ContainsKey(talent.Id))
@@ -137,14 +137,14 @@ namespace Yupi.Emulator.Game.Achievements
         /// </summary>
         /// <param name="achGroup">The ach group.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-         Talent GetTalentData(string achGroup)
+     public Talent GetTalentData(string achGroup)
             => Talents.Values.FirstOrDefault(current => current.AchievementGroup == achGroup);
 
         /// <summary>
         ///     Gets all talents.
         /// </summary>
         /// <returns>Dictionary&lt;System.Int32, Talent&gt;.</returns>
-         Dictionary<int, Talent> GetAllTalents() => Talents;
+     public Dictionary<int, Talent> GetAllTalents() => Talents;
 
         /// <summary>
         ///     Gets the talents.
@@ -152,7 +152,7 @@ namespace Yupi.Emulator.Game.Achievements
         /// <param name="trackType">Type of the track.</param>
         /// <param name="parentCategory">The parent category.</param>
         /// <returns>List&lt;Talent&gt;.</returns>
-         List<Talent> GetTalents(string trackType, int parentCategory)
+     public List<Talent> GetTalents(string trackType, int parentCategory)
             =>
                 Talents.Values.Where(current => current.Type == trackType && current.ParentCategory == parentCategory)
                     .ToList();

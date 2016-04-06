@@ -10,42 +10,42 @@ namespace Yupi.Emulator.Game.Items.Interfaces
     /// <summary>
     ///     Class UserItem.
     /// </summary>
-     class UserItem
+     public class UserItem
     {
         /// <summary>
         ///     The base item
         /// </summary>
-         readonly Item BaseItem;
+     public readonly Item BaseItem;
 
         /// <summary>
         ///     The extra data
         /// </summary>
-         string ExtraData;
+     public string ExtraData;
 
         /// <summary>
         ///     The group identifier
         /// </summary>
-         uint GroupId;
+     public uint GroupId;
 
         /// <summary>
         ///     The identifier
         /// </summary>
-         uint Id;
+     public uint Id;
 
         /// <summary>
         ///     The is wall item
         /// </summary>
-         bool IsWallItem;
+     public bool IsWallItem;
 
         /// <summary>
         ///     The limited sell identifier
         /// </summary>
-         uint LimitedSellId, LimitedStack;
+     public uint LimitedSellId, LimitedStack;
 
         /// <summary>
         ///     The song code
         /// </summary>
-         string SongCode;
+     public string SongCode;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="UserItem" /> class.
@@ -55,7 +55,7 @@ namespace Yupi.Emulator.Game.Items.Interfaces
         /// <param name="extraData">The extra data.</param>
         /// <param name="group">The group.</param>
         /// <param name="songCode">The song code.</param>
-         UserItem(uint id, string baseName, string extraData, uint group, string songCode)
+     public UserItem(uint id, string baseName, string extraData, uint group, string songCode)
         {
             Id = id;
             ExtraData = extraData;
@@ -87,7 +87,7 @@ namespace Yupi.Emulator.Game.Items.Interfaces
         /// </summary>
         /// <param name="message">The messageBuffer.</param>
         /// <param name="inventory">if set to <c>true</c> [inventory].</param>
-         void SerializeWall(SimpleServerMessageBuffer messageBuffer, bool inventory)
+     public void SerializeWall(SimpleServerMessageBuffer messageBuffer, bool inventory)
         {
             messageBuffer.AppendInteger(Id);
             messageBuffer.AppendString(BaseItem.Type.ToString().ToUpper());
@@ -119,7 +119,7 @@ namespace Yupi.Emulator.Game.Items.Interfaces
         /// </summary>
         /// <param name="message">The messageBuffer.</param>
         /// <param name="inventory">if set to <c>true</c> [inventory].</param>
-         void SerializeFloor(SimpleServerMessageBuffer messageBuffer, bool inventory)
+     public void SerializeFloor(SimpleServerMessageBuffer messageBuffer, bool inventory)
         {
             messageBuffer.AppendInteger(Id);
             messageBuffer.AppendString(BaseItem.Type.ToString(CultureInfo.InvariantCulture).ToUpper());

@@ -8,7 +8,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class Stand. This class cannot be inherited.
     /// </summary>
-     sealed class Stand : Command
+     public sealed class Stand : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="Stand" /> class.

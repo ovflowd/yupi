@@ -4,7 +4,7 @@ using Yupi.Emulator.Game.Items.Interfaces;
 
 namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 {
-     class InteractorFireworks : FurniInteractorModel
+     public class InteractorFireworks : FurniInteractorModel
     {
         public override void OnPlace(GameClient session, RoomItem item)
         {

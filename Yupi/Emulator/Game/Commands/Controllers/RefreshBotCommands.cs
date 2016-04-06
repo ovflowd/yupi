@@ -6,7 +6,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class RefreshBotCommands. This class cannot be inherited.
     /// </summary>
-     sealed class RefreshBotCommands : Command
+     public sealed class RefreshBotCommands : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="SetVideos" /> class.

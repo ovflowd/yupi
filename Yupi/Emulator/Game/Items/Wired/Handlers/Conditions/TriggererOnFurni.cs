@@ -8,7 +8,7 @@ using Yupi.Emulator.Game.Rooms.User;
 
 namespace Yupi.Emulator.Game.Items.Wired.Handlers.Conditions
 {
-     class TriggererOnFurni : IWiredItem
+     public class TriggererOnFurni : IWiredItem
     {
         public TriggererOnFurni(RoomItem item, Room room)
         {

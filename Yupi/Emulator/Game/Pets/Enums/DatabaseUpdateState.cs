@@ -27,7 +27,7 @@ namespace Yupi.Emulator.Game.Pets.Enums
     /// <summary>
     ///     Enum DatabaseUpdateState
     /// </summary>
-     enum DatabaseUpdateState
+     public enum DatabaseUpdateState
     {
         /// <summary>
         ///     The updated

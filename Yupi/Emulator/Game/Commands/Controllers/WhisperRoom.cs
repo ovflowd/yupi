@@ -6,7 +6,7 @@ using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Commands.Controllers
 {
-     sealed class WhisperRoom : Command
+     public sealed class WhisperRoom : Command
     {
         public WhisperRoom()
         {

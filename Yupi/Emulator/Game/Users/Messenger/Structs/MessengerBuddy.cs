@@ -10,7 +10,7 @@ namespace Yupi.Emulator.Game.Users.Messenger.Structs
     /// <summary>
     ///     Class MessengerBuddy.
     /// </summary>
-     class MessengerBuddy
+     public class MessengerBuddy
     {
         //private readonly int _lastOnline;
         /// <summary>
@@ -36,12 +36,12 @@ namespace Yupi.Emulator.Game.Users.Messenger.Structs
         /// <summary>
         ///     The client
         /// </summary>
-         GameClient Client;
+     public GameClient Client;
 
         /// <summary>
         ///     The user name
         /// </summary>
-         string UserName;
+     public string UserName;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="MessengerBuddy" /> class.
@@ -52,7 +52,7 @@ namespace Yupi.Emulator.Game.Users.Messenger.Structs
         /// <param name="motto">The motto.</param>
         /// <param name="appearOffline">if set to <c>true</c> [appear offline].</param>
         /// <param name="hideInroom">if set to <c>true</c> [hide inroom].</param>
-         MessengerBuddy(uint userId, string userName, string look, string motto, bool appearOffline,
+     public MessengerBuddy(uint userId, string userName, string look, string motto, bool appearOffline,
             bool hideInroom)
         {
             Id = userId;
@@ -67,13 +67,13 @@ namespace Yupi.Emulator.Game.Users.Messenger.Structs
         ///     Gets the identifier.
         /// </summary>
         /// <value>The identifier.</value>
-         uint Id { get; set; }
+     public uint Id { get; set; }
 
         /// <summary>
         ///     Gets a value indicating whether this instance is online.
         /// </summary>
         /// <value><c>true</c> if this instance is online; otherwise, <c>false</c>.</value>
-         bool IsOnline
+     public bool IsOnline
             =>
                 Client?.GetHabbo() != null && Client.GetHabbo().GetMessenger() != null &&
                 !Client.GetHabbo().GetMessenger().AppearOffline;
@@ -82,18 +82,18 @@ namespace Yupi.Emulator.Game.Users.Messenger.Structs
         ///     Gets a value indicating whether [in room].
         /// </summary>
         /// <value><c>true</c> if [in room]; otherwise, <c>false</c>.</value>
-         bool InRoom => CurrentRoom != null;
+     public bool InRoom => CurrentRoom != null;
 
         /// <summary>
         ///     Gets or sets the current room.
         /// </summary>
         /// <value>The current room.</value>
-         Room CurrentRoom { get; set; }
+     public Room CurrentRoom { get; set; }
 
         /// <summary>
         ///     Updates the user.
         /// </summary>
-         void UpdateUser()
+     public void UpdateUser()
         {
             Client = Yupi.GetGame().GetClientManager().GetClientByUserId(Id);
 
@@ -110,7 +110,7 @@ namespace Yupi.Emulator.Game.Users.Messenger.Structs
         /// </summary>
         /// <param name="message">The messageBuffer.</param>
         /// <param name="session">The session.</param>
-         void Serialize(SimpleServerMessageBuffer messageBuffer, GameClient session)
+     public void Serialize(SimpleServerMessageBuffer messageBuffer, GameClient session)
         {
             Relationship value =
                 session.GetHabbo().Relationships.FirstOrDefault(x => x.Value.UserId == Convert.ToInt32(Id)).Value;

@@ -9,7 +9,7 @@ namespace Yupi.Emulator.Game.Users.Factories
     /// <summary>
     ///     Class HabboFactory.
     /// </summary>
-     static class HabboFactory
+     public static class HabboFactory
     {
         /// <summary>
         ///     Generates the habbo.
@@ -18,7 +18,7 @@ namespace Yupi.Emulator.Game.Users.Factories
         /// <param name="mRow">The m row.</param>
         /// <param name="group">The group.</param>
         /// <returns>Habbo.</returns>
-         static Habbo GenerateHabbo(DataRow dRow, DataRow mRow, HashSet<GroupMember> group)
+     public static Habbo GenerateHabbo(DataRow dRow, DataRow mRow, HashSet<GroupMember> group)
         {
             try
             {

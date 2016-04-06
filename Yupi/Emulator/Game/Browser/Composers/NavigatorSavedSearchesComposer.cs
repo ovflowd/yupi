@@ -7,7 +7,7 @@ namespace Yupi.Emulator.Game.Browser.Composers
 {
     class NavigatorSavedSearchesComposer
     {
-         static SimpleServerMessageBuffer Compose(GameClient session)
+     public static SimpleServerMessageBuffer Compose(GameClient session)
         {
             SimpleServerMessageBuffer userSearchLog = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("NavigatorSavedSearchesComposer"));
 

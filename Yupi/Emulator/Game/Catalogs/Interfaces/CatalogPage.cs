@@ -9,117 +9,117 @@ namespace Yupi.Emulator.Game.Catalogs.Interfaces
     /// <summary>
     ///     Class CatalogPage.
     /// </summary>
-     class CatalogPage
+     public class CatalogPage
     {
         /// <summary>
         ///     The cached contents messageBuffer
         /// </summary>
-         SimpleServerMessageBuffer CachedContentsMessageBuffer;
+     public SimpleServerMessageBuffer CachedContentsMessageBuffer;
 
         /// <summary>
         ///     The caption
         /// </summary>
-         string Caption;
+     public string Caption;
 
         /// <summary>
         ///     The code name
         /// </summary>
-         string CodeName;
+     public string CodeName;
 
         /// <summary>
         ///     The coming soon
         /// </summary>
-         bool ComingSoon;
+     public bool ComingSoon;
 
         /// <summary>
         ///     The enabled
         /// </summary>
-         bool Enabled;
+     public bool Enabled;
 
         /// <summary>
         ///     The flat offers
         /// </summary>
-         Dictionary<uint, uint> FlatOffers;
+     public Dictionary<uint, uint> FlatOffers;
 
         /// <summary>
         ///     The icon image
         /// </summary>
-         int IconImage;
+     public int IconImage;
 
         /// <summary>
         ///     The items
         /// </summary>
-         HybridDictionary Items;
+     public HybridDictionary Items;
 
         /// <summary>
         ///     The layout
         /// </summary>
-         string Layout;
+     public string Layout;
 
         /// <summary>
         ///     The layout headline
         /// </summary>
-         string LayoutHeadline;
+     public string LayoutHeadline;
 
         /// <summary>
         ///     The layout special
         /// </summary>
-         string LayoutSpecial;
+     public string LayoutSpecial;
 
         /// <summary>
         ///     The layout teaser
         /// </summary>
-         string LayoutTeaser;
+     public string LayoutTeaser;
 
         /// <summary>
         ///     The minimum rank
         /// </summary>
-         uint MinRank;
+     public uint MinRank;
 
         /// <summary>
         ///     The order number
         /// </summary>
-         int OrderNum;
+     public int OrderNum;
 
         /// <summary>
         ///     The page link
         /// </summary>
-         string PageLink;
+     public string PageLink;
 
         /// <summary>
         ///     The page link title
         /// </summary>
-         string PageLinkTitle;
+     public string PageLinkTitle;
 
         /// <summary>
         ///     The parent identifier
         /// </summary>
-         short ParentId;
+     public short ParentId;
 
         /// <summary>
         ///     The text1
         /// </summary>
-         string Text1;
+     public string Text1;
 
         /// <summary>
         ///     The text2
         /// </summary>
-         string Text2;
+     public string Text2;
 
         /// <summary>
         ///     The text details
         /// </summary>
-         string TextDetails;
+     public string TextDetails;
 
         /// <summary>
         ///     The text teaser
         /// </summary>
-         string TextTeaser;
+     public string TextTeaser;
 
         /// <summary>
         ///     The visible
         /// </summary>
-         bool Visible;
+     public bool Visible;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="CatalogPage" /> class.
@@ -145,7 +145,7 @@ namespace Yupi.Emulator.Game.Catalogs.Interfaces
         /// <param name="pageLink">The page link.</param>
         /// <param name="orderNum">The order number.</param>
         /// <param name="cataItems">The cata items.</param>
-         CatalogPage(uint id, short parentId, string codeName, string caption, bool visible, bool enabled,
+     public CatalogPage(uint id, short parentId, string codeName, string caption, bool visible, bool enabled,
             bool comingSoon, uint minRank, int iconImage, string layout, string layoutHeadline, string layoutTeaser,
             string layoutSpecial, string text1, string text2, string textDetails, string textTeaser,
             string pageLinkTitle, string pageLink, int orderNum, ref HybridDictionary cataItems)
@@ -196,14 +196,14 @@ namespace Yupi.Emulator.Game.Catalogs.Interfaces
         ///     Gets the page identifier.
         /// </summary>
         /// <value>The page identifier.</value>
-         uint PageId { get; private set; }
+     public uint PageId { get; private set; }
 
         /// <summary>
         ///     Gets the item.
         /// </summary>
         /// <param name="pId">The p identifier.</param>
         /// <returns>CatalogItem.</returns>
-         CatalogItem GetItem(uint pId)
+     public CatalogItem GetItem(uint pId)
         {
             uint num = pId;
             uint flatInt = pId;

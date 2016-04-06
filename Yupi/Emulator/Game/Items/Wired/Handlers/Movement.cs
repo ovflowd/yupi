@@ -2,7 +2,7 @@
 
 namespace Yupi.Emulator.Game.Items.Wired.Handlers
 {
-     enum MovementState
+     public enum MovementState
     {
         None = 0,
         Random = 1,
@@ -14,7 +14,7 @@ namespace Yupi.Emulator.Game.Items.Wired.Handlers
         Left = 7
     }
 
-     enum MovementDirection
+     public enum MovementDirection
     {
         Up = 0,
         UpRight = 1,
@@ -28,7 +28,7 @@ namespace Yupi.Emulator.Game.Items.Wired.Handlers
         None = 9
     }
 
-     enum WhenMovementBlock
+     public enum WhenMovementBlock
     {
         None = 0,
         Right45 = 1,
@@ -39,7 +39,7 @@ namespace Yupi.Emulator.Game.Items.Wired.Handlers
         TurnRandom = 6
     }
 
-     enum RotationState
+     public enum RotationState
     {
         None = 0,
         ClocWise = 1,
@@ -47,7 +47,7 @@ namespace Yupi.Emulator.Game.Items.Wired.Handlers
         Random = 3
     }
 
-     class Movement
+     public class Movement
     {
         private static void HandleMovement(ref Point coordinate, MovementState state)
         {

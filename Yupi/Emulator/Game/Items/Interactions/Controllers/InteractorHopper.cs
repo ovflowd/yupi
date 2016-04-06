@@ -6,7 +6,7 @@ using Yupi.Emulator.Game.Rooms.User;
 
 namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 {
-     class InteractorHopper : FurniInteractorModel
+     public class InteractorHopper : FurniInteractorModel
     {
         public override void OnPlace(GameClient session, RoomItem item)
         {

@@ -11,7 +11,7 @@ namespace Yupi.Emulator.Game.SoundMachine.Composers
     /// <summary>
     ///     Class JukeboxComposer.
     /// </summary>
-     class SoundMachineComposer
+     public class SoundMachineComposer
     {
         /// <summary>
         ///     Composes the playing composer.
@@ -49,7 +49,7 @@ namespace Yupi.Emulator.Game.SoundMachine.Composers
         /// </summary>
         /// <param name="session">The session.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-         static SimpleServerMessageBuffer Compose(GameClient session)
+     public static SimpleServerMessageBuffer Compose(GameClient session)
             => session.GetHabbo().GetInventoryComponent().SerializeMusicDiscs();
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace Yupi.Emulator.Game.SoundMachine.Composers
         /// <param name="playlistItemNumber">The playlist item number.</param>
         /// <param name="syncTimestampMs">The synchronize timestamp ms.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-         static SimpleServerMessageBuffer Compose(uint songId, int playlistItemNumber, int syncTimestampMs)
+     public static SimpleServerMessageBuffer Compose(uint songId, int playlistItemNumber, int syncTimestampMs)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("JukeboxNowPlayingMessageComposer"));
 

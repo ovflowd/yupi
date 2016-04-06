@@ -9,7 +9,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class FloodUser. This class cannot be inherited.
     /// </summary>
-     sealed class FloodUser : Command
+     public sealed class FloodUser : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="FloodUser" /> class.

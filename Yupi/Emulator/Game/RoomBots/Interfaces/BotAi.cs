@@ -32,7 +32,7 @@ namespace Yupi.Emulator.Game.RoomBots.Interfaces
     /// <summary>
     ///     Class BotAI.
     /// </summary>
-     abstract class BotAi
+     public abstract class BotAi
     {
         /// <summary>
         ///     The _room
@@ -47,7 +47,7 @@ namespace Yupi.Emulator.Game.RoomBots.Interfaces
         /// <summary>
         ///     The base identifier
         /// </summary>
-         uint BaseId;
+     public uint BaseId;
 
         /// <summary>
         ///     Initializes the specified base identifier.
@@ -57,7 +57,7 @@ namespace Yupi.Emulator.Game.RoomBots.Interfaces
         /// <param name="roomId">The room identifier.</param>
         /// <param name="user">The user.</param>
         /// <param name="room">The room.</param>
-         void Init(uint baseId, int roomUserId, uint roomId, RoomUser user, Room room)
+     public void Init(uint baseId, int roomUserId, uint roomId, RoomUser user, Room room)
         {
             BaseId = baseId;
             _roomUser = user;
@@ -68,19 +68,19 @@ namespace Yupi.Emulator.Game.RoomBots.Interfaces
         ///     Gets the room.
         /// </summary>
         /// <returns>Room.</returns>
-         Room GetRoom() => _room;
+     public Room GetRoom() => _room;
 
         /// <summary>
         ///     Gets the room user.
         /// </summary>
         /// <returns>RoomUser.</returns>
-         RoomUser GetRoomUser() => _roomUser;
+     public RoomUser GetRoomUser() => _roomUser;
 
         /// <summary>
         ///     Gets the bot data.
         /// </summary>
         /// <returns>RoomBot.</returns>
-         RoomBot GetBotData()
+     public RoomBot GetBotData()
         {
             return GetRoomUser() == null ? null : GetRoomUser().BotData;
         }
@@ -88,7 +88,7 @@ namespace Yupi.Emulator.Game.RoomBots.Interfaces
         /// <summary>
         ///     Disposes this instance.
         /// </summary>
-         void Dispose()
+     public void Dispose()
         {
             _room = null;
             _roomUser = null;
@@ -99,50 +99,50 @@ namespace Yupi.Emulator.Game.RoomBots.Interfaces
         /// <summary>
         ///     Called when [self enter room].
         /// </summary>
-         abstract void OnSelfEnterRoom();
+     public abstract void OnSelfEnterRoom();
 
         /// <summary>
         ///     Called when [self leave room].
         /// </summary>
         /// <param name="kicked">if set to <c>true</c> [kicked].</param>
-         abstract void OnSelfLeaveRoom(bool kicked);
+     public abstract void OnSelfLeaveRoom(bool kicked);
 
         /// <summary>
         ///     Called when [user enter room].
         /// </summary>
         /// <param name="user">The user.</param>
-         abstract void OnUserEnterRoom(RoomUser user);
+     public abstract void OnUserEnterRoom(RoomUser user);
 
         /// <summary>
         ///     Called when [user leave room].
         /// </summary>
         /// <param name="client">The client.</param>
-         abstract void OnUserLeaveRoom(GameClient client);
+     public abstract void OnUserLeaveRoom(GameClient client);
 
         /// <summary>
         ///     Called when [user say].
         /// </summary>
         /// <param name="user">The user.</param>
         /// <param name="msg">The MSG.</param>
-         abstract void OnUserSay(RoomUser user, string msg);
+     public abstract void OnUserSay(RoomUser user, string msg);
 
         /// <summary>
         ///     Called when [user shout].
         /// </summary>
         /// <param name="user">The user.</param>
         /// <param name="message">The message.</param>
-         abstract void OnUserShout(RoomUser user, string message);
+     public abstract void OnUserShout(RoomUser user, string message);
 
         /// <summary>
         ///     Called when [timer tick].
         /// </summary>
-         abstract void OnTimerTick();
+     public abstract void OnTimerTick();
 
-         abstract void OnChatTick();
+     public abstract void OnChatTick();
 
         /// <summary>
         ///     Modifieds this instance.
         /// </summary>
-         abstract void Modified();
+     public abstract void Modified();
     }
 }

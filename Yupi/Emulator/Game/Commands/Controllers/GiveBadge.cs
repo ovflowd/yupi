@@ -6,7 +6,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class GiveBadge. This class cannot be inherited.
     /// </summary>
-     sealed class GiveBadge : Command
+     public sealed class GiveBadge : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="GiveBadge" /> class.

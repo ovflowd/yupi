@@ -27,27 +27,27 @@ namespace Yupi.Emulator.Game.Browser.Models
     /// <summary>
     ///     Class PromoCat.
     /// </summary>
-     class PromoCategory
+     public class PromoCategory
     {
         /// <summary>
         ///     The caption
         /// </summary>
-         string Caption;
+     public string Caption;
 
         /// <summary>
         ///     The identifier
         /// </summary>
-         int Id;
+     public int Id;
 
         /// <summary>
         ///     The minimum rank
         /// </summary>
-         int MinRank;
+     public int MinRank;
 
         /// <summary>
         ///     The visible
         /// </summary>
-         bool Visible;
+     public bool Visible;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="PromoCategory" /> class.
@@ -56,7 +56,7 @@ namespace Yupi.Emulator.Game.Browser.Models
         /// <param name="caption">The caption.</param>
         /// <param name="minRank">The minimum rank.</param>
         /// <param name="visible">if set to <c>true</c> [visible].</param>
-         PromoCategory(int id, string caption, int minRank, bool visible)
+     public PromoCategory(int id, string caption, int minRank, bool visible)
         {
             Id = id;
             Caption = caption;

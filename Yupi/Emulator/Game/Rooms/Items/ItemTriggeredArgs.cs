@@ -12,12 +12,12 @@ namespace Yupi.Emulator.Game.Rooms.Items
         /// <summary>
         ///     The triggering item
         /// </summary>
-         readonly RoomItem TriggeringItem;
+     public readonly RoomItem TriggeringItem;
 
         /// <summary>
         ///     The triggering user
         /// </summary>
-         readonly RoomUser TriggeringUser;
+     public readonly RoomUser TriggeringUser;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="ItemTriggeredArgs" /> class.

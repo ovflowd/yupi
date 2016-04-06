@@ -6,7 +6,7 @@ using Yupi.Emulator.Game.Rooms;
 
 namespace Yupi.Emulator.Game.Items.Wired.Handlers.Conditions
 {
-     class TimerTrigger : IWiredItem
+     public class TimerTrigger : IWiredItem
     {
         public TimerTrigger(RoomItem item, Room room)
         {

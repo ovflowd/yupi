@@ -6,7 +6,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class RefreshAchievements. This class cannot be inherited.
     /// </summary>
-     sealed class RefreshAchievements : Command
+     public sealed class RefreshAchievements : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="RefreshAchievements" /> class.

@@ -43,12 +43,12 @@ namespace Yupi.Emulator.Game.Commands
         /// <summary>
         ///     The commands dictionary
         /// </summary>
-         static SortedDictionary<string, Command> CommandsDictionary;
+     public static SortedDictionary<string, Command> CommandsDictionary;
 
         /// <summary>
         ///     The alias dictionary
         /// </summary>
-         static Dictionary<string, string> AliasDictionary;
+     public static Dictionary<string, string> AliasDictionary;
 
         /// <summary>
         ///     Registers this instance.

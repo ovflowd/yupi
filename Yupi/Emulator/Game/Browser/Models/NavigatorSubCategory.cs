@@ -27,32 +27,32 @@ namespace Yupi.Emulator.Game.Browser.Models
     /// <summary>
     ///     Class Navigator Category.
     /// </summary>
-     class NavigatorSubCategory
+     public class NavigatorSubCategory
     {
         /// <summary>
         ///     The caption
         /// </summary>
-         string Caption;
+     public string Caption;
 
         /// <summary>
         ///     The Main Category
         /// </summary>
-         string MainCategory;
+     public string MainCategory;
 
         /// <summary>
         ///     The identifier
         /// </summary>
-         int Id;
+     public int Id;
 
         /// <summary>
         ///     Default Opened State
         /// </summary>
-         bool IsOpened;
+     public bool IsOpened;
 
         /// <summary>
         ///     Default Item Size
         /// </summary>
-         bool IsImage;
+     public bool IsImage;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="NavigatorSubCategory" /> class.
@@ -62,7 +62,7 @@ namespace Yupi.Emulator.Game.Browser.Models
         /// <param name="mainCat"></param>
         /// <param name="isOpened"></param>
         /// <param name="isImage"></param>
-         NavigatorSubCategory(int id, string caption, string mainCat, bool isOpened, bool isImage)
+     public NavigatorSubCategory(int id, string caption, string mainCat, bool isOpened, bool isImage)
         {
             Id = id;
             Caption = caption;

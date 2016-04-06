@@ -18,14 +18,14 @@ namespace Yupi.Emulator.Messages.Handlers
     /// <summary>
     ///     Class MessageHandler.
     /// </summary>
-     partial class MessageHandler
+     public partial class MessageHandler
     {
-         readonly ushort TotalPerPage = 20;
+     public readonly ushort TotalPerPage = 20;
 
         /// <summary>
         ///     Serializes the group purchase page.
         /// </summary>
-         void SerializeGroupPurchasePage()
+     public void SerializeGroupPurchasePage()
         {
             HashSet<RoomData> list = new HashSet<RoomData>(Session.GetHabbo().UsersRooms.Where(x => x.Group == null));
 
@@ -62,7 +62,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Serializes the group purchase parts.
         /// </summary>
-         void SerializeGroupPurchaseParts()
+     public void SerializeGroupPurchaseParts()
         {
             Response.Init(PacketLibraryManager.OutgoingHandler("GroupPurchasePartsMessageComposer"));
             Response.AppendInteger(Yupi.GetGame().GetGroupManager().Bases.Count);
@@ -113,7 +113,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Purchases the group.
         /// </summary>
-         void PurchaseGroup()
+     public void PurchaseGroup()
         {
             if (Session == null || Session.GetHabbo().Credits < 10)
                 return;
@@ -202,7 +202,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Serializes the group information.
         /// </summary>
-         void SerializeGroupInfo()
+     public void SerializeGroupInfo()
         {
             uint groupId = Request.GetUInt32();
             bool newWindow = Request.GetBool();
@@ -218,7 +218,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Serializes the group members.
         /// </summary>
-         void SerializeGroupMembers()
+     public void SerializeGroupMembers()
         {
             uint groupId = Request.GetUInt32();
             int page = Request.GetInteger();
@@ -237,7 +237,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Makes the group admin.
         /// </summary>
-         void MakeGroupAdmin()
+     public void MakeGroupAdmin()
         {
             uint num = Request.GetUInt32();
             uint num2 = Request.GetUInt32();
@@ -284,7 +284,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Removes the group admin.
         /// </summary>
-         void RemoveGroupAdmin()
+     public void RemoveGroupAdmin()
         {
             uint num = Request.GetUInt32();
             uint num2 = Request.GetUInt32();
@@ -328,7 +328,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Accepts the membership.
         /// </summary>
-         void AcceptMembership()
+     public void AcceptMembership()
         {
             uint groupId = Request.GetUInt32();
             uint userId = Request.GetUInt32();
@@ -382,7 +382,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Declines the membership.
         /// </summary>
-         void DeclineMembership()
+     public void DeclineMembership()
         {
             uint groupId = Request.GetUInt32();
             uint userId = Request.GetUInt32();
@@ -424,7 +424,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Joins the group.
         /// </summary>
-         void JoinGroup()
+     public void JoinGroup()
         {
             uint groupId = Request.GetUInt32();
 
@@ -480,7 +480,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Makes the fav.
         /// </summary>
-         void MakeFav()
+     public void MakeFav()
         {
             uint groupId = Request.GetUInt32();
 
@@ -536,7 +536,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Removes the fav.
         /// </summary>
-         void RemoveFav()
+     public void RemoveFav()
         {
             Request.GetUInt32();
             Session.GetHabbo().FavouriteGroup = 0;
@@ -562,7 +562,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Publishes the forum thread.
         /// </summary>
-         void PublishForumThread()
+     public void PublishForumThread()
         {
             if (Yupi.GetUnixTimeStamp() - Session.GetHabbo().LastSqlQuery < 20)
                 return;
@@ -664,7 +664,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Updates the state of the thread.
         /// </summary>
-         void UpdateForumThread()
+     public void UpdateForumThread()
         {
             uint groupId = Request.GetUInt32();
             uint threadId = Request.GetUInt32();
@@ -742,7 +742,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Alters the state of the forum thread.
         /// </summary>
-         void AlterForumThreadState()
+     public void AlterForumThreadState()
         {
             uint groupId = Request.GetUInt32();
             uint threadId = Request.GetUInt32();
@@ -804,7 +804,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Reads the forum thread.
         /// </summary>
-         void ReadForumThread()
+     public void ReadForumThread()
         {
             uint groupId = Request.GetUInt32();
             uint threadId = Request.GetUInt32();
@@ -885,7 +885,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Gets the group forum thread root.
         /// </summary>
-         void GetGroupForumThreadRoot()
+     public void GetGroupForumThreadRoot()
         {
             uint groupId = Request.GetUInt32();
 
@@ -937,7 +937,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Gets the group forum data.
         /// </summary>
-         void GetGroupForumData()
+     public void GetGroupForumData()
         {
             uint groupId = Request.GetUInt32();
 
@@ -950,7 +950,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Gets the group forums.
         /// </summary>
-         void GetGroupForums()
+     public void GetGroupForums()
         {
             int selectType = Request.GetInteger();
             int startIndex = Request.GetInteger();
@@ -1026,7 +1026,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Manages the group.
         /// </summary>
-         void ManageGroup()
+     public void ManageGroup()
         {
             uint groupId = Request.GetUInt32();
             Group theGroup = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
@@ -1095,7 +1095,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Updates the name of the group.
         /// </summary>
-         void UpdateGroupName()
+     public void UpdateGroupName()
         {
             uint num = Request.GetUInt32();
             string text = Request.GetString();
@@ -1127,7 +1127,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Updates the group badge.
         /// </summary>
-         void UpdateGroupBadge()
+     public void UpdateGroupBadge()
         {
             uint guildId = Request.GetUInt32();
 
@@ -1202,7 +1202,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Updates the group colours.
         /// </summary>
-         void UpdateGroupColours()
+     public void UpdateGroupColours()
         {
             uint groupId = Request.GetUInt32();
             int num = Request.GetInteger();
@@ -1233,7 +1233,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Updates the group settings.
         /// </summary>
-         void UpdateGroupSettings()
+     public void UpdateGroupSettings()
         {
             uint groupId = Request.GetUInt32();
             uint num = Request.GetUInt32();
@@ -1295,7 +1295,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Requests the leave group.
         /// </summary>
-         void RequestLeaveGroup()
+     public void RequestLeaveGroup()
         {
             uint groupId = Request.GetUInt32();
             uint userId = Request.GetUInt32();
@@ -1317,7 +1317,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Confirms the leave group.
         /// </summary>
-         void ConfirmLeaveGroup()
+     public void ConfirmLeaveGroup()
         {
             uint guild = Request.GetUInt32();
 
@@ -1439,7 +1439,7 @@ namespace Yupi.Emulator.Messages.Handlers
             }
         }
 
-         void UpdateForumSettings()
+     public void UpdateForumSettings()
         {
             uint guild = Request.GetUInt32();
             uint whoCanRead = Request.GetUInt32();
@@ -1472,7 +1472,7 @@ namespace Yupi.Emulator.Messages.Handlers
             Session.SendMessage(group.ForumDataMessage(Session.GetHabbo().Id));
         }
 
-         void DeleteGroup()
+     public void DeleteGroup()
         {
             uint groupId = Request.GetUInt32();
 

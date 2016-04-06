@@ -3,7 +3,7 @@ namespace Yupi.Emulator.Game.Users.Subscriptions
     /// <summary>
     ///     Class Subscription.
     /// </summary>
-     class Subscription
+     public class Subscription
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="Subscription" /> class.
@@ -12,7 +12,7 @@ namespace Yupi.Emulator.Game.Users.Subscriptions
         /// <param name="activated">The activated.</param>
         /// <param name="timeExpire">The time expire.</param>
         /// <param name="timeLastGift">The time last gift.</param>
-         Subscription(int id, int activated, int timeExpire, int timeLastGift)
+     public Subscription(int id, int activated, int timeExpire, int timeLastGift)
         {
             SubscriptionId = id;
             ActivateTime = activated;
@@ -24,30 +24,30 @@ namespace Yupi.Emulator.Game.Users.Subscriptions
         ///     Gets the subscription identifier.
         /// </summary>
         /// <value>The subscription identifier.</value>
-         int SubscriptionId { get; private set; }
+     public int SubscriptionId { get; private set; }
 
         /// <summary>
         ///     Gets the expire time.
         /// </summary>
         /// <value>The expire time.</value>
-         int ExpireTime { get; }
+     public int ExpireTime { get; }
 
         /// <summary>
         ///     Gets the activate time.
         /// </summary>
         /// <value>The activate time.</value>
-         int ActivateTime { get; private set; }
+     public int ActivateTime { get; private set; }
 
         /// <summary>
         ///     Gets the last gift time.
         /// </summary>
         /// <value>The last gift time.</value>
-         int LastGiftTime { get; private set; }
+     public int LastGiftTime { get; private set; }
 
         /// <summary>
         ///     Gets a value indicating whether this instance is valid.
         /// </summary>
         /// <value><c>true</c> if this instance is valid; otherwise, <c>false</c>.</value>
-         bool IsValid => ExpireTime > Yupi.GetUnixTimeStamp();
+     public bool IsValid => ExpireTime > Yupi.GetUnixTimeStamp();
     }
 }

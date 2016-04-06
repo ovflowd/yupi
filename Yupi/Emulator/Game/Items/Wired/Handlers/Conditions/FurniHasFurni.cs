@@ -8,7 +8,7 @@ using Yupi.Emulator.Game.Rooms;
 
 namespace Yupi.Emulator.Game.Items.Wired.Handlers.Conditions
 {
-     class FurniHasFurni : IWiredItem
+     public class FurniHasFurni : IWiredItem
     {
         public FurniHasFurni(RoomItem item, Room room)
         {

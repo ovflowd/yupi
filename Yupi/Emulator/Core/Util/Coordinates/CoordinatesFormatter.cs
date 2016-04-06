@@ -29,14 +29,14 @@ namespace Yupi.Emulator.Core.Util.Coordinates
     /// <summary>
     ///     Class CoordinatesFormatter.
     /// </summary>
-     class CoordinatesFormatter
+     public class CoordinatesFormatter
     {
         /// <summary>
         ///     Points to int.
         /// </summary>
         /// <param name="p">The p.</param>
         /// <returns>System.Int32.</returns>
-         static int PointToInt(Point p) => CombineXyCoord(p.X, p.Y);
+     public static int PointToInt(Point p) => CombineXyCoord(p.X, p.Y);
 
         /// <summary>
         ///     Combines the xy coord.
@@ -44,6 +44,6 @@ namespace Yupi.Emulator.Core.Util.Coordinates
         /// <param name="a">a.</param>
         /// <param name="b">The b.</param>
         /// <returns>System.Int32.</returns>
-         static int CombineXyCoord(int a, int b) => (a << 16) | b;
+     public static int CombineXyCoord(int a, int b) => (a << 16) | b;
     }
 }

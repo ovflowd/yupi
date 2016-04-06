@@ -27,7 +27,7 @@ namespace Yupi.Emulator.Messages.Enums
     /// <summary>
     ///     Enum StaticMessage
     /// </summary>
-     enum StaticMessage
+     public enum StaticMessage
     {
         /// <summary>
         ///     The error cant set item

@@ -31,7 +31,7 @@ namespace Yupi.Emulator.Core.Security
     /// <summary>
     ///     Class ServerMutantManager.
     /// </summary>
-     class ServerMutantManager
+     public class ServerMutantManager
     {
         /// <summary>
         ///     The _parts
@@ -51,7 +51,7 @@ namespace Yupi.Emulator.Core.Security
         /// </summary>
         /// <param name="look">The look.</param>
         /// <returns>System.String.</returns>
-         string RunLook(string look)
+     public string RunLook(string look)
         {
             List<string> toReturnFigureParts = new List<string>();
             List<string> fParts = new List<string>();

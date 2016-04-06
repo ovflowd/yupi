@@ -32,62 +32,62 @@ namespace Yupi.Emulator.Game.Browser.Models
     /// <summary>
     ///     Class PublicItem.
     /// </summary>
-     class PublicItem
+     public class PublicItem
     {
         /// <summary>
         ///     The caption
         /// </summary>
-         string Caption;
+     public string Caption;
 
         /// <summary>
         ///     The category identifier
         /// </summary>
-         int CategoryId;
+     public int CategoryId;
 
         /// <summary>
         ///     The description
         /// </summary>
-         string Description;
+     public string Description;
 
         /// <summary>
         ///     The image
         /// </summary>
-         string Image;
+     public string Image;
 
         /// <summary>
         ///     The image type
         /// </summary>
-         PublicImageType ImageType;
+     public PublicImageType ImageType;
 
         /// <summary>
         ///     The item type
         /// </summary>
-         PublicItemType ItemType;
+     public PublicItemType ItemType;
 
         /// <summary>
         ///     The parent identifier
         /// </summary>
-         int ParentId;
+     public int ParentId;
 
         /// <summary>
         ///     The recommended
         /// </summary>
-         bool Recommended;
+     public bool Recommended;
 
         /// <summary>
         ///     The room identifier
         /// </summary>
-         uint RoomId;
+     public uint RoomId;
 
         /// <summary>
         ///     The tags to search
         /// </summary>
-         string TagsToSearch = string.Empty;
+     public string TagsToSearch = string.Empty;
 
         /// <summary>
         ///     The type
         /// </summary>
-         int Type;
+     public int Type;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="PublicItem" /> class.
@@ -103,7 +103,7 @@ namespace Yupi.Emulator.Game.Browser.Models
         /// <param name="parentId">The parent identifier.</param>
         /// <param name="recommand">if set to <c>true</c> [recommand].</param>
         /// <param name="typeOfData">The type of data.</param>
-         PublicItem(uint id, int type, string caption, string desc, string image, PublicImageType imageType, uint roomId, int categoryId, int parentId, bool recommand, int typeOfData)
+     public PublicItem(uint id, int type, string caption, string desc, string image, PublicImageType imageType, uint roomId, int categoryId, int parentId, bool recommand, int typeOfData)
         {
             Id = id;
             Type = type;
@@ -140,13 +140,13 @@ namespace Yupi.Emulator.Game.Browser.Models
         ///     Gets the room information.
         /// </summary>
         /// <value>The room information.</value>
-         RoomData RoomInfo => RoomId > 0u ? Yupi.GetGame().GetRoomManager().GenerateRoomData(RoomId) : null;
+     public RoomData RoomInfo => RoomId > 0u ? Yupi.GetGame().GetRoomManager().GenerateRoomData(RoomId) : null;
 
         /// <summary>
         ///     Serializes the specified messageBuffer.
         /// </summary>
         /// <param name="messageBuffer">The messageBuffer.</param>
-         void Serialize(SimpleServerMessageBuffer messageBuffer)
+     public void Serialize(SimpleServerMessageBuffer messageBuffer)
         {
             messageBuffer.AppendInteger(Id);
             messageBuffer.AppendString(Caption);
@@ -179,13 +179,13 @@ namespace Yupi.Emulator.Game.Browser.Models
         ///     Gets the identifier.
         /// </summary>
         /// <value>The identifier.</value>
-         uint Id { get; set; }
+     public uint Id { get; set; }
 
         /// <summary>
         ///     Gets the room data.
         /// </summary>
         /// <value>The room data.</value>
         /// <exception cref="System.NullReferenceException"></exception>
-         RoomData GetPublicRoomData => RoomId == 0u ? new RoomData() : Yupi.GetGame().GetRoomManager().GenerateRoomData(RoomId);
+     public RoomData GetPublicRoomData => RoomId == 0u ? new RoomData() : Yupi.GetGame().GetRoomManager().GenerateRoomData(RoomId);
     }
 }

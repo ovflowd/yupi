@@ -3,7 +3,7 @@ using System.Data;
 
 namespace Yupi.Emulator.Game.Pets.Structs
 {
-     class PetType
+     public class PetType
     {
         public uint PetRaceId;
 

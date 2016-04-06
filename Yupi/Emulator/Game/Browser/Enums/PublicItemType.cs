@@ -27,7 +27,7 @@ namespace Yupi.Emulator.Game.Browser.Enums
     /// <summary>
     ///     Enum PublicItemType
     /// </summary>
-     enum PublicItemType
+     public enum PublicItemType
     {
         /// <summary>
         ///     The none

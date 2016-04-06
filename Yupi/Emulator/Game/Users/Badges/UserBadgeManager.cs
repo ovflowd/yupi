@@ -13,7 +13,7 @@ namespace Yupi.Emulator.Game.Users.Badges
     /// <summary>
     ///     Class BadgeComponent.
     /// </summary>
-     class UserBadgeManager
+     public class UserBadgeManager
     {
         /// <summary>
         ///     The _user identifier
@@ -25,7 +25,7 @@ namespace Yupi.Emulator.Game.Users.Badges
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="data">The data.</param>
-         UserBadgeManager(uint userId, UserData data)
+     public UserBadgeManager(uint userId, UserData data)
         {
             BadgeList = new HybridDictionary();
 
@@ -39,27 +39,27 @@ namespace Yupi.Emulator.Game.Users.Badges
         ///     Gets the count.
         /// </summary>
         /// <value>The count.</value>
-         int Count => BadgeList.Count;
+     public int Count => BadgeList.Count;
 
         /// <summary>
         ///     Gets or sets the badge list.
         /// </summary>
         /// <value>The badge list.</value>
-         HybridDictionary BadgeList { get; set; }
+     public HybridDictionary BadgeList { get; set; }
 
         /// <summary>
         ///     Gets the badge.
         /// </summary>
         /// <param name="badge">The badge.</param>
         /// <returns>Badge.</returns>
-         Badge GetBadge(string badge) => BadgeList.Contains(badge) ? (Badge) BadgeList[badge] : null;
+     public Badge GetBadge(string badge) => BadgeList.Contains(badge) ? (Badge) BadgeList[badge] : null;
 
         /// <summary>
         ///     Determines whether the specified badge has badge.
         /// </summary>
         /// <param name="badge">The badge.</param>
         /// <returns><c>true</c> if the specified badge has badge; otherwise, <c>false</c>.</returns>
-         bool HasBadge(string badge) => BadgeList.Contains(badge);
+     public bool HasBadge(string badge) => BadgeList.Contains(badge);
 
         /// <summary>
         ///     Gives the badge.
@@ -68,7 +68,7 @@ namespace Yupi.Emulator.Game.Users.Badges
         /// <param name="inDatabase">if set to <c>true</c> [in database].</param>
         /// <param name="session">The session.</param>
         /// <param name="wiredReward">if set to <c>true</c> [wired reward].</param>
-         void GiveBadge(string badge, bool inDatabase, GameClient session, bool wiredReward = false)
+     public void GiveBadge(string badge, bool inDatabase, GameClient session, bool wiredReward = false)
         {
             if (wiredReward)
                 session.SendMessage(SerializeBadgeReward(!HasBadge(badge)));
@@ -100,7 +100,7 @@ namespace Yupi.Emulator.Game.Users.Badges
         /// </summary>
         /// <param name="badge">The badge.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-         SimpleServerMessageBuffer SerializeBadge(string badge)
+     public SimpleServerMessageBuffer SerializeBadge(string badge)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
 
@@ -116,7 +116,7 @@ namespace Yupi.Emulator.Game.Users.Badges
         /// </summary>
         /// <param name="success">if set to <c>true</c> [success].</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-         SimpleServerMessageBuffer SerializeBadgeReward(bool success)
+     public SimpleServerMessageBuffer SerializeBadgeReward(bool success)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
 
@@ -129,7 +129,7 @@ namespace Yupi.Emulator.Game.Users.Badges
         /// <summary>
         ///     Resets the slots.
         /// </summary>
-         void ResetSlots()
+     public void ResetSlots()
         {
             foreach (Badge badge in BadgeList.Values)
                 badge.Slot = 0;
@@ -140,7 +140,7 @@ namespace Yupi.Emulator.Game.Users.Badges
         /// </summary>
         /// <param name="badge">The badge.</param>
         /// <param name="session">The session.</param>
-         void RemoveBadge(string badge, GameClient session)
+     public void RemoveBadge(string badge, GameClient session)
         {
             if (!HasBadge(badge))
                 return;
@@ -163,7 +163,7 @@ namespace Yupi.Emulator.Game.Users.Badges
         /// </summary>
         /// <param name="badgeId">The badge identifier.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-         SimpleServerMessageBuffer Update(string badgeId)
+     public SimpleServerMessageBuffer Update(string badgeId)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("NewInventoryObjectMessageComposer"));
 
@@ -179,7 +179,7 @@ namespace Yupi.Emulator.Game.Users.Badges
         ///     Serializes this instance.
         /// </summary>
         /// <returns>SimpleServerMessageBuffer.</returns>
-         SimpleServerMessageBuffer Serialize()
+     public SimpleServerMessageBuffer Serialize()
         {
             List<Badge> list = new List<Badge>();
 

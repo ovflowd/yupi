@@ -31,7 +31,7 @@ namespace Yupi.Emulator.Game.Achievements.Composers
     /// <summary>
     ///     Class AchievementTalentComposer.
     /// </summary>
-     class AchievementTalentComposer
+     public class AchievementTalentComposer
     {
         /// <summary>
         ///     Composes the specified session.
@@ -39,7 +39,7 @@ namespace Yupi.Emulator.Game.Achievements.Composers
         /// <param name="session">The session.</param>
         /// <param name="talent">The Talent.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-         static SimpleServerMessageBuffer Compose(GameClient session, Talent talent)
+     public static SimpleServerMessageBuffer Compose(GameClient session, Talent talent)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("TalentLevelUpMessageComposer"));
 

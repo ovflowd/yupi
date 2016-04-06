@@ -16,14 +16,14 @@ using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Banzai
 {
-     class BattleBanzai
+     public class BattleBanzai
     {
         private GameField _field;
         private byte[,] _floorMap;
         private QueuedDictionary<uint, RoomItem> _pucks;
         private Room _room;
         private double _timestarted;
-         HybridDictionary BanzaiTiles;
+     public HybridDictionary BanzaiTiles;
 
         public BattleBanzai(Room room)
         {
@@ -34,9 +34,9 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Banzai
             _timestarted = 0.0;
         }
 
-         bool IsBanzaiActive { get; private set; }
+     public bool IsBanzaiActive { get; private set; }
 
-         void AddTile(RoomItem item, uint itemId)
+     public void AddTile(RoomItem item, uint itemId)
         {
             if (BanzaiTiles.Contains(itemId))
                 return;
@@ -44,17 +44,17 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Banzai
             BanzaiTiles.Add(itemId, item);
         }
 
-         void RemoveTile(uint itemId)
+     public void RemoveTile(uint itemId)
         {
             BanzaiTiles.Remove(itemId);
         }
 
-         void OnCycle()
+     public void OnCycle()
         {
             _pucks.OnCycle();
         }
 
-         void AddPuck(RoomItem item)
+     public void AddPuck(RoomItem item)
         {
             if (_pucks.ContainsKey(item.Id))
                 return;
@@ -62,12 +62,12 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Banzai
             _pucks.Add(item.Id, item);
         }
 
-         void RemovePuck(uint itemId)
+     public void RemovePuck(uint itemId)
         {
             _pucks.Remove(itemId);
         }
 
-         void OnUserWalk(RoomUser user)
+     public void OnUserWalk(RoomUser user)
         {
             if (user == null) return;
 
@@ -94,7 +94,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Banzai
                 HandleBanzaiTiles(user.Coordinate, user.Team, user);
         }
 
-         void BanzaiStart()
+     public void BanzaiStart()
         {
             if (IsBanzaiActive)
                 return;
@@ -124,7 +124,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Banzai
                 roomUser.LockedTilesCount = 0;
         }
 
-         void ResetTiles()
+     public void ResetTiles()
         {
             foreach (RoomItem roomItem in _room.GetRoomItemHandler().FloorItems.Values)
             {
@@ -141,7 +141,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Banzai
             }
         }
 
-         void BanzaiEnd()
+     public void BanzaiEnd()
         {
             IsBanzaiActive = false;
             _room.GetGameManager().StopGame();
@@ -204,7 +204,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Banzai
             _field.Destroy();
         }
 
-         void MovePuck(RoomItem item, GameClient client, int newX, int newY, Team team)
+     public void MovePuck(RoomItem item, GameClient client, int newX, int newY, Team team)
         {
             if (!_room.GetGameMap().ItemCanBePlacedHere(newX, newY))
                 return;
@@ -242,7 +242,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Banzai
                 HandleBanzaiTiles(new Point(newX, newY), team, user);
         }
 
-         void MovePuck(RoomItem item, GameClient client, Point user, Point ball, int length, Team team)
+     public void MovePuck(RoomItem item, GameClient client, Point user, Point ball, int length, Team team)
         {
             int differenceX = user.X - ball.X;
             int differenceY = user.Y - ball.Y;
@@ -287,7 +287,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Banzai
                 MovePuck(item, client, newX, newY, team);
         }
 
-         void Destroy()
+     public void Destroy()
         {
             BanzaiTiles.Clear();
             _pucks.Clear();

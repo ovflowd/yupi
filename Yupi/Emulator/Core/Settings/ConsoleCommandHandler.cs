@@ -38,19 +38,19 @@ namespace Yupi.Emulator.Core.Settings
     /// <summary>
     ///     Class ConsoleCommandHandling.
     /// </summary>
-     class ConsoleCommandHandler
+     public class ConsoleCommandHandler
     {
         /// <summary>
         ///     Gets the game.
         /// </summary>
         /// <returns>HabboHotel.</returns>
-         static Game.HabboHotel GetGame() => Yupi.GetGame();
+     public static Game.HabboHotel GetGame() => Yupi.GetGame();
 
         /// <summary>
         ///     Invokes the command.
         /// </summary>
         /// <param name="inputData">The input data.</param>
-         static void InvokeCommand(string inputData)
+     public static void InvokeCommand(string inputData)
         {
 			#if !DEBUG
 			try

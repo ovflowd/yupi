@@ -21,7 +21,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
     /// <summary>
     ///     Class InventoryComponent.
     /// </summary>
-     class InventoryComponent
+     public class InventoryComponent
     {
         /// <summary>
         ///     The _floor items
@@ -71,7 +71,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// <summary>
         ///     The user identifier
         /// </summary>
-         uint UserId;
+     public uint UserId;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="InventoryComponent" /> class.
@@ -79,7 +79,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// <param name="userId">The user identifier.</param>
         /// <param name="client">The client.</param>
         /// <param name="userData">The user data.</param>
-         InventoryComponent(uint userId, GameClient client, UserData userData)
+     public InventoryComponent(uint userId, GameClient client, UserData userData)
         {
             _mClient = client;
             UserId = userId;
@@ -122,18 +122,18 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         ///     Gets a value indicating whether [needs update].
         /// </summary>
         /// <value><c>true</c> if [needs update]; otherwise, <c>false</c>.</value>
-         bool NeedsUpdate => !_userAttatched && !_isUpdated;
+     public bool NeedsUpdate => !_userAttatched && !_isUpdated;
 
         /// <summary>
         ///     Gets the song disks.
         /// </summary>
         /// <value>The song disks.</value>
-         HybridDictionary SongDisks { get; }
+     public HybridDictionary SongDisks { get; }
 
         /// <summary>
         ///     Clears the items.
         /// </summary>
-         void ClearItems()
+     public void ClearItems()
         {
             UpdateItems(true);
 
@@ -159,7 +159,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         ///     Redeemcreditses the specified session.
         /// </summary>
         /// <param name="session">The session.</param>
-         void Redeemcredits(GameClient session)
+     public void Redeemcredits(GameClient session)
         {
             Room currentRoom = session.GetHabbo().CurrentRoom;
 
@@ -203,7 +203,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         ///     Sets the state of the active.
         /// </summary>
         /// <param name="client">The client.</param>
-         void SetActiveState(GameClient client)
+     public void SetActiveState(GameClient client)
         {
             _mClient = client;
             _userAttatched = true;
@@ -212,7 +212,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// <summary>
         ///     Sets the state of the idle.
         /// </summary>
-         void SetIdleState()
+     public void SetIdleState()
         {
             _userAttatched = false;
             _mClient = null;
@@ -223,7 +223,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>Pet.</returns>
-         Pet GetPet(uint id)
+     public Pet GetPet(uint id)
         {
             return _inventoryPets.Contains(id) ? _inventoryPets[id] as Pet : null;
         }
@@ -233,7 +233,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// </summary>
         /// <param name="petId">The pet identifier.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-         bool RemovePet(uint petId)
+     public bool RemovePet(uint petId)
         {
             _isUpdated = false;
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("RemovePetFromInventoryComposer"));
@@ -247,7 +247,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         ///     Moves the pet to room.
         /// </summary>
         /// <param name="petId">The pet identifier.</param>
-         void MovePetToRoom(uint petId)
+     public void MovePetToRoom(uint petId)
         {
             _isUpdated = false;
             RemovePet(petId);
@@ -257,7 +257,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         ///     Adds the pet.
         /// </summary>
         /// <param name="pet">The pet.</param>
-         void AddPet(Pet pet)
+     public void AddPet(Pet pet)
         {
             _isUpdated = false;
 
@@ -275,7 +275,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// <summary>
         ///     Loads the inventory.
         /// </summary>
-         void LoadInventory()
+     public void LoadInventory()
         {
             _floorItems.Clear();
             _wallItems.Clear();
@@ -374,7 +374,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         ///     Updates the items.
         /// </summary>
         /// <param name="fromDatabase">if set to <c>true</c> [from database].</param>
-         void UpdateItems(bool fromDatabase)
+     public void UpdateItems(bool fromDatabase)
         {
             if (fromDatabase)
             {
@@ -394,7 +394,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>UserItem.</returns>
-         UserItem GetItem(uint id)
+     public UserItem GetItem(uint id)
         {
             _isUpdated = false;
 
@@ -407,7 +407,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
             return null;
         }
 
-         bool HasBaseItem(uint id)
+     public bool HasBaseItem(uint id)
         {
             return
                 _floorItems.Values.Cast<UserItem>().Any(item => item?.BaseItem != null && item.BaseItem.ItemId == id) ||
@@ -418,7 +418,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         ///     Adds the bot.
         /// </summary>
         /// <param name="bot">The bot.</param>
-         void AddBot(RoomBot bot)
+     public void AddBot(RoomBot bot)
         {
             _isUpdated = false;
 
@@ -430,7 +430,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
             _inventoryBots.Add(bot.BotId, bot);
         }
 
-         void AddPets(Pet bot)
+     public void AddPets(Pet bot)
         {
             _isUpdated = false;
 
@@ -447,7 +447,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>RoomBot.</returns>
-         RoomBot GetBot(uint id)
+     public RoomBot GetBot(uint id)
         {
             return _inventoryBots.Contains(id) ? _inventoryBots[id] as RoomBot : null;
         }
@@ -457,7 +457,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// </summary>
         /// <param name="petId">The pet identifier.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-         bool RemoveBot(uint petId)
+     public bool RemoveBot(uint petId)
         {
             _isUpdated = false;
 
@@ -471,7 +471,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         ///     Moves the bot to room.
         /// </summary>
         /// <param name="petId">The pet identifier.</param>
-         void MoveBotToRoom(uint petId)
+     public void MoveBotToRoom(uint petId)
         {
             _isUpdated = false;
             RemoveBot(petId);
@@ -490,7 +490,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// <param name="limtot">The limtot.</param>
         /// <param name="songCode">The song code.</param>
         /// <returns>UserItem.</returns>
-         UserItem AddNewItem(uint id, string baseName, string extraData, uint thGroup, bool insert, bool fromRoom, uint limno, uint limtot, string songCode = "")
+     public UserItem AddNewItem(uint id, string baseName, string extraData, uint thGroup, bool insert, bool fromRoom, uint limno, uint limtot, string songCode = "")
         {
             _isUpdated = false;
 
@@ -559,7 +559,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="placedInroom">if set to <c>true</c> [placed inroom].</param>
-         void RemoveItem(uint id, bool placedInroom)
+     public void RemoveItem(uint id, bool placedInroom)
         {
             if (GetClient() == null || GetClient().GetHabbo() == null || GetClient().GetHabbo().GetInventoryComponent() == null) GetClient().Disconnect("Probably Packet Logger User.", true);
 
@@ -589,7 +589,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         ///     Serializes the floor item inventory.
         /// </summary>
         /// <returns>SimpleServerMessageBuffer.</returns>
-         SimpleServerMessageBuffer SerializeFloorItemInventory()
+     public SimpleServerMessageBuffer SerializeFloorItemInventory()
         {
             int i = _floorItems.Count + SongDisks.Count + _wallItems.Count;
 
@@ -640,7 +640,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         ///     Serializes the wall item inventory.
         /// </summary>
         /// <returns>SimpleServerMessageBuffer.</returns>
-         SimpleServerMessageBuffer SerializeWallItemInventory()
+     public SimpleServerMessageBuffer SerializeWallItemInventory()
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("LoadInventoryMessageComposer"));
             simpleServerMessageBuffer.AppendString("I");
@@ -656,7 +656,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         ///     Serializes the pet inventory.
         /// </summary>
         /// <returns>SimpleServerMessageBuffer.</returns>
-         SimpleServerMessageBuffer SerializePetInventory()
+     public SimpleServerMessageBuffer SerializePetInventory()
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("PetInventoryMessageComposer"));
             simpleServerMessageBuffer.AppendInteger(1);
@@ -673,7 +673,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         ///     Serializes the bot inventory.
         /// </summary>
         /// <returns>SimpleServerMessageBuffer.</returns>
-         SimpleServerMessageBuffer SerializeBotInventory()
+     public SimpleServerMessageBuffer SerializeBotInventory()
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
             simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingHandler("BotInventoryMessageComposer"));
@@ -694,7 +694,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         ///     Adds the item array.
         /// </summary>
         /// <param name="roomItemList">The room item list.</param>
-         void AddItemArray(List<RoomItem> roomItemList)
+     public void AddItemArray(List<RoomItem> roomItemList)
         {
             foreach (RoomItem current in roomItemList)
                 AddItem(current);
@@ -704,7 +704,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         ///     Adds the item.
         /// </summary>
         /// <param name="item">The item.</param>
-         void AddItem(RoomItem item)
+     public void AddItem(RoomItem item)
         {
             AddNewItem(item.Id, item.BaseName, item.ExtraData, item.GroupId, true, true, 0, 0, item.SongCode);
         }
@@ -712,7 +712,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// <summary>
         ///     Runs the cycle update.
         /// </summary>
-         void RunCycleUpdate()
+     public void RunCycleUpdate()
         {
             _isUpdated = true;
             RunDbUpdate();
@@ -721,7 +721,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// <summary>
         ///     Runs the database update.
         /// </summary>
-         void RunDbUpdate()
+     public void RunDbUpdate()
         {
             if (_mRemovedItems?.Count <= 0 && _mAddedItems?.Count <= 0 && _inventoryPets?.Count <= 0)
                 return;
@@ -743,7 +743,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         ///     Serializes the music discs.
         /// </summary>
         /// <returns>SimpleServerMessageBuffer.</returns>
-         SimpleServerMessageBuffer SerializeMusicDiscs()
+     public SimpleServerMessageBuffer SerializeMusicDiscs()
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SongsLibraryMessageComposer"));
 
@@ -770,7 +770,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         ///     Gets the pets.
         /// </summary>
         /// <returns>List&lt;Pet&gt;.</returns>
-         List<Pet> GetPets()
+     public List<Pet> GetPets()
         {
             return _inventoryPets.Values.Cast<Pet>().ToList();
         }
@@ -778,7 +778,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// <summary>
         ///     Sends the floor inventory update.
         /// </summary>
-         void SendFloorInventoryUpdate()
+     public void SendFloorInventoryUpdate()
         {
             _mClient.SendMessage(SerializeFloorItemInventory());
         }
@@ -787,7 +787,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         ///     Sends the new items.
         /// </summary>
         /// <param name="id">The identifier.</param>
-         void SendNewItems(uint id)
+     public void SendNewItems(uint id)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
             simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingHandler("NewInventoryObjectMessageComposer"));

@@ -6,7 +6,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Soccer
 {
     public class ComeDirection
     {
-         static IComeDirection GetComeDirection(Point user, Point ball)
+     public static IComeDirection GetComeDirection(Point user, Point ball)
         {
             try
             {
@@ -34,7 +34,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Soccer
             }
         }
 
-         static IComeDirection GetInverseDirectionEasy(IComeDirection comeWith)
+     public static IComeDirection GetInverseDirectionEasy(IComeDirection comeWith)
         {
             IComeDirection result;
             try
@@ -81,7 +81,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Soccer
             return result;
         }
 
-         static void GetNewCoords(IComeDirection comeWith, ref int newX, ref int newY)
+     public static void GetNewCoords(IComeDirection comeWith, ref int newX, ref int newY)
         {
             try
             {
@@ -129,7 +129,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Soccer
             }
         }
 
-         static IComeDirection InverseDirections(Room room, IComeDirection comeWith, int x, int y)
+     public static IComeDirection InverseDirections(Room room, IComeDirection comeWith, int x, int y)
         {
             try
             {

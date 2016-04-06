@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Yupi.Emulator.Game.Users
 {
-     enum ChatEmotion
+     public enum ChatEmotion
     {
         Smile,
         Angry,
@@ -12,11 +12,11 @@ namespace Yupi.Emulator.Game.Users
         None
     }
 
-     static class ChatEmotions
+     public static class ChatEmotions
     {
         private static Dictionary<string, ChatEmotion> _mEmotions;
 
-         static void Initialize()
+     public static void Initialize()
         {
             _mEmotions = new Dictionary<string, ChatEmotion>
             {

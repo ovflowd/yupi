@@ -30,47 +30,47 @@ namespace Yupi.Emulator.Game.Pets
     /// <summary>
     ///     Class PetBreeding.
     /// </summary>
-     class PetBreeding
+     public class PetBreeding
     {
         /// <summary>
         ///     The terrier epic race
         /// </summary>
-         static int[] TerrierEpicRace = {17, 18, 19};
+     public static int[] TerrierEpicRace = {17, 18, 19};
 
         /// <summary>
         ///     The terrier rare race
         /// </summary>
-         static int[] TerrierRareRace = {10, 14, 15, 16};
+     public static int[] TerrierRareRace = {10, 14, 15, 16};
 
         /// <summary>
         ///     The terrier no rare race
         /// </summary>
-         static int[] TerrierNoRareRace = {11, 12, 13, 4, 5, 6};
+     public static int[] TerrierNoRareRace = {11, 12, 13, 4, 5, 6};
 
         /// <summary>
         ///     The terrier normal race
         /// </summary>
-         static int[] TerrierNormalRace = {0, 1, 2, 7, 8, 9};
+     public static int[] TerrierNormalRace = {0, 1, 2, 7, 8, 9};
 
         /// <summary>
         ///     The bear epic race
         /// </summary>
-         static int[] BearEpicRace = {3, 10, 11};
+     public static int[] BearEpicRace = {3, 10, 11};
 
         /// <summary>
         ///     The bear rare race
         /// </summary>
-         static int[] BearRareRace = {12, 13, 15, 16, 17, 18};
+     public static int[] BearRareRace = {12, 13, 15, 16, 17, 18};
 
         /// <summary>
         ///     The bear no rare race
         /// </summary>
-         static int[] BearNoRareRace = {7, 8, 9, 14, 19};
+     public static int[] BearNoRareRace = {7, 8, 9, 14, 19};
 
         /// <summary>
         ///     The bear normal race
         /// </summary>
-         static int[] BearNormalRace = {0, 1, 2, 4, 5, 6};
+     public static int[] BearNormalRace = {0, 1, 2, 4, 5, 6};
 
         /// <summary>
         ///     Gets the message.
@@ -79,7 +79,7 @@ namespace Yupi.Emulator.Game.Pets
         /// <param name="pet1">The pet1.</param>
         /// <param name="pet2">The pet2.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-         static SimpleServerMessageBuffer GetMessage(uint furniId, Pet pet1, Pet pet2)
+     public static SimpleServerMessageBuffer GetMessage(uint furniId, Pet pet1, Pet pet2)
         {
             SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("PetBreedMessageComposer"));
 

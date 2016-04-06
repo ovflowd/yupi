@@ -4,9 +4,9 @@ using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Browser.Composers
 {
-     class NavigatorCategoriesListComposer
+     public class NavigatorCategoriesListComposer
     {
-         static SimpleServerMessageBuffer Compose()
+     public static SimpleServerMessageBuffer Compose()
         {
             SimpleServerMessageBuffer collapsedCategories = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("NavigatorCategorys"));
 

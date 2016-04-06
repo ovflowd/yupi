@@ -28,12 +28,12 @@ using Yupi.Emulator.Game.Rooms.User;
 
 namespace Yupi.Emulator.Game.RoomBots.Models
 {
-     class BaseBot : BotAi
+     public class BaseBot : BotAi
     {
         /// <summary>
         ///     Called when [self enter room].
         /// </summary>
-         override void OnSelfEnterRoom()
+     public override void OnSelfEnterRoom()
         {
         }
 
@@ -41,7 +41,7 @@ namespace Yupi.Emulator.Game.RoomBots.Models
         ///     Called when [self leave room].
         /// </summary>
         /// <param name="kicked">if set to <c>true</c> [kicked].</param>
-         override void OnSelfLeaveRoom(bool kicked)
+     public override void OnSelfLeaveRoom(bool kicked)
         {
         }
 
@@ -49,7 +49,7 @@ namespace Yupi.Emulator.Game.RoomBots.Models
         ///     Called when [user enter room].
         /// </summary>
         /// <param name="user">The user.</param>
-         override void OnUserEnterRoom(RoomUser user)
+     public override void OnUserEnterRoom(RoomUser user)
         {
         }
 
@@ -57,7 +57,7 @@ namespace Yupi.Emulator.Game.RoomBots.Models
         ///     Called when [user leave room].
         /// </summary>
         /// <param name="client">The client.</param>
-         override void OnUserLeaveRoom(GameClient client)
+     public override void OnUserLeaveRoom(GameClient client)
         {
         }
 
@@ -66,7 +66,7 @@ namespace Yupi.Emulator.Game.RoomBots.Models
         /// </summary>
         /// <param name="user">The user.</param>
         /// <param name="msg">The MSG.</param>
-         override void OnUserSay(RoomUser user, string msg)
+     public override void OnUserSay(RoomUser user, string msg)
         {
         }
 
@@ -75,25 +75,25 @@ namespace Yupi.Emulator.Game.RoomBots.Models
         /// </summary>
         /// <param name="user">The user.</param>
         /// <param name="message">The message.</param>
-         override void OnUserShout(RoomUser user, string message)
+     public override void OnUserShout(RoomUser user, string message)
         {
         }
 
         /// <summary>
         ///     Called when [timer tick].
         /// </summary>
-         override void OnTimerTick()
+     public override void OnTimerTick()
         {
         }
 
-         override void OnChatTick()
+     public override void OnChatTick()
         {
         }
 
         /// <summary>
         ///     Modifieds this instance.
         /// </summary>
-         override void Modified()
+     public override void Modified()
         {
         }
     }

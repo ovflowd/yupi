@@ -10,7 +10,7 @@ namespace Yupi.Emulator.Game.Users.Fuses
     /// <summary>
     ///     Class RoleManager.
     /// </summary>
-     class RoleManager
+     public class RoleManager
     {
         /// <summary>
         ///     The _CMD rights
@@ -30,7 +30,7 @@ namespace Yupi.Emulator.Game.Users.Fuses
         /// <summary>
         ///     Initializes a new instance of the <see cref="RoleManager" /> class.
         /// </summary>
-         RoleManager()
+     public RoleManager()
         {
             _rights = new Dictionary<string, uint>();
             _subRights = new Dictionary<string, int>();
@@ -41,7 +41,7 @@ namespace Yupi.Emulator.Game.Users.Fuses
         ///     Loads the rights.
         /// </summary>
         /// <param name="dbClient">The database client.</param>
-         void LoadRights(IQueryAdapter dbClient)
+     public void LoadRights(IQueryAdapter dbClient)
         {
             ClearRights();
 
@@ -78,7 +78,7 @@ namespace Yupi.Emulator.Game.Users.Fuses
         /// <param name="rankId">The rank identifier.</param>
         /// <param name="cmd">The command.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-         bool RankGotCommand(uint rankId, string cmd)
+     public bool RankGotCommand(uint rankId, string cmd)
         {
             if (!_cmdRights.ContainsKey(cmd))
                 return false;
@@ -98,7 +98,7 @@ namespace Yupi.Emulator.Game.Users.Fuses
         /// <param name="rankId">The rank identifier.</param>
         /// <param name="fuse">The fuse.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-         bool RankHasRight(uint rankId, string fuse) => ContainsRight(fuse) && rankId >= _rights[fuse];
+     public bool RankHasRight(uint rankId, string fuse) => ContainsRight(fuse) && rankId >= _rights[fuse];
 
         /// <summary>
         ///     Determines whether the specified sub has vip.
@@ -106,14 +106,14 @@ namespace Yupi.Emulator.Game.Users.Fuses
         /// <param name="sub">The sub.</param>
         /// <param name="fuse">The fuse.</param>
         /// <returns><c>true</c> if the specified sub has vip; otherwise, <c>false</c>.</returns>
-         bool HasVip(int sub, string fuse) => _subRights.ContainsKey(fuse) && _subRights[fuse] == sub;
+     public bool HasVip(int sub, string fuse) => _subRights.ContainsKey(fuse) && _subRights[fuse] == sub;
 
         /// <summary>
         ///     Gets the rights for rank.
         /// </summary>
         /// <param name="rankId">The rank identifier.</param>
         /// <returns>List&lt;System.String&gt;.</returns>
-         List<string> GetRightsForRank(uint rankId)
+     public List<string> GetRightsForRank(uint rankId)
         {
             List<string> list = new List<string>();
 
@@ -128,12 +128,12 @@ namespace Yupi.Emulator.Game.Users.Fuses
         /// </summary>
         /// <param name="right">The right.</param>
         /// <returns><c>true</c> if the specified right contains right; otherwise, <c>false</c>.</returns>
-         bool ContainsRight(string right) => _rights.ContainsKey(right);
+     public bool ContainsRight(string right) => _rights.ContainsKey(right);
 
         /// <summary>
         ///     Clears the rights.
         /// </summary>
-         void ClearRights()
+     public void ClearRights()
         {
             _rights.Clear();
             _cmdRights.Clear();

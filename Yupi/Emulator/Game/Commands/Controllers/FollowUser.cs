@@ -8,7 +8,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class FollowUser. This class cannot be inherited.
     /// </summary>
-     sealed class FollowUser : Command
+     public sealed class FollowUser : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="FollowUser" /> class.

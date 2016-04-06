@@ -7,11 +7,11 @@ namespace Yupi.Emulator.Game.Users
     /// <summary>
     ///     Class HallOfFame.
     /// </summary>
-     class HallOfFame
+     public class HallOfFame
     {
-         List<HallOfFameElement> Rankings;
+     public List<HallOfFameElement> Rankings;
 
-         HallOfFame()
+     public HallOfFame()
         {
             Rankings = new List<HallOfFameElement>();
             RefreshHallOfFame();
@@ -38,13 +38,13 @@ namespace Yupi.Emulator.Game.Users
     /// <summary>
     ///     Class HallOfFameElement.
     /// </summary>
-     class HallOfFameElement
+     public class HallOfFameElement
     {
-         string Competition;
-         int Score;
-         uint UserId;
+     public string Competition;
+     public int Score;
+     public uint UserId;
 
-         HallOfFameElement(uint userId, int score, string competition)
+     public HallOfFameElement(uint userId, int score, string competition)
         {
             UserId = userId;
             Score = score;

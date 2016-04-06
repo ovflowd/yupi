@@ -34,14 +34,14 @@ namespace Yupi.Emulator.Game.Achievements.Factories
     /// <summary>
     ///     Class AchievementLevelFactory.
     /// </summary>
-     class AchievementLevelFactory
+     public class AchievementLevelFactory
     {
         /// <summary>
         ///     Gets the achievement levels.
         /// </summary>
         /// <param name="achievements">The achievements.</param>
         /// <param name="dbClient">The database client.</param>
-         static void GetAchievementLevels(out Dictionary<string, Achievement> achievements,
+     public static void GetAchievementLevels(out Dictionary<string, Achievement> achievements,
             IQueryAdapter dbClient)
         {
             achievements = new Dictionary<string, Achievement>();

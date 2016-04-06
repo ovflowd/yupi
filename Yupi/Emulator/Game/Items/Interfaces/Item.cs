@@ -7,127 +7,127 @@ namespace Yupi.Emulator.Game.Items.Interfaces
     /// <summary>
     ///     Class Item.
     /// </summary>
-     class Item
+     public class Item
     {
         /// <summary>
         ///     The allow gift
         /// </summary>
-         bool AllowGift;
+     public bool AllowGift;
 
         /// <summary>
         ///     The allow inventory stack
         /// </summary>
-         bool AllowInventoryStack;
+     public bool AllowInventoryStack;
 
         /// <summary>
         ///     The allow marketplace sell
         /// </summary>
-         bool AllowMarketplaceSell;
+     public bool AllowMarketplaceSell;
 
         /// <summary>
         ///     The allow recycle
         /// </summary>
-         bool AllowRecycle;
+     public bool AllowRecycle;
 
         /// <summary>
         ///     The allow trade
         /// </summary>
-         bool AllowTrade;
+     public bool AllowTrade;
 
         /// <summary>
         ///     The effect identifier
         /// </summary>
-         uint EffectId;
+     public uint EffectId;
 
         /// <summary>
         ///     The flat identifier
         /// </summary>
-         uint FlatId;
+     public uint FlatId;
 
         /// <summary>
         ///     The height
         /// </summary>
-         double Height;
+     public double Height;
 
         /// <summary>
         ///     The interaction type
         /// </summary>
-         Interaction InteractionType;
+     public Interaction InteractionType;
 
         /// <summary>
         ///     The is group item
         /// </summary>
-         bool IsGroupItem;
+     public bool IsGroupItem;
 
         /// <summary>
         ///     The is seat
         /// </summary>
-         bool IsSeat;
+     public bool IsSeat;
 
         /// <summary>
         ///     The length
         /// </summary>
-         int Length;
+     public int Length;
 
         /// <summary>
         ///     The modes
         /// </summary>
-         uint Modes;
+     public uint Modes;
 
         /// <summary>
         ///     The name
         /// </summary>
-         string Name;
+     public string Name;
 
         /// <summary>
         ///     The public name
         /// </summary>
-         string PublicName;
+     public string PublicName;
 
         /// <summary>
         ///     The sprite identifier
         /// </summary>
-         int SpriteId;
+     public int SpriteId;
 
         /// <summary>
         ///     The stackable
         /// </summary>
-         bool Stackable;
+     public bool Stackable;
 
         /// <summary>
         ///     The stack multipler
         /// </summary>
-         bool StackMultipler;
+     public bool StackMultipler;
 
         /// <summary>
         ///     The subscriber only
         /// </summary>
-         bool SubscriberOnly;
+     public bool SubscriberOnly;
 
         /// <summary>
         ///     The toggle height
         /// </summary>
-         double[] ToggleHeight;
+     public double[] ToggleHeight;
 
         /// <summary>
         ///     The type
         /// </summary>
-         char Type;
+     public char Type;
 
         /// <summary>
         ///     The vending ids
         /// </summary>
-         List<int> VendingIds;
+     public List<int> VendingIds;
 
         /// <summary>
         ///     The walkable
         /// </summary>
-         bool Walkable;
+     public bool Walkable;
 
         /// <summary>
         ///     The width
         /// </summary>
-         int Width;
+     public int Width;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Item" /> class.
@@ -156,7 +156,7 @@ namespace Yupi.Emulator.Game.Items.Interfaces
         /// <param name="stackMultiple">if set to <c>true</c> [stack multiple].</param>
         /// <param name="toggle">The toggle.</param>
         /// <param name="flatId">The flat identifier.</param>
-         Item(uint id, int sprite, string publicName, string name, char type, int width, int length,
+     public Item(uint id, int sprite, string publicName, string name, char type, int width, int length,
             double height, bool stackable, bool walkable, bool isSeat, bool allowRecycle, bool allowTrade,
             bool allowMarketplaceSell, bool allowGift, bool allowInventoryStack,
             Interaction interactionType,
@@ -198,7 +198,7 @@ namespace Yupi.Emulator.Game.Items.Interfaces
         ///     Gets the item identifier.
         /// </summary>
         /// <value>The item identifier.</value>
-         uint ItemId { get; private set; }
+     public uint ItemId { get; private set; }
 
         public static void Save(uint id, bool stackable, bool allowTrade, double[] height, uint modes)
         {

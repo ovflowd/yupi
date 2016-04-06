@@ -27,37 +27,37 @@ namespace Yupi.Emulator.Game.Groups.Structs
     /// <summary>
     ///     Class GroupUser.
     /// </summary>
-     class GroupMember
+     public class GroupMember
     {
         /// <summary>
         ///     The date of join on group
         /// </summary>
-         int DateJoin;
+     public int DateJoin;
 
         /// <summary>
         ///     The group identifier
         /// </summary>
-         uint GroupId;
+     public uint GroupId;
 
         /// <summary>
         ///     The identifier
         /// </summary>
-         uint Id;
+     public uint Id;
 
         /// <summary>
         ///     The look
         /// </summary>
-         string Look;
+     public string Look;
 
         /// <summary>
         ///     The name
         /// </summary>
-         string Name;
+     public string Name;
 
         /// <summary>
         ///     The rank
         /// </summary>
-         int Rank;
+     public int Rank;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="GroupMember" /> class.
@@ -68,7 +68,7 @@ namespace Yupi.Emulator.Game.Groups.Structs
         /// <param name="rank">The rank.</param>
         /// <param name="name"></param>
         /// <param name="dateJoin"></param>
-         GroupMember(uint id, string name, string look, uint groupId, int rank, int dateJoin)
+     public GroupMember(uint id, string name, string look, uint groupId, int rank, int dateJoin)
         {
             Id = id;
             Name = name;

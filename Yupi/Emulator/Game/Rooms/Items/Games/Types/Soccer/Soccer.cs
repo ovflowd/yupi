@@ -18,7 +18,7 @@ using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Soccer
 {
-     class Soccer
+     public class Soccer
     {
         private QueuedDictionary<uint, RoomItem> _balls;
         private RoomItem[] _gates;
@@ -54,12 +54,12 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Soccer
             }
         }
 
-         void AddBall(RoomItem item)
+     public void AddBall(RoomItem item)
         {
             _balls.Add(item.Id, item);
         }
 
-         void Destroy()
+     public void Destroy()
         {
             Array.Clear(_gates, 0, _gates.Length);
             _gates = null;
@@ -68,12 +68,12 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Soccer
             _balls = null;
         }
 
-         void OnCycle()
+     public void OnCycle()
         {
             _balls.OnCycle();
         }
 
-         void OnGateRemove(RoomItem item)
+     public void OnGateRemove(RoomItem item)
         {
             switch (item.GetBaseItem().InteractionType)
             {
@@ -125,7 +125,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Soccer
                                 tile => tile.X == gameItemCoord.X && tile.Y == gameItemCoord.Y));
         }
 
-         void OnUserWalk(RoomUser user)
+     public void OnUserWalk(RoomUser user)
         {
             if (user == null)
                 return;
@@ -180,7 +180,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Soccer
             }
         }
 
-         bool MoveBall(RoomItem item, GameClient mover, int newX, int newY)
+     public bool MoveBall(RoomItem item, GameClient mover, int newX, int newY)
         {
             if (item == null || item.GetBaseItem() == null /*|| mover == null || mover.GetHabbo() == null*/)
                 return false;
@@ -218,7 +218,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Soccer
             return false;
         }
 
-         void MoveBall(RoomItem item, GameClient client, Point user)
+     public void MoveBall(RoomItem item, GameClient client, Point user)
         {
             try
             {
@@ -233,7 +233,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Soccer
             }
         }
 
-         async void MoveBallProcess(RoomItem item, GameClient client)
+     public async void MoveBallProcess(RoomItem item, GameClient client)
         {
             int tryes = 0;
             int newX = item.Coordinate.X;
@@ -306,7 +306,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Soccer
             }
         }
 
-         void RegisterGate(RoomItem item)
+     public void RegisterGate(RoomItem item)
         {
             if (_gates[0] == null)
             {
@@ -332,12 +332,12 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Soccer
             _gates[3] = item;
         }
 
-         void RemoveBall(uint itemId)
+     public void RemoveBall(uint itemId)
         {
             _balls.Remove(itemId);
         }
 
-         void UnRegisterGate(RoomItem item)
+     public void UnRegisterGate(RoomItem item)
         {
             switch (item.Team)
             {

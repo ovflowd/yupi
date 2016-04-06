@@ -27,7 +27,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
     /// <summary>
     ///     Class RoomItemHandler.
     /// </summary>
-     class RoomItemHandler
+     public class RoomItemHandler
     {
         /// <summary>
         ///     The _roller items moved
@@ -59,12 +59,12 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         /// <summary>
         ///     The breeding terrier
         /// </summary>
-         Dictionary<uint, RoomItem> BreedingTerrier, BreedingBear;
+     public Dictionary<uint, RoomItem> BreedingTerrier, BreedingBear;
 
         /// <summary>
         ///     The floor items
         /// </summary>
-         ConcurrentDictionary<uint, RoomItem> FloorItems, WallItems, Rollers;
+     public ConcurrentDictionary<uint, RoomItem> FloorItems, WallItems, Rollers;
 
         /// <summary>
         ///     The hopper count
@@ -101,9 +101,9 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         ///     Gets or sets a value indicating whether [got rollers].
         /// </summary>
         /// <value><c>true</c> if [got rollers]; otherwise, <c>false</c>.</value>
-         bool GotRollers { get; set; }
+     public bool GotRollers { get; set; }
 
-         RoomItem GetItem(uint itemId)
+     public RoomItem GetItem(uint itemId)
         {
             if (FloorItems.ContainsKey(itemId)) return FloorItems[itemId];
             return WallItems.ContainsKey(itemId) ? WallItems[itemId] : null;
@@ -114,7 +114,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         /// </summary>
         /// <param name="pet">The pet.</param>
         /// <returns>Point.</returns>
-         Point GetRandomBreedingBear(Pet pet)
+     public Point GetRandomBreedingBear(Pet pet)
         {
             if (!BreedingBear.Any())
                 return new Point();
@@ -135,7 +135,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         /// </summary>
         /// <param name="pet">The pet.</param>
         /// <returns>Point.</returns>
-         Point GetRandomBreedingTerrier(Pet pet)
+     public Point GetRandomBreedingTerrier(Pet pet)
         {
             if (!BreedingTerrier.Any())
                 return new Point();
@@ -301,7 +301,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         ///     Queues the room item update.
         /// </summary>
         /// <param name="item">The item.</param>
-         void QueueRoomItemUpdate(RoomItem item)
+     public void QueueRoomItemUpdate(RoomItem item)
         {
             lock (_roomItemUpdateQueue.SyncRoot)
                 _roomItemUpdateQueue.Enqueue(item);
@@ -312,7 +312,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         /// </summary>
         /// <param name="session">The session.</param>
         /// <returns>List&lt;RoomItem&gt;.</returns>
-         List<RoomItem> RemoveAllFurniture(GameClient session)
+     public List<RoomItem> RemoveAllFurniture(GameClient session)
         {
             List<RoomItem> items = new List<RoomItem>();
             Gamemap roomGamemap = _room.GetGameMap();
@@ -381,7 +381,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         /// </summary>
         /// <param name="roomItemList"></param>
         /// <param name="session"></param>
-         void RemoveItemsByOwner(ref List<RoomItem> roomItemList, ref GameClient session)
+     public void RemoveItemsByOwner(ref List<RoomItem> roomItemList, ref GameClient session)
         {
             List<GameClient> toUpdate = new List<GameClient>();
 
@@ -413,7 +413,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         ///     Sets the speed.
         /// </summary>
         /// <param name="p">The p.</param>
-         void SetSpeed(uint p)
+     public void SetSpeed(uint p)
         {
             _rollerSpeed = p;
         }
@@ -421,7 +421,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         /// <summary>
         ///     Loads the furniture.
         /// </summary>
-         void LoadFurniture()
+     public void LoadFurniture()
         {
             if (FloorItems == null)
                 FloorItems = new ConcurrentDictionary<uint, RoomItem>();
@@ -541,7 +541,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         /// <param name="session">The session.</param>
         /// <param name="id">The identifier.</param>
         /// <param name="wasPicked">if set to <c>true</c> [was picked].</param>
-         void RemoveFurniture(GameClient session, uint id, bool wasPicked = true)
+     public void RemoveFurniture(GameClient session, uint id, bool wasPicked = true)
         {
             RoomItem item = GetItem(id);
 
@@ -565,7 +565,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         /// </summary>
         /// <param name="item">The item.</param>
         /// <param name="wasPicked">if set to <c>true</c> [was picked].</param>
-         void RemoveRoomItem(RoomItem item, bool wasPicked)
+     public void RemoveRoomItem(RoomItem item, bool wasPicked)
         {
             if (item.IsWallItem)
             {
@@ -607,7 +607,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         /// <param name="rolledId">The rolled identifier.</param>
         /// <param name="nextZ">The next z.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-         SimpleServerMessageBuffer UpdateItemOnRoller(RoomItem item, Point nextCoord, uint rolledId, double nextZ)
+     public SimpleServerMessageBuffer UpdateItemOnRoller(RoomItem item, Point nextCoord, uint rolledId, double nextZ)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
             simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingHandler("ItemAnimationMessageComposer"));
@@ -632,7 +632,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         /// <param name="rollerId">The roller identifier.</param>
         /// <param name="nextZ">The next z.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-         SimpleServerMessageBuffer UpdateUserOnRoller(RoomUser user, Point nextCoord, uint rollerId, double nextZ)
+     public SimpleServerMessageBuffer UpdateUserOnRoller(RoomUser user, Point nextCoord, uint rollerId, double nextZ)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(0);
             simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingHandler("ItemAnimationMessageComposer"));
@@ -668,7 +668,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         /// <param name="onRoller">if set to <c>true</c> [on roller].</param>
         /// <param name="sendMessage">if set to <c>true</c> [send message].</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-         bool SetFloorItem(GameClient session, RoomItem item, int newX, int newY, int newRot, bool newItem,
+     public bool SetFloorItem(GameClient session, RoomItem item, int newX, int newY, int newRot, bool newItem,
             bool onRoller, bool sendMessage)
         {
             return SetFloorItem(session, item, newX, newY, newRot, newItem, onRoller, sendMessage, true, false);
@@ -689,7 +689,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         /// <param name="specialMove"></param>
         /// <param name="customHeight"></param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-         bool SetFloorItem(GameClient session, RoomItem item, int newX, int newY, int newRot, bool newItem, bool onRoller, bool sendMessage, bool updateRoomUserStatuses, bool specialMove, double? customHeight = null)
+     public bool SetFloorItem(GameClient session, RoomItem item, int newX, int newY, int newRot, bool newItem, bool onRoller, bool sendMessage, bool updateRoomUserStatuses, bool specialMove, double? customHeight = null)
         {
             bool flag = false;
 
@@ -944,7 +944,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
             return true;
         }
 
-         void DeveloperSetFloorItem(GameClient session, RoomItem item)
+     public void DeveloperSetFloorItem(GameClient session, RoomItem item)
         {
             if (FloorItems.ContainsKey(item.Id))
                 return;
@@ -969,7 +969,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         ///     Called when [height map update].
         /// </summary>
         /// <param name="affectedTiles">The affected tiles.</param>
-         void OnHeightMapUpdate(Dictionary<int, ThreeDCoord> affectedTiles)
+     public void OnHeightMapUpdate(Dictionary<int, ThreeDCoord> affectedTiles)
         {
             SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UpdateFurniStackMapMessageComposer"));
             messageBuffer.AppendByte((byte) affectedTiles.Count);
@@ -988,7 +988,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         ///     Called when [height map update].
         /// </summary>
         /// <param name="affectedTiles">The affected tiles.</param>
-         void OnHeightMapUpdate(ICollection affectedTiles)
+     public void OnHeightMapUpdate(ICollection affectedTiles)
         {
             SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UpdateFurniStackMapMessageComposer"));
             messageBuffer.AppendByte((byte) affectedTiles.Count);
@@ -1008,7 +1008,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         /// </summary>
         /// <param name="oldCoords">The old coords.</param>
         /// <param name="newCoords">The new coords.</param>
-         void OnHeightMapUpdate(List<Point> oldCoords, List<Point> newCoords)
+     public void OnHeightMapUpdate(List<Point> oldCoords, List<Point> newCoords)
         {
             SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UpdateFurniStackMapMessageComposer"));
             messageBuffer.AppendByte((byte) (oldCoords.Count + newCoords.Count));
@@ -1036,7 +1036,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
         /// <returns>List&lt;RoomItem&gt;.</returns>
-         List<RoomItem> GetFurniObjects(int x, int y) => _room.GetGameMap().GetCoordinatedItems(new Point(x, y));
+     public List<RoomItem> GetFurniObjects(int x, int y) => _room.GetGameMap().GetCoordinatedItems(new Point(x, y));
 
         /// <summary>
         ///     Sets the floor item.
@@ -1046,7 +1046,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         /// <param name="newY">The new y.</param>
         /// <param name="newZ">The new z.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-         bool SetFloorItem(RoomItem item, int newX, int newY, double newZ)
+     public bool SetFloorItem(RoomItem item, int newX, int newY, double newZ)
         {
             _room.GetGameMap().RemoveFromMap(item);
 
@@ -1072,7 +1072,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         /// <param name="rot">The rot.</param>
         /// <param name="sendUpdate">if set to <c>true</c> [sendupdate].</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-         bool SetFloorItem(RoomItem item, int newX, int newY, double newZ, int rot, bool sendUpdate)
+     public bool SetFloorItem(RoomItem item, int newX, int newY, double newZ, int rot, bool sendUpdate)
         {
             _room.GetGameMap().RemoveFromMap(item);
 
@@ -1101,7 +1101,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         /// <param name="session">The session.</param>
         /// <param name="item">The item.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-         bool SetWallItem(GameClient session, RoomItem item)
+     public bool SetWallItem(GameClient session, RoomItem item)
         {
             if (!item.IsWallItem || WallItems.ContainsKey(item.Id))
                 return false;
@@ -1132,7 +1132,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         ///     Updates the item.
         /// </summary>
         /// <param name="itemId">The item.</param>
-         void AddOrUpdateItem(uint itemId)
+     public void AddOrUpdateItem(uint itemId)
         {
             if (_removedItems.Contains(itemId))
                 _removedItems.Remove(itemId);
@@ -1147,7 +1147,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         ///     Removes the item.
         /// </summary>
         /// <param name="itemId"></param>
-         void RemoveItem(uint itemId)
+     public void RemoveItem(uint itemId)
         {
             if (_updatedItems.Contains(itemId))
                 _updatedItems.Remove(itemId);
@@ -1162,7 +1162,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         /// <summary>
         ///     Called when [cycle].
         /// </summary>
-         void OnCycle()
+     public void OnCycle()
         {
             if (GotRollers)
             {
@@ -1202,7 +1202,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         /// <summary>
         ///     Destroys this instance.
         /// </summary>
-         void Destroy()
+     public void Destroy()
         {
             FloorItems.Clear();
             WallItems.Clear();
@@ -1334,7 +1334,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
             return new List<SimpleServerMessageBuffer>();
         }
 
-         bool HasFurniByItemName(string name)
+     public bool HasFurniByItemName(string name)
         {
             IEnumerable<RoomItem> element = FloorItems.Values.Where(i => i.GetBaseItem().Name == name);
 

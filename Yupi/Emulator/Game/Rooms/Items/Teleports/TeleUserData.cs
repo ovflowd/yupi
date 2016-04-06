@@ -6,7 +6,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Teleports
     /// <summary>
     ///     Class TeleUserData.
     /// </summary>
-     class TeleUserData
+     public class TeleUserData
     {
         /// <summary>
         ///     The _m handler
@@ -35,7 +35,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Teleports
         /// <param name="userRefference">The p user refference.</param>
         /// <param name="roomId">The room identifier.</param>
         /// <param name="teleId">The tele identifier.</param>
-         TeleUserData(MessageHandler handler, Habbo userRefference, uint roomId, uint teleId)
+     public TeleUserData(MessageHandler handler, Habbo userRefference, uint roomId, uint teleId)
         {
             _mHandler = handler;
             _userRefference = userRefference;
@@ -46,7 +46,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Teleports
         /// <summary>
         ///     Executes this instance.
         /// </summary>
-         void Execute()
+     public void Execute()
         {
             if (_mHandler == null || _userRefference == null) return;
             _userRefference.IsTeleporting = true;

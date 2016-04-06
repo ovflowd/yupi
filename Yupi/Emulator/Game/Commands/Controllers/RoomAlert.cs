@@ -3,7 +3,7 @@ using Yupi.Emulator.Game.GameClients.Interfaces;
 
 namespace Yupi.Emulator.Game.Commands.Controllers
 {
-     sealed class RoomAlert : Command
+     public sealed class RoomAlert : Command
     {
         public RoomAlert()
         {

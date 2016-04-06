@@ -8,7 +8,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class GoBoom. This class cannot be inherited.
     /// </summary>
-     sealed class GoBoom : Command
+     public sealed class GoBoom : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="GoBoom" /> class.

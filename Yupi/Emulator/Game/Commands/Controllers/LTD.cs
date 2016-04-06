@@ -10,7 +10,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class LTD. This class cannot be inherited.
     /// </summary>
-     sealed class Ltd : Command
+     public sealed class Ltd : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="Ltd" /> class.

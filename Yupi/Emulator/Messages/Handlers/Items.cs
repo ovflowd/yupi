@@ -28,9 +28,9 @@ using Yupi.Emulator.Messages.Enums;
 
 namespace Yupi.Emulator.Messages.Handlers
 {
-     partial class MessageHandler
+     public partial class MessageHandler
     {
-         void PetBreedCancel()
+     public void PetBreedCancel()
         {
             if (Session?.GetHabbo() == null)
                 return;
@@ -67,7 +67,7 @@ namespace Yupi.Emulator.Messages.Handlers
             item.PetsList.Clear();
         }
 
-         void PetBreedResult()
+     public void PetBreedResult()
         {
             if (Session?.GetHabbo() == null)
                 return;
@@ -220,7 +220,7 @@ namespace Yupi.Emulator.Messages.Handlers
             item.PetsList.Clear();
         }
 
-         void GetTrainerPanel()
+     public void GetTrainerPanel()
         {
             uint petId = Request.GetUInt32();
 
@@ -254,7 +254,7 @@ namespace Yupi.Emulator.Messages.Handlers
             SendResponse();
         }
 
-         void PlacePostIt()
+     public void PlacePostIt()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
@@ -285,7 +285,7 @@ namespace Yupi.Emulator.Messages.Handlers
             }
         }
 
-         void PlaceItem()
+     public void PlaceItem()
         {
             if (Session?.GetHabbo() == null)
                 return;
@@ -463,7 +463,7 @@ namespace Yupi.Emulator.Messages.Handlers
             }
         }
 
-         void TakeItem()
+     public void TakeItem()
         {
             Request.GetInteger();
 
@@ -557,7 +557,7 @@ namespace Yupi.Emulator.Messages.Handlers
             }
         }
 
-         void MoveItem()
+     public void MoveItem()
         {
             uint id = Convert.ToUInt32(Math.Abs(Request.GetInteger()));
 
@@ -628,7 +628,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 room.GetRoomItemHandler().SaveFurniture(queryReactor);
         }
 
-         void MoveWallItem()
+     public void MoveWallItem()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
@@ -660,7 +660,7 @@ namespace Yupi.Emulator.Messages.Handlers
             room.SendMessage(messageBuffer);
         }
 
-         void TriggerItem()
+     public void TriggerItem()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
@@ -740,7 +740,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 room.GetRoomUserManager().UpdateUserStatus(current, true);
         }
 
-         void TriggerItemDiceSpecial()
+     public void TriggerItemDiceSpecial()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
             RoomItem item = room?.GetRoomItemHandler().GetItem(Request.GetUInt32());
@@ -754,7 +754,7 @@ namespace Yupi.Emulator.Messages.Handlers
             item.OnTrigger(room.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().Id));
         }
 
-         void OpenPostit()
+     public void OpenPostit()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
             RoomItem item = room?.GetRoomItemHandler().GetItem(Request.GetUInt32());
@@ -768,7 +768,7 @@ namespace Yupi.Emulator.Messages.Handlers
             SendResponse();
         }
 
-         void SavePostit()
+     public void SavePostit()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
             RoomItem item = room?.GetRoomItemHandler().GetItem(Request.GetUInt32());
@@ -791,7 +791,7 @@ namespace Yupi.Emulator.Messages.Handlers
             item.UpdateState(true, true);
         }
 
-         void DeletePostit()
+     public void DeletePostit()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
@@ -806,7 +806,7 @@ namespace Yupi.Emulator.Messages.Handlers
             room.GetRoomItemHandler().RemoveFurniture(Session, item.Id);
         }
 
-         void OpenGift()
+     public void OpenGift()
         {
             if ((DateTime.Now - Session.GetHabbo().LastGiftOpenTime).TotalSeconds <= 15.0)
             {
@@ -945,7 +945,7 @@ namespace Yupi.Emulator.Messages.Handlers
             SendResponse();
         }
 
-         void GetMoodlight()
+     public void GetMoodlight()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
@@ -984,7 +984,7 @@ namespace Yupi.Emulator.Messages.Handlers
             SendResponse();
         }
 
-         void UpdateMoodlight()
+     public void UpdateMoodlight()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
@@ -1010,7 +1010,7 @@ namespace Yupi.Emulator.Messages.Handlers
             item.UpdateState();
         }
 
-         void SwitchMoodlightStatus()
+     public void SwitchMoodlightStatus()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
@@ -1031,7 +1031,7 @@ namespace Yupi.Emulator.Messages.Handlers
             item.UpdateState();
         }
 
-         void SaveRoomBg()
+     public void SaveRoomBg()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
@@ -1074,7 +1074,7 @@ namespace Yupi.Emulator.Messages.Handlers
             item.UpdateState();
         }
 
-         void InitTrade()
+     public void InitTrade()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
@@ -1111,7 +1111,7 @@ namespace Yupi.Emulator.Messages.Handlers
             room.TryStartTrade(roomUserByHabbo, roomUserByVirtualId);
         }
 
-         void TileStackMagicSetHeight()
+     public void TileStackMagicSetHeight()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
@@ -1158,7 +1158,7 @@ namespace Yupi.Emulator.Messages.Handlers
             room.GetRoomItemHandler().SetFloorItem(item, item.X, item.Y, totalZ, item.Rot, true);
         }
 
-         void OfferTradeItem()
+     public void OfferTradeItem()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
@@ -1174,7 +1174,7 @@ namespace Yupi.Emulator.Messages.Handlers
             userTrade.OfferItem(Session.GetHabbo().Id, item);
         }
 
-         void TakeBackTradeItem()
+     public void TakeBackTradeItem()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
@@ -1190,7 +1190,7 @@ namespace Yupi.Emulator.Messages.Handlers
             userTrade.TakeBackItem(Session.GetHabbo().Id, item);
         }
 
-         void StopTrade()
+     public void StopTrade()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
@@ -1200,7 +1200,7 @@ namespace Yupi.Emulator.Messages.Handlers
             room.TryStopTrade(Session.GetHabbo().Id);
         }
 
-         void AcceptTrade()
+     public void AcceptTrade()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
@@ -1212,7 +1212,7 @@ namespace Yupi.Emulator.Messages.Handlers
             userTrade?.Accept(Session.GetHabbo().Id);
         }
 
-         void UnacceptTrade()
+     public void UnacceptTrade()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
@@ -1224,7 +1224,7 @@ namespace Yupi.Emulator.Messages.Handlers
             userTrade?.Unaccept(Session.GetHabbo().Id);
         }
 
-         void CompleteTrade()
+     public void CompleteTrade()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
@@ -1236,7 +1236,7 @@ namespace Yupi.Emulator.Messages.Handlers
             userTrade?.CompleteTrade(Session.GetHabbo().Id);
         }
 
-         void RecycleItems()
+     public void RecycleItems()
         {
             if (!Session.GetHabbo().InRoom)
                 return;
@@ -1294,7 +1294,7 @@ namespace Yupi.Emulator.Messages.Handlers
             SendResponse();
         }
 
-         void RedeemExchangeFurni()
+     public void RedeemExchangeFurni()
         {
             if (Session?.GetHabbo() == null)
                 return;
@@ -1349,7 +1349,7 @@ namespace Yupi.Emulator.Messages.Handlers
         }
 
         // Without VOID! //@TODO find void
-         void TriggerLoveLock(RoomItem loveLock)
+     public void TriggerLoveLock(RoomItem loveLock)
         {
             string[] loveLockParams = loveLock.ExtraData.Split(Convert.ToChar(5));
 
@@ -1413,7 +1413,7 @@ namespace Yupi.Emulator.Messages.Handlers
             }
         }
 
-         void GetPetInfo()
+     public void GetPetInfo()
         {
             if (Session.GetHabbo() == null || Session.GetHabbo().CurrentRoom == null)
                 return;
@@ -1428,7 +1428,7 @@ namespace Yupi.Emulator.Messages.Handlers
             Session.SendMessage(pet.PetData.SerializeInfo());
         }
 
-         void CompostMonsterplant()
+     public void CompostMonsterplant()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
@@ -1495,7 +1495,7 @@ namespace Yupi.Emulator.Messages.Handlers
             }
         }
 
-         void MovePet()
+     public void MovePet()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
@@ -1547,7 +1547,7 @@ namespace Yupi.Emulator.Messages.Handlers
             room.GetGameMap().UpdateUserMovement(new Point(oldX, oldY), new Point(x, y), pet);
         }
 
-         void PickUpPet()
+     public void PickUpPet()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
@@ -1594,7 +1594,7 @@ namespace Yupi.Emulator.Messages.Handlers
             Session.SendMessage(Session.GetHabbo().GetInventoryComponent().SerializePetInventory());
         }
 
-         void RespectPet()
+     public void RespectPet()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
@@ -1629,7 +1629,7 @@ namespace Yupi.Emulator.Messages.Handlers
             }
         }
 
-         void AllowAllRide()
+     public void AllowAllRide()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
@@ -1693,7 +1693,7 @@ namespace Yupi.Emulator.Messages.Handlers
             room.SendMessage(simpleServerMessageBuffer);
         }
 
-         void AddSaddle()
+     public void AddSaddle()
         {
             Room room =
                 Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
@@ -1858,7 +1858,7 @@ namespace Yupi.Emulator.Messages.Handlers
             }
         }
 
-         void RemoveSaddle()
+     public void RemoveSaddle()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
@@ -1909,7 +1909,7 @@ namespace Yupi.Emulator.Messages.Handlers
             room.SendMessage(simpleServerMessage2);
         }
 
-         void Unride()
+     public void Unride()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
@@ -1935,7 +1935,7 @@ namespace Yupi.Emulator.Messages.Handlers
             }
         }
 
-         void GiveHanditem()
+     public void GiveHanditem()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
@@ -1961,7 +1961,7 @@ namespace Yupi.Emulator.Messages.Handlers
             roomUserByHabbo2.DanceId = 0;
         }
 
-         void RedeemVoucher()
+     public void RedeemVoucher()
         {
             string query = Request.GetString();
             string productName = string.Empty;
@@ -1996,7 +1996,7 @@ namespace Yupi.Emulator.Messages.Handlers
             Session.GetHabbo().NotifyVoucher(isValid, productName, productDescription);
         }
 
-         void RemoveHanditem()
+     public void RemoveHanditem()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
@@ -2006,7 +2006,7 @@ namespace Yupi.Emulator.Messages.Handlers
                 roomUserByHabbo.CarryItem(0);
         }
 
-         void Ride()
+     public void Ride()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
@@ -2122,7 +2122,7 @@ namespace Yupi.Emulator.Messages.Handlers
             room.SendMessage(simpleServerMessageBuffer);
         }
 
-         void SaveWired()
+     public void SaveWired()
         {
             uint pId = Request.GetUInt32();
 
@@ -2136,7 +2136,7 @@ namespace Yupi.Emulator.Messages.Handlers
             WiredSaver.SaveWired(Session, item, Request);
         }
 
-         void SaveWiredCondition()
+     public void SaveWiredCondition()
         {
             uint pId = Request.GetUInt32();
 
@@ -2150,7 +2150,7 @@ namespace Yupi.Emulator.Messages.Handlers
             WiredSaver.SaveWired(Session, item, Request);
         }
 
-         void GetTvPlaylist()
+     public void GetTvPlaylist()
         {
             uint num = Request.GetUInt32();
 
@@ -2179,12 +2179,12 @@ namespace Yupi.Emulator.Messages.Handlers
             SendResponse();
         }
 
-         void ChooseTvPlayerVideo()
+     public void ChooseTvPlayerVideo()
         {
             // Not Coded? @TODO
         }
 
-         void GetTvPlayer()
+     public void GetTvPlayer()
         {
             uint itemId = Request.GetUInt32();
 
@@ -2221,7 +2221,7 @@ namespace Yupi.Emulator.Messages.Handlers
             SendResponse();
         }
 
-         void PlaceBot()
+     public void PlaceBot()
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
@@ -2265,7 +2265,7 @@ namespace Yupi.Emulator.Messages.Handlers
             Session.SendMessage(Session.GetHabbo().GetInventoryComponent().SerializeBotInventory());
         }
 
-         void PickUpBot()
+     public void PickUpBot()
         {
             uint id = Request.GetUInt32();
 
@@ -2289,7 +2289,7 @@ namespace Yupi.Emulator.Messages.Handlers
             Session.SendMessage(Session.GetHabbo().GetInventoryComponent().SerializeBotInventory());
         }
 			
-         void CancelMysteryBox()
+     public void CancelMysteryBox()
         {
             Request.GetUInt32();
             RoomUser roomUserByHabbo =
@@ -2315,7 +2315,7 @@ namespace Yupi.Emulator.Messages.Handlers
             item.UpdateState(true, true);
         }
 
-         void PlaceBuildersFurniture()
+     public void PlaceBuildersFurniture()
         {
             Request.GetInteger();
             uint itemId = Convert.ToUInt32(Request.GetInteger());
@@ -2362,7 +2362,7 @@ namespace Yupi.Emulator.Messages.Handlers
             }
         }
 
-         void PlaceBuildersWallItem()
+     public void PlaceBuildersWallItem()
         {
             /*var pageId = */
             Request.GetInteger();
@@ -2400,7 +2400,7 @@ namespace Yupi.Emulator.Messages.Handlers
             }
         }
 
-         void BuildersClubUpdateFurniCount()
+     public void BuildersClubUpdateFurniCount()
         {
             if (Session.GetHabbo().BuildersItemsUsed < 0)
                 Session.GetHabbo().BuildersItemsUsed = 0;
@@ -2411,7 +2411,7 @@ namespace Yupi.Emulator.Messages.Handlers
             Session.SendMessage(messageBuffer);
         }
 
-         void ConfirmLoveLock()
+     public void ConfirmLoveLock()
         {
             uint pId = Request.GetUInt32();
             bool confirmLoveLock = Request.GetBool();
@@ -2513,7 +2513,7 @@ namespace Yupi.Emulator.Messages.Handlers
             userTwo.CanWalk = true;
         }
 
-         void SaveFootballOutfit()
+     public void SaveFootballOutfit()
         {
             uint pId = Request.GetUInt32();
             string gender = Request.GetString();
@@ -2565,7 +2565,7 @@ namespace Yupi.Emulator.Messages.Handlers
             Session.SendMessage(messageBuffer);
         }
 
-         void SaveMannequin()
+     public void SaveMannequin()
         {
             uint pId = Request.GetUInt32();
             string text = Request.GetString();
@@ -2597,7 +2597,7 @@ namespace Yupi.Emulator.Messages.Handlers
             }
         }
 
-         void SaveMannequin2()
+     public void SaveMannequin2()
         {
             uint pId = Request.GetUInt32();
             RoomItem item = Session.GetHabbo().CurrentRoom.GetRoomItemHandler().GetItem(pId);
@@ -2642,7 +2642,7 @@ namespace Yupi.Emulator.Messages.Handlers
             }
         }
 
-         void EjectFurni()
+     public void EjectFurni()
         {
             Request.GetInteger();
 
@@ -2681,7 +2681,7 @@ namespace Yupi.Emulator.Messages.Handlers
 			}
         }
 
-         void UsePurchasableClothing()
+     public void UsePurchasableClothing()
         {
             uint furniId = Request.GetUInt32();
 
@@ -2716,6 +2716,6 @@ namespace Yupi.Emulator.Messages.Handlers
 		}
 
 		// TODO Which request is being referenced here???
-         void GetUserLook() => Request.GetString();
+     public void GetUserLook() => Request.GetString();
     }
 }

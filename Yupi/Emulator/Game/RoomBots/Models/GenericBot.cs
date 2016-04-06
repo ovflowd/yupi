@@ -38,7 +38,7 @@ namespace Yupi.Emulator.Game.RoomBots.Models
     /// <summary>
     ///     Class GenericBot.
     /// </summary>
-     class GenericBot : BaseBot
+     public class GenericBot : BaseBot
     {
         /// <summary>
         ///     The random
@@ -71,7 +71,7 @@ namespace Yupi.Emulator.Game.RoomBots.Models
         /// <param name="roomBot">The room bot.</param>
         /// <param name="virtualId">The virtual identifier.</param>
         /// <param name="speechInterval">The speech interval.</param>
-         GenericBot(RoomBot roomBot, int virtualId, uint speechInterval)
+     public GenericBot(RoomBot roomBot, int virtualId, uint speechInterval)
         {
             _virtualId = virtualId;
             _speechInterval = speechInterval < 2 ? 2000 : speechInterval*1000;
@@ -85,7 +85,7 @@ namespace Yupi.Emulator.Game.RoomBots.Models
         /// <summary>
         ///     Modifieds this instance.
         /// </summary>
-         override void Modified()
+     public override void Modified()
         {
             if (GetBotData() == null)
                 return;
@@ -112,7 +112,7 @@ namespace Yupi.Emulator.Game.RoomBots.Models
         /// <summary>
         ///     Called when [timer tick].
         /// </summary>
-         override void OnTimerTick()
+     public override void OnTimerTick()
         {
             if (GetBotData() == null)
                 return;
@@ -159,7 +159,7 @@ namespace Yupi.Emulator.Game.RoomBots.Models
         /// </summary>
         /// <param name="user">The user.</param>
         /// <param name="message">The message.</param>
-         override void OnUserSay(RoomUser user, string message)
+     public override void OnUserSay(RoomUser user, string message)
         {
             if (Gamemap.TileDistance(GetRoomUser().X, GetRoomUser().Y, user.X, user.Y) > 16)
                 return;
@@ -201,7 +201,7 @@ namespace Yupi.Emulator.Game.RoomBots.Models
         /// </summary>
         /// <param name="user">The user.</param>
         /// <param name="message">The message.</param>
-         override void OnUserShout(RoomUser user, string message)
+     public override void OnUserShout(RoomUser user, string message)
             => GetRoomUser().Chat(null, "Não precisa gritar, caramba! Se precisa de algo basta vir aqui.", false, 0);
 
         /// <summary>
@@ -218,7 +218,7 @@ namespace Yupi.Emulator.Game.RoomBots.Models
             _chatTimer = null;
         }
 
-         override void OnChatTick()
+     public override void OnChatTick()
         {
             if (GetBotData() == null || GetRoomUser() == null || GetBotData().WasPicked ||
                 GetBotData().RandomSpeech == null || !GetBotData().RandomSpeech.Any())

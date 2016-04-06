@@ -7,7 +7,7 @@ namespace Yupi.Emulator.Game.Users
     /// <summary>
     ///     Class UserPreferences.
     /// </summary>
-     class UserPreferences
+     public class UserPreferences
     {
         /// <summary>
         ///     User Id
@@ -17,53 +17,53 @@ namespace Yupi.Emulator.Game.Users
         /// <summary>
         ///     User Chat Color
         /// </summary>
-         int ChatColor;
+     public int ChatColor;
 
         /// <summary>
         ///     Disable Room Camera
         /// </summary>
-         bool DisableCameraFollow;
+     public bool DisableCameraFollow;
 
         /// <summary>
         ///     Ignore Room Invitations
         /// </summary>
-         bool IgnoreRoomInvite;
+     public bool IgnoreRoomInvite;
 
         /// <summary>
         ///     Navigator Height
         /// </summary>
-         int NavigatorHeight = 600;
+     public int NavigatorHeight = 600;
 
         /// <summary>
         ///     Navigator Width
         /// </summary>
-         int NavigatorWidth = 580;
+     public int NavigatorWidth = 580;
 
         /// <summary>
         ///     Navigator Position X
         /// </summary>
-         int NewnaviX;
+     public int NewnaviX;
 
         /// <summary>
         ///     Navigator Position Y
         /// </summary>
-         int NewnaviY;
+     public int NewnaviY;
 
         /// <summary>
         ///     User Prefers Old Chat
         /// </summary>
-         bool PreferOldChat;
+     public bool PreferOldChat;
 
         /// <summary>
         ///     User Volume Settings
         /// </summary>
-         string Volume = "0,0,0";
+     public string Volume = "0,0,0";
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="UserPreferences" /> class.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
-         UserPreferences(uint userId)
+     public UserPreferences(uint userId)
         {
             _userId = userId;
 
@@ -109,7 +109,7 @@ namespace Yupi.Emulator.Game.Users
             ChatColor = Convert.ToInt32(userPreferences["chat_color"]);
         }
 
-         void Save()
+     public void Save()
         {
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {

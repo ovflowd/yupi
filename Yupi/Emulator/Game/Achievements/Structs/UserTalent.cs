@@ -27,17 +27,17 @@ namespace Yupi.Emulator.Game.Achievements.Structs
     /// <summary>
     ///     Class UserTalent.
     /// </summary>
-     struct UserTalent
+     public struct UserTalent
     {
         /// <summary>
         ///     The talent identifier
         /// </summary>
-         int TalentId;
+     public int TalentId;
 
         /// <summary>
         ///     The state
         /// </summary>
-         int State;
+     public int State;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="UserTalent" /> class.

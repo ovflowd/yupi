@@ -6,7 +6,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class RemoveBadge. This class cannot be inherited.
     /// </summary>
-     sealed class RemoveBadge : Command
+     public sealed class RemoveBadge : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="RemoveBadge" /> class.

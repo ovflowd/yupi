@@ -3,7 +3,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Enums
     /// <summary>
     ///     Enum ItemEffectType
     /// </summary>
-     enum ItemEffectType
+     public enum ItemEffectType
     {
         /// <summary>
         ///     The none

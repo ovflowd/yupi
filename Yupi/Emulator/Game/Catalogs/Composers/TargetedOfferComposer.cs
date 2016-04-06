@@ -4,9 +4,9 @@ using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Catalogs.Composers
 {
-     class TargetedOfferComposer
+     public class TargetedOfferComposer
     {
-         static void GenerateMessage(SimpleServerMessageBuffer messageBuffer, TargetedOffer offer)
+     public static void GenerateMessage(SimpleServerMessageBuffer messageBuffer, TargetedOffer offer)
         {
             messageBuffer.Init(PacketLibraryManager.OutgoingHandler("TargetedOfferMessageComposer"));
             messageBuffer.AppendInteger(1);

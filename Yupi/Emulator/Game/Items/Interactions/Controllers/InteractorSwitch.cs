@@ -7,7 +7,7 @@ using Yupi.Emulator.Game.Rooms.User.Path;
 
 namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 {
-     class InteractorSwitch : FurniInteractorModel
+     public class InteractorSwitch : FurniInteractorModel
     {
         public override void OnTrigger(GameClient session, RoomItem item, int request, bool hasRights)
         {

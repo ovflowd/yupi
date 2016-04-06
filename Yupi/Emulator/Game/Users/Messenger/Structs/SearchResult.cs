@@ -5,32 +5,32 @@ namespace Yupi.Emulator.Game.Users.Messenger.Structs
     /// <summary>
     ///     Struct SearchResult
     /// </summary>
-     struct SearchResult
+     public struct SearchResult
     {
         /// <summary>
         ///     The user identifier
         /// </summary>
-         uint UserId;
+     public uint UserId;
 
         /// <summary>
         ///     The user name
         /// </summary>
-         string UserName;
+     public string UserName;
 
         /// <summary>
         ///     The motto
         /// </summary>
-         string Motto;
+     public string Motto;
 
         /// <summary>
         ///     The look
         /// </summary>
-         string Look;
+     public string Look;
 
         /// <summary>
         ///     The last online
         /// </summary>
-         string LastOnline;
+     public string LastOnline;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="SearchResult" /> struct.
@@ -53,7 +53,7 @@ namespace Yupi.Emulator.Game.Users.Messenger.Structs
         ///     Searializes the specified reply.
         /// </summary>
         /// <param name="reply">The reply.</param>
-         void Searialize(SimpleServerMessageBuffer reply)
+     public void Searialize(SimpleServerMessageBuffer reply)
         {
             reply.AppendInteger(UserId);
             reply.AppendString(UserName);

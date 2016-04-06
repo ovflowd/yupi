@@ -7,7 +7,7 @@ using Yupi.Emulator.Game.Rooms.User;
 
 namespace Yupi.Emulator.Game.Items.Wired.Handlers.Conditions
 {
-     class UserHasHanditem : IWiredItem
+     public class UserHasHanditem : IWiredItem
     {
         public UserHasHanditem(RoomItem item, Room room)
         {

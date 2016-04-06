@@ -29,7 +29,7 @@ namespace Yupi.Emulator.Core.Util.Math
     /// <summary>
     ///     Class RandomNumberGenerator.
     /// </summary>
-     static class RandomNumberGenerator
+     public static class RandomNumberGenerator
     {
         /// <summary>
         ///     The global random

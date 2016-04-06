@@ -8,7 +8,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class SayAll. This class cannot be inherited.
     /// </summary>
-     sealed class SayAll : Command
+     public sealed class SayAll : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="Alert" /> class.

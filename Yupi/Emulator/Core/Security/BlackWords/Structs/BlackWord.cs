@@ -29,7 +29,7 @@ namespace Yupi.Emulator.Core.Security.BlackWords.Structs
     /// <summary>
     ///     Struct BlackWord
     /// </summary>
-     struct BlackWord
+     public struct BlackWord
     {
         /// <summary>
         ///     The word

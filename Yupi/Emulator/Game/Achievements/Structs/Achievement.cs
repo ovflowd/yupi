@@ -29,27 +29,27 @@ namespace Yupi.Emulator.Game.Achievements.Structs
     /// <summary>
     ///     Class Achievement.
     /// </summary>
-     class Achievement
+     public class Achievement
     {
         /// <summary>
         ///     The category
         /// </summary>
-         readonly string Category;
+     public readonly string Category;
 
         /// <summary>
         ///     The group name
         /// </summary>
-         readonly string GroupName;
+     public readonly string GroupName;
 
         /// <summary>
         ///     The identifier
         /// </summary>
-         readonly uint Id;
+     public readonly uint Id;
 
         /// <summary>
         ///     The levels
         /// </summary>
-         readonly Dictionary<uint, AchievementLevel> Levels;
+     public readonly Dictionary<uint, AchievementLevel> Levels;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Achievement" /> class.
@@ -57,7 +57,7 @@ namespace Yupi.Emulator.Game.Achievements.Structs
         /// <param name="id">The identifier.</param>
         /// <param name="groupName">Name of the group.</param>
         /// <param name="category">The category.</param>
-         Achievement(uint id, string groupName, string category)
+     public Achievement(uint id, string groupName, string category)
         {
             Id = id;
             GroupName = groupName;
@@ -70,8 +70,8 @@ namespace Yupi.Emulator.Game.Achievements.Structs
         ///     Adds the level.
         /// </summary>
         /// <param name="level">The level.</param>
-         void AddLevel(AchievementLevel level) => Levels.Add(level.Level, level);
+     public void AddLevel(AchievementLevel level) => Levels.Add(level.Level, level);
 
-         bool CheckLevel(AchievementLevel level) => Levels.ContainsKey(level.Level);
+     public bool CheckLevel(AchievementLevel level) => Levels.ContainsKey(level.Level);
     }
 }

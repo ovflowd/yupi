@@ -1,9 +1,9 @@
 namespace Yupi.Emulator.Game.Rooms.RoomInvokedItems
 {
-     struct RoomKick
+     public struct RoomKick
     {
-         string Alert;
-         int MinRank;
+     public string Alert;
+     public int MinRank;
 
         public RoomKick(string alert, int minRank)
         {

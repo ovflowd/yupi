@@ -10,7 +10,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class RefreshCatalogue. This class cannot be inherited.
     /// </summary>
-     sealed class RefreshCatalogue : Command
+     public sealed class RefreshCatalogue : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="RefreshCatalogue" /> class.

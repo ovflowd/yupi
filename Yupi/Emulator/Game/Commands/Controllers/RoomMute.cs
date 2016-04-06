@@ -7,7 +7,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class RoomMute. This class cannot be inherited.
     /// </summary>
-     sealed class RoomMute : Command
+     public sealed class RoomMute : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="RoomMute" /> class.

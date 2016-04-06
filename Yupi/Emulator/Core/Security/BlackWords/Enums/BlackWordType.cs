@@ -27,7 +27,7 @@ namespace Yupi.Emulator.Core.Security.BlackWords.Enums
     /// <summary>
     ///     Enum BlackWordType
     /// </summary>
-     enum BlackWordType
+     public enum BlackWordType
     {
         /// <summary>
         ///     The hotel

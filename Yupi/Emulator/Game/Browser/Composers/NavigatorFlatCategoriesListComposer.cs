@@ -9,7 +9,7 @@ namespace Yupi.Emulator.Game.Browser.Composers
 {
     class NavigatorFlatCategoriesListComposer
     {
-         static SimpleServerMessageBuffer Compose(GameClient session)
+     public static SimpleServerMessageBuffer Compose(GameClient session)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("FlatCategoriesMessageComposer"));
 

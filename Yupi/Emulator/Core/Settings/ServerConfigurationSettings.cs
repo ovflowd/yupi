@@ -31,12 +31,12 @@ namespace Yupi.Emulator.Core.Settings
     /// <summary>
     ///     Class ServerConfigurationSettings.
     /// </summary>
-     static class ServerConfigurationSettings
+     public static class ServerConfigurationSettings
     {
         /// <summary>
         ///     The data
         /// </summary>
-         static Dictionary<string, string> Data = new Dictionary<string, string>();
+     public static Dictionary<string, string> Data = new Dictionary<string, string>();
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="ServerConfigurationSettings" /> class.
@@ -45,7 +45,7 @@ namespace Yupi.Emulator.Core.Settings
         /// <param name="mayNotExist">if set to <c>true</c> [may not exist].</param>
         /// <exception cref="System.ArgumentException">
         /// </exception>
-         static void Load(string filePath, bool mayNotExist = false)
+     public static void Load(string filePath, bool mayNotExist = false)
         {
             if (!File.Exists(filePath))
             {

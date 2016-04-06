@@ -7,7 +7,7 @@ namespace Yupi.Emulator.Game.Browser.Composers
 {
     class NavigatorPreferencesComposer
     {
-         static SimpleServerMessageBuffer Compose(GameClient session)
+     public static SimpleServerMessageBuffer Compose(GameClient session)
         {
             SimpleServerMessageBuffer navigatorPreferences = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("NewNavigatorSizeMessageComposer"));
 

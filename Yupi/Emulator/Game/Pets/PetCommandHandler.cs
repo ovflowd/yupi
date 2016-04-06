@@ -33,7 +33,7 @@ namespace Yupi.Emulator.Game.Pets
     /// <summary>
     ///     Class PetCommandHandler.
     /// </summary>
-     class PetCommandHandler
+     public class PetCommandHandler
     {
         /// <summary>
         ///     The _pet commands
@@ -44,7 +44,7 @@ namespace Yupi.Emulator.Game.Pets
         ///     Initializes the specified database client.
         /// </summary>
         /// <param name="dbClient">The database client.</param>
-         static void Init(IQueryAdapter dbClient)
+     public static void Init(IQueryAdapter dbClient)
         {
             dbClient.SetQuery("SELECT * FROM pets_commands");
 
@@ -56,21 +56,21 @@ namespace Yupi.Emulator.Game.Pets
                 _petCommands.Add(uint.Parse(dataRow["id"].ToString()), new PetCommand(dataRow));
         }
 
-         static Dictionary<uint, PetCommand> GetAllPetCommands()
+     public static Dictionary<uint, PetCommand> GetAllPetCommands()
             => _petCommands.ToDictionary(p => p.Key, p => p.Value);
 
-         static Dictionary<uint, PetCommand> GetPetCommandByPetType(string petType)
+     public static Dictionary<uint, PetCommand> GetPetCommandByPetType(string petType)
             =>
                 _petCommands.Where(p => p.Value.PetTypes.Contains(petType.ToString()))
                     .ToDictionary(p => p.Key, p => p.Value);
 
-         static int GetPetCommandCountByPetType(string petType)
+     public static int GetPetCommandCountByPetType(string petType)
             => _petCommands.Count(p => p.Value.PetTypes.Contains(petType.ToString()));
 
-         static PetCommand GetPetCommandById(uint commandId)
+     public static PetCommand GetPetCommandById(uint commandId)
             => _petCommands.FirstOrDefault(p => p.Key == commandId).Value;
 
-         static PetCommand GetPetCommandByInput(string userInput)
+     public static PetCommand GetPetCommandByInput(string userInput)
             => _petCommands.FirstOrDefault(p => p.Value.CommandInput.Contains(userInput)).Value;
     }
 }

@@ -10,7 +10,7 @@ using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Commands.Controllers
 {
-     sealed class MakePrivate : Command
+     public sealed class MakePrivate : Command
     {
         public MakePrivate()
         {

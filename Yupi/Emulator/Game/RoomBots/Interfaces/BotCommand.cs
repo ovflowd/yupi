@@ -30,60 +30,60 @@ namespace Yupi.Emulator.Game.RoomBots.Interfaces
     /// <summary>
     ///     Class CatalogBot.
     /// </summary>
-     class BotCommand
+     public class BotCommand
     {
         /// <summary>
         ///     The action bot
         /// </summary>
-         string ActionBot;
+     public string ActionBot;
 
         /// <summary>
         ///     The action command
         /// </summary>
-         string ActionCommand;
+     public string ActionCommand;
 
         /// <summary>
         ///     The action command parameters
         /// </summary>
-         string ActionCommandParameters;
+     public string ActionCommandParameters;
 
         /// <summary>
         ///     The bot type
         /// </summary>
-         string BotType;
+     public string BotType;
 
-         bool ForceBotCommand;
+     public bool ForceBotCommand;
 
         /// <summary>
         ///     The speeches speech identifier
         /// </summary>
-         uint SpeechesSpeechId;
+     public uint SpeechesSpeechId;
 
         /// <summary>
         ///     The bot SpeechInput
         /// </summary>
-         string SpeechInput;
+     public string SpeechInput;
 
         /// <summary>
         ///     The bot SpeechInputAlias
         /// </summary>
-         string[] SpeechInputAlias;
+     public string[] SpeechInputAlias;
 
         /// <summary>
         ///     The bot gender
         /// </summary>
-         bool SpeechIsFromSpeeches;
+     public bool SpeechIsFromSpeeches;
 
         /// <summary>
         ///     The bot SpeechOutput
         /// </summary>
-         string SpeechOutput;
+     public string SpeechOutput;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="CatalogBot" /> class.
         /// </summary>
         /// <param name="row">The row.</param>
-         BotCommand(DataRow row)
+     public BotCommand(DataRow row)
         {
             BotType = row["bot_type"].ToString();
             SpeechInput = row["speech_input"].ToString();

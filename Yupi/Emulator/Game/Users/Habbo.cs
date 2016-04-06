@@ -137,7 +137,7 @@ namespace Yupi.Emulator.Game.Users
         /// <summary>
         ///     The current room identifier
         /// </summary>
-         uint CurrentRoomId;
+     public uint CurrentRoomId;
 
         /// <summary>
         ///     The current talent level

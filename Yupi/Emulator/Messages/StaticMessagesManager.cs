@@ -9,7 +9,7 @@ namespace Yupi.Emulator.Messages
     ///     Class StaticMessagesManager.
     ///     @TODO: Remove This Xit because is BAD. (The entire class)
     /// </summary>
-     static class StaticMessagesManager
+     public static class StaticMessagesManager
     {
         /// <summary>
         ///     Static Message Cache

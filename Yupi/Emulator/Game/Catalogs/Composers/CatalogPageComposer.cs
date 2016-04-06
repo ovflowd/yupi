@@ -14,7 +14,7 @@ namespace Yupi.Emulator.Game.Catalogs.Composers
     /// <summary>
     ///     Class CatalogPacket.
     /// </summary>
-     static class CatalogPageComposer
+     public static class CatalogPageComposer
     {
         /// <summary>
         ///     Composes the index.
@@ -22,7 +22,7 @@ namespace Yupi.Emulator.Game.Catalogs.Composers
         /// <param name="rank">The rank.</param>
         /// <param name="type">The type.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-         static SimpleServerMessageBuffer ComposeIndex(uint rank, string type)
+     public static SimpleServerMessageBuffer ComposeIndex(uint rank, string type)
         {
             IEnumerable<CatalogPage> pages =
                 Yupi.GetGame().GetCatalogManager().Categories.Values.OfType<CatalogPage>().ToList();
@@ -86,7 +86,7 @@ namespace Yupi.Emulator.Game.Catalogs.Composers
         /// </summary>
         /// <param name="page">The page.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-         static SimpleServerMessageBuffer ComposePage(CatalogPage page)
+     public static SimpleServerMessageBuffer ComposePage(CatalogPage page)
         {
             SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("CataloguePageMessageComposer"));
             messageBuffer.AppendInteger(page.PageId);
@@ -463,7 +463,7 @@ namespace Yupi.Emulator.Game.Catalogs.Composers
         /// <param name="session">The session.</param>
         /// <param name="windowId">The window identifier.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-         static SimpleServerMessageBuffer ComposeClubPurchasePage(GameClient session, int windowId)
+     public static SimpleServerMessageBuffer ComposeClubPurchasePage(GameClient session, int windowId)
         {
             SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("CatalogueClubPageMessageComposer"));
             List<CatalogItem> habboClubItems = Yupi.GetGame().GetCatalogManager().HabboClubItems;
@@ -525,7 +525,7 @@ namespace Yupi.Emulator.Game.Catalogs.Composers
             return messageBuffer;
         }
 
-         static SimpleServerMessageBuffer PurchaseOk(CatalogItem itemCatalog, Dictionary<Item, uint> items,
+     public static SimpleServerMessageBuffer PurchaseOk(CatalogItem itemCatalog, Dictionary<Item, uint> items,
             int clubLevel = 1)
         {
             return PurchaseOk(itemCatalog.Id, itemCatalog.Name, itemCatalog.CreditsCost, items, clubLevel,
@@ -537,7 +537,7 @@ namespace Yupi.Emulator.Game.Catalogs.Composers
         ///     Purchases the ok.
         /// </summary>
         /// <returns>SimpleServerMessageBuffer.</returns>
-         static SimpleServerMessageBuffer PurchaseOk(uint itemId, string itemName, uint creditsCost,
+     public static SimpleServerMessageBuffer PurchaseOk(uint itemId, string itemName, uint creditsCost,
             Dictionary<Item, uint> items = null, int clubLevel = 1,
             uint diamondsCost = 0,
             uint activityPointsCost = 0, bool isLimited = false,
@@ -591,7 +591,7 @@ namespace Yupi.Emulator.Game.Catalogs.Composers
         /// </summary>
         /// <param name="item">The item.</param>
         /// <param name="message">The messageBuffer.</param>
-         static void ComposeItem(CatalogItem item, SimpleServerMessageBuffer messageBuffer)
+     public static void ComposeItem(CatalogItem item, SimpleServerMessageBuffer messageBuffer)
         {
             messageBuffer.AppendInteger(item.Id);
 

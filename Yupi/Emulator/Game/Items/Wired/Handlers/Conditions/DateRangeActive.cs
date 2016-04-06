@@ -6,7 +6,7 @@ using Yupi.Emulator.Game.Rooms;
 
 namespace Yupi.Emulator.Game.Items.Wired.Handlers.Conditions
 {
-     class DateRangeActive : IWiredItem
+     public class DateRangeActive : IWiredItem
     {
         public DateRangeActive(RoomItem item, Room room)
         {

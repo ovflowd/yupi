@@ -6,22 +6,22 @@ namespace Yupi.Emulator.Game.Support
     /// <summary>
     ///     Class HelperSession.
     /// </summary>
-     class HelperSession
+     public class HelperSession
     {
         /// <summary>
         ///     The chats
         /// </summary>
-         List<string> Chats;
+     public List<string> Chats;
 
         /// <summary>
         ///     The helper
         /// </summary>
-         GameClient Helper;
+     public GameClient Helper;
 
         /// <summary>
         ///     The requester
         /// </summary>
-         GameClient Requester;
+     public GameClient Requester;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="HelperSession" /> class.
@@ -29,7 +29,7 @@ namespace Yupi.Emulator.Game.Support
         /// <param name="helper">The helper.</param>
         /// <param name="requester">The requester.</param>
         /// <param name="question">The question.</param>
-         HelperSession(GameClient helper, GameClient requester, string question)
+     public HelperSession(GameClient helper, GameClient requester, string question)
         {
             Helper = helper;
             Requester = requester;
@@ -42,7 +42,7 @@ namespace Yupi.Emulator.Game.Support
         /// </summary>
         /// <param name="responseClient">The response client.</param>
         /// <param name="response">The response.</param>
-         void Response(GameClient responseClient, string response)
+     public void Response(GameClient responseClient, string response)
         {
         }
     }

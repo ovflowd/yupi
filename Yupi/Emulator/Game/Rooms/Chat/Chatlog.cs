@@ -8,29 +8,29 @@ namespace Yupi.Emulator.Game.Rooms.Chat
     /// <summary>
     ///     Class Chatlog.
     /// </summary>
-     class Chatlog
+     public class Chatlog
     {
-         bool GlobalMessage;
+     public bool GlobalMessage;
 
         /// <summary>
         ///     The is saved
         /// </summary>
-         bool IsSaved;
+     public bool IsSaved;
 
         /// <summary>
         ///     The messageBuffer
         /// </summary>
-         string Message;
+     public string Message;
 
         /// <summary>
         ///     The timestamp
         /// </summary>
-         DateTime TimeStamp;
+     public DateTime TimeStamp;
 
         /// <summary>
         ///     The user identifier
         /// </summary>
-         uint UserId;
+     public uint UserId;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Chatlog" /> class.
@@ -40,7 +40,7 @@ namespace Yupi.Emulator.Game.Rooms.Chat
         /// <param name="time">The time.</param>
         /// <param name="globalMessage"></param>
         /// <param name="fromDatabase">if set to <c>true</c> [from database].</param>
-         Chatlog(uint user, string msg, DateTime time, bool globalMessage, bool fromDatabase = false)
+     public Chatlog(uint user, string msg, DateTime time, bool globalMessage, bool fromDatabase = false)
         {
             UserId = user;
             Message = msg;
@@ -53,7 +53,7 @@ namespace Yupi.Emulator.Game.Rooms.Chat
         ///     Saves the specified room identifier.
         /// </summary>
         /// <param name="roomId"></param>
-         void Save(uint roomId)
+     public void Save(uint roomId)
         {
             if (IsSaved)
                 return;
@@ -67,7 +67,7 @@ namespace Yupi.Emulator.Game.Rooms.Chat
             }
         }
 
-         void Serialize(ref SimpleServerMessageBuffer messageBuffer)
+     public void Serialize(ref SimpleServerMessageBuffer messageBuffer)
         {
             Habbo habbo = Yupi.GetHabboById(UserId);
 

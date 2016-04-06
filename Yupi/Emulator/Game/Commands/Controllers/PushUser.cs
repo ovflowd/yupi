@@ -9,7 +9,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class PushUser. This class cannot be inherited.
     /// </summary>
-     sealed class PushUser : Command
+     public sealed class PushUser : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="PushUser" /> class.

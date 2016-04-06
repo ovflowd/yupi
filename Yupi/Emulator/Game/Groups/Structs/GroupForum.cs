@@ -27,55 +27,55 @@ namespace Yupi.Emulator.Game.Groups.Structs
     /// <summary>
     ///     Class GroupForum.
     /// </summary>
-     class GroupForum
+     public class GroupForum
     {
         /// <summary>
         ///     The forum description
         /// </summary>
-         string ForumDescription;
+     public string ForumDescription;
 
         /// <summary>
         ///     The forum last poster identifier
         /// </summary>
-         uint ForumLastPosterId;
+     public uint ForumLastPosterId;
 
         /// <summary>
         ///     The forum last poster name
         /// </summary>
-         string ForumLastPosterName;
+     public string ForumLastPosterName;
 
         /// <summary>
         ///     The forum last poster timestamp
         /// </summary>
-         uint ForumLastPosterTimestamp;
+     public uint ForumLastPosterTimestamp;
 
         /// <summary>
         ///     The forum messages count
         /// </summary>
-         uint ForumMessagesCount;
+     public uint ForumMessagesCount;
 
         /// <summary>
         ///     The forum name
         /// </summary>
-         string ForumName;
+     public string ForumName;
 
         /// <summary>
         ///     The forum score
         /// </summary>
-         double ForumScore;
+     public double ForumScore;
 
         /// <summary>
         ///     The identifier
         /// </summary>
-         uint Id;
+     public uint Id;
 
-         uint WhoCanMod;
+     public uint WhoCanMod;
 
-         uint WhoCanPost;
+     public uint WhoCanPost;
 
-         uint WhoCanRead;
+     public uint WhoCanRead;
 
-         uint WhoCanThread;
+     public uint WhoCanThread;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="GroupForum" /> class.
@@ -92,7 +92,7 @@ namespace Yupi.Emulator.Game.Groups.Structs
         /// <param name="whoCanPost"></param>
         /// <param name="whoCanThread"></param>
         /// <param name="whoCanMod"></param>
-         GroupForum(uint id, string forumName,
+     public GroupForum(uint id, string forumName,
             string forumDescription, uint forumMessagesCount, double forumScore, uint forumLastPosterId,
             string forumLastPosterName, uint forumLastPosterTimestamp,
             uint whoCanRead, uint whoCanPost, uint whoCanThread, uint whoCanMod)
@@ -115,6 +115,6 @@ namespace Yupi.Emulator.Game.Groups.Structs
         ///     Gets the forum last post time.
         /// </summary>
         /// <value>The forum last post time.</value>
-         uint ForumLastPostTime => (uint) Yupi.GetUnixTimeStamp() - ForumLastPosterTimestamp;
+     public uint ForumLastPostTime => (uint) Yupi.GetUnixTimeStamp() - ForumLastPosterTimestamp;
     }
 }

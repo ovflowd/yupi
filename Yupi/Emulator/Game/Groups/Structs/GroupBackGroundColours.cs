@@ -27,24 +27,24 @@ namespace Yupi.Emulator.Game.Groups.Structs
     /// <summary>
     ///     Struct GroupBackGroundColours
     /// </summary>
-     struct GroupBackGroundColours
+     public struct GroupBackGroundColours
     {
         /// <summary>
         ///     The identifier
         /// </summary>
-         int Id;
+     public int Id;
 
         /// <summary>
         ///     The colour
         /// </summary>
-         string Colour;
+     public string Colour;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="GroupBackGroundColours" /> struct.
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="colour">The colour.</param>
-         GroupBackGroundColours(int id, string colour)
+     public GroupBackGroundColours(int id, string colour)
         {
             Id = id;
             Colour = colour;

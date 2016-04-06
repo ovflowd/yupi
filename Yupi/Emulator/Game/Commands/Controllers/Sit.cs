@@ -6,7 +6,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class Sit. This class cannot be inherited.
     /// </summary>
-     sealed class Sit : Command
+     public sealed class Sit : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="Sit" /> class.

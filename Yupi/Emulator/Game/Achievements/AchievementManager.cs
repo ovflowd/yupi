@@ -46,19 +46,19 @@ namespace Yupi.Emulator.Game.Achievements
         /// <summary>
         ///     The achievement data cached
         /// </summary>
-         SimpleServerMessageBuffer AchievementDataCached;
+     public SimpleServerMessageBuffer AchievementDataCached;
 
         /// <summary>
         ///     The achievements
         /// </summary>
-         Dictionary<string, Achievement> Achievements;
+     public Dictionary<string, Achievement> Achievements;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="AchievementManager" /> class.
         /// </summary>
         /// <param name="dbClient">The database client.</param>
         /// <param name="loadedAchs">The loaded achs.</param>
-         AchievementManager(IQueryAdapter dbClient, out uint loadedAchs)
+     public AchievementManager(IQueryAdapter dbClient, out uint loadedAchs)
         {
             Achievements = new Dictionary<string, Achievement>();
 
@@ -71,7 +71,7 @@ namespace Yupi.Emulator.Game.Achievements
         ///     Loads the achievements.
         /// </summary>
         /// <param name="dbClient">The database client.</param>
-         void LoadAchievements(IQueryAdapter dbClient)
+     public void LoadAchievements(IQueryAdapter dbClient)
         {
             Achievements.Clear();
 
@@ -100,14 +100,14 @@ namespace Yupi.Emulator.Game.Achievements
         ///     Gets the list.
         /// </summary>
         /// <param name="session">The session.</param>
-         void GetList(GameClient session)
+     public void GetList(GameClient session)
             => session.SendMessage(AchievementListComposer.Compose(session, Achievements.Values.ToList()));
 
         /// <summary>
         ///     Tries the progress login achievements.
         /// </summary>
         /// <param name="session">The session.</param>
-         void TryProgressLoginAchievements(GameClient session)
+     public void TryProgressLoginAchievements(GameClient session)
         {
             if (session.GetHabbo() == null)
                 return;
@@ -129,7 +129,7 @@ namespace Yupi.Emulator.Game.Achievements
         ///     Tries the progress registration achievements.
         /// </summary>
         /// <param name="session">The session.</param>
-         void TryProgressRegistrationAchievements(GameClient session)
+     public void TryProgressRegistrationAchievements(GameClient session)
         {
             if (session.GetHabbo() == null)
                 return;
@@ -165,7 +165,7 @@ namespace Yupi.Emulator.Game.Achievements
         ///     Tries the progress habbo club achievements.
         /// </summary>
         /// <param name="session">The session.</param>
-         void TryProgressHabboClubAchievements(GameClient session)
+     public void TryProgressHabboClubAchievements(GameClient session)
         {
             if (session.GetHabbo() == null || !session.GetHabbo().GetSubscriptionManager().HasSubscription)
                 return;
@@ -229,7 +229,7 @@ namespace Yupi.Emulator.Game.Achievements
         /// <param name="progressAmount">The progress amount.</param>
         /// <param name="fromZero">if set to <c>true</c> [from zero].</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-         bool ProgressUserAchievement(GameClient session, string achievementGroup, uint progressAmount,
+     public bool ProgressUserAchievement(GameClient session, string achievementGroup, uint progressAmount,
             bool fromZero = false)
         {
             if (Achievements.ContainsKey(achievementGroup) && session?.GetHabbo() != null)
@@ -384,7 +384,7 @@ namespace Yupi.Emulator.Game.Achievements
         /// </summary>
         /// <param name="achievementGroup">The achievement group.</param>
         /// <returns>Achievement.</returns>
-         Achievement GetAchievement(string achievementGroup)
+     public Achievement GetAchievement(string achievementGroup)
             => Achievements.ContainsKey(achievementGroup) ? Achievements[achievementGroup] : null;
     }
 }

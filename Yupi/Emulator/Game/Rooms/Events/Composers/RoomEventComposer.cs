@@ -7,7 +7,7 @@ namespace Yupi.Emulator.Game.Rooms.Events.Composers
 {
     class RoomEventComposer
     {
-         static SimpleServerMessageBuffer Compose(RoomEvent roomEvent, Room room)
+     public static SimpleServerMessageBuffer Compose(RoomEvent roomEvent, Room room)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("RoomEventMessageComposer"));
 

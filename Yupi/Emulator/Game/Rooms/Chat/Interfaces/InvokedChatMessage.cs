@@ -6,32 +6,32 @@ namespace Yupi.Emulator.Game.Rooms.Chat.Interfaces
     /// <summary>
     ///     Struct InvokedChatMessage
     /// </summary>
-     struct InvokedChatMessage : IDisposable
+     public struct InvokedChatMessage : IDisposable
     {
         /// <summary>
         ///     The user
         /// </summary>
-         RoomUser User;
+     public RoomUser User;
 
         /// <summary>
         ///     The message
         /// </summary>
-         string Message;
+     public string Message;
 
         /// <summary>
         ///     The shout
         /// </summary>
-         bool Shout;
+     public bool Shout;
 
         /// <summary>
         ///     The colour type
         /// </summary>
-         int ColourType;
+     public int ColourType;
 
         /// <summary>
         ///     The count
         /// </summary>
-         int Count;
+     public int Count;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="InvokedChatMessage" /> struct.

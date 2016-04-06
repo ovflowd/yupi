@@ -5,7 +5,7 @@ namespace Yupi.Emulator.Game.Users.Messenger.Structs
     /// <summary>
     ///     Class MessengerRequest.
     /// </summary>
-     class MessengerRequest
+     public class MessengerRequest
     {
         /// <summary>
         ///     The _user look
@@ -24,7 +24,7 @@ namespace Yupi.Emulator.Game.Users.Messenger.Structs
         /// <param name="fromUser">From user.</param>
         /// <param name="userName">Name of the user.</param>
         /// <param name="look"></param>
-         MessengerRequest(uint toUser, uint fromUser, string userName, string look)
+     public MessengerRequest(uint toUser, uint fromUser, string userName, string look)
         {
             To = toUser;
             From = fromUser;
@@ -36,19 +36,19 @@ namespace Yupi.Emulator.Game.Users.Messenger.Structs
         ///     Gets to.
         /// </summary>
         /// <value>To.</value>
-         uint To { get; private set; }
+     public uint To { get; private set; }
 
         /// <summary>
         ///     Gets from.
         /// </summary>
         /// <value>From.</value>
-         uint From { get; }
+     public uint From { get; }
 
         /// <summary>
         ///     Serializes the specified request.
         /// </summary>
         /// <param name="request">The request.</param>
-         void Serialize(SimpleServerMessageBuffer request)
+     public void Serialize(SimpleServerMessageBuffer request)
         {
             request.AppendInteger(From);
             request.AppendString(_userName);

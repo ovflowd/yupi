@@ -6,7 +6,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class SummonAll. This class cannot be inherited.
     /// </summary>
-     sealed class SummonAll : Command
+     public sealed class SummonAll : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="SummonAll" /> class.

@@ -3,7 +3,7 @@ namespace Yupi.Emulator.Game.Support
     /// <summary>
     ///     Enum ModerationBanType
     /// </summary>
-     enum ModerationBanType
+     public enum ModerationBanType
     {
         /// <summary>
         ///     The ip

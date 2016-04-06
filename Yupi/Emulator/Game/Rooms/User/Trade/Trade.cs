@@ -11,7 +11,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Trade
     /// <summary>
     ///     Class Trade.
     /// </summary>
-     class Trade
+     public class Trade
     {
         /// <summary>
         ///     The _one identifier
@@ -44,7 +44,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Trade
         /// <param name="userOneId">The user one identifier.</param>
         /// <param name="userTwoId">The user two identifier.</param>
         /// <param name="roomId">The room identifier.</param>
-         Trade(uint userOneId, uint userTwoId, uint roomId)
+     public Trade(uint userOneId, uint userTwoId, uint roomId)
         {
             _oneId = userOneId;
             _twoId = userTwoId;
@@ -71,7 +71,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Trade
         ///     Gets a value indicating whether [all users accepted].
         /// </summary>
         /// <value><c>true</c> if [all users accepted]; otherwise, <c>false</c>.</value>
-         bool AllUsersAccepted
+     public bool AllUsersAccepted
         {
             get
             {
@@ -86,7 +86,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Trade
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns><c>true</c> if the specified identifier contains user; otherwise, <c>false</c>.</returns>
-         bool ContainsUser(uint id)
+     public bool ContainsUser(uint id)
         {
             {
                 return _users.Any(t => t != null && t.UserId == id);
@@ -98,7 +98,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Trade
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>TradeUser.</returns>
-         TradeUser GetTradeUser(uint id)
+     public TradeUser GetTradeUser(uint id)
         {
             {
                 return _users.FirstOrDefault(t => t != null && t.UserId == id);
@@ -110,7 +110,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Trade
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="item">The item.</param>
-         void OfferItem(uint userId, UserItem item)
+     public void OfferItem(uint userId, UserItem item)
         {
             TradeUser tradeUser = GetTradeUser(userId);
 
@@ -131,7 +131,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Trade
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="item">The item.</param>
-         void TakeBackItem(uint userId, UserItem item)
+     public void TakeBackItem(uint userId, UserItem item)
         {
             TradeUser tradeUser = GetTradeUser(userId);
             if (tradeUser == null || item == null || tradeUser.HasAccepted || _tradeStage != 1)
@@ -147,7 +147,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Trade
         ///     Accepts the specified user identifier.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
-         void Accept(uint userId)
+     public void Accept(uint userId)
         {
             TradeUser tradeUser = GetTradeUser(userId);
 
@@ -174,7 +174,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Trade
         ///     Unaccepts the specified user identifier.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
-         void Unaccept(uint userId)
+     public void Unaccept(uint userId)
         {
             TradeUser tradeUser = GetTradeUser(userId);
 
@@ -192,7 +192,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Trade
         ///     Completes the trade.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
-         void CompleteTrade(uint userId)
+     public void CompleteTrade(uint userId)
         {
             TradeUser tradeUser = GetTradeUser(userId);
             if (tradeUser == null || _tradeStage != 2)
@@ -215,7 +215,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Trade
         /// <summary>
         ///     Clears the accepted.
         /// </summary>
-         void ClearAccepted()
+     public void ClearAccepted()
         {
             TradeUser[] users = _users;
             foreach (TradeUser tradeUser in users)
@@ -227,7 +227,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Trade
         /// <summary>
         ///     Updates the trade window.
         /// </summary>
-         void UpdateTradeWindow()
+     public void UpdateTradeWindow()
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("TradeUpdateMessageComposer"));
 
@@ -263,7 +263,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Trade
         /// <summary>
         ///     Delivers the items.
         /// </summary>
-         void DeliverItems()
+     public void DeliverItems()
         {
             List<UserItem> offeredItems = GetTradeUser(_oneId).OfferedItems;
             List<UserItem> offeredItems2 = GetTradeUser(_twoId).OfferedItems;
@@ -350,7 +350,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Trade
         /// <summary>
         ///     Closes the trade clean.
         /// </summary>
-         void CloseTradeClean()
+     public void CloseTradeClean()
         {
             {
                 foreach (
@@ -368,7 +368,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Trade
         ///     Closes the trade.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
-         void CloseTrade(uint userId)
+     public void CloseTrade(uint userId)
         {
             {
                 foreach (
@@ -388,7 +388,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Trade
         ///     Sends the messageBuffer to users.
         /// </summary>
         /// <param name="message">The messageBuffer.</param>
-         void SendMessageToUsers(SimpleServerMessageBuffer messageBuffer)
+     public void SendMessageToUsers(SimpleServerMessageBuffer messageBuffer)
         {
             if (_users == null)
             {

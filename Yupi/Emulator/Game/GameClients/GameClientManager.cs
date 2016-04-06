@@ -41,7 +41,7 @@ namespace Yupi.Emulator.Game.GameClients
     /// <summary>
     ///     Class GameClientManager..
     /// </summary>
-     class GameClientManager
+     public class GameClientManager
     {
         /// <summary>
         ///     The _badge Queue
@@ -82,7 +82,7 @@ namespace Yupi.Emulator.Game.GameClients
         /// <summary>
         ///     Initializes a new instance of the <see cref="GameClientManager" /> class.
         /// </summary>
-         GameClientManager()
+     public GameClientManager()
         {
 			Clients = new ConcurrentDictionary<ISession, GameClient>();
             
@@ -99,14 +99,14 @@ namespace Yupi.Emulator.Game.GameClients
         ///     Gets the client count.
         /// </summary>
         /// <value>The client count.</value>
-         int ClientCount() => Clients.Count;
+     public int ClientCount() => Clients.Count;
 
         /// <summary>
         ///     Gets the client by user identifier.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <returns>GameClient.</returns>
-         GameClient GetClientByUserId(uint userId) => _userIdRegister.Contains(userId) ? (GameClient) _userIdRegister[userId] : null;
+     public GameClient GetClientByUserId(uint userId) => _userIdRegister.Contains(userId) ? (GameClient) _userIdRegister[userId] : null;
 
 		public GameClient GetClient(ISession session) {
 			GameClient client;
@@ -119,7 +119,7 @@ namespace Yupi.Emulator.Game.GameClients
         /// </summary>
         /// <param name="userName">Name of the user.</param>
         /// <returns>GameClient.</returns>
-         GameClient GetClientByUserName(string userName) => _userNameRegister.Contains(userName.ToLower()) ? (GameClient) _userNameRegister[userName.ToLower()] : null;
+     public GameClient GetClientByUserName(string userName) => _userNameRegister.Contains(userName.ToLower()) ? (GameClient) _userNameRegister[userName.ToLower()] : null;
 
         /// <summary>
         ///     Return Online Clients Count
@@ -137,14 +137,14 @@ namespace Yupi.Emulator.Game.GameClients
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>System.String.</returns>
-         string GetUserNameByUserId(uint id) => Yupi.GetHabboById(id)?.UserName;
+     public string GetUserNameByUserId(uint id) => Yupi.GetHabboById(id)?.UserName;
 
         /// <summary>
         ///     Gets the clients by identifier.
         /// </summary>
         /// <param name="users">The users.</param>
         /// <returns>IEnumerable&lt;GameClient&gt;.</returns>
-         IEnumerable<GameClient> GetClientsByUserIds(Dictionary<uint, MessengerBuddy>.KeyCollection users) => users.Select(GetClientByUserId).Where(clientByUserId => clientByUserId != null);
+     public IEnumerable<GameClient> GetClientsByUserIds(Dictionary<uint, MessengerBuddy>.KeyCollection users) => users.Select(GetClientByUserId).Where(clientByUserId => clientByUserId != null);
 
         /// <summary>
         ///     Sends the super notif.
@@ -157,7 +157,7 @@ namespace Yupi.Emulator.Game.GameClients
         /// <param name="linkTitle">The link title.</param>
         /// <param name="broadCast">if set to <c>true</c> [broad cast].</param>
         /// <param name="Event">if set to <c>true</c> [event].</param>
-         void SendSuperNotif(string title, string notice, string picture, GameClient client, string link, string linkTitle, bool broadCast, bool Event)
+     public void SendSuperNotif(string title, string notice, string picture, GameClient client, string link, string linkTitle, bool broadCast, bool Event)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SuperNotificationMessageComposer"));
 
@@ -197,7 +197,7 @@ namespace Yupi.Emulator.Game.GameClients
         /// <summary>
         ///     Called when [cycle].
         /// </summary>
-         void OnCycle()
+     public void OnCycle()
         {
             try
             {
@@ -218,7 +218,7 @@ namespace Yupi.Emulator.Game.GameClients
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="exclude">The exclude.</param>
-         void StaffAlert(SimpleServerMessageBuffer message, uint exclude = 0u)
+     public void StaffAlert(SimpleServerMessageBuffer message, uint exclude = 0u)
         {
             foreach (GameClient current in Clients.Values.Where(x => x.GetHabbo() != null && x.GetHabbo().Rank >= Yupi.StaffAlertMinRank && x.GetHabbo().Id != exclude))
                 current.SendMessage(message);
@@ -229,7 +229,7 @@ namespace Yupi.Emulator.Game.GameClients
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="exclude">The exclude.</param>
-         void AmbassadorAlert(SimpleServerMessageBuffer message, uint exclude = 0u)
+     public void AmbassadorAlert(SimpleServerMessageBuffer message, uint exclude = 0u)
         {
             foreach (GameClient current in Clients.Values.Where(x => x.GetHabbo() != null && x.GetHabbo().Rank >= Convert.ToUInt32(Yupi.GetDbConfig().DbData["ambassador.minrank"]) && x.GetHabbo().Id != exclude))
                 current.SendMessage(message);
@@ -239,7 +239,7 @@ namespace Yupi.Emulator.Game.GameClients
         ///     Mods the alert.
         /// </summary>
         /// <param name="message">The message.</param>
-         void ModAlert(SimpleServerMessageBuffer message)
+     public void ModAlert(SimpleServerMessageBuffer message)
         {
             byte[] bytes = message.GetReversedBytes();
 
@@ -252,7 +252,7 @@ namespace Yupi.Emulator.Game.GameClients
         /// </summary>
         /// <param name="clientAddress">The client identifier.</param>
         /// <param name="connection">The connection.</param>
-         void AddClient(ISession connection)
+     public void AddClient(ISession connection)
         {
             GameClient gameClient = new GameClient(connection);
 
@@ -273,13 +273,13 @@ namespace Yupi.Emulator.Game.GameClients
         ///     Queues the broadcase message.
         /// </summary>
         /// <param name="message">The message.</param>
-         void QueueBroadcaseMessage(SimpleServerMessageBuffer message) => _broadcastQueue.Enqueue(message.GetReversedBytes());
+     public void QueueBroadcaseMessage(SimpleServerMessageBuffer message) => _broadcastQueue.Enqueue(message.GetReversedBytes());
 
         /// <summary>
         ///     Logs the clones out.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
-         void LogClonesOut(uint userId)
+     public void LogClonesOut(uint userId)
         {
             GameClient clientByUserId = GetClientByUserId(userId);
 
@@ -292,7 +292,7 @@ namespace Yupi.Emulator.Game.GameClients
         /// <param name="client">The client.</param>
         /// <param name="userId">The user identifier.</param>
         /// <param name="userName">Name of the user.</param>
-         void RegisterClient(GameClient client, uint userId, string userName)
+     public void RegisterClient(GameClient client, uint userId, string userName)
         {
             if (_userNameRegister.Contains(userName.ToLower()))
                 _userNameRegister[userName.ToLower()] = client;
@@ -323,7 +323,7 @@ namespace Yupi.Emulator.Game.GameClients
         /// </summary>
         /// <param name="userid">The userid.</param>
         /// <param name="userName">The username.</param>
-         void UnregisterClient(uint userid, string userName)
+     public void UnregisterClient(uint userid, string userName)
         {
             _userIdRegister.Remove(userid);
             _userNameRegister.Remove(userName.ToLower());
@@ -339,7 +339,7 @@ namespace Yupi.Emulator.Game.GameClients
         /// <summary>
         ///     Closes all.
         /// </summary>
-         void CloseAll()
+     public void CloseAll()
         {
             YupiWriterManager.WriteLine("Saving Inventary Content....", "Yupi.Data", ConsoleColor.DarkCyan);
 
@@ -368,7 +368,7 @@ namespace Yupi.Emulator.Game.GameClients
         /// </summary>
         /// <param name="oldName">The old name.</param>
         /// <param name="newName">The new name.</param>
-         void UpdateClient(string oldName, string newName)
+     public void UpdateClient(string oldName, string newName)
         {
             if (!_userNameRegister.Contains(oldName.ToLower()))
                 return;

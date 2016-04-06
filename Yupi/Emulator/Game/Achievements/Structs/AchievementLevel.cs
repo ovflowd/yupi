@@ -27,27 +27,27 @@ namespace Yupi.Emulator.Game.Achievements.Structs
     /// <summary>
     ///     Struct AchievementLevel
     /// </summary>
-     struct AchievementLevel
+     public struct AchievementLevel
     {
         /// <summary>
         ///     The level
         /// </summary>
-         readonly uint Level;
+     public readonly uint Level;
 
         /// <summary>
         ///     The reward pixels
         /// </summary>
-         readonly uint RewardPixels;
+     public readonly uint RewardPixels;
 
         /// <summary>
         ///     The reward points
         /// </summary>
-         readonly uint RewardPoints;
+     public readonly uint RewardPoints;
 
         /// <summary>
         ///     The requirement
         /// </summary>
-         readonly uint Requirement;
+     public readonly uint Requirement;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="AchievementLevel" /> struct.

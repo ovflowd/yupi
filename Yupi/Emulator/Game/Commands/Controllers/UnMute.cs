@@ -6,7 +6,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class UnMute. This class cannot be inherited.
     /// </summary>
-     sealed class UnMute : Command
+     public sealed class UnMute : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="UnMute" /> class.

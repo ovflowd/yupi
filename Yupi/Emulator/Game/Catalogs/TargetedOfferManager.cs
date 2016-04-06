@@ -30,9 +30,9 @@ using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Catalogs
 {
-     class TargetedOfferManager
+     public class TargetedOfferManager
     {
-         TargetedOffer CurrentOffer;
+     public TargetedOffer CurrentOffer;
 
         public TargetedOfferManager()
         {

@@ -31,7 +31,7 @@ namespace Yupi.Emulator.Game.Achievements.Composers
     /// <summary>
     ///     Class AchievementUnlockedComposer.
     /// </summary>
-     class AchievementUnlockedComposer
+     public class AchievementUnlockedComposer
     {
         /// <summary>
         ///     Composes the specified achievement.
@@ -41,7 +41,7 @@ namespace Yupi.Emulator.Game.Achievements.Composers
         /// <param name="pointReward">The point reward.</param>
         /// <param name="pixelReward">The pixel reward.</param>
         /// <returns>SimpleServerMessageBuffer.</returns>
-         static SimpleServerMessageBuffer Compose(Achievement achievement, uint level, uint pointReward, uint pixelReward)
+     public static SimpleServerMessageBuffer Compose(Achievement achievement, uint level, uint pointReward, uint pixelReward)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UnlockAchievementMessageComposer"));
 

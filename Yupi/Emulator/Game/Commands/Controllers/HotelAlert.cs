@@ -8,7 +8,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
     /// <summary>
     ///     Class HotelAlert. This class cannot be inherited.
     /// </summary>
-     sealed class HotelAlert : Command
+     public sealed class HotelAlert : Command
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="HotelAlert" /> class.

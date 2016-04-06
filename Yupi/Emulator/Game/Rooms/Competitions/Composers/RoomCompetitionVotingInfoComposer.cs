@@ -31,7 +31,7 @@ namespace Yupi.Emulator.Game.Rooms.Competitions.Composers
 {
     class RoomCompetitionVotingInfoComposer
     {
-         static SimpleServerMessageBuffer Compose(RoomCompetition competition, SimpleServerMessageBuffer messageBuffer, Habbo user, int status = 0)
+     public static SimpleServerMessageBuffer Compose(RoomCompetition competition, SimpleServerMessageBuffer messageBuffer, Habbo user, int status = 0)
         {
             messageBuffer.Init(PacketLibraryManager.OutgoingHandler("CompetitionVotingInfoMessageComposer"));
 

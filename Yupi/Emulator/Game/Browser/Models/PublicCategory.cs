@@ -27,27 +27,27 @@ namespace Yupi.Emulator.Game.Browser.Models
     /// <summary>
     ///     Class FlatCat.
     /// </summary>
-     class PublicCategory
+     public class PublicCategory
     {
         /// <summary>
         ///     The caption
         /// </summary>
-         string Caption;
+     public string Caption;
 
         /// <summary>
         ///     The identifier
         /// </summary>
-         int Id;
+     public int Id;
 
         /// <summary>
         ///     The minimum rank
         /// </summary>
-         int MinRank;
+     public int MinRank;
 
         /// <summary>
         ///     The users now
         /// </summary>
-         int UsersNow;
+     public int UsersNow;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="PublicCategory" /> class.
@@ -55,7 +55,7 @@ namespace Yupi.Emulator.Game.Browser.Models
         /// <param name="id">The identifier.</param>
         /// <param name="caption">The caption.</param>
         /// <param name="minRank">The minimum rank.</param>
-         PublicCategory(int id, string caption, int minRank)
+     public PublicCategory(int id, string caption, int minRank)
         {
             Id = id;
             Caption = caption;

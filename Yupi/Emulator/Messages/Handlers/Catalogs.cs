@@ -13,26 +13,12 @@ namespace Yupi.Emulator.Messages.Handlers
     /// <summary>
     ///     Class MessageHandler.
     /// </summary>
-     partial class MessageHandler
+     public partial class MessageHandler
     {
-        /// <summary>
-        ///     Catalogues the index.
-        /// </summary>
-         void CatalogueIndex()
-        {
-            uint rank = Session.GetHabbo().Rank;
-
-            if (rank < 1)
-                rank = 1;
-
-            Session.SendMessage(StaticMessage.CatalogOffersConfiguration);
-            Session.SendMessage(CatalogPageComposer.ComposeIndex(rank, Request.GetString().ToUpper()));
-        }
-
         /// <summary>
         ///     Catalogues the page.
         /// </summary>
-         void CataloguePage()
+     public void CataloguePage()
         {
             uint pageId = Request.GetUInt32();
 
@@ -49,7 +35,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Catalogues the club page.
         /// </summary>
-         void CatalogueClubPage()
+     public void CatalogueClubPage()
         {
             int requestType = Request.GetInteger();
 
@@ -59,7 +45,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Reloads the ecotron.
         /// </summary>
-         void ReloadEcotron()
+     public void ReloadEcotron()
         {
             Response.Init(PacketLibraryManager.OutgoingHandler("ReloadEcotronMessageComposer"));
             Response.AppendInteger(1);
@@ -70,7 +56,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Gifts the wrapping configuration.
         /// </summary>
-         void GiftWrappingConfig()
+     public void GiftWrappingConfig()
         {
             Response.Init(PacketLibraryManager.OutgoingHandler("GiftWrappingConfigurationMessageComposer"));
             Response.AppendBool(true);
@@ -101,7 +87,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Gets the recycler rewards.
         /// </summary>
-         void RecyclerRewards()
+     public void RecyclerRewards()
         {
             Response.Init(PacketLibraryManager.OutgoingHandler("RecyclerRewardsMessageComposer"));
 
@@ -134,7 +120,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Purchases the item.
         /// </summary>
-         void PurchaseItem()
+     public void PurchaseItem()
         {
             if (Session?.GetHabbo() == null)
                 return;
@@ -160,7 +146,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Purchases the gift.
         /// </summary>
-         void PurchaseGift()
+     public void PurchaseGift()
         {
             uint pageId = Request.GetUInt32();
             uint itemId = Request.GetUInt32();
@@ -181,7 +167,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Checks the name of the pet.
         /// </summary>
-         void CheckPetName()
+     public void CheckPetName()
         {
             string petName = Request.GetString();
             int i = 0;
@@ -202,7 +188,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Catalogues the offer.
         /// </summary>
-         void CatalogueSingleOffer()
+     public void CatalogueSingleOffer()
         {
             uint num = Request.GetUInt32();
 
@@ -223,7 +209,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Catalogues the offer configuration.
         /// </summary>
-         void CatalogueOffersConfig()
+     public void CatalogueOffersConfig()
         {
             Response.Init(PacketLibraryManager.OutgoingHandler("CatalogueOfferConfigMessageComposer"));
             Response.AppendInteger(100);
@@ -239,7 +225,7 @@ namespace Yupi.Emulator.Messages.Handlers
         /// <summary>
         ///     Serializes the group furni page.
         /// </summary>
-         void SerializeGroupFurniPage()
+     public void SerializeGroupFurniPage()
         {
             HashSet<GroupMember> userGroups = Yupi.GetGame().GetGroupManager().GetUserGroups(Session.GetHabbo().Id);
 

@@ -7,22 +7,22 @@ namespace Yupi.Emulator.Game.Users.Messenger.Structs
     /// <summary>
     ///     Class OfflineMessage.
     /// </summary>
-     class OfflineMessage
+     public class OfflineMessage
     {
         /// <summary>
         ///     From identifier
         /// </summary>
-         uint FromId;
+     public uint FromId;
 
         /// <summary>
         ///     The message
         /// </summary>
-         string Message;
+     public string Message;
 
         /// <summary>
         ///     The timestamp
         /// </summary>
-         double Timestamp;
+     public double Timestamp;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="OfflineMessage" /> class.
@@ -30,7 +30,7 @@ namespace Yupi.Emulator.Game.Users.Messenger.Structs
         /// <param name="id">The identifier.</param>
         /// <param name="msg">The MSG.</param>
         /// <param name="ts">The ts.</param>
-         OfflineMessage(uint id, string msg, double ts)
+     public OfflineMessage(uint id, string msg, double ts)
         {
             FromId = id;
             Message = msg;
@@ -41,7 +41,7 @@ namespace Yupi.Emulator.Game.Users.Messenger.Structs
         ///     Initializes the offline messages.
         /// </summary>
         /// <param name="dbClient">The database client.</param>
-         static void InitOfflineMessages(IQueryAdapter dbClient)
+     public static void InitOfflineMessages(IQueryAdapter dbClient)
         {
             dbClient.SetQuery("SELECT * FROM messenger_offline_messages");
             DataTable table = dbClient.GetTable();
@@ -67,7 +67,7 @@ namespace Yupi.Emulator.Game.Users.Messenger.Structs
         /// <param name="toId">To identifier.</param>
         /// <param name="fromId">From identifier.</param>
         /// <param name="message">The message.</param>
-         static void SaveMessage(IQueryAdapter dbClient, uint toId, uint fromId, string message)
+     public static void SaveMessage(IQueryAdapter dbClient, uint toId, uint fromId, string message)
         {
             dbClient.SetQuery(
                 "INSERT INTO messenger_offline_messages (to_id, from_id, Message, timestamp) VALUES (@tid, @fid, @msg, UNIX_TIMESTAMP())");
@@ -82,7 +82,7 @@ namespace Yupi.Emulator.Game.Users.Messenger.Structs
         /// </summary>
         /// <param name="dbClient">The database client.</param>
         /// <param name="toId">To identifier.</param>
-         static void RemoveAllMessages(IQueryAdapter dbClient, uint toId)
+     public static void RemoveAllMessages(IQueryAdapter dbClient, uint toId)
         {
             dbClient.RunFastQuery($"DELETE FROM messenger_offline_messages WHERE to_id={toId}");
         }

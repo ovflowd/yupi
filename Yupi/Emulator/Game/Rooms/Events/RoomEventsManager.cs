@@ -10,7 +10,7 @@ namespace Yupi.Emulator.Game.Rooms.Events
     /// <summary>
     ///     Class RoomEventsManager.
     /// </summary>
-     class RoomEventsManager
+     public class RoomEventsManager
     {
         /// <summary>
         ///     The Room Events
@@ -20,7 +20,7 @@ namespace Yupi.Emulator.Game.Rooms.Events
         /// <summary>
         ///     Initializes a new instance of the <see cref="RoomEventsManager" /> class.
         /// </summary>
-         RoomEventsManager()
+     public RoomEventsManager()
         {
             _events = new Dictionary<uint, RoomEvent>();
 
@@ -48,7 +48,7 @@ namespace Yupi.Emulator.Game.Rooms.Events
         /// <param name="session">The session.</param>
         /// <param name="time">The time.</param>
         /// <param name="category">The category.</param>
-         void AddNewEvent(uint roomId, string eventName, string eventDesc, GameClient session, int time = 7200, int category = 1)
+     public void AddNewEvent(uint roomId, string eventName, string eventDesc, GameClient session, int time = 7200, int category = 1)
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(roomId);
 
@@ -92,7 +92,7 @@ namespace Yupi.Emulator.Game.Rooms.Events
         ///     Removes the event.
         /// </summary>
         /// <param name="roomId">The room identifier.</param>
-         void RemoveEvent(uint roomId)
+     public void RemoveEvent(uint roomId)
         {
             _events.Remove(roomId);
 
@@ -103,27 +103,27 @@ namespace Yupi.Emulator.Game.Rooms.Events
         ///     Gets the events.
         /// </summary>
         /// <returns>Dictionary&lt;System.UInt32, RoomEvent&gt;.</returns>
-         Dictionary<uint, RoomEvent> GetEvents() => _events;
+     public Dictionary<uint, RoomEvent> GetEvents() => _events;
 
         /// <summary>
         ///     Gets the event.
         /// </summary>
         /// <param name="roomId">The room identifier.</param>
         /// <returns>RoomEvent.</returns>
-         RoomEvent GetEvent(uint roomId) => _events.ContainsKey(roomId) ? _events[roomId] : null;
+     public RoomEvent GetEvent(uint roomId) => _events.ContainsKey(roomId) ? _events[roomId] : null;
 
         /// <summary>
         ///     Rooms the has events.
         /// </summary>
         /// <param name="roomId">The room identifier.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-         bool RoomHasEvents(uint roomId) => _events.ContainsKey(roomId);
+     public bool RoomHasEvents(uint roomId) => _events.ContainsKey(roomId);
 
         /// <summary>
         ///     Serializes the event information.
         /// </summary>
         /// <param name="roomId">The room identifier.</param>
-         void SerializeEventInfo(uint roomId)
+     public void SerializeEventInfo(uint roomId)
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(roomId);
 
@@ -145,7 +145,7 @@ namespace Yupi.Emulator.Game.Rooms.Events
         ///     Updates the event.
         /// </summary>
         /// <param name="Event">The event.</param>
-         void UpdateEvent(RoomEvent Event)
+     public void UpdateEvent(RoomEvent Event)
         {
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
             {
