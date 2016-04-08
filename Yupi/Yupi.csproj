@@ -250,7 +250,6 @@
     <Compile Include="Emulator\Game\Browser\Composers\NavigatorMetaDataComposer.cs" />
     <Compile Include="Emulator\Game\Browser\Composers\NavigatorPreferencesComposer.cs" />
     <Compile Include="Emulator\Game\Browser\Composers\NavigatorSavedSearchesComposer.cs" />
-    <Compile Include="Emulator\Game\Browser\Composers\PromotionCategoriesListComposer.cs" />
     <Compile Include="Emulator\Game\Browser\Models\NavigatorSubCategory.cs" />
     <Compile Include="Emulator\Game\Browser\Models\NavigatorCategory.cs" />
     <Compile Include="Emulator\Game\Commands\Controllers\RefreshPetSpeeches.cs" />
@@ -294,7 +293,6 @@
     <Compile Include="Emulator\Data\FurnitureDataManager.cs" />
     <Compile Include="Emulator\Data\Structs\FurnitureData.cs" />
     <Compile Include="Emulator\Core\Settings\ServerLanguageSettings.cs" />
-    <Compile Include="Emulator\Game\Catalogs\Composers\TargetedOfferComposer.cs" />
     <Compile Include="Emulator\Game\Catalogs\TargetedOfferManager.cs" />
     <Compile Include="Emulator\Game\Catalogs\Interfaces\TargetedOffer.cs" />
     <Compile Include="Emulator\Game\Commands\Interfaces\Command.cs" />
@@ -580,7 +578,6 @@
     <Compile Include="Emulator\Data\CacheManager.cs" />
     <Compile Include="Emulator\Messages\Handlers\Groups.cs" />
     <Compile Include="Emulator\Messages\Handlers\Items.cs" />
-    <Compile Include="Emulator\Messages\Handlers\Navigator.cs" />
     <Compile Include="Emulator\Messages\Handlers\Rooms.cs" />
     <Compile Include="Emulator\Messages\Enums\StaticMessages.cs" />
     <Compile Include="Emulator\Core\Security\BlackWords\Structs\BlackWord.cs" />
@@ -689,7 +686,6 @@
     <Compile Include="Emulator\Game\Users\Factories\UserDataFactory.cs" />
     <Compile Include="Emulator\Game\Users\Data\Exceptions\UserDataNotFoundException.cs" />
     <Compile Include="Emulator\Yupi.cs" />
-    <Compile Include="Emulator\Messages\Handlers\Others.cs" />
     <Compile Include="Emulator\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Emulator\Data\Interfaces\PluginData.cs" />

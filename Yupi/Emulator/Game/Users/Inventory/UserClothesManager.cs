@@ -64,39 +64,5 @@ namespace Yupi.Emulator.Game.Users.Inventory
 
             Clothing.Add(clothing);
         }
-
-        /// <summary>
-        ///     Serializes the specified messageBuffer.
-        /// </summary>
-        /// <param name="message">The messageBuffer.</param>
-     public void Serialize(SimpleServerMessageBuffer messageBuffer)
-        {
-            messageBuffer.StartArray();
-
-            foreach (
-                ClothingItem item1 in
-                    Clothing.Select(clothing1 => Yupi.GetGame().GetClothingManager().GetClothesInFurni(clothing1)))
-            {
-                foreach (int clothe in item1.Clothes)
-                    messageBuffer.AppendInteger(clothe);
-
-                messageBuffer.SaveArray();
-            }
-
-            messageBuffer.EndArray();
-            messageBuffer.StartArray();
-
-            foreach (
-                ClothingItem item2 in
-                    Clothing.Select(clothing2 => Yupi.GetGame().GetClothingManager().GetClothesInFurni(clothing2)))
-            {
-                foreach (int clothe in item2.Clothes)
-                    messageBuffer.AppendString(item2.ItemName);
-
-                messageBuffer.SaveArray();
-            }
-
-            messageBuffer.EndArray();
-        }
     }
 }

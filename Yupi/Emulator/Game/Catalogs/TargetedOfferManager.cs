@@ -58,8 +58,5 @@ namespace Yupi.Emulator.Game.Catalogs
                     (string) row["image"], (string) row["products"]);
             }
         }
-
-        public void GenerateMessage(SimpleServerMessageBuffer messageBuffer)
-            => TargetedOfferComposer.GenerateMessage(messageBuffer, CurrentOffer);
     }
 }

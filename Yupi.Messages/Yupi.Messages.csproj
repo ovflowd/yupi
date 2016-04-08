@@ -178,10 +178,6 @@
     <Compile Include="Composer\Catalog\CheckPetNameMessageComposer.cs" />
     <Compile Include="Handlers\Catalog\GetCatalogOfferMessageEvent.cs" />
     <Compile Include="Composer\Catalog\CatalogOfferMessageComposer.cs" />
-    <Compile Include="Composer\Catalog\GetCatalogClubPageMessageEvent.cs" />
-    <Compile Include="Composer\Catalog\GetGiftWrappingConfigurationMessageEvent.cs" />
-    <Compile Include="Composer\Catalog\PurchaseFromCatalogAsGiftMessageEvent.cs" />
-    <Compile Include="Composer\Catalog\ReloadRecyclerMessageEvent.cs" />
     <Compile Include="Composer\Catalog\CatalogueIndexMessageComposer.cs" />
     <Compile Include="Composer\Catalog\CatalogueOfferConfigMessageComposer.cs" />
     <Compile Include="Handlers\Catalog\CatalogueOfferConfigMessageEvent.cs" />
@@ -231,6 +227,36 @@
     <Compile Include="Handlers\Navigator\NewNavigatorMessageEvent.cs" />
     <Compile Include="Handlers\Navigator\SearchNewNavigatorEvent.cs" />
     <Compile Include="Composer\Navigator\SearchResultSetComposer.cs" />
+    <Compile Include="Handlers\Navigator\NewNavigatorResizeEvent.cs" />
+    <Compile Include="Handlers\Navigator\NewNavigatorAddSavedSearchEvent.cs" />
+    <Compile Include="Handlers\Navigator\NewNavigatorDeleteSavedSearchEvent.cs" />
+    <Compile Include="Handlers\Navigator\NavigatorGetFlatCategoriesMessageEvent.cs" />
+    <Compile Include="Handlers\Navigator\EnterPrivateRoomMessageEvent.cs" />
+    <Compile Include="Handlers\Navigator\ToggleStaffPickMessageEvent.cs" />
+    <Compile Include="Handlers\Other\PongMessageEvent.cs" />
+    <Compile Include="Handlers\Other\OnDisconnectMessageEvent.cs" />
+    <Compile Include="Handlers\Other\RequestLatencyTestMessageEvent.cs" />
+    <Compile Include="Handlers\Other\InitCryptoMessageEvent.cs" />
+    <Compile Include="Composer\Other\InitCryptoMessageComposer.cs" />
+    <Compile Include="Handlers\Other\GenerateSecretKeyMessageEvent.cs" />
+    <Compile Include="Composer\Other\SecretKeyMessageComposer.cs" />
+    <Compile Include="Handlers\Other\UniqueIDMessageEvent.cs" />
+    <Compile Include="Handlers\Other\SSOTicketMessageEvent.cs" />
+    <Compile Include="Handlers\Other\InfoRetrieveMessageEvent.cs" />
+    <Compile Include="Composer\User\UserObjectMessageComposer.cs" />
+    <Compile Include="Composer\User\BuildersClubMembershipMessageComposer.cs" />
+    <Compile Include="Composer\Other\SendPerkAllowancesMessageComposer.cs" />
+    <Compile Include="Composer\GameCenter\GameCenterGamesListMessageComposer.cs" />
+    <Compile Include="Composer\User\AchievementPointsMessageComposer.cs" />
+    <Compile Include="Composer\Other\FigureSetIdsMessageComposer.cs" />
+    <Compile Include="Composer\Catalog\CatalogPromotionGetCategoriesMessageComposer.cs" />
+    <Compile Include="Composer\Catalog\TargetedOfferMessageComposer.cs" />
+    <Compile Include="Handlers\Other\HabboCameraMessageEvent.cs" />
+    <Compile Include="Composer\Other\CameraPurchaseOk.cs" />
+    <Compile Include="Handlers\Other\PurchaseTargetedOfferMessageEvent.cs" />
+    <Compile Include="Handlers\Other\GoToRoomByNameMessageEvent.cs" />
+    <Compile Include="Handlers\Other\SaveRoomThumbnailMessageEvent.cs" />
+    <Compile Include="Composer\Other\ThumbnailSuccessMessageComposer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -268,6 +294,8 @@
     <Folder Include="Composer\Messenger\" />
     <Folder Include="Handlers\Navigator\" />
     <Folder Include="Composer\Navigator\" />
+    <Folder Include="Handlers\Other\" />
+    <Folder Include="Composer\Other\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

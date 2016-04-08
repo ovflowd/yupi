@@ -56,6 +56,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         /// </summary>
 		public byte PublicistCount;
 
+		// TODO should be thread safe!
         /// <summary>
         ///     The time pinged received
         /// </summary>
