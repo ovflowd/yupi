@@ -187,6 +187,34 @@
     <Compile Include="Handlers\Catalog\CatalogueOfferConfigMessageEvent.cs" />
     <Compile Include="Handlers\Catalog\GetGroupFurnitureMessageEvent.cs" />
     <Compile Include="Composer\Catalog\GroupFurniturePageMessageComposer.cs" />
+    <Compile Include="Handlers\Support\OpenHelpToolMessageEvent.cs" />
+    <Compile Include="Composer\Support\OpenHelpToolMessageComposer.cs" />
+    <Compile Include="Handlers\Support\SubmitHelpTicketMessageEvent.cs" />
+    <Compile Include="Composer\Support\TicketUserAlert.cs" />
+    <Compile Include="Handlers\Support\DeleteHelpTicketMessageEvent.cs" />
+    <Compile Include="Handlers\Support\ModerationToolUserToolMessageEvent.cs" />
+    <Compile Include="Composer\Support\ModerationToolUserToolMessageComposer.cs" />
+    <Compile Include="Handlers\Support\ModerationToolUserChatlogMessageEvent.cs" />
+    <Compile Include="Composer\Support\ModerationToolUserChatlogMessageComposer.cs" />
+    <Compile Include="Handlers\Support\ModerationToolRoomChatlogMessageEvent.cs" />
+    <Compile Include="Composer\Support\ModerationToolRoomChatlogMessageComposer.cs" />
+    <Compile Include="Handlers\Support\ModerationToolRoomToolMessageEvent.cs" />
+    <Compile Include="Composer\Support\ModerationRoomToolMessageComposer.cs" />
+    <Compile Include="Handlers\Support\ModerationToolPickIssueMessageEvent.cs" />
+    <Compile Include="Handlers\Support\ModerationToolReleaseIssueMessageEvent.cs" />
+    <Compile Include="Handlers\Support\ModerationToolCloseIssueMessageEvent.cs" />
+    <Compile Include="Handlers\Support\ModerationToolIssueChatlogMessageEvent.cs" />
+    <Compile Include="Composer\Support\ModerationToolIssueChatlogMessageComposer.cs" />
+    <Compile Include="Handlers\Support\ModerationToolGetRoomVisitsMessageEvent.cs" />
+    <Compile Include="Composer\Support\ModerationToolRoomVisitsMessageComposer.cs" />
+    <Compile Include="Handlers\Support\ModerationToolSendRoomAlertMessageEvent.cs" />
+    <Compile Include="Handlers\Support\ModerationToolPerformRoomActionMessageEvent.cs" />
+    <Compile Include="Handlers\Support\ModerationToolSendUserCautionMessageEvent.cs" />
+    <Compile Include="Handlers\Support\ModerationToolSendUserAlertMessageEvent.cs" />
+    <Compile Include="Handlers\Support\ModerationMuteUserMessageEvent.cs" />
+    <Compile Include="Handlers\Support\ModerationLockTradeMessageEvent.cs" />
+    <Compile Include="Handlers\Support\ModerationKickUserMessageEvent.cs" />
+    <Compile Include="Handlers\Support\ModerationBanUserMessageEvent.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -218,6 +246,8 @@
     <Folder Include="Handlers\Guides\" />
     <Folder Include="Composer\Guides\" />
     <Folder Include="Composer\Notification\" />
+    <Folder Include="Handlers\Support\" />
+    <Folder Include="Composer\Support\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

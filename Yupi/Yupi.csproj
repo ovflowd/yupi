@@ -580,7 +580,6 @@
     <Compile Include="Emulator\Game\Users\Inventory\UserClothesManager.cs" />
     <Compile Include="Emulator\Data\CacheManager.cs" />
     <Compile Include="Emulator\Messages\Handlers\Groups.cs" />
-    <Compile Include="Emulator\Messages\Handlers\Help.cs" />
     <Compile Include="Emulator\Messages\Handlers\Items.cs" />
     <Compile Include="Emulator\Messages\Handlers\Messenger.cs" />
     <Compile Include="Emulator\Messages\Handlers\Navigator.cs" />

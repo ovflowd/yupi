@@ -830,6 +830,10 @@ namespace Yupi.Emulator.Game.Rooms
             }
         }
 
+		public void Send(ServerMessage message) {
+			SendMessage(message.GetReversedBytes());
+		}
+
         /// <summary>
         ///     Sends the messageBuffer.
         /// </summary>
