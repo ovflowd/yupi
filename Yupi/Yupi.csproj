@@ -250,7 +250,6 @@
     <Compile Include="Emulator\Game\Browser\Composers\NavigatorMetaDataComposer.cs" />
     <Compile Include="Emulator\Game\Browser\Composers\NavigatorPreferencesComposer.cs" />
     <Compile Include="Emulator\Game\Browser\Composers\NavigatorSavedSearchesComposer.cs" />
-    <Compile Include="Emulator\Game\Browser\Composers\NavigatorSearchListResultComposer.cs" />
     <Compile Include="Emulator\Game\Browser\Composers\PromotionCategoriesListComposer.cs" />
     <Compile Include="Emulator\Game\Browser\Models\NavigatorSubCategory.cs" />
     <Compile Include="Emulator\Game\Browser\Models\NavigatorCategory.cs" />

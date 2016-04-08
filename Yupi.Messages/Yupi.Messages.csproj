@@ -226,6 +226,11 @@
     <Compile Include="Composer\Messenger\FollowFriendErrorMessageComposer.cs" />
     <Compile Include="Handlers\Messenger\ConsoleInviteFriendsMessageEvent.cs" />
     <Compile Include="Composer\Messenger\ConsoleInvitationMessageComposer.cs" />
+    <Compile Include="Handlers\Navigator\NavigatorGetFeaturedRoomsMessageEvent.cs" />
+    <Compile Include="Composer\Navigator\OfficialRoomsMessageComposer.cs" />
+    <Compile Include="Handlers\Navigator\NewNavigatorMessageEvent.cs" />
+    <Compile Include="Handlers\Navigator\SearchNewNavigatorEvent.cs" />
+    <Compile Include="Composer\Navigator\SearchResultSetComposer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -261,6 +266,8 @@
     <Folder Include="Composer\Support\" />
     <Folder Include="Handlers\Messenger\" />
     <Folder Include="Composer\Messenger\" />
+    <Folder Include="Handlers\Navigator\" />
+    <Folder Include="Composer\Navigator\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
