@@ -215,6 +215,17 @@
     <Compile Include="Handlers\Support\ModerationLockTradeMessageEvent.cs" />
     <Compile Include="Handlers\Support\ModerationKickUserMessageEvent.cs" />
     <Compile Include="Handlers\Support\ModerationBanUserMessageEvent.cs" />
+    <Compile Include="Handlers\Messenger\FriendListUpdateMessageEvent.cs" />
+    <Compile Include="Handlers\Messenger\DeleteFriendMessageEvent.cs" />
+    <Compile Include="Handlers\Messenger\ConsoleSearchFriendsMessageEvent.cs" />
+    <Compile Include="Handlers\Messenger\AcceptFriendMessageEvent.cs" />
+    <Compile Include="Handlers\Messenger\DeclineFriendMessageEvent.cs" />
+    <Compile Include="Handlers\Messenger\RequestFriendMessageEvent.cs" />
+    <Compile Include="Handlers\Messenger\ConsoleInstantChatMessageEvent.cs" />
+    <Compile Include="Handlers\Messenger\FollowFriendMessageEvent.cs" />
+    <Compile Include="Composer\Messenger\FollowFriendErrorMessageComposer.cs" />
+    <Compile Include="Handlers\Messenger\ConsoleInviteFriendsMessageEvent.cs" />
+    <Compile Include="Composer\Messenger\ConsoleInvitationMessageComposer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -248,6 +259,8 @@
     <Folder Include="Composer\Notification\" />
     <Folder Include="Handlers\Support\" />
     <Folder Include="Composer\Support\" />
+    <Folder Include="Handlers\Messenger\" />
+    <Folder Include="Composer\Messenger\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
