@@ -27,6 +27,11 @@ namespace Yupi.Messages.Notification
 		private void BuildMessage(ServerMessage message, string title, string content, string url, string urlName, string unknown, int unknown2) {
 			message.AppendString (unknown);
 			message.AppendInteger (unknown2);
+
+			if (unknown2 == 0) {
+				return;
+			}
+
 			if (unknown2 == 4) {
 				message.AppendString ("title");
 				message.AppendString (title);
