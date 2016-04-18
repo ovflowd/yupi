@@ -257,6 +257,28 @@
     <Compile Include="Handlers\Other\GoToRoomByNameMessageEvent.cs" />
     <Compile Include="Handlers\Other\SaveRoomThumbnailMessageEvent.cs" />
     <Compile Include="Composer\Other\ThumbnailSuccessMessageComposer.cs" />
+    <Compile Include="Handlers\Groups\GetGroupPurchaseBoxMessageEvent.cs" />
+    <Compile Include="Composer\Groups\GroupPurchasePageMessageComposer.cs" />
+    <Compile Include="Handlers\Groups\GetGroupPurchasingInfoMessageEvent.cs" />
+    <Compile Include="Composer\Groups\GroupPurchasePartsMessageComposer.cs" />
+    <Compile Include="Handlers\Groups\CreateGuildMessageEvent.cs" />
+    <Compile Include="Composer\Groups\GroupRoomMessageComposer.cs" />
+    <Compile Include="Composer\Groups\RoomGroupMessageComposer.cs" />
+    <Compile Include="Composer\Groups\ChangeFavouriteGroupMessageComposer.cs" />
+    <Compile Include="Handlers\Groups\GetGroupInfoMessageEvent.cs" />
+    <Compile Include="Handlers\Groups\GetGroupMembersMessageEvent.cs" />
+    <Compile Include="Handlers\Groups\GroupMakeAdministratorMessageEvent.cs" />
+    <Compile Include="Composer\Room\RoomRightsLevelMessageComposer.cs" />
+    <Compile Include="Handlers\Groups\RemoveGroupAdminMessageEvent.cs" />
+    <Compile Include="Handlers\Groups\AcceptGroupRequestMessageEvent.cs" />
+    <Compile Include="Handlers\Groups\GroupDeclineMembershipRequestMessageEvent.cs" />
+    <Compile Include="Handlers\Groups\GroupUserJoinMessageEvent.cs" />
+    <Compile Include="Handlers\Groups\SetFavoriteGroupMessageEvent.cs" />
+    <Compile Include="Composer\Groups\FavouriteGroupMessageComposer.cs" />
+    <Compile Include="Handlers\Groups\RemoveFavouriteGroupMessageEvent.cs" />
+    <Compile Include="Handlers\Groups\PublishForumThreadMessageEvent.cs" />
+    <Compile Include="Composer\Groups\GroupForumNewThreadMessageComposer.cs" />
+    <Compile Include="Composer\Groups\GroupForumNewResponseMessageComposer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -296,6 +318,9 @@
     <Folder Include="Composer\Navigator\" />
     <Folder Include="Handlers\Other\" />
     <Folder Include="Composer\Other\" />
+    <Folder Include="Handlers\Groups\" />
+    <Folder Include="Composer\Groups\" />
+    <Folder Include="Composer\Room\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
