@@ -16523,7 +16523,7 @@ CREATE TABLE `users_rooms_visits` (
 DROP TABLE IF EXISTS `users_stats`;
 CREATE TABLE `users_stats` (
   `id` int(11) UNSIGNED NOT NULL,
-  `online_seconds` int(7) NOT NULL,
+  `online_seconds` int(7) NOT NULL DEFAULT '0',
   `room_visits` int(7) NOT NULL DEFAULT '0',
   `respect` int(6) NOT NULL DEFAULT '0',
   `gifts_given` int(6) NOT NULL DEFAULT '0',
@@ -17117,9 +17117,8 @@ ALTER TABLE `talents_data`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `mail_2` (`mail`),
   ADD KEY `id` (`id`),
-  ADD KEY `username` (`username`),
+  ADD UNIQUE KEY `username` (`username`),
   ADD KEY `mail` (`mail`);
 
 --
@@ -17588,10 +17587,10 @@ DELIMITER $$
 -- Events
 --
 DROP EVENT `daily_pet_respect_points`$$
-CREATE DEFINER=`pixar`@`192.99.135.12` EVENT `daily_pet_respect_points` ON SCHEDULE EVERY 24 HOUR STARTS '2016-01-01 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO update users_stats set daily_pet_respect_points = 5 where daily_pet_respect_points = 0$$
+CREATE DEFINER=`root`@`localhost` EVENT `daily_pet_respect_points` ON SCHEDULE EVERY 24 HOUR STARTS '2016-01-01 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO update users_stats set daily_pet_respect_points = 5 where daily_pet_respect_points = 0$$
 
 DROP EVENT `daily_respect_points`$$
-CREATE DEFINER=`pixar`@`192.99.135.12` EVENT `daily_respect_points` ON SCHEDULE EVERY 24 HOUR STARTS '2016-01-01 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO update users_stats set daily_respect_points = 5 where daily_respect_points = 0$$
+CREATE DEFINER=`root`@`localhost` EVENT `daily_respect_points` ON SCHEDULE EVERY 24 HOUR STARTS '2016-01-01 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO update users_stats set daily_respect_points = 5 where daily_respect_points = 0$$
 
 DELIMITER ;
 
