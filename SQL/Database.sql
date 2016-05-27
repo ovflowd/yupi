@@ -16523,7 +16523,7 @@ CREATE TABLE `users_rooms_visits` (
 DROP TABLE IF EXISTS `users_stats`;
 CREATE TABLE `users_stats` (
   `id` int(11) UNSIGNED NOT NULL,
-  `online_seconds` int(7) NOT NULL,
+  `online_seconds` int(7) NOT NULL DEFAULT '0',
   `room_visits` int(7) NOT NULL DEFAULT '0',
   `respect` int(6) NOT NULL DEFAULT '0',
   `gifts_given` int(6) NOT NULL DEFAULT '0',
@@ -17117,9 +17117,8 @@ ALTER TABLE `talents_data`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `mail_2` (`mail`),
   ADD KEY `id` (`id`),
-  ADD KEY `username` (`username`),
+  ADD UNIQUE KEY `username` (`username`),
   ADD KEY `mail` (`mail`);
 
 --
