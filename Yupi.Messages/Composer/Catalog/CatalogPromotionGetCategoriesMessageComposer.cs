@@ -6,7 +6,7 @@ namespace Yupi.Messages.Catalog
 {
 	public class CatalogPromotionGetCategoriesMessageComposer : AbstractComposerVoid
 	{
-		public override void Compose (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session)
+		public override void Compose (Yupi.Protocol.ISender session)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(Yupi.GetGame().GetNavigator().Promomessage.Count);

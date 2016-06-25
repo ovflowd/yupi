@@ -34,13 +34,14 @@ using Yupi.Emulator.Game.SoundMachine;
 using Yupi.Emulator.Game.SoundMachine.Songs;
 using Yupi.Emulator.Messages;
 using Yupi.Emulator.Messages.Buffers;
+using Yupi.Protocol;
 
 namespace Yupi.Emulator.Game.Rooms
 {
     /// <summary>
     ///     Class Room.
     /// </summary>
-    public class Room
+	public class Room : ISender
     {
         /// <summary>
         ///     The _banzai

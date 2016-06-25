@@ -5,7 +5,7 @@ namespace Yupi.Messages.Other
 {
 	public class SecretKeyMessageComposer : AbstractComposerVoid
 	{
-		public override void Compose (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session)
+		public override void Compose (Yupi.Protocol.ISender session)
 		{
 			// TODO Public networks???
 

@@ -8,7 +8,7 @@ namespace Yupi.Messages.Support
 	public class ModerationRoomToolMessageComposer : AbstractComposer<Room>
 	{
 		// TODO Refactor
-		public override void Compose (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Room room, uint roomId)
+		public override void Compose (Yupi.Protocol.ISender session, Room room, uint roomId)
 		{
 			RoomData data;
 

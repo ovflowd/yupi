@@ -5,7 +5,7 @@ namespace Yupi.Messages.GameCenter
 {
 	public class GameCenterGameAchievementsMessageComposer : AbstractComposerVoid
 	{
-		public override void Compose (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session)
+		public override void Compose (Yupi.Protocol.ISender session)
 		{
 			// TODO Must be implemented
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {

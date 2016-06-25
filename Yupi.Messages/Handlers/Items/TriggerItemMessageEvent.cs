@@ -1,0 +1,146 @@
+﻿using System;
+using Yupi.Emulator.Game.Items.Interfaces;
+using Yupi.Emulator.Game.Items.Interactions.Enums;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Emulator.Game.Rooms.User;
+using System.Drawing;
+
+namespace Yupi.Messages.Items
+{
+	public class TriggerItemMessageEvent : AbstractHandler
+	{
+		/*
+		 * TODO
+		 * Also handles the following: UseHabboWheelMessageEvent, TriggerWallItemMessageEvent, EnterOneWayDoorMessageEvent, TriggerDiceRollMessageEvent
+		 */
+
+		public override void HandleMessage (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Yupi.Protocol.Buffers.ClientMessage request, Router router)
+		{
+			Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
+
+			if (room == null)
+				return;
+
+			int num = request.GetInteger();
+
+			if (num < 0)
+				return;
+
+			uint pId = Convert.ToUInt32(num);
+
+			RoomItem item = room.GetRoomItemHandler().GetItem(pId);
+
+			if (item == null)
+				return;
+
+			bool hasRightsOne = room.CheckRights(session, false, true);
+			bool hasRightsTwo = room.CheckRights(session, true);
+
+			switch (item.GetBaseItem().InteractionType)
+			{
+			case Interaction.RoomBg:
+				{
+					if (!hasRightsTwo)
+						return;
+
+					room.TonerData.Enabled = room.TonerData.Enabled == 0 ? 1 : 0;
+					router.GetComposer<UpdateRoomItemMessageComposer> ().Compose (room, item);
+
+					item.UpdateState();
+
+					using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+						queryReactor.RunFastQuery(
+							$"UPDATE items_toners SET enabled = '{room.TonerData.Enabled}' LIMIT 1");
+
+					return;
+				}
+			case Interaction.LoveShuffler:
+			case Interaction.LoveLock:
+				{
+					if (!hasRightsOne)
+						return;
+
+					TriggerLoveLock(router, session, item);
+
+					return;
+				}
+			case Interaction.Moplaseed:
+			case Interaction.RareMoplaSeed:
+				{
+					if (!hasRightsOne)
+						return;
+
+					PlantMonsterplant(item, room);
+
+					return;
+				}
+			}
+
+			item.Interactor.OnTrigger(session, item, request.GetInteger(), hasRightsOne);
+			item.OnTrigger(room.GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().Id));
+
+			foreach (RoomUser current in room.GetRoomUserManager().UserList.Values.Where(current => current != null))
+				room.GetRoomUserManager().UpdateUserStatus(current, true);
+		}
+
+		private void TriggerLoveLock(Router router, Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, RoomItem loveLock)
+		{
+			string[] loveLockParams = loveLock.ExtraData.Split(Convert.ToChar(5));
+
+			try
+			{
+				if (loveLockParams[0] == "1")
+					return;
+
+				Point pointOne;
+				Point pointTwo;
+
+				switch (loveLock.Rot)
+				{
+				case 2:
+					pointOne = new Point(loveLock.X, loveLock.Y + 1);
+					pointTwo = new Point(loveLock.X, loveLock.Y - 1);
+					break;
+
+				case 4:
+					pointOne = new Point(loveLock.X - 1, loveLock.Y);
+					pointTwo = new Point(loveLock.X + 1, loveLock.Y);
+					break;
+
+				default:
+					return;
+				}
+
+				RoomUser roomUserOne = loveLock.GetRoom().GetRoomUserManager().GetUserForSquare(pointOne.X, pointOne.Y);
+				RoomUser roomUserTwo = loveLock.GetRoom().GetRoomUserManager().GetUserForSquare(pointTwo.X, pointTwo.Y);
+
+				RoomUser user = loveLock.GetRoom().GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().Id);
+
+				if (roomUserOne == null || roomUserTwo == null)
+				{
+					user.MoveTo(loveLock.X, loveLock.Y + 1);
+					return;
+				}
+
+				if (roomUserOne.GetClient() == null || roomUserTwo.GetClient() == null)
+				{
+					session.SendNotif(Yupi.GetLanguage().GetVar("lovelock_error_2"));
+					return;
+				}
+
+				roomUserOne.CanWalk = false;
+				roomUserTwo.CanWalk = false;
+
+				loveLock.InteractingUser = roomUserOne.GetClient().GetHabbo().Id;
+				loveLock.InteractingUser2 = roomUserTwo.GetClient().GetHabbo().Id;
+
+				router.GetComposer<LoveLockDialogueMessageComposer>().Compose(roomUserOne.GetClient(), roomUserTwo.GetClient());
+			}
+			catch
+			{
+				session.SendNotif(Yupi.GetLanguage().GetVar("lovelock_error_3"));
+			}
+		}
+	}
+}
+

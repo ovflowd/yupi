@@ -8,7 +8,7 @@ namespace Yupi.Messages.User
 {
 	public class UpdateUserDataMessageComposer : AbstractComposer
 	{ // TODO Does -1 mean self???
-		public override void Compose (Room room, Habbo habbo, int roomUserId = -1)
+		public override void Compose (Yupi.Protocol.ISender room, Habbo habbo, int roomUserId = -1)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(roomUserId);

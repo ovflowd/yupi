@@ -8,7 +8,7 @@ namespace Yupi.Messages.Music
 {
 	public class SongsLibraryMessageComposer : AbstractComposer<HybridDictionary>
 	{
-		public override void Compose (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, HybridDictionary songs)
+		public override void Compose (Yupi.Protocol.ISender session, HybridDictionary songs)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 

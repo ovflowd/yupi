@@ -6,7 +6,7 @@ namespace Yupi.Messages.Catalog
 {
 	public class GroupFurniturePageMessageComposer : AbstractComposer<HashSet<GroupMember>>
 	{
-		public override void Compose (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, HashSet<GroupMember> userGroups)
+		public override void Compose (Yupi.Protocol.ISender session, HashSet<GroupMember> userGroups)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (userGroups.Count);

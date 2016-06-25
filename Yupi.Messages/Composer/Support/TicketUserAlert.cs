@@ -14,7 +14,7 @@ namespace Yupi.Messages.Support
 			PREVIOUS_ABUSIVE = 2
 		}
 
-		public override void Compose (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Status status, SupportTicket ticket = null)
+		public override void Compose (Yupi.Protocol.ISender session, Status status, SupportTicket ticket = null)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(status);

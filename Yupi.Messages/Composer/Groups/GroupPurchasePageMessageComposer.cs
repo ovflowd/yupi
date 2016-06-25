@@ -7,7 +7,7 @@ namespace Yupi.Messages.Groups
 {
 	public class GroupPurchasePageMessageComposer : AbstractComposer<HashSet<RoomData>>
 	{
-		public override void Compose (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, HashSet<RoomData> rooms)
+		public override void Compose (Yupi.Protocol.ISender session, HashSet<RoomData> rooms)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 

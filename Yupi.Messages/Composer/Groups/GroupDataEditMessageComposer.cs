@@ -6,7 +6,7 @@ namespace Yupi.Messages.Groups
 {
 	public class GroupDataEditMessageComposer : AbstractComposer<Group>
 	{
-		public override void Compose (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Group group)
+		public override void Compose (Yupi.Protocol.ISender session, Group group)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (0);

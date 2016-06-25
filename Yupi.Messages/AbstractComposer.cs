@@ -19,11 +19,11 @@ namespace Yupi.Messages
 
 	// TODO Implement interface into Room and GameClient to support broadcasts with the same Composer
 	public class AbstractComposerVoid : AbstractComposer {
-		public abstract void Compose(GameClient session);
+		public abstract void Compose(ISender session);
 	}
 
 	public abstract class AbstractComposer<T> : AbstractComposer {
-		public abstract void Compose(GameClient session, T value);
+		public abstract void Compose(ISender session, T value);
 	}
 }
 

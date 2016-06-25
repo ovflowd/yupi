@@ -51,6 +51,7 @@
       <HintPath>..\packages\Log4Net.Async.2.0.0.0\lib\net40\Log4Net.Async.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -304,6 +305,80 @@
     <Compile Include="Handlers\Groups\UpdateForumSettingsMessageEvent.cs" />
     <Compile Include="Handlers\Groups\DeleteGroupMessageEvent.cs" />
     <Compile Include="Composer\Groups\GroupDeletedMessageComposer.cs" />
+    <Compile Include="Handlers\Pets\PetBreedCancelMessageEvent.cs" />
+    <Compile Include="Handlers\Pets\PetBreedResultMessageEvent.cs" />
+    <Compile Include="Composer\Pets\PetBreedResultMessageComposer.cs" />
+    <Compile Include="Handlers\Pets\GetPetTrainerPanelMessageEvent.cs" />
+    <Compile Include="Composer\Pets\PetTrainerPanelMessageComposer.cs" />
+    <Compile Include="Handlers\Items\RoomAddPostItMessageEvent.cs" />
+    <Compile Include="Handlers\Items\RoomAddFloorItemMessageEvent.cs" />
+    <Compile Include="Handlers\Items\PickUpItemMessageEvent.cs" />
+    <Compile Include="Handlers\Items\FloorItemMoveMessageEvent.cs" />
+    <Compile Include="Composer\Items\UpdateRoomItemMessageComposer.cs" />
+    <Compile Include="Handlers\Items\WallItemMoveMessageEvent.cs" />
+    <Compile Include="Composer\Items\UpdateRoomWallItemMessageComposer.cs" />
+    <Compile Include="Handlers\Items\TriggerItemMessageEvent.cs" />
+    <Compile Include="Handlers\Items\TriggerDiceCloseMessageEvent.cs" />
+    <Compile Include="Handlers\Items\OpenPostItMessageEvent.cs" />
+    <Compile Include="Composer\Items\LoadPostItMessageComposer.cs" />
+    <Compile Include="Handlers\Items\SavePostItMessageEvent.cs" />
+    <Compile Include="Handlers\Items\RemovePostItMessageEvent.cs" />
+    <Compile Include="Handlers\Items\OpenGiftMessageEvent.cs" />
+    <Compile Include="Composer\Items\OpenGiftMessageComposer.cs" />
+    <Compile Include="Composer\Items\AddFloorItemMessageComposer.cs" />
+    <Compile Include="Composer\Items\NewInventoryObjectMessageComposer.cs" />
+    <Compile Include="Composer\Items\UpdateInventoryMessageComposer.cs" />
+    <Compile Include="Handlers\Items\ActivateMoodlightMessageEvent.cs" />
+    <Compile Include="Composer\Items\DimmerDataMessageComposer.cs" />
+    <Compile Include="Handlers\Items\UpdateMoodlightMessageEvent.cs" />
+    <Compile Include="Handlers\Items\TriggerMoodlightMessageEvent.cs" />
+    <Compile Include="Handlers\Items\SaveRoomBackgroundTonerMessageEvent.cs" />
+    <Compile Include="Handlers\Items\TradeStartMessageEvent.cs" />
+    <Compile Include="Handlers\Items\TileStackMagicSetHeightMessageEvent.cs" />
+    <Compile Include="Composer\Items\UpdateTileStackMagicHeight.cs" />
+    <Compile Include="Handlers\Items\TradeAddItemOfferMessageEvent.cs" />
+    <Compile Include="Handlers\Items\TradeRemoveItemMessageEvent.cs" />
+    <Compile Include="Handlers\Items\TradeCancelMessageEvent.cs" />
+    <Compile Include="Handlers\Items\TradeDiscardMessageEvent.cs" />
+    <Compile Include="Handlers\Items\TradeAcceptMessageEvent.cs" />
+    <Compile Include="Handlers\Items\TradeUnacceptMessageEvent.cs" />
+    <Compile Include="Handlers\Items\TradeConfirmMessageEvent.cs" />
+    <Compile Include="Handlers\Items\EcotronRecycleMessageEvent.cs" />
+    <Compile Include="Composer\Items\RecyclingStateMessageComposer.cs" />
+    <Compile Include="Handlers\Items\ReedemExchangeItemMessageEvent.cs" />
+    <Compile Include="Composer\Items\LoveLockDialogueMessageComposer.cs" />
+    <Compile Include="Handlers\Pets\PetGetInformationMessageEvent.cs" />
+    <Compile Include="Handlers\Items\CompostMonsterplantMessageEvent.cs" />
+    <Compile Include="Handlers\Pets\MovePetMessageEvent.cs" />
+    <Compile Include="Handlers\Pets\PickUpPetMessageEvent.cs" />
+    <Compile Include="Handlers\Pets\RespectPetMessageEvent.cs" />
+    <Compile Include="Handlers\Pets\HorseAllowAllRideMessageEvent.cs" />
+    <Compile Include="Composer\Pets\PetInfoMessageComposer.cs" />
+    <Compile Include="Handlers\Pets\HorseAddSaddleMessageEvent.cs" />
+    <Compile Include="Composer\Room\SetRoomUserMessageComposer.cs" />
+    <Compile Include="Composer\Pets\SerializePetMessageComposer.cs" />
+    <Compile Include="Handlers\Pets\HorseRemoveSaddleMessageEvent.cs" />
+    <Compile Include="Handlers\Items\GiveHanditemMessageEvent.cs" />
+    <Compile Include="Handlers\Catalog\RedeemVoucherMessageEvent.cs" />
+    <Compile Include="Handlers\Items\DropHanditemMessageEvent.cs" />
+    <Compile Include="Handlers\Pets\HorseMountOnMessageEvent.cs" />
+    <Compile Include="Handlers\Items\WiredSaveEffectMessageEvent.cs" />
+    <Compile Include="Handlers\Items\YouTubeGetPlaylistGetMessageEvent.cs" />
+    <Compile Include="Composer\Items\Youtube\YouTubeLoadVideoMessageComposer.cs" />
+    <Compile Include="Handlers\Items\YouTubeChoosePlaylistVideoMessageEvent.cs" />
+    <Compile Include="Handlers\Items\YouTubeGetPlayerMessageEvent.cs" />
+    <Compile Include="Composer\Items\Youtube\YouTubeLoadPlaylistsMessageComposer.cs" />
+    <Compile Include="Handlers\Items\PlaceBotMessageEvent.cs" />
+    <Compile Include="Handlers\Items\PickUpBotMessageEvent.cs" />
+    <Compile Include="Handlers\Items\PlaceBuildersFurniture.cs" />
+    <Compile Include="Handlers\Items\PlaceBuildersWallItemMessageEvent.cs" />
+    <Compile Include="Composer\Items\AddWallItemMessageComposer.cs" />
+    <Compile Include="Composer\Items\BuildersClubUpdateFurniCountMessageComposer.cs" />
+    <Compile Include="Handlers\Items\ConfirmLoveLockMessageEvent.cs" />
+    <Compile Include="Handlers\Items\SaveFootballGateOutfitMessageEvent.cs" />
+    <Compile Include="Handlers\Items\MannequinSaveDataMessageEvent.cs" />
+    <Compile Include="Handlers\Items\MannequinUpdateDataMessageEvent.cs" />
+    <Compile Include="Handlers\Items\UsePurchasableClothingMessageEvent.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -346,6 +421,11 @@
     <Folder Include="Handlers\Groups\" />
     <Folder Include="Composer\Groups\" />
     <Folder Include="Composer\Room\" />
+    <Folder Include="Handlers\Pets\" />
+    <Folder Include="Composer\Pets\" />
+    <Folder Include="Handlers\Items\" />
+    <Folder Include="Composer\Items\" />
+    <Folder Include="Composer\Items\Youtube\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

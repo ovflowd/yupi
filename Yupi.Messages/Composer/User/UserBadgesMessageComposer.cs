@@ -7,7 +7,7 @@ namespace Yupi.Messages.User
 {
 	public class UserBadgesMessageComposer : AbstractComposer<uint>
 	{
-		public override void Compose (GameClient session, uint user)
+		public override void Compose (Yupi.Protocol.ISender session, uint user)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (user);

@@ -6,7 +6,7 @@ namespace Yupi.Messages.Navigator
 	public class SearchResultSetComposer : AbstractComposer
 	{
 		// TODO Refactor
-		public void Compose (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, string value1, string value2)
+		public void Compose (Yupi.Protocol.ISender session, string value1, string value2)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendString(value1);

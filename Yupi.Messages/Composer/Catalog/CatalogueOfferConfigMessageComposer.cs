@@ -5,7 +5,7 @@ namespace Yupi.Messages.Catalog
 {
 	public class CatalogueOfferConfigMessageComposer : AbstractComposerVoid
 	{
-		public override void Compose (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session)
+		public override void Compose (Yupi.Protocol.ISender session)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				// TODO Hardcoded message

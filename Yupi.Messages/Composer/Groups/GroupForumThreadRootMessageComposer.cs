@@ -7,7 +7,7 @@ namespace Yupi.Messages.Groups
 {
 	public class GroupForumThreadRootMessageComposer : AbstractComposer
 	{
-		public override void Compose (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, int groupId, int startIndex, List<GroupForumPost> threads)
+		public override void Compose (Yupi.Protocol.ISender session, int groupId, int startIndex, List<GroupForumPost> threads)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(groupId);

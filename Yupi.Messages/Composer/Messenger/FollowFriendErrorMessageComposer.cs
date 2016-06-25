@@ -6,7 +6,7 @@ namespace Yupi.Messages.Messenger
 	public class FollowFriendErrorMessageComposer : AbstractComposer<int>
 	{
 		// TODO Enum
-		public override void Compose (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, int status)
+		public override void Compose (Yupi.Protocol.ISender session, int status)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (status);

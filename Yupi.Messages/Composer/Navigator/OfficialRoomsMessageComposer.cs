@@ -6,7 +6,7 @@ namespace Yupi.Messages.Navigator
 {
 	public class OfficialRoomsMessageComposer : AbstractComposer<RoomData>
 	{
-		public override void Compose (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, RoomData roomData)
+		public override void Compose (Yupi.Protocol.ISender session, RoomData roomData)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(roomData.Id);

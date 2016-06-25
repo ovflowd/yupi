@@ -7,7 +7,7 @@ namespace Yupi.Messages.Groups
 {
 	public class RoomGroupMessageComposer : AbstractComposer
 	{
-		public override void Compose (Room room)
+		public override void Compose (Yupi.Protocol.ISender room)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(room.LoadedGroups.Count);

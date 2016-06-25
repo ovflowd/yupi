@@ -6,7 +6,7 @@ namespace Yupi.Messages.Groups
 {
 	public class GroupMembersMessageComposer : AbstractComposer<Group>
 	{
-		public override void Compose (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Group group)
+		public override void Compose (Yupi.Protocol.ISender session, Group group)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				Yupi.GetGame().GetGroupManager().SerializeGroupMembers(message, group, 0u, session);

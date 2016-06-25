@@ -6,7 +6,7 @@ namespace Yupi.Messages.Catalog
 {
 	public class CatalogOfferMessageComposer : AbstractComposer
 	{
-		public void Compose (GameClient session, CatalogItem item)
+		public void Compose (Yupi.Protocol.ISender session, CatalogItem item)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (item.Id);

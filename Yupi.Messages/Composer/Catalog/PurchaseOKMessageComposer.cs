@@ -8,7 +8,7 @@ namespace Yupi.Messages.Catalog
 {
 	public class PurchaseOKMessageComposer : AbstractComposer
 	{
-		public void Compose (GameClient session, uint itemId, string itemName, uint creditsCost,
+		public void Compose (Yupi.Protocol.ISender session, uint itemId, string itemName, uint creditsCost,
 		                    Dictionary<Item, uint> items = null, int clubLevel = 1,
 		                    uint diamondsCost = 0,
 		                    uint activityPointsCost = 0, bool isLimited = false,

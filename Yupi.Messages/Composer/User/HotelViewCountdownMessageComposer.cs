@@ -5,7 +5,7 @@ namespace Yupi.Messages.User
 {
 	public class HotelViewCountdownMessageComposer : AbstractComposer<string>
 	{
-		public override void Compose (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, string time)
+		public override void Compose (Yupi.Protocol.ISender session, string time)
 		{
 			DateTime date;
 			DateTime.TryParse(time, out date);

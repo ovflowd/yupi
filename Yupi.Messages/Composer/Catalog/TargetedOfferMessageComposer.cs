@@ -6,7 +6,7 @@ namespace Yupi.Messages.Catalog
 {
 	public class TargetedOfferMessageComposer : AbstractComposer<TargetedOffer>
 	{
-		public override void Compose (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, TargetedOffer offer)
+		public override void Compose (Yupi.Protocol.ISender session, TargetedOffer offer)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(1);

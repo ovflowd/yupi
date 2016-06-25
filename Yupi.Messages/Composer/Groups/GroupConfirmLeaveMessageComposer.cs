@@ -7,7 +7,7 @@ namespace Yupi.Messages.Groups
 {
 	public class GroupConfirmLeaveMessageComposer : AbstractComposer
 	{
-		public override void Compose (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Habbo user, Group group, int type)
+		public override void Compose (Yupi.Protocol.ISender session, Habbo user, Group group, int type)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(group.Id);

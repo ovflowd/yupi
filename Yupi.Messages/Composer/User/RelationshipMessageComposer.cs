@@ -8,7 +8,7 @@ namespace Yupi.Messages.User
 {
 	public class RelationshipMessageComposer : AbstractComposer<Habbo>
 	{
-		public override void Compose (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Habbo habbo)
+		public override void Compose (Yupi.Protocol.ISender session, Habbo habbo)
 		{
 			// TODO Refactor
 

@@ -8,7 +8,7 @@ namespace Yupi.Messages.Catalog
 {
 	public class CatalogueIndexMessageComposer : AbstractComposer
 	{
-		public override void Compose (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, IOrderedEnumerable<CatalogPage> sortedPages, IEnumerable<CatalogPage> pages, string type)
+		public override void Compose (Yupi.Protocol.ISender session, IOrderedEnumerable<CatalogPage> sortedPages, IEnumerable<CatalogPage> pages, string type)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendBool(true);

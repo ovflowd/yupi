@@ -5,7 +5,7 @@ namespace Yupi.Messages.User
 {
 	public class AchievementPointsMessageComposer : AbstractComposer<int>
 	{
-		public override void Compose (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, int points)
+		public override void Compose (Yupi.Protocol.ISender session, int points)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (points);

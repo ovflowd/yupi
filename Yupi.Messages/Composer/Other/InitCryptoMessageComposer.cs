@@ -5,7 +5,7 @@ namespace Yupi.Messages.Other
 {
 	public class InitCryptoMessageComposer : AbstractComposerVoid
 	{
-		public override void Compose (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session)
+		public override void Compose (Yupi.Protocol.ISender session)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				// TODO What about public networks?

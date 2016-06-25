@@ -6,7 +6,7 @@ namespace Yupi.Messages.Groups
 {
 	public class GroupForumThreadUpdateMessageComposer : AbstractComposer
 	{
-		public override void Compose (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, int groupId, GroupForumPost thread, bool pin, bool Lock)
+		public override void Compose (Yupi.Protocol.ISender session, int groupId, GroupForumPost thread, bool pin, bool Lock)
 		{
 			// TODO Hardcoded message
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {

@@ -8,7 +8,7 @@ namespace Yupi.Messages.Groups
 	public class ChangeFavouriteGroupMessageComposer : AbstractComposer
 	{
 		// TODO Refactor
-		public override void Compose (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Group group, int virtualId)
+		public override void Compose (Yupi.Protocol.ISender session, Group group, int virtualId)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(virtualId);

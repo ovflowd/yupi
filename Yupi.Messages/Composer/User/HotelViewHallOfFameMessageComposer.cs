@@ -7,7 +7,7 @@ namespace Yupi.Messages.User
 {
 	public class HotelViewHallOfFameMessageComposer : AbstractComposer<string>
 	{
-		public override void Compose (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, string code)
+		public override void Compose (Yupi.Protocol.ISender session, string code)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendString(code);

@@ -6,7 +6,7 @@ namespace Yupi.Messages.Catalog
 {
 	public class CataloguePageMessageComposer : AbstractComposer<CatalogPage>
 	{
-		public override void Compose (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, CatalogPage page)
+		public override void Compose (Yupi.Protocol.ISender session, CatalogPage page)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(page.PageId);

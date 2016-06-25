@@ -6,7 +6,7 @@ namespace Yupi.Messages.User
 {
 	public class QuestListMessageComposer : AbstractComposerVoid
 	{
-		public override void Compose (GameClient session)
+		public override void Compose (Yupi.Protocol.ISender session)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (0); // TODO What do these values mean?

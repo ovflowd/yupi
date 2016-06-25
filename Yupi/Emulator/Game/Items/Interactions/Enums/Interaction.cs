@@ -25,6 +25,7 @@
         /// </summary>
         RoomEffect,
 
+		// TODO Consistency: Moodlight vs Dimmer
         /// <summary>
         ///     The dimmer
         /// </summary>

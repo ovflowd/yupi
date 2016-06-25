@@ -5,7 +5,7 @@ namespace Yupi.Messages.Guides
 {
 	public class OnGuideSessionError : AbstractComposerVoid
 	{
-		public override void Compose (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session)
+		public override void Compose (Yupi.Protocol.ISender session)
 		{
 			// TODO Hardcoded message
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {

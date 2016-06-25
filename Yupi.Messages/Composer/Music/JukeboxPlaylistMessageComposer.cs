@@ -7,7 +7,7 @@ namespace Yupi.Messages.Music
 {
 	public class JukeboxPlaylistMessageComposer : AbstractComposer<SoundMachineManager>
 	{
-		public override void Compose (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, SoundMachineManager jukebox)
+		public override void Compose (Yupi.Protocol.ISender session, SoundMachineManager jukebox)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				

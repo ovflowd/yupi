@@ -8,7 +8,7 @@ namespace Yupi.Messages.Support
 {
 	public class OpenHelpToolMessageComposer : AbstractComposer<Habbo>
 	{
-		public override void Compose (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Habbo habbo)
+		public override void Compose (Yupi.Protocol.ISender session, Habbo habbo)
 		{
 			bool hasTicket = Yupi.GetGame ().GetModerationTool ().UsersHasPendingTicket (habbo.Id);
 

@@ -7,7 +7,7 @@ namespace Yupi.Messages.User
 {
 	public class UserObjectMessageComposer : AbstractComposer<Habbo>
 	{
-		public override void Compose (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Habbo habbo)
+		public override void Compose (Yupi.Protocol.ISender session, Habbo habbo)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(habbo.Id);

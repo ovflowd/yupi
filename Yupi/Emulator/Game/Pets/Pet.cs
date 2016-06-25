@@ -31,7 +31,6 @@ using Yupi.Emulator.Game.Pets.Enums;
 using Yupi.Emulator.Game.Pets.Structs;
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Messages;
-using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Pets
 {
@@ -267,34 +266,42 @@ namespace Yupi.Emulator.Game.Pets
         }
 
         /// <summary>
-        ///     Gets the maximum level.
+        ///     The maximum level.
         /// </summary>
         /// <value>The maximum level.</value>
-     public static uint MaxLevel => 20;
+     public const uint MaxLevel = 20;
 
         /// <summary>
-        ///     Gets the maximum energy.
+        ///     The maximum energy
         /// </summary>
         /// <value>The maximum energy.</value>
-     public static uint MaxEnergy => 100;
+	public const uint MaxEnergy = 100;
 
         /// <summary>
         ///     Gets the maximum nutrition.
         /// </summary>
         /// <value>The maximum nutrition.</value>
-     public static uint MaxNutrition => 150;
+     public const uint MaxNutrition = 150;
 
         /// <summary>
         ///     Gets the room.
         /// </summary>
         /// <value>The room.</value>
-     public Room Room => !IsInRoom ? null : Yupi.GetGame().GetRoomManager().GetRoom(RoomId);
+		public Room Room {
+			get {
+				return !IsInRoom ? null : Yupi.GetGame().GetRoomManager().GetRoom(RoomId);
+			}
+		}
 
         /// <summary>
         ///     Gets a value indicating whether this instance is in room.
         /// </summary>
         /// <value><c>true</c> if this instance is in room; otherwise, <c>false</c>.</value>
-     public bool IsInRoom => RoomId > 0u;
+		public bool IsInRoom {
+			get {
+				return RoomId > 0u;
+			}
+		}
 
         /// <summary>
         ///     Gets the level.
@@ -318,25 +325,42 @@ namespace Yupi.Emulator.Game.Pets
         ///     Gets the experience goal.
         /// </summary>
         /// <value>The experience goal.</value>
-     public int ExperienceGoal => ExperienceLevels[Level - 1];
+     public int ExperienceGoal 
+		{ 
+			get {
+				return ExperienceLevels [Level - 1];
+			}
+	 }
 
         /// <summary>
         ///     Gets the age.
         /// </summary>
         /// <value>The age.</value>
-     public int Age => (int) (DateTime.Now - Yupi.UnixToDateTime(CreationStamp)).TotalDays;
+		public int Age {
+			get { 
+				return (int)(DateTime.Now - Yupi.UnixToDateTime (CreationStamp)).TotalDays;
+			}
+		}
 
         /// <summary>
         ///     Gets the look.
         /// </summary>
         /// <value>The look.</value>
-     public string Look => string.Concat(RaceId, " ", Race, " ", Color);
+		public string Look {
+			get { 
+				return string.Concat (RaceId, " ", Race, " ", Color);
+			}
+		}
 
         /// <summary>
         ///     Gets the name of the owner.
         /// </summary>
         /// <value>The name of the owner.</value>
-     public string OwnerName => Yupi.GetGame().GetClientManager().GetUserNameByUserId(OwnerId);
+		public string OwnerName {
+			get { 
+				return Yupi.GetGame ().GetClientManager ().GetUserNameByUserId (OwnerId);
+			}
+		}
 
         /// <summary>
         ///     Called when [respect].

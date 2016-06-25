@@ -7,7 +7,7 @@ namespace Yupi.Messages.User
 {
 	public class LoadWardrobeMessageComposer : AbstractComposerVoid
 	{
-		public override void Compose (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session)
+		public override void Compose (Yupi.Protocol.ISender session)
 		{
 			// TODO Query should really not be within composer!!!
 			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())

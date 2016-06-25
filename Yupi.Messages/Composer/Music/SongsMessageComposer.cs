@@ -7,7 +7,7 @@ namespace Yupi.Messages.Music
 {
 	public class SongsMessageComposer : AbstractComposer<List<SongData>>
 	{
-		public override void Compose (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, List<SongData> songs)
+		public override void Compose (Yupi.Protocol.ISender session, List<SongData> songs)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (songs.Count);

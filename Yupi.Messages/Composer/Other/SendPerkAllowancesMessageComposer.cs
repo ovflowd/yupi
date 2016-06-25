@@ -7,7 +7,7 @@ namespace Yupi.Messages.Other
 	public class SendPerkAllowancesMessageComposer : AbstractComposerVoid
 	{
 		// TODO Refactor (hardcoded)
-		public override void Compose (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session)
+		public override void Compose (Yupi.Protocol.ISender session)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) { 
 				message.AppendInteger(11);

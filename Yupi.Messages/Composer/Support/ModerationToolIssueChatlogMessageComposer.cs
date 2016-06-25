@@ -12,7 +12,7 @@ namespace Yupi.Messages.Support
 	public class ModerationToolIssueChatlogMessageComposer : AbstractComposer
 	{
 		// TODO Refactor
-		public override void Compose (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, SupportTicket ticket, RoomData roomData)
+		public override void Compose (Yupi.Protocol.ISender session, SupportTicket ticket, RoomData roomData)
 		{
 			
 			RoomData room = Yupi.GetGame().GetRoomManager().GenerateRoomData(ticket.RoomId);
