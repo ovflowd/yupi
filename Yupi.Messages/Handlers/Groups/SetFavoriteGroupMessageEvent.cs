@@ -35,7 +35,7 @@ namespace Yupi.Messages.Groups
 			if (session.GetHabbo().CurrentRoom != null && !session.GetHabbo().CurrentRoom.LoadedGroups.ContainsKey(theGroup.Id))
 			{
 					session.GetHabbo().CurrentRoom.LoadedGroups.Add(theGroup.Id, theGroup.Badge);
-					router.GetComposer<RoomGroupMessageComposer> ().Compose (session.GetHabbo ().CurrentRoom, session.GetHabbo ().CurrentRoom.LoadedGroups);
+					router.GetComposer<RoomGroupMessageComposer> ().Compose (session.GetHabbo ().CurrentRoom);
 			}
 
 			router.GetComposer<ChangeFavouriteGroupMessageComposer> ().Compose (session, theGroup, 0);

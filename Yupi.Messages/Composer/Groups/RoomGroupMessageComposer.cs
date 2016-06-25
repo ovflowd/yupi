@@ -7,12 +7,12 @@ namespace Yupi.Messages.Groups
 {
 	public class RoomGroupMessageComposer : AbstractComposer
 	{
-		public override void Compose (Room room, Dictionary<uint, string> loadedGroups)
+		public override void Compose (Room room)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendInteger(loadedGroups.Count);
+				message.AppendInteger(room.LoadedGroups.Count);
 
-				foreach (KeyValuePair<uint, string> current in loadedGroups)
+				foreach (KeyValuePair<uint, string> current in room.LoadedGroups)
 				{
 					message.AppendInteger(current.Key);
 					message.AppendString(current.Value);

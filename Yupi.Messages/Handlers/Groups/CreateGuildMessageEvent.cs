@@ -69,7 +69,7 @@ namespace Yupi.Messages.Groups
 
 			if (CurrentLoadingRoom != null)
 			{
-				router.GetComposer<RoomGroupMessageComposer> ().Compose (CurrentLoadingRoom, CurrentLoadingRoom.LoadedGroups);
+				router.GetComposer<RoomGroupMessageComposer> ().Compose (CurrentLoadingRoom);
 
 
 				if (session.GetHabbo ().FavouriteGroup != theGroup.Id) {

@@ -290,6 +290,20 @@
     <Compile Include="Handlers\Groups\GetGroupForumsMessageEvent.cs" />
     <Compile Include="Composer\Groups\GroupForumListingsMessageComposer.cs" />
     <Compile Include="Handlers\Groups\GroupUpdateNameMessageEvent.cs" />
+    <Compile Include="Handlers\Groups\GroupManageMessageEvent.cs" />
+    <Compile Include="Composer\Groups\GroupDataEditMessageComposer.cs" />
+    <Compile Include="Handlers\Groups\GroupUpdateBadgeMessageEvent.cs" />
+    <Compile Include="Handlers\Groups\GroupUpdateColoursMessageEvent.cs" />
+    <Compile Include="Handlers\Groups\GroupUpdateSettingsMessageEvent.cs" />
+    <Compile Include="Handlers\Groups\RequestLeaveGroupMessageEvent.cs" />
+    <Compile Include="Composer\Groups\GroupAreYouSureMessageComposer.cs" />
+    <Compile Include="Handlers\Groups\ConfirmLeaveGroupMessageEvent.cs" />
+    <Compile Include="Composer\Groups\GroupConfirmLeaveMessageComposer.cs" />
+    <Compile Include="Composer\Groups\GroupMembersMessageComposer.cs" />
+    <Compile Include="Composer\Groups\GrouprequestReloadMessageComposer.cs" />
+    <Compile Include="Handlers\Groups\UpdateForumSettingsMessageEvent.cs" />
+    <Compile Include="Handlers\Groups\DeleteGroupMessageEvent.cs" />
+    <Compile Include="Composer\Groups\GroupDeletedMessageComposer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

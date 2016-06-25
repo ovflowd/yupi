@@ -8,18 +8,18 @@ using Yupi.Emulator.Game.Users;
 using Yupi.Emulator.Game.Users.Data.Models;
 using Yupi.Emulator.Game.Users.Factories;
 using Yupi.Emulator.Messages;
-using Yupi.Emulator.Messages.Buffers;
 using Yupi.Emulator.Messages.Enums;
 using Yupi.Emulator.Messages.Handlers;
 using Yupi.Net;
 using Yupi.Protocol.Buffers;
+using Yupi.Protocol;
 
 namespace Yupi.Emulator.Game.GameClients.Interfaces
 {
     /// <summary>
     ///     Class GameClient.
     /// </summary>
-    public class GameClient
+	public class GameClient : ISender
     {
         /// <summary>
         ///     The Client Connection
