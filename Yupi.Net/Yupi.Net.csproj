@@ -63,6 +63,10 @@
     <Reference Include="DotNetty.Codecs">
       <HintPath>..\packages\DotNetty.Codecs-signed.0.2.3\lib\net45\DotNetty.Codecs.dll</HintPath>
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -83,6 +87,7 @@
     <Compile Include="SuperSocketImpl\ReceiveFilter.cs" />
     <Compile Include="SuperSocketImpl\RequestInfo.cs" />
     <Compile Include="ServerFactory.cs" />
+    <Compile Include="Web\WebManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -95,6 +100,7 @@
   <ItemGroup>
     <Folder Include="SuperSocketImpl\" />
     <Folder Include="DotNettyImpl\" />
+    <Folder Include="Web\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
