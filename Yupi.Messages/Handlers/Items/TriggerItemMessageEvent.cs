@@ -4,9 +4,15 @@ using Yupi.Emulator.Game.Items.Interactions.Enums;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Emulator.Game.Rooms.User;
 using System.Drawing;
+using Yupi.Emulator.Game.Rooms;
+using Yupi.Emulator.Game.Pets;
+using Yupi.Emulator.Game.RoomBots;
+using Yupi.Emulator.Game.RoomBots.Enumerators;
+using Yupi.Emulator.Game.Pets.Enums;
 
 namespace Yupi.Messages.Items
 {
+	// TODO Potentially blob class...
 	public class TriggerItemMessageEvent : AbstractHandler
 	{
 		/*
@@ -70,7 +76,7 @@ namespace Yupi.Messages.Items
 					if (!hasRightsOne)
 						return;
 
-					PlantMonsterplant(item, room);
+					PlantMonsterplant(router, session, item, room);
 
 					return;
 				}
@@ -81,6 +87,60 @@ namespace Yupi.Messages.Items
 
 			foreach (RoomUser current in room.GetRoomUserManager().UserList.Values.Where(current => current != null))
 				room.GetRoomUserManager().UpdateUserStatus(current, true);
+		}
+
+		private void PlantMonsterplant(Router router, Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, RoomItem mopla, Room room)
+		{
+			int rarity = 0, internalRarity;
+
+			if (room == null || mopla == null)
+				return;
+
+			if ((mopla.GetBaseItem().InteractionType != Interaction.Moplaseed) &&
+				(mopla.GetBaseItem().InteractionType != Interaction.RareMoplaSeed))
+				return;
+
+			if (string.IsNullOrEmpty(mopla.ExtraData) || mopla.ExtraData == "0")
+				rarity = 1;
+
+			if (!string.IsNullOrEmpty(mopla.ExtraData) && mopla.ExtraData != "0")
+				rarity = int.TryParse(mopla.ExtraData, out internalRarity) ? internalRarity : 1;
+
+			int getX = mopla.X;
+			int getY = mopla.Y;
+
+			room.GetRoomItemHandler().RemoveFurniture(session, mopla.Id, false);
+
+			Pet pet = CatalogManager.CreatePet(session.GetHabbo().Id, "Monsterplant", "pet_monster", "0", "0", rarity);
+
+			router.GetComposer<SendMonsterplantIdMessageComposer> ().Compose (session, pet.PetId);
+
+			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor()) {
+				queryReactor.SetQuery("UPDATE pets_data SET room_id = @room, x = @x, y = @y WHERE id = @id");
+				queryReactor.AddParameter("x", getX);
+				queryReactor.AddParameter("y", getY);
+				queryReactor.AddParameter("id", pet.PetId);
+				queryReactor.RunQuery ();
+			}
+
+			pet.PlacedInRoom = true;
+			pet.RoomId = room.RoomId;
+
+			RoomBot bot = new RoomBot(pet.PetId, pet.OwnerId, pet.RoomId, AiType.Pet, "freeroam", pet.Name, "", pet.Look, getX, getY, 0.0, 4, null, null, "", 0, "");
+
+			room.GetRoomUserManager().DeployBot(bot, pet);
+
+			if (pet.DbState != DatabaseUpdateState.NeedsInsert)
+				pet.DbState = DatabaseUpdateState.NeedsUpdate;
+
+			using (IQueryAdapter queryreactor2 = Yupi.GetDatabaseManager().GetQueryReactor())
+			{
+				queryreactor2.SetQuery("DELETE FROM items_rooms WHERE id = @id");
+				queryreactor2.AddParameter("id", mopla.Id);
+				queryreactor2.RunQuery ();
+
+				room.GetRoomUserManager().SavePets(queryreactor2);
+			}
 		}
 
 		private void TriggerLoveLock(Router router, Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, RoomItem loveLock)
@@ -114,7 +174,7 @@ namespace Yupi.Messages.Items
 				RoomUser roomUserOne = loveLock.GetRoom().GetRoomUserManager().GetUserForSquare(pointOne.X, pointOne.Y);
 				RoomUser roomUserTwo = loveLock.GetRoom().GetRoomUserManager().GetUserForSquare(pointTwo.X, pointTwo.Y);
 
-				RoomUser user = loveLock.GetRoom().GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().Id);
+				RoomUser user = loveLock.GetRoom().GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().Id);
 
 				if (roomUserOne == null || roomUserTwo == null)
 				{

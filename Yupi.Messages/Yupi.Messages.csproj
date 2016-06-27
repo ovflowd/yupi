@@ -52,6 +52,7 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Extensions" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -431,6 +432,64 @@
     <Compile Include="Handlers\User\IgnoreUserMessageEvent.cs" />
     <Compile Include="Composer\User\UpdateIgnoreStatusMessageComposer.cs" />
     <Compile Include="Handlers\User\UnignoreUserMessageEvent.cs" />
+    <Compile Include="Handlers\Rooms\UserSignMessageEvent.cs" />
+    <Compile Include="Handlers\Rooms\RateRoomMessageEvent.cs" />
+    <Compile Include="Handlers\Rooms\UserDanceMessageEvent.cs" />
+    <Compile Include="Composer\Rooms\DanceStatusMessageComposer.cs" />
+    <Compile Include="Handlers\Rooms\DoorbellAnswerMessageEvent.cs" />
+    <Compile Include="Composer\Rooms\DoorbellOpenedMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\DoorbellNoOneMessageComposer.cs" />
+    <Compile Include="Handlers\Rooms\RoomAlterFilterMessageEvent.cs" />
+    <Compile Include="Handlers\Rooms\RoomGetFilterMessageEvent.cs" />
+    <Compile Include="Composer\Rooms\RoomLoadFilterMessageComposer.cs" />
+    <Compile Include="Handlers\Rooms\RoomApplySpaceMessageEvent.cs" />
+    <Compile Include="Handlers\Rooms\PromoteRoomMessageEvent.cs" />
+    <Compile Include="Handlers\Navigator\CatalogPromotionGetRoomsMessageEvent.cs" />
+    <Compile Include="Composer\Navigator\CatalogPromotionGetRoomsMessageComposer.cs" />
+    <Compile Include="Handlers\Rooms\SaveFloorPlanEditorMessageEvent.cs" />
+    <Compile Include="Composer\Items\SendMonsterplantIdMessageComposer.cs" />
+    <Compile Include="Handlers\Pets\PlacePetMessageEvent.cs" />
+    <Compile Include="Handlers\Rooms\RoomEventUpdateMessageEvent.cs" />
+    <Compile Include="Handlers\Bots\BotSpeechListMessageEvent.cs" />
+    <Compile Include="Composer\Bots\BotSpeechListMessageComposer.cs" />
+    <Compile Include="Handlers\Bots\BotActionsMessageEvent.cs" />
+    <Compile Include="Composer\Notification\GeneralErrorHabboMessageComposer.cs" />
+    <Compile Include="Handlers\Rooms\RoomOnLoadMessageEvent.cs" />
+    <Compile Include="Composer\Rooms\SendRoomCampaignFurnitureMessageComposer.cs" />
+    <Compile Include="Handlers\Rooms\RoomSettingsMuteAllMessageEvent.cs" />
+    <Compile Include="Composer\Rooms\RoomMuteStatusMessageComposer.cs" />
+    <Compile Include="Handlers\Rooms\RemoveFavouriteRoomMessageEvent.cs" />
+    <Compile Include="Handlers\Rooms\RoomUserActionMessageEvent.cs" />
+    <Compile Include="Composer\Rooms\RoomUserIdleMessageComposer.cs" />
+    <Compile Include="Handlers\Rooms\RoomGetHeightmapMessageEvent.cs" />
+    <Compile Include="Composer\Rooms\OutOfRoomMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\RoomEnterErrorMessageComposer.cs" />
+    <Compile Include="Composer\Items\RoomFloorItemsMessageComposer.cs" />
+    <Compile Include="Composer\Items\RoomWallItemsMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\FloodFilterMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\SuggestPollMessageComposer.cs" />
+    <Compile Include="Handlers\Landing\LandingLoadWidgetMessageEvent.cs" />
+    <Compile Include="Composer\Landing\LandingWidgetMessageComposer.cs" />
+    <Compile Include="Handlers\Landing\LandingRefreshPromosMessageEvent.cs" />
+    <Compile Include="Composer\Landing\LandingPromosMessageComposer.cs" />
+    <Compile Include="Handlers\Rooms\AcceptPollMessageEvent.cs" />
+    <Compile Include="Composer\Rooms\PollQuestionsMessageComposer.cs" />
+    <Compile Include="Handlers\Rooms\RefusePollMessageEvent.cs" />
+    <Compile Include="Handlers\Rooms\AnswerPollQuestionMessageEvent.cs" />
+    <Compile Include="Composer\Rooms\MatchingPollAnsweredMessageComposer.cs" />
+    <Compile Include="Handlers\Rooms\ToggleSittingMessageEvent.cs" />
+    <Compile Include="Handlers\Rooms\Chat\UserWhisperMessageEvent.cs" />
+    <Compile Include="Composer\Rooms\Chat\WhisperMessageComposer.cs" />
+    <Compile Include="Handlers\Rooms\Chat\ChatMessageEvent.cs" />
+    <Compile Include="Handlers\Rooms\Chat\ShoutMessageEvent.cs" />
+    <Compile Include="Handlers\Rooms\GetFloorPlanFurnitureMessageEvent.cs" />
+    <Compile Include="Composer\Rooms\GetFloorPlanUsedCoordsMessageComposer.cs" />
+    <Compile Include="Handlers\Rooms\GetFloorPlanDoorMessageEvent.cs" />
+    <Compile Include="Composer\Rooms\SetFloorPlanDoorMessageComposer.cs" />
+    <Compile Include="Handlers\Rooms\Camera\GetCameraRequest.cs" />
+    <Compile Include="Composer\Rooms\Camera\CameraStorageUrlMessageComposer.cs" />
+    <Compile Include="Handlers\Rooms\Competition\SubmitRoomToCompetitionMessageEvent.cs" />
+    <Compile Include="Handlers\Rooms\Competition\VoteForRoomMessageEvent.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -479,6 +538,15 @@
     <Folder Include="Composer\Items\Youtube\" />
     <Folder Include="Handlers\Rooms\" />
     <Folder Include="Composer\Rooms\" />
+    <Folder Include="Handlers\Bots\" />
+    <Folder Include="Composer\Bots\" />
+    <Folder Include="Handlers\Landing\" />
+    <Folder Include="Composer\Landing\" />
+    <Folder Include="Handlers\Rooms\Chat\" />
+    <Folder Include="Composer\Rooms\Chat\" />
+    <Folder Include="Composer\Rooms\Camera\" />
+    <Folder Include="Handlers\Rooms\Camera\" />
+    <Folder Include="Handlers\Rooms\Competition\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

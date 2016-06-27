@@ -106,6 +106,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         ///     Gets the coordinated items.
         /// </summary>
         /// <value>The coordinated items.</value>
+		// TODO Type Safety !!! unsafe dictionary
      public HybridDictionary CoordinatedItems { get; private set; }
 
         /// <summary>

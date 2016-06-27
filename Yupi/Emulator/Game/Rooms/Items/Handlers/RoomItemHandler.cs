@@ -76,7 +76,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         /// </summary>
         /// <param name="room">The room.</param>
         public RoomItemHandler(Room room)
-        {
+        { 
             _room = room;
             _removedItems = new List<uint>();
             _updatedItems = new List<uint>();

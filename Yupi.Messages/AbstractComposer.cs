@@ -30,6 +30,10 @@ namespace Yupi.Messages
 		public abstract void Compose(ISender session, T first, U second);
 	}
 
+	public abstract class AbstractComposer<T, U, V> : AbstractComposer {
+		public abstract void Compose(ISender session, T first, U second, V third);
+	}
+
 	public abstract class AbstactComposerEmpty : AbstractComposerVoid {
 		public override void Compose (ISender session)
 		{

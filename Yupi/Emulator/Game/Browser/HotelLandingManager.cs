@@ -83,21 +83,6 @@ namespace Yupi.Emulator.Game.Browser
         }
 
         /// <summary>
-        ///     Smalls the promo composer.
-        /// </summary>
-        /// <param name="messageBuffer">The messageBuffer.</param>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-     public SimpleServerMessageBuffer SmallPromoComposer(SimpleServerMessageBuffer messageBuffer)
-        {
-            messageBuffer.AppendInteger(HotelViewPromosIndexers.Count);
-
-            foreach (HotelLandingPromos current in HotelViewPromosIndexers)
-                current.Serialize(messageBuffer);
-
-            return messageBuffer;
-        }
-
-        /// <summary>
         ///     Loads the reward.
         /// </summary>
         private void LoadReward()
