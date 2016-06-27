@@ -18,7 +18,7 @@ namespace Yupi.Messages.User
 
 			session.GetHabbo().MutedUsers.Remove(habbo.Id);
 
-			router.GetComposer<UpdateIgnoreStatusMessageComposer> ().Compose (session, UpdateIgnoreStatusMessageComposer.State.LISTEN, username)
+			router.GetComposer<UpdateIgnoreStatusMessageComposer> ().Compose (session, UpdateIgnoreStatusMessageComposer.State.LISTEN, username);
 		}
 	}
 }

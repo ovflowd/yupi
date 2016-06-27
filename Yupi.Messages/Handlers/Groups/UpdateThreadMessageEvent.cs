@@ -38,7 +38,7 @@ namespace Yupi.Messages.Groups
 				if (thread.Pinned != pin)
 				{
 					router.GetComposer<SuperNotificationMessageComposer>().Compose(session, string.Empty, string.Empty, string.Empty, string.Empty,
-						in ? "forums.thread.pinned" : "forums.thread.unpinned", 0);
+						pin ? "forums.thread.pinned" : "forums.thread.unpinned", 0);
 				}
 
 				if (thread.Locked != Lock)

@@ -14,7 +14,7 @@ namespace Yupi.Messages.Support
 
 			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(roomId);
 
-			ModerationTool.SerializeRoomTool(data)
+			ModerationTool.SerializeRoomTool (data);
 		}
 	}
 }
