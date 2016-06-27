@@ -52,6 +52,7 @@ using Yupi.Emulator.Game.Users.Messenger.Structs;
 using Yupi.Emulator.Messages;
 using Yupi.Net;
 using Yupi.Net.SuperSocketImpl;
+using Yupi.Messages;
 
 namespace Yupi.Emulator
 {
@@ -238,6 +239,9 @@ namespace Yupi.Emulator
 		public static ILog GetLogManager() {
 			return YupiLogManager.GetLogManager ();
 		}
+
+		// HACK Should be fixed, once cyclic dependencies are removed
+		private static Router<GameClient> router;
 
         /// <summary>
         ///     Start the Plugin System
@@ -439,6 +443,8 @@ namespace Yupi.Emulator
                 using (IQueryAdapter queryReactor = GetDatabaseManager().GetQueryReactor())
                     DatabaseSettings = new ServerDatabaseSettings(queryReactor);
 
+			router = new Router<GameClient>(ServerConfigurationSettings.Data["db.pool.maxsize"], YupiVariablesDirectory);
+
                 GameServer = new HabboHotel();    
 			// TODO Refactor (+rename)
                 GameServer.Init();
@@ -471,7 +477,8 @@ namespace Yupi.Emulator
 				// TODO When using message pool the SimpleClientMessageBuffer becomes invalid (after several messages) -> DEBUG
 				global::Yupi.Emulator.Messages.Buffers.SimpleClientMessageBuffer message = new global::Yupi.Emulator.Messages.Buffers.SimpleClientMessageBuffer();
 				    message.Setup(body);
-					session.UserData.GetMessageHandler().HandleRequest(message);
+				session.UserData.Router = router;
+				router.Handle(session, message);
 				//}
 			};
 

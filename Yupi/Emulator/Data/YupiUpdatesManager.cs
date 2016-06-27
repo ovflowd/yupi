@@ -27,7 +27,7 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 using Yupi.Emulator.Core.Io.Logger;
-using Yupi.Emulator.Net.Web;
+using Yupi.Net.Web;
 
 namespace Yupi.Emulator.Data
 {
