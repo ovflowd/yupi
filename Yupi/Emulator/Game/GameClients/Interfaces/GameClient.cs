@@ -51,6 +51,9 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         /// </summary>
 		public string MachineId;
 
+		// HACK Interface can be removed once cyclic dependency is resolved
+		public IRouter Router;
+
         /// <summary>
         ///     The publicist count
         /// </summary>
@@ -156,13 +159,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         ///     Gets the connection.
         /// </summary>
         /// <returns>ConnectionInformation.</returns>
-		public ISession GetConnection() => _connection;
-
-        /// <summary>
-        ///     Gets the message handler.
-        /// </summary>
-        /// <returns>MessageHandler.</returns>
-		public MessageHandler GetMessageHandler() => _messageHandler;
+		public ISession<GameClient> GetConnection() { return _connection; }
 
         /// <summary>
         ///     Gets the habbo.

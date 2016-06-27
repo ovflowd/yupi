@@ -50,7 +50,6 @@ using Yupi.Emulator.Game.Users.Data.Models;
 using Yupi.Emulator.Game.Users.Factories;
 using Yupi.Emulator.Game.Users.Messenger.Structs;
 using Yupi.Emulator.Messages;
-using Yupi.Emulator.Messages.Factorys;
 using Yupi.Net;
 using Yupi.Net.SuperSocketImpl;
 
@@ -191,7 +190,7 @@ namespace Yupi.Emulator
         /// </summary>
         public static HabboHotel GameServer;
 
-		private static IServer TCPServer;
+		private static IServer<GameClient> TCPServer;
 
         /// <summary>
         ///     The ServerLanguageVariables
@@ -462,16 +461,17 @@ namespace Yupi.Emulator
              
               //  ConnectionManager.DataParser = new ServerPacketParser();
 			int port = int.Parse(ServerConfigurationSettings.Data["game.tcp.port"]);
-			TCPServer = ServerFactory.CreateServer(port);
+			TCPServer = ServerFactory<GameClient>.CreateServer(port);
 
 			TCPServer.OnConnectionOpened += GetGame().GetClientManager().AddClient; // TODO Connection security!
 			TCPServer.OnConnectionClosed += GetGame().GetClientManager().RemoveClient;
-			TCPServer.OnMessageReceived += (ISession session, byte[] body) => {
+			TCPServer.OnMessageReceived += (ISession<GameClient> session, byte[] body) => {
+				
 				//using(global::Yupi.Emulator.Messages.Buffers.SimpleClientMessageBuffer message = ClientMessageFactory.GetClientMessage()) {
 				// TODO When using message pool the SimpleClientMessageBuffer becomes invalid (after several messages) -> DEBUG
 				global::Yupi.Emulator.Messages.Buffers.SimpleClientMessageBuffer message = new global::Yupi.Emulator.Messages.Buffers.SimpleClientMessageBuffer();
 				    message.Setup(body);
-					GetGame().GetClientManager().GetClient(session).GetMessageHandler().HandleRequest(message);
+					session.UserData.GetMessageHandler().HandleRequest(message);
 				//}
 			};
 

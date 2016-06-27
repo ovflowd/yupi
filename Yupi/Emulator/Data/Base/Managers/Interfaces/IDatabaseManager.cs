@@ -27,7 +27,7 @@ using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 
 namespace Yupi.Emulator.Data.Base.Managers.Interfaces
 {
-    interface IDatabaseManager
+    public interface IDatabaseManager
     {
         MySqlConnectionStringBuilder GetConnectionStringBuilder();
 

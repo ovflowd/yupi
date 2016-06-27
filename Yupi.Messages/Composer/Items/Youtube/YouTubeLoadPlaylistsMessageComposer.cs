@@ -3,6 +3,7 @@ using Yupi.Protocol;
 using Yupi.Emulator.Game.Items.Interfaces;
 using System.Collections.Generic;
 using Yupi.Emulator.Game.Users;
+using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Youtube
 {
@@ -14,8 +15,11 @@ namespace Yupi.Messages.Youtube
 				message.AppendInteger(videos.Count);
 
 				foreach (YoutubeVideo video in videos.Values) {
-					video.Serialize (message);
+					message.AppendString(video.VideoId);
+					message.AppendString(video.Name);
+					message.AppendString(video.Description);
 				}
+
 				message.AppendString(tv.ExtraData);
 
 				session.Send (message);

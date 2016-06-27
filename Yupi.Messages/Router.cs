@@ -3,10 +3,11 @@ using System.Linq;
 using System.Collections.Generic;
 using Yupi.Protocol.Buffers;
 using Yupi.Net;
+using Yupi.Protocol;
 
 namespace Yupi.Messages
 {
-	public class Router
+	public class Router<U> : IRouter
 	{
 		private static readonly log4net.ILog Logger = log4net.LogManager
 			.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -15,10 +16,12 @@ namespace Yupi.Messages
 		private Dictionary<Type, IComposer> Outgoing;
 
 		private PacketLibrary library;
+		private ServerMessagePool pool;
 
 		public Router (string release, string configDir)
 		{
 			library = new PacketLibrary (release, configDir);
+			pool = new ServerMessagePool ();
 		}
 
 		public T GetComposer<T>() {
@@ -32,7 +35,7 @@ namespace Yupi.Messages
 			return (T)composer;
 		}
 
-		public void Handle (ISession session, ClientMessage message) {
+		public void Handle (ISession<U> session, ClientMessage message) {
 			AbstractHandler handler;
 			Incoming.TryGetValue (message.Id, out handler);
 
@@ -61,7 +64,7 @@ namespace Yupi.Messages
 
 			foreach (Type composerType in composers) {
 				IComposer composer = (IComposer)Activator.CreateInstance(composerType);
-				composer.SetId (library.GetOutgoingId (composerType.Name));
+				composer.Init (library.GetOutgoingId (composerType.Name), pool);
 				Outgoing.Add(composerType, composer);
 			}
 		}

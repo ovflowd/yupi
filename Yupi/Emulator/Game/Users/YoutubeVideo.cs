@@ -1,6 +1,4 @@
-﻿using Yupi.Emulator.Messages.Buffers;
-
-namespace Yupi.Emulator.Game.Users
+﻿namespace Yupi.Emulator.Game.Users
 {
     /// <summary>
     ///     Class YoutubeVideo.
@@ -16,13 +14,6 @@ namespace Yupi.Emulator.Game.Users
             VideoId = videoId;
             Name = name;
             Description = description;
-        }
-
-     public void Serialize(SimpleServerMessageBuffer messageBuffer)
-        {
-            messageBuffer.AppendString(VideoId);
-            messageBuffer.AppendString(Name);
-            messageBuffer.AppendString(Description);
         }
     }
 }
