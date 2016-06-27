@@ -469,31 +469,9 @@ namespace Yupi.Emulator.Game.Rooms.Data.Models
         /// <param name="messageBuffer">The messageBuffer.</param>
         /// <param name="showEvents">if set to <c>true</c> [show events].</param>
         /// <param name="enterRoom"></param>
-     public void Serialize(SimpleServerMessageBuffer messageBuffer, bool showEvents = false, bool enterRoom = false) => RoomDataComposer.Serialize(messageBuffer, this, showEvents, enterRoom);
-
-        /// <summary>
-        ///     Serializes the room data.
-        /// </summary>
-        /// <param name="messageBuffer">The messageBuffer.</param>
-        /// <param name="session">The session.</param>
-        /// <param name="isNotReload">if set to <c>true</c> [from view].</param>
-        /// <param name="sendRoom">if set to <c>true</c> [send room].</param>
-        /// <param name="show">if set to <c>true</c> [show].</param>
-     public void SerializeRoomData(SimpleServerMessageBuffer messageBuffer, GameClient session, bool isNotReload, bool? sendRoom = false, bool show = true)
-        {
-            SimpleServerMessageBuffer roomDataBuffer = RoomDataComposer.Compose(messageBuffer, session, Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId), this, isNotReload, sendRoom, show);
-
-            if (sendRoom == null)
-                return;
-
-            if (sendRoom.Value && Yupi.GetGame().GetRoomManager().GetRoom(Id) != null)
-            {
-                Yupi.GetGame().GetRoomManager().GetRoom(Id).SendMessage(roomDataBuffer);
-
-                return;
-            }
-
-            session.SendMessage(roomDataBuffer);
-        }
+     public void Serialize(SimpleServerMessageBuffer messageBuffer, bool showEvents = false, bool enterRoom = false) 
+		{
+			RoomDataComposer.Serialize(messageBuffer, this, showEvents, enterRoom);
+		}
     }
 }

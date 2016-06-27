@@ -11,8 +11,9 @@ namespace Yupi.Messages.Groups
 
 			Group group = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
 
-			if (group != null && group.Forum.Id != 0)
-				session.SendMessage(group.ForumDataMessage(session.GetHabbo().Id));
+			if (group != null && group.Forum.Id != 0) {
+				router.GetComposer<GroupForumDataMessageComposer> ().Compose (session, group, session.GetHabbo ().Id);
+			}
 		}
 	}
 }

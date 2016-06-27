@@ -59,8 +59,9 @@ namespace Yupi.Messages.Rooms
 			{
 				if (CurrentLoadingRoom.CheckRights(session, true))
 				{
-					if (!competition.Entries.ContainsKey(CurrentLoadingRoom.RoomData.Id))
-						competition.AppendEntrySubmitMessage(Response, CurrentLoadingRoom.RoomData.State != 0 ? 4 : 1);
+					if (!competition.Entries.ContainsKey (CurrentLoadingRoom.RoomData.Id))
+						router.GetComposer<CompetitionEntrySubmitResultMessageComposer> ().Compose (session, competition, 
+							CurrentLoadingRoom.RoomData.State != 0 ? 4 : 1);
 					else
 					{
 						switch (competition.Entries[CurrentLoadingRoom.RoomData.Id].CompetitionStatus)
@@ -69,9 +70,9 @@ namespace Yupi.Messages.Rooms
 							break;
 						default:
 							if (competition.HasAllRequiredFurnis(CurrentLoadingRoom))
-								competition.AppendEntrySubmitMessage(Response, 2);
+								router.GetComposer<CompetitionEntrySubmitResultMessageComposer> ().Compose (session, competition, 2);
 							else
-								competition.AppendEntrySubmitMessage(Response, 3, CurrentLoadingRoom);
+								router.GetComposer<CompetitionEntrySubmitResultMessageComposer> ().Compose (session, competition, 3, CurrentLoadingRoom);
 							break;
 						}
 					}
@@ -79,11 +80,9 @@ namespace Yupi.Messages.Rooms
 				else if (!CurrentLoadingRoom.CheckRights(session, true) &&
 					competition.Entries.ContainsKey(CurrentLoadingRoom.RoomData.Id))
 				{
-					if (session.GetHabbo().DailyCompetitionVotes > 0)
-						competition.AppendVoteMessage(Response, session.GetHabbo());
+					if (session.GetHabbo ().DailyCompetitionVotes > 0)
+						router.GetComposer<CompetitionVotingInfoMessageComposer> ().Compose (session, competition, session.GetHabbo().DailyCompetitionVotes);
 				}
-
-				queuedServerMessageBuffer.AppendResponse(GetResponse());
 			}
 
 			if (Yupi.GetUnixTimeStamp() < session.GetHabbo().FloodTime && session.GetHabbo().FloodTime != 0)

@@ -490,6 +490,17 @@
     <Compile Include="Composer\Rooms\Camera\CameraStorageUrlMessageComposer.cs" />
     <Compile Include="Handlers\Rooms\Competition\SubmitRoomToCompetitionMessageEvent.cs" />
     <Compile Include="Handlers\Rooms\Competition\VoteForRoomMessageEvent.cs" />
+    <Compile Include="Composer\Navigator\NavigatorCategorys.cs" />
+    <Compile Include="Composer\Navigator\NavigatorLiftedRoomsComposer.cs" />
+    <Compile Include="Composer\Navigator\NavigatorSavedSearchesComposer.cs" />
+    <Compile Include="Composer\Navigator\NavigatorMetaDataComposer.cs" />
+    <Compile Include="Composer\Navigator\NewNavigatorSizeMessageComposer.cs" />
+    <Compile Include="Composer\Navigator\FlatCategoriesMessageComposer.cs" />
+    <Compile Include="Composer\Groups\GroupForumDataMessageComposer.cs" />
+    <Compile Include="Composer\Pets\AddPetExperienceMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\CompetitionEntrySubmitResultMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\CompetitionVotingInfoMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\RoomDataMessageComposer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

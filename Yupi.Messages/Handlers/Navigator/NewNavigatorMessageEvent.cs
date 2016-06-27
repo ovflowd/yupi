@@ -9,7 +9,11 @@ namespace Yupi.Messages.Navigator
 			if (session == null)
 				return;
 
-			Yupi.GetGame().GetNavigator().InitializeNavigator(session);
+			router.GetComposer<NavigatorMetaDataComposer> ().Compose (session);
+			router.GetComposer<NavigatorLiftedRoomsComposer> ().Compose (session, Yupi.GetGame().GetNavigator().NavigatorHeaders);
+			router.GetComposer<NavigatorCategorys> ().Compose (session, Yupi.GetGame ().GetNavigator ());
+			router.GetComposer<NavigatorSavedSearchesComposer> ().Compose (session, session.GetHabbo().NavigatorLogs);
+			router.GetComposer<NewNavigatorSizeMessageComposer> ().Compose (session, session.GetHabbo ().Preferences);
 		}
 	}
 }

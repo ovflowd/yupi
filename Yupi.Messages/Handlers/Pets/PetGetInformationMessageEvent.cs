@@ -18,7 +18,7 @@ namespace Yupi.Messages.Pets
 			if (pet?.PetData == null)
 				return;
 
-			session.SendMessage(pet.PetData.SerializeInfo());
+			router.GetComposer<PetInfoMessageComposer> ().Compose (session, pet);
 		}	
 	}
 }

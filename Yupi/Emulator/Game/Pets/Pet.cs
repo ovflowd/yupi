@@ -489,11 +489,5 @@ namespace Yupi.Emulator.Game.Pets
         /// <param name="levelAfterName">if set to <c>true</c> [level after name].</param>
      public void SerializeInventory(SimpleServerMessageBuffer messageBuffer, bool levelAfterName = false)
             => SerializePetInventoryComposer.GenerateMessage(this, messageBuffer, levelAfterName);
-
-        /// <summary>
-        ///     Serializes the information.
-        /// </summary>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-     public SimpleServerMessageBuffer SerializeInfo() => PetInformationComposer.GenerateMessage(this);
     }
 }

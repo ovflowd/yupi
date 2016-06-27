@@ -293,22 +293,6 @@ namespace Yupi.Emulator.Game.Browser
      public PublicCategory GetFlatCat(int id)
             => PrivateCategories.Contains(id) ? (PublicCategory) PrivateCategories[id] : null;
 
-        /// <summary>
-        ///     Initializes Navigator
-        /// </summary>
-        /// <param name="session">The session.</param>
-     public void InitializeNavigator(GameClient session)
-        {
-            session.SendMessage(NavigatorMetaDataComposer.Compose());
-
-            session.SendMessage(NavigatorLiftedRoomsComposer.Compose());
-            
-            session.SendMessage(NavigatorCategoriesListComposer.Compose());
-
-            session.SendMessage(NavigatorSavedSearchesComposer.Compose(session));
-
-            session.SendMessage(NavigatorPreferencesComposer.Compose(session));
-        }
        
         /// <summary>
         ///     Gets the name of the flat cat identifier by.

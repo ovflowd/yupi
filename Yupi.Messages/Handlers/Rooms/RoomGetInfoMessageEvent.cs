@@ -17,17 +17,12 @@ namespace Yupi.Messages.Rooms
 
 			Room room = Yupi.GetGame().GetRoomManager().LoadRoom(id);
 
-			if (room == null)
-				return;
-
-			if (room.RoomData == null)
+			if (room == null || room.RoomData == null)
 				return;
 			
 			bool show = !(num == 0 && num2 == 1);
 
-			room.RoomData.SerializeRoomData(GetResponse(), session, true, null, show);
-			SendResponse();
-
+			router.GetComposer<RoomDataMessageComposer> ().Compose (session, room, show, true);
 			router.GetComposer<LoadRoomRightsListMessageComposer> ().Compose (session, room);
 		}
 	}

@@ -146,26 +146,7 @@ namespace Yupi.Emulator.Game.Groups.Structs
             AdminOnlyDeco = adminOnlyDeco;
             Forum = forum;
         }
-
-        /// <summary>
-        ///     Forums the data messageBuffer.
-        /// </summary>
-        /// <param name="requesterId">The requester identifier.</param>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-     public SimpleServerMessageBuffer ForumDataMessage(uint requesterId)
-        {
-            return ForumDataMessageComposer.Compose(this, Forum, requesterId);
-        }
-
-        /// <summary>
-        ///     Serializes the forum root.
-        /// </summary>
-        /// <param name="message">The messageBuffer.</param>
-     public void SerializeForumRoot(SimpleServerMessageBuffer messageBuffer)
-        {
-            ForumRootMessageComposer.Compose(messageBuffer, this, Forum);
-        }
-
+			
      public void CreateForum()
         {
             using (IQueryAdapter adapter = Yupi.GetDatabaseManager().GetQueryReactor())

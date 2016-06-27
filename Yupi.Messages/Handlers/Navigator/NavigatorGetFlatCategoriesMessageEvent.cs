@@ -9,7 +9,7 @@ namespace Yupi.Messages.Navigator
 			if (session.GetHabbo() == null)
 				return;
 
-			NavigatorFlatCategoriesListComposer.Compose(session);
+			router.GetComposer<FlatCategoriesMessageComposer> ().Compose (session, Yupi.GetGame ().GetNavigator ().PrivateCategories, session.GetHabbo ().Rank);
 		}
 	}
 }

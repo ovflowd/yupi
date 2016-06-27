@@ -28,37 +28,11 @@ using Yupi.Emulator.Game.Browser.Models;
 using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Rooms.Data.Models;
 using Yupi.Emulator.Messages;
-using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Rooms.Data.Composers
 {
      public class RoomDataComposer
     {
-     public static SimpleServerMessageBuffer Compose(SimpleServerMessageBuffer roomDataMessage, GameClient session, Room room, RoomData data, bool isNotReload, bool? sendRoom = false, bool show = true)
-        {
-            roomDataMessage.Init(PacketLibraryManager.OutgoingHandler("RoomDataMessageComposer"));
-
-            roomDataMessage.AppendBool(show);
-
-            Serialize(roomDataMessage, data, true, !isNotReload);
-
-            roomDataMessage.AppendBool(isNotReload);
-            roomDataMessage.AppendBool(Yupi.GetGame().GetNavigator() != null && Yupi.GetGame().GetNavigator().GetPublicRoom(data.Id) != null);
-            roomDataMessage.AppendBool(!isNotReload || session.GetHabbo().HasFuse("fuse_mod"));
-            roomDataMessage.AppendBool(room?.RoomMuted == true);
-            roomDataMessage.AppendInteger(data.WhoCanMute);
-            roomDataMessage.AppendInteger(data.WhoCanKick);
-            roomDataMessage.AppendInteger(data.WhoCanBan);
-            roomDataMessage.AppendBool(room?.CheckRights(session, true) == true);
-            roomDataMessage.AppendInteger(data.ChatType);
-            roomDataMessage.AppendInteger(data.ChatBalloon);
-            roomDataMessage.AppendInteger(data.ChatSpeed);
-            roomDataMessage.AppendInteger(data.ChatMaxDistance);
-            roomDataMessage.AppendInteger(data.ChatFloodProtection);
-
-            return roomDataMessage;
-        }
-
      public static void Serialize(SimpleServerMessageBuffer messageBuffer, RoomData data, bool showEvents = false, bool enterRoom = false)
         {
             messageBuffer.AppendInteger(data.Id);

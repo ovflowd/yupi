@@ -109,7 +109,7 @@ namespace Yupi.Emulator.Game.Support
                 room.RoomData.Name = "Inapropriado para a Gerência do Hotel";
                 room.RoomData.Description = "A descrição do quarto não é permitida.";
                 room.ClearTags();
-                room.RoomData.SerializeRoomData(messageBuffer, modSession, false, true);
+				router.GetComposer<RoomDataMessageComposer> ().Compose (room, room, true, true);
             }
 
             if (kickUsers)

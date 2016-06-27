@@ -37,7 +37,7 @@ namespace Yupi.Messages.Groups
 				queryReactor.RunQuery();
 			}
 
-			session.SendMessage(group.ForumDataMessage(session.GetHabbo().Id));
+			router.GetComposer<GroupForumDataMessageComposer> ().Compose (session, group, session.GetHabbo ().Id);
 		}
 	}
 }

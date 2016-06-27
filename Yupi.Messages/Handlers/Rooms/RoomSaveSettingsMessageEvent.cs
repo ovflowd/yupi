@@ -97,7 +97,7 @@ namespace Yupi.Messages.Rooms
 			router.GetComposer<RoomFloorWallLevelsMessageComposer> ().Compose (session.GetHabbo ().CurrentRoom, room.RoomData);
 			router.GetComposer<RoomChatOptionsMessageComposer> ().Compose (session.GetHabbo ().CurrentRoom, room.RoomData);
 
-			room.RoomData.SerializeRoomData(Response, session, false, true);
+			router.GetComposer<RoomDataMessageComposer> ().Compose (room, room, true, true);
 		}
 	}
 }

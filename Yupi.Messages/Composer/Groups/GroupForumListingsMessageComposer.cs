@@ -48,8 +48,8 @@ namespace Yupi.Messages.Groups
 
 						message.AppendInteger(table.Rows.Count);
 
-						foreach (Group theGroup in groupList)
-							theGroup.SerializeForumRoot(message);
+
+						SerializeForumRoot(message, groupList);
 					}
 					break;
 
@@ -67,8 +67,7 @@ namespace Yupi.Messages.Groups
 					message.AppendInteger(startIndex);
 					message.AppendInteger(groupList.Count);
 
-					foreach (Group theGroup in groupList)
-						theGroup.SerializeForumRoot(message);
+					SerializeForumRoot(message, groupList);
 					break;
 
 				default:
@@ -79,6 +78,24 @@ namespace Yupi.Messages.Groups
 				}
 
 				session.Send (message);
+			}
+		}
+
+
+		private void SerializeForumRoot(ServerMessage message, List<Group> groupList) {
+			foreach (Group group in groupList) {
+				message.AppendInteger (group.Id);
+				message.AppendString (group.Name);
+				message.AppendString (string.Empty);
+				message.AppendString (group.Badge);
+				message.AppendInteger (0);
+				message.AppendInteger ((int)Math.Round (group.Forum.ForumScore));
+				message.AppendInteger (group.Forum.ForumMessagesCount);
+				message.AppendInteger (0);
+				message.AppendInteger (0);
+				message.AppendInteger (group.Forum.ForumLastPosterId);
+				message.AppendString (group.Forum.ForumLastPosterName);
+				message.AppendInteger (group.Forum.ForumLastPostTime);
 			}
 		}
 	}

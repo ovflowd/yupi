@@ -3,6 +3,7 @@ using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Emulator.Game.Browser.Models;
 using Yupi.Emulator.Game.Browser.Enums;
+using Yupi.Messages.Rooms;
 
 namespace Yupi.Messages.Navigator
 {
@@ -47,7 +48,7 @@ namespace Yupi.Messages.Navigator
 					Yupi.GetGame().GetNavigator().RemovePublicRoom(pubItem.Id);
 				}
 
-				room.RoomData.SerializeRoomData(Response, session, false, true);
+				router.GetComposer<RoomDataMessageComposer> ().Compose (room, room, true, true);
 			}
 		}
 	}

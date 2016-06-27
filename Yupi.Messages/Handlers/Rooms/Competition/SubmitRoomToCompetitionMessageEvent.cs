@@ -3,6 +3,7 @@ using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Rooms.Data.Models;
 using Yupi.Emulator.Game.Rooms.Competitions.Models;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Messages.Rooms;
 
 namespace Yupi.Messages.Competition
 {
@@ -46,7 +47,7 @@ namespace Yupi.Messages.Competition
 					SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer();
 
 					roomData.CompetitionStatus = 2;
-					competition.AppendEntrySubmitMessage(messageBuffer, 3, room);
+					router.GetComposer<CompetitionEntrySubmitResultMessageComposer> ().Compose (session, competition, 3, room);
 
 					session.SendMessage(messageBuffer);
 				}
@@ -69,10 +70,8 @@ namespace Yupi.Messages.Competition
 					queryReactor.RunQuery();
 					roomData.CompetitionStatus = 3;
 
-					SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer();
-					competition.AppendEntrySubmitMessage(messageBuffer, 0);
 
-					session.SendMessage(messageBuffer);
+					router.GetComposer<CompetitionEntrySubmitResultMessageComposer> ().Compose (session, competition, 0);
 				}
 			}
 		}

@@ -26,11 +26,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
-using Yupi.Emulator.Game.Rooms.Competitions.Composers;
 using Yupi.Emulator.Game.Rooms.Data;
 using Yupi.Emulator.Game.Rooms.Data.Models;
 using Yupi.Emulator.Game.Users;
-using Yupi.Emulator.Messages.Buffers;
 
 namespace Yupi.Emulator.Game.Rooms.Competitions.Models
 {
@@ -104,10 +102,6 @@ namespace Yupi.Emulator.Game.Rooms.Competitions.Models
 
             return RequiredFurnis.All(furni => room.GetRoomItemHandler().HasFurniByItemName(furni));
         }
-
-     public SimpleServerMessageBuffer AppendEntrySubmitMessage(SimpleServerMessageBuffer messageBuffer, int status, Room room = null) => RoomCompetitionEntrySubmitResultComposer.Compose(this, messageBuffer, status, room);
-
-     public SimpleServerMessageBuffer AppendVoteMessage(SimpleServerMessageBuffer messageBuffer, Habbo user, int status = 0) => RoomCompetitionVotingInfoComposer.Compose(this, messageBuffer, user, status);
     }
 
 }

@@ -3,6 +3,7 @@ using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Rooms.Data.Models;
 using Yupi.Emulator.Game.Rooms.Competitions.Models;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Messages.Rooms;
 
 namespace Yupi.Messages.Competition
 {
@@ -53,10 +54,8 @@ namespace Yupi.Messages.Competition
 				queryReactor.RunQuery ();
 			}
 
-			SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer();
-			competition.AppendVoteMessage(messageBuffer, session.GetHabbo());
 
-			Session.SendMessage(messageBuffer);
+			router.GetComposer<CompetitionVotingInfoMessageComposer> ().Compose (session, competition, session.GetHabbo().DailyCompetitionVotes);
 		}
 	}
 }

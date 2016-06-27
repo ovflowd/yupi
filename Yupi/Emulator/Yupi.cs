@@ -236,7 +236,9 @@ namespace Yupi.Emulator
         ///     Get Log Manager
         /// </summary>
         /// <returns>ILog</returns>
-        public static ILog GetLogManager() => YupiLogManager.GetLogManager();
+		public static ILog GetLogManager() {
+			return YupiLogManager.GetLogManager ();
+		}
 
         /// <summary>
         ///     Start the Plugin System
