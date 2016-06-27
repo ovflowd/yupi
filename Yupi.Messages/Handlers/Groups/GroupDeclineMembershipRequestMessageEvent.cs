@@ -24,7 +24,7 @@ namespace Yupi.Messages.Groups
 			Yupi.GetGame().GetGroupManager().SerializeGroupMembers(Response, group, 2u, Session);
 			SendResponse();
 
-			Room room = Yupi.GetGame().GetRoomManager().GetRoom(group.RoomId);
+			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(group.RoomId);
 
 			RoomUser roomUserByHabbo = room?.GetRoomUserManager().GetRoomUserByHabbo(Yupi.GetHabboById(userId).UserName);
 

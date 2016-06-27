@@ -16,7 +16,7 @@ namespace Yupi.Messages.Music
 				return;
 			}
 
-			Room currentRoom = session.GetHabbo().CurrentRoom;
+			Yupi.Messages.Rooms currentRoom = session.GetHabbo().CurrentRoom;
 
 			if (!currentRoom.CheckRights(session, true))
 				return;

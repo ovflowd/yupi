@@ -16,7 +16,7 @@ namespace Yupi.Messages.Support
 
 			string message = request.GetString();
 
-			Room room = session.GetHabbo().CurrentRoom;
+			Yupi.Messages.Rooms room = session.GetHabbo().CurrentRoom;
 
 			router.GetComposer<SuperNotificationMessageComposer> ().Compose (room, "", message, "", "", "admin", 3);
 		}

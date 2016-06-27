@@ -17,7 +17,7 @@ namespace Yupi.Messages.Items
 		{
 			try
 			{
-				Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
+				Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
 
 				if (room == null || Yupi.GetDbConfig().DbData["placing_enabled"] != "1")
 					return;

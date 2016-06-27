@@ -16,7 +16,7 @@ namespace Yupi.Messages.Items
 				return;
 			}
 
-			Room currentRoom = session.GetHabbo().CurrentRoom;
+			Yupi.Messages.Rooms currentRoom = session.GetHabbo().CurrentRoom;
 
 			if (currentRoom == null)
 			{

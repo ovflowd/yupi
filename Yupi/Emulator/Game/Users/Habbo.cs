@@ -245,6 +245,7 @@ namespace Yupi.Emulator.Game.Users
 
         public uint LastSelectedUser = 0;
 
+		// TODO Should not be required when using proper caching!
         /// <summary>
         ///     The last SQL query
         /// </summary>

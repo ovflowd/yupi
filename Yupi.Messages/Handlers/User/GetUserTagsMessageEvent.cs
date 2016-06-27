@@ -9,7 +9,7 @@ namespace Yupi.Messages.User
 	{
 		public override void HandleMessage (GameClient session, Yupi.Protocol.Buffers.ClientMessage message, Router router)
 		{
-			Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.UserData.CurrentRoomId);
+			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(session.UserData.CurrentRoomId);
 
 			uint userId = message.GetUInt32 ();
 

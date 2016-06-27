@@ -33,7 +33,7 @@ namespace Yupi.Messages.User
 			if (!Session.GetHabbo().InRoom)
 				return;
 
-			Room currentRoom = Session.GetHabbo().CurrentRoom;
+			Yupi.Messages.Rooms currentRoom = Session.GetHabbo().CurrentRoom;
 
 			RoomUser roomUserByHabbo = currentRoom?.GetRoomUserManager().GetRoomUserByHabbo(Session.GetHabbo().Id);
 

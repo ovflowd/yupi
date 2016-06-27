@@ -11,7 +11,7 @@ namespace Yupi.Messages.Music
 			if (session.GetHabbo().CurrentRoom == null)
 				return;
 
-			Room currentRoom = session.GetHabbo().CurrentRoom;
+			Yupi.Messages.Rooms currentRoom = session.GetHabbo().CurrentRoom;
 
 			if (!currentRoom.GotMusicController())
 				return;

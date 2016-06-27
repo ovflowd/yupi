@@ -13,7 +13,7 @@ namespace Yupi.Messages.Items
 			string gender = request.GetString();
 			string look = request.GetString();
 
-			Room room = session.GetHabbo().CurrentRoom;
+			Yupi.Messages.Rooms room = session.GetHabbo().CurrentRoom;
 
 			RoomItem item = room?.GetRoomItemHandler().GetItem(pId);
 

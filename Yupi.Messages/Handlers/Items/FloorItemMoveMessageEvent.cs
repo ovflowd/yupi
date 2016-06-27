@@ -15,7 +15,7 @@ namespace Yupi.Messages.Items
 		{
 			uint id = request.GetUInt32();
 
-			Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
+			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
 
 			if (room == null)
 				return;

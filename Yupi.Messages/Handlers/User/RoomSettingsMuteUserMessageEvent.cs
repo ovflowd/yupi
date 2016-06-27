@@ -14,7 +14,7 @@ namespace Yupi.Messages.User
 
 			uint num2 = message.GetUInt32();
 
-			Room currentRoom = Session.GetHabbo().CurrentRoom;
+			Yupi.Messages.Rooms currentRoom = Session.GetHabbo().CurrentRoom;
 
 			if ((currentRoom == null || (currentRoom.RoomData.WhoCanBan == 0 && !currentRoom.CheckRights(session.UserData, true)) ||
 				(currentRoom.RoomData.WhoCanBan == 1 && !currentRoom.CheckRights(session.UserData))) &&

@@ -25,7 +25,7 @@ namespace Yupi.Messages.User
 				queryReactor.RunQuery();
 			}
 
-			Room currentRoom = session.GetHabbo().CurrentRoom;
+			Yupi.Messages.Rooms currentRoom = session.GetHabbo().CurrentRoom;
 			RoomUser roomUserByHabbo = currentRoom?.GetRoomUserManager().GetRoomUserByHabbo(habbo.Id);
 
 			if (roomUserByHabbo == null)

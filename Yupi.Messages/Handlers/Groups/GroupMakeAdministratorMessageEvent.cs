@@ -2,7 +2,7 @@
 using Yupi.Emulator.Game.Groups.Structs;
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Rooms.User;
-using Yupi.Messages.Room;
+using Yupi.Messages.Rooms;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 
 namespace Yupi.Messages.Groups
@@ -29,7 +29,7 @@ namespace Yupi.Messages.Groups
 
 			SendResponse();
 
-			Room room = Yupi.GetGame().GetRoomManager().GetRoom(group.RoomId);
+			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(group.RoomId);
 
 			RoomUser roomUserByHabbo = room?.GetRoomUserManager().GetRoomUserByHabbo(Yupi.GetHabboById(num2).UserName);
 

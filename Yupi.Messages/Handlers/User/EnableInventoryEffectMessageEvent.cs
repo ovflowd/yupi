@@ -9,7 +9,7 @@ namespace Yupi.Messages.User
 	{
 		public override void HandleMessage (GameClient session, Yupi.Protocol.Buffers.ClientMessage message, Router router)
 		{
-			Room currentRoom = session.GetHabbo().CurrentRoom;
+			Yupi.Messages.Rooms currentRoom = session.GetHabbo().CurrentRoom;
 			RoomUser roomUserByHabbo = currentRoom?.GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().Id);
 
 			if (roomUserByHabbo == null)

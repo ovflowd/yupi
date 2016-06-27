@@ -16,7 +16,7 @@ namespace Yupi.Messages.Notification
 		}
 
 		// TODO Should be changed once Room & GameClient implement ISend
-		public void Compose(Room room, string title, string content, string url = "", string urlName = "", string unknown = "", int unknown2 = 4) {
+		public void Compose(Yupi.Messages.Rooms room, string title, string content, string url = "", string urlName = "", string unknown = "", int unknown2 = 4) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				BuildMessage (message, title, content, url ,urlName, unknown);
 				room.Send (message);

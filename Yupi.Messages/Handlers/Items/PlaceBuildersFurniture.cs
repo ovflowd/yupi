@@ -15,7 +15,7 @@ namespace Yupi.Messages.Items
 			int x = request.GetInteger();
 			int y = request.GetInteger();
 			int dir = request.GetInteger();
-			Room actualRoom = session.GetHabbo().CurrentRoom;
+			Yupi.Messages.Rooms actualRoom = session.GetHabbo().CurrentRoom;
 			CatalogItem item = Yupi.GetGame().GetCatalogManager().GetItem(itemId);
 
 			if (actualRoom == null || item == null)

@@ -1,7 +1,7 @@
 ﻿using System;
 using Yupi.Emulator.Game.Rooms.User;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
-using Yupi.Messages.Room;
+using Yupi.Messages.Rooms;
 
 namespace Yupi.Messages.Pets
 {
@@ -9,7 +9,7 @@ namespace Yupi.Messages.Pets
 	{
 		public override void HandleMessage (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Yupi.Protocol.Buffers.ClientMessage request, Router router)
 		{
-			Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
+			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
 
 			if (room == null || (!room.RoomData.AllowPets && !room.CheckRights(session, true)))
 				return;

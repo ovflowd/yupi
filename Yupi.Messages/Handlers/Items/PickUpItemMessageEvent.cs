@@ -15,7 +15,7 @@ namespace Yupi.Messages.Items
 			// TODO Unused
 			request.GetInteger();
 
-			Room room = session.GetHabbo().CurrentRoom;
+			Yupi.Messages.Rooms room = session.GetHabbo().CurrentRoom;
 
 			if (room?.GetRoomItemHandler() == null || session.GetHabbo() == null)
 				return;

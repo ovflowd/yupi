@@ -12,7 +12,7 @@ namespace Yupi.Messages.Items
 		{
 			uint furniId = request.GetUInt32();
 
-			Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
+			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
 			RoomItem item = room?.GetRoomItemHandler().GetItem(furniId);
 
 			if (item?.GetBaseItem().InteractionType != Interaction.Clothing)

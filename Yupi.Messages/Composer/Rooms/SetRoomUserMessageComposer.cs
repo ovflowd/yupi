@@ -2,7 +2,7 @@
 using Yupi.Emulator.Game.Rooms.User;
 using Yupi.Protocol.Buffers;
 
-namespace Yupi.Messages.Room
+namespace Yupi.Messages.Rooms
 {
 	public class SetRoomUserMessageComposer : AbstractComposer<RoomUser>
 	{

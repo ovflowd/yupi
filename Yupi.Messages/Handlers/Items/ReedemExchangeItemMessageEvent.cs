@@ -11,7 +11,7 @@ namespace Yupi.Messages.Items
 			if (session?.GetHabbo() == null)
 				return;
 
-			Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
+			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
 
 			if (room == null || !room.CheckRights(session, true))
 				return;

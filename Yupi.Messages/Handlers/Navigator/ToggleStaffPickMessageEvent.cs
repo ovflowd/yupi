@@ -14,7 +14,7 @@ namespace Yupi.Messages.Navigator
 
 			request.GetBool(); // TODO Unused
 
-			Room room = Yupi.GetGame().GetRoomManager().GetRoom(roomId);
+			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(roomId);
 
 			Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(Session, "ACH_Spr", 1, true);
 

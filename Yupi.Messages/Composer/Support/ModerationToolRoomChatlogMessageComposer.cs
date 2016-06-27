@@ -12,7 +12,7 @@ namespace Yupi.Messages.Support
 	{
 		public override void Compose (Yupi.Protocol.ISender session, uint roomId)
 		{
-			Room room = Yupi.GetGame().GetRoomManager().LoadRoom(roomId);
+			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().LoadRoom(roomId);
 
 			if (room == null || room.RoomData == null) {
 				return;

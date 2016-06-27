@@ -269,7 +269,6 @@
     <Compile Include="Handlers\Groups\GetGroupInfoMessageEvent.cs" />
     <Compile Include="Handlers\Groups\GetGroupMembersMessageEvent.cs" />
     <Compile Include="Handlers\Groups\GroupMakeAdministratorMessageEvent.cs" />
-    <Compile Include="Composer\Room\RoomRightsLevelMessageComposer.cs" />
     <Compile Include="Handlers\Groups\RemoveGroupAdminMessageEvent.cs" />
     <Compile Include="Handlers\Groups\AcceptGroupRequestMessageEvent.cs" />
     <Compile Include="Handlers\Groups\GroupDeclineMembershipRequestMessageEvent.cs" />
@@ -355,7 +354,6 @@
     <Compile Include="Handlers\Pets\HorseAllowAllRideMessageEvent.cs" />
     <Compile Include="Composer\Pets\PetInfoMessageComposer.cs" />
     <Compile Include="Handlers\Pets\HorseAddSaddleMessageEvent.cs" />
-    <Compile Include="Composer\Room\SetRoomUserMessageComposer.cs" />
     <Compile Include="Composer\Pets\SerializePetMessageComposer.cs" />
     <Compile Include="Handlers\Pets\HorseRemoveSaddleMessageEvent.cs" />
     <Compile Include="Handlers\Items\GiveHanditemMessageEvent.cs" />
@@ -379,6 +377,60 @@
     <Compile Include="Handlers\Items\MannequinSaveDataMessageEvent.cs" />
     <Compile Include="Handlers\Items\MannequinUpdateDataMessageEvent.cs" />
     <Compile Include="Handlers\Items\UsePurchasableClothingMessageEvent.cs" />
+    <Compile Include="Handlers\Pets\GetSellablePetBreedsMessageEvent.cs" />
+    <Compile Include="Composer\Pets\SellablePetBreedsMessageComposer.cs" />
+    <Compile Include="Handlers\Rooms\AddFavouriteRoomMessageEvent.cs" />
+    <Compile Include="Composer\Rooms\RoomRightsLevelMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\SetRoomUserMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\FavouriteRoomsUpdateMessageComposer.cs" />
+    <Compile Include="Composer\User\OnlineConfirmationMessageEvent.cs" />
+    <Compile Include="Handlers\Navigator\GoToHotelViewMessageEvent.cs" />
+    <Compile Include="Composer\Navigator\LandingRewardMessageComposer.cs" />
+    <Compile Include="Handlers\Navigator\LandingCommunityGoalMessageEvent.cs" />
+    <Compile Include="Composer\Navigator\LandingCommunityChallengeMessageComposer.cs" />
+    <Compile Include="Handlers\Rooms\SaveRoomBrandingMessageEvent.cs" />
+    <Compile Include="Handlers\Rooms\RoomLoadByDoorbellMessageEvent.cs" />
+    <Compile Include="Composer\Rooms\InitialRoomInfoMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\SpectatorModeMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\RoomSpacesMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\HasOwnerRightsMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\RoomRatingMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\RoomUpdateMessageComposer.cs" />
+    <Compile Include="Handlers\Rooms\UserWalkMessageEvent.cs" />
+    <Compile Include="Handlers\Rooms\CanCreateRoomMessageEvent.cs" />
+    <Compile Include="Composer\Rooms\CanCreateRoomMessageComposer.cs" />
+    <Compile Include="Handlers\Rooms\CreateRoomMessageEvent.cs" />
+    <Compile Include="Composer\Rooms\OnCreateRoomInfoMessageComposer.cs" />
+    <Compile Include="Handlers\Rooms\RoomGetSettingsInfoMessageEvent.cs" />
+    <Compile Include="Composer\Rooms\RoomSettingsDataMessageComposer.cs" />
+    <Compile Include="Handlers\Rooms\RoomGetInfoMessageEvent.cs" />
+    <Compile Include="Composer\Rooms\LoadRoomRightsListMessageComposer.cs" />
+    <Compile Include="Handlers\Rooms\RoomSaveSettingsMessageEvent.cs" />
+    <Compile Include="Composer\Rooms\RoomSettingsSavedMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\RoomFloorWallLevelsMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\RoomChatOptionsMessageComposer.cs" />
+    <Compile Include="Handlers\Rooms\GetRoomBannedUsersMessageEvent.cs" />
+    <Compile Include="Composer\Rooms\RoomBannedListMessageComposer.cs" />
+    <Compile Include="Handlers\Rooms\GetRoomRightsListMessageEvent.cs" />
+    <Compile Include="Handlers\Rooms\RoomUnbanUserMessageEvent.cs" />
+    <Compile Include="Composer\Rooms\RoomUnbanUserMessageComposer.cs" />
+    <Compile Include="Handlers\Rooms\GiveRightsMessageEvent.cs" />
+    <Compile Include="Composer\Rooms\GiveRoomRightsMessageComposer.cs" />
+    <Compile Include="Handlers\Rooms\RoomRemoveUserRightsMessageEvent.cs" />
+    <Compile Include="Composer\Rooms\RemoveRightsMessageComposer.cs" />
+    <Compile Include="Handlers\Rooms\RoomRemoveAllRightsMessageEvent.cs" />
+    <Compile Include="Handlers\Rooms\RoomKickUserMessageEvent.cs" />
+    <Compile Include="Handlers\Rooms\RoomBanUserMessageEvent.cs" />
+    <Compile Include="Handlers\Rooms\SetHomeRoomMessageEvent.cs" />
+    <Compile Include="Composer\Rooms\HomeRoomMessageComposer.cs" />
+    <Compile Include="Handlers\Rooms\RoomDeleteMessageEvent.cs" />
+    <Compile Include="Handlers\Rooms\LookAtUserMessageEvent.cs" />
+    <Compile Include="Handlers\Rooms\StartTypingMessageEvent.cs" />
+    <Compile Include="Composer\Rooms\TypingStatusMessageComposer.cs" />
+    <Compile Include="Handlers\Rooms\StopTypingMessageEvent.cs" />
+    <Compile Include="Handlers\User\IgnoreUserMessageEvent.cs" />
+    <Compile Include="Composer\User\UpdateIgnoreStatusMessageComposer.cs" />
+    <Compile Include="Handlers\User\UnignoreUserMessageEvent.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -420,12 +472,13 @@
     <Folder Include="Composer\Other\" />
     <Folder Include="Handlers\Groups\" />
     <Folder Include="Composer\Groups\" />
-    <Folder Include="Composer\Room\" />
     <Folder Include="Handlers\Pets\" />
     <Folder Include="Composer\Pets\" />
     <Folder Include="Handlers\Items\" />
     <Folder Include="Composer\Items\" />
     <Folder Include="Composer\Items\Youtube\" />
+    <Folder Include="Handlers\Rooms\" />
+    <Folder Include="Composer\Rooms\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

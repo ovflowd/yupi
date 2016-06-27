@@ -10,7 +10,7 @@ namespace Yupi.Messages.Guides
 		{
 			GameClient requester = session.GetHabbo().GuideOtherUser;
 
-			Room room = session.GetHabbo().CurrentRoom;
+			Yupi.Messages.Rooms room = session.GetHabbo().CurrentRoom;
 
 			if (room == null) {
 				return;

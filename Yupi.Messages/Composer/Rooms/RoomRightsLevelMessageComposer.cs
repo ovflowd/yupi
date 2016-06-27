@@ -1,7 +1,7 @@
 ﻿using System;
 using Yupi.Protocol.Buffers;
 
-namespace Yupi.Messages.Room
+namespace Yupi.Messages.Rooms
 {
 	public class RoomRightsLevelMessageComposer : AbstractComposer<int>
 	{

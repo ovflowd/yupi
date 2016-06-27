@@ -15,7 +15,7 @@ namespace Yupi.Messages.Groups
 
 			if (guild != null)
 			{
-				Room room = Yupi.GetGame().GetRoomManager().GetRoom(guild.RoomId);
+				Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(guild.RoomId);
 
 				if (room != null)
 				{

@@ -12,7 +12,7 @@ namespace Yupi.Messages.Support
 
 			uint roomId = message.GetUInt32();
 
-			Room room = Yupi.GetGame().GetRoomManager().GetRoom(roomId);
+			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(roomId);
 
 			ModerationTool.SerializeRoomTool(data)
 		}

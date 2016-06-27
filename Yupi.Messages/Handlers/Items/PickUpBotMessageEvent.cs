@@ -10,7 +10,7 @@ namespace Yupi.Messages.Items
 		{
 			uint botId = request.GetUInt32();
 
-			Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
+			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
 			RoomUser bot = room.GetRoomUserManager().GetBot(botId);
 
 			if (session?.GetHabbo() == null || session.GetHabbo().GetInventoryComponent() == null || bot == null ||

@@ -11,7 +11,7 @@ namespace Yupi.Messages.User
 	{
 		public override void HandleMessage (GameClient session, ClientMessage message, Router router)
 		{
-			Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
+			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
 			if (room == null || session.UserData.DailyRespectPoints <= 0)
 				return;

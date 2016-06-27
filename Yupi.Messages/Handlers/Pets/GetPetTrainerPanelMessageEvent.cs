@@ -9,7 +9,7 @@ namespace Yupi.Messages.Pets
 		{
 			uint petId = request.GetUInt32();
 
-			Room currentRoom = session.GetHabbo().CurrentRoom;
+			Yupi.Messages.Rooms currentRoom = session.GetHabbo().CurrentRoom;
 
 			if (currentRoom == null)
 				return;

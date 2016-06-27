@@ -15,7 +15,7 @@ namespace Yupi.Messages.Groups
 			uint groupId = request.GetUInt32();
 
 			Group group = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
-			Room room = Yupi.GetGame().GetRoomManager().GetRoom(group.RoomId);
+			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(group.RoomId);
 
 			if (room?.RoomData?.Group == null)
 				session.SendNotif(Yupi.GetLanguage().GetVar("command_group_has_no_room"));

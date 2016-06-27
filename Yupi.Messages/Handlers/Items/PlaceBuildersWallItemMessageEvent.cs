@@ -14,7 +14,7 @@ namespace Yupi.Messages.Items
 			uint itemId = request.GetUInt32();
 			string extradata = request.GetString();
 			string wallcoords = request.GetString();
-			Room actualRoom = session.GetHabbo().CurrentRoom;
+			Yupi.Messages.Rooms actualRoom = session.GetHabbo().CurrentRoom;
 			CatalogItem item = Yupi.GetGame().GetCatalogManager().GetItem(itemId);
 			if (actualRoom == null || item == null) return;
 

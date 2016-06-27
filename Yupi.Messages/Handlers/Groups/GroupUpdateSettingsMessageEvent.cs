@@ -2,7 +2,7 @@
 using Yupi.Emulator.Game.Groups.Structs;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Emulator.Game.Rooms.User;
-using Yupi.Messages.Room;
+using Yupi.Messages.Rooms;
 
 namespace Yupi.Messages.Groups
 {
@@ -30,7 +30,7 @@ namespace Yupi.Messages.Groups
 			group.State = state;
 			group.AdminOnlyDeco = admindeco;
 
-			Room room = Yupi.GetGame().GetRoomManager().GetRoom(group.RoomId);
+			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(group.RoomId);
 
 			if (room != null)
 			{

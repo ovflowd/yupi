@@ -2,7 +2,7 @@
 using Yupi.Emulator.Game.Groups.Structs;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Emulator.Game.Users;
-using Yupi.Messages.Room;
+using Yupi.Messages.Rooms;
 
 namespace Yupi.Messages.Groups
 {
@@ -74,7 +74,7 @@ namespace Yupi.Messages.Groups
 						using (IQueryAdapter queryreactor2 = Yupi.GetDatabaseManager().GetQueryReactor())
 							queryreactor2.RunFastQuery("UPDATE users_stats SET favourite_group = 0 WHERE id = " + userId + " LIMIT 1");
 
-						Room room = session.GetHabbo().CurrentRoom;
+						Yupi.Messages.Rooms room = session.GetHabbo().CurrentRoom;
 
 						if (room != null) {
 							router.GetComposer<FavouriteGroupMessageComposer> ().Compose (room, byeUser.Id);

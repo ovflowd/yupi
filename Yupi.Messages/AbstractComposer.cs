@@ -2,6 +2,7 @@
 using Yupi.Protocol;
 using Yupi.Net;
 using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages
 {
@@ -17,13 +18,25 @@ namespace Yupi.Messages
 		}
 	}
 
-	// TODO Implement interface into Room and GameClient to support broadcasts with the same Composer
 	public class AbstractComposerVoid : AbstractComposer {
 		public abstract void Compose(ISender session);
 	}
 
 	public abstract class AbstractComposer<T> : AbstractComposer {
 		public abstract void Compose(ISender session, T value);
+	}
+
+	public abstract class AbstractComposer<T, U> : AbstractComposer {
+		public abstract void Compose(ISender session, T first, U second);
+	}
+
+	public abstract class AbstactComposerEmpty : AbstractComposerVoid {
+		public override void Compose (ISender session)
+		{
+			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
+				session.Send (message);
+			}
+		}
 	}
 }
 
