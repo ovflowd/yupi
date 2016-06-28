@@ -1071,7 +1071,7 @@ namespace Yupi.Emulator.Game.Catalogs
                 case 'r':
                     RoomBot bot = BotManager.CreateBotFromCatalog(item.Name, session.GetHabbo().Id);
                     session.GetHabbo().GetInventoryComponent().AddBot(bot);
-                    session.SendMessage(session.GetHabbo().GetInventoryComponent().SerializeBotInventory());
+					router.GetComposer<BotInventoryMessageComposer> ().Compose (session, session.GetHabbo ().GetInventoryComponent ()._inventoryBots);
                     break;
             }
 

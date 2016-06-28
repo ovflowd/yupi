@@ -501,6 +501,13 @@
     <Compile Include="Composer\Rooms\CompetitionEntrySubmitResultMessageComposer.cs" />
     <Compile Include="Composer\Rooms\CompetitionVotingInfoMessageComposer.cs" />
     <Compile Include="Composer\Rooms\RoomDataMessageComposer.cs" />
+    <Compile Include="Composer\Items\UpdateFloorItemExtraDataMessageComposer.cs" />
+    <Compile Include="Composer\Items\LoadInventoryMessageComposer.cs" />
+    <Compile Include="Composer\Bots\BotInventoryMessageComposer.cs" />
+    <Compile Include="Composer\Pets\PetBreedMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\FloorMapMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\HeightMapMessageComposer.cs" />
+    <Compile Include="Composer\Items\ItemAnimationMessageComposer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

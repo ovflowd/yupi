@@ -31,222 +31,55 @@ using Yupi.Emulator.Messages;
 
 namespace Yupi.Emulator.Game.Items.Interfaces
 {
-    /// <summary>
-    ///     Class RoomItem.
-    /// </summary>
     public class RoomItem : IEquatable<RoomItem>
     {
-        /// <summary>
-        ///     The _m base item
-        /// </summary>
         private Item _mBaseItem;
-
-        /// <summary>
-        ///     The _m room
-        /// </summary>
         private Room _mRoom;
-
-        /// <summary>
-        ///     The _update needed
-        /// </summary>
         private bool _updateNeeded;
-
-        /// <summary>
-        ///     The ball is moving
-        /// </summary>
      public bool BallIsMoving;
-
-        /// <summary>
-        ///     The ball value
-        /// </summary>
      public int BallValue;
-
-        /// <summary>
-        ///     The base name
-        /// </summary>
      public string BaseName;
-
-        /// <summary>
-        ///     The come direction
-        /// </summary>
      public IComeDirection ComeDirection;
-
-        /// <summary>
-        ///     The extra data
-        /// </summary>
      public string ExtraData = string.Empty;
-
-        /// <summary>
-        ///     The freeze power up
-        /// </summary>
      public FreezePowerUp FreezePowerUp;
-
-        /// <summary>
-        ///     The group data
-        /// </summary>
      public string GroupData;
-
-        /// <summary>
-        ///     The group identifier
-        /// </summary>
      public uint GroupId;
-
-        /// <summary>
-        ///     The highscore data
-        /// </summary>
      public HighscoreData HighscoreData;
-
-        /// <summary>
-        ///     The identifier
-        /// </summary>
      public uint Id;
-
-        /// <summary>
-        ///     The interacting ball user
-        /// </summary>
      public uint InteractingBallUser;
-
-        /// <summary>
-        ///     The interacting user
-        /// </summary>
      public uint InteractingUser;
-
-        /// <summary>
-        ///     The interacting user2
-        /// </summary>
      public uint InteractingUser2;
-
-        /// <summary>
-        ///     The interaction count
-        /// </summary>
-        public byte InteractionCount;
-
-        /// <summary>
-        ///     The interaction count helper
-        /// </summary>
+     public byte InteractionCount;
      public byte InteractionCountHelper;
-
-        /// <summary>
-        ///     The is builder
-        /// </summary>
      public bool IsBuilder;
-
-        /// <summary>
-        ///     The is trans
-        /// </summary>
      public bool IsTrans;
-
-        /// <summary>
-        ///     The limited no
-        /// </summary>
      public int LimitedNo;
-
-        /// <summary>
-        ///     The limited tot
-        /// </summary>
      public int LimitedTot;
-
-        /// <summary>
-        ///     The magic remove
-        /// </summary>
      public bool MagicRemove;
-
      public MovementDirection MoveToDirMovement = MovementDirection.None;
-
-        /// <summary>
-        ///     The on cannon acting
-        /// </summary>
      public bool OnCannonActing = false;
-
-        /// <summary>
-        ///     The pending reset
-        /// </summary>
      public bool PendingReset;
-
-        /// <summary>
-        ///     The pets list
-        /// </summary>
      public List<Pet> PetsList = new List<Pet>(2);
-
-        /// <summary>
-        ///     The room identifier
-        /// </summary>
      public uint RoomId;
-
-        /// <summary>
-        ///     The rot
-        /// </summary>
      public int Rot;
-
-        /// <summary>
-        ///     The song code
-        /// </summary>
      public string SongCode;
-
-        /// <summary>
-        ///     The team
-        /// </summary>
      public Team Team;
-
-        /// <summary>
-        ///     The update counter
-        /// </summary>
      public int UpdateCounter;
-
-        /// <summary>
-        ///     The user identifier
-        /// </summary>
      public uint UserId;
-
-        /// <summary>
-        ///     The value
-        /// </summary>
      public int Value;
-
-        /// <summary>
-        ///     The viking cotie burning
-        /// </summary>
      public bool VikingCotieBurning;
-
-        /// <summary>
-        ///     The wall coord
-        /// </summary>
      public WallCoordinate WallCoord;
+	
+     public bool IsWired => InteractionTypes.AreFamiliar(GlobalInteraction.Wired, GetBaseItem().InteractionType);
 
-        /// <summary>
-        ///     Gets a value indicating whether this instance is wired.
-        /// </summary>
-        /// <value><c>true</c> if this instance is wired; otherwise, <c>false</c>.</value>
-        public bool IsWired => InteractionTypes.AreFamiliar(GlobalInteraction.Wired, GetBaseItem().InteractionType);
-
-        /// <summary>
-        ///     Gets the affected tiles.
-        /// </summary>
-        /// <value>The affected tiles.</value>
      public Dictionary<int, ThreeDCoord> AffectedTiles { get; private set; }
 
-        /// <summary>
-        ///     Gets the x.
-        /// </summary>
-        /// <value>The x.</value>
      public int X { get; private set; }
 
-        /// <summary>
-        ///     Gets the y.
-        /// </summary>
-        /// <value>The y.</value>
      public int Y { get; private set; }
 
-        /// <summary>
-        ///     Gets the Z Coordinate
-        /// </summary>
-        /// <value>The Private Z Coordinate.</value>
-        private double _z;
+     private double _z;
 
-        /// <summary>
-        ///     Gets the Z Coordinate
-        /// </summary>
-        /// <value>The Z Coordinate</value>
      public double Z
         {
             get
@@ -259,10 +92,6 @@ namespace Yupi.Emulator.Game.Items.Interfaces
             }
         }
 
-        /// <summary>
-        ///     Gets or sets a value indicating whether [update needed].
-        /// </summary>
-        /// <value><c>true</c> if [update needed]; otherwise, <c>false</c>.</value>
      public bool UpdateNeeded
         {
             get { return _updateNeeded; }
@@ -275,22 +104,10 @@ namespace Yupi.Emulator.Game.Items.Interfaces
             }
         }
 
-        /// <summary>
-        ///     Gets a value indicating whether this instance is roller.
-        /// </summary>
-        /// <value><c>true</c> if this instance is roller; otherwise, <c>false</c>.</value>
      public bool IsRoller { get; private set; }
 
-        /// <summary>
-        ///     Gets the coordinate.
-        /// </summary>
-        /// <value>The coordinate.</value>
      public Point Coordinate => new Point(X, Y);
 
-        /// <summary>
-        ///     Gets the get coords.
-        /// </summary>
-        /// <value>The get coords.</value>
      public List<Point> GetCoords
         {
             get
@@ -325,10 +142,6 @@ namespace Yupi.Emulator.Game.Items.Interfaces
             }
         }
 
-        /// <summary>
-        ///     Gets the total height.
-        /// </summary>
-        /// <value>The total height.</value>
      public double TotalHeight
         {
             get
@@ -351,22 +164,10 @@ namespace Yupi.Emulator.Game.Items.Interfaces
             }
         }
 
-        /// <summary>
-        ///     Gets a value indicating whether this instance is wall item.
-        /// </summary>
-        /// <value><c>true</c> if this instance is wall item; otherwise, <c>false</c>.</value>
      public bool IsWallItem { get; set; }
 
-        /// <summary>
-        ///     Gets a value indicating whether this instance is floor item.
-        /// </summary>
-        /// <value><c>true</c> if this instance is floor item; otherwise, <c>false</c>.</value>
      public bool IsFloorItem { get; set; }
 
-        /// <summary>
-        ///     Gets the square in front.
-        /// </summary>
-        /// <value>The square in front.</value>
      public Point SquareInFront
         {
             get
@@ -397,10 +198,6 @@ namespace Yupi.Emulator.Game.Items.Interfaces
             }
         }
 
-        /// <summary>
-        ///     Gets the square behind.
-        /// </summary>
-        /// <value>The square behind.</value>
      public Point SquareBehind
         {
             get
@@ -431,150 +228,8 @@ namespace Yupi.Emulator.Game.Items.Interfaces
             }
         }
 
-        /// <summary>
-        ///     Gets the interactor.
-        /// </summary>
-        /// <value>The interactor.</value>
-     public IFurniInteractor Interactor
-        {
-            get
-            {
-                if (IsWired)
-                    return new InteractorWired();
+		public readonly IFurniInteractor Interactor;
 
-                Interaction interactionType = GetBaseItem().InteractionType;
-
-                switch (interactionType)
-                {
-                    case Interaction.Gate:
-                        return new InteractorGate();
-
-                    case Interaction.GuildGate:
-                        return new InteractorGroupGate();
-
-                    case Interaction.ScoreBoard:
-                        return new InteractorScoreboard();
-
-                    case Interaction.VendingMachine:
-                        return new InteractorVendor();
-
-                    case Interaction.Alert:
-                        return new InteractorAlert();
-
-                    case Interaction.OneWayGate:
-                        return new InteractorOneWayGate();
-
-                    case Interaction.LoveShuffler:
-                        return new InteractorLoveShuffler();
-
-                    case Interaction.HabboWheel:
-                        return new InteractorHabboWheel();
-
-                    case Interaction.Dice:
-                        return new InteractorDice();
-
-                    case Interaction.Bottle:
-                        return new InteractorSpinningBottle();
-
-                    case Interaction.Hopper:
-                        return new InteractorHopper();
-
-                    case Interaction.Teleport:
-                        return new InteractorTeleport();
-
-                    case Interaction.Football:
-                        return new InteractorFootball();
-
-                    case Interaction.FootballCounterGreen:
-                    case Interaction.FootballCounterYellow:
-                    case Interaction.FootballCounterBlue:
-                    case Interaction.FootballCounterRed:
-                        return new InteractorScoreCounter();
-
-                    case Interaction.BanzaiScoreBlue:
-                    case Interaction.BanzaiScoreRed:
-                    case Interaction.BanzaiScoreYellow:
-                    case Interaction.BanzaiScoreGreen:
-                        return new InteractorBanzaiScoreCounter();
-
-                    case Interaction.BanzaiCounter:
-                        return new InteractorBanzaiTimer();
-
-                    case Interaction.FreezeTimer:
-                        return new InteractorFreezeTimer();
-
-                    case Interaction.FreezeYellowCounter:
-                    case Interaction.FreezeRedCounter:
-                    case Interaction.FreezeBlueCounter:
-                    case Interaction.FreezeGreenCounter:
-                        return new InteractorFreezeScoreCounter();
-
-                    case Interaction.FreezeTileBlock:
-                    case Interaction.FreezeTile:
-                        return new InteractorFreezeTile();
-
-                    case Interaction.JukeBox:
-                        return new InteractorJukebox();
-
-                    case Interaction.PuzzleBox:
-                        return new InteractorPuzzleBox();
-
-                    case Interaction.Mannequin:
-                        return new InteractorMannequin();
-
-                    case Interaction.Fireworks:
-                        return new InteractorFireworks();
-
-                    case Interaction.GroupForumTerminal:
-                        return new InteractorGroupForumTerminal();
-
-                    case Interaction.VikingCotie:
-                        return new InteractorVikingCotie();
-
-                    case Interaction.Cannon:
-                        return new InteractorCannon();
-
-                    case Interaction.FxBox:
-                        return new InteractorFxBox();
-
-                    case Interaction.HcGate:
-                        return new InteractorHcGate();
-
-                    case Interaction.QuickTeleport:
-                        return new InteractorQuickTeleport();
-
-                    case Interaction.CrackableEgg:
-                        return new InteractorCrackableEgg();
-
-                    case Interaction.FloorSwitch1:
-                    case Interaction.FloorSwitch2:
-                        return new InteractorSwitch();
-
-                    case Interaction.WalkInternalLink:
-                        return new InteractorWalkInternalLink();
-
-                    default:
-                        return new InteractorGenericSwitch();
-                }
-            }
-        }
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="RoomItem" /> class.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <param name="roomId">The room identifier.</param>
-        /// <param name="baseName"></param>
-        /// <param name="extraData">The extra data.</param>
-        /// <param name="x">The x.</param>
-        /// <param name="y">The y.</param>
-        /// <param name="z">The z.</param>
-        /// <param name="rot">The rot.</param>
-        /// <param name="pRoom">The p room.</param>
-        /// <param name="userid">The userid.</param>
-        /// <param name="eGroup">The group.</param>
-        /// <param name="songCode">The song code.</param>
-        /// <param name="isBuilder">if set to <c>true</c> [is builder].</param>
      public RoomItem(uint id, uint roomId, string baseName, string extraData, int x, int y, double z, int rot, Room pRoom, uint userid, uint eGroup, string songCode, bool isBuilder)
         {
             Id = id;
@@ -582,6 +237,11 @@ namespace Yupi.Emulator.Game.Items.Interfaces
             BaseName = baseName;
             ExtraData = extraData;
             GroupId = eGroup;
+
+			if (IsWired)
+				Interactor = new InteractorWired();
+			else 
+				Interactor = InteractionFactory.Create (GetBaseItem().InteractionType);
 
             X = x;
             Y = y;
@@ -730,18 +390,6 @@ namespace Yupi.Emulator.Game.Items.Interfaces
             AffectedTiles = Gamemap.GetAffectedTiles(GetBaseItem().Length, GetBaseItem().Width, X, Y, rot);
         }
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="RoomItem" /> class.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <param name="roomId">The room identifier.</param>
-        /// <param name="baseName"></param>
-        /// <param name="extraData">The extra data.</param>
-        /// <param name="wallCoord">The wall coord.</param>
-        /// <param name="pRoom">The p room.</param>
-        /// <param name="userid">The userid.</param>
-        /// <param name="eGroup">The group.</param>
-        /// <param name="isBuilder">if set to <c>true</c> [is builder].</param>
      public RoomItem(uint id, uint roomId, string baseName, string extraData, WallCoordinate wallCoord, Room pRoom, uint userid, uint eGroup, bool isBuilder)
         {
             BaseName = baseName;
@@ -784,11 +432,6 @@ namespace Yupi.Emulator.Game.Items.Interfaces
             SongCode = string.Empty;
         }
 
-        /// <summary>
-        ///     Equalses the specified compared item.
-        /// </summary>
-        /// <param name="comparedItem">The compared item.</param>
-        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         public bool Equals(RoomItem comparedItem) => comparedItem.Id == Id;
 
 		 event EventHandler<ItemTriggeredArgs> ItemTriggerEventHandler;
@@ -799,13 +442,6 @@ namespace Yupi.Emulator.Game.Items.Interfaces
 
      public void SetState(int x, int y, double z) => SetState(x, y, z, Gamemap.GetAffectedTiles(GetBaseItem().Length, GetBaseItem().Width, x, y, Rot));
 
-        /// <summary>
-        ///     Sets the state.
-        /// </summary>
-        /// <param name="x">The p x.</param>
-        /// <param name="y">The p y.</param>
-        /// <param name="z">The p z.</param>
-        /// <param name="tiles">The tiles.</param>
      public void SetState(int x, int y, double z, Dictionary<int, ThreeDCoord> tiles)
         {
             X = x;
@@ -815,15 +451,8 @@ namespace Yupi.Emulator.Game.Items.Interfaces
             AffectedTiles = tiles;
         }
 
-        /// <summary>
-        ///     Called when [trigger].
-        /// </summary>
-        /// <param name="user">The user.</param>
      public void OnTrigger(RoomUser user) => ItemTriggerEventHandler?.Invoke(null, new ItemTriggeredArgs(user, this));
 
-        /// <summary>
-        ///     Destroys this instance.
-        /// </summary>
      public void Destroy()
         {
             _mRoom = null;
@@ -835,9 +464,6 @@ namespace Yupi.Emulator.Game.Items.Interfaces
             OnUserWalksOnFurni = null;
         }
 
-        /// <summary>
-        ///     Processes the updates.
-        /// </summary>
      public void ProcessUpdates()
         {
             UpdateCounter--;
@@ -1419,11 +1045,6 @@ namespace Yupi.Emulator.Game.Items.Interfaces
             }
         }
 
-        /// <summary>
-        ///     Reqs the update.
-        /// </summary>
-        /// <param name="cycles">The cycles.</param>
-        /// <param name="setUpdate">if set to <c>true</c> [set update].</param>
      public void ReqUpdate(int cycles, bool setUpdate)
         {
             UpdateCounter = cycles;
@@ -1432,16 +1053,8 @@ namespace Yupi.Emulator.Game.Items.Interfaces
                 UpdateNeeded = true;
         }
 
-        /// <summary>
-        ///     Updates the state.
-        /// </summary>
      public void UpdateState() => UpdateState(true, true);
 
-        /// <summary>
-        ///     Updates the state.
-        /// </summary>
-        /// <param name="inDb">if set to <c>true</c> [in database].</param>
-        /// <param name="inRoom">if set to <c>true</c> [in room].</param>
      public void UpdateState(bool inDb, bool inRoom)
         {
             if (GetRoom() == null)
@@ -1453,131 +1066,19 @@ namespace Yupi.Emulator.Game.Items.Interfaces
             if (!inRoom)
                 return;
 
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(0);
-
             if (IsFloorItem)
             {
-                simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingHandler("UpdateFloorItemExtraDataMessageComposer"));
-                simpleServerMessageBuffer.AppendString(Id.ToString());
-
-                switch (GetBaseItem().InteractionType)
-                {
-                    case Interaction.MysteryBox:
-                        {
-                            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-                            {
-                                queryReactor.SetQuery($"SELECT extra_data FROM items_rooms WHERE id = {Id} LIMIT 1");
-
-                                ExtraData = queryReactor.GetString();
-                            }
-
-                            if (ExtraData.Contains('\u0005'.ToString()))
-                            {
-                                string[] mysteryBoxData = ExtraData.Split('\u0005');
-
-                                int num = int.Parse(mysteryBoxData[0]);
-                                int num2 = int.Parse(mysteryBoxData[1]);
-
-                                ExtraData = (3 * num - num2).ToString();
-                            }
-
-                            break;
-                        }              
-                    case Interaction.Mannequin:
-                        {
-                            simpleServerMessageBuffer.AppendInteger(1);
-                            simpleServerMessageBuffer.AppendInteger(3);
-
-                            if (ExtraData.Contains('\u0005'.ToString()))
-                            {
-                                string[] mannequinData = ExtraData.Split('\u0005');
-
-                                simpleServerMessageBuffer.AppendString("GENDER");
-                                simpleServerMessageBuffer.AppendString(mannequinData[0]);
-                                simpleServerMessageBuffer.AppendString("FIGURE");
-                                simpleServerMessageBuffer.AppendString(mannequinData[1]);
-                                simpleServerMessageBuffer.AppendString("OUTFIT_NAME");
-                                simpleServerMessageBuffer.AppendString(mannequinData[2]);
-
-                                break;
-                            }
-
-                            simpleServerMessageBuffer.AppendString("GENDER");
-                            simpleServerMessageBuffer.AppendString(string.Empty);
-                            simpleServerMessageBuffer.AppendString("FIGURE");
-                            simpleServerMessageBuffer.AppendString(string.Empty);
-                            simpleServerMessageBuffer.AppendString("OUTFIT_NAME");
-                            simpleServerMessageBuffer.AppendString(string.Empty);
-
-                            break;
-                        }
-                    case Interaction.Pinata:
-                        {
-                            simpleServerMessageBuffer.AppendInteger(7);
-
-                            if (ExtraData.Length <= 0)
-                            {
-                                simpleServerMessageBuffer.AppendString("6");
-                                simpleServerMessageBuffer.AppendInteger(0);
-                                simpleServerMessageBuffer.AppendInteger(100);
-
-                                break;
-                            }
-
-                            simpleServerMessageBuffer.AppendString(int.Parse(ExtraData) == 100 ? "8" : "6");
-                            simpleServerMessageBuffer.AppendInteger(int.Parse(ExtraData));
-                            simpleServerMessageBuffer.AppendInteger(100);
-
-                            break;
-                        }
-                    case Interaction.WiredHighscore:
-                        {
-                            if (HighscoreData == null)
-                                HighscoreData = new HighscoreData(this);
-
-                            HighscoreData.GenerateExtraData(this, simpleServerMessageBuffer);
-
-                            break;
-                        }
-                    case Interaction.CrackableEgg:
-                        {
-                            Yupi.GetGame().GetCrackableEggHandler().GetServerMessage(simpleServerMessageBuffer, this);
-
-                            break;
-                        }
-                    case Interaction.YoutubeTv:
-                        {
-                            simpleServerMessageBuffer.AppendInteger(1);
-                            simpleServerMessageBuffer.AppendInteger(1);
-                            simpleServerMessageBuffer.AppendString("THUMBNAIL_URL");
-                            simpleServerMessageBuffer.AppendString(ExtraData);
-
-                            break;
-                        }
-                    default:
-                        {
-                            simpleServerMessageBuffer.AppendInteger(0);
-                            simpleServerMessageBuffer.AppendString(ExtraData);
-
-                            break;
-                        }  
-                }
+				router.GetComposer<UpdateFloorItemExtraDataMessageComposer> ().Compose (GetRoom (), this);
             }
 
             if (IsWallItem)
             {
-                simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingHandler("UpdateRoomWallItemMessageComposer"));
-
-                Serialize(simpleServerMessageBuffer);
+				router.GetComposer<UpdateRoomWallItemMessageComposer> ().Compose (GetRoom (), this);
             }
-
-            GetRoom().SendMessage(simpleServerMessageBuffer);
         }
 
-        /// <summary>
-        ///     Serializes the specified messageBuffer.
-        /// </summary>
-        /// <param name="message">The messageBuffer.</param>
+		// TODO Must be refactored later on
+		/*
      public void Serialize(SimpleServerMessageBuffer messageBuffer)
         {
             if (IsFloorItem)
@@ -1806,8 +1307,13 @@ namespace Yupi.Emulator.Game.Items.Interfaces
                             if (_mRoom.TonerData == null)
                                 _mRoom.TonerData = new TonerData(Id);
 
-                            _mRoom.TonerData.GenerateExtraData(messageBuffer);
-
+			messageBuffer.AppendInteger(0);
+            messageBuffer.AppendInteger(5);
+            messageBuffer.AppendInteger(4);
+            messageBuffer.AppendInteger(_mRoom.TonerData.Enabled);
+            messageBuffer.AppendInteger(_mRoom.TonerData.Data1);
+            messageBuffer.AppendInteger(_mRoom.TonerData.Data2);
+            messageBuffer.AppendInteger(_mRoom.TonerData.Data3);
                             break;
                         }
                     case Interaction.AdsMpu:
@@ -1862,7 +1368,26 @@ namespace Yupi.Emulator.Game.Items.Interfaces
 
                             messageBuffer.AppendInteger(0);
 
-                            HighscoreData.GenerateExtraData(this, messageBuffer);
+RoomItem item = this;
+				messageBuffer.AppendInteger(6);
+           		 messageBuffer.AppendString(item.ExtraData); //Ouvert/fermé
+
+            if (item.GetBaseItem().Name.StartsWith("highscore_classic"))
+                messageBuffer.AppendInteger(2);
+            else if (item.GetBaseItem().Name.StartsWith("highscore_mostwin"))
+                messageBuffer.AppendInteger(1);
+            else if (item.GetBaseItem().Name.StartsWith("highscore_perteam"))
+                messageBuffer.AppendInteger(0);
+
+            messageBuffer.AppendInteger(0); //Time : ["alltime", "daily", "weekly", "monthly"]
+            messageBuffer.AppendInteger(HighscoreData.Lines.Count); //Count
+
+            foreach (KeyValuePair<int, HighScoreLine> line in HighscoreData.Lines)
+            {
+                messageBuffer.AppendInteger(line.Value.Score);
+                messageBuffer.AppendInteger(1);
+                messageBuffer.AppendString(line.Value.Username);
+            }
 
                             break;
                         }
@@ -1942,28 +1467,13 @@ namespace Yupi.Emulator.Game.Items.Interfaces
             messageBuffer.AppendInteger(GetBaseItem().Modes > 1 ? 1 : 0);
             messageBuffer.AppendInteger(IsBuilder ? -12345678 : Convert.ToInt32(UserId));
         }
-
-        /// <summary>
-        ///     Refreshes the item.
-        /// </summary>
+*/
      public void RefreshItem() => _mBaseItem = null;
 
-        /// <summary>
-        ///     Gets the base item.
-        /// </summary>
-        /// <returns>Item.</returns>
      public Item GetBaseItem() => _mBaseItem ?? (_mBaseItem = Yupi.GetGame().GetItemManager().GetItemByName(BaseName));
 
-        /// <summary>
-        ///     Gets the room.
-        /// </summary>
-        /// <returns>Room.</returns>
      public Room GetRoom() => _mRoom ?? (_mRoom = Yupi.GetGame().GetRoomManager().GetRoom(RoomId));
 
-        /// <summary>
-        ///     Users the walks on furni.
-        /// </summary>
-        /// <param name="user">The user.</param>
      public void UserWalksOnFurni(RoomUser user)
         {
             OnUserWalksOnFurni?.Invoke(this, new UserWalksOnArgs(user));
@@ -1973,10 +1483,6 @@ namespace Yupi.Emulator.Game.Items.Interfaces
             user.LastItem = Id;
         }
 
-        /// <summary>
-        ///     Users the walks off furni.
-        /// </summary>
-        /// <param name="user">The user.</param>
      public void UserWalksOffFurni(RoomUser user)
         {
             OnUserWalksOffFurni?.Invoke(this, new UserWalksOnArgs(user));

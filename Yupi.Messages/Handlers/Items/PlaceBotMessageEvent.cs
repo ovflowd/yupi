@@ -1,6 +1,7 @@
 ﻿using System;
 using Yupi.Emulator.Game.RoomBots;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Messages.Bots;
 
 namespace Yupi.Messages.Items
 {
@@ -47,7 +48,7 @@ namespace Yupi.Messages.Items
 			bot.WasPicked = false;
 
 			session.GetHabbo().GetInventoryComponent().MoveBotToRoom(botId);
-			session.SendMessage(session.GetHabbo().GetInventoryComponent().SerializeBotInventory());
+			router.GetComposer<BotInventoryMessageComposer> ().Compose (session, session.GetHabbo ().GetInventoryComponent ()._inventoryBots);
 		}
 	}
 }

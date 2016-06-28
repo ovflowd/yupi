@@ -24,9 +24,9 @@ namespace Yupi.Messages.Rooms
 				router.GetComposer<OutOfRoomMessageComposer> ().Compose (session);
 				ClearRoomLoading ();
 			} else {
-				queuedServerMessageBuffer.AppendResponse (CurrentLoadingRoom.GetGameMap ().GetNewHeightmap ());
-				queuedServerMessageBuffer.AppendResponse (CurrentLoadingRoom.GetGameMap ().Model.GetHeightmap ());
-				queuedServerMessageBuffer.SendResponse ();
+				router.GetComposer<HeightMapMessageComposer> ().Compose (session, CurrentLoadingRoom.GetGameMap ());
+				router.GetComposer<FloorMapMessageComposer> ().Compose (session, CurrentLoadingRoom.GetGameMap ().Model.GetHeightmap (), 
+					CurrentLoadingRoom.RoomData.WallHeight);
 				GetRoomData3 ();
 			}
 		}

@@ -7,12 +7,6 @@ namespace Yupi.Emulator.Game.Items.Interactions
     /// </summary>
      public static class InteractionTypes
     {
-        /// <summary>
-        ///     Ares the familiar.
-        /// </summary>
-        /// <param name="type">The type.</param>
-        /// <param name="subType">Type of the sub.</param>
-        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
      public static bool AreFamiliar(GlobalInteraction type, Interaction subType)
         {
             switch (type)

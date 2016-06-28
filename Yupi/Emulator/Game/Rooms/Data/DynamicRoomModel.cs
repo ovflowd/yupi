@@ -36,16 +36,6 @@ namespace Yupi.Emulator.Game.Rooms.Data
      public class DynamicRoomModel
     {
         /// <summary>
-        ///     The _m room
-        /// </summary>
-        private readonly Room _mRoom;
-
-        /// <summary>
-        ///     The _serialized heightmap
-        /// </summary>
-        private SimpleServerMessageBuffer _serializedHeightmap;
-
-        /// <summary>
         ///     The _static model
         /// </summary>
         private RoomModel _staticModel;
@@ -131,7 +121,6 @@ namespace Yupi.Emulator.Game.Rooms.Data
             MapSizeX = _staticModel.MapSizeX;
             MapSizeY = _staticModel.MapSizeY;
             ClubOnly = _staticModel.ClubOnly;
-            _mRoom = room;
             Generate();
         }
 
@@ -176,22 +165,6 @@ namespace Yupi.Emulator.Game.Rooms.Data
         ///     Sets the state of the update.
         /// </summary>
      public void SetUpdateState() => HeightmapSerialized = false;
-
-        /// <summary>
-        ///     Gets the heightmap.
-        /// </summary>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-     public SimpleServerMessageBuffer GetHeightmap()
-        {
-            if (HeightmapSerialized)
-                return _serializedHeightmap;
-
-            _serializedHeightmap = SerializeHeightmap();
-
-            HeightmapSerialized = true;
-
-            return _serializedHeightmap;
-        }
 
         /// <summary>
         ///     Adds the x.
@@ -256,35 +229,25 @@ namespace Yupi.Emulator.Game.Rooms.Data
             SqFloorHeight = null;
             SqSeatRot = null;
         }
-
-        /// <summary>
-        ///     Serializes the heightmap.
-        /// </summary>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-        private SimpleServerMessageBuffer SerializeHeightmap()
-        {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("FloorMapMessageComposer"));
-            simpleServerMessageBuffer.AppendBool(true);
-            simpleServerMessageBuffer.AppendInteger(_mRoom.RoomData.WallHeight);
-            StringBuilder stringBuilder = new StringBuilder();
-            for (int i = 0; i < MapSizeY; i++)
-            {
-                for (int j = 0; j < MapSizeX; j++)
-                {
-                    try
-                    {
-                        stringBuilder.Append(SqChar[j][i].ToString());
-                    }
-                    catch (Exception)
-                    {
-                        stringBuilder.Append("0");
-                    }
-                }
-                stringBuilder.Append(Convert.ToChar(13));
-            }
-            string s = stringBuilder.ToString();
-            simpleServerMessageBuffer.AppendString(s);
-            return simpleServerMessageBuffer;
-        }
+		// TODO Cache
+		public string GetHeightMap() {
+			StringBuilder stringBuilder = new StringBuilder();
+			for (int i = 0; i < MapSizeY; i++)
+			{
+				for (int j = 0; j < MapSizeX; j++)
+				{
+					try
+					{
+						stringBuilder.Append(SqChar[j][i].ToString());
+					}
+					catch (Exception)
+					{
+						stringBuilder.Append("0");
+					}
+				}
+				stringBuilder.Append(Convert.ToChar(13));
+			}
+			return stringBuilder.ToString();
+		}
     }
 }

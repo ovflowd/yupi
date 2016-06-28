@@ -461,7 +461,7 @@ namespace Yupi.Emulator.Game.Rooms.Data.Models
                 YupiLogManager.LogException(ex, "Registered Room Serialization Exception.", "Yupi.Room");
             }
         }
-
+		/*
         /// <summary>
         ///     Serializes the specified messageBuffer.
         /// </summary>
@@ -530,6 +530,6 @@ namespace Yupi.Emulator.Game.Rooms.Data.Models
 				messageBuffer.AppendString(data.Event.Description);
 				messageBuffer.AppendInteger((int)Math.Floor((data.Event.Time - Yupi.GetUnixTimeStamp()) / 60.0));
 			}
-		}
+		}*/
     }
 }

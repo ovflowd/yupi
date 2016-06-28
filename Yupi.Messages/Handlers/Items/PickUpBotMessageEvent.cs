@@ -27,7 +27,7 @@ namespace Yupi.Messages.Items
 			room.GetRoomUserManager().RemoveBot(bot.VirtualId, false);
 			bot.BotData.WasPicked = true;
 
-			session.SendMessage(session.GetHabbo().GetInventoryComponent().SerializeBotInventory());
+			router.GetComposer<BotInventoryMessageComposer> ().Compose (session, session.GetHabbo ().GetInventoryComponent ()._inventoryBots);
 		}
 	}
 }

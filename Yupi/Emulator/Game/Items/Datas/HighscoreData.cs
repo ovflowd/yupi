@@ -49,37 +49,6 @@ namespace Yupi.Emulator.Game.Items.Datas
         }
 
         /// <summary>
-        ///     Generates the extra data.
-        /// </summary>
-        /// <param name="item">The item.</param>
-        /// <param name="message">The messageBuffer.</param>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-     public SimpleServerMessageBuffer GenerateExtraData(RoomItem item, SimpleServerMessageBuffer messageBuffer)
-        {
-            messageBuffer.AppendInteger(6);
-            messageBuffer.AppendString(item.ExtraData); //Ouvert/fermé
-
-            if (item.GetBaseItem().Name.StartsWith("highscore_classic"))
-                messageBuffer.AppendInteger(2);
-            else if (item.GetBaseItem().Name.StartsWith("highscore_mostwin"))
-                messageBuffer.AppendInteger(1);
-            else if (item.GetBaseItem().Name.StartsWith("highscore_perteam"))
-                messageBuffer.AppendInteger(0);
-
-            messageBuffer.AppendInteger(0); //Time : ["alltime", "daily", "weekly", "monthly"]
-            messageBuffer.AppendInteger(Lines.Count); //Count
-
-            foreach (KeyValuePair<int, HighScoreLine> line in Lines)
-            {
-                messageBuffer.AppendInteger(line.Value.Score);
-                messageBuffer.AppendInteger(1);
-                messageBuffer.AppendString(line.Value.Username);
-            }
-
-            return messageBuffer;
-        }
-
-        /// <summary>
         ///     Adds the user score.
         /// </summary>
         /// <param name="item">The item.</param>

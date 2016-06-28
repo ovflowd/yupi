@@ -1047,12 +1047,13 @@ namespace Yupi.Emulator.Game.Rooms.User
                         {
                             GameClient petBreedOwner = Yupi.GetGame().GetClientManager().GetClientByUserId(roomUsers.PetData.OwnerId);
 
-                            petBreedOwner?.SendMessage(PetBreeding.GetMessage(roomUsers.PetData.WaitingForBreading,
-                                _userRoom.GetRoomItemHandler().BreedingTerrier[roomUsers.PetData.WaitingForBreading]
-                                    .PetsList[0],
-                                _userRoom.GetRoomItemHandler().BreedingTerrier[roomUsers.PetData.WaitingForBreading]
-                                    .PetsList[1]));
+						if(petBreedOwner != null) {
+						router.GetComposer<PetBreedMessageComposer>().Compose(petBreedOwner, roomUsers.PetData.WaitingForBreading,
+							_userRoom.GetRoomItemHandler().BreedingTerrier[roomUsers.PetData.WaitingForBreading].PetsList[0],
+							_userRoom.GetRoomItemHandler().BreedingTerrier[roomUsers.PetData.WaitingForBreading].PetsList[1]);
+						}
                         }
+					
                         break;
 
                     case "pet_bear":
@@ -1060,11 +1061,11 @@ namespace Yupi.Emulator.Game.Rooms.User
                         {
                             GameClient petBreedOwner = Yupi.GetGame().GetClientManager().GetClientByUserId(roomUsers.PetData.OwnerId);
 
-                            petBreedOwner?.SendMessage(PetBreeding.GetMessage(roomUsers.PetData.WaitingForBreading,
-                                _userRoom.GetRoomItemHandler().BreedingBear[roomUsers.PetData.WaitingForBreading]
-                                    .PetsList[0],
-                                _userRoom.GetRoomItemHandler().BreedingBear[roomUsers.PetData.WaitingForBreading]
-                                    .PetsList[1]));
+						if(petBreedOwner != null) {
+							router.GetComposer<PetBreedMessageComposer>().Compose(petBreedOwner, roomUsers.PetData.WaitingForBreading,
+								_userRoom.GetRoomItemHandler().BreedingBear[roomUsers.PetData.WaitingForBreading].PetsList[0],
+								_userRoom.GetRoomItemHandler().BreedingBear[roomUsers.PetData.WaitingForBreading].PetsList[1]);
+						}
                         }
                         break;
                 }

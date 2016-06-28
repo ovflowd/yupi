@@ -35,11 +35,6 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         private readonly List<uint> _rollerItemsMoved, _rollerUsersMoved;
 
         /// <summary>
-        ///     The _roller messages
-        /// </summary>
-        private readonly List<SimpleServerMessageBuffer> _rollerMessages;
-
-        /// <summary>
         ///     The _roller speed
         /// </summary>
         private uint _rollerSpeed, _roolerCycle;
@@ -92,7 +87,6 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
             HopperCount = 0;
             _rollerItemsMoved = new List<uint>();
             _rollerUsersMoved = new List<uint>();
-            _rollerMessages = new List<SimpleServerMessageBuffer>();
         }
 
         public int TotalItems => WallItems.Keys.Count + FloorItems.Keys.Count;
@@ -598,16 +592,8 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
             RemoveItem(item.Id);
             _room.GetRoomUserManager().OnUserUpdateStatus(item.X, item.Y);
         }
-
-        /// <summary>
-        ///     Updates the item on roller.
-        /// </summary>
-        /// <param name="item">The item.</param>
-        /// <param name="nextCoord">The next coord.</param>
-        /// <param name="rolledId">The rolled identifier.</param>
-        /// <param name="nextZ">The next z.</param>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-     public SimpleServerMessageBuffer UpdateItemOnRoller(RoomItem item, Point nextCoord, uint rolledId, double nextZ)
+			
+     private void UpdateItemOnRoller(RoomItem item, Point nextCoord, uint rolledId, double nextZ)
         {
             SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
             simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingHandler("ItemAnimationMessageComposer"));
@@ -623,29 +609,13 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
             SetFloorItem(item, nextCoord.X, nextCoord.Y, nextZ);
             return simpleServerMessageBuffer;
         }
-
-        /// <summary>
-        ///     Updates the user on roller.
-        /// </summary>
-        /// <param name="user">The user.</param>
-        /// <param name="nextCoord">The next coord.</param>
-        /// <param name="rollerId">The roller identifier.</param>
-        /// <param name="nextZ">The next z.</param>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-     public SimpleServerMessageBuffer UpdateUserOnRoller(RoomUser user, Point nextCoord, uint rollerId, double nextZ)
+			
+     public void UpdateUserOnRoller(RoomUser user, Point nextCoord, uint rollerId, double nextZ)
         {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(0);
-            simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingHandler("ItemAnimationMessageComposer"));
-            simpleServerMessageBuffer.AppendInteger(user.X);
-            simpleServerMessageBuffer.AppendInteger(user.Y);
-            simpleServerMessageBuffer.AppendInteger(nextCoord.X);
-            simpleServerMessageBuffer.AppendInteger(nextCoord.Y);
-            simpleServerMessageBuffer.AppendInteger(0);
-            simpleServerMessageBuffer.AppendInteger(rollerId);
-            simpleServerMessageBuffer.AppendInteger(2);
-            simpleServerMessageBuffer.AppendInteger(user.VirtualId);
-            simpleServerMessageBuffer.AppendString(ServerUserChatTextHandler.GetString(user.Z));
-            simpleServerMessageBuffer.AppendString(ServerUserChatTextHandler.GetString(nextZ));
+			router.GetComposer<ItemAnimationMessageComposer>().Compose(_room, 
+				new Tuple<Point, double>(new Point(user.X, user.Y), user.Z), 
+				new Tuple<Point, double>(squareInFront, nextZ),
+				current.Id, user.VirtualId, ItemAnimationMessageComposer.Type.User);
             _room.GetGameMap()
                 .UpdateUserMovement(new Point(user.X, user.Y), new Point(nextCoord.X, nextCoord.Y), user);
             _room.GetGameMap().GameMap[user.X, user.Y] = 1;
@@ -653,7 +623,6 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
             user.Y = nextCoord.Y;
             user.Z = nextZ;
             _room.GetGameMap().GameMap[user.X, user.Y] = 0;
-            return simpleServerMessageBuffer;
         }
 
         /// <summary>
@@ -1168,7 +1137,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
             {
                 try
                 {
-                    _room.SendMessage(CycleRollers());
+                    CycleRollers();
                 }
                 catch (Exception ex)
                 {
@@ -1231,16 +1200,15 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         ///     Cycles the rollers.
         /// </summary>
         /// <returns>List&lt;SimpleServerMessageBuffer&gt;.</returns>
-        private List<SimpleServerMessageBuffer> CycleRollers()
+		private void CycleRollers()
         {
             if (!GotRollers)
-                return new List<SimpleServerMessageBuffer>();
+                return;
 
             if (_roolerCycle >= _rollerSpeed || _rollerSpeed == 0)
             {
                 _rollerItemsMoved.Clear();
                 _rollerUsersMoved.Clear();
-                _rollerMessages.Clear();
 
                 foreach (RoomItem current in Rollers.Values)
                 {
@@ -1299,8 +1267,12 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
                             !(current.Z < current4.Z) ||
                             _room.GetRoomUserManager().GetUserForSquare(squareInFront.X, squareInFront.Y) != null)
                             continue;
+						
+						router.GetComposer<ItemAnimationMessageComposer>().Compose(_room, 
+							new Tuple<Point, double>(new Point(current4.X, current4.Y), current4.Z), 
+							new Tuple<Point, double>(squareInFront, num2 + num3),
+							current.Id, current4.Id, ItemAnimationMessageComposer.Type.Item);
 
-                        _rollerMessages.Add(UpdateItemOnRoller(current4, squareInFront, current.Id, num2 + num3));
                         _rollerItemsMoved.Add(current4.Id);
                     }
 
@@ -1309,7 +1281,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
                         _room.GetGameMap().GetFloorStatus(squareInFront) != 0 &&
                         !_rollerUsersMoved.Contains(userForSquare.HabboId))
                     {
-                        _room.SendMessage(UpdateUserOnRoller(userForSquare, squareInFront, current.Id, nextZ));
+                        UpdateUserOnRoller(userForSquare, squareInFront, current.Id, nextZ);
                         _rollerUsersMoved.Add(userForSquare.HabboId);
                         _room.GetRoomUserManager().UpdateUserStatus(userForSquare, true);
                     }
@@ -1323,15 +1295,12 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
                 }
 
                 _roolerCycle = 0;
-
-                return _rollerMessages;
+				return;
             }
 
             {
                 _roolerCycle++;
             }
-
-            return new List<SimpleServerMessageBuffer>();
         }
 
      public bool HasFurniByItemName(string name)

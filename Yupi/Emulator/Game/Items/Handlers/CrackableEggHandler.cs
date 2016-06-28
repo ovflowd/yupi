@@ -10,14 +10,6 @@ namespace Yupi.Emulator.Game.Items.Handlers
     /// </summary>
      public class CrackableEggHandler
     {
-        /// <summary>
-        ///     Initializes the specified database client.
-        /// </summary>
-        /// <param name="dbClient">The database client.</param>
-     public void Initialize(IQueryAdapter dbClient)
-        {
-        }
-
      public int MaxCracks(string itemName)
         {
             switch (itemName)
@@ -37,39 +29,6 @@ namespace Yupi.Emulator.Game.Items.Handlers
                 default:
                     return 1;
             }
-        }
-
-     public SimpleServerMessageBuffer GetServerMessage(SimpleServerMessageBuffer messageBuffer, RoomItem item)
-        {
-            int cracks = 0;
-            int cracksMax = MaxCracks(item.GetBaseItem().Name);
-
-            if (Yupi.IsNum(item.ExtraData))
-                cracks = Convert.ToInt16(item.ExtraData);
-
-            string state = "0";
-
-            if (cracks >= cracksMax)
-                state = "14";
-            else if (cracks >= cracksMax*6/7)
-                state = "12";
-            else if (cracks >= cracksMax*5/7)
-                state = "10";
-            else if (cracks >= cracksMax*4/7)
-                state = "8";
-            else if (cracks >= cracksMax*3/7)
-                state = "6";
-            else if (cracks >= cracksMax*2/7)
-                state = "4";
-            else if (cracks >= cracksMax*1/7)
-                state = "2";
-
-            messageBuffer.AppendInteger(7);
-            messageBuffer.AppendString(state); //state (0-7)
-            messageBuffer.AppendInteger(cracks); //actual
-            messageBuffer.AppendInteger(cracksMax); //max
-
-            return messageBuffer;
         }
     }
 }

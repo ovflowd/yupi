@@ -445,7 +445,6 @@
     <Compile Include="Emulator\Game\Browser\Models\NavigatorHeader.cs" />
     <Compile Include="Emulator\Game\Browser\Models\UserSearchLog.cs" />
     <Compile Include="Emulator\Game\Browser\Models\PromoCategory.cs" />
-    <Compile Include="Emulator\Game\Browser\SearchResultList.cs" />
     <Compile Include="Emulator\Game\Pathfinding\Vectors\ThreeDCoord.cs" />
     <Compile Include="Emulator\Game\Pets\PetBreeding.cs" />
     <Compile Include="Emulator\Game\Pets\Structs\PetCommand.cs" />
@@ -671,6 +670,7 @@
     <Compile Include="Emulator\Core\Util\Coordinates\CoordinatesFormatter.cs" />
     <Compile Include="Emulator\Core\Util\Math\RandomNumberGenerator.cs" />
     <Compile Include="Emulator\Game\Items\Interactions\Enums\GlobalInteraction.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\InteractionFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.1">

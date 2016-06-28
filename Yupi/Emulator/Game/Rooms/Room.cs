@@ -35,6 +35,7 @@ using Yupi.Emulator.Game.SoundMachine.Songs;
 using Yupi.Emulator.Messages;
 
 using Yupi.Protocol;
+using Yupi.Protocol.Buffers;
 
 namespace Yupi.Emulator.Game.Rooms
 {
@@ -845,7 +846,7 @@ namespace Yupi.Emulator.Game.Rooms
             {
                 foreach (RoomUser user in _roomUserManager.UserList.Values)
                 {
-                    if (user.IsBot)
+					if (user.IsBot || user.IsPet)
                         continue;
 
                     GameClient usersClient = user.GetClient();
@@ -868,7 +869,7 @@ namespace Yupi.Emulator.Game.Rooms
         /// <param name="chatMsg">The chat MSG.</param>
         /// <param name="roomUser">The room user.</param>
         /// <param name="p">The p.</param>
-     public void BroadcastChatMessage(SimpleServerMessageBuffer chatMsg, RoomUser roomUser, uint p)
+		public void BroadcastChatMessage(ServerMessage chatMsg, RoomUser roomUser, uint p)
         {
             try
             {
@@ -907,7 +908,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Sends the messageBuffer.
         /// </summary>
         /// <param name="message">The messageBuffer.</param>
-     public void SendMessage(SimpleServerMessageBuffer messageBuffer)
+		public void SendMessage(ServerMessage messageBuffer)
         {
             if (messageBuffer != null)
                 SendMessage(messageBuffer.GetReversedBytes());
@@ -917,7 +918,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Sends the messageBuffer.
         /// </summary>
         /// <param name="messages">The messages.</param>
-     public void SendMessage(List<SimpleServerMessageBuffer> messages)
+		public void SendMessage(List<ServerMessage> messages)
         {
             if (messages.Count == 0)
                 return;
@@ -954,7 +955,7 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Sends the messageBuffer to users with rights.
         /// </summary>
         /// <param name="message">The messageBuffer.</param>
-     public void SendMessageToUsersWithRights(SimpleServerMessageBuffer messageBuffer)
+		public void SendMessageToUsersWithRights(ServerMessage messageBuffer)
         {
             byte[] messagebytes = messageBuffer.GetReversedBytes();
 

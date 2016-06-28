@@ -50,11 +50,6 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
      public Dictionary<Point, RoomItem> GuildGates;
 
         /// <summary>
-        ///     The serialized floormap
-        /// </summary>
-     public SimpleServerMessageBuffer SerializedFloormap;
-
-        /// <summary>
         ///     The walkable list
         /// </summary>
      public HashSet<Point> WalkableList;
@@ -1350,18 +1345,6 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         }
 
         /// <summary>
-        ///     Gets the new heightmap.
-        /// </summary>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-     public SimpleServerMessageBuffer GetNewHeightmap()
-        {
-            if (SerializedFloormap != null)
-                return SerializedFloormap;
-            SerializedFloormap = NewHeightMap();
-            return SerializedFloormap;
-        }
-
-        /// <summary>
         ///     Sets the default value.
         /// </summary>
         /// <param name="x">The x.</param>
@@ -1605,27 +1588,6 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
                     _room.GetSoccer().RemoveBall(item.Id);
                     break;
             }
-        }
-
-        /// <summary>
-        ///     News the height map.
-        /// </summary>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-        private SimpleServerMessageBuffer NewHeightMap()
-        {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
-            simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingHandler("HeightMapMessageComposer"));
-            simpleServerMessageBuffer.AppendInteger(Model.MapSizeX);
-            simpleServerMessageBuffer.AppendInteger(Model.MapSizeX*Model.MapSizeY);
-            for (int i = 0; i < Model.MapSizeY; i++)
-            {
-                for (int j = 0; j < Model.MapSizeX; j++)
-                {
-                    simpleServerMessageBuffer.AppendShort((short) (SqAbsoluteHeight(j, i)*256));
-                }
-            }
-            //  SimpleServerMessageBuffer.AppendShort(this.Model.SqFloorHeight[j, i] * 256);
-            return simpleServerMessageBuffer;
         }
 
      public MovementState GetChasingMovement(int x, int y)

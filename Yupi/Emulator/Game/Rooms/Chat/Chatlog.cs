@@ -66,7 +66,7 @@ namespace Yupi.Emulator.Game.Rooms.Chat
                 adapter.RunQuery();
             }
         }
-
+		/*
      public void Serialize(ref SimpleServerMessageBuffer messageBuffer)
         {
             Habbo habbo = Yupi.GetHabboById(UserId);
@@ -76,6 +76,6 @@ namespace Yupi.Emulator.Game.Rooms.Chat
             messageBuffer.AppendString(habbo == null ? "*User not found*" : habbo.UserName);
             messageBuffer.AppendString(Message);
             messageBuffer.AppendBool(GlobalMessage);
-        }
+        }*/
     }
 }

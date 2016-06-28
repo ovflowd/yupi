@@ -51,23 +51,5 @@ namespace Yupi.Emulator.Game.Items.Datas
             Data2 = (int) row[2];
             Data3 = (int) row[3];
         }
-
-        /// <summary>
-        ///     Generates the extra data.
-        /// </summary>
-        /// <param name="message">The messageBuffer.</param>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-     public SimpleServerMessageBuffer GenerateExtraData(SimpleServerMessageBuffer messageBuffer)
-        {
-            messageBuffer.AppendInteger(0);
-            messageBuffer.AppendInteger(5);
-            messageBuffer.AppendInteger(4);
-            messageBuffer.AppendInteger(Enabled);
-            messageBuffer.AppendInteger(Data1);
-            messageBuffer.AppendInteger(Data2);
-            messageBuffer.AppendInteger(Data3);
-
-            return messageBuffer;
-        }
     }
 }

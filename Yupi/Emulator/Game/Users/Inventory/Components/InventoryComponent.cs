@@ -584,94 +584,6 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         }
 
         /// <summary>
-        ///     Serializes the floor item inventory.
-        /// </summary>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-     public SimpleServerMessageBuffer SerializeFloorItemInventory()
-        {
-            int i = _floorItems.Count + SongDisks.Count + _wallItems.Count;
-
-            if (i > 2800)
-                _mClient.SendMessage(StaticMessage.AdviceMaxItems);
-
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("LoadInventoryMessageComposer"));
-            simpleServerMessageBuffer.AppendInteger(1);
-            simpleServerMessageBuffer.AppendInteger(0);
-            simpleServerMessageBuffer.AppendInteger(i > 2800 ? 2800 : i);
-
-            int inc = 0;
-
-            foreach (UserItem userItem in _floorItems.Values)
-            {
-                if (inc == 2800)
-                    return simpleServerMessageBuffer;
-
-                inc++;
-
-                userItem.SerializeFloor(simpleServerMessageBuffer, true);
-            }
-
-            foreach (UserItem userItem in _wallItems.Values)
-            {
-                if (inc == 2800)
-                    return simpleServerMessageBuffer;
-
-                inc++;
-
-                userItem.SerializeWall(simpleServerMessageBuffer, true);
-            }
-
-            foreach (UserItem userItem in SongDisks.Values)
-            {
-                if (inc == 2800)
-                    return simpleServerMessageBuffer;
-
-                inc++;
-
-                userItem.SerializeFloor(simpleServerMessageBuffer, true);
-            }
-
-            return simpleServerMessageBuffer;
-        }
-
-        /// <summary>
-        ///     Serializes the wall item inventory.
-        /// </summary>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-     public SimpleServerMessageBuffer SerializeWallItemInventory()
-        {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("LoadInventoryMessageComposer"));
-            simpleServerMessageBuffer.AppendString("I");
-            simpleServerMessageBuffer.AppendInteger(1);
-            simpleServerMessageBuffer.AppendInteger(1);
-            simpleServerMessageBuffer.AppendInteger(_wallItems.Count);
-            foreach (UserItem userItem in _wallItems.Values)
-                userItem.SerializeWall(simpleServerMessageBuffer, true);
-            return simpleServerMessageBuffer;
-        }
-
-        /// <summary>
-        ///     Serializes the bot inventory.
-        /// </summary>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-     public SimpleServerMessageBuffer SerializeBotInventory()
-        {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
-            simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingHandler("BotInventoryMessageComposer"));
-
-            simpleServerMessageBuffer.AppendInteger(_inventoryBots.Count);
-            foreach (RoomBot current in _inventoryBots.Values)
-            {
-                simpleServerMessageBuffer.AppendInteger(current.BotId);
-                simpleServerMessageBuffer.AppendString(current.Name);
-                simpleServerMessageBuffer.AppendString(current.Motto);
-                simpleServerMessageBuffer.AppendString("m");
-                simpleServerMessageBuffer.AppendString(current.Look);
-            }
-            return simpleServerMessageBuffer;
-        }
-
-        /// <summary>
         ///     Adds the item array.
         /// </summary>
         /// <param name="roomItemList">The room item list.</param>
@@ -754,14 +666,6 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
      public List<Pet> GetPets()
         {
             return _inventoryPets.Values.Cast<Pet>().ToList();
-        }
-
-        /// <summary>
-        ///     Sends the floor inventory update.
-        /// </summary>
-     public void SendFloorInventoryUpdate()
-        {
-            _mClient.SendMessage(SerializeFloorItemInventory());
         }
 
         /// <summary>
