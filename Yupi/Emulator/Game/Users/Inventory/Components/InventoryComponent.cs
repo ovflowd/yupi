@@ -268,8 +268,6 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
             pet.RoomId = 0u;
 
             _inventoryPets.Add(pet.PetId, pet);
-
-            SerializePetInventory();
         }
 
         /// <summary>
@@ -649,23 +647,6 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
             simpleServerMessageBuffer.AppendInteger(_wallItems.Count);
             foreach (UserItem userItem in _wallItems.Values)
                 userItem.SerializeWall(simpleServerMessageBuffer, true);
-            return simpleServerMessageBuffer;
-        }
-
-        /// <summary>
-        ///     Serializes the pet inventory.
-        /// </summary>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-     public SimpleServerMessageBuffer SerializePetInventory()
-        {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("PetInventoryMessageComposer"));
-            simpleServerMessageBuffer.AppendInteger(1);
-            simpleServerMessageBuffer.AppendInteger(1);
-            simpleServerMessageBuffer.AppendInteger(_inventoryPets.Count);
-
-            foreach (Pet current in _inventoryPets.Values)
-                current.SerializeInventory(simpleServerMessageBuffer);
-
             return simpleServerMessageBuffer;
         }
 

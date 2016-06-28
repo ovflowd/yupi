@@ -243,7 +243,6 @@
     <Compile Include="Emulator\Data\Base\Managers\BasicDatabaseManager.cs" />
     <Compile Include="Emulator\Data\Base\Managers\Interfaces\IDatabaseManager.cs" />
     <Compile Include="Emulator\Data\YupiUpdatesManager.cs" />
-    <Compile Include="Emulator\Game\Achievements\Composers\AchievementTalentComposer.cs" />
     <Compile Include="Emulator\Game\Browser\Models\NavigatorSubCategory.cs" />
     <Compile Include="Emulator\Game\Browser\Models\NavigatorCategory.cs" />
     <Compile Include="Emulator\Game\Commands\Controllers\RefreshPetSpeeches.cs" />
@@ -261,8 +260,6 @@
     <Compile Include="Emulator\Game\Pets\Composers\PetCommandPanelComposer.cs" />
     <Compile Include="Emulator\Game\Pets\Composers\PetExperienceComposer.cs" />
     <Compile Include="Emulator\Game\Pets\Composers\RespectPetComposer.cs" />
-    <Compile Include="Emulator\Game\Pets\Composers\RespectPetNotificationComposer.cs" />
-    <Compile Include="Emulator\Game\Pets\Composers\SerializePetInventoryComposer.cs" />
     <Compile Include="Emulator\Game\Pets\PetTypeManager.cs" />
     <Compile Include="Emulator\Game\Pets\Structs\PetType.cs" />
     <Compile Include="Emulator\Game\RoomBots\Interfaces\BotCommand.cs" />
@@ -274,8 +271,6 @@
     <Compile Include="Emulator\Core\Io\ServerUserChatTextHandler.cs" />
     <Compile Include="Emulator\Core\Io\Logger\YupiWriterManager.cs" />
     <Compile Include="Emulator\Game\Rooms\Competitions\Models\RoomCompetition.cs" />
-    <Compile Include="Emulator\Game\Rooms\Data\Composers\RoomDataComposer.cs" />
-    <Compile Include="Emulator\Game\Rooms\Events\Composers\RoomEventComposer.cs" />
     <Compile Include="Emulator\Game\Users\YoutubeVideo.cs" />
     <Compile Include="Emulator\Messages\StaticMessagesManager.cs" />
     <Compile Include="Emulator\Data\FurnitureDataManager.cs" />
@@ -585,7 +580,6 @@
     <Compile Include="Emulator\Game\Achievements\Composers\AchievementScoreUpdateComposer.cs" />
     <Compile Include="Emulator\Game\Achievements\Composers\AchievementUnlockedComposer.cs" />
     <Compile Include="Emulator\Game\Achievements\Structs\Talent.cs" />
-    <Compile Include="Emulator\Game\Achievements\TalentManager.cs" />
     <Compile Include="Emulator\Game\Achievements\Structs\UserAchievement.cs" />
     <Compile Include="Emulator\Game\Achievements\Structs\UserTalent.cs" />
     <Compile Include="Emulator\Game\Catalogs\CatalogManager.cs" />
@@ -712,6 +706,8 @@
     <Folder Include="Emulator\Game\Browser\Composers\" />
     <Folder Include="Emulator\Game\Groups\Composers\" />
     <Folder Include="Emulator\Game\Rooms\Competitions\Composers\" />
+    <Folder Include="Emulator\Game\Rooms\Data\Composers\" />
+    <Folder Include="Emulator\Game\Rooms\Events\Composers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\GitInfo.1.1.1\build\GitInfo.targets" Condition="Exists('..\packages\GitInfo.1.1.1\build\GitInfo.targets')" />

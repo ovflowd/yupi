@@ -32,7 +32,8 @@ namespace Yupi.Emulator.Game.Commands.Controllers
                 session.GetHabbo().GetInventoryComponent().AddPet(pet);
                 room.GetRoomUserManager().RemoveBot(pet.VirtualId, false);
             }
-            session.SendMessage(session.GetHabbo().GetInventoryComponent().SerializePetInventory());
+
+			session.Router.GetComposer<SerializePetInventory>().Compose(session, session.GetHabbo().GetInventoryComponent()._inventoryPets);
             return true;
         }
     }

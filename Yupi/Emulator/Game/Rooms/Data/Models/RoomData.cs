@@ -31,7 +31,6 @@ using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Groups.Structs;
 using Yupi.Emulator.Game.Rooms.Chat;
-using Yupi.Emulator.Game.Rooms.Data.Composers;
 using Yupi.Emulator.Game.Rooms.Events.Models;
 
 
@@ -471,7 +470,66 @@ namespace Yupi.Emulator.Game.Rooms.Data.Models
         /// <param name="enterRoom"></param>
      public void Serialize(SimpleServerMessageBuffer messageBuffer, bool showEvents = false, bool enterRoom = false) 
 		{
-			RoomDataComposer.Serialize(messageBuffer, this, showEvents, enterRoom);
+			messageBuffer.AppendInteger(data.Id);
+			messageBuffer.AppendString(data.Name);
+			messageBuffer.AppendInteger(data.OwnerId);
+			messageBuffer.AppendString(data.Owner);
+			messageBuffer.AppendInteger(data.State);
+			messageBuffer.AppendInteger(data.UsersNow);
+			messageBuffer.AppendInteger(data.UsersMax);
+			messageBuffer.AppendString(data.Description);
+			messageBuffer.AppendInteger(data.TradeState);
+			messageBuffer.AppendInteger(data.Score);
+			messageBuffer.AppendInteger(0);
+			messageBuffer.AppendInteger(data.Category > 0 ? data.Category : 0);
+			messageBuffer.AppendInteger(data.TagCount);
+
+			foreach (string current in data.Tags.Where(current => current != null))
+				messageBuffer.AppendString(current);
+
+			string imageData = null;
+
+			int enumType = enterRoom ? 32 : 0;
+
+			PublicItem publicItem = Yupi.GetGame()?.GetNavigator()?.GetPublicRoom(data.Id);
+
+			if (!string.IsNullOrEmpty(publicItem?.Image))
+			{
+				imageData = publicItem.Image;
+
+				enumType += 1;
+			}
+
+			if (data.Group != null)
+				enumType += 2;
+
+			if (showEvents && data.Event != null)
+				enumType += 4;
+
+			if (data.Type == "private")
+				enumType += 8;
+
+			if (data.AllowPets)
+				enumType += 16;
+
+			messageBuffer.AppendInteger(enumType);
+
+			if (imageData != null)
+				messageBuffer.AppendString(imageData);
+
+			if (data.Group != null)
+			{
+				messageBuffer.AppendInteger(data.Group.Id);
+				messageBuffer.AppendString(data.Group.Name);
+				messageBuffer.AppendString(data.Group.Badge);
+			}
+
+			if (showEvents && data.Event != null)
+			{
+				messageBuffer.AppendString(data.Event.Name);
+				messageBuffer.AppendString(data.Event.Description);
+				messageBuffer.AppendInteger((int)Math.Floor((data.Event.Time - Yupi.GetUnixTimeStamp()) / 60.0));
+			}
 		}
     }
 }

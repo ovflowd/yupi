@@ -870,7 +870,7 @@ namespace Yupi.Emulator.Game.Catalogs
                 session.GetHabbo().GetInventoryComponent().UpdateItems(false);
 
                 if (InteractionTypes.AreFamiliar(GlobalInteraction.Pet, baseItem.InteractionType))
-                    session.SendMessage(session.GetHabbo().GetInventoryComponent().SerializePetInventory());
+					session.Router.GetComposer<SerializePetInventory>().Compose(session, session.GetHabbo().GetInventoryComponent()._inventoryPets);
             }
 
             if (item.Badge.Length >= 1)

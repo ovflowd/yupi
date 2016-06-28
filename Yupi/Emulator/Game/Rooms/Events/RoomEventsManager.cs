@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Data;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Emulator.Game.GameClients.Interfaces;
-using Yupi.Emulator.Game.Rooms.Events.Composers;
 using Yupi.Emulator.Game.Rooms.Events.Models;
 
 namespace Yupi.Emulator.Game.Rooms.Events
@@ -138,7 +137,7 @@ namespace Yupi.Emulator.Game.Rooms.Events
             if (!RoomHasEvents(roomId))
                 return;
 
-            room.SendMessage(RoomEventComposer.Compose(roomEvent, room));
+			router.GetComposer<RoomEventMessageComposer> ().Compose (room, roomEvent, room);
         }
 
         /// <summary>

@@ -378,7 +378,7 @@ namespace Yupi.Emulator.Game.Pets
 
             RespectPetComposer.GenerateMessage(this);
 
-            RespectPetNotificationComposer.GenerateMessage(this);
+			router.GetComposer<PetRespectNotificationMessageComposer> ().Compose (this.Room, this);
 
             if (DbState != DatabaseUpdateState.NeedsInsert)
                 DbState = DatabaseUpdateState.NeedsUpdate;
@@ -425,12 +425,7 @@ namespace Yupi.Emulator.Game.Pets
             if (ownerSession == null)
                 return;
 
-            SimpleServerMessageBuffer levelNotify = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("NotifyNewPetLevelMessageComposer"));
-
-            SerializeInventory(levelNotify, true);
-
-            ownerSession.SendMessage(levelNotify);
-
+			router.GetComposer<NotifyNewPetLevelMessageComposer> ().Compose (ownerSession, this);
             PetCommandPanelComposer.GenerateMessage(this, totalPetCommands, petCommands, ownerSession);
         }
 
@@ -481,13 +476,5 @@ namespace Yupi.Emulator.Game.Pets
             if (DbState != DatabaseUpdateState.NeedsInsert)
                 DbState = DatabaseUpdateState.NeedsUpdate;
         }
-
-        /// <summary>
-        ///     Serializes the inventory.
-        /// </summary>
-        /// <param name="message">The messageBuffer.</param>
-        /// <param name="levelAfterName">if set to <c>true</c> [level after name].</param>
-     public void SerializeInventory(SimpleServerMessageBuffer messageBuffer, bool levelAfterName = false)
-            => SerializePetInventoryComposer.GenerateMessage(this, messageBuffer, levelAfterName);
     }
 }
