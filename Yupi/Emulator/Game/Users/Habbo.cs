@@ -22,7 +22,7 @@ using Yupi.Emulator.Game.Users.Messenger.Structs;
 using Yupi.Emulator.Game.Users.Relationships;
 using Yupi.Emulator.Game.Users.Subscriptions;
 using Yupi.Emulator.Messages;
-using Yupi.Emulator.Messages.Buffers;
+
 
 namespace Yupi.Emulator.Game.Users
 {

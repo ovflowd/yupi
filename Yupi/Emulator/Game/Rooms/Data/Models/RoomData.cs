@@ -33,7 +33,7 @@ using Yupi.Emulator.Game.Groups.Structs;
 using Yupi.Emulator.Game.Rooms.Chat;
 using Yupi.Emulator.Game.Rooms.Data.Composers;
 using Yupi.Emulator.Game.Rooms.Events.Models;
-using Yupi.Emulator.Messages.Buffers;
+
 
 namespace Yupi.Emulator.Game.Rooms.Data.Models
 {

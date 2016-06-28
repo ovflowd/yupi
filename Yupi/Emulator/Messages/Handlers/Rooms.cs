@@ -37,8 +37,6 @@ using Yupi.Emulator.Game.Rooms.Competitions.Models;
 using Yupi.Emulator.Game.Rooms.Data.Models;
 using Yupi.Emulator.Game.Rooms.User;
 using Yupi.Emulator.Game.Users;
-using Yupi.Emulator.Messages.Buffers;
-using Yupi.Emulator.Net.Web;
 
 namespace Yupi.Emulator.Messages.Handlers
 {

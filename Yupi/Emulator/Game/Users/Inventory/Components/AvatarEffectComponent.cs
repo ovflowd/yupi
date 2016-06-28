@@ -6,7 +6,7 @@ using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Rooms.User;
 using Yupi.Emulator.Game.Users.Data.Models;
 using Yupi.Emulator.Messages;
-using Yupi.Emulator.Messages.Buffers;
+
 
 namespace Yupi.Emulator.Game.Users.Inventory.Components
 {

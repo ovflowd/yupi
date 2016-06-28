@@ -7,7 +7,7 @@ using Yupi.Emulator.Game.Items.Interfaces;
 using Yupi.Emulator.Game.Items.Wired.Interfaces;
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Messages;
-using Yupi.Emulator.Messages.Buffers;
+
 
 namespace Yupi.Emulator.Game.Items.Wired
 {

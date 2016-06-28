@@ -3,7 +3,7 @@ using System.Linq;
 using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Users.Relationships;
-using Yupi.Emulator.Messages.Buffers;
+
 
 namespace Yupi.Emulator.Game.Users.Messenger.Structs
 {

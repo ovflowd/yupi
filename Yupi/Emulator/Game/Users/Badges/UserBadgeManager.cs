@@ -6,7 +6,7 @@ using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Users.Badges.Models;
 using Yupi.Emulator.Game.Users.Data.Models;
 using Yupi.Emulator.Messages;
-using Yupi.Emulator.Messages.Buffers;
+
 
 namespace Yupi.Emulator.Game.Users.Badges
 {

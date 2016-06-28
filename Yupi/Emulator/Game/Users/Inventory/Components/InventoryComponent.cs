@@ -13,7 +13,7 @@ using Yupi.Emulator.Game.RoomBots;
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Users.Data.Models;
 using Yupi.Emulator.Messages;
-using Yupi.Emulator.Messages.Buffers;
+
 using Yupi.Emulator.Messages.Enums;
 
 namespace Yupi.Emulator.Game.Users.Inventory.Components

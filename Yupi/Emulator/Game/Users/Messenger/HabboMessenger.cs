@@ -11,7 +11,7 @@ using Yupi.Emulator.Game.Rooms.Data;
 using Yupi.Emulator.Game.Rooms.Data.Models;
 using Yupi.Emulator.Game.Users.Messenger.Structs;
 using Yupi.Emulator.Messages;
-using Yupi.Emulator.Messages.Buffers;
+
 
 namespace Yupi.Emulator.Game.Users.Messenger
 {

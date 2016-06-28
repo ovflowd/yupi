@@ -14,7 +14,7 @@ using Yupi.Emulator.Game.Rooms.Items.Games.Types.Soccer.Enums;
 using Yupi.Emulator.Game.Rooms.User;
 using Yupi.Emulator.Game.Rooms.User.Path;
 using Yupi.Emulator.Messages;
-using Yupi.Emulator.Messages.Buffers;
+
 
 namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Soccer
 {

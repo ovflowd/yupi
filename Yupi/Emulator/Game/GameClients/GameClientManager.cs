@@ -33,7 +33,7 @@ using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Users.Messenger.Structs;
 using Yupi.Emulator.Messages;
-using Yupi.Emulator.Messages.Buffers;
+
 using Yupi.Net;
 
 namespace Yupi.Emulator.Game.GameClients
