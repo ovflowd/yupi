@@ -43,6 +43,11 @@ Yupi is an OSP Habbo Emulator, not created for production usages. Made for cool 
 Butterfly Emulator, originally created by Martinmine. Actually Based in a Butterfly's Edition called Azure Emulator.
 **Observation**: In other terms the code wasn't created from scratch by the collaborators, but based in Butterfly Emulator. So if you see crappie codes, calm down, it's planned to everything being rewrote here.
 
+## Tools!
+Yupi has **amazing** (cof cof) tools that you can use with it. Check some of those:
++ **Edison Osto's** Yupi Furniture SQL Generator! [Click Here](http://forum.ragezone.com/f353/sql-generator-yupi-emulator-1107144/)
++ More tools later haha
+
 ## Whoami
 
 #### Pull Us!
