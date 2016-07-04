@@ -795,11 +795,16 @@ namespace Yupi.Emulator.Game.Rooms
                             Yupi.GetGame().GetRoomManager().UnloadRoom(this, "No users");
                             return;
                         }
+						// TODO Shouldn't this be sent immediately?
+						List<RoomUser> users = new List<RoomUser>();
+						foreach (RoomUser user in GetRoomUserManager().UserList.Values) {
+							if(user.UpdateNeeded) {
+								users.add(user);
+								user.UpdateNeeded = false;
+							}
+						}
 
-                        SimpleServerMessageBuffer simpleServerMessageBuffer = GetRoomUserManager().SerializeStatusUpdates(false);
-
-                        if (simpleServerMessageBuffer != null)
-                            SendMessage(simpleServerMessageBuffer);
+						Router.GetComposer<UpdateUserStatusMessageComposer>().Compose(this, users);
                     }
 
                     _gameItemHandler?.OnCycle();

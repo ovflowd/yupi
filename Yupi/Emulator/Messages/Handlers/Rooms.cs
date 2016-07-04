@@ -47,61 +47,25 @@ namespace Yupi.Emulator.Messages.Handlers
         private DateTime _floodTime;
 
      public void OnRoomUserAdd()
-        {
-            if (Session == null || GetResponse() == null)
-                return;
-
-            QueuedServerMessageBuffer queuedServerMessageBuffer = new QueuedServerMessageBuffer(Session.GetConnection());
-
+        {			
             if (CurrentLoadingRoom?.GetRoomUserManager() == null || CurrentLoadingRoom.GetRoomUserManager().UserList == null)
                 return;
 
             IEnumerable<RoomUser> list = CurrentLoadingRoom.GetRoomUserManager().UserList.Values.Where(current => current != null && !current.IsSpectator);
 
-            Response.Init(PacketLibraryManager.OutgoingHandler("SetRoomUserMessageComposer"));
-            Response.StartArray();
-
-            foreach (RoomUser current2 in list)
-            {
-                try
-                {
-                    current2.Serialize(Response, CurrentLoadingRoom.GetGameMap().GotPublicPool);
-                    Response.SaveArray();
-                }
-                catch (Exception e)
-                {
-                    YupiLogManager.LogException(e, "Registered Room YupiDatabaseManager Exception.");
-                    Response.Clear();
-                }
-            }
-
-            Response.EndArray();
-
-            queuedServerMessageBuffer.AppendResponse(GetResponse());
-            queuedServerMessageBuffer.AppendResponse(RoomFloorAndWallComposer(CurrentLoadingRoom));
-            queuedServerMessageBuffer.AppendResponse(GetResponse());
-
-            Response.Init(PacketLibraryManager.OutgoingHandler("RoomOwnershipMessageComposer"));
-            Response.AppendInteger(CurrentLoadingRoom.RoomId);
-            Response.AppendBool(CurrentLoadingRoom.CheckRights(Session, true));
-            queuedServerMessageBuffer.AppendResponse(GetResponse());
+			Session.Router.GetComposer<SetRoomUserMessageComposer> ().Compose (Session.GetConnection(), list, CurrentLoadingRoom.GetGameMap().GotPublicPool);
+			Session.Router.GetComposer<RoomFloorWallLevelsMessageComposer> ().Compose (Session.GetConnection(), CurrentLoadingRoom.RoomData);
+			Session.Router.GetComposer<RoomOwnershipMessageComposer> ().Compose (Session.GetConnection(), CurrentLoadingRoom, Session);
 
             foreach (Habbo habboForId in CurrentLoadingRoom.UsersWithRights.Select(Yupi.GetHabboById))
             {
                 if (habboForId == null) continue;
-
-                GetResponse().Init(PacketLibraryManager.OutgoingHandler("GiveRoomRightsMessageComposer"));
-                GetResponse().AppendInteger(CurrentLoadingRoom.RoomId);
-                GetResponse().AppendInteger(habboForId.Id);
-                GetResponse().AppendString(habboForId.UserName);
-                queuedServerMessageBuffer.AppendResponse(GetResponse());
+				Session.GetConnection().Router.GetComposer<GiveRoomRightsMessageComposer> ().Compose (Session, CurrentLoadingRoom.RoomId, habboForId);
             }
 
-            SimpleServerMessageBuffer simpleServerMessageBuffer = CurrentLoadingRoom.GetRoomUserManager().SerializeStatusUpdates(true);
-
-            if (simpleServerMessageBuffer != null)
-                queuedServerMessageBuffer.AppendResponse(simpleServerMessageBuffer);
-
+			CurrentLoadingRoom.Router.GetComposer<UpdateUserStatusMessageComposer> ().Compose (Session, 
+				CurrentLoadingRoom.GetRoomUserManager ().UserList.Values);
+          
             if (CurrentLoadingRoom.RoomData.Event != null)
                 Yupi.GetGame().GetRoomEvents().SerializeEventInfo(CurrentLoadingRoom.RoomId);
 
@@ -112,35 +76,23 @@ namespace Yupi.Emulator.Messages.Handlers
                 if (current4.IsBot)
                 {
                     if (current4.BotData.DanceId > 0)
-                    {
-                        Response.Init(PacketLibraryManager.OutgoingHandler("DanceStatusMessageComposer"));
-                        Response.AppendInteger(current4.VirtualId);
-                        Response.AppendInteger(current4.BotData.DanceId);
-                        queuedServerMessageBuffer.AppendResponse(GetResponse());
+					{
+						Session.Router.GetComposer<DanceStatusMessageComposer> ().Compose (Session.GetConnection(), current4.VirtualId, current4.BotData.DanceId);
                     }
                 }
                 else if (current4.IsDancing)
                 {
-                    Response.Init(PacketLibraryManager.OutgoingHandler("DanceStatusMessageComposer"));
-                    Response.AppendInteger(current4.VirtualId);
-                    Response.AppendInteger(current4.DanceId);
-                    queuedServerMessageBuffer.AppendResponse(GetResponse());
+					Session.Router.GetComposer<DanceStatusMessageComposer> ().Compose (Session.GetConnection(), current4.VirtualId, current4.DanceId);
                 }
 
                 if (current4.IsAsleep)
-                {
-                    SimpleServerMessageBuffer sleepMsg = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("RoomUserIdleMessageComposer"));
-                    sleepMsg.AppendInteger(current4.VirtualId);
-                    sleepMsg.AppendBool(true);
-                    queuedServerMessageBuffer.AppendResponse(sleepMsg);
+				{
+					Session.Router.GetComposer<RoomUserIdleMessageComposer> ().Compose (Session.GetConnection(), current4.VirtualId, current4.IsAsleep);
                 }
 
                 if (current4.CarryItemId > 0 && current4.CarryTimer > 0)
                 {
-                    Response.Init(PacketLibraryManager.OutgoingHandler("ApplyHanditemMessageComposer"));
-                    Response.AppendInteger(current4.VirtualId);
-                    Response.AppendInteger(current4.CarryTimer);
-                    queuedServerMessageBuffer.AppendResponse(GetResponse());
+					Session.Router.GetComposer<ApplyHanditemMessageComposer> ().Compose (Session.GetConnection(), current4.VirtualId, current4.CarryTimer);
                 }
 
                 if (current4.IsBot)
@@ -152,20 +104,10 @@ namespace Yupi.Emulator.Messages.Handlers
                     {
                         if (current4.GetClient().GetHabbo().GetAvatarEffectsInventoryComponent() != null && current4.CurrentEffect >= 1)
                         {
-                            Response.Init(PacketLibraryManager.OutgoingHandler("ApplyEffectMessageComposer"));
-                            Response.AppendInteger(current4.VirtualId);
-                            Response.AppendInteger(current4.CurrentEffect);
-                            Response.AppendInteger(0);
-                            queuedServerMessageBuffer.AppendResponse(GetResponse());
+							Session.Router.GetComposer<ApplyHanditemMessageComposer> ().Compose (Session.GetConnection(), current4.VirtualId, current4.CurrentEffect);
                         }
 
-                        SimpleServerMessageBuffer simpleServerMessage2 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UpdateUserDataMessageComposer"));
-                        simpleServerMessage2.AppendInteger(current4.VirtualId);
-                        simpleServerMessage2.AppendString(current4.GetClient().GetHabbo().Look);
-                        simpleServerMessage2.AppendString(current4.GetClient().GetHabbo().Gender.ToLower());
-                        simpleServerMessage2.AppendString(current4.GetClient().GetHabbo().Motto);
-                        simpleServerMessage2.AppendInteger(current4.GetClient().GetHabbo().AchievementPoints);
-                        CurrentLoadingRoom?.SendMessage(simpleServerMessage2);
+						CurrentLoadingRoom.Router.GetComposer<UpdateUserDataMessageComposer>().Compose(CurrentLoadingRoom, current4.GetClient().GetHabbo(), current4.VirtualId);
                     }
                 }
                 catch (Exception e)
@@ -173,8 +115,6 @@ namespace Yupi.Emulator.Messages.Handlers
                     YupiLogManager.LogException(e, "Failed Broadcasting Room Data to Client.", "Yupi.Room");
                 }
             }
-
-            queuedServerMessageBuffer.SendResponse();
         }
 
      public void PrepareRoomForUser(uint id, string pWd, bool isReload = false)
@@ -332,16 +272,5 @@ namespace Yupi.Emulator.Messages.Handlers
             Session.GetHabbo().LoadingRoom = 0u;
             Session.GetHabbo().LoadingChecksPassed = false;
         }
-
-
-
-     public static SimpleServerMessageBuffer RoomFloorAndWallComposer(Room room)
-		{
-			SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer (PacketLibraryManager.OutgoingHandler ("RoomFloorWallLevelsMessageComposer"));
-			simpleServerMessageBuffer.AppendBool (room.RoomData.HideWall);
-			simpleServerMessageBuffer.AppendInteger (room.RoomData.WallThickness);
-			simpleServerMessageBuffer.AppendInteger (room.RoomData.FloorThickness);
-			return simpleServerMessageBuffer;
-		}
     }
 }

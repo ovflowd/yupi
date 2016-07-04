@@ -7,7 +7,8 @@ namespace Yupi.Messages.User
 	{
 		public override void HandleMessage (GameClient session, Yupi.Protocol.Buffers.ClientMessage message, Router router)
 		{
-			Yupi.GetGame ().GetAchievementManager ().GetList (session);
+			session.Router.GetComposer<AchievementListMessageComposer> ().Compose (session, session.GetHabbo (),
+				Yupi.GetGame ().GetAchievementManager ().Achievements.Values.ToList ());
 		}
 	}
 }

@@ -508,6 +508,14 @@
     <Compile Include="Composer\Rooms\FloorMapMessageComposer.cs" />
     <Compile Include="Composer\Rooms\HeightMapMessageComposer.cs" />
     <Compile Include="Composer\Items\ItemAnimationMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\RoomOwnershipMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\ApplyHanditemMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\ApplyEffectMessageComposer.cs" />
+    <Compile Include="Composer\User\UpdateUserStatusMessageComposer.cs" />
+    <Compile Include="Composer\User\SendAchievementsRequirementsMessageComposer.cs" />
+    <Compile Include="Composer\User\AchievementListMessageComposer.cs" />
+    <Compile Include="Composer\Achievements\AchievementProgressMessageComposer.cs" />
+    <Compile Include="Composer\Achievements\UnlockAchievementMessageComposer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -565,6 +573,7 @@
     <Folder Include="Composer\Rooms\Camera\" />
     <Folder Include="Handlers\Rooms\Camera\" />
     <Folder Include="Handlers\Rooms\Competition\" />
+    <Folder Include="Composer\Achievements\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

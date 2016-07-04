@@ -551,7 +551,6 @@
     <Compile Include="Emulator\Game\Items\Wired\Interfaces\IWiredCycler.cs" />
     <Compile Include="Emulator\Game\Items\Wired\Interfaces\IWiredItem.cs" />
     <Compile Include="Emulator\Game\Items\Wired\WiredHandler.cs" />
-    <Compile Include="Emulator\Game\Items\Wired\WiredSaver.cs" />
     <Compile Include="Emulator\Game\Users\EmoticonManager.cs" />
     <Compile Include="Emulator\Game\Users\YoutubeManager.cs" />
     <Compile Include="Emulator\Game\Users\HallOfFame.cs" />
@@ -574,10 +573,6 @@
     <Compile Include="Emulator\Game\Achievements\Structs\AchievementLevel.cs" />
     <Compile Include="Emulator\Game\Achievements\Factories\AchievementLevelFactory.cs" />
     <Compile Include="Emulator\Game\Achievements\AchievementManager.cs" />
-    <Compile Include="Emulator\Game\Achievements\Composers\AchievementListComposer.cs" />
-    <Compile Include="Emulator\Game\Achievements\Composers\AchievementProgressComposer.cs" />
-    <Compile Include="Emulator\Game\Achievements\Composers\AchievementScoreUpdateComposer.cs" />
-    <Compile Include="Emulator\Game\Achievements\Composers\AchievementUnlockedComposer.cs" />
     <Compile Include="Emulator\Game\Achievements\Structs\Talent.cs" />
     <Compile Include="Emulator\Game\Achievements\Structs\UserAchievement.cs" />
     <Compile Include="Emulator\Game\Achievements\Structs\UserTalent.cs" />

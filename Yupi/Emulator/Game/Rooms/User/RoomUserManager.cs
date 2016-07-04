@@ -631,41 +631,6 @@ namespace Yupi.Emulator.Game.Rooms.User
      public List<Pet> GetPets() => UserList.Where(c => c.Value.IsPet).Select(c => c.Value.PetData).ToList();
 
         /// <summary>
-        ///     Serializes the status updates.
-        /// </summary>
-        /// <param name="all">if set to <c>true</c> [all].</param>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-     public SimpleServerMessageBuffer SerializeStatusUpdates(bool all)
-        {
-            List<RoomUser> list = new List<RoomUser>();
-
-            foreach (RoomUser current in UserList.Values)
-            {
-                if (!all)
-                {
-                    if (!current.UpdateNeeded)
-                        continue;
-
-                    current.UpdateNeeded = false;
-                }
-
-                list.Add(current);
-            }
-
-            if (!list.Any())
-                return null;
-
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UpdateUserStatusMessageComposer"));
-
-            simpleServerMessageBuffer.AppendInteger(list.Count);
-
-            foreach (RoomUser current2 in list)
-                current2.SerializeStatus(simpleServerMessageBuffer);
-
-            return simpleServerMessageBuffer;
-        }
-
-        /// <summary>
         ///     Backups the counters.
         /// </summary>
         /// <param name="primaryCounter">The primary counter.</param>

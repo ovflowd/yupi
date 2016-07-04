@@ -1139,12 +1139,7 @@ namespace Yupi.Emulator.Game.Rooms.User
                 return;
             GetClient().GetHabbo().GetAvatarEffectsInventoryComponent().ActivateCustomEffect(effectId);
         }
-
-        /// <summary>
-        ///     Serializes the specified messageBuffer.
-        /// </summary>
-        /// <param name="message">The messageBuffer.</param>
-        /// <param name="gotPublicRoom">if set to <c>true</c> [got public room].</param>
+			/*
      public void Serialize(SimpleServerMessageBuffer messageBuffer, bool gotPublicRoom)
         {
             if (messageBuffer == null)
@@ -1241,11 +1236,8 @@ namespace Yupi.Emulator.Game.Rooms.User
             messageBuffer.AppendShort(4);
             messageBuffer.AppendShort(5);
         }
-
-        /// <summary>
-        ///     Serializes the status.
-        /// </summary>
-        /// <param name="message">The messageBuffer.</param>
+*/
+      /*
      public void SerializeStatus(SimpleServerMessageBuffer messageBuffer)
         {
             messageBuffer.AppendInteger(VirtualId);
@@ -1288,13 +1280,14 @@ namespace Yupi.Emulator.Game.Rooms.User
             RemoveStatus("sign");
             UpdateNeeded = true;
         }
-
+		*/
         /// <summary>
         ///     Serializes the status.
         /// </summary>
         /// <param name="message">The messageBuffer.</param>
         /// <param name="status">The status.</param>
-     public void SerializeStatus(SimpleServerMessageBuffer messageBuffer, string status)
+     /*
+		public void SerializeStatus(SimpleServerMessageBuffer messageBuffer, string status)
         {
             if (IsSpectator)
                 return;
@@ -1306,7 +1299,7 @@ namespace Yupi.Emulator.Game.Rooms.User
             messageBuffer.AppendInteger(RotBody);
             messageBuffer.AppendString(status);
         }
-
+*/
         /// <summary>
         ///     Gets the client.
         /// </summary>

@@ -4,6 +4,8 @@ using System.Linq;
 using Yupi.Emulator.Core.Io.Logger;
 using Yupi.Emulator.Game.Items.Interfaces;
 using Yupi.Emulator.Messages;
+using Yupi.Protocol;
+using Yupi.Protocol.Buffers;
 
 
 namespace Yupi.Emulator.Game.Rooms.User.Trade
@@ -11,7 +13,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Trade
     /// <summary>
     ///     Class Trade.
     /// </summary>
-     public class Trade
+     public class Trade : ISender
     {
         /// <summary>
         ///     The _one identifier
@@ -388,19 +390,16 @@ namespace Yupi.Emulator.Game.Rooms.User.Trade
         ///     Sends the messageBuffer to users.
         /// </summary>
         /// <param name="message">The messageBuffer.</param>
-     public void SendMessageToUsers(SimpleServerMessageBuffer messageBuffer)
+     public void Send(ServerMessage message)
         {
             if (_users == null)
             {
                 return;
             }
-
-            {
                 foreach (TradeUser tradeUser in _users.Where(tradeUser => tradeUser != null && tradeUser.GetClient() != null))
                 {
-                    tradeUser.GetClient().SendMessage(messageBuffer);
+                    tradeUser.GetClient().SendMessage(message);
                 }
-            }
         }
 
         /// <summary>

@@ -301,7 +301,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
                 if (userData.User.HasFuse("fuse_mod"))
                     queuedServerMessageBuffer.AppendResponse(Yupi.GetGame().GetModerationTool().SerializeTool(this));
 
-                queuedServerMessageBuffer.AppendResponse(Yupi.GetGame().GetAchievementManager().AchievementDataCached);
+				Router.GetComposer<SendAchievementsRequirementsMessageComposer>().Compose(this, Yupi.GetGame().GetAchievementManager().Achievements);
 
                 queuedServerMessageBuffer.AppendResponse(GetHabbo().GetAvatarEffectsInventoryComponent().GetPacket());
                 queuedServerMessageBuffer.SendResponse();

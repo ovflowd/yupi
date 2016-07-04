@@ -26,7 +26,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
-using Yupi.Emulator.Game.Achievements.Composers;
 using Yupi.Emulator.Game.Achievements.Factories;
 using Yupi.Emulator.Game.Achievements.Structs;
 using Yupi.Emulator.Game.GameClients.Interfaces;
@@ -43,11 +42,6 @@ namespace Yupi.Emulator.Game.Achievements
     /// </summary>
     public class AchievementManager
     {
-        /// <summary>
-        ///     The achievement data cached
-        /// </summary>
-     public SimpleServerMessageBuffer AchievementDataCached;
-
         /// <summary>
         ///     The achievements
         /// </summary>
@@ -71,37 +65,12 @@ namespace Yupi.Emulator.Game.Achievements
         ///     Loads the achievements.
         /// </summary>
         /// <param name="dbClient">The database client.</param>
-     public void LoadAchievements(IQueryAdapter dbClient)
+     private void LoadAchievements(IQueryAdapter dbClient)
         {
             Achievements.Clear();
 
             AchievementLevelFactory.GetAchievementLevels(out Achievements, dbClient);
-
-            AchievementDataCached = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SendAchievementsRequirementsMessageComposer"));
-
-            AchievementDataCached.AppendInteger(Achievements.Count);
-
-            foreach (Achievement ach in Achievements.Values)
-            {
-                AchievementDataCached.AppendString(ach.GroupName.Replace("ACH_", string.Empty));
-                AchievementDataCached.AppendInteger(ach.Levels.Count);
-
-                for (uint i = 1; i < ach.Levels.Count + 1; i++)
-                {
-                    AchievementDataCached.AppendInteger(i);
-                    AchievementDataCached.AppendInteger(ach.Levels[i].Requirement);
-                }
-            }
-
-            AchievementDataCached.AppendInteger(0);
         }
-
-        /// <summary>
-        ///     Gets the list.
-        /// </summary>
-        /// <param name="session">The session.</param>
-     public void GetList(GameClient session)
-            => session.SendMessage(AchievementListComposer.Compose(session, Achievements.Values.ToList()));
 
         /// <summary>
         ///     Tries the progress login achievements.
@@ -320,15 +289,15 @@ namespace Yupi.Emulator.Game.Achievements
                             $"REPLACE INTO users_achievements VALUES ('{user.Id}', '{achievementGroup}', '{achievementNextLevel}', '{achievementProgress}')");
 
                     // Send Unlocked Composer
-                    session.SendMessage(AchievementUnlockedComposer.Compose(achievement, achievementNextLevel,
-                        achievementNextLevelData.RewardPoints, achievementNextLevelData.RewardPixels));
+					session.Router.GetComposer<UnlockAchievementMessageComposer> ().Compose (session,
+						achievement, achievementNextLevel,
+						achievementNextLevelData.RewardPoints, achievementNextLevelData.RewardPixels);
 
                     // Send Score Composer
-                    session.SendMessage(AchievementScoreUpdateComposer.Compose(user.AchievementPoints));
+					session.Router.GetComposer<AchievementPointsMessageComposer>().Compose(session, user.AchievementPoints);
 
-                    // Send Progress Composer
-                    session.SendMessage(AchievementProgressComposer.Compose(achievement, achievementNextLevel,
-                        achievementNextLevelData, achievementLevelsCount, userAchievement));
+					session.Router.GetComposer<AchievementProgressMessageComposer> ().Compose (session, achievement, achievementNextLevel,
+						achievementNextLevelData, achievementLevelsCount, userAchievement);
 
                     // Set Talent
                     if (
@@ -356,9 +325,9 @@ namespace Yupi.Emulator.Game.Achievements
                         queryReactor.RunFastQuery(
                             $"REPLACE INTO users_achievements VALUES ('{user.Id}', '{achievementGroup}', '{achievementCurrentLevel}', '{achievementProgress}')");
 
-                    // Compose Current Data
-                    session.SendMessage(AchievementProgressComposer.Compose(achievement, achievementCurrentLevel,
-                        achievementCurrentLevelData, achievementLevelsCount, userAchievement));
+					session.Router.GetComposer<AchievementProgressMessageComposer> ().Compose (session, achievement, 
+						achievementCurrentLevel,
+						achievementCurrentLevelData, achievementLevelsCount, userAchievement);
                 }
 
                 // Send User New Data
