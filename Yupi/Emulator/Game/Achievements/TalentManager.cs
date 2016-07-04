@@ -26,7 +26,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
-using Yupi.Emulator.Game.Achievements.Composers;
 using Yupi.Emulator.Game.Achievements.Structs;
 using Yupi.Emulator.Game.GameClients.Interfaces;
 

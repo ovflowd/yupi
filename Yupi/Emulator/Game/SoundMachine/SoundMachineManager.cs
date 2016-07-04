@@ -3,7 +3,6 @@ using System.Linq;
 using Yupi.Emulator.Game.Items.Interfaces;
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Rooms.User;
-using Yupi.Emulator.Game.SoundMachine.Composers;
 using Yupi.Emulator.Game.SoundMachine.Songs;
 
 namespace Yupi.Emulator.Game.SoundMachine
@@ -327,16 +326,15 @@ namespace Yupi.Emulator.Game.SoundMachine
         ///     Broadcasts the current song data.
         /// </summary>
         /// <param name="instance">The instance.</param>
-     public void BroadcastCurrentSongData(Room instance)
+     public void BroadcastCurrentSongData(Room room)
         {
-            if (CurrentSong != null)
-            {
-                instance.SendMessage(SoundMachineComposer.ComposePlayingComposer(CurrentSong.SongData.Id,
-                    SongQueuePosition, 0));
-                return;
-            }
-
-            instance.SendMessage(SoundMachineComposer.ComposePlayingComposer(0u, 0, 0));
+			if (CurrentSong != null) {
+				room.Router.GetComposer<JukeboxNowPlayingMessageComposer> ().Compose (room, CurrentSong.SongData.Id,
+					SongQueuePosition, 0);
+			} else {
+				room.Router.GetComposer<JukeboxNowPlayingMessageComposer> ().Compose (room, 0u,
+					0, 0);
+			}
         }
 
         /// <summary>
@@ -348,9 +346,8 @@ namespace Yupi.Emulator.Game.SoundMachine
             if (user.IsBot || user.GetClient() == null || CurrentSong == null)
                 return;
 
-            user.GetClient()
-                .SendMessage(SoundMachineComposer.ComposePlayingComposer(CurrentSong.SongData.Id, SongQueuePosition,
-                    SongSyncTimestamp));
+			user.GetClient().Router.GetComposer<JukeboxNowPlayingMessageComposer> ().Compose (user.GetClient(), 
+				CurrentSong.SongData.Id, SongQueuePosition, SongSyncTimestamp);
         }
 
         /// <summary>

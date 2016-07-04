@@ -18,7 +18,6 @@ using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Emulator.Game.Browser;
 using Yupi.Emulator.Game.Browser.Models;
 using Yupi.Emulator.Game.Catalogs;
-using Yupi.Emulator.Game.Catalogs.Composers;
 using Yupi.Emulator.Game.Catalogs.Interfaces;
 using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Groups.Structs;

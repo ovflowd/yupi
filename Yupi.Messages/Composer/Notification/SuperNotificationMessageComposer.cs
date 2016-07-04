@@ -25,6 +25,12 @@ namespace Yupi.Messages.Notification
 					message.AppendString ("errors");
 					message.AppendString (content);
 					break;
+				case 2:
+					message.AppendString("link");
+					message.AppendString("event:");
+					message.AppendString("linkTitle");
+					message.AppendString("ok");
+					break;
 				case 4:
 					message.AppendString ("title");
 					message.AppendString (title);

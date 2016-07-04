@@ -48,7 +48,7 @@ namespace Yupi.Emulator.Game.Users.Messenger.Structs
             Look = look;
             LastOnline = lastOnline;
         }
-
+		/*
         /// <summary>
         ///     Searializes the specified reply.
         /// </summary>
@@ -64,6 +64,6 @@ namespace Yupi.Emulator.Game.Users.Messenger.Structs
             reply.AppendInteger(0);
             reply.AppendString(Look);
             reply.AppendString(LastOnline);
-        }
+        }*/
     }
 }

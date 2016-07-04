@@ -87,7 +87,7 @@ namespace Yupi.Emulator.Game.Browser.Models
             _specialAction = specialAction;
             _image = image;
         }
-
+		/*
         /// <summary>
         ///     Serializes the specified composer.
         /// </summary>
@@ -104,6 +104,6 @@ namespace Yupi.Emulator.Game.Browser.Models
             composer.AppendString(_image);
 
             return composer;
-        }
+        }*/
     }
 }

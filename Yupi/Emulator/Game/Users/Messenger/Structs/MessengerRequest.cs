@@ -43,7 +43,7 @@ namespace Yupi.Emulator.Game.Users.Messenger.Structs
         /// </summary>
         /// <value>From.</value>
      public uint From { get; }
-
+		/*
         /// <summary>
         ///     Serializes the specified request.
         /// </summary>
@@ -53,6 +53,6 @@ namespace Yupi.Emulator.Game.Users.Messenger.Structs
             request.AppendInteger(From);
             request.AppendString(_userName);
             request.AppendString(_look);
-        }
+        }*/
     }
 }

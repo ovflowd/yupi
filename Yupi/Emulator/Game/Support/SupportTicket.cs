@@ -244,7 +244,7 @@ namespace Yupi.Emulator.Game.Support
                 queryReactor.RunFastQuery(
                     $"UPDATE moderation_tickets SET status = 'deleted' WHERE id = {TicketId}");
         }
-
+		/*
         /// <summary>
         ///     Serializes the specified messageBuffer.
         /// </summary>
@@ -278,6 +278,6 @@ namespace Yupi.Emulator.Game.Support
             }
 
             return messageBuffer;
-        }
+        }*/
     }
 }

@@ -51,7 +51,7 @@ namespace Yupi.Emulator.Game.Polls
             Answers = answers.ToList();
             CorrectAnswer = correctAnswer;
         }
-
+		/*
         /// <summary>
         ///     Serializes the specified messageBuffer.
         /// </summary>
@@ -76,5 +76,6 @@ namespace Yupi.Emulator.Game.Polls
                 messageBuffer.AppendString(current);
             }
         }
-    }
+   */
+	}
 }

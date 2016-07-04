@@ -51,7 +51,38 @@ namespace Yupi.Messages.Navigator
 
 			KeyValuePair<RoomData, uint>[] rooms = Yupi.GetGame().GetRoomManager().GetActiveRooms();
 
-			Yupi.GetGame().GetNavigator().SerializeNavigatorPromotedRooms(ref messageBuffer, rooms, flatCatId, direct);
+			Yupi.GetGame().GetNavigator().SerializeNavigatorPromotedRooms(messageBuffer, rooms, flatCatId, direct);
+		}
+
+		private void SerializeNavigatorPromotedRooms(ServerMessage reply, KeyValuePair<RoomData, uint>[] rooms, int category, bool direct)
+		{
+			if (!rooms?.Any() ?? true)
+			{
+				reply.AppendInteger(0);
+
+				return;
+			}
+
+			List<RoomData> roomsCategory = new List<RoomData>();
+
+			if (rooms != null)
+			{
+				foreach (KeyValuePair<RoomData, uint> pair in rooms)
+				{
+					if (pair.Key.Category.Equals(category))
+					{
+						roomsCategory.Add(pair.Key);
+
+						if (roomsCategory.Count == (direct ? 40 : 8))
+							break;
+					}
+				}
+			}
+
+			reply.AppendInteger(roomsCategory.Count);
+
+			foreach (RoomData data in roomsCategory)
+				data.Serialize(reply);
 		}
 
 		/// <summary>
@@ -72,7 +103,7 @@ namespace Yupi.Messages.Navigator
 
 			KeyValuePair<RoomData, uint>[] rooms = Yupi.GetGame().GetRoomManager().GetEventRooms();
 
-			Yupi.GetGame().GetNavigator().SerializeNavigatorPromotedRooms(ref messageBuffer, rooms, flatCatId, direct);
+			Yupi.GetGame().GetNavigator().SerializeNavigatorPromotedRooms(messageBuffer, rooms, flatCatId, direct);
 		}
 
 		/// <summary>
@@ -146,13 +177,13 @@ namespace Yupi.Messages.Navigator
 				}
 			case "official-root":
 				{
-					messageBuffer.AppendServerMessage(Yupi.GetGame().GetNavigator().SerializePublicRooms());
+					SerializePublicRooms(messageBuffer);
 
 					break;
 				}
 			case "staffpicks":
 				{
-					messageBuffer.AppendServerMessage(Yupi.GetGame().GetNavigator().SerializeStaffPicks());
+					SerializeStaffPicks (messageBuffer);
 
 					break;
 				}
@@ -330,6 +361,47 @@ namespace Yupi.Messages.Navigator
 					break;
 				}
 			}
+		}
+
+		public void SerializeStaffPicks(ServerMessage messageBuffer)
+		{
+			messageBuffer.StartArray();
+
+			foreach (PublicItem item in Yupi.GetGame().GetNavigator().PublicRooms.Values.Where(t => t.ParentId == -2))
+			{
+				messageBuffer.Clear();
+
+				if (item.GetPublicRoomData == null)
+					continue;
+
+				item.GetPublicRoomData.Serialize(messageBuffer);
+
+				messageBuffer.SaveArray();
+			}
+
+			messageBuffer.EndArray();
+		}
+
+		private void SerializePublicRooms(ServerMessage messageBuffer)
+		{
+			messageBuffer.StartArray();
+
+			foreach (PublicItem item in Yupi.GetGame().GetNavigator().PublicRooms.Values)
+			{
+				if (item.ParentId == -1)
+				{
+					messageBuffer.Clear();
+
+					if (item.GetPublicRoomData == null)
+						continue;
+
+					item.GetPublicRoomData.Serialize(messageBuffer);
+
+					messageBuffer.SaveArray();
+				}
+			}
+
+			messageBuffer.EndArray();
 		}
 
 		/// <summary>

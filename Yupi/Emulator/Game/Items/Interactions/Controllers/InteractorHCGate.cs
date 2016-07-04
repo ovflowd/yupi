@@ -13,13 +13,10 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
         public override void OnTrigger(GameClient session, RoomItem item, int request, bool hasRights)
         {
             Habbo user = session.GetHabbo();
-            bool ishc = user.Vip;
 
-            if (!ishc)
+			if (!user.Vip)
             {
-                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("CustomUserNotificationMessageComposer"));
-                messageBuffer.AppendInteger(3);
-                session.SendMessage(messageBuffer);
+				session.Router.GetComposer<CustomUserNotificationMessageComposer> ().Compose (session);
                 return;
             }
 

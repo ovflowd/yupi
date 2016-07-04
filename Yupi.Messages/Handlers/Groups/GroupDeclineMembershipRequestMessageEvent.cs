@@ -20,9 +20,7 @@ namespace Yupi.Messages.Groups
 
 			group.Requests.Remove(userId);
 
-			Response.Init(PacketLibraryManager.OutgoingHandler("GroupMembersMessageComposer"));
-			Yupi.GetGame().GetGroupManager().SerializeGroupMembers(Response, group, 2u, Session);
-			SendResponse();
+			router.GetComposer<GroupMembersMessageComposer> ().Compose (session, group, 2u, session);
 
 			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(group.RoomId);
 
@@ -36,7 +34,7 @@ namespace Yupi.Messages.Groups
 				roomUserByHabbo.UpdateNeeded = true;
 			}
 
-			Yupi.GetGame().GetGroupManager().SerializeGroupInfo(group, Response, session);
+			router.GetComposer<GroupDataMessageComposer> ().Compose (session, group, session.GetHabbo());
 		
 			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager ().GetQueryReactor ()) {
 				queryReactor.SetQuery ("DELETE FROM group_requests WHERE group_id = @group_id AND user_id = @user_id");

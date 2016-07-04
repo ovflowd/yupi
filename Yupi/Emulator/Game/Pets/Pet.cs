@@ -26,7 +26,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using Yupi.Emulator.Game.GameClients.Interfaces;
-using Yupi.Emulator.Game.Pets.Composers;
 using Yupi.Emulator.Game.Pets.Enums;
 using Yupi.Emulator.Game.Pets.Structs;
 using Yupi.Emulator.Game.Rooms;
@@ -376,8 +375,7 @@ namespace Yupi.Emulator.Game.Pets
                     .GetAchievementManager()
                     .ProgressUserAchievement(ownerSession, "ACH_PetRespectReceiver", 1);
 
-            RespectPetComposer.GenerateMessage(this);
-
+			router.GetComposer<RespectPetMessageComposer> ().Compose (this.Room, this.VirtualId);
 			router.GetComposer<PetRespectNotificationMessageComposer> ().Compose (this.Room, this);
 
             if (DbState != DatabaseUpdateState.NeedsInsert)
@@ -411,7 +409,7 @@ namespace Yupi.Emulator.Game.Pets
             if (Room == null)
                 return;
 
-            PetExperienceComposer.GenerateMessage(this, amount);
+			this.Room.Router.GetComposer<AddPetExperienceMessageComposer> ().Compose (this.Room, this, amount);
 
             if (Experience < oldExperienceGoal)
                 return;
@@ -426,7 +424,7 @@ namespace Yupi.Emulator.Game.Pets
                 return;
 
 			router.GetComposer<NotifyNewPetLevelMessageComposer> ().Compose (ownerSession, this);
-            PetCommandPanelComposer.GenerateMessage(this, totalPetCommands, petCommands, ownerSession);
+			router.GetComposer<PetTrainerPanelMessageComposer> ().Compose (ownerSession, this.PetId);
         }
 
         /// <summary>

@@ -87,7 +87,7 @@ namespace Yupi.Emulator.Game.Support
         /// <param name="inappropriateRoom">if set to <c>true</c> [inappropriate room].</param>
         /// <param name="messageBuffer">The messageBuffer.</param>
      public static void PerformRoomAction(GameClient modSession, uint roomId, bool kickUsers, bool lockRoom,
-            bool inappropriateRoom, SimpleServerMessageBuffer messageBuffer)
+            bool inappropriateRoom)
         {
             Room room = Yupi.GetGame().GetRoomManager().GetRoom(roomId);
 
@@ -240,120 +240,7 @@ namespace Yupi.Emulator.Game.Support
                 .GetBanManager()
                 .BanUser(clientByUserId, modSession.GetHabbo().UserName, length, message, false, false);
         }
-
-      
-        /// <summary>
-        ///     Serializes the room visits.
-        /// </summary>
-        /// <param name="userId">The user identifier.</param>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-     public static SimpleServerMessageBuffer SerializeRoomVisits(uint userId)
-        {
-            SimpleServerMessageBuffer simpleServerMessageBuffer =
-                new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("ModerationToolRoomVisitsMessageComposer"));
-            simpleServerMessageBuffer.AppendInteger(userId);
-
-            GameClient user = Yupi.GetGame().GetClientManager().GetClientByUserId(userId);
-
-            if (user?.GetHabbo() == null)
-            {
-                simpleServerMessageBuffer.AppendString("Not online");
-                simpleServerMessageBuffer.AppendInteger(0);
-                return simpleServerMessageBuffer;
-            }
-
-            simpleServerMessageBuffer.AppendString(user.GetHabbo().UserName);
-            simpleServerMessageBuffer.StartArray();
-
-            foreach (
-                RoomData roomData in
-                    user.GetHabbo()
-                        .RecentlyVisitedRooms.Select(roomId => Yupi.GetGame().GetRoomManager().GenerateRoomData(roomId))
-                        .Where(roomData => roomData != null))
-            {
-                simpleServerMessageBuffer.AppendInteger(roomData.Id);
-                simpleServerMessageBuffer.AppendString(roomData.Name);
-
-                simpleServerMessageBuffer.AppendInteger(0); //hour
-                simpleServerMessageBuffer.AppendInteger(0); //min
-
-                simpleServerMessageBuffer.SaveArray();
-            }
-
-            simpleServerMessageBuffer.EndArray();
-            return simpleServerMessageBuffer;
-        }
 			
-        /// <summary>
-        ///     Serializes the tool.
-        /// </summary>
-        /// <param name="session">The session.</param>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-     public SimpleServerMessageBuffer SerializeTool(GameClient session)
-        {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("LoadModerationToolMessageComposer"));
-
-            simpleServerMessageBuffer.AppendInteger(Tickets.Count);
-
-            foreach (SupportTicket current in Tickets)
-                current.Serialize(simpleServerMessageBuffer);
-
-            simpleServerMessageBuffer.AppendInteger(UserMessagePresets.Count);
-
-            foreach (string current2 in UserMessagePresets)
-                simpleServerMessageBuffer.AppendString(current2);
-
-            IEnumerable<ModerationTemplate> enumerable =
-                (from x in ModerationTemplates.Values where x.Category == -1 select x).ToArray();
-
-            simpleServerMessageBuffer.AppendInteger(enumerable.Count());
-            using (IEnumerator<ModerationTemplate> enumerator3 = enumerable.GetEnumerator())
-            {
-                bool first = true;
-
-                while (enumerator3.MoveNext())
-                {
-                    ModerationTemplate template = enumerator3.Current;
-                    IEnumerable<ModerationTemplate> enumerable2 =
-                        (from x in ModerationTemplates.Values where x.Category == (long) (ulong) template.Id select x)
-                            .ToArray();
-                    simpleServerMessageBuffer.AppendString(template.CName);
-                    simpleServerMessageBuffer.AppendBool(first);
-                    simpleServerMessageBuffer.AppendInteger(enumerable2.Count());
-
-                    foreach (ModerationTemplate current3 in enumerable2)
-                    {
-                        simpleServerMessageBuffer.AppendString(current3.Caption);
-                        simpleServerMessageBuffer.AppendString(current3.BanMessage);
-                        simpleServerMessageBuffer.AppendInteger(current3.BanHours);
-                        simpleServerMessageBuffer.AppendInteger(Yupi.BoolToInteger(current3.AvatarBan));
-                        simpleServerMessageBuffer.AppendInteger(Yupi.BoolToInteger(current3.Mute));
-                        simpleServerMessageBuffer.AppendInteger(Yupi.BoolToInteger(current3.TradeLock));
-                        simpleServerMessageBuffer.AppendString(current3.WarningMessage);
-                        simpleServerMessageBuffer.AppendBool(true);
-                    }
-
-                    first = false;
-                }
-            }
-
-            // but = button
-            simpleServerMessageBuffer.AppendBool(true); //ticket_queue_but
-            simpleServerMessageBuffer.AppendBool(session.GetHabbo().HasFuse("fuse_chatlogs")); //chatlog_but
-            simpleServerMessageBuffer.AppendBool(session.GetHabbo().HasFuse("fuse_alert")); //message_but
-            simpleServerMessageBuffer.AppendBool(true); //modaction_but
-            simpleServerMessageBuffer.AppendBool(session.GetHabbo().HasFuse("fuse_ban")); //ban_but
-            simpleServerMessageBuffer.AppendBool(true);
-            simpleServerMessageBuffer.AppendBool(session.GetHabbo().HasFuse("fuse_kick")); //kick_but
-
-            simpleServerMessageBuffer.AppendInteger(RoomMessagePresets.Count);
-
-            foreach (string current4 in RoomMessagePresets)
-                simpleServerMessageBuffer.AppendString(current4);
-
-            return simpleServerMessageBuffer;
-        }
-
         /// <summary>
         ///     Loads the messageBuffer presets.
         /// </summary>
@@ -476,28 +363,6 @@ namespace Yupi.Emulator.Game.Support
 
                 Tickets.Add(ticket2);
                 SendTicketToModerators(ticket2);
-            }
-        }
-
-        /// <summary>
-        ///     Serializes the open tickets.
-        /// </summary>
-        /// <param name="serverMessagesBuffer">The server messages.</param>
-        /// <param name="userId">The user identifier.</param>
-     public void SerializeOpenTickets(ref QueuedServerMessageBuffer serverMessagesBuffer, uint userId)
-        {
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("ModerationToolIssueMessageComposer"));
-
-            foreach (
-                SupportTicket current in
-                    Tickets.Where(
-                        current =>
-                            current.Status == TicketStatus.Open ||
-                            (current.Status == TicketStatus.Picked && current.ModeratorId == userId) ||
-                            (current.Status == TicketStatus.Picked && current.ModeratorId == 0u)))
-            {
-                messageBuffer = current.Serialize(messageBuffer);
-                serverMessagesBuffer.AppendResponse(messageBuffer);
             }
         }
 

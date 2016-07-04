@@ -30,9 +30,7 @@ namespace Yupi.Messages.Groups
 			theGroup.Colour1 = color1;
 			theGroup.Colour2 = color2;
 
-			Yupi.GetGame()
-				.GetGroupManager()
-				.SerializeGroupInfo(theGroup, Response, Session, Session.GetHabbo().CurrentRoom);
+			router.GetComposer<GroupDataMessageComposer> ().Compose (session.GetHabbo().CurrentRoom, theGroup, session.GetHabbo());
 		}
 	}
 }

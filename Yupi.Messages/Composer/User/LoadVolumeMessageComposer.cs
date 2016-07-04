@@ -1,6 +1,7 @@
 ﻿using System;
 using Yupi.Protocol.Buffers;
 using Yupi.Emulator.Game.GameClients.Interfaces;
+using Yupi.Emulator.Game.Users;
 
 namespace Yupi.Messages.User
 {

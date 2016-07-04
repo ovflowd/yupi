@@ -516,6 +516,21 @@
     <Compile Include="Composer\User\AchievementListMessageComposer.cs" />
     <Compile Include="Composer\Achievements\AchievementProgressMessageComposer.cs" />
     <Compile Include="Composer\Achievements\UnlockAchievementMessageComposer.cs" />
+    <Compile Include="Composer\Groups\GroupDataMessageComposer.cs" />
+    <Compile Include="Composer\Music\JukeboxNowPlayingMessageComposer.cs" />
+    <Compile Include="Composer\Support\LoadModerationToolMessageComposer.cs" />
+    <Compile Include="Composer\User\ReceiveBadgeMessageComposer.cs" />
+    <Compile Include="Composer\Items\Wired\WiredRewardAlertMessageComposer.cs" />
+    <Compile Include="Composer\Items\EffectsInventoryMessageComposer.cs" />
+    <Compile Include="Composer\Messenger\LoadFriendsCategories.cs" />
+    <Compile Include="Composer\Messenger\LoadFriendsMessageComposer.cs" />
+    <Compile Include="Composer\Messenger\ConsoleChatMessageComposer.cs" />
+    <Compile Include="Composer\Messenger\FriendUpdateMessageComposer.cs" />
+    <Compile Include="Composer\Messenger\FriendRequestsMessageComposer.cs" />
+    <Compile Include="Composer\Messenger\ConsoleSearchFriendMessageComposer.cs" />
+    <Compile Include="Composer\Pets\RespectPetMessageComposer.cs" />
+    <Compile Include="Composer\Other\InternalLinkMessageComposer.cs" />
+    <Compile Include="Composer\Notification\CustomUserNotificationMessageComposer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -574,6 +589,7 @@
     <Folder Include="Handlers\Rooms\Camera\" />
     <Folder Include="Handlers\Rooms\Competition\" />
     <Folder Include="Composer\Achievements\" />
+    <Folder Include="Composer\Items\Wired\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

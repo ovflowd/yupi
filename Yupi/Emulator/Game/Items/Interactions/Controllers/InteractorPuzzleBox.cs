@@ -68,21 +68,10 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
 
                 double num = item.GetRoom().GetGameMap().SqAbsoluteHeight(point.X, point.Y);
 
-                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
-
-                simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingHandler("ItemAnimationMessageComposer"));
-
-                simpleServerMessageBuffer.AppendInteger(item.X);
-                simpleServerMessageBuffer.AppendInteger(item.Y);
-                simpleServerMessageBuffer.AppendInteger(point.X);
-                simpleServerMessageBuffer.AppendInteger(point.Y);
-                simpleServerMessageBuffer.AppendInteger(1);
-                simpleServerMessageBuffer.AppendInteger(item.Id);
-                simpleServerMessageBuffer.AppendString(item.Z.ToString(Yupi.CultureInfo));
-                simpleServerMessageBuffer.AppendString(num.ToString(Yupi.CultureInfo));
-                simpleServerMessageBuffer.AppendInteger(0);
-
-                room.SendMessage(simpleServerMessageBuffer);
+				room.Router.GetComposer<ItemAnimationMessageComposer> ().Compose (room, 
+					new Tuple<Point, double> (new Point (item.X, item.Y), item.Z),
+					new Tuple<Point, double> (point, num), 0, item.Id, 
+					ItemAnimationMessageComposer.Type.Item);
 
                 item.GetRoom()
                     .GetRoomItemHandler()

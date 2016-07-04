@@ -7,6 +7,7 @@ using Yupi.Emulator.Game.Items;
 using Yupi.Emulator.Game.Items.Wired.Interfaces;
 using Yupi.Emulator.Game.Items.Wired;
 using Yupi.Emulator.Core.Io.Logger;
+using Yupi.Messages.Notification;
 
 namespace Yupi.Messages.Items
 {
@@ -24,7 +25,7 @@ namespace Yupi.Messages.Items
 
 				if (!room.CheckRights(session, false, true))
 				{
-					session.SendMessage(StaticMessage.ErrorCantSetNotOwner);
+					router.GetComposer<SuperNotificationMessageComposer>().Compose(session, "", "${room.error.cant_set_not_owner}", "", "", "furni_placement_error", 1);
 					return;
 				}
 
@@ -54,7 +55,6 @@ namespace Yupi.Messages.Items
 								if (room.MoodlightData != null &&
 									room.GetRoomItemHandler().GetItem(room.MoodlightData.ItemId) != null)
 									session.SendNotif(Yupi.GetLanguage().GetVar("room_moodlight_one_allowed"));
-
 								goto PlaceWall;
 							}
 						default:
@@ -180,12 +180,11 @@ namespace Yupi.Messages.Items
 				return;
 
 				CannotSetItem:
-				session.SendMessage(StaticMessage.ErrorCantSetItem);
+				router.GetComposer<SuperNotificationMessageComposer>().Compose(session, "", "${room.error.cant_set_item}", "", "", "furni_placement_error", 1);
 			}
 			catch (Exception e)
 			{
-				session.SendMessage(StaticMessage.ErrorCantSetItem);
-
+				router.GetComposer<SuperNotificationMessageComposer>().Compose(session, "", "${room.error.cant_set_item}", "", "", "furni_placement_error", 1);
 				YupiLogManager.LogException(e, "Failed Handling Item.", "Yupi.Mobi");
 			}
 		}

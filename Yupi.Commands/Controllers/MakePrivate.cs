@@ -32,16 +32,10 @@ namespace Yupi.Emulator.Game.Commands.Controllers
             List<RoomUser> users = new List<RoomUser>(session.GetHabbo().CurrentRoom.GetRoomUserManager().UserList.Values);
 
             Yupi.GetGame().GetRoomManager().UnloadRoom(session.GetHabbo().CurrentRoom, "Unload command");
-
             Yupi.GetGame().GetRoomManager().LoadRoom(roomId);
 
-            SimpleServerMessageBuffer roomFwd = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("RoomForwardMessageComposer"));
-            roomFwd.AppendInteger(roomId);
-
-            byte[] data = roomFwd.GetReversedBytes();
-
             foreach (RoomUser user in users.Where(user => user != null && user.GetClient() != null))
-                user.GetClient().SendMessage(data);
+				user.GetClient().CurrentRoom.Router.GetComposer<RoomForwardMessageComposer> ().Compose (user.GetClient(), roomId);
 
             return true;
         }

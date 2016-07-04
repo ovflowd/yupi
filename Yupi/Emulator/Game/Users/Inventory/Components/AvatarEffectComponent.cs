@@ -23,7 +23,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// <summary>
         ///     The _effects
         /// </summary>
-        private List<AvatarEffect> _effects;
+        public List<AvatarEffect> _effects;
 
         /// <summary>
         ///     The _session
@@ -59,29 +59,6 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
                     queryReactor.RunFastQuery("DELETE FROM users_effects WHERE user_id = " + userId +
                                               " AND effect_id = " + current.EffectId + "; ");
             }
-        }
-
-        /// <summary>
-        ///     Gets the packet.
-        /// </summary>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-     public SimpleServerMessageBuffer GetPacket()
-        {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("EffectsInventoryMessageComposer"));
-
-            simpleServerMessageBuffer.AppendInteger(_effects.Count);
-
-            foreach (AvatarEffect current in _effects)
-            {
-                simpleServerMessageBuffer.AppendInteger(current.EffectId);
-                simpleServerMessageBuffer.AppendInteger(current.Type);
-                simpleServerMessageBuffer.AppendInteger(current.TotalDuration);
-                simpleServerMessageBuffer.AppendInteger(0);
-                simpleServerMessageBuffer.AppendInteger(current.TimeLeft);
-                simpleServerMessageBuffer.AppendBool(current.TotalDuration == -1);
-            }
-
-            return simpleServerMessageBuffer;
         }
 
         /// <summary>

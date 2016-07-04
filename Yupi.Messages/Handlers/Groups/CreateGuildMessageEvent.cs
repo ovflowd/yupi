@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Yupi.Emulator.Game.Rooms.Data.Models;
 using Yupi.Emulator.Game.Groups.Structs;
 using Yupi.Emulator.Game.Catalogs.Composers;
+using Yupi.Messages.Catalog;
 
 namespace Yupi.Messages.Groups
 {
@@ -46,7 +47,7 @@ namespace Yupi.Messages.Groups
 					!Yupi.GetGame().GetGroupManager().SymbolColours.Contains(color) ? 1 : color,
 					!Yupi.GetGame().GetGroupManager().BackGroundColours.Contains(num3) ? 1 : num3, out theGroup);
 
-			CatalogPageComposer.PurchaseOk (0u, "CREATE_GUILD", 10);
+			session.Router.GetComposer<PurchaseOKMessageComposer> ().Compose (session, 0u, "CREATE_GUILD", 10);
 
 			router.GetComposer<GroupRoomMessageComposer> ().Compose (session, roomid, theGroup.Id);
 

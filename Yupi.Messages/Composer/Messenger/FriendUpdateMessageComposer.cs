@@ -1,11 +1,22 @@
 ﻿using System;
+using Yupi.Emulator.Game.Users.Messenger.Structs;
+using Yupi.Protocol.Buffers;
+using Yupi.Emulator.Game.GameClients.Interfaces;
 
 namespace Yupi.Messages.Messenger
 {
-	public class FriendUpdateMessageComposer
+	public class FriendUpdateMessageComposer : AbstractComposer<MessengerBuddy, GameClient>
 	{
-		public FriendUpdateMessageComposer ()
+		public override void Compose (Yupi.Protocol.ISender session, MessengerBuddy friend, GameClient client)
 		{
+			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
+				message.AppendInteger(0);
+				message.AppendInteger(1);
+				message.AppendInteger(0);
+				friend.Serialize(message, client);
+				message.AppendBool(false);
+				session.Send (message);
+			}
 		}
 	}
 }

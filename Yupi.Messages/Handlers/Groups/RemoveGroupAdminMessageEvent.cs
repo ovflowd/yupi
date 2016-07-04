@@ -23,9 +23,7 @@ namespace Yupi.Messages.Groups
 			group.Members[num2].Rank = 0;
 			group.Admins.Remove(num2);
 
-			Response.Init(PacketLibraryManager.OutgoingHandler("GroupMembersMessageComposer"));
-			Yupi.GetGame().GetGroupManager().SerializeGroupMembers(Response, group, 0u, Session);
-			SendResponse();
+			router.GetComposer<GroupMembersMessageComposer> ().Compose (session, group, 0u, session);
 
 			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(group.RoomId);
 			RoomUser roomUserByHabbo = room?.GetRoomUserManager().GetRoomUserByHabbo(Yupi.GetHabboById(num2).UserName);

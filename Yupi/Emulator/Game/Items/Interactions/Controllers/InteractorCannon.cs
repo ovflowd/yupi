@@ -92,14 +92,6 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
             Timer timer = (Timer) source;
             timer.Stop();
 
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SuperNotificationMessageComposer"));
-            simpleServerMessageBuffer.AppendString("room.kick.cannonball");
-            simpleServerMessageBuffer.AppendInteger(2);
-            simpleServerMessageBuffer.AppendString("link");
-            simpleServerMessageBuffer.AppendString("event:");
-            simpleServerMessageBuffer.AppendString("linkTitle");
-            simpleServerMessageBuffer.AppendString("ok");
-
             Room room = _mItem.GetRoom();
 
             HashSet<RoomUser> toRemove = new HashSet<RoomUser>();
@@ -122,7 +114,8 @@ namespace Yupi.Emulator.Game.Items.Interactions.Controllers
             foreach (RoomUser user in toRemove)
             {
                 room.GetRoomUserManager().RemoveUserFromRoom(user.GetClient(), true, false);
-                user.GetClient().SendMessage(simpleServerMessageBuffer);
+				user.GetClient ().Router.GetComposer<SuperNotificationMessageComposer> ().Compose (user.GetClient (), "", "", "", "", "room.kick.cannonball", 2);
+					
             }
 
             _mItem.OnCannonActing = false;

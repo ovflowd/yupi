@@ -70,8 +70,9 @@ namespace Yupi.Emulator.Game.Users.Badges
         /// <param name="wiredReward">if set to <c>true</c> [wired reward].</param>
      public void GiveBadge(string badge, bool inDatabase, GameClient session, bool wiredReward = false)
         {
-            if (wiredReward)
-                session.SendMessage(SerializeBadgeReward(!HasBadge(badge)));
+			if (wiredReward) {
+				session.Router.GetComposer<WiredRewardAlertMessageComposer> ().Compose (session, !HasBadge (badge));
+			}
 
             if (HasBadge(badge))
                 return;
@@ -91,39 +92,8 @@ namespace Yupi.Emulator.Game.Users.Badges
 
             BadgeList.Add(badge, new Badge(badge, 0));
 
-            session.SendMessage(SerializeBadge(badge));
+			session.Router.GetComposer<ReceiveBadgeMessageComposer> ().Compose (session, badge);
             session.SendMessage(Update(badge));
-        }
-
-        /// <summary>
-        ///     Serializes the badge.
-        /// </summary>
-        /// <param name="badge">The badge.</param>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-     public SimpleServerMessageBuffer SerializeBadge(string badge)
-        {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
-
-            simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingHandler("ReceiveBadgeMessageComposer"));
-            simpleServerMessageBuffer.AppendInteger(1);
-            simpleServerMessageBuffer.AppendString(badge);
-
-            return simpleServerMessageBuffer;
-        }
-
-        /// <summary>
-        ///     Serializes the badge reward.
-        /// </summary>
-        /// <param name="success">if set to <c>true</c> [success].</param>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-     public SimpleServerMessageBuffer SerializeBadgeReward(bool success)
-        {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
-
-            simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingHandler("WiredRewardAlertMessageComposer"));
-            simpleServerMessageBuffer.AppendInteger(success ? 7 : 1);
-
-            return simpleServerMessageBuffer;
         }
 
         /// <summary>
@@ -157,7 +127,7 @@ namespace Yupi.Emulator.Game.Users.Badges
             BadgeList.Remove(GetBadge(badge));
             session.SendMessage(Serialize());
         }
-
+		/*
         /// <summary>
         ///     Updates the specified badge identifier.
         /// </summary>
@@ -173,8 +143,8 @@ namespace Yupi.Emulator.Game.Users.Badges
             simpleServerMessageBuffer.AppendString(badgeId);
 
             return simpleServerMessageBuffer;
-        }
-
+        }*/
+		/*
         /// <summary>
         ///     Serializes this instance.
         /// </summary>
@@ -204,6 +174,6 @@ namespace Yupi.Emulator.Game.Users.Badges
             }
 
             return simpleServerMessageBuffer;
-        }
+        }*/
     }
 }

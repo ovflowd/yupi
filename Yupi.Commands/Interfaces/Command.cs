@@ -35,31 +35,31 @@ namespace Yupi.Emulator.Game.Commands.Interfaces
         ///     Gets or sets the minimum rank.
         /// </summary>
         /// <value>The minimum rank.</value>
-        public virtual short MinRank { get; set; }
+		virtual short MinRank { public get; set; }
 
         /// <summary>
         ///     Gets or sets the description.
         /// </summary>
         /// <value>The description.</value>
-        public virtual string Description { get; set; }
+		virtual string Description { public get; set; }
 
         /// <summary>
         ///     Gets or sets the usage.
         /// </summary>
         /// <value>The usage.</value>
-        public virtual string Usage { get; set; }
+		virtual string Usage { public get; set; }
 
         /// <summary>
         ///     Gets or sets the alias.
         /// </summary>
         /// <value>The alias.</value>
-        public virtual string Alias { get; set; }
+		virtual string Alias { public get; set; }
 
         /// <summary>
         ///     Gets or sets the minimum parameters.
         /// </summary>
         /// <value>The minimum parameters.</value>
-        public virtual short MinParams { get; set; }
+		virtual short MinParams { public get; set; }
 
         /// <summary>
         ///     Executes the specified client.

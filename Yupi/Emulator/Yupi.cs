@@ -52,7 +52,6 @@ using Yupi.Emulator.Game.Users.Messenger.Structs;
 using Yupi.Emulator.Messages;
 using Yupi.Net;
 using Yupi.Net.SuperSocketImpl;
-using Yupi.Messages;
 
 namespace Yupi.Emulator
 {
@@ -239,9 +238,6 @@ namespace Yupi.Emulator
 		public static ILog GetLogManager() {
 			return YupiLogManager.GetLogManager ();
 		}
-
-		// HACK Should be fixed, once cyclic dependencies are removed
-		private static Router<GameClient> router;
 
         /// <summary>
         ///     Start the Plugin System

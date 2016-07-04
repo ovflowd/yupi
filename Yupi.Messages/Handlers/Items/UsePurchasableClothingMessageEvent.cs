@@ -3,6 +3,7 @@ using Yupi.Emulator.Game.Items.Interactions.Enums;
 using Yupi.Emulator.Game.Items.Interfaces;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Emulator.Messages.Enums;
+using Yupi.Messages.Notification;
 
 namespace Yupi.Messages.Items
 {
@@ -33,7 +34,10 @@ namespace Yupi.Messages.Items
 			SendResponse();
 
 			room.GetRoomItemHandler().RemoveFurniture(session, item.Id, false);
-			session.SendMessage(StaticMessage.FiguresetRedeemed);
+		
+			session.Router.GetComposer<SuperNotificationMessageComposer>()
+				.Compose(session, "${notification.figureset.redeemed.success.title}", "${notification.figureset.redeemed.success.messageBuffer}", 
+					"event:avatareditor/open", "${notification.figureset.redeemed.success.linkTitle}");
 
 			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor()) {
 				queryReactor.SetQuery("DELETE FROM items_rooms WHERE id = @id");

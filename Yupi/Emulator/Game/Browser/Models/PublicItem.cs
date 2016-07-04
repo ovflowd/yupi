@@ -141,7 +141,7 @@ namespace Yupi.Emulator.Game.Browser.Models
         /// </summary>
         /// <value>The room information.</value>
      public RoomData RoomInfo => RoomId > 0u ? Yupi.GetGame().GetRoomManager().GenerateRoomData(RoomId) : null;
-
+		/*
         /// <summary>
         ///     Serializes the specified messageBuffer.
         /// </summary>
@@ -174,7 +174,7 @@ namespace Yupi.Emulator.Game.Browser.Models
                     break;
             }
         }
-
+		*/
         /// <summary>
         ///     Gets the identifier.
         /// </summary>

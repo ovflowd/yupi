@@ -37,10 +37,8 @@ namespace Yupi.Messages.Groups
 			group.Requests.Remove(userId);
 			group.Admins.Add(userId, group.Members[userId]);
 
-			Yupi.GetGame().GetGroupManager().SerializeGroupInfo(group, Response, session);
-			Response.Init(PacketLibraryManager.OutgoingHandler("GroupMembersMessageComposer"));
-			Yupi.GetGame().GetGroupManager().SerializeGroupMembers(Response, group, 0u, session);
-			SendResponse();
+			router.GetComposer<GroupDataMessageComposer> ().Compose (session, group, session.GetHabbo());
+			router.GetComposer<GroupMembersMessageComposer> ().Compose (session, group, 0u, session);
 
 			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager ().GetQueryReactor ()) {
 				queryReactor.SetQuery ("DELETE FROM group_requests WHERE group_id = @group_id AND user_id = @user_id");

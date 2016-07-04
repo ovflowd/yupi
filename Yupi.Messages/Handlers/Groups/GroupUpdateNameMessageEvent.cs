@@ -30,9 +30,7 @@ namespace Yupi.Messages.Groups
 			theGroup.Name = text;
 			theGroup.Description = text2;
 
-			Yupi.GetGame()
-				.GetGroupManager()
-				.SerializeGroupInfo(theGroup, Response, session, session.GetHabbo().CurrentRoom);
+			router.GetComposer<GroupDataMessageComposer> ().Compose (session.GetHabbo().CurrentRoom, group, session.GetHabbo());
 		}
 	}
 }

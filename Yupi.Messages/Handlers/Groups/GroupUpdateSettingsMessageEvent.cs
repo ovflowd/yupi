@@ -58,10 +58,8 @@ namespace Yupi.Messages.Groups
 					}
 				}
 			}
-
-			Yupi.GetGame()
-				.GetGroupManager()
-				.SerializeGroupInfo(group, Response, session, session.GetHabbo().CurrentRoom);
+				
+			router.GetComposer<GroupDataMessageComposer> ().Compose (session.GetHabbo().CurrentRoom, group, session.GetHabbo());
 		}
 	}
 }

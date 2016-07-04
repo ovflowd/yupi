@@ -56,7 +56,7 @@ namespace Yupi.Messages.Groups
 					}
 				}
 
-				Yupi.GetGame().GetGroupManager().SerializeGroupInfo(group, Response, session);
+				router.GetComposer<GroupDataMessageComposer> ().Compose (session, group, session.GetHabbo());
 			}
 		}
 	}

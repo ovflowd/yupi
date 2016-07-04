@@ -28,7 +28,6 @@ using System.Drawing;
 using System.Linq;
 using System.Threading;
 using Yupi.Emulator.Core.Io.Logger;
-using Yupi.Emulator.Game.Commands;
 using Yupi.Emulator.Game.RoomBots.Interfaces;
 using Yupi.Emulator.Game.Rooms.User;
 using Yupi.Emulator.Game.Rooms.User.Path;

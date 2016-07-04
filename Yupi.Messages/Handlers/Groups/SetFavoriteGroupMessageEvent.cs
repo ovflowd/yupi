@@ -19,7 +19,7 @@ namespace Yupi.Messages.Groups
 				return;
 
 			session.GetHabbo().FavouriteGroup = theGroup.Id;
-			Yupi.GetGame().GetGroupManager().SerializeGroupInfo(theGroup, Response, Session);
+			router.GetComposer<GroupDataMessageComposer> ().Compose (session, theGroup, session.GetHabbo());
 
 			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager ().GetQueryReactor ()) {
 				queryReactor.SetQuery ("UPDATE users_stats SET favourite_group = @group_id WHERE id = @user_id");

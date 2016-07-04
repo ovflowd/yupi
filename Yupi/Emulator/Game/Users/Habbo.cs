@@ -953,15 +953,20 @@ namespace Yupi.Emulator.Game.Users
             if (client == null)
                 return;
 
+			client.Router.GetComposer<LoadFriendsCategories>().Compose(client);
+
             client.SendMessage(_messenger.SerializeCategories());
-            client.SendMessage(_messenger.SerializeFriends());
-            client.SendMessage(_messenger.SerializeRequests());
+
+			client.Router.GetComposer<LoadFriendsMessageComposer>().Compose(client, _messenger.Friends, client);
+			client.Router.GetComposer<FriendRequestsMessageComposer>().Compose(client, _messenger.Requests);
 
             if (Yupi.OfflineMessages.ContainsKey(Id))
             {
                 List<OfflineMessage> list = Yupi.OfflineMessages[Id];
                 foreach (OfflineMessage current in list)
-                    client.SendMessage(_messenger.SerializeOfflineMessages(current));
+				{
+					client.Router.GetComposer<ConsoleChatMessageComposer>().Compose(client, current);
+				}
                 Yupi.OfflineMessages.Remove(Id);
                 OfflineMessage.RemoveAllMessages(Yupi.GetDatabaseManager().GetQueryReactor(), Id);
             }

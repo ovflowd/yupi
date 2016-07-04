@@ -2,7 +2,6 @@
 using Yupi.Emulator.Core.Settings;
 using Yupi.Emulator.Game.Commands.Interfaces;
 using Yupi.Emulator.Game.GameClients.Interfaces;
-using Yupi.Emulator.Messages.Enums;
 
 namespace Yupi.Emulator.Game.Commands.Controllers
 {
@@ -26,8 +25,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
         {
             if (ServerExtraSettings.NewPageCommands)
             {
-                session.SendMessage(StaticMessage.NewWayToOpenCommandsList);
-
+				session.Router.GetComposer<SuperNotificationMessageComposer>().Compose(session, "${generic.notice}", "Now, the commands page opens in a different way", "event:habbopages/chat/newway", "${mod.alert.link}", "game_promo_small", 4);
                 return true;
             }
 

@@ -24,7 +24,6 @@
 
 using System.Data;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
-using Yupi.Emulator.Game.Catalogs.Composers;
 using Yupi.Emulator.Game.Catalogs.Interfaces;
 
 namespace Yupi.Emulator.Game.Catalogs

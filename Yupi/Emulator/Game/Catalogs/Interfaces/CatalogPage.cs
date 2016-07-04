@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using Yupi.Emulator.Game.Catalogs.Composers;
 
 
 namespace Yupi.Emulator.Game.Catalogs.Interfaces

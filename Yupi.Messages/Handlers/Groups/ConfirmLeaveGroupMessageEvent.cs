@@ -92,11 +92,9 @@ namespace Yupi.Messages.Groups
 						router.GetComposer<RoomRightsLevelMessageComposer> ().Compose (session, 0);
 					}
 				}
-
-				Yupi.GetGame().GetGroupManager().SerializeGroupInfo(group, Response, session);
-
+					
+				router.GetComposer<GroupDataMessageComposer> ().Compose (session, group, session.GetHabbo());
 				router.GetComposer<GroupMembersMessageComposer> ().Compose (session, group);
-
 				router.GetComposer<GrouprequestReloadMessageComposer> ().Compose (session, groupId);
 			}
 		}

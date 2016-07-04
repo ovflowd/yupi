@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{04F6F31D-AFDB-429E-A12B-46859C8ABB90}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Yupi.Commands</RootNamespace>
+    <AssemblyName>Yupi.Commands</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CommandsManager.cs" />
+    <Compile Include="Controllers\About.cs" />
+    <Compile Include="Controllers\AddBlackWord.cs" />
+    <Compile Include="Controllers\AddVideo.cs" />
+    <Compile Include="Controllers\Alert.cs" />
+    <Compile Include="Controllers\BanUser.cs" />
+    <Compile Include="Controllers\BanUserIp.cs" />
+    <Compile Include="Controllers\CommandList.cs" />
+    <Compile Include="Controllers\CopyLook.cs" />
+    <Compile Include="Controllers\Dance.cs" />
+    <Compile Include="Controllers\DeleteBlackWord.cs" />
+    <Compile Include="Controllers\DisableDiagonal.cs" />
+    <Compile Include="Controllers\DisableEvent.cs" />
+    <Compile Include="Controllers\DisablePull.cs" />
+    <Compile Include="Controllers\DisablePush.cs" />
+    <Compile Include="Controllers\Disco.cs" />
+    <Compile Include="Controllers\DisconnectUser.cs" />
+    <Compile Include="Controllers\Empty.cs" />
+    <Compile Include="Controllers\EmptyUser.cs" />
+    <Compile Include="Controllers\Enable.cs" />
+    <Compile Include="Controllers\EventAlert.cs" />
+    <Compile Include="Controllers\FaceLess.cs" />
+    <Compile Include="Controllers\FastWalk.cs" />
+    <Compile Include="Controllers\FloodUser.cs" />
+    <Compile Include="Controllers\FollowUser.cs" />
+    <Compile Include="Controllers\Freeze.cs" />
+    <Compile Include="Controllers\Friends.cs" />
+    <Compile Include="Controllers\GiveBadge.cs" />
+    <Compile Include="Controllers\GiveCredits.cs" />
+    <Compile Include="Controllers\GiveDiamonds.cs" />
+    <Compile Include="Controllers\GiveDuckets.cs" />
+    <Compile Include="Controllers\GiveRank.cs" />
+    <Compile Include="Controllers\GoBoom.cs" />
+    <Compile Include="Controllers\GoInvisible.cs" />
+    <Compile Include="Controllers\HabNam.cs" />
+    <Compile Include="Controllers\HandItem.cs" />
+    <Compile Include="Controllers\HideInRoom.cs" />
+    <Compile Include="Controllers\HotelAlert.cs" />
+    <Compile Include="Controllers\HotelAlertLink.cs" />
+    <Compile Include="Controllers\Kick.cs" />
+    <Compile Include="Controllers\Kill.cs" />
+    <Compile Include="Controllers\Lay.cs" />
+    <Compile Include="Controllers\LTD.cs" />
+    <Compile Include="Controllers\MachineBan.cs" />
+    <Compile Include="Controllers\MakePrivate.cs" />
+    <Compile Include="Controllers\MakePublic.cs" />
+    <Compile Include="Controllers\MakeSay.cs" />
+    <Compile Include="Controllers\MassBadge.cs" />
+    <Compile Include="Controllers\MassCredits.cs" />
+    <Compile Include="Controllers\MassDance.cs" />
+    <Compile Include="Controllers\MassDiamonds.cs" />
+    <Compile Include="Controllers\MassEnable.cs" />
+    <Compile Include="Controllers\MoonWalk.cs" />
+    <Compile Include="Controllers\Mute.cs" />
+    <Compile Include="Controllers\MuteBots.cs" />
+    <Compile Include="Controllers\MutePets.cs" />
+    <Compile Include="Controllers\Offline.cs" />
+    <Compile Include="Controllers\Override.cs" />
+    <Compile Include="Controllers\PickAll.cs" />
+    <Compile Include="Controllers\PickPets.cs" />
+    <Compile Include="Controllers\PullUser.cs" />
+    <Compile Include="Controllers\PushUser.cs" />
+    <Compile Include="Controllers\RedeemCredits.cs" />
+    <Compile Include="Controllers\RefreshAchievements.cs" />
+    <Compile Include="Controllers\RefreshBannedHotels.cs" />
+    <Compile Include="Controllers\RefreshBotCommands.cs" />
+    <Compile Include="Controllers\RefreshCatalogue.cs" />
+    <Compile Include="Controllers\RefreshExtraThings.cs" />
+    <Compile Include="Controllers\RefreshGroups.cs" />
+    <Compile Include="Controllers\RefreshItems.cs" />
+    <Compile Include="Controllers\RefreshNavigator.cs" />
+    <Compile Include="Controllers\RefreshPetCommands.cs" />
+    <Compile Include="Controllers\RefreshPetSpeeches.cs" />
+    <Compile Include="Controllers\RefreshPolls.cs" />
+    <Compile Include="Controllers\RefreshPromos.cs" />
+    <Compile Include="Controllers\RefreshRanks.cs" />
+    <Compile Include="Controllers\RefreshSettings.cs" />
+    <Compile Include="Controllers\RefreshSongs.cs" />
+    <Compile Include="Controllers\RemoveBadge.cs" />
+    <Compile Include="Controllers\Restart.cs" />
+    <Compile Include="Controllers\RoomAlert.cs" />
+    <Compile Include="Controllers\RoomBadge.cs" />
+    <Compile Include="Controllers\RoomKick.cs" />
+    <Compile Include="Controllers\RoomMute.cs" />
+    <Compile Include="Controllers\RoomUnMute.cs" />
+    <Compile Include="Controllers\SayAll.cs" />
+    <Compile Include="Controllers\SetMax.cs" />
+    <Compile Include="Controllers\SetSpeed.cs" />
+    <Compile Include="Controllers\SetVideos.cs" />
+    <Compile Include="Controllers\Shutdown.cs" />
+    <Compile Include="Controllers\Sit.cs" />
+    <Compile Include="Controllers\SpullUser.cs" />
+    <Compile Include="Controllers\StaffAlert.cs" />
+    <Compile Include="Controllers\Stand.cs" />
+    <Compile Include="Controllers\StartQuestion.cs" />
+    <Compile Include="Controllers\Summon.cs" />
+    <Compile Include="Controllers\SummonAll.cs" />
+    <Compile Include="Controllers\SuperBan.cs" />
+    <Compile Include="Controllers\TelePort.cs" />
+    <Compile Include="Controllers\UnBanUser.cs" />
+    <Compile Include="Controllers\Unload.cs" />
+    <Compile Include="Controllers\UnMute.cs" />
+    <Compile Include="Controllers\UserFaq.cs" />
+    <Compile Include="Controllers\UserInfo.cs" />
+    <Compile Include="Controllers\WhisperHotel.cs" />
+    <Compile Include="Controllers\WhisperRoom.cs" />
+    <Compile Include="Interfaces\Command.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Yupi\Yupi.csproj">
+      <Project>{4F3B6B3F-7754-40C9-B3DD-8D83BFA59FE5}</Project>
+      <Name>Yupi</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

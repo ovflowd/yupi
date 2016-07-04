@@ -42,10 +42,8 @@ namespace Yupi.Emulator.Game.Commands.Controllers
             }
 
             client.GetHabbo().FloodTime = Yupi.GetUnixTimeStamp() + Convert.ToInt32(pms[1]);
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("FloodFilterMessageComposer"));
-            simpleServerMessageBuffer.AppendInteger(Convert.ToInt32(pms[1]));
-            client.SendMessage(simpleServerMessageBuffer);
-            return true;
+			client.Router.GetComposer<FloodFilterMessageComposer> ().Compose (session, Convert.ToInt32(pms[1]));
+			return true;
         }
     }
 }

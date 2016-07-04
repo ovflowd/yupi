@@ -2,6 +2,7 @@
 using Yupi.Emulator.Game.Catalogs.Interfaces;
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Catalogs.Composers;
+using Yupi.Messages.Catalog;
 
 namespace Yupi.Messages.Rooms
 {
@@ -64,7 +65,7 @@ namespace Yupi.Messages.Rooms
 				session.GetHabbo().UpdateSeasonalCurrencyBalance();
 			}
 
-			session.SendMessage(CatalogPageComposer.PurchaseOk(catalogItem, catalogItem.Items));
+			session.Router.GetComposer<PurchaseOKMessageComposer> ().Compose (session, catalogItem, catalogItem.Items);
 
 			if (room.RoomData.Event != null && !room.RoomData.Event.HasExpired)
 			{

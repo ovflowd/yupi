@@ -10,7 +10,6 @@ using Yupi.Emulator.Core.Security;
 using Yupi.Emulator.Core.Security.BlackWords;
 using Yupi.Emulator.Core.Security.BlackWords.Enums;
 using Yupi.Emulator.Core.Security.BlackWords.Structs;
-using Yupi.Emulator.Game.Commands;
 using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Items.Interactions;
 using Yupi.Emulator.Game.Items.Interactions.Enums;

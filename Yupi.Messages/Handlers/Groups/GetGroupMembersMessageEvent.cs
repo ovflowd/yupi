@@ -14,9 +14,7 @@ namespace Yupi.Messages.Groups
 
 			Group group = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
 
-			Response.Init(PacketLibraryManager.OutgoingHandler("GroupMembersMessageComposer"));
-
-			Yupi.GetGame().GetGroupManager().SerializeGroupMembers(Response, group, reqType, Session, searchVal, page);
+			router.GetComposer<GroupMembersMessageComposer> ().Compose (session, group, reqType, session, searchVal, page);
 		}
 	}
 }

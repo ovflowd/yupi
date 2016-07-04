@@ -14,8 +14,6 @@ using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Users.Data.Models;
 using Yupi.Emulator.Messages;
 
-using Yupi.Emulator.Messages.Enums;
-
 namespace Yupi.Emulator.Game.Users.Inventory.Components
 {
     /// <summary>
@@ -630,33 +628,6 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
 
                 _mAddedItems?.Clear();
             }
-        }
-
-        /// <summary>
-        ///     Serializes the music discs.
-        /// </summary>
-        /// <returns>SimpleServerMessageBuffer.</returns>
-     public SimpleServerMessageBuffer SerializeMusicDiscs()
-        {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SongsLibraryMessageComposer"));
-
-            simpleServerMessageBuffer.AppendInteger(SongDisks.Count);
-
-            foreach (
-                UserItem current in
-                    from x in _floorItems.Values.OfType<UserItem>()
-                    where x.BaseItem.InteractionType == Interaction.MusicDisc
-                    select x)
-            {
-                uint i;
-
-                uint.TryParse(current.ExtraData, out i);
-
-                simpleServerMessageBuffer.AppendInteger(current.Id);
-                simpleServerMessageBuffer.AppendInteger(i);
-            }
-
-            return simpleServerMessageBuffer;
         }
 
         /// <summary>

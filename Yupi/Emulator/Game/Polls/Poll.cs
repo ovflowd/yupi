@@ -84,7 +84,7 @@ namespace Yupi.Emulator.Game.Polls
             AnswersPositive = 0;
             AnswersNegative = 0;
         }
-
+		/*
         /// <summary>
         ///     Serializes the specified messageBuffer.
         /// </summary>
@@ -95,6 +95,6 @@ namespace Yupi.Emulator.Game.Polls
             messageBuffer.AppendString(string.Empty); //?
             messageBuffer.AppendString(PollInvitation);
             messageBuffer.AppendString("Test"); // whats this??
-        }
+        }*/
     }
 }

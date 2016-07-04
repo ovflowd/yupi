@@ -38,7 +38,7 @@ namespace Yupi.Messages.Groups
 
 					router.GetComposer<RoomGroupMessageComposer> ().Compose (room);
 
-					Yupi.GetGame().GetGroupManager().SerializeGroupInfo(guild, Response, Session, room);
+					router.GetComposer<GroupDataMessageComposer> ().Compose (room, guild, session.GetHabbo());
 
 					using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
 					{
@@ -55,9 +55,7 @@ namespace Yupi.Messages.Groups
 
 						router.GetComposer<RoomGroupMessageComposer> ().Compose (session.GetHabbo ().CurrentRoom);
 
-						Yupi.GetGame()
-							.GetGroupManager()
-							.SerializeGroupInfo(guild, Response, Session, Session.GetHabbo().CurrentRoom);
+						router.GetComposer<GroupDataMessageComposer> ().Compose (session.GetHabbo().CurrentRoom, guild, session.GetHabbo());
 					}
 				}
 			}

@@ -29,7 +29,6 @@ using System.Data;
 using System.Globalization;
 using System.Linq;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
-using Yupi.Emulator.Game.Catalogs.Composers;
 using Yupi.Emulator.Game.Catalogs.Interfaces;
 using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Groups.Structs;
@@ -570,7 +569,7 @@ namespace Yupi.Emulator.Game.Catalogs
                         queryReactor.RunQuery();
                     }
 
-                    session.SendMessage(CatalogPageComposer.PurchaseOk(item, item.Items));
+					session.Router.GetComposer<PurchaseOKMessageComposer> ().Compose (session, item, item.Items);
                     session.SendNotif("${notification.builders_club.membership_extended.message}",
                         "${notification.builders_club.membership_extended.title}", "builders_club_membership_extended");
 
@@ -605,7 +604,7 @@ namespace Yupi.Emulator.Game.Catalogs
                         queryReactor.RunQuery();
                     }
 
-                    session.SendMessage(CatalogPageComposer.PurchaseOk(item, item.Items));
+					session.Router.GetComposer<PurchaseOKMessageComposer> ().Compose (session, item, item.Items);
                     session.SendNotif("${notification.builders_club.membership_extended.message}",
                         "${notification.builders_club.membership_extended.title}", "builders_club_membership_extended");
 
@@ -781,7 +780,7 @@ namespace Yupi.Emulator.Game.Catalogs
 
                 session.GetMessageHandler().SendResponse();
 
-                session.SendMessage(CatalogPageComposer.PurchaseOk(item, item.Items));
+				session.Router.GetComposer<PurchaseOKMessageComposer> ().Compose (session, item, item.Items);
 
                 if (isGift)
                 {

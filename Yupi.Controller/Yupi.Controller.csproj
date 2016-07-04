@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{29FA4EF9-ABA6-49B9-86BE-A109B5F289C9}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>Yupi.Hack</RootNamespace>
-    <AssemblyName>Yupi.Hack</AssemblyName>
+    <ProjectGuid>{40F4057A-7752-4BA3-849B-FDEBCC238717}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Yupi.Controller</RootNamespace>
+    <AssemblyName>Yupi.Controller</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -17,7 +17,7 @@
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Externalconsole>true</Externalconsole>
+    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -25,25 +25,16 @@
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Externalconsole>true</Externalconsole>
+    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Yupi.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Yupi\Yupi.csproj">
-      <Project>{4F3B6B3F-7754-40C9-B3DD-8D83BFA59FE5}</Project>
-      <Name>Yupi</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Yupi.Messages\Yupi.Messages.csproj">
-      <Project>{5E653C7A-B60A-46CE-9448-F9AD50710D3B}</Project>
-      <Name>Yupi.Messages</Name>
-    </ProjectReference>
+    <Folder Include="Items\" />
   </ItemGroup>
 </Project>

@@ -11,7 +11,6 @@ using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Emulator.Game.Achievements;
 using Yupi.Emulator.Game.Browser;
 using Yupi.Emulator.Game.Catalogs;
-using Yupi.Emulator.Game.Commands;
 using Yupi.Emulator.Game.GameClients;
 using Yupi.Emulator.Game.Groups;
 using Yupi.Emulator.Game.Items;

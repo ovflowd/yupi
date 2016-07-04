@@ -35,6 +35,7 @@ using Yupi.Emulator.Game.Users.Messenger.Structs;
 using Yupi.Emulator.Messages;
 
 using Yupi.Net;
+using Yupi.Protocol.Buffers;
 
 namespace Yupi.Emulator.Game.GameClients
 {
@@ -76,7 +77,7 @@ namespace Yupi.Emulator.Game.GameClients
         /// <summary>
         ///     The clients
         /// </summary>
-		 ConcurrentDictionary<ISession, GameClient> Clients;
+		ConcurrentDictionary<ISession<GameClient>, GameClient> Clients;
 		// TODO Keep reference in Yupi.Net
 
         /// <summary>
@@ -108,10 +109,8 @@ namespace Yupi.Emulator.Game.GameClients
         /// <returns>GameClient.</returns>
      public GameClient GetClientByUserId(uint userId) => _userIdRegister.Contains(userId) ? (GameClient) _userIdRegister[userId] : null;
 
-		public GameClient GetClient(ISession session) {
-			GameClient client;
-			Clients.TryGetValue (session, out client);
-			return client;
+		public GameClient GetClient(ISession<GameClient> session) {
+			return session.UserData;
 		}
 
         /// <summary>
@@ -213,6 +212,8 @@ namespace Yupi.Emulator.Game.GameClients
             }
         }
 
+		// TODO Write a more generic alert method
+		/*
         /// <summary>
         ///     Staffs the alert.
         /// </summary>
@@ -246,13 +247,13 @@ namespace Yupi.Emulator.Game.GameClients
             foreach (GameClient current in Clients.Values.Where(current => current?.GetHabbo() != null).Where(current => current.GetHabbo().Rank >= 4u))
                 current.GetConnection().Send(bytes);
         }
-
+		*/
         /// <summary>
         ///     Creates the and start client.
         /// </summary>
         /// <param name="clientAddress">The client identifier.</param>
         /// <param name="connection">The connection.</param>
-     public void AddClient(ISession connection)
+		public void AddClient(ISession<GameClient> connection)
         {
             GameClient gameClient = new GameClient(connection);
 
@@ -263,17 +264,13 @@ namespace Yupi.Emulator.Game.GameClients
         ///     Disposes the connection.
         /// </summary>
         /// <param name="clientAddress">The client identifier.</param>
-		 void RemoveClient(ISession connection)
+		void RemoveClient(ISession<GameClient> connection)
         {
             GameClient client;
 			Clients.TryRemove(connection, out client);   
         }
-
-        /// <summary>
-        ///     Queues the broadcase message.
-        /// </summary>
-        /// <param name="message">The message.</param>
-     public void QueueBroadcaseMessage(SimpleServerMessageBuffer message) => _broadcastQueue.Enqueue(message.GetReversedBytes());
+			
+     public void QueueBroadcaseMessage(ServerMessage message) => _broadcastQueue.Enqueue(message.GetReversedBytes());
 
         /// <summary>
         ///     Logs the clones out.

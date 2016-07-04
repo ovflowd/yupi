@@ -1,6 +1,7 @@
 ﻿using System;
 using Yupi.Emulator.Game.Catalogs.Interfaces;
 using Yupi.Protocol.Buffers;
+using Yupi.Emulator.Game.Pets;
 
 namespace Yupi.Messages.Catalog
 {
@@ -11,7 +12,7 @@ namespace Yupi.Messages.Catalog
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(page.PageId);
 
-				// TODO Refactor catalog (ENUM !) 
+				// TODO Refactor
 
 				switch (page.Layout)
 				{
@@ -378,6 +379,114 @@ namespace Yupi.Messages.Catalog
 
 				session.Send (message);
 			}
+		}
+			
+		private void ComposeItem(CatalogItem item, ServerMessage messageBuffer)
+		{
+			messageBuffer.AppendInteger(item.Id);
+
+			string displayName = item.Name;
+
+			if (PetTypeManager.ItemIsPet(item.Name))
+				displayName = PetTypeManager.GetHabboPetType(item.Name);
+
+			messageBuffer.AppendString(displayName);
+			messageBuffer.AppendBool(false);
+			messageBuffer.AppendInteger(item.CreditsCost);
+
+			if (item.DiamondsCost > 0)
+			{
+				messageBuffer.AppendInteger(item.DiamondsCost);
+				messageBuffer.AppendInteger(105);
+			}
+			else
+			{
+				messageBuffer.AppendInteger(item.DucketsCost);
+				messageBuffer.AppendInteger(0);
+			}
+			messageBuffer.AppendBool(item.GetFirstBaseItem().AllowGift);
+
+			switch (item.Name)
+			{
+			case "g0 group_product":
+				messageBuffer.AppendInteger(0);
+				break;
+
+			case "room_ad_plus_badge":
+				messageBuffer.AppendInteger(1);
+				messageBuffer.AppendString("b");
+				messageBuffer.AppendString("RADZZ");
+				break;
+
+			default:
+				if (item.Name.StartsWith("builders_club_addon_") || item.Name.StartsWith("builders_club_time_"))
+					messageBuffer.AppendInteger(0);
+				else if (item.Badge == "")
+					messageBuffer.AppendInteger(item.Items.Count);
+				else
+				{
+					messageBuffer.AppendInteger(item.Items.Count + 1);
+					messageBuffer.AppendString("b");
+					messageBuffer.AppendString(item.Badge);
+				}
+				break;
+			}
+			foreach (Item baseItem in item.Items.Keys)
+			{
+				if (item.Name == "g0 group_product" || item.Name.StartsWith("builders_club_addon_") ||
+					item.Name.StartsWith("builders_club_time_"))
+					break;
+				if (item.Name == "room_ad_plus_badge")
+				{
+					messageBuffer.AppendString("");
+					messageBuffer.AppendInteger(0);
+				}
+				else
+				{
+					messageBuffer.AppendString(baseItem.Type.ToString());
+					messageBuffer.AppendInteger(baseItem.SpriteId);
+
+					if (item.Name.Contains("wallpaper_single") || item.Name.Contains("floor_single") ||
+						item.Name.Contains("landscape_single"))
+					{
+						string[] array = item.Name.Split('_');
+						messageBuffer.AppendString(array[2]);
+					}
+					else if (item.Name.StartsWith("bot_") || baseItem.InteractionType == Interaction.MusicDisc ||
+						item.GetFirstBaseItem().Name == "poster")
+						messageBuffer.AppendString(item.ExtraData);
+					else if (item.Name.StartsWith("poster_"))
+					{
+						string[] array2 = item.Name.Split('_');
+						messageBuffer.AppendString(array2[1]);
+					}
+					else if (item.Name.StartsWith("poster "))
+					{
+						string[] array3 = item.Name.Split(' ');
+						messageBuffer.AppendString(array3[1]);
+					}
+					else if (item.SongId > 0u && baseItem.InteractionType == Interaction.MusicDisc)
+						messageBuffer.AppendString(item.ExtraData);
+					else
+						messageBuffer.AppendString(string.Empty);
+
+					messageBuffer.AppendInteger(item.Items[baseItem]);
+					messageBuffer.AppendBool(item.IsLimited);
+					if (!item.IsLimited)
+						continue;
+					messageBuffer.AppendInteger(item.LimitedStack);
+					messageBuffer.AppendInteger(item.LimitedStack - item.LimitedSelled);
+				}
+			}
+			messageBuffer.AppendInteger(item.ClubOnly ? 1 : 0);
+
+			if (item.IsLimited || item.FirstAmount != 1)
+			{
+				messageBuffer.AppendBool(false);
+				return;
+			}
+
+			messageBuffer.AppendBool(item.HaveOffer && !item.IsLimited);
 		}
 	}
 }

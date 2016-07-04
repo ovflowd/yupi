@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using Yupi.Emulator.Game.Users.Messenger.Structs;
+using Yupi.Emulator.Game.Users.Messenger;
 
 namespace Yupi.Messages.Messenger
 {
@@ -12,8 +15,21 @@ namespace Yupi.Messages.Messenger
 
 			string query = request.GetString ();
 
-			// TODO Refactor
-			session.Send(session.GetHabbo().GetMessenger().PerformSearch(query));
+			List<SearchResult> searchResult = SearchResultFactory.GetSearchResult(query);
+
+			List<SearchResult> foundFriends = new List<SearchResult>();
+			List<SearchResult> foundUsers = new List<SearchResult>();
+
+			foreach (SearchResult current in searchResult)
+			{
+				if (session.GetHabbo().GetMessenger().FriendshipExists(current.UserId))
+					foundFriends.Add(current);
+				else
+					foundUsers.Add(current);
+			}
+
+			router.GetComposer<ConsoleSearchFriendMessageComposer> ().Compose (session, foundFriends, foundUsers);
+
 		}
 	}
 }

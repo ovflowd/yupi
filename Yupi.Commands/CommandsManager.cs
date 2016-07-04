@@ -57,7 +57,7 @@ namespace Yupi.Emulator.Game.Commands
         {
             CommandsDictionary = new SortedDictionary<string, Command>();
             AliasDictionary = new Dictionary<string, string>();
-
+			// TODO Use reflection
             CommandsDictionary.Add("about", new About());
             CommandsDictionary.Add("friends", new Friends());
             CommandsDictionary.Add("status", new Offline());

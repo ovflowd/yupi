@@ -661,7 +661,7 @@ namespace Yupi.Emulator.Game.Items.Interfaces
                                             }
                                             else
                                             {
-                                                if (!user.IsBot && user.GetClient() != null && user.GetClient().GetHabbo() != null && user.GetClient().GetMessageHandler() != null)
+                                                if (!user.IsBot && user.GetClient() != null && user.GetClient().GetHabbo() != null)
                                                 {
                                                     user.GetClient().GetHabbo().IsTeleporting = true;
                                                     user.GetClient().GetHabbo().TeleportingRoomId = teleRoomId;

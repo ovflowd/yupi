@@ -8,7 +8,6 @@ using Yupi.Emulator.Game.Users;
 using Yupi.Emulator.Game.Users.Data.Models;
 using Yupi.Emulator.Game.Users.Factories;
 using Yupi.Emulator.Messages;
-using Yupi.Emulator.Messages.Enums;
 using Yupi.Emulator.Messages.Handlers;
 using Yupi.Net;
 using Yupi.Protocol.Buffers;
@@ -298,13 +297,12 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
                 simpleServerMessageBuffer.AppendInteger(userData.User.Diamonds);
                 queuedServerMessageBuffer.AppendResponse(simpleServerMessageBuffer);
 
-                if (userData.User.HasFuse("fuse_mod"))
-                    queuedServerMessageBuffer.AppendResponse(Yupi.GetGame().GetModerationTool().SerializeTool(this));
-
+				if (userData.User.HasFuse("fuse_mod")) {
+					Router.GetComposer<LoadModerationToolMessageComposer>().Compose(this, Yupi.GetGame().GetModerationTool(), this.GetHabbo());
+				}
+    
 				Router.GetComposer<SendAchievementsRequirementsMessageComposer>().Compose(this, Yupi.GetGame().GetAchievementManager().Achievements);
-
-                queuedServerMessageBuffer.AppendResponse(GetHabbo().GetAvatarEffectsInventoryComponent().GetPacket());
-                queuedServerMessageBuffer.SendResponse();
+				Router.GetComposer<EffectsInventoryMessageComposer>().Compose(this, GetHabbo().GetAvatarEffectsInventoryComponent()._effects);
 
                 Yupi.GetGame().GetAchievementManager().TryProgressHabboClubAchievements(this);
                 Yupi.GetGame().GetAchievementManager().TryProgressRegistrationAchievements(this);

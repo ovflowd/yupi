@@ -104,7 +104,7 @@ namespace Yupi.Emulator.Game.Users.Messenger.Structs
             _look = Client.GetHabbo().Look;
             _motto = Client.GetHabbo().Motto;
         }
-
+		/*
         /// <summary>
         ///     Serializes the specified messageBuffer.
         /// </summary>
@@ -134,6 +134,6 @@ namespace Yupi.Emulator.Game.Users.Messenger.Structs
             messageBuffer.AppendBool(false);
             messageBuffer.AppendBool(false);
             messageBuffer.AppendShort(i);
-        }
+        }*/
     }
 }

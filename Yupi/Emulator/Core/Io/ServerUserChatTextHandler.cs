@@ -77,13 +77,7 @@ namespace Yupi.Emulator.Core.Io
 
             return w;
         }
-
-        /// <summary>
-        ///     Gets the first siffer.
-        /// </summary>
-        /// <param name="k">The k.</param>
-        /// <returns>System.Int32.</returns>
-        public static int GetFirstSiffer(double k) => (int) Math.Round(k%1*100);
+			
 
         /// <summary>
         ///     Gets the string.

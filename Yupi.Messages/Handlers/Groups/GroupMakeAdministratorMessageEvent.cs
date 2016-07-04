@@ -24,10 +24,7 @@ namespace Yupi.Messages.Groups
 
 			group.Admins.Add(num2, group.Members[num2]);
 
-			Response.Init(PacketLibraryManager.OutgoingHandler("GroupMembersMessageComposer"));
-			Yupi.GetGame().GetGroupManager().SerializeGroupMembers(Response, group, 1u, Session);
-
-			SendResponse();
+			router.GetComposer<GroupMembersMessageComposer> ().Compose (session, group, 1u, session);
 
 			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(group.RoomId);
 
