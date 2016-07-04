@@ -19,7 +19,7 @@ using Yupi.Emulator.Game.Pets;
 using Yupi.Emulator.Game.Rooms.Chat.Enums;
 using Yupi.Emulator.Game.Rooms.User;
 using Yupi.Emulator.Game.Rooms.User.Path;
-using Yupi.Emulator.Messages;
+
 
 
 namespace Yupi.Emulator.Game.Rooms.Items.Handlers
@@ -317,12 +317,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
 
                 roomGamemap.RemoveSpecialItem(item);
 
-                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("PickUpFloorItemMessageComposer"));
-                simpleServerMessageBuffer.AppendString(item.Id.ToString());
-                simpleServerMessageBuffer.AppendBool(false); //expired
-                simpleServerMessageBuffer.AppendInteger(item.UserId); //pickerId
-                simpleServerMessageBuffer.AppendInteger(0); // delay
-                _room.SendMessage(simpleServerMessageBuffer);
+				_room.Router.GetComposer<PickUpFloorItemMessageComposer>().Compose(_room, item, item.UserId);
 
                 if (item.IsBuilder)
                 {
@@ -339,10 +334,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
             {
                 item.Interactor.OnRemove(session, item);
 
-                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("PickUpWallItemMessageComposer"));
-                simpleServerMessageBuffer.AppendString(item.Id.ToString());
-                simpleServerMessageBuffer.AppendInteger(item.UserId);
-                _room.SendMessage(simpleServerMessageBuffer);
+				_room.Router.GetComposer<PickUpWallItemMessageComposer>().Compose(_room, item, item.UserId);
 
                 if (item.IsBuilder)
                 {
@@ -563,19 +555,11 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         {
             if (item.IsWallItem)
             {
-                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("PickUpWallItemMessageComposer"));
-                simpleServerMessageBuffer.AppendString(item.Id.ToString());
-                simpleServerMessageBuffer.AppendInteger(wasPicked ? item.UserId : 0);
-                _room.SendMessage(simpleServerMessageBuffer);
+				_room.Router.GetComposer<PickUpWallItemMessageComposer>().Compose(_room, item, wasPicked ? item.UserId : 0);      
             }
             else if (item.IsFloorItem)
             {
-                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("PickUpFloorItemMessageComposer"));
-                simpleServerMessageBuffer.AppendString(item.Id.ToString());
-                simpleServerMessageBuffer.AppendBool(false); //expired
-                simpleServerMessageBuffer.AppendInteger(wasPicked ? item.UserId : 0); //pickerId
-                simpleServerMessageBuffer.AppendInteger(0); // delay
-                _room.SendMessage(simpleServerMessageBuffer);
+				_room.Router.GetComposer<PickUpFloorItemMessageComposer>().Compose(_room, item, wasPicked ? item.UserId : 0);         
             }
 
             RoomItem junkItem;

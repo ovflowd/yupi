@@ -49,7 +49,7 @@ using Yupi.Emulator.Game.Users;
 using Yupi.Emulator.Game.Users.Data.Models;
 using Yupi.Emulator.Game.Users.Factories;
 using Yupi.Emulator.Game.Users.Messenger.Structs;
-using Yupi.Emulator.Messages;
+
 using Yupi.Net;
 using Yupi.Net.SuperSocketImpl;
 

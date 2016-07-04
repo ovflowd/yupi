@@ -33,7 +33,7 @@ using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Groups.Structs;
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Users;
-using Yupi.Emulator.Messages;
+
 
 
 namespace Yupi.Emulator.Game.Groups

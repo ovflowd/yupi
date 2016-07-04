@@ -10,7 +10,7 @@ namespace Yupi.Messages.Navigator
 
 			string pWd = request.GetString();
 
-			PrepareRoomForUser(roomId, pWd);
+			session.PrepareRoomForUser(roomId, pWd);
 		}
 	}
 }

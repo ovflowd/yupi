@@ -17,6 +17,15 @@ namespace Yupi.Messages.User
 				session.Send (message);
 			}
 		}
+
+		public void Compose (Yupi.Protocol.ISender session, RoomUser user)
+		{
+			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
+				message.AppendInteger(1);
+				user.SerializeStatus(message);
+				session.Send (message);
+			}
+		}
 	}
 }
 

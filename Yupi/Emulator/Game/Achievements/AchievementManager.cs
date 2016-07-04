@@ -31,9 +31,6 @@ using Yupi.Emulator.Game.Achievements.Structs;
 using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Users;
 using Yupi.Emulator.Game.Users.Subscriptions;
-using Yupi.Emulator.Messages;
-
-using Yupi.Emulator.Messages.Handlers;
 
 namespace Yupi.Emulator.Game.Achievements
 {

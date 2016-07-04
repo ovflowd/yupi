@@ -31,8 +31,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
                     session.GetHabbo().CurrentRoomId == client.GetHabbo().CurrentRoomId)
                     continue;
 
-                client.GetMessageHandler()
-                    .PrepareRoomForUser(session.GetHabbo().CurrentRoom.RoomId,
+                client.PrepareRoomForUser(session.GetHabbo().CurrentRoom.RoomId,
                         session.GetHabbo().CurrentRoom.RoomData.PassWord);
                 client.SendMessage(messageBytes);
             }

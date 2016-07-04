@@ -10,7 +10,7 @@ using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Rooms.Data;
 using Yupi.Emulator.Game.Rooms.Data.Models;
 using Yupi.Emulator.Game.Users.Messenger.Structs;
-using Yupi.Emulator.Messages;
+
 
 
 namespace Yupi.Emulator.Game.Users.Messenger

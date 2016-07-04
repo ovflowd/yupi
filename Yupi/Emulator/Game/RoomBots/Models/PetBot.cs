@@ -33,7 +33,7 @@ using Yupi.Emulator.Game.Pets;
 using Yupi.Emulator.Game.Pets.Enums;
 using Yupi.Emulator.Game.Pets.Structs;
 using Yupi.Emulator.Game.Rooms.User;
-using Yupi.Emulator.Messages;
+
 
 
 namespace Yupi.Emulator.Game.RoomBots.Models

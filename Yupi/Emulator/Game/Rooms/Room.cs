@@ -32,7 +32,7 @@ using Yupi.Emulator.Game.Rooms.User.Path;
 using Yupi.Emulator.Game.Rooms.User.Trade;
 using Yupi.Emulator.Game.SoundMachine;
 using Yupi.Emulator.Game.SoundMachine.Songs;
-using Yupi.Emulator.Messages;
+
 
 using Yupi.Protocol;
 using Yupi.Protocol.Buffers;
@@ -231,8 +231,56 @@ namespace Yupi.Emulator.Game.Rooms
         /// <value>The room data.</value>
      public RoomData RoomData { get; private set; }
 
+
+
+		public class UsersWithRightsSender : ISender
+		{
+			private Room room;
+
+			protected UsersWithRightsSender(Room room) {
+				this.room = room;
+			}
+
+			public void Send(ServerMessage messageBuffer)
+			{
+				byte[] messagebytes = messageBuffer.GetReversedBytes();
+
+				try
+				{
+					foreach (RoomUser unit in _roomUserManager.UserList.Values)
+					{
+						RoomUser user = unit;
+						if (user == null)
+							continue;
+
+						if (user.IsBot)
+							continue;
+
+						GameClient usersClient = user.GetClient();
+
+						if (usersClient?.GetConnection() == null)
+							continue;
+
+						if (!CheckRights(usersClient))
+							continue;
+
+						usersClient.GetConnection().Send(messagebytes);
+					}
+				}
+				catch (Exception e)
+				{
+					YupiLogManager.LogException(e, "Failed to Broadcasting Message to Client.", "Yupi.User");
+				}
+			}
+		}
+
+		public UsersWithRightsSender RightsSender { get; private set; }
+
+		public IRouter Router; // FIXME Implement
+
      public void Start(RoomData data, bool forceLoad = false)
         {
+			RightsSender = new UsersWithRightsSender (this);
             InitializeFromRoomData(data, forceLoad);
             GetRoomItemHandler().LoadFurniture();
             GetGameMap().GenerateMaps();
@@ -920,87 +968,12 @@ namespace Yupi.Emulator.Game.Rooms
         }
 
         /// <summary>
-        ///     Sends the messageBuffer.
-        /// </summary>
-        /// <param name="messages">The messages.</param>
-		public void SendMessage(List<ServerMessage> messages)
-        {
-            if (messages.Count == 0)
-                return;
-
-            try
-            {
-                byte[] totalBytes = new byte[0];
-                int currentWorking = 0;
-
-                foreach (SimpleServerMessageBuffer message in messages)
-                {
-                    byte[] toAppend = message.GetReversedBytes();
-
-                    int newLength = totalBytes.Length + toAppend.Length;
-
-                    Array.Resize(ref totalBytes, newLength);
-
-                    for (int i = 0; i < toAppend.Length; i++)
-                    {
-                        totalBytes[currentWorking] = toAppend[i];
-                        currentWorking++;
-                    }
-                }
-
-                SendMessage(totalBytes);
-            }
-            catch (Exception e)
-            {
-                YupiLogManager.LogException(e, "Failed to Broadcasting Message to Client.", "Yupi.User");
-            }
-        }
-
-        /// <summary>
-        ///     Sends the messageBuffer to users with rights.
-        /// </summary>
-        /// <param name="message">The messageBuffer.</param>
-		public void SendMessageToUsersWithRights(ServerMessage messageBuffer)
-        {
-            byte[] messagebytes = messageBuffer.GetReversedBytes();
-
-            try
-            {
-                foreach (RoomUser unit in _roomUserManager.UserList.Values)
-                {
-                    RoomUser user = unit;
-                    if (user == null)
-                        continue;
-
-                    if (user.IsBot)
-                        continue;
-
-                    GameClient usersClient = user.GetClient();
-
-                    if (usersClient?.GetConnection() == null)
-                        continue;
-
-                    if (!CheckRights(usersClient))
-                        continue;
-
-                    usersClient.GetConnection().Send(messagebytes);
-                }
-            }
-            catch (Exception e)
-            {
-                YupiLogManager.LogException(e, "Failed to Broadcasting Message to Client.", "Yupi.User");
-            }
-        }
-
-        /// <summary>
         ///     Destroys this instance.
         /// </summary>
      public void Destroy()
         {
 			// TODO Merge Destroy & Dispose ???
-			using(SimpleServerMessageBuffer message = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("OutOfRoomMessageComposer"))) {
-				SendMessage(message);
-			}
+			Router.GetComposer<OutOfRoomMessageComposer>().Compose(this);
             Dispose();
         }
 
@@ -1254,28 +1227,16 @@ namespace Yupi.Emulator.Game.Rooms
         ///     Updates the furniture.
         /// </summary>
      public void UpdateFurniture()
-        {
-            List<SimpleServerMessageBuffer> list = new List<SimpleServerMessageBuffer>();
-            RoomItem[] array = GetRoomItemHandler().FloorItems.Values.ToArray();
-            RoomItem[] array2 = array;
-            foreach (RoomItem roomItem in array2)
+        {           
+			foreach (RoomItem roomItem in GetRoomItemHandler().FloorItems.Values)
             {
-                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UpdateRoomItemMessageComposer"));
-                roomItem.Serialize(simpleServerMessageBuffer);
-                list.Add(simpleServerMessageBuffer);
+				Router.GetComposer<UpdateRoomItemMessageComposer>().Compose(this, roomItem);     
             }
-            Array.Clear(array, 0, array.Length);
-            RoomItem[] array3 = GetRoomItemHandler().WallItems.Values.ToArray();
-            RoomItem[] array4 = array3;
-            foreach (RoomItem roomItem2 in array4)
+				
+			foreach (RoomItem roomItem in GetRoomItemHandler().WallItems.Values)
             {
-                SimpleServerMessageBuffer simpleServerMessage2 =
-                    new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UpdateRoomWallItemMessageComposer"));
-                roomItem2.Serialize(simpleServerMessage2);
-                list.Add(simpleServerMessage2);
-            }
-            Array.Clear(array3, 0, array3.Length);
-            SendMessage(list);
+				Router.GetComposer<UpdateRoomWallItemMessageComposer>().Compose(this, roomItem);     
+            }      
         }
 
         /// <summary>

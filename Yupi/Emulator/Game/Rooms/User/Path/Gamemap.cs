@@ -14,7 +14,7 @@ using Yupi.Emulator.Game.Pathfinding.Vectors;
 using Yupi.Emulator.Game.Rooms.Chat.Enums;
 using Yupi.Emulator.Game.Rooms.Data;
 using Yupi.Emulator.Game.Rooms.Items.Games.Teams.Enums;
-using Yupi.Emulator.Messages;
+
 
 
 namespace Yupi.Emulator.Game.Rooms.User.Path
@@ -986,10 +986,9 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
                         _room.GetRoomUserManager().GetRoomUserByVirtualId(Convert.ToInt32(user.HorseId));
                     roomUserByVirtualId.IsWalking = false;
                     roomUserByVirtualId.RemoveStatus("mv");
-                    SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UpdateUserStatusMessageComposer"));
-                    messageBuffer.AppendInteger(1);
-                    roomUserByVirtualId.SerializeStatus(messageBuffer, "");
-                    user.GetClient().GetHabbo().CurrentRoom.SendMessage(messageBuffer);
+
+					user.GetClient ().GetHabbo ().CurrentRoom.Router.GetComposer<UpdateUserStatusMessageComposer> ()
+						.Compose (user.GetClient ().GetHabbo ().CurrentRoom, roomUserByVirtualId);
                 }
             }
             else if (userForSquare != null && !_room.RoomData.AllowWalkThrough && !userForSquare.IsWalking)
@@ -1079,17 +1078,17 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
                     return true;
                 RoomUser roomUserByVirtualId =
                     _room.GetRoomUserManager().GetRoomUserByVirtualId(Convert.ToInt32(user.HorseId));
-
-                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UpdateUserStatusMessageComposer"));
-                messageBuffer.AppendInteger(1);
-                if (roomUserByVirtualId != null)
-                {
+				
+				if (roomUserByVirtualId != null)
+				{    
                     roomUserByVirtualId.IsWalking = false;
                     roomUserByVirtualId.ClearMovement();
                     roomUserByVirtualId.RemoveStatus("mv");
-                    roomUserByVirtualId.SerializeStatus(messageBuffer, "");
-                }
-                user.GetClient().GetHabbo().CurrentRoom.SendMessage(messageBuffer);
+                   
+					user.GetClient().GetHabbo().CurrentRoom.Router.GetComposer<UpdateUserStatusMessageComposer>()
+						.Compose(user.GetClient().GetHabbo().CurrentRoom, roomUserByVirtualId);
+				}
+                
             }
             else if (userForSquare != null && !_room.RoomData.AllowWalkThrough && !userForSquare.IsWalking)
                 return false;

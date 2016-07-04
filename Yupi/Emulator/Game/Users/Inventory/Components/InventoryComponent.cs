@@ -12,7 +12,7 @@ using Yupi.Emulator.Game.Pets;
 using Yupi.Emulator.Game.RoomBots;
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Users.Data.Models;
-using Yupi.Emulator.Messages;
+
 
 namespace Yupi.Emulator.Game.Users.Inventory.Components
 {

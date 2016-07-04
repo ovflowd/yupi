@@ -11,7 +11,7 @@ using Yupi.Emulator.Game.Rooms.Chat;
 using Yupi.Emulator.Game.Rooms.Data;
 using Yupi.Emulator.Game.Rooms.Data.Models;
 using Yupi.Emulator.Game.Users;
-using Yupi.Emulator.Messages;
+
 
 
 namespace Yupi.Emulator.Game.Support

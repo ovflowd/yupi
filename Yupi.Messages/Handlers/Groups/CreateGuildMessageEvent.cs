@@ -57,7 +57,7 @@ namespace Yupi.Messages.Groups
 
 			if (!session.GetHabbo().InRoom || session.GetHabbo().CurrentRoom.RoomId != roomData.Id)
 			{
-				session.GetMessageHandler().PrepareRoomForUser(roomData.Id, roomData.PassWord);
+				session.PrepareRoomForUser(roomData.Id, roomData.PassWord);
 				session.GetHabbo().CurrentRoomId = roomData.Id;
 			}
 

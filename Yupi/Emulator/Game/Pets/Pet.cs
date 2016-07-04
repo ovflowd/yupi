@@ -29,7 +29,7 @@ using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Pets.Enums;
 using Yupi.Emulator.Game.Pets.Structs;
 using Yupi.Emulator.Game.Rooms;
-using Yupi.Emulator.Messages;
+
 
 namespace Yupi.Emulator.Game.Pets
 {

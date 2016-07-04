@@ -8,7 +8,7 @@ using Yupi.Emulator.Game.Items.Interfaces;
 using Yupi.Emulator.Game.Pathfinding;
 using Yupi.Emulator.Game.Rooms;
 using Yupi.Emulator.Game.Rooms.User;
-using Yupi.Emulator.Messages;
+
 
 
 namespace Yupi.Emulator.Game.Items.Interactions.Controllers

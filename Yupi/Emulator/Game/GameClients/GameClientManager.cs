@@ -32,7 +32,7 @@ using Yupi.Emulator.Core.Io.Logger;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Emulator.Game.GameClients.Interfaces;
 using Yupi.Emulator.Game.Users.Messenger.Structs;
-using Yupi.Emulator.Messages;
+
 
 using Yupi.Net;
 using Yupi.Protocol.Buffers;
@@ -77,7 +77,7 @@ namespace Yupi.Emulator.Game.GameClients
         /// <summary>
         ///     The clients
         /// </summary>
-		ConcurrentDictionary<ISession<GameClient>, GameClient> Clients;
+		public ConcurrentDictionary<ISession<GameClient>, GameClient> Clients;
 		// TODO Keep reference in Yupi.Net
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace Yupi.Emulator.Game.GameClients
         ///     Return Online Clients Count
         /// </summary>
         /// <returns>Online Client Count.</returns>
-		 int GetOnlineClients() {
+		public int GetOnlineClients() {
 			return Clients.Values.Count (client => {
 				bool? isOnline = client?.GetHabbo ()?.IsOnline;
 				return isOnline.HasValue && (bool)isOnline;

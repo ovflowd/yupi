@@ -407,7 +407,6 @@
     <Compile Include="Emulator\Game\Users\UserPreferences.cs" />
     <Compile Include="Emulator\Game\Users\Inventory\UserClothesManager.cs" />
     <Compile Include="Emulator\Data\CacheManager.cs" />
-    <Compile Include="Emulator\Messages\Handlers\Rooms.cs" />
     <Compile Include="Emulator\Core\Security\BlackWords\Structs\BlackWord.cs" />
     <Compile Include="Emulator\Core\Security\BlackWords\BlackWordsManager.cs" />
     <Compile Include="Emulator\Core\Security\BlackWords\Enums\BlackWordType.cs" />

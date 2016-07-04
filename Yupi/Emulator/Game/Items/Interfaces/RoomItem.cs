@@ -26,7 +26,7 @@ using Yupi.Emulator.Game.Rooms.Items.Games.Types.Soccer.Enums;
 using Yupi.Emulator.Game.Rooms.User;
 using Yupi.Emulator.Game.Rooms.User.Path;
 using Yupi.Emulator.Game.SoundMachine;
-using Yupi.Emulator.Messages;
+
 
 
 namespace Yupi.Emulator.Game.Items.Interfaces
@@ -666,7 +666,7 @@ namespace Yupi.Emulator.Game.Items.Interfaces
                                                     user.GetClient().GetHabbo().IsTeleporting = true;
                                                     user.GetClient().GetHabbo().TeleportingRoomId = teleRoomId;
                                                     user.GetClient().GetHabbo().TeleporterId = linkedTele;
-                                                    user.GetClient().GetMessageHandler().PrepareRoomForUser(teleRoomId, string.Empty);
+                                                    user.GetClient().PrepareRoomForUser(teleRoomId, string.Empty);
                                                 }
 
                                                 InteractingUser = 0u;
@@ -961,24 +961,8 @@ namespace Yupi.Emulator.Game.Items.Interfaces
                                 text = text.TrimEnd('.');
 
                             clientByUserId.GetHabbo().Look = text;
-
-                            clientByUserId.GetMessageHandler().GetResponse().Init(PacketLibraryManager.OutgoingHandler("UpdateUserDataMessageComposer"));
-                            clientByUserId.GetMessageHandler().GetResponse().AppendInteger(-1);
-                            clientByUserId.GetMessageHandler().GetResponse().AppendString(clientByUserId.GetHabbo().Look);
-                            clientByUserId.GetMessageHandler().GetResponse().AppendString(clientByUserId.GetHabbo().Gender.ToLower());
-                            clientByUserId.GetMessageHandler().GetResponse().AppendString(clientByUserId.GetHabbo().Motto);
-                            clientByUserId.GetMessageHandler().GetResponse().AppendInteger(clientByUserId.GetHabbo().AchievementPoints);
-                            clientByUserId.GetMessageHandler().SendResponse();
-
-                            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UpdateUserDataMessageComposer"));
-                            simpleServerMessageBuffer.AppendInteger(InteractingUser2);
-                            simpleServerMessageBuffer.AppendString(clientByUserId.GetHabbo().Look);
-                            simpleServerMessageBuffer.AppendString(clientByUserId.GetHabbo().Gender.ToLower());
-                            simpleServerMessageBuffer.AppendString(clientByUserId.GetHabbo().Motto);
-                            simpleServerMessageBuffer.AppendInteger(clientByUserId.GetHabbo().AchievementPoints);
-
-                            GetRoom().SendMessage(simpleServerMessageBuffer);
-
+							clientByUserId.Router.GetComposer<UpdateUserDataMessageComposer> ().Compose (clientByUserId, clientByUserId.GetHabbo ());
+							GetRoom().Router.GetComposer<UpdateUserDataMessageComposer> ().Compose (GetRoom(), clientByUserId.GetHabbo (), InteractingUser2);
                             break;
                         }
                     case Interaction.TriggerTimer:

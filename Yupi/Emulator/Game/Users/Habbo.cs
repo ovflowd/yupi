@@ -21,7 +21,7 @@ using Yupi.Emulator.Game.Users.Messenger;
 using Yupi.Emulator.Game.Users.Messenger.Structs;
 using Yupi.Emulator.Game.Users.Relationships;
 using Yupi.Emulator.Game.Users.Subscriptions;
-using Yupi.Emulator.Messages;
+
 
 
 namespace Yupi.Emulator.Game.Users

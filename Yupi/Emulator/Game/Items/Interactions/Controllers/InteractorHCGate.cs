@@ -3,7 +3,7 @@ using Yupi.Emulator.Game.Items.Interactions.Enums;
 using Yupi.Emulator.Game.Items.Interactions.Models;
 using Yupi.Emulator.Game.Items.Interfaces;
 using Yupi.Emulator.Game.Users;
-using Yupi.Emulator.Messages;
+
 
 
 namespace Yupi.Emulator.Game.Items.Interactions.Controllers

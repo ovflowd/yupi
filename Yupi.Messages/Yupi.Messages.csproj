@@ -531,6 +531,13 @@
     <Compile Include="Composer\Pets\RespectPetMessageComposer.cs" />
     <Compile Include="Composer\Other\InternalLinkMessageComposer.cs" />
     <Compile Include="Composer\Notification\CustomUserNotificationMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\RoomsQueue.cs" />
+    <Compile Include="Composer\Rooms\PrepareRoomMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\DoorbellMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\RoomErrorMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\Games\UpdateFreezeLivesMessageComposer.cs" />
+    <Compile Include="Composer\Items\PickUpFloorItemMessageComposer.cs" />
+    <Compile Include="Composer\Items\PickUpWallItemMessageComposer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -590,6 +597,7 @@
     <Folder Include="Handlers\Rooms\Competition\" />
     <Folder Include="Composer\Achievements\" />
     <Folder Include="Composer\Items\Wired\" />
+    <Folder Include="Composer\Rooms\Games\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

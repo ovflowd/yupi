@@ -30,7 +30,7 @@ using Yupi.Emulator.Core.Security;
 using Yupi.Emulator.Core.Security.BlackWords;
 using Yupi.Emulator.Data;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
-using Yupi.Emulator.Messages;
+
 
 
 namespace Yupi.Emulator.Core.Settings

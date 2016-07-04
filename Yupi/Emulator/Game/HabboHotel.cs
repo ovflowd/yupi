@@ -27,7 +27,7 @@ using Yupi.Emulator.Game.Users;
 using Yupi.Emulator.Game.Users.Fuses;
 using Yupi.Emulator.Game.Users.Guides;
 using Yupi.Emulator.Game.Users.Messenger.Structs;
-using Yupi.Emulator.Messages;
+
 
 namespace Yupi.Emulator.Game
 {

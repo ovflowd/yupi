@@ -11,7 +11,7 @@ using Yupi.Emulator.Game.Items.Interactions.Enums;
 using Yupi.Emulator.Game.Items.Interfaces;
 using Yupi.Emulator.Game.Rooms.Items.Games.Teams.Enums;
 using Yupi.Emulator.Game.Rooms.User;
-using Yupi.Emulator.Messages;
+
 
 
 namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Banzai
@@ -196,10 +196,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Banzai
                         .ProgressUserAchievement(avatar.GetClient(), "ACH_BattleBallWinner", 1);
                 }
 
-                SimpleServerMessageBuffer waveAtWin = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("RoomUserActionMessageComposer"));
-                waveAtWin.AppendInteger(avatar.VirtualId);
-                waveAtWin.AppendInteger(1);
-                _room.SendMessage(waveAtWin);
+				_room.Router.GetComposer<RoomUserActionMessageComposer> ().Compose (_room, avatar.VirtualId, 1);
             }
             _field.Destroy();
         }
@@ -218,17 +215,10 @@ namespace Yupi.Emulator.Game.Rooms.Items.Games.Types.Banzai
             item.UpdateNeeded = true;
             item.UpdateState();
 
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("ItemAnimationMessageComposer"));
-            simpleServerMessageBuffer.AppendInteger(oldRoomCoord.X);
-            simpleServerMessageBuffer.AppendInteger(oldRoomCoord.Y);
-            simpleServerMessageBuffer.AppendInteger(newX);
-            simpleServerMessageBuffer.AppendInteger(newY);
-            simpleServerMessageBuffer.AppendInteger(1);
-            simpleServerMessageBuffer.AppendInteger(item.Id);
-            simpleServerMessageBuffer.AppendString(ServerUserChatTextHandler.GetString(item.Z));
-            simpleServerMessageBuffer.AppendString(ServerUserChatTextHandler.GetString(newZ));
-            simpleServerMessageBuffer.AppendInteger(-1);
-            _room.SendMessage(simpleServerMessageBuffer);
+			_room.Router.GetComposer<ItemAnimationMessageComposer>().Compose(_room, 
+				new Tuple<Point, double>(new Point(oldRoomCoord.X, oldRoomCoord.Y), item.Z), 
+				new Tuple<Point, double>(new Point(newX, newY), newZ),
+				item.Id, -1, ItemAnimationMessageComposer.Type.Item);
 
             _room.GetRoomItemHandler()
                 .SetFloorItem(client, item, newX, newY, item.Rot, false, false, false, false, false);

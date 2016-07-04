@@ -7,11 +7,11 @@ using Yupi.Emulator.Game.Rooms.User;
 using Yupi.Emulator.Game.Users;
 using Yupi.Emulator.Game.Users.Data.Models;
 using Yupi.Emulator.Game.Users.Factories;
-using Yupi.Emulator.Messages;
-using Yupi.Emulator.Messages.Handlers;
 using Yupi.Net;
 using Yupi.Protocol.Buffers;
 using Yupi.Protocol;
+using Yupi.Emulator.Game.Rooms;
+using System.Globalization;
 
 namespace Yupi.Emulator.Game.GameClients.Interfaces
 {
@@ -29,11 +29,6 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         ///     The _habbo
         /// </summary>
         private Habbo _habbo;
-
-        /// <summary>
-        ///     The _message handler
-        /// </summary>
-        private MessageHandler _messageHandler;
 
         /// <summary>
         ///     The current room user identifier
@@ -431,8 +426,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
         {
 
             GetHabbo()?.RunDbUpdate();
-            GetHabbo()?.OnDisconnect(reason, showConsole);
-            GetMessageHandler()?.Destroy();
+            GetHabbo()?.OnDisconnect(reason, showConsole);  
             GetConnection()?.Disconnect();
 
             CurrentRoomUserId = -1;
@@ -452,6 +446,110 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
 			byte[] bytes = message.GetReversedBytes();
 
 			GetConnection().Send(bytes);
+		}
+
+		public void ClearRoomLoading()
+		{
+			if (GetHabbo() == null)
+				return;
+
+			GetHabbo().LoadingRoom = 0u;
+			GetHabbo().LoadingChecksPassed = false;
+		}
+
+
+
+		public void PrepareRoomForUser(uint id, string pWd, bool isReload = false)
+		{
+			try
+			{
+				if (GetHabbo().LoadingRoom == id)
+					return;
+
+				if (Yupi.ShutdownStarted)
+				{
+					SendNotif(Yupi.GetLanguage().GetVar("server_shutdown"));
+					return;
+				}
+
+				GetHabbo().LoadingRoom = id;
+
+				Room room;
+
+				if (GetHabbo().InRoom)
+				{
+					room = Yupi.GetGame().GetRoomManager().GetRoom(GetHabbo().CurrentRoomId);
+
+					if (room?.GetRoomUserManager() != null)
+						room.GetRoomUserManager().RemoveUserFromRoom(this, false, false);
+				}
+
+				room = Yupi.GetGame().GetRoomManager().LoadRoom(id);
+
+				if (room == null)
+					return;
+
+				if (room.UserCount >= room.RoomData.UsersMax && !GetHabbo().HasFuse("fuse_enter_full_rooms") &&
+					GetHabbo().Id != (ulong) room.RoomData.OwnerId)
+				{
+					Router.GetComposer<RoomsQueue>().Compose(this, 
+						room.UserCount - (int) room.RoomData.UsersNow);
+					return;
+				}
+
+				CurrentLoadingRoom = room;
+
+				if (!GetHabbo().HasFuse("fuse_enter_any_room") && room.UserIsBanned(GetHabbo().Id))
+				{
+					if (!room.HasBanExpired(GetHabbo().Id))
+					{
+						ClearRoomLoading();
+
+						Router.GetComposer<RoomEnterErrorMessageComposer> ().Compose (this, RoomEnterErrorMessageComposer.Error.UNKNOWN);
+						Router.GetComposer<OutOfRoomMessageComposer> ().Compose (this);
+					} else {
+						room.RemoveBan(GetHabbo().Id);
+					}
+				}
+
+				Router.GetComposer<PrepareRoomMessageComposer> ().Compose (this); 
+
+				if (!isReload && !GetHabbo().HasFuse("fuse_enter_any_room") && !room.CheckRightsDoorBell(this, true, true, room.RoomData.Group != null 
+					&& room.RoomData.Group.Members.ContainsKey(GetHabbo().Id)) 
+					&& !(GetHabbo().IsTeleporting && GetHabbo().TeleportingRoomId == id) 
+					&& !GetHabbo().IsHopping)
+				{
+					if (room.RoomData.State == 1)
+					{
+						if (room.UserCount == 0)
+						{
+							Router.GetComposer<DoorbellNoOneMessageComposer> ().Compose (this);    
+						}
+						else
+						{
+							Router.GetComposer<DoorbellMessageComposer> ().Compose (this, string.Empty);  
+							room.Router.GetComposer<DoorbellMessageComposer> ().Compose (room.RightsSender, GetHabbo().UserName); 
+						}
+
+						return;
+					}
+
+					if (room.RoomData.State == 2 && !string.Equals(pWd, room.RoomData.PassWord, StringComparison.CurrentCultureIgnoreCase))
+					{
+						ClearRoomLoading();
+						Router.GetComposer<RoomErrorMessageComposer> ().Compose (this, -100002);  
+						Router.GetComposer<OutOfRoomMessageComposer> ().Compose (this);  
+						return;
+					}
+				}
+
+				GetHabbo().LoadingChecksPassed = true;
+				GetHabbo().RecentlyVisitedRooms.AddFirst(room.RoomId);
+			}
+			catch (Exception e)
+			{
+				YupiLogManager.LogException("PrepareRoomForUser. RoomId: " + id + "; UserId: " + (GetHabbo().Id.ToString(CultureInfo.InvariantCulture) ?? "null") + Environment.NewLine + e, "Failed Preparing Room for User.");
+			}
 		}
     }
 }

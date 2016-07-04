@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Yupi.Emulator.Core.Io.Logger;
 using Yupi.Emulator.Game.Items.Interfaces;
-using Yupi.Emulator.Messages;
+
 using Yupi.Protocol;
 using Yupi.Protocol.Buffers;
 

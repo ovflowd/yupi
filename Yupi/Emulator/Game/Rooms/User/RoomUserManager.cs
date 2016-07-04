@@ -26,7 +26,7 @@ using Yupi.Emulator.Game.Rooms.Items.Games.Teams.Enums;
 using Yupi.Emulator.Game.Rooms.Items.Games.Types.Freeze;
 using Yupi.Emulator.Game.Rooms.User.Path;
 using Yupi.Emulator.Game.Users.Inventory.Components;
-using Yupi.Emulator.Messages;
+
 
 
 namespace Yupi.Emulator.Game.Rooms.User
@@ -1627,6 +1627,78 @@ namespace Yupi.Emulator.Game.Rooms.User
             }
         }
 
+		private void OnRoomUserAdd(GameClient session)
+		{			
+			if (session.CurrentLoadingRoom?.GetRoomUserManager() == null 
+				|| session.CurrentLoadingRoom.GetRoomUserManager().UserList == null)
+				return;
+
+			IEnumerable<RoomUser> list = session.CurrentLoadingRoom.GetRoomUserManager().UserList.Values.Where(current => current != null && !current.IsSpectator);
+
+			session.Router.GetComposer<SetRoomUserMessageComposer> ().Compose (session.GetConnection(), list, CurrentLoadingRoom.GetGameMap().GotPublicPool);
+			session.Router.GetComposer<RoomFloorWallLevelsMessageComposer> ().Compose (session.GetConnection(), CurrentLoadingRoom.RoomData);
+			session.Router.GetComposer<RoomOwnershipMessageComposer> ().Compose (session.GetConnection(), session.CurrentLoadingRoom, session);
+
+			foreach (Habbo habboForId in session.CurrentLoadingRoom.UsersWithRights.Select(Yupi.GetHabboById))
+			{
+				if (habboForId == null) continue;
+				session.GetConnection().Router.GetComposer<GiveRoomRightsMessageComposer> ().Compose (session, session.CurrentLoadingRoom.RoomId, habboForId);
+			}
+
+			session.CurrentLoadingRoom.Router.GetComposer<UpdateUserStatusMessageComposer> ().Compose (session, 
+				session.CurrentLoadingRoom.GetRoomUserManager ().UserList.Values);
+
+			if (session.CurrentLoadingRoom.RoomData.Event != null)
+				Yupi.GetGame().GetRoomEvents().SerializeEventInfo(session.CurrentLoadingRoom.RoomId);
+
+			session.CurrentLoadingRoom.JustLoaded = false;
+
+			foreach (RoomUser current4 in session.CurrentLoadingRoom.GetRoomUserManager().UserList.Values.Where(current4 => current4 != null))
+			{
+				if (current4.IsBot)
+				{
+					if (current4.BotData.DanceId > 0)
+					{
+						session.Router.GetComposer<DanceStatusMessageComposer> ().Compose (session.GetConnection(), current4.VirtualId, current4.BotData.DanceId);
+					}
+				}
+				else if (current4.IsDancing)
+				{
+					session.Router.GetComposer<DanceStatusMessageComposer> ().Compose (session.GetConnection(), current4.VirtualId, current4.DanceId);
+				}
+
+				if (current4.IsAsleep)
+				{
+					session.Router.GetComposer<RoomUserIdleMessageComposer> ().Compose (session.GetConnection(), current4.VirtualId, current4.IsAsleep);
+				}
+
+				if (current4.CarryItemId > 0 && current4.CarryTimer > 0)
+				{
+					session.Router.GetComposer<ApplyHanditemMessageComposer> ().Compose (session.GetConnection(), current4.VirtualId, current4.CarryTimer);
+				}
+
+				if (current4.IsBot)
+					continue;
+
+				try
+				{
+					if (current4.GetClient() != null && current4.GetClient().GetHabbo() != null)
+					{
+						if (current4.GetClient().GetHabbo().GetAvatarEffectsInventoryComponent() != null && current4.CurrentEffect >= 1)
+						{
+							session.Router.GetComposer<ApplyHanditemMessageComposer> ().Compose (session.GetConnection(), current4.VirtualId, current4.CurrentEffect);
+						}
+
+						CurrentLoadingRoom.Router.GetComposer<UpdateUserDataMessageComposer>().Compose(CurrentLoadingRoom, current4.GetClient().GetHabbo(), current4.VirtualId);
+					}
+				}
+				catch (Exception e)
+				{
+					YupiLogManager.LogException(e, "Failed Broadcasting Room Data to Client.", "Yupi.Room");
+				}
+			}
+		}
+
         /// <summary>
         ///     Handles the <see cref="E:UserAdd" /> event.
         /// </summary>
@@ -1723,7 +1795,7 @@ namespace Yupi.Emulator.Game.Rooms.User
                 if (client.GetHabbo().GetMessenger() != null)
                     client.GetHabbo().GetMessenger().OnStatusChanged(true);
 
-                client.GetMessageHandler().OnRoomUserAdd();
+                OnRoomUserAdd(client);
 
                 OnUserEnter?.Invoke(user, null);
 

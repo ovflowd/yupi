@@ -22,7 +22,7 @@ namespace Yupi.Messages.Rooms
 
 			if (roomData.Model == null || CurrentLoadingRoom.GetGameMap () == null) {
 				router.GetComposer<OutOfRoomMessageComposer> ().Compose (session);
-				ClearRoomLoading ();
+				session.ClearRoomLoading ();
 			} else {
 				router.GetComposer<HeightMapMessageComposer> ().Compose (session, CurrentLoadingRoom.GetGameMap ());
 				router.GetComposer<FloorMapMessageComposer> ().Compose (session, CurrentLoadingRoom.GetGameMap ().Model.GetHeightmap (), 
@@ -90,7 +90,7 @@ namespace Yupi.Messages.Rooms
 				router.GetComposer<FloodFilterMessageComposer> ().Compose (session, session.GetHabbo ().FloodTime - Yupi.GetUnixTimeStamp ());
 			}
 
-			ClearRoomLoading();
+			session.ClearRoomLoading();
 
 			Poll poll;
 

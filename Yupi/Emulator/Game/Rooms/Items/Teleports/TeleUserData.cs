@@ -1,5 +1,5 @@
 using Yupi.Emulator.Game.Users;
-using Yupi.Emulator.Messages.Handlers;
+using Yupi.Emulator.Game.GameClients.Interfaces;
 
 namespace Yupi.Emulator.Game.Rooms.Items.Teleports
 {
@@ -8,10 +8,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Teleports
     /// </summary>
      public class TeleUserData
     {
-        /// <summary>
-        ///     The _m handler
-        /// </summary>
-        private readonly MessageHandler _mHandler;
+		private readonly GameClient _client;
 
         /// <summary>
         ///     The _room identifier
@@ -35,9 +32,9 @@ namespace Yupi.Emulator.Game.Rooms.Items.Teleports
         /// <param name="userRefference">The p user refference.</param>
         /// <param name="roomId">The room identifier.</param>
         /// <param name="teleId">The tele identifier.</param>
-     public TeleUserData(MessageHandler handler, Habbo userRefference, uint roomId, uint teleId)
+		public TeleUserData(GameClient session, Habbo userRefference, uint roomId, uint teleId)
         {
-            _mHandler = handler;
+            _client = session;
             _userRefference = userRefference;
             _roomId = roomId;
             _teleId = teleId;
@@ -48,10 +45,10 @@ namespace Yupi.Emulator.Game.Rooms.Items.Teleports
         /// </summary>
      public void Execute()
         {
-            if (_mHandler == null || _userRefference == null) return;
+            if (_client == null || _userRefference == null) return;
             _userRefference.IsTeleporting = true;
             _userRefference.TeleporterId = _teleId;
-            _mHandler.PrepareRoomForUser(_roomId, string.Empty);
+            _client.PrepareRoomForUser(_roomId, string.Empty);
         }
     }
 }
