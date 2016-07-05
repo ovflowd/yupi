@@ -5,10 +5,10 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Support
 {
-	public class ModerationRoomToolMessageComposer : AbstractComposer<Yupi.Messages.Rooms>
+	public class ModerationRoomToolMessageComposer : AbstractComposer<Room>
 	{
 		// TODO Refactor
-		public override void Compose (Yupi.Protocol.ISender session, Yupi.Messages.Rooms room, uint roomId)
+		public override void Compose (Yupi.Protocol.ISender session, Room room, uint roomId)
 		{
 			RoomData data;
 

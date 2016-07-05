@@ -5,7 +5,7 @@ namespace Yupi.Messages.Guides
 	// TODO Rename
 	public class CancellInviteGuide : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Net.ISession<GameClient> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			router.GetComposer<OnGuideSessionDetachedMessageComposer> ().Compose (session, 2);
 

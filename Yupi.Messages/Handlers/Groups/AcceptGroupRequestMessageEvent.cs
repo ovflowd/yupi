@@ -6,7 +6,7 @@ namespace Yupi.Messages.Groups
 {
 	public class AcceptGroupRequestMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Net.ISession<GameClient> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			uint groupId = request.GetUInt32();
 			uint userId = request.GetUInt32();

@@ -18,7 +18,7 @@ namespace Yupi.Messages
 		}
 	}
 
-	public class AbstractComposerVoid : AbstractComposer {
+	public abstract class AbstractComposerVoid : AbstractComposer {
 		public abstract void Compose(ISender session);
 	}
 

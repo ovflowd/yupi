@@ -9,7 +9,7 @@ namespace Yupi.Messages.Music
 {
 	public class JukeboxAddPlaylistItemMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Net.ISession<GameClient> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			// TODO Replace with IsInRoom...
 			if (session.GetHabbo ().CurrentRoom == null) {

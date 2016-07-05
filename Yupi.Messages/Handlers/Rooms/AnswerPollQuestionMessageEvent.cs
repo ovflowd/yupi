@@ -8,7 +8,7 @@ namespace Yupi.Messages.Rooms
 {
 	public class AnswerPollQuestionMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Net.ISession<GameClient> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			uint pollId = request.GetUInt32();
 			uint questionId = request.GetUInt32();

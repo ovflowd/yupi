@@ -14,7 +14,7 @@ namespace Yupi.Messages.Items
 	public class RoomAddFloorItemMessageEvent : AbstractHandler
 	{
 		// TODO Refactor
-		public override void HandleMessage (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Net.ISession<GameClient> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			try
 			{

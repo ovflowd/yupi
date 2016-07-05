@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Groups
 {
-	public class GroupRoomMessageComposer : AbstractComposer
+	public class GroupRoomMessageComposer : AbstractComposer<int, int>
 	{
 		public override void Compose (Yupi.Protocol.ISender session, int roomId, int groupId)
 		{

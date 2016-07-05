@@ -5,7 +5,7 @@ namespace Yupi.Messages.User
 {
 	public class SendBadgeCampaignMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (GameClient session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Net.ISession<GameClient> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			string text = message.GetString();
 			bool hasBadge = session.GetHabbo ().GetBadgeComponent ().HasBadge (text);

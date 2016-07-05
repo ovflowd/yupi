@@ -4,7 +4,7 @@ namespace Yupi.Messages.Guides
 {
 	public class GetHelperToolConfigurationMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Net.ISession<GameClient> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			GuideManager guideManager = Yupi.GetGame().GetGuideManager();
 			bool onDuty = message.GetBool();

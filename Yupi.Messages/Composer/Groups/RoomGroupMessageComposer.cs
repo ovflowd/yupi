@@ -5,7 +5,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Groups
 {
-	public class RoomGroupMessageComposer : AbstractComposer
+	public class RoomGroupMessageComposer : AbstractComposerVoid
 	{
 		public override void Compose (Yupi.Protocol.ISender room)
 		{
