@@ -29,6 +29,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="MySql.Data">
+      <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -51,11 +56,10 @@
     <Compile Include="Collections\QueuedDictionary.cs" />
     <Compile Include="Interfaces\PluginData.cs" />
     <Compile Include="Structs\FurnitureData.cs" />
-    <Compile Include="CacheManager.cs" />
-    <Compile Include="FurnitureDataManager.cs" />
     <Compile Include="ServerMemoryContainer.cs" />
     <Compile Include="ServerStatusUpdater.cs" />
     <Compile Include="YupiUpdatesManager.cs" />
+    <Compile Include="DatabaseSingleton.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -63,5 +67,19 @@
     <Folder Include="Collections\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Structs\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Yupi.IO\Yupi.IO.csproj">
+      <Project>{7F200CC1-2EB9-4ABF-AB31-0100A4E4B436}</Project>
+      <Name>Yupi.IO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Yupi.Net\Yupi.Net.csproj">
+      <Project>{8D09AE29-53E7-405D-9F9E-CDDE1164851A}</Project>
+      <Name>Yupi.Net</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

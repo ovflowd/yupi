@@ -54,9 +54,9 @@ namespace Yupi.Emulator.Data
         {
             if (_refreshInterval.ElapsedMilliseconds >= 10000)
             {
-                DateTime dateTime = new DateTime((DateTime.Now - Yupi.YupiServerStartDateTime).Ticks);
-
-                Console.Title = string.Concat("Yupi | Time: ", int.Parse(dateTime.ToString("dd")) - 1, "d:", dateTime.ToString("HH"), "h:", dateTime.ToString("mm"), "m | Users: ", Yupi.GetGame().GetClientManager().GetOnlineClients(), " | Rooms: ", Yupi.GetGame().GetRoomManager().LoadedRoomsCount);
+                //DateTime dateTime = new DateTime((DateTime.Now - Yupi.YupiServerStartDateTime).Ticks);
+				// TODO Reimplement
+                //Console.Title = string.Concat("Yupi | Time: ", int.Parse(dateTime.ToString("dd")) - 1, "d:", dateTime.ToString("HH"), "h:", dateTime.ToString("mm"), "m | Users: ", Yupi.GetGame().GetClientManager().GetOnlineClients(), " | Rooms: ", Yupi.GetGame().GetRoomManager().LoadedRoomsCount);
 
                 _refreshInterval.Restart();
             }

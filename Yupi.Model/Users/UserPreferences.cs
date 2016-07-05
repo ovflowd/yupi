@@ -1,6 +1,7 @@
 using System;
 using System.Data;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Data;
 
 namespace Yupi.Emulator.Game.Users
 {
@@ -69,7 +70,7 @@ namespace Yupi.Emulator.Game.Users
 
             DataRow userPreferences;
 
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+			using (IQueryAdapter queryReactor = DatabaseSingleton.DatabaseManager.GetQueryReactor())
             {
                 queryReactor.RunFastQuery($"SELECT COUNT(*) FROM users_preferences WHERE user_id = {_userId}");
 
@@ -90,11 +91,11 @@ namespace Yupi.Emulator.Game.Users
                     return;
             }
 
-            PreferOldChat = Yupi.EnumToBool((string) userPreferences["prefer_old_chat"]);
+			PreferOldChat = bool.Parse((string)userPreferences["prefer_old_chat"]);
 
-            IgnoreRoomInvite = Yupi.EnumToBool((string) userPreferences["ignore_room_invite"]);
+			IgnoreRoomInvite = bool.Parse((string)userPreferences["ignore_room_invite"]);
 
-            DisableCameraFollow = Yupi.EnumToBool((string) userPreferences["disable_camera_follow"]);
+			DisableCameraFollow = bool.Parse((string)userPreferences["disable_camera_follow"]);
 
             Volume = (string) userPreferences["volume"];
 
@@ -111,18 +112,18 @@ namespace Yupi.Emulator.Game.Users
 
      public void Save()
         {
-            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+			using (IQueryAdapter queryReactor = DatabaseSingleton.DatabaseManager.GetQueryReactor())
             {
                 queryReactor.SetQuery("UPDATE users_preferences SET volume = @volume, prefer_old_chat = @prefer_old_chat, ignore_room_invite = @ignore_room_invite, newnavi_x = @newnavi_x, newnavi_y = @newnavi_y, newnavi_width = @newnavi_width, newnavi_height = @newnavi_height, disable_camera_follow = @disable_camera_follow, chat_color = @chat_color WHERE user_id = @userid");
                 queryReactor.AddParameter("userid", _userId);
-                queryReactor.AddParameter("prefer_old_chat", Yupi.BoolToEnum(PreferOldChat));
-                queryReactor.AddParameter("ignore_room_invite", Yupi.BoolToEnum(IgnoreRoomInvite));
+				queryReactor.AddParameter("prefer_old_chat", PreferOldChat);
+				queryReactor.AddParameter("ignore_room_invite", IgnoreRoomInvite);
                 queryReactor.AddParameter("volume", Volume);
                 queryReactor.AddParameter("newnavi_x", NewnaviX);
                 queryReactor.AddParameter("newnavi_y", NewnaviY);
                 queryReactor.AddParameter("newnavi_width", NavigatorWidth);
                 queryReactor.AddParameter("newnavi_height", NavigatorHeight);
-                queryReactor.AddParameter("disable_camera_follow", Yupi.BoolToEnum(DisableCameraFollow));
+                queryReactor.AddParameter("disable_camera_follow", DisableCameraFollow);
                 queryReactor.AddParameter("chat_color", ChatColor);
                 queryReactor.RunQuery();
             }

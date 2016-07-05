@@ -227,10 +227,6 @@
     <Compile Include="Emulator\Core\Algorithms\Astar\Interfaces\IPathNode.cs" />
     <Compile Include="Emulator\Core\Algorithms\Astar\Interfaces\IWeightAddable.cs" />
     <Compile Include="Emulator\Core\Algorithms\Astar\PriorityQueue.cs" />
-    <Compile Include="Emulator\Core\Io\Logger\Appenders\AsynchronousMySqlAppender.cs" />
-    <Compile Include="Emulator\Core\Io\Logger\Appenders\YupiMySqlAppender.cs" />
-    <Compile Include="Emulator\Core\Io\Logger\Appenders\AsynchronousFileAppender.cs" />
-    <Compile Include="Emulator\Core\Io\Logger\YupiLogManager.cs" />
     <Compile Include="Emulator\Game\Browser\Models\NavigatorSubCategory.cs" />
     <Compile Include="Emulator\Game\Browser\Models\NavigatorCategory.cs" />
     <Compile Include="Emulator\Game\Groups\Structs\GroupForum.cs" />
@@ -240,11 +236,6 @@
     <Compile Include="Emulator\Game\RoomBots\Interfaces\BotCommand.cs" />
     <Compile Include="Emulator\Game\RoomBots\Interfaces\CatalogBot.cs" />
     <Compile Include="Emulator\Game\RoomBots\Models\BaseBot.cs" />
-    <Compile Include="Emulator\Core\Io\Interfaces\AbstractBar.cs" />
-    <Compile Include="Emulator\Core\Io\AnimatedBar.cs" />
-    <Compile Include="Emulator\Core\Io\ConsoleOutputWriter.cs" />
-    <Compile Include="Emulator\Core\Io\ServerUserChatTextHandler.cs" />
-    <Compile Include="Emulator\Core\Io\Logger\YupiWriterManager.cs" />
     <Compile Include="Emulator\Game\Rooms\Competitions\Models\RoomCompetition.cs" />
     <Compile Include="Emulator\Game\Users\YoutubeVideo.cs" />
     <Compile Include="Emulator\Core\Settings\ServerLanguageSettings.cs" />
@@ -529,6 +520,8 @@
     <Compile Include="Emulator\Game\Items\Interactions\Interfaces\IFurniInteractor.cs" />
     <Compile Include="Emulator\Game\Items\Interactions\Models\IFurniInteractorModel.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="CacheManager.cs" />
+    <Compile Include="FurnitureDataManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.1">
@@ -566,6 +559,7 @@
     <Folder Include="Emulator\Game\Rooms\Data\Composers\" />
     <Folder Include="Emulator\Game\Rooms\Events\Composers\" />
     <Folder Include="Emulator\Game\Items\Interactions\" />
+    <Folder Include="Emulator\Core\Io\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\GitInfo.1.1.1\build\GitInfo.targets" Condition="Exists('..\packages\GitInfo.1.1.1\build\GitInfo.targets')" />

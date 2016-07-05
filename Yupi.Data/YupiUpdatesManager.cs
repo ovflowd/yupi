@@ -56,13 +56,21 @@ namespace Yupi.Emulator.Data
         /// <summary>
         ///     Store Update Message
         /// </summary>
-        public static void Init() => _updateMessage = WebManager.HttpGetJsonDataset(Yupi.GithubUpdateFile);
+        public static void Init()
+		{
+			// TODO Reimplement
+			//_updateMessage = WebManager.HttpGetJsonDataset (Yupi.GithubUpdateFile);
+		}
 
         /// <summary>
         ///     Generate Update Message and Echoes
         /// </summary>
         private static void GenerateUpdateMessage(DataSet message)
         {
+			if (message == null) {
+				return;
+			}
+
             DataTable dataTable = message.Tables["items"];
 
             foreach (DataRow row in dataTable.Rows)

@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8B402ADE-66C4-4D92-9DA6-162860FC225E}</ProjectGuid>
+    <ProjectGuid>{7F200CC1-2EB9-4ABF-AB31-0100A4E4B436}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Yupi.Model</RootNamespace>
-    <AssemblyName>Yupi.Model</AssemblyName>
+    <RootNamespace>Yupi.IO</RootNamespace>
+    <AssemblyName>Yupi.IO</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -29,23 +29,31 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Users\UserPreferences.cs" />
+    <Compile Include="Interfaces\AbstractBar.cs" />
+    <Compile Include="Logger\Appenders\AsynchronousFileAppender.cs" />
+    <Compile Include="Logger\YupiLogManager.cs" />
+    <Compile Include="Logger\YupiWriterManager.cs" />
+    <Compile Include="AnimatedBar.cs" />
+    <Compile Include="ConsoleOutputWriter.cs" />
+    <Compile Include="ServerUserChatTextHandler.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="Users\" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="Logger\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Yupi.Data\Yupi.Data.csproj">
-      <Project>{14B55BBB-C5A8-42F9-B26C-E990D4D00237}</Project>
-      <Name>Yupi.Data</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="packages.config" />
     <None Include="app.config" />
   </ItemGroup>
 </Project>

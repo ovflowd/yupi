@@ -141,11 +141,6 @@ namespace Yupi.Emulator
         public static Dictionary<uint, uint> MutedUsersByFilter;
 
         /// <summary>
-        ///     The manager
-        /// </summary>
-        public static IDatabaseManager YupiDatabaseManager;
-
-        /// <summary>
         ///     The configuration data
         /// </summary>
         public static ServerDatabaseSettings DatabaseSettings;
@@ -416,7 +411,7 @@ namespace Yupi.Emulator
                 if (ServerConfigurationSettings.Data.ContainsKey("debug.packet"))
                     PacketDebugMode = ServerConfigurationSettings.Data["debug.packet"] == "true";
 
-                YupiDatabaseManager = new BasicDatabaseManager(new MySqlConnectionStringBuilder
+			DatabaseSingleton.DatabaseManager = new BasicDatabaseManager(new MySqlConnectionStringBuilder
                 {
                     Server = ServerConfigurationSettings.Data["db.hostname"],
                     Port = uint.Parse(ServerConfigurationSettings.Data["db.port"]),
@@ -713,12 +708,8 @@ namespace Yupi.Emulator
 
             return input;
         }
-
-        /// <summary>
-        ///     Get's the Database YupiDatabaseManager Handler
-        /// </summary>
-        /// <returns>ConnectionManager.</returns>
-        public static IDatabaseManager GetDatabaseManager() => YupiDatabaseManager;
+			
+		public static IDatabaseManager GetDatabaseManager() => DatabaseSingleton.DatabaseManager;
 
         /// <summary>
         ///     Perform's the Emulator Shutdown
@@ -758,7 +749,7 @@ namespace Yupi.Emulator
             foreach (Group group in GetGame().GetGroupManager().Groups.Values)
                 group.UpdateForum();
 
-            using (IQueryAdapter queryReactor = YupiDatabaseManager.GetQueryReactor())
+			using (IQueryAdapter queryReactor = GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.RunFastQuery("UPDATE users SET online = '0'");
                 queryReactor.RunFastQuery("UPDATE rooms_data SET users_now = 0");
@@ -767,7 +758,7 @@ namespace Yupi.Emulator
 
             GetGame().Destroy();
 
-            YupiDatabaseManager.Destroy();
+			DatabaseSingleton.DatabaseManager.Destroy();
 
             YupiLogManager.Stop();
 
