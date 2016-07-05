@@ -241,15 +241,6 @@ namespace Yupi.Emulator.Game.RoomBots.Models
                             break;
                     }
 
-                    if (coord == new Point())
-                    {
-                        SimpleServerMessageBuffer alert = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("PetBreedErrorMessageComposer"));
-
-                        alert.AppendInteger(0);
-
-                        user.GetClient().SendMessage(alert);
-                    }
-
                     roomUser.MoveTo(coord, true);
 
                     break;

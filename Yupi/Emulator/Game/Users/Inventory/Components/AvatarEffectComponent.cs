@@ -228,13 +228,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
             if (setAsCurrentEffect)
                 CurrentEffect = effectId;
 
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("ApplyEffectMessageComposer"));
-
-            simpleServerMessageBuffer.AppendInteger(roomUserByHabbo.VirtualId);
-            simpleServerMessageBuffer.AppendInteger(effectId);
-            simpleServerMessageBuffer.AppendInteger(0);
-
-            userRoom.SendMessage(simpleServerMessageBuffer);
+			userRoom.Router.GetComposer<ApplyEffectMessageComposer> ().Compose (userRoom, roomUserByHabbo.VirtualId, effectId); 
         }
 
         /// <summary>

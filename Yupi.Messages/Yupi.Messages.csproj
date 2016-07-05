@@ -564,6 +564,8 @@
     <Compile Include="Composer\Notification\MOTDNotificationMessageComposer.cs" />
     <Compile Include="Composer\Notification\BroadcastNotifMessageComposer.cs" />
     <Compile Include="Composer\Notification\AlertNotificationMessageComposer.cs" />
+    <Compile Include="Composer\Support\ModerationToolIssueMessageComposer.cs" />
+    <Compile Include="Composer\User\SubscriptionStatusMessageComposer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

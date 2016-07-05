@@ -797,56 +797,15 @@ namespace Yupi.Emulator.Game.Users
 		public void SerializeClub()
         {
             GameClient client = GetClient();
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
-            simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingHandler("SubscriptionStatusMessageComposer"));
-            simpleServerMessageBuffer.AppendString("club_habbo");
             if (client.GetHabbo().GetSubscriptionManager().HasSubscription)
             {
-                double num = client.GetHabbo().GetSubscriptionManager().GetSubscription().ExpireTime;
-                double num2 = num - Yupi.GetUnixTimeStamp();
-                int num3 = (int) Math.Ceiling(num2/86400.0);
-                int i =
-                    (int)
-                        Math.Ceiling((Yupi.GetUnixTimeStamp() -
-                                      (double) client.GetHabbo().GetSubscriptionManager().GetSubscription().ActivateTime)/
-                                     86400.0);
-                int num4 = num3/31;
+				client.Router.GetComposer<SubscriptionStatusMessageComposer>().Compose(client, client.GetHabbo().GetSubscriptionManager().GetSubscription());  
+			} else {
+				client.Router.GetComposer<SubscriptionStatusMessageComposer>().Compose(client, null);  
+			}
 
-                if (num4 >= 1)
-                    num4--;
-
-                simpleServerMessageBuffer.AppendInteger(num3 - num4*31);
-                simpleServerMessageBuffer.AppendInteger(1);
-                simpleServerMessageBuffer.AppendInteger(num4);
-                simpleServerMessageBuffer.AppendInteger(1);
-                simpleServerMessageBuffer.AppendBool(true);
-                simpleServerMessageBuffer.AppendBool(true);
-                simpleServerMessageBuffer.AppendInteger(i);
-                simpleServerMessageBuffer.AppendInteger(i);
-                simpleServerMessageBuffer.AppendInteger(10);
-            }
-            else
-            {
-                simpleServerMessageBuffer.AppendInteger(0);
-                simpleServerMessageBuffer.AppendInteger(0);
-                simpleServerMessageBuffer.AppendInteger(0);
-                simpleServerMessageBuffer.AppendInteger(0);
-                simpleServerMessageBuffer.AppendBool(false);
-                simpleServerMessageBuffer.AppendBool(false);
-                simpleServerMessageBuffer.AppendInteger(0);
-                simpleServerMessageBuffer.AppendInteger(0);
-                simpleServerMessageBuffer.AppendInteger(0);
-            }
-
-            client.SendMessage(simpleServerMessageBuffer);
-
-            SimpleServerMessageBuffer simpleServerMessage2 = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UserClubRightsMessageComposer"));
-
-            simpleServerMessage2.AppendInteger(GetSubscriptionManager().HasSubscription ? 2 : 0);
-            simpleServerMessage2.AppendInteger(Rank);
-            simpleServerMessage2.AppendBool(Rank >= Convert.ToUInt32(Yupi.GetDbConfig().DbData["ambassador.minrank"]));
-
-            client.SendMessage(simpleServerMessage2);
+			client.Router.GetComposer<UserClubRightsMessageComposer>().Compose(client, GetSubscriptionManager().HasSubscription, Rank,
+				Rank >= Convert.ToUInt32(Yupi.GetDbConfig().DbData["ambassador.minrank"]));  
         }
 
         /// <summary>

@@ -70,11 +70,7 @@ namespace Yupi.Emulator.Game.Support
         /// <param name="ticket">The ticket.</param>
      public static void SendTicketToModerators(SupportTicket ticket)
         {
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("ModerationToolIssueMessageComposer"));
-
-            messageBuffer = ticket.Serialize(messageBuffer);
-
-            Yupi.GetGame().GetClientManager().StaffAlert(messageBuffer);
+			Router.GetComposer<ModerationToolIssueMessageComposer> ().Compose (Yupi.GetGame ().GetClientManager ().StaffAlert, ticket);   
         }
 
         /// <summary>
