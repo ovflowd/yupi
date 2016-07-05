@@ -10,7 +10,7 @@ namespace Yupi.Messages.Rooms
 {
 	public class RoomGetHeightmapMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Yupi.Protocol.Buffers.ClientMessage request, Router router)
+		public override void HandleMessage (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			if (session.GetHabbo ().LoadingRoom <= 0u || CurrentLoadingRoom == null)
 				return;
@@ -31,7 +31,7 @@ namespace Yupi.Messages.Rooms
 			}
 		}
 
-		private void GetRoomData3(Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Router router)
+		private void GetRoomData3(Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Yupi.Protocol.IRouter router)
 		{
 			if (session.GetHabbo().LoadingRoom <= 0u || !session.GetHabbo().LoadingChecksPassed ||  CurrentLoadingRoom == null || session == null)
 				return;

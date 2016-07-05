@@ -7,7 +7,7 @@ namespace Yupi.Messages.User
 {
 	public class EnableInventoryEffectMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (GameClient session, Yupi.Protocol.Buffers.ClientMessage message, Router router)
+		public override void HandleMessage (GameClient session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			Yupi.Messages.Rooms currentRoom = session.GetHabbo().CurrentRoom;
 			RoomUser roomUserByHabbo = currentRoom?.GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().Id);

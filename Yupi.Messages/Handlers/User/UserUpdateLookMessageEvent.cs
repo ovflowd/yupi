@@ -8,7 +8,7 @@ namespace Yupi.Messages.User
 {
 	public class UserUpdateLookMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (GameClient session, Yupi.Protocol.Buffers.ClientMessage message, Router router)
+		public override void HandleMessage (GameClient session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			string gender = message.GetString();
 			string look = message.GetString();

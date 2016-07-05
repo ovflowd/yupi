@@ -6,7 +6,7 @@ namespace Yupi.Messages.Groups
 	public class GroupUpdateNameMessageEvent : AbstractHandler
 	{
 		// TODO Refactor
-		public override void HandleMessage (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Yupi.Protocol.Buffers.ClientMessage request, Router router)
+		public override void HandleMessage (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			uint num = request.GetUInt32();
 			string text = request.GetString();

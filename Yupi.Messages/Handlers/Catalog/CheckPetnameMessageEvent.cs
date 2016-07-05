@@ -4,7 +4,7 @@ namespace Yupi.Messages.Catalog
 {
 	public class CheckPetnameMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Yupi.Protocol.Buffers.ClientMessage message, Router router)
+		public override void HandleMessage (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			string petName = message.GetString();
 			int statusCode = 0;

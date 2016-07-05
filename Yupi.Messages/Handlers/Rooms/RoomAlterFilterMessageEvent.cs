@@ -6,7 +6,7 @@ namespace Yupi.Messages.Rooms
 {
 	public class RoomAlterFilterMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Yupi.Protocol.Buffers.ClientMessage request, Router router)
+		public override void HandleMessage (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			uint roomId = request.GetUInt32();
 			bool shouldAdd = request.GetBool();

@@ -9,7 +9,7 @@ namespace Yupi.Messages.User
 {
 	public class GiveRespectMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (GameClient session, ClientMessage message, Router router)
+		public override void HandleMessage (GameClient session, ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 

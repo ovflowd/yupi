@@ -4,7 +4,7 @@ namespace Yupi.Messages.Music
 {
 	public class LoadJukeboxDiscsMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Yupi.Protocol.Buffers.ClientMessage message, Router router)
+		public override void HandleMessage (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			if (session.GetHabbo().GetInventoryComponent() == null)
 				return;

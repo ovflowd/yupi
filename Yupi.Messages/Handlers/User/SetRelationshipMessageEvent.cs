@@ -7,7 +7,7 @@ namespace Yupi.Messages.User
 {
 	public class SetRelationshipMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Yupi.Protocol.Buffers.ClientMessage message, Router router)
+		public override void HandleMessage (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			uint targetId = message.GetUInt32();
 			uint type = message.GetUInt32();

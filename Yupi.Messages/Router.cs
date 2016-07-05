@@ -7,7 +7,7 @@ using Yupi.Protocol;
 
 namespace Yupi.Messages
 {
-	public class Router<U> : IRouter
+	public class Router<U> : Yupi.Protocol.IRouter
 	{
 		private static readonly log4net.ILog Logger = log4net.LogManager
 			.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);

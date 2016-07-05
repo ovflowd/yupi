@@ -6,7 +6,7 @@ namespace Yupi.Messages.Other
 {
 	public class PurchaseTargetedOfferMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Yupi.Protocol.Buffers.ClientMessage request, Router router)
+		public override void HandleMessage (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			request.GetUInt32(); // TODO unused
 			uint quantity = request.GetUInt32();

@@ -7,7 +7,7 @@ namespace Yupi.Messages.User
 {
 	public class GetUserTagsMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (GameClient session, Yupi.Protocol.Buffers.ClientMessage message, Router router)
+		public override void HandleMessage (GameClient session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(session.UserData.CurrentRoomId);
 

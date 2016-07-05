@@ -7,7 +7,7 @@ namespace Yupi.Messages.Items
 {
 	public class YouTubeGetPlaylistGetMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Yupi.Protocol.Buffers.ClientMessage request, Router router)
+		public override void HandleMessage (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			uint itemId = request.GetUInt32();
 			string video = request.GetString();

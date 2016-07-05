@@ -5,7 +5,7 @@ namespace Yupi.Messages.User
 {
 	public class IgnoreUserMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Yupi.Protocol.Buffers.ClientMessage request, Router router)
+		public override void HandleMessage (Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			string username = request.GetString();
 			// TODO Really?! By username?! Who the hell thought that would be a good idea? S.u.l.a.k.e ...?
