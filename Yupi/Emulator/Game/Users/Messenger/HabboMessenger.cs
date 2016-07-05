@@ -151,28 +151,6 @@ namespace Yupi.Emulator.Game.Users.Messenger
         }
 
         /// <summary>
-        ///     Serializes the messenger action.
-        /// </summary>
-        /// <param name="type">The type.</param>
-        /// <param name="name">The name.</param>
-     public void SerializeMessengerAction(int type, string name)
-        {
-            if (GetClient() == null)
-                return;
-
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
-
-            simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingHandler("ConsoleMessengerActionMessageComposer"));
-
-            simpleServerMessageBuffer.AppendString(GetClient().GetHabbo().Id.ToString());
-            simpleServerMessageBuffer.AppendInteger(type);
-            simpleServerMessageBuffer.AppendString(name);
-
-            foreach (MessengerBuddy current in Friends.Values.Where(current => current.Client != null))
-                current.Client.SendMessage(simpleServerMessageBuffer);
-        }
-
-        /// <summary>
         ///     Handles all requests.
         /// </summary>
      public void HandleAllRequests()
@@ -420,11 +398,7 @@ namespace Yupi.Emulator.Game.Users.Messenger
 
                 clientByUsername.GetHabbo().GetMessenger().OnNewRequest(_userId, messengerRequest);
 
-                SimpleServerMessageBuffer simpleServerMessageBuffer =
-                    new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("ConsoleSendFriendRequestMessageComposer"));
-
-                messengerRequest.Serialize(simpleServerMessageBuffer);
-                clientByUsername.SendMessage(simpleServerMessageBuffer);
+				clientByUsername.Router.GetComposer<ConsoleSendFriendRequestMessageComposer> ().Compose (clientByUsername, messengerRequest); 
             }
 
             return true;
@@ -480,19 +454,18 @@ namespace Yupi.Emulator.Game.Users.Messenger
                 DeliverInstantMessageError(6, toId);
                 return;
             }
-
+			// TODO This looks like an extension to the core logic. Might consider to move this into a plugin?
             if (toId == 0) // Staff Chat
             {
-                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("ConsoleChatMessageComposer"));
-
-                simpleServerMessageBuffer.AppendInteger(0); //userid
-                simpleServerMessageBuffer.AppendString(GetClient().GetHabbo().UserName + " : " + message);
-                simpleServerMessageBuffer.AppendInteger(0);
-
-                if (GetClient().GetHabbo().Rank >= Yupi.StaffAlertMinRank)
-                    Yupi.GetGame().GetClientManager().StaffAlert(simpleServerMessageBuffer, GetClient().GetHabbo().Id);
-                else if (GetClient().GetHabbo().Rank >= Convert.ToUInt32(Yupi.GetDbConfig().DbData["ambassador.minrank"]))
-                    Yupi.GetGame().GetClientManager().AmbassadorAlert(simpleServerMessageBuffer, GetClient().GetHabbo().Id);
+				if (GetClient ().GetHabbo ().Rank >= Yupi.StaffAlertMinRank) {
+					Router.GetComposer<ConsoleChatMessageComposer> ().Compose (
+						Yupi.GetGame ().GetClientManager ().StaffAlert,
+						0, GetClient ().GetHabbo ().UserName + " : " + message);
+				} else if (GetClient ().GetHabbo ().Rank >= Convert.ToUInt32 (Yupi.GetDbConfig ().DbData ["ambassador.minrank"])) {
+					Router.GetComposer<ConsoleChatMessageComposer> ().Compose (
+						Yupi.GetGame ().GetClientManager ().AmbassadorAlert,
+						0, GetClient ().GetHabbo ().UserName + " : " + message);
+				}
             }
             else
             {
@@ -536,13 +509,9 @@ namespace Yupi.Emulator.Game.Users.Messenger
         /// <param name="convoId">The convo identifier.</param>
      public void DeliverInstantMessage(string message, uint convoId)
         {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("ConsoleChatMessageComposer"));
-
-            simpleServerMessageBuffer.AppendInteger(convoId);
-            simpleServerMessageBuffer.AppendString(message);
-            simpleServerMessageBuffer.AppendInteger(0);
-
-            GetClient().SendMessage(simpleServerMessageBuffer);
+			GetClient().Router.GetComposer<ConsoleChatMessageComposer> ().Compose (
+				GetClient(),
+				convoId, message);        
         }
 
         /// <summary>
@@ -552,13 +521,8 @@ namespace Yupi.Emulator.Game.Users.Messenger
         /// <param name="conversationId">The conversation identifier.</param>
      public void DeliverInstantMessageError(int errorId, uint conversationId)
         {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("ConsoleChatErrorMessageComposer"));
-
-            simpleServerMessageBuffer.AppendInteger(errorId);
-            simpleServerMessageBuffer.AppendInteger(conversationId);
-            simpleServerMessageBuffer.AppendString(string.Empty);
-
-            GetClient().SendMessage(simpleServerMessageBuffer);
+			GetClient ().Router.GetComposer<ConsoleChatErrorMessageComposer> ().Compose (GetClient (),
+				errorId, conversationId);
         }
 
         /// <summary>

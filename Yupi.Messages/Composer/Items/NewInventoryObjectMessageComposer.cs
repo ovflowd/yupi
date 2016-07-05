@@ -5,9 +5,19 @@ using System.Collections.Generic;
 using Yupi.Emulator.Game.Items.Interactions.Enums;
 
 namespace Yupi.Messages.Items
-{
-	public class NewInventoryObjectMessageComposer : AbstractComposer
+{ // TODO Refactor
+	public class NewInventoryObjectMessageComposer : AbstractComposer<Item, List<UserItem>>
 	{
+		public void Compose (Yupi.Protocol.ISender session, uint itemId) {
+			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
+				message.AppendInteger(1);
+				message.AppendInteger(1);
+				message.AppendInteger(1);
+				message.AppendInteger(itemId);
+				session.Send (message);
+			}
+		}
+
 		public override void Compose (Yupi.Protocol.ISender session, Item item, List<UserItem> list)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {

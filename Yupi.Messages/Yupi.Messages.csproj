@@ -566,6 +566,12 @@
     <Compile Include="Composer\Notification\AlertNotificationMessageComposer.cs" />
     <Compile Include="Composer\Support\ModerationToolIssueMessageComposer.cs" />
     <Compile Include="Composer\User\SubscriptionStatusMessageComposer.cs" />
+    <Compile Include="Composer\Items\RemovePetFromInventoryComposer.cs" />
+    <Compile Include="Composer\Messenger\ConsoleSendFriendRequestMessageComposer.cs" />
+    <Compile Include="Composer\Messenger\ConsoleChatErrorMessageComposer.cs" />
+    <Compile Include="Composer\Items\Wired\WiredTriggerMessageComposer.cs" />
+    <Compile Include="Composer\Items\Wired\WiredEffectMessageComposer.cs" />
+    <Compile Include="Composer\Items\Wired\WiredConditionMessageComposer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

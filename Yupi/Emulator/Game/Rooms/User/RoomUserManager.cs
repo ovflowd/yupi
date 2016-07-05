@@ -218,10 +218,8 @@ namespace Yupi.Emulator.Game.Rooms.User
             else
                 _bots.Add(roomUser.BotData.BotId, roomUser);
 
-            simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingHandler("DanceStatusMessageComposer"));
-            simpleServerMessageBuffer.AppendInteger(roomUser.VirtualId);
-            simpleServerMessageBuffer.AppendInteger(roomUser.BotData.DanceId);
-            _userRoom.SendMessage(simpleServerMessageBuffer);
+			_userRoom.Router.GetComposer<DanceStatusMessageComposer> ().Compose (_userRoom, roomUser.VirtualId, 
+				roomUser.BotData.DanceId);  
             PetCount++;
 
             return roomUser;

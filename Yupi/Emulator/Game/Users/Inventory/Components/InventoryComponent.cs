@@ -234,9 +234,8 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
      public bool RemovePet(uint petId)
         {
             _isUpdated = false;
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("RemovePetFromInventoryComposer"));
-            simpleServerMessageBuffer.AppendInteger(petId);
-            GetClient().SendMessage(simpleServerMessageBuffer);
+
+			GetClient ().Router.GetComposer<RemovePetFromInventoryComposer> ().Compose (GetClient (), petId);     
             _inventoryPets.Remove(petId);
             return true;
         }
@@ -645,13 +644,7 @@ namespace Yupi.Emulator.Game.Users.Inventory.Components
         /// <param name="id">The identifier.</param>
      public void SendNewItems(uint id)
         {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
-            simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingHandler("NewInventoryObjectMessageComposer"));
-            simpleServerMessageBuffer.AppendInteger(1);
-            simpleServerMessageBuffer.AppendInteger(1);
-            simpleServerMessageBuffer.AppendInteger(1);
-            simpleServerMessageBuffer.AppendInteger(id);
-            _mClient.SendMessage(simpleServerMessageBuffer);
+			_mClient.Router.GetComposer<NewInventoryObjectMessageComposer> ().Compose (_mClient, id);     
         }
 
         /// <summary>
