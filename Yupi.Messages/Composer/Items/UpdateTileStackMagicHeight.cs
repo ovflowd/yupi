@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Items
 {
-	public class UpdateTileStackMagicHeight : AbstractComposer
+	public class UpdateTileStackMagicHeight : AbstractComposer<int, int>
 	{
 		public override void Compose (Yupi.Protocol.ISender session, int itemId, int z)
 		{
