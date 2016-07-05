@@ -4,7 +4,7 @@ namespace Yupi.Messages.Other
 {
 	public class UniqueIDMessageEvent : AbstractHandler
 	{
-		public bool RequireUser {
+		public override bool RequireUser {
 			get { 
 				return false; 
 			}

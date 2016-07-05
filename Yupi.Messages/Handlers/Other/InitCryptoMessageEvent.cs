@@ -4,7 +4,7 @@ namespace Yupi.Messages.Other
 {
 	public class InitCryptoMessageEvent : AbstractHandler
 	{
-		public bool RequireUser {
+		public override bool RequireUser {
 			get { 
 				return false; 
 			}
