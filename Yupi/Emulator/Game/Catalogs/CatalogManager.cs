@@ -392,10 +392,7 @@ namespace Yupi.Emulator.Game.Catalogs
 
             if (item.ClubOnly && !session.GetHabbo().GetSubscriptionManager().HasSubscription)
             {
-                SimpleServerMessageBuffer simpleServerMessageBuffer =
-                    new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("CatalogPurchaseNotAllowedMessageComposer"));
-                simpleServerMessageBuffer.AppendInteger(1);
-                session.SendMessage(simpleServerMessageBuffer);
+				session.Router.GetComposer<CatalogPurchaseNotAllowedMessageComposer>().Compose(session, true);  
                 return;
             }
 
@@ -410,8 +407,7 @@ namespace Yupi.Emulator.Game.Catalogs
 
                 if (item.LimitedSelled >= item.LimitedStack)
                 {
-                    session.SendMessage(
-                        new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("CatalogLimitedItemSoldOutMessageComposer")));
+					session.Router.GetComposer<CatalogLimitedItemSoldOutMessageComposer>().Compose(session);  
                     return;
                 }
 
@@ -553,13 +549,8 @@ namespace Yupi.Emulator.Game.Catalogs
 
                     session.GetHabbo().BuildersItemsMax += furniAmount;
 
-                    SimpleServerMessageBuffer update =
-                        new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("BuildersClubMembershipMessageComposer"));
-
-                    update.AppendInteger(session.GetHabbo().BuildersExpire);
-                    update.AppendInteger(session.GetHabbo().BuildersItemsMax);
-                    update.AppendInteger(2);
-                    session.SendMessage(update);
+					session.Router.GetComposer<BuildersClubMembershipMessageComposer>().Compose(session, session.GetHabbo().BuildersExpire,
+						session.GetHabbo().BuildersItemsMax);      
 
                     using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
@@ -588,14 +579,9 @@ namespace Yupi.Emulator.Game.Catalogs
 
                     session.GetHabbo().BuildersExpire += timeAmount;
 
-                    SimpleServerMessageBuffer update =
-                        new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("BuildersClubMembershipMessageComposer"));
-
-                    update.AppendInteger(session.GetHabbo().BuildersExpire);
-                    update.AppendInteger(session.GetHabbo().BuildersItemsMax);
-                    update.AppendInteger(2);
-                    session.SendMessage(update);
-
+					session.Router.GetComposer<BuildersClubMembershipMessageComposer>().Compose(session, session.GetHabbo().BuildersExpire,
+						session.GetHabbo().BuildersItemsMax);  
+					
                     using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
                     {
                         queryReactor.SetQuery("UPDATE users SET builders_expire = @max WHERE id = @userId");

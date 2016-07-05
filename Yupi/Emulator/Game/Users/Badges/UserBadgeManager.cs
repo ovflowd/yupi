@@ -71,7 +71,7 @@ namespace Yupi.Emulator.Game.Users.Badges
      public void GiveBadge(string badge, bool inDatabase, GameClient session, bool wiredReward = false)
         {
 			if (wiredReward) {
-				session.Router.GetComposer<WiredRewardAlertMessageComposer> ().Compose (session, !HasBadge (badge));
+				session.Router.GetComposer<WiredRewardAlertMessageComposer> ().Compose (session, !HasBadge (badge) ? 7 : 1);
 			}
 
             if (HasBadge(badge))

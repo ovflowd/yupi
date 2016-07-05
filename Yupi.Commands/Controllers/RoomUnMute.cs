@@ -38,7 +38,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
             message.AppendString("");
             room.SendMessage(message);*/
 
-            room.SendMessage(GameClient.GetBytesNotif("Este quarto foi des-selenciado."));
+			room.Router.GetComposer<SuperNotificationMessageComposer>().Compose(room, "Notice", "Este quarto foi des-selenciado.", "", "", "", 4); 
 
             Yupi.GetGame()
                 .GetModerationTool().LogStaffEntry(session.GetHabbo().UserName, string.Empty,

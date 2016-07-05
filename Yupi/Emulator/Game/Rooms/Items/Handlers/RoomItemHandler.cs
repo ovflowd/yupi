@@ -577,23 +577,6 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
             _room.GetRoomUserManager().OnUserUpdateStatus(item.X, item.Y);
         }
 			
-     private void UpdateItemOnRoller(RoomItem item, Point nextCoord, uint rolledId, double nextZ)
-        {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer();
-            simpleServerMessageBuffer.Init(PacketLibraryManager.OutgoingHandler("ItemAnimationMessageComposer"));
-            simpleServerMessageBuffer.AppendInteger(item.X);
-            simpleServerMessageBuffer.AppendInteger(item.Y);
-            simpleServerMessageBuffer.AppendInteger(nextCoord.X);
-            simpleServerMessageBuffer.AppendInteger(nextCoord.Y);
-            simpleServerMessageBuffer.AppendInteger(1);
-            simpleServerMessageBuffer.AppendInteger(item.Id);
-            simpleServerMessageBuffer.AppendString(ServerUserChatTextHandler.GetString(item.Z));
-            simpleServerMessageBuffer.AppendString(ServerUserChatTextHandler.GetString(nextZ));
-            simpleServerMessageBuffer.AppendInteger(rolledId);
-            SetFloorItem(item, nextCoord.X, nextCoord.Y, nextZ);
-            return simpleServerMessageBuffer;
-        }
-			
      public void UpdateUserOnRoller(RoomUser user, Point nextCoord, uint rollerId, double nextZ)
         {
 			router.GetComposer<ItemAnimationMessageComposer>().Compose(_room, 
@@ -839,14 +822,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
 
                 if (sendMessage)
                 {
-                    SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("AddFloorItemMessageComposer"));
-                    item.Serialize(simpleServerMessageBuffer);
-
-                    simpleServerMessageBuffer.AppendString(_room.RoomData.Group != null
-                        ? session.GetHabbo().UserName
-                        : _room.RoomData.Owner);
-
-                    _room.SendMessage(simpleServerMessageBuffer);
+					router.GetComposer<AddFloorItemMessageComposer>().Compose(_room, item);      
                 }
             }
             else
@@ -856,23 +832,14 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
                 {
                     if (specialMove)
                     {
-                        SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("ItemAnimationMessageComposer"));
-                        messageBuffer.AppendInteger(oldCoord.X);
-                        messageBuffer.AppendInteger(oldCoord.Y);
-                        messageBuffer.AppendInteger(newX);
-                        messageBuffer.AppendInteger(newY);
-                        messageBuffer.AppendInteger(1);
-                        messageBuffer.AppendInteger(item.Id);
-                        messageBuffer.AppendString(ServerUserChatTextHandler.GetString(item.Z));
-                        messageBuffer.AppendString(ServerUserChatTextHandler.GetString(item.Z));
-                        messageBuffer.AppendInteger(-1);
-                        _room.SendMessage(messageBuffer);
+						router.GetComposer<ItemAnimationMessageComposer>().Compose(_room, 
+							new Tuple<Point, double>(oldCoord, item.Z), 
+							new Tuple<Point, double>(new Point(newX, newY), item.Z),
+							-1, item.Id, ItemAnimationMessageComposer.Type.Item);  
                     }
                     else
                     {
-                        SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UpdateRoomItemMessageComposer"));
-                        item.Serialize(messageBuffer);
-                        _room.SendMessage(messageBuffer);
+						router.GetComposer<UpdateRoomItemMessageComposer>().Compose(_room, item);        
                     }
                 }
 
@@ -910,50 +877,18 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
                 item.Y, item.Rot);
             item.SetState(item.X, item.Y, item.Z, affectedTiles);
 
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("AddFloorItemMessageComposer"));
-            item.Serialize(simpleServerMessageBuffer);
-            simpleServerMessageBuffer.AppendString(_room.RoomData.Group != null ? session.GetHabbo().UserName : _room.RoomData.Owner);
-            _room.SendMessage(simpleServerMessageBuffer);
-
+			_room.Router.GetComposer<AddFloorItemMessageComposer>().Compose(_room, item);
             _room.GetGameMap().AddToMap(item);
         }
+			
 
         /// <summary>
         ///     Called when [height map update].
         /// </summary>
         /// <param name="affectedTiles">The affected tiles.</param>
-     public void OnHeightMapUpdate(Dictionary<int, ThreeDCoord> affectedTiles)
+		public void OnHeightMapUpdate(ICollection affectedTiles)
         {
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UpdateFurniStackMapMessageComposer"));
-            messageBuffer.AppendByte((byte) affectedTiles.Count);
-
-            foreach (ThreeDCoord coord in affectedTiles.Values)
-            {
-                messageBuffer.AppendByte((byte) coord.X);
-                messageBuffer.AppendByte((byte) coord.Y);
-                messageBuffer.AppendShort((short) (_room.GetGameMap().SqAbsoluteHeight(coord.X, coord.Y)*256));
-            }
-
-            _room.SendMessage(messageBuffer);
-        }
-
-        /// <summary>
-        ///     Called when [height map update].
-        /// </summary>
-        /// <param name="affectedTiles">The affected tiles.</param>
-     public void OnHeightMapUpdate(ICollection affectedTiles)
-        {
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UpdateFurniStackMapMessageComposer"));
-            messageBuffer.AppendByte((byte) affectedTiles.Count);
-
-            foreach (Point coord in affectedTiles)
-            {
-                messageBuffer.AppendByte((byte) coord.X);
-                messageBuffer.AppendByte((byte) coord.Y);
-                messageBuffer.AppendShort((short) (_room.GetGameMap().SqAbsoluteHeight(coord.X, coord.Y)*256));
-            }
-
-            _room.SendMessage(messageBuffer);
+			_room.Router.GetComposer<UpdateFurniStackMapMessageComposer>().Compose(_room, affectedTiles, _room);          
         }
 
         /// <summary>
@@ -961,26 +896,19 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
         /// </summary>
         /// <param name="oldCoords">The old coords.</param>
         /// <param name="newCoords">The new coords.</param>
-     public void OnHeightMapUpdate(List<Point> oldCoords, List<Point> newCoords)
+		public void OnHeightMapUpdate(ICollection<Point> oldCoords, ICollection<Point> newCoords)
         {
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UpdateFurniStackMapMessageComposer"));
-            messageBuffer.AppendByte((byte) (oldCoords.Count + newCoords.Count));
+			List<Point> affectedTiles = new List<Point>();
+			// TODO Refactor
+			foreach(Point point in oldCoords) {
+				affectedTiles.Add(point);
+			}
 
-            foreach (Point coord in oldCoords)
-            {
-                messageBuffer.AppendByte((byte) coord.X);
-                messageBuffer.AppendByte((byte) coord.Y);
-                messageBuffer.AppendShort((short) (_room.GetGameMap().SqAbsoluteHeight(coord.X, coord.Y)*256));
-            }
+			foreach(Point point in newCoords) {
+				affectedTiles.Add(point);
+			}
 
-            foreach (Point nCoord in newCoords)
-            {
-                messageBuffer.AppendByte((byte) nCoord.X);
-                messageBuffer.AppendByte((byte) nCoord.Y);
-                messageBuffer.AppendShort((short) (_room.GetGameMap().SqAbsoluteHeight(nCoord.X, nCoord.Y)*256));
-            }
-
-            _room.SendMessage(messageBuffer);
+			OnHeightMapUpdate(affectedTiles);
         }
 
         /// <summary>
@@ -1041,10 +969,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
             if (!sendUpdate)
                 return true;
 
-            SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UpdateRoomItemMessageComposer"));
-            item.Serialize(messageBuffer);
-            _room.SendMessage(messageBuffer);
-
+			_room.Router.GetComposer<UpdateRoomItemMessageComposer>().Compose(_room, item);    
             return true;
         }
 
@@ -1073,10 +998,7 @@ namespace Yupi.Emulator.Game.Rooms.Items.Handlers
             WallItems.TryAdd(item.Id, item);
             AddOrUpdateItem(item.Id);
 
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("AddWallItemMessageComposer"));
-            item.Serialize(simpleServerMessageBuffer);
-            simpleServerMessageBuffer.AppendString(_room.RoomData.Owner);
-            _room.SendMessage(simpleServerMessageBuffer);
+			_room.Router.GetComposer<AddWallItemMessageComposer>().Compose(_room, item);
 
             return true;
         }

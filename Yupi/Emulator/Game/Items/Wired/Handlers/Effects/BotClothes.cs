@@ -54,11 +54,8 @@ namespace Yupi.Emulator.Game.Items.Wired.Handlers.Effects
                 return false;
 
             bot.BotData.Look = OtherExtraString;
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SetRoomUserMessageComposer"));
-            simpleServerMessageBuffer.AppendInteger(1);
-            bot.Serialize(simpleServerMessageBuffer, false);
-            Room.SendMessage(simpleServerMessageBuffer);
 
+			Room.Router.GetComposer<SetRoomUserMessageComposer> ().Compose (Room, bot, false);
             return true;
         }
     }

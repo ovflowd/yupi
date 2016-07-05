@@ -3,12 +3,12 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Rooms
 {
-	public class OutOfRoomMessageComposer : AbstactComposer<short>
+	public class UserLeftRoomMessageComposer : AbstractComposer<int>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, short code = 0)
+		public override void Compose (Yupi.Protocol.ISender session, int virtualId)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendShort(code);
+				message.AppendString(virtualId);
 				session.Send (message);
 			}
 		}

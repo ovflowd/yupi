@@ -156,9 +156,8 @@ namespace Yupi.Emulator.Core.Settings
                                 Console.WriteLine();
                                 break;
 
-                            case "packets":
-                                PacketLibraryManager.ReloadDictionarys();
-                                Console.WriteLine("> Packets Reloaded Suceffuly...");
+                            case "packets": 
+                                Console.WriteLine("NOT IMPLEMENTED"); // TODO reload packets library
                                 Console.WriteLine();
                                 break;
 
@@ -170,10 +169,7 @@ namespace Yupi.Emulator.Core.Settings
 
                                 FurnitureDataManager.Clear();
 
-                                GetGame()
-                                    .GetClientManager()
-                                    .QueueBroadcaseMessage(
-                                        new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("PublishShopMessageComposer")));
+								Router.GetComposer<PublishShopMessageComposer>().Compose(GetGame().GetClientManager());                
                                 Console.WriteLine("Catalogue was re-loaded.");
                                 Console.WriteLine();
                                 break;

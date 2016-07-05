@@ -23,8 +23,8 @@ namespace Yupi.Emulator.Game.Commands.Controllers
         {
             string reason = string.Join(" ", pms);
 
-            byte[] messageBytes =
-                GameClient.GetBytesNotif($"You have all been summoned by\r- {session.GetHabbo().UserName}:\r\n{reason}");
+			Router.GetComposer<SuperNotificationMessageComposer>().Compose(Yupi.GetGame().GetClientManager(), "Notice", $"You have all been summoned by\r- {session.GetHabbo().UserName}:\r\n{reason}", "", "", "", 4); 
+
             foreach (GameClient client in Yupi.GetGame().GetClientManager().Clients.Values)
             {
                 if (session.GetHabbo().CurrentRoom == null ||
@@ -33,7 +33,6 @@ namespace Yupi.Emulator.Game.Commands.Controllers
 
                 client.PrepareRoomForUser(session.GetHabbo().CurrentRoom.RoomId,
                         session.GetHabbo().CurrentRoom.RoomData.PassWord);
-                client.SendMessage(messageBytes);
             }
             return true;
         }

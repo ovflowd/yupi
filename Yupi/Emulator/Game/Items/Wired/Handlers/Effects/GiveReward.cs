@@ -79,11 +79,7 @@ namespace Yupi.Emulator.Game.Items.Wired.Handlers.Effects
 
             if (amountLeft == 1)
             {
-                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("WiredRewardAlertMessageComposer"));
-
-                messageBuffer.AppendInteger(0);
-                user.GetClient().SendMessage(messageBuffer);
-
+				user.GetClient().Router.GetComposer<WiredRewardAlertMessageComposer> ().Compose (user.GetClient(), 0);
                 return true;
             }
 
@@ -96,9 +92,7 @@ namespace Yupi.Emulator.Game.Items.Wired.Handlers.Effects
                 int percentage = int.Parse(dataArray[2]);
 
                 int random = Yupi.GetRandomNumber(0, 100);
-
-                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("WiredRewardAlertMessageComposer"));
-
+				            
                 if (!unique && percentage < random)
                     continue;
 
@@ -108,8 +102,7 @@ namespace Yupi.Emulator.Game.Items.Wired.Handlers.Effects
                 {
                     if (user.GetClient().GetHabbo().GetBadgeComponent().HasBadge(code))
                     {
-                        messageBuffer.AppendInteger(1);
-                        user.GetClient().SendMessage(messageBuffer);
+						user.GetClient().Router.GetComposer<WiredRewardAlertMessageComposer> ().Compose (user.GetClient(), 1);    
                     }
                     else
                     {
@@ -117,9 +110,7 @@ namespace Yupi.Emulator.Game.Items.Wired.Handlers.Effects
                             .GetHabbo()
                             .GetBadgeComponent()
                             .GiveBadge(code, true, user.GetClient(), true);
-
-                        messageBuffer.AppendInteger(7);
-                        user.GetClient().SendMessage(messageBuffer);
+						user.GetClient().Router.GetComposer<WiredRewardAlertMessageComposer> ().Compose (user.GetClient(), 7);     
                     }
                 }
                 else //item or effect
@@ -140,21 +131,17 @@ namespace Yupi.Emulator.Game.Items.Wired.Handlers.Effects
                             .GetHabbo()
                             .GetInventoryComponent()
                             .AddNewItem(0u, roomItem.Name, "0", 0u, true, false, 0, 0);
-                        user.GetClient()
-                            .SendMessage(
-                                new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UpdateInventoryMessageComposer")));
+
+						user.GetClient().Router.GetComposer<UpdateInventoryMessageComposer> ().Compose (user.GetClient());
                     }
 
-                    messageBuffer.AppendInteger(6);
-                    user.GetClient().SendMessage(messageBuffer);
+					user.GetClient().Router.GetComposer<WiredRewardAlertMessageComposer> ().Compose (user.GetClient(), 6);
                 }
             }
 
             if (!premied)
             {
-                SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("WiredRewardAlertMessageComposer"));
-                messageBuffer.AppendInteger(4);
-                user.GetClient().SendMessage(messageBuffer);
+				user.GetClient().Router.GetComposer<WiredRewardAlertMessageComposer> ().Compose (user.GetClient(), 4);   
             }
             else if (amountLeft > 1)
             {

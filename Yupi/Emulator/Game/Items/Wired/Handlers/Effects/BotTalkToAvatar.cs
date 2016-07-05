@@ -56,14 +56,8 @@ namespace Yupi.Emulator.Game.Items.Wired.Handlers.Effects
 
             if (OtherBool)
             {
-                SimpleServerMessageBuffer whisp = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("WhisperMessageComposer"));
-                whisp.AppendInteger(bot.VirtualId);
-                whisp.AppendString(OtherExtraString);
-                whisp.AppendInteger(0);
-                whisp.AppendInteger(2);
-                whisp.AppendInteger(0);
-                whisp.AppendInteger(-1);
-                roomUser.GetClient().SendMessage(whisp);
+				roomUser.GetClient().Router.GetComposer<WhisperMessageComposer>().Compose(roomUser.GetClient(),
+					bot.VirtualId, OtherExtraString, 2, -1); 
             }
             else
                 bot.Chat(null, roomUser.GetUserName() + " : " + OtherExtraString, false, 0);

@@ -538,6 +538,32 @@
     <Compile Include="Composer\Rooms\Games\UpdateFreezeLivesMessageComposer.cs" />
     <Compile Include="Composer\Items\PickUpFloorItemMessageComposer.cs" />
     <Compile Include="Composer\Items\PickUpWallItemMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\UpdateFurniStackMapMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\Chat\ShoutMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\Chat\ChatMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\UserLeftRoomMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\Games\UserIsPlayingFreezeMessageComposer.cs" />
+    <Compile Include="Composer\Trade\TradeStartMessageComposer.cs" />
+    <Compile Include="Composer\Trade\TradeAcceptMessageComposer.cs" />
+    <Compile Include="Composer\Trade\TradeConfirmationMessageComposer.cs" />
+    <Compile Include="Composer\Trade\TradeCompletedMessageComposer.cs" />
+    <Compile Include="Composer\Trade\TradeCloseMessageComposer.cs" />
+    <Compile Include="Composer\Trade\TradeUpdateMessageComposer.cs" />
+    <Compile Include="Composer\Catalog\PublishShopMessageComposer.cs" />
+    <Compile Include="Composer\Catalog\CatalogPurchaseNotAllowedMessageComposer.cs" />
+    <Compile Include="Composer\Catalog\CatalogLimitedItemSoldOutMessageComposer.cs" />
+    <Compile Include="Composer\Notification\UsersClassificationMessageComposer.cs" />
+    <Compile Include="Composer\Other\UniqueMachineIDMessageComposer.cs" />
+    <Compile Include="Composer\Other\AuthenticationOKMessageComposer.cs" />
+    <Compile Include="Composer\Notification\MinimailCountMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\FavouriteRoomsMessageComposer.cs" />
+    <Compile Include="Composer\User\UserClubRightsMessageComposer.cs" />
+    <Compile Include="Composer\User\EnableNotificationsMessageComposer.cs" />
+    <Compile Include="Composer\Trade\EnableTradingMessageComposer.cs" />
+    <Compile Include="Composer\User\ActivityPointsMessageComposer.cs" />
+    <Compile Include="Composer\Notification\MOTDNotificationMessageComposer.cs" />
+    <Compile Include="Composer\Notification\BroadcastNotifMessageComposer.cs" />
+    <Compile Include="Composer\Notification\AlertNotificationMessageComposer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -598,6 +624,7 @@
     <Folder Include="Composer\Achievements\" />
     <Folder Include="Composer\Items\Wired\" />
     <Folder Include="Composer\Rooms\Games\" />
+    <Folder Include="Composer\Trade\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

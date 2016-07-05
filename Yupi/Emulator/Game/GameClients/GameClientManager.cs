@@ -146,54 +146,6 @@ namespace Yupi.Emulator.Game.GameClients
      public IEnumerable<GameClient> GetClientsByUserIds(Dictionary<uint, MessengerBuddy>.KeyCollection users) => users.Select(GetClientByUserId).Where(clientByUserId => clientByUserId != null);
 
         /// <summary>
-        ///     Sends the super notif.
-        /// </summary>
-        /// <param name="title">The title.</param>
-        /// <param name="notice">The notice.</param>
-        /// <param name="picture">The picture.</param>
-        /// <param name="client">The client.</param>
-        /// <param name="link">The link.</param>
-        /// <param name="linkTitle">The link title.</param>
-        /// <param name="broadCast">if set to <c>true</c> [broad cast].</param>
-        /// <param name="Event">if set to <c>true</c> [event].</param>
-     public void SendSuperNotif(string title, string notice, string picture, GameClient client, string link, string linkTitle, bool broadCast, bool Event)
-        {
-            SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SuperNotificationMessageComposer"));
-
-            simpleServerMessageBuffer.AppendString(picture);
-            simpleServerMessageBuffer.AppendInteger(4);
-            simpleServerMessageBuffer.AppendString("title");
-            simpleServerMessageBuffer.AppendString(title);
-            simpleServerMessageBuffer.AppendString("message");
-
-            simpleServerMessageBuffer.AppendString(broadCast ? (Event ? $"<b>{Yupi.GetLanguage().GetVar("ha_event_one")} {client.GetHabbo().CurrentRoom.RoomData.Owner}!</b>\r\n {Yupi.GetLanguage().GetVar("ha_event_two")} .\r\n<b>{Yupi.GetLanguage().GetVar("ha_event_three")}</b>\r\n{notice}" : $"<b>{Yupi.GetLanguage().GetVar("ha_title")}</b>\r\n{notice}\r\n- <i>{client.GetHabbo().UserName}</i>") : notice);
-
-            if (!string.IsNullOrWhiteSpace(link))
-            {
-                simpleServerMessageBuffer.AppendString("linkUrl");
-                simpleServerMessageBuffer.AppendString(link);
-                simpleServerMessageBuffer.AppendString("linkTitle");
-                simpleServerMessageBuffer.AppendString(linkTitle);
-            }
-            else
-            {
-                simpleServerMessageBuffer.AppendString("linkUrl");
-                simpleServerMessageBuffer.AppendString("event:");
-                simpleServerMessageBuffer.AppendString("linkTitle");
-                simpleServerMessageBuffer.AppendString("ok");
-            }
-
-            if (broadCast)
-            {
-                QueueBroadcaseMessage(simpleServerMessageBuffer);
-
-                return;
-            }
-
-            client.SendMessage(simpleServerMessageBuffer);
-        }
-
-        /// <summary>
         ///     Called when [cycle].
         /// </summary>
      public void OnCycle()

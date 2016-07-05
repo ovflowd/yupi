@@ -5,12 +5,11 @@ namespace Yupi.Messages.Rooms
 {
 	public class ApplyHanditemMessageComposer : AbstractComposer<int, int>
 	{
-		// TODO Really timer and not itemId?
-		public override void Compose (Yupi.Protocol.ISender session, int virtualId, int timer)
+		public override void Compose (Yupi.Protocol.ISender session, int virtualId, int itemId)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(virtualId);
-				message.AppendInteger(timer);
+				message.AppendInteger(itemId);
 				session.Send (message);
 			}
 		}

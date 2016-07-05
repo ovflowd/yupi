@@ -16,7 +16,7 @@ namespace Yupi.Messages.Items
 				// TODO Use enums (with values)
 				int i = 2;
 
-				if (item.Type == 's')
+				if (item != null && item.Type == 's')
 					i = item.InteractionType == Interaction.Pet ? 3 : 1;
 
 				message.AppendInteger(i);

@@ -21,6 +21,15 @@ namespace Yupi.Messages.Rooms
 				room.Send (message);
 			}
 		}	
+
+		public override void Compose (Yupi.Protocol.ISender room, RoomUser user, bool hasPublicPool = false)
+		{
+			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
+				message.AppendInteger (1);
+				user.Serialize(message, hasPublicPool);
+				room.Send (message);
+			}
+		}	
 	}
 }
 

@@ -847,7 +847,7 @@ namespace Yupi.Emulator.Game.Rooms
 						List<RoomUser> users = new List<RoomUser>();
 						foreach (RoomUser user in GetRoomUserManager().UserList.Values) {
 							if(user.UpdateNeeded) {
-								users.add(user);
+								users.Add(user);
 								user.UpdateNeeded = false;
 							}
 						}

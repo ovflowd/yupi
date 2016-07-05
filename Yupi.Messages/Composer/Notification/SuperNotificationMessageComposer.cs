@@ -8,6 +8,7 @@ namespace Yupi.Messages.Notification
 	public class SuperNotificationMessageComposer : AbstractComposer
 	{
 		// TODO might be that url default is "event:"
+		// unknown might be icon id!
 		public void Compose(GameClient session, string title, string content, string url = "", string urlName = "", string unknown = "", int unknown2 = 4) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendString (unknown);

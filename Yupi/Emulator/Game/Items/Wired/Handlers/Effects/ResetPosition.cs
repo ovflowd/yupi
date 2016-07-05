@@ -3,6 +3,8 @@ using Yupi.Emulator.Game.Items.Interactions.Enums;
 using Yupi.Emulator.Game.Items.Interfaces;
 using Yupi.Emulator.Game.Items.Wired.Interfaces;
 using Yupi.Emulator.Game.Rooms;
+using System.Drawing;
+using System;
 
 
 
@@ -78,19 +80,11 @@ namespace Yupi.Emulator.Game.Items.Wired.Handlers.Effects
                 int yToSet = position ? int.Parse(positions[1]) : fItem.Y;
                 double zToSet = position ? double.Parse(positions[2]) : fItem.Z;
 
-
-                SimpleServerMessageBuffer simpleServerMessageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("ItemAnimationMessageComposer"));
-                simpleServerMessageBuffer.AppendInteger(fItem.X);
-                simpleServerMessageBuffer.AppendInteger(fItem.Y);
-                simpleServerMessageBuffer.AppendInteger(xToSet);
-                simpleServerMessageBuffer.AppendInteger(yToSet);
-                simpleServerMessageBuffer.AppendInteger(1);
-                simpleServerMessageBuffer.AppendInteger(fItem.Id);
-                simpleServerMessageBuffer.AppendString(fItem.Z.ToString(Yupi.CultureInfo));
-                simpleServerMessageBuffer.AppendString(zToSet.ToString(Yupi.CultureInfo));
-                simpleServerMessageBuffer.AppendInteger(0);
-                Room.SendMessage(simpleServerMessageBuffer);
-
+				Room.Router.GetComposer<ItemAnimationMessageComposer> ().Compose (Room, 
+					new Tuple<Point, double> (new Point (fItem.X, fItem.Y), fItem.Z),
+					new Tuple<Point, double> (new Point (xToSet, yToSet), zToSet), 0, fItem.Id, 
+					ItemAnimationMessageComposer.Type.Item);
+				
                 Room.GetRoomItemHandler()
                     .SetFloorItem(null, fItem, xToSet, yToSet, rotationToSet, false, false, false, false, false);
                 fItem.ExtraData = extraDataToSet;

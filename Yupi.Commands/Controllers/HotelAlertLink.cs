@@ -25,10 +25,8 @@ namespace Yupi.Emulator.Game.Commands.Controllers
             string messageUrl = pms[0];
             string messageStr = string.Join(" ", pms.Skip(1));
 
-            Yupi.GetGame()
-                .GetClientManager()
-                .SendSuperNotif("${catalog.alert.external.link.title}", messageStr, "game_promo_small", session,
-                    messageUrl, "${facebook.create_link_in_web}", true, false);
+			Router.GetComposer<SuperNotificationMessageComposer> ().Compose (Yupi.GetGame ()
+				.GetClientManager (), "${catalog.alert.external.link.title}", messageStr, messageUrl, "${facebook.create_link_in_web}", "game_promo_small");
             return true;
         }
     }

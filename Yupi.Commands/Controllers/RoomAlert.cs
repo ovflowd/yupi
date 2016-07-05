@@ -17,15 +17,7 @@ namespace Yupi.Emulator.Game.Commands.Controllers
         {
             string alert = string.Join(" ", pms);
 
-            /*foreach (
-                var user in
-                    session.GetHabbo()
-                        .CurrentRoom.GetRoomUserManager()
-                        .GetRoomUsers()
-                        .Where(user => !user.IsBot && user.GetClientByAddress() != null))
-                user.GetClientByAddress().SendNotif(alert);*/
-
-            session.GetHabbo().CurrentRoom.SendMessage(GameClient.GetBytesNotif(alert));
+			session.Router.GetComposer<SuperNotificationMessageComposer>().Compose(session, "Notice", alert, "", "", "", 4); 
 
             return true;
         }
