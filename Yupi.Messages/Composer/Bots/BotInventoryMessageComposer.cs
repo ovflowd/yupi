@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Specialized;
 using Yupi.Protocol.Buffers;
-using Yupi.Emulator.Game.RoomBots;
+
 
 namespace Yupi.Messages.Bots
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Yupi.Emulator.Game.Rooms.Data.Models;
+
 using System.Linq;
 using Yupi.Messages.User;
 

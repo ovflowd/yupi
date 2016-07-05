@@ -1,9 +1,9 @@
 ﻿using System;
-using Yupi.Emulator.Core.Algorithms.Encryption;
-using Yupi.Emulator.Net.Web;
-using Yupi.Emulator.Core.Settings;
+
+
+
 using System.Web.Script.Serialization;
-using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+
 
 namespace Yupi.Messages.Camera
 {

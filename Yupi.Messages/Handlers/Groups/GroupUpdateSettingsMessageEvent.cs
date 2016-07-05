@@ -1,7 +1,7 @@
 ﻿using System;
-using Yupi.Emulator.Game.Groups.Structs;
-using Yupi.Emulator.Data.Base.Adapters.Interfaces;
-using Yupi.Emulator.Game.Rooms.User;
+
+
+
 using Yupi.Messages.Rooms;
 
 namespace Yupi.Messages.Groups

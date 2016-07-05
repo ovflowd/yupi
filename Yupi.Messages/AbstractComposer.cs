@@ -1,12 +1,12 @@
 ﻿using System;
 using Yupi.Protocol;
 using Yupi.Net;
-using Yupi.Emulator.Game.GameClients.Interfaces;
+
 using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages
 {
-	class AbstractComposer : IComposer
+	public class AbstractComposer : IComposer
 	{
 		protected short Id;
 		protected ServerMessagePool Pool;

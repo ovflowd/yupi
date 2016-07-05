@@ -1,6 +1,6 @@
 ﻿using System;
-using Yupi.Emulator.Core.Io.Logger;
-using Yupi.Emulator.Core.Settings;
+
+
 
 namespace Yupi.Messages.User
 {

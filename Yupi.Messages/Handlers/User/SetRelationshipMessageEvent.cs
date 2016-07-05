@@ -1,7 +1,7 @@
 ﻿using System;
-using Yupi.Emulator.Data.Base.Adapters.Interfaces;
-using Yupi.Emulator.Game.Users.Relationships;
-using Yupi.Emulator.Game.GameClients.Interfaces;
+
+
+
 
 namespace Yupi.Messages.User
 {

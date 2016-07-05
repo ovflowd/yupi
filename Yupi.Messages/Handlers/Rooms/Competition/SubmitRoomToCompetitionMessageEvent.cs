@@ -1,8 +1,8 @@
 ﻿using System;
-using Yupi.Emulator.Game.Rooms;
-using Yupi.Emulator.Game.Rooms.Data.Models;
-using Yupi.Emulator.Game.Rooms.Competitions.Models;
-using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+
+
+
+
 using Yupi.Messages.Rooms;
 
 namespace Yupi.Messages.Competition

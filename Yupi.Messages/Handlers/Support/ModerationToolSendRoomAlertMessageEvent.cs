@@ -1,5 +1,5 @@
 ﻿using System;
-using Yupi.Emulator.Game.Rooms;
+
 using Yupi.Messages.Notification;
 
 namespace Yupi.Messages.Support

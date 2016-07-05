@@ -1,6 +1,6 @@
 ﻿using System;
-using Yupi.Emulator.Game.Rooms;
-using Yupi.Emulator.Game.Rooms.User;
+
+
 using Yupi.Messages.User;
 
 namespace Yupi.Messages.Rooms

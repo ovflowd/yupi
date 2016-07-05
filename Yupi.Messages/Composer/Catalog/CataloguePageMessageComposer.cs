@@ -1,7 +1,7 @@
 ﻿using System;
-using Yupi.Emulator.Game.Catalogs.Interfaces;
+
 using Yupi.Protocol.Buffers;
-using Yupi.Emulator.Game.Pets;
+
 
 namespace Yupi.Messages.Catalog
 {

@@ -1,7 +1,7 @@
 ﻿using System;
-using Yupi.Emulator.Game.Browser;
+
 using Yupi.Protocol.Buffers;
-using Yupi.Emulator.Game.Browser.Models;
+
 
 namespace Yupi.Messages.Navigator
 {

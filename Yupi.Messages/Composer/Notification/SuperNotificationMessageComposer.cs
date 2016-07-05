@@ -1,7 +1,7 @@
 ﻿using System;
-using Yupi.Emulator.Game.GameClients.Interfaces;
+
 using Yupi.Protocol.Buffers;
-using Yupi.Emulator.Game.Rooms;
+
 
 namespace Yupi.Messages.Notification
 {

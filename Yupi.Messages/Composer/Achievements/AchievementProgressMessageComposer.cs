@@ -1,5 +1,5 @@
 ﻿using System;
-using Yupi.Emulator.Game.Achievements.Structs;
+
 using Yupi.Protocol;
 using Yupi.Protocol.Buffers;
 

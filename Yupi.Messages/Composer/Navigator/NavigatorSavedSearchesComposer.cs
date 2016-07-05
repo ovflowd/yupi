@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Yupi.Emulator.Game.Browser.Models;
+
 using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Navigator

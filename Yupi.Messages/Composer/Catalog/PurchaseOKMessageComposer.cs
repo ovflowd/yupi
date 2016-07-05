@@ -1,9 +1,9 @@
 ﻿using System;
 using Yupi.Protocol.Buffers;
-using Yupi.Emulator.Game.GameClients.Interfaces;
+
 using System.Collections.Generic;
-using Yupi.Emulator.Game.Items.Interfaces;
-using Yupi.Emulator.Game.Catalogs.Interfaces;
+
+
 
 namespace Yupi.Messages.Catalog
 {

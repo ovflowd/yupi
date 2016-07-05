@@ -1,7 +1,7 @@
 ﻿using System;
-using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+
 using System.Data;
-using Yupi.Emulator.Game.Items.Interfaces;
+
 
 namespace Yupi.Messages.Other
 {

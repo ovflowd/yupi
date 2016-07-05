@@ -1,6 +1,6 @@
 ﻿using System;
-using Yupi.Emulator.Game.RoomBots;
-using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+
+
 using Yupi.Messages.Bots;
 
 namespace Yupi.Messages.Items

@@ -1,13 +1,13 @@
 ﻿using System;
 using Yupi.Protocol.Buffers;
 using System.Collections.Generic;
-using Yupi.Emulator.Game.Pathfinding.Vectors;
-using Yupi.Emulator.Game.Rooms;
+
+
 using System.Collections;
 
 namespace Yupi.Messages.Rooms
 {
-	public class UpdateFurniStackMapMessageComposer : AbstractComposer<ICollection affectedTiles, Room>
+	public class UpdateFurniStackMapMessageComposer : AbstractComposer<ICollection, Room>
 	{
 		public override void Compose (Yupi.Protocol.ISender session, ICollection affectedTiles, Room room)
 		{

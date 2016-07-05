@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Yupi.Emulator.Game.Polls;
-using Yupi.Emulator.Game.Polls.Enums;
-using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+
+
+
 
 namespace Yupi.Messages.Rooms
 {

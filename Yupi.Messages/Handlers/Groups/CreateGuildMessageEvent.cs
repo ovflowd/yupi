@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Yupi.Emulator.Game.Rooms.Data.Models;
-using Yupi.Emulator.Game.Groups.Structs;
-using Yupi.Emulator.Game.Catalogs.Composers;
+
+
+
 using Yupi.Messages.Catalog;
 
 namespace Yupi.Messages.Groups

@@ -1,8 +1,8 @@
 ﻿using System;
-using Yupi.Emulator.Game.Items.Interfaces;
-using Yupi.Emulator.Game.Rooms.User;
-using Yupi.Emulator.Data.Base.Adapters.Interfaces;
-using Yupi.Emulator.Game.Pets.Enums;
+
+
+
+
 using Yupi.Messages.Rooms;
 
 namespace Yupi.Messages.Pets

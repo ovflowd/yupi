@@ -1,6 +1,6 @@
 ﻿using System;
 using Yupi.Protocol.Buffers;
-using Yupi.Emulator.Game.Items.Interfaces;
+
 using System.Collections.Generic;
 using System.Linq;
 

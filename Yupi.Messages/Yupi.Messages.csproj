@@ -583,10 +583,6 @@
       <Project>{8D09AE29-53E7-405D-9F9E-CDDE1164851A}</Project>
       <Name>Yupi.Net</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Yupi\Yupi.csproj">
-      <Project>{4F3B6B3F-7754-40C9-B3DD-8D83BFA59FE5}</Project>
-      <Name>Yupi</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

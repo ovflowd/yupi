@@ -1,8 +1,8 @@
 ﻿using System;
-using Yupi.Emulator.Game.Items.Interactions.Enums;
-using Yupi.Emulator.Game.Items.Interfaces;
-using Yupi.Emulator.Data.Base.Adapters.Interfaces;
-using Yupi.Emulator.Messages.Enums;
+
+
+
+
 using Yupi.Messages.Notification;
 
 namespace Yupi.Messages.Items

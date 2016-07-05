@@ -1,7 +1,7 @@
 ﻿using System;
-using Yupi.Emulator.Game.SoundMachine;
+
 using Yupi.Protocol.Buffers;
-using Yupi.Emulator.Game.SoundMachine.Songs;
+
 
 namespace Yupi.Messages.Music
 {

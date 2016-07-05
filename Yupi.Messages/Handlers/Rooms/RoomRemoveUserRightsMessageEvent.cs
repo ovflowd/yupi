@@ -1,8 +1,8 @@
 ﻿using System;
-using Yupi.Emulator.Game.Rooms;
+
 using System.Collections.Generic;
-using Yupi.Emulator.Game.Rooms.User;
-using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+
+
 
 namespace Yupi.Messages.Rooms
 {

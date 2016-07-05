@@ -1,7 +1,7 @@
 ﻿using System;
-using Yupi.Emulator.Game.Rooms.User.Trade;
+
 using Yupi.Protocol.Buffers;
-using Yupi.Emulator.Game.Items.Interfaces;
+
 
 namespace Yupi.Messages.Trade
 {

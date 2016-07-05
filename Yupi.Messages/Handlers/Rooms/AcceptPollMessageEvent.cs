@@ -1,5 +1,5 @@
 ﻿using System;
-using Yupi.Emulator.Game.Polls;
+
 
 namespace Yupi.Messages.Rooms
 {

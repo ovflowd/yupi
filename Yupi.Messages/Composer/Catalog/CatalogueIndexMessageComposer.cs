@@ -2,7 +2,7 @@
 using System.Linq;
 using Yupi.Protocol.Buffers;
 using System.Collections.Generic;
-using Yupi.Emulator.Game.Catalogs.Interfaces;
+
 
 namespace Yupi.Messages.Catalog
 {

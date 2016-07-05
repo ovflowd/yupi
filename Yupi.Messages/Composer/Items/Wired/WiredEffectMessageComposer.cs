@@ -1,5 +1,5 @@
 ﻿using System;
-using Yupi.Emulator.Game.Items.Interfaces;
+
 using Yupi.Protocol.Buffers;
 using System.Collections.Generic;
 

@@ -1,8 +1,8 @@
 ﻿using System;
 using Yupi.Protocol.Buffers;
 using System.Collections.Generic;
-using Yupi.Emulator.Game.Pets.Structs;
-using Yupi.Emulator.Game.Pets;
+
+
 
 namespace Yupi.Messages.Pets
 {

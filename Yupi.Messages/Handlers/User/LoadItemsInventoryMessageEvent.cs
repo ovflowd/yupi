@@ -1,7 +1,7 @@
 ﻿using System;
-using Yupi.Emulator.Game.Users.Inventory.Components;
+
 using Yupi.Messages.Items;
-using Yupi.Emulator.Messages.Enums;
+
 using Yupi.Messages.Notification;
 
 namespace Yupi.Messages.User

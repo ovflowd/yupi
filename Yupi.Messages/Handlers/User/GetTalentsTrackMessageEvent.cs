@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Yupi.Emulator.Game.Achievements.Structs;
+
 
 namespace Yupi.Messages.User
 {

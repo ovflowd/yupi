@@ -1,5 +1,5 @@
 ﻿using System;
-using Yupi.Emulator.Game.Items.Interfaces;
+
 
 namespace Yupi.Messages.Items
 {

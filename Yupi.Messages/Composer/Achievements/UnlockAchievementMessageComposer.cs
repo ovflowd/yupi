@@ -1,6 +1,6 @@
 ﻿using System;
 using Yupi.Protocol;
-using Yupi.Emulator.Game.Achievements.Structs;
+
 using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Achievements

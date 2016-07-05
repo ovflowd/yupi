@@ -1,7 +1,7 @@
 ﻿using System;
 using Yupi.Protocol.Buffers;
-using Yupi.Emulator.Game.GameClients.Interfaces;
-using Yupi.Emulator.Game.Rooms.Data.Models;
+
+
 using System.Linq;
 
 namespace Yupi.Messages.Support

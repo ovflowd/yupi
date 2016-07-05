@@ -1,6 +1,6 @@
 ﻿using System;
 using Yupi.Protocol.Buffers;
-using Yupi.Emulator.Game.Groups.Structs;
+
 
 namespace Yupi.Messages.Groups
 {

@@ -1,7 +1,7 @@
 ﻿using System;
-using Yupi.Emulator.Game.Items.Interfaces;
+
 using System.Collections.Generic;
-using Yupi.Emulator.Game.Users;
+
 using Yupi.Messages.Youtube;
 
 namespace Yupi.Messages.Items

@@ -1,6 +1,6 @@
 ﻿using System;
 using Yupi.Protocol.Buffers;
-using Yupi.Emulator.Game.Catalogs.Wrappers;
+
 
 namespace Yupi.Messages.Catalog
 {

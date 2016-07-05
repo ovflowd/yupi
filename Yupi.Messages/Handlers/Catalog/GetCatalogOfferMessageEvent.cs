@@ -1,5 +1,5 @@
 ﻿using System;
-using Yupi.Emulator.Game.Catalogs;
+
 
 namespace Yupi.Messages.Catalog
 {

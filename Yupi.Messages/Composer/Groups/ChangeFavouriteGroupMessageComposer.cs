@@ -1,7 +1,7 @@
 ﻿using System;
-using Yupi.Emulator.Game.Groups.Structs;
+
 using Yupi.Protocol.Buffers;
-using Yupi.Emulator.Game.Rooms.User;
+
 
 namespace Yupi.Messages.Groups
 {

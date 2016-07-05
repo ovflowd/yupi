@@ -1,5 +1,5 @@
 ﻿using System;
-using Yupi.Emulator.Game.Rooms.Competitions.Models;
+
 using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Rooms

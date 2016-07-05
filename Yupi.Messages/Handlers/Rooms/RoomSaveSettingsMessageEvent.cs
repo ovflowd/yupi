@@ -1,7 +1,7 @@
 ﻿using System;
-using Yupi.Emulator.Game.Rooms;
+
 using System.Collections.Generic;
-using Yupi.Emulator.Game.Browser.Models;
+
 
 namespace Yupi.Messages.Rooms
 {

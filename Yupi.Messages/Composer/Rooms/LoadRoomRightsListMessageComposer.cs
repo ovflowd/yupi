@@ -1,10 +1,10 @@
 ﻿using System;
-using Yupi.Emulator.Game.Rooms;
+
 using System.Data;
-using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+
 using Yupi.Protocol.Buffers;
 using System.Linq;
-using Yupi.Emulator.Game.Users;
+
 
 namespace Yupi.Messages.Rooms
 {

@@ -1,9 +1,9 @@
 ﻿using System;
-using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+
 using System.Data;
 using System.Collections.Generic;
 using System.Linq;
-using Yupi.Emulator.Game.Groups.Structs;
+
 
 namespace Yupi.Messages.Groups
 {

@@ -1,5 +1,5 @@
 ﻿using System;
-using Yupi.Emulator.Game.Users.Subscriptions;
+
 using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.User

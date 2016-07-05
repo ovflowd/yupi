@@ -1,6 +1,6 @@
 ﻿using System;
-using Yupi.Emulator.Game.Rooms.User;
-using Yupi.Emulator.Game.Pets.Enums;
+
+
 using System.Drawing;
 
 namespace Yupi.Messages.Pets

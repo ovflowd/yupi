@@ -1,13 +1,13 @@
 ﻿using System;
 using Yupi.Protocol.Buffers;
-using Yupi.Emulator.Game.Browser.Models;
+
 using System.Collections.Generic;
-using Yupi.Emulator.Game.Rooms.Data.Models;
-using Yupi.Emulator.Game.GameClients.Interfaces;
+
+
 using System.Linq;
-using Yupi.Emulator.Game.Groups.Structs;
+
 using System.Data;
-using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+
 
 namespace Yupi.Messages.Navigator
 {

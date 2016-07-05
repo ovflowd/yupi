@@ -1,8 +1,8 @@
 ﻿using System;
-using Yupi.Emulator.Game.Users;
+
 using System.Linq;
 using Yupi.Protocol.Buffers;
-using Yupi.Emulator.Game.Users.Relationships;
+
 
 namespace Yupi.Messages.User
 {

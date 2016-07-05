@@ -1,5 +1,5 @@
 ﻿using System;
-using Yupi.Emulator.Game.Rooms.Data.Models;
+
 using System.Collections.Generic;
 using Yupi.Protocol.Buffers;
 

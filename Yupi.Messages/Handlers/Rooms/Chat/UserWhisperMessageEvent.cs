@@ -1,11 +1,11 @@
 ﻿using System;
-using Yupi.Emulator.Game.Rooms;
-using Yupi.Emulator.Game.Rooms.User;
+
+
 using System.Linq;
 using System.Text.RegularExpressions;
-using Yupi.Emulator.Core.Security.BlackWords.Structs;
-using Yupi.Emulator.Core.Security.BlackWords;
-using Yupi.Emulator.Core.Security.BlackWords.Enums;
+
+
+
 using System.Collections.Generic;
 
 namespace Yupi.Messages.Chat

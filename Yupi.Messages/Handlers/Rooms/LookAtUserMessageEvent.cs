@@ -1,7 +1,7 @@
 ﻿using System;
-using Yupi.Emulator.Game.Rooms;
-using Yupi.Emulator.Game.Rooms.User;
-using Yupi.Emulator.Game.Pathfinding;
+
+
+
 
 namespace Yupi.Messages.Rooms
 {

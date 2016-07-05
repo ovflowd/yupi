@@ -1,9 +1,9 @@
 ﻿using System;
-using Yupi.Emulator.Game.GameClients.Interfaces;
+
 using System.Collections.Generic;
-using Yupi.Emulator.Game.Groups.Structs;
+
 using Yupi.Protocol.Buffers;
-using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+
 using System.Data;
 using System.Linq;
 

@@ -1,5 +1,5 @@
 ﻿using System;
-using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+
 
 namespace Yupi.Messages.Rooms
 {

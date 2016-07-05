@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Yupi.Emulator.Game.Groups.Structs;
-using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+
+
 using System.Data;
 using System.Linq;
 

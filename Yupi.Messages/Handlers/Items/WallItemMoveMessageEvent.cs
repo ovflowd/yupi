@@ -1,6 +1,6 @@
 ﻿using System;
-using Yupi.Emulator.Game.Items.Interfaces;
-using Yupi.Emulator.Game.Items;
+
+
 
 namespace Yupi.Messages.Items
 {

@@ -1,5 +1,5 @@
 ﻿using System;
-using Yupi.Emulator.Game.RoomBots;
+
 using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Bots

@@ -1,7 +1,7 @@
 ﻿using System;
-using Yupi.Emulator.Game.Rooms.User;
+
 using Yupi.Protocol.Buffers;
-using Yupi.Emulator.Core.Io.Logger;
+
 using System.Collections.Generic;
 
 namespace Yupi.Messages.Rooms

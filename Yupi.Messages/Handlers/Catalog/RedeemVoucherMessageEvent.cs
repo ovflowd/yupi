@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Data;
-using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+
 
 namespace Yupi.Messages.Catalog
 {

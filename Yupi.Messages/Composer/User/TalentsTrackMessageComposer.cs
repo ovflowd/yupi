@@ -1,8 +1,8 @@
 ﻿using System;
-using Yupi.Emulator.Game.GameClients.Interfaces;
+
 using System.Collections.Generic;
 using Yupi.Protocol.Buffers;
-using Yupi.Emulator.Game.Achievements.Structs;
+
 
 namespace Yupi.Messages.User
 {

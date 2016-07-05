@@ -1,8 +1,8 @@
 ﻿using System;
-using Yupi.Emulator.Game.Items.Interfaces;
+
 using Yupi.Protocol.Buffers;
 using System.Collections.Generic;
-using Yupi.Emulator.Game.Items.Interactions.Enums;
+
 
 namespace Yupi.Messages.Items
 { // TODO Refactor

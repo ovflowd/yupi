@@ -1,5 +1,5 @@
 ﻿using System;
-using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+
 using System.Data;
 using System.Collections.Generic;
 

@@ -1,10 +1,10 @@
 ﻿using System;
-using Yupi.Emulator.Game.Groups.Structs;
-using Yupi.Emulator.Game.GameClients.Interfaces;
+
+
 using System.Collections.Generic;
-using Yupi.Emulator.Game.Items.Interfaces;
-using Yupi.Emulator.Game.Rooms.Data.Models;
-using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+
+
+
 
 namespace Yupi.Messages.Groups
 {

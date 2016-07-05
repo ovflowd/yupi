@@ -1,10 +1,10 @@
 ﻿using System;
-using Yupi.Emulator.Game.Rooms.Data.Models;
-using Yupi.Emulator.Core.Io.Logger;
-using Yupi.Emulator.Game.Items.Interfaces;
+
+
+
 using Yupi.Messages.Items;
-using Yupi.Emulator.Game.Rooms.Competitions.Models;
-using Yupi.Emulator.Game.Polls;
+
+
 
 namespace Yupi.Messages.Rooms
 {

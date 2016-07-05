@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Yupi.Emulator.Game.Users.Messenger.Structs;
-using Yupi.Emulator.Game.Users.Messenger;
+
+
 
 namespace Yupi.Messages.Messenger
 {

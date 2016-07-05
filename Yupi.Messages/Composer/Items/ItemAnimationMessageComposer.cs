@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Drawing;
-using Yupi.Emulator.Game.Items.Interfaces;
+
 using Yupi.Protocol.Buffers;
-using Yupi.Emulator.Core.Io;
+
 
 namespace Yupi.Messages.Items
 {

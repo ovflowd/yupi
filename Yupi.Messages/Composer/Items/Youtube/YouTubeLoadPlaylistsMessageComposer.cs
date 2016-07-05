@@ -1,8 +1,8 @@
 ﻿using System;
 using Yupi.Protocol;
-using Yupi.Emulator.Game.Items.Interfaces;
+
 using System.Collections.Generic;
-using Yupi.Emulator.Game.Users;
+
 using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Youtube

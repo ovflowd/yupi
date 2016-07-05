@@ -1,5 +1,5 @@
 ﻿using System;
-using Yupi.Emulator.Game.Rooms;
+
 using System.Collections.Generic;
 
 namespace Yupi.Messages.Rooms

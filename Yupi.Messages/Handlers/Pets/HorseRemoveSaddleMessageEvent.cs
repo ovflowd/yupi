@@ -1,6 +1,6 @@
 ﻿using System;
-using Yupi.Emulator.Game.Rooms.User;
-using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+
+
 using Yupi.Messages.Rooms;
 
 namespace Yupi.Messages.Pets

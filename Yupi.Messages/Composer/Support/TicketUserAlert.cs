@@ -1,5 +1,5 @@
 ﻿using System;
-using Yupi.Emulator.Game.Support;
+
 using Yupi.Protocol.Buffers;
 using System.Diagnostics;
 using System.Globalization;

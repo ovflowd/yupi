@@ -1,5 +1,5 @@
 ﻿using System;
-using Yupi.Emulator.Game.Groups.Structs;
+
 
 namespace Yupi.Messages.Groups
 {

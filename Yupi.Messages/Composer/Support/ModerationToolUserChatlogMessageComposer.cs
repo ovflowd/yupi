@@ -1,9 +1,9 @@
 ﻿using System;
-using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+
 using System.Data;
 using Yupi.Protocol.Buffers;
-using Yupi.Emulator.Game.Users;
-using Yupi.Emulator.Game.Rooms.Data.Models;
+
+
 
 namespace Yupi.Messages.Support
 {

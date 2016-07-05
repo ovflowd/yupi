@@ -1,8 +1,8 @@
 ﻿using System;
-using Yupi.Emulator.Game.Rooms.User;
-using Yupi.Emulator.Game.Pets;
+
+
 using System.Drawing;
-using Yupi.Emulator.Game.GameClients.Interfaces;
+
 
 namespace Yupi.Messages.Pets
 {

@@ -1,8 +1,8 @@
 ﻿using System;
-using Yupi.Emulator.Game.Rooms;
-using Yupi.Emulator.Data.Base.Adapters.Interfaces;
-using Yupi.Emulator.Game.Browser.Models;
-using Yupi.Emulator.Game.Browser.Enums;
+
+
+
+
 using Yupi.Messages.Rooms;
 
 namespace Yupi.Messages.Navigator

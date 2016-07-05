@@ -1,7 +1,7 @@
 ﻿using System;
-using Yupi.Emulator.Game.Items.Interfaces;
-using Yupi.Emulator.Game.Items.Wired;
-using Yupi.Emulator.Game.GameClients.Interfaces;
+
+
+
 using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Items

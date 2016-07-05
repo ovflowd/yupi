@@ -1,11 +1,11 @@
 ﻿using System;
-using Yupi.Emulator.Game.Items.Interfaces;
-using Yupi.Emulator.Game.Items.Interactions.Enums;
+
+
 using System.Collections.Generic;
 using System.Drawing;
-using Yupi.Emulator.Game.Pets;
-using Yupi.Emulator.Game.Rooms.User;
-using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+
+
+
 
 namespace Yupi.Messages.Items
 {

@@ -1,6 +1,6 @@
 ﻿using System;
-using Yupi.Emulator.Data.Base.Adapters.Interfaces;
-using Yupi.Emulator.Game.Rooms;
+
+
 using Yupi.Messages.Notification;
 using Yupi.Messages.User;
 

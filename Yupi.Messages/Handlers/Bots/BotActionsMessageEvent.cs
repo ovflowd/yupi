@@ -1,11 +1,11 @@
 ﻿using System;
-using Yupi.Emulator.Game.Rooms;
-using Yupi.Emulator.Game.Rooms.User;
+
+
 using System.Linq;
-using Yupi.Emulator.Core.Io;
-using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+
+
 using System.Collections.Generic;
-using Yupi.Emulator.Core.Io.Logger;
+
 using Yupi.Messages.Rooms;
 using Yupi.Messages.Notification;
 

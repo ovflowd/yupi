@@ -1,6 +1,6 @@
 ﻿using System;
 using Yupi.Protocol.Buffers;
-using Yupi.Emulator.Game.Items.Interfaces;
+
 
 namespace Yupi.Messages.Youtube
 {

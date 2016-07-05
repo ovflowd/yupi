@@ -1,6 +1,6 @@
 ﻿using System;
 using Yupi.Protocol.Buffers;
-using Yupi.Emulator.Core.Settings;
+
 
 namespace Yupi.Messages.Other
 {
