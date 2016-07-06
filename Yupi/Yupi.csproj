@@ -229,7 +229,6 @@
     <Compile Include="Emulator\Core\Algorithms\Astar\PriorityQueue.cs" />
     <Compile Include="Emulator\Game\Browser\Models\NavigatorSubCategory.cs" />
     <Compile Include="Emulator\Game\Browser\Models\NavigatorCategory.cs" />
-    <Compile Include="Emulator\Game\Groups\Structs\GroupForum.cs" />
     <Compile Include="Emulator\Game\Pathfinding\Vectors\Coord.cs" />
     <Compile Include="Emulator\Game\Pets\PetTypeManager.cs" />
     <Compile Include="Emulator\Game\Pets\Structs\PetType.cs" />
@@ -288,14 +287,12 @@
     <Compile Include="Emulator\Game\Rooms\Items\Enums\ItemEffectType.cs" />
     <Compile Include="Emulator\Game\Rooms\Items\ItemTriggeredArgs.cs" />
     <Compile Include="Emulator\Game\Rooms\Room.cs" />
-    <Compile Include="Emulator\Game\Rooms\Data\Models\RoomData.cs" />
     <Compile Include="Emulator\Game\Rooms\Events\Models\RoomEvent.cs" />
     <Compile Include="Emulator\Game\Rooms\Events\RoomEventsManager.cs" />
     <Compile Include="Emulator\Game\Rooms\RoomInvokedItems\RoomAlert.cs" />
     <Compile Include="Emulator\Game\Rooms\RoomInvokedItems\RoomKick.cs" />
     <Compile Include="Emulator\Game\Rooms\Items\Handlers\RoomItemHandler.cs" />
     <Compile Include="Emulator\Game\Rooms\RoomManager.cs" />
-    <Compile Include="Emulator\Game\Rooms\RoomModel.cs" />
     <Compile Include="Emulator\Game\Rooms\User\RoomUser.cs" />
     <Compile Include="Emulator\Game\Rooms\Competitions\RoomCompetitionManager.cs" />
     <Compile Include="Emulator\Game\Rooms\User\RoomUserManager.cs" />
@@ -385,13 +382,7 @@
     <Compile Include="Emulator\Core\Settings\ServerConfigurationSettings.cs" />
     <Compile Include="Emulator\Core\Settings\ConsoleCommandHandler.cs" />
     <Compile Include="Emulator\Core\Settings\ServerExtraSettings.cs" />
-    <Compile Include="Emulator\Game\Achievements\Structs\Achievement.cs" />
-    <Compile Include="Emulator\Game\Achievements\Structs\AchievementLevel.cs" />
-    <Compile Include="Emulator\Game\Achievements\Factories\AchievementLevelFactory.cs" />
     <Compile Include="Emulator\Game\Achievements\AchievementManager.cs" />
-    <Compile Include="Emulator\Game\Achievements\Structs\Talent.cs" />
-    <Compile Include="Emulator\Game\Achievements\Structs\UserAchievement.cs" />
-    <Compile Include="Emulator\Game\Achievements\Structs\UserTalent.cs" />
     <Compile Include="Emulator\Game\Catalogs\CatalogManager.cs" />
     <Compile Include="Emulator\Game\Catalogs\Interfaces\CatalogItem.cs" />
     <Compile Include="Emulator\Game\Catalogs\Interfaces\CatalogPage.cs" />
@@ -402,15 +393,7 @@
     <Compile Include="Emulator\Game\HabboHotel.cs" />
     <Compile Include="Emulator\Game\GameClients\Interfaces\GameClient.cs" />
     <Compile Include="Emulator\Game\GameClients\GameClientManager.cs" />
-    <Compile Include="Emulator\Game\Groups\Structs\GroupBackGroundColours.cs" />
-    <Compile Include="Emulator\Game\Groups\Structs\GroupBaseColours.cs" />
-    <Compile Include="Emulator\Game\Groups\Structs\GroupBases.cs" />
-    <Compile Include="Emulator\Game\Groups\Structs\GroupForumPost.cs" />
     <Compile Include="Emulator\Game\Groups\GroupManager.cs" />
-    <Compile Include="Emulator\Game\Groups\Structs\GroupSymbolColours.cs" />
-    <Compile Include="Emulator\Game\Groups\Structs\GroupSymbols.cs" />
-    <Compile Include="Emulator\Game\Groups\Structs\GroupMember.cs" />
-    <Compile Include="Emulator\Game\Groups\Structs\Group.cs" />
     <Compile Include="Emulator\Game\Browser\Models\PublicCategory.cs" />
     <Compile Include="Emulator\Game\Browser\HotelLandingManager.cs" />
     <Compile Include="Emulator\Game\Browser\HotelBrowserManager.cs" />
@@ -456,18 +439,14 @@
     <Compile Include="Emulator\Game\Users\Factories\HabboFactory.cs" />
     <Compile Include="Emulator\Game\Users\Badges\Models\Badge.cs" />
     <Compile Include="Emulator\Game\Users\Badges\UserBadgeManager.cs" />
-    <Compile Include="Emulator\Game\Users\Habbo.cs" />
     <Compile Include="Emulator\Game\Users\Guides\GuideManager.cs" />
     <Compile Include="Emulator\Game\Users\Inventory\AvatarEffect.cs" />
     <Compile Include="Emulator\Game\Users\Inventory\Components\AvatarEffectComponent.cs" />
     <Compile Include="Emulator\Game\Users\Inventory\Components\InventoryComponent.cs" />
     <Compile Include="Emulator\Game\Users\Messenger\HabboMessenger.cs" />
     <Compile Include="Emulator\Game\Users\Messenger\Structs\MessengerBuddy.cs" />
-    <Compile Include="Emulator\Game\Users\Messenger\Structs\MessengerRequest.cs" />
-    <Compile Include="Emulator\Game\Users\Messenger\Structs\OfflineMessage.cs" />
     <Compile Include="Emulator\Game\Users\Messenger\Structs\SearchResult.cs" />
     <Compile Include="Emulator\Game\Users\Messenger\SearchResultFactory.cs" />
-    <Compile Include="Emulator\Game\Users\Relationships\Relationship.cs" />
     <Compile Include="Emulator\Game\Users\Subscriptions\Subscription.cs" />
     <Compile Include="Emulator\Game\Users\Subscriptions\SubscriptionManager.cs" />
     <Compile Include="Emulator\Game\Users\Data\Models\UserData.cs" />
@@ -554,9 +533,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Emulator\Game\Users\Inventory\Structs\" />
-    <Folder Include="Emulator\Game\Groups\Composers\" />
-    <Folder Include="Emulator\Game\Rooms\Competitions\Composers\" />
-    <Folder Include="Emulator\Game\Rooms\Data\Composers\" />
     <Folder Include="Emulator\Game\Rooms\Events\Composers\" />
     <Folder Include="Emulator\Game\Items\Interactions\" />
     <Folder Include="Emulator\Core\Io\" />

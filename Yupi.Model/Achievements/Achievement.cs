@@ -22,39 +22,28 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-namespace Yupi.Emulator.Game.Groups.Structs
+using System.Collections.Generic;
+
+namespace Yupi.Model.Achievements
 {
-    /// <summary>
-    ///     Struct GroupBases
-    /// </summary>
-     public struct GroupBases
-    {
-        /// <summary>
-        ///     The identifier
-        /// </summary>
-     public int Id;
+	/// <summary>
+	///     Class Achievement.
+	/// </summary>
+	public class Achievement
+	{
+		public virtual string Category { get; set; }
 
-        /// <summary>
-        ///     The value1
-        /// </summary>
-     public string Value1;
+		public virtual string GroupName { get; set; }
 
-        /// <summary>
-        ///     The value2
-        /// </summary>
-     public string Value2;
+		public virtual Dictionary<uint, AchievementLevel> Levels { get; protected set; }
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="GroupBases" /> struct.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <param name="value1">The value1.</param>
-        /// <param name="value2">The value2.</param>
-     public GroupBases(int id, string value1, string value2)
-        {
-            Id = id;
-            Value1 = value1;
-            Value2 = value2;
-        }
-    }
+		public Achievement ()
+		{
+			Levels = new Dictionary<uint, AchievementLevel> ();
+		}
+
+		public void AddLevel (AchievementLevel level) => Levels.Add(level.Level, level);
+
+		public bool CheckLevel (AchievementLevel level) => Levels.ContainsKey(level.Level);
+	}
 }

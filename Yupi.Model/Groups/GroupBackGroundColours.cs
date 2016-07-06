@@ -21,33 +21,13 @@
    Corporation Oy. Yupi! has nothing linked with Sulake. 
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
+using FluentNHibernate.Data;
 
-namespace Yupi.Emulator.Game.Groups.Structs
+namespace Yupi.Model.Groups
 {
-    /// <summary>
-    ///     Struct GroupSymbolColours
-    /// </summary>
-     public struct GroupSymbolColours
+    public class GroupBackGroundColours : Entity
     {
-        /// <summary>
-        ///     The identifier
-        /// </summary>
-     public int Id;
-
-        /// <summary>
-        ///     The colour
-        /// </summary>
-     public string Colour;
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="GroupSymbolColours" /> struct.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <param name="colour">The colour.</param>
-     public GroupSymbolColours(int id, string colour)
-        {
-            Id = id;
-            Colour = colour;
-        }
+		// TODO Isn't this class useless?
+		public virtual string Colour { get; set; }
     }
 }

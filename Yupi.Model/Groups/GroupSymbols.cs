@@ -22,19 +22,11 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-namespace Yupi.Emulator.Game.Groups.Structs
+namespace Yupi.Model.Groups
 {
-     public struct GroupSymbols
+    public class GroupSymbols
     {
-     public int Id;
-     public string Value1;
-     public string Value2;
-
-     public GroupSymbols(int id, string value1, string value2)
-        {
-            Id = id;
-            Value1 = value1;
-            Value2 = value2;
-        }
+		public virtual string Value1 { get; set; }
+		public virtual string Value2 { get; set; }
     }
 }

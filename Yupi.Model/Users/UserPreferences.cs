@@ -2,131 +2,64 @@ using System;
 using System.Data;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Data;
+using FluentNHibernate.Data;
 
-namespace Yupi.Emulator.Game.Users
+namespace Yupi.Model.Users
 {
-    /// <summary>
-    ///     Class UserPreferences.
-    /// </summary>
-     public class UserPreferences
+    public class UserPreferences : Entity
     {
-        /// <summary>
-        ///     User Id
-        /// </summary>
-        private readonly uint _userId;
+		// TODO This is a component to NHibernate.
 
         /// <summary>
         ///     User Chat Color
         /// </summary>
-     public int ChatColor;
+		public virtual int ChatColor { get; set; }
 
         /// <summary>
         ///     Disable Room Camera
         /// </summary>
-     public bool DisableCameraFollow;
+		public virtual bool DisableCameraFollow { get; set; }
 
         /// <summary>
         ///     Ignore Room Invitations
         /// </summary>
-     public bool IgnoreRoomInvite;
+		public virtual bool IgnoreRoomInvite { get; set; }
 
         /// <summary>
         ///     Navigator Height
         /// </summary>
-     public int NavigatorHeight = 600;
+		public virtual int NavigatorHeight  { get; set; }
 
         /// <summary>
         ///     Navigator Width
         /// </summary>
-     public int NavigatorWidth = 580;
+		public virtual int NavigatorWidth  { get; set; }
 
         /// <summary>
         ///     Navigator Position X
         /// </summary>
-     public int NewnaviX;
+		public virtual int NewnaviX { get; set; }
 
         /// <summary>
         ///     Navigator Position Y
         /// </summary>
-     public int NewnaviY;
+		public virtual int NewnaviY { get; set; }
 
         /// <summary>
         ///     User Prefers Old Chat
         /// </summary>
-     public bool PreferOldChat;
+		public virtual bool PreferOldChat { get; set; }
 
         /// <summary>
         ///     User Volume Settings
         /// </summary>
-     public string Volume = "0,0,0";
+		public virtual string Volume { get; set; }
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="UserPreferences" /> class.
-        /// </summary>
-        /// <param name="userId">The user identifier.</param>
-     public UserPreferences(uint userId)
+     	public UserPreferences()
         {
-            _userId = userId;
-
-            DataRow userPreferences;
-
-			using (IQueryAdapter queryReactor = DatabaseSingleton.DatabaseManager.GetQueryReactor())
-            {
-                queryReactor.RunFastQuery($"SELECT COUNT(*) FROM users_preferences WHERE user_id = {_userId}");
-
-                int existsPreference = queryReactor.GetInteger();
-
-                if (existsPreference == 0)
-                {
-                    queryReactor.RunFastQuery($"REPLACE INTO users_preferences (user_id, volume) VALUES ({_userId}, '100,100,100')");
-
-                    return;
-                }
-
-                queryReactor.RunFastQuery($"SELECT * FROM users_preferences WHERE user_id = {_userId}");
-
-                userPreferences = queryReactor.GetRow();
-
-                if (userPreferences == null)
-                    return;
-            }
-
-			PreferOldChat = bool.Parse((string)userPreferences["prefer_old_chat"]);
-
-			IgnoreRoomInvite = bool.Parse((string)userPreferences["ignore_room_invite"]);
-
-			DisableCameraFollow = bool.Parse((string)userPreferences["disable_camera_follow"]);
-
-            Volume = (string) userPreferences["volume"];
-
-            NewnaviX = Convert.ToInt32(userPreferences["newnavi_x"]);
-
-            NewnaviY = Convert.ToInt32(userPreferences["newnavi_y"]);
-
-            NavigatorWidth = Convert.ToInt32(userPreferences["newnavi_width"]);
-
-            NavigatorHeight = Convert.ToInt32(userPreferences["newnavi_height"]);
-
-            ChatColor = Convert.ToInt32(userPreferences["chat_color"]);
-        }
-
-     public void Save()
-        {
-			using (IQueryAdapter queryReactor = DatabaseSingleton.DatabaseManager.GetQueryReactor())
-            {
-                queryReactor.SetQuery("UPDATE users_preferences SET volume = @volume, prefer_old_chat = @prefer_old_chat, ignore_room_invite = @ignore_room_invite, newnavi_x = @newnavi_x, newnavi_y = @newnavi_y, newnavi_width = @newnavi_width, newnavi_height = @newnavi_height, disable_camera_follow = @disable_camera_follow, chat_color = @chat_color WHERE user_id = @userid");
-                queryReactor.AddParameter("userid", _userId);
-				queryReactor.AddParameter("prefer_old_chat", PreferOldChat);
-				queryReactor.AddParameter("ignore_room_invite", IgnoreRoomInvite);
-                queryReactor.AddParameter("volume", Volume);
-                queryReactor.AddParameter("newnavi_x", NewnaviX);
-                queryReactor.AddParameter("newnavi_y", NewnaviY);
-                queryReactor.AddParameter("newnavi_width", NavigatorWidth);
-                queryReactor.AddParameter("newnavi_height", NavigatorHeight);
-                queryReactor.AddParameter("disable_camera_follow", DisableCameraFollow);
-                queryReactor.AddParameter("chat_color", ChatColor);
-                queryReactor.RunQuery();
-            }
+			NavigatorHeight = 600;
+			NavigatorWidth = 580;
+			Volume = "100,100,100";
         }
     }
 }

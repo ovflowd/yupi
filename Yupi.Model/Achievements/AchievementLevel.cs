@@ -21,33 +21,18 @@
    Corporation Oy. Yupi! has nothing linked with Sulake. 
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
+using FluentNHibernate.Data;
 
-namespace Yupi.Emulator.Game.Achievements.Structs
+namespace Yupi.Model.Achievements
 {
-    /// <summary>
-    ///     Class UserTalent.
-    /// </summary>
-     public struct UserTalent
-    {
-        /// <summary>
-        ///     The talent identifier
-        /// </summary>
-     public int TalentId;
+	public class AchievementLevel : Entity
+	{
+		public virtual uint Level { get; set; }
 
-        /// <summary>
-        ///     The state
-        /// </summary>
-     public int State;
+		public virtual uint RewardPixels { get; set; }
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="UserTalent" /> class.
-        /// </summary>
-        /// <param name="talentId">The talent identifier.</param>
-        /// <param name="state">The state.</param>
-        public UserTalent(int talentId, int state)
-        {
-            TalentId = talentId;
-            State = state;
-        }
-    }
+		public virtual uint RewardPoints { get; set; }
+
+		public virtual uint Requirement { get; set; }
+	}
 }

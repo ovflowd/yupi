@@ -29,7 +29,7 @@ namespace Yupi.Emulator.Game.Browser.Models
     /// <summary>
     ///     Class Navigator Category.
     /// </summary>
-     public class NavigatorCategory
+    public class NavigatorCategory
     {
         /// <summary>
         ///     The caption

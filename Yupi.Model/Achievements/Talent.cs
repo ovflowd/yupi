@@ -21,33 +21,16 @@
    Corporation Oy. Yupi! has nothing linked with Sulake. 
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
+using FluentNHibernate.Data;
 
-namespace Yupi.Emulator.Game.Groups.Structs
+namespace Yupi.Model.Achievements
 {
-    /// <summary>
-    ///     Struct GroupBackGroundColours
-    /// </summary>
-     public struct GroupBackGroundColours
+    public class Talent : Entity
     {
-        /// <summary>
-        ///     The identifier
-        /// </summary>
-     public int Id;
-
-        /// <summary>
-        ///     The colour
-        /// </summary>
-     public string Colour;
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="GroupBackGroundColours" /> struct.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <param name="colour">The colour.</param>
-     public GroupBackGroundColours(int id, string colour)
-        {
-            Id = id;
-            Colour = colour;
-        }
+		public virtual string Type{ get; set; }
+		public virtual int Level{ get; set; }
+		public virtual Achievement Achievement{ get; set; }
+		public virtual string Prize{ get; set; }
+		public virtual uint PrizeBaseItem{ get; set; }
     }
 }
