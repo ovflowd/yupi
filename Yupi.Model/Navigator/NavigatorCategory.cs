@@ -25,26 +25,44 @@
 using System.Collections.Generic;
 using FluentNHibernate.Data;
 
-namespace Yupi.Model.Achievements
+namespace Yupi.Model.Navigator
 {
 	/// <summary>
-	///     Class Achievement.
+	///     Class Navigator Category.
 	/// </summary>
-	public class Achievement : Entity
+	public class NavigatorCategory : Entity
 	{
-		public virtual string Category { get; set; }
+		/// <summary>
+		///     The caption
+		/// </summary>
+		public string Caption;
 
-		public virtual string GroupName { get; set; }
+		/// <summary>
+		///     Default Opened State
+		/// </summary>
+		public bool IsOpened;
 
-		public virtual Dictionary<uint, AchievementLevel> Levels { get; protected set; }
+		/// <summary>
+		///     Default Item Size
+		/// </summary>
+		public bool IsImage;
 
-		public Achievement ()
+		/// <summary>
+		///     Sub Categories
+		/// </summary>
+		public List<NavigatorSubCategory> SubCategories;
+
+		/// <summary>
+		///     Initializes a new instance of the <see cref="NavigatorCategory" /> class.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		/// <param name="caption">The caption.</param>
+		/// <param name="isOpened"></param>
+		/// <param name="isImage"></param>
+		/// <param name="subCategories"></param>
+		public NavigatorCategory ()
 		{
-			Levels = new Dictionary<uint, AchievementLevel> ();
+			SubCategories = new List<NavigatorSubCategory> ();
 		}
-
-		public void AddLevel (AchievementLevel level) => Levels.Add(level.Level, level);
-
-		public bool CheckLevel (AchievementLevel level) => Levels.ContainsKey(level.Level);
 	}
 }

@@ -1,12 +1,13 @@
 using System;
 using System.Globalization;
+using FluentNHibernate.Data;
 
-namespace Yupi.Models.Rooms
+namespace Yupi.Model.Rooms
 {
 	/// <summary>
 	///     Class RoomModel.
 	/// </summary>
-	public class RoomModel
+	public class RoomModel : Entity
 	{
 		/// <summary>
 		///     The club only
@@ -21,7 +22,7 @@ namespace Yupi.Models.Rooms
 		/// <summary>
 		///     The door position
 		/// </summary>
-		public virtual Vector<int, int, double> Door { get; protected set; }
+		public virtual Vector Door { get; protected set; }
 
 		/// <summary>
 		///     The got public pool

@@ -1,32 +1,23 @@
 ﻿using System;
+using FluentNHibernate.Data;
 
-namespace Yupi.Models.Rooms
+namespace Yupi.Model.Rooms
 {
-	public class Vector<T> {
-		public T X = default(T);
+	public class Vector : Entity {
+		public virtual int X { get; set; }
+		public virtual int Y { get; set; }
+		public virtual double Z { get; set; } // TODO Why double?
 
-		public Vector(T X) {
-			this.X = X;
+		public Vector() {
+			this.X = 0;
+			this.Y = 0;
+			this.Z = 0;
 		}
-	}
 
-	public class Vector<T, U> : Vector<T> {
-		public U Y = default(U);
-
-		public Vector(T X, U Y) {
-			this.X = X;
-			this.Y = Y;
-		}
-	}
-
-	public class Vector<T, U, V> : Vector<T, U>
-	{
-		public V Z = default(V);
-
-		public Vector(T X, U Y, V Z) {
-			this.X = X;
-			this.Y = Y;
-			this.Z = Z;
+		public Vector(int x, int y, double z) {
+			this.X = x;
+			this.Y = y;
+			this.Z = z;
 		}
 	}
 }

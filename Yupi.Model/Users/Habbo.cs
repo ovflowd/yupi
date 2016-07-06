@@ -6,13 +6,12 @@ using System.Timers;
 using FluentNHibernate.Data;
 using Yupi.Model.Achievements;
 using Yupi.Model.Groups;
+using Yupi.Model.Rooms;
 
 namespace Yupi.Model.Users
 {
 	public class Habbo : Entity
 	{
-		public uint Id;
-
 		public bool AppearOffline;
 		public int BobbaFiltered;
 
@@ -26,8 +25,7 @@ namespace Yupi.Model.Users
 		public uint AchievementPoints;
 		public uint Duckets;
 
-		// TODO Foreign key
-		public List<uint> FavoriteRooms;
+		public List<RoomData> FavoriteRooms;
 		public uint FavouriteGroup;
 		public uint HomeRoom;
 
@@ -39,16 +37,15 @@ namespace Yupi.Model.Users
 		public bool Muted;
 
 		// TODO Rename
-		public List<uint> MutedUsers;
-
+		public List<Habbo> MutedUsers;
 
 		public UserPreferences Preferences;
 
 		public uint Rank;
 
-		public HashSet<uint> RatedRooms;
+		public HashSet<RoomData> RatedRooms;
 
-		public IList<uint> RecentlyVisitedRooms;
+		public IList<RoomData> RecentlyVisitedRooms;
 
 
 		public IList<Relationship> Relationships;
@@ -86,7 +83,7 @@ namespace Yupi.Model.Users
                                      (ServerExtraSettings.ChangeNameEveryone);*/
 			return false; // TODO Reimplement
 		}
-
+		/*
 		public bool IsHelper ()
 		{
 			return TalentStatus == "helper" || Rank >= 4;
@@ -95,7 +92,7 @@ namespace Yupi.Model.Users
 		public bool IsCitizen ()
 		{
 			return CurrentTalentLevel > 4;
-		}
+		}*/
 
 		/*
 		public bool GotCommand(string cmd)

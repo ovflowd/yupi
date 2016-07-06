@@ -21,30 +21,25 @@
    Corporation Oy. Yupi! has nothing linked with Sulake. 
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
-
-using System.Collections.Generic;
 using FluentNHibernate.Data;
 
-namespace Yupi.Model.Achievements
+namespace Yupi.Model.Navigator
 {
 	/// <summary>
-	///     Class Achievement.
+	///     Class Navigator Category.
 	/// </summary>
-	public class Achievement : Entity
+	public class NavigatorSubCategory : Entity
 	{
-		public virtual string Category { get; set; }
+		/// <summary>
+		///     The caption
+		/// </summary>
+		public virtual string Caption { get; set; }
 
-		public virtual string GroupName { get; set; }
+		/// <summary>
+		///     Default Opened State
+		/// </summary>
+		public virtual bool IsOpened { get; set; } // TODO Should this be called IsEnabled?
 
-		public virtual Dictionary<uint, AchievementLevel> Levels { get; protected set; }
-
-		public Achievement ()
-		{
-			Levels = new Dictionary<uint, AchievementLevel> ();
-		}
-
-		public void AddLevel (AchievementLevel level) => Levels.Add(level.Level, level);
-
-		public bool CheckLevel (AchievementLevel level) => Levels.ContainsKey(level.Level);
+		public virtual bool IsImage { get; set; }
 	}
 }

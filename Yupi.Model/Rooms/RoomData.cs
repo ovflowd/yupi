@@ -26,14 +26,14 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
-using Yupi.Emulator.Core.Io.Logger;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Model.Groups;
 using FluentNHibernate.Data;
 using Yupi.Model.Users;
+using Yupi.Model.Navigator;
 
 
-namespace Yupi.Models.Rooms
+namespace Yupi.Model.Rooms
 {
 	public enum RoomState
 	{
@@ -231,8 +231,6 @@ namespace Yupi.Models.Rooms
 			Name = "Unknown Room";
 			Description = "-";
 			Type = "private";
-			Owner = "-";
-			Category = 0;
 			UsersNow = 0;
 			UsersMax = 0;
 			Score = 0;
@@ -250,7 +248,6 @@ namespace Yupi.Models.Rooms
 			Group = null;
 			AllowRightsOverride = false;
 			Event = null;
-			GameId = 0;
 			WhoCanBan = 0;
 			WhoCanKick = 0;
 			WhoCanMute = 0;
@@ -261,6 +258,7 @@ namespace Yupi.Models.Rooms
 			CompetitionStatus = 0;
 		}
 			
+		// TODO Remove when not used anymore
 		/*
         /// <summary>
         ///     Serializes the specified messageBuffer.

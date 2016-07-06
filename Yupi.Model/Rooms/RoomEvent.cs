@@ -21,30 +21,48 @@
    Corporation Oy. Yupi! has nothing linked with Sulake. 
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
-
-using System.Collections.Generic;
+using System;
 using FluentNHibernate.Data;
 
-namespace Yupi.Model.Achievements
+namespace Yupi.Model.Rooms
 {
 	/// <summary>
-	///     Class Achievement.
+	///     Class RoomEvent.
 	/// </summary>
-	public class Achievement : Entity
+	public class RoomEvent : Entity
 	{
-		public virtual string Category { get; set; }
+		/// <summary>
+		///     The category
+		/// </summary>
+		public virtual int Category { get; set; }
+		// TODO What is the category? Foreing key!
+		/// <summary>
+		///     The description
+		/// </summary>
+		public virtual string Description { get; set; }
 
-		public virtual string GroupName { get; set; }
+		/// <summary>
+		///     The name
+		/// </summary>
+		public virtual string Name { get; set; }
 
-		public virtual Dictionary<uint, AchievementLevel> Levels { get; protected set; }
+		/// <summary>
+		///     The time
+		/// </summary>
+		public virtual DateTime ExpiresAt { get; set; }
 
-		public Achievement ()
+		public RoomEvent ()
 		{
-			Levels = new Dictionary<uint, AchievementLevel> ();
+			ExpiresAt = new DateTime ().AddHours (2);
 		}
 
-		public void AddLevel (AchievementLevel level) => Levels.Add(level.Level, level);
-
-		public bool CheckLevel (AchievementLevel level) => Levels.ContainsKey(level.Level);
+		/// <summary>
+		///     Gets a value indicating whether this instance has expired.
+		/// </summary>
+		/// <value><c>true</c> if this instance has expired; otherwise, <c>false</c>.</value>
+		public bool HasExpired ()
+		{
+			return ExpiresAt < DateTime.Now;
+		}
 	}
 }

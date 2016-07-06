@@ -4,7 +4,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{8B402ADE-66C4-4D92-9DA6-162860FC225E}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>Yupi.Model</RootNamespace>
     <AssemblyName>Yupi.Model</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
@@ -64,6 +64,10 @@
     <Compile Include="Rooms\RoomModel.cs" />
     <Compile Include="Rooms\Vector.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="Rooms\RoomEvent.cs" />
+    <Compile Include="Navigator\NavigatorCategory.cs" />
+    <Compile Include="Navigator\NavigatorSubCategory.cs" />
+    <Compile Include="Test.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -72,6 +76,7 @@
     <Folder Include="Achievements\" />
     <Folder Include="Groups\" />
     <Folder Include="Rooms\" />
+    <Folder Include="Navigator\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Yupi.Data\Yupi.Data.csproj">
