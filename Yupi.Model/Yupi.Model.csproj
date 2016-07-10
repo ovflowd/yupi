@@ -75,7 +75,6 @@
     <Compile Include="Domain\Users\Components\UserPreferences.cs" />
     <Compile Include="OneToManyAttribute.cs" />
     <Compile Include="ManyToManyAttribute.cs" />
-    <Compile Include="Domain\Rooms\RoomTag.cs" />
     <Compile Include="Conventions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

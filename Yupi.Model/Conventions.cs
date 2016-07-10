@@ -21,7 +21,7 @@ namespace Yupi.Model
 			var keyColumnAttribute = (ManyToManyAttribute)Attribute.GetCustomAttribute(instance.Member, typeof(ManyToManyAttribute));
 			if (keyColumnAttribute != null)
 			{ 
-				instance.Key.Column(instance.EntityType.Name + "Ref");
+				instance.Key.Column(instance.EntityType.Name + "ManyRef");
 			}
 		}
 	}

@@ -28,7 +28,7 @@ namespace Yupi.Model.Domain.Users
 		public virtual uint Duckets { get; set; }
 
 		[ManyToMany]
-		public virtual List<RoomData> FavoriteRooms { get; set; }
+		public virtual IList<RoomData> FavoriteRooms { get; set; }
 		public virtual uint FavouriteGroup { get; set; }
 		public virtual uint HomeRoom { get; set; }
 
@@ -47,7 +47,10 @@ namespace Yupi.Model.Domain.Users
 
 		public virtual uint Rank { get; set; }
 
+		[ManyToMany]
 		public virtual HashSet<RoomData> RatedRooms { get; set; }
+
+		[ManyToMany]
 		public virtual IList<RoomData> RecentlyVisitedRooms { get; set; }
 
 		[OneToMany]

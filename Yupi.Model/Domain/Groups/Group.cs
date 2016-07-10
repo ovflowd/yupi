@@ -51,10 +51,13 @@ namespace Yupi.Model.Domain.Groups
 
 		public virtual GroupForum Forum { get; set; }
 
+		[ManyToMany]
 		public virtual IList<Habbo> Admins { get; protected set; }
 
+		[ManyToMany]
 		public virtual IList<Habbo> Members { get; protected set; }
 
+		[ManyToMany]
 		public virtual IList<Habbo> Requests { get; protected set; }
 
 		public virtual uint RoomId { get; set; }

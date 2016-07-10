@@ -222,6 +222,7 @@ namespace Yupi.Model.Domain.Rooms
 		/// <summary>
 		///     Room Private Black Words
 		/// </summary>
+		[OneToMany]
 		public virtual IList<string> WordFilter { get; set; }
 
 		/// <summary>

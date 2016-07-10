@@ -51,6 +51,7 @@ namespace Yupi.Model.Domain.Navigator
 		/// <summary>
 		///     Sub Categories
 		/// </summary>
+		[OneToMany]
 		public virtual List<NavigatorSubCategory> SubCategories { get; set; }
 
 		/// <summary>
