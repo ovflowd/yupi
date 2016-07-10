@@ -2,7 +2,7 @@
 
 namespace Yupi.Model
 {
-	public class ManyToManyAttribute : Attribute
+	public sealed class ManyToManyAttribute : Attribute
 	{
 		public ManyToManyAttribute ()
 		{

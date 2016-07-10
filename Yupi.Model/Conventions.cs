@@ -9,6 +9,10 @@ namespace Yupi.Model
 		// Taken from http://stackoverflow.com/questions/6091654/fluentnhibernate-automapping-onetomany-relation-using-attribute-and-convention
 		public void Apply(IOneToManyCollectionInstance instance)
 		{
+			if (instance == null) {
+				return;
+			}
+
 			var keyColumnAttribute = (OneToManyAttribute)Attribute.GetCustomAttribute(instance.Member, typeof(OneToManyAttribute));
 			if (keyColumnAttribute != null)
 			{ 
@@ -18,6 +22,10 @@ namespace Yupi.Model
 
 		public void Apply(IManyToManyCollectionInstance instance)
 		{
+			if (instance == null) {
+				return;
+			}
+
 			var keyColumnAttribute = (ManyToManyAttribute)Attribute.GetCustomAttribute(instance.Member, typeof(ManyToManyAttribute));
 			if (keyColumnAttribute != null)
 			{ 

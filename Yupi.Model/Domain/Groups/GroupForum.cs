@@ -23,11 +23,11 @@
 */
 using System.Collections.Generic;
 
-namespace Yupi.Model.Domain.Groups
+namespace Yupi.Model.Domain
 {
 	public class GroupForum
 	{
-		public virtual int Id { get; set; }
+		public virtual int Id { get; protected set; }
 
 		public virtual string ForumDescription { get; set; }
 

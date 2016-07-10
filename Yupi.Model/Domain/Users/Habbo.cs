@@ -3,16 +3,13 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Timers;
-using Yupi.Model.Domain.Achievements;
-using Yupi.Model.Domain.Groups;
-using Yupi.Model.Domain.Rooms;
-using Yupi.Model.Domain.Users.Components;
+using Yupi.Model.Domain.Components;
 
-namespace Yupi.Model.Domain.Users
+namespace Yupi.Model.Domain
 {
 	public class Habbo
 	{
-		public virtual int Id { get; set; }
+		public virtual int Id { get; protected set; }
 
 		public virtual bool AppearOffline { get; set; }
 		public virtual int BobbaFiltered { get; set; }
@@ -28,7 +25,7 @@ namespace Yupi.Model.Domain.Users
 		public virtual uint Duckets { get; set; }
 
 		[ManyToMany]
-		public virtual IList<RoomData> FavoriteRooms { get; set; }
+		public virtual IList<RoomData> FavoriteRooms { get; protected set; }
 		public virtual uint FavouriteGroup { get; set; }
 		public virtual uint HomeRoom { get; set; }
 
@@ -41,20 +38,20 @@ namespace Yupi.Model.Domain.Users
 
 		// TODO Rename
 		[ManyToMany]
-		public virtual IList<Habbo> MutedUsers { get; set; }
+		public virtual IList<Habbo> MutedUsers { get; protected set; }
 
 		public virtual UserPreferences Preferences { get; set; }
 
 		public virtual uint Rank { get; set; }
 
 		[ManyToMany]
-		public virtual HashSet<RoomData> RatedRooms { get; set; }
+		public virtual HashSet<RoomData> RatedRooms { get; protected set; }
 
 		[ManyToMany]
-		public virtual IList<RoomData> RecentlyVisitedRooms { get; set; }
+		public virtual IList<RoomData> RecentlyVisitedRooms { get; protected set; }
 
 		[OneToMany]
-		public virtual IList<Relationship> Relationships { get; set; }
+		public virtual IList<Relationship> Relationships { get; protected set; }
 
 		public virtual string ReleaseName { get; set; }
 
@@ -69,13 +66,13 @@ namespace Yupi.Model.Domain.Users
 		public virtual bool SpectatorMode { get; set; }
 
 		[OneToMany]
-		public virtual IList<string> Tags { get; set; }
+		public virtual IList<string> Tags { get; protected set; }
 
 		[OneToMany]
-		public virtual IList<UserTalent> Talents { get; set; }
+		public virtual IList<UserTalent> Talents { get; protected set; }
 
 		[ManyToMany]
-		public virtual IList<Group> UserGroups { get; set; }
+		public virtual IList<Group> UserGroups { get; protected set; }
 
 		public virtual string UserName { get; set; }
 		public virtual string Motto { get; set; }
@@ -83,7 +80,7 @@ namespace Yupi.Model.Domain.Users
 		public virtual string Gender { get; set; }
 
 		[OneToMany]
-		public virtual IList<RoomData> UsersRooms { get; set; }
+		public virtual IList<RoomData> UsersRooms { get; protected set; }
 
 		public virtual bool IsVip { get; set; }
 

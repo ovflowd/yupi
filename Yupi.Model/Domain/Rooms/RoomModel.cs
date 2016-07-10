@@ -1,15 +1,15 @@
 using System;
 using System.Globalization;
-using Yupi.Model.Domain.Rooms.Components;
+using Yupi.Model.Domain.Components;
 
-namespace Yupi.Model.Domain.Rooms
+namespace Yupi.Model.Domain
 {
 	/// <summary>
 	///     Class RoomModel.
 	/// </summary>
 	public class RoomModel
 	{
-		public virtual int Id { get; set; }
+		public virtual int Id { get; protected set; }
 
 		/// <summary>
 		///     The club only

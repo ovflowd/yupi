@@ -48,7 +48,6 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Test.cs" />
-    <Compile Include="Configuration.cs" />
     <Compile Include="Domain\Achievements\Achievement.cs" />
     <Compile Include="Domain\Achievements\AchievementLevel.cs" />
     <Compile Include="Domain\Achievements\Talent.cs" />
@@ -76,6 +75,7 @@
     <Compile Include="OneToManyAttribute.cs" />
     <Compile Include="ManyToManyAttribute.cs" />
     <Compile Include="Conventions.cs" />
+    <Compile Include="ORMConfiguration.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

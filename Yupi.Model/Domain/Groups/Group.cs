@@ -26,14 +26,13 @@ using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
-using Yupi.Model.Domain.Users;
 
 
-namespace Yupi.Model.Domain.Groups
+namespace Yupi.Model.Domain
 {
 	public class Group
 	{
-		public virtual int Id { get; set; }
+		public virtual int Id { get; protected set; }
 
 		public virtual uint AdminOnlyDeco { get; set; }
 

@@ -3,7 +3,7 @@ using System.Data;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Data;
 
-namespace Yupi.Model.Domain.Users.Components
+namespace Yupi.Model.Domain.Components
 {
     public class UserPreferences
     {

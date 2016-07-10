@@ -22,11 +22,11 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-namespace Yupi.Model.Domain.Groups
+namespace Yupi.Model.Domain
 {
 	public class GroupSymbolColours
 	{
-		public virtual int Id { get; set; }
+		public virtual int Id { get; protected set; }
 		// TODO Isn't this class useless?
 		public virtual string Colour { get; set; }
 	}

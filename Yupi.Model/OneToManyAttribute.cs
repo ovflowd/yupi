@@ -2,7 +2,7 @@
 
 namespace Yupi.Model
 {
-	public class OneToManyAttribute : Attribute
+	public sealed class OneToManyAttribute : Attribute
 	{
 		public OneToManyAttribute()
 		{

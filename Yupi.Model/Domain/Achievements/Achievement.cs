@@ -23,14 +23,14 @@
 */
 
 using System.Collections.Generic;
-namespace Yupi.Model.Domain.Achievements
+namespace Yupi.Model.Domain
 {
 	/// <summary>
 	///     Class Achievement.
 	/// </summary>
 	public class Achievement
 	{
-		public virtual int Id { get; set; }
+		public virtual int Id { get; protected set; }
 		
 		public virtual string Category { get; set; }
 

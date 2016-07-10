@@ -23,14 +23,13 @@
 */
 
 using System.Data;
-using Yupi.Model.Domain.Users;
 using System;
 
-namespace Yupi.Model.Domain.Groups
+namespace Yupi.Model.Domain
 {
 	public class GroupForumPost
 	{
-		public virtual int Id { get; set; }
+		public virtual int Id { get; protected set; }
 
 		public virtual bool Hidden { get; set; }
 

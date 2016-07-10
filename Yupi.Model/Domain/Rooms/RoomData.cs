@@ -27,12 +27,9 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
-using Yupi.Model.Domain.Groups;
-using Yupi.Model.Domain.Users;
-using Yupi.Model.Domain.Navigator;
 
 
-namespace Yupi.Model.Domain.Rooms
+namespace Yupi.Model.Domain
 {
 	public enum RoomState
 	{
@@ -43,7 +40,7 @@ namespace Yupi.Model.Domain.Rooms
 
 	public class RoomData
 	{
-		public virtual int Id { get; set; }
+		public virtual int Id { get; protected set; }
 
 		public virtual RoomModel Model { get; set; }
 
@@ -167,7 +164,7 @@ namespace Yupi.Model.Domain.Rooms
 		///     Room Tags
 		/// </summary>
 		[OneToMany]
-		public virtual IList<string> Tags { get; set; }
+		public virtual IList<string> Tags { get; protected set; }
 
 		/// <summary>
 		///     Room Trade State
@@ -223,7 +220,7 @@ namespace Yupi.Model.Domain.Rooms
 		///     Room Private Black Words
 		/// </summary>
 		[OneToMany]
-		public virtual IList<string> WordFilter { get; set; }
+		public virtual IList<string> WordFilter { get; protected set; }
 
 		/// <summary>
 		///     Fills the null.

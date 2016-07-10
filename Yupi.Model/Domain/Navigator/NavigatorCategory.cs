@@ -24,14 +24,14 @@
 
 using System.Collections.Generic;
 
-namespace Yupi.Model.Domain.Navigator
+namespace Yupi.Model.Domain
 {
 	/// <summary>
 	///     Class Navigator Category.
 	/// </summary>
 	public class NavigatorCategory
 	{
-		public virtual int Id { get; set; }
+		public virtual int Id { get; protected set; }
 
 		/// <summary>
 		///     The caption
@@ -52,7 +52,7 @@ namespace Yupi.Model.Domain.Navigator
 		///     Sub Categories
 		/// </summary>
 		[OneToMany]
-		public virtual List<NavigatorSubCategory> SubCategories { get; set; }
+		public virtual IList<NavigatorSubCategory> SubCategories { get; protected set; }
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="NavigatorCategory" /> class.

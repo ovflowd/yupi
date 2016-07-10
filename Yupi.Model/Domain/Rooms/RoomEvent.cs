@@ -23,14 +23,14 @@
 */
 using System;
 
-namespace Yupi.Model.Domain.Rooms
+namespace Yupi.Model.Domain
 {
 	/// <summary>
 	///     Class RoomEvent.
 	/// </summary>
 	public class RoomEvent
 	{
-		public virtual int Id { get; set; }
+		public virtual int Id { get; protected set; }
 
 		/// <summary>
 		///     The category

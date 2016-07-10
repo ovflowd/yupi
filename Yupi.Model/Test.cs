@@ -9,26 +9,29 @@ using NHibernate.Cfg;
 
 namespace Yupi.Model
 {
-	public class Test
+	public static class Test
 	{
-		private static readonly string DbFile = "test.db";
+		private const string DbFile = "test.db";
 
-		public static void Main(string[] args) {
+		internal static void Main() {
 			var cfg = new ORMConfiguration();
 
-			ISessionFactory sessionFactory = Fluently.Configure()
-				.Database(SQLiteConfiguration.Standard
-					.UsingFile(DbFile))
-				.Mappings(m =>
-					m.AutoMappings
-					.Add(AutoMap.AssemblyOf<Test>(cfg)
-						.Conventions.Add<Conventions>()
-					)
-				)
-				.ExposeConfiguration(BuildSchema)
-				.BuildSessionFactory();
 
-			Console.ReadLine ();
+			using (ISessionFactory sessionFactory = Fluently.Configure ()
+				.Database (SQLiteConfiguration.Standard
+					.UsingFile (DbFile))
+				.Mappings (m =>
+					m.AutoMappings
+					.Add (AutoMap.AssemblyOf<ORMConfiguration> (cfg)
+						.Conventions.Add<Conventions> ()
+			                                       )
+			                                       )
+				.ExposeConfiguration (BuildSchema)
+				.BuildSessionFactory ()) {
+
+				Console.ReadLine ();
+			}
+
 		}
 
 		private static void BuildSchema(Configuration config)

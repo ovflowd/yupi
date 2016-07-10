@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Yupi.Model.Domain.Rooms.Components
+namespace Yupi.Model.Domain.Components
 {
 	public class Vector {
 		public virtual int X { get; set; }

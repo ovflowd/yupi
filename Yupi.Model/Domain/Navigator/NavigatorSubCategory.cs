@@ -22,14 +22,14 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-namespace Yupi.Model.Domain.Navigator
+namespace Yupi.Model.Domain
 {
 	/// <summary>
 	///     Class Navigator Category.
 	/// </summary>
 	public class NavigatorSubCategory
 	{
-		public virtual int Id { get; set; }
+		public virtual int Id { get; protected set; }
 
 		/// <summary>
 		///     The caption

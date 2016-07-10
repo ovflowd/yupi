@@ -22,11 +22,11 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-namespace Yupi.Model.Domain.Achievements
+namespace Yupi.Model.Domain
 {
     public class Talent
     {
-		public virtual int Id { get; set; }
+		public virtual int Id { get; protected set; }
 		public virtual string Type{ get; set; }
 		public virtual int Level{ get; set; }
 		public virtual Achievement Achievement{ get; set; }
