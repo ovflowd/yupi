@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Yupi.Model.Domain.Songmachine
+namespace Yupi.Model.Domain
 {
     /// <summary>
     ///     Class RoomMusicController.

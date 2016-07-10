@@ -1,4 +1,4 @@
-namespace Yupi.Model.Domain.Songmachine
+namespace Yupi.Model.Domain
 {
     /// <summary>
     ///     Class SongData.

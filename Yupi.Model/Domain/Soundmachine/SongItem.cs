@@ -1,6 +1,6 @@
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 
-namespace Yupi.Model.Domain.Songmachine
+namespace Yupi.Model.Domain
 {  // TODO Use inheritance ?
 	/// <summary>
 	///     Class SongItem.

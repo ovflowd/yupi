@@ -17,6 +17,12 @@ namespace Yupi.Model
 		{
 			return type != null && type.Namespace.EndsWith ("Components");
 		}
+
+		public override bool IsDiscriminated (Type type)
+		{
+			var attribute = Attribute.GetCustomAttribute (type, typeof(IsDiscriminatedAttribute));
+			return attribute != null;
+		}
 	}
 }
 

@@ -16,10 +16,17 @@ namespace Yupi.Model
 		internal static void Main() {
 			var cfg = new ORMConfiguration();
 
+			IPersistenceConfigurer db;
+			if (IsRunningOnMono ()) {
+				db = MonoSQLiteConfiguration.Standard
+					.UsingFile (DbFile);
+			} else {
+				db = SQLiteConfiguration.Standard
+				.UsingFile (DbFile);
+			}
 
 			using (ISessionFactory sessionFactory = Fluently.Configure ()
-				.Database (SQLiteConfiguration.Standard
-					.UsingFile (DbFile))
+				.Database (db)
 				.Mappings (m =>
 					m.AutoMappings
 					.Add (AutoMap.AssemblyOf<ORMConfiguration> (cfg)
@@ -32,6 +39,11 @@ namespace Yupi.Model
 				Console.ReadLine ();
 			}
 
+		}
+
+		public static bool IsRunningOnMono ()
+		{
+			return Type.GetType ("Mono.Runtime") != null;
 		}
 
 		private static void BuildSchema(Configuration config)

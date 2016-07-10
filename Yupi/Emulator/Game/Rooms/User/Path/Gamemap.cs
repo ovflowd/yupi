@@ -95,6 +95,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Path
         ///     Gets the effect map.
         /// </summary>
         /// <value>The effect map.</value>
+		// TODO This should be of type ItemEffectType[,]
      public byte[,] EffectMap { get; private set; }
 
         /// <summary>

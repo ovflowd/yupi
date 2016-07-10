@@ -241,7 +241,6 @@
     <Compile Include="Emulator\Game\Items\Datas\HighscoreData.cs" />
     <Compile Include="Emulator\Game\Items\Interfaces\HighScoreLine.cs" />
     <Compile Include="Emulator\Game\Items\Handlers\HopperHandler.cs" />
-    <Compile Include="Emulator\Game\Items\Interfaces\Item.cs" />
     <Compile Include="Emulator\Game\Items\ItemManager.cs" />
     <Compile Include="Emulator\Game\Items\Datas\MoodlightData.cs" />
     <Compile Include="Emulator\Game\Items\Interfaces\MoodlightPreset.cs" />
@@ -486,7 +485,6 @@
     <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorWalkInternalLink.cs" />
     <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorWired.cs" />
     <Compile Include="Emulator\Game\Items\Interactions\Enums\GlobalInteraction.cs" />
-    <Compile Include="Emulator\Game\Items\Interactions\Enums\Interaction.cs" />
     <Compile Include="Emulator\Game\Items\Interactions\InteractionFactory.cs" />
     <Compile Include="Emulator\Game\Items\Interactions\InteractionTypes.cs" />
     <Compile Include="Emulator\Game\Items\Interactions\Interfaces\IFurniInteractor.cs" />
