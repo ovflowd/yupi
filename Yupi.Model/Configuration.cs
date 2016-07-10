@@ -1,6 +1,6 @@
 ﻿using System;
 using FluentNHibernate.Automapping;
-using Yupi.Model.Rooms;
+using Yupi.Model.Domain.Rooms;
 using FluentNHibernate.Utils;
 using FluentNHibernate.Data;
 
@@ -10,12 +10,13 @@ namespace Yupi.Model
 	{
 		public override bool ShouldMap(Type type)
 		{
-			return typeof(Entity).IsAssignableFrom(type);
+			return type.Namespace.StartsWith ("Yupi.Model.Domain") 
+				&& !type.IsEnum; // Don't map enums. These will be mapped automatically where required.
 		}
 
 		public override bool IsComponent (Type type)
 		{
-			return type == typeof(Vector);
+			return type.Namespace.EndsWith ("Components");
 		}
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Users;
 
 
 namespace Yupi.Messages.User

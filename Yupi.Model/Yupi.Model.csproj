@@ -29,7 +29,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
+    <Reference Include="System.Data">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Transactions" />
     <Reference Include="Iesi.Collections">
       <HintPath>..\packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
     </Reference>
@@ -42,41 +47,48 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Users\UserPreferences.cs" />
-    <Compile Include="Users\Habbo.cs" />
-    <Compile Include="Users\Relationship.cs" />
-    <Compile Include="Messenger\MessengerRequest.cs" />
-    <Compile Include="Messenger\Message.cs" />
-    <Compile Include="Achievements\Talent.cs" />
-    <Compile Include="Achievements\UserTalent.cs" />
-    <Compile Include="Achievements\Achievement.cs" />
-    <Compile Include="Achievements\AchievementLevel.cs" />
-    <Compile Include="Achievements\UserAchievement.cs" />
-    <Compile Include="Groups\Group.cs" />
-    <Compile Include="Groups\GroupBackGroundColours.cs" />
-    <Compile Include="Groups\GroupBaseColours.cs" />
-    <Compile Include="Groups\GroupBases.cs" />
-    <Compile Include="Groups\GroupForum.cs" />
-    <Compile Include="Groups\GroupForumPost.cs" />
-    <Compile Include="Groups\GroupSymbolColours.cs" />
-    <Compile Include="Groups\GroupSymbols.cs" />
-    <Compile Include="Rooms\RoomData.cs" />
-    <Compile Include="Rooms\RoomModel.cs" />
-    <Compile Include="Rooms\Vector.cs" />
-    <Compile Include="Configuration.cs" />
-    <Compile Include="Rooms\RoomEvent.cs" />
-    <Compile Include="Navigator\NavigatorCategory.cs" />
-    <Compile Include="Navigator\NavigatorSubCategory.cs" />
     <Compile Include="Test.cs" />
+    <Compile Include="Configuration.cs" />
+    <Compile Include="Domain\Achievements\Achievement.cs" />
+    <Compile Include="Domain\Achievements\AchievementLevel.cs" />
+    <Compile Include="Domain\Achievements\Talent.cs" />
+    <Compile Include="Domain\Achievements\UserAchievement.cs" />
+    <Compile Include="Domain\Achievements\UserTalent.cs" />
+    <Compile Include="Domain\Groups\Group.cs" />
+    <Compile Include="Domain\Groups\GroupBackGroundColours.cs" />
+    <Compile Include="Domain\Groups\GroupBaseColours.cs" />
+    <Compile Include="Domain\Groups\GroupBases.cs" />
+    <Compile Include="Domain\Groups\GroupForum.cs" />
+    <Compile Include="Domain\Groups\GroupForumPost.cs" />
+    <Compile Include="Domain\Groups\GroupSymbolColours.cs" />
+    <Compile Include="Domain\Groups\GroupSymbols.cs" />
+    <Compile Include="Domain\Messenger\MessengerMessage.cs" />
+    <Compile Include="Domain\Messenger\MessengerRequest.cs" />
+    <Compile Include="Domain\Navigator\NavigatorCategory.cs" />
+    <Compile Include="Domain\Navigator\NavigatorSubCategory.cs" />
+    <Compile Include="Domain\Rooms\RoomData.cs" />
+    <Compile Include="Domain\Rooms\RoomEvent.cs" />
+    <Compile Include="Domain\Rooms\RoomModel.cs" />
+    <Compile Include="Domain\Users\Habbo.cs" />
+    <Compile Include="Domain\Users\Relationship.cs" />
+    <Compile Include="Domain\Rooms\Components\Vector.cs" />
+    <Compile Include="Domain\Users\Components\UserPreferences.cs" />
+    <Compile Include="OneToManyAttribute.cs" />
+    <Compile Include="ManyToManyAttribute.cs" />
+    <Compile Include="Domain\Rooms\RoomTag.cs" />
+    <Compile Include="Conventions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="Users\" />
-    <Folder Include="Messenger\" />
-    <Folder Include="Achievements\" />
-    <Folder Include="Groups\" />
-    <Folder Include="Rooms\" />
-    <Folder Include="Navigator\" />
+    <Folder Include="Domain\" />
+    <Folder Include="Domain\Achievements\" />
+    <Folder Include="Domain\Groups\" />
+    <Folder Include="Domain\Messenger\" />
+    <Folder Include="Domain\Navigator\" />
+    <Folder Include="Domain\Rooms\" />
+    <Folder Include="Domain\Users\" />
+    <Folder Include="Domain\Rooms\Components\" />
+    <Folder Include="Domain\Users\Components\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Yupi.Data\Yupi.Data.csproj">
@@ -86,6 +98,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
 </Project>

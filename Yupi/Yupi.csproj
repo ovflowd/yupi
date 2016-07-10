@@ -420,10 +420,6 @@
     <Compile Include="Emulator\Game\RoomBots\Models\GenericBot.cs" />
     <Compile Include="Emulator\Game\RoomBots\Models\PetBot.cs" />
     <Compile Include="Emulator\Game\RoomBots\RoomBot.cs" />
-    <Compile Include="Emulator\Game\SoundMachine\SoundMachineManager.cs" />
-    <Compile Include="Emulator\Game\SoundMachine\Songs\SongData.cs" />
-    <Compile Include="Emulator\Game\SoundMachine\Songs\SongInstance.cs" />
-    <Compile Include="Emulator\Game\SoundMachine\Songs\SongItem.cs" />
     <Compile Include="Emulator\Game\SoundMachine\SoundMachineSongManager.cs" />
     <Compile Include="Emulator\Game\Support\HelperSession.cs" />
     <Compile Include="Emulator\Game\Support\ModerationBan.cs" />
@@ -533,6 +529,7 @@
     <Folder Include="Emulator\Game\Items\Interactions\" />
     <Folder Include="Emulator\Core\Io\" />
     <Folder Include="Emulator\Game\Rooms\Events\Models\" />
+    <Folder Include="Emulator\Game\SoundMachine\Songs\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\GitInfo.1.1.1\build\GitInfo.targets" Condition="Exists('..\packages\GitInfo.1.1.1\build\GitInfo.targets')" />

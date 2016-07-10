@@ -21,7 +21,10 @@ namespace Yupi.Model
 					.UsingFile(DbFile))
 				.Mappings(m =>
 					m.AutoMappings
-					.Add(AutoMap.AssemblyOf<Test>(cfg)))
+					.Add(AutoMap.AssemblyOf<Test>(cfg)
+						.Conventions.Add<Conventions>()
+					)
+				)
 				.ExposeConfiguration(BuildSchema)
 				.BuildSessionFactory();
 

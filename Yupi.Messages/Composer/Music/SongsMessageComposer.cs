@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Songmachine;
 
 namespace Yupi.Messages.Music
 {
