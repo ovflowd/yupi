@@ -7,15 +7,9 @@ namespace Yupi.Model.Domain
 	/// </summary>
 	public class SongItem
 	{
-		/// <summary>
-		///     The base item
-		/// </summary>
-		public Item BaseItem;
+		public virtual int Id { get; protected set; }
 
-		/// <summary>
-		///     The extra data
-		/// </summary>
-		public string ExtraData;
+		public BaseItem BaseItem;
 
 		public SongData Song;
 	}

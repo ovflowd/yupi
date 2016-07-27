@@ -5,6 +5,8 @@ namespace Yupi.Model.Domain
     /// </summary>
     public class SongData
     {
+		public virtual int Id { get; protected set; }   
+
         /// <summary>
         ///     Gets the name of the code.
         /// </summary>

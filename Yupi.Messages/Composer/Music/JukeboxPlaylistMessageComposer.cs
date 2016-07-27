@@ -1,24 +1,26 @@
 ﻿using System;
 
 using Yupi.Protocol.Buffers;
+using System.Collections.Generic;
+using Yupi.Model.Domain;
 
 
 namespace Yupi.Messages.Music
 {
-	public class JukeboxPlaylistMessageComposer : AbstractComposer<SoundMachineManager>
+	public class JukeboxPlaylistMessageComposer : AbstractComposer<IList<SongItem>>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, SoundMachineManager jukebox)
+		public override void Compose (Yupi.Protocol.ISender session, int capacity, IList<SongItem> playlist)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				
-				message.AppendInteger(jukebox.PlaylistCapacity);
+				message.AppendInteger(capacity);
 
-				message.AppendInteger(jukebox.Playlist.Count);
+				message.AppendInteger(playlist.Count);
 
-				foreach (SongInstance current in jukebox.Playlist.Values)
+				foreach (SongItem current in playlist)
 				{
-					message.AppendInteger(current.DiskItem.ItemId);
-					message.AppendInteger(current.SongData.Id);
+					message.AppendInteger(current.Id);
+					message.AppendInteger(current.Song.Id);
 				}
 				session.Send (message);
 			}
