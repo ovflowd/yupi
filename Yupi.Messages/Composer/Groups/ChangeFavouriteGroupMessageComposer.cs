@@ -1,11 +1,12 @@
 ﻿using System;
 
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
 
 
 namespace Yupi.Messages.Groups
 {
-	public class ChangeFavouriteGroupMessageComposer : AbstractComposer
+	public class ChangeFavouriteGroupMessageComposer : AbstractComposer<Group, int>
 	{
 		// TODO Refactor
 		public override void Compose (Yupi.Protocol.ISender session, Group group, int virtualId)

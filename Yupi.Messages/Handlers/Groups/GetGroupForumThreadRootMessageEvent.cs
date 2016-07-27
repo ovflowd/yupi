@@ -9,7 +9,7 @@ namespace Yupi.Messages.Groups
 {
 	public class GetGroupForumThreadRootMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Net.ISession<GameClient> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Net.ISession<IGameClient> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			uint groupId = request.GetUInt32();
 

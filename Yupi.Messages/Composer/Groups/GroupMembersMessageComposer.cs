@@ -4,35 +4,30 @@ using Yupi.Protocol.Buffers;
 
 using System.Collections.Generic;
 using System.Linq;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Groups
 {
-	public class GroupMembersMessageComposer : AbstractComposer<Group>
+	public class GroupMembersMessageComposer : AbstractComposer<Habbo, Group>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, GameClient client, Group group)
+		public override void Compose (Yupi.Protocol.ISender session, Habbo user, Group group)
 		{
-			Compose (session, group, 0u, client);
+			Compose (session, group, 0u, user);
 		}
 
 		// TODO Refactor?
-		public void Compose (Yupi.Protocol.ISender session, Group group, uint reqType, GameClient client, string searchVal = "", int page = 0) {
+		public void Compose (Yupi.Protocol.ISender session, Group group, uint reqType, Habbo user, string searchVal = "", int page = 0) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				if (group == null || client == null)
-					return null;
-
-				if (page < 1)
-					page = 0;
-
 				message.AppendInteger(group.Id);
 				message.AppendString(group.Name);
 				message.AppendInteger(group.RoomId);
 				message.AppendString(group.Badge);
 
-				List<GroupMember> groupList = GetGroupUsersByString(group, searchVal, reqType);
+				List<Habbo> groupList = GetGroupUsersByString(group, searchVal, reqType);
 
 				if(groupList != null)
 				{
-					List<List<GroupMember>> list = Split(groupList);
+					List<List<Habbo>> list = Split(groupList);
 
 					if(list != null)
 					{
@@ -44,11 +39,11 @@ namespace Yupi.Messages.Groups
 							{
 								message.AppendInteger(list[page].Count);
 
-								using (List<GroupMember>.Enumerator enumerator = list[page].GetEnumerator())
+								using (List<Habbo>.Enumerator enumerator = list[page].GetEnumerator())
 								{
 									while (enumerator.MoveNext())
 									{
-										GroupMember current = enumerator.Current;
+										Habbo current = enumerator.Current;
 
 										AddGroupMemberIntoResponse(message, current);
 									}
@@ -61,17 +56,17 @@ namespace Yupi.Messages.Groups
 						{
 							message.AppendInteger(group.Admins.Count);
 
-							List<GroupMember> paging = page <= list.Count ? list[page] : null;
+							List<Habbo> paging = page <= list.Count ? list[page] : null;
 
 							if ((group.Admins.Count > 0) && (list.Count > 0) && paging != null)
 							{
 								message.AppendInteger(list[page].Count);
 
-								using (List<GroupMember>.Enumerator enumerator = list[page].GetEnumerator())
+								using (List<Habbo>.Enumerator enumerator = list[page].GetEnumerator())
 								{
 									while (enumerator.MoveNext())
 									{
-										GroupMember current = enumerator.Current;
+										Habbo current = enumerator.Current;
 
 										AddGroupMemberIntoResponse(message, current);
 									}
@@ -88,11 +83,11 @@ namespace Yupi.Messages.Groups
 							{
 								message.AppendInteger(list[page].Count);
 
-								using (List<GroupMember>.Enumerator enumerator = list[page].GetEnumerator())
+								using (List<Habbo>.Enumerator enumerator = list[page].GetEnumerator())
 								{
 									while (enumerator.MoveNext())
 									{
-										GroupMember current = enumerator.Current;
+										Habbo current = enumerator.Current;
 
 										message.AppendInteger(3);
 
@@ -117,7 +112,7 @@ namespace Yupi.Messages.Groups
 				else
 					message.AppendInteger(0);
 
-				message.AppendBool(client.GetHabbo().Id == group.CreatorId);
+				message.AppendBool(user == group.Creator);
 				message.AppendInteger(14);
 				message.AppendInteger(page);
 				message.AppendInteger(reqType);
@@ -126,19 +121,19 @@ namespace Yupi.Messages.Groups
 			}
 		}
 
-		private void AddGroupMemberIntoResponse(ServerMessage response, GroupMember member)
+		private void AddGroupMemberIntoResponse(ServerMessage response, Habbo member)
 		{
 			response.AppendInteger(member.Rank == 2 ? 0 : member.Rank == 1 ? 1 : 2);
 			response.AppendInteger(member.Id);
-			response.AppendString(member.Name);
+			response.AppendString(member.UserName);
 			response.AppendString(member.Look);
 			response.AppendString(Yupi.GetGroupDateJoinString(member.DateJoin));
 		}
 
 		// TODO Useless copy to list?
-		private List<GroupMember> GetGroupUsersByString(Group theGroup, string searchVal, uint req)
+		private List<Habbo> GetGroupUsersByString(Group theGroup, string searchVal, uint req)
 		{
-			List<GroupMember> list = new List<GroupMember>();
+			List<Habbo> list = new List<Habbo>();
 
 			switch (req)
 			{
@@ -163,7 +158,7 @@ namespace Yupi.Messages.Groups
 			return list;
 		}
 
-		private  List<GroupMember> GetGroupRequestsByString(Group theGroup, string searchVal)
+		private  List<Habbo> GetGroupRequestsByString(Group theGroup, string searchVal)
 		{
 			if (string.IsNullOrWhiteSpace (searchVal)) {
 				return theGroup.Requests.Values.ToList ();

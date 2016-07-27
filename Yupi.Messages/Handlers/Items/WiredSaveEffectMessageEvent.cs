@@ -8,7 +8,7 @@ namespace Yupi.Messages.Items
 {
 	public class WiredSaveEffectMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Net.ISession<GameClient> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Net.ISession<IGameClient> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			uint itemId = request.GetUInt32();
 
@@ -503,7 +503,7 @@ namespace Yupi.Messages.Items
 			session.SendMessage(new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SaveWiredMessageComposer")));
 		}
 
-		private List<RoomItem> GetFurniItems(ClientMessage request, Room room)
+		private IList<RoomItem> GetFurniItems(ClientMessage request, Room room)
 		{
 			List<RoomItem> list = new List<RoomItem>();
 			int itemCount = request.GetInteger();

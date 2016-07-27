@@ -2,11 +2,13 @@
 using System.Linq;
 using Yupi.Protocol.Buffers;
 using System.Collections.Generic;
+using Yupi.Model.Domain;
 
 
 namespace Yupi.Messages.Catalog
 {
-	public class CatalogueIndexMessageComposer : AbstractComposer
+	public class CatalogueIndexMessageComposer : AbstractComposer<IOrderedEnumerable<CatalogPage>,
+	IEnumerable<CatalogPage>, string> // TODO Refactor
 	{
 		public override void Compose (Yupi.Protocol.ISender session, IOrderedEnumerable<CatalogPage> sortedPages, IEnumerable<CatalogPage> pages, string type)
 		{
@@ -23,7 +25,7 @@ namespace Yupi.Messages.Catalog
 				{
 					message.AppendBool(cat.Visible);
 					message.AppendInteger(cat.IconImage);
-					message.AppendInteger(cat.PageId);
+					message.AppendInteger(cat.Id);
 					message.AppendString(cat.CodeName);
 					message.AppendString(cat.Caption);
 					message.AppendInteger(cat.FlatOffers.Count);
@@ -40,7 +42,7 @@ namespace Yupi.Messages.Catalog
 					{
 						message.AppendBool(subCat.Visible);
 						message.AppendInteger(subCat.IconImage);
-						message.AppendInteger(subCat.PageId);
+						message.AppendInteger(subCat.Id);
 						message.AppendString(subCat.CodeName);
 						message.AppendString(subCat.Caption);
 						message.AppendInteger(subCat.FlatOffers.Count);

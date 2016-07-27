@@ -2,10 +2,11 @@
 
 
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Groups
 {
-	public class GroupConfirmLeaveMessageComposer : AbstractComposer
+	public class GroupConfirmLeaveMessageComposer : AbstractComposer<Habbo, Group, int>
 	{
 		public override void Compose (Yupi.Protocol.ISender session, Habbo user, Group group, int type)
 		{

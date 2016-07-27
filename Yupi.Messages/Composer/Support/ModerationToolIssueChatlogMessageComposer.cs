@@ -5,6 +5,7 @@ using Yupi.Protocol.Buffers;
 using System.Collections.Generic;
 
 using System.Linq;
+using Yupi.Model.Domain;
 
 
 namespace Yupi.Messages.Support

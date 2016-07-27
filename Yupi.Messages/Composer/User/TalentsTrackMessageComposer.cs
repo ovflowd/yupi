@@ -2,15 +2,16 @@
 
 using System.Collections.Generic;
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
 
 
 namespace Yupi.Messages.User
 {
-	public class TalentsTrackMessageComposer : AbstractComposer
+	public class TalentsTrackMessageComposer : AbstractComposer<string, IList<Talent>>
 	{
 		// TODO Add enum for trackType
 
-		public void Compose(Yupi.Protocol.ISender session, string trackType, List<Talent> talents) {
+		public override void Compose(Yupi.Protocol.ISender session, string trackType, IList<Talent> talents) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendString (trackType);
 				message.AppendInteger(talents.Count);

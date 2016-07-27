@@ -1,11 +1,12 @@
 ﻿using System;
 
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
 
 
 namespace Yupi.Messages.User
 {
-	public class UserUpdateNameInRoomMessageComposer : AbstractComposer
+	public class UserUpdateNameInRoomMessageComposer : AbstractComposer<Habbo, string>
 	{
 		public override void Compose (Yupi.Protocol.ISender room, Habbo habbo, string newName)
 		{

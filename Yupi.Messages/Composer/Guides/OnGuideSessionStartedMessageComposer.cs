@@ -1,13 +1,14 @@
 ﻿using System;
 
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
 
 
 namespace Yupi.Messages.Guides
 {
-	public class OnGuideSessionStartedMessageComposer : AbstractComposer
+	public class OnGuideSessionStartedMessageComposer : AbstractComposer<Habbo, Yupi.Protocol.ISender>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, Habbo habbo, GameClient requester)
+		public override void Compose (Yupi.Protocol.ISender session, Habbo habbo, Yupi.Protocol.ISender requester)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(habbo.Id);

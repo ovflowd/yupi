@@ -34,6 +34,8 @@ namespace Yupi.Model.Domain
 	{
 		public virtual int Id { get; protected set; }
 
+		public virtual string Name { get; set; }
+
 		public virtual uint AdminOnlyDeco { get; set; }
 
 		public virtual string Badge { get; set; }

@@ -6,7 +6,7 @@ namespace Yupi.Messages.User
 {
 	public class LoadUserProfileMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Net.ISession<GameClient> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Net.ISession<IGameClient> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			uint userId = message.GetUInt32();
 			message.GetBool(); // TODO Unused

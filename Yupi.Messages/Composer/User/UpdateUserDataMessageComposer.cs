@@ -1,12 +1,13 @@
 ﻿using System;
 
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
 
 
 
 namespace Yupi.Messages.User
 {
-	public class UpdateUserDataMessageComposer : AbstractComposer
+	public class UpdateUserDataMessageComposer : AbstractComposer<Habbo, int>
 	{ // TODO Does -1 mean self???
 		public override void Compose (Yupi.Protocol.ISender room, Habbo habbo, int roomUserId = -1)
 		{

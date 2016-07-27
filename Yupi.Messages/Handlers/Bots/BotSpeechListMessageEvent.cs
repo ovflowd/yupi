@@ -6,7 +6,7 @@ namespace Yupi.Messages.Bots
 {
 	public class BotSpeechListMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Net.ISession<GameClient> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Net.ISession<IGameClient> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			uint botId = request.GetUInt32();
 			int num = request.GetInteger(); // TODO meaning?

@@ -86,6 +86,10 @@ namespace Yupi.Model.Domain
 
 		public virtual uint Diamonds { get; set; }
 
+		// TODO Don't store in DB!
+		public virtual bool IsOnline { get; set; }
+		public virtual bool InRoom { get; set; }
+
 		public virtual bool CanChangeName ()
 		{
 			/*return (ServerExtraSettings.ChangeNameStaff && HasFuse("fuse_can_change_name")) ||

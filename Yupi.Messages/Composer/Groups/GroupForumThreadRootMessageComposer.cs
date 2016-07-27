@@ -2,12 +2,13 @@
 using Yupi.Protocol.Buffers;
 
 using System.Collections.Generic;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Groups
 {
-	public class GroupForumThreadRootMessageComposer : AbstractComposer
+	public class GroupForumThreadRootMessageComposer : AbstractComposer<int, int, IList<GroupForumPost>>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, int groupId, int startIndex, List<GroupForumPost> threads)
+		public override void Compose (Yupi.Protocol.ISender session, int groupId, int startIndex, IList<GroupForumPost> threads)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(groupId);

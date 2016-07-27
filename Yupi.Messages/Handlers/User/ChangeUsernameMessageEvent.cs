@@ -5,7 +5,7 @@ namespace Yupi.Messages.User
 {
 	public class ChangeUsernameMessageEvent : CheckUsernameMessageEvent
 	{
-		public override void HandleMessage (Yupi.Net.ISession<GameClient> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Net.ISession<IGameClient> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			string newName = message.GetString();
 			string oldName = session.GetHabbo().UserName;

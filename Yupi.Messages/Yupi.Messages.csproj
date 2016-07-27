@@ -574,6 +574,7 @@
     <Compile Include="Composer\Items\Wired\WiredConditionMessageComposer.cs" />
     <Compile Include="Handlers\User\LoadBotInventoryMessageEvent.cs" />
     <Compile Include="Handlers\User\OnlineConfirmationMessageEvent.cs" />
+    <Compile Include="IGameClient.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

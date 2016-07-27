@@ -379,7 +379,6 @@
     <Compile Include="Emulator\Core\Settings\ServerExtraSettings.cs" />
     <Compile Include="Emulator\Game\Achievements\AchievementManager.cs" />
     <Compile Include="Emulator\Game\Catalogs\CatalogManager.cs" />
-    <Compile Include="Emulator\Game\Catalogs\Interfaces\EcotronReward.cs" />
     <Compile Include="Emulator\Game\Catalogs\Wrappers\GiftWrapper.cs" />
     <Compile Include="Emulator\Game\Events\Interfaces\EventCategory.cs" />
     <Compile Include="Emulator\Game\Events\EventManager.cs" />
@@ -433,7 +432,6 @@
     <Compile Include="Emulator\Game\Users\Inventory\Components\AvatarEffectComponent.cs" />
     <Compile Include="Emulator\Game\Users\Inventory\Components\InventoryComponent.cs" />
     <Compile Include="Emulator\Game\Users\Messenger\HabboMessenger.cs" />
-    <Compile Include="Emulator\Game\Users\Messenger\Structs\MessengerBuddy.cs" />
     <Compile Include="Emulator\Game\Users\Messenger\Structs\SearchResult.cs" />
     <Compile Include="Emulator\Game\Users\Messenger\SearchResultFactory.cs" />
     <Compile Include="Emulator\Game\Users\Subscriptions\Subscription.cs" />

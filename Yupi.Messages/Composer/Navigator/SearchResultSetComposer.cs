@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using System.Data;
+using Yupi.Model.Domain;
 
 
 namespace Yupi.Messages.Navigator

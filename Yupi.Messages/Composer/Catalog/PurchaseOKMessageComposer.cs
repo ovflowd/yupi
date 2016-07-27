@@ -2,6 +2,7 @@
 using Yupi.Protocol.Buffers;
 
 using System.Collections.Generic;
+using Yupi.Model.Domain;
 
 
 

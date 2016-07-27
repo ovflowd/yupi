@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Messenger
 {
@@ -9,7 +10,9 @@ namespace Yupi.Messages.Messenger
 		public override void Compose (Yupi.Protocol.ISender session, MessengerRequest request)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				request.Serialize(message);
+				message.AppendInteger(request.From.Id);
+				message.AppendString(request.From.UserName);
+				message.AppendString(request.From.Look);
 				session.Send (message);
 			}
 		}

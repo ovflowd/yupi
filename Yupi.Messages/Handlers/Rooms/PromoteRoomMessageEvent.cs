@@ -8,7 +8,7 @@ namespace Yupi.Messages.Rooms
 {
 	public class PromoteRoomMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Net.ISession<GameClient> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Net.ISession<IGameClient> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			uint pageId = request.GetUInt32();
 			uint itemId = request.GetUInt32();

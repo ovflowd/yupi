@@ -228,6 +228,7 @@
     <Compile Include="Domain\Catalog\CatalogPage.cs" />
     <Compile Include="Domain\Catalog\LimitedCatalogItem.cs" />
     <Compile Include="Domain\Catalog\TargetedOffer.cs" />
+    <Compile Include="Domain\Catalog\EcotronReward.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

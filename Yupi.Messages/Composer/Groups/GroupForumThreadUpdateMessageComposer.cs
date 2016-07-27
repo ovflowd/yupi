@@ -1,12 +1,13 @@
 ﻿using System;
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
 
 
 namespace Yupi.Messages.Groups
 {
 	public class GroupForumThreadUpdateMessageComposer : AbstractComposer
 	{
-		public override void Compose (Yupi.Protocol.ISender session, int groupId, GroupForumPost thread, bool pin, bool Lock)
+		public void Compose (Yupi.Protocol.ISender session, int groupId, GroupForumPost thread, bool pin, bool Lock)
 		{
 			// TODO Hardcoded message
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
