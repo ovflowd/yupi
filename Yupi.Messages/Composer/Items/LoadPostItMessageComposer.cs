@@ -2,19 +2,17 @@
 
 
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Items
 {
-	public class LoadPostItMessageComposer : AbstractComposer<RoomItem>
+	public class LoadPostItMessageComposer : AbstractComposer<PostItItem>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, RoomItem item)
+		public override void Compose (Yupi.Protocol.ISender session, PostItItem item)
 		{
-			if (item == null || item.GetBaseItem().InteractionType != Interaction.PostIt)
-				return;
-
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendString(item.Id.ToString());
-				message.AppendString(item.ExtraData);
+				message.AppendString(item.Text);
 				session.Send (message);
 			}
 		}

@@ -32,6 +32,8 @@ namespace Yupi.Model.Domain
 {
 	public class Group
 	{
+		public static Group None = new Group () { Id = 0, Name = string.Empty };
+
 		public virtual int Id { get; protected set; }
 
 		public virtual string Name { get; set; }

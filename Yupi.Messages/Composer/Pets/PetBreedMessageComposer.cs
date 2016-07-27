@@ -1,25 +1,26 @@
 ﻿using System;
 
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Pets
 {
-	public class PetBreedMessageComposer : AbstractComposer<uint, Pet, Pet>
+	public class PetBreedMessageComposer : AbstractComposer<uint, PetEntity, PetEntity>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, uint furniId, Pet pet1, Pet pet2)
+		public override void Compose (Yupi.Protocol.ISender session, uint furniId, PetEntity pet1, PetEntity pet2)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(furniId);
-				message.AppendInteger(pet1.PetId);
-				message.AppendString(pet1.Name);
-				message.AppendInteger(pet1.Level);
-				message.AppendString(pet1.Look);
-				message.AppendString(pet1.OwnerName);
-				message.AppendInteger(pet2.PetId);
-				message.AppendString(pet2.Name);
-				message.AppendInteger(pet2.Level);
-				message.AppendString(pet2.Look);
-				message.AppendString(pet2.OwnerName);
+				message.AppendInteger(pet1.Info.Id);
+				message.AppendString(pet1.Info.Name);
+				message.AppendInteger(pet1.Info.Level);
+				message.AppendString(pet1.Info.Look);
+				message.AppendString(pet1.Info.Owner.UserName);
+				message.AppendInteger(pet2.Info.Id);
+				message.AppendString(pet2.Info.Name);
+				message.AppendInteger(pet2.Info.Level);
+				message.AppendString(pet2.Info.Look);
+				message.AppendString(pet2.Info.Owner.UserName);
 				message.AppendInteger(4);
 
 				message.AppendInteger(1);

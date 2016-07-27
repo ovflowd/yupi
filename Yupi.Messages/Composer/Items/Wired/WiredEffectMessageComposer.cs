@@ -2,12 +2,13 @@
 
 using Yupi.Protocol.Buffers;
 using System.Collections.Generic;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Wired
 {
 	public class WiredEffectMessageComposer : AbstractComposer
 	{
-		public override void Compose (Yupi.Protocol.ISender session, RoomItem item, string extraInfo, int delay, List<RoomItem> list = null)
+		public void Compose (Yupi.Protocol.ISender session, FloorItem item, string extraInfo, int delay, List<FloorItem> list = null)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendBool(false);
@@ -17,10 +18,10 @@ namespace Yupi.Messages.Wired
 					message.AppendInteger (0);
 				} else {
 					message.AppendInteger (list.Count);
-					foreach (RoomItem current in list) 
+					foreach (FloorItem current in list) 
 						message.AppendInteger(current.Id);
 				}
-				message.AppendInteger(item.GetBaseItem().SpriteId);
+				message.AppendInteger(item.BaseItem.SpriteId);
 				message.AppendInteger(item.Id);
 				message.AppendString(extraInfo);
 				message.AppendInteger(1);

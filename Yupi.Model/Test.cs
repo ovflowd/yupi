@@ -33,6 +33,7 @@ namespace Yupi.Model
 					.Add (AutoMap.AssemblyOf<ORMConfiguration> (cfg)
 						.Conventions.Add<Conventions> ()
 						.IncludeBase<BaseItem>()
+						.IgnoreBase(typeof(Item<>))
 			                                       )
 			                                       )
 				.ExposeConfiguration (BuildSchema)

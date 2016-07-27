@@ -1,32 +1,28 @@
 ﻿using System;
 
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
 
 
 namespace Yupi.Messages.Support
 {
-	public class ModerationRoomToolMessageComposer : AbstractComposer<Room>
+	public class ModerationRoomToolMessageComposer : AbstractComposer<RoomData, bool>
 	{
 		// TODO Refactor
-		public override void Compose (Yupi.Protocol.ISender session, Room room)
+		public override void Compose (Yupi.Protocol.ISender session, RoomData data, bool isLoaded)
 		{
-			RoomData data = room.RoomData;
-
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(data.Id);
 				message.AppendInteger(data.UsersNow);
 
-				if (room != null)
-					message.AppendBool(room.GetRoomUserManager().GetRoomUserByHabbo(data.Owner) != null);
-				else
-					message.AppendBool(false);
+				message.AppendBool(false); // TODO Meaning? (isOwnerInRoom?)
 
-				message.AppendInteger(room?.RoomData.OwnerId ?? 0);
-				message.AppendString(data.Owner);
-				message.AppendBool(room != null);
+				message.AppendInteger(data.Owner.Id);
+				message.AppendString(data.Owner.UserName);
+				message.AppendBool(isLoaded);
 				message.AppendString(data.Name);
 				message.AppendString(data.Description);
-				message.AppendInteger(data.TagCount);
+				message.AppendInteger(data.Tags.Count);
 
 				foreach (string current in data.Tags)
 					message.AppendString(current);

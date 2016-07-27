@@ -10,7 +10,7 @@ namespace Yupi.Messages.Catalog
 {
 	public class PurchaseOKMessageComposer : AbstractComposer
 	{
-		public void Compose(Yupi.Protocol.ISender session, CatalogItem itemCatalog, Dictionary<Item, uint> items,
+		public void Compose(Yupi.Protocol.ISender session, CatalogItem itemCatalog, Dictionary<BaseItem, uint> items,
 			int clubLevel = 1)
 		{
 			Compose(session, itemCatalog.Id, itemCatalog.Name, itemCatalog.CreditsCost, items, clubLevel,
@@ -20,7 +20,7 @@ namespace Yupi.Messages.Catalog
 
 		// TODO There should be no need to expose such a complex method signature
 		public void Compose (Yupi.Protocol.ISender session, uint itemId, string itemName, uint creditsCost,
-		                    Dictionary<Item, uint> items = null, int clubLevel = 1,
+		                    Dictionary<BaseItem, uint> items = null, int clubLevel = 1,
 		                    uint diamondsCost = 0,
 		                    uint activityPointsCost = 0, bool isLimited = false,
 		                    uint limitedStack = 0,
@@ -38,8 +38,8 @@ namespace Yupi.Messages.Catalog
 				message.AppendInteger (items?.Count ?? 0);
 
 				if (items != null) {
-					foreach (KeyValuePair<Item, uint> itemDic in items) {
-						Item item = itemDic.Key;
+					foreach (KeyValuePair<BaseItem, uint> itemDic in items) {
+						BaseItem item = itemDic.Key;
 						message.AppendString (item.Type.ToString ());
 
 						if (item.Type == 'b') {

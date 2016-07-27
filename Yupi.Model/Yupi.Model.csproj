@@ -223,12 +223,34 @@
     <Compile Include="Domain\BaseItems\WiredTriggerBotReachedStuffBaseItem.cs" />
     <Compile Include="Domain\BaseItems\WiredUnseenBaseItem.cs" />
     <Compile Include="Domain\BaseItems\YoutubeTvBaseItem.cs" />
-    <Compile Include="Domain\Items\SongItem.cs" />
     <Compile Include="Domain\Catalog\CatalogItem.cs" />
     <Compile Include="Domain\Catalog\CatalogPage.cs" />
     <Compile Include="Domain\Catalog\LimitedCatalogItem.cs" />
     <Compile Include="Domain\Catalog\TargetedOffer.cs" />
     <Compile Include="Domain\Catalog\EcotronReward.cs" />
+    <Compile Include="Domain\Items\PostItItem.cs" />
+    <Compile Include="Domain\Items\SongItem.cs" />
+    <Compile Include="Domain\Items\Item.cs" />
+    <Compile Include="IgnoreAttribute.cs" />
+    <Compile Include="Domain\Users\Inventory\UserItem.cs" />
+    <Compile Include="Domain\BaseItems\ItemType.cs" />
+    <Compile Include="Domain\Items\Moodlight\MoodlightPreset.cs" />
+    <Compile Include="Domain\Items\Moodlight\MoodlightData.cs" />
+    <Compile Include="Domain\Rooms\RoomEntity.cs" />
+    <Compile Include="Domain\Rooms\Pets\PetInfo.cs" />
+    <Compile Include="Domain\Rooms\Pets\PetEntity.cs" />
+    <Compile Include="Domain\Items\Youtube\YoutubeTVItem.cs" />
+    <Compile Include="Domain\Items\Youtube\YoutubeVideo.cs" />
+    <Compile Include="Domain\Items\WallItem.cs" />
+    <Compile Include="Domain\Items\Components\WallCoordinate.cs" />
+    <Compile Include="Domain\Items\Components\WallSide.cs" />
+    <Compile Include="Domain\Rooms\User\UserEntity.cs" />
+    <Compile Include="Domain\Rooms\EntityType.cs" />
+    <Compile Include="Domain\Rooms\Bot\BotEntity.cs" />
+    <Compile Include="Domain\Rooms\Bot\BotInfo.cs" />
+    <Compile Include="Domain\Navigator\HotelLandingManager.cs" />
+    <Compile Include="Domain\Navigator\HotelLandingPromos.cs" />
+    <Compile Include="Domain\Items\FloorItem.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -241,8 +263,15 @@
     <Folder Include="Domain\Users\" />
     <Folder Include="Domain\Rooms\Components\" />
     <Folder Include="Domain\Users\Components\" />
-    <Folder Include="Domain\Items\" />
     <Folder Include="Domain\Catalog\" />
+    <Folder Include="Domain\Items\" />
+    <Folder Include="Domain\Users\Inventory\" />
+    <Folder Include="Domain\Items\Moodlight\" />
+    <Folder Include="Domain\Rooms\Pets\" />
+    <Folder Include="Domain\Items\Youtube\" />
+    <Folder Include="Domain\Items\Components\" />
+    <Folder Include="Domain\Rooms\User\" />
+    <Folder Include="Domain\Rooms\Bot\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Yupi.Data\Yupi.Data.csproj">

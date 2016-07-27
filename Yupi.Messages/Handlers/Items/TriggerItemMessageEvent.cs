@@ -90,7 +90,7 @@ namespace Yupi.Messages.Items
 				room.GetRoomUserManager().UpdateUserStatus(current, true);
 		}
 
-		private void PlantMonsterplant(Router router, Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, RoomItem mopla, Room room)
+		private void PlantMonsterplant(IRouter router, Yupi.Net.ISession<IGameClient> session, RoomItem mopla, Room room)
 		{
 			int rarity = 0, internalRarity;
 

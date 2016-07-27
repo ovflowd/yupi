@@ -7,10 +7,10 @@ namespace Yupi.Messages.Guides
 	// TODO Rename
 	public class OnGuideSessionMsgMessageComposer : AbstractComposer
 	{
-		public void Compose(Yupi.Protocol.ISender session, GameClient requester, string content, int userId) {
+		public void Compose(Yupi.Protocol.ISender session, Yupi.Protocol.ISender requester, string content, int userId) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendString(message);
-				message.AppendInteger(session.GetHabbo().Id);
+				message.AppendString(content);
+				message.AppendInteger(userId);
 				session.Send (message);
 				requester.Send (message);
 			}

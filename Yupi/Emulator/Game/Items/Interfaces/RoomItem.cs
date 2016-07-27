@@ -1062,7 +1062,7 @@ namespace Yupi.Emulator.Game.Items.Interfaces
         }
 
 		// TODO Must be refactored later on
-		/*
+
      public void Serialize(SimpleServerMessageBuffer messageBuffer)
         {
             if (IsFloorItem)
@@ -1451,7 +1451,7 @@ RoomItem item = this;
             messageBuffer.AppendInteger(GetBaseItem().Modes > 1 ? 1 : 0);
             messageBuffer.AppendInteger(IsBuilder ? -12345678 : Convert.ToInt32(UserId));
         }
-*/
+
      public void RefreshItem() => _mBaseItem = null;
 
      public Item GetBaseItem() => _mBaseItem ?? (_mBaseItem = Yupi.GetGame().GetItemManager().GetItemByName(BaseName));

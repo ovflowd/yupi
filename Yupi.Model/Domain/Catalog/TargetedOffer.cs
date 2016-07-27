@@ -1,4 +1,6 @@
-﻿namespace Yupi.Model.Domain
+﻿using System.Collections.Generic;
+
+namespace Yupi.Model.Domain
 {
 	public class TargetedOffer
     {
@@ -13,6 +15,11 @@
 		public virtual string Description { get; protected set; }
 		public virtual string Image { get; protected set; }
 
-		public virtual BaseItem[] Products { get; protected set; }
+		public virtual IList<BaseItem> Products { get; protected set; }
+
+		public TargetedOffer ()
+		{
+			Products = new List<BaseItem> ();
+		}
     }
 }

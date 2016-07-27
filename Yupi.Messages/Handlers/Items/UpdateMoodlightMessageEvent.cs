@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 
 
@@ -27,6 +28,10 @@ namespace Yupi.Messages.Items
 			int intensity = request.GetInteger();
 			bool bgOnly = num2 >= 2;
 
+			if (!IsValidColor (color) || !IsValidIntensity (intensity)) {
+				return;
+			}
+
 			room.MoodlightData.Enabled = true;
 
 			room.MoodlightData.CurrentPreset = preset;
@@ -34,6 +39,14 @@ namespace Yupi.Messages.Items
 
 			item.ExtraData = room.MoodlightData.GenerateExtraData();
 			item.UpdateState();
+		}
+
+		private bool IsValidIntensity(int intensity) {
+			return 0 <= intensity && intensity <= 255;
+		}
+
+		private bool IsValidColor(string hexRGB) {
+			return Regex.IsMatch (hexRGB, "^#[0-9A-F]{6}$", RegexOptions.IgnoreCase);
 		}
 	}
 }

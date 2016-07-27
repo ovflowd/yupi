@@ -7,6 +7,13 @@ namespace Yupi.Model.Domain
 	{
 		public virtual int Id { get; protected set; }
 
+		[Ignore]
+		public virtual ItemType Type {
+			get {
+				return ItemType.Floor;
+			}
+		}
+
 		/// <summary>
 		///     The allow gift
 		/// </summary>

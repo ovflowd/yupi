@@ -5,13 +5,14 @@ using Yupi.Protocol.Buffers;
 
 
 using System.Collections.Generic;
+using Yupi.Model.Domain;
 
 
 namespace Yupi.Messages.Items
 {
-	public class UpdateFloorItemExtraDataMessageComposer : AbstractComposer<RoomItem>
+	public class UpdateFloorItemExtraDataMessageComposer : AbstractComposer<FloorItem>
 	{
-		public override void Compose (Yupi.Protocol.ISender room, RoomItem item)
+		public override void Compose (Yupi.Protocol.ISender room, FloorItem item)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendString(item.Id.ToString());

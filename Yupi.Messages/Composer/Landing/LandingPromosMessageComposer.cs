@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Landing
 {
@@ -13,7 +14,13 @@ namespace Yupi.Messages.Landing
 				message.AppendInteger(promos.Count);
 
 				foreach (HotelLandingPromos promo in promos) {
-					promo.Serialize (message);
+					message.AppendInteger (promo.Index);
+					message.AppendString (promo.Header);
+					message.AppendString (promo.Body);
+					message.AppendString (promo.Button);
+					message.AppendInteger (promo.InGamePromo);
+					message.AppendString (promo.SpecialAction);
+					message.AppendString (promo.Image);
 				}
 				
 				session.Send (message);

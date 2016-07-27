@@ -26,7 +26,8 @@ namespace Yupi.Model.Domain
 
 		[ManyToMany]
 		public virtual IList<RoomData> FavoriteRooms { get; protected set; }
-		public virtual uint FavouriteGroup { get; set; }
+
+		public virtual Group FavouriteGroup { get; set; }
 		public virtual uint HomeRoom { get; set; }
 
 		public virtual bool HasFriendRequestsDisabled { get; set; }
@@ -89,6 +90,10 @@ namespace Yupi.Model.Domain
 		// TODO Don't store in DB!
 		public virtual bool IsOnline { get; set; }
 		public virtual bool InRoom { get; set; }
+
+		public Habbo() {
+			FavouriteGroup = Group.None;
+		}
 
 		public virtual bool CanChangeName ()
 		{

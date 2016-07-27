@@ -1,36 +1,37 @@
 ﻿using System;
 
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Bots
 {
-	public class BotSpeechListMessageComposer : AbstractComposer<int, RoomBot>
+	public class BotSpeechListMessageComposer : AbstractComposer<int, BotEntity>
 	{
 		// TODO Refactor
-		public override void Compose (Yupi.Protocol.ISender session, int num, RoomBot bot)
+		public override void Compose (Yupi.Protocol.ISender session, int num, BotEntity bot)
 		{
 			string text = "";
 
 			switch(num) {
 			case 2:
-				text = bot.BotData.RandomSpeech == null ? string.Empty : string.Join ("\n", bot.BotData.RandomSpeech);
+				text = bot.Info.RandomSpeech == null ? string.Empty : string.Join ("\n", bot.Info.RandomSpeech);
 
 				text += ";#;";
-				text += bot.AutomaticChat ? "true" : "false";
+				text += bot.Info.AutomaticChat ? "true" : "false";
 				text += ";#;";
-				text += bot.SpeechInterval.ToString ();
+				text += bot.Info.SpeechInterval.ToString ();
 				text += ";#;";
-				text += bot.MixPhrases ? "true" : "false";
+				text += bot.Info.MixPhrases ? "true" : "false";
 				break;
 			case 5:
-				text = bot.Name;
+				text = bot.Info.Name;
 				break;
 			default:
 				return;
 			}
 				
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendInteger (bot.BotId);
+				message.AppendInteger (bot.Id);
 				message.AppendInteger (num);
 				message.AppendString(text);
 				session.Send (message);

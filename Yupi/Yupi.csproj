@@ -234,15 +234,12 @@
     <Compile Include="Emulator\Game\RoomBots\Interfaces\CatalogBot.cs" />
     <Compile Include="Emulator\Game\RoomBots\Models\BaseBot.cs" />
     <Compile Include="Emulator\Game\Rooms\Competitions\Models\RoomCompetition.cs" />
-    <Compile Include="Emulator\Game\Users\YoutubeVideo.cs" />
     <Compile Include="Emulator\Core\Settings\ServerLanguageSettings.cs" />
     <Compile Include="Emulator\Game\Catalogs\TargetedOfferManager.cs" />
     <Compile Include="Emulator\Game\Items\Datas\HighscoreData.cs" />
     <Compile Include="Emulator\Game\Items\Interfaces\HighScoreLine.cs" />
     <Compile Include="Emulator\Game\Items\Handlers\HopperHandler.cs" />
     <Compile Include="Emulator\Game\Items\ItemManager.cs" />
-    <Compile Include="Emulator\Game\Items\Datas\MoodlightData.cs" />
-    <Compile Include="Emulator\Game\Items\Interfaces\MoodlightPreset.cs" />
     <Compile Include="Emulator\Game\Items\ClothingManager.cs" />
     <Compile Include="Emulator\Game\Items\Handlers\CrackableEggHandler.cs" />
     <Compile Include="Emulator\Game\Items\Handlers\PinataHandler.cs" />
@@ -252,7 +249,6 @@
     <Compile Include="Emulator\Game\Items\Handlers\TeleHandler.cs" />
     <Compile Include="Emulator\Game\Items\Datas\TonerData.cs" />
     <Compile Include="Emulator\Game\Items\Interfaces\UserItem.cs" />
-    <Compile Include="Emulator\Game\Items\WallCoordinate.cs" />
     <Compile Include="Emulator\Game\Items\Wired\Handlers\Conditions\TimerTrigger.cs" />
     <Compile Include="Emulator\Core\Security\ServerMutantManager.cs" />
     <Compile Include="Emulator\Game\Users\ExchangeManager.cs" />
@@ -387,12 +383,10 @@
     <Compile Include="Emulator\Game\GameClients\GameClientManager.cs" />
     <Compile Include="Emulator\Game\Groups\GroupManager.cs" />
     <Compile Include="Emulator\Game\Browser\Models\PublicCategory.cs" />
-    <Compile Include="Emulator\Game\Browser\HotelLandingManager.cs" />
     <Compile Include="Emulator\Game\Browser\HotelBrowserManager.cs" />
     <Compile Include="Emulator\Game\Browser\Enums\PublicImageType.cs" />
     <Compile Include="Emulator\Game\Browser\Models\PublicItem.cs" />
     <Compile Include="Emulator\Game\Browser\Enums\PublicItemType.cs" />
-    <Compile Include="Emulator\Game\Browser\Models\HotelLandingPromos.cs" />
     <Compile Include="Emulator\Game\Pathfinding\MinHeap.cs" />
     <Compile Include="Emulator\Game\Pathfinding\PathFinder.cs" />
     <Compile Include="Emulator\Game\Pathfinding\PathFinderNode.cs" />
@@ -401,7 +395,6 @@
     <Compile Include="Emulator\Game\Pets\Enums\DatabaseUpdateState.cs" />
     <Compile Include="Emulator\Game\Pets\MoplaBreed.cs" />
     <Compile Include="Emulator\Game\Pets\Enums\MoplaState.cs" />
-    <Compile Include="Emulator\Game\Pets\Pet.cs" />
     <Compile Include="Emulator\Game\Pets\PetCommandHandler.cs" />
     <Compile Include="Emulator\Game\Pets\PetLocale.cs" />
     <Compile Include="Emulator\Game\Pets\Structs\PetRace.cs" />

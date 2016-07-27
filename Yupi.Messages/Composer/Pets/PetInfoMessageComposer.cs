@@ -1,15 +1,16 @@
 ﻿using System;
 
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Pets
 {
-	public class PetInfoMessageComposer : AbstractComposer<Pet>
+	public class PetInfoMessageComposer : AbstractComposer<PetInfo>
 	{
-		public override void Compose (Yupi.Protocol.ISender room, Pet pet)
+		public override void Compose (Yupi.Protocol.ISender room, PetInfo pet)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendInteger(pet.PetId);
+				message.AppendInteger(pet.Id);
 				message.AppendString(pet.Name);
 				message.AppendInteger(pet.Level);
 				message.AppendInteger(20);
@@ -20,9 +21,9 @@ namespace Yupi.Messages.Pets
 				message.AppendInteger(pet.Nutrition);
 				message.AppendInteger(150);
 				message.AppendInteger(pet.Respect);
-				message.AppendInteger(pet.OwnerId);
+				message.AppendInteger(pet.Owner.Id);
 				message.AppendInteger(pet.Age);
-				message.AppendString(pet.OwnerName);
+				message.AppendString(pet.Owner.UserName);
 				message.AppendInteger(1);
 				message.AppendBool(pet.HaveSaddle);
 				message.AppendBool(

@@ -69,10 +69,10 @@ namespace Yupi.Emulator.Core.Io
             {
                 int k = a[i++];
 
-                if (k < 48 || k > 59)
+				if (k < '0' || k > ';')
                     return 0;
 
-                w = 10*w + k - 48;
+                w = 10*w + k - '0';
             } while (i < length);
 
             return w;

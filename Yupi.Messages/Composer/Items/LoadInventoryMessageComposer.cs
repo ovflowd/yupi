@@ -6,6 +6,7 @@ using Yupi.Protocol.Buffers;
 
 
 using System.Globalization;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Items
 {
