@@ -4,9 +4,7 @@ namespace Yupi.Model.Domain
 {
 	public class MusicDiscBaseItem : FloorBaseItem
 	{
-		public MusicDiscBaseItem ()
-		{
-		}
+		public virtual SongData Song { get; protected set; }
 	}
 }
 

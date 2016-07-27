@@ -6,6 +6,7 @@ using FluentNHibernate.Cfg.Db;
 using System.IO;
 using NHibernate.Tool.hbm2ddl;
 using NHibernate.Cfg;
+using Yupi.Model.Domain;
 
 namespace Yupi.Model
 {
@@ -31,6 +32,7 @@ namespace Yupi.Model
 					m.AutoMappings
 					.Add (AutoMap.AssemblyOf<ORMConfiguration> (cfg)
 						.Conventions.Add<Conventions> ()
+						.IncludeBase<BaseItem>()
 			                                       )
 			                                       )
 				.ExposeConfiguration (BuildSchema)

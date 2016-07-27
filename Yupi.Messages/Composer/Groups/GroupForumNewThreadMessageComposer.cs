@@ -7,7 +7,7 @@ namespace Yupi.Messages.Groups
 	public class GroupForumNewThreadMessageComposer : AbstractComposer
 	{
 		// TODO Hardcoded
-		public void Compose(GameClient session, int groupId, int threadId, int habboId, string subject, string content, int timestamp) {
+		public void Compose(Yupi.Protocol.ISender session, int groupId, int threadId, int habboId, string subject, string content, int timestamp) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(groupId);
 				message.AppendInteger(threadId);

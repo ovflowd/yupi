@@ -8,15 +8,9 @@ namespace Yupi.Messages.Support
 	public class ModerationRoomToolMessageComposer : AbstractComposer<Room>
 	{
 		// TODO Refactor
-		public override void Compose (Yupi.Protocol.ISender session, Room room, uint roomId)
+		public override void Compose (Yupi.Protocol.ISender session, Room room)
 		{
-			RoomData data;
-
-			if (room == null) {
-				data = Yupi.GetGame ().GetRoomManager ().GenerateNullableRoomData (roomId);
-			} else {
-				data = room.RoomData;
-			}
+			RoomData data = room.RoomData;
 
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(data.Id);

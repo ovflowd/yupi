@@ -237,7 +237,6 @@
     <Compile Include="Emulator\Game\Users\YoutubeVideo.cs" />
     <Compile Include="Emulator\Core\Settings\ServerLanguageSettings.cs" />
     <Compile Include="Emulator\Game\Catalogs\TargetedOfferManager.cs" />
-    <Compile Include="Emulator\Game\Catalogs\Interfaces\TargetedOffer.cs" />
     <Compile Include="Emulator\Game\Items\Datas\HighscoreData.cs" />
     <Compile Include="Emulator\Game\Items\Interfaces\HighScoreLine.cs" />
     <Compile Include="Emulator\Game\Items\Handlers\HopperHandler.cs" />
@@ -380,8 +379,6 @@
     <Compile Include="Emulator\Core\Settings\ServerExtraSettings.cs" />
     <Compile Include="Emulator\Game\Achievements\AchievementManager.cs" />
     <Compile Include="Emulator\Game\Catalogs\CatalogManager.cs" />
-    <Compile Include="Emulator\Game\Catalogs\Interfaces\CatalogItem.cs" />
-    <Compile Include="Emulator\Game\Catalogs\Interfaces\CatalogPage.cs" />
     <Compile Include="Emulator\Game\Catalogs\Interfaces\EcotronReward.cs" />
     <Compile Include="Emulator\Game\Catalogs\Wrappers\GiftWrapper.cs" />
     <Compile Include="Emulator\Game\Events\Interfaces\EventCategory.cs" />

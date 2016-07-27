@@ -105,7 +105,6 @@
     <Compile Include="Composer\User\LoadWardrobeMessageComposer.cs" />
     <Compile Include="Handlers\User\WardrobeUpdateMessageEvent.cs" />
     <Compile Include="Handlers\User\LoadPetInventoryMessageEvent.cs" />
-    <Compile Include="Composer\User\LoadBotInventoryMessageEvent.cs" />
     <Compile Include="Handlers\User\CheckUsernameMessageEvent.cs" />
     <Compile Include="Composer\User\NameChangedUpdatesMessageComposer.cs" />
     <Compile Include="Handlers\User\ChangeUsernameMessageEvent.cs" />
@@ -187,7 +186,6 @@
     <Compile Include="Composer\Catalog\CatalogueOfferConfigMessageComposer.cs" />
     <Compile Include="Handlers\Catalog\CatalogueOfferConfigMessageEvent.cs" />
     <Compile Include="Handlers\Catalog\GetGroupFurnitureMessageEvent.cs" />
-    <Compile Include="Composer\Catalog\GroupFurniturePageMessageComposer.cs" />
     <Compile Include="Handlers\Support\OpenHelpToolMessageEvent.cs" />
     <Compile Include="Composer\Support\OpenHelpToolMessageComposer.cs" />
     <Compile Include="Handlers\Support\SubmitHelpTicketMessageEvent.cs" />
@@ -387,7 +385,6 @@
     <Compile Include="Composer\Rooms\RoomRightsLevelMessageComposer.cs" />
     <Compile Include="Composer\Rooms\SetRoomUserMessageComposer.cs" />
     <Compile Include="Composer\Rooms\FavouriteRoomsUpdateMessageComposer.cs" />
-    <Compile Include="Composer\User\OnlineConfirmationMessageEvent.cs" />
     <Compile Include="Handlers\Navigator\GoToHotelViewMessageEvent.cs" />
     <Compile Include="Composer\Navigator\LandingRewardMessageComposer.cs" />
     <Compile Include="Handlers\Navigator\LandingCommunityGoalMessageEvent.cs" />
@@ -575,6 +572,8 @@
     <Compile Include="Composer\Items\Wired\WiredTriggerMessageComposer.cs" />
     <Compile Include="Composer\Items\Wired\WiredEffectMessageComposer.cs" />
     <Compile Include="Composer\Items\Wired\WiredConditionMessageComposer.cs" />
+    <Compile Include="Handlers\User\LoadBotInventoryMessageEvent.cs" />
+    <Compile Include="Handlers\User\OnlineConfirmationMessageEvent.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

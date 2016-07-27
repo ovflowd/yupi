@@ -9,7 +9,7 @@ namespace Yupi.Messages.Groups
 	public class GroupForumReadThreadMessageComposer : AbstractComposer
 	{
 		// TODO What is b good for?
-		public void Compose(GameClient session, int groupId, int threadId, int startIndex, int b, List<GroupForumPost> posts) {
+		public void Compose(Yupi.Protocol.ISender session, int groupId, int threadId, int startIndex, int b, List<GroupForumPost> posts) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(groupId);
 				message.AppendInteger(threadId);

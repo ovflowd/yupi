@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Catalog
 {
@@ -37,9 +38,9 @@ namespace Yupi.Messages.Catalog
 				message.AppendString(string.Empty);
 				message.StartArray();
 
-				foreach (string product in offer.Products)
+				foreach (BaseItem product in offer.Products)
 				{
-					message.AppendString(product);
+					message.AppendString(product.Name);
 					message.SaveArray();
 				}
 

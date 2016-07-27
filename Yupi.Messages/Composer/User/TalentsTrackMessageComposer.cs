@@ -10,7 +10,7 @@ namespace Yupi.Messages.User
 	{
 		// TODO Add enum for trackType
 
-		public void Compose(GameClient session, string trackType, List<Talent> talents) {
+		public void Compose(Yupi.Protocol.ISender session, string trackType, List<Talent> talents) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendString (trackType);
 				message.AppendInteger(talents.Count);

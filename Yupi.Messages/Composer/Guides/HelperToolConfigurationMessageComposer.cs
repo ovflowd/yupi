@@ -6,7 +6,7 @@ namespace Yupi.Messages.Guides
 {
 	public class HelperToolConfigurationMessageComposer : AbstractComposer
 	{
-		public void Compose(GameClient session, bool onDuty, int guideCount, int helperCount, int guardianCount) {
+		public void Compose(Yupi.Protocol.ISender session, bool onDuty, int guideCount, int helperCount, int guardianCount) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendBool(onDuty);
 				message.AppendInteger(guideCount);

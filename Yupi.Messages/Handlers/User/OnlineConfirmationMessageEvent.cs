@@ -8,7 +8,7 @@ namespace Yupi.Messages.User
 	{
 		public override void HandleMessage (Yupi.Net.ISession<GameClient> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			YupiWriterManager.WriteLine(request.GetString() + " joined game. With IP " + session.GetConnection().RemoteAddress, "Yupi.User", ConsoleColor.DarkGreen);
+			YupiWriterManager.WriteLine(request.GetString() + " joined game. With IP " + session.RemoteAddress, "Yupi.User", ConsoleColor.DarkGreen);
 
 			if (!ServerConfigurationSettings.Data.ContainsKey("welcome.message.enabled") ||
 				ServerConfigurationSettings.Data["welcome.message.enabled"] != "true")

@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
 
 
 namespace Yupi.Messages.Catalog
@@ -10,7 +11,7 @@ namespace Yupi.Messages.Catalog
 		public override void Compose (Yupi.Protocol.ISender session, CatalogPage page)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendInteger(page.PageId);
+				message.AppendInteger(page.Id);
 
 				// TODO Refactor
 

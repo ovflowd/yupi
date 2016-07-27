@@ -80,7 +80,6 @@
     <Compile Include="MonoSQLiteDriver.cs" />
     <Compile Include="MonoSQLiteConfiguration.cs" />
     <Compile Include="Domain\Soundmachine\SongData.cs" />
-    <Compile Include="Domain\Soundmachine\SongItem.cs" />
     <Compile Include="Domain\BaseItems\AdsMpuBaseItem.cs" />
     <Compile Include="Domain\BaseItems\AlertBaseItem.cs" />
     <Compile Include="Domain\BaseItems\ArrowPlateBaseItem.cs" />
@@ -224,6 +223,11 @@
     <Compile Include="Domain\BaseItems\WiredTriggerBotReachedStuffBaseItem.cs" />
     <Compile Include="Domain\BaseItems\WiredUnseenBaseItem.cs" />
     <Compile Include="Domain\BaseItems\YoutubeTvBaseItem.cs" />
+    <Compile Include="Domain\Items\SongItem.cs" />
+    <Compile Include="Domain\Catalog\CatalogItem.cs" />
+    <Compile Include="Domain\Catalog\CatalogPage.cs" />
+    <Compile Include="Domain\Catalog\LimitedCatalogItem.cs" />
+    <Compile Include="Domain\Catalog\TargetedOffer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -236,7 +240,8 @@
     <Folder Include="Domain\Users\" />
     <Folder Include="Domain\Rooms\Components\" />
     <Folder Include="Domain\Users\Components\" />
-    <Folder Include="Domain\RoomItems\" />
+    <Folder Include="Domain\Items\" />
+    <Folder Include="Domain\Catalog\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Yupi.Data\Yupi.Data.csproj">

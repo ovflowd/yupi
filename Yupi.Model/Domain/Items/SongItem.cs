@@ -9,8 +9,12 @@ namespace Yupi.Model.Domain
 	{
 		public virtual int Id { get; protected set; }
 
-		public BaseItem BaseItem;
-
-		public SongData Song;
+		public virtual MusicDiscBaseItem BaseItem { get; set; }
+		// TODO Remove
+		public virtual SongData Song { 
+			get { 
+				return BaseItem.Song;
+			}
+		}
 	}
 }
