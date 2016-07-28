@@ -9,7 +9,7 @@ namespace Yupi.Messages.Groups
 	public class ChangeFavouriteGroupMessageComposer : AbstractComposer<Group, int>
 	{
 		// TODO Refactor
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Group group, int virtualId)
+		public override void Compose ( Yupi.Protocol.ISender session, Group group, int virtualId)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(virtualId);

@@ -5,7 +5,7 @@ namespace Yupi.Messages.Catalog
 {
 	public class CatalogPurchaseNotAllowedMessageComposer : AbstractComposer<bool>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, bool isForbidden)
+		public override void Compose ( Yupi.Protocol.ISender session, bool isForbidden)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (isForbidden);

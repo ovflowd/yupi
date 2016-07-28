@@ -10,7 +10,7 @@ namespace Yupi.Messages.User
 			LISTEN = 3 // TODO Any other valid values?
 		}
 
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, State state, string username)
+		public override void Compose ( Yupi.Protocol.ISender session, State state, string username)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (state);

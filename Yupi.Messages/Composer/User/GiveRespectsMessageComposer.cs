@@ -8,7 +8,7 @@ namespace Yupi.Messages.User
 {
 	public class GiveRespectsMessageComposer : AbstractComposer<int, int>
 	{
-		public override void Compose(Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> room, int user, int respect) {
+		public override void Compose( Yupi.Protocol.ISender room, int user, int respect) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(user);
 				message.AppendInteger(respect);

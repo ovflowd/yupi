@@ -7,7 +7,7 @@ namespace Yupi.Messages.Items
 {
 	public class PickUpFloorItemMessageComposer : AbstractComposer<FloorItem, int>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, FloorItem item, int pickerId)
+		public override void Compose ( Yupi.Protocol.ISender session, FloorItem item, int pickerId)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendString(item.Id.ToString());

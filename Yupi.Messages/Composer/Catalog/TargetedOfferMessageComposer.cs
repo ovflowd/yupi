@@ -7,7 +7,7 @@ namespace Yupi.Messages.Catalog
 {
 	public class TargetedOfferMessageComposer : AbstractComposer<TargetedOffer>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, TargetedOffer offer)
+		public override void Compose ( Yupi.Protocol.ISender session, TargetedOffer offer)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(1);

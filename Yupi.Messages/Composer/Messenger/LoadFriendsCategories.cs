@@ -5,7 +5,7 @@ namespace Yupi.Messages.Messenger
 {
 	public class LoadFriendsCategories : AbstractComposerVoid
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session)
+		public override void Compose ( Yupi.Protocol.ISender session)
 		{// TODO Hardcoded message
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(2000);

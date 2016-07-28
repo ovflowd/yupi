@@ -7,9 +7,9 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.User
 {
-	public class RelationshipMessageComposer : AbstractComposer<Habbo>
+	public class RelationshipMessageComposer : AbstractComposer<UserInfo>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Habbo habbo)
+		public override void Compose ( Yupi.Protocol.ISender session, UserInfo habbo)
 		{
 			// TODO Refactor
 
@@ -23,7 +23,7 @@ namespace Yupi.Messages.User
 				foreach (Relationship current in habbo.Relationships.Values)
 				{
 					// TODO There should be no need to convert!!!!
-					Habbo habboForId2 = Yupi.GetHabboById(Convert.ToUInt32(current.UserId));
+					UserInfo habboForId2 = Yupi.GetHabboById(Convert.ToUInt32(current.UserId));
 					if (habboForId2 == null)
 					{
 						message.AppendInteger(0);

@@ -10,7 +10,7 @@ namespace Yupi.Messages.Rooms
 {
 	public class SetRoomUserMessageComposer : AbstractComposer<List<RoomEntity>, bool>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> room, List<RoomEntity> users, bool hasPublicPool = false)
+		public override void Compose ( Yupi.Protocol.ISender room, List<RoomEntity> users, bool hasPublicPool = false)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (users.Count);
@@ -23,7 +23,7 @@ namespace Yupi.Messages.Rooms
 			}
 		}
 
-		public void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> room, RoomEntity user, bool hasPublicPool = false)
+		public void Compose ( Yupi.Protocol.ISender room, RoomEntity user, bool hasPublicPool = false)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (1);

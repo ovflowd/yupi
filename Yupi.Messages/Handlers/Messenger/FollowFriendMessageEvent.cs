@@ -7,7 +7,7 @@ namespace Yupi.Messages.Messenger
 	public class FollowFriendMessageEvent : AbstractHandler
 	{
 		// TODO Refactor
-		public override void HandleMessage (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			uint userId = request.GetUInt32();
 			GameClient clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(userId);

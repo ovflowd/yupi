@@ -5,7 +5,7 @@ namespace Yupi.Messages.Rooms
 {
 	public class FloorMapMessageComposer : AbstractComposer<string, int>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, string heightmap, int wallHeight)
+		public override void Compose ( Yupi.Protocol.ISender session, string heightmap, int wallHeight)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendBool(true);

@@ -5,7 +5,7 @@ namespace Yupi.Messages.Rooms
 {
 	public class RemoveFavouriteRoomMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			uint roomId = request.GetUInt32();
 

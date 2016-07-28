@@ -1,11 +1,9 @@
 ﻿using System;
-using Yupi.Protocol.Buffers;
 
 namespace Yupi.Protocol
 {
-	public interface ISession<T> : Yupi.Net.ISession<T>
+	public interface ISession<T> : Yupi.Net.ISession<T>, ISender
 	{
-		void Send (ServerMessage message);
 	}
 }
 

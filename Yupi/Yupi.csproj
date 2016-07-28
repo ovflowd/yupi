@@ -408,7 +408,6 @@
     <Compile Include="Emulator\Game\Support\ModerationBanType.cs" />
     <Compile Include="Emulator\Game\Support\ModerationTool.cs" />
     <Compile Include="Emulator\Game\Users\Factories\HabboFactory.cs" />
-    <Compile Include="Emulator\Game\Users\Badges\Models\Badge.cs" />
     <Compile Include="Emulator\Game\Users\Badges\UserBadgeManager.cs" />
     <Compile Include="Emulator\Game\Users\Guides\GuideManager.cs" />
     <Compile Include="Emulator\Game\Users\Inventory\Components\AvatarEffectComponent.cs" />
@@ -505,6 +504,7 @@
     <Folder Include="Emulator\Game\SoundMachine\Songs\" />
     <Folder Include="Emulator\Game\Rooms\Competitions\Models\" />
     <Folder Include="Emulator\Game\Users\Messenger\Structs\" />
+    <Folder Include="Emulator\Game\Users\Badges\Models\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\GitInfo.1.1.1\build\GitInfo.targets" Condition="Exists('..\packages\GitInfo.1.1.1\build\GitInfo.targets')" />

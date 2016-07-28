@@ -8,7 +8,7 @@ namespace Yupi.Messages.Bots
 	public class BotSpeechListMessageComposer : AbstractComposer<int, BotEntity>
 	{
 		// TODO Refactor
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, int num, BotEntity bot)
+		public override void Compose ( Yupi.Protocol.ISender session, int num, BotEntity bot)
 		{
 			string text = "";
 

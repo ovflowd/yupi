@@ -6,9 +6,9 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.User
 {
-	public class UserUpdateNameInRoomMessageComposer : AbstractComposer<Habbo, string>
+	public class UserUpdateNameInRoomMessageComposer : AbstractComposer<UserInfo, string>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> room, Habbo habbo, string newName)
+		public override void Compose ( Yupi.Protocol.ISender room, UserInfo habbo, string newName)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (habbo.Id);

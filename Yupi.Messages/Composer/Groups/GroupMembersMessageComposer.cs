@@ -8,26 +8,26 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Groups
 {
-	public class GroupMembersMessageComposer : AbstractComposer<Habbo, Group>
+	public class GroupMembersMessageComposer : AbstractComposer<UserInfo, Group>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Habbo user, Group group)
+		public override void Compose ( Yupi.Protocol.ISender session, UserInfo user, Group group)
 		{
 			Compose (session, group, 0u, user);
 		}
 
 		// TODO Refactor?
-		public void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Group group, uint reqType, Habbo user, string searchVal = "", int page = 0) {
+		public void Compose ( Yupi.Protocol.ISender session, Group group, uint reqType, UserInfo user, string searchVal = "", int page = 0) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(group.Id);
 				message.AppendString(group.Name);
 				message.AppendInteger(group.RoomId);
 				message.AppendString(group.Badge);
 
-				List<Habbo> groupList = GetGroupUsersByString(group, searchVal, reqType);
+				List<UserInfo> groupList = GetGroupUsersByString(group, searchVal, reqType);
 
 				if(groupList != null)
 				{
-					List<List<Habbo>> list = Split(groupList);
+					List<List<UserInfo>> list = Split(groupList);
 
 					if(list != null)
 					{
@@ -39,11 +39,11 @@ namespace Yupi.Messages.Groups
 							{
 								message.AppendInteger(list[page].Count);
 
-								using (List<Habbo>.Enumerator enumerator = list[page].GetEnumerator())
+								using (List<UserInfo>.Enumerator enumerator = list[page].GetEnumerator())
 								{
 									while (enumerator.MoveNext())
 									{
-										Habbo current = enumerator.Current;
+										UserInfo current = enumerator.Current;
 
 										AddGroupMemberIntoResponse(message, current);
 									}
@@ -56,17 +56,17 @@ namespace Yupi.Messages.Groups
 						{
 							message.AppendInteger(group.Admins.Count);
 
-							List<Habbo> paging = page <= list.Count ? list[page] : null;
+							List<UserInfo> paging = page <= list.Count ? list[page] : null;
 
 							if ((group.Admins.Count > 0) && (list.Count > 0) && paging != null)
 							{
 								message.AppendInteger(list[page].Count);
 
-								using (List<Habbo>.Enumerator enumerator = list[page].GetEnumerator())
+								using (List<UserInfo>.Enumerator enumerator = list[page].GetEnumerator())
 								{
 									while (enumerator.MoveNext())
 									{
-										Habbo current = enumerator.Current;
+										UserInfo current = enumerator.Current;
 
 										AddGroupMemberIntoResponse(message, current);
 									}
@@ -83,11 +83,11 @@ namespace Yupi.Messages.Groups
 							{
 								message.AppendInteger(list[page].Count);
 
-								using (List<Habbo>.Enumerator enumerator = list[page].GetEnumerator())
+								using (List<UserInfo>.Enumerator enumerator = list[page].GetEnumerator())
 								{
 									while (enumerator.MoveNext())
 									{
-										Habbo current = enumerator.Current;
+										UserInfo current = enumerator.Current;
 
 										message.AppendInteger(3);
 
@@ -121,7 +121,7 @@ namespace Yupi.Messages.Groups
 			}
 		}
 
-		private void AddGroupMemberIntoResponse(ServerMessage response, Habbo member)
+		private void AddGroupMemberIntoResponse(ServerMessage response, UserInfo member)
 		{
 			response.AppendInteger(member.Rank == 2 ? 0 : member.Rank == 1 ? 1 : 2);
 			response.AppendInteger(member.Id);
@@ -131,9 +131,9 @@ namespace Yupi.Messages.Groups
 		}
 
 		// TODO Useless copy to list?
-		private List<Habbo> GetGroupUsersByString(Group theGroup, string searchVal, uint req)
+		private List<UserInfo> GetGroupUsersByString(Group theGroup, string searchVal, uint req)
 		{
-			List<Habbo> list = new List<Habbo>();
+			List<UserInfo> list = new List<UserInfo>();
 
 			switch (req)
 			{
@@ -158,7 +158,7 @@ namespace Yupi.Messages.Groups
 			return list;
 		}
 
-		private  List<Habbo> GetGroupRequestsByString(Group theGroup, string searchVal)
+		private  List<UserInfo> GetGroupRequestsByString(Group theGroup, string searchVal)
 		{
 			if (string.IsNullOrWhiteSpace (searchVal)) {
 				return theGroup.Requests.Values.ToList ();

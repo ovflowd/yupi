@@ -6,7 +6,7 @@ namespace Yupi.Messages.Catalog
 {
 	public class CatalogueClubPageMessageComposer : AbstractComposer<int>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, int windowId)
+		public override void Compose ( Yupi.Protocol.ISender session, int windowId)
 		{
 			// TODO Refactor
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {

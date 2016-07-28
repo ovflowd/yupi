@@ -7,7 +7,7 @@ namespace Yupi.Messages.User
 {
 	public class SubscriptionStatusMessageComposer : AbstractComposer<Subscription>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Subscription subscription)
+		public override void Compose ( Yupi.Protocol.ISender session, Subscription subscription)
 		{ // TODO refactor
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendString("club_habbo");

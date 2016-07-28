@@ -6,7 +6,7 @@ namespace Yupi.Messages.Rooms
 {
 	public class RoomLoadFilterMessageComposer : AbstractComposer<List<string>>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, List<string> wordlist)
+		public override void Compose ( Yupi.Protocol.ISender session, List<string> wordlist)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(wordlist.Count);

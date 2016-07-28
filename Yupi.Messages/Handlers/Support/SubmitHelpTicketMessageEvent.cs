@@ -5,7 +5,7 @@ namespace Yupi.Messages.Support
 {
 	public class SubmitHelpTicketMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			string content = message.GetString();
 			int category = message.GetInteger();

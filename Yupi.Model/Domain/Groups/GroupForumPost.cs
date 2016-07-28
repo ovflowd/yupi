@@ -33,9 +33,9 @@ namespace Yupi.Model.Domain
 
 		public virtual bool Hidden { get; set; }
 
-		public virtual Habbo HiddenBy { get; set; }
+		public virtual UserInfo HiddenBy { get; set; }
 
-		public virtual Habbo Poster { get; set; }
+		public virtual UserInfo Poster { get; set; }
 
 		public virtual bool Locked { get; set; }
 

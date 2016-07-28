@@ -1,4 +1,5 @@
 ﻿using System;
+using Yupi.Model.Domain;
 
 
 
@@ -9,30 +10,26 @@ namespace Yupi.Messages.User
 	{
 		public override void HandleMessage (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(session.UserData.CurrentRoomId);
+			Room room = session.UserData.Room;
 
-			uint userId = message.GetUInt32 ();
+			int userId = message.GetInteger();
 
-			RoomUser roomUserByHabbo = room?.GetRoomUserManager().GetRoomUserByHabbo(userId);
+			UserEntity roomUserByHabbo = room?.GetEntity (userId) as UserEntity;
 
-			if (roomUserByHabbo == null || roomUserByHabbo.IsBot)
+			if (roomUserByHabbo == null)
 				return;
 
-			// TODO Refactor
+			router.GetComposer<UserTagsMessageComposer> ()
+				.Compose (session, roomUserByHabbo.UserInfo);
 
-			router.GetComposer<UserTagsMessageComposer> ().Compose (session, 
-				roomUserByHabbo.GetClient ().GetHabbo ().Id, 
-				roomUserByHabbo.GetClient ().GetHabbo ().Tags
-			);
-
-			if (session != roomUserByHabbo.GetClient())
-				return;
-
-			if (session.UserData.Tags.Count >= 5) {
+			// TODO Move to proper place!
+			/*
+			if (session.UserData.Info.Tags.Count >= 5) {
 				Yupi.GetGame ()
 					.GetAchievementManager ()
 					.ProgressUserAchievement (roomUserByHabbo.GetClient (), "ACH_UserTags", 5);
-			}
+
+			}*/
 		}
 	}
 }

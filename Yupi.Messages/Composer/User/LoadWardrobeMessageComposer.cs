@@ -7,7 +7,7 @@ namespace Yupi.Messages.User
 {
 	public class LoadWardrobeMessageComposer : AbstractComposerVoid
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session)
+		public override void Compose ( Yupi.Protocol.ISender session)
 		{
 			// TODO Query should really not be within composer!!!
 			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())

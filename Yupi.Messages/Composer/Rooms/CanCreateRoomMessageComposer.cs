@@ -5,7 +5,7 @@ namespace Yupi.Messages.Rooms
 {
 	public class CanCreateRoomMessageComposer : AbstractComposerVoid
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session)
+		public override void Compose ( Yupi.Protocol.ISender session)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				// TODO Refactor

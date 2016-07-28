@@ -6,7 +6,7 @@ namespace Yupi.Messages.User
 {
 	public class LoadVolumeMessageComposer : AbstractComposer<UserPreferences>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, UserPreferences preferences)
+		public override void Compose ( Yupi.Protocol.ISender session, UserPreferences preferences)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendIntegersArray(preferences.Volume, ',', 3, 0, 100);

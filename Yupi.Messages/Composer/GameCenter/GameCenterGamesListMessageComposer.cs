@@ -6,7 +6,7 @@ namespace Yupi.Messages.GameCenter
 	public class GameCenterGamesListMessageComposer : AbstractComposerVoid
 	{
 		// TODO Hardcoded message
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session)
+		public override void Compose ( Yupi.Protocol.ISender session)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(1);

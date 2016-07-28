@@ -8,7 +8,7 @@ namespace Yupi.Messages.Landing
 {
 	public class LandingPromosMessageComposer : AbstractComposer<List<HotelLandingPromos>>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, List<HotelLandingPromos> promos)
+		public override void Compose ( Yupi.Protocol.ISender session, List<HotelLandingPromos> promos)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(promos.Count);

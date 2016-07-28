@@ -50,11 +50,14 @@
     <Compile Include="Buffers\ServerMessage.cs" />
     <Compile Include="ServerMessagePool.cs" />
     <Compile Include="IRouter.cs" />
+    <Compile Include="Sender\StaffSender.cs" />
+    <Compile Include="ISender.cs" />
     <Compile Include="ISession.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Buffers\" />
+    <Folder Include="Sender\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

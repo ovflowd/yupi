@@ -41,7 +41,6 @@ namespace Yupi.Model
 
 				Console.ReadLine ();
 			}
-
 		}
 
 		public static bool IsRunningOnMono ()

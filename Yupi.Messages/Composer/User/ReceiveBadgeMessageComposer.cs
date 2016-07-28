@@ -5,7 +5,7 @@ namespace Yupi.Messages.User
 {
 	public class ReceiveBadgeMessageComposer : AbstractComposer<string>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, string badgeId)
+		public override void Compose ( Yupi.Protocol.ISender session, string badgeId)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(1);

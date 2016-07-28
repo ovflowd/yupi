@@ -18,7 +18,7 @@ namespace Yupi.Messages.User
 			IS_TAKEN = 5
 		}
 
-		public void Compose(Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Status status, string newName, List<string> alternatives = null) {
+		public void Compose( Yupi.Protocol.ISender session, Status status, string newName, List<string> alternatives = null) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (status);
 				message.AppendString (newName);

@@ -7,7 +7,7 @@ namespace Yupi.Messages.Support
 {
 	public class ModerationToolIssueMessageComposer : AbstractComposer<SupportTicket>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, SupportTicket ticket)
+		public override void Compose ( Yupi.Protocol.ISender session, SupportTicket ticket)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(ticket.Id);

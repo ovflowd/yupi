@@ -7,7 +7,7 @@ namespace Yupi.Messages.Items
 {
 	public class OpenGiftMessageComposer : AbstractComposer<BaseItem, string>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, BaseItem item, string text)
+		public override void Compose ( Yupi.Protocol.ISender session, BaseItem item, string text)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendString(item.Type.ToString());

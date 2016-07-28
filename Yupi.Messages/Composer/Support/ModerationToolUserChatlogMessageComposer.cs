@@ -10,7 +10,7 @@ namespace Yupi.Messages.Support
 	public class ModerationToolUserChatlogMessageComposer : AbstractComposer<uint>
 	{
 		// TODO Refactor
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, uint userId)
+		public override void Compose ( Yupi.Protocol.ISender session, uint userId)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (userId);

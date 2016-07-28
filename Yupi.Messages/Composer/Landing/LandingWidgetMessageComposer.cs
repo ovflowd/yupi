@@ -5,7 +5,7 @@ namespace Yupi.Messages.Landing
 {
 	public class LandingWidgetMessageComposer : AbstractComposer<string>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, string text)
+		public override void Compose ( Yupi.Protocol.ISender session, string text)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				if (!string.IsNullOrEmpty(text))

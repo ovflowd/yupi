@@ -10,7 +10,7 @@ namespace Yupi.Messages.Rooms
 			UNKNOWN = 4 // what does this mean?
 		}
 
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Error error)
+		public override void Compose ( Yupi.Protocol.ISender session, Error error)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (error);

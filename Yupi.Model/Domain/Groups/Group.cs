@@ -48,20 +48,20 @@ namespace Yupi.Model.Domain
 
 		public virtual int CreateTime { get; set; }
 
-		public virtual Habbo Creator { get; set; }
+		public virtual UserInfo Creator { get; set; }
 
 		public virtual string Description { get; set; }
 
 		public virtual GroupForum Forum { get; set; }
 
 		[ManyToMany]
-		public virtual IList<Habbo> Admins { get; protected set; }
+		public virtual IList<UserInfo> Admins { get; protected set; }
 
 		[ManyToMany]
-		public virtual IList<Habbo> Members { get; protected set; }
+		public virtual IList<UserInfo> Members { get; protected set; }
 
 		[ManyToMany]
-		public virtual IList<Habbo> Requests { get; protected set; }
+		public virtual IList<UserInfo> Requests { get; protected set; }
 
 		public virtual uint RoomId { get; set; }
 

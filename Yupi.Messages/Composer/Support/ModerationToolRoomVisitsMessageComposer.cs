@@ -8,7 +8,7 @@ namespace Yupi.Messages.Support
 {
 	public class ModerationToolRoomVisitsMessageComposer : AbstractComposer<uint>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, uint userId)
+		public override void Compose ( Yupi.Protocol.ISender session, uint userId)
 		{
 			// TODO Only works when user is online
 			GameClient user = Yupi.GetGame().GetClientManager().GetClientByUserId(userId);

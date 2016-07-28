@@ -8,7 +8,7 @@ namespace Yupi.Messages.Groups
 	public class GroupPurchasePartsMessageComposer : AbstractComposerVoid
 	{
 		// TODO Refactor
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session)
+		public override void Compose ( Yupi.Protocol.ISender session)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (Yupi.GetGame ().GetGroupManager ().Bases.Count);

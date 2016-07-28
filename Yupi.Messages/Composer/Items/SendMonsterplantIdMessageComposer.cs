@@ -5,7 +5,7 @@ namespace Yupi.Messages.Items
 {
 	public class SendMonsterplantIdMessageComposer : AbstractComposer<uint>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, uint entityId)
+		public override void Compose ( Yupi.Protocol.ISender session, uint entityId)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (entityId);

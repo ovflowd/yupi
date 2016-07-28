@@ -7,7 +7,7 @@ namespace Yupi.Messages.Bots
 {
 	public class BotInventoryMessageComposer : AbstractComposer<HybridDictionary>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, HybridDictionary items)
+		public override void Compose ( Yupi.Protocol.ISender session, HybridDictionary items)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(items.Count);

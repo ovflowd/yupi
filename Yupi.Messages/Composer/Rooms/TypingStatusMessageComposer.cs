@@ -5,7 +5,7 @@ namespace Yupi.Messages.Rooms
 {
 	public class TypingStatusMessageComposer : AbstractComposer<uint, bool>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, uint virtualId, bool isTyping)
+		public override void Compose ( Yupi.Protocol.ISender session, uint virtualId, bool isTyping)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(virtualId);

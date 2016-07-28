@@ -13,7 +13,7 @@ namespace Yupi.Messages.Support
 	public class ModerationToolIssueChatlogMessageComposer : AbstractComposer<SupportTicket, RoomData>
 	{
 		// TODO Refactor
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, SupportTicket ticket, RoomData roomData)
+		public override void Compose ( Yupi.Protocol.ISender session, SupportTicket ticket, RoomData roomData)
 		{
 			
 			RoomData room = Yupi.GetGame().GetRoomManager().GenerateRoomData(ticket.RoomId);
@@ -46,7 +46,7 @@ namespace Yupi.Messages.Support
 					message.AppendShort(tempChatlogs.Count);
 
 					foreach (Chatlog chatLog in tempChatlogs) {
-						Habbo habbo = Yupi.GetHabboById(chatLog.UserId);
+						UserInfo habbo = Yupi.GetHabboById(chatLog.UserId);
 
 						message.AppendInteger(Yupi.DifferenceInMilliSeconds(chatLog.TimeStamp, DateTime.Now));
 						message.AppendInteger(chatLog.UserId);

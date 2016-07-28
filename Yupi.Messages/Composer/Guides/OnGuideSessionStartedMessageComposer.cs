@@ -6,9 +6,9 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Guides
 {
-	public class OnGuideSessionStartedMessageComposer : AbstractComposer<Habbo, Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo>>
+	public class OnGuideSessionStartedMessageComposer : AbstractComposer<UserInfo,  Yupi.Protocol.ISender>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Habbo habbo, Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> requester)
+		public override void Compose ( Yupi.Protocol.ISender session, UserInfo habbo,  Yupi.Protocol.ISender requester)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(habbo.Id);

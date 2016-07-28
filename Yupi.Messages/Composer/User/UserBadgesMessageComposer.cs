@@ -2,37 +2,32 @@
 using Yupi.Net;
 
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
+using System.Linq;
 
 namespace Yupi.Messages.User
 {
-	public class UserBadgesMessageComposer : AbstractComposer<uint>
+	public class UserBadgesMessageComposer : AbstractComposer<Habbo>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, uint user)
+		public override void Compose ( Yupi.Protocol.ISender session, Habbo user)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendInteger (user);
-				// TODO Rewrite !!!
-				message.StartArray ();
-				foreach (
-				Badge badge in
-				roomUserByHabbo.GetClient()
-				.GetHabbo()
-				.GetBadgeComponent()
-				.BadgeList.Values.Cast<Badge>()
-				.Where(badge => badge.Slot > 0)) {
+				message.AppendInteger (user.Info.Id);
+				var badges = user.Info.Badges.Where(x => x.Slot > 0).ToList();
+
+				message.AppendInteger (badges.Count);
+
+				foreach (Badge badge in badges) {
 					message.AppendInteger (badge.Slot);
 					message.AppendString (badge.Code);
-
-					message.SaveArray ();
 				}
 
-				message.EndArray ();
-
 				// TODO Can this event even occur when a user isn't in a room?
-				if (session.GetHabbo().InRoom)
-					Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId).Send(message);
-				else
-					session.Send(message);
+				if (user.Room != null) {
+					user.Room.Send (message);
+				} else {
+					session.Send (message);
+				}
 			}
 		}
 	}

@@ -10,7 +10,7 @@ namespace Yupi.Messages.Items
 {
 	public class RoomFloorItemsMessageComposer : AbstractComposer <RoomData, IReadOnlyDictionary<uint, FloorItem>>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, RoomData data, IReadOnlyDictionary<uint, FloorItem> items)
+		public override void Compose ( Yupi.Protocol.ISender session, RoomData data, IReadOnlyDictionary<uint, FloorItem> items)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				if (data.Group != null) {

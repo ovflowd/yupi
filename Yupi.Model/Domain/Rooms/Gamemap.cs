@@ -4,10 +4,7 @@ namespace Yupi.Model.Domain
 {
 	public class Gamemap
 	{
-		public Gamemap ()
-		{
-			throw new NotImplementedException ();
-		}
+		public virtual int Id { get; protected set; }
 	}
 }
 

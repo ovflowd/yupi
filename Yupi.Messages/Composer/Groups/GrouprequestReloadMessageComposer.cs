@@ -5,7 +5,7 @@ namespace Yupi.Messages.Groups
 {
 	public class GrouprequestReloadMessageComposer : AbstractComposer<int>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, int groupId)
+		public override void Compose ( Yupi.Protocol.ISender session, int groupId)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (groupId);

@@ -9,7 +9,7 @@ namespace Yupi.Messages.Rooms
 {
 	public class UpdateFurniStackMapMessageComposer : AbstractComposer<IList<Vector>, RoomData>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, IList<Vector> affectedTiles, RoomData room)
+		public override void Compose ( Yupi.Protocol.ISender session, IList<Vector> affectedTiles, RoomData room)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendByte((byte) affectedTiles.Count);

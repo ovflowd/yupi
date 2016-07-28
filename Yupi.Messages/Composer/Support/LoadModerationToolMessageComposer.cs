@@ -8,9 +8,9 @@ using Yupi.Model;
 
 namespace Yupi.Messages.Support
 {
-	public class LoadModerationToolMessageComposer : AbstractComposer<ModerationTool, Habbo>
+	public class LoadModerationToolMessageComposer : AbstractComposer<ModerationTool, UserInfo>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, ModerationTool tool, Habbo user)
+		public override void Compose ( Yupi.Protocol.ISender session, ModerationTool tool, UserInfo user)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(tool.Tickets.Count);

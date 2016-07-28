@@ -8,7 +8,7 @@ namespace Yupi.Messages.Navigator
 {
 	public class NavigatorSavedSearchesComposer : AbstractComposer<IList<UserSearchLog>>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, IList<UserSearchLog> searchLog)
+		public override void Compose ( Yupi.Protocol.ISender session, IList<UserSearchLog> searchLog)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(searchLog.Count);

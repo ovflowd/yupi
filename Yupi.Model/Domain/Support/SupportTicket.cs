@@ -9,11 +9,11 @@ namespace Yupi.Model.Domain
 	{
 		public virtual int Id { get; protected set; }
 
-		public virtual Habbo ReportedUser { get; set; }
+		public virtual UserInfo ReportedUser { get; set; }
 
-		public virtual Habbo Sender { get; set; }
+		public virtual UserInfo Sender { get; set; }
 
-		public virtual Habbo Staff { get; set; }
+		public virtual UserInfo Staff { get; set; }
 
 		// TODO Use enum
 		public virtual int Category { get; set; }
@@ -41,10 +41,10 @@ namespace Yupi.Model.Domain
 		{
 			Status = TicketStatus.Open;
 			ReportedChats = new List<string> ();
-			Staff = Habbo.None;
+			Staff = UserInfo.None;
 		}
 			
-		public virtual void Pick (Habbo moderator)
+		public virtual void Pick (UserInfo moderator)
 		{
 			Status = TicketStatus.Picked;
 			Staff = moderator;

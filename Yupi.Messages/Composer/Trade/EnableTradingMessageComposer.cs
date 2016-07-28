@@ -5,7 +5,7 @@ namespace Yupi.Messages.Trade
 {
 	public class EnableTradingMessageComposer : AbstractComposerVoid
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session)
+		public override void Compose ( Yupi.Protocol.ISender session)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendBool(true); 

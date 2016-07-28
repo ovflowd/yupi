@@ -5,7 +5,7 @@ namespace Yupi.Messages.User
 {
 	public class ActivityPointsMessageComposer : AbstractComposer<uint, uint>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, uint duckets, uint diamonds)
+		public override void Compose ( Yupi.Protocol.ISender session, uint duckets, uint diamonds)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(2);

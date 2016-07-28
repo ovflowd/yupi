@@ -9,7 +9,7 @@ namespace Yupi.Messages.Other
 	public class FigureSetIdsMessageComposer : AbstractComposerVoid
 	{
 		// TODO Refactor
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session)
+		public override void Compose ( Yupi.Protocol.ISender session)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				List<string> clothing = session.GetHabbo().ClothesManagerManager.Clothing;

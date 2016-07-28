@@ -5,7 +5,7 @@ namespace Yupi.Messages.Items
 {
 	public class RecyclingStateMessageComposer : AbstractComposer<int>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, int insertId)
+		public override void Compose ( Yupi.Protocol.ISender session, int insertId)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(1);

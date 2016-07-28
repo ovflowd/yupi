@@ -9,7 +9,7 @@ namespace Yupi.Messages.Support
 	public class ModerationRoomToolMessageComposer : AbstractComposer<RoomData, bool>
 	{
 		// TODO Refactor
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, RoomData data, bool isLoaded)
+		public override void Compose ( Yupi.Protocol.ISender session, RoomData data, bool isLoaded)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(data.Id);

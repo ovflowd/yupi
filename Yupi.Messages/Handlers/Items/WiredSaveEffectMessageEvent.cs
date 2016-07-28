@@ -8,7 +8,7 @@ namespace Yupi.Messages.Items
 {
 	public class WiredSaveEffectMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			uint itemId = request.GetUInt32();
 
@@ -22,7 +22,7 @@ namespace Yupi.Messages.Items
 			SaveWired(session, item, request);
 		}
 
-		private void SaveWired(Habbo session, WiredItem item, ClientMessage request)
+		private void SaveWired(UserInfo session, WiredItem item, ClientMessage request)
 		{
 			if (item == null || !item.IsWired)
 				return;

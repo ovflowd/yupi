@@ -5,7 +5,7 @@ namespace Yupi.Messages.Other
 {
 	public class InternalLinkMessageComposer : AbstractComposer<string>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, string link)
+		public override void Compose ( Yupi.Protocol.ISender session, string link)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendString(link);

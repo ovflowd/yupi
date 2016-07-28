@@ -4,13 +4,13 @@ namespace Yupi.Model.Domain
 {
 	public class Subscription
 	{
-		public virtual int Id { get; private set; }
+		public virtual int Id { get; protected set; }
 
-		public virtual DateTime ExpireTime { get; }
+		public virtual DateTime ExpireTime { get; set; }
 
-		public virtual DateTime ActivateTime { get; private set; }
+		public virtual DateTime ActivateTime { get; set; }
 
-		public virtual DateTime LastGiftTime { get; private set; }
+		public virtual DateTime LastGiftTime { get; set; }
 
 		public virtual bool IsValid ()
 		{

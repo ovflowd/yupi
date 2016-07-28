@@ -31,25 +31,10 @@ namespace Yupi.Model.Domain
 {
 	public class RoomCompetition
 	{
-		/// <summary>
-		///     Competition Entries
-		/// </summary>
-		public IList<RoomCompetitionEntry> Entries;
-
-		/// <summary>
-		///     Competition Id
-		/// </summary>
-		public int Id;
-
-		/// <summary>
-		///     Competition Name
-		/// </summary>
-		public string Name;
-
-		/// <summary>
-		///     Required Items
-		/// </summary>
-		public IList<BaseItem> RequiredItems;
+		public virtual int Id { get; protected set; }
+		public virtual IList<RoomCompetitionEntry> Entries { get; protected set; }
+		public virtual string Name { get; protected set; }
+		public virtual IList<BaseItem> RequiredItems { get; protected set; }
 
 		public RoomCompetition ()
 		{

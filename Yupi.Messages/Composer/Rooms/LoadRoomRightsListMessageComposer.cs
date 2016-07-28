@@ -11,13 +11,13 @@ namespace Yupi.Messages.Rooms
 {
 	public class LoadRoomRightsListMessageComposer : AbstractComposer<RoomData>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, RoomData room)
+		public override void Compose ( Yupi.Protocol.ISender session, RoomData room)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (room.Id);
 				message.AppendInteger (room.Rights.Count);
 
-				foreach (Habbo habboForId in room.Rights) {
+				foreach (UserInfo habboForId in room.Rights) {
 					message.AppendInteger (habboForId.Id);
 					message.AppendString (habboForId.UserName);
 				}

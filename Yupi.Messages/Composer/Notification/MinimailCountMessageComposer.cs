@@ -5,7 +5,7 @@ namespace Yupi.Messages.Notification
 {
 	public class MinimailCountMessageComposer : AbstractComposer<int>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, int count)
+		public override void Compose ( Yupi.Protocol.ISender session, int count)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(count);

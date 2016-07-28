@@ -6,7 +6,7 @@ namespace Yupi.Messages.Rooms
 {
 	public class FavouriteRoomsMessageComposer : AbstractComposer<List<uint>>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, List<uint> rooms)
+		public override void Compose ( Yupi.Protocol.ISender session, List<uint> rooms)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(30); // TODO Hardcoded value

@@ -6,9 +6,9 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Groups
 {
-	public class GroupConfirmLeaveMessageComposer : AbstractComposer<Habbo, Group, int>
+	public class GroupConfirmLeaveMessageComposer : AbstractComposer<UserInfo, Group, int>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Habbo user, Group group, int type)
+		public override void Compose ( Yupi.Protocol.ISender session, UserInfo user, Group group, int type)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(group.Id);

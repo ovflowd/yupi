@@ -5,7 +5,7 @@ namespace Yupi.Messages.Rooms
 {
 	public class CreateRoomMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			// TODO Magic number!
 			if (session.GetHabbo().UsersRooms.Count >= 75)

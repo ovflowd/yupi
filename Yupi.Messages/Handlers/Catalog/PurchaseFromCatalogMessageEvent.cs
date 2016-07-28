@@ -5,7 +5,7 @@ namespace Yupi.Messages.Catalog
 {
 	public class PurchaseFromCatalogMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			// TODO Magic constant !
 			if (session.GetHabbo().GetInventoryComponent().TotalItems >= 2799)

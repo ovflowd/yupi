@@ -7,7 +7,7 @@ namespace Yupi.Messages.Other
 {
 	public class InfoRetrieveMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			router.GetComposer<UserObjectMessageComposer> ().Compose (session, session.GetHabbo ());
 			router.GetComposer<BuildersClubMembershipMessageComposer> ().Compose (

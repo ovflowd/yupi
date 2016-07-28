@@ -10,7 +10,7 @@ namespace Yupi.Messages.Navigator
 	// TODO Rename
 	public class NavigatorCategorys : AbstractComposer<IList<NavigatorCategory>>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, IList<NavigatorCategory> categories)
+		public override void Compose ( Yupi.Protocol.ISender session, IList<NavigatorCategory> categories)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(categories.Count);

@@ -2,16 +2,17 @@
 using Yupi.Protocol.Buffers;
 using Yupi.Net;
 using System.Collections.Generic;
+using Yupi.Model.Domain;
 
 
 namespace Yupi.Messages.User
 {
-	public class UserTagsMessageComposer : AbstractComposer
+	public class UserTagsMessageComposer : AbstractComposer<UserInfo>
 	{
-		public void Compose(Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, int userId, List<string> tags) {
+		public override void Compose( Yupi.Protocol.ISender session, UserInfo info) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendInteger (userId);
-				message.Append (tags);
+				message.AppendInteger (info.Id);
+				message.Append (info.Tags);
 				session.Send (message);
 			}
 		}

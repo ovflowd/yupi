@@ -8,6 +8,6 @@ namespace Yupi.Model.Domain
 		public virtual int Id { get; protected set; }
 		// TODO Introduce ENUM
 		public virtual int Type  { get; set; }
-		public virtual Habbo Friend { get; set; }
+		public virtual UserInfo Friend { get; set; }
     }
 }

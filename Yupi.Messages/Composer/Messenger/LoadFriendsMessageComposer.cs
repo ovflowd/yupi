@@ -9,7 +9,7 @@ namespace Yupi.Messages.Messenger
 {
 	public class LoadFriendsMessageComposer : AbstractComposer<Dictionary<uint, Relationship>>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Dictionary<uint, Relationship> friends)
+		public override void Compose ( Yupi.Protocol.ISender session, Dictionary<uint, Relationship> friends)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(1);

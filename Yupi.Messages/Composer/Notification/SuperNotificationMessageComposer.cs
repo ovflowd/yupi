@@ -9,7 +9,7 @@ namespace Yupi.Messages.Notification
 	{
 		// TODO might be that url default is "event:"
 		// unknown might be icon id!
-		public void Compose(Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, string title, string content, string url = "", string urlName = "", string unknown = "", int unknown2 = 4) {
+		public void Compose( Yupi.Protocol.ISender session, string title, string content, string url = "", string urlName = "", string unknown = "", int unknown2 = 4) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendString (unknown);
 				message.AppendInteger (unknown2);

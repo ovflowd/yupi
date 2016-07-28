@@ -9,7 +9,7 @@ namespace Yupi.Model.Domain
 		public virtual string Motto { get; set; }
 		public virtual string Look { get; set; }
 		public virtual char Gender { get; set; }
-		public virtual Habbo Owner { get; set; }
+		public virtual UserInfo Owner { get; set; }
 	}
 }
 

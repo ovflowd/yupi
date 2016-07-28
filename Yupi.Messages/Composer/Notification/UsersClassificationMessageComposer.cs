@@ -5,9 +5,9 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Notification
 {
-	public class UsersClassificationMessageComposer : AbstractComposer<Habbo, string>
+	public class UsersClassificationMessageComposer : AbstractComposer<UserInfo, string>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Habbo habbo, string word)
+		public override void Compose ( Yupi.Protocol.ISender session, UserInfo habbo, string word)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(1);

@@ -5,7 +5,7 @@ namespace Yupi.Messages.Groups
 {
 	public class GroupAreYouSureMessageComposer : AbstractComposer<uint>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, uint userId)
+		public override void Compose ( Yupi.Protocol.ISender session, uint userId)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(userId);

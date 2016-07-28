@@ -8,7 +8,7 @@ namespace Yupi.Messages.Rooms
 {
 	public class CompetitionEntrySubmitResultMessageComposer : AbstractComposer<RoomCompetition, int, RoomData>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, RoomCompetition competition, int status, RoomData room = null)
+		public override void Compose ( Yupi.Protocol.ISender session, RoomCompetition competition, int status, RoomData room = null)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(competition.Id);

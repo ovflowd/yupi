@@ -9,7 +9,7 @@ namespace Yupi.Messages.User
 {
 	public class UpdateUserStatusMessageComposer : AbstractComposer<List<RoomEntity>>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, List<RoomEntity> entities)
+		public override void Compose ( Yupi.Protocol.ISender session, List<RoomEntity> entities)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(entities.Count);
@@ -20,7 +20,7 @@ namespace Yupi.Messages.User
 			}
 		}
 
-		public void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, RoomEntity user)
+		public void Compose ( Yupi.Protocol.ISender session, RoomEntity user)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(1);

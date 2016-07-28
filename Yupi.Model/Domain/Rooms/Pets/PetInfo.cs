@@ -80,7 +80,7 @@ namespace Yupi.Model.Domain
 
 		public virtual uint Nutrition { get; set; }
 
-		public virtual Habbo Owner { get; set; }
+		public virtual UserInfo Owner { get; set; }
 
 		public virtual int Hair { get; set; }
 

@@ -5,7 +5,7 @@ namespace Yupi.Messages.Rooms
 {
 	public class RoomRatingMessageComposer : AbstractComposer<int, bool>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, int rating, bool canVote)
+		public override void Compose ( Yupi.Protocol.ISender session, int rating, bool canVote)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (rating);

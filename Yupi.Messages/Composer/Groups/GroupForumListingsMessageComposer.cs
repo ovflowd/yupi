@@ -14,7 +14,7 @@ namespace Yupi.Messages.Groups
 	{
 		private const int TotalPerPage = 20;
 
-		public void Compose(Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, int selectType, int startIndex) {
+		public void Compose( Yupi.Protocol.ISender session, int selectType, int startIndex) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(selectType);
 

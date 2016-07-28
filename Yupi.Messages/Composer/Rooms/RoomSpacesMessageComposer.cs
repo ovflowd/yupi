@@ -14,7 +14,7 @@ namespace Yupi.Messages.Rooms
 			LANDSCAPE
 		}
 
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, RoomSpacesMessageComposer.Type type, RoomData data)
+		public override void Compose ( Yupi.Protocol.ISender session, RoomSpacesMessageComposer.Type type, RoomData data)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendString(type.ToString());

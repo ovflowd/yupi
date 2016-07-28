@@ -36,7 +36,7 @@ namespace Yupi.Messages
 			return (T)composer;
 		}
 
-		public void Handle (Yupi.Protocol.ISession<Habbo> session, ClientMessage message) {
+		public void Handle (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, ClientMessage message) {
 			AbstractHandler handler;
 			Incoming.TryGetValue (message.Id, out handler);
 

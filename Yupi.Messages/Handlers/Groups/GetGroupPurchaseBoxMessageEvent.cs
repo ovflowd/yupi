@@ -7,7 +7,7 @@ namespace Yupi.Messages.Groups
 {
 	public class GetGroupPurchaseBoxMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			HashSet<RoomData> rooms = new HashSet<RoomData>(session.GetHabbo().UsersRooms.Where(x => x.Group == null));
 

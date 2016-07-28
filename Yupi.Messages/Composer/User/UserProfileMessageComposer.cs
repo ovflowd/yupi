@@ -4,9 +4,9 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.User
 {
-	public class UserProfileMessageComposer : AbstractComposer<Habbo>
+	public class UserProfileMessageComposer : AbstractComposer<UserInfo>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Habbo habbo)
+		public override void Compose ( Yupi.Protocol.ISender session, UserInfo habbo)
 		{
 			// TODO Refactor unix time
 			DateTime createTime = new DateTime(1970, 1, 1, 0, 0, 0, 0).AddSeconds(habbo.CreateDate);

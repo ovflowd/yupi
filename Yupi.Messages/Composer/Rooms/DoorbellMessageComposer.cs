@@ -5,7 +5,7 @@ namespace Yupi.Messages.Rooms
 {
 	public class DoorbellMessageComposer : AbstractComposer<string>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, string username)
+		public override void Compose ( Yupi.Protocol.ISender session, string username)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendString (username); 

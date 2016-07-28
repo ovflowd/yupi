@@ -6,9 +6,9 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Messenger
 {
-	public class ConsoleSearchFriendMessageComposer : AbstractComposer<List<Habbo>, List<Habbo>>
+	public class ConsoleSearchFriendMessageComposer : AbstractComposer<List<UserInfo>, List<UserInfo>>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, List<Habbo> foundFriends, List<Habbo> foundUsers)
+		public override void Compose ( Yupi.Protocol.ISender session, List<UserInfo> foundFriends, List<UserInfo> foundUsers)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(foundFriends.Count);
@@ -25,7 +25,7 @@ namespace Yupi.Messages.Messenger
 			}
 		}
 
-		private void Searialize(ServerMessage reply, Habbo user)
+		private void Searialize(ServerMessage reply, UserInfo user)
 		{
 			reply.AppendInteger(user.Id);
 			reply.AppendString(user.UserName);

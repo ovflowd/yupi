@@ -8,8 +8,8 @@ namespace Yupi.Model.Domain
 	{
 		public virtual int Id { get; protected set; }
 
-		public virtual Habbo To { get; set; }
+		public virtual UserInfo To { get; set; }
 
-		public virtual Habbo From { get; set; }
+		public virtual UserInfo From { get; set; }
 	}
 }

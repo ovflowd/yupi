@@ -134,9 +134,9 @@ namespace Yupi.Model.Domain
 		/// <summary>
 		///     Room Owner
 		/// </summary>
-		public virtual Habbo Owner { get; set; }
+		public virtual UserInfo Owner { get; set; }
 
-		public virtual IList<Habbo> Rights { get; protected set; }
+		public virtual IList<UserInfo> Rights { get; protected set; }
 
 		/// <summary>
 		///     Room Password
@@ -237,7 +237,7 @@ namespace Yupi.Model.Domain
 			AllowRightsOverride = false;
 			TradeState = 2;
 			WordFilter = new List<string> ();
-			Rights = new List<Habbo> ();
+			Rights = new List<UserInfo> ();
 		}
 			
 		// TODO Remove when not used anymore

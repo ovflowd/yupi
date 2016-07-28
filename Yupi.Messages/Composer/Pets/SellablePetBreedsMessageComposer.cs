@@ -8,7 +8,7 @@ namespace Yupi.Messages.Pets
 {
 	public class SellablePetBreedsMessageComposer : AbstractComposer<string>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, string type)
+		public override void Compose ( Yupi.Protocol.ISender session, string type)
 		{
 			// TODO Refactor?
 			string petType = PetTypeManager.GetPetTypeByHabboPetType(type);

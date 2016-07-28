@@ -8,7 +8,7 @@ namespace Yupi.Messages.Achievements
 {
 	public class UnlockAchievementMessageComposer : AbstractComposer
 	{
-		public void Compose(Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Achievement achievement, uint level, uint pointReward, uint pixelReward) {
+		public void Compose( Yupi.Protocol.ISender session, Achievement achievement, uint level, uint pointReward, uint pixelReward) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(achievement.Id);
 				message.AppendInteger(level);

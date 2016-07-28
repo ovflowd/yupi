@@ -7,7 +7,7 @@ namespace Yupi.Messages.Groups
 {
 	public class PublishForumThreadMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			// TODO Flood protection?
 			if (Yupi.GetUnixTimeStamp() - session.GetHabbo().LastSqlQuery < 20)

@@ -8,7 +8,7 @@ namespace Yupi.Messages.Achievements
 {
 	public class AchievementProgressMessageComposer : AbstractComposer
 	{
-		public void Compose(Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Achievement achievement, uint targetLevel,
+		public void Compose( Yupi.Protocol.ISender session, Achievement achievement, uint targetLevel,
 			AchievementLevel targetLevelData, uint totalLevels, UserAchievement userData) {
 
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {

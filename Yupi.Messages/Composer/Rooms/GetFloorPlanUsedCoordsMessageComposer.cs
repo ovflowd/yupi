@@ -6,7 +6,7 @@ namespace Yupi.Messages.Rooms
 {
 	public class GetFloorPlanUsedCoordsMessageComposer : AbstractComposer<Point[]>
 	{
-		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Point[] coords)
+		public override void Compose ( Yupi.Protocol.ISender session, Point[] coords)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(coords.Length);
