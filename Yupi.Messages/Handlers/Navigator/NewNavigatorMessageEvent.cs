@@ -10,7 +10,7 @@ namespace Yupi.Messages.Navigator
 				return;
 
 			router.GetComposer<NavigatorMetaDataComposer> ().Compose (session);
-			router.GetComposer<NavigatorLiftedRoomsComposer> ().Compose (session, Yupi.GetGame().GetNavigator().NavigatorHeaders);
+			router.GetComposer<NavigatorLiftedRoomsComposer> ().Compose (session);
 			router.GetComposer<NavigatorCategorys> ().Compose (session, Yupi.GetGame ().GetNavigator ());
 			router.GetComposer<NavigatorSavedSearchesComposer> ().Compose (session, session.GetHabbo().NavigatorLogs);
 			router.GetComposer<NewNavigatorSizeMessageComposer> ().Compose (session, session.GetHabbo ().Preferences);

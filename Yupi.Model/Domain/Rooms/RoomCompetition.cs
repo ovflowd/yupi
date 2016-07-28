@@ -22,39 +22,39 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-namespace Yupi.Emulator.Game.Browser.Models
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+
+namespace Yupi.Model.Domain
 {
-    /// <summary>
-    ///     Struct NavigatorHeader
-    /// </summary>
-     public struct NavigatorHeader
-    {
-        /// <summary>
-        ///     The room identifier
-        /// </summary>
-     public uint RoomId;
+	public class RoomCompetition
+	{
+		/// <summary>
+		///     Competition Entries
+		/// </summary>
+		public IList<RoomCompetitionEntry> Entries;
 
-        /// <summary>
-        ///     The caption
-        /// </summary>
-     public string Caption;
+		/// <summary>
+		///     Competition Id
+		/// </summary>
+		public int Id;
 
-        /// <summary>
-        ///     The image
-        /// </summary>
-     public string Image;
+		/// <summary>
+		///     Competition Name
+		/// </summary>
+		public string Name;
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="NavigatorHeader" /> struct.
-        /// </summary>
-        /// <param name="roomId">The room identifier.</param>
-        /// <param name="caption">The caption.</param>
-        /// <param name="image">The image.</param>
-     public NavigatorHeader(uint roomId, string caption, string image)
-        {
-            RoomId = roomId;
-            Caption = caption;
-            Image = image;
-        }
-    }
+		/// <summary>
+		///     Required Items
+		/// </summary>
+		public IList<BaseItem> RequiredItems;
+
+		public RoomCompetition ()
+		{
+			RequiredItems = new List<BaseItem> ();
+		}
+	}
+
 }

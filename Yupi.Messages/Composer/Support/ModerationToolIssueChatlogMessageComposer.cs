@@ -10,7 +10,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Support
 {
-	public class ModerationToolIssueChatlogMessageComposer : AbstractComposer
+	public class ModerationToolIssueChatlogMessageComposer : AbstractComposer<SupportTicket, RoomData>
 	{
 		// TODO Refactor
 		public override void Compose (Yupi.Protocol.ISender session, SupportTicket ticket, RoomData roomData)

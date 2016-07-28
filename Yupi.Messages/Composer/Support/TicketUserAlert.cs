@@ -3,10 +3,11 @@
 using Yupi.Protocol.Buffers;
 using System.Diagnostics;
 using System.Globalization;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Support
 {
-	public class TicketUserAlert : AbstractComposer
+	public class TicketUserAlert : AbstractComposer<TicketUserAlert.Status, SupportTicket>
 	{
 		public enum Status {
 			OK = 0,
@@ -22,7 +23,7 @@ namespace Yupi.Messages.Support
 				if (status == Status.HAS_PENDING) {
 					Debug.Assert(ticket != null);
 
-					message.AppendString (ticket.TicketId.ToString ());
+					message.AppendString (ticket.Id.ToString ());
 					message.AppendString (ticket.Timestamp.ToString (CultureInfo.InvariantCulture));
 					message.AppendString (ticket.Message);
 				}

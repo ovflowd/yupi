@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Rooms
 {
@@ -18,7 +19,23 @@ namespace Yupi.Messages.Rooms
 				{
 					int questionNumber = poll.Questions.IndexOf(question) + 1;
 
-					question.Serialize(message, questionNumber);
+					message.AppendInteger(question.Id);
+					message.AppendInteger(questionNumber);
+					message.AppendInteger(question.AnswerType);
+					message.AppendString(question.Question);
+
+					if (question.AnswerType == PollAnswerType.Selection
+					    || question.AnswerType == PollAnswerType.RadioSelection) {
+					
+						message.AppendInteger (1);
+						message.AppendInteger (question.Answers.Count);
+
+						foreach (string awnser in question.Answers) {
+							// TODO Why twice?
+							message.AppendString (awnser);
+							message.AppendString (awnser);
+						}
+					}
 				}
 				session.Send (message);
 			}

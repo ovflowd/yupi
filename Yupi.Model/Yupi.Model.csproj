@@ -251,6 +251,20 @@
     <Compile Include="Domain\Navigator\HotelLandingManager.cs" />
     <Compile Include="Domain\Navigator\HotelLandingPromos.cs" />
     <Compile Include="Domain\Items\FloorItem.cs" />
+    <Compile Include="Domain\Polls\Poll.cs" />
+    <Compile Include="Domain\Polls\PollQuestion.cs" />
+    <Compile Include="Domain\Polls\PollAnswerType.cs" />
+    <Compile Include="Domain\Navigator\UserSearchLog.cs" />
+    <Compile Include="Domain\Rooms\RoomCompetition.cs" />
+    <Compile Include="Domain\Rooms\RoomCompetitionEntry.cs" />
+    <Compile Include="Domain\Users\Subscription.cs" />
+    <Compile Include="Domain\Support\SupportTicket.cs" />
+    <Compile Include="Domain\Support\TicketStatus.cs" />
+    <Compile Include="Domain\Support\TicketCloseReason.cs" />
+    <Compile Include="Domain\Users\Inventory\AvatarEffect.cs" />
+    <Compile Include="Domain\Rooms\TradeUser.cs" />
+    <Compile Include="Domain\Messenger\SearchResult.cs" />
+    <Compile Include="Domain\Items\LovelockItem.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -272,6 +286,8 @@
     <Folder Include="Domain\Items\Components\" />
     <Folder Include="Domain\Rooms\User\" />
     <Folder Include="Domain\Rooms\Bot\" />
+    <Folder Include="Domain\Polls\" />
+    <Folder Include="Domain\Support\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Yupi.Data\Yupi.Data.csproj">

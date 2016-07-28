@@ -1,6 +1,4 @@
-
-
-namespace Yupi.Emulator.Game.Users.Messenger.Structs
+namespace Yupi.Model.Domain
 {
     /// <summary>
     ///     Struct SearchResult

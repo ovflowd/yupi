@@ -1,16 +1,17 @@
 ﻿using System;
 
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
 
 
 namespace Yupi.Messages.Rooms
 {
-	public class RoomOwnershipMessageComposer : AbstractComposer<Room, GameClient>
+	public class RoomOwnershipMessageComposer : AbstractComposer<RoomData, Habbo>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, Room room, GameClient user)
+		public override void Compose (Yupi.Protocol.ISender session, RoomData room, Habbo user)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendInteger(room.RoomId);
+				message.AppendInteger(room.Id);
 				message.AppendBool(room.CheckRights(user, true));
 				session.Send (message);
 			}

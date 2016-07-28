@@ -1,18 +1,19 @@
 ﻿using System;
 
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Items
 {
-	public class OpenGiftMessageComposer : AbstractComposer
+	public class OpenGiftMessageComposer : AbstractComposer<BaseItem, string>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, Item item, string text)
+		public override void Compose (Yupi.Protocol.ISender session, BaseItem item, string text)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendString(item.Type.ToString());
 				message.AppendInteger(item.SpriteId);
 				message.AppendString(item.Name);
-				message.AppendInteger(item.ItemId);
+				message.AppendInteger(item.Id);
 				message.AppendString(item.Type.ToString());
 				message.AppendBool(true);
 				message.AppendString(text);

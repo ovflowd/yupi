@@ -24,37 +24,12 @@
 
 namespace Yupi.Emulator.Game.Browser.Models
 {
-    /// <summary>
-    ///     Struct NaviLogs
-    /// </summary>
-     public struct UserSearchLog
-    {
-        /// <summary>
-        ///     The identifier
-        /// </summary>
-     public int Id;
+	public class UserSearchLog
+	{
+		public virtual int Id { get; protected set; }
+		// TODO Rename
+		public virtual string Value1 { get; set; }
+		public virtual string Value2 { get; set; }
 
-        /// <summary>
-        ///     The value1
-        /// </summary>
-     public string Value1;
-
-        /// <summary>
-        ///     The value2
-        /// </summary>
-     public string Value2;
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="UserSearchLog" /> struct.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <param name="value1">The value1.</param>
-        /// <param name="value2">The value2.</param>
-     public UserSearchLog(int id, string value1, string value2)
-        {
-            Id = id;
-            Value1 = value1;
-            Value2 = value2;
-        }
-    }
+	}
 }

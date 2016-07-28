@@ -9,6 +9,8 @@ namespace Yupi.Model.Domain
 {
 	public class Habbo
 	{
+		public static Habbo None = new Habbo() { Id = 0, UserName = string.Empty };
+
 		public virtual int Id { get; protected set; }
 
 		public virtual bool AppearOffline { get; set; }

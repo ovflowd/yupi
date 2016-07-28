@@ -31,7 +31,7 @@ namespace Yupi.Messages.Rooms
 			}
 		}
 
-		private void GetRoomData3(Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, Yupi.Protocol.IRouter router)
+		private void GetRoomData3(Yupi.Net.ISession<IGameClient> session, Yupi.Protocol.IRouter router)
 		{
 			if (session.GetHabbo().LoadingRoom <= 0u || !session.GetHabbo().LoadingChecksPassed ||  CurrentLoadingRoom == null || session == null)
 				return;

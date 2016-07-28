@@ -9,6 +9,10 @@ namespace Yupi.Model.Domain
 		public int Id;
 		public Vector Position;
 
+		// TODO Use enum
+		public int RotHead;
+		public int RotBody;
+
 		public abstract EntityType Type { get; }
 	}
 }

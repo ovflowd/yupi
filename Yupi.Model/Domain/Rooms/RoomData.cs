@@ -100,16 +100,6 @@ namespace Yupi.Model.Domain
 		public virtual int ChatType { get; set; }
 
 		/// <summary>
-		///     Is Room In Competition
-		/// </summary>
-		public virtual int CompetitionStatus { get; set; }
-
-		/// <summary>
-		///     Amount of Votes of the Room
-		/// </summary>
-		public virtual int CompetitionVotes { get; set; }
-
-		/// <summary>
 		///     Room Description
 		/// </summary>
 		public virtual string Description { get; set; }
@@ -145,6 +135,9 @@ namespace Yupi.Model.Domain
 		///     Room Owner
 		/// </summary>
 		public virtual Habbo Owner { get; set; }
+
+		public virtual IList<Habbo> Rights { get; protected set; }
+
 		/// <summary>
 		///     Room Password
 		/// </summary>
@@ -201,6 +194,7 @@ namespace Yupi.Model.Domain
 		/// </summary>
 		public virtual int WallThickness { get; set; }
 
+		// TODO Use enum?
 		/// <summary>
 		///     Who Can Ban Users in Room
 		/// </summary>
@@ -216,46 +210,34 @@ namespace Yupi.Model.Domain
 		/// </summary>
 		public virtual int WhoCanMute { get; set; }
 
+		public virtual bool IsMuted { get; set; }
+
 		/// <summary>
 		///     Room Private Black Words
 		/// </summary>
 		[OneToMany]
 		public virtual IList<string> WordFilter { get; protected set; }
 
-		/// <summary>
-		///     Fills the null.
-		/// </summary>
-		/// <param name="id">The identifier.</param>
+	
 		public RoomData ()
 		{
+			// TODO Should be removed...
 			Name = "Unknown Room";
-			Description = "-";
+			Description = string.Empty;
 			Type = "private";
-			UsersNow = 0;
-			UsersMax = 0;
-			Score = 0;
 			Tags = new List<string> ();
 			AllowPets = true;
 			AllowPetsEating = false;
 			AllowWalkThrough = true;
 			HideWall = false;
-			Password = string.Empty;
 			WallPaper = "0.0";
 			Floor = "0.0";
 			LandScape = "0.0";
-			WallThickness = 0;
-			FloorThickness = 0;
 			Group = null;
 			AllowRightsOverride = false;
-			Event = null;
-			WhoCanBan = 0;
-			WhoCanKick = 0;
-			WhoCanMute = 0;
 			TradeState = 2;
-			State = 0;
 			WordFilter = new List<string> ();
-			WallHeight = 0;
-			CompetitionStatus = 0;
+			Rights = new List<Habbo> ();
 		}
 			
 		// TODO Remove when not used anymore

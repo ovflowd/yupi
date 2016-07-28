@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Rooms
 {
@@ -9,7 +10,10 @@ namespace Yupi.Messages.Rooms
 		public override void Compose (Yupi.Protocol.ISender session, Poll poll)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				poll.Serialize(message);
+				message.AppendInteger (Id);
+				message.AppendString (string.Empty); //?
+				message.AppendString(poll.Invitation);
+				message.AppendString ("Test"); // whats this??
 				session.Send (message);
 			}
 		}

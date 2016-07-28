@@ -2,12 +2,13 @@
 
 using System.Collections.Generic;
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Messenger
 {
-	public class ConsoleSearchFriendMessageComposer : AbstractComposer<List<SearchResult>, List<SearchResult>>
+	public class ConsoleSearchFriendMessageComposer : AbstractComposer<List<Habbo>, List<Habbo>>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, List<SearchResult> foundFriends, List<SearchResult> foundUsers)
+		public override void Compose (Yupi.Protocol.ISender session, List<Habbo> foundFriends, List<Habbo> foundUsers)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(foundFriends.Count);
@@ -22,6 +23,19 @@ namespace Yupi.Messages.Messenger
 				
 				session.Send (message);
 			}
+		}
+
+		private void Searialize(ServerMessage reply, Habbo user)
+		{
+			reply.AppendInteger(user.Id);
+			reply.AppendString(user.UserName);
+			reply.AppendString(user.Motto);
+			reply.AppendBool(Yupi.GetGame().GetClientManager().GetClientByUserId(UserId) != null);
+			reply.AppendBool(false);
+			reply.AppendString(string.Empty);
+			reply.AppendInteger(0);
+			reply.AppendString(user.Look);
+			reply.AppendString(user.LastOnline); // TODO Must be double unix timestamp!
 		}
 	}
 }

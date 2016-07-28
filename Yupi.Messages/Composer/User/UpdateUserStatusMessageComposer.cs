@@ -2,23 +2,25 @@
 
 using System.Collections.Generic;
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
+using System.Globalization;
 
 namespace Yupi.Messages.User
 {
-	public class UpdateUserStatusMessageComposer : AbstractComposer<List<RoomUser>>
+	public class UpdateUserStatusMessageComposer : AbstractComposer<List<RoomEntity>>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, List<RoomUser> users)
+		public override void Compose (Yupi.Protocol.ISender session, List<RoomEntity> entities)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendInteger(users.Count);
+				message.AppendInteger(entities.Count);
 
-				foreach (RoomUser current2 in users)
-					current2.SerializeStatus(message);
+				foreach (RoomEntity entity in entities)
+					entity.SerializeStatus(message); // RoomUser::SerializeStatus
 				session.Send (message);
 			}
 		}
 
-		public void Compose (Yupi.Protocol.ISender session, RoomUser user)
+		public void Compose (Yupi.Protocol.ISender session, RoomEntity user)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(1);

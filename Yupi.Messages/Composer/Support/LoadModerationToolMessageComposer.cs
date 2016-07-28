@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Yupi.Model.Domain;
 
-
 namespace Yupi.Messages.Support
 {
 	public class LoadModerationToolMessageComposer : AbstractComposer<ModerationTool, Habbo>

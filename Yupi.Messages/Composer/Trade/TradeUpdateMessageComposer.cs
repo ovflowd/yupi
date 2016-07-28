@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
 
 
 namespace Yupi.Messages.Trade
@@ -17,7 +18,7 @@ namespace Yupi.Messages.Trade
 		}
 
 		private void Serialize(TradeUser user, ServerMessage message) {
-			message.AppendInteger(user.UserId);
+			message.AppendInteger(user.User.Id);
 			message.AppendInteger(user.OfferedItems.Count);
 
 			foreach (UserItem current in user.OfferedItems)

@@ -9,7 +9,7 @@ namespace Yupi.Model.Domain
 	/// </summary>
 	public class RoomModel
 	{
-		public virtual int Id { get; protected set; }
+		public virtual string Id { get; protected set; }
 
 		/// <summary>
 		///     The club only

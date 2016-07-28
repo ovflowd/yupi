@@ -1,42 +1,43 @@
 ﻿using System;
 
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Rooms
 {
-	public class RoomSettingsDataMessageComposer : AbstractComposer<Room>
+	public class RoomSettingsDataMessageComposer : AbstractComposer<RoomData>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, Room room)
+		public override void Compose (Yupi.Protocol.ISender session, RoomData room)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendInteger(room.RoomId);
-				message.AppendString(room.RoomData.Name);
-				message.AppendString(room.RoomData.Description);
-				message.AppendInteger(room.RoomData.State);
-				message.AppendInteger(room.RoomData.Category);
-				message.AppendInteger(room.RoomData.UsersMax);
-				message.AppendInteger(room.RoomData.Model.MapSizeX*room.RoomData.Model.MapSizeY > 200 ? 50 : 25); // TODO Magic number
-				message.AppendInteger(room.TagCount);
+				message.AppendInteger(room.Id);
+				message.AppendString(room.Name);
+				message.AppendString(room.Description);
+				message.AppendInteger(room.State);
+				message.AppendInteger(room.Category);
+				message.AppendInteger(room.UsersMax);
+				message.AppendInteger(room.Model.MapSizeX*room.Model.MapSizeY > 200 ? 50 : 25); // TODO Magic number
+				message.AppendInteger(room.Tags.Count);
 
-				foreach (string s in room.RoomData.Tags)
+				foreach (string s in room.Tags)
 					message.AppendString(s);
 
-				message.AppendInteger(room.RoomData.TradeState);
-				message.AppendInteger(room.RoomData.AllowPets);
-				message.AppendInteger(room.RoomData.AllowPetsEating);
-				message.AppendInteger(room.RoomData.AllowWalkThrough);
-				message.AppendInteger(room.RoomData.HideWall);
-				message.AppendInteger(room.RoomData.WallThickness);
-				message.AppendInteger(room.RoomData.FloorThickness);
-				message.AppendInteger(room.RoomData.ChatType);
-				message.AppendInteger(room.RoomData.ChatBalloon);
-				message.AppendInteger(room.RoomData.ChatSpeed);
-				message.AppendInteger(room.RoomData.ChatMaxDistance);
-				message.AppendInteger(room.RoomData.ChatFloodProtection > 2 ? 2 : room.RoomData.ChatFloodProtection);
+				message.AppendInteger(room.TradeState);
+				message.AppendInteger(room.AllowPets);
+				message.AppendInteger(room.AllowPetsEating);
+				message.AppendInteger(room.AllowWalkThrough);
+				message.AppendInteger(room.HideWall);
+				message.AppendInteger(room.WallThickness);
+				message.AppendInteger(room.FloorThickness);
+				message.AppendInteger(room.ChatType);
+				message.AppendInteger(room.ChatBalloon);
+				message.AppendInteger(room.ChatSpeed);
+				message.AppendInteger(room.ChatMaxDistance);
+				message.AppendInteger(room.ChatFloodProtection > 2 ? 2 : room.ChatFloodProtection);
 				message.AppendBool(false); //allow_dyncats_checkbox
-				message.AppendInteger(room.RoomData.WhoCanMute);
-				message.AppendInteger(room.RoomData.WhoCanKick);
-				message.AppendInteger(room.RoomData.WhoCanBan);
+				message.AppendInteger(room.WhoCanMute);
+				message.AppendInteger(room.WhoCanKick);
+				message.AppendInteger(room.WhoCanBan);
 				session.Send (message);
 			}
 		}

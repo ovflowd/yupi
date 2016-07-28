@@ -2,12 +2,13 @@
 
 
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Rooms
 {
-	public class CompetitionEntrySubmitResultMessageComposer : AbstractComposer<RoomCompetition, int, Room>
+	public class CompetitionEntrySubmitResultMessageComposer : AbstractComposer<RoomCompetition, int, RoomData>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, RoomCompetition competition, int status, Room room = null)
+		public override void Compose (Yupi.Protocol.ISender session, RoomCompetition competition, int status, RoomData room = null)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(competition.Id);
@@ -21,15 +22,12 @@ namespace Yupi.Messages.Rooms
 				}
 				else
 				{
-					message.StartArray();
+					message.AppendInteger(competition.RequiredItems.Count);
 
-					foreach (string furni in competition.RequiredFurnis)
+					foreach (BaseItem furni in competition.RequiredItems)
 					{
-						message.AppendString(furni);
-						message.SaveArray();
+						message.AppendString(furni.Name);
 					}
-
-					message.EndArray();
 
 					if (room == null)
 						message.AppendInteger(0);
@@ -37,7 +35,7 @@ namespace Yupi.Messages.Rooms
 					{
 						message.StartArray();
 
-						foreach (string furni in competition.RequiredFurnis)
+						foreach (BaseItem furni in competition.RequiredItems)
 						{
 							if (!room.GetRoomItemHandler().HasFurniByItemName(furni))
 							{

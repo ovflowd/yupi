@@ -1,16 +1,17 @@
 ﻿using System;
 
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Rooms
 {
-	public class InitialRoomInfoMessageComposer : AbstractComposer<Room>
+	public class InitialRoomInfoMessageComposer : AbstractComposer<RoomData>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, Room room)
+		public override void Compose (Yupi.Protocol.ISender session, RoomData room)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendString(room.RoomData.ModelName);
-				message.AppendInteger(room.RoomId);
+				message.AppendString(room.Model.Id);
+				message.AppendInteger(room.Id);
 				session.Send (message);
 			}
 		}

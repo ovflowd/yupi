@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.User
 {
@@ -12,17 +13,9 @@ namespace Yupi.Messages.User
 				message.AppendString("club_habbo");
 
 				if (subscription != null) {
-					int days = (int)Math.Ceiling (subscription.ExpireTime - Yupi.GetUnixTimeStamp () / 86400.0);
-					int activeFor =
-						(int)
-					Math.Ceiling ((Yupi.GetUnixTimeStamp () -
-						(double)subscription.ActivateTime) /
-						86400.0);
-				
+					int days = (subscription.ExpireTime - DateTime.Now).Days;
+					int activeFor = (DateTime.Now - subscription.ActivateTime).Days;
 					int months = days / 31;
-
-					if (months >= 1)
-						months--;
 
 					message.AppendInteger (days - months * 31);
 					message.AppendInteger (1);

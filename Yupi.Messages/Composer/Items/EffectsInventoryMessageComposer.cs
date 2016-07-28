@@ -1,7 +1,7 @@
 ﻿using System;
-
 using System.Collections.Generic;
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Items
 {

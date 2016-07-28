@@ -233,7 +233,6 @@
     <Compile Include="Emulator\Game\RoomBots\Interfaces\BotCommand.cs" />
     <Compile Include="Emulator\Game\RoomBots\Interfaces\CatalogBot.cs" />
     <Compile Include="Emulator\Game\RoomBots\Models\BaseBot.cs" />
-    <Compile Include="Emulator\Game\Rooms\Competitions\Models\RoomCompetition.cs" />
     <Compile Include="Emulator\Core\Settings\ServerLanguageSettings.cs" />
     <Compile Include="Emulator\Game\Catalogs\TargetedOfferManager.cs" />
     <Compile Include="Emulator\Game\Items\Datas\HighscoreData.cs" />
@@ -253,13 +252,10 @@
     <Compile Include="Emulator\Core\Security\ServerMutantManager.cs" />
     <Compile Include="Emulator\Game\Users\ExchangeManager.cs" />
     <Compile Include="Emulator\Game\Users\Figures\AvatarFigureParts.cs" />
-    <Compile Include="Emulator\Game\Browser\Models\NavigatorHeader.cs" />
-    <Compile Include="Emulator\Game\Browser\Models\UserSearchLog.cs" />
     <Compile Include="Emulator\Game\Browser\Models\PromoCategory.cs" />
     <Compile Include="Emulator\Game\Pathfinding\Vectors\ThreeDCoord.cs" />
     <Compile Include="Emulator\Game\Pets\PetBreeding.cs" />
     <Compile Include="Emulator\Game\Pets\Structs\PetCommand.cs" />
-    <Compile Include="Emulator\Game\Polls\Enums\PollAnswerType.cs" />
     <Compile Include="Emulator\Game\Polls\Enums\PollType.cs" />
     <Compile Include="Emulator\Game\Rooms\Items\ByteToItemEffectEnum.cs" />
     <Compile Include="Emulator\Game\Rooms\Chat\Chatlog.cs" />
@@ -291,7 +287,6 @@
     <Compile Include="Emulator\Game\Rooms\Items\Games\Teams\TeamScoreChangedArgs.cs" />
     <Compile Include="Emulator\Game\Rooms\Items\Teleports\TeleUserData.cs" />
     <Compile Include="Emulator\Game\Rooms\User\Trade\Trade.cs" />
-    <Compile Include="Emulator\Game\Rooms\User\Trade\TradeUser.cs" />
     <Compile Include="Emulator\Game\Rooms\Chat\UserSaysArgs.cs" />
     <Compile Include="Emulator\Game\Rooms\User\Path\UserWalksOnArgs.cs" />
     <Compile Include="Emulator\Game\Items\Wired\Handlers\Conditions\DateRangeActive.cs" />
@@ -398,9 +393,7 @@
     <Compile Include="Emulator\Game\Pets\PetCommandHandler.cs" />
     <Compile Include="Emulator\Game\Pets\PetLocale.cs" />
     <Compile Include="Emulator\Game\Pets\Structs\PetRace.cs" />
-    <Compile Include="Emulator\Game\Polls\Poll.cs" />
     <Compile Include="Emulator\Game\Polls\PollManager.cs" />
-    <Compile Include="Emulator\Game\Polls\PollQuestion.cs" />
     <Compile Include="Emulator\Game\Users\Fuses\RoleManager.cs" />
     <Compile Include="Emulator\Game\RoomBots\Enumerators\AIType.cs" />
     <Compile Include="Emulator\Game\RoomBots\Interfaces\BotAi.cs" />
@@ -415,19 +408,14 @@
     <Compile Include="Emulator\Game\Support\ModerationBanType.cs" />
     <Compile Include="Emulator\Game\Support\ModerationTemplate.cs" />
     <Compile Include="Emulator\Game\Support\ModerationTool.cs" />
-    <Compile Include="Emulator\Game\Support\SupportTicket.cs" />
-    <Compile Include="Emulator\Game\Support\TicketStatus.cs" />
     <Compile Include="Emulator\Game\Users\Factories\HabboFactory.cs" />
     <Compile Include="Emulator\Game\Users\Badges\Models\Badge.cs" />
     <Compile Include="Emulator\Game\Users\Badges\UserBadgeManager.cs" />
     <Compile Include="Emulator\Game\Users\Guides\GuideManager.cs" />
-    <Compile Include="Emulator\Game\Users\Inventory\AvatarEffect.cs" />
     <Compile Include="Emulator\Game\Users\Inventory\Components\AvatarEffectComponent.cs" />
     <Compile Include="Emulator\Game\Users\Inventory\Components\InventoryComponent.cs" />
     <Compile Include="Emulator\Game\Users\Messenger\HabboMessenger.cs" />
-    <Compile Include="Emulator\Game\Users\Messenger\Structs\SearchResult.cs" />
     <Compile Include="Emulator\Game\Users\Messenger\SearchResultFactory.cs" />
-    <Compile Include="Emulator\Game\Users\Subscriptions\Subscription.cs" />
     <Compile Include="Emulator\Game\Users\Subscriptions\SubscriptionManager.cs" />
     <Compile Include="Emulator\Game\Users\Data\Models\UserData.cs" />
     <Compile Include="Emulator\Game\Users\Factories\UserDataFactory.cs" />
@@ -516,6 +504,8 @@
     <Folder Include="Emulator\Core\Io\" />
     <Folder Include="Emulator\Game\Rooms\Events\Models\" />
     <Folder Include="Emulator\Game\SoundMachine\Songs\" />
+    <Folder Include="Emulator\Game\Rooms\Competitions\Models\" />
+    <Folder Include="Emulator\Game\Users\Messenger\Structs\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\GitInfo.1.1.1\build\GitInfo.targets" Condition="Exists('..\packages\GitInfo.1.1.1\build\GitInfo.targets')" />
