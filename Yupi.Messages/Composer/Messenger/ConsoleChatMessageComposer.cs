@@ -5,7 +5,7 @@ namespace Yupi.Messages.Messenger
 {
 	public class ConsoleChatMessageComposer : AbstractComposer<uint, string, int>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, uint converstationId, string text, int timeDiff = 0)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, uint converstationId, string text, int timeDiff = 0)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(converstationId);

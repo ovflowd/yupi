@@ -8,7 +8,7 @@ namespace Yupi.Messages.Groups
 {
 	public class GroupPurchasePageMessageComposer : AbstractComposer<HashSet<RoomData>>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, HashSet<RoomData> rooms)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, HashSet<RoomData> rooms)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 

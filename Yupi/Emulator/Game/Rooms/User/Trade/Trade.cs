@@ -13,7 +13,7 @@ namespace Yupi.Emulator.Game.Rooms.User.Trade
     /// <summary>
     ///     Class Trade.
     /// </summary>
-     public class Trade : ISender
+     public class Trade : ISession
     {
         /// <summary>
         ///     The _one identifier

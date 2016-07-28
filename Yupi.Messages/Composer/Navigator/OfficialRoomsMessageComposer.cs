@@ -7,7 +7,7 @@ namespace Yupi.Messages.Navigator
 {
 	public class OfficialRoomsMessageComposer : AbstractComposer<RoomData>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, RoomData roomData)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, RoomData roomData)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(roomData.Id);

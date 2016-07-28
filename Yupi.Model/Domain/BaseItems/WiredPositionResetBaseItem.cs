@@ -2,7 +2,7 @@
 
 namespace Yupi.Model.Domain
 {
-	public class WiredPositionResetBaseItem : FloorBaseItem
+	public class WiredPositionResetBaseItem : WiredBaseItem
 	{
 		public WiredPositionResetBaseItem ()
 		{

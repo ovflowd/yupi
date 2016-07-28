@@ -406,7 +406,6 @@
     <Compile Include="Emulator\Game\Support\ModerationBan.cs" />
     <Compile Include="Emulator\Game\Support\ModerationBanManager.cs" />
     <Compile Include="Emulator\Game\Support\ModerationBanType.cs" />
-    <Compile Include="Emulator\Game\Support\ModerationTemplate.cs" />
     <Compile Include="Emulator\Game\Support\ModerationTool.cs" />
     <Compile Include="Emulator\Game\Users\Factories\HabboFactory.cs" />
     <Compile Include="Emulator\Game\Users\Badges\Models\Badge.cs" />

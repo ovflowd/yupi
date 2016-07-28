@@ -2,7 +2,7 @@
 
 namespace Yupi.Model.Domain
 {
-	public class WiredShowMessageBaseItem : FloorBaseItem
+	public class WiredShowMessageBaseItem : WiredBaseItem
 	{
 		public WiredShowMessageBaseItem ()
 		{

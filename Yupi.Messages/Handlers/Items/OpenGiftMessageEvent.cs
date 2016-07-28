@@ -8,7 +8,7 @@ namespace Yupi.Messages.Items
 {
 	public class OpenGiftMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Net.ISession<IGameClient> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			if ((DateTime.Now - session.GetHabbo().LastGiftOpenTime).TotalSeconds <= 15.0)
 			{

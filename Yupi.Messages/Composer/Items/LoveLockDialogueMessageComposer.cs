@@ -1,14 +1,13 @@
 ﻿using System;
-
 using Yupi.Protocol.Buffers;
 using Yupi.Model.Domain;
 using Yupi.Protocol;
 
 namespace Yupi.Messages.Items
 {
-	public class LoveLockDialogueMessageComposer : AbstractComposer<ISender, LovelockItem>
+	public class LoveLockDialogueMessageComposer : AbstractComposer<Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo>, LovelockItem>
 	{
-		public override void Compose (Yupi.Protocol.ISender user1, Yupi.Protocol.ISender user2, LovelockItem loveLock)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> user1, Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> user2, LovelockItem loveLock)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(loveLock.Id);

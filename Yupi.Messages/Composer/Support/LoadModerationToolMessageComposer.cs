@@ -4,26 +4,30 @@ using Yupi.Protocol.Buffers;
 using System.Collections.Generic;
 using System.Linq;
 using Yupi.Model.Domain;
+using Yupi.Model;
 
 namespace Yupi.Messages.Support
 {
 	public class LoadModerationToolMessageComposer : AbstractComposer<ModerationTool, Habbo>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, ModerationTool tool, Habbo user)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, ModerationTool tool, Habbo user)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(tool.Tickets.Count);
 
-				foreach (SupportTicket current in tool.Tickets)
-					current.Serialize(message);
+				foreach (SupportTicket current in tool.Tickets) {
+					SerializeTicket(message);
+				}	
 
 				message.AppendInteger(tool.UserMessagePresets.Count);
 
-				foreach (string current2 in tool.UserMessagePresets)
-					message.AppendString(current2);
+				foreach (string text in tool.UserMessagePresets) {
+					message.AppendString (text);
+				}
 
+				// TODO Implement categories correctly... This is a mess...
 				IEnumerable<ModerationTemplate> enumerable =
-					(from x in tool.ModerationTemplates.Values where x.Category == -1 select x).ToArray();
+					(from x in tool.Templates where x.Category == -1 select x).ToArray();
 
 				message.AppendInteger(enumerable.Count());
 				using (IEnumerator<ModerationTemplate> enumerator3 = enumerable.GetEnumerator())
@@ -34,7 +38,7 @@ namespace Yupi.Messages.Support
 					{
 						ModerationTemplate template = enumerator3.Current;
 						IEnumerable<ModerationTemplate> enumerable2 =
-							(from x in tool.ModerationTemplates.Values where x.Category == (long) (ulong) template.Id select x)
+							(from x in tool.Templates where x.Category == (long) (ulong) template.Id select x)
 								.ToArray();
 						message.AppendString(template.CName);
 						message.AppendBool(first);
@@ -70,6 +74,33 @@ namespace Yupi.Messages.Support
 					message.AppendString(current4);
 
 				session.Send (message);
+			}
+		}
+
+		private void SerializeTicket(ServerMessage message, SupportTicket ticket) {
+			message.AppendInteger(ticket.Id);
+			message.AppendInteger(ticket.Status);
+			message.AppendInteger(ticket.Type); // type (3 or 4 for new style)
+			message.AppendInteger(ticket.Category);
+			message.AppendInteger((Yupi.GetUnixTimeStamp() - (int) Timestamp)*1000);
+			message.AppendInteger(ticket.Score);
+			message.AppendInteger(1);
+			message.AppendInteger(ticket.Sender.Id);
+			message.AppendString(ticket.Sender.UserName);
+			message.AppendInteger(ticket.ReportedUser.Id);
+			message.AppendString(ticket.ReportedUser.UserName);
+			message.AppendInteger(ticket.Staff.Id);
+			message.AppendString(ticket.Staff.UserName);
+			message.AppendString(ticket.Message);
+			message.AppendInteger(0);
+
+			message.AppendInteger(ticket.ReportedChats.Count);
+
+			foreach (string str in ticket.ReportedChats)
+			{
+				message.AppendString(str);
+				message.AppendInteger(-1);
+				message.AppendInteger(-1);
 			}
 		}
 	}

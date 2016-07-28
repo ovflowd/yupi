@@ -8,7 +8,7 @@ namespace Yupi.Messages.Groups
 {
 	public class GroupForumThreadRootMessageComposer : AbstractComposer<int, int, IList<GroupForumPost>>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, int groupId, int startIndex, IList<GroupForumPost> threads)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, int groupId, int startIndex, IList<GroupForumPost> threads)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(groupId);

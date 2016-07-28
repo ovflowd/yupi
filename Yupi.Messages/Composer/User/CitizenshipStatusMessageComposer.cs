@@ -8,7 +8,7 @@ namespace Yupi.Messages.User
 	public class CitizenshipStatusMessageComposer : AbstractComposer<string>
 	{
 		// TODO Replace value with a proper name
-		public override void Compose (Yupi.Protocol.ISender session, string value)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, string value)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendString (value);

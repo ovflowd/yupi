@@ -1,12 +1,13 @@
 ﻿using System;
 
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Rooms
 {
 	public class HeightMapMessageComposer : AbstractComposer<Gamemap>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, Gamemap map)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Gamemap map)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(map.Model.MapSizeX);

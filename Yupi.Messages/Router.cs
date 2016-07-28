@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using Yupi.Protocol.Buffers;
 using Yupi.Net;
 using Yupi.Protocol;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages
 {
-	public class Router<U> : Yupi.Protocol.IRouter
+	public class Router : Yupi.Protocol.IRouter
 	{
 		private static readonly log4net.ILog Logger = log4net.LogManager
 			.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -35,14 +36,14 @@ namespace Yupi.Messages
 			return (T)composer;
 		}
 
-		public void Handle (ISession<U> session, ClientMessage message) {
+		public void Handle (Yupi.Protocol.ISession<Habbo> session, ClientMessage message) {
 			AbstractHandler handler;
 			Incoming.TryGetValue (message.Id, out handler);
 
 			if (handler == null) {
 				Logger.WarnFormat ("Unknown incoming message {0}", message.Id);
 			} else {
-				handler.HandleMessage (session, message);
+				handler.HandleMessage (session, message, this);
 			}
 		}
 		// TODO Fix handler names in *.incoming
@@ -53,7 +54,7 @@ namespace Yupi.Messages
 
 			foreach (Type handlerType in handlers) {
 				AbstractHandler handler = (AbstractHandler)Activator.CreateInstance(handlerType);
-				Incoming.Add(library.GetIncomingId(handler.Name), handler);
+				Incoming.Add(library.GetIncomingId(handler.GetType().Name), handler);
 			}
 		}
 

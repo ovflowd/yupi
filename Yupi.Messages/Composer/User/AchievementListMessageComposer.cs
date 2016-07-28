@@ -9,7 +9,7 @@ namespace Yupi.Messages.User
 {
 	public class AchievementListMessageComposer : AbstractComposer<Habbo, List<Achievement>>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, Habbo user, List<Achievement> achievements)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Habbo user, List<Achievement> achievements)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(achievements.Count);

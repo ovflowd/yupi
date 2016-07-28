@@ -8,7 +8,7 @@ namespace Yupi.Messages.User
 {
 	public class UserTagsMessageComposer : AbstractComposer
 	{
-		public void Compose(Yupi.Protocol.ISender session, int userId, List<string> tags) {
+		public void Compose(Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, int userId, List<string> tags) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (userId);
 				message.Append (tags);

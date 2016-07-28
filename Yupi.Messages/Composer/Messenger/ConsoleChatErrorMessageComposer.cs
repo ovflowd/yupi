@@ -5,7 +5,7 @@ namespace Yupi.Messages.Messenger
 {
 	public class ConsoleChatErrorMessageComposer : AbstractComposer<int, uint>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, int errorId, uint conversationId)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, int errorId, uint conversationId)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(errorId);

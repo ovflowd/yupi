@@ -7,7 +7,7 @@ namespace Yupi.Messages.Groups
 {
 	public class RoomGroupMessageComposer : AbstractComposerVoid
 	{
-		public override void Compose (Yupi.Protocol.ISender room)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> room)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(room.LoadedGroups.Count);

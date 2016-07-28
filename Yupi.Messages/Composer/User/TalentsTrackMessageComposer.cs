@@ -11,7 +11,7 @@ namespace Yupi.Messages.User
 	{
 		// TODO Add enum for trackType
 
-		public override void Compose(Yupi.Protocol.ISender session, string trackType, IList<Talent> talents) {
+		public override void Compose(Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, string trackType, IList<Talent> talents) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendString (trackType);
 				message.AppendInteger(talents.Count);

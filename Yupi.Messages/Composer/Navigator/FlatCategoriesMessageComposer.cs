@@ -7,7 +7,7 @@ namespace Yupi.Messages.Navigator
 {
 	public class FlatCategoriesMessageComposer : AbstractComposer<HybridDictionary, int>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, HybridDictionary categories, int userRank)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, HybridDictionary categories, int userRank)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.StartArray();

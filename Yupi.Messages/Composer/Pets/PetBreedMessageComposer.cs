@@ -7,7 +7,7 @@ namespace Yupi.Messages.Pets
 {
 	public class PetBreedMessageComposer : AbstractComposer<uint, PetEntity, PetEntity>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, uint furniId, PetEntity pet1, PetEntity pet2)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, uint furniId, PetEntity pet1, PetEntity pet2)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(furniId);

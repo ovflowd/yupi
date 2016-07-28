@@ -10,7 +10,7 @@ namespace Yupi.Messages.Support
 {
 	public class ModerationToolRoomChatlogMessageComposer : AbstractComposer<uint>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, uint roomId)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, uint roomId)
 		{
 			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().LoadRoom(roomId);
 

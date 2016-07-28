@@ -8,7 +8,7 @@ namespace Yupi.Messages.Messenger
 {
 	public class FriendUpdateMessageComposer : AbstractComposer<Relationship>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, Relationship relationship)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Relationship relationship)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(0);

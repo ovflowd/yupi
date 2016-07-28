@@ -2,7 +2,7 @@
 
 namespace Yupi.Model.Domain
 {
-	public class WiredConditionHowManyUsersInRoomBaseItem : FloorBaseItem
+	public class WiredConditionHowManyUsersInRoomBaseItem : WiredBaseItem
 	{
 		public WiredConditionHowManyUsersInRoomBaseItem ()
 		{

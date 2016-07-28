@@ -2,7 +2,7 @@
 
 namespace Yupi.Model.Domain
 {
-	public class WiredConditionUserNotWearingEffectBaseItem : FloorBaseItem
+	public class WiredConditionUserNotWearingEffectBaseItem : WiredBaseItem
 	{
 		public WiredConditionUserNotWearingEffectBaseItem ()
 		{

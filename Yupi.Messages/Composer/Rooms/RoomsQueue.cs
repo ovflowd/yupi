@@ -5,7 +5,7 @@ namespace Yupi.Messages.Rooms
 {
 	public class RoomsQueue : AbstractComposer<int>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, int position)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, int position)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(2);

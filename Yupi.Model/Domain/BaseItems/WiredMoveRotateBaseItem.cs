@@ -2,7 +2,7 @@
 
 namespace Yupi.Model.Domain
 {
-	public class WiredMoveRotateBaseItem : FloorBaseItem
+	public class WiredMoveRotateBaseItem : WiredBaseItem
 	{
 		public WiredMoveRotateBaseItem ()
 		{

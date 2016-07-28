@@ -7,7 +7,7 @@ namespace Yupi.Messages.Rooms
 {
 	public class RoomGetInfoMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Net.ISession<IGameClient> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			uint id = request.GetUInt32();
 

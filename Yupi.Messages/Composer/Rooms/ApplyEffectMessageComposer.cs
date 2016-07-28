@@ -5,7 +5,7 @@ namespace Yupi.Messages.Rooms
 {
 	public class ApplyEffectMessageComposer : AbstractComposer<int, int>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, int entityId, int effectId)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, int entityId, int effectId)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (entityId);

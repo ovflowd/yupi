@@ -5,7 +5,7 @@ namespace Yupi.Messages.User
 {
 	public class UpdateUsernameMessageComposer : AbstractComposer<string>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, string newName)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, string newName)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (0);  // TODO Magic constant

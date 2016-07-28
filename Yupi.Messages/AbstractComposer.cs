@@ -19,23 +19,23 @@ namespace Yupi.Messages
 	}
 
 	public abstract class AbstractComposerVoid : AbstractComposer {
-		public abstract void Compose(ISender session);
+		public abstract void Compose(Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session);
 	}
 
 	public abstract class AbstractComposer<T> : AbstractComposer {
-		public abstract void Compose(ISender session, T value);
+		public abstract void Compose(Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, T value);
 	}
 
 	public abstract class AbstractComposer<T, U> : AbstractComposer {
-		public abstract void Compose(ISender session, T first, U second);
+		public abstract void Compose(Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, T first, U second);
 	}
 
 	public abstract class AbstractComposer<T, U, V> : AbstractComposer {
-		public abstract void Compose(ISender session, T first, U second, V third);
+		public abstract void Compose(Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, T first, U second, V third);
 	}
 
 	public abstract class AbstactComposerEmpty : AbstractComposerVoid {
-		public override void Compose (ISender session)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				session.Send (message);

@@ -49,8 +49,8 @@
     <Compile Include="Buffers\ClientMessage.cs" />
     <Compile Include="Buffers\ServerMessage.cs" />
     <Compile Include="ServerMessagePool.cs" />
-    <Compile Include="ISender.cs" />
     <Compile Include="IRouter.cs" />
+    <Compile Include="ISession.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

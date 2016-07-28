@@ -91,7 +91,7 @@ namespace Yupi.Model.Domain
 
 		// TODO Don't store in DB!
 		public virtual bool IsOnline { get; set; }
-		public virtual bool InRoom { get; set; }
+		public virtual RoomData Room { get; set; }
 
 		public Habbo() {
 			FavouriteGroup = Group.None;

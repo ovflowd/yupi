@@ -2,7 +2,7 @@
 
 namespace Yupi.Model.Domain
 {
-	public class WiredConditionTimeMoreThanBaseItem : FloorBaseItem
+	public class WiredConditionTimeMoreThanBaseItem : WiredBaseItem
 	{
 		public WiredConditionTimeMoreThanBaseItem ()
 		{

@@ -10,7 +10,7 @@ namespace Yupi.Messages.Catalog
 {
 	public class PurchaseOKMessageComposer : AbstractComposer
 	{
-		public void Compose(Yupi.Protocol.ISender session, CatalogItem itemCatalog, Dictionary<BaseItem, uint> items,
+		public void Compose(Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, CatalogItem itemCatalog, Dictionary<BaseItem, uint> items,
 			int clubLevel = 1)
 		{
 			Compose(session, itemCatalog.Id, itemCatalog.Name, itemCatalog.CreditsCost, items, clubLevel,
@@ -19,7 +19,7 @@ namespace Yupi.Messages.Catalog
 		}
 
 		// TODO There should be no need to expose such a complex method signature
-		public void Compose (Yupi.Protocol.ISender session, uint itemId, string itemName, uint creditsCost,
+		public void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, uint itemId, string itemName, uint creditsCost,
 		                    Dictionary<BaseItem, uint> items = null, int clubLevel = 1,
 		                    uint diamondsCost = 0,
 		                    uint activityPointsCost = 0, bool isLimited = false,

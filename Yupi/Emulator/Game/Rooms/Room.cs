@@ -42,7 +42,7 @@ namespace Yupi.Emulator.Game.Rooms
     /// <summary>
     ///     Class Room.
     /// </summary>
-	public class Room : ISender
+	public class Room : ISession
     {
         /// <summary>
         ///     The _banzai
@@ -233,7 +233,7 @@ namespace Yupi.Emulator.Game.Rooms
 
 
 
-		public class UsersWithRightsSender : ISender
+		public class UsersWithRightsSender : ISession
 		{
 			private Room room;
 

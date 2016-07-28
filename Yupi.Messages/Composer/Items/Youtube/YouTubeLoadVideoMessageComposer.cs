@@ -7,7 +7,7 @@ namespace Yupi.Messages.Youtube
 {
 	public class YouTubeLoadVideoMessageComposer : AbstractComposer<YoutubeTVItem>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, YoutubeTVItem tv)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, YoutubeTVItem tv)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(tv.Id);

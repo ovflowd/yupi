@@ -2,11 +2,13 @@
 
 namespace Yupi.Model.Domain
 {
-	[IsDiscriminated]
-	public abstract class Item<T> where T : BaseItem
-	{
+	public abstract class Item {
 		public virtual int Id { get; set; }
+	}
 
+	[IsDiscriminated]
+	public abstract class Item<T> : Item where T : BaseItem
+	{
 		public virtual T BaseItem { get; set; }
 
 		public virtual string GetExtraData() {

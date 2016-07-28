@@ -3,7 +3,7 @@
 namespace Yupi.Model.Domain
 {
 	// TODO Renamed from SpecialRandom
-	public class WiredRandomBaseItem : FloorBaseItem
+	public class WiredRandomBaseItem : WiredBaseItem
 	{
 		
 	}

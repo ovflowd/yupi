@@ -2,7 +2,7 @@
 
 namespace Yupi.Model.Domain
 {
-	public class WiredConditionTriggererNotOnFurniBaseItem : FloorBaseItem
+	public class WiredConditionTriggererNotOnFurniBaseItem : WiredBaseItem
 	{
 		public WiredConditionTriggererNotOnFurniBaseItem ()
 		{

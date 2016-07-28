@@ -7,7 +7,7 @@ namespace Yupi.Messages.Navigator
 {
 	public class NewNavigatorSizeMessageComposer : AbstractComposer<UserPreferences>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, UserPreferences preferences)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, UserPreferences preferences)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(preferences.NewnaviX);

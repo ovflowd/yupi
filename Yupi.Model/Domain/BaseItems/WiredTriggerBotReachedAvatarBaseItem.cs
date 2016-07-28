@@ -2,7 +2,7 @@
 
 namespace Yupi.Model.Domain
 {
-	public class WiredTriggerBotReachedAvatarBaseItem : FloorBaseItem
+	public class WiredTriggerBotReachedAvatarBaseItem : WiredBaseItem
 	{
 		public WiredTriggerBotReachedAvatarBaseItem ()
 		{

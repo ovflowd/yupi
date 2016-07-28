@@ -2,7 +2,7 @@
 
 namespace Yupi.Model.Domain
 {
-	public class WiredActionBotTeleportBaseItem : FloorBaseItem
+	public class WiredActionBotTeleportBaseItem : WiredBaseItem
 	{
 		public WiredActionBotTeleportBaseItem ()
 		{

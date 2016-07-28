@@ -2,7 +2,7 @@
 
 namespace Yupi.Model.Domain
 {
-	public class WiredConditionBaseItemsDontMatchBaseItem : FloorBaseItem
+	public class WiredConditionBaseItemsDontMatchBaseItem : WiredBaseItem
 	{
 		public WiredConditionBaseItemsDontMatchBaseItem ()
 		{

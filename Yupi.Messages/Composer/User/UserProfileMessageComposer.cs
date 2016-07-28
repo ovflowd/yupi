@@ -6,7 +6,7 @@ namespace Yupi.Messages.User
 {
 	public class UserProfileMessageComposer : AbstractComposer<Habbo>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, Habbo habbo)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Habbo habbo)
 		{
 			// TODO Refactor unix time
 			DateTime createTime = new DateTime(1970, 1, 1, 0, 0, 0, 0).AddSeconds(habbo.CreateDate);

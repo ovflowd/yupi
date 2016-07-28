@@ -2,7 +2,7 @@
 
 namespace Yupi.Model.Domain
 {
-	public class WiredActionLeaveTeamBaseItem : FloorBaseItem
+	public class WiredActionLeaveTeamBaseItem : WiredBaseItem
 	{
 		public WiredActionLeaveTeamBaseItem ()
 		{

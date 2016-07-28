@@ -8,7 +8,7 @@ namespace Yupi.Messages.Groups
 {
 	public class GroupDataMessageComposer : AbstractComposer<Group, Habbo, bool>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, Group group, Habbo habbo, bool newWindow = false)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Group group, Habbo habbo, bool newWindow = false)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				// TODO Hide conversion between Unix <-> DateTime

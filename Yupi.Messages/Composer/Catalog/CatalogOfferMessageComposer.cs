@@ -7,7 +7,7 @@ namespace Yupi.Messages.Catalog
 {
 	public class CatalogOfferMessageComposer : AbstractComposer
 	{
-		public void Compose (Yupi.Protocol.ISender session, CatalogItem item)
+		public void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, CatalogItem item)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (item.Id);

@@ -2,7 +2,7 @@
 
 namespace Yupi.Model.Domain
 {
-	public class WiredActionBotTalkToAvatarBaseItem : FloorBaseItem
+	public class WiredActionBotTalkToAvatarBaseItem : WiredBaseItem
 	{
 		public WiredActionBotTalkToAvatarBaseItem ()
 		{

@@ -2,7 +2,7 @@
 
 namespace Yupi.Model.Domain
 {
-	public class WiredConditionFurniHasFurniBaseItem : FloorBaseItem
+	public class WiredConditionFurniHasFurniBaseItem : WiredBaseItem
 	{
 		public WiredConditionFurniHasFurniBaseItem ()
 		{

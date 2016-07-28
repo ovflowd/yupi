@@ -8,7 +8,7 @@ namespace Yupi.Messages.User
 {
 	public class SendAchievementsRequirementsMessageComposer : AbstractComposer<Dictionary<string, Achievement>>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, Dictionary<string, Achievement> achievements)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Dictionary<string, Achievement> achievements)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(achievements.Count);

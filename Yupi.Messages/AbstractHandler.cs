@@ -17,7 +17,7 @@ namespace Yupi.Messages
 			}
 		}
 
-		public abstract void HandleMessage(Yupi.Net.ISession<IGameClient> session, ClientMessage request, Yupi.Protocol.IRouter router);
+		public abstract void HandleMessage(Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, ClientMessage request, Yupi.Protocol.IRouter router);
 	}
 }
 

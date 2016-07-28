@@ -8,7 +8,7 @@ namespace Yupi.Messages.User
 {
 	public class UpdateAvatarAspectMessageComposer : AbstractComposer<Habbo>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, Habbo habbo)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Habbo habbo)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendString (habbo.Look);

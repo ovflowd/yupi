@@ -15,7 +15,7 @@ namespace Yupi.Messages.Navigator
 	// TODO Refactor
 	public class SearchResultSetComposer : AbstractComposer
 	{
-		public void Compose (Yupi.Protocol.ISender session, string staticId, string query)
+		public void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, string staticId, string query)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendString(staticId);
@@ -116,7 +116,7 @@ namespace Yupi.Messages.Navigator
 		/// <param name="session">The session.</param>
 		/// <param name="opened"></param>
 		/// <param name="showImage"></param>
-		private void SerializeSearchResultListStatics(string staticId, bool direct, ServerMessage messageBuffer, GameClient session, bool opened = false, bool showImage = false)
+		private void SerializeSearchResultListStatics(string staticId, bool direct, ServerMessage messageBuffer, Habbo session, bool opened = false, bool showImage = false)
 		{
 			if (string.IsNullOrEmpty(staticId) || staticId == "official")
 				staticId = "official_view";
@@ -411,7 +411,7 @@ namespace Yupi.Messages.Navigator
 		/// <param name="searchQuery">The search query.</param>
 		/// <param name="messageBuffer">The messageBuffer.</param>
 		/// <param name="session">The session.</param>
-		private void SerializeSearches(string searchQuery, ServerMessage messageBuffer, GameClient session)
+		private void SerializeSearches(string searchQuery, ServerMessage messageBuffer, Habbo session)
 		{
 			messageBuffer.AppendString(string.Empty);
 

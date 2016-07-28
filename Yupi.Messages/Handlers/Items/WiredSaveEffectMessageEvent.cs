@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Items
 {
 	public class WiredSaveEffectMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Net.ISession<IGameClient> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			uint itemId = request.GetUInt32();
 
@@ -21,7 +22,7 @@ namespace Yupi.Messages.Items
 			SaveWired(session, item, request);
 		}
 
-		private void SaveWired(GameClient session, RoomItem item, ClientMessage request)
+		private void SaveWired(Habbo session, WiredItem item, ClientMessage request)
 		{
 			if (item == null || !item.IsWired)
 				return;
@@ -502,7 +503,7 @@ namespace Yupi.Messages.Items
 			session.SendMessage(new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SaveWiredMessageComposer")));
 		}
 
-		private IList<RoomItem> GetFurniItems(ClientMessage request, Room room)
+		private IList<Item> GetFurniItems(ClientMessage request, RoomData room)
 		{
 			List<RoomItem> list = new List<RoomItem>();
 			int itemCount = request.GetInteger();

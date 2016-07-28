@@ -5,6 +5,7 @@
 
 using System.Drawing;
 using Yupi.Protocol;
+using Yupi.Model.Domain;
 
 
 
@@ -21,7 +22,7 @@ namespace Yupi.Messages.Items
 		 * Also handles the following: UseHabboWheelMessageEvent, TriggerWallItemMessageEvent, EnterOneWayDoorMessageEvent, TriggerDiceRollMessageEvent
 		 */
 
-		public override void HandleMessage (Yupi.Net.ISession<IGameClient> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
@@ -90,7 +91,7 @@ namespace Yupi.Messages.Items
 				room.GetRoomUserManager().UpdateUserStatus(current, true);
 		}
 
-		private void PlantMonsterplant(IRouter router, Yupi.Net.ISession<IGameClient> session, RoomItem mopla, Room room)
+		private void PlantMonsterplant(IRouter router, Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Item<MonsterPlantBaseItem> mopla, RoomData room)
 		{
 			int rarity = 0, internalRarity;
 
@@ -144,7 +145,7 @@ namespace Yupi.Messages.Items
 			}
 		}
 
-		private void TriggerLoveLock(IRouter router, Yupi.Emulator.Game.GameClients.Interfaces.GameClient session, RoomItem loveLock)
+		private void TriggerLoveLock(IRouter router, Habbo session, LovelockItem loveLock)
 		{
 			string[] loveLockParams = loveLock.ExtraData.Split(Convert.ToChar(5));
 

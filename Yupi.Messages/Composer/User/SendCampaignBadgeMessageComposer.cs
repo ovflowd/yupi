@@ -6,7 +6,7 @@ namespace Yupi.Messages.User
 {
 	public class SendCampaignBadgeMessageComposer : AbstractComposer<string, bool>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, string badgeName, bool hasBadge)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, string badgeName, bool hasBadge)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendString (badgeName);

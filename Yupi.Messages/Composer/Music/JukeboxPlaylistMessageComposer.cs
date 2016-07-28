@@ -9,7 +9,7 @@ namespace Yupi.Messages.Music
 {
 	public class JukeboxPlaylistMessageComposer : AbstractComposer<int, IList<SongItem>>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, int capacity, IList<SongItem> playlist)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, int capacity, IList<SongItem> playlist)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				

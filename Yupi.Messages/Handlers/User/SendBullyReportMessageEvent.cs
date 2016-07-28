@@ -8,7 +8,7 @@ namespace Yupi.Messages.Handlers.User
 {
 	public class SendBullyReportMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Net.ISession<IGameClient> session, ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			uint reportedId = message.GetUInt32();
 			// TODO Refactor

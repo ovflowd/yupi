@@ -5,7 +5,7 @@ namespace Yupi.Messages.Rooms
 {
 	public class RoomErrorMessageComposer : AbstractComposer<int>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, int errorCode)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, int errorCode)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (errorCode); 

@@ -10,7 +10,7 @@ namespace Yupi.Messages.Youtube
 {
 	public class YouTubeLoadPlaylistsMessageComposer : AbstractComposer
 	{
-		public void Compose(ISender session, YoutubeTVItem tv, Dictionary<string, YoutubeVideo> videos) {
+		public void Compose(Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, YoutubeTVItem tv, Dictionary<string, YoutubeVideo> videos) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(tv.Id);
 				message.AppendInteger(videos.Count);

@@ -14,7 +14,7 @@ namespace Yupi.Messages.Items
 		}
 		
 		// TODO Refactor
-		public void Compose (Yupi.Protocol.ISender session, Tuple<Point, double> pos, Tuple<Point, double> nextPos, uint rollerId, uint affectedId, ItemAnimationMessageComposer.Type type)
+		public void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Tuple<Point, double> pos, Tuple<Point, double> nextPos, uint rollerId, uint affectedId, ItemAnimationMessageComposer.Type type)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(pos.Item1.X);

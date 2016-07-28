@@ -7,7 +7,7 @@ namespace Yupi.Messages.Rooms
 {
 	public class PollQuestionsMessageComposer : AbstractComposer<Poll>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, Poll poll)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Poll poll)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(poll.Id);

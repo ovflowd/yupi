@@ -5,7 +5,7 @@ namespace Yupi.Messages.User
 {
 	public class UserClubRightsMessageComposer : AbstractComposer<bool, int, bool>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, bool hasVIP, int rank, bool isAmbadassor = false)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, bool hasVIP, int rank, bool isAmbadassor = false)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(hasVIP);

@@ -5,7 +5,7 @@ namespace Yupi.Messages.User
 {
 	public class SetChatPreferenceMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Net.ISession<IGameClient> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			bool preferOldChat = message.GetBool();
 			session.GetHabbo().Preferences.PreferOldChat = preferOldChat;

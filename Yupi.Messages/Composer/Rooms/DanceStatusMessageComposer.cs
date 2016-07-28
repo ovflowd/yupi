@@ -7,7 +7,7 @@ namespace Yupi.Messages.Rooms
 	{
 		// TODO Create enum for Dances
 		
-		public override void Compose (Yupi.Protocol.ISender room, uint entityId, uint danceId)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> room, uint entityId, uint danceId)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (entityId);

@@ -18,7 +18,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
     /// <summary>
     ///     Class GameClient.
     /// </summary>
-	public class GameClient : ISender
+	public class GameClient : ISession
     {
         /// <summary>
         ///     The Client Connection

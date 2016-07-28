@@ -2,7 +2,7 @@
 
 namespace Yupi.Model.Domain
 {
-	public class WiredConditionDateRangeActiveBaseItem : FloorBaseItem
+	public class WiredConditionDateRangeActiveBaseItem : WiredBaseItem
 	{
 		public WiredConditionDateRangeActiveBaseItem ()
 		{

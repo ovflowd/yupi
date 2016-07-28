@@ -13,7 +13,7 @@ namespace Yupi.Messages.Support
 	public class ModerationToolIssueChatlogMessageComposer : AbstractComposer<SupportTicket, RoomData>
 	{
 		// TODO Refactor
-		public override void Compose (Yupi.Protocol.ISender session, SupportTicket ticket, RoomData roomData)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, SupportTicket ticket, RoomData roomData)
 		{
 			
 			RoomData room = Yupi.GetGame().GetRoomManager().GenerateRoomData(ticket.RoomId);

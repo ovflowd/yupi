@@ -10,13 +10,13 @@ namespace Yupi.Messages.Groups
 {
 	public class GroupMembersMessageComposer : AbstractComposer<Habbo, Group>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, Habbo user, Group group)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Habbo user, Group group)
 		{
 			Compose (session, group, 0u, user);
 		}
 
 		// TODO Refactor?
-		public void Compose (Yupi.Protocol.ISender session, Group group, uint reqType, Habbo user, string searchVal = "", int page = 0) {
+		public void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Group group, uint reqType, Habbo user, string searchVal = "", int page = 0) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(group.Id);
 				message.AppendString(group.Name);

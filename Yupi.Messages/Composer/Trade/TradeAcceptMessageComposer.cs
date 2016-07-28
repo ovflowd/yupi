@@ -5,7 +5,7 @@ namespace Yupi.Messages.Trade
 {
 	public class TradeAcceptMessageComposer : AbstractComposer<uint, bool>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, uint userId, bool accepted)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, uint userId, bool accepted)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(userId);

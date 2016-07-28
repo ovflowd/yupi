@@ -2,7 +2,7 @@
 
 namespace Yupi.Model.Domain
 {
-	public class WiredConditionNotGroupMemberBaseItem : FloorBaseItem
+	public class WiredConditionNotGroupMemberBaseItem : WiredBaseItem
 	{
 		public WiredConditionNotGroupMemberBaseItem ()
 		{

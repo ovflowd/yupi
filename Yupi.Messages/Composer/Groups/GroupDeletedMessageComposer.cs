@@ -5,7 +5,7 @@ namespace Yupi.Messages.Groups
 {
 	public class GroupDeletedMessageComposer : AbstractComposer<int>
 	{
-		public override void Compose (Yupi.Protocol.ISender room, int groupId)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> room, int groupId)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (groupId);

@@ -7,7 +7,7 @@ namespace Yupi.Messages.Navigator
 {
 	public class LandingRewardMessageComposer : AbstractComposer<HotelLandingManager, Habbo>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, HotelLandingManager manager, Habbo user)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, HotelLandingManager manager, Habbo user)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendString(manager.FurniReward.Name);

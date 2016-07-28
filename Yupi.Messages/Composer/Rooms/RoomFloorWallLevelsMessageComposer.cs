@@ -7,7 +7,7 @@ namespace Yupi.Messages.Rooms
 {
 	public class RoomFloorWallLevelsMessageComposer : AbstractComposer<RoomData>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, RoomData data)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, RoomData data)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendBool(data.HideWall);

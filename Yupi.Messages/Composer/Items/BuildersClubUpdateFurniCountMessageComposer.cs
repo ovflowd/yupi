@@ -5,7 +5,7 @@ namespace Yupi.Messages.Items
 {
 	public class BuildersClubUpdateFurniCountMessageComposer : AbstractComposer<int>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, int itemsUsed)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, int itemsUsed)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (itemsUsed);

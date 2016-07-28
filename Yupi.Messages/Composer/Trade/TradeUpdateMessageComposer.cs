@@ -8,7 +8,7 @@ namespace Yupi.Messages.Trade
 {
 	public class TradeUpdateMessageComposer : AbstractComposer<TradeUser, TradeUser>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, TradeUser first, TradeUser second)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, TradeUser first, TradeUser second)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				Serialize (first, message);

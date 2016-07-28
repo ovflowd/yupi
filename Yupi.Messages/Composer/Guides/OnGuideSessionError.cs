@@ -5,7 +5,7 @@ namespace Yupi.Messages.Guides
 {
 	public class OnGuideSessionError : AbstractComposerVoid
 	{
-		public override void Compose (Yupi.Protocol.ISender session)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session)
 		{
 			// TODO Hardcoded message
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {

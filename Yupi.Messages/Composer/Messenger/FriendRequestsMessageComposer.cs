@@ -8,7 +8,7 @@ namespace Yupi.Messages.Messenger
 {
 	public class FriendRequestsMessageComposer : AbstractComposer<IDictionary<uint, MessengerRequest>>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, IDictionary<uint, MessengerRequest> requests)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, IDictionary<uint, MessengerRequest> requests)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(requests.Count);

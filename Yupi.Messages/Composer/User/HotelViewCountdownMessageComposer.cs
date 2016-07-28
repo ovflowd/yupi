@@ -5,7 +5,7 @@ namespace Yupi.Messages.User
 {
 	public class HotelViewCountdownMessageComposer : AbstractComposer<string>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, string time)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, string time)
 		{
 			DateTime date;
 			DateTime.TryParse(time, out date);

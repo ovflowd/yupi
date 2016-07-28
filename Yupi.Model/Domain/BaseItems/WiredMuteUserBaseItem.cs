@@ -2,7 +2,7 @@
 
 namespace Yupi.Model.Domain
 {
-	public class WiredMuteUserBaseItem : FloorBaseItem
+	public class WiredMuteUserBaseItem : WiredBaseItem
 	{
 		public WiredMuteUserBaseItem ()
 		{

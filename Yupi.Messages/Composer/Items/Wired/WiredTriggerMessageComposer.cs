@@ -8,7 +8,7 @@ namespace Yupi.Messages.Wired
 {
 	public class WiredTriggerMessageComposer : AbstractComposer
 	{
-		public void Compose (Yupi.Protocol.ISender session, FloorItem item, List<FloorItem> items, int delay, string extraInfo, int unknown)
+		public void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, FloorItem item, List<FloorItem> items, int delay, string extraInfo, int unknown)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendBool(false);

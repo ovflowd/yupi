@@ -10,7 +10,7 @@ namespace Yupi.Messages.Items
 	public class NewInventoryObjectMessageComposer : AbstractComposer<BaseItem, List<UserItem>>
 	{
 		// TODO Remove...
-		public void Compose (Yupi.Protocol.ISender session, uint itemId) {
+		public void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, uint itemId) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(1);
 				message.AppendInteger(1);
@@ -20,7 +20,7 @@ namespace Yupi.Messages.Items
 			}
 		}
 
-		public override void Compose (Yupi.Protocol.ISender session, BaseItem item, List<UserItem> list)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, BaseItem item, List<UserItem> list)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(1);

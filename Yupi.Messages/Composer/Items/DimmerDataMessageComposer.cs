@@ -8,7 +8,7 @@ namespace Yupi.Messages.Items
 {
 	public class DimmerDataMessageComposer : AbstractComposer<MoodlightData>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, MoodlightData moodlight)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, MoodlightData moodlight)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(moodlight.Presets.Count);

@@ -6,7 +6,7 @@ namespace Yupi.Messages.Groups
 {
 	public class GroupForumDataMessageComposer : AbstractComposer<Group, uint>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, Group group, uint userId)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Group group, uint userId)
 		{ // TODO Refactor
 			string string1 = string.Empty, string2 = string.Empty, string3 = string.Empty, string4 = string.Empty;
 

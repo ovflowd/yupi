@@ -7,7 +7,7 @@ namespace Yupi.Messages.User
 	public class RoomUserActionMessageComposer : AbstractComposer<int, int>
 	{
 		// TODO unknown param?!
-		public override void Compose (Yupi.Protocol.ISender room, int virtualId, int unknown = 7)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> room, int virtualId, int unknown = 7)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(virtualId);

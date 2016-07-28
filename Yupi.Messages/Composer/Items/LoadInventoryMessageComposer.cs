@@ -12,7 +12,7 @@ namespace Yupi.Messages.Items
 {
 	public class LoadInventoryMessageComposer : Yupi.Messages.AbstractComposer<ICollection<UserItem>, ICollection<UserItem>, ICollection<UserItem>>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, ICollection<UserItem> floor, ICollection<UserItem> wall, ICollection<UserItem> songDisks)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, ICollection<UserItem> floor, ICollection<UserItem> wall, ICollection<UserItem> songDisks)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(1);

@@ -265,6 +265,13 @@
     <Compile Include="Domain\Rooms\TradeUser.cs" />
     <Compile Include="Domain\Messenger\SearchResult.cs" />
     <Compile Include="Domain\Items\LovelockItem.cs" />
+    <Compile Include="Repository\IRepository.cs" />
+    <Compile Include="Repository\Repository.cs" />
+    <Compile Include="Domain\Support\ModerationTool.cs" />
+    <Compile Include="Domain\Support\ModerationTemplate.cs" />
+    <Compile Include="Domain\Items\WiredItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredBaseItem.cs" />
+    <Compile Include="Domain\Rooms\Gamemap.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -288,6 +295,7 @@
     <Folder Include="Domain\Rooms\Bot\" />
     <Folder Include="Domain\Polls\" />
     <Folder Include="Domain\Support\" />
+    <Folder Include="Repository\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Yupi.Data\Yupi.Data.csproj">

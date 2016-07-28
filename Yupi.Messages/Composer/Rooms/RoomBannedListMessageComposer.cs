@@ -6,7 +6,7 @@ namespace Yupi.Messages.Rooms
 {
 	public class RoomBannedListMessageComposer : AbstractComposer<uint, List<uint>>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, uint roomId, List<uint> bannedUsers)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, uint roomId, List<uint> bannedUsers)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (roomId);

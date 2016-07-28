@@ -2,7 +2,7 @@
 
 namespace Yupi.Model.Domain
 {
-	public class WiredActionBotGiveHanditemBaseItem : FloorBaseItem
+	public class WiredActionBotGiveHanditemBaseItem : WiredBaseItem
 	{
 		public WiredActionBotGiveHanditemBaseItem ()
 		{

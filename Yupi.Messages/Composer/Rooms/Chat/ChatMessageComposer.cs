@@ -7,7 +7,7 @@ namespace Yupi.Messages.Chat
 	public class ChatMessageComposer : AbstractComposer
 	{
 		// TODO Use enum for color
-		public void Compose (Yupi.Protocol.ISender session, uint entityId, string msg, int color, int count = 0)
+		public void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, uint entityId, string msg, int color, int count = 0)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(entityId);

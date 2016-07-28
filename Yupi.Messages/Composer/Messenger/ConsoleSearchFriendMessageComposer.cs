@@ -8,7 +8,7 @@ namespace Yupi.Messages.Messenger
 {
 	public class ConsoleSearchFriendMessageComposer : AbstractComposer<List<Habbo>, List<Habbo>>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, List<Habbo> foundFriends, List<Habbo> foundUsers)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, List<Habbo> foundFriends, List<Habbo> foundUsers)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(foundFriends.Count);

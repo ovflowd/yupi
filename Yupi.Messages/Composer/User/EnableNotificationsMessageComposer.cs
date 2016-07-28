@@ -5,7 +5,7 @@ namespace Yupi.Messages.User
 {
 	public class EnableNotificationsMessageComposer : AbstractComposerVoid
 	{
-		public override void Compose (Yupi.Protocol.ISender session)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendBool(true); //isOpen

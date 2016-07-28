@@ -6,7 +6,7 @@ namespace Yupi.Messages.Rooms
 	public class RoomRightsLevelMessageComposer : AbstractComposer<int>
 	{
 		// TODO Level should be enum
-		public override void Compose (Yupi.Protocol.ISender session, int level)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, int level)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (level);

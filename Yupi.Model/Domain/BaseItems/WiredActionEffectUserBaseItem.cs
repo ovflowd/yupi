@@ -2,7 +2,7 @@
 
 namespace Yupi.Model.Domain
 {
-	public class WiredActionEffectUserBaseItem : FloorBaseItem
+	public class WiredActionEffectUserBaseItem : WiredBaseItem
 	{
 		public WiredActionEffectUserBaseItem ()
 		{

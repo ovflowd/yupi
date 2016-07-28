@@ -5,7 +5,7 @@ namespace Yupi.Messages.Navigator
 {
 	public class LandingCommunityChallengeMessageComposer : AbstractComposer<int>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, int onlineFriends)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, int onlineFriends)
 		{
 			// TODO Magic numbers!
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {

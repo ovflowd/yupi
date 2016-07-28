@@ -5,7 +5,7 @@ namespace Yupi.Messages.Rooms
 {
 	public class OutOfRoomMessageComposer : AbstractComposer<short>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, short code = 0)
+		public override void Compose (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, short code = 0)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendShort(code);
