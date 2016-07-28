@@ -51,7 +51,7 @@ namespace Yupi.Messages.Pets
 
 			room.GetRoomUserManager().RemoveBot(pet.VirtualId, false);
 
-			session.SendMessage(session.GetHabbo().GetInventoryComponent().SerializePetInventory());
+			session.Send(session.GetHabbo().GetInventoryComponent().SerializePetInventory());
 		}
 	}
 }

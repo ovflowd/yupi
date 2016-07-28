@@ -24,7 +24,7 @@ namespace Yupi.Messages.Support
 					message.AppendString(ticket.Message);
 				}
 
-				session.Send ();
+				session.Send (message);
 			}
 		}
 	}

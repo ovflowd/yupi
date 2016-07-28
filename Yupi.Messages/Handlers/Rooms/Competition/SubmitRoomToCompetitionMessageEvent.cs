@@ -49,7 +49,7 @@ namespace Yupi.Messages.Competition
 					roomData.CompetitionStatus = 2;
 					router.GetComposer<CompetitionEntrySubmitResultMessageComposer> ().Compose (session, competition, 3, room);
 
-					session.SendMessage(messageBuffer);
+					session.Send(messageBuffer);
 				}
 				else if (code == 3)
 				{

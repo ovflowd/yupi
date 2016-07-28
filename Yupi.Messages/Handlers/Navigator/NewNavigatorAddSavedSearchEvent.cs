@@ -24,7 +24,7 @@ namespace Yupi.Messages.Navigator
 			if (!session.GetHabbo().NavigatorLogs.ContainsKey(naviLogs.Id))
 				session.GetHabbo().NavigatorLogs.Add(naviLogs.Id, naviLogs);
 
-			session.SendMessage(NavigatorSavedSearchesComposer.Compose(session));
+			session.Send(NavigatorSavedSearchesComposer.Compose(session));
 		}
 	}
 }

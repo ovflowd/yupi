@@ -500,7 +500,7 @@ namespace Yupi.Messages.Items
 				}
 			}
 
-			session.SendMessage(new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SaveWiredMessageComposer")));
+			session.Send(new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SaveWiredMessageComposer")));
 		}
 
 		private IList<Item> GetFurniItems(ClientMessage request, RoomData room)

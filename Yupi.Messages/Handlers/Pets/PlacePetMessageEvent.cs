@@ -50,7 +50,7 @@ namespace Yupi.Messages.Pets
 			using (IQueryAdapter queryreactor = Yupi.GetDatabaseManager().GetQueryReactor())
 				room.GetRoomUserManager().SavePets(queryreactor);
 
-			session.SendMessage(session.GetHabbo().GetInventoryComponent().SerializePetInventory());
+			session.Send(session.GetHabbo().GetInventoryComponent().SerializePetInventory());
 		}
 	}
 }

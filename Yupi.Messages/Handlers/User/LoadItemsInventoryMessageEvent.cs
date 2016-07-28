@@ -15,7 +15,7 @@ namespace Yupi.Messages.User
 			int i = inventory._floorItems.Count + inventory.SongDisks.Count + inventory._wallItems.Count;
 
 			if (i > 2800) {
-				session.SendMessage (StaticMessage.AdviceMaxItems);
+				session.Send (StaticMessage.AdviceMaxItems);
 
 				router.GetComposer<SuperNotificationMessageComposer> ()
 					.Compose (session, "${generic.notice}", 

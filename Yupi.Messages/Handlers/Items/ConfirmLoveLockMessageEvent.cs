@@ -64,12 +64,12 @@ namespace Yupi.Messages.Items
 
 			if (userIdOne == Session.GetHabbo().Id)
 			{
-				userOne.GetClient().SendMessage(loock);
+				userOne.GetClient().Send(loock);
 				userOne.LoveLockPartner = userIdTwo;
 			}
 			else if (userIdTwo == Session.GetHabbo().Id)
 			{
-				userTwo.GetClient().SendMessage(loock);
+				userTwo.GetClient().Send(loock);
 				userTwo.LoveLockPartner = userIdOne;
 			}
 
@@ -96,12 +96,12 @@ namespace Yupi.Messages.Items
 
 			SimpleServerMessageBuffer messageBuffer = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("UpdateRoomItemMessageComposer"));
 			item.Serialize(messageBuffer);
-			room.SendMessage(messageBuffer);
+			room.Send(messageBuffer);
 
 			loock = new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("LoveLockDialogueCloseMessageComposer"));
 			loock.AppendInteger(item.Id);
-			userOne.GetClient().SendMessage(loock);
-			userTwo.GetClient().SendMessage(loock);
+			userOne.GetClient().Send(loock);
+			userTwo.GetClient().Send(loock);
 			userOne.CanWalk = true;
 			userTwo.CanWalk = true;
 		}

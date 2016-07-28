@@ -30,9 +30,9 @@ namespace Yupi.Messages.User
 
 				// TODO Can this event even occur when a user isn't in a room?
 				if (session.GetHabbo().InRoom)
-					Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId).SendMessage(message);
+					Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId).Send(message);
 				else
-					session.SendMessage(message);
+					session.Send(message);
 			}
 		}
 	}
