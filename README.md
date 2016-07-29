@@ -76,6 +76,8 @@ Yupi is ``fullified`` with horny bugs. You will love it. Also the features are A
 - ``C# 6`` we use ~~Marylin~~ Rosylin Monroe C Sharp!
 - ``NuGet`` we aread ready for continuos integration!
 - ``DotNetty`` we use reactive and NIO ready socket system!
+- ``SuperSocket`` we use advanced .NET socket system
+- ``NHibernate and FluentHibernate`` let's try to do decent, lady.
 - ``log4net`` we use asynchronous and fast logging system!
 - ``multi thread`` obviously we use threads!
 - ``MySQL`` using built-in MySQl ADO Adapter!
