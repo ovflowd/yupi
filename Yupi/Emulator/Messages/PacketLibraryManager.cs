@@ -158,10 +158,17 @@ namespace Yupi.Emulator.Messages
 
                     if (Incoming.ContainsKey(packetId))
                         continue;
+                        
+                    try
+                    {
+                        PacketLibrary.GetProperty del = (PacketLibrary.GetProperty) Delegate.CreateDelegate(typeof(PacketLibrary.GetProperty), typeof(PacketLibrary), libValue);
 
-                    PacketLibrary.GetProperty del = (PacketLibrary.GetProperty) Delegate.CreateDelegate(typeof(PacketLibrary.GetProperty), typeof(PacketLibrary), libValue);
-
-                    Incoming.Add(packetId, new StaticRequestHandler(del));
+                        Incoming.Add(packetId, new StaticRequestHandler(del));
+                    }
+                    catch
+                    {
+                        // Ignored.
+                    }
                 }
             }
         }
