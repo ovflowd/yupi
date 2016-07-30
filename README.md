@@ -54,7 +54,7 @@ Yupi has **amazing** (cof cof) tools that you can use with it. Check some of tho
 You can Help us with Awesome Pull Requests! Or doing a beautifull Fork! You have the Powder!
 
 #### Old Yupi?
-Want a the Old Version from Yupi? Go to [Master Branch](https://github.com/sant0ro/Yupi/tree/master)
+Want a the Old Version from Yupi? Go to [NIO Branch](https://github.com/sant0ro/Yupi/tree/nio)
 
 ## BSOD!
 
@@ -76,6 +76,8 @@ Yupi is ``fullified`` with horny bugs. You will love it. Also the features are A
 - ``C# 6`` we use ~~Marylin~~ Rosylin Monroe C Sharp!
 - ``NuGet`` we aread ready for continuos integration!
 - ``DotNetty`` we use reactive and NIO ready socket system!
+- ``SuperSocket`` we use advanced .NET socket system
+- ``NHibernate and FluentHibernate`` let's try to do decent, lady.
 - ``log4net`` we use asynchronous and fast logging system!
 - ``multi thread`` obviously we use threads!
 - ``MySQL`` using built-in MySQl ADO Adapter!
