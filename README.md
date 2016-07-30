@@ -14,8 +14,8 @@
 
 | Branch  | Windows | Linux (Mono) | Artifacts |
 |---------|---------|--------------|-----------|
-| nio |  [![Build status](https://ci.appveyor.com/api/projects/status/github/sant0ro/Yupi?svg=true&branch=nio)](https://ci.appveyor.com/project/sant0ro/yupi?branch=nio) | [![Build Status](https://travis-ci.org/sant0ro/Yupi.svg?branch=nio)](https://travis-ci.org/sant0ro/Yupi) | [Artifacts](https://ci.appveyor.com/project/sant0ro/yupi/build/artifacts?branch=nio) |
-| linux | [![Build status](https://ci.appveyor.com/api/projects/status/github/sant0ro/Yupi?svg=true&branch=linux)](https://ci.appveyor.com/project/sant0ro/yupi?branch=linux) | [![Build Status](https://travis-ci.org/sant0ro/Yupi.svg?branch=linux)](https://travis-ci.org/sant0ro/Yupi?branch=linux) | [Artifacts](https://ci.appveyor.com/project/sant0ro/yupi/build/artifacts?branch=linux) |
+| nio |  [![Build status](https://ci.appveyor.com/api/projects/status/01339k0c9xepbaow/branch/nio?svg=true)](https://ci.appveyor.com/project/sant0ro/yupi-phd9a/branch/nio) | [![Build Status](https://travis-ci.org/sant0ro/Yupi.svg?branch=nio)](https://travis-ci.org/sant0ro/Yupi) | [Artifacts](https://ci.appveyor.com/project/sant0ro/yupi-phd9a/branch/nio/artifacts) |
+| linux | [![Build status](https://ci.appveyor.com/api/projects/status/01339k0c9xepbaow/branch/linux?svg=true)](https://ci.appveyor.com/project/sant0ro/yupi-phd9a/branch/linux) | [![Build Status](https://travis-ci.org/sant0ro/Yupi.svg?branch=linux)](https://travis-ci.org/sant0ro/Yupi?branch=linux) | [Artifacts](https://ci.appveyor.com/project/sant0ro/yupi-phd9a/branch/linux/artifacts) |
 
 [![Github All Releases](https://img.shields.io/github/downloads/sant0ro/Yupi/total.svg)]()
  [![Gitter](https://badges.gitter.im/sant0ro/Yupi.svg)](https://gitter.im/sant0ro/Yupi) [![GitHub license](https://img.shields.io/badge/license-MIT-4DB798.svg)](https://raw.githubusercontent.com/sant0ro/Yupi/nio/LICENSE.md)
@@ -30,7 +30,7 @@
 
 Yupi is open-source, and under <b>MIT License</b>
 Anyone can edit, download, do a copy, change credits, do whathever. Moreover, this is the official repository of the emulator.
-Me [Claudio Santoro](https://github.com/sant0ro) doesn't receive any budget, money or callback for this work. Also i never asked money before for anyone. Soo what are you waiting?
+Me [Claudio](https://github.com/sant0ro) and [Felix](https://github.com/TheDoct0r11) doesn't receive any budget, money or callback for this work. Also i never asked money before for anyone. Soo what are you waiting?
 
 [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FLYXSZ5B3G9NC)
 
@@ -43,13 +43,18 @@ Yupi is an OSP Habbo Emulator, not created for production usages. Made for cool 
 Butterfly Emulator, originally created by Martinmine. Actually Based in a Butterfly's Edition called Azure Emulator.
 **Observation**: In other terms the code wasn't created from scratch by the collaborators, but based in Butterfly Emulator. So if you see crappie codes, calm down, it's planned to everything being rewrote here.
 
+## Tools!
+Yupi has **amazing** (cof cof) tools that you can use with it. Check some of those:
++ **Edison Osto's** Yupi Furniture SQL Generator! [Click Here](http://forum.ragezone.com/f353/sql-generator-yupi-emulator-1107144/)
++ More tools later haha
+
 ## Whoami
 
 #### Pull Us!
 You can Help us with Awesome Pull Requests! Or doing a beautifull Fork! You have the Powder!
 
 #### Old Yupi?
-Want a the Old Version from Yupi? Go to [Master Branch](https://github.com/sant0ro/Yupi/tree/master)
+Want a the Old Version from Yupi? Go to [NIO Branch](https://github.com/sant0ro/Yupi/tree/nio)
 
 ## BSOD!
 
@@ -71,6 +76,8 @@ Yupi is ``fullified`` with horny bugs. You will love it. Also the features are A
 - ``C# 6`` we use ~~Marylin~~ Rosylin Monroe C Sharp!
 - ``NuGet`` we aread ready for continuos integration!
 - ``DotNetty`` we use reactive and NIO ready socket system!
+- ``SuperSocket`` we use advanced .NET socket system
+- ``NHibernate and FluentHibernate`` let's try to do decent, lady.
 - ``log4net`` we use asynchronous and fast logging system!
 - ``multi thread`` obviously we use threads!
 - ``MySQL`` using built-in MySQl ADO Adapter!
