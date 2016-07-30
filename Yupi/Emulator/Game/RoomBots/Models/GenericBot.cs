@@ -161,13 +161,13 @@ namespace Yupi.Emulator.Game.RoomBots.Models
         /// <param name="message">The message.</param>
         internal override void OnUserSay(RoomUser user, string message)
         {
-            if (Gamemap.TileDistance(GetRoomUser().X, GetRoomUser().Y, user.X, user.Y) > 16)
+           if (Gamemap.TileDistance(GetRoomUser().X, GetRoomUser().Y, user.X, user.Y) > 16)
                 return;
 
             if (message.Length < 2)
                 return;
 
-            BotCommand command = BotManager.GetBotCommandByInput(message.Substring(1).ToLower());
+            var command = BotManager.GetBotCommandByInput(message.Substring(1).ToLower());
 
             if (command == null)
             {
