@@ -553,15 +553,10 @@ namespace Yupi.Emulator.Game.Rooms
                         else
                             current.BotAi.OnUserSay(user, message);
                     }
-                    // @issue #80
-                    else if (!current.IsPet && !current.BotAi.GetBotData().AutomaticChat)
-                    {
-                        current.BotAi.OnChatTick();
-                    }
-                    else if (current.IsPet && message.StartsWith(current.PetData.Name) &&
-                             current.PetData.Type != "pet_monster")
+                    else if (current.IsPet && message.StartsWith(current.PetData.Name) && current.PetData.Type != "pet_monster")
                     {
                         message = message.Substring(current.PetData.Name.Length);
+                        
                         current.BotAi.OnUserSay(user, message);
                     }
                 }
