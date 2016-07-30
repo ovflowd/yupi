@@ -552,6 +552,8 @@ namespace Yupi.Emulator.Game.Rooms
                             current.BotAi.OnUserShout(user, message);
                         else
                             current.BotAi.OnUserSay(user, message);
+                            
+                        current.BotAi.OnChatTick();
                     }
                     else if (current.IsPet && message.StartsWith(current.PetData.Name) && current.PetData.Type != "pet_monster")
                     {
