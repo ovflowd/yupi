@@ -15,14 +15,14 @@ namespace Yupi.Messages.User
 
 			look = Yupi.FilterFigure(look);
 
-			session.GetHabbo().Look = look; 
-			// TODO Validate gender
-			session.GetHabbo().Gender = gender;
+			session.UserData.Info.Look = look;
+            // TODO Validate gender
+            session.UserData.Info.Gender = gender;
 			// TODO Refactor
-			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor()) // This going to be changed to NHibernate - Zak
 			{
 				queryReactor.SetQuery(
-					$"UPDATE users SET look = @look, gender = @gender WHERE id = {Session.GetHabbo().Id}");
+					$"UPDATE users SET look = @look, gender = @gender WHERE id = {session.UserDatai}");
 				queryReactor.AddParameter("look", look);
 				queryReactor.AddParameter("gender", gender);
 				queryReactor.RunQuery();
@@ -40,8 +40,8 @@ namespace Yupi.Messages.User
 			if (roomUserByHabbo == null)
 				return;
 
-			router.GetComposer<UpdateAvatarAspectMessageComposer> ().Compose (session, session.GetHabbo());
-			router.GetComposer<UpdateUserDataMessageComposer> ().Compose (currentRoom, session.GetHabbo (), roomUserByHabbo.VirtualId);
+			router.GetComposer<UpdateAvatarAspectMessageComposer> ().Compose (session, session.UserData.Info);
+			router.GetComposer<UpdateUserDataMessageComposer> ().Compose (currentRoom, session.UserData.Info, roomUserByHabbo.VirtualId);
 		
 			if (session.GetHabbo().GetMessenger() != null)
 				session.GetHabbo().GetMessenger().OnStatusChanged(true);
