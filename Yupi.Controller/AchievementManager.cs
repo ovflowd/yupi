@@ -26,11 +26,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Yupi.Model.Repository;
-using Yupi.Messages.User;
 using Yupi.Protocol;
-using Yupi.Messages.Achievements;
+using Yupi.Messages.Contracts;
+using Yupi.Model.Domain;
+using Yupi.Model;
 
-namespace Yupi.Model.Domain
+namespace Yupi.Controller
 {
 	public class AchievementManager
 	{
@@ -157,7 +158,7 @@ namespace Yupi.Model.Domain
 			*/
 		}
 			
-		public bool ProgressUserAchievement (ISession<Yupi.Model.Domain.Habbo> session, Habbo user, string achievementGroup, int progressAmount)
+		public bool ProgressUserAchievement (Habbo user, string achievementGroup, int progressAmount)
 		{
 			if (Achievements.ContainsKey (achievementGroup)) {
 				Achievement achievement = Achievements [achievementGroup];

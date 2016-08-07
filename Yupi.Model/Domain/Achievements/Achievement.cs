@@ -47,11 +47,11 @@ namespace Yupi.Model.Domain
 			Levels = new List<AchievementLevel> ();
 		}
 
-		public int GetMaxLevel() {
+		public virtual int GetMaxLevel() {
 			return Levels.Count - 1;
 		}
 
-		public AchievementLevel DefaultLevel() {
+		public virtual AchievementLevel DefaultLevel() {
 			if (Levels.Any ()) {
 				return Levels [0];
 			} else {
@@ -59,7 +59,7 @@ namespace Yupi.Model.Domain
 			}
 		}
 
-		public AchievementLevel NextLevel(AchievementLevel current) {
+		public virtual AchievementLevel NextLevel(AchievementLevel current) {
 			return Levels.Single (x => x.Level == current.Level + 1);
 		}
 	}

@@ -68,6 +68,7 @@
     <Reference Include="CodeProject.ObjectPool">
       <HintPath>..\packages\CodeProject.ObjectPool.1.10.1\lib\net45\CodeProject.ObjectPool.dll</HintPath>
     </Reference>
+    <Reference Include="Mono.Data.Sqlite" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Timers;
 using Yupi.Model.Domain.Components;
+using Yupi.Util;
 
 namespace Yupi.Model.Domain
 {
@@ -103,6 +104,17 @@ namespace Yupi.Model.Domain
                                      (ServerExtraSettings.ChangeNameEveryone);*/
 			return false; // TODO Reimplement
 		}
+
+		public virtual bool RemoveBadge(string badeCode) {
+			return Badges.RemoveAll ((x) => x.Code == badeCode) > 0;
+		}
+
+		public virtual void GiveBadge(string badeCode) {
+			Badges.Add (new Badge () {
+				Code = badeCode
+			});
+		}
+
 		/*
 		public virtual bool IsHelper ()
 		{
