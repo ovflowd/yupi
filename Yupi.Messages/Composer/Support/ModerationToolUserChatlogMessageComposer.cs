@@ -7,7 +7,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Support
 {
-	public class ModerationToolUserChatlogMessageComposer : AbstractComposer<uint>
+	public class ModerationToolUserChatlogMessageComposer : Yupi.Messages.Contracts.ModerationToolUserChatlogMessageComposer
 	{
 		// TODO Refactor
 		public override void Compose ( Yupi.Protocol.ISender session, uint userId)

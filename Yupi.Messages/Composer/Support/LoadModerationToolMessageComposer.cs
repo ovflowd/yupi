@@ -8,7 +8,7 @@ using Yupi.Model;
 
 namespace Yupi.Messages.Support
 {
-	public class LoadModerationToolMessageComposer : AbstractComposer<ModerationTool, UserInfo>
+	public class LoadModerationToolMessageComposer : Yupi.Messages.Contracts.LoadModerationToolMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, ModerationTool tool, UserInfo user)
 		{

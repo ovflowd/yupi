@@ -5,7 +5,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Navigator
 {
-	public class NavigatorLiftedRoomsComposer : AbstractComposerVoid
+	public class NavigatorLiftedRoomsComposer : Yupi.Messages.Contracts.NavigatorLiftedRoomsComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session)
 		{

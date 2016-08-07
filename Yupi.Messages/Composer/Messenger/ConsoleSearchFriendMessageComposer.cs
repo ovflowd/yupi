@@ -6,7 +6,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Messenger
 {
-	public class ConsoleSearchFriendMessageComposer : AbstractComposer<List<UserInfo>, List<UserInfo>>
+	public class ConsoleSearchFriendMessageComposer : Yupi.Messages.Contracts.ConsoleSearchFriendMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, List<UserInfo> foundFriends, List<UserInfo> foundUsers)
 		{

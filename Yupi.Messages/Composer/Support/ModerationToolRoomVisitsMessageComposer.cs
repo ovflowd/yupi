@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Yupi.Messages.Support
 {
-	public class ModerationToolRoomVisitsMessageComposer : AbstractComposer<uint>
+	public class ModerationToolRoomVisitsMessageComposer : Yupi.Messages.Contracts.ModerationToolRoomVisitsMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, uint userId)
 		{

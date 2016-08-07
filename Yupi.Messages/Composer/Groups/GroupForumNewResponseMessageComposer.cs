@@ -6,9 +6,9 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Groups
 {
-	public class GroupForumNewResponseMessageComposer : AbstractComposer
+	public class GroupForumNewResponseMessageComposer : Yupi.Messages.Contracts.GroupForumNewResponseMessageComposer
 	{
-		public void Compose( Yupi.Protocol.ISender session, int groupId, int threadId, int messageCount, UserInfo user, int timestamp, string content) {
+		public override void Compose( Yupi.Protocol.ISender session, int groupId, int threadId, int messageCount, UserInfo user, int timestamp, string content) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(groupId);
 				message.AppendInteger(threadId);

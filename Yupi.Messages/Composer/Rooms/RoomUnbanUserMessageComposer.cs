@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Rooms
 {
-	public class RoomUnbanUserMessageComposer : AbstractComposer<uint, uint>
+	public class RoomUnbanUserMessageComposer : Yupi.Messages.Contracts.RoomUnbanUserMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, uint roomId, uint userId)
 		{

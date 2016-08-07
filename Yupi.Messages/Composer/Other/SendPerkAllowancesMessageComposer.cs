@@ -4,7 +4,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Other
 {
-	public class SendPerkAllowancesMessageComposer : AbstractComposerVoid
+	public class SendPerkAllowancesMessageComposer : Yupi.Messages.Contracts.SendPerkAllowancesMessageComposer
 	{
 		// TODO Refactor (hardcoded)
 		public override void Compose ( Yupi.Protocol.ISender session)

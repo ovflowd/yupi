@@ -2,7 +2,7 @@
 
 namespace Yupi.Messages.Rooms
 {
-	public class PrepareRoomMessageComposer : AbstactComposerEmpty
+	public class PrepareRoomMessageComposer : Contracts.AbstactComposerEmpty
 	{
 		
 	}

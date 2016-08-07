@@ -6,7 +6,7 @@ using Yupi.Emulator.Game.Browser.Models;
 
 namespace Yupi.Messages.Navigator
 {
-	public class NavigatorSavedSearchesComposer : AbstractComposer<IList<UserSearchLog>>
+	public class NavigatorSavedSearchesComposer : Yupi.Messages.Contracts.NavigatorSavedSearchesComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, IList<UserSearchLog> searchLog)
 		{

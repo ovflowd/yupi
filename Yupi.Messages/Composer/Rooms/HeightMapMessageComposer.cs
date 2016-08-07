@@ -5,7 +5,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Rooms
 {
-	public class HeightMapMessageComposer : AbstractComposer<Gamemap>
+	public class HeightMapMessageComposer : Yupi.Messages.Contracts.HeightMapMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, Gamemap map)
 		{

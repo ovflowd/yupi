@@ -8,9 +8,9 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Youtube
 {
-	public class YouTubeLoadPlaylistsMessageComposer : AbstractComposer
+	public class YouTubeLoadPlaylistsMessageComposer : Yupi.Messages.Contracts.YouTubeLoadPlaylistsMessageComposer
 	{
-		public void Compose( Yupi.Protocol.ISender session, YoutubeTVItem tv, Dictionary<string, YoutubeVideo> videos) {
+		public override void Compose( Yupi.Protocol.ISender session, YoutubeTVItem tv, Dictionary<string, YoutubeVideo> videos) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(tv.Id);
 				message.AppendInteger(videos.Count);

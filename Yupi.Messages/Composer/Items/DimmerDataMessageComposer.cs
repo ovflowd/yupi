@@ -6,7 +6,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Items
 {
-	public class DimmerDataMessageComposer : AbstractComposer<MoodlightData>
+	public class DimmerDataMessageComposer : Yupi.Messages.Contracts.DimmerDataMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, MoodlightData moodlight)
 		{

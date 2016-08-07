@@ -6,7 +6,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Support
 {
-	public class ModerationRoomToolMessageComposer : AbstractComposer<RoomData, bool>
+	public class ModerationRoomToolMessageComposer : Yupi.Messages.Contracts.ModerationRoomToolMessageComposer
 	{
 		// TODO Refactor
 		public override void Compose ( Yupi.Protocol.ISender session, RoomData data, bool isLoaded)

@@ -8,7 +8,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Items
 {
-	public class RoomFloorItemsMessageComposer : AbstractComposer <RoomData, IReadOnlyDictionary<uint, FloorItem>>
+	public class RoomFloorItemsMessageComposer : Yupi.Messages.Contracts.RoomFloorItemsMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, RoomData data, IReadOnlyDictionary<uint, FloorItem> items)
 		{

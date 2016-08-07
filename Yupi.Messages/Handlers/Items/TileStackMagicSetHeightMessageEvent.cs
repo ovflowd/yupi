@@ -27,7 +27,7 @@ namespace Yupi.Messages.Items
 			{
 				totalZ = room.GetGameMap().SqAbsoluteHeight(item.X, item.Y);
 
-				router.GetComposer<UpdateTileStackMagicHeight> ().Compose (item.Id, totalZ);
+				router.GetComposer<UpdateTileStackMagicHeightComposer> ().Compose (item.Id, totalZ);
 			}
 			else
 			{
@@ -39,7 +39,7 @@ namespace Yupi.Messages.Items
 				if (totalZ < room.RoomData.Model.SqFloorHeight[item.X][item.Y])
 				{
 					totalZ = room.RoomData.Model.SqFloorHeight[item.X][item.Y];
-					router.GetComposer<UpdateTileStackMagicHeight> ().Compose (item.Id, totalZ);
+					router.GetComposer<UpdateTileStackMagicHeightComposer> ().Compose (item.Id, totalZ);
 				}
 			}
 

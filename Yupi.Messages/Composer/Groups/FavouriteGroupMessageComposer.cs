@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Groups
 {
-	public class FavouriteGroupMessageComposer : AbstractComposer<int>
+	public class FavouriteGroupMessageComposer : Yupi.Messages.Contracts.FavouriteGroupMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, int userId)
 		{

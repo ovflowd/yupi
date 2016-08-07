@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.User
 {
-	public class FindMoreFriendsSuccessMessageComposer : AbstractComposer<bool>
+	public class FindMoreFriendsSuccessMessageComposer : Yupi.Messages.Contracts.FindMoreFriendsSuccessMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, bool success)
 		{

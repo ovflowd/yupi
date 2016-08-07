@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Notification
 {
-	public class GeneralErrorHabboMessageComposer : AbstractComposer<int>
+	public class GeneralErrorHabboMessageComposer : Yupi.Messages.Contracts.GeneralErrorHabboMessageComposer
 	{
 		// TODO Replace errorId with enum
 		public override void Compose ( Yupi.Protocol.ISender session, int errorId)

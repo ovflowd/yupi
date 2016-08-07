@@ -5,7 +5,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Groups
 {
-	public class GroupDataEditMessageComposer : AbstractComposer<Group>
+	public class GroupDataEditMessageComposer : Yupi.Messages.Contracts.GroupDataEditMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, Group group)
 		{

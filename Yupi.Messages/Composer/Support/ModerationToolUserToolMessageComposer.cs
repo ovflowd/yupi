@@ -5,7 +5,7 @@ using System.Data;
 
 namespace Yupi.Messages.Support
 {
-	public class ModerationToolUserToolMessageComposer : AbstractComposer<uint>
+	public class ModerationToolUserToolMessageComposer : Yupi.Messages.Contracts.ModerationToolUserToolMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, uint userId)
 		{

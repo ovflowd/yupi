@@ -42,30 +42,6 @@ namespace Yupi.Emulator.Game.Achievements
      public Dictionary<int, Talent> Talents = new Dictionary<int, Talent>();
 
         /// <summary>
-        ///     Initializes the specified database client.
-        /// </summary>
-        /// <param name="dbClient">The database client.</param>
-     public void Initialize(IQueryAdapter dbClient)
-        {
-            dbClient.SetQuery("SELECT * FROM talents_data ORDER BY `order_num` ASC");
-
-            DataTable table = dbClient.GetTable();
-
-            foreach (Talent talent in from DataRow dataRow in table.Rows
-                select new Talent(
-                    (int) dataRow["id"],
-                    (string) dataRow["type"],
-                    (int) dataRow["parent_category"],
-                    (int) dataRow["level"],
-                    (string) dataRow["achievement_group"],
-                    (uint) dataRow["achievement_level"],
-                    (string) dataRow["prize"],
-                    (uint) dataRow["prize_baseitem"]))
-
-                Talents.Add(talent.Id, talent);
-        }
-
-        /// <summary>
         ///     Gets the talent.
         /// </summary>
         /// <param name="talentId">The talent identifier.</param>

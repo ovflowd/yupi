@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Rooms
 {
-	public class FloorMapMessageComposer : AbstractComposer<string, int>
+	public class FloorMapMessageComposer : Yupi.Messages.Contracts.FloorMapMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, string heightmap, int wallHeight)
 		{

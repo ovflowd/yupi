@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Rooms
 {
-	public class RoomMuteStatusMessageComposer : AbstractComposer<bool>
+	public class RoomMuteStatusMessageComposer : Yupi.Messages.Contracts.RoomMuteStatusMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, bool isMuted)
 		{

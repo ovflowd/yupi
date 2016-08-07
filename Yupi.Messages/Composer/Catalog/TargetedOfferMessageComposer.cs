@@ -5,7 +5,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Catalog
 {
-	public class TargetedOfferMessageComposer : AbstractComposer<TargetedOffer>
+	public class TargetedOfferMessageComposer : Yupi.Messages.Contracts.TargetedOfferMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, TargetedOffer offer)
 		{

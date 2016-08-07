@@ -5,7 +5,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Bots
 {
-	public class BotSpeechListMessageComposer : AbstractComposer<int, BotEntity>
+	public class BotSpeechListMessageComposer : Yupi.Messages.Contracts.BotSpeechListMessageComposer
 	{
 		// TODO Refactor
 		public override void Compose ( Yupi.Protocol.ISender session, int num, BotEntity bot)

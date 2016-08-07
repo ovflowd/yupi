@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Messenger
 {
-	public class ConsoleChatMessageComposer : AbstractComposer<uint, string, int>
+	public class ConsoleChatMessageComposer : Yupi.Messages.Contracts.ConsoleChatMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, uint converstationId, string text, int timeDiff = 0)
 		{

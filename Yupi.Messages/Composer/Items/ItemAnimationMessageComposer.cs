@@ -6,15 +6,12 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Items
 {
-	public class ItemAnimationMessageComposer : AbstractComposer
+	public class ItemAnimationMessageComposer : Yupi.Messages.Contracts.ItemAnimationMessageComposer
 	{
-		public enum Type {
-			USER = 0,
-			ITEM = 1
-		}
+		
 		
 		// TODO Refactor
-		public void Compose ( Yupi.Protocol.ISender session, Tuple<Point, double> pos, Tuple<Point, double> nextPos, uint rollerId, uint affectedId, ItemAnimationMessageComposer.Type type)
+		public override void Compose ( Yupi.Protocol.ISender session, Tuple<Point, double> pos, Tuple<Point, double> nextPos, uint rollerId, uint affectedId, ItemAnimationMessageComposer.Type type)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(pos.Item1.X);

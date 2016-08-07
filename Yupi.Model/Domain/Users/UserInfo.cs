@@ -80,6 +80,8 @@ namespace Yupi.Model.Domain
 		[ManyToMany]
 		public virtual IList<Group> UserGroups { get; protected set; }
 
+		public virtual IList<UserAchievement> Achievements { get; protected set; }
+
 		public virtual string UserName { get; set; }
 		public virtual string Motto { get; set; }
 		public virtual string Look { get; set; }

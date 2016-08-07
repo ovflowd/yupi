@@ -13,9 +13,9 @@ using Yupi.Model.Domain;
 namespace Yupi.Messages.Navigator
 {
 	// TODO Refactor
-	public class SearchResultSetComposer : AbstractComposer
+	public class SearchResultSetComposer : Yupi.Messages.Contracts.SearchResultSetComposer
 	{
-		public void Compose ( Yupi.Protocol.ISender session, string staticId, string query)
+		public override void Compose ( Yupi.Protocol.ISender session, string staticId, string query)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendString(staticId);

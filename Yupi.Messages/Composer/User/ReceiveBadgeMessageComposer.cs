@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.User
 {
-	public class ReceiveBadgeMessageComposer : AbstractComposer<string>
+	public class ReceiveBadgeMessageComposer : Yupi.Messages.Contracts.ReceiveBadgeMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, string badgeId)
 		{

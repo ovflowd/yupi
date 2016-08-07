@@ -6,7 +6,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Messenger
 {
-	public class FriendUpdateMessageComposer : AbstractComposer<Relationship>
+	public class FriendUpdateMessageComposer : Yupi.Messages.Contracts.FriendUpdateMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, Relationship relationship)
 		{

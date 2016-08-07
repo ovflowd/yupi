@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Trade
 {
-	public class EnableTradingMessageComposer : AbstractComposerVoid
+	public class EnableTradingMessageComposer : Yupi.Messages.Contracts.EnableTradingMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session)
 		{

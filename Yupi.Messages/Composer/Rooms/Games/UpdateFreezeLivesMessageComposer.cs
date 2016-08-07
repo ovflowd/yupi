@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Games
 {
-	public class UpdateFreezeLivesMessageComposer : AbstractComposer<int, int>
+	public class UpdateFreezeLivesMessageComposer : Yupi.Messages.Contracts.UpdateFreezeLivesMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, int roomId, int lives)
 		{

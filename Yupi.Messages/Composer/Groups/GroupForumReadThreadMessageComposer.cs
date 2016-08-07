@@ -7,10 +7,10 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Groups
 {
-	public class GroupForumReadThreadMessageComposer : AbstractComposer
+	public class GroupForumReadThreadMessageComposer : Yupi.Messages.Contracts.GroupForumReadThreadMessageComposer
 	{
 		// TODO What is b good for?
-		public void Compose( Yupi.Protocol.ISender session, int groupId, int threadId, int startIndex, int b, List<GroupForumPost> posts) {
+		public override void Compose( Yupi.Protocol.ISender session, int groupId, int threadId, int startIndex, int b, List<GroupForumPost> posts) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(groupId);
 				message.AppendInteger(threadId);

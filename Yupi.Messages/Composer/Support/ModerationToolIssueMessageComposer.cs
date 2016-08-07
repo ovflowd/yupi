@@ -5,7 +5,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Support
 {
-	public class ModerationToolIssueMessageComposer : AbstractComposer<SupportTicket>
+	public class ModerationToolIssueMessageComposer : Yupi.Messages.Contracts.ModerationToolIssueMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, SupportTicket ticket)
 		{

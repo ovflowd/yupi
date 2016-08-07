@@ -5,7 +5,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Rooms
 {
-	public class RoomChatOptionsMessageComposer : AbstractComposer<RoomData>
+	public class RoomChatOptionsMessageComposer : Yupi.Messages.Contracts.RoomChatOptionsMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, RoomData data)
 		{

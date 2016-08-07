@@ -6,7 +6,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Navigator
 {
-	public class CatalogPromotionGetRoomsMessageComposer : AbstractComposer<HashSet<RoomData>>
+	public class CatalogPromotionGetRoomsMessageComposer : Yupi.Messages.Contracts.CatalogPromotionGetRoomsMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, HashSet<RoomData> rooms)
 		{

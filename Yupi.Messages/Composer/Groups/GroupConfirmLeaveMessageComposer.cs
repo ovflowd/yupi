@@ -6,7 +6,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Groups
 {
-	public class GroupConfirmLeaveMessageComposer : AbstractComposer<UserInfo, Group, int>
+	public class GroupConfirmLeaveMessageComposer : Yupi.Messages.Contracts.GroupConfirmLeaveMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, UserInfo user, Group group, int type)
 		{

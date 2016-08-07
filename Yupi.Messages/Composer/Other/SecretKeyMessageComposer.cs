@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Other
 {
-	public class SecretKeyMessageComposer : AbstractComposerVoid
+	public class SecretKeyMessageComposer : Yupi.Messages.Contracts.SecretKeyMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session)
 		{

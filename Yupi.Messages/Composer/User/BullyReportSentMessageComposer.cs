@@ -5,7 +5,7 @@ using Yupi.Net;
 
 namespace Yupi.Messages.User
 {
-	public class BullyReportSentMessageComposer : AbstractComposerVoid
+	public class BullyReportSentMessageComposer : Yupi.Messages.Contracts.BullyReportSentMessageComposer
 	{
 		public override void Compose( Yupi.Protocol.ISender session) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {

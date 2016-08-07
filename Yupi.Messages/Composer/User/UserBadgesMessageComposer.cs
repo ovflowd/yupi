@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Yupi.Messages.User
 {
-	public class UserBadgesMessageComposer : AbstractComposer<Habbo>
+	public class UserBadgesMessageComposer : Yupi.Messages.Contracts.UserBadgesMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, Habbo user)
 		{

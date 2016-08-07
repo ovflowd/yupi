@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Yupi.Messages.Catalog
 {
-	public class CatalogueClubPageMessageComposer : AbstractComposer<int>
+	public class CatalogueClubPageMessageComposer : Yupi.Messages.Contracts.CatalogueClubPageMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, int windowId)
 		{

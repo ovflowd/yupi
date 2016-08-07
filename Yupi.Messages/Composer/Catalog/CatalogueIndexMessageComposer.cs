@@ -7,8 +7,8 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Catalog
 {
-	public class CatalogueIndexMessageComposer : AbstractComposer<IOrderedEnumerable<CatalogPage>,
-	IEnumerable<CatalogPage>, string> // TODO Refactor
+	public class CatalogueIndexMessageComposer : Yupi.Messages.Contracts.CatalogueIndexMessageComposer
+	// TODO Refactor
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, IOrderedEnumerable<CatalogPage> sortedPages, IEnumerable<CatalogPage> pages, string type)
 		{

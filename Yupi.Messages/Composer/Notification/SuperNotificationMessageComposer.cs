@@ -5,11 +5,11 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Notification
 {
-	public class SuperNotificationMessageComposer : AbstractComposer
+	public class SuperNotificationMessageComposer : Yupi.Messages.Contracts.SuperNotificationMessageComposer
 	{
 		// TODO might be that url default is "event:"
 		// unknown might be icon id!
-		public void Compose( Yupi.Protocol.ISender session, string title, string content, string url = "", string urlName = "", string unknown = "", int unknown2 = 4) {
+		public override void Compose( Yupi.Protocol.ISender session, string title, string content, string url = "", string urlName = "", string unknown = "", int unknown2 = 4) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendString (unknown);
 				message.AppendInteger (unknown2);

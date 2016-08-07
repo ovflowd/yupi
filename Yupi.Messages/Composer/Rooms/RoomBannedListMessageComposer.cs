@@ -4,7 +4,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Rooms
 {
-	public class RoomBannedListMessageComposer : AbstractComposer<uint, List<uint>>
+	public class RoomBannedListMessageComposer : Yupi.Messages.Contracts.RoomBannedListMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, uint roomId, List<uint> bannedUsers)
 		{

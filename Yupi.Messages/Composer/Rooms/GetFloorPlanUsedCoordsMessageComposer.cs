@@ -4,7 +4,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Rooms
 {
-	public class GetFloorPlanUsedCoordsMessageComposer : AbstractComposer<Point[]>
+	public class GetFloorPlanUsedCoordsMessageComposer : Yupi.Messages.Contracts.GetFloorPlanUsedCoordsMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, Point[] coords)
 		{

@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Rooms
 {
-	public class FloodFilterMessageComposer : AbstractComposer<int>
+	public class FloodFilterMessageComposer : Yupi.Messages.Contracts.FloodFilterMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, int remainingSeconds)
 		{

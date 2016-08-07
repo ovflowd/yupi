@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Pets
 {
-	public class RespectPetMessageComposer : AbstractComposer<int>
+	public class RespectPetMessageComposer : Yupi.Messages.Contracts.RespectPetMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, int entityId)
 		{

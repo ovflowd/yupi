@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.User
 {
-	public class UserClubRightsMessageComposer : AbstractComposer<bool, int, bool>
+	public class UserClubRightsMessageComposer : Yupi.Messages.Contracts.UserClubRightsMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, bool hasVIP, int rank, bool isAmbadassor = false)
 		{

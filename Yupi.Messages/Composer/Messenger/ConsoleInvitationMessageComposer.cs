@@ -3,9 +3,9 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Messenger
 {
-	public class ConsoleInvitationMessageComposer : AbstractComposer
+	public class ConsoleInvitationMessageComposer : Yupi.Messages.Contracts.ConsoleInvitationMessageComposer
 	{
-		public void Compose ( Yupi.Protocol.ISender session, int habboId, string content)
+		public override void Compose ( Yupi.Protocol.ISender session, int habboId, string content)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (habboId);

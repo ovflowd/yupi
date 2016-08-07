@@ -24,14 +24,14 @@ namespace Yupi.Messages.Guides
 
 
 			if (guideManager.GuidesCount <= 0) {
-				router.GetComposer<OnGuideSessionError> ().Compose (session);
+				router.GetComposer<OnGuideSessionErrorComposer> ().Compose (session);
 				return;
 			}
 
 			GameClient guide = guideManager.GetRandomGuide();
 			// TODO Refactor
 			if (guide == null) {
-				router.GetComposer<OnGuideSessionError> ().Compose (session);
+				router.GetComposer<OnGuideSessionErrorComposer> ().Compose (session);
 				return;
 			}
 

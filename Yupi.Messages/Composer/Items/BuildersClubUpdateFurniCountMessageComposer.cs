@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Items
 {
-	public class BuildersClubUpdateFurniCountMessageComposer : AbstractComposer<int>
+	public class BuildersClubUpdateFurniCountMessageComposer : Yupi.Messages.Contracts.BuildersClubUpdateFurniCountMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, int itemsUsed)
 		{

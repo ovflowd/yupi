@@ -5,7 +5,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Bots
 {
-	public class BotInventoryMessageComposer : AbstractComposer<HybridDictionary>
+	public class BotInventoryMessageComposer : Yupi.Messages.Contracts.BotInventoryMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, HybridDictionary items)
 		{

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Yupi.Messages.Pets
 {
-	public class PetTrainerPanelMessageComposer : AbstractComposer<uint>
+	public class PetTrainerPanelMessageComposer : Yupi.Messages.Contracts.PetTrainerPanelMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, uint petId)
 		{

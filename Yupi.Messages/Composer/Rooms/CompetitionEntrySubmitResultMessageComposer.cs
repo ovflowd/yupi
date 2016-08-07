@@ -6,7 +6,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Rooms
 {
-	public class CompetitionEntrySubmitResultMessageComposer : AbstractComposer<RoomCompetition, int, RoomData>
+	public class CompetitionEntrySubmitResultMessageComposer : Yupi.Messages.Contracts.CompetitionEntrySubmitResultMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, RoomCompetition competition, int status, RoomData room = null)
 		{

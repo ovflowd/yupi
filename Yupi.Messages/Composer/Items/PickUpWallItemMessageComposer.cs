@@ -5,7 +5,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Items
 {
-	public class PickUpWallItemMessageComposer : AbstractComposer<WallItem, int>
+	public class PickUpWallItemMessageComposer : Yupi.Messages.Contracts.PickUpWallItemMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, WallItem item, int pickerId)
 		{

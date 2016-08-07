@@ -6,7 +6,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Trade
 {
-	public class TradeUpdateMessageComposer : AbstractComposer<TradeUser, TradeUser>
+	public class TradeUpdateMessageComposer : Yupi.Messages.Contracts.TradeUpdateMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, TradeUser first, TradeUser second)
 		{

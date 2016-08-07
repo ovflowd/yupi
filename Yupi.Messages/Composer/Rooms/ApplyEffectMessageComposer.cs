@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Rooms
 {
-	public class ApplyEffectMessageComposer : AbstractComposer<int, int>
+	public class ApplyEffectMessageComposer : Yupi.Messages.Contracts.ApplyEffectMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, int entityId, int effectId)
 		{

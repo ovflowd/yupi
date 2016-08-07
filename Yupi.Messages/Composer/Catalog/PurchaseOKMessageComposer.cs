@@ -1,16 +1,13 @@
 ﻿using System;
 using Yupi.Protocol.Buffers;
-
 using System.Collections.Generic;
 using Yupi.Model.Domain;
 
-
-
 namespace Yupi.Messages.Catalog
 {
-	public class PurchaseOKMessageComposer : AbstractComposer
+	public class PurchaseOKMessageComposer : Yupi.Messages.Contracts.PurchaseOkComposer
 	{
-		public void Compose( Yupi.Protocol.ISender session, CatalogItem itemCatalog, Dictionary<BaseItem, uint> items,
+		public override void Compose( Yupi.Protocol.ISender session, CatalogItem itemCatalog, Dictionary<BaseItem, uint> items,
 			int clubLevel = 1)
 		{
 			Compose(session, itemCatalog.Id, itemCatalog.Name, itemCatalog.CreditsCost, items, clubLevel,
@@ -19,7 +16,7 @@ namespace Yupi.Messages.Catalog
 		}
 
 		// TODO There should be no need to expose such a complex method signature
-		public void Compose ( Yupi.Protocol.ISender session, uint itemId, string itemName, uint creditsCost,
+		private void Compose ( Yupi.Protocol.ISender session, uint itemId, string itemName, uint creditsCost,
 		                    Dictionary<BaseItem, uint> items = null, int clubLevel = 1,
 		                    uint diamondsCost = 0,
 		                    uint activityPointsCost = 0, bool isLimited = false,

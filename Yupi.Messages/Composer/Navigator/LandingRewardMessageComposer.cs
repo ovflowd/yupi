@@ -5,7 +5,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Navigator
 {
-	public class LandingRewardMessageComposer : AbstractComposer<HotelLandingManager, UserInfo>
+	public class LandingRewardMessageComposer : Yupi.Messages.Contracts.LandingRewardMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, HotelLandingManager manager, UserInfo user)
 		{

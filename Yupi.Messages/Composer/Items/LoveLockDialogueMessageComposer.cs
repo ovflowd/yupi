@@ -5,7 +5,7 @@ using Yupi.Protocol;
 
 namespace Yupi.Messages.Items
 {
-	public class LoveLockDialogueMessageComposer : AbstractComposer< Yupi.Protocol.ISender, LovelockItem>
+	public class LoveLockDialogueMessageComposer : Yupi.Messages.Contracts.LoveLockDialogueMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender user1,  Yupi.Protocol.ISender user2, LovelockItem loveLock)
 		{

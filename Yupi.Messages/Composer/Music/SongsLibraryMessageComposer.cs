@@ -6,7 +6,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Music
 {
-	public class SongsLibraryMessageComposer : AbstractComposer<HybridDictionary>
+	public class SongsLibraryMessageComposer : Yupi.Messages.Contracts.SongsLibraryMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, HybridDictionary songs)
 		{

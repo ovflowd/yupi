@@ -6,9 +6,9 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Wired
 {
-	public class WiredEffectMessageComposer : AbstractComposer
+	public class WiredEffectMessageComposer : Yupi.Messages.Contracts.WiredEffectMessageComposer
 	{
-		public void Compose ( Yupi.Protocol.ISender session, FloorItem item, string extraInfo, int delay, List<FloorItem> list = null)
+		public override void Compose ( Yupi.Protocol.ISender session, FloorItem item, string extraInfo, int delay, List<FloorItem> list = null)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendBool(false);

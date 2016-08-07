@@ -5,7 +5,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Rooms
 {
-	public class GiveRoomRightsMessageComposer : AbstractComposer<uint, UserInfo>
+	public class GiveRoomRightsMessageComposer : Yupi.Messages.Contracts.GiveRoomRightsMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, uint roomId, UserInfo habbo)
 		{

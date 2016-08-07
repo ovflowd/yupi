@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Rooms
 {
-	public class DoorbellOpenedMessageComposer : AbstractComposerVoid
+	public class DoorbellOpenedMessageComposer : Yupi.Messages.Contracts.DoorbellOpenedMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session)
 		{

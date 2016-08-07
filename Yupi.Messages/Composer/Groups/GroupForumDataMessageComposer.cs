@@ -4,7 +4,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Groups
 {
-	public class GroupForumDataMessageComposer : AbstractComposer<Group, uint>
+	public class GroupForumDataMessageComposer : Yupi.Messages.Contracts.GroupForumDataMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, Group group, uint userId)
 		{ // TODO Refactor

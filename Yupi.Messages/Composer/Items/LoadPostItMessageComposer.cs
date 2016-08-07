@@ -6,7 +6,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Items
 {
-	public class LoadPostItMessageComposer : AbstractComposer<PostItItem>
+	public class LoadPostItMessageComposer : Yupi.Messages.Contracts.LoadPostItMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, PostItItem item)
 		{

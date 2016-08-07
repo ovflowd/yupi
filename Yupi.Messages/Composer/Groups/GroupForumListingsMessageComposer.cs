@@ -10,11 +10,11 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Groups
 {
-	public class GroupForumListingsMessageComposer : AbstractComposer
+	public class GroupForumListingsMessageComposer : Yupi.Messages.Contracts.GroupForumListingsMessageComposer
 	{
 		private const int TotalPerPage = 20;
 
-		public void Compose( Yupi.Protocol.ISender session, int selectType, int startIndex) {
+		public override void Compose( Yupi.Protocol.ISender session, int selectType, int startIndex) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(selectType);
 

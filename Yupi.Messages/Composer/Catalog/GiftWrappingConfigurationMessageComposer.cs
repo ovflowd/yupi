@@ -4,7 +4,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Catalog
 {
-	public class GiftWrappingConfigurationMessageComposer : AbstractComposerVoid
+	public class GiftWrappingConfigurationMessageComposer : Yupi.Messages.Contracts.GiftWrappingConfigurationMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session)
 		{

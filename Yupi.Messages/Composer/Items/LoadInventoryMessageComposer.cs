@@ -10,7 +10,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Items
 {
-	public class LoadInventoryMessageComposer : Yupi.Messages.AbstractComposer<ICollection<UserItem>, ICollection<UserItem>, ICollection<UserItem>>
+	public class LoadInventoryMessageComposer : Yupi.Messages.Contracts.LoadInventoryMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, ICollection<UserItem> floor, ICollection<UserItem> wall, ICollection<UserItem> songDisks)
 		{

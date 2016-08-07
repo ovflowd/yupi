@@ -5,7 +5,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.User
 {
-	public class SubscriptionStatusMessageComposer : AbstractComposer<Subscription>
+	public class SubscriptionStatusMessageComposer : Yupi.Messages.Contracts.SubscriptionStatusMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, Subscription subscription)
 		{ // TODO refactor

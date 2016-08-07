@@ -6,9 +6,9 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Achievements
 {
-	public class UnlockAchievementMessageComposer : AbstractComposer
+	public class UnlockAchievementMessageComposer : Yupi.Messages.Contracts.UnlockAchievementMessageComposer
 	{
-		public void Compose( Yupi.Protocol.ISender session, Achievement achievement, uint level, uint pointReward, uint pixelReward) {
+		public override void Compose( Yupi.Protocol.ISender session, Achievement achievement, uint level, uint pointReward, uint pixelReward) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(achievement.Id);
 				message.AppendInteger(level);

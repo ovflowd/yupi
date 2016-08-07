@@ -5,7 +5,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Messenger
 {
-	public class ConsoleSendFriendRequestMessageComposer : AbstractComposer<MessengerRequest>
+	public class ConsoleSendFriendRequestMessageComposer : Yupi.Messages.Contracts.ConsoleSendFriendRequestMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, MessengerRequest request)
 		{

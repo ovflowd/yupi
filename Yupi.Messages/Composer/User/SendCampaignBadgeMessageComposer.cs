@@ -4,7 +4,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.User
 {
-	public class SendCampaignBadgeMessageComposer : AbstractComposer<string, bool>
+	public class SendCampaignBadgeMessageComposer : Yupi.Messages.Contracts.SendCampaignBadgeMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, string badgeName, bool hasBadge)
 		{

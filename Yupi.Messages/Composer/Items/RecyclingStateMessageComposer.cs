@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Items
 {
-	public class RecyclingStateMessageComposer : AbstractComposer<int>
+	public class RecyclingStateMessageComposer : Yupi.Messages.Contracts.RecyclingStateMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, int insertId)
 		{

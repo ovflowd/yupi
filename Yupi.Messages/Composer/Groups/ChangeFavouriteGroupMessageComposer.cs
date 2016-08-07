@@ -6,7 +6,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Groups
 {
-	public class ChangeFavouriteGroupMessageComposer : AbstractComposer<Group, int>
+	public class ChangeFavouriteGroupMessageComposer : Yupi.Messages.Contracts.ChangeFavouriteGroupMessageComposer
 	{
 		// TODO Refactor
 		public override void Compose ( Yupi.Protocol.ISender session, Group group, int virtualId)

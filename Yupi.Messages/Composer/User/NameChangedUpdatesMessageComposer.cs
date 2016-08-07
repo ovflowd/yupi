@@ -7,18 +7,11 @@ namespace Yupi.Messages.User
 {
 	// TODO Shouldn't this be called NameCHECKED
 
-	public class NameChangedUpdatesMessageComposer : AbstractComposer
+	public class NameChangedUpdatesMessageComposer : Yupi.Messages.Contracts.NameChangedUpdatesMessageComposer
 	{
-		public enum Status {
-			OK = 0,
-			// TODO What is 1 ?
-			TOO_SHORT = 2,
-			TOO_LONG = 3,
-			INVALID_CHARS = 4,
-			IS_TAKEN = 5
-		}
+		
 
-		public void Compose( Yupi.Protocol.ISender session, Status status, string newName, List<string> alternatives = null) {
+		public override void Compose( Yupi.Protocol.ISender session, Status status, string newName, List<string> alternatives = null) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (status);
 				message.AppendString (newName);

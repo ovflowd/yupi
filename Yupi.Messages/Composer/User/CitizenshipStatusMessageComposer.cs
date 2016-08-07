@@ -5,7 +5,7 @@ using Yupi.Net;
 
 namespace Yupi.Messages.User
 {
-	public class CitizenshipStatusMessageComposer : AbstractComposer<string>
+	public class CitizenshipStatusMessageComposer : Yupi.Messages.Contracts.CitizenshipStatusMessageComposer
 	{
 		// TODO Replace value with a proper name
 		public override void Compose ( Yupi.Protocol.ISender session, string value)

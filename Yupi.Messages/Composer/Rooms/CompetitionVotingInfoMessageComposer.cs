@@ -5,7 +5,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Rooms
 {
-	public class CompetitionVotingInfoMessageComposer : AbstractComposer<RoomCompetition, int, int>
+	public class CompetitionVotingInfoMessageComposer : Yupi.Messages.Contracts.CompetitionVotingInfoMessageComposer
 	{
 		// TODO Enum
 		public override void Compose ( Yupi.Protocol.ISender session, RoomCompetition competition, int userVotes, int status = 0)

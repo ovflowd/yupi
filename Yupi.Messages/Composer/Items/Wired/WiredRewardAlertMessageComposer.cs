@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Wired
 {
-	public class WiredRewardAlertMessageComposer : AbstractComposer<int>
+	public class WiredRewardAlertMessageComposer : Yupi.Messages.Contracts.WiredRewardAlertMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, int status)
 		{

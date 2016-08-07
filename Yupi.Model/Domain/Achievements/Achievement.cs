@@ -23,6 +23,9 @@
 */
 
 using System.Collections.Generic;
+using System.Linq;
+
+
 namespace Yupi.Model.Domain
 {
 	/// <summary>
@@ -37,11 +40,27 @@ namespace Yupi.Model.Domain
 		public virtual string GroupName { get; set; }
 
 		[OneToMany]
-		public virtual IList<AchievementLevel> Levels { get; protected set; }
+		protected virtual IList<AchievementLevel> Levels { get; set; }
 
 		public Achievement ()
 		{
 			Levels = new List<AchievementLevel> ();
+		}
+
+		public int GetMaxLevel() {
+			return Levels.Count - 1;
+		}
+
+		public AchievementLevel DefaultLevel() {
+			if (Levels.Any ()) {
+				return Levels [0];
+			} else {
+				return null;
+			}
+		}
+
+		public AchievementLevel NextLevel(AchievementLevel current) {
+			return Levels.Single (x => x.Level == current.Level + 1);
 		}
 	}
 }

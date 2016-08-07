@@ -7,7 +7,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.User
 {
-	public class TalentsTrackMessageComposer : AbstractComposer<string, IList<Talent>>
+	public class TalentsTrackMessageComposer : Yupi.Messages.Contracts.TalentsTrackMessageComposer
 	{
 		// TODO Add enum for trackType
 

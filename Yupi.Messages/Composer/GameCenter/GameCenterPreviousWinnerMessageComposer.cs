@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.GameCenter
 {
-	public class GameCenterPreviousWinnerMessageComposer : AbstractComposerVoid
+	public class GameCenterPreviousWinnerMessageComposer : Yupi.Messages.Contracts.GameCenterPreviousWinnerMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session)
 		{

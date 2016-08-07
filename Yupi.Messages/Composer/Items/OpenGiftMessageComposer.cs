@@ -5,7 +5,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Items
 {
-	public class OpenGiftMessageComposer : AbstractComposer<BaseItem, string>
+	public class OpenGiftMessageComposer : Yupi.Messages.Contracts.OpenGiftMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, BaseItem item, string text)
 		{

@@ -7,7 +7,7 @@ using System.Globalization;
 
 namespace Yupi.Messages.User
 {
-	public class UpdateUserStatusMessageComposer : AbstractComposer<List<RoomEntity>>
+	public class UpdateUserStatusMessageComposer : Yupi.Messages.Contracts.UpdateUserStatusMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, List<RoomEntity> entities)
 		{
@@ -20,7 +20,7 @@ namespace Yupi.Messages.User
 			}
 		}
 
-		public void Compose ( Yupi.Protocol.ISender session, RoomEntity user)
+		public override void Compose ( Yupi.Protocol.ISender session, RoomEntity user)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(1);

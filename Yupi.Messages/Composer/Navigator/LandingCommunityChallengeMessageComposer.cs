@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Navigator
 {
-	public class LandingCommunityChallengeMessageComposer : AbstractComposer<int>
+	public class LandingCommunityChallengeMessageComposer : Yupi.Messages.Contracts.LandingCommunityChallengeMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, int onlineFriends)
 		{

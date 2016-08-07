@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Yupi.Messages.Support
 {
-	public class ModerationToolRoomChatlogMessageComposer : AbstractComposer<uint>
+	public class ModerationToolRoomChatlogMessageComposer : Yupi.Messages.Contracts.ModerationToolRoomChatlogMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, uint roomId)
 		{

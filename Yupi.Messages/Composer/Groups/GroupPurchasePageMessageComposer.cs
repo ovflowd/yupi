@@ -6,7 +6,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Groups
 {
-	public class GroupPurchasePageMessageComposer : AbstractComposer<HashSet<RoomData>>
+	public class GroupPurchasePageMessageComposer : Yupi.Messages.Contracts.GroupPurchasePageMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, HashSet<RoomData> rooms)
 		{

@@ -5,7 +5,7 @@ using Yupi.Model.Domain.Components;
 
 namespace Yupi.Messages.Navigator
 {
-	public class NewNavigatorSizeMessageComposer : AbstractComposer<UserPreferences>
+	public class NewNavigatorSizeMessageComposer : Yupi.Messages.Contracts.NewNavigatorSizeMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, UserPreferences preferences)
 		{

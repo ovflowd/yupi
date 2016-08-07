@@ -6,9 +6,9 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Achievements
 {
-	public class AchievementProgressMessageComposer : AbstractComposer
+	public class AchievementProgressMessageComposer : Contracts.AchievementProgressMessageComposer
 	{
-		public void Compose( Yupi.Protocol.ISender session, Achievement achievement, uint targetLevel,
+		public override void Compose( Yupi.Protocol.ISender session, Achievement achievement, uint targetLevel,
 			AchievementLevel targetLevelData, uint totalLevels, UserAchievement userData) {
 
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
@@ -20,7 +20,7 @@ namespace Yupi.Messages.Achievements
 				message.AppendInteger(targetLevelData.RewardPixels);
 				message.AppendInteger(0);
 				message.AppendInteger(userData.Progress);
-				message.AppendBool(userData.Level >= totalLevels);
+				message.AppendBool(userData.Level.Level >= totalLevels);
 				message.AppendString(achievement.Category);
 				message.AppendString(string.Empty);
 				message.AppendInteger(totalLevels);

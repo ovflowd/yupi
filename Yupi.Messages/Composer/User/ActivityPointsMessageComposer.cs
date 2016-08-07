@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.User
 {
-	public class ActivityPointsMessageComposer : AbstractComposer<uint, uint>
+	public class ActivityPointsMessageComposer : Yupi.Messages.Contracts.ActivityPointsMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, uint duckets, uint diamonds)
 		{

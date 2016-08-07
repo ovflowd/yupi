@@ -8,7 +8,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Groups
 {
-	public class GroupMembersMessageComposer : AbstractComposer<UserInfo, Group>
+	public class GroupMembersMessageComposer : Yupi.Messages.Contracts.GroupMembersMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, UserInfo user, Group group)
 		{
@@ -16,7 +16,7 @@ namespace Yupi.Messages.Groups
 		}
 
 		// TODO Refactor?
-		public void Compose ( Yupi.Protocol.ISender session, Group group, uint reqType, UserInfo user, string searchVal = "", int page = 0) {
+		public override void Compose ( Yupi.Protocol.ISender session, Group group, uint reqType, UserInfo user, string searchVal = "", int page = 0) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(group.Id);
 				message.AppendString(group.Name);

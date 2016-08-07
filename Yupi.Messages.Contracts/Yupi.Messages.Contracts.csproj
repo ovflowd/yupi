@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{686087B0-8FBC-48E3-A903-799A980F8D7D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Yupi.Messages.Contracts</RootNamespace>
+    <AssemblyName>Yupi.Messages.Contracts</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="PommaLabs.Thrower">
+      <HintPath>..\packages\Thrower.2.2.1\lib\net45\PommaLabs.Thrower.dll</HintPath>
+    </Reference>
+    <Reference Include="Troschuetz.Random">
+      <HintPath>..\packages\Troschuetz.Random.4.0.3\lib\net45\Troschuetz.Random.dll</HintPath>
+    </Reference>
+    <Reference Include="Finsa.CodeServices.Common">
+      <HintPath>..\packages\Finsa.CodeServices.Common.4.1.1\lib\net45\Finsa.CodeServices.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="CodeProject.ObjectPool">
+      <HintPath>..\packages\CodeProject.ObjectPool.1.10.1\lib\net45\CodeProject.ObjectPool.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Composer\Achievements\UnlockAchievementMessageComposer.cs" />
+    <Compile Include="Composer\Bots\BotInventoryMessageComposer.cs" />
+    <Compile Include="Composer\Bots\BotSpeechListMessageComposer.cs" />
+    <Compile Include="Composer\Camera\CameraStorageUrlMessageComposer.cs" />
+    <Compile Include="Composer\Catalog\CatalogOfferMessageComposer.cs" />
+    <Compile Include="Composer\Catalog\CatalogPromotionGetCategoriesMessageComposer.cs" />
+    <Compile Include="Composer\Catalog\CatalogPurchaseNotAllowedMessageComposer.cs" />
+    <Compile Include="Composer\Catalog\CatalogueClubPageMessageComposer.cs" />
+    <Compile Include="Composer\Catalog\CatalogueIndexMessageComposer.cs" />
+    <Compile Include="Composer\Catalog\CatalogueOfferConfigMessageComposer.cs" />
+    <Compile Include="Composer\Catalog\CataloguePageMessageComposer.cs" />
+    <Compile Include="Composer\Catalog\CheckPetNameMessageComposer.cs" />
+    <Compile Include="Composer\Catalog\GiftWrappingConfigurationMessageComposer.cs" />
+    <Compile Include="Composer\Catalog\RecyclerRewardsMessageComposer.cs" />
+    <Compile Include="Composer\Catalog\ReloadEcotronMessageComposer.cs" />
+    <Compile Include="Composer\Catalog\TargetedOfferMessageComposer.cs" />
+    <Compile Include="Composer\Chat\ChatMessageComposer.cs" />
+    <Compile Include="Composer\Events\RoomEventMessageComposer.cs" />
+    <Compile Include="Composer\GameCenter\GameCenterAllAchievementsMessageComposer.cs" />
+    <Compile Include="Composer\GameCenter\GameCenterEnterInGameMessageComposer.cs" />
+    <Compile Include="Composer\GameCenter\GameCenterGameAchievementsMessageComposer.cs" />
+    <Compile Include="Composer\GameCenter\GameCenterGamesLeftMessageComposer.cs" />
+    <Compile Include="Composer\GameCenter\GameCenterGamesListMessageComposer.cs" />
+    <Compile Include="Composer\GameCenter\GameCenterJoinGameQueueMessageComposer.cs" />
+    <Compile Include="Composer\GameCenter\GameCenterLeaderboardMessageComposer.cs" />
+    <Compile Include="Composer\GameCenter\GameCenterLoadGameUrlMessageComposer.cs" />
+    <Compile Include="Composer\GameCenter\GameCenterPreviousWinnerMessageComposer.cs" />
+    <Compile Include="Composer\Games\UpdateFreezeLivesMessageComposer.cs" />
+    <Compile Include="Composer\Games\UserIsPlayingFreezeMessageComposer.cs" />
+    <Compile Include="Composer\Groups\ChangeFavouriteGroupMessageComposer.cs" />
+    <Compile Include="Composer\Groups\FavouriteGroupMessageComposer.cs" />
+    <Compile Include="Composer\Groups\GroupAreYouSureMessageComposer.cs" />
+    <Compile Include="Composer\Groups\GroupConfirmLeaveMessageComposer.cs" />
+    <Compile Include="Composer\Groups\GroupDataEditMessageComposer.cs" />
+    <Compile Include="Composer\Groups\GroupDataMessageComposer.cs" />
+    <Compile Include="Composer\Groups\GroupDeletedMessageComposer.cs" />
+    <Compile Include="Composer\Groups\GroupForumDataMessageComposer.cs" />
+    <Compile Include="Composer\Groups\GroupForumListingsMessageComposer.cs" />
+    <Compile Include="Composer\Groups\GroupForumNewResponseMessageComposer.cs" />
+    <Compile Include="Composer\Groups\GroupForumNewThreadMessageComposer.cs" />
+    <Compile Include="Composer\Groups\GroupForumReadThreadMessageComposer.cs" />
+    <Compile Include="Composer\Groups\GroupForumThreadRootMessageComposer.cs" />
+    <Compile Include="Composer\Groups\GroupForumThreadUpdateMessageComposer.cs" />
+    <Compile Include="Composer\Groups\GroupMembersMessageComposer.cs" />
+    <Compile Include="Composer\Groups\GroupPurchasePageMessageComposer.cs" />
+    <Compile Include="Composer\Groups\GroupPurchasePartsMessageComposer.cs" />
+    <Compile Include="Composer\Groups\GroupRoomMessageComposer.cs" />
+    <Compile Include="Composer\Groups\GrouprequestReloadMessageComposer.cs" />
+    <Compile Include="Composer\Groups\RoomGroupMessageComposer.cs" />
+    <Compile Include="Composer\Guides\HelperToolConfigurationMessageComposer.cs" />
+    <Compile Include="Composer\Guides\OnGuideSessionAttachedMessageComposer.cs" />
+    <Compile Include="Composer\Guides\OnGuideSessionDetachedMessageComposer.cs" />
+    <Compile Include="Composer\Guides\OnGuideSessionErrorComposer.cs" />
+    <Compile Include="Composer\Guides\OnGuideSessionInvitedToGuideRoomMessageComposer.cs" />
+    <Compile Include="Composer\Guides\OnGuideSessionMsgMessageComposer.cs" />
+    <Compile Include="Composer\Guides\OnGuideSessionStartedMessageComposer.cs" />
+    <Compile Include="Composer\Items\AddFloorItemMessageComposer.cs" />
+    <Compile Include="Composer\Items\AddWallItemMessageComposer.cs" />
+    <Compile Include="Composer\Items\BuildersClubUpdateFurniCountMessageComposer.cs" />
+    <Compile Include="Composer\Items\DimmerDataMessageComposer.cs" />
+    <Compile Include="Composer\Items\EffectsInventoryMessageComposer.cs" />
+    <Compile Include="Composer\Items\ItemAnimationMessageComposer.cs" />
+    <Compile Include="Composer\Items\LoadInventoryMessageComposer.cs" />
+    <Compile Include="Composer\Items\LoadPostItMessageComposer.cs" />
+    <Compile Include="Composer\Items\LoveLockDialogueMessageComposer.cs" />
+    <Compile Include="Composer\Items\NewInventoryObjectMessageComposer.cs" />
+    <Compile Include="Composer\Items\OpenGiftMessageComposer.cs" />
+    <Compile Include="Composer\Items\PickUpFloorItemMessageComposer.cs" />
+    <Compile Include="Composer\Items\PickUpWallItemMessageComposer.cs" />
+    <Compile Include="Composer\Items\RecyclingStateMessageComposer.cs" />
+    <Compile Include="Composer\Items\RemovePetFromInventoryComposer.cs" />
+    <Compile Include="Composer\Items\RoomFloorItemsMessageComposer.cs" />
+    <Compile Include="Composer\Items\SendMonsterplantIdMessageComposer.cs" />
+    <Compile Include="Composer\Items\UpdateFloorItemExtraDataMessageComposer.cs" />
+    <Compile Include="Composer\Items\UpdateInventoryMessageComposer.cs" />
+    <Compile Include="Composer\Items\UpdateRoomItemMessageComposer.cs" />
+    <Compile Include="Composer\Items\UpdateTileStackMagicHeightComposer.cs" />
+    <Compile Include="Composer\Landing\LandingPromosMessageComposer.cs" />
+    <Compile Include="Composer\Landing\LandingWidgetMessageComposer.cs" />
+    <Compile Include="Composer\Messenger\ConsoleChatErrorMessageComposer.cs" />
+    <Compile Include="Composer\Messenger\ConsoleChatMessageComposer.cs" />
+    <Compile Include="Composer\Messenger\ConsoleInvitationMessageComposer.cs" />
+    <Compile Include="Composer\Messenger\ConsoleSearchFriendMessageComposer.cs" />
+    <Compile Include="Composer\Messenger\ConsoleSendFriendRequestMessageComposer.cs" />
+    <Compile Include="Composer\Messenger\FollowFriendErrorMessageComposer.cs" />
+    <Compile Include="Composer\Messenger\FriendRequestsMessageComposer.cs" />
+    <Compile Include="Composer\Messenger\FriendUpdateMessageComposer.cs" />
+    <Compile Include="Composer\Messenger\LoadFriendsCategoriesComposer.cs" />
+    <Compile Include="Composer\Messenger\LoadFriendsMessageComposer.cs" />
+    <Compile Include="Composer\Music\JukeboxNowPlayingMessageComposer.cs" />
+    <Compile Include="Composer\Music\JukeboxPlaylistMessageComposer.cs" />
+    <Compile Include="Composer\Music\RetrieveSongIDMessageComposer.cs" />
+    <Compile Include="Composer\Music\SongsLibraryMessageComposer.cs" />
+    <Compile Include="Composer\Music\SongsMessageComposer.cs" />
+    <Compile Include="Composer\Navigator\CatalogPromotionGetRoomsMessageComposer.cs" />
+    <Compile Include="Composer\Navigator\FlatCategoriesMessageComposer.cs" />
+    <Compile Include="Composer\Navigator\LandingCommunityChallengeMessageComposer.cs" />
+    <Compile Include="Composer\Navigator\LandingRewardMessageComposer.cs" />
+    <Compile Include="Composer\Navigator\NavigatorCategoriesComposer.cs" />
+    <Compile Include="Composer\Navigator\NavigatorLiftedRoomsComposer.cs" />
+    <Compile Include="Composer\Navigator\NavigatorMetaDataComposer.cs" />
+    <Compile Include="Composer\Navigator\NavigatorSavedSearchesComposer.cs" />
+    <Compile Include="Composer\Navigator\NewNavigatorSizeMessageComposer.cs" />
+    <Compile Include="Composer\Navigator\OfficialRoomsMessageComposer.cs" />
+    <Compile Include="Composer\Navigator\SearchResultSetComposer.cs" />
+    <Compile Include="Composer\Notification\BroadcastNotifMessageComposer.cs" />
+    <Compile Include="Composer\Notification\CustomUserNotificationMessageComposer.cs" />
+    <Compile Include="Composer\Notification\GeneralErrorHabboMessageComposer.cs" />
+    <Compile Include="Composer\Notification\MOTDNotificationMessageComposer.cs" />
+    <Compile Include="Composer\Notification\MinimailCountMessageComposer.cs" />
+    <Compile Include="Composer\Notification\SuperNotificationMessageComposer.cs" />
+    <Compile Include="Composer\Notification\UsersClassificationMessageComposer.cs" />
+    <Compile Include="Composer\Other\CameraPurchaseOkComposer.cs" />
+    <Compile Include="Composer\Other\FigureSetIdsMessageComposer.cs" />
+    <Compile Include="Composer\Other\InitCryptoMessageComposer.cs" />
+    <Compile Include="Composer\Other\InternalLinkMessageComposer.cs" />
+    <Compile Include="Composer\Other\SecretKeyMessageComposer.cs" />
+    <Compile Include="Composer\Other\SendPerkAllowancesMessageComposer.cs" />
+    <Compile Include="Composer\Other\ThumbnailSuccessMessageComposer.cs" />
+    <Compile Include="Composer\Other\UniqueMachineIDMessageComposer.cs" />
+    <Compile Include="Composer\Pets\AddPetExperienceMessageComposer.cs" />
+    <Compile Include="Composer\Pets\NotifyNewPetLevelMessageComposer.cs" />
+    <Compile Include="Composer\Pets\PetBreedMessageComposer.cs" />
+    <Compile Include="Composer\Pets\PetBreedResultMessageComposer.cs" />
+    <Compile Include="Composer\Pets\PetInfoMessageComposer.cs" />
+    <Compile Include="Composer\Pets\PetRespectNotificationMessageComposer.cs" />
+    <Compile Include="Composer\Pets\PetTrainerPanelMessageComposer.cs" />
+    <Compile Include="Composer\Pets\RespectPetMessageComposer.cs" />
+    <Compile Include="Composer\Pets\SellablePetBreedsMessageComposer.cs" />
+    <Compile Include="Composer\Pets\SerializePetMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\ApplyEffectMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\ApplyHanditemMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\CanCreateRoomMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\CompetitionEntrySubmitResultMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\CompetitionVotingInfoMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\DanceStatusMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\DoorbellMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\DoorbellOpenedMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\FavouriteRoomsMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\FavouriteRoomsUpdateMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\FloodFilterMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\FloorMapMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\GetFloorPlanUsedCoordsMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\GiveRoomRightsMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\HeightMapMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\HomeRoomMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\InitialRoomInfoMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\LoadRoomRightsListMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\MatchingPollAnsweredMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\OnCreateRoomInfoMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\OutOfRoomMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\PollQuestionsMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\RemoveRightsMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\RoomBannedListMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\RoomChatOptionsMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\RoomDataMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\RoomEnterErrorMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\RoomErrorMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\RoomFloorWallLevelsMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\RoomLoadFilterMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\RoomMuteStatusMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\RoomOwnershipMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\RoomQueueComposer.cs" />
+    <Compile Include="Composer\Rooms\RoomRatingMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\RoomRightsLevelMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\RoomSettingsDataMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\RoomSettingsSavedMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\RoomSpacesMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\RoomUnbanUserMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\RoomUpdateMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\RoomUserIdleMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\SendRoomCampaignFurnitureMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\SetFloorPlanDoorMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\SetRoomUserMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\SpectatorModeMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\SuggestPollMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\TypingStatusMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\UpdateFurniStackMapMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\UserLeftRoomMessageComposer.cs" />
+    <Compile Include="Composer\Support\LoadModerationToolMessageComposer.cs" />
+    <Compile Include="Composer\Support\ModerationRoomToolMessageComposer.cs" />
+    <Compile Include="Composer\Support\ModerationToolIssueChatlogMessageComposer.cs" />
+    <Compile Include="Composer\Support\ModerationToolIssueMessageComposer.cs" />
+    <Compile Include="Composer\Support\ModerationToolRoomChatlogMessageComposer.cs" />
+    <Compile Include="Composer\Support\ModerationToolRoomVisitsMessageComposer.cs" />
+    <Compile Include="Composer\Support\ModerationToolUserChatlogMessageComposer.cs" />
+    <Compile Include="Composer\Support\ModerationToolUserToolMessageComposer.cs" />
+    <Compile Include="Composer\Support\OpenHelpToolMessageComposer.cs" />
+    <Compile Include="Composer\Support\TicketUserAlertComposer.cs" />
+    <Compile Include="Composer\Trade\EnableTradingMessageComposer.cs" />
+    <Compile Include="Composer\Trade\TradeAcceptMessageComposer.cs" />
+    <Compile Include="Composer\Trade\TradeCloseMessageComposer.cs" />
+    <Compile Include="Composer\Trade\TradeStartMessageComposer.cs" />
+    <Compile Include="Composer\Trade\TradeUpdateMessageComposer.cs" />
+    <Compile Include="Composer\User\AchievementListMessageComposer.cs" />
+    <Compile Include="Composer\User\AchievementPointsMessageComposer.cs" />
+    <Compile Include="Composer\User\ActivityPointsMessageComposer.cs" />
+    <Compile Include="Composer\User\BuildersClubMembershipMessageComposer.cs" />
+    <Compile Include="Composer\User\BullyReportSentMessageComposer.cs" />
+    <Compile Include="Composer\User\CitizenshipStatusMessageComposer.cs" />
+    <Compile Include="Composer\User\EnableNotificationsMessageComposer.cs" />
+    <Compile Include="Composer\User\FindMoreFriendsSuccessMessageComposer.cs" />
+    <Compile Include="Composer\User\GiveRespectsMessageComposer.cs" />
+    <Compile Include="Composer\User\HotelViewCountdownMessageComposer.cs" />
+    <Compile Include="Composer\User\HotelViewHallOfFameMessageComposer.cs" />
+    <Compile Include="Composer\User\LoadCatalogClubGiftsMessageComposer.cs" />
+    <Compile Include="Composer\User\LoadVolumeMessageComposer.cs" />
+    <Compile Include="Composer\User\LoadWardrobeMessageComposer.cs" />
+    <Compile Include="Composer\User\NameChangedUpdatesMessageComposer.cs" />
+    <Compile Include="Composer\User\OpenBullyReportMessageComposer.cs" />
+    <Compile Include="Composer\User\QuestListMessageComposer.cs" />
+    <Compile Include="Composer\User\ReceiveBadgeMessageComposer.cs" />
+    <Compile Include="Composer\User\RelationshipMessageComposer.cs" />
+    <Compile Include="Composer\User\RoomForwardMessageComposer.cs" />
+    <Compile Include="Composer\User\RoomUserActionMessageComposer.cs" />
+    <Compile Include="Composer\User\SendAchievementsRequirementsMessageComposer.cs" />
+    <Compile Include="Composer\User\SendCampaignBadgeMessageComposer.cs" />
+    <Compile Include="Composer\User\SetCameraPriceMessageComposer.cs" />
+    <Compile Include="Composer\User\SubscriptionStatusMessageComposer.cs" />
+    <Compile Include="Composer\User\TalentsTrackMessageComposer.cs" />
+    <Compile Include="Composer\User\UpdateAvatarAspectMessageComposer.cs" />
+    <Compile Include="Composer\User\UpdateIgnoreStatusMessageComposer.cs" />
+    <Compile Include="Composer\User\UpdateUserDataMessageComposer.cs" />
+    <Compile Include="Composer\User\UpdateUserStatusMessageComposer.cs" />
+    <Compile Include="Composer\User\UpdateUsernameMessageComposer.cs" />
+    <Compile Include="Composer\User\UserBadgesMessageComposer.cs" />
+    <Compile Include="Composer\User\UserClubRightsMessageComposer.cs" />
+    <Compile Include="Composer\User\UserObjectMessageComposer.cs" />
+    <Compile Include="Composer\User\UserProfileMessageComposer.cs" />
+    <Compile Include="Composer\User\UserTagsMessageComposer.cs" />
+    <Compile Include="Composer\User\UserUpdateNameInRoomMessageComposer.cs" />
+    <Compile Include="Composer\Wired\WiredConditionMessageComposer.cs" />
+    <Compile Include="Composer\Wired\WiredEffectMessageComposer.cs" />
+    <Compile Include="Composer\Wired\WiredRewardAlertMessageComposer.cs" />
+    <Compile Include="Composer\Wired\WiredTriggerMessageComposer.cs" />
+    <Compile Include="Composer\Youtube\YouTubeLoadPlaylistsMessageComposer.cs" />
+    <Compile Include="Composer\Youtube\YouTubeLoadVideoMessageComposer.cs" />
+    <Compile Include="AbstractComposer.cs" />
+    <Compile Include="IComposer.cs" />
+    <Compile Include="Composer\Catalog\PurchaseOkComposer.cs" />
+    <Compile Include="Composer\Achievements\AchievementProgressMessageComposer.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\Yupi.Protocol\Yupi.Protocol.csproj">
+      <Project>{9AE3ADAB-A767-4123-BE78-34E1DFCF33FB}</Project>
+      <Name>Yupi.Protocol</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Yupi.Net\Yupi.Net.csproj">
+      <Project>{8D09AE29-53E7-405D-9F9E-CDDE1164851A}</Project>
+      <Name>Yupi.Net</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Yupi.Model\Yupi.Model.csproj">
+      <Project>{8B402ADE-66C4-4D92-9DA6-162860FC225E}</Project>
+      <Name>Yupi.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>

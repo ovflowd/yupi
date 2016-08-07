@@ -50,7 +50,7 @@ namespace Yupi.Messages.Other
 				}
 			}
 
-			router.GetComposer<CameraPurchaseOk> ().Compose (session);
+			router.GetComposer<CameraPurchaseOkComposer> ().Compose (session);
 		}
 	}
 }

@@ -5,7 +5,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Items
 {
-	public class EffectsInventoryMessageComposer : AbstractComposer<List<AvatarEffect>>
+	public class EffectsInventoryMessageComposer : Yupi.Messages.Contracts.EffectsInventoryMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, List<AvatarEffect> effects)
 		{

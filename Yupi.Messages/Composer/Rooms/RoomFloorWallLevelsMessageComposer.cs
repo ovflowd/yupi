@@ -5,7 +5,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Rooms
 {
-	public class RoomFloorWallLevelsMessageComposer : AbstractComposer<RoomData>
+	public class RoomFloorWallLevelsMessageComposer : Yupi.Messages.Contracts.RoomFloorWallLevelsMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, RoomData data)
 		{

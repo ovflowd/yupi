@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Messenger
 {
-	public class FollowFriendErrorMessageComposer : AbstractComposer<int>
+	public class FollowFriendErrorMessageComposer : Yupi.Messages.Contracts.FollowFriendErrorMessageComposer
 	{
 		// TODO Enum
 		public override void Compose ( Yupi.Protocol.ISender session, int status)

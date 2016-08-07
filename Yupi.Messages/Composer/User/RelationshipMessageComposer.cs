@@ -7,7 +7,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.User
 {
-	public class RelationshipMessageComposer : AbstractComposer<UserInfo>
+	public class RelationshipMessageComposer : Yupi.Messages.Contracts.RelationshipMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, UserInfo habbo)
 		{

@@ -4,7 +4,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.User
 {
-	public class UserProfileMessageComposer : AbstractComposer<UserInfo>
+	public class UserProfileMessageComposer : Yupi.Messages.Contracts.UserProfileMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, UserInfo habbo)
 		{

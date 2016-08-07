@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Yupi.Messages.User
 {
-	public class HotelViewHallOfFameMessageComposer : AbstractComposer<string>
+	public class HotelViewHallOfFameMessageComposer : Yupi.Messages.Contracts.HotelViewHallOfFameMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, string code)
 		{

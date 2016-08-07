@@ -7,7 +7,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Rooms
 {
-	public class UpdateFurniStackMapMessageComposer : AbstractComposer<IList<Vector>, RoomData>
+	public class UpdateFurniStackMapMessageComposer : Yupi.Messages.Contracts.UpdateFurniStackMapMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, IList<Vector> affectedTiles, RoomData room)
 		{

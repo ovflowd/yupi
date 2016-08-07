@@ -5,7 +5,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Pets
 {
-	public class SerializePetMessageComposer : AbstractComposer<PetEntity>
+	public class SerializePetMessageComposer : Yupi.Messages.Contracts.SerializePetMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender room, PetEntity pet)
 		{

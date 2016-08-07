@@ -10,7 +10,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Items
 {
-	public class UpdateFloorItemExtraDataMessageComposer : AbstractComposer<FloorItem>
+	public class UpdateFloorItemExtraDataMessageComposer : Yupi.Messages.Contracts.UpdateFloorItemExtraDataMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender room, FloorItem item)
 		{

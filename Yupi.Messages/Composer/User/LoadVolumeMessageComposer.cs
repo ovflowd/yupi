@@ -4,7 +4,7 @@ using Yupi.Model.Domain.Components;
 
 namespace Yupi.Messages.User
 {
-	public class LoadVolumeMessageComposer : AbstractComposer<UserPreferences>
+	public class LoadVolumeMessageComposer : Yupi.Messages.Contracts.LoadVolumeMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, UserPreferences preferences)
 		{

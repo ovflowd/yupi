@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Other
 {
-	public class InternalLinkMessageComposer : AbstractComposer<string>
+	public class InternalLinkMessageComposer : Yupi.Messages.Contracts.InternalLinkMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, string link)
 		{

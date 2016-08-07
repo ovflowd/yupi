@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.User
 {
-	public class HotelViewCountdownMessageComposer : AbstractComposer<string>
+	public class HotelViewCountdownMessageComposer : Yupi.Messages.Contracts.HotelViewCountdownMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, string time)
 		{

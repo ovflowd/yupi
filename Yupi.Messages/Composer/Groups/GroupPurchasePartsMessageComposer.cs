@@ -5,7 +5,7 @@ using Yupi.Protocol.Buffers;
 namespace Yupi.Messages.Groups
 {
 	// TODO Rename
-	public class GroupPurchasePartsMessageComposer : AbstractComposerVoid
+	public class GroupPurchasePartsMessageComposer : Yupi.Messages.Contracts.GroupPurchasePartsMessageComposer
 	{
 		// TODO Refactor
 		public override void Compose ( Yupi.Protocol.ISender session)

@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Other
 {
-	public class UniqueMachineIDMessageComposer : AbstractComposer<string>
+	public class UniqueMachineIDMessageComposer : Yupi.Messages.Contracts.UniqueMachineIDMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, string machineId)
 		{

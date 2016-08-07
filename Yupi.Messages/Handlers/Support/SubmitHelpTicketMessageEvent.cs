@@ -26,11 +26,11 @@ namespace Yupi.Messages.Support
 			// TODO Refactor
 			if (Yupi.GetGame ().GetModerationTool ().UsersHasPendingTicket (session.GetHabbo ().Id)) {
 				SupportTicket ticket = Yupi.GetGame ().GetModerationTool ().GetPendingTicketForUser (session.GetHabbo ().Id);
-				router.GetComposer<TicketUserAlert> ().Compose (session, TicketUserAlert.Status.HAS_PENDING, ticket);
+				router.GetComposer<TicketUserAlertComposer> ().Compose (session, TicketUserAlertComposer.Status.HAS_PENDING, ticket);
 			} else if (Yupi.GetGame ().GetModerationTool ().UsersHasAbusiveCooldown (session.GetHabbo ().Id)) {
-				router.GetComposer<TicketUserAlert> ().Compose (session, TicketUserAlert.Status.PREVIOUS_ABUSIVE);
+				router.GetComposer<TicketUserAlertComposer> ().Compose (session, TicketUserAlertComposer.Status.PREVIOUS_ABUSIVE);
 			} else {
-				router.GetComposer<TicketUserAlert> ().Compose (session, TicketUserAlert.Status.OK);
+				router.GetComposer<TicketUserAlertComposer> ().Compose (session, TicketUserAlertComposer.Status.OK);
 				// TODO Hardcoded value
 				Yupi.GetGame().GetModerationTool().SendNewTicket(session, category, 7, reportedUser, message, chats);
 			}

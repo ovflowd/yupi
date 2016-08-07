@@ -373,7 +373,7 @@ namespace Yupi.Emulator.Game.GameClients.Interfaces
 				if (room.UserCount >= room.RoomData.UsersMax && !GetHabbo().HasFuse("fuse_enter_full_rooms") &&
 					GetHabbo().Id != (ulong) room.RoomData.OwnerId)
 				{
-					Router.GetComposer<RoomsQueue>().Compose(this, 
+					Router.GetComposer<RoomQueueComposer>().Compose(this, 
 						room.UserCount - (int) room.RoomData.UsersNow);
 					return;
 				}

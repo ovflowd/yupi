@@ -5,6 +5,7 @@ using Yupi.Protocol.Buffers;
 using Yupi.Net;
 using Yupi.Protocol;
 using Yupi.Model.Domain;
+using Yupi.Messages.Contracts;
 
 namespace Yupi.Messages
 {

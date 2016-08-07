@@ -8,7 +8,7 @@ using System.Globalization;
 
 namespace Yupi.Messages.Rooms
 {
-	public class SetRoomUserMessageComposer : AbstractComposer<List<RoomEntity>, bool>
+	public class SetRoomUserMessageComposer : Yupi.Messages.Contracts.SetRoomUserMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender room, List<RoomEntity> users, bool hasPublicPool = false)
 		{
@@ -23,7 +23,7 @@ namespace Yupi.Messages.Rooms
 			}
 		}
 
-		public void Compose ( Yupi.Protocol.ISender room, RoomEntity user, bool hasPublicPool = false)
+		public override void Compose ( Yupi.Protocol.ISender room, RoomEntity user, bool hasPublicPool = false)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (1);

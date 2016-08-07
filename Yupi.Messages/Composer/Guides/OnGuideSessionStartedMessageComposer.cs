@@ -6,7 +6,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Guides
 {
-	public class OnGuideSessionStartedMessageComposer : AbstractComposer<UserInfo,  Yupi.Protocol.ISender>
+	public class OnGuideSessionStartedMessageComposer : Yupi.Messages.Contracts.OnGuideSessionStartedMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, UserInfo habbo,  Yupi.Protocol.ISender requester)
 		{

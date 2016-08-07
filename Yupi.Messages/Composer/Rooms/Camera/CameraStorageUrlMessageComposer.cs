@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Camera
 {
-	public class CameraStorageUrlMessageComposer : AbstractComposer<string>
+	public class CameraStorageUrlMessageComposer : Yupi.Messages.Contracts.CameraStorageUrlMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, string url)
 		{

@@ -5,7 +5,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Items
 {
-	public class AddFloorItemMessageComposer : AbstractComposer<FloorItem>
+	public class AddFloorItemMessageComposer : Yupi.Messages.Contracts.AddFloorItemMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender room, FloorItem item)
 		{

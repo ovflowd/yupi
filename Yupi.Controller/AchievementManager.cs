@@ -25,13 +25,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Model.Repository;
-using Yupi.Util;
+using Yupi.Messages.User;
+using Yupi.Protocol;
+using Yupi.Messages.Achievements;
 
 namespace Yupi.Model.Domain
 {
-	[Ignore]
 	public class AchievementManager
 	{
 		private IDictionary<string, Achievement> Achievements;
@@ -157,8 +157,7 @@ namespace Yupi.Model.Domain
 			*/
 		}
 			
-		public bool ProgressUserAchievement (Habbo user, string achievementGroup, int progressAmount,
-		                                       bool fromZero = false)
+		public bool ProgressUserAchievement (ISession<Yupi.Model.Domain.Habbo> session, Habbo user, string achievementGroup, int progressAmount)
 		{
 			if (Achievements.ContainsKey (achievementGroup)) {
 				Achievement achievement = Achievements [achievementGroup];
@@ -184,7 +183,7 @@ namespace Yupi.Model.Domain
 					user.Info.AchievementPoints += userAchievement.Level.RewardPoints;
 					user.Info.Duckets += userAchievement.Level.RewardPixels;
 
-					Router.GetComposer<ActivityPointsMessageComposer> ().Compose (user, user.Info.Duckets, user.Info.Diamonds);
+					session.Router.GetComposer<ActivityPointsMessageComposer> ().Compose (user, user.Info.Duckets, user.Info.Diamonds);
 
 					user.RemoveBadge (userAchievement.Achievement.GroupName + (userAchievement.Level.Level - 1));
 
@@ -194,11 +193,11 @@ namespace Yupi.Model.Domain
 
 					// Send Unlocked Composer
 					session.Router.GetComposer<UnlockAchievementMessageComposer> ().Compose (session,
-						achievement, achievementNextLevel,
-						nextLevel.RewardPoints, nextLevel.RewardPixels);
+						achievement, userAchievement.Level.Level,
+						userAchievement.Level.RewardPoints, userAchievement.Level.RewardPixels);
 
 					// Send Score Composer
-					session.Router.GetComposer<AchievementPointsMessageComposer> ().Compose (session, user.AchievementPoints);
+					session.Router.GetComposer<AchievementPointsMessageComposer> ().Compose (session, user.Info.AchievementPoints);
 
 					// Set Talent
 					if (

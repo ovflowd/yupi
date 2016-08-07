@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Yupi.Messages.Catalog
 {
-	public class RecyclerRewardsMessageComposer : AbstractComposerVoid
+	public class RecyclerRewardsMessageComposer : Yupi.Messages.Contracts.RecyclerRewardsMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session)
 		{

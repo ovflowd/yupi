@@ -59,12 +59,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="IComposer.cs" />
     <Compile Include="Router.cs" />
     <Compile Include="PacketLibrary.cs" />
     <Compile Include="Handlers\User\SendBullyReportMessageEvent.cs" />
     <Compile Include="Composer\User\BullyReportSentMessageComposer.cs" />
-    <Compile Include="AbstractComposer.cs" />
     <Compile Include="Handlers\User\OpenBullyReportingMessageEvent.cs" />
     <Compile Include="Composer\User\OpenBullyReportMessageComposer.cs" />
     <Compile Include="Handlers\User\OpenQuestsMessageEvent.cs" />
@@ -148,7 +146,6 @@
     <Compile Include="Handlers\Music\LoadJukeboxDiscsMessageEvent.cs" />
     <Compile Include="Handlers\Music\GetJukeboxPlaylistsMessageEvent.cs" />
     <Compile Include="Handlers\Guides\OnGuideMessageEvent.cs" />
-    <Compile Include="Composer\Guides\OnGuideSessionError.cs" />
     <Compile Include="Composer\Guides\OnGuideSessionAttachedMessageComposer.cs" />
     <Compile Include="Handlers\Guides\OnGuideSessionDetachedMessageEvent.cs" />
     <Compile Include="Composer\Guides\OnGuideSessionStartedMessageComposer.cs" />
@@ -189,7 +186,6 @@
     <Compile Include="Handlers\Support\OpenHelpToolMessageEvent.cs" />
     <Compile Include="Composer\Support\OpenHelpToolMessageComposer.cs" />
     <Compile Include="Handlers\Support\SubmitHelpTicketMessageEvent.cs" />
-    <Compile Include="Composer\Support\TicketUserAlert.cs" />
     <Compile Include="Handlers\Support\DeleteHelpTicketMessageEvent.cs" />
     <Compile Include="Handlers\Support\ModerationToolUserToolMessageEvent.cs" />
     <Compile Include="Composer\Support\ModerationToolUserToolMessageComposer.cs" />
@@ -255,7 +251,6 @@
     <Compile Include="Composer\Catalog\CatalogPromotionGetCategoriesMessageComposer.cs" />
     <Compile Include="Composer\Catalog\TargetedOfferMessageComposer.cs" />
     <Compile Include="Handlers\Other\HabboCameraMessageEvent.cs" />
-    <Compile Include="Composer\Other\CameraPurchaseOk.cs" />
     <Compile Include="Handlers\Other\PurchaseTargetedOfferMessageEvent.cs" />
     <Compile Include="Handlers\Other\GoToRoomByNameMessageEvent.cs" />
     <Compile Include="Handlers\Other\SaveRoomThumbnailMessageEvent.cs" />
@@ -336,7 +331,6 @@
     <Compile Include="Handlers\Items\SaveRoomBackgroundTonerMessageEvent.cs" />
     <Compile Include="Handlers\Items\TradeStartMessageEvent.cs" />
     <Compile Include="Handlers\Items\TileStackMagicSetHeightMessageEvent.cs" />
-    <Compile Include="Composer\Items\UpdateTileStackMagicHeight.cs" />
     <Compile Include="Handlers\Items\TradeAddItemOfferMessageEvent.cs" />
     <Compile Include="Handlers\Items\TradeRemoveItemMessageEvent.cs" />
     <Compile Include="Handlers\Items\TradeCancelMessageEvent.cs" />
@@ -490,7 +484,6 @@
     <Compile Include="Composer\Rooms\Camera\CameraStorageUrlMessageComposer.cs" />
     <Compile Include="Handlers\Rooms\Competition\SubmitRoomToCompetitionMessageEvent.cs" />
     <Compile Include="Handlers\Rooms\Competition\VoteForRoomMessageEvent.cs" />
-    <Compile Include="Composer\Navigator\NavigatorCategorys.cs" />
     <Compile Include="Composer\Navigator\NavigatorLiftedRoomsComposer.cs" />
     <Compile Include="Composer\Navigator\NavigatorSavedSearchesComposer.cs" />
     <Compile Include="Composer\Navigator\NavigatorMetaDataComposer.cs" />
@@ -522,7 +515,6 @@
     <Compile Include="Composer\User\ReceiveBadgeMessageComposer.cs" />
     <Compile Include="Composer\Items\Wired\WiredRewardAlertMessageComposer.cs" />
     <Compile Include="Composer\Items\EffectsInventoryMessageComposer.cs" />
-    <Compile Include="Composer\Messenger\LoadFriendsCategories.cs" />
     <Compile Include="Composer\Messenger\LoadFriendsMessageComposer.cs" />
     <Compile Include="Composer\Messenger\ConsoleChatMessageComposer.cs" />
     <Compile Include="Composer\Messenger\FriendUpdateMessageComposer.cs" />
@@ -531,7 +523,6 @@
     <Compile Include="Composer\Pets\RespectPetMessageComposer.cs" />
     <Compile Include="Composer\Other\InternalLinkMessageComposer.cs" />
     <Compile Include="Composer\Notification\CustomUserNotificationMessageComposer.cs" />
-    <Compile Include="Composer\Rooms\RoomsQueue.cs" />
     <Compile Include="Composer\Rooms\PrepareRoomMessageComposer.cs" />
     <Compile Include="Composer\Rooms\DoorbellMessageComposer.cs" />
     <Compile Include="Composer\Rooms\RoomErrorMessageComposer.cs" />
@@ -575,6 +566,16 @@
     <Compile Include="Handlers\User\LoadBotInventoryMessageEvent.cs" />
     <Compile Include="Handlers\User\OnlineConfirmationMessageEvent.cs" />
     <Compile Include="IGameClient.cs" />
+    <Compile Include="Composer\Rooms\Events\RoomEventMessageComposer.cs" />
+    <Compile Include="Composer\Pets\NotifyNewPetLevelMessageComposer.cs" />
+    <Compile Include="Composer\Pets\PetRespectNotificationMessageComposer.cs" />
+    <Compile Include="Composer\Guides\OnGuideSessionErrorComposer.cs" />
+    <Compile Include="Composer\Rooms\RoomQueueComposer.cs" />
+    <Compile Include="Composer\Other\CameraPurchaseOkComposer.cs" />
+    <Compile Include="Composer\Navigator\NavigatorCategoriesComposer.cs" />
+    <Compile Include="Composer\Support\TicketUserAlertComposer.cs" />
+    <Compile Include="Composer\Items\UpdateTileStackMagicHeightComposer.cs" />
+    <Compile Include="Composer\Messenger\LoadFriendsCategoriesComposer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -589,6 +590,10 @@
     <ProjectReference Include="..\Yupi.Model\Yupi.Model.csproj">
       <Project>{8B402ADE-66C4-4D92-9DA6-162860FC225E}</Project>
       <Name>Yupi.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Yupi.Messages.Contracts\Yupi.Messages.Contracts.csproj">
+      <Project>{686087B0-8FBC-48E3-A903-799A980F8D7D}</Project>
+      <Name>Yupi.Messages.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

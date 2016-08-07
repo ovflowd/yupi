@@ -5,7 +5,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Notification
 {
-	public class UsersClassificationMessageComposer : AbstractComposer<UserInfo, string>
+	public class UsersClassificationMessageComposer : Yupi.Messages.Contracts.UsersClassificationMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, UserInfo habbo, string word)
 		{

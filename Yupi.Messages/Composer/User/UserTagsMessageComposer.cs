@@ -7,7 +7,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.User
 {
-	public class UserTagsMessageComposer : AbstractComposer<UserInfo>
+	public class UserTagsMessageComposer : Yupi.Messages.Contracts.UserTagsMessageComposer
 	{
 		public override void Compose( Yupi.Protocol.ISender session, UserInfo info) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {

@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Rooms
 {
-	public class TypingStatusMessageComposer : AbstractComposer<uint, bool>
+	public class TypingStatusMessageComposer : Yupi.Messages.Contracts.TypingStatusMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, uint virtualId, bool isTyping)
 		{

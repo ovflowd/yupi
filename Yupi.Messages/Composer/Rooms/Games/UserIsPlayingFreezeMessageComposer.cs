@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Games
 {
-	public class UserIsPlayingFreezeMessageComposer : AbstractComposer<bool>
+	public class UserIsPlayingFreezeMessageComposer : Yupi.Messages.Contracts.UserIsPlayingFreezeMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, bool isPlaying)
 		{

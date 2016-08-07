@@ -4,7 +4,7 @@ using Yupi.Protocol.Buffers;
 namespace Yupi.Messages.Music
 {
 	// TODO Refactor?
-	public class JukeboxNowPlayingMessageComposer : AbstractComposer<uint, int, int>
+	public class JukeboxNowPlayingMessageComposer : Yupi.Messages.Contracts.JukeboxNowPlayingMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, uint songId, int playlistPosition, int songPosition)
 		{

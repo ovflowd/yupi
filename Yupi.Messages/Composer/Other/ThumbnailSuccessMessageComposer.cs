@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Other
 {
-	public class ThumbnailSuccessMessageComposer : AbstractComposerVoid
+	public class ThumbnailSuccessMessageComposer : Yupi.Messages.Contracts.ThumbnailSuccessMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session)
 		{

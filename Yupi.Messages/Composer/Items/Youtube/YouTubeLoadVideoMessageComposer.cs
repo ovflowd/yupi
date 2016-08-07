@@ -5,7 +5,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Youtube
 {
-	public class YouTubeLoadVideoMessageComposer : AbstractComposer<YoutubeTVItem>
+	public class YouTubeLoadVideoMessageComposer : Yupi.Messages.Contracts.YouTubeLoadVideoMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, YoutubeTVItem tv)
 		{

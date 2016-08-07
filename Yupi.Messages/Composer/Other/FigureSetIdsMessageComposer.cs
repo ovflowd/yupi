@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Yupi.Messages.Other
 {
-	public class FigureSetIdsMessageComposer : AbstractComposerVoid
+	public class FigureSetIdsMessageComposer : Yupi.Messages.Contracts.FigureSetIdsMessageComposer
 	{
 		// TODO Refactor
 		public override void Compose ( Yupi.Protocol.ISender session)

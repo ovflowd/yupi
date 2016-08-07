@@ -368,7 +368,6 @@
     <Compile Include="Emulator\Core\Settings\ServerConfigurationSettings.cs" />
     <Compile Include="Emulator\Core\Settings\ConsoleCommandHandler.cs" />
     <Compile Include="Emulator\Core\Settings\ServerExtraSettings.cs" />
-    <Compile Include="Emulator\Game\Achievements\AchievementManager.cs" />
     <Compile Include="Emulator\Game\Catalogs\CatalogManager.cs" />
     <Compile Include="Emulator\Game\Catalogs\Wrappers\GiftWrapper.cs" />
     <Compile Include="Emulator\Game\Events\Interfaces\EventCategory.cs" />
@@ -504,7 +503,6 @@
     <Folder Include="Emulator\Game\SoundMachine\Songs\" />
     <Folder Include="Emulator\Game\Rooms\Competitions\Models\" />
     <Folder Include="Emulator\Game\Users\Messenger\Structs\" />
-    <Folder Include="Emulator\Game\Users\Badges\Models\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\GitInfo.1.1.1\build\GitInfo.targets" Condition="Exists('..\packages\GitInfo.1.1.1\build\GitInfo.targets')" />

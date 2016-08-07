@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Notification
 {
-	public class MinimailCountMessageComposer : AbstractComposer<int>
+	public class MinimailCountMessageComposer : Yupi.Messages.Contracts.MinimailCountMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, int count)
 		{

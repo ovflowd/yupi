@@ -4,10 +4,10 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Groups
 {
-	public class GroupForumNewThreadMessageComposer : AbstractComposer
+	public class GroupForumNewThreadMessageComposer : Yupi.Messages.Contracts.GroupForumNewThreadMessageComposer
 	{
 		// TODO Hardcoded
-		public void Compose( Yupi.Protocol.ISender session, int groupId, int threadId, int habboId, string subject, string content, int timestamp) {
+		public override void Compose( Yupi.Protocol.ISender session, int groupId, int threadId, int habboId, string subject, string content, int timestamp) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(groupId);
 				message.AppendInteger(threadId);

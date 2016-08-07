@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Other
 {
-	public class InitCryptoMessageComposer : AbstractComposerVoid
+	public class InitCryptoMessageComposer : Yupi.Messages.Contracts.InitCryptoMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session)
 		{

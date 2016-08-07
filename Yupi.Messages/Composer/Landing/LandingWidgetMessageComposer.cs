@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Landing
 {
-	public class LandingWidgetMessageComposer : AbstractComposer<string>
+	public class LandingWidgetMessageComposer : Yupi.Messages.Contracts.LandingWidgetMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, string text)
 		{

@@ -7,7 +7,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Support
 {
-	public class OpenHelpToolMessageComposer : AbstractComposer<UserInfo>
+	public class OpenHelpToolMessageComposer : Yupi.Messages.Contracts.OpenHelpToolMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, UserInfo habbo)
 		{

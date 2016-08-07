@@ -6,7 +6,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Music
 {
-	public class SongsMessageComposer : AbstractComposer<List<SongData>>
+	public class SongsMessageComposer : Yupi.Messages.Contracts.SongsMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, List<SongData> songs)
 		{

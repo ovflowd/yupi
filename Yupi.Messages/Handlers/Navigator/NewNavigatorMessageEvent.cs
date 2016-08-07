@@ -11,7 +11,7 @@ namespace Yupi.Messages.Navigator
 
 			router.GetComposer<NavigatorMetaDataComposer> ().Compose (session);
 			router.GetComposer<NavigatorLiftedRoomsComposer> ().Compose (session);
-			router.GetComposer<NavigatorCategorys> ().Compose (session, Yupi.GetGame ().GetNavigator ());
+			router.GetComposer<NavigatorCategoriesComposer> ().Compose (session, Yupi.GetGame ().GetNavigator ());
 			router.GetComposer<NavigatorSavedSearchesComposer> ().Compose (session, session.GetHabbo().NavigatorLogs);
 			router.GetComposer<NewNavigatorSizeMessageComposer> ().Compose (session, session.GetHabbo ().Preferences);
 		}

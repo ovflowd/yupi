@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Rooms
 {
-	public class DanceStatusMessageComposer : AbstractComposer<uint, uint>
+	public class DanceStatusMessageComposer : Yupi.Messages.Contracts.DanceStatusMessageComposer
 	{
 		// TODO Create enum for Dances
 		

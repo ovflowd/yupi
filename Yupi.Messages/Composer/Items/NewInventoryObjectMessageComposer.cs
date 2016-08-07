@@ -7,10 +7,10 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Items
 { // TODO Refactor
-	public class NewInventoryObjectMessageComposer : AbstractComposer<BaseItem, List<UserItem>>
+	public class NewInventoryObjectMessageComposer : Yupi.Messages.Contracts.NewInventoryObjectMessageComposer
 	{
 		// TODO Remove...
-		public void Compose ( Yupi.Protocol.ISender session, uint itemId) {
+		public override void Compose ( Yupi.Protocol.ISender session, uint itemId) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(1);
 				message.AppendInteger(1);

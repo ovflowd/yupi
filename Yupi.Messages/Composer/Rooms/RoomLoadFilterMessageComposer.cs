@@ -4,7 +4,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Rooms
 {
-	public class RoomLoadFilterMessageComposer : AbstractComposer<List<string>>
+	public class RoomLoadFilterMessageComposer : Yupi.Messages.Contracts.RoomLoadFilterMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, List<string> wordlist)
 		{

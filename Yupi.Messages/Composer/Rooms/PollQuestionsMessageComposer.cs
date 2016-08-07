@@ -5,7 +5,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Rooms
 {
-	public class PollQuestionsMessageComposer : AbstractComposer<Poll>
+	public class PollQuestionsMessageComposer : Yupi.Messages.Contracts.PollQuestionsMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, Poll poll)
 		{

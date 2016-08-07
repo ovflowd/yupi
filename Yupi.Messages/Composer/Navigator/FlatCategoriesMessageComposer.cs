@@ -5,7 +5,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Navigator
 {
-	public class FlatCategoriesMessageComposer : AbstractComposer<HybridDictionary, int>
+	public class FlatCategoriesMessageComposer : Yupi.Messages.Contracts.FlatCategoriesMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, HybridDictionary categories, int userRank)
 		{

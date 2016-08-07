@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Catalog
 {
-	public class CatalogueOfferConfigMessageComposer : AbstractComposerVoid
+	public class CatalogueOfferConfigMessageComposer : Yupi.Messages.Contracts.CatalogueOfferConfigMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session)
 		{

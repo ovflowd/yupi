@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.User
 {
-	public class AchievementPointsMessageComposer : AbstractComposer<int>
+	public class AchievementPointsMessageComposer : Yupi.Messages.Contracts.AchievementPointsMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, int points)
 		{

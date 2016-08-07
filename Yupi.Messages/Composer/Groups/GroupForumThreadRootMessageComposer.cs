@@ -6,7 +6,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Groups
 {
-	public class GroupForumThreadRootMessageComposer : AbstractComposer<int, int, IList<GroupForumPost>>
+	public class GroupForumThreadRootMessageComposer : Yupi.Messages.Contracts.GroupForumThreadRootMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, int groupId, int startIndex, IList<GroupForumPost> threads)
 		{

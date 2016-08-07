@@ -5,9 +5,9 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Catalog
 {
-	public class CatalogOfferMessageComposer : AbstractComposer
+	public class CatalogOfferMessageComposer : Yupi.Messages.Contracts.CatalogOfferMessageComposer
 	{
-		public void Compose ( Yupi.Protocol.ISender session, CatalogItem item)
+		public override void Compose ( Yupi.Protocol.ISender session, CatalogItem item)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (item.Id);

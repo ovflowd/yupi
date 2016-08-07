@@ -6,7 +6,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Groups
 {
-	public class GroupDataMessageComposer : AbstractComposer<Group, UserInfo, bool>
+	public class GroupDataMessageComposer : Yupi.Messages.Contracts.GroupDataMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, Group group, UserInfo habbo, bool newWindow = false)
 		{

@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Rooms
 {
-	public class SetFloorPlanDoorMessageComposer : AbstractComposer<int, int, int>
+	public class SetFloorPlanDoorMessageComposer : Yupi.Messages.Contracts.SetFloorPlanDoorMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, int x, int y, int direction)
 		{

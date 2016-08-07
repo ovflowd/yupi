@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Items
 {
-	public class UpdateInventoryMessageComposer : AbstractComposerVoid
+	public class UpdateInventoryMessageComposer : Yupi.Messages.Contracts.UpdateInventoryMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session)
 		{

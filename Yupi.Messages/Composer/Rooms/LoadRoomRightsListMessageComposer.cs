@@ -9,7 +9,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Rooms
 {
-	public class LoadRoomRightsListMessageComposer : AbstractComposer<RoomData>
+	public class LoadRoomRightsListMessageComposer : Yupi.Messages.Contracts.LoadRoomRightsListMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, RoomData room)
 		{

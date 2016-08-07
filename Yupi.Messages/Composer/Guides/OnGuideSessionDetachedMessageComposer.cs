@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Guides
 {
-	public class OnGuideSessionDetachedMessageComposer : AbstractComposer<int>
+	public class OnGuideSessionDetachedMessageComposer : Yupi.Messages.Contracts.OnGuideSessionDetachedMessageComposer
 	{
 		// TODO Meaning of value (enum)
 		public override void Compose ( Yupi.Protocol.ISender session, int value)

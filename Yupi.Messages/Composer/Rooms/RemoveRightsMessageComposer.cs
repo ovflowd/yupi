@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Rooms
 {
-	public class RemoveRightsMessageComposer : AbstractComposer<uint, uint>
+	public class RemoveRightsMessageComposer : Yupi.Messages.Contracts.RemoveRightsMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, uint roomId, uint userId)
 		{

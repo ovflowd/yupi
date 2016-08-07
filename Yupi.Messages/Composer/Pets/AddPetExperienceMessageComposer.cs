@@ -5,7 +5,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Pets
 {
-	public class AddPetExperienceMessageComposer : AbstractComposer<PetEntity, int>
+	public class AddPetExperienceMessageComposer : Yupi.Messages.Contracts.AddPetExperienceMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, PetEntity pet, int amount)
 		{

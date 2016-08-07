@@ -6,7 +6,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Landing
 {
-	public class LandingPromosMessageComposer : AbstractComposer<List<HotelLandingPromos>>
+	public class LandingPromosMessageComposer : Yupi.Messages.Contracts.LandingPromosMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, List<HotelLandingPromos> promos)
 		{

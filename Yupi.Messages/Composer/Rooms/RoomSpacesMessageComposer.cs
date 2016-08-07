@@ -5,14 +5,9 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Rooms
 {
-	public class RoomSpacesMessageComposer : AbstractComposer<RoomSpacesMessageComposer.Type, RoomData>
+	public class RoomSpacesMessageComposer : Yupi.Messages.Contracts.RoomSpacesMessageComposer
 	{
-		public enum Type
-		{
-			WALLPAPER,
-			FLOOR,
-			LANDSCAPE
-		}
+		
 
 		public override void Compose ( Yupi.Protocol.ISender session, RoomSpacesMessageComposer.Type type, RoomData data)
 		{

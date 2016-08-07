@@ -6,7 +6,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Catalog
 {
-	public class CataloguePageMessageComposer : AbstractComposer<CatalogPage>
+	public class CataloguePageMessageComposer : Yupi.Messages.Contracts.CataloguePageMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, CatalogPage page)
 		{

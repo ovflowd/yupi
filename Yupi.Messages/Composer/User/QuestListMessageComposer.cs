@@ -4,7 +4,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.User
 {
-	public class QuestListMessageComposer : AbstractComposerVoid
+	public class QuestListMessageComposer : Yupi.Messages.Contracts.QuestListMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session)
 		{

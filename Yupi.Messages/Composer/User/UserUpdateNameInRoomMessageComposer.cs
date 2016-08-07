@@ -6,7 +6,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.User
 {
-	public class UserUpdateNameInRoomMessageComposer : AbstractComposer<UserInfo, string>
+	public class UserUpdateNameInRoomMessageComposer : Yupi.Messages.Contracts.UserUpdateNameInRoomMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender room, UserInfo habbo, string newName)
 		{

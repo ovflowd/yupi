@@ -7,7 +7,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.User
 {
-	public class AchievementListMessageComposer : AbstractComposer<UserInfo, List<Achievement>>
+	public class AchievementListMessageComposer : Yupi.Messages.Contracts.AchievementListMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, UserInfo user, List<Achievement> achievements)
 		{

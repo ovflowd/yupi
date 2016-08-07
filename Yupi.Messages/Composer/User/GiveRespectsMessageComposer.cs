@@ -6,7 +6,7 @@ using Yupi.Protocol;
 
 namespace Yupi.Messages.User
 {
-	public class GiveRespectsMessageComposer : AbstractComposer<int, int>
+	public class GiveRespectsMessageComposer : Yupi.Messages.Contracts.GiveRespectsMessageComposer
 	{
 		public override void Compose( Yupi.Protocol.ISender room, int user, int respect) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {

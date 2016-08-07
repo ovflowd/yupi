@@ -334,6 +334,10 @@
       <Project>{9AE3ADAB-A767-4123-BE78-34E1DFCF33FB}</Project>
       <Name>Yupi.Protocol</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Yupi.Util\Yupi.Util.csproj">
+      <Project>{6CC9871D-F8D6-4586-8681-E9AAECA60D60}</Project>
+      <Name>Yupi.Util</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

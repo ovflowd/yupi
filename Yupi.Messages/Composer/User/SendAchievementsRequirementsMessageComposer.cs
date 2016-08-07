@@ -6,7 +6,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.User
 {
-	public class SendAchievementsRequirementsMessageComposer : AbstractComposer<Dictionary<string, Achievement>>
+	public class SendAchievementsRequirementsMessageComposer : Yupi.Messages.Contracts.SendAchievementsRequirementsMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, Dictionary<string, Achievement> achievements)
 		{

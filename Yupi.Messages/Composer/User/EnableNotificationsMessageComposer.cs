@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.User
 {
-	public class EnableNotificationsMessageComposer : AbstractComposerVoid
+	public class EnableNotificationsMessageComposer : Yupi.Messages.Contracts.EnableNotificationsMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session)
 		{

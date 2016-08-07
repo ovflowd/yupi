@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Rooms
 {
-	public class RoomRatingMessageComposer : AbstractComposer<int, bool>
+	public class RoomRatingMessageComposer : Yupi.Messages.Contracts.RoomRatingMessageComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, int rating, bool canVote)
 		{

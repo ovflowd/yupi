@@ -3,7 +3,7 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Navigator
 {
-	public class NavigatorMetaDataComposer : AbstractComposerVoid
+	public class NavigatorMetaDataComposer : Yupi.Messages.Contracts.NavigatorMetaDataComposer
 	{
 		public override void Compose ( Yupi.Protocol.ISender session)
 		{
