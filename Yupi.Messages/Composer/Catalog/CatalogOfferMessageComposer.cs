@@ -28,7 +28,8 @@ namespace Yupi.Messages.Catalog
 					message.AppendInteger (item.DucketsCost);
 					message.AppendInteger (0);
 				}
-				message.AppendBool (item.GetFirstBaseItem ().AllowGift);
+
+				message.AppendBool (item.BaseItem.AllowGift);
 				// TODO Refactor
 				switch (item.Name) {
 				case "g0 group_product":
@@ -69,7 +70,7 @@ namespace Yupi.Messages.Catalog
 							string[] array = item.Name.Split ('_');
 							message.AppendString (array [2]);
 						} else if (item.Name.StartsWith ("bot_") || baseItem.InteractionType == Interaction.MusicDisc ||
-						        item.GetFirstBaseItem ().Name == "poster")
+						        item.BaseItem.Name == "poster")
 							message.AppendString (item.ExtraData);
 						else if (item.Name.StartsWith ("poster_")) {
 							string[] array2 = item.Name.Split ('_');

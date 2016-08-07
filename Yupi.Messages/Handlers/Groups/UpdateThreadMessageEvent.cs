@@ -12,7 +12,7 @@ namespace Yupi.Messages.Groups
 			bool pin = request.GetBool();
 			bool Lock = request.GetBool();
 
-			using (IQueryAdapter dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
+			using (IQueryAdapter dbClient = Yupi.GetDatabaseManager().GetQueryReactor()) // Going to be changed to NHibernate - Zak
 			{
 				dbClient.SetQuery(
 					$"SELECT * FROM groups_forums_posts WHERE group_id = '{groupId}' AND id = '{threadId}' LIMIT 1;");
@@ -22,8 +22,8 @@ namespace Yupi.Messages.Groups
 
 				if (row != null)
 				{
-					if ((uint) row["poster_id"] == Session.GetHabbo().Id ||
-						theGroup.Admins.ContainsKey(Session.GetHabbo().Id))
+					if ((uint) row["poster_id"] == session.UserData.Info.Id ||
+						theGroup.Admins.ContainsKey(session.UserData.Info.Id))
 					{
 						dbClient.SetQuery(
 							$"UPDATE groups_forums_posts SET pinned = @pin , locked = @lock WHERE id = {threadId};");

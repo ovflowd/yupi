@@ -13,10 +13,10 @@ namespace Yupi.Messages.User
 
 			look = Yupi.FilterFigure(look);
 
-			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor()) // I won't change this as we're converting all this to NHIbernate anyway - Zak
 			{
 				queryReactor.SetQuery("SELECT null FROM users_wardrobe WHERE user_id = @user AND slot_id = @slot");
-				queryReactor.AddParameter("user", session.GetHabbo().Id);
+				queryReactor.AddParameter("user", session.UserData.Info.Id);
 				queryReactor.AddParameter("slot", slot);
 				queryReactor.AddParameter("look", look);
 				queryReactor.AddParameter("gender", gender);
@@ -31,7 +31,7 @@ namespace Yupi.Messages.User
 						"INSERT INTO users_wardrobe (user_id,slot_id,look,gender) VALUES (@user,@slot,@look,@gender)");
 				}
 
-				queryReactor.AddParameter("user", session.GetHabbo().Id);
+				queryReactor.AddParameter("user", session.UserData.Info.Id);
 				queryReactor.AddParameter("slot", slot);
 				queryReactor.AddParameter("look", look);
 				queryReactor.AddParameter("gender", gender);
