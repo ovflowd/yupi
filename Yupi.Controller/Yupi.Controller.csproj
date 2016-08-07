@@ -56,5 +56,9 @@
       <Project>{686087B0-8FBC-48E3-A903-799A980F8D7D}</Project>
       <Name>Yupi.Messages.Contracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Yupi.Net\Yupi.Net.csproj">
+      <Project>{8D09AE29-53E7-405D-9F9E-CDDE1164851A}</Project>
+      <Name>Yupi.Net</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

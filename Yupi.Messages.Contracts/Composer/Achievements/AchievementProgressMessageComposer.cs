@@ -3,10 +3,9 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Contracts
 {
-	public abstract class AchievementProgressMessageComposer : AbstractComposer
+	public abstract class AchievementProgressMessageComposer : AbstractComposer<UserAchievement>
 	{
-		public virtual void Compose( Yupi.Protocol.ISender session, Achievement achievement, uint targetLevel,
-			AchievementLevel targetLevelData, uint totalLevels, UserAchievement userData) {
+		public override void Compose( Yupi.Protocol.ISender session, UserAchievement userAchievement) {
 
 		}
 	}

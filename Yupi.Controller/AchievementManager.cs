@@ -184,21 +184,21 @@ namespace Yupi.Controller
 					user.Info.AchievementPoints += userAchievement.Level.RewardPoints;
 					user.Info.Duckets += userAchievement.Level.RewardPixels;
 
-					session.Router.GetComposer<ActivityPointsMessageComposer> ().Compose (user, user.Info.Duckets, user.Info.Diamonds);
+					user.Session.Router.GetComposer<ActivityPointsMessageComposer> ().Compose (user, user.Info.Duckets, user.Info.Diamonds);
 
-					user.RemoveBadge (userAchievement.Achievement.GroupName + (userAchievement.Level.Level - 1));
+					user.Info.RemoveBadge (userAchievement.Achievement.GroupName + (userAchievement.Level.Level - 1));
 
 					// Give new Badge
-					user.GiveBadge (achievementGroup + userAchievement.Level.Level);
+					user.Info.GiveBadge (achievementGroup + userAchievement.Level.Level);
 
 
 					// Send Unlocked Composer
-					session.Router.GetComposer<UnlockAchievementMessageComposer> ().Compose (session,
+					user.Session.Router.GetComposer<UnlockAchievementMessageComposer> ().Compose (user,
 						achievement, userAchievement.Level.Level,
 						userAchievement.Level.RewardPoints, userAchievement.Level.RewardPixels);
 
 					// Send Score Composer
-					session.Router.GetComposer<AchievementPointsMessageComposer> ().Compose (session, user.Info.AchievementPoints);
+					user.Session.Router.GetComposer<AchievementPointsMessageComposer> ().Compose (user, user.Info.AchievementPoints);
 
 					// Set Talent
 					if (
@@ -211,8 +211,8 @@ namespace Yupi.Controller
 							Yupi.GetGame ().GetTalentManager ().GetTalentData (achievementGroup));
 				}
 
-				session.Router.GetComposer<AchievementProgressMessageComposer> ().Compose (session, achievement, userAchievement);
-				session.Router.GetComposer<UpdateUserDataMessageComposer> ().Compose (session, user);
+				user.Session.Router.GetComposer<AchievementProgressMessageComposer> ().Compose (user, userAchievement);
+				user.Session.Router.GetComposer<UpdateUserDataMessageComposer> ().Compose (user, user.Info);
 
 				return true;
 			}

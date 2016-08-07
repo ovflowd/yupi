@@ -26,9 +26,9 @@ namespace Yupi.Model.Domain
 
 		public virtual double CreateDate { get; set; }
 
-		public virtual uint Credits { get; set; }
-		public virtual uint AchievementPoints { get; set; }
-		public virtual uint Duckets { get; set; }
+		public virtual int Credits { get; set; }
+		public virtual int AchievementPoints { get; set; }
+		public virtual int Duckets { get; set; }
 
 		[ManyToMany]
 		public virtual IList<RoomData> FavoriteRooms { get; protected set; }
@@ -91,7 +91,7 @@ namespace Yupi.Model.Domain
 		[OneToMany]
 		public virtual IList<RoomData> UsersRooms { get; protected set; }
 		public virtual bool IsVip { get; set; }
-		public virtual uint Diamonds { get; set; }
+		public virtual int Diamonds { get; set; }
 
 		public UserInfo() {
 			FavouriteGroup = Group.None;

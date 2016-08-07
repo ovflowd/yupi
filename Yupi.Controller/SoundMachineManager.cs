@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Yupi.Model.Domain;
+using System;
 
 namespace Yupi.Controller
 {
@@ -15,7 +16,7 @@ namespace Yupi.Controller
 
 		private SortedDictionary<int, SongItem> _mPlaylist;
 
-        private double _mStartedPlayingTimestamp;
+        private DateTime _mStartedPlayingTimestamp;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="SoundMachineManager" /> class.
@@ -42,8 +43,9 @@ namespace Yupi.Controller
         ///     Gets the time playing.
         /// </summary>
         /// <value>The time playing.</value>
-        public double TimePlaying => Yupi.GetUnixTimeStamp() - _mStartedPlayingTimestamp;
-
+		public double GetTimePlaying() {
+			return (DateTime.Now - _mStartedPlayingTimestamp).TotalSeconds;
+		}
         /// <summary>
         ///     Gets the song synchronize timestamp.
         /// </summary>
@@ -102,7 +104,7 @@ namespace Yupi.Controller
         /// <returns>System.Int32.</returns>
         public int AddDisk(SongItem diskItem)
         {
-            uint songId = diskItem.SongId;
+			uint songId = diskItem.Song.Id;
 			// TODO Magic constant
             if (songId == 0u)
                 return -1;
@@ -112,12 +114,12 @@ namespace Yupi.Controller
             if (song == null)
                 return -1;
 
-            lock (_mLoadedDisks)
-                if (_mLoadedDisks.ContainsKey(diskItem.ItemId))
-                    return -1;
+			lock (_mLoadedDisks) {
+				if (_mLoadedDisks.ContainsKey (diskItem.Id))
+					return -1;
 
-            lock (_mLoadedDisks)
-                _mLoadedDisks.Add(diskItem.ItemId, diskItem);
+				_mLoadedDisks.Add (diskItem.Id, diskItem);
+			}
 
             int count = _mPlaylist.Count;
 
@@ -290,7 +292,7 @@ namespace Yupi.Controller
         ///     Called when [new user enter].
         /// </summary>
         /// <param name="user">The user.</param>
-     public void OnNewUserEnter(RoomUser user)
+		public void OnNewUserEnter(RoomEntity user)
         {
             if (user.IsBot || user.GetClient() == null || CurrentSong == null)
                 return;

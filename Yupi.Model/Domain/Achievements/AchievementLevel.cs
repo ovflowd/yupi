@@ -28,12 +28,12 @@ namespace Yupi.Model.Domain
 	{
 		public virtual int Id { get; protected set; }
 
-		public virtual uint Level { get; set; }
+		public virtual int Level { get; set; }
 
-		public virtual uint RewardPixels { get; set; }
+		public virtual int RewardPixels { get; set; }
 
-		public virtual uint RewardPoints { get; set; }
+		public virtual int RewardPoints { get; set; }
 
-		public virtual uint Requirement { get; set; }
+		public virtual int Requirement { get; set; }
 	}
 }

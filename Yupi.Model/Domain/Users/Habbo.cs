@@ -11,6 +11,8 @@ namespace Yupi.Model.Domain
 		public bool IsOnline { get; set; }
 		public Room Room { get; set; }
 
+		public ISession<Habbo> Session { get; private set; }
+
 		public Habbo ()
 		{
 			Info = new UserInfo ();

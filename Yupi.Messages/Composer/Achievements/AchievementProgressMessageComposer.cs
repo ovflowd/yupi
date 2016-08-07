@@ -8,22 +8,20 @@ namespace Yupi.Messages.Achievements
 {
 	public class AchievementProgressMessageComposer : Contracts.AchievementProgressMessageComposer
 	{
-		public override void Compose( Yupi.Protocol.ISender session, Achievement achievement, uint targetLevel,
-			AchievementLevel targetLevelData, uint totalLevels, UserAchievement userData) {
-
+		public override void Compose( Yupi.Protocol.ISender session, UserAchievement userAchievement) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendInteger(achievement.Id);
-				message.AppendInteger(targetLevel);
-				message.AppendString($"{achievement.GroupName}{targetLevel}");
-				message.AppendInteger(targetLevelData.Requirement);
-				message.AppendInteger(targetLevelData.Requirement);
-				message.AppendInteger(targetLevelData.RewardPixels);
+				message.AppendInteger(userAchievement.Achievement.Id);
+				message.AppendInteger(userAchievement.Level.Level);
+				message.AppendString(userAchievement.Achievement.GroupName + userAchievement.Level.Level);
+				message.AppendInteger(userAchievement.Level.Requirement);
+				message.AppendInteger(userAchievement.Level.Requirement);
+				message.AppendInteger(userAchievement.Level.RewardPixels);
 				message.AppendInteger(0);
-				message.AppendInteger(userData.Progress);
-				message.AppendBool(userData.Level.Level >= totalLevels);
-				message.AppendString(achievement.Category);
+				message.AppendInteger(userAchievement.Progress);
+				message.AppendBool(userAchievement.Level.Level >= userAchievement.Achievement.GetMaxLevel());
+				message.AppendString(userAchievement.Achievement.Category);
 				message.AppendString(string.Empty);
-				message.AppendInteger(totalLevels);
+				message.AppendInteger(userAchievement.Achievement.GetMaxLevel());
 				message.AppendInteger(0);
 				session.Send (message);
 			}
