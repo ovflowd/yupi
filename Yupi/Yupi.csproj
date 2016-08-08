@@ -501,7 +501,6 @@
     <Folder Include="Emulator\Game\SoundMachine\Songs\" />
     <Folder Include="Emulator\Game\Rooms\Competitions\Models\" />
     <Folder Include="Emulator\Game\Users\Messenger\Structs\" />
-    <Folder Include="Emulator\Game\Achievements\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\GitInfo.1.1.1\build\GitInfo.targets" Condition="Exists('..\packages\GitInfo.1.1.1\build\GitInfo.targets')" />

@@ -1,4 +1,8 @@
 ﻿using System;
+using Yupi.Util;
+using Yupi.Model.Domain;
+using Yupi.Model.Repository;
+using Yupi.Model;
 
 
 
@@ -6,20 +10,27 @@ namespace Yupi.Messages.User
 {
 	public class LoadUserProfileMessageEvent : AbstractHandler
 	{
+		private Repository<UserInfo> UserRepository;
+
+		public LoadUserProfileMessageEvent ()
+		{
+			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>> ();
+		}
+
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			uint userId = message.GetUInt32();
+			int userId = message.GetInteger();
 			message.GetBool(); // TODO Unused
 
-			Habbo habbo = Yupi.GetHabboById(userId);
-			if (habbo == null)
+			UserInfo user = UserRepository.FindBy(userId);
+
+			if (user == null)
 			{
-				session.SendNotif(Yupi.GetLanguage().GetVar("user_not_found"));
 				return;
 			}
 
-			router.GetComposer<UserProfileMessageComposer> ().Compose (session, habbo);
-			router.GetComposer<UserBadgesMessageComposer> ().Compose (session, habbo.Id);
+			router.GetComposer<UserProfileMessageComposer> ().Compose (session, user, session.UserData.Info);
+			router.GetComposer<UserBadgesMessageComposer> ().Compose (session, user);
 		}
 	}
 }

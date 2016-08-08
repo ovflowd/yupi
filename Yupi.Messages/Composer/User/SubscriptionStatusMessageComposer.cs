@@ -27,6 +27,7 @@ namespace Yupi.Messages.User
 					message.AppendInteger (activeFor);
 					message.AppendInteger (10);
 				} else {
+					// TODO Create Subscription.None
 					message.AppendInteger(0);
 					message.AppendInteger(0);
 					message.AppendInteger(0);

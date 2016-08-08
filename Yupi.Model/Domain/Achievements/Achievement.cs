@@ -60,6 +60,9 @@ namespace Yupi.Model.Domain
 		}
 
 		public virtual AchievementLevel NextLevel(AchievementLevel current) {
+			if (current.Level == GetMaxLevel ()) {
+				return current;
+			}
 			return Levels.Single (x => x.Level == current.Level + 1);
 		}
 	}

@@ -7,10 +7,10 @@ namespace Yupi.Messages.User
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			string text = message.GetString();
-			bool hasBadge = session.GetHabbo ().GetBadgeComponent ().HasBadge (text);
+			string badgeCode = message.GetString();
+			bool hasBadge = session.UserData.Info.Badges.HasBadge (badgeCode);
 
-			router.GetComposer<SendCampaignBadgeMessageComposer> ().Compose (session, text, hasBadge);
+			router.GetComposer<SendCampaignBadgeMessageComposer> ().Compose (session, badgeCode, hasBadge);
 		}
 	}
 }

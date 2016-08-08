@@ -23,10 +23,10 @@ namespace Yupi.Messages.Pets
 					message.AppendInteger(9);
 					message.AppendInteger(0);
 					message.AppendInteger(3);
-					message.AppendInteger(pet.Info.PetHair);
+					message.AppendInteger(pet.Info.Hair);
 					message.AppendInteger(pet.Info.HairDye);
 					message.AppendInteger(3);
-					message.AppendInteger(pet.Info.PetHair);
+					message.AppendInteger(pet.Info.Hair);
 					message.AppendInteger(pet.Info.HairDye);
 				}
 				else

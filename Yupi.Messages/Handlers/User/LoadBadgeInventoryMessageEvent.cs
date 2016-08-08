@@ -7,8 +7,7 @@ namespace Yupi.Messages.User
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			// TODO Refactor
-			session.Send(session.GetHabbo().GetBadgeComponent().Serialize());
+			router.GetComposer<LoadBadgesWidgetMessageComposer>().Compose(session, session.UserData.Info.Badges);
 		}
 	}
 }

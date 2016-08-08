@@ -9,38 +9,27 @@ namespace Yupi.Messages.User
 {
 	public class AchievementListMessageComposer : Yupi.Messages.Contracts.AchievementListMessageComposer
 	{
-		public override void Compose ( Yupi.Protocol.ISender session, UserInfo user, List<Achievement> achievements)
+		public override void Compose ( Yupi.Protocol.ISender session, IList<UserAchievement> achievements)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(achievements.Count);
 
-				foreach (Achievement achievement in achievements)
+				foreach (UserAchievement achievement in achievements)
 				{
-					UserAchievement achievementData = user.GetAchievementData(achievement.GroupName);
-
-					uint i = achievementData?.Level + 1 ?? 1;
-
-					uint count = (uint) achievement.Levels.Count;
-
-					if (i > count)
-						i = count;
-
-					AchievementLevel achievementLevel = achievement.Levels[i];
-
-					AchievementLevel oldLevel = achievement.Levels.ContainsKey(i - 1) ? achievement.Levels[i - 1] : achievementLevel;
+					AchievementLevel nextLevel = achievement.Achievement.NextLevel(achievement.Level);
 
 					message.AppendInteger(achievement.Id);
-					message.AppendInteger(i);
-					message.AppendString($"{achievement.GroupName}{i}");
-					message.AppendInteger(oldLevel.Requirement);
-					message.AppendInteger(achievementLevel.Requirement);
-					message.AppendInteger(achievementLevel.RewardPoints);
+					message.AppendInteger(nextLevel.Level);
+					message.AppendString(achievement.Achievement.GroupName + achievement.Level.Level);
+					message.AppendInteger(achievement.Level.Requirement);
+					message.AppendInteger(nextLevel.Requirement);
+					message.AppendInteger(nextLevel.RewardPoints);
 					message.AppendInteger(0);
-					message.AppendInteger(achievementData?.Progress ?? 0);
-					message.AppendBool(!(achievementData == null || achievementData.Level < count));
-					message.AppendString(achievement.Category);
+					message.AppendInteger(achievement.Progress);
+					message.AppendBool(achievement.Level.Level == achievement.Achievement.GetMaxLevel());
+					message.AppendString(achievement.Achievement.Category);
 					message.AppendString(string.Empty);
-					message.AppendInteger(count);
+					message.AppendInteger(achievement.Achievement.GetMaxLevel());
 					message.AppendInteger(0);
 				}
 

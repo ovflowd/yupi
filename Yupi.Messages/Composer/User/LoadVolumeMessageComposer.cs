@@ -9,7 +9,9 @@ namespace Yupi.Messages.User
 		public override void Compose ( Yupi.Protocol.ISender session, UserPreferences preferences)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendIntegersArray(preferences.Volume, ',', 3, 0, 100);
+				message.AppendInteger(preferences.Volume1); 
+				message.AppendInteger(preferences.Volume2);
+				message.AppendInteger(preferences.Volume3); 
 				message.AppendBool(preferences.PreferOldChat);
 				message.AppendBool(preferences.IgnoreRoomInvite);
 				message.AppendBool(preferences.DisableCameraFollow);

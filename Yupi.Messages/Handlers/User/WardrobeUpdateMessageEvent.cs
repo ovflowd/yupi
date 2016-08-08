@@ -1,41 +1,24 @@
 ﻿using System;
+using System.Linq;
+using Yupi.Model;
 
 
 namespace Yupi.Messages.User
 {
 	public class WardrobeUpdateMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			uint slot = message.GetUInt32();
-			string look = message.GetString();
-			string gender = message.GetString();
+			int slot = message.GetInteger ();
+			string look = message.GetString ();
+			string gender = message.GetString ();
+			// TODO Filter look & gender
 
-			look = Yupi.FilterFigure(look);
+			WardrobeItem item = session.UserData.Info.Wardrobe.FirstOrDefault (x => x.Slot == slot);
 
-			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor()) // I won't change this as we're converting all this to NHIbernate anyway - Zak
-			{
-				queryReactor.SetQuery("SELECT null FROM users_wardrobe WHERE user_id = @user AND slot_id = @slot");
-				queryReactor.AddParameter("user", session.UserData.Info.Id);
-				queryReactor.AddParameter("slot", slot);
-				queryReactor.AddParameter("look", look);
-				queryReactor.AddParameter("gender", gender);
-
-				if (queryReactor.GetRow() != null)
-				{
-					queryReactor.SetQuery("UPDATE users_wardrobe SET look = @look, gender = @gender WHERE user_id = @user AND slot_id = @slot");
-				}
-				else
-				{
-					queryReactor.SetQuery(
-						"INSERT INTO users_wardrobe (user_id,slot_id,look,gender) VALUES (@user,@slot,@look,@gender)");
-				}
-
-				queryReactor.AddParameter("user", session.UserData.Info.Id);
-				queryReactor.AddParameter("slot", slot);
-				queryReactor.AddParameter("look", look);
-				queryReactor.AddParameter("gender", gender);
-				queryReactor.RunQuery();
+			if (item != default(WardrobeItem)) {
+				item.Look = look;
+				item.Gender = gender;
 			}
 		}
 	}

@@ -42,9 +42,10 @@ namespace Yupi.Model.Domain
 
 		public virtual string Badge { get; set; }
 
-		public virtual int Colour1 { get; set; }
+		// TODO Rename
+		public virtual GroupSymbolColours Colour1 { get; set; }
 
-		public virtual int Colour2 { get; set; }
+		public virtual GroupBackGroundColours Colour2 { get; set; }
 
 		public virtual int CreateTime { get; set; }
 

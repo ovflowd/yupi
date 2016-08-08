@@ -6,8 +6,7 @@ namespace Yupi.Messages.User
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			// TODO Refactor
-			session.UserData.GetHabbo().SerializeClub();
+			router.GetComposer<SubscriptionStatusMessageComposer> ().Compose (session, session.UserData.Info.Subscription);
 		}
 	}
 }

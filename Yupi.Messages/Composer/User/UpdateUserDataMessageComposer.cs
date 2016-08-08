@@ -16,7 +16,7 @@ namespace Yupi.Messages.User
 				message.AppendString(habbo.Look);
 				message.AppendString(habbo.Gender.ToLower()); // TODO ToLower here whereas ToUpper in UpdateAvatarAspectMessageComposer ?!
 				message.AppendString(habbo.Motto);
-				message.AppendInteger(habbo.AchievementPoints);
+				message.AppendInteger(habbo.Wallet.AchievementPoints);
 
 				room.Send (message);
 			}

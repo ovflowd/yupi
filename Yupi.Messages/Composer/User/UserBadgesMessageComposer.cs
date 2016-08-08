@@ -9,11 +9,11 @@ namespace Yupi.Messages.User
 {
 	public class UserBadgesMessageComposer : Yupi.Messages.Contracts.UserBadgesMessageComposer
 	{
-		public override void Compose ( Yupi.Protocol.ISender session, Habbo user)
+		public override void Compose ( Yupi.Protocol.ISender session, UserInfo user)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendInteger (user.Info.Id);
-				var badges = user.Info.Badges.GetVisible();
+				message.AppendInteger (user.Id);
+				var badges = user.Badges.GetVisible();
 
 				message.AppendInteger (badges.Count);
 
@@ -22,12 +22,7 @@ namespace Yupi.Messages.User
 					message.AppendString (badge.Code);
 				}
 
-				// TODO Can this event even occur when a user isn't in a room?
-				if (user.Room != null) {
-					user.Room.Send (message);
-				} else {
-					session.Send (message);
-				}
+				session.Send (message);
 			}
 		}
 	}

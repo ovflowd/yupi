@@ -16,6 +16,10 @@ namespace Yupi.Model.Repository
 			this.session = session;
 		}
 
+		public bool Exists(Expression<Func<T, bool>> expression) {
+			return FilterBy (expression).Any ();
+		}
+
 		public void Save (T entity)
 		{
 			session.SaveOrUpdate (entity);

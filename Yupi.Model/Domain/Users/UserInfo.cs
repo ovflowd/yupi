@@ -24,6 +24,8 @@ namespace Yupi.Model.Domain
 		public virtual int BobbaFiltered { get; set; }
 		public virtual DateTime CreateDate { get; set; }
 
+		public virtual Subscription Subscription { get; set; }
+
 		[ManyToMany]
 		public virtual IList<RoomData> FavoriteRooms { get; protected set; }
 
@@ -49,8 +51,7 @@ namespace Yupi.Model.Domain
 		[ManyToMany]
 		public virtual IList<RoomData> RecentlyVisitedRooms { get; protected set; }
 
-		[OneToMany]
-		public virtual IList<Relationship> Relationships { get; protected set; }
+		public virtual RelationshipComponent Relationships { get; protected set; }
 
 		public virtual string ReleaseName { get; set; }
 
@@ -75,6 +76,9 @@ namespace Yupi.Model.Domain
 		public virtual string Motto { get; set; }
 		public virtual string Look { get; set; }
 		public virtual string Gender { get; set; }
+
+		[OneToMany]
+		public virtual IList<WardrobeItem> Wardrobe { get; protected set; }
 
 		[OneToMany]
 		public virtual IList<RoomData> UsersRooms { get; protected set; }

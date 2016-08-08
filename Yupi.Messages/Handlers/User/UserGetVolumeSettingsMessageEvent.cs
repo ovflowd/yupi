@@ -6,8 +6,7 @@ namespace Yupi.Messages.User
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			UserPreferences preferences = session.UserData.GetHabbo ().Preferences;
-			router.GetComposer<LoadVolumeMessageComposer> ().Compose (session, preferences);
+			router.GetComposer<LoadVolumeMessageComposer> ().Compose (session, session.UserData.Info.Preferences);
 		}
 	}
 }

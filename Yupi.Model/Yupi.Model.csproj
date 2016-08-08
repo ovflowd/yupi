@@ -308,6 +308,8 @@
     <Compile Include="Domain\Users\Components\UserBadgeComponent.cs" />
     <Compile Include="Domain\Users\Components\UserEffectComponent.cs" />
     <Compile Include="Domain\Rooms\RoomMute.cs" />
+    <Compile Include="Domain\Users\Components\RelationshipComponent.cs" />
+    <Compile Include="Domain\Users\WardrobeItem.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

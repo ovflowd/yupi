@@ -2,33 +2,26 @@
 
 using System.Data;
 using Yupi.Protocol.Buffers;
+using Yupi.Model;
+using System.Collections.Generic;
 
 namespace Yupi.Messages.User
 {
 	public class LoadWardrobeMessageComposer : Yupi.Messages.Contracts.LoadWardrobeMessageComposer
 	{
-		public override void Compose ( Yupi.Protocol.ISender session)
+		public override void Compose (Yupi.Protocol.ISender session, IList<WardrobeItem> wardrobe)
 		{
-			// TODO Query should really not be within composer!!!
-			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-			{
-				queryReactor.SetQuery(
-					"SELECT slot_id, look, gender FROM users_wardrobe WHERE user_id = @user");
-				queryReactor.AddParameter("user", session.GetHabbo().Id);
-
-				DataTable table = queryReactor.GetTable();
-
-				using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-					message.AppendInteger (table.Rows.Count);
-					foreach (DataRow dataRow in table.Rows) {
-						message.AppendInteger (Convert.ToUInt32 (dataRow ["slot_id"]));
-						message.AppendString ((string)dataRow ["look"]);
-						message.AppendString (dataRow ["gender"].ToString ().ToUpper ());
-					}
-
-					session.Send (message);
+			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
+				message.AppendInteger (wardrobe.Count);
+				foreach (WardrobeItem item in wardrobe) {
+					message.AppendInteger (item.Slot);
+					message.AppendString (item.Look);
+					message.AppendString (item.Gender.ToUpper());
 				}
+
+				session.Send (message);
 			}
+
 		}
 	}
 }

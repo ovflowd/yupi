@@ -37,17 +37,19 @@ namespace Yupi.Controller
 	{
 		private IDictionary<string, Achievement> Achievements;
 
-		private Repository<Achievement> Repository;
+		private Repository<Achievement> AchievementRepository;
+		private Repository<UserInfo> UserRepository;
 
 		public AchievementManager ()
 		{
-			Repository = DependencyFactory.Resolve<Repository<Achievement>> ();
+			AchievementRepository = DependencyFactory.Resolve<Repository<Achievement>> ();
+			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>> ();
 			LoadAchievements ();
 		}
 
 		private void LoadAchievements ()
 		{
-			Achievements = Repository.All ().ToDictionary ((x) => x.GroupName);
+			Achievements = AchievementRepository.All ().ToDictionary ((x) => x.GroupName);
 		}
 			
 		public void TryProgressLoginAchievements ()
@@ -202,6 +204,8 @@ namespace Yupi.Controller
 
 					// TODO Reimplement talents properly
 				}
+
+				UserRepository.Save (user.Info);
 
 				user.Session.Router.GetComposer<AchievementProgressMessageComposer> ().Compose (user, userAchievement);
 				user.Session.Router.GetComposer<UpdateUserDataMessageComposer> ().Compose (user, user.Info);

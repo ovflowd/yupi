@@ -7,8 +7,8 @@ namespace Yupi.Messages.User
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			session.GetHabbo().UpdateCreditsBalance();
-			session.GetHabbo().UpdateSeasonalCurrencyBalance();
+			router.GetComposer<CreditsBalanceMessageComposer>().Compose(session, session.UserData.Info.Wallet.Credits);
+			router.GetComposer<ActivityPointsMessageComposer>().Compose(session, session.UserData.Info.Wallet);
 		}
 	}
 }

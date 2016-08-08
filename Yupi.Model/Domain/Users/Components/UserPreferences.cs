@@ -47,16 +47,18 @@ namespace Yupi.Model.Domain.Components
         /// </summary>
 		public virtual bool PreferOldChat { get; set; }
 
-        /// <summary>
-        ///     User Volume Settings
-        /// </summary>
-		public virtual string Volume { get; set; }
+		// TODO What do the single values mean?
+		public virtual int Volume1 { get; set; }
+		public virtual int Volume2 { get; set; }
+		public virtual int Volume3 { get; set; }
 
      	public UserPreferences()
         {
 			NavigatorHeight = 600;
 			NavigatorWidth = 580;
-			Volume = "100,100,100";
+			Volume1 = 100;
+			Volume2 = 100;
+			Volume3 = 100;
         }
     }
 }

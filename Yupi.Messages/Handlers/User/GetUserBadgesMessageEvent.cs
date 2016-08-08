@@ -18,7 +18,7 @@ namespace Yupi.Messages.User
 			UserEntity roomUser = room?.GetEntity (userId) as UserEntity;
 
 			if (roomUser != null) {
-				router.GetComposer<UserBadgesMessageComposer> ().Compose (session, roomUser.User);
+				router.GetComposer<UserBadgesMessageComposer> ().Compose (session, roomUser.UserInfo);
 			}
 		}
 	}

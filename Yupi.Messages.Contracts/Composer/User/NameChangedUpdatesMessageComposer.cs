@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Yupi.Messages.Contracts
 {
-	public abstract class NameChangedUpdatesMessageComposer : AbstractComposer<NameChangedUpdatesMessageComposer.Status, string, List<string>>
+	public abstract class NameChangedUpdatesMessageComposer : AbstractComposer<NameChangedUpdatesMessageComposer.Status, string, IList<string>>
 	{
 		public enum Status {
 			OK = 0,
@@ -14,7 +14,7 @@ namespace Yupi.Messages.Contracts
 			IS_TAKEN = 5
 		}
 
-		public override void Compose(Yupi.Protocol.ISender session, Status status, string newName, List<string> alternatives = null)
+		public override void Compose(Yupi.Protocol.ISender session, Status status, string newName, IList<string> alternatives = null)
 		{
 		 // Do nothing by default.
 		}

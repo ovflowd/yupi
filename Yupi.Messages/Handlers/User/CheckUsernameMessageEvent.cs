@@ -2,23 +2,36 @@
 
 using System.Data;
 using System.Collections.Generic;
+using Yupi.Model.Domain;
+using Yupi.Model.Repository;
+using Yupi.Model;
+using System.Text.RegularExpressions;
 
 namespace Yupi.Messages.User
 {
 	public class CheckUsernameMessageEvent : AbstractHandler
 	{
+		private Repository<UserInfo> UserRepository;
+
+		public CheckUsernameMessageEvent ()
+		{
+			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>> ();
+		}
+
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			string newName = message.GetString();
 							
 			List<string> alternatives;
-			NameChangedUpdatesMessageComposer.Status status = Validate (newName, session.GetHabbo().UserName, out alternatives);
+			NameChangedUpdatesMessageComposer.Status status = Validate (newName, session.UserData.Info.UserName, out alternatives);
 
 			router.GetComposer<NameChangedUpdatesMessageComposer> ()
-				.Compose (session, status, newName, ref alternatives);
+				.Compose (session, status, newName, alternatives);
 		}
 
-		protected NameChangedUpdatesMessageComposer.Status Validate(string newName, string oldName, ref List<string> alternatives) {
+		protected NameChangedUpdatesMessageComposer.Status Validate(string newName, string oldName, out List<string> alternatives) {
+			alternatives = new List<string> ();
+
 			if (newName.ToLower() == oldName.ToLower())
 			{
 				return NameChangedUpdatesMessageComposer.Status.OK;
@@ -39,24 +52,14 @@ namespace Yupi.Messages.User
 		}
 
 		protected bool DoesExist(string name) {
-			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager ().GetQueryReactor ()) {
-				queryReactor.SetQuery("SELECT COUNT(username) FROM users WHERE username=@name LIMIT 1");
-				queryReactor.AddParameter("name", name);
-				return queryReactor.GetInteger() != 0;
-			}
+			return UserRepository.Exists((x) => x.UserName == name);
 		}
 
 		protected bool ContainsInvalidChars(string name) {
 			// TODO Use ASCII ???
-			const string source = "abcdefghijklmnopqrstuvwxyz1234567890.,_-;:?!@áéíóúÁÉÍÓÚñÑÜüÝý";
+			const string pattern = "[abcdefghijklmnopqrstuvwxyz1234567890.,_-;:?!@áéíóúÁÉÍÓÚñÑÜüÝý]+";
 
 			string lowerName = name.ToLower ();
-
-			foreach (char letter in lowerName) {
-				if (!source.Contains (letter)) {
-					return true;
-				}
-			}
 
 			string[] forbiddenWords = { "mod", "admin", "m0d" };
 
@@ -66,22 +69,13 @@ namespace Yupi.Messages.User
 				}
 			}
 
-			return false;
+			return !Regex.IsMatch (name, pattern);
 		}
 
 		private List<string> GetAlternatives(string name) {
 			List<string> alternatives = new List<string> ();
-
-			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager ().GetQueryReactor ()) {
-				queryReactor.SetQuery ("SELECT tag FROM users_tags ORDER BY RAND() LIMIT 3");
-				DataTable table = queryReactor.GetTable ();
-
-				foreach (DataRow dataRow in table.Rows) {
-					alternatives.Add (name + dataRow ["tag"]);
-				}
-
-				return alternatives;
-			}
+			// TODO Implement
+			return alternatives;
 		}
 	}
 }

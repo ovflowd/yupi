@@ -9,11 +9,9 @@ namespace Yupi.Messages.User
 
 	public class NameChangedUpdatesMessageComposer : Yupi.Messages.Contracts.NameChangedUpdatesMessageComposer
 	{
-		
-
-		public override void Compose( Yupi.Protocol.ISender session, Status status, string newName, List<string> alternatives = null) {
+		public override void Compose( Yupi.Protocol.ISender session, Status status, string newName, IList<string> alternatives = null) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendInteger (status);
+				message.AppendInteger ((int)status);
 				message.AppendString (newName);
 
 				if (alternatives == null) {
