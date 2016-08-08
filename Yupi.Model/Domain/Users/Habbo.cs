@@ -8,7 +8,12 @@ namespace Yupi.Model.Domain
 	{
 		public UserInfo Info { get; protected set; }
 
+		public UserEntity RoomEntity { get; protected set; }
+
 		public bool IsOnline { get; set; }
+
+		// TODO Refactor?
+		public bool IsRidingHorse { get; set; }
 		public Room Room { get; set; }
 
 		public ISession<Habbo> Session { get; private set; }

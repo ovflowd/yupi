@@ -5,11 +5,11 @@ namespace Yupi.Messages.Rooms
 {
 	public class ApplyEffectMessageComposer : Yupi.Messages.Contracts.ApplyEffectMessageComposer
 	{
-		public override void Compose ( Yupi.Protocol.ISender session, int entityId, int effectId)
+		public override void Compose (Yupi.Protocol.ISender session, Yupi.Model.Domain.RoomEntity entity, Yupi.Model.Domain.AvatarEffect effect)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendInteger (entityId);
-				message.AppendInteger(effectId);
+				message.AppendInteger (entity.Id);
+				message.AppendInteger(effect.EffectId);
 				message.AppendInteger(0);
 				session.Send (message);
 			}

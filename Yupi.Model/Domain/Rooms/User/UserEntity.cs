@@ -22,6 +22,11 @@ namespace Yupi.Model.Domain
 		{
 			
 		}
+
+		public override void OnRoomExit ()
+		{
+			
+		}
 	}
 }
 

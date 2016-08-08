@@ -1,33 +1,37 @@
 ﻿using System;
-
-
-
+using Yupi.Model.Domain;
+using Yupi.Controller;
+using Yupi.Model;
 
 namespace Yupi.Messages.User
 {
 	public class EnableInventoryEffectMessageEvent : AbstractHandler
 	{
+		private AvatarEffectController EffectController;
+
+		public EnableInventoryEffectMessageEvent ()
+		{
+			EffectController = DependencyFactory.Resolve<AvatarEffectController> ();
+		}
+
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			Yupi.Messages.Rooms currentRoom = session.GetHabbo().CurrentRoom;
-			RoomUser roomUserByHabbo = currentRoom?.GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().Id);
+			UserEntity userEntity = session.UserData.RoomEntity;
 
-			if (roomUserByHabbo == null)
+			if (userEntity == null) {
 				return;
+			}
 			
 			int effectId = message.GetInteger();
 
-			if (roomUserByHabbo.RidingHorse)
+			if (session.UserData.IsRidingHorse)
 				return;
 			
-			if (effectId == 0)
-			{
-				session.GetHabbo()
-					.GetAvatarEffectsInventoryComponent()
-					.StopEffect(session.GetHabbo().GetAvatarEffectsInventoryComponent().CurrentEffect);
-				return;
+			if (effectId == 0) {
+				EffectController.StopEffect (session.UserData, session.UserData.Info.EffectComponent.ActiveEffect);
+			} else {
+				EffectController.ActivateEffect (userEntity, effectId);
 			}
-			session.GetHabbo().GetAvatarEffectsInventoryComponent().ActivateEffect(effectId);
 		}
 	}
 }

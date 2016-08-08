@@ -28,6 +28,7 @@ namespace Yupi.Model.Domain
     {
 		public virtual int Id { get; protected set; }
 		public virtual Talent Talent { get; set; }
+		public virtual TalentLevel Level { get; set; }
 		public virtual int State { get; set; }
     }
 }

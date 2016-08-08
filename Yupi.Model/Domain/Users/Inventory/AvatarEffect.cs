@@ -2,30 +2,23 @@ using System;
 
 namespace Yupi.Model.Domain
 {
-	// TODO Should this be written to DB?
-	[Ignore]
 	public class AvatarEffect
 	{
-		public bool Activated;
+		public virtual int Id { get; set; }
 
-		/// <summary>
-		///     The effect identifier
-		/// </summary>
-		public int EffectId;
+		public virtual int EffectId { get; set; }
 
-		public DateTime ActivatedAt;
+		// TODO Redundant information (UserEffectComponent.ActiveEffect)
+		public virtual bool Activated { get; set; }
 
-		/// <summary>
-		///     The total duration
-		/// </summary>
-		public int TotalDuration;
+		public virtual DateTime ActivatedAt { get; set; }
 
-		/// <summary>
-		///     The type
-		/// </summary>
-		public short Type;
+		public virtual int TotalDuration { get; set; }
 
-		public int TimeLeft {
+		// TODO What is this good for?
+		public virtual short Type { get; set; }
+
+		public virtual int TimeLeft {
 			get {
 				if (!Activated || TotalDuration == -1)
 					return -1;
@@ -39,12 +32,12 @@ namespace Yupi.Model.Domain
 			}
 		}
 
-		public bool HasExpired ()
+		public virtual bool HasExpired ()
 		{
 			return TimeLeft != -1 && TimeLeft <= 0;
 		}
 
-		public void Activate ()
+		public virtual void Activate ()
 		{
 			Activated = true;
 			ActivatedAt = DateTime.Now;

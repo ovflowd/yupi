@@ -576,6 +576,8 @@
     <Compile Include="Composer\Support\TicketUserAlertComposer.cs" />
     <Compile Include="Composer\Items\UpdateTileStackMagicHeightComposer.cs" />
     <Compile Include="Composer\Messenger\LoadFriendsCategoriesComposer.cs" />
+    <Compile Include="Composer\User\AddEffectToInventoryMessageComposer.cs" />
+    <Compile Include="Composer\User\StopAvatarEffectMessageComposer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -594,6 +596,14 @@
     <ProjectReference Include="..\Yupi.Messages.Contracts\Yupi.Messages.Contracts.csproj">
       <Project>{686087B0-8FBC-48E3-A903-799A980F8D7D}</Project>
       <Name>Yupi.Messages.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Yupi.Controller\Yupi.Controller.csproj">
+      <Project>{40F4057A-7752-4BA3-849B-FDEBCC238717}</Project>
+      <Name>Yupi.Controller</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Yupi.Util\Yupi.Util.csproj">
+      <Project>{6CC9871D-F8D6-4586-8681-E9AAECA60D60}</Project>
+      <Name>Yupi.Util</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

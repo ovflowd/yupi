@@ -5,17 +5,26 @@
 
 using Yupi.Protocol.Buffers;
 using Yupi.Model.Domain;
+using Yupi.Controller;
+using Yupi.Model;
 
 namespace Yupi.Messages.User
 {
 	public class GiveRespectMessageEvent : AbstractHandler
 	{
+		private AchievementManager AchievementManager;
+
+		public GiveRespectMessageEvent ()
+		{
+			AchievementManager = DependencyFactory.Resolve<AchievementManager>();
+		}
+
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			Room room = session.UserData.Room;
 
 			// TODO Should lock respect points
-			if (room == null || session.UserData.Info.DailyRespectPoints <= 0)
+			if (room == null || session.UserData.Info.Respect.DailyRespectPoints <= 0)
 				return;
 
 			int userId = message.GetInteger ();
@@ -29,15 +38,13 @@ namespace Yupi.Messages.User
 			if (roomUserByHabbo == null)
 				return;
 
-			Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(session, "ACH_RespectGiven", 1, true);
-			Yupi.GetGame()
-				.GetAchievementManager()
-				.ProgressUserAchievement(roomUserByHabbo.GetClient(), "ACH_RespectEarned", 1, true);
+			AchievementManager.ProgressUserAchievement (session.UserData, "ACH_RespectGiven", 1);
+			AchievementManager.ProgressUserAchievement (roomUserByHabbo.User, "ACH_RespectEarned", 1);
 
-			session.UserData.Info.DailyRespectPoints--;
-			roomUserByHabbo.User.Info.Respect++;
+			session.UserData.Info.Respect.DailyRespectPoints--;
+			roomUserByHabbo.User.Info.Respect.Respect++;
 
-			router.GetComposer<GiveRespectsMessageComposer> ().Compose (room, roomUserByHabbo.Id, roomUserByHabbo.UserInfo.Respect);
+			router.GetComposer<GiveRespectsMessageComposer> ().Compose (room, roomUserByHabbo.Id, roomUserByHabbo.UserInfo.Respect.Respect);
 			router.GetComposer<RoomUserActionMessageComposer> ().Compose (room, roomUserByHabbo.Id);
 		}
 	}

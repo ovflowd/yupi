@@ -164,9 +164,7 @@ namespace Yupi.Model.Domain
 		/// </summary>
 		public virtual int TradeState { get; set; }
 
-		/// <summary>
-		///     Room Type
-		/// </summary>
+		// TODO Enum private/public
 		public virtual string Type { get; set; }
 
 		/// <summary>
@@ -218,7 +216,8 @@ namespace Yupi.Model.Domain
 		[OneToMany]
 		public virtual IList<string> WordFilter { get; protected set; }
 
-	
+		public virtual IList<RoomMute> MutedEntities { get; protected set; }
+
 		public RoomData ()
 		{
 			// TODO Should be removed...
@@ -238,6 +237,7 @@ namespace Yupi.Model.Domain
 			TradeState = 2;
 			WordFilter = new List<string> ();
 			Rights = new List<UserInfo> ();
+			MutedEntities = new List<RoomMute> ();
 		}
 			
 		// TODO Remove when not used anymore

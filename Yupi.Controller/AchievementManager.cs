@@ -181,15 +181,15 @@ namespace Yupi.Controller
 					userAchievement.IncreaseLevel ();
 
 					// Give Reward Points
-					user.Info.AchievementPoints += userAchievement.Level.RewardPoints;
-					user.Info.Duckets += userAchievement.Level.RewardPixels;
+					user.Info.Wallet.AchievementPoints += userAchievement.Level.RewardPoints;
+					user.Info.Wallet.Duckets += userAchievement.Level.RewardPixels;
 
-					user.Session.Router.GetComposer<ActivityPointsMessageComposer> ().Compose (user, user.Info.Duckets, user.Info.Diamonds);
+					user.Session.Router.GetComposer<ActivityPointsMessageComposer> ().Compose (user, user.Info.Wallet);
 
-					user.Info.RemoveBadge (userAchievement.Achievement.GroupName + (userAchievement.Level.Level - 1));
+					user.Info.Badges.RemoveBadge (userAchievement.Achievement.GroupName + (userAchievement.Level.Level - 1));
 
 					// Give new Badge
-					user.Info.GiveBadge (achievementGroup + userAchievement.Level.Level);
+					user.Info.Badges.GiveBadge (achievementGroup + userAchievement.Level.Level);
 
 
 					// Send Unlocked Composer
@@ -198,17 +198,9 @@ namespace Yupi.Controller
 						userAchievement.Level.RewardPoints, userAchievement.Level.RewardPixels);
 
 					// Send Score Composer
-					user.Session.Router.GetComposer<AchievementPointsMessageComposer> ().Compose (user, user.Info.AchievementPoints);
+					user.Session.Router.GetComposer<AchievementPointsMessageComposer> ().Compose (user, user.Info.Wallet.AchievementPoints);
 
-					// Set Talent
-					if (
-						Yupi.GetGame ()
-                            .GetTalentManager ()
-                            .Talents.Values.Any (talent => talent.AchievementGroup == achievementGroup))
-						Yupi.GetGame ()
-                            .GetTalentManager ()
-                            .CompleteUserTalent (session,
-							Yupi.GetGame ().GetTalentManager ().GetTalentData (achievementGroup));
+					// TODO Reimplement talents properly
 				}
 
 				user.Session.Router.GetComposer<AchievementProgressMessageComposer> ().Compose (user, userAchievement);

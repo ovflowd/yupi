@@ -301,6 +301,13 @@
     <Compile Include="Domain\Users\Habbo.cs" />
     <Compile Include="Domain\Rooms\Room.cs" />
     <Compile Include="Domain\Users\Badge.cs" />
+    <Compile Include="Domain\Achievements\TalentLevel.cs" />
+    <Compile Include="Domain\Users\Components\UserWallet.cs" />
+    <Compile Include="Domain\Users\Components\UserRespectComponent.cs" />
+    <Compile Include="Domain\Users\Components\UserBuilderComponent.cs" />
+    <Compile Include="Domain\Users\Components\UserBadgeComponent.cs" />
+    <Compile Include="Domain\Users\Components\UserEffectComponent.cs" />
+    <Compile Include="Domain\Rooms\RoomMute.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

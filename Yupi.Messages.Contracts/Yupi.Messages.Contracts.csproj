@@ -286,6 +286,8 @@
     <Compile Include="IComposer.cs" />
     <Compile Include="Composer\Catalog\PurchaseOkComposer.cs" />
     <Compile Include="Composer\Achievements\AchievementProgressMessageComposer.cs" />
+    <Compile Include="Composer\User\AddEffectToInventoryMessageComposer.cs" />
+    <Compile Include="Composer\User\StopAvatarEffectMessageComposer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

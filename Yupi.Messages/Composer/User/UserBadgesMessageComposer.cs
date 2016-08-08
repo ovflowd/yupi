@@ -13,7 +13,7 @@ namespace Yupi.Messages.User
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (user.Info.Id);
-				var badges = user.Info.Badges.Where(x => x.Slot > 0).ToList();
+				var badges = user.Info.Badges.GetVisible();
 
 				message.AppendInteger (badges.Count);
 

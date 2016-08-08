@@ -12,23 +12,17 @@ namespace Yupi.Model.Domain
 	{
 		public static UserInfo None = new UserInfo() { Id = 0, UserName = string.Empty };
 
-		[OneToMany]
-		public virtual IList<Badge> Badges { get; protected set; }
-
 		public virtual int Id { get; protected set; }
+
+		public virtual UserBadgeComponent Badges { get; protected set; }
+		public virtual UserBuilderComponent BuilderInfo { get; protected set; }
+		public virtual UserWallet Wallet { get; protected set; }
+		public virtual UserPreferences Preferences { get; protected set; }
+		public virtual UserEffectComponent EffectComponent { get; protected set; }
 
 		public virtual bool AppearOffline { get; set; }
 		public virtual int BobbaFiltered { get; set; }
-
-		public virtual int BuildersExpire { get; set; }
-		public virtual int BuildersItemsMax { get; set; }
-		public virtual int BuildersItemsUsed { get; set; }
-
-		public virtual double CreateDate { get; set; }
-
-		public virtual int Credits { get; set; }
-		public virtual int AchievementPoints { get; set; }
-		public virtual int Duckets { get; set; }
+		public virtual DateTime CreateDate { get; set; }
 
 		[ManyToMany]
 		public virtual IList<RoomData> FavoriteRooms { get; protected set; }
@@ -47,9 +41,7 @@ namespace Yupi.Model.Domain
 		[ManyToMany]
 		public virtual IList<UserInfo> MutedUsers { get; protected set; }
 
-		public virtual UserPreferences Preferences { get; set; }
-
-		public virtual uint Rank { get; set; }
+		public virtual int Rank { get; set; }
 
 		[ManyToMany]
 		public virtual HashSet<RoomData> RatedRooms { get; protected set; }
@@ -62,11 +54,7 @@ namespace Yupi.Model.Domain
 
 		public virtual string ReleaseName { get; set; }
 
-		public virtual int Respect { get; set; }
-
-		public virtual int DailyRespectPoints { get; set; }
-		public virtual int DailyPetRespectPoints { get; set; }
-		public virtual int DailyCompetitionVotes { get; set; }
+		public virtual UserRespectComponent Respect { get; protected set; }
 
 		public virtual DateTime SpamFloodTime { get; set; }
 
@@ -91,7 +79,6 @@ namespace Yupi.Model.Domain
 		[OneToMany]
 		public virtual IList<RoomData> UsersRooms { get; protected set; }
 		public virtual bool IsVip { get; set; }
-		public virtual int Diamonds { get; set; }
 
 		public UserInfo() {
 			FavouriteGroup = Group.None;
@@ -105,16 +92,12 @@ namespace Yupi.Model.Domain
 			return false; // TODO Reimplement
 		}
 
-		public virtual bool RemoveBadge(string badeCode) {
-			return Badges.RemoveAll ((x) => x.Code == badeCode) > 0;
+		// TODO Use enum!
+		public virtual bool HasPermission(string permission) {
+			throw new NotImplementedException ();
 		}
-
-		public virtual void GiveBadge(string badeCode) {
-			Badges.Add (new Badge () {
-				Code = badeCode
-			});
-		}
-
+			
+		// TODO Cleanup
 		/*
 		public virtual bool IsHelper ()
 		{
