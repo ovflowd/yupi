@@ -35,6 +35,8 @@ namespace Yupi.Model
 						.Conventions.Add<Conventions> ()
 						.Conventions.Add<EnumTypeConvention> ()
 						.IncludeBase<BaseItem> ()
+						.IncludeBase<FloorItem> ()
+						.IncludeBase<WallItem> ()
 			                                        ))
 				.ExposeConfiguration (BuildSchema)
 				.BuildSessionFactory ()) {

@@ -3,9 +3,9 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Contracts
 {
-	public abstract class AddWallItemMessageComposer : AbstractComposer<IWallItem, UserInfo>
+	public abstract class AddWallItemMessageComposer : AbstractComposer<WallItem, UserInfo>
 	{
-		public override void Compose(Yupi.Protocol.ISender session, IWallItem item, UserInfo user)
+		public override void Compose(Yupi.Protocol.ISender session, WallItem item, UserInfo user)
 		{
 		 // Do nothing by default.
 		}

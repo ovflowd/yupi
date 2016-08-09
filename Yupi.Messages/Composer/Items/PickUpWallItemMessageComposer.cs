@@ -7,7 +7,7 @@ namespace Yupi.Messages.Items
 {
 	public class PickUpWallItemMessageComposer : Yupi.Messages.Contracts.PickUpWallItemMessageComposer
 	{
-		public override void Compose ( Yupi.Protocol.ISender session, IWallItem item, int pickerId)
+		public override void Compose ( Yupi.Protocol.ISender session, WallItem item, int pickerId)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendString(item.Id.ToString());

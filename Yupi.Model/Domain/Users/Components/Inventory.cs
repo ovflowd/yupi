@@ -11,19 +11,19 @@ namespace Yupi.Model.Domain.Components
 
 		public virtual IList<PetInfo> Pets { get; protected set; }
 
-		public virtual IList<IFloorItem> FloorItems { get; protected set; }
+		public virtual IList<FloorItem> FloorItems { get; protected set; }
 
-		public virtual IList<IWallItem> WallItems { get; protected set; }
+		public virtual IList<WallItem> WallItems { get; protected set; }
 
 		public Inventory ()
 		{
 			this.Wardrobe = new List<WardrobeItem>();
 			this.Pets = new List<PetInfo>();
-			this.FloorItems = new List<IFloorItem>();
-			this.WallItems = new List<IWallItem>();
+			this.FloorItems = new List<FloorItem>();
+			this.WallItems = new List<WallItem>();
 		}
 
-		public virtual IFloorItem GetFloorItem(int id) {
+		public virtual FloorItem GetFloorItem(int id) {
 			return FloorItems.SingleOrDefault (x => x.Id == id);
 		}
 	}

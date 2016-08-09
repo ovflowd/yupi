@@ -8,7 +8,7 @@ namespace Yupi.Messages.Wired
 {
 	public class WiredEffectMessageComposer : Yupi.Messages.Contracts.WiredEffectMessageComposer
 	{
-		public override void Compose ( Yupi.Protocol.ISender session, IFloorItem item, string extraInfo, int delay, List<IFloorItem> list = null)
+		public override void Compose ( Yupi.Protocol.ISender session, FloorItem item, string extraInfo, int delay, List<FloorItem> list = null)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendBool(false);

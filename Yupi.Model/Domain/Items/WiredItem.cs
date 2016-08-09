@@ -2,7 +2,7 @@
 
 namespace Yupi.Model.Domain
 {
-	public class WiredItem : Item<WiredBaseItem>
+	public class WiredItem : FloorItem<WiredBaseItem>
 	{
 		public WiredItem ()
 		{

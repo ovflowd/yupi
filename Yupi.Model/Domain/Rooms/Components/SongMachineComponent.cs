@@ -8,6 +8,7 @@ namespace Yupi.Model.Domain.Components
 	{
 		protected virtual List<SongItem> _SongItems { get; set; }
 
+		[Ignore]
 		public virtual IReadOnlyList<SongItem> SongItems {
 			get {
 				return _SongItems.AsReadOnly ();

@@ -7,7 +7,7 @@ namespace Yupi.Messages.Items
 {
 	public class AddFloorItemMessageComposer : Yupi.Messages.Contracts.AddFloorItemMessageComposer
 	{
-		public override void Compose ( Yupi.Protocol.ISender room, IFloorItem item)
+		public override void Compose ( Yupi.Protocol.ISender room, FloorItem item)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				item.Serialize(message);

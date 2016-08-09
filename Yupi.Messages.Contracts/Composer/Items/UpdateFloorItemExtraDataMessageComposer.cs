@@ -4,9 +4,9 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Contracts
 {
-	public abstract class UpdateFloorItemExtraDataMessageComposer : AbstractComposer<IFloorItem>
+	public abstract class UpdateFloorItemExtraDataMessageComposer : AbstractComposer<FloorItem>
 	{
-		public override void Compose(Yupi.Protocol.ISender room, IFloorItem item)
+		public override void Compose(Yupi.Protocol.ISender room, FloorItem item)
 		{
 		 // Do nothing by default.
 		}

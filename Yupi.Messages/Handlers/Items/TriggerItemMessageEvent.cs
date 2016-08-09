@@ -91,7 +91,7 @@ namespace Yupi.Messages.Items
 				room.GetRoomUserManager().UpdateUserStatus(current, true);
 		}
 
-		private void PlantMonsterplant(IRouter router,  Yupi.Protocol.ISender session, Item<MonsterPlantBaseItem> mopla, RoomData room)
+		private void PlantMonsterplant(IRouter router,  Yupi.Protocol.ISender session, FloorItem<MonsterPlantBaseItem> mopla, RoomData room)
 		{
 			int rarity = 0, internalRarity;
 
