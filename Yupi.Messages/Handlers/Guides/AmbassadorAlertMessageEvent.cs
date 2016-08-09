@@ -1,21 +1,34 @@
 ﻿using System;
+using Yupi.Controller;
+using Yupi.Model;
+using Yupi.Model.Domain;
+using Yupi.Messages.Contracts;
+using Yupi.Protocol;
 
 
 namespace Yupi.Messages.Guides
 {
 	public class AmbassadorAlertMessageEvent : AbstractHandler
 	{
+		private ClientManager ClientManager;
+
+		public AmbassadorAlertMessageEvent ()
+		{
+			ClientManager = DependencyFactory.Resolve<ClientManager> ();
+		}
+
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			if (session.GetHabbo().Rank < Convert.ToUInt32(Yupi.GetDbConfig().DbData["ambassador.minrank"]))
+			if (!session.UserData.Info.HasPermission ("send_ambassador_alert"))
 				return;
 
-			uint userId = message.GetUInt32();
+			int userId = message.GetInteger();
 
-			GameClient user = Yupi.GetGame().GetClientManager().GetClientByUserId(userId);
+			ISession<Habbo> user = ClientManager.GetByUserId (userId);
 
-			user?.SendNotif("${notification.ambassador.alert.warning.message}",
-				"${notification.ambassador.alert.warning.title}");
+			user.Router.GetComposer<SuperNotificationMessageComposer> ()
+				.Compose (user, "${notification.ambassador.alert.warning.title}",
+					"${notification.ambassador.alert.warning.message}");
 		}
 	}
 }

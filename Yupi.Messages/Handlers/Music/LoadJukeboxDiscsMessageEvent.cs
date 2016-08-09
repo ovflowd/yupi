@@ -1,4 +1,6 @@
 ﻿using System;
+using Yupi.Model.Domain;
+using System.Linq;
 
 namespace Yupi.Messages.Music
 {
@@ -6,13 +8,9 @@ namespace Yupi.Messages.Music
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			if (session.GetHabbo().GetInventoryComponent() == null)
-				return;
+			SongItem[] items = session.UserData.Info.Inventory.FloorItems.OfType<SongItem> ().ToArray ();
 
-			if (session.GetHabbo().GetInventoryComponent().SongDisks.Count == 0)
-				return;
-
-			router.GetComposer<SongsLibraryMessageComposer> ().Compose (session, session.GetHabbo ().GetInventoryComponent ().SongDisks);
+			router.GetComposer<SongsLibraryMessageComposer> ().Compose (session, items);
 		}
 	}
 }

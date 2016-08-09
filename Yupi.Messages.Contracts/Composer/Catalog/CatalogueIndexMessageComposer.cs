@@ -5,9 +5,9 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Contracts
 {
-	public abstract class CatalogueIndexMessageComposer : AbstractComposer<IOrderedEnumerable<CatalogPage>, IEnumerable<CatalogPage>, string>
+	public abstract class CatalogueIndexMessageComposer : AbstractComposer<IList<CatalogPage>, string>
 	{
-		public override void Compose(Yupi.Protocol.ISender session, IOrderedEnumerable<CatalogPage> sortedPages, IEnumerable<CatalogPage> pages, string type)
+		public override void Compose(Yupi.Protocol.ISender session, IList<CatalogPage> sortedPages, string type)
 		{
 		 // Do nothing by default.
 		}

@@ -1,44 +1,46 @@
 ﻿using System;
-
-
-
-
+using Yupi.Model.Domain.Components;
+using Yupi.Model.Domain;
+using Yupi.Model.Repository;
+using Yupi.Model;
+using Yupi.Messages.Contracts;
+using System.Linq;
 
 namespace Yupi.Messages.Music
 {
 	public class JukeboxRemoveSongMessageEvent : AbstractHandler
 	{
+		private Repository<SongItem> ItemRepository;
+
+		public JukeboxRemoveSongMessageEvent ()
+		{
+			ItemRepository = DependencyFactory.Resolve<Repository<SongItem>> ();
+		}
+
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			if (session.GetHabbo().CurrentRoom == null)
+			if (session.UserData.Room == null)
 				return;
 
-			Yupi.Messages.Rooms currentRoom = session.GetHabbo().CurrentRoom;
+			int itemId = message.GetInteger();
 
-			if (!currentRoom.GotMusicController())
+			SongMachineComponent songMachine = session.UserData.Room.Data.SongMachine;
+
+			SongItem item = songMachine.Find (itemId);
+
+			if (item == null) {
 				return;
+			}
 
-			SoundMachineManager roomMusicController = currentRoom.GetRoomMusicController();
+			songMachine.Remove (item);
+			session.UserData.Info.Inventory.FloorItems.Add (item);
+			ItemRepository.Save (item);
 
-			SongItem songItem = roomMusicController.RemoveDisk(message.GetInteger());
+			SongItem[] items = session.UserData.Info.Inventory.FloorItems.OfType<SongItem> ().ToArray ();
 
-			if (songItem == null)
-				return;
-
-			songItem.RemoveFromDatabase();
-
-			session.GetHabbo()
-				.GetInventoryComponent()
-				.AddNewItem(songItem.ItemId, songItem.BaseItem.Name, songItem.ExtraData, 0u, false, true, 0, 0,
-					songItem.SongCode);
-			session.GetHabbo().GetInventoryComponent().UpdateItems(false);
-
-			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-				queryReactor.RunFastQuery(
-					$"UPDATE items_rooms SET user_id='{session.GetHabbo().Id}' WHERE id='{songItem.ItemId}' LIMIT 1;");
-
-			router.GetComposer<SongsLibraryMessageComposer> ().Compose (session, session.GetHabbo ().GetInventoryComponent ().SongDisks);
-			router.GetComposer<JukeboxPlaylistMessageComposer> ().Compose (session, roomMusicController);
+			router.GetComposer<UpdateInventoryMessageComposer> ().Compose (session);
+			router.GetComposer<SongsLibraryMessageComposer> ().Compose (session, items);
+			router.GetComposer<JukeboxPlaylistMessageComposer> ().Compose (session, songMachine);
 		}
 	}
 }

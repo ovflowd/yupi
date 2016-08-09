@@ -27,6 +27,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 using Yupi.Emulator.Data.Base.Adapters.Interfaces;
+using Yupi.Model.Domain.Components;
 
 
 namespace Yupi.Model.Domain
@@ -43,6 +44,8 @@ namespace Yupi.Model.Domain
 		public virtual int Id { get; protected set; }
 
 		public virtual RoomModel Model { get; set; }
+
+		public virtual SongMachineComponent SongMachine { get; protected set; }
 
 		/// <summary>
 		///     Allow Pets in Room

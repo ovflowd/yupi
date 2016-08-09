@@ -3,9 +3,9 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Contracts
 {
-	public abstract class OnGuideSessionStartedMessageComposer : AbstractComposer<UserInfo,  Yupi.Protocol.ISender>
+	public abstract class OnGuideSessionStartedMessageComposer : AbstractComposer<UserInfo>
 	{
-		public override void Compose(Yupi.Protocol.ISender session, UserInfo habbo,  Yupi.Protocol.ISender requester)
+		public override void Compose(Yupi.Protocol.ISender session, UserInfo habbo)
 		{
 		 // Do nothing by default.
 		}

@@ -8,7 +8,7 @@ namespace Yupi.Messages.Guides
 {
 	public class OnGuideSessionStartedMessageComposer : Yupi.Messages.Contracts.OnGuideSessionStartedMessageComposer
 	{
-		public override void Compose ( Yupi.Protocol.ISender session, UserInfo habbo,  Yupi.Protocol.ISender requester)
+		public override void Compose ( Yupi.Protocol.ISender session, UserInfo habbo)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(habbo.Id);
@@ -18,7 +18,6 @@ namespace Yupi.Messages.Guides
 				message.AppendString(habbo.UserName);
 				message.AppendString(habbo.Look);
 				session.Send (message);
-				requester.Send (message);
 			}
 		}
 	}

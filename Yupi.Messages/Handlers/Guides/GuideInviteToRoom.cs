@@ -1,6 +1,5 @@
 ﻿using System;
-
-
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Guides
 {
@@ -8,18 +7,16 @@ namespace Yupi.Messages.Guides
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			GameClient requester = session.GetHabbo().GuideOtherUser;
+			Room room = session.UserData.Room;
 
-			Yupi.Messages.Rooms room = session.GetHabbo().CurrentRoom;
-
-			if (room == null) {
+			if (session.UserData.Room == null || session.UserData.GuideOtherUser == null) {
 				return;
 			}
 
-			router.GetComposer<OnGuideSessionInvitedToGuideRoomMessageComposer> ().Compose (requester, room.RoomId, room.RoomData.Name);
+			router.GetComposer<OnGuideSessionInvitedToGuideRoomMessageComposer> ().Compose (session.UserData.GuideOtherUser, room.Data.Id, room.Data.Name);
 
 			// TODO Is this really required
-			router.GetComposer<OnGuideSessionInvitedToGuideRoomMessageComposer> ().Compose (session, room.RoomId, room.RoomData.Name);
+			router.GetComposer<OnGuideSessionInvitedToGuideRoomMessageComposer> ().Compose (session, room.Data.Id, room.Data.Name);
 		}
 	}
 }

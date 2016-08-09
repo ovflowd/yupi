@@ -2,7 +2,7 @@
 
 namespace Yupi.Model.Domain
 {
-	public abstract class Item {
+	public abstract class Item : IItem {
 		public virtual int Id { get; set; }
 	}
 

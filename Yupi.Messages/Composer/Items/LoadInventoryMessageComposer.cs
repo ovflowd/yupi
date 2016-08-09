@@ -7,12 +7,13 @@ using Yupi.Protocol.Buffers;
 
 using System.Globalization;
 using Yupi.Model.Domain;
+using Yupi.Model.Domain.Components;
 
 namespace Yupi.Messages.Items
 {
 	public class LoadInventoryMessageComposer : Yupi.Messages.Contracts.LoadInventoryMessageComposer
 	{
-		public override void Compose ( Yupi.Protocol.ISender session, ICollection<UserItem> floor, ICollection<UserItem> wall, ICollection<UserItem> songDisks)
+		public override void Compose ( Yupi.Protocol.ISender session, Inventory inventory)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(1);

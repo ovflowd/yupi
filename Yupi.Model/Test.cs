@@ -35,7 +35,6 @@ namespace Yupi.Model
 						.Conventions.Add<Conventions> ()
 						.Conventions.Add<EnumTypeConvention> ()
 						.IncludeBase<BaseItem> ()
-						.IgnoreBase (typeof(Item<>))
 			                                        ))
 				.ExposeConfiguration (BuildSchema)
 				.BuildSessionFactory ()) {

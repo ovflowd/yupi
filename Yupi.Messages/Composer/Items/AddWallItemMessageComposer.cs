@@ -7,7 +7,7 @@ namespace Yupi.Messages.Items
 {
 	public class AddWallItemMessageComposer : Yupi.Messages.Contracts.AddWallItemMessageComposer
 	{
-		public override void Compose ( Yupi.Protocol.ISender session, WallItem item, UserInfo user)
+		public override void Compose ( Yupi.Protocol.ISender session, IWallItem item, UserInfo user)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendString(Id);

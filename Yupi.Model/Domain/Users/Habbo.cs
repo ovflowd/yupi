@@ -18,6 +18,9 @@ namespace Yupi.Model.Domain
 
 		public ISession<Habbo> Session { get; private set; }
 
+		// TODO Can this be solved in a better way?
+		public Habbo GuideOtherUser;
+
 		public Habbo ()
 		{
 			Info = new UserInfo ();

@@ -35,9 +35,6 @@ namespace Yupi.Emulator.Game.Users
         }
     }
 
-    /// <summary>
-    ///     Class HallOfFameElement.
-    /// </summary>
      public class HallOfFameElement
     {
      public string Competition;

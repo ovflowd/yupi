@@ -10,8 +10,8 @@ namespace Yupi.Messages.GameCenter
 			// TODO  hardcoded message
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(18);
-				message.AppendString(Convert.ToString(Yupi.GetUnixTimeStamp()));
-				message.AppendString(ServerExtraSettings.GameCenterStoriesUrl);
+				message.AppendString(UnixTimestamp.FromDateTime(DateTime.Now));
+				message.AppendString(""); // TODO Reimplement: ServerExtraSettings.GameCenterStoriesUrl
 				session.Send (message);
 			}
 		}

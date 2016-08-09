@@ -56,6 +56,9 @@
     <Reference Include="Iesi.Collections">
       <HintPath>..\packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
     </Reference>
+    <Reference Include="UnixTimestamp">
+      <HintPath>..\packages\UnixTimestamp.1.0\lib\UnixTimestamp.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -581,6 +584,7 @@
     <Compile Include="Composer\User\CreditsBalanceMessageComposer.cs" />
     <Compile Include="Composer\User\LoadBadgesWidgetMessageComposer.cs" />
     <Compile Include="Composer\User\PetInventoryMessageComposer.cs" />
+    <Compile Include="Composer\Items\RemoveInventoryObjectMessageComposer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

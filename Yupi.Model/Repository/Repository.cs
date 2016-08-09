@@ -42,7 +42,7 @@ namespace Yupi.Model.Repository
 
 		public T FindBy (Expression<Func<T, bool>> expression)
 		{
-			return FilterBy (expression).Single ();
+			return FilterBy (expression).SingleOrDefault ();
 		}
 
 		public IQueryable<T> FilterBy (Expression<Func<T, bool>> expression)

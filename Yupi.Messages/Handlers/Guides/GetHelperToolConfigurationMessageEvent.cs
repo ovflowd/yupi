@@ -1,12 +1,20 @@
 ﻿using System;
+using Yupi.Controller;
+using Yupi.Model;
 
 namespace Yupi.Messages.Guides
 {
 	public class GetHelperToolConfigurationMessageEvent : AbstractHandler
 	{
+		private GuideManager GuideManager;
+
+		public GetHelperToolConfigurationMessageEvent ()
+		{
+			GuideManager = DependencyFactory.Resolve<GuideManager> ();
+		}
+
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			GuideManager guideManager = Yupi.GetGame().GetGuideManager();
 			bool onDuty = message.GetBool();
 
 			// TODO Use these values
@@ -15,14 +23,12 @@ namespace Yupi.Messages.Guides
 			message.GetBool();
 
 			if (onDuty)
-				guideManager.AddGuide(session);
+				GuideManager.Add(session.UserData);
 			else
-				guideManager.RemoveGuide(session);
-
-			session.GetHabbo().OnDuty = onDuty;
+				GuideManager.Remove(session.UserData);
 
 			router.GetComposer<HelperToolConfigurationMessageComposer> ().Compose (session, onDuty,
-				guideManager.GuidesCount, guideManager.HelpersCount, guideManager.GuardiansCount);
+				GuideManager.Guides.Count, GuideManager.Helpers.Count, GuideManager.Guardians.Count);
 		}
 	}
 }

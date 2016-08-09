@@ -2,7 +2,7 @@
 
 namespace Yupi.Model.Domain
 {
-	public class PostItItem : WallItem
+	public class PostItItem : WallItem<WallBaseItem>
 	{
 		public virtual string Text { get; set; }
 

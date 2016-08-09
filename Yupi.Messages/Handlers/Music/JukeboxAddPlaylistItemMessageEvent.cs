@@ -1,4 +1,9 @@
 ﻿using System;
+using Yupi.Model.Domain;
+using Yupi.Model.Domain.Components;
+using Yupi.Messages.Contracts;
+using Yupi.Model.Repository;
+using Yupi.Model;
 
 
 
@@ -9,48 +14,37 @@ namespace Yupi.Messages.Music
 {
 	public class JukeboxAddPlaylistItemMessageEvent : AbstractHandler
 	{
+		private Repository<SongItem> ItemRepository;
+
+		public JukeboxAddPlaylistItemMessageEvent ()
+		{
+			ItemRepository = DependencyFactory.Resolve<Repository<SongItem>> ();
+		}
+
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			// TODO Replace with IsInRoom...
-			if (session.GetHabbo ().CurrentRoom == null) {
+			if (session.UserData.Room == null
+				|| !session.UserData.Room.HasOwnerRights(session.UserData.Info)) {
 				return;
 			}
+				
+			int itemId = message.GetInteger();
 
-			Yupi.Messages.Rooms currentRoom = session.GetHabbo().CurrentRoom;
+			SongItem item = session.UserData.Info.Inventory.GetFloorItem(itemId) as SongItem;
 
-			if (!currentRoom.CheckRights(session, true))
+			if (item == null)
 				return;
 
-			SoundMachineManager roomMusicController = currentRoom.GetRoomMusicController();
+			SongMachineComponent songMachine = session.UserData.Room.Data.SongMachine;
 
-			if (roomMusicController.PlaylistSize >= roomMusicController.PlaylistCapacity)
-				return;
+			if (songMachine.TryAdd (item)) {
+				session.UserData.Info.Inventory.FloorItems.Remove (item);
+				router.GetComposer<RemoveInventoryObjectMessageComposer> ().Compose (session, item.Id);
 
-			uint itemId = message.GetUInt32();
-
-			UserItem item = session.GetHabbo().GetInventoryComponent().GetItem(itemId);
-
-			if (item == null || item.BaseItem.InteractionType != Interaction.MusicDisc)
-				return;
-			
-			SongItem songItem = new SongItem(item);
-
-			int playlistCount = roomMusicController.AddDisk(songItem);
-
-			if (playlistCount < 0)
-				return;
-
-			songItem.SaveToDatabase(currentRoom.RoomId);
-
-			session.GetHabbo().GetInventoryComponent().RemoveItem(itemId, true);
-
-			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager ().GetQueryReactor ()) {
-				queryReactor.SetQuery ("UPDATE items_rooms SET user_id='0' WHERE id=@item LIMIT 1");
-				queryReactor.AddParameter ("item", itemId);
-				queryReactor.RunQuery ();
+				ItemRepository.Save (item);
 			}
 
-			router.GetComposer<JukeboxPlaylistMessageComposer> ().Compose (session, roomMusicController);
+			router.GetComposer<JukeboxPlaylistMessageComposer> ().Compose (session, songMachine);
 		}
 	}
 }

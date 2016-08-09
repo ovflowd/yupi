@@ -9,9 +9,7 @@ namespace Yupi.Emulator.Game.Users.Guides
     /// </summary>
      public class GuideManager
     {
-        /// <summary>
-        ///     The en cours
-        /// </summary>
+       
         public Dictionary<uint, GameClient> EnCours = new Dictionary<uint, GameClient>();
 
         /// <summary>

@@ -6,7 +6,11 @@ namespace Yupi.Model.Domain
 {
 	public class CatalogPage
 	{
-		public virtual int Id { get; set; }
+		public virtual int Id { get; protected set; }
+
+		public virtual CatalogPage Parent { get; set; }
+
+		public virtual List<CatalogPage> Children { get; protected set; }
 
 		public virtual string Caption { get; set; }
 
@@ -21,8 +25,6 @@ namespace Yupi.Model.Domain
 		public virtual int IconImage { get; set; }
 
 		public virtual IList<CatalogItem> Items { get; protected set; }
-
-		public virtual IList<CatalogPage> Children { get; protected set; }
 
 		public virtual string Layout { get; set; }
 
@@ -53,6 +55,7 @@ namespace Yupi.Model.Domain
 		public CatalogPage () 
 		{
 			Items = new List<CatalogItem> ();
+			Children = new List<CatalogPage> ();
 		}
 	}
 }

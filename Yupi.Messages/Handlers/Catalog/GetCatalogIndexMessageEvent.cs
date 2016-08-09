@@ -1,27 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Yupi.Model.Domain;
+using Yupi.Model.Repository;
+using Yupi.Model;
 
 namespace Yupi.Messages.Catalog
 {
 	public class GetCatalogIndexMessageEvent : AbstractHandler
 	{
+		private Repository<CatalogPage> CatalogRepository;
+
+		public GetCatalogIndexMessageEvent ()
+		{
+			CatalogRepository = DependencyFactory.Resolve<Repository<CatalogPage>> ();
+		}
+
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			// TODO Do categories contain other things than pages and if so why?
-			IEnumerable<CatalogPage> pages =
-				Yupi.Emulator.Yupi.GetGame().GetCatalogManager().Categories.Values.OfType<CatalogPage>().ToList();
+			List<CatalogPage> pages = CatalogRepository
+				.FilterBy (x => x.Parent == null && x.MinRank <= session.UserData.Info.Rank)
+				.OrderBy (x => x.OrderNum).ToList();
 
-			// TODO Should already be sorted when loading !!!
-			IOrderedEnumerable<CatalogPage> sortedPages = pages.Where(x => x.ParentId == -2 && x.MinRank <= rank).OrderBy(x => x.OrderNum);
-
+			// TODO Type?!
 			string type = message.GetString ().ToUpper ();
 
-			if (type == "NORMAL")
-				sortedPages = pages.Where(x => x.ParentId == -1 && x.MinRank <= rank).OrderBy(x => x.OrderNum);
-
 			router.GetComposer<CatalogueOfferConfigMessageComposer> ().Compose (session);
-			router.GetComposer<CatalogueIndexMessageComposer> ().Compose (session, sortedPages, pages, type);
+			router.GetComposer<CatalogueIndexMessageComposer> ().Compose (session, pages, type);
 		}
 	}
 }

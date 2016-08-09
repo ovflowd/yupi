@@ -8,12 +8,10 @@ namespace Yupi.Messages.Guides
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			if (session.GetHabbo().GuideOtherUser == null)
+			if (session.UserData.GuideOtherUser == null)
 				return;
 
-			GameClient requester = session.GetHabbo().GuideOtherUser;
-
-			router.GetComposer<RoomForwardMessageComposer> ().Compose (session, requester.GetHabbo ().CurrentRoomId);
+			router.GetComposer<RoomForwardMessageComposer> ().Compose (session, session.UserData.GuideOtherUser.Room.Data.Id);
 		}
 	}
 }

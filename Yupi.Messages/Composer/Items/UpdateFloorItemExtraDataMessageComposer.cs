@@ -12,7 +12,7 @@ namespace Yupi.Messages.Items
 {
 	public class UpdateFloorItemExtraDataMessageComposer : Yupi.Messages.Contracts.UpdateFloorItemExtraDataMessageComposer
 	{
-		public override void Compose ( Yupi.Protocol.ISender room, FloorItem item)
+		public override void Compose ( Yupi.Protocol.ISender room, IFloorItem item)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendString(item.Id.ToString());

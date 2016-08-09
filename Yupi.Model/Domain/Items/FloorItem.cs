@@ -2,7 +2,7 @@
 
 namespace Yupi.Model.Domain
 {
-	public class FloorItem : Item<FloorBaseItem>
+	public abstract class FloorItem<T> : Item<T>, IFloorItem where T : FloorBaseItem
 	{
 		
 	}

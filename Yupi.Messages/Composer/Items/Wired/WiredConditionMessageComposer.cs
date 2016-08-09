@@ -7,7 +7,7 @@ namespace Yupi.Messages.Wired
 {
 	public class WiredConditionMessageComposer : Yupi.Messages.Contracts.WiredConditionMessageComposer
 	{
-		public override void Compose ( Yupi.Protocol.ISender session, FloorItem item, List<FloorItem> list, string extraString)
+		public override void Compose ( Yupi.Protocol.ISender session, IFloorItem item, List<IFloorItem> list, string extraString)
 		{// TODO Won't work properly. Must implement composer correctly...
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendBool(false);

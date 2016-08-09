@@ -8,17 +8,10 @@ namespace Yupi.Messages.Music
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			if (session.GetHabbo().CurrentRoom == null)
+			if (session.UserData.Room == null)
 				return;
 
-			Yupi.Messages.Rooms currentRoom = session.GetHabbo().CurrentRoom;
-
-			if (!currentRoom.GotMusicController())
-				return;
-
-			SoundMachineManager roomMusicController = currentRoom.GetRoomMusicController();
-
-			router.GetComposer<JukeboxPlaylistMessageComposer> ().Compose (session, roomMusicController);
+			router.GetComposer<JukeboxPlaylistMessageComposer> ().Compose (session, session.UserData.Room.Data.SongMachine);
 		}
 	}
 }

@@ -10,7 +10,7 @@ namespace Yupi.Messages.Catalog
 	public class CatalogueIndexMessageComposer : Yupi.Messages.Contracts.CatalogueIndexMessageComposer
 	// TODO Refactor
 	{
-		public override void Compose ( Yupi.Protocol.ISender session, IOrderedEnumerable<CatalogPage> sortedPages, IEnumerable<CatalogPage> pages, string type)
+		public override void Compose ( Yupi.Protocol.ISender session, IList<CatalogPage> sortedPages, string type)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendBool(true);

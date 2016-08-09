@@ -2,9 +2,9 @@
 
 namespace Yupi.Model.Domain
 {
-	public class PostItBaseItem : WallBaseItem
+	public interface IItem
 	{
-		
+		int Id { get; }
 	}
 }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using Yupi.Model.Domain;
 
 
 namespace Yupi.Messages.Guides
@@ -8,14 +9,15 @@ namespace Yupi.Messages.Guides
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			bool state = message.GetBool();
-
+			// TODO What?!
 			if (!state)
 				return;
 
-			GameClient requester = session.GetHabbo().GuideOtherUser;
+			Habbo requester = session.UserData.GuideOtherUser;
 
 			// TODO SessionStarted on Detach???
-			router.GetComposer<OnGuideSessionStartedMessageComposer> ().Compose (session, requester.GetHabbo (), requester);
+			router.GetComposer<OnGuideSessionStartedMessageComposer> ().Compose (session, requester.Info);
+			router.GetComposer<OnGuideSessionStartedMessageComposer> ().Compose (requester, requester.Info);
 		}
 	}
 }
