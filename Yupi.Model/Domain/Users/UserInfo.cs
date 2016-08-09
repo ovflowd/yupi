@@ -77,8 +77,7 @@ namespace Yupi.Model.Domain
 		public virtual string Look { get; set; }
 		public virtual string Gender { get; set; }
 
-		[OneToMany]
-		public virtual IList<WardrobeItem> Wardrobe { get; protected set; }
+		public virtual Inventory Inventory { get; protected set; }
 
 		[OneToMany]
 		public virtual IList<RoomData> UsersRooms { get; protected set; }

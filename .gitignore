@@ -144,6 +144,8 @@ publish/
 # If using the old MSBuild-Integrated Package Restore, uncomment this:
 #!**/[Pp]ackages/repositories.config
 
+**/Headspring/*
+
 # Windows Azure Build Output
 csx/
 *.build.csdef

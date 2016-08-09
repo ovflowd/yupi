@@ -20,7 +20,11 @@ namespace Yupi.Controller
 		}
 
 		public ISession<Habbo> GetByInfo(UserInfo info) {
-			return Connections.Single (x => x.UserData.Info == info);
+			return Connections.SingleOrDefault (x => x.UserData.Info == info);
+		}
+
+		public ISession<Habbo> GetByUserId(int id) {
+			return Connections.SingleOrDefault (x => x.UserData.Info.Id == id);
 		}
 	}
 }

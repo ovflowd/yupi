@@ -11,7 +11,7 @@ namespace Yupi.Messages.User
 {
 	public class CheckUsernameMessageEvent : AbstractHandler
 	{
-		private Repository<UserInfo> UserRepository;
+		protected Repository<UserInfo> UserRepository;
 
 		public CheckUsernameMessageEvent ()
 		{

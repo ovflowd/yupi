@@ -1,21 +1,31 @@
 ﻿using System;
 
 using System.Linq;
+using Yupi.Model.Domain;
+using Yupi.Model.Repository;
+using Yupi.Model;
 
 namespace Yupi.Messages.User
 {
 	public class RelationshipsGetMessageEvent : AbstractHandler
 	{
+		private Repository<UserInfo> UserRepository;
+
+		public RelationshipsGetMessageEvent ()
+		{
+			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>> ();
+		}
+
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			uint userId = message.GetUInt32();
+			int userId = message.GetInteger();
 
-			Habbo habbo = Yupi.GetHabboById(userId);
+			UserInfo user = UserRepository.FindBy (userId);
 
-			if (habbo == null)
+			if (user == null)
 				return;
 
-			router.GetComposer<RelationshipMessageComposer> ().Compose (session, habbo);
+			router.GetComposer<RelationshipMessageComposer> ().Compose (session, user);
 		}
 	}
 }

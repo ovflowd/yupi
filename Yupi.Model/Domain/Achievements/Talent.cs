@@ -27,11 +27,6 @@ namespace Yupi.Model.Domain
 {
     public class Talent
     {
-		public enum TalentType {
-			Citizenship,
-			Status
-		}
-
 		public virtual int Id { get; protected set; }
 		public virtual TalentType Type{ get; set; }
 

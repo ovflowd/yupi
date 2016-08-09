@@ -8,32 +8,22 @@ namespace Yupi.Messages.User
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			string newName = message.GetString();
-			string oldName = session.GetHabbo().UserName;
 
 			List<string> alternatives;
-			NameChangedUpdatesMessageComposer.Status status = Validate (newName, oldName, ref alternatives);
+			NameChangedUpdatesMessageComposer.Status status = Validate (newName, session.UserData.Info.UserName, out alternatives);
 
-			if (status == NameChangedUpdatesMessageComposer.Status.OK && oldName != newName) {
-				using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager ().GetQueryReactor ()) {
-					queryReactor.SetQuery (
-						"UPDATE users SET username = @newname, last_name_change = @timestamp WHERE id = @userid");
-					queryReactor.AddParameter ("newname", newName);
-					queryReactor.AddParameter ("timestamp", Yupi.GetUnixTimeStamp () + 43200);
-					queryReactor.AddParameter ("userid", session.GetHabbo ().Id);
-					queryReactor.RunQuery ();
-				}
-
-				session.GetHabbo().LastChange = Yupi.GetUnixTimeStamp() + 43200;
-				session.GetHabbo().UserName = text;
+			if (status == NameChangedUpdatesMessageComposer.Status.OK) {
+				session.UserData.Info.UserName = newName;
 
 				router.GetComposer<UpdateUsernameMessageComposer> ().Compose (session, newName);
 				// TODO Refactor
-				session.GetHabbo().CurrentRoom.GetRoomUserManager().UpdateUser(userName, text);
 
-				if (session.GetHabbo().CurrentRoom != null)
+				UserRepository.Save (session.UserData.Info);
+
+				if (session.UserData.Room != null)
 				{
 					router.GetComposer<UserUpdateNameInRoomMessageComposer> ()
-						.Compose (session.GetHabbo ().CurrentRoom, session.GetHabbo (), newName);
+						.Compose (session.UserData.Room, session.UserData);
 				}
 
 				// TODO Update room owner 

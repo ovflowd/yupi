@@ -1,6 +1,8 @@
 ﻿using System;
 using FluentNHibernate.Conventions;
 using FluentNHibernate.Conventions.Instances;
+using FluentNHibernate.Conventions.Inspections;
+using FluentNHibernate.Conventions.AcceptanceCriteria;
 
 namespace Yupi.Model
 {

@@ -14,8 +14,9 @@ namespace Yupi.Model
 	{
 		private const string DbFile = "test.db";
 
-		internal static void Main() {
-			var cfg = new ORMConfiguration();
+		internal static void Main ()
+		{
+			var cfg = new ORMConfiguration ();
 
 			IPersistenceConfigurer db;
 			if (IsRunningOnMono ()) {
@@ -32,10 +33,10 @@ namespace Yupi.Model
 					m.AutoMappings
 					.Add (AutoMap.AssemblyOf<ORMConfiguration> (cfg)
 						.Conventions.Add<Conventions> ()
-						.IncludeBase<BaseItem>()
-						.IgnoreBase(typeof(Item<>))
-			                                       )
-			                                       )
+						.Conventions.Add<EnumTypeConvention> ()
+						.IncludeBase<BaseItem> ()
+						.IgnoreBase (typeof(Item<>))
+			                                        ))
 				.ExposeConfiguration (BuildSchema)
 				.BuildSessionFactory ()) {
 
@@ -48,16 +49,16 @@ namespace Yupi.Model
 			return Type.GetType ("Mono.Runtime") != null;
 		}
 
-		private static void BuildSchema(Configuration config)
+		private static void BuildSchema (Configuration config)
 		{
 			// delete the existing db on each run
-			if (File.Exists(DbFile))
-				File.Delete(DbFile);
+			if (File.Exists (DbFile))
+				File.Delete (DbFile);
 
 			// this NHibernate tool takes a configuration (with mapping info in)
 			// and exports a database schema from it
-			new SchemaExport(config)
-				.Create(true, false);
+			new SchemaExport (config)
+				.Create (true, false);
 		}
 	}
 }

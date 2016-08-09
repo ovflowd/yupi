@@ -8,7 +8,7 @@ namespace Yupi.Messages.User
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			router.GetComposer<LoadWardrobeMessageComposer> ().Compose (session, session.UserData.Info.Wardrobe);
+			router.GetComposer<LoadWardrobeMessageComposer> ().Compose (session, session.UserData.Info.Inventory.Wardrobe);
 		}
 	}
 }

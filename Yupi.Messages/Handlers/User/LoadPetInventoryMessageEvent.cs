@@ -6,8 +6,7 @@ namespace Yupi.Messages.User
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			//session.Router.GetComposer<PetInventoryMessageComposer>().Compose(session, session.GetHabbo().GetInventoryComponent()._inventoryPets);
-			session.Send(session.GetHabbo().GetInventoryComponent().SerializePetInventory());
+			session.Router.GetComposer<PetInventoryMessageComposer>().Compose(session, session.UserData.Info.Inventory.Pets);
 		}
 	}
 }

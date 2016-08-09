@@ -310,6 +310,12 @@
     <Compile Include="Domain\Rooms\RoomMute.cs" />
     <Compile Include="Domain\Users\Components\RelationshipComponent.cs" />
     <Compile Include="Domain\Users\WardrobeItem.cs" />
+    <Compile Include="Domain\Users\Components\Inventory.cs" />
+    <Compile Include="Domain\Achievements\TalentType.cs" />
+    <Compile Include="Headspring\Enumeration.cs" />
+    <Compile Include="UserType.cs" />
+    <Compile Include="EnumAsInt32.cs" />
+    <Compile Include="EnumTypeConvention.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -334,6 +340,7 @@
     <Folder Include="Domain\Polls\" />
     <Folder Include="Domain\Support\" />
     <Folder Include="Repository\" />
+    <Folder Include="Domain\Util\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Yupi.Data\Yupi.Data.csproj">
@@ -357,5 +364,6 @@
     <None Include="app.config" />
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Headspring\LICENSE.txt" />
   </ItemGroup>
 </Project>

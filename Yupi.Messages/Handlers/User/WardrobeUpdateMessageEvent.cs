@@ -14,7 +14,7 @@ namespace Yupi.Messages.User
 			string gender = message.GetString ();
 			// TODO Filter look & gender
 
-			WardrobeItem item = session.UserData.Info.Wardrobe.FirstOrDefault (x => x.Slot == slot);
+			WardrobeItem item = session.UserData.Info.Inventory.Wardrobe.FirstOrDefault (x => x.Slot == slot);
 
 			if (item != default(WardrobeItem)) {
 				item.Look = look;

@@ -18,6 +18,10 @@ namespace Yupi.Model.Domain.Components
 		public virtual Relationship FindByUser(UserInfo user) {
 			return Relationships.Single (x => x.Friend == user);
 		}
+
+		public virtual Relationship FindByUser(int userId) {
+			return Relationships.SingleOrDefault (x => x.Friend.Id == userId);
+		}
 	}
 }
 

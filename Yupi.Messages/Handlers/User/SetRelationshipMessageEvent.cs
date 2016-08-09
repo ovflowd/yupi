@@ -1,4 +1,9 @@
 ﻿using System;
+using Yupi.Model.Domain;
+using Yupi.Model;
+using Yupi.Model.Repository;
+using Yupi.Controller;
+using Yupi.Protocol;
 
 
 
@@ -7,48 +12,35 @@ namespace Yupi.Messages.User
 {
 	public class SetRelationshipMessageEvent : AbstractHandler
 	{
+		private Repository<UserInfo> UserRepository;
+		private MessengerController MessengerController;
+
+		public SetRelationshipMessageEvent ()
+		{
+			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>> ();
+			MessengerController = DependencyFactory.Resolve<MessengerController> ();
+		}
+
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			uint targetId = message.GetUInt32();
-			uint type = message.GetUInt32();
+			int targetId = message.GetInteger();
+			int type = message.GetInteger();
 
-			// TODO Verify targetId !
+			Relationship relationship = session.UserData.Info.Relationships.FindByUser (targetId);
 
-			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager ().GetQueryReactor ()) {
-				// TODO Refactor relationships
-				queryReactor.SetQuery ("SELECT id FROM users_relationships WHERE user_id=@user AND target=@target LIMIT 1");
-				queryReactor.AddParameter ("user", session.GetHabbo ().Id);
-				queryReactor.AddParameter ("target", targetId);
-
-				int id = queryReactor.GetInteger ();
-
-				if (id == 0) {
-					queryReactor.SetQuery ("INSERT INTO users_relationships (user_id, target, type) VALUES (@id, @target, @type)");
-				} else {
-					queryReactor.SetQuery("UPDATE users_relationships SET user_id = @user, target = @target, type = @type WHERE id = @id");
-					queryReactor.AddParameter ("id", id);
-				}
-
-				queryReactor.AddParameter("user", session.GetHabbo().Id);
-				queryReactor.AddParameter("target", targetId);
-				queryReactor.AddParameter("type", type);
-
-				if (id == 0) {
-					queryReactor.RunQuery ();
-					session.GetHabbo ().Relationships [id].UserId = targetId;
-					session.GetHabbo ().Relationships [id].Type = type;
-				} else {
-					// TODO long vs int
-					id = (int)queryReactor.InsertQuery ();
-					session.GetHabbo().Relationships.Add(id, new Relationship(id, (int)targetId, (int)type));
-				}
+			if (relationship == default(Relationship)) {
+				relationship = new Relationship () {
+					Friend = UserRepository.FindBy (targetId),
+					Type = type
+				};
+				session.UserData.Info.Relationships.Relationships.Add (relationship);
+			} else {
+				relationship.Type = type;
 			}
 
+			UserRepository.Save (session.UserData.Info);
 
-			GameClient clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(targetId);
-
-			if (clientByUserId != null)
-				session.GetHabbo().GetMessenger().UpdateFriend(targetId, clientByUserId, true);
+			MessengerController.UpdateUser (session.UserData.Info);
 		}
 	}
 }

@@ -17582,18 +17582,6 @@ ALTER TABLE `wordfilter`
 ALTER TABLE `pets_commands`
   ADD CONSTRAINT `pet_speech_id` FOREIGN KEY (`pet_speech`) REFERENCES `pets_speech` (`pet_id`);
 
-DELIMITER $$
---
--- Events
---
-DROP EVENT `daily_pet_respect_points`$$
-CREATE DEFINER=`root`@`localhost` EVENT `daily_pet_respect_points` ON SCHEDULE EVERY 24 HOUR STARTS '2016-01-01 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO update users_stats set daily_pet_respect_points = 5 where daily_pet_respect_points = 0$$
-
-DROP EVENT `daily_respect_points`$$
-CREATE DEFINER=`root`@`localhost` EVENT `daily_respect_points` ON SCHEDULE EVERY 24 HOUR STARTS '2016-01-01 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO update users_stats set daily_respect_points = 5 where daily_respect_points = 0$$
-
-DELIMITER ;
-
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

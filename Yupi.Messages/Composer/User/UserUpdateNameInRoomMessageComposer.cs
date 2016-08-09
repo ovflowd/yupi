@@ -8,12 +8,12 @@ namespace Yupi.Messages.User
 {
 	public class UserUpdateNameInRoomMessageComposer : Yupi.Messages.Contracts.UserUpdateNameInRoomMessageComposer
 	{
-		public override void Compose ( Yupi.Protocol.ISender room, UserInfo habbo, string newName)
+		public override void Compose ( Yupi.Protocol.ISender room, Habbo habbo)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendInteger (habbo.Id);
-				message.AppendInteger (habbo.CurrentRoom.RoomId);
-				message.AppendString (newName);
+				message.AppendInteger (habbo.Info.Id);
+				message.AppendInteger (habbo.Room.Data.Id);
+				message.AppendString (habbo.Info.UserName);
 				room.Send (message);
 			}
 		}

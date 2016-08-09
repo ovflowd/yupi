@@ -290,6 +290,7 @@
     <Compile Include="Composer\User\StopAvatarEffectMessageComposer.cs" />
     <Compile Include="Composer\User\CreditsBalanceMessageComposer.cs" />
     <Compile Include="Composer\User\LoadBadgesWidgetMessageComposer.cs" />
+    <Compile Include="Composer\User\PetInventoryMessageComposer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

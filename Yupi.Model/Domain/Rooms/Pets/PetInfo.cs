@@ -94,8 +94,7 @@ namespace Yupi.Model.Domain
 
 		public virtual uint Respect { get; set; }
 
-		// TODO
-		//public virtual Room Room { get; set; }
+		public virtual RoomData Room { get; set; }
 
 		public virtual string Type { get; set; }
 
