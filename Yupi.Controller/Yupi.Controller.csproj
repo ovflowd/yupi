@@ -37,6 +37,7 @@
     <Compile Include="AvatarEffectController.cs" />
     <Compile Include="ClientManager.cs" />
     <Compile Include="MessengerController.cs" />
+    <Compile Include="RoomManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -1,23 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
+using Yupi.Controller;
+using Yupi.Model;
+using Yupi.Model.Domain;
+using System.Linq;
 
 namespace Yupi.Messages.User
 {
 	public class FindMoreFriendsMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		private RoomManager RoomManager;
+		private Random Random;
+
+		public FindMoreFriendsMessageEvent ()
 		{
-			KeyValuePair<RoomData, uint>[] allRooms = Yupi.GetGame().GetRoomManager().GetActiveRooms();
+			RoomManager = DependencyFactory.Resolve<RoomManager> ();
+			Random = DependencyFactory.Resolve<Random> ();
+		}
 
-			if (allRooms != null) {
-				Random rnd = new Random();
-				RoomData randomRoom = allRooms[rnd.Next(allRooms.Length)].Key;
+		public override void HandleMessage (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		{
+			IReadOnlyList<Room> rooms = RoomManager.LoadedRooms.Where(x => x.Users.Any()).ToList();
 
-				router.GetComposer<FindMoreFriendsSuccessMessageComposer> ().Compose (session, randomRoom != null);
+			router.GetComposer<FindMoreFriendsSuccessMessageComposer> ().Compose (session, rooms.Any());
 
-				if (randomRoom != null) {
-					router.GetComposer<RoomForwardMessageComposer> ().Compose (session, randomRoom.Id);
-				}
+			if (rooms.Any()) {
+				int rand = Random.Next (rooms.Count - 1);
+
+				router.GetComposer<RoomForwardMessageComposer> ().Compose (session, rooms[rand].Data.Id);
 			}
 		}
 	}

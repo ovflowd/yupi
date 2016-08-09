@@ -31,7 +31,7 @@ namespace Yupi.Messages.User
 				return;
 
 			room.Data.MutedEntities.Add (new RoomMute () {
-				Entity = targetUser,
+				Entity = targetUser.UserInfo,
 				ExpiresAt = DateTime.Now.AddMinutes (duration)
 			});
 

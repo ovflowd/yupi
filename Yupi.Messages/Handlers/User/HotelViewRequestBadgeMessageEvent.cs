@@ -1,21 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
+using Yupi.Model.Domain;
+using Yupi.Model;
+using Yupi.Model.Repository;
 
 namespace Yupi.Messages.User
 {
 	public class HotelViewRequestBadgeMessageEvent : AbstractHandler
 	{
+		private HotelLandingManager HotelView;
+		private Repository<UserInfo> UserRepository;
+
+		public HotelViewRequestBadgeMessageEvent ()
+		{
+			HotelView = DependencyFactory.Resolve<HotelLandingManager> ();
+			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>> ();
+		}
+
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
+			
 			string name = message.GetString();
 
-			Dictionary<string, string> hotelViewBadges = Yupi.GetGame().GetHotelView().HotelViewBadges;
-
-			if (!hotelViewBadges.ContainsKey(name))
+			if (!HotelView.HotelViewBadges.ContainsKey(name))
 				return;
 
-			string badge = hotelViewBadges[name];
-			session.GetHabbo().GetBadgeComponent().GiveBadge(badge, true, session, true);
+			string badge = HotelView.HotelViewBadges[name];
+			session.UserData.Info.Badges.GiveBadge(badge);
+			UserRepository.Save (session.UserData.Info);
 		}
 	}
 }

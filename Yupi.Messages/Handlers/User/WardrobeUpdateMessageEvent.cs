@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Yupi.Model;
+using Yupi.Model.Domain;
 
 
 namespace Yupi.Messages.User

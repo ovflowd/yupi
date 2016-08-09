@@ -4,6 +4,7 @@ using System.Data;
 using Yupi.Protocol.Buffers;
 using Yupi.Model;
 using System.Collections.Generic;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.User
 {

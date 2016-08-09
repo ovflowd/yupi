@@ -40,7 +40,7 @@ namespace Yupi.Controller
 			//TalentRepository = DependencyFactory.Resolve<Repository<Talent>> ();
 		}
 
-		public bool LevelIsCompleted (UserInfo user, Talent.TalentType trackType, int talentLevel)
+		public bool LevelIsCompleted (UserInfo user, TalentType trackType, int talentLevel)
 		{
 			throw new NotImplementedException ();
 		}

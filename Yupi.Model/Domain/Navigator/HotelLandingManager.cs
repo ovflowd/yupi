@@ -41,9 +41,7 @@ namespace Yupi.Model.Domain
 		/// </summary>
 		public virtual BaseItem FurniReward { get; set; }
 
-		/// <summary>
-		///     Hotel View Badges
-		/// </summary>
+		// TODO What does this contain?
 		public virtual Dictionary<string, string> HotelViewBadges { get; set; }
 
 		/// <summary>

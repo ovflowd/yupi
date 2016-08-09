@@ -32,5 +32,7 @@ namespace Yupi.Model.Domain
 
 		[OneToMany]
 		public virtual IList<TalentLevel> Levels { get; set; }
+
+		public virtual BaseItem PrizeItem { get; set; }
     }
 }

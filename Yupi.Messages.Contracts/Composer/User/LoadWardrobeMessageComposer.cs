@@ -1,6 +1,7 @@
 using Yupi.Protocol.Buffers;
 using System.Collections.Generic;
 using Yupi.Model;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Contracts
 {

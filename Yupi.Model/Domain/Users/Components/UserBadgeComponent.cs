@@ -22,6 +22,8 @@ namespace Yupi.Model.Domain.Components
 			Badges.Add (new Badge () {
 				Code = badeCode
 			});
+
+			// TODO Update badges?!
 		}
 
 		public virtual void ResetSlots() {

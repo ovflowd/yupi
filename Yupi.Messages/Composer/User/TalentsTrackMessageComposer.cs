@@ -9,26 +9,22 @@ namespace Yupi.Messages.User
 {
 	public class TalentsTrackMessageComposer : Yupi.Messages.Contracts.TalentsTrackMessageComposer
 	{
-		// TODO Add enum for trackType
-
-		public override void Compose( Yupi.Protocol.ISender session, string trackType, IList<Talent> talents) {
+		public override void Compose( Yupi.Protocol.ISender session, TalentType trackType, IList<Talent> talents) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendString (trackType);
+				message.AppendString (trackType.DisplayName);
 				message.AppendInteger(talents.Count);
 
 				int failLevel = -1;
 
 				foreach (Talent current in talents) {
-					message.AppendInteger (current.Level);
+					message.AppendInteger (current.Id);
 					int nm = failLevel == -1 ? 1 : 0; // TODO What does this mean?
 					message.AppendInteger (nm);
 
-					List<Talent> children = Yupi.GetGame().GetTalentManager().GetTalents(trackType, current.Id);
+					message.AppendInteger (current.Levels.Count);
 
-					message.AppendInteger (children.Count);
-
-					foreach (Talent child in children) {
-						UserAchievement achievment = session.GetHabbo ().GetAchievementData (child.AchievementGroup);
+					foreach (TalentLevel child in current.Levels) {
+					/*	UserAchievement achievment = child.Achievement;
 
 						int num;
 						// TODO Refactor What does num mean?!
@@ -43,10 +39,10 @@ namespace Yupi.Messages.User
 							num = 1;
 						}
 
-						message.AppendInteger (child.GetAchievement ().Id);
+						message.AppendInteger (child.Achievement.Id);
 						message.AppendInteger (0); // TODO Magic constant
 
-						message.AppendString(child.AchievementGroup+child.AchievementLevel);
+						message.AppendString(child.Achievement.GroupName+child.Achievement.DefaultLevel);
 						message.AppendInteger(num);
 
 						message.AppendInteger(achievment != null ? achievment.Progress : 0);
@@ -55,25 +51,16 @@ namespace Yupi.Messages.User
 
 						if (num != 2 && failLevel == -1)
 							failLevel = child.Level;
+							*/
 					}
+
+					throw new NotImplementedException ();
 
 					message.AppendInteger (0); // TODO Magic constant
 
-					// TODO Type should be enum?
-					if (current.Type == "citizenship" && current.Level == 4)
-					{
-						message.AppendInteger(2);
-						message.AppendString("HABBO_CLUB_VIP_7_DAYS");
-						message.AppendInteger(7);
-						message.AppendString(current.Prize); // TODO Hardcoded stuff
-						message.AppendInteger(0);
-					}
-					else
-					{
-						message.AppendInteger(1);
-						message.AppendString(current.Prize);
-						message.AppendInteger(0);
-					}
+					message.AppendInteger(1); // Count
+					message.AppendString(""); // Prize name ( HABBO_CLUB_VIP_7_DAYS )
+					message.AppendInteger(0); // Prize value (7)
 				}
 
 				session.Send (message);
