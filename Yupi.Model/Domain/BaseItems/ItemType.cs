@@ -6,7 +6,8 @@ namespace Yupi.Model
 	{
 		Floor = 1,
 		Wall = 2,
-		Pet = 3
+		Pet = 3,
+		Badge = 4
 	}
 }
 

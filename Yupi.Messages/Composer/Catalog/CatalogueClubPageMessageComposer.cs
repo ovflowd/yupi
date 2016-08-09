@@ -1,15 +1,27 @@
 ﻿using System;
 using Yupi.Protocol.Buffers;
 using System.Collections.Generic;
+using Yupi.Model.Domain;
+using Yupi.Model.Repository;
+using Yupi.Model;
 
 namespace Yupi.Messages.Catalog
 {
 	public class CatalogueClubPageMessageComposer : Yupi.Messages.Contracts.CatalogueClubPageMessageComposer
 	{
+		private Repository<CatalogPage> CatalogRepository;
+
+		public CatalogueClubPageMessageComposer ()
+		{
+			CatalogRepository = DependencyFactory.Resolve<Repository<CatalogPage>> ();
+		}
+
 		public override void Compose ( Yupi.Protocol.ISender session, int windowId)
 		{
 			// TODO Refactor
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
+				throw new NotImplementedException ();
+				/*
 				List<CatalogItem> habboClubItems = Yupi.GetGame ().GetCatalogManager ().HabboClubItems;
 
 				message.AppendInteger (habboClubItems.Count);
@@ -59,6 +71,7 @@ namespace Yupi.Messages.Catalog
 				}
 
 				message.AppendInteger (windowId);
+				*/
 			}
 		}
 	}

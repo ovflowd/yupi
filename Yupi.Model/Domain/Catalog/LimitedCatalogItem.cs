@@ -6,7 +6,7 @@ namespace Yupi.Model.Domain
 	{
 		public virtual int LimitedStack { get; protected set; }
 
-		public virtual int LimitedSelled { get; protected set; }
+		public virtual int LimitedSold { get; protected set; }
 	}
 }
 

@@ -7,21 +7,30 @@ namespace Yupi.Messages.Catalog
 {
 	public class PurchaseOKMessageComposer : Yupi.Messages.Contracts.PurchaseOkComposer
 	{
-		public override void Compose( Yupi.Protocol.ISender session, CatalogItem itemCatalog, Dictionary<BaseItem, uint> items,
-			int clubLevel = 1)
+		public override void Compose (Yupi.Protocol.ISender session, CatalogItem itemCatalog, Dictionary<BaseItem, uint> items,
+		                              int clubLevel = 1)
 		{
-			Compose(session, itemCatalog.Id, itemCatalog.Name, itemCatalog.CreditsCost, items, clubLevel,
+			bool isLimited = itemCatalog is LimitedCatalogItem;
+			int limitedStack = 0;
+			int limitedSold = 0;
+
+			if (isLimited) {
+				limitedStack = ((LimitedCatalogItem)itemCatalog).LimitedStack;
+				limitedSold = ((LimitedCatalogItem)itemCatalog).LimitedSold;
+			}
+
+			Compose (session, itemCatalog.Id, itemCatalog.Name, itemCatalog.CreditsCost, items, clubLevel,
 				itemCatalog.DiamondsCost,
-				itemCatalog.DucketsCost, itemCatalog.IsLimited, itemCatalog.LimitedStack, itemCatalog.LimitedSelled);
+				itemCatalog.DucketsCost, isLimited, limitedStack, limitedSold);
 		}
 
-		// TODO There should be no need to expose such a complex method signature
-		private void Compose ( Yupi.Protocol.ISender session, uint itemId, string itemName, uint creditsCost,
-		                    Dictionary<BaseItem, uint> items = null, int clubLevel = 1,
-		                    uint diamondsCost = 0,
-		                    uint activityPointsCost = 0, bool isLimited = false,
-		                    uint limitedStack = 0,
-		                    uint limitedSelled = 0)
+		// TODO Refactor this !!!
+		private void Compose (Yupi.Protocol.ISender session, uint itemId, string itemName, uint creditsCost,
+		                       Dictionary<BaseItem, uint> items = null, int clubLevel = 1,
+		                       uint diamondsCost = 0,
+		                       uint activityPointsCost = 0, bool isLimited = false,
+		                       uint limitedStack = 0,
+		                       uint limitedSelled = 0)
 		{
 
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
@@ -39,7 +48,8 @@ namespace Yupi.Messages.Catalog
 						BaseItem item = itemDic.Key;
 						message.AppendString (item.Type.ToString ());
 
-						if (item.Type == 'b') {
+						// TODO Is this right?!
+						if (item.Type == Yupi.Model.ItemType.Badge) {
 							message.AppendString (item.PublicName);
 							continue;
 						}

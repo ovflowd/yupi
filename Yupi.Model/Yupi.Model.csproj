@@ -317,6 +317,7 @@
     <Compile Include="EnumTypeConvention.cs" />
     <Compile Include="Domain\Navigator\HallOfFameElement.cs" />
     <Compile Include="Domain\Rooms\Components\SongMachineComponent.cs" />
+    <Compile Include="Domain\Catalog\EcotronLevel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
