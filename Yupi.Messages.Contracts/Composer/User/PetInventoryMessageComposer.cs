@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace Yupi.Messages.Contracts
 {
-	public class PetInventoryMessageComposer : AbstractComposer<IList<PetInfo>>
+	public class PetInventoryMessageComposer : AbstractComposer<IList<PetItem>>
 	{
-		public override void Compose (Yupi.Protocol.ISender session, IList<PetInfo> pets)
+		public override void Compose (Yupi.Protocol.ISender session, IList<PetItem> pets)
 		{
 			
 		}

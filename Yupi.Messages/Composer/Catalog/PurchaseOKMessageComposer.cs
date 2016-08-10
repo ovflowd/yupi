@@ -7,7 +7,7 @@ namespace Yupi.Messages.Catalog
 {
 	public class PurchaseOKMessageComposer : Yupi.Messages.Contracts.PurchaseOkComposer
 	{
-		public override void Compose (Yupi.Protocol.ISender session, CatalogItem itemCatalog, Dictionary<BaseItem, uint> items,
+		public override void Compose (Yupi.Protocol.ISender session, CatalogItem itemCatalog, IDictionary<BaseItem, int> items,
 		                              int clubLevel = 1)
 		{
 			bool isLimited = itemCatalog is LimitedCatalogItem;
@@ -25,12 +25,12 @@ namespace Yupi.Messages.Catalog
 		}
 
 		// TODO Refactor this !!!
-		private void Compose (Yupi.Protocol.ISender session, uint itemId, string itemName, uint creditsCost,
-		                       Dictionary<BaseItem, uint> items = null, int clubLevel = 1,
-		                       uint diamondsCost = 0,
-		                       uint activityPointsCost = 0, bool isLimited = false,
-		                       uint limitedStack = 0,
-		                       uint limitedSelled = 0)
+		private void Compose (Yupi.Protocol.ISender session, int itemId, string itemName, int creditsCost,
+		                       IDictionary<BaseItem, int> items = null, int clubLevel = 1,
+		                       int diamondsCost = 0,
+		                       int activityPointsCost = 0, bool isLimited = false,
+		                       int limitedStack = 0,
+		                       int limitedSelled = 0)
 		{
 
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
@@ -44,7 +44,7 @@ namespace Yupi.Messages.Catalog
 				message.AppendInteger (items?.Count ?? 0);
 
 				if (items != null) {
-					foreach (KeyValuePair<BaseItem, uint> itemDic in items) {
+					foreach (KeyValuePair<BaseItem, int> itemDic in items) {
 						BaseItem item = itemDic.Key;
 						message.AppendString (item.Type.ToString ());
 

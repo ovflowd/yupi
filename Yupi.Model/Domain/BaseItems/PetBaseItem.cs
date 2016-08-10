@@ -9,6 +9,13 @@ namespace Yupi.Model.Domain
 				return ItemType.Pet;
 			}
 		}
+
+		public override Item CreateNew ()
+		{
+			return new PetItem () {
+				BaseItem = this
+			};
+		}
 	}
 }
 

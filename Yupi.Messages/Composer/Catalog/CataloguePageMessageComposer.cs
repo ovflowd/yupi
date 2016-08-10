@@ -388,7 +388,7 @@ namespace Yupi.Messages.Catalog
 				messageBuffer.AppendInteger (item.DucketsCost);
 				messageBuffer.AppendInteger (0);
 			}
-			messageBuffer.AppendBool (item.BaseItem.AllowGift);
+			messageBuffer.AppendBool (item.AllowGift);
 			throw new NotImplementedException ();
 			/*
 			switch (item.Name) {

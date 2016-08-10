@@ -4,8 +4,11 @@ namespace Yupi.Model.Domain
 {
 	public class MannequinBaseItem : FloorBaseItem
 	{
-		public MannequinBaseItem ()
+		public override Item CreateNew ()
 		{
+			return new MannequinItem () {
+				BaseItem = this
+			};
 		}
 	}
 }

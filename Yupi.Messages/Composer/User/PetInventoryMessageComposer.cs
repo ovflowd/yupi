@@ -7,7 +7,7 @@ namespace Yupi.Messages.User
 {
 	public class PetInventoryMessageComposer : Contracts.PetInventoryMessageComposer
 	{
-		public override void Compose (Yupi.Protocol.ISender session, IList<PetInfo> pets)
+		public override void Compose (Yupi.Protocol.ISender session, IList<PetItem> pets)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(1);

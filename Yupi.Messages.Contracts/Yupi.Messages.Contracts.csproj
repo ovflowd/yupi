@@ -292,6 +292,8 @@
     <Compile Include="Composer\User\LoadBadgesWidgetMessageComposer.cs" />
     <Compile Include="Composer\User\PetInventoryMessageComposer.cs" />
     <Compile Include="Composer\Items\RemoveInventoryObjectMessageComposer.cs" />
+    <Compile Include="Composer\Catalog\CatalogLimitedItemSoldOutMessageComposer.cs" />
+    <Compile Include="Composer\Catalog\GiftErrorMessageComposer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

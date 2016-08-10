@@ -4,8 +4,11 @@ namespace Yupi.Model.Domain
 {
 	public class MonsterPlantSeedBaseItem : FloorBaseItem
 	{
-		public MonsterPlantSeedBaseItem ()
+		public override Item CreateNew ()
 		{
+			return new MonsterPlantSeedItem () {
+				BaseItem = this
+			};
 		}
 	}
 }

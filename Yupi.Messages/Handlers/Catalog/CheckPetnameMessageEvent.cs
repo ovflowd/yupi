@@ -15,8 +15,11 @@ namespace Yupi.Messages.Catalog
 				statusCode = 1;
 			else if (petName.Length < 3)
 				statusCode = 2;
+
+			/* TODO Reimplement
 			else if (!Yupi.Emulator.Yupi.IsValidAlphaNumeric(petName))
 				statusCode = 3;
+				*/
 
 			router.GetComposer<CheckPetNameMessageComposer> ().Compose (session, statusCode, petName);
 		}

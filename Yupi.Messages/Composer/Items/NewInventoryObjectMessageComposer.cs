@@ -10,7 +10,7 @@ namespace Yupi.Messages.Items
 	public class NewInventoryObjectMessageComposer : Yupi.Messages.Contracts.NewInventoryObjectMessageComposer
 	{
 		// TODO Remove...
-		public override void Compose ( Yupi.Protocol.ISender session, uint itemId) {
+		public override void Compose ( Yupi.Protocol.ISender session, int itemId) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(1);
 				message.AppendInteger(1);
@@ -20,7 +20,7 @@ namespace Yupi.Messages.Items
 			}
 		}
 
-		public override void Compose ( Yupi.Protocol.ISender session, BaseItem item, List<UserItem> list)
+		public override void Compose ( Yupi.Protocol.ISender session, BaseItem item, List<Item> list)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(1);
@@ -28,7 +28,7 @@ namespace Yupi.Messages.Items
 				message.AppendInteger(item.Type);
 				message.AppendInteger(list.Count);
 
-				foreach (UserItem current in list)
+				foreach (Item current in list)
 					message.AppendInteger(current.Id);
 				session.Send (message);
 			}

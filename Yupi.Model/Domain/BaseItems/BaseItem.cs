@@ -15,11 +15,6 @@ namespace Yupi.Model.Domain
 		}
 
 		/// <summary>
-		///     The allow gift
-		/// </summary>
-		public virtual bool AllowGift { get; set; }
-
-		/// <summary>
 		///     The allow inventory stack
 		/// </summary>
 		public virtual bool AllowInventoryStack { get; set; }
@@ -93,5 +88,7 @@ namespace Yupi.Model.Domain
 		///     The width
 		/// </summary>
 		public virtual int Width { get; set; }
+
+		public abstract Item CreateNew ();
 	}
 }

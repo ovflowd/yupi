@@ -8,6 +8,7 @@ namespace Yupi.Messages.User
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, UserWallet wallet)
 		{
+			// TODO Can we send credits using this composer too?
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(2);
 				message.AppendInteger(0);

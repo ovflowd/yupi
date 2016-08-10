@@ -87,8 +87,8 @@ namespace Yupi.Model.Domain
 		public virtual bool PlacedInRoom { get; set; }
 
 		// TODO seems to be the same...
-		public virtual uint Race { get; set; }
-		public virtual uint RaceId { get; set; }
+		public virtual int Race { get; set; }
+		public virtual int RaceId { get; set; }
 
 		public virtual int Rarity { get; set; }
 

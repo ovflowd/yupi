@@ -39,6 +39,7 @@
     <Compile Include="MessengerController.cs" />
     <Compile Include="RoomManager.cs" />
     <Compile Include="GuideManager.cs" />
+    <Compile Include="CatalogController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

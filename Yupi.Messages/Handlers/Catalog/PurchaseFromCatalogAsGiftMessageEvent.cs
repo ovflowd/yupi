@@ -1,13 +1,26 @@
 ﻿using System;
+using Yupi.Model.Domain;
+using Yupi.Model.Repository;
+using Yupi.Model;
+using Yupi.Controller;
 
 namespace Yupi.Messages.Catalog
 {
 	public class PurchaseFromCatalogAsGiftMessageEvent : AbstractHandler
 	{
+		private Repository<UserInfo> UserRepository;
+		private CatalogController CatalogController;
+
+		public PurchaseFromCatalogAsGiftMessageEvent ()
+		{
+			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>> ();
+			CatalogController = DependencyFactory.Resolve<CatalogController> ();
+		}
+
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			uint pageId = message.GetUInt32();
-			uint itemId = message.GetUInt32();
+			int pageId = message.GetInteger();
+			int itemId = message.GetInteger();
 			string extraData = message.GetString();
 			string giftUser = message.GetString();
 			string giftMessage = message.GetString();
@@ -16,10 +29,14 @@ namespace Yupi.Messages.Catalog
 			int giftColor = message.GetInteger();
 			bool showSender = message.GetBool(); 
 
-			Yupi.GetGame()
-				.GetCatalogManager()
-				.HandlePurchase(session, pageId, itemId, extraData, 1, true, giftUser, giftMessage, giftSpriteId,
-					giftLazo, giftColor, showSender, 0u);
+			UserInfo info = UserRepository.FindBy (x => x.UserName == giftUser);
+
+			if(info == null) {
+				router.GetComposer<GiftErrorMessageComposer> ().Compose (session, giftUser);
+			}
+
+			CatalogItem item = CatalogController.GetById (pageId, itemId);
+			CatalogController.PurchaseGift (session.UserData, item, extraData, info);
 		}
 	}
 }

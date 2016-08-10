@@ -318,6 +318,17 @@
     <Compile Include="Domain\Navigator\HallOfFameElement.cs" />
     <Compile Include="Domain\Rooms\Components\SongMachineComponent.cs" />
     <Compile Include="Domain\Catalog\EcotronLevel.cs" />
+    <Compile Include="Domain\Items\SimpleFloorItem.cs" />
+    <Compile Include="Domain\Items\SimpleWallItem.cs" />
+    <Compile Include="Domain\BaseItems\PostItBaseItem.cs" />
+    <Compile Include="Domain\Items\RoomEffectItem.cs" />
+    <Compile Include="Domain\Items\DimmerItem.cs" />
+    <Compile Include="Domain\Items\TrophyItem.cs" />
+    <Compile Include="Domain\Items\PetItem.cs" />
+    <Compile Include="Domain\Items\MannequinItem.cs" />
+    <Compile Include="Domain\Items\BadgeDisplayItem.cs" />
+    <Compile Include="Domain\Items\FootballGateItem.cs" />
+    <Compile Include="Domain\Items\MonsterPlantSeedItem.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

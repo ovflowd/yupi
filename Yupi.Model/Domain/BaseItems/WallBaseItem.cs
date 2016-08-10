@@ -9,6 +9,13 @@ namespace Yupi.Model.Domain
 				return ItemType.Wall;
 			}
 		}
+
+		public override Item CreateNew ()
+		{
+			return new SimpleWallItem () {
+				BaseItem = this
+			};
+		}
 	}
 }
 
