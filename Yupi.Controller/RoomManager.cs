@@ -1,6 +1,7 @@
 ﻿using System;
 using Yupi.Model.Domain;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Yupi.Controller
 {
@@ -17,6 +18,10 @@ namespace Yupi.Controller
 		public RoomManager ()
 		{
 			_loadedRooms = new List<Room> (); 
+		}
+
+		public bool isLoaded(RoomData room) {
+			return _loadedRooms.Any (x => x.Data == room);
 		}
 	}
 }

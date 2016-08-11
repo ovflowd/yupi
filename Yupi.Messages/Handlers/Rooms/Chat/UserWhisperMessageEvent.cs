@@ -67,7 +67,7 @@ namespace Yupi.Messages.Chat
 			currentRoom.AddChatlog(session.GetHabbo().Id, $"<whispered to {text2}>: {msg}", false);
 
 			if (!roomUserByHabbo.IsBot &&
-				(colour == 2 || (colour == 23 && !session.GetHabbo().HasFuse("fuse_mod")) || colour < 0 ||
+				(colour == 2 || (colour == 23 && !session.UserData.Info.HasPermission("fuse_mod")) || colour < 0 ||
 					colour > 29))
 				colour = roomUserByHabbo.LastBubble; // or can also be just 0
 

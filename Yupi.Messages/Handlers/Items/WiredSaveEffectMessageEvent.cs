@@ -176,7 +176,7 @@ namespace Yupi.Messages.Items
 				}
 			case Interaction.ActionGiveReward:
 				{
-					if (!session.GetHabbo().HasFuse("fuse_use_superwired"))
+					if (!session.UserData.Info.HasPermission("fuse_use_superwired"))
 						return;
 
 					request.GetInteger();

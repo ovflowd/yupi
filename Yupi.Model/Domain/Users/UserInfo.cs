@@ -5,6 +5,7 @@ using System.Linq;
 using System.Timers;
 using Yupi.Model.Domain.Components;
 using Yupi.Util;
+using System.Net;
 
 namespace Yupi.Model.Domain
 {
@@ -20,6 +21,7 @@ namespace Yupi.Model.Domain
 		public virtual UserPreferences Preferences { get; protected set; }
 		public virtual UserEffectComponent EffectComponent { get; protected set; }
 
+		public virtual string Email { get; set; }
 		public virtual bool AppearOffline { get; set; }
 		public virtual int BobbaFiltered { get; set; }
 		public virtual DateTime CreateDate { get; set; }
@@ -29,6 +31,9 @@ namespace Yupi.Model.Domain
 		[ManyToMany]
 		public virtual IList<RoomData> FavoriteRooms { get; protected set; }
 
+		public virtual IList<SupportTicket> SupportTickets { get; protected set; }
+		public virtual IList<TradeLock> TradeLocks { get; protected set; }
+
 		public virtual Group FavouriteGroup { get; set; }
 		public virtual uint HomeRoom { get; set; }
 
@@ -36,12 +41,16 @@ namespace Yupi.Model.Domain
 		public virtual bool HideInRoom { get; set; }
 
 		public virtual DateTime LastOnline { get; set; }
-    
+		public virtual IPAddress LastIp { get; set; }
+
 		public virtual bool Muted { get; set; }
 
 		// TODO Rename
 		[ManyToMany]
 		public virtual IList<UserInfo> MutedUsers { get; protected set; }
+
+		public virtual IList<UserCaution> Cautions { get; protected set; }
+		public virtual IList<UserBan> Bans { get; protected set; }
 
 		public virtual int Rank { get; set; }
 

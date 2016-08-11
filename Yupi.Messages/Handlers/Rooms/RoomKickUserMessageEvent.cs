@@ -25,8 +25,8 @@ namespace Yupi.Messages.Rooms
 				return;
 
 			if (room.CheckRights(roomUserByHabbo.GetClient(), true) ||
-				roomUserByHabbo.GetClient().GetHabbo().HasFuse("fuse_mod") ||
-				roomUserByHabbo.GetClient().GetHabbo().HasFuse("fuse_no_kick")) // TODO Shouldn't we tell the user about this? (Whisper?)
+				roomUserByHabbo.GetClient().UserData.Info.HasPermission("fuse_mod") ||
+				roomUserByHabbo.GetClient().UserData.Info.HasPermission("fuse_no_kick")) // TODO Shouldn't we tell the user about this? (Whisper?)
 				return;
 
 			room.GetRoomUserManager().RemoveUserFromRoom(roomUserByHabbo.GetClient(), true, true);

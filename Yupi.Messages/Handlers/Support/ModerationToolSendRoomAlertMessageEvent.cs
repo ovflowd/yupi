@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Yupi.Messages.Notification;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Support
 {
@@ -8,7 +9,7 @@ namespace Yupi.Messages.Support
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			if (!session.GetHabbo().HasFuse("fuse_alert"))
+			if (!session.UserData.Info.HasPermission("fuse_alert"))
 				return;
 
 			// TODO Unused
@@ -16,7 +17,7 @@ namespace Yupi.Messages.Support
 
 			string message = request.GetString();
 
-			Yupi.Messages.Rooms room = session.GetHabbo().CurrentRoom;
+			Room room = session.UserData.Room;
 
 			router.GetComposer<SuperNotificationMessageComposer> ().Compose (room, "", message, "", "", "admin", 3);
 		}

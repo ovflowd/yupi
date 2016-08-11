@@ -30,6 +30,10 @@ namespace Yupi.Model.Repository
 			session.Delete (entity);
 		}
 
+		public void Delete(int Id) {
+			session.Delete (session.Load<T> (Id));
+		}
+
 		public IList<T> ToList ()
 		{
 			throw new NotImplementedException ();

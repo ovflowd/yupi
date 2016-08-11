@@ -19,7 +19,7 @@ namespace Yupi.Messages.Chat
 			int bubble = request.GetInteger();
 			int count = request.GetInteger();
 
-			if (!roomUser.IsBot && (bubble == 2 || (bubble == 23 && !session.GetHabbo().HasFuse("fuse_mod")) || bubble < 0 ||
+			if (!roomUser.IsBot && (bubble == 2 || (bubble == 23 && !session.UserData.Info.HasPermission("fuse_mod")) || bubble < 0 ||
 				bubble > 29))
 				bubble = roomUser.LastBubble;
 

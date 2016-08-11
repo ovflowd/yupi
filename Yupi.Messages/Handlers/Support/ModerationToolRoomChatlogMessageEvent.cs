@@ -1,21 +1,32 @@
 ﻿using System;
+using Yupi.Model.Domain;
+using Yupi.Model.Repository;
+using Yupi.Model;
 
 namespace Yupi.Messages.Support
 {
 	public class ModerationToolRoomChatlogMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		private Repository<RoomData> RoomRepository;
+
+		public ModerationToolRoomChatlogMessageEvent ()
 		{
-			if (!session.GetHabbo().HasFuse("fuse_chatlogs"))
-			{
-				session.SendNotif(Yupi.GetLanguage().GetVar("help_information_error_rank_low"));
+			RoomRepository = DependencyFactory.Resolve<Repository<RoomData>> ();
+		}
+
+		public override void HandleMessage (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		{
+			if (!session.UserData.Info.HasPermission ("fuse_chatlogs")) {
 				return;
 			}
 
-			message.GetInteger(); // TODO Unused
-			uint roomId = message.GetUInt32();
+			message.GetInteger (); // TODO Unused
+			int roomId = message.GetInteger ();
 
-			router.GetComposer<ModerationToolRoomChatlogMessageComposer> ().Compose (session, roomId);
+			RoomData room = RoomRepository.FindBy (roomId);
+			if (room != null) {
+				router.GetComposer<ModerationToolRoomChatlogMessageComposer> ().Compose (session, room);
+			}
 		}
 	}
 }

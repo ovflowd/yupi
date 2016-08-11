@@ -26,8 +26,8 @@ namespace Yupi.Messages.Rooms
 			if (roomUserByHabbo == null || roomUserByHabbo.IsBot)
 				return;
 
-			if (roomUserByHabbo.GetClient().GetHabbo().HasFuse("fuse_mod") ||
-				roomUserByHabbo.GetClient().GetHabbo().HasFuse("fuse_no_kick")) // TODO Tell user about this behaviour (Whisper)
+			if (roomUserByHabbo.GetClient().UserData.Info.HasPermission("fuse_mod") ||
+				roomUserByHabbo.GetClient().UserData.Info.HasPermission("fuse_no_kick")) // TODO Tell user about this behaviour (Whisper)
 				return;
 
 			long time = 0L;

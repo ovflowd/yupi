@@ -307,60 +307,7 @@ namespace Yupi.Emulator.Game.Support
                 //this.SupportTicketHints.Add((string)dataRow2[0], (string)dataRow2[1]);
             }*/
         }
-
-        /// <summary>
-        ///     Sends the new ticket.
-        /// </summary>
-        /// <param name="session">The session.</param>
-        /// <param name="category">The category.</param>
-        /// <param name="type">The type.</param>
-        /// <param name="reportedUser">The reported user.</param>
-        /// <param name="message">The messageBuffer.</param>
-        /// <param name="messages">The messages.</param>
-     public void SendNewTicket(GameClient session, int category, int type, uint reportedUser, string message, List<string> messages)
-        {
-            uint id;
-
-            if (session.GetHabbo().CurrentRoomId <= 0)
-            {
-                using (IQueryAdapter dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
-                {
-                    dbClient.SetQuery(string.Concat("INSERT INTO moderation_tickets (score,type,status,sender_id,reported_id,moderator_id,message,room_id,room_name,timestamp) VALUES (1,'", category, "','open','", session.GetHabbo().Id, "','", reportedUser, "','0',@message,'0','','", Yupi.GetUnixTimeStamp(), "')"));
-
-                    dbClient.AddParameter("message", message);
-
-                    id = (uint) dbClient.InsertQuery();
-
-                    dbClient.RunFastQuery($"UPDATE users_info SET cfhs = cfhs + 1 WHERE user_id = {session.GetHabbo().Id}");
-                }
-
-                SupportTicket ticket = new SupportTicket(id, 1, category, type, session.GetHabbo().Id, reportedUser, message, 0u, "", Yupi.GetUnixTimeStamp(), messages);
-
-                Tickets.Add(ticket);
-                SendTicketToModerators(ticket);
-            }
-            else
-            {
-                RoomData data = Yupi.GetGame().GetRoomManager().GenerateNullableRoomData(session.GetHabbo().CurrentRoomId);
-
-                using (IQueryAdapter dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
-                {
-                    dbClient.SetQuery(string.Concat("INSERT INTO moderation_tickets (score,type,status,sender_id,reported_id,moderator_id,message,room_id,room_name,timestamp) VALUES (1,'", category, "','open','", session.GetHabbo().Id, "','", reportedUser, "','0',@message,'", data.Id, "',@name,'", Yupi.GetUnixTimeStamp(), "')"));
-
-                    dbClient.AddParameter("message", message);
-                    dbClient.AddParameter("name", data.Name);
-
-                    id = (uint) dbClient.InsertQuery();
-
-                    dbClient.RunFastQuery($"UPDATE users_info SET cfhs = cfhs + 1 WHERE user_id = {session.GetHabbo().Id}");
-                }
-
-                SupportTicket ticket2 = new SupportTicket(id, 1, category, type, session.GetHabbo().Id, reportedUser, message, data.Id, data.Name, Yupi.GetUnixTimeStamp(), messages);
-
-                Tickets.Add(ticket2);
-                SendTicketToModerators(ticket2);
-            }
-        }
+			
 
         /// <summary>
         ///     Gets the ticket.

@@ -1,18 +1,31 @@
 ﻿using System;
+using Yupi.Model.Domain;
+using Yupi.Model.Repository;
+using Yupi.Model;
 
 namespace Yupi.Messages.Support
 {
 	public class ModerationToolGetRoomVisitsMessageEvent : AbstractHandler
 	{
+		private Repository<UserInfo> UserRepository;
+
+		public ModerationToolGetRoomVisitsMessageEvent ()
+		{
+			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>> ();
+		}
+
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			if (session.GetHabbo().HasFuse("fuse_mod"))
+			if (session.UserData.Info.HasPermission("fuse_mod"))
 			{
-				uint userId = message.GetUInt32();
+				int userId = message.GetInteger();
 
-				if (userId > 0) {
-					router.GetComposer<ModerationToolRoomVisitsMessageComposer> ().Compose (session, userId);
+				UserInfo info = UserRepository.FindBy (userId);
+
+				if (info != null) {
+					router.GetComposer<ModerationToolRoomVisitsMessageComposer> ().Compose (session, info);
 				}
+
 			}
 		}
 	}

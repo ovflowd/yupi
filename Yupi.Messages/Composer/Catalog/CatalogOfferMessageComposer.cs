@@ -11,13 +11,7 @@ namespace Yupi.Messages.Catalog
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (item.Id);
-
-				string displayName = item.Name;
-
-				if (PetTypeManager.ItemIsPet (item.Name))
-					displayName = PetTypeManager.GetHabboPetType (item.Name);
-
-				message.AppendString (displayName);
+				message.AppendString (item.Name);
 				message.AppendBool (false);
 				message.AppendInteger (item.CreditsCost);
 
@@ -29,7 +23,7 @@ namespace Yupi.Messages.Catalog
 					message.AppendInteger (0);
 				}
 
-				message.AppendBool (item.BaseItem.AllowGift);
+				message.AppendBool (item.AllowGift);
 				// TODO Refactor
 				switch (item.Name) {
 				case "g0 group_product":
@@ -46,15 +40,16 @@ namespace Yupi.Messages.Catalog
 					if (item.Name.StartsWith ("builders_club_addon_") || item.Name.StartsWith ("builders_club_time_"))
 						message.AppendInteger (0);
 					else if (item.Badge == "")
-						message.AppendInteger (item.Items.Count);
+						message.AppendInteger (item.BaseItems.Count);
 					else {
-						message.AppendInteger (item.Items.Count + 1);
+						message.AppendInteger (item.BaseItems.Count + 1);
 						message.AppendString ("b");
 						message.AppendString (item.Badge);
 					}
+					throw new NotImplementedException ();
 					break;
 				}
-				foreach (Item baseItem in item.Items.Keys) {
+				foreach (BaseItem baseItem in item.BaseItems.Keys) {
 					if (item.Name == "g0 group_product" || item.Name.StartsWith ("builders_club_addon_") ||
 					   item.Name.StartsWith ("builders_club_time_"))
 						break;
@@ -64,7 +59,7 @@ namespace Yupi.Messages.Catalog
 					} else {
 						message.AppendString (baseItem.Type.ToString ());
 						message.AppendInteger (baseItem.SpriteId);
-
+						/*
 						if (item.Name.Contains ("wallpaper_single") || item.Name.Contains ("floor_single") ||
 						   item.Name.Contains ("landscape_single")) {
 							string[] array = item.Name.Split ('_');
@@ -82,23 +77,19 @@ namespace Yupi.Messages.Catalog
 							message.AppendString (item.ExtraData);
 						else
 							message.AppendString (string.Empty);
-
-						message.AppendInteger (item.Items [baseItem]);
-						message.AppendBool (item.IsLimited);
-						if (!item.IsLimited)
+*/ 
+						throw new NotImplementedException ();
+						message.AppendInteger (item.BaseItems [baseItem]);
+						message.AppendBool (item is LimitedCatalogItem);
+						if (!(item is LimitedCatalogItem))
 							continue;
-						message.AppendInteger (item.LimitedStack);
-						message.AppendInteger (item.LimitedStack - item.LimitedSelled);
+						message.AppendInteger (((LimitedCatalogItem)item).LimitedStack);
+						message.AppendInteger (((LimitedCatalogItem)item).LimitedStack - ((LimitedCatalogItem)item).LimitedSold);
 					}
 				}
 				message.AppendInteger (item.ClubOnly ? 1 : 0);
 
-				if (item.IsLimited || item.FirstAmount != 1) {
-					message.AppendBool (false);
-					return;
-				}
-
-				message.AppendBool (item.HaveOffer && !item.IsLimited);
+				message.AppendBool (item.HaveOffer && !(item is LimitedCatalogItem));
 
 				session.Send (message);
 			}

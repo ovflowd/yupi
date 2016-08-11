@@ -25,7 +25,7 @@ namespace Yupi.Messages.Chat
 			if (!roomUserByHabbo.IsBot)
 			{
 				// TODO This looks a lot like copy & paste here and in whisper / shout
-				if (bubble == 2 || (bubble == 23 && !session.GetHabbo().HasFuse("fuse_mod")) || bubble < 0 ||
+				if (bubble == 2 || (bubble == 23 && !session.UserData.Info.HasPermission("fuse_mod")) || bubble < 0 ||
 					bubble > 29)
 					bubble = roomUserByHabbo.LastBubble;
 			}

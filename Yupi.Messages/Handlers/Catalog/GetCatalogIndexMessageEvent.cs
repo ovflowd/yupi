@@ -26,7 +26,7 @@ namespace Yupi.Messages.Catalog
 			string type = message.GetString ().ToUpper ();
 
 			router.GetComposer<CatalogueOfferConfigMessageComposer> ().Compose (session);
-			router.GetComposer<CatalogueIndexMessageComposer> ().Compose (session, pages, type);
+			router.GetComposer<CatalogueIndexMessageComposer> ().Compose (session, pages, type, session.UserData.Info.Rank);
 		}
 	}
 }

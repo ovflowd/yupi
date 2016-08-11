@@ -1,7 +1,7 @@
 ﻿using System;
 using Yupi.Model.Domain;
 
-namespace Yupi.Model
+namespace Yupi.Model.Domain
 {
 	public class RoomEffectBaseItem : FloorBaseItem
 	{

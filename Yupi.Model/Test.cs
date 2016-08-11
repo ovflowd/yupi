@@ -34,6 +34,7 @@ namespace Yupi.Model
 					.Add (AutoMap.AssemblyOf<ORMConfiguration> (cfg)
 						.Conventions.Add<Conventions> ()
 						.Conventions.Add<EnumTypeConvention> ()
+						.Conventions.Add<IPAddressConvention> ()
 						.IncludeBase<BaseItem> ()
 						.IncludeBase<FloorItem> ()
 						.IncludeBase<WallItem> ()

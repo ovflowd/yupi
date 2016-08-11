@@ -35,11 +35,15 @@
     <Reference Include="mscorlib" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="UnixTimestamp">
+      <HintPath>..\packages\UnixTimestamp.1.0\lib\UnixTimestamp.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IListExt.cs" />
     <Compile Include="T.cs" />
+    <Compile Include="DateTimeExt.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -1,4 +1,7 @@
 ﻿using System;
+using Yupi.Model.Domain;
+using Yupi.Model.Repository;
+using Yupi.Model;
 
 
 
@@ -6,22 +9,25 @@ namespace Yupi.Messages.Support
 {
 	public class ModerationToolIssueChatlogMessageEvent : AbstractHandler
 	{
+		private Repository<SupportTicket> TicketRepository;
+
+		public ModerationToolIssueChatlogMessageEvent ()
+		{
+			TicketRepository = DependencyFactory.Resolve<Repository<SupportTicket>> ();
+		}
+
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			if (!session.GetHabbo().HasFuse("fuse_mod"))
+			if (!session.UserData.Info.HasPermission ("fuse_mod"))
 				return;
 
-			SupportTicket ticket = Yupi.GetGame().GetModerationTool().GetTicket(message.GetUInt32());
+			int ticketId = message.GetInteger ();
 
-			if (ticket == null)
-				return;
+			SupportTicket ticket = TicketRepository.FindBy (ticketId);
 
-			RoomData roomData = Yupi.GetGame().GetRoomManager().GenerateNullableRoomData(ticket.RoomId);
-
-			if (roomData == null)
-				return;
-
-			router.GetComposer<ModerationToolIssueChatlogMessageComposer> ().Compose (session, ticket, roomData);
+			if (ticket != null) {
+				router.GetComposer<ModerationToolIssueChatlogMessageComposer> ().Compose (session, ticket);
+			}
 		}
 	}
 }

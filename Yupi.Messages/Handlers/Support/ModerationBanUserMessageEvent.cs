@@ -7,7 +7,7 @@ namespace Yupi.Messages.Support
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			if (!session.GetHabbo().HasFuse("fuse_ban"))
+			if (!session.UserData.Info.HasPermission("fuse_ban"))
 				return;
 
 			uint userId = request.GetUInt32();

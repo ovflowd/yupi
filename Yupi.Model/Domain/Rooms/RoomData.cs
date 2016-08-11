@@ -141,6 +141,8 @@ namespace Yupi.Model.Domain
 
 		public virtual IList<UserInfo> Rights { get; protected set; }
 
+		public virtual IList<ChatlogEntry> Chatlog { get; protected set; }
+
 		/// <summary>
 		///     Room Password
 		/// </summary>

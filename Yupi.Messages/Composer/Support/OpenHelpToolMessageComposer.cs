@@ -4,23 +4,23 @@ using Yupi.Protocol.Buffers;
 
 using System.Globalization;
 using Yupi.Model.Domain;
+using Yupi.Model.Repository;
+using Yupi.Model;
+using Yupi.Util;
+using System.Collections.Generic;
 
 namespace Yupi.Messages.Support
 {
 	public class OpenHelpToolMessageComposer : Yupi.Messages.Contracts.OpenHelpToolMessageComposer
 	{
-		public override void Compose ( Yupi.Protocol.ISender session, UserInfo habbo)
+		public override void Compose ( Yupi.Protocol.ISender session, IList<SupportTicket> tickets)
 		{
-			bool hasTicket = Yupi.GetGame ().GetModerationTool ().UsersHasPendingTicket (habbo.Id);
-
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendInteger (hasTicket ? 1 : 0); // TODO Other values?
+				message.AppendInteger (tickets.Count);
 
-				if (hasTicket) {
-					SupportTicket ticket = Yupi.GetGame().GetModerationTool().GetPendingTicketForUser(habbo.Id);
-
-					message.AppendString(ticket.TicketId.ToString());
-					message.AppendString(ticket.Timestamp.ToString(CultureInfo.InvariantCulture));
+				foreach(SupportTicket ticket in tickets) {
+					message.AppendString(ticket.Id.ToString());
+					message.AppendString(ticket.CreatedAt.ToUnix().ToString());
 					message.AppendString(ticket.Message);
 				}
 

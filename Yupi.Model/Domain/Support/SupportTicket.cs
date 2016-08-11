@@ -21,17 +21,17 @@ namespace Yupi.Model.Domain
 		public virtual string Message { get; set; }
 
 		// TODO Should reference the chat directly!
-		public virtual IList<string> ReportedChats { get; protected set; }
+		public virtual IList<string> ReportedChats { get; set; }
 
-		public virtual RoomModel Room { get; set; }
+		public virtual RoomData Room { get; set; }
 
 		public virtual int Score { get; set; }
 
-		public virtual TicketStatus Status { get; set; }
+		public virtual TicketStatus Status { get; protected set; }
 
 		public virtual DateTime CreatedAt { get; set; }
 
-		public virtual TicketCloseReason CloseReason { get; set; }
+		public virtual TicketCloseReason CloseReason { get; protected set; }
 
 		// TODO Enum
 		// type (3 or 4 for new style)
@@ -42,6 +42,7 @@ namespace Yupi.Model.Domain
 			Status = TicketStatus.Open;
 			ReportedChats = new List<string> ();
 			Staff = UserInfo.None;
+			CreatedAt = DateTime.Now;
 		}
 			
 		public virtual void Pick (UserInfo moderator)

@@ -8,11 +8,11 @@ using Yupi.Model.Domain;
 namespace Yupi.Messages.Catalog
 {
 	public class CatalogueIndexMessageComposer : Yupi.Messages.Contracts.CatalogueIndexMessageComposer
-	// TODO Refactor
 	{
-		public override void Compose ( Yupi.Protocol.ISender session, IList<CatalogPage> sortedPages, string type)
+		public override void Compose ( Yupi.Protocol.ISender session, IList<CatalogPage> sortedPages, string type, int rank)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
+				// TODO Refactor pages to TREE
 				message.AppendBool(true);
 				message.AppendInteger(0);
 				message.AppendInteger(-1);
@@ -32,9 +32,9 @@ namespace Yupi.Messages.Catalog
 
 					foreach (uint i in cat.FlatOffers.Keys)
 						message.AppendInteger(i);
-					// TODO Refactor pages to TREE
+					
 					IOrderedEnumerable<CatalogPage> sortedSubPages =
-						pages.Where(x => x.ParentId == cat.PageId && x.MinRank <= rank).OrderBy(x => x.OrderNum);
+						cat.Children.Where(x => x.MinRank <= rank).OrderBy(x => x.OrderNum);
 
 					message.AppendInteger(sortedSubPages.Count());
 

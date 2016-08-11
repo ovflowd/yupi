@@ -37,7 +37,7 @@ namespace Yupi.Messages.Rooms
 				return;
 
 			if (CurrentLoadingRoom.RoomData.UsersNow >= CurrentLoadingRoom.RoomData.UsersMax &&
-				!session.GetHabbo().HasFuse("fuse_enter_full_rooms"))
+				!session.UserData.Info.HasPermission("fuse_enter_full_rooms"))
 			{
 				
 				router.GetComposer<RoomEnterErrorMessageComposer> ().Compose (session, RoomEnterErrorMessageComposer.Error.ROOM_FULL);

@@ -329,6 +329,12 @@
     <Compile Include="Domain\Items\BadgeDisplayItem.cs" />
     <Compile Include="Domain\Items\FootballGateItem.cs" />
     <Compile Include="Domain\Items\MonsterPlantSeedItem.cs" />
+    <Compile Include="Domain\Support\UserCaution.cs" />
+    <Compile Include="Domain\Support\UserBan.cs" />
+    <Compile Include="IpAddressAsString.cs" />
+    <Compile Include="IPAddressConvention.cs" />
+    <Compile Include="Domain\Users\TradeLock.cs" />
+    <Compile Include="Domain\Rooms\ChatlogEntry.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
