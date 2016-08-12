@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Yupi.Model.Domain;
+using Yupi.Model.Repository;
+using Yupi.Model;
+using System.Linq;
 
 
 
@@ -7,28 +11,30 @@ namespace Yupi.Messages.Messenger
 {
 	public class ConsoleSearchFriendsMessageEvent : AbstractHandler
 	{
+		private Repository<UserInfo> UserRepository;
+
+		public ConsoleSearchFriendsMessageEvent ()
+		{
+			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>>();
+		}
+
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			// TODO Can the messenger ever be null?
-			if (session.GetHabbo().GetMessenger() == null) 
-				return;
+    		string query = request.GetString ();
 
-			string query = request.GetString ();
+			List<UserInfo> friends = session.UserData.Info.Relationships
+				.Relationships
+				.Where (x => x.Friend.UserName.StartsWith (query))
+				.Select(x => x.Friend)
+				.ToList();
+			
+			List<UserInfo> users = UserRepository
+				.FilterBy (x => x.UserName.StartsWith (query))
+				.Where(x => !friends.Contains(x))
+				.Take(50) // TODO Proper limit
+				.ToList();
 
-			List<SearchResult> searchResult = SearchResultFactory.GetSearchResult(query);
-
-			List<SearchResult> foundFriends = new List<SearchResult>();
-			List<SearchResult> foundUsers = new List<SearchResult>();
-
-			foreach (SearchResult current in searchResult)
-			{
-				if (session.GetHabbo().GetMessenger().FriendshipExists(current.UserId))
-					foundFriends.Add(current);
-				else
-					foundUsers.Add(current);
-			}
-
-			router.GetComposer<ConsoleSearchFriendMessageComposer> ().Compose (session, foundFriends, foundUsers);
+			router.GetComposer<ConsoleSearchFriendMessageComposer> ().Compose (session, friends, users);
 
 		}
 	}

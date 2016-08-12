@@ -159,7 +159,7 @@ namespace Yupi.Controller
 			ProgressUserAchievement (session, "ACH_BasicClub", 1, true);
 			*/
 		}
-			
+
 		public bool ProgressUserAchievement (Habbo user, string achievementGroup, int progressAmount)
 		{
 			if (Achievements.ContainsKey (achievementGroup)) {

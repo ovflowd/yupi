@@ -4,9 +4,9 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Contracts
 {
-	public abstract class FriendRequestsMessageComposer : AbstractComposer<IDictionary<uint, MessengerRequest>>
+	public abstract class FriendRequestsMessageComposer : AbstractComposer<IDictionary<uint, FriendRequest>>
 	{
-		public override void Compose(Yupi.Protocol.ISender session, IDictionary<uint, MessengerRequest> requests)
+		public override void Compose(Yupi.Protocol.ISender session, IDictionary<uint, FriendRequest> requests)
 		{
 		 // Do nothing by default.
 		}

@@ -9,5 +9,8 @@ namespace Yupi.Model.Domain
 		// TODO Introduce ENUM
 		public virtual int Type  { get; set; }
 		public virtual UserInfo Friend { get; set; }
+
+		// TODO Should not be required...
+		public virtual bool Deleted { get; set; }
     }
 }

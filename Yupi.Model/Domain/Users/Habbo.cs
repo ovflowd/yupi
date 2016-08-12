@@ -1,5 +1,6 @@
 ﻿using System;
 using Yupi.Protocol;
+using Yupi.Model.Domain;
 
 namespace Yupi.Model.Domain
 {
@@ -10,7 +11,8 @@ namespace Yupi.Model.Domain
 
 		public UserEntity RoomEntity { get; protected set; }
 
-		public bool IsOnline { get; set; }
+		// TODO Is this at the right place?
+		public string MachineId;
 
 		// TODO Refactor?
 		public bool IsRidingHorse { get; set; }

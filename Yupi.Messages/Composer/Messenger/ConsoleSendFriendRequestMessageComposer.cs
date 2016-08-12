@@ -7,7 +7,7 @@ namespace Yupi.Messages.Messenger
 {
 	public class ConsoleSendFriendRequestMessageComposer : Yupi.Messages.Contracts.ConsoleSendFriendRequestMessageComposer
 	{
-		public override void Compose ( Yupi.Protocol.ISender session, MessengerRequest request)
+		public override void Compose ( Yupi.Protocol.ISender session, FriendRequest request)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(request.From.Id);

@@ -8,23 +8,23 @@ namespace Yupi.Messages.Bots
 	public class BotSpeechListMessageComposer : Yupi.Messages.Contracts.BotSpeechListMessageComposer
 	{
 		// TODO Refactor
-		public override void Compose ( Yupi.Protocol.ISender session, int num, BotEntity bot)
+		public override void Compose ( Yupi.Protocol.ISender session, int num, BotInfo bot)
 		{
 			string text = "";
 
 			switch(num) {
 			case 2:
-				text = bot.Info.RandomSpeech == null ? string.Empty : string.Join ("\n", bot.Info.RandomSpeech);
+				text = bot.RandomSpeech == null ? string.Empty : string.Join ("\n", bot.RandomSpeech);
 
 				text += ";#;";
-				text += bot.Info.AutomaticChat ? "true" : "false";
+				text += bot.AutomaticChat ? "true" : "false";
 				text += ";#;";
-				text += bot.Info.SpeechInterval.ToString ();
+				text += bot.SpeechInterval.ToString ();
 				text += ";#;";
-				text += bot.Info.MixPhrases ? "true" : "false";
+				text += bot.MixPhrases ? "true" : "false";
 				break;
 			case 5:
-				text = bot.Info.Name;
+				text = bot.Name;
 				break;
 			default:
 				return;

@@ -46,7 +46,7 @@ namespace Yupi.Messages.Support
 				roomData.State = RoomState.LOCKED;
 			}
 
-			Room room;
+			Room room = null;
 
 			if (inappropriateRoom || kickUsers) {
 				room = RoomManager.LoadedRooms.FirstOrDefault (x => x.Data.Id == roomData.Id);
@@ -64,13 +64,8 @@ namespace Yupi.Messages.Support
 				}
 			}
 
-			if (kickUsers) {
-				IEnumerable<RoomEntity> users = room.Users.Where (x => x.Type == EntityType.User);
-
-				foreach (RoomEntity entity in users) {
-					UserEntity user = (UserEntity)entity;
-					roomData.OnRoomKick ();
-				}
+			if (kickUsers && room != null) {
+				RoomManager.KickAll (room);
 			}
 		}
 	}

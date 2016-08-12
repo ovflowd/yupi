@@ -1,11 +1,10 @@
 ﻿using System;
+using Yupi.Protocol;
 using System.Collections.Generic;
 using System.Linq;
-using Yupi.Protocol;
 
 namespace Yupi.Model.Domain
 {
-	[Ignore]
 	public class Room : ISender
 	{
 		public RoomData Data { get; private set; }

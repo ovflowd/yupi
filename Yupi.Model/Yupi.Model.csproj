@@ -87,7 +87,6 @@
     <Compile Include="Domain\Groups\GroupSymbolColours.cs" />
     <Compile Include="Domain\Groups\GroupSymbols.cs" />
     <Compile Include="Domain\Messenger\MessengerMessage.cs" />
-    <Compile Include="Domain\Messenger\MessengerRequest.cs" />
     <Compile Include="Domain\Navigator\NavigatorCategory.cs" />
     <Compile Include="Domain\Navigator\NavigatorSubCategory.cs" />
     <Compile Include="Domain\Rooms\RoomData.cs" />
@@ -259,17 +258,12 @@
     <Compile Include="Domain\BaseItems\ItemType.cs" />
     <Compile Include="Domain\Items\Moodlight\MoodlightPreset.cs" />
     <Compile Include="Domain\Items\Moodlight\MoodlightData.cs" />
-    <Compile Include="Domain\Rooms\RoomEntity.cs" />
     <Compile Include="Domain\Rooms\Pets\PetInfo.cs" />
-    <Compile Include="Domain\Rooms\Pets\PetEntity.cs" />
     <Compile Include="Domain\Items\Youtube\YoutubeTVItem.cs" />
     <Compile Include="Domain\Items\Youtube\YoutubeVideo.cs" />
     <Compile Include="Domain\Items\WallItem.cs" />
     <Compile Include="Domain\Items\Components\WallCoordinate.cs" />
     <Compile Include="Domain\Items\Components\WallSide.cs" />
-    <Compile Include="Domain\Rooms\User\UserEntity.cs" />
-    <Compile Include="Domain\Rooms\EntityType.cs" />
-    <Compile Include="Domain\Rooms\Bot\BotEntity.cs" />
     <Compile Include="Domain\Rooms\Bot\BotInfo.cs" />
     <Compile Include="Domain\Navigator\HotelLandingManager.cs" />
     <Compile Include="Domain\Navigator\HotelLandingPromos.cs" />
@@ -278,15 +272,12 @@
     <Compile Include="Domain\Polls\PollQuestion.cs" />
     <Compile Include="Domain\Polls\PollAnswerType.cs" />
     <Compile Include="Domain\Navigator\UserSearchLog.cs" />
-    <Compile Include="Domain\Rooms\RoomCompetition.cs" />
     <Compile Include="Domain\Rooms\RoomCompetitionEntry.cs" />
     <Compile Include="Domain\Users\Subscription.cs" />
     <Compile Include="Domain\Support\SupportTicket.cs" />
     <Compile Include="Domain\Support\TicketStatus.cs" />
     <Compile Include="Domain\Support\TicketCloseReason.cs" />
     <Compile Include="Domain\Users\Inventory\AvatarEffect.cs" />
-    <Compile Include="Domain\Rooms\TradeUser.cs" />
-    <Compile Include="Domain\Messenger\SearchResult.cs" />
     <Compile Include="Domain\Items\LovelockItem.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\Repository.cs" />
@@ -297,8 +288,6 @@
     <Compile Include="Domain\Rooms\Gamemap.cs" />
     <Compile Include="DependencyFactory.cs" />
     <Compile Include="Domain\Users\UserInfo.cs" />
-    <Compile Include="Domain\Users\Habbo.cs" />
-    <Compile Include="Domain\Rooms\Room.cs" />
     <Compile Include="Domain\Users\Badge.cs" />
     <Compile Include="Domain\Achievements\TalentLevel.cs" />
     <Compile Include="Domain\Users\Components\UserWallet.cs" />
@@ -335,6 +324,16 @@
     <Compile Include="IPAddressConvention.cs" />
     <Compile Include="Domain\Users\TradeLock.cs" />
     <Compile Include="Domain\Rooms\ChatlogEntry.cs" />
+    <Compile Include="Domain\Rooms\RoomCompetition.cs" />
+    <Compile Include="Domain\Rooms\BotEntity.cs" />
+    <Compile Include="Domain\Rooms\EntityType.cs" />
+    <Compile Include="Domain\Rooms\PetEntity.cs" />
+    <Compile Include="Domain\Rooms\RoomEntity.cs" />
+    <Compile Include="Domain\Rooms\TradeUser.cs" />
+    <Compile Include="Domain\Rooms\UserEntity.cs" />
+    <Compile Include="Domain\Users\Habbo.cs" />
+    <Compile Include="Domain\Rooms\Room.cs" />
+    <Compile Include="Domain\Users\FriendRequest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

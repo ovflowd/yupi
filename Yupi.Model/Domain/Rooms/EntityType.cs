@@ -1,7 +1,8 @@
 ﻿using System;
 
-namespace Yupi.Model
+namespace Yupi.Model.Domain
 {
+	[Ignore]
 	public enum EntityType
 	{
 		User = 1,

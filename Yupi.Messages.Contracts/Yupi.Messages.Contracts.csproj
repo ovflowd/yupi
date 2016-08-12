@@ -294,6 +294,7 @@
     <Compile Include="Composer\Items\RemoveInventoryObjectMessageComposer.cs" />
     <Compile Include="Composer\Catalog\CatalogLimitedItemSoldOutMessageComposer.cs" />
     <Compile Include="Composer\Catalog\GiftErrorMessageComposer.cs" />
+    <Compile Include="Composer\Messenger\NotAcceptingRequestsMessageComposer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

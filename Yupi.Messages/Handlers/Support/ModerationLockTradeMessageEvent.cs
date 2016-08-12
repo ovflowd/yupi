@@ -1,20 +1,45 @@
 ﻿using System;
+using Yupi.Model.Domain;
+using Yupi.Model.Repository;
+using Yupi.Model;
+using Yupi.Controller;
+using Yupi.Messages.Notification;
 
 
 namespace Yupi.Messages.Support
 {
 	public class ModerationLockTradeMessageEvent : AbstractHandler
 	{
+		private Repository<UserInfo> UserRepository;
+		private ClientManager ClientManager;
+
+		public ModerationLockTradeMessageEvent ()
+		{
+			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>>();
+			ClientManager = DependencyFactory.Resolve<ClientManager>();
+		}
+
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			if (!session.UserData.Info.HasPermission("fuse_lock_trade"))
 				return;
 
-			uint userId = request.GetUInt32();
+			int userId = request.GetInteger();
 			string message = request.GetString();
-			int length = request.GetInteger()*3600;
+			int hours = request.GetInteger();
 
-			ModerationTool.LockTrade(session, userId, message, length);
+			UserInfo user = UserRepository.FindBy (userId);
+
+			user.TradeLocks.Add (new TradeLock () {
+				ExpiresAt = DateTime.Now.AddHours(hours)
+			});
+
+			UserRepository.Save (user);
+
+			var target = ClientManager.GetByInfo (user);
+			if (target != null) {
+				target.Router.GetComposer<AlertNotificationMessageComposer> ().Compose(target, message);
+			}
 		}
 	}
 }

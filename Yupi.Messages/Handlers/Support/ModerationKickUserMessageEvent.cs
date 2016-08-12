@@ -1,19 +1,38 @@
 ﻿using System;
+using Yupi.Controller;
+using Yupi.Model;
+using Yupi.Messages.Notification;
 
 
 namespace Yupi.Messages.Support
 {
 	public class ModerationKickUserMessageEvent : AbstractHandler
 	{
+		private ClientManager ClientManager;
+		private RoomManager RoomManager;
+
+		public ModerationKickUserMessageEvent ()
+		{
+			ClientManager = DependencyFactory.Resolve<ClientManager>();
+			RoomManager = DependencyFactory.Resolve<RoomManager>();
+		}
+
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			if (!session.UserData.Info.HasPermission("fuse_kick"))
 				return;
 
-			uint userId = request.GetUInt32();
+			int userId = request.GetInteger();
 			string message = request.GetString();
 
-			ModerationTool.KickUser(session, userId, message, false);
+			var target = ClientManager.GetByUserId (userId);
+
+			// TODO Log
+
+			if (target != null && target.UserData.Info.Rank < session.UserData.Info.Rank) {
+				RoomManager.RemoveUser (target.UserData.RoomEntity);
+				target.Router.GetComposer<AlertNotificationMessageComposer> ().Compose(target, message);
+			}
 		}
 	}
 }

@@ -2,6 +2,7 @@
 
 namespace Yupi.Model.Domain
 {
+	[Ignore]
 	public class PetEntity : RoomEntity
 	{
 		public PetInfo Info { get; set; }

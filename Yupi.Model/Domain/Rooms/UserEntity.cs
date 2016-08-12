@@ -1,7 +1,9 @@
 ﻿using System;
+using Yupi.Model.Domain;
 
 namespace Yupi.Model.Domain
 {
+	[Ignore]
 	public class UserEntity : RoomEntity
 	{
 		public UserInfo UserInfo { 

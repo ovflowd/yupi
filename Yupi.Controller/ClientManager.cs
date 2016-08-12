@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Yupi.Protocol;
 using Yupi.Model.Domain;
 using System.Linq;
+using Yupi.Model;
 
 namespace Yupi.Controller
 {
@@ -10,9 +11,15 @@ namespace Yupi.Controller
 	{
 		public IList<ISession<Habbo>> Connections { get; private set; }
 
+		private RoomManager RoomManager;
+
+		private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger
+			(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
 		public ClientManager ()
 		{
 			Connections = new List<ISession<Habbo>> ();
+			RoomManager = DependencyFactory.Resolve<RoomManager> ();
 		}
 
 		public bool IsOnline(UserInfo info) {
@@ -25,6 +32,18 @@ namespace Yupi.Controller
 
 		public ISession<Habbo> GetByUserId(int id) {
 			return Connections.SingleOrDefault (x => x.UserData.Info.Id == id);
+		}
+
+		public void Disconnect(ISession<Habbo> session, string reason) {
+			RoomEntity entity = session.UserData.RoomEntity;
+
+			if (entity != null) {
+				RoomManager.RemoveUser (entity);
+			}
+
+			session.Disconnect ();
+
+			Logger.DebugFormat ("User disconnected [{0}] Reason: {1}", session.UserData.MachineId, reason);
 		}
 	}
 }
