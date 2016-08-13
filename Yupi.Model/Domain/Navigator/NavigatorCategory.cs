@@ -26,33 +26,14 @@ using System.Collections.Generic;
 
 namespace Yupi.Model.Domain
 {
-	/// <summary>
-	///     Class Navigator Category.
-	/// </summary>
 	public class NavigatorCategory
 	{
 		public virtual int Id { get; protected set; }
-
-		/// <summary>
-		///     The caption
-		/// </summary>
 		public virtual string Caption { get; set; }
-
-		/// <summary>
-		///     Default Opened State
-		/// </summary>
 		public virtual bool IsOpened { get; set; }
-
-		/// <summary>
-		///     Default Item Size
-		/// </summary>
 		public virtual bool IsImage { get; set; }
-
-		/// <summary>
-		///     Sub Categories
-		/// </summary>
 		[OneToMany]
-		public virtual IList<NavigatorSubCategory> SubCategories { get; protected set; }
+		public virtual IList<NavigatorCategory> SubCategories { get; protected set; }
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="NavigatorCategory" /> class.
@@ -64,7 +45,7 @@ namespace Yupi.Model.Domain
 		/// <param name="subCategories"></param>
 		public NavigatorCategory ()
 		{
-			SubCategories = new List<NavigatorSubCategory> ();
+			SubCategories = new List<NavigatorCategory> ();
 		}
 	}
 }

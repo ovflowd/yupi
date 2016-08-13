@@ -88,7 +88,6 @@
     <Compile Include="Domain\Groups\GroupSymbols.cs" />
     <Compile Include="Domain\Messenger\MessengerMessage.cs" />
     <Compile Include="Domain\Navigator\NavigatorCategory.cs" />
-    <Compile Include="Domain\Navigator\NavigatorSubCategory.cs" />
     <Compile Include="Domain\Rooms\RoomData.cs" />
     <Compile Include="Domain\Rooms\RoomEvent.cs" />
     <Compile Include="Domain\Rooms\RoomModel.cs" />

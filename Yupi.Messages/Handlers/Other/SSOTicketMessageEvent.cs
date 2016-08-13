@@ -19,7 +19,7 @@ namespace Yupi.Messages.Other
 			if (!session.TryLogin(ssoTicket, out banReason))
 				session.Disconnect("Banned from Server.", true);
 
-			session.TimePingedReceived = DateTime.Now;
+			session.UserData.TimePingReceived = DateTime.Now;
 		}
 	}
 }

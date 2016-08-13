@@ -232,22 +232,6 @@ namespace Yupi.Emulator.Game.Browser
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>System.Int32.</returns>
-     public int GetNewNavigatorLength(string value)
-        {
-            switch (value)
-            {
-                case "official_view":
-                    return 2;
-
-                case "myworld_view":
-                    return 5;
-
-                case "hotel_view":
-                case "roomads_view":
-                    return Yupi.GetGame().GetNavigator().FlatCatsCount + 1;
-            }
-
-            return 1;
-        }
+    
     }
 }

@@ -1,34 +1,39 @@
 ﻿using System;
 
 using Yupi.Messages.User;
+using Yupi.Controller;
+using Yupi.Model;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Messenger
 {
 	public class FollowFriendMessageEvent : AbstractHandler
 	{
+		private ClientManager ClientManager;
+
+		public FollowFriendMessageEvent ()
+		{
+			ClientManager = DependencyFactory.Resolve<ClientManager>();
+		}
+
 		// TODO Refactor
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			uint userId = request.GetUInt32();
-			GameClient clientByUserId = Yupi.GetGame().GetClientManager().GetClientByUserId(userId);
+			int userId = request.GetInteger();
 
-			if (clientByUserId == null || clientByUserId.GetHabbo() == null) 
-				return;
-			
-			if (clientByUserId.GetHabbo ().GetMessenger () == null || clientByUserId.GetHabbo ().CurrentRoom == null) {
-				if (session.GetHabbo ().GetMessenger () == null)
-					return;
+			Relationship relationship = session.UserData.Info.Relationships.FindByUser (userId);
 
-				router.GetComposer<FollowFriendErrorMessageComposer> ().Compose (session, 2);
-			
-				session.GetHabbo ().GetMessenger ().UpdateFriend (userId, clientByUserId, true);
-
-			} else if (session.GetHabbo ().Rank < 4 && session.GetHabbo ().GetMessenger () != null &&
-			           !session.GetHabbo ().GetMessenger ().FriendshipExists (userId)) {
+			if (relationship == null) {
 				router.GetComposer<FollowFriendErrorMessageComposer> ().Compose (session, 0);
-
 			} else {
-				router.GetComposer<RoomForwardMessageComposer> ().Compose (session, clientByUserId.GetHabbo ().CurrentRoom.RoomId);
+
+				var friendSession = ClientManager.GetByUserId (userId);
+
+				if (friendSession == null || friendSession.UserData.Room == null) {
+					router.GetComposer<FollowFriendErrorMessageComposer> ().Compose (session, 2);
+				} else {
+					router.GetComposer<RoomForwardMessageComposer> ().Compose (session, friendSession.UserData.Room.Data.Id);
+				}
 			}
 		}
 	}

@@ -48,10 +48,12 @@
     <Compile Include="CatalogController.cs" />
     <Compile Include="ModerationTool.cs" />
     <Compile Include="RelationshipController.cs" />
+    <Compile Include="Support\WordfilterManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Items\" />
+    <Folder Include="Support\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Yupi.Model\Yupi.Model.csproj">

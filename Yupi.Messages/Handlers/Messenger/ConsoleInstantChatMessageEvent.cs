@@ -11,11 +11,13 @@ namespace Yupi.Messages.Messenger
 	{
 		private Repository<UserInfo> UserRepository;
 		private ClientManager ClientManager;
+		private WordfilterManager Wordfilter;
 
 		public ConsoleInstantChatMessageEvent ()
 		{
 			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>>();
 			ClientManager = DependencyFactory.Resolve<ClientManager>();
+			Wordfilter = DependencyFactory.Resolve<WordfilterManager>();
 		}
 
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
@@ -31,19 +33,18 @@ namespace Yupi.Messages.Messenger
 			if (friend != null) {
 				MessengerMessage message = new MessengerMessage () {
 					From = session.UserData.Info,
-					Text = text,
-					Timestamp = DateTime.Now
+					UnfilteredText = text,
+					Text = Wordfilter.Filter(text),
+					Timestamp = DateTime.Now,
 				};
-
+					
 				var friendSession = ClientManager.GetByInfo (friend.Friend);
 				friendSession?.Router.GetComposer<ConsoleChatMessageComposer> ().Compose (session, message);
+				message.Read = friendSession != null;
 
-				// TODO Filter
 				// TODO Store for offline
 				// TODO Store for chatlog
 			}
-
-		    session.GetHabbo ().GetMessenger ().SendInstantMessage (toId, text);
 		}
 	}
 }

@@ -1,30 +1,39 @@
 ﻿using System;
+using Yupi.Messages.Contracts;
+using Yupi.Util;
+using Yupi.Model.Domain;
+using Yupi.Model.Repository;
+using Yupi.Model;
 
 
 namespace Yupi.Messages.Navigator
 {
 	public class NewNavigatorAddSavedSearchEvent : AbstractHandler
 	{
+		private Repository<UserInfo> UserRepository;
+
+		public NewNavigatorAddSavedSearchEvent ()
+		{
+			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>> ();
+		}
+
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			if (session.GetHabbo().NavigatorLogs.Count > 50)
-			{
-				session.SendNotif(Yupi.GetLanguage().GetVar("navigator_max"));
-
-				return;
-			}
-
 			// TODO Refactor
 			string value1 = request.GetString();
 
 			string value2 = request.GetString();
 
-			UserSearchLog naviLogs = new UserSearchLog(session.GetHabbo().NavigatorLogs.Count, value1, value2);
+			UserSearchLog naviLog = new UserSearchLog() {
+				Value1 = value1,
+				Value2 = value2
+			};
+					
+			session.UserData.Info.NavigatorLog.Add(naviLog);
 
-			if (!session.GetHabbo().NavigatorLogs.ContainsKey(naviLogs.Id))
-				session.GetHabbo().NavigatorLogs.Add(naviLogs.Id, naviLogs);
+			UserRepository.Save (session.UserData.Info);
 
-			session.Send(NavigatorSavedSearchesComposer.Compose(session));
+			router.GetComposer<NavigatorSavedSearchesComposer> ().Compose (session, session.UserData.Info.NavigatorLog);
 		}
 	}
 }

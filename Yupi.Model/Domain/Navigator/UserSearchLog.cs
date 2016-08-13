@@ -22,7 +22,7 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-namespace Yupi.Emulator.Game.Browser.Models
+namespace Yupi.Model.Domain
 {
 	public class UserSearchLog
 	{

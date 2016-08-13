@@ -64,8 +64,9 @@ namespace Yupi.Model.Domain
 		[ManyToMany]
 		public virtual IList<UserInfo> Requests { get; protected set; }
 
-		public virtual uint RoomId { get; set; }
+		public virtual RoomData Room { get; set; }
 
+		// TODO ???
 		public virtual uint State { get; set; }
 	}
 }

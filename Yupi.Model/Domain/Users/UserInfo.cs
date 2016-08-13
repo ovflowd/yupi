@@ -28,6 +28,8 @@ namespace Yupi.Model.Domain
 
 		public virtual Subscription Subscription { get; set; }
 
+		public virtual IList<UserSearchLog> NavigatorLog { get; protected set; }
+
 		[ManyToMany]
 		public virtual IList<RoomData> FavoriteRooms { get; protected set; }
 

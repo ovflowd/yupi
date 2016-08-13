@@ -9,14 +9,14 @@ namespace Yupi.Messages.Messenger
 {
 	public class LoadFriendsMessageComposer : Yupi.Messages.Contracts.LoadFriendsMessageComposer
 	{
-		public override void Compose ( Yupi.Protocol.ISender session, Dictionary<uint, Relationship> friends)
+		public override void Compose ( Yupi.Protocol.ISender session, IList<Relationship> friends)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(1);
 				message.AppendInteger(0);
 				message.AppendInteger(friends.Count);
 
-				foreach (Relationship relationship in friends.Values)
+				foreach (Relationship relationship in friends)
 				{
 					message.AppendInteger(relationship.Friend.Id);
 					message.AppendString(relationship.Friend.UserName);

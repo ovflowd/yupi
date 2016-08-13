@@ -4,9 +4,9 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Contracts
 {
-	public abstract class LoadFriendsMessageComposer : AbstractComposer<Dictionary<uint, Relationship>>
+	public abstract class LoadFriendsMessageComposer : AbstractComposer<IList<Relationship>>
 	{
-		public override void Compose(Yupi.Protocol.ISender session, Dictionary<uint, Relationship> friends)
+		public override void Compose(Yupi.Protocol.ISender session, IList<Relationship> friends)
 		{
 		 // Do nothing by default.
 		}

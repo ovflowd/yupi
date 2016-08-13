@@ -12,7 +12,7 @@ namespace Yupi.Messages.Other
 
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			session.TimePingedReceived = DateTime.Now;
+			session.UserData.TimePingReceived = DateTime.Now;
 		}
 	}
 }

@@ -11,7 +11,7 @@ namespace Yupi.Messages.Navigator
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(roomData.Id);
-				message.AppendString(roomData.CcTs);
+				message.AppendString(roomData.CCTs);
 				message.AppendInteger(roomData.Id);
 				session.Send (message);
 			}

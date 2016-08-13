@@ -11,6 +11,8 @@ namespace Yupi.Model.Domain
 
 		public UserEntity RoomEntity { get; protected set; }
 
+		public DateTime TimePingReceived;
+
 		// TODO Is this at the right place?
 		public string MachineId;
 

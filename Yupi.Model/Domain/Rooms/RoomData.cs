@@ -45,6 +45,9 @@ namespace Yupi.Model.Domain
 
 		public virtual RoomModel Model { get; set; }
 
+		// TODO What are those exactly? (Format!)
+		public virtual string CCTs { get; set; }
+
 		public virtual SongMachineComponent SongMachine { get; protected set; }
 
 		/// <summary>
@@ -107,9 +110,6 @@ namespace Yupi.Model.Domain
 		/// </summary>
 		public virtual string Description { get; set; }
 
-		/// <summary>
-		///     Room Event
-		/// </summary>
 		public virtual RoomEvent Event { get; set; }
 
 		/// <summary>
@@ -171,11 +171,6 @@ namespace Yupi.Model.Domain
 
 		// TODO Enum private/public
 		public virtual string Type { get; set; }
-
-		/// <summary>
-		///     Amount of Users on Room
-		/// </summary>
-		public virtual uint UsersNow { get; set; }
 
 		/// <summary>
 		///     Max Amount of Users on Room

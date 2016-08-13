@@ -2,18 +2,27 @@
 
 using Yupi.Protocol.Buffers;
 using Yupi.Model.Domain;
+using Yupi.Controller;
+using Yupi.Model;
 
 
 namespace Yupi.Messages.Support
 {
 	public class ModerationRoomToolMessageComposer : Yupi.Messages.Contracts.ModerationRoomToolMessageComposer
 	{
+		private RoomManager RoomManager;
+
+		public ModerationRoomToolMessageComposer ()
+		{
+			RoomManager = DependencyFactory.Resolve<RoomManager> ();
+		}
+
 		// TODO Refactor
 		public override void Compose ( Yupi.Protocol.ISender session, RoomData data, bool isLoaded)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(data.Id);
-				message.AppendInteger(data.UsersNow);
+				message.AppendInteger(RoomManager.UsersNow(data));
 
 				message.AppendBool(false); // TODO Meaning? (isOwnerInRoom?)
 

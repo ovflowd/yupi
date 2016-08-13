@@ -358,9 +358,7 @@
     <Compile Include="Emulator\Game\Users\YoutubeManager.cs" />
     <Compile Include="Emulator\Game\Users\HallOfFame.cs" />
     <Compile Include="Emulator\Game\Users\Inventory\UserClothesManager.cs" />
-    <Compile Include="Emulator\Core\Security\BlackWords\Structs\BlackWord.cs" />
     <Compile Include="Emulator\Core\Security\BlackWords\BlackWordsManager.cs" />
-    <Compile Include="Emulator\Core\Security\BlackWords\Enums\BlackWordType.cs" />
     <Compile Include="Emulator\Core\Security\BlackWords\Structs\BlackWordTypeSettings.cs" />
     <Compile Include="Emulator\Core\Security\ServerSecurityChatFilter.cs" />
     <Compile Include="Emulator\Core\Security\UserChatInputFilter.cs" />
@@ -501,6 +499,7 @@
     <Folder Include="Emulator\Game\SoundMachine\Songs\" />
     <Folder Include="Emulator\Game\Rooms\Competitions\Models\" />
     <Folder Include="Emulator\Game\Users\Messenger\Structs\" />
+    <Folder Include="Emulator\Core\Security\BlackWords\Enums\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\GitInfo.1.1.1\build\GitInfo.targets" Condition="Exists('..\packages\GitInfo.1.1.1\build\GitInfo.targets')" />

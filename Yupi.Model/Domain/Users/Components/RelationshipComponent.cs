@@ -10,7 +10,9 @@ namespace Yupi.Model.Domain.Components
 		[OneToMany]
 		public virtual IList<Relationship> Relationships { get; protected set; }
 
+		// TODO Not really happy with this implementation
 		public virtual IList<FriendRequest> SentRequests { get; protected set; }
+		public virtual IList<FriendRequest> ReceivedRequests { get; protected set; }
 
 		public virtual bool IsFriendsWith(UserInfo user) {
 			return Relationships.Any (x => x.Friend == user);

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Yupi.Protocol.Buffers;
-using Yupi.Emulator.Game.Browser.Models;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Navigator
 {

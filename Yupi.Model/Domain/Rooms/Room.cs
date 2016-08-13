@@ -11,10 +11,19 @@ namespace Yupi.Model.Domain
 
 		public IRouter Router { get; private set; }
 
+		// TODO Implementation detail -> Private!
 		public IList<RoomEntity> Users { get; private set; }
 
 		public Room ()
 		{
+		}
+
+		public int GetUserCount() {
+			return Users.Where (x => x.Type == EntityType.User).Count ();
+		}
+
+		public bool HasUsers() {
+			return Users.Any (x => x.Type == EntityType.User);
 		}
 
 		public bool HasOwnerRights(UserInfo user) {
