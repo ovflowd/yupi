@@ -26,7 +26,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
-using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using Yupi.Model.Domain.Components;
 
 

@@ -25,7 +25,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 
 namespace Yupi.Model.Domain
 {

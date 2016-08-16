@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Yupi.Emulator.Data.Base.Adapters.Interfaces;
-
 
 namespace Yupi.Model.Domain
 {

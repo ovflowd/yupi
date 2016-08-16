@@ -62,8 +62,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Router.cs" />
-    <Compile Include="PacketLibrary.cs" />
     <Compile Include="Handlers\User\SendBullyReportMessageEvent.cs" />
     <Compile Include="Composer\User\BullyReportSentMessageComposer.cs" />
     <Compile Include="Handlers\User\OpenBullyReportingMessageEvent.cs" />
@@ -73,7 +71,6 @@
     <Compile Include="Handlers\User\RetrieveCitizenshipStatus.cs" />
     <Compile Include="Composer\User\CitizenshipStatusMessageComposer.cs" />
     <Compile Include="Handlers\User\GetCatalogClubGiftsMessageEvent.cs" />
-    <Compile Include="AbstractHandler.cs" />
     <Compile Include="Composer\User\LoadCatalogClubGiftsMessageComposer.cs" />
     <Compile Include="Handlers\User\GetUserTagsMessageEvent.cs" />
     <Compile Include="Composer\User\UserTagsMessageComposer.cs" />

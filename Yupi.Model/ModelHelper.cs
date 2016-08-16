@@ -1,33 +1,34 @@
 ﻿using System;
-using FluentNHibernate.Cfg;
-using NHibernate;
-using FluentNHibernate.Automapping;
 using FluentNHibernate.Cfg.Db;
+using Yupi.Util;
+using NHibernate;
+using FluentNHibernate.Cfg;
+using FluentNHibernate.Automapping;
+using Yupi.Model.Domain;
+using NHibernate.Cfg;
 using System.IO;
 using NHibernate.Tool.hbm2ddl;
-using NHibernate.Cfg;
-using Yupi.Model.Domain;
 
 namespace Yupi.Model
 {
-	public static class Test
+	public class ModelHelper
 	{
 		private const string DbFile = "test.db";
 
-		internal static void Main ()
+		public static ISessionFactory CreateFactory ()
 		{
 			var cfg = new ORMConfiguration ();
 
 			IPersistenceConfigurer db;
-			if (IsRunningOnMono ()) {
+			if (MonoUtil.IsRunningOnMono ()) {
 				db = MonoSQLiteConfiguration.Standard
 					.UsingFile (DbFile);
 			} else {
 				db = SQLiteConfiguration.Standard
-				.UsingFile (DbFile);
+					.UsingFile (DbFile);
 			}
 
-			using (ISessionFactory sessionFactory = Fluently.Configure ()
+			return Fluently.Configure ()
 				.Database (db)
 				.Mappings (m =>
 					m.AutoMappings
@@ -40,15 +41,7 @@ namespace Yupi.Model
 						.IncludeBase<WallItem> ()
 			                                        ))
 				.ExposeConfiguration (BuildSchema)
-				.BuildSessionFactory ()) {
-
-				Console.ReadLine ();
-			}
-		}
-
-		public static bool IsRunningOnMono ()
-		{
-			return Type.GetType ("Mono.Runtime") != null;
+				.BuildSessionFactory ();
 		}
 
 		private static void BuildSchema (Configuration config)

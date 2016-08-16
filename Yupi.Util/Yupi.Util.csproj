@@ -45,6 +45,8 @@
     <Compile Include="T.cs" />
     <Compile Include="DateTimeExt.cs" />
     <Compile Include="StringExt.cs" />
+    <Compile Include="YupiUpdatesManager.cs" />
+    <Compile Include="MonoUtil.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

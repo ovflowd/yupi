@@ -20,7 +20,7 @@ namespace Yupi.Model.Domain
 		public bool IsRidingHorse { get; set; }
 		public Room Room { get; set; }
 
-		public ISession<Habbo> Session { get; private set; }
+		public ISession<Habbo> Session { get; set; }
 
 		// TODO Can this be solved in a better way?
 		public Habbo GuideOtherUser;

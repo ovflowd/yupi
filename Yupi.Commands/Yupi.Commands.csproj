@@ -146,10 +146,4 @@
     <Folder Include="Controllers\" />
     <Folder Include="Interfaces\" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Yupi\Yupi.csproj">
-      <Project>{4F3B6B3F-7754-40C9-B3DD-8D83BFA59FE5}</Project>
-      <Name>Yupi</Name>
-    </ProjectReference>
-  </ItemGroup>
 </Project>

@@ -23,40 +23,32 @@
 */
 
 using System;
-using System.Data;
 using System.Linq;
 using System.Reflection;
-using Yupi.Emulator.Core.Io.Logger;
-using Yupi.Net.Web;
 
-namespace Yupi.Emulator.Data
+namespace Yupi.Util
 {
-    class YupiUpdatesManager
+    public class YupiUpdatesManager
     {
-        /// <summary>
-        ///     Update Message
-        /// </summary>
-        private static DataSet _updateMessage = new DataSet();
-
         /// <summary>
         ///     Remote Github HEAD Commit Hash
         /// </summary>
-        private static string _lastVersion = "";
+        private string _lastVersion = "";
 
         /// <summary>
         ///     Running Version Tag
         /// </summary>
-        public static readonly string GithubVersionTag = Assembly.GetExecutingAssembly().GetCustomAttributes(false).OfType<AssemblyFileVersionAttribute>().Single().Version;
+		public readonly string GithubVersionTag = Assembly.GetEntryAssembly().GetCustomAttributes(false).OfType<AssemblyFileVersionAttribute>().Single().Version;
 
         /// <summary>
         ///     Running Version
         /// </summary>
-        public static readonly string GithubVersion = Assembly.GetExecutingAssembly().GetCustomAttributes(false).OfType<AssemblyInformationalVersionAttribute>().Single().InformationalVersion;
+		public readonly string GithubVersion = Assembly.GetEntryAssembly().GetCustomAttributes(false).OfType<AssemblyInformationalVersionAttribute>().Single().InformationalVersion;
 
         /// <summary>
         ///     Store Update Message
         /// </summary>
-        public static void Init()
+		public YupiUpdatesManager()
 		{
 			// TODO Reimplement
 			//_updateMessage = WebManager.HttpGetJsonDataset (Yupi.GithubUpdateFile);
@@ -65,8 +57,9 @@ namespace Yupi.Emulator.Data
         /// <summary>
         ///     Generate Update Message and Echoes
         /// </summary>
-        private static void GenerateUpdateMessage(DataSet message)
+        private void GenerateUpdateMessage()
         {
+			/*
 			if (message == null) {
 				return;
 			}
@@ -75,20 +68,22 @@ namespace Yupi.Emulator.Data
 
             foreach (DataRow row in dataTable.Rows)
                 YupiWriterManager.WriteLine(row["message"].ToString(), row["title"].ToString(), (ConsoleColor)Enum.Parse(typeof(ConsoleColor), row["color"].ToString()));
+                */
+			throw new NotImplementedException ();
         }
 
         /// <summary>
         ///     Show Initial Message
         /// </summary>
-        public static void ShowInitialMessage()
+        public void ShowInitialMessage()
         {
             Console.BackgroundColor = ConsoleColor.DarkBlue;
 
             Console.Clear();
 
             Console.WriteLine();
-
-            GenerateUpdateMessage(_updateMessage);
+			throw new NotImplementedException ();
+           // GenerateUpdateMessage(_updateMessage);
 
             Console.ForegroundColor = ConsoleColor.White;
 
@@ -98,17 +93,20 @@ namespace Yupi.Emulator.Data
         /// <summary>
         ///     Show if You're Using Last Version [Not Useful yet]
         /// </summary>
-        public static void ShowVersionMessage()
+        public void ShowVersionMessage()
         {
-            if (CompareVersion())
+            /*
+			if (CompareVersion())
                 YupiWriterManager.WriteLine("You're running Last Yupi Version from Repo.", "Yupi.Repo");
             else
                 YupiWriterManager.WriteLine("You're not Updated with Yupi Repo! Please Download last Version", "Yupi.Repo", ConsoleColor.DarkYellow);
+                */
+			throw new NotImplementedException ();
         }
 
         /// <summary>
         ///     Compare Downloaded Version with Github Version [Not Useful yet]
         /// </summary>
-        public static bool CompareVersion() => GithubVersion == _lastVersion || _lastVersion == string.Empty;
+        public bool CompareVersion() => GithubVersion == _lastVersion || _lastVersion == string.Empty;
     }
 }

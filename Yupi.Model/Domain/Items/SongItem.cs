@@ -1,4 +1,3 @@
-using Yupi.Emulator.Data.Base.Adapters.Interfaces;
 using System;
 
 namespace Yupi.Model.Domain

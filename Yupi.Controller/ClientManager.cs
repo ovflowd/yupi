@@ -46,6 +46,14 @@ namespace Yupi.Controller
 
 			Logger.DebugFormat ("User disconnected [{0}] Reason: {1}", session.UserData.MachineId, reason);
 		}
+
+		public void AddClient(ISession<Habbo> session) {
+			Connections.Add (session);
+		}
+
+		public void RemoveClient(ISession<Habbo> session) {
+			Connections.Remove (session);
+		}
 	}
 }
 
