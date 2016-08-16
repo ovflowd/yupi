@@ -25,12 +25,16 @@ namespace Yupi.Messages.Navigator
 				message.AppendString (query);
 				message.AppendInteger (query.Length > 0 ? 1 : GetNewNavigatorLength (staticId));
 
+				throw new NotImplementedException ();
+
+				/*
 				if (query.Length > 0)
 					SerializeSearches (query, message);
 				else
 					SerializeSearchResultListStatics (staticId, true, message);
 
 				session.Send (message);
+				*/
 			}
 		}
 
@@ -45,12 +49,13 @@ namespace Yupi.Messages.Navigator
 
 			case "hotel_view":
 			case "roomads_view":
-				return Yupi.GetGame ().GetNavigator ().FlatCatsCount + 1;
+				//return Yupi.GetGame ().GetNavigator ().FlatCatsCount + 1;
+				throw new NotImplementedException();
 			}
 
 			return 1;
 		}
-
+		/*
 		private void SerializeSearchResultListFlatcats (NavigatorCategory flatCat, bool direct, ServerMessage messageBuffer)
 		{
 			messageBuffer.AppendString ($"category__" + flatCat.Caption);
@@ -83,9 +88,12 @@ namespace Yupi.Messages.Navigator
 
 			SerializeNavigatorPromotedRooms (messageBuffer, RoomManager.GetEventRooms(), category, direct);
 		}
-
+*/
 		private void SerializeSearchResultListStatics (string staticId, bool direct, ServerMessage messageBuffer, UserInfo user, bool opened = false, bool showImage = false)
 		{
+			throw new NotImplementedException ();
+
+			/*
 			if (string.IsNullOrEmpty (staticId) || staticId == "official")
 				staticId = "official_view";
 
@@ -106,9 +114,6 @@ namespace Yupi.Messages.Navigator
 
 						foreach (NavigatorCategory subCategory in navCategory.SubCategories)
 							SerializeSearchResultListStatics (subCategory.Caption, false, messageBuffer, user, subCategory.IsOpened, subCategory.IsImage);
-
-						foreach (PublicCategory flat in Yupi.GetGame().GetNavigator().PrivateCategories.Values)
-							SerializeSearchResultListFlatcats (flat.Id, false, messageBuffer);
 					}
 					break;
 				}
@@ -243,9 +248,11 @@ namespace Yupi.Messages.Navigator
 					break;
 				}
 			}
+			*/
 		}
 
-		public void SerializeStaffPicks (ServerMessage messageBuffer)
+		/*
+		private void SerializeStaffPicks (ServerMessage messageBuffer)
 		{
 			messageBuffer.StartArray ();
 
@@ -323,7 +330,7 @@ namespace Yupi.Messages.Navigator
 
 			string imageData = null;
 			throw new NotImplementedException ();
-			/*
+
 			int enumType = enterRoom ? 32 : 0;
 
 			PublicItem publicItem = Yupi.GetGame()?.GetNavigator()?.GetPublicRoom(data.Id);
@@ -365,8 +372,8 @@ namespace Yupi.Messages.Navigator
 				messageBuffer.AppendString(data.Event.Description);
 				messageBuffer.AppendInteger((int)Math.Floor((data.Event.Time - Yupi.GetUnixTimeStamp()) / 60.0));
 			}
-			*/
 		}
+		*/
 	}
 }
 

@@ -10,8 +10,11 @@ namespace Yupi.Messages.Items
 		public override void Compose ( Yupi.Protocol.ISender room, FloorItem item)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
+				/*
 				item.Serialize(message);
-				message.AppendString(room.RoomData.Owner);
+				message.AppendString(room.Data.Owner.UserName);
+				*/
+				throw new NotImplementedException ();
 				room.Send (message);
 			}
 		}

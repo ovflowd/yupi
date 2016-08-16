@@ -1,12 +1,13 @@
 ﻿using System;
 using Yupi.Protocol.Buffers;
 using Yupi.Model.Domain;
+using Yupi.Util;
 
 namespace Yupi.Messages.Groups
 {
 	public class GroupForumDataMessageComposer : Yupi.Messages.Contracts.GroupForumDataMessageComposer
 	{
-		public override void Compose ( Yupi.Protocol.ISender session, Group group, uint userId)
+		public override void Compose ( Yupi.Protocol.ISender session, Group group, UserInfo user)
 		{ // TODO Refactor
 			string string1 = string.Empty, string2 = string.Empty, string3 = string.Empty, string4 = string.Empty;
 
@@ -17,18 +18,18 @@ namespace Yupi.Messages.Groups
 				message.AppendString(group.Badge);
 				message.AppendInteger(0);
 				message.AppendInteger(0);
-				message.AppendInteger(group.Forum.ForumMessagesCount);
+				message.AppendInteger(group.Forum.GetMessageCount());
 				message.AppendInteger(0);
 				message.AppendInteger(0);
-				message.AppendInteger(group.Forum.ForumLastPosterId);
-				message.AppendString(group.Forum.ForumLastPosterName);
-				message.AppendInteger(group.Forum.ForumLastPostTime);
+				message.AppendInteger(group.Forum.GetLastPost().Poster.Id);
+				message.AppendString(group.Forum.GetLastPost().Poster.UserName);
+				message.AppendInteger((int)group.Forum.GetLastPost().Timestamp.ToUnix().SecondsSinceEpoch);
 				message.AppendInteger(group.Forum.WhoCanRead);
 				message.AppendInteger(group.Forum.WhoCanPost);
 				message.AppendInteger(group.Forum.WhoCanThread);
 				message.AppendInteger(group.Forum.WhoCanMod);
 
-				if (!group.Members.ContainsKey (userId)) {
+				if (!group.Members.Contains (user)) {
 					if (group.Forum.WhoCanRead == 1) {
 						string1 = "not_member";
 					}
@@ -42,7 +43,7 @@ namespace Yupi.Messages.Groups
 					}
 				}
 
-				if (!group.Admins.ContainsKey (userId)) {
+				if (!group.Admins.Contains (user)) {
 					if (group.Forum.WhoCanRead == 2) {
 						string1 = "not_admin";
 					}
@@ -60,7 +61,7 @@ namespace Yupi.Messages.Groups
 					}
 				}
 
-				if (userId != group.CreatorId) {
+				if (user != group.Creator) {
 					if (group.Forum.WhoCanRead == 3) {
 						string1 = "not_owner";
 					}
@@ -83,7 +84,7 @@ namespace Yupi.Messages.Groups
 				message.AppendString(string3);
 				message.AppendString(string4);
 				message.AppendString(string.Empty);
-				message.AppendBool(userId == group.CreatorId);
+				message.AppendBool(user == group.Creator);
 				message.AppendBool(true);
 				session.Send (message);
 			}

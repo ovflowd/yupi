@@ -11,7 +11,7 @@ namespace Yupi.Messages.Bots
 		public override void Compose ( Yupi.Protocol.ISender session, int num, BotInfo bot)
 		{
 			string text = "";
-
+			/*
 			switch(num) {
 			case 2:
 				text = bot.RandomSpeech == null ? string.Empty : string.Join ("\n", bot.RandomSpeech);
@@ -36,6 +36,8 @@ namespace Yupi.Messages.Bots
 				message.AppendString(text);
 				session.Send (message);
 			}
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

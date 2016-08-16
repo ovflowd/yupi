@@ -37,11 +37,14 @@ namespace Yupi.Messages.Rooms
 
 						foreach (BaseItem furni in competition.RequiredItems)
 						{
+							/*
 							if (!room.GetRoomItemHandler().HasFurniByItemName(furni))
 							{
 								message.AppendString(furni);
 								message.SaveArray();
 							}
+							*/
+							throw new NotImplementedException ();
 						}
 
 						message.EndArray();

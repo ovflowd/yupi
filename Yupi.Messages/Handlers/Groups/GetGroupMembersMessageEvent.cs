@@ -1,21 +1,34 @@
 ﻿using System;
 using Yupi.Model.Domain;
+using Yupi.Model.Repository;
+using Yupi.Model;
 
 
 namespace Yupi.Messages.Groups
 {
 	public class GetGroupMembersMessageEvent : AbstractHandler
 	{
+		private Repository<Group> GroupRepository;
+
+		public GetGroupMembersMessageEvent ()
+		{
+			GroupRepository = DependencyFactory.Resolve<Repository<Group>> ();
+		}
+
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			uint groupId = request.GetUInt32();
+			int groupId = request.GetInteger();
 			int page = request.GetInteger();
 			string searchVal = request.GetString();
 			uint reqType = request.GetUInt32();
 
-			Group group = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
+			Group group = GroupRepository.FindBy (groupId);
 
-			router.GetComposer<GroupMembersMessageComposer> ().Compose (session, group, reqType, session, searchVal, page);
+			if (group == null) {
+				return;
+			}
+
+			router.GetComposer<GroupMembersMessageComposer> ().Compose (session, group, reqType, session.UserData.Info, searchVal, page);
 		}
 	}
 }

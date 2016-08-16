@@ -11,10 +11,10 @@ namespace Yupi.Messages.Support
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(ticket.Id);
-				message.AppendInteger(ticket.Status);
+				message.AppendInteger((int)ticket.Status);
 				message.AppendInteger(ticket.Type); 
 				message.AppendInteger(ticket.Category);
-				message.AppendInteger((DateTime.Now-ticket.CreatedAt).TotalMilliseconds);
+				message.AppendInteger((int)(DateTime.Now-ticket.CreatedAt).TotalMilliseconds);
 				message.AppendInteger(ticket.Score);
 				message.AppendInteger(1); // TODO magic constant
 				message.AppendInteger(ticket.Sender.Id);

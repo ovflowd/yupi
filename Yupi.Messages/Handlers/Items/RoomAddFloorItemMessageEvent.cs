@@ -16,6 +16,7 @@ namespace Yupi.Messages.Items
 		// TODO Refactor
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
+			/*
 			try
 			{
 				Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
@@ -186,7 +187,8 @@ namespace Yupi.Messages.Items
 			{
 				router.GetComposer<SuperNotificationMessageComposer>().Compose(session, "", "${room.error.cant_set_item}", "", "", "furni_placement_error", 1);
 				YupiLogManager.LogException(e, "Failed Handling Item.", "Yupi.Mobi");
-			}
+			}*/
+			throw new NotImplementedException ();
 		}
 	}
 }

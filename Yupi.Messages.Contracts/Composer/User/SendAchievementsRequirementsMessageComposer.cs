@@ -4,9 +4,9 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Contracts
 {
-	public abstract class SendAchievementsRequirementsMessageComposer : AbstractComposer<Dictionary<string, Achievement>>
+	public abstract class SendAchievementsRequirementsMessageComposer : AbstractComposer<IDictionary<string, Achievement>>
 	{
-		public override void Compose(Yupi.Protocol.ISender session, Dictionary<string, Achievement> achievements)
+		public override void Compose(Yupi.Protocol.ISender session, IDictionary<string, Achievement> achievements)
 		{
 		 // Do nothing by default.
 		}

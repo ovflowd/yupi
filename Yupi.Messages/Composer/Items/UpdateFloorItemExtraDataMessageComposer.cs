@@ -16,7 +16,7 @@ namespace Yupi.Messages.Items
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendString(item.Id.ToString());
-
+				/*
 				switch (item.GetBaseItem().InteractionType)
 				{
 				case Interaction.MysteryBox:
@@ -158,7 +158,8 @@ namespace Yupi.Messages.Items
 						break;
 					}  
 				}
-
+*/
+				throw new NotImplementedException ();
 				room.Send (message);
 			}
 		}

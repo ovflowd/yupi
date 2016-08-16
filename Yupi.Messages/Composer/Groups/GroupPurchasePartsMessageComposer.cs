@@ -1,5 +1,9 @@
 ﻿using System;
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
+using Yupi.Model.Repository;
+using System.Linq;
+using System.Collections.Generic;
 
 
 namespace Yupi.Messages.Groups
@@ -7,45 +11,57 @@ namespace Yupi.Messages.Groups
 	// TODO Rename
 	public class GroupPurchasePartsMessageComposer : Yupi.Messages.Contracts.GroupPurchasePartsMessageComposer
 	{
+		private Repository<GroupBases> GroupBaseRepository;
+		private Repository<GroupSymbols> SymbolRepository;
+		private Repository<GroupBaseColours> BaseColorRepository;
+		private Repository<GroupSymbolColours> SymbolColorRepository;
+		private Repository<GroupBackGroundColours> BackgroundColorRepository;
+
 		// TODO Refactor
 		public override void Compose ( Yupi.Protocol.ISender session)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendInteger (Yupi.GetGame ().GetGroupManager ().Bases.Count);
+				List<GroupBases> bases = GroupBaseRepository.All ().ToList();
+				List<GroupSymbols> symbols = SymbolRepository.All ().ToList();
+				List<GroupBaseColours> baseColors = BaseColorRepository.All ().ToList();
+				List<GroupSymbolColours> symbolColors = SymbolColorRepository.All ().ToList();
+				List<GroupBackGroundColours> backgroundColors = BackgroundColorRepository.All ().ToList();
 
-				foreach (GroupBases current in Yupi.GetGame().GetGroupManager().Bases) {
-					message.AppendInteger (current.Id);
-					message.AppendString (current.Value1);
-					message.AppendString (current.Value2);
+				message.AppendInteger (bases.Count);
+
+				foreach (GroupBases groupBase in bases) {
+					message.AppendInteger (groupBase.Id);
+					message.AppendString (groupBase.Value1);
+					message.AppendString (groupBase.Value2);
 				}
 
-				message.AppendInteger (Yupi.GetGame ().GetGroupManager ().Symbols.Count);
+				message.AppendInteger (symbols.Count);
 
-				foreach (GroupSymbols current2 in Yupi.GetGame().GetGroupManager().Symbols) {
-					message.AppendInteger (current2.Id);
-					message.AppendString (current2.Value1);
-					message.AppendString (current2.Value2);
+				foreach (GroupSymbols symbol in symbols) {
+					message.AppendInteger (symbol.Id);
+					message.AppendString (symbol.Value1);
+					message.AppendString (symbol.Value2);
 				}
 
-				message.AppendInteger (Yupi.GetGame ().GetGroupManager ().BaseColours.Count);
+				message.AppendInteger (baseColors.Count);
 
-				foreach (GroupBaseColours current3 in Yupi.GetGame().GetGroupManager().BaseColours) {
-					message.AppendInteger (current3.Id);
-					message.AppendString (current3.Colour);
+				foreach (GroupBaseColours baseColor in baseColors) {
+					message.AppendInteger (baseColor.Id);
+					message.AppendString (baseColor.Colour);
 				}
 
-				message.AppendInteger (Yupi.GetGame ().GetGroupManager ().SymbolColours.Count);
+				message.AppendInteger (symbolColors.Count);
 
-				foreach (GroupSymbolColours current4 in Yupi.GetGame().GetGroupManager().SymbolColours.Values) {
-					message.AppendInteger (current4.Id);
-					message.AppendString (current4.Colour);
+				foreach (GroupSymbolColours symbolColor in symbolColors) {
+					message.AppendInteger (symbolColor.Id);
+					message.AppendString (symbolColor.Colour.ToString());
 				}
 
-				message.AppendInteger (Yupi.GetGame ().GetGroupManager ().BackGroundColours.Count);
+				message.AppendInteger (backgroundColors.Count);
 
-				foreach (GroupBackGroundColours current5 in Yupi.GetGame().GetGroupManager().BackGroundColours.Values) {
+				foreach (GroupBackGroundColours current5 in backgroundColors) {
 					message.AppendInteger (current5.Id);
-					message.AppendString (current5.Colour);
+					message.AppendString (current5.Colour.ToString());
 				}
 
 				session.Send (message);

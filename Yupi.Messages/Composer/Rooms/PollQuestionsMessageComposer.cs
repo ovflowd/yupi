@@ -21,7 +21,7 @@ namespace Yupi.Messages.Rooms
 
 					message.AppendInteger(question.Id);
 					message.AppendInteger(questionNumber);
-					message.AppendInteger(question.AnswerType);
+					message.AppendInteger((int)question.AnswerType);
 					message.AppendString(question.Question);
 
 					if (question.AnswerType == PollAnswerType.Selection

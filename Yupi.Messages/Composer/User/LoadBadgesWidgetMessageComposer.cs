@@ -14,7 +14,7 @@ namespace Yupi.Messages.User
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (badges.Badges.Count);
 
-				foreach (Badge badge in badges) {
+				foreach (Badge badge in badges.Badges) {
 					message.AppendInteger(1); // TODO Magic constant
 					message.AppendString(badge.Code);
 				}

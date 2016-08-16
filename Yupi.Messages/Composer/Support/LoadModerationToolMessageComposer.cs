@@ -10,24 +10,25 @@ namespace Yupi.Messages.Support
 {
 	public class LoadModerationToolMessageComposer : Yupi.Messages.Contracts.LoadModerationToolMessageComposer
 	{
-		public override void Compose ( Yupi.Protocol.ISender session, ModerationTool tool, UserInfo user)
+		public override void Compose ( Yupi.Protocol.ISender session, IList<SupportTicket> Tickets, IList<ModerationTemplate> Templates, IList<string> UserMessagePresets, IList<string> RoomMessagePresets, UserInfo user)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendInteger(tool.Tickets.Count);
+				message.AppendInteger(Tickets.Count);
 
-				foreach (SupportTicket current in tool.Tickets) {
-					SerializeTicket(message);
+				foreach (SupportTicket current in Tickets) {
+					//SerializeTicket(message);
+					throw new NotImplementedException();
 				}	
 
-				message.AppendInteger(tool.UserMessagePresets.Count);
+				message.AppendInteger(UserMessagePresets.Count);
 
-				foreach (string text in tool.UserMessagePresets) {
+				foreach (string text in UserMessagePresets) {
 					message.AppendString (text);
 				}
 
 				// TODO Implement categories correctly... This is a mess...
 				IEnumerable<ModerationTemplate> enumerable =
-					(from x in tool.Templates where x.Category == -1 select x).ToArray();
+					(from x in Templates where x.Category == -1 select x).ToArray();
 
 				message.AppendInteger(enumerable.Count());
 				using (IEnumerator<ModerationTemplate> enumerator3 = enumerable.GetEnumerator())
@@ -38,7 +39,7 @@ namespace Yupi.Messages.Support
 					{
 						ModerationTemplate template = enumerator3.Current;
 						IEnumerable<ModerationTemplate> enumerable2 =
-							(from x in tool.Templates where x.Category == (long) (ulong) template.Id select x)
+							(from x in Templates where x.Category == (long) (ulong) template.Id select x)
 								.ToArray();
 						message.AppendString(template.CName);
 						message.AppendBool(first);
@@ -60,17 +61,18 @@ namespace Yupi.Messages.Support
 					}
 				}
 
+				// TODO Hardcoded
 				message.AppendBool(true); //ticket_queue_button
-				message.AppendBool(user.HasFuse("fuse_chatlogs")); //chatlog_button
-				message.AppendBool(user.HasFuse("fuse_alert")); //message_button
+				message.AppendBool(user.HasPermission("fuse_chatlogs")); //chatlog_button
+				message.AppendBool(user.HasPermission("fuse_alert")); //message_button
 				message.AppendBool(true); //modaction_but
-				message.AppendBool(user.HasFuse("fuse_ban")); //ban_button
+				message.AppendBool(user.HasPermission("fuse_ban")); //ban_button
 				message.AppendBool(true);
-				message.AppendBool(user.HasFuse("fuse_kick")); //kick_button
+				message.AppendBool(user.HasPermission("fuse_kick")); //kick_button
 
-				message.AppendInteger(tool.RoomMessagePresets.Count);
+				message.AppendInteger(RoomMessagePresets.Count);
 
-				foreach (string current4 in tool.RoomMessagePresets)
+				foreach (string current4 in RoomMessagePresets)
 					message.AppendString(current4);
 
 				session.Send (message);
@@ -79,10 +81,10 @@ namespace Yupi.Messages.Support
 
 		private void SerializeTicket(ServerMessage message, SupportTicket ticket) {
 			message.AppendInteger(ticket.Id);
-			message.AppendInteger(ticket.Status);
-			message.AppendInteger(ticket.Type); // type (3 or 4 for new style)
+			message.AppendInteger((int)ticket.Status);
+			message.AppendInteger(ticket.Type);
 			message.AppendInteger(ticket.Category);
-			message.AppendInteger((Yupi.GetUnixTimeStamp() - (int) Timestamp)*1000);
+			message.AppendInteger((int)(DateTime.Now - ticket.CreatedAt).TotalMilliseconds);
 			message.AppendInteger(ticket.Score);
 			message.AppendInteger(1);
 			message.AppendInteger(ticket.Sender.Id);

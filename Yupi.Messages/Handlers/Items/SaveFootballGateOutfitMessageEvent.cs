@@ -13,6 +13,8 @@ namespace Yupi.Messages.Items
 			string gender = request.GetString();
 			string look = request.GetString();
 
+			/*
+
 			Yupi.Messages.Rooms room = session.GetHabbo().CurrentRoom;
 
 			RoomItem item = room?.GetRoomItemHandler().GetItem(pId);
@@ -55,6 +57,8 @@ namespace Yupi.Messages.Items
 			}
 
 			router.GetComposer<UpdateRoomItemMessageComposer> ().Compose (session, item);
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

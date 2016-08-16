@@ -37,7 +37,7 @@ namespace Yupi.Model.Domain
 		public virtual IList<TradeLock> TradeLocks { get; protected set; }
 
 		public virtual Group FavouriteGroup { get; set; }
-		public virtual uint HomeRoom { get; set; }
+		public virtual RoomData HomeRoom { get; set; }
 
 		public virtual bool HasFriendRequestsDisabled { get; set; }
 		public virtual bool HideInRoom { get; set; }
@@ -96,6 +96,15 @@ namespace Yupi.Model.Domain
 
 		public UserInfo() {
 			FavouriteGroup = Group.None;
+		}
+
+		public virtual bool IsBanned() {
+			// TODO Implement IP & Machine ID Bans
+			return Bans.Any (x => x.ExpiresAt > DateTime.Now);
+		}
+
+		public virtual bool CanTrade() {
+			return !TradeLocks.Any (x => x.ExpiresAt > DateTime.Now);
 		}
 
 		public virtual bool CanChangeName ()

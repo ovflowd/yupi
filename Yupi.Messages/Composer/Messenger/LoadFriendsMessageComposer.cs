@@ -20,9 +20,12 @@ namespace Yupi.Messages.Messenger
 				{
 					message.AppendInteger(relationship.Friend.Id);
 					message.AppendString(relationship.Friend.UserName);
+					/*
 					message.AppendInteger(relationship.Friend.IsOnline);
 					message.AppendBool(!relationship.Friend.AppearOffline && relationship.Friend.IsOnline);
 					message.AppendBool(!relationship.Friend.HideInRoom && relationship.Friend.InRoom);
+					*/
+					throw new NotImplementedException ();
 					message.AppendString(relationship.Friend.Look);
 					message.AppendInteger(0);
 					message.AppendString(relationship.Friend.Motto);
@@ -31,7 +34,7 @@ namespace Yupi.Messages.Messenger
 					message.AppendBool(true);
 					message.AppendBool(false);
 					message.AppendBool(false);
-					message.AppendShort(relationship.Type);
+					message.AppendShort((short)relationship.Type);
 				}
 
 				session.Send (message);

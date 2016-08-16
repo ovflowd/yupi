@@ -9,12 +9,15 @@ namespace Yupi.Messages.Rooms
 		{
 			uint roomId = request.GetUInt32();
 
+			/*
 			Room room = Yupi.GetGame().GetRoomManager().GetRoom(roomId);
 
 			if (room == null || !room.CheckRights(session, true))
 				return;
 
 			router.GetComposer<RoomLoadFilterMessageComposer> ().Compose (session, room.WordFilter);
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

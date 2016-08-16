@@ -1,21 +1,31 @@
 ﻿using System;
+using Yupi.Model;
+using Yupi.Model.Repository;
+using Yupi.Model.Domain;
 
 
 namespace Yupi.Messages.Groups
 {
 	public class RequestLeaveGroupMessageEvent : AbstractHandler
 	{
+		private Repository<Group> GroupRepository;
+
+		public RequestLeaveGroupMessageEvent ()
+		{
+			GroupRepository = DependencyFactory.Resolve<Repository<Group>> ();
+		}
+
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			uint groupId = request.GetUInt32();
-			uint userId = request.GetUInt32();
+			int groupId = request.GetInteger ();
+			int userId = request.GetInteger ();
 
-			Group group = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
+			Group group = GroupRepository.FindBy (groupId);
 
-			if (group == null || group.CreatorId == userId)
+			if (group == null || group.Creator.Id == userId)
 				return;
 
-			if (userId == session.GetHabbo().Id || group.Admins.ContainsKey(session.GetHabbo().Id))
+			if (userId == session.UserData.Info.Id || group.Admins.Contains(session.UserData.Info))
 			{
 				router.GetComposer<GroupAreYouSureMessageComposer> ().Compose (session, userId);
 			}

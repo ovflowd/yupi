@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Rooms
 {
 	public class RoomBannedListMessageComposer : Yupi.Messages.Contracts.RoomBannedListMessageComposer
 	{
-		public override void Compose ( Yupi.Protocol.ISender session, uint roomId, List<uint> bannedUsers)
+		public override void Compose ( Yupi.Protocol.ISender session, RoomData room)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendInteger (roomId);
-				message.AppendInteger (bannedUsers.Count);
+				message.AppendInteger (room.Id);
+				message.AppendInteger (room.BannedUsers.Count);
 
-				foreach (uint current in bannedUsers) {
-					message.AppendInteger (current); 
-					// TODO What happens if the user is not loaded?
-					message.AppendString (Yupi.GetHabboById (current) != null ? Yupi.GetHabboById (current).UserName : "Undefined");
+				foreach (UserInfo user in room.BannedUsers) {
+					message.AppendInteger (user.Id); 
+					message.AppendString (user.UserName);
 				}
 				session.Send (message);
 			}

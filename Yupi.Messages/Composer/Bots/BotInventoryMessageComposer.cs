@@ -11,6 +11,8 @@ namespace Yupi.Messages.Bots
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(items.Count);
+
+				/*
 				foreach (RoomBot current in items.Values)
 				{
 					message.AppendInteger(current.BotId);
@@ -18,7 +20,8 @@ namespace Yupi.Messages.Bots
 					message.AppendString(current.Motto);
 					message.AppendString(current.Gender.ToLower()); 
 					message.AppendString(current.Look);
-				}
+				}*/
+				throw new NotImplementedException ();
 				session.Send (message);
 			}
 		}

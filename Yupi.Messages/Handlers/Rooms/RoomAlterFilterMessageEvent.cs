@@ -12,6 +12,7 @@ namespace Yupi.Messages.Rooms
 			bool shouldAdd = request.GetBool();
 			string word = request.GetString();
 
+			/*
 			Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
 
 			if (room == null || !room.CheckRights(session, true))
@@ -47,9 +48,8 @@ namespace Yupi.Messages.Rooms
 					queryreactor2.AddParameter ("word", word);
 					queryreactor2.RunQuery ();
 				}
-			}
-
-			// TODO Does the new room filter need a broadcast?
+			}*/
+			throw new NotImplementedException ();
 		}
 	}
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using Yupi.Controller;
+using Yupi.Model;
 
 namespace Yupi.Messages.Other
 {
@@ -10,16 +12,19 @@ namespace Yupi.Messages.Other
 			}
 		}
 
+		private SSOManager SSOManager;
+
+		public SSOTicketMessageEvent ()
+		{
+			SSOManager = DependencyFactory.Resolve<SSOManager> ();
+		}
+
+
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			string ssoTicket = request.GetString ();
 
-			string banReason;
-			// TODO Why would it be useful to display the ban reason on the console?
-			if (!session.TryLogin(ssoTicket, out banReason))
-				session.Disconnect("Banned from Server.", true);
-
-			session.UserData.TimePingReceived = DateTime.Now;
+			SSOManager.TryLogin (session, ssoTicket);
 		}
 	}
 }

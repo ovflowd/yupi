@@ -9,6 +9,7 @@ namespace Yupi.Messages.Rooms
 		{
 			uint pollId = request.GetUInt32();
 
+			/*
 			session.GetHabbo().AnsweredPolls.Add(pollId);
 
 			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
@@ -18,6 +19,8 @@ namespace Yupi.Messages.Rooms
 				queryReactor.AddParameter("pollid", pollId);
 				queryReactor.RunQuery();
 			}
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

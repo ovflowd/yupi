@@ -7,8 +7,9 @@ namespace Yupi.Messages.Items
 {
 	public class PlaceBotMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
+			/*
 			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
 
 			if (room == null || !room.CheckRights(session, true))
@@ -49,6 +50,8 @@ namespace Yupi.Messages.Items
 
 			session.GetHabbo().GetInventoryComponent().MoveBotToRoom(botId);
 			router.GetComposer<BotInventoryMessageComposer> ().Compose (session, session.GetHabbo ().GetInventoryComponent ()._inventoryBots);
+*/
+			throw new NotImplementedException ();
 		}
 	}
 }

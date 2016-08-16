@@ -14,6 +14,8 @@ namespace Yupi.Messages.Items
 			uint itemId = request.GetUInt32();
 			string extradata = request.GetString();
 			string wallcoords = request.GetString();
+
+			/*
 			Yupi.Messages.Rooms actualRoom = session.GetHabbo().CurrentRoom;
 			CatalogItem item = Yupi.GetGame().GetCatalogManager().GetItem(itemId);
 			if (actualRoom == null || item == null) return;
@@ -40,6 +42,8 @@ namespace Yupi.Messages.Items
 				router.GetComposer<AddWallItemMessageComposer> ().Compose (session, newItem);
 				actualRoom.GetGameMap().AddItemToMap(newItem);
 			}
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

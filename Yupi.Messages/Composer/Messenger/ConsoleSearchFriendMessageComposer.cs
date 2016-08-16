@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using Yupi.Protocol.Buffers;
 using Yupi.Model.Domain;
+using Yupi.Util;
 
 namespace Yupi.Messages.Messenger
 {
@@ -13,13 +14,17 @@ namespace Yupi.Messages.Messenger
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(foundFriends.Count);
 
-				foreach (SearchResult user in foundFriends)
-					user.Searialize(message);
+				foreach (UserInfo user in foundFriends) {
+					//user.Searialize (message);
+					throw new NotImplementedException ();
+				}
 				
 				message.AppendInteger(foundUsers.Count);
 
-				foreach (SearchResult user in foundUsers)
-					user.Searialize(message);
+				foreach (UserInfo user in foundUsers) {
+					//user.Searialize (message);
+					throw new NotImplementedException ();
+				}
 				
 				session.Send (message);
 			}
@@ -30,12 +35,13 @@ namespace Yupi.Messages.Messenger
 			reply.AppendInteger(user.Id);
 			reply.AppendString(user.UserName);
 			reply.AppendString(user.Motto);
-			reply.AppendBool(Yupi.GetGame().GetClientManager().GetClientByUserId(UserId) != null);
+			//reply.AppendBool(Yupi.GetGame().GetClientManager().GetClientByUserId(UserId) != null);
+			throw new NotImplementedException ();
 			reply.AppendBool(false);
 			reply.AppendString(string.Empty);
 			reply.AppendInteger(0);
 			reply.AppendString(user.Look);
-			reply.AppendString(user.LastOnline); // TODO Must be double unix timestamp!
+			reply.AppendString(user.LastOnline.ToUnix().ToString());
 		}
 	}
 }

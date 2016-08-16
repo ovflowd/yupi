@@ -11,6 +11,7 @@ namespace Yupi.Messages.Camera
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
+			/*
 			try
 			{
 				int count = Request.GetInteger();
@@ -51,7 +52,8 @@ namespace Yupi.Messages.Camera
 			{
 				// TODO Log exception!
 				session.SendNotif("An error occured while processing the image!");
-			}
+			}*/
+			throw new NotImplementedException ();
 		} 
 	}
 }

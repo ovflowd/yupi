@@ -15,6 +15,7 @@ namespace Yupi.Messages.Pets
 				message.AppendInteger (pet.RaceId);
 				message.AppendInteger (pet.Race);
 				message.AppendString (pet.Type == "pet_monster" ? "ffffff" : pet.Color);
+				/*
 				message.AppendInteger (pet.Type == "pet_monster" ? 0u : pet.RaceId);
 
 				if (pet.Type == "pet_monster" && pet.MoplaBreed != null) {
@@ -28,7 +29,8 @@ namespace Yupi.Messages.Pets
 
 					return;
 				}
-
+*/
+				throw new NotImplementedException ();
 				message.AppendInteger (0);
 				message.AppendInteger (0);
 				session.Send (message);

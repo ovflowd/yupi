@@ -8,7 +8,7 @@ namespace Yupi.Messages.Groups
 {
 	public class GroupPurchasePageMessageComposer : Yupi.Messages.Contracts.GroupPurchasePageMessageComposer
 	{
-		public override void Compose ( Yupi.Protocol.ISender session, HashSet<RoomData> rooms)
+		public override void Compose ( Yupi.Protocol.ISender session, IList<RoomData> rooms)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 

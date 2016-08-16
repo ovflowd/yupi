@@ -14,6 +14,7 @@ namespace Yupi.Messages.Chat
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
+			/*
 			if (!session.GetHabbo().InRoom)
 				return;
 
@@ -90,6 +91,8 @@ namespace Yupi.Messages.Chat
 				{
 					router.GetComposer<WhisperMessageComposer> ().Compose (current2, roomUserByHabbo.VirtualId, $"Whisper to {text2}: {msg}", colour);
 				}
+				*/
+			throw new NotImplementedException ();
 		}
 	}
 }

@@ -8,6 +8,7 @@ namespace Yupi.Messages.Rooms
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
+			/*
 			Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
 
 			if (room == null)
@@ -31,6 +32,8 @@ namespace Yupi.Messages.Rooms
 
 			room.GetRoomUserManager().RemoveUserFromRoom(roomUserByHabbo.GetClient(), true, true);
 			roomUserByHabbo.GetClient().CurrentRoomUserId = -1;
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

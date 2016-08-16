@@ -10,24 +10,24 @@ namespace Yupi.Messages.Rooms
 {
 	public class SetRoomUserMessageComposer : Yupi.Messages.Contracts.SetRoomUserMessageComposer
 	{
-		public override void Compose ( Yupi.Protocol.ISender room, List<RoomEntity> users, bool hasPublicPool = false)
+		public override void Compose ( Yupi.Protocol.ISender room, List<RoomEntity> users)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (users.Count);
 
 				foreach (RoomEntity user in users) {
-					Serialize (message, user, hasPublicPool);
+					Serialize (message, user);
 				}
 
 				room.Send (message);
 			}
 		}
 
-		public override void Compose ( Yupi.Protocol.ISender room, RoomEntity user, bool hasPublicPool = false)
+		public override void Compose ( Yupi.Protocol.ISender room, RoomEntity user)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (1);
-				Serialize (message, user, hasPublicPool);
+				Serialize (message, user);
 				room.Send (message);
 			}
 		}
@@ -44,7 +44,7 @@ namespace Yupi.Messages.Rooms
 
 		private void Serialize (ServerMessage messageBuffer, UserEntity user)
 		{
-			Group group = Yupi.GetGame ().GetGroupManager ().GetGroup (GetClient ().GetHabbo ().FavouriteGroup);
+			Group group = user.UserInfo.FavouriteGroup;
 
 			messageBuffer.AppendInteger (user.UserInfo.Id);
 			messageBuffer.AppendString (user.UserInfo.UserName);
@@ -61,7 +61,7 @@ namespace Yupi.Messages.Rooms
 			messageBuffer.AppendInteger (0);
 			messageBuffer.AppendString (user.UserInfo.FavouriteGroup.Name);
 			messageBuffer.AppendString ("");
-			messageBuffer.AppendInteger (user.UserInfo.AchievementPoints);
+			messageBuffer.AppendInteger (user.UserInfo.Wallet.AchievementPoints);
 			messageBuffer.AppendBool (false);
 		}
 
@@ -70,7 +70,7 @@ namespace Yupi.Messages.Rooms
 			messageBuffer.AppendInteger (pet.Id);
 			messageBuffer.AppendString (pet.Info.Name);
 			messageBuffer.AppendString (pet.Info.Motto);
-
+			/*
 			if (pet.Info.Type == "pet_monster")
 				messageBuffer.AppendString (pet.Info.MoplaBreed.PlantData);
 			else if (pet.Info.HaveSaddle == Convert.ToBoolean (2))
@@ -98,6 +98,8 @@ namespace Yupi.Messages.Rooms
 			messageBuffer.AppendInteger (0);
 			messageBuffer.AppendInteger (pet.Info.Type == "pet_monster" ? 1 : 0);
 			messageBuffer.AppendString (pet.Info.Type == "pet_monster" ? pet.Info.MoplaBreed.GrowStatus : "");
+			*/
+			throw new NotImplementedException ();
 		}
 
 		private void Serialize (ServerMessage messageBuffer, BotEntity bot)
@@ -111,8 +113,8 @@ namespace Yupi.Messages.Rooms
 			messageBuffer.AppendInteger (bot.Position.Y);
 			messageBuffer.AppendString (bot.Position.Z.ToString (CultureInfo.InvariantCulture));
 			messageBuffer.AppendInteger (0);
-			messageBuffer.AppendInteger (bot.Type);
-			messageBuffer.AppendString (bot.Info.Gender.ToLower ());
+			messageBuffer.AppendInteger ((int)bot.Type);
+			messageBuffer.AppendString (bot.Info.Gender.ToString());
 			messageBuffer.AppendInteger (bot.Info.Owner.Id);
 			messageBuffer.AppendString (bot.Info.Owner.UserName);
 			messageBuffer.AppendInteger (5);

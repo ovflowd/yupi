@@ -10,7 +10,7 @@ namespace Yupi.Messages.Rooms
 		public override void Compose ( Yupi.Protocol.ISender session, Error error)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendInteger (error);
+				message.AppendInteger ((int)error);
 				session.Send (message);
 			}
 		}

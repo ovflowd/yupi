@@ -35,7 +35,8 @@ namespace Yupi.Controller
 {
 	public class AchievementManager
 	{
-		private IDictionary<string, Achievement> Achievements;
+		public IDictionary<string, Achievement> Achievements;
+		private ClientManager ClientManager;
 
 		private Repository<Achievement> AchievementRepository;
 		private Repository<UserInfo> UserRepository;
@@ -44,6 +45,7 @@ namespace Yupi.Controller
 		{
 			AchievementRepository = DependencyFactory.Resolve<Repository<Achievement>> ();
 			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>> ();
+			ClientManager = DependencyFactory.Resolve<ClientManager> ();
 			LoadAchievements ();
 		}
 
@@ -52,7 +54,7 @@ namespace Yupi.Controller
 			Achievements = AchievementRepository.All ().ToDictionary ((x) => x.GroupName);
 		}
 			
-		public void TryProgressLoginAchievements ()
+		public void TryProgressLoginAchievements (Habbo session)
 		{
 			throw new NotImplementedException ();
 			/*
@@ -72,7 +74,7 @@ namespace Yupi.Controller
 			*/
 		}
 			
-		public void TryProgressRegistrationAchievements ()
+		public void TryProgressRegistrationAchievements (Habbo session)
 		{
 			throw new NotImplementedException ();
 
@@ -107,7 +109,7 @@ namespace Yupi.Controller
 			*/
 		}
 			
-		public void TryProgressHabboClubAchievements ()
+		public void TryProgressHabboClubAchievements (Habbo session)
 		{
 			throw new NotImplementedException ();
 			/*
@@ -160,12 +162,28 @@ namespace Yupi.Controller
 			*/
 		}
 
+		public bool ProgressUserAchievement (UserInfo info, string achievementGroup, int progressAmount) {
+			ISession<Habbo> session = ClientManager.GetByInfo (info);
+
+			Habbo user = null;
+
+			if (session != null) {
+				user = session.UserData;
+			}
+
+			return ProgressUserAchievement (info, achievementGroup, progressAmount, user);
+		}
+
 		public bool ProgressUserAchievement (Habbo user, string achievementGroup, int progressAmount)
 		{
+			return ProgressUserAchievement (user.Info, achievementGroup, progressAmount, user);
+		}
+			
+		private bool ProgressUserAchievement(UserInfo user, string achievementGroup, int progressAmount, Habbo session) {
 			if (Achievements.ContainsKey (achievementGroup)) {
 				Achievement achievement = Achievements [achievementGroup];
 
-				UserAchievement userAchievement = user.Info.Achievements.Single (x => x.Achievement.GroupName == achievementGroup);
+				UserAchievement userAchievement = user.Achievements.Single (x => x.Achievement.GroupName == achievementGroup);
 
 				if (userAchievement == null) {
 					userAchievement = new UserAchievement () {
@@ -173,49 +191,52 @@ namespace Yupi.Controller
 						Level = achievement.DefaultLevel()
 					};
 
-					user.Info.Achievements.Add (userAchievement);
+					user.Achievements.Add (userAchievement);
 				}
 
 				userAchievement.Progress += progressAmount;
-					
+
 				// If is new Level
 				if (userAchievement.CanIncreaseLevel()) {
 					userAchievement.IncreaseLevel ();
 
 					// Give Reward Points
-					user.Info.Wallet.AchievementPoints += userAchievement.Level.RewardPoints;
-					user.Info.Wallet.Duckets += userAchievement.Level.RewardPixels;
+					user.Wallet.AchievementPoints += userAchievement.Level.RewardPoints;
+					user.Wallet.Duckets += userAchievement.Level.RewardPixels;
 
-					user.Session.Router.GetComposer<ActivityPointsMessageComposer> ().Compose (user, user.Info.Wallet);
-
-					user.Info.Badges.RemoveBadge (userAchievement.Achievement.GroupName + (userAchievement.Level.Level - 1));
+					user.Badges.RemoveBadge (userAchievement.Achievement.GroupName + (userAchievement.Level.Level - 1));
 
 					// Give new Badge
-					user.Info.Badges.GiveBadge (achievementGroup + userAchievement.Level.Level);
+					user.Badges.GiveBadge (achievementGroup + userAchievement.Level.Level);
 
+					if (session != null) {
+						session.Session.Router.GetComposer<ActivityPointsMessageComposer> ().Compose (session, user.Wallet);
+				
+						// Send Unlocked Composer
+						session.Session.Router.GetComposer<UnlockAchievementMessageComposer> ().Compose (session,
+							achievement, userAchievement.Level.Level,
+							userAchievement.Level.RewardPoints, userAchievement.Level.RewardPixels);
 
-					// Send Unlocked Composer
-					user.Session.Router.GetComposer<UnlockAchievementMessageComposer> ().Compose (user,
-						achievement, userAchievement.Level.Level,
-						userAchievement.Level.RewardPoints, userAchievement.Level.RewardPixels);
+						// Send Score Composer
+						session.Session.Router.GetComposer<AchievementPointsMessageComposer> ().Compose (session, user.Wallet.AchievementPoints);
 
-					// Send Score Composer
-					user.Session.Router.GetComposer<AchievementPointsMessageComposer> ().Compose (user, user.Info.Wallet.AchievementPoints);
-
+					}
 					// TODO Reimplement talents properly
 				}
 
-				UserRepository.Save (user.Info);
+				UserRepository.Save (user);
 
-				user.Session.Router.GetComposer<AchievementProgressMessageComposer> ().Compose (user, userAchievement);
-				user.Session.Router.GetComposer<UpdateUserDataMessageComposer> ().Compose (user, user.Info);
+				if (session != null) {
+					session.Session.Router.GetComposer<AchievementProgressMessageComposer> ().Compose (session, userAchievement);
+					session.Session.Router.GetComposer<UpdateUserDataMessageComposer> ().Compose (session, user);
+				}
 
 				return true;
 			}
 
 			return false;
 		}
-			
+
 		public Achievement GetAchievement (string achievementGroup) {
             return Achievements[achievementGroup];
 		}

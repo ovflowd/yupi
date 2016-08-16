@@ -1,5 +1,6 @@
 ﻿using System;
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
 
 
 namespace Yupi.Messages.Other
@@ -7,7 +8,7 @@ namespace Yupi.Messages.Other
 	public class SendPerkAllowancesMessageComposer : Yupi.Messages.Contracts.SendPerkAllowancesMessageComposer
 	{
 		// TODO Refactor (hardcoded)
-		public override void Compose ( Yupi.Protocol.ISender session)
+		public override void Compose ( Yupi.Protocol.ISender session, UserInfo info, bool enableBetaCamera)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) { 
 				message.AppendInteger(11);
@@ -20,10 +21,13 @@ namespace Yupi.Messages.Other
 				message.AppendString("requirement.unfulfilled.helper_level_2");
 				message.AppendBool(false);
 
-				message.AppendString("USE_GUIDE_TOOL");
-				message.AppendString((session.GetHabbo().TalentStatus == "helper" && session.GetHabbo().CurrentTalentLevel >= 4) || (session.GetHabbo().Rank >= 4) ? string.Empty : "requirement.unfulfilled.helper_level_4");
-				message.AppendBool((session.GetHabbo().TalentStatus == "helper" && session.GetHabbo().CurrentTalentLevel >= 4) || (session.GetHabbo().Rank >= 4));
+				throw new NotImplementedException ();
 
+				/*
+				message.AppendString("USE_GUIDE_TOOL");
+				message.AppendString((info.TalentStatus == "helper" && info.CurrentTalentLevel >= 4) || (info.Rank >= 4) ? string.Empty : "requirement.unfulfilled.helper_level_4");
+				message.AppendBool((info.TalentStatus == "helper" && info.CurrentTalentLevel >= 4) || (info.Rank >= 4));
+*/
 				message.AppendString("JUDGE_CHAT_REVIEWS");
 				message.AppendString("requirement.unfulfilled.helper_level_6");
 				message.AppendBool(false);
@@ -38,13 +42,15 @@ namespace Yupi.Messages.Other
 
 				message.AppendString("CITIZEN");
 				message.AppendString(string.Empty);
-				message.AppendBool(session.GetHabbo().TalentStatus == "helper" || session.GetHabbo().CurrentTalentLevel >= 4);
+
+				throw new NotImplementedException ();
+			//	message.AppendBool(info.TalentStatus == "helper" || info.CurrentTalentLevel >= 4);
 
 				message.AppendString("MOUSE_ZOOM");
 				message.AppendString(string.Empty);
 				message.AppendBool(false);
 
-				bool tradeLocked = session.GetHabbo ().CheckTrading ();
+				bool tradeLocked = info.CanTrade ();
 
 				message.AppendString("TRADE");
 				message.AppendString(tradeLocked ? string.Empty : "requirement.unfulfilled.no_trade_lock");
@@ -52,7 +58,7 @@ namespace Yupi.Messages.Other
 
 				message.AppendString("CAMERA");
 				message.AppendString(string.Empty);
-				message.AppendBool(ServerExtraSettings.EnableBetaCamera);
+				message.AppendBool(enableBetaCamera);
 
 				message.AppendString("NAVIGATOR_PHASE_TWO_2014");
 				message.AppendString(string.Empty);

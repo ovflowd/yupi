@@ -9,6 +9,7 @@ namespace Yupi.Messages.Pets
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
+			/*
 			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
 
 			if (session?.GetHabbo() == null || session.GetHabbo().GetInventoryComponent() == null)
@@ -52,6 +53,8 @@ namespace Yupi.Messages.Pets
 			room.GetRoomUserManager().RemoveBot(pet.VirtualId, false);
 
 			session.Send(session.GetHabbo().GetInventoryComponent().SerializePetInventory());
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

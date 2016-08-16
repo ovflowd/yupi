@@ -7,6 +7,7 @@ namespace Yupi.Messages.Rooms
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
+			/*
 			// TODO Magic number!
 			if (session.GetHabbo().UsersRooms.Count >= 75)
 			{
@@ -35,6 +36,8 @@ namespace Yupi.Messages.Rooms
 
 			session.GetHabbo().LastSqlQuery = Yupi.GetUnixTimeStamp();
 			router.GetComposer<OnCreateRoomInfoMessageComposer> ().Compose (session, data);
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

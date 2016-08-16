@@ -4,51 +4,46 @@
 
 
 using Yupi.Messages.Rooms;
+using Yupi.Model.Domain;
+using Yupi.Model.Repository;
+using Yupi.Model;
+using Yupi.Controller;
 
 namespace Yupi.Messages.Navigator
 {
 	public class ToggleStaffPickMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		private Repository<RoomData> RoomRepository;
+		private AchievementManager AchievementManager;
+		private RoomManager RoomManager;
+
+		public ToggleStaffPickMessageEvent ()
 		{
-			uint roomId = request.GetUInt32();
+			RoomRepository = DependencyFactory.Resolve<Repository<RoomData>> ();
+			AchievementManager = DependencyFactory.Resolve<AchievementManager> ();
+			RoomManager = DependencyFactory.Resolve<RoomManager> ();
+		}
 
-			request.GetBool(); // TODO Unused
+		public override void HandleMessage (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		{
+			int roomId = request.GetInteger ();
 
-			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(roomId);
+			request.GetBool (); // TODO Unused
 
-			Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(Session, "ACH_Spr", 1, true);
+			RoomData roomData = RoomRepository.FindBy (roomId);
 
-			if (room == null)
+			if (roomData == null)
 				return;
 
-			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-			{
-				PublicItem pubItem = Yupi.GetGame().GetNavigator().GetPublicRoom(roomId);
+			AchievementManager.ProgressUserAchievement (roomData.Owner, "ACH_Spr", 1);
 
-				if (pubItem == null) // Isn't A Staff Pick Room
-				{
-					queryReactor.SetQuery("INSERT INTO navigator_publics (bannertype, room_id, category_parent_id) VALUES ('0', @roomId, '-2')");
+			// TODO Add room to Staff Pick category!
+			throw new NotImplementedException();
 
-					queryReactor.AddParameter("roomId", room.RoomId);
+			Room room = RoomManager.GetIfLoaded (roomData);
 
-					uint lastInsertId = (uint) queryReactor.InsertQuery();
-
-					PublicItem publicItem = new PublicItem(lastInsertId, 0, string.Empty, string.Empty, string.Empty, PublicImageType.Internal, room.RoomId, 0, -2, false, 1);
-
-					Yupi.GetGame().GetNavigator().AddPublicRoom(publicItem);
-				}
-				else // Is a Staff Pick Room
-				{
-					queryReactor.SetQuery("DELETE FROM navigator_publics WHERE id = @pubId");
-
-					queryReactor.AddParameter("pubId", pubItem.Id);
-					queryReactor.RunQuery();
-
-					Yupi.GetGame().GetNavigator().RemovePublicRoom(pubItem.Id);
-				}
-
-				router.GetComposer<RoomDataMessageComposer> ().Compose (room, room, true, true);
+			if (room != null) {
+				room.Router.GetComposer<RoomDataMessageComposer> ().Compose (room, roomData, true, true);
 			}
 		}
 	}

@@ -10,6 +10,8 @@ namespace Yupi.Messages.Items
 		{
 			uint pId = request.GetUInt32();
 			string text = request.GetString();
+
+			/*
 			RoomItem item = Session.GetHabbo().CurrentRoom.GetRoomItemHandler().GetItem(pId);
 
 			if (item == null)
@@ -36,6 +38,8 @@ namespace Yupi.Messages.Items
 				queryReactor.AddParameter("id", item.Id);
 				queryReactor.RunQuery();
 			}
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

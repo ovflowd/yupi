@@ -2,6 +2,7 @@
 using System.Drawing;
 
 using Yupi.Protocol.Buffers;
+using System.Globalization;
 
 
 namespace Yupi.Messages.Items
@@ -19,7 +20,7 @@ namespace Yupi.Messages.Items
 				message.AppendInteger(nextPos.Item1.X);
 				message.AppendInteger(nextPos.Item1.Y);
 
-				message.AppendInteger(type);
+				message.AppendInteger((int)type);
 
 				switch (type) {
 				case Type.ITEM:
@@ -32,8 +33,8 @@ namespace Yupi.Messages.Items
 					break;
 				}
 
-				message.AppendString(ServerUserChatTextHandler.GetString(pos.Item2));
-				message.AppendString(ServerUserChatTextHandler.GetString(nextPos.Item2));
+				message.AppendString(pos.Item2.ToString(CultureInfo.InvariantCulture));
+				message.AppendString(nextPos.Item2.ToString(CultureInfo.InvariantCulture));
 				message.AppendInteger(rollerId);
 				session.Send (message);
 			}

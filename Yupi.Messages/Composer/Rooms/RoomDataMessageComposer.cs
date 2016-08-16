@@ -12,6 +12,7 @@ namespace Yupi.Messages.Rooms
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendBool(show);
 				message.AppendBool(isNotReload);
+				/*
 				message.AppendBool(Yupi.GetGame().GetNavigator() != null && Yupi.GetGame().GetNavigator().GetPublicRoom(room.RoomData.Id) != null);
 				message.AppendBool(!isNotReload || session.UserData.Info.HasPermission("fuse_mod"));
 				message.AppendBool(room.IsMuted);
@@ -19,6 +20,8 @@ namespace Yupi.Messages.Rooms
 				message.AppendInteger(room.WhoCanKick);
 				message.AppendInteger(room.WhoCanBan);
 				message.AppendBool(room.CheckRights(session, true));
+				*/
+				throw new NotImplementedException ();
 				message.AppendInteger(room.ChatType);
 				message.AppendInteger(room.ChatBalloon);
 				message.AppendInteger(room.ChatSpeed);

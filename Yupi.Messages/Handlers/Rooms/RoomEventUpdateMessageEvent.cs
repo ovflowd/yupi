@@ -12,6 +12,7 @@ namespace Yupi.Messages.Rooms
 			string name = request.GetString();
 			string description = request.GetString();
 
+			/*
 			Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
 
 			if (room == null || !room.CheckRights(session, true) || room.RoomData.Event == null)
@@ -21,6 +22,8 @@ namespace Yupi.Messages.Rooms
 			room.RoomData.Event.Description = description;
 
 			Yupi.GetGame().GetRoomEvents().UpdateEvent(room.RoomData.Event);
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

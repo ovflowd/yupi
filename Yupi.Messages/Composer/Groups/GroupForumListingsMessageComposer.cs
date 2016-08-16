@@ -7,6 +7,7 @@ using Yupi.Protocol.Buffers;
 using System.Data;
 using System.Linq;
 using Yupi.Model.Domain;
+using Yupi.Util;
 
 namespace Yupi.Messages.Groups
 {
@@ -18,6 +19,9 @@ namespace Yupi.Messages.Groups
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(selectType);
 
+				throw new NotImplementedException ();
+
+				/*
 				List<Group> groupList = new List<Group>();
 
 				// TODO Refactor
@@ -79,6 +83,7 @@ namespace Yupi.Messages.Groups
 				}
 
 				session.Send (message);
+				*/
 			}
 		}
 
@@ -91,12 +96,12 @@ namespace Yupi.Messages.Groups
 				message.AppendString (group.Badge);
 				message.AppendInteger (0);
 				message.AppendInteger ((int)Math.Round (group.Forum.ForumScore));
-				message.AppendInteger (group.Forum.ForumMessagesCount);
+				message.AppendInteger (group.Forum.GetMessageCount());
 				message.AppendInteger (0);
 				message.AppendInteger (0);
-				message.AppendInteger (group.Forum.ForumLastPosterId);
-				message.AppendString (group.Forum.ForumLastPosterName);
-				message.AppendInteger (group.Forum.ForumLastPostTime);
+				message.AppendInteger(group.Forum.GetLastPost().Poster.Id);
+				message.AppendString(group.Forum.GetLastPost().Poster.UserName);
+				message.AppendInteger((int)group.Forum.GetLastPost().Timestamp.ToUnix().SecondsSinceEpoch);
 			}
 		}
 	}

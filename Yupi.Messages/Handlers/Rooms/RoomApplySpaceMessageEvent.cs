@@ -9,6 +9,7 @@ namespace Yupi.Messages.Rooms
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
+			/*
 			Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
 
 			if (room == null || !room.CheckRights(session, true))
@@ -20,16 +21,16 @@ namespace Yupi.Messages.Rooms
 				return;
 
 			// TODO Improve handling of type
-			RoomSpacesMessageComposer.Type type = RoomSpacesMessageComposer.Type.FLOOR;
+			RoomSpacesMessageComposer.RoomSpacesType type = RoomSpacesMessageComposer.RoomSpacesType.FLOOR;
 
 			if (item.BaseItem.Name.ToLower().Contains("wallpaper"))
-				type = RoomSpacesMessageComposer.Type.WALLPAPER;
+				type = RoomSpacesMessageComposer.RoomSpacesType.WALLPAPER;
 			else if (item.BaseItem.Name.ToLower().Contains("landscape"))
-				type = RoomSpacesMessageComposer.Type.LANDSCAPE;
+				type = RoomSpacesMessageComposer.RoomSpacesType.LANDSCAPE;
 
 			switch (type)
 			{
-			case RoomSpacesMessageComposer.Type.FLOOR:
+			case RoomSpacesMessageComposer.RoomSpacesType.FLOOR:
 
 				room.RoomData.Floor = item.ExtraData;
 
@@ -38,7 +39,7 @@ namespace Yupi.Messages.Rooms
 					.ProgressUserAchievement(session, "ACH_RoomDecoFloor", 1);
 				break;
 
-			case RoomSpacesMessageComposer.Type.WALLPAPER:
+			case RoomSpacesMessageComposer.RoomSpacesType.WALLPAPER:
 
 				room.RoomData.WallPaper = item.ExtraData;
 
@@ -47,7 +48,7 @@ namespace Yupi.Messages.Rooms
 					.ProgressUserAchievement(session, "ACH_RoomDecoWallpaper", 1);
 				break;
 
-			case RoomSpacesMessageComposer.Type.LANDSCAPE:
+			case RoomSpacesMessageComposer.RoomSpacesType.LANDSCAPE:
 
 				room.RoomData.LandScape = item.ExtraData;
 				// TODO Handle Achivements eventbased?
@@ -72,6 +73,8 @@ namespace Yupi.Messages.Rooms
 			session.GetHabbo().GetInventoryComponent().RemoveItem(item.Id, false);
 
 			router.GetComposer<RoomSpacesMessageComposer> ().Compose (room, type, room.RoomData);
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

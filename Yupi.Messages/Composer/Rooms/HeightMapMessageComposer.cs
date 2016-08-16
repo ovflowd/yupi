@@ -9,6 +9,7 @@ namespace Yupi.Messages.Rooms
 	{
 		public override void Compose ( Yupi.Protocol.ISender session, Gamemap map)
 		{
+			/*
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(map.Model.MapSizeX);
 				message.AppendInteger(map.Model.MapSizeX*map.Model.MapSizeY);
@@ -21,6 +22,8 @@ namespace Yupi.Messages.Rooms
 				}
 				session.Send (message);
 			}
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

@@ -9,6 +9,8 @@ namespace Yupi.Messages.Groups
 		// TODO Hardcoded
 		public override void Compose( Yupi.Protocol.ISender session, int groupId, int threadId, int habboId, string subject, string content, int timestamp) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
+				throw new NotImplementedException ();
+				/*
 				message.AppendInteger(groupId);
 				message.AppendInteger(threadId);
 				message.AppendInteger(habboId);
@@ -28,6 +30,7 @@ namespace Yupi.Messages.Groups
 				message.AppendString(string.Empty);
 				message.AppendInteger(42);
 				session.Send (message);
+				*/
 			}
 		}
 	}

@@ -7,9 +7,11 @@ namespace Yupi.Messages.Landing
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			HotelLandingManager hotelView = Yupi.GetGame().GetHotelView();
+			/*HotelLandingManager hotelView = Yupi.GetGame().GetHotelView();
 
 			router.GetComposer<LandingPromosMessageComposer> ().Compose (session, hotelView.HotelViewPromosIndexers);
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

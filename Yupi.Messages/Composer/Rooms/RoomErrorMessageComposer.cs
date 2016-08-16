@@ -5,6 +5,7 @@ namespace Yupi.Messages.Rooms
 {
 	public class RoomErrorMessageComposer : Yupi.Messages.Contracts.RoomErrorMessageComposer
 	{
+		// TODO ErrorCode???
 		public override void Compose ( Yupi.Protocol.ISender session, int errorCode)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {

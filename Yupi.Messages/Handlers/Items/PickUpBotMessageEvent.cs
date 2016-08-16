@@ -6,10 +6,10 @@ namespace Yupi.Messages.Items
 {
 	public class PickUpBotMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			uint botId = request.GetUInt32();
-
+			uint botId = request.GetUInt32 ();
+			/*
 			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
 			RoomUser bot = room.GetRoomUserManager().GetBot(botId);
 
@@ -28,6 +28,8 @@ namespace Yupi.Messages.Items
 			bot.BotData.WasPicked = true;
 
 			router.GetComposer<BotInventoryMessageComposer> ().Compose (session, session.GetHabbo ().GetInventoryComponent ()._inventoryBots);
+*/
+			throw new NotImplementedException ();
 		}
 	}
 }

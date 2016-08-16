@@ -12,23 +12,20 @@ namespace Yupi.Messages.Groups
 		// TODO Refactor
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			if (session.GetHabbo().Credits < 10)
-				return;
-
-
 			List<int> gStates = new List<int>();
 			string name = request.GetString();
 			string description = request.GetString();
-			uint roomid = request.GetUInt32();
+			int roomid = request.GetInteger();
 			int color = request.GetInteger();
 			int num3 = request.GetInteger();
 
-			request.GetInteger();
+			request.GetInteger(); // TODO Unused
 
 			int guildBase = request.GetInteger();
 			int guildBaseColor = request.GetInteger();
 			int num6 = request.GetInteger();
-
+			throw new NotImplementedException ();
+			/*
 			RoomData roomData = Yupi.GetGame().GetRoomManager().GenerateRoomData(roomid);
 
 			if (roomData.Owner != session.GetHabbo().UserName)
@@ -77,6 +74,8 @@ namespace Yupi.Messages.Groups
 					router.GetComposer<ChangeFavouriteGroupMessageComposer> ().Compose (session, theGroup, CurrentLoadingRoom.GetRoomUserManager ().GetRoomUserByHabbo (session.GetHabbo ().Id).VirtualId);
 				}
 			}
+
+*/
 		}
 	}
 }

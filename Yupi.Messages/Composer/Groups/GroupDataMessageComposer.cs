@@ -15,18 +15,16 @@ namespace Yupi.Messages.Groups
 				DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0);
 				DateTime dateTime2 = dateTime.AddSeconds(group.CreateTime);
 
-				message.Init(PacketLibraryManager.OutgoingHandler("GroupDataMessageComposer"));
-
 				message.AppendInteger(group.Id);
 				message.AppendBool(true);
 				message.AppendInteger(group.State);
 				message.AppendString(group.Name);
 				message.AppendString(group.Description);
 				message.AppendString(group.Badge);
-				message.AppendInteger(group.RoomId);
-				message.AppendString(Yupi.GetGame().GetRoomManager().GenerateRoomData(@group.RoomId) == null
-					? "No room found.."
-					: Yupi.GetGame().GetRoomManager().GenerateRoomData(@group.RoomId).Name);
+				message.AppendInteger(group.Room.Id);
+				message.AppendString(group.Room.Name);
+
+				/*
 				message.AppendInteger(@group.CreatorId == session.GetHabbo().Id
 					? 3
 					: (group.Requests.ContainsKey(session.GetHabbo().Id)
@@ -45,6 +43,8 @@ namespace Yupi.Messages.Groups
 				message.AppendInteger(group.Requests.Count);
 				message.AppendBool(group.Forum.Id != 0);
 				session.Send (message);
+				*/
+				throw new NotImplementedException();
 			}
 		}
 	}

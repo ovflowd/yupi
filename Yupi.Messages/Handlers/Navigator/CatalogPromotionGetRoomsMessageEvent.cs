@@ -7,7 +7,7 @@ namespace Yupi.Messages.Navigator
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			router.GetComposer<CatalogPromotionGetRoomsMessageComposer> ().Compose (session, session.GetHabbo ().UsersRooms);
+			router.GetComposer<CatalogPromotionGetRoomsMessageComposer> ().Compose (session, session.UserData.Info.UsersRooms);
 		}
 	}
 }

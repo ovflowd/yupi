@@ -3,6 +3,7 @@ using Yupi.Model.Domain;
 using Yupi.Model;
 using Yupi.Model.Repository;
 using Yupi.Util;
+using System.Collections.Generic;
 
 namespace Yupi.Controller
 {
@@ -11,10 +12,17 @@ namespace Yupi.Controller
 		private ClientManager ClientManager;
 		private Repository<UserInfo> UserRepository;
 
+		public virtual IList<SupportTicket> Tickets { get; private set; }
+		public virtual IList<ModerationTemplate> Templates { get; private set; }
+		public virtual IList<string> UserMessagePresets { get; private set; }
+		public virtual IList<string> RoomMessagePresets { get; private set; }
+
 		public ModerationTool ()
 		{
 			ClientManager = DependencyFactory.Resolve<ClientManager>();
 			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>>();
+
+			// TODO Load
 		}
 
 		public bool CanBan(UserInfo staff, int targetId) {

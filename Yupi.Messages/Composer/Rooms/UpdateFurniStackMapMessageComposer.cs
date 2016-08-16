@@ -17,7 +17,8 @@ namespace Yupi.Messages.Rooms
 				{ // TODO What about coord.Z?
 					message.AppendByte((byte) coord.X);
 					message.AppendByte((byte) coord.Y);
-					message.AppendShort((short) (room.GetGameMap().SqAbsoluteHeight(coord.X, coord.Y)*256));
+					throw new NotImplementedException ();
+				//	message.AppendShort((short) (room.GetGameMap().SqAbsoluteHeight(coord.X, coord.Y)*256));
 				}
 				session.Send (message);
 			}

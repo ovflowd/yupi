@@ -15,6 +15,8 @@ namespace Yupi.Messages.Items
 			// TODO Unused
 			request.GetInteger();
 
+			/*
+
 			Yupi.Messages.Rooms room = session.GetHabbo().CurrentRoom;
 
 			if (room?.GetRoomItemHandler() == null || session.GetHabbo() == null)
@@ -102,7 +104,8 @@ namespace Yupi.Messages.Items
 					.AddNewItem(item.Id, item.BaseName, item.ExtraData, item.GroupId, true, true, 0, 0);
 
 				session.GetHabbo().GetInventoryComponent().UpdateItems(false);
-			}
+			}*/
+			throw new NotImplementedException ();
 		}
 	}
 }

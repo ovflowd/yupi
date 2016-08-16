@@ -12,7 +12,7 @@ namespace Yupi.Messages.Items
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(moodlight.Presets.Count);
-				message.AppendInteger(moodlight.CurrentPreset);
+				message.AppendInteger(moodlight.CurrentPreset.Id);
 
 				for (int i = 0; i < moodlight.Presets.Count; ++i) {
 					MoodlightPreset preset = moodlight.Presets [i];

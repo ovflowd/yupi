@@ -20,11 +20,11 @@ namespace Yupi.Messages.Groups
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(group.Id);
 				message.AppendString(group.Name);
-				message.AppendInteger(group.RoomId);
+				message.AppendInteger(group.Room.Id);
 				message.AppendString(group.Badge);
 
 				List<UserInfo> groupList = GetGroupUsersByString(group, searchVal, reqType);
-
+				/*
 				if(groupList != null)
 				{
 					List<List<UserInfo>> list = Split(groupList);
@@ -94,7 +94,7 @@ namespace Yupi.Messages.Groups
 										if (current != null)
 										{
 											message.AppendInteger(current.Id);
-											message.AppendString(current.Name);
+											message.AppendString(current.UserName);
 											message.AppendString(current.Look);
 										}
 
@@ -118,6 +118,8 @@ namespace Yupi.Messages.Groups
 				message.AppendInteger(reqType);
 				message.AppendString(searchVal);
 				session.Send (message);
+				*/
+				throw new NotImplementedException ();
 			}
 		}
 
@@ -127,12 +129,14 @@ namespace Yupi.Messages.Groups
 			response.AppendInteger(member.Id);
 			response.AppendString(member.UserName);
 			response.AppendString(member.Look);
-			response.AppendString(Yupi.GetGroupDateJoinString(member.DateJoin));
+			throw new NotImplementedException ();
+			//response.AppendString(Yupi.GetGroupDateJoinString(member.DateJoin));
 		}
 
 		// TODO Useless copy to list?
 		private List<UserInfo> GetGroupUsersByString(Group theGroup, string searchVal, uint req)
 		{
+			/*
 			List<UserInfo> list = new List<UserInfo>();
 
 			switch (req)
@@ -155,15 +159,16 @@ namespace Yupi.Messages.Groups
 			if (!string.IsNullOrWhiteSpace(searchVal))
 				list = list.Where(member => member.Name.ToLower().Contains(searchVal.ToLower())).ToList();
 
-			return list;
+			return list;*/
+			throw new NotImplementedException ();
 		}
 
 		private  List<UserInfo> GetGroupRequestsByString(Group theGroup, string searchVal)
 		{
 			if (string.IsNullOrWhiteSpace (searchVal)) {
-				return theGroup.Requests.Values.ToList ();
+				return theGroup.Requests.ToList ();
 			} else {
-				return theGroup.Requests.Values.Where (request => request.Name.ToLower ().Contains (searchVal.ToLower ()))
+				return theGroup.Requests.Where (request => request.UserName.ToLower ().Contains (searchVal.ToLower ()))
 					.ToList ();
 			}
 		}

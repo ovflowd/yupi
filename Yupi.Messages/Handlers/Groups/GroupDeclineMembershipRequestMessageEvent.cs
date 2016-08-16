@@ -9,9 +9,9 @@ namespace Yupi.Messages.Groups
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			uint groupId = request.GetUInt32();
-			uint userId = request.GetUInt32();
-
+			int groupId = request.GetInteger();
+			int userId = request.GetInteger();
+			/*
 			Group group = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
 
 			if (session.GetHabbo().Id != group.CreatorId && !group.Admins.ContainsKey(session.GetHabbo().Id) &&
@@ -42,6 +42,7 @@ namespace Yupi.Messages.Groups
 				queryReactor.AddParameter("user_id", userId);
 				queryReactor.RunQuery ();
 			}
+			*/
 		}
 	}
 }

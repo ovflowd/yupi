@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Groups
 {
@@ -9,7 +10,7 @@ namespace Yupi.Messages.Groups
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			HashSet<RoomData> rooms = new HashSet<RoomData>(session.GetHabbo().UsersRooms.Where(x => x.Group == null));
+			List<RoomData> rooms = session.UserData.Info.UsersRooms.Where(x => x.Group == null).ToList();
 
 			router.GetComposer<GroupPurchasePageMessageComposer> ().Compose (session, rooms);
 		}

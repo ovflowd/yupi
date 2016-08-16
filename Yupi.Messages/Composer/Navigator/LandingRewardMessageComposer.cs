@@ -13,7 +13,7 @@ namespace Yupi.Messages.Navigator
 				message.AppendString(manager.FurniReward.Name);
 				message.AppendInteger(manager.FurniReward.Id);
 				message.AppendInteger(120); // TODO Magic constant
-				message.AppendInteger(120 - user.Respect);
+				message.AppendInteger(120 - user.Respect.Respect);
 				session.Send (message);
 			}
 		}

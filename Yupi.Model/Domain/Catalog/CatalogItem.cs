@@ -11,6 +11,8 @@ namespace Yupi.Model.Domain
 		public virtual int Id { get; protected set; }
 		public virtual bool AllowGift { get; set; }
 		public virtual bool ClubOnly { get; protected set; }
+
+		// TODO Rename to CostCredits?
 		public virtual int CreditsCost { get; protected set; }
 		public virtual int DiamondsCost { get; protected set; }
 		public virtual int DucketsCost { get; protected set; }

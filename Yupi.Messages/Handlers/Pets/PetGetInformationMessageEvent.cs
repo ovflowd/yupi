@@ -7,6 +7,7 @@ namespace Yupi.Messages.Pets
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
+			/*
 			if (session.GetHabbo() == null || session.GetHabbo().CurrentRoom == null)
 				return;
 
@@ -19,6 +20,8 @@ namespace Yupi.Messages.Pets
 				return;
 
 			router.GetComposer<PetInfoMessageComposer> ().Compose (session, pet);
+			*/
+			throw new NotImplementedException ();
 		}	
 	}
 }

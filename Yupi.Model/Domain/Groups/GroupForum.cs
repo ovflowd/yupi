@@ -22,6 +22,7 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Yupi.Model.Domain
 {
@@ -35,6 +36,7 @@ namespace Yupi.Model.Domain
 
 		public virtual double ForumScore { get; set; }
 
+		// TODO Enum
 		public virtual uint WhoCanMod { get; set; }
 
 		public virtual uint WhoCanPost { get; set; }
@@ -43,11 +45,38 @@ namespace Yupi.Model.Domain
 
 		public virtual uint WhoCanThread { get; set; }
 
-		public virtual IList<GroupForumPost> Posts { get; protected set; }
+		public virtual IList<GroupForumThread> Threads { get; protected set; }
 
 		public GroupForum ()
 		{
-			Posts = new List<GroupForumPost> ();
+			Threads = new List<GroupForumThread> ();
+		}
+
+		public virtual GroupForumThread GetThread(int id) {
+			return Threads.SingleOrDefault(x => x.Id == id);
+		}
+
+		public virtual int GetMessageCount() {
+			int count = 0;
+			foreach (GroupForumThread thread in Threads) {
+				count += thread.Posts.Count;
+			}
+
+			return count;
+		}
+
+		public virtual GroupForumPost GetLastPost() {
+			GroupForumPost newest = null;
+
+			foreach (GroupForumThread thread in Threads) {
+				GroupForumPost current = thread.Posts.Last();
+
+				if (newest == null || current.Timestamp > newest.Timestamp) {
+					newest = current;
+				}
+			}
+
+			return newest;
 		}
 	}
 }

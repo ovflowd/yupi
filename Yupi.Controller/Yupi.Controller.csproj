@@ -49,6 +49,8 @@
     <Compile Include="ModerationTool.cs" />
     <Compile Include="RelationshipController.cs" />
     <Compile Include="Support\WordfilterManager.cs" />
+    <Compile Include="SSOManager.cs" />
+    <Compile Include="Settings.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

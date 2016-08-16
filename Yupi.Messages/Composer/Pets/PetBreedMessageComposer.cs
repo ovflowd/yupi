@@ -24,7 +24,7 @@ namespace Yupi.Messages.Pets
 				message.AppendInteger(4);
 
 				message.AppendInteger(1);
-
+				/*
 				switch (pet1.Type)
 				{
 				case "pet_terrier":
@@ -111,6 +111,8 @@ namespace Yupi.Messages.Pets
 					? PetTypeManager.GetPetRaceIdByType("pet_terrierbaby")
 					: PetTypeManager.GetPetRaceIdByType("pet_bearbaby"));
 				session.Send (message);
+				*/
+				throw new NotImplementedException ();
 			}
 		}
 	}

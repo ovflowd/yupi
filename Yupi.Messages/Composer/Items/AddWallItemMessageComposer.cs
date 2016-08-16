@@ -10,7 +10,8 @@ namespace Yupi.Messages.Items
 		public override void Compose ( Yupi.Protocol.ISender session, WallItem item, UserInfo user)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendString(Id);
+				/*
+				message.AppendString(item.Id);
 				message.AppendInteger(item.BaseItem.SpriteId);
 				message.AppendString(item.Position.ToString());
 
@@ -20,6 +21,8 @@ namespace Yupi.Messages.Items
 				message.AppendInteger(user.Id);
 				message.AppendString(user.UserName);
 				session.Send (message);
+				*/
+				throw new NotImplementedException ();
 			}
 		}
 	}

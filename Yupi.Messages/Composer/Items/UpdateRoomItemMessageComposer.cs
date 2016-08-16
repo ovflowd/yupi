@@ -10,7 +10,8 @@ namespace Yupi.Messages.Items
 		public override void Compose ( Yupi.Protocol.ISender session, FloorItem item)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				item.Serialize(message);
+				throw new NotImplementedException ();
+				//item.Serialize(message);
 				session.Send (message);
 			}
 		}

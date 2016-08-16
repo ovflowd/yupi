@@ -25,9 +25,13 @@ namespace Yupi.Model.Domain
 		// TODO Can this be solved in a better way?
 		public Habbo GuideOtherUser;
 
-		public Habbo ()
+		public RoomData TeleportingTo;
+
+		public Habbo (ISession<Habbo> session, UserInfo info)
 		{
-			Info = new UserInfo ();
+			Info = info;
+			Session = session;
+			TimePingReceived = DateTime.Now;
 		}
 
 		public void Send (Yupi.Protocol.Buffers.ServerMessage message)

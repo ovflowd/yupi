@@ -8,7 +8,7 @@ namespace Yupi.Messages.User
 {
 	public class SendAchievementsRequirementsMessageComposer : Yupi.Messages.Contracts.SendAchievementsRequirementsMessageComposer
 	{
-		public override void Compose ( Yupi.Protocol.ISender session, Dictionary<string, Achievement> achievements)
+		public override void Compose ( Yupi.Protocol.ISender session, IDictionary<string, Achievement> achievements)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(achievements.Count);
@@ -18,7 +18,7 @@ namespace Yupi.Messages.User
 					message.AppendString(ach.GroupName.Replace("ACH_", string.Empty));
 					message.AppendInteger(ach.Levels.Count);
 
-					for (uint i = 1; i < ach.Levels.Count + 1; i++)
+					for (int i = 1; i < ach.Levels.Count + 1; i++)
 					{
 						message.AppendInteger(i);
 						message.AppendInteger(ach.Levels[i].Requirement);

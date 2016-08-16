@@ -3,32 +3,38 @@
 using System.Data;
 using System.Collections.Generic;
 using System.Linq;
+using Yupi.Model.Domain;
+using Yupi.Model.Repository;
+using Yupi.Model;
 
 
 namespace Yupi.Messages.Groups
 {
 	public class GetGroupForumThreadRootMessageEvent : AbstractHandler
 	{
+		private Repository<Group> GroupRepository;
+
+		public GetGroupForumThreadRootMessageEvent ()
+		{
+			GroupRepository = DependencyFactory.Resolve<Repository<Group>> ();
+		}
+
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			uint groupId = request.GetUInt32();
+			int groupId = request.GetInteger ();
 
 			int startIndex = request.GetInteger();
 
-			using (IQueryAdapter dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
-			{
-				dbClient.SetQuery($"SELECT count(id) FROM groups_forums_posts WHERE group_id = '{groupId}' AND parent_id = 0");
+			Group theGroup = GroupRepository.FindBy (groupId);
 
-				dbClient.GetInteger();
-
-				dbClient.SetQuery($"SELECT * FROM groups_forums_posts WHERE group_id = '{groupId}' AND parent_id = 0 ORDER BY timestamp DESC, pinned DESC LIMIT {startIndex}, {TotalPerPage}");
-
-				DataTable table = dbClient.GetTable();
-
-				List<GroupForumPost> threads = (from DataRow row in table.Rows select new GroupForumPost(row)).ToList();
-
-				router.GetComposer<GroupForumThreadRootMessageComposer> ().Compose (session, groupId, startIndex, threads);
+			if (theGroup == null) {
+				return;
 			}
+
+			// TODO Magic constant!
+			List<GroupForumThread> threads = theGroup.Forum.Threads.Skip (startIndex).Take (20).ToList();
+
+			router.GetComposer<GroupForumThreadRootMessageComposer> ().Compose (session, groupId, startIndex, threads);
 		}
 	}
 }

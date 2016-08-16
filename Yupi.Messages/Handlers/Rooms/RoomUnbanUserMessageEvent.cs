@@ -9,6 +9,8 @@ namespace Yupi.Messages.Rooms
 		{
 			uint userId = request.GetUInt32();
 			uint roomId = request.GetUInt32();
+
+			/*
 			Room room = Yupi.GetGame().GetRoomManager().GetRoom(roomId);
 
 			if (room == null)
@@ -17,6 +19,8 @@ namespace Yupi.Messages.Rooms
 			room.Unban(userId);
 
 			router.GetComposer<RoomUnbanUserMessageComposer> ().Compose (session, roomId, userId);
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

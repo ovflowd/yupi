@@ -2,7 +2,7 @@
 
 namespace Yupi.Messages.Other
 {
-	public class AuthenticationOKMessageComposer : Contracts.AbstactComposerEmpty
+	public class AuthenticationOKMessageComposer : Contracts.AuthenticationOKMessageComposer
 	{
 		
 	}

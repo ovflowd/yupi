@@ -11,6 +11,7 @@ namespace Yupi.Messages.Rooms
 		{
 			uint roomId = request.GetUInt32();
 
+			/*
 			if (session.GetHabbo().UsersRooms == null)
 				return;
 
@@ -50,6 +51,8 @@ namespace Yupi.Messages.Rooms
 
 			if (roomData2 != null)
 				session.GetHabbo().UsersRooms.Remove(roomData2);
+				*/
+			throw new NotImplementedException ();
 		}
 	}
 }

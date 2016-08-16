@@ -9,9 +9,12 @@ namespace Yupi.Messages.Rooms
 		{
 			uint pollId = request.GetUInt32();
 			// TODO Unchecked array access!
+			/*
 			Poll poll = Yupi.GetGame().GetPollManager().Polls[pollId];
 
 			router.GetComposer<PollQuestionsMessageComposer> ().Compose (session, poll);
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

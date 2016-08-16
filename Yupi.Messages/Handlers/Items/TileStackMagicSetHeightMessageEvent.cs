@@ -8,6 +8,7 @@ namespace Yupi.Messages.Items
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
+			/*
 			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
 			if (room == null)
@@ -44,6 +45,8 @@ namespace Yupi.Messages.Items
 			}
 
 			room.GetRoomItemHandler().SetFloorItem(item, item.X, item.Y, totalZ, item.Rot, true);
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

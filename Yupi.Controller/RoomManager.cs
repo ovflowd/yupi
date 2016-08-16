@@ -30,6 +30,26 @@ namespace Yupi.Controller
 			return _loadedRooms.Any (x => x.Data == room);
 		}
 
+		public Room LoadOrGet(int roomId) {
+			RoomData data = RoomRepository.FindBy (roomId);
+			return LoadOrGet (data);
+		}
+
+		public Room LoadOrGet(RoomData data) {
+			if (data == null) {
+				return null;
+			}
+
+			Room room = GetIfLoaded (data);
+
+			if (room == null) {
+				room = new Room (data);
+				_loadedRooms.Add (room);
+			}
+
+			return room;
+		}
+
 		public Room GetIfLoaded(RoomData room) {
 			return _loadedRooms.FirstOrDefault (x => x.Data == room);
 		}

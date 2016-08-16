@@ -13,6 +13,7 @@ namespace Yupi.Messages.Items
 		{
 			uint furniId = request.GetUInt32();
 
+			/*
 			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
 			RoomItem item = room?.GetRoomItemHandler().GetItem(furniId);
 
@@ -44,6 +45,8 @@ namespace Yupi.Messages.Items
 				queryReactor.AddParameter("id", item.Id);
 				queryReactor.RunQuery();
 			}
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

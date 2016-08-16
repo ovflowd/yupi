@@ -8,16 +8,10 @@ namespace Yupi.Messages.Rooms
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			uint roomId = request.GetUInt32();
+			int roomId = request.GetInteger();
 			router.GetComposer<FavouriteRoomsUpdateMessageComposer> ().Compose (session, roomId, true);
-
-			session.GetHabbo().FavoriteRooms.Add(roomId);
-			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager ().GetQueryReactor ()) {
-				queryReactor.SetQuery ("INSERT INTO users_favorites (user_id,room_id) VALUES (@user, @room)");
-				queryReactor.AddParameter ("user", session.GetHabbo ().Id);
-				queryReactor.AddParameter ("room", roomId);
-				queryReactor.RunQuery ();
-			}
+			throw new NotImplementedException ();
+			//session.UserData.Info.FavoriteRooms.Add(roomId);
 		}
 	}
 }

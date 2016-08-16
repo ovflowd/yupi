@@ -6,6 +6,7 @@ namespace Yupi.Messages.Items
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
+			/*
 			uint pId = Request.GetUInt32();
 			bool confirmLoveLock = Request.GetBool();
 
@@ -104,6 +105,9 @@ namespace Yupi.Messages.Items
 			userTwo.GetClient().Send(loock);
 			userOne.CanWalk = true;
 			userTwo.CanWalk = true;
+
+*/
+			throw new NotImplementedException ();
 		}
 	}
 }

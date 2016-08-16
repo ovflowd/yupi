@@ -7,6 +7,7 @@ namespace Yupi.Messages.Rooms
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
+			/*
 			Room currentRoom = session.GetHabbo().CurrentRoom;
 
 			if (currentRoom == null || !currentRoom.CheckRights(session, true))
@@ -15,6 +16,8 @@ namespace Yupi.Messages.Rooms
 			currentRoom.RoomMuted = !currentRoom.RoomMuted;
 
 			router.GetComposer<RoomMuteStatusMessageComposer> ().Compose (currentRoom, currentRoom.RoomMuted);
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

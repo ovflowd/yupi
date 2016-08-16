@@ -3,6 +3,7 @@
 using Yupi.Protocol.Buffers;
 using System.Globalization;
 using Yupi.Model.Domain;
+using Yupi.Util;
 
 namespace Yupi.Messages.User
 {
@@ -18,12 +19,12 @@ namespace Yupi.Messages.User
 				message.AppendString(habbo.Motto);
 				message.AppendString(string.Empty);
 				message.AppendBool(false);
-				message.AppendInteger(habbo.Respect);
-				message.AppendInteger(habbo.DailyRespectPoints);
-				message.AppendInteger(habbo.DailyPetRespectPoints);
+				message.AppendInteger(habbo.Respect.Respect);
+				message.AppendInteger(habbo.Respect.DailyRespectPoints);
+				message.AppendInteger(habbo.Respect.DailyPetRespectPoints);
 				message.AppendBool(true);
-				message.AppendString(habbo.LastOnline.ToString(CultureInfo.InvariantCulture));
-				message.AppendBool(habbo.CanChangeName);
+				message.AppendString(habbo.LastOnline.ToUnix().ToString());
+				message.AppendBool(habbo.CanChangeName());
 				message.AppendBool(false);
 
 				session.Send (message);

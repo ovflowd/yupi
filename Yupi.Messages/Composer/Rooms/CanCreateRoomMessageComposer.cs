@@ -9,7 +9,8 @@ namespace Yupi.Messages.Rooms
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				// TODO Refactor
-				message.AppendInteger(session.GetHabbo().UsersRooms.Count >= 75 ? 1 : 0);
+				throw new NotImplementedException ();
+				//message.AppendInteger(session.GetHabbo().UsersRooms.Count >= 75 ? 1 : 0);
 				message.AppendInteger(75);
 				session.Send (message);
 			}

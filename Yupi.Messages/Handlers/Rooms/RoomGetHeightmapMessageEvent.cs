@@ -12,6 +12,7 @@ namespace Yupi.Messages.Rooms
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
+			/*
 			if (session.GetHabbo ().LoadingRoom <= 0u || CurrentLoadingRoom == null)
 				return;
 
@@ -28,11 +29,13 @@ namespace Yupi.Messages.Rooms
 				router.GetComposer<FloorMapMessageComposer> ().Compose (session, CurrentLoadingRoom.GetGameMap ().Model.GetHeightmap (), 
 					CurrentLoadingRoom.RoomData.WallHeight);
 				GetRoomData3 ();
-			}
+			}*/
+			throw new NotImplementedException ();
 		}
 
 		private void GetRoomData3( Yupi.Protocol.ISender session, Yupi.Protocol.IRouter router)
 		{
+			/*
 			if (session.GetHabbo().LoadingRoom <= 0u || !session.GetHabbo().LoadingChecksPassed ||  CurrentLoadingRoom == null || session == null)
 				return;
 
@@ -99,6 +102,8 @@ namespace Yupi.Messages.Rooms
 				return;
 
 			router.GetComposer<SuggestPollMessageComposer> ().Compose (session, poll);
+			*/
+			throw new NotImplementedException ();
 		}
 
 	}

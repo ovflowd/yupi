@@ -8,7 +8,7 @@ namespace Yupi.Messages.Rooms
 		public override void Compose ( Yupi.Protocol.ISender session, short code = 0)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendShort(code);
+				message.AppendShort(code); // TODO Also possible without code & what does code mean.
 				session.Send (message);
 			}
 		}

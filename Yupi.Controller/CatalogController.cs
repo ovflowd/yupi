@@ -45,6 +45,7 @@ namespace Yupi.Controller
             */
 		}
 
+		// TODO Make extraData optional
 		public bool Purchase(Habbo user, CatalogItem catalogItem, string extraData, int amount) {
 			if (catalogItem == null) {
 				return false;
@@ -79,11 +80,11 @@ namespace Yupi.Controller
 				item.Owner = user.Info;
 				item.TryParseExtraData (extraData);
 
-				if (items.ContainsKey (baseItem)) {
-					items [baseItem].Add (item);
-				} else {
+				if (!items.ContainsKey (baseItem)) {
 					items.Add (baseItem, new List<Item> ());
 				}
+
+				items [baseItem].Add (item);
 
 				user.Info.Inventory.Add(item);
 			}

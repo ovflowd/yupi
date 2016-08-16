@@ -13,7 +13,8 @@ namespace Yupi.Messages.Groups
 		{
 			uint num = request.GetUInt32();
 			uint num2 = request.GetUInt32();
-
+			throw new NotImplementedException ();
+			/*
 			Group group = Yupi.GetGame().GetGroupManager().GetGroup(num);
 
 			if (session.GetHabbo().Id != group.CreatorId || !group.Members.ContainsKey(num2) ||
@@ -44,6 +45,7 @@ namespace Yupi.Messages.Groups
 				queryReactor.AddParameter("user_id", num2);
 				queryReactor.RunQuery ();
 			}
+			*/
 		}
 	}
 }

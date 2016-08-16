@@ -9,6 +9,7 @@ namespace Yupi.Messages.Pets
 	{
 		public override void Compose ( Yupi.Protocol.ISender room, PetInfo pet)
 		{
+			/*
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(pet.Id);
 				message.AppendString(pet.Name);
@@ -48,7 +49,8 @@ namespace Yupi.Messages.Pets
 				message.AppendInteger(-1);
 				message.AppendBool(false);
 				room.Send (message);
-			}
+			}*/
+			throw new NotImplementedException ();
 		}
 	}
 }

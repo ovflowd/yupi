@@ -6,7 +6,7 @@ namespace Yupi.Messages.Contracts
 	{
 		public enum Error {
 			ROOM_FULL = 1,
-			UNKNOWN = 4 // what does this mean?
+			BANNED = 4 // TODO Verify
 		}
 
 		public override void Compose(Yupi.Protocol.ISender session, Error error)

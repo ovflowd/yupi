@@ -1,20 +1,31 @@
 ﻿using System;
-
-
 using System.Collections.Generic;
-
-
+using Yupi.Model.Repository;
+using Yupi.Model.Domain;
+using Yupi.Model;
 
 
 namespace Yupi.Messages.Groups
 {
 	public class DeleteGroupMessageEvent : AbstractHandler
 	{
+		private Repository<Group> GroupRepository;
+
+		public DeleteGroupMessageEvent ()
+		{
+			GroupRepository = DependencyFactory.Resolve<Repository<Group>> ();
+		}
+
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			uint groupId = request.GetUInt32();
+			int groupId = request.GetInteger ();
 
-			Group group = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
+			Group group = GroupRepository.FindBy (groupId);
+
+			if (group?.Creator != session.UserData.Info)
+				return;
+
+			/*
 			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(group.RoomId);
 
 			if (room?.RoomData?.Group == null)
@@ -65,7 +76,8 @@ namespace Yupi.Messages.Groups
 
 				if (roomData2 != null)
 					session.GetHabbo().UsersRooms.Remove(roomData2);
-			}
+			}*/
+			throw new NotImplementedException ();
 		}
 	}
 }

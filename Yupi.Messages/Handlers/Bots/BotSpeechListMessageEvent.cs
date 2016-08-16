@@ -11,6 +11,7 @@ namespace Yupi.Messages.Bots
 			uint botId = request.GetUInt32();
 			int num = request.GetInteger(); // TODO meaning?
 
+			/*
 			Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
 
 			// TODO introduce entity classes and proper inheritance structure
@@ -20,6 +21,8 @@ namespace Yupi.Messages.Bots
 				return;
 
 			router.GetComposer<BotSpeechListMessageComposer> ().Compose (session, num, bot.BotData);
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

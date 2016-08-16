@@ -8,6 +8,7 @@ namespace Yupi.Messages.User
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
+			/*
 			YupiWriterManager.WriteLine(request.GetString() + " joined game. With IP " + session.RemoteAddress, "Yupi.User", ConsoleColor.DarkGreen);
 
 			if (!ServerConfigurationSettings.Data.ContainsKey("welcome.message.enabled") ||
@@ -23,6 +24,8 @@ namespace Yupi.Messages.User
 					ServerConfigurationSettings.Data.ContainsKey("welcome.message.title")
 					? ServerConfigurationSettings.Data["welcome.message.title"]
 					: string.Empty, ServerConfigurationSettings.Data["welcome.message.image"]);
+					*/
+			throw new NotImplementedException ();
 		}
 	}
 }

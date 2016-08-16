@@ -18,34 +18,34 @@ namespace Yupi.Messages.Items
 						message.AppendInteger (data.Group.Admins.Count + 1);
 
 
-						foreach (GroupMember member in data.Group.Admins.Values) {
+						foreach (UserInfo member in data.Group.Admins) {
 							if (member != null) {
 								message.AppendInteger (member.Id);
-								message.AppendString (Yupi.GetHabboById (member.Id).UserName);
+								message.AppendString (member.UserName);
 							}
 						}
 
-						message.AppendInteger (data.OwnerId);
-						message.AppendString (data.Owner);
+						message.AppendInteger (data.Owner.Id);
+						message.AppendString (data.Owner.UserName);
 					} else {
 
 						message.AppendInteger (data.Group.Members.Count + 1);
 
-						foreach (GroupMember member in data.Group.Members.Values) {
+						foreach (UserInfo member in data.Group.Members) {
 							message.AppendInteger (member.Id);
-							message.AppendString (Yupi.GetHabboById (member.Id).UserName);
+							message.AppendString (member.UserName);
 						}
 					}
 				} else {
 					message.AppendInteger (1);
-					message.AppendInteger (data.OwnerId);
-					message.AppendString (data.Owner);
+					message.AppendInteger (data.Owner.Id);
+					message.AppendString (data.Owner.UserName);
 				}
 
 				message.AppendInteger (items.Count);
-			
-				foreach (KeyValuePair<uint, RoomItem> roomItem in items)
-					roomItem.Value.Serialize (message);
+				throw new NotImplementedException ();
+			//	foreach (KeyValuePair<uint, RoomItem> roomItem in items)
+			//		roomItem.Value.Serialize (message);
 
 				session.Send (message);
 			}

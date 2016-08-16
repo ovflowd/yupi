@@ -9,6 +9,8 @@ namespace Yupi.Messages.Items
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			uint pId = request.GetUInt32();
+
+			/*
 			RoomItem item = session.GetHabbo().CurrentRoom.GetRoomItemHandler().GetItem(pId);
 
 			if (item == null)
@@ -49,6 +51,8 @@ namespace Yupi.Messages.Items
 				queryReactor.AddParameter("id", item.Id);
 				queryReactor.RunQuery();
 			}
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

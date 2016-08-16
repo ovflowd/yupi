@@ -8,11 +8,11 @@ namespace Yupi.Messages.Pets
 {
 	public class PetTrainerPanelMessageComposer : Yupi.Messages.Contracts.PetTrainerPanelMessageComposer
 	{
-		public override void Compose ( Yupi.Protocol.ISender session, uint petId)
+		public override void Compose ( Yupi.Protocol.ISender session, int petId)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (petId);
-
+				/*
 				Dictionary<uint, PetCommand> totalPetCommands = PetCommandHandler.GetAllPetCommands();
 				Dictionary<uint, PetCommand> petCommands = PetCommandHandler.GetPetCommandByPetType(petData.Type);
 
@@ -26,7 +26,8 @@ namespace Yupi.Messages.Pets
 				foreach (uint sh in petCommands.Keys)
 					message.AppendInteger(sh);
 				
-				session.Send (message);
+				session.Send (message);*/
+				throw new NotImplementedException ();
 			}
 		}
 	}

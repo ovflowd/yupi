@@ -6,6 +6,7 @@ namespace Yupi.Messages.Pets
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
+			/*
 			Room room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
 			if (room == null)
@@ -37,6 +38,8 @@ namespace Yupi.Messages.Pets
 					queryReactor.RunFastQuery(
 						$"UPDATE users_stats SET daily_pet_respect_points = daily_pet_respect_points - 1 WHERE id = {Session.GetHabbo().Id} LIMIT 1");
 			}
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

@@ -8,6 +8,7 @@ namespace Yupi.Messages.Items
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
+			/*
 			if (session?.GetHabbo() == null)
 				return;
 
@@ -58,6 +59,8 @@ namespace Yupi.Messages.Items
 			session.GetHabbo().GetInventoryComponent().RemoveItem(item.Id, false);
 
 			router.GetComposer<UpdateInventoryMessageComposer> ().Compose (session);
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

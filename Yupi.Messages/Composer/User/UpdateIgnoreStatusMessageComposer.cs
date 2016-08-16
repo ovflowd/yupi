@@ -10,7 +10,7 @@ namespace Yupi.Messages.User
 		public override void Compose ( Yupi.Protocol.ISender session, State state, string username)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendInteger (state);
+				message.AppendInteger ((int)state);
 				message.AppendString (username);
 				session.Send (message);
 			}

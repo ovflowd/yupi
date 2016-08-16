@@ -9,32 +9,27 @@ namespace Yupi.Messages.Groups
 {
 	public class GroupForumReadThreadMessageComposer : Yupi.Messages.Contracts.GroupForumReadThreadMessageComposer
 	{
-		// TODO What is b good for?
-		public override void Compose( Yupi.Protocol.ISender session, int groupId, int threadId, int startIndex, int b, List<GroupForumPost> posts) {
+		public override void Compose( Yupi.Protocol.ISender session, int groupId, int threadId, int startIndex, List<GroupForumPost> posts) {
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(groupId);
 				message.AppendInteger(threadId);
 				message.AppendInteger(startIndex);
-				message.AppendInteger(b);
-
-				int indx = 0;
+				message.AppendInteger(posts.Count);
 
 				foreach (GroupForumPost post in posts)
 				{
-					message.AppendInteger(indx);
-					message.AppendInteger(indx);
-					message.AppendInteger(post.PosterId);
-					message.AppendString(post.PosterName);
-					message.AppendString(post.PosterLook);
-					message.AppendInteger(Yupi.GetUnixTimeStamp() - post.Timestamp);
-					message.AppendString(post.PostContent);
-					message.AppendByte(0);
+					message.AppendInteger(post.Id);
+					message.AppendInteger(post.Id);
+					message.AppendInteger(post.Poster.Id);
+					message.AppendString(post.Poster.UserName);
+					message.AppendString(post.Poster.Look);
+					message.AppendInteger((int)(DateTime.Now - post.Timestamp).TotalSeconds);
+					message.AppendString(post.Content);
+					message.AppendByte(0); // TODO What are these values?
+					message.AppendInteger(post.HiddenBy.Id);
+					message.AppendString(post.HiddenBy.UserName);
 					message.AppendInteger(0);
-					message.AppendString(post.Hider);
 					message.AppendInteger(0);
-					message.AppendInteger(0);
-
-					indx++;
 				}
 				session.Send (message);
 			}

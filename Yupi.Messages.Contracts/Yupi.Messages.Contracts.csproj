@@ -295,6 +295,10 @@
     <Compile Include="Composer\Catalog\CatalogLimitedItemSoldOutMessageComposer.cs" />
     <Compile Include="Composer\Catalog\GiftErrorMessageComposer.cs" />
     <Compile Include="Composer\Messenger\NotAcceptingRequestsMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\PrepareRoomMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\DoorbellNoOneMessageComposer.cs" />
+    <Compile Include="Composer\Rooms\HasOwnerRightsMessageComposer.cs" />
+    <Compile Include="Composer\Other\AuthenticationOKMessageComposer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -9,6 +9,7 @@ namespace Yupi.Messages.Rooms
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
+			/*
 			Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
 
 			if (room == null || !room.CheckRights(session, true))
@@ -98,6 +99,8 @@ namespace Yupi.Messages.Rooms
 			router.GetComposer<RoomChatOptionsMessageComposer> ().Compose (session.GetHabbo ().CurrentRoom, room.RoomData);
 
 			router.GetComposer<RoomDataMessageComposer> ().Compose (room, room, true, true);
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

@@ -12,6 +12,7 @@ namespace Yupi.Messages.Items
 			uint itemId = request.GetUInt32();
 			string video = request.GetString();
 
+			/*
 			RoomItem item = session.GetHabbo().CurrentRoom.GetRoomItemHandler().GetItem(itemId);
 
 			if (item.GetBaseItem().InteractionType != Interaction.YoutubeTv)
@@ -24,6 +25,8 @@ namespace Yupi.Messages.Items
 			item.UpdateState();
 
 			router.GetComposer<YouTubeLoadVideoMessageComposer> ().Compose (session, item);
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

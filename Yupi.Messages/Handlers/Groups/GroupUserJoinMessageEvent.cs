@@ -10,7 +10,8 @@ namespace Yupi.Messages.Groups
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			uint groupId = request.GetUInt32();
-
+			throw new NotImplementedException();
+			/*
 			Group group = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
 			Habbo user = session.GetHabbo();
 
@@ -57,7 +58,7 @@ namespace Yupi.Messages.Groups
 				}
 
 				router.GetComposer<GroupDataMessageComposer> ().Compose (session, group, session.GetHabbo());
-			}
+			}*/
 		}
 	}
 }

@@ -3,45 +3,43 @@
 using System.Data;
 
 using Yupi.Messages.Notification;
+using Yupi.Model.Repository;
+using Yupi.Model.Domain;
+using Yupi.Model;
 
 namespace Yupi.Messages.Groups
 {
 	public class AlterForumThreadStateMessageEvent : AbstractHandler
 	{
+		private Repository<Group> GroupRepository;
+
+		public AlterForumThreadStateMessageEvent ()
+		{
+			GroupRepository = DependencyFactory.Resolve<Repository<Group>> ();
+		}
+
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			uint groupId = request.GetUInt32();
-			uint threadId = request.GetUInt32();
+			int groupId = request.GetInteger ();
+			int threadId = request.GetInteger ();
 			int stateToSet = request.GetInteger();
 
-			using (IQueryAdapter dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
-			{
-				dbClient.SetQuery(
-					$"SELECT * FROM groups_forums_posts WHERE group_id = '{groupId}' AND id = '{threadId}' LIMIT 1;");
+			Group theGroup = GroupRepository.FindBy (groupId);
 
-				DataRow row = dbClient.GetRow();
-				Group theGroup = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
+			if (theGroup != null) {
+				GroupForumThread thread = theGroup.Forum.GetThread (threadId);
 
-				if (row != null)
-				{
-					if ((uint) row["poster_id"] == session.GetHabbo().Id ||
-						theGroup.Admins.ContainsKey(session.GetHabbo().Id))
-					{
-						dbClient.SetQuery($"UPDATE groups_forums_posts SET hidden = @hid WHERE id = {threadId};");
-						dbClient.AddParameter("hid", stateToSet == 20 ? "1" : "0");
-						dbClient.RunQuery();
-					}
+				if (thread != null && (thread.Creator == session.UserData.Info || theGroup.Admins.Contains(session.UserData.Info))) {
+					thread.Hidden = stateToSet == 20;
+					thread.HiddenBy = session.UserData.Info;
+
+					GroupRepository.Save (theGroup);
+
+					router.GetComposer<SuperNotificationMessageComposer>().Compose(session, string.Empty, string.Empty, string.Empty, string.Empty,
+						stateToSet == 20 ? "forums.thread.hidden" : "forums.thread.restored", 0);
+
+					router.GetComposer<GroupForumThreadUpdateMessageComposer>().Compose(session, groupId, thread, thread.Pinned, thread.Locked);
 				}
-
-				GroupForumPost thread = new GroupForumPost(row);
-
-				router.GetComposer<SuperNotificationMessageComposer>().Compose(session, string.Empty, string.Empty, string.Empty, string.Empty,
-					stateToSet == 20 ? "forums.thread.hidden" : "forums.thread.restored", 0);
-
-				if (thread.ParentId != 0)
-					return;
-
-				router.GetComposer<GroupForumThreadUpdateMessageComposer>().Compose(session, groupId, thread, thread.Pinned, thread.Locked);
 			}
 		}
 	}

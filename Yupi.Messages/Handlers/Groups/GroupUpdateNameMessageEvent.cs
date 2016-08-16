@@ -1,36 +1,42 @@
 ﻿using System;
+using Yupi.Model.Repository;
+using Yupi.Model;
+using Yupi.Model.Domain;
 
 
 namespace Yupi.Messages.Groups
 {
 	public class GroupUpdateNameMessageEvent : AbstractHandler
 	{
+		private Repository<Group> GroupRepository;
+
+		public GroupUpdateNameMessageEvent ()
+		{
+			GroupRepository = DependencyFactory.Resolve<Repository<Group>> ();
+		}
+
 		// TODO Refactor
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			uint num = request.GetUInt32();
-			string text = request.GetString();
-			string text2 = request.GetString();
+			int groupId = request.GetInteger();
+			string name = request.GetString();
+			string description = request.GetString();
 
-			Group theGroup = Yupi.GetGame().GetGroupManager().GetGroup(num);
+			Group theGroup = GroupRepository.FindBy(groupId);
 
-			if (theGroup?.CreatorId != session.GetHabbo().Id)
+			if (theGroup?.Creator != session.UserData.Info)
 				return;
 
-			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-			{
-				queryReactor.SetQuery(
-					$"UPDATE groups_data SET group_name = @name, group_description = @desc WHERE id={num} LIMIT 1");
-				queryReactor.AddParameter("name", text);
-				queryReactor.AddParameter("desc", text2);
+			theGroup.Name = name;
+			theGroup.Description = description;
 
-				queryReactor.RunQuery();
+			GroupRepository.Save (theGroup);
+
+			if (session.UserData.Room != null) {
+				session.UserData.Room.Router.GetComposer<GroupDataMessageComposer> ().Compose (session.UserData.Room, theGroup, session.UserData.Info);
+			} else {
+				router.GetComposer<GroupDataMessageComposer> ().Compose (session, theGroup, session.UserData.Info);
 			}
-
-			theGroup.Name = text;
-			theGroup.Description = text2;
-
-			router.GetComposer<GroupDataMessageComposer> ().Compose (session.GetHabbo().CurrentRoom, group, session.GetHabbo());
 		}
 	}
 }

@@ -37,14 +37,16 @@ namespace Yupi.Model.Domain
 
 		public virtual UserInfo Poster { get; set; }
 
-		public virtual bool Locked { get; set; }
-
-		public virtual bool Pinned { get; set; }
-
 		public virtual string Content { get; set; }
 
 		public virtual string Subject { get; set; }
 
 		public virtual DateTime Timestamp { get; set; }
+
+		public GroupForumPost ()
+		{
+			Hidden = false;
+			Timestamp = DateTime.Now;
+		}
 	}
 }

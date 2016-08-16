@@ -11,12 +11,13 @@ namespace Yupi.Messages.Pets
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
+			int itemId = request.GetInteger();
 
-			if (room == null || !room.CheckRights(session, true))
+			if (session.UserData.Room == null || !session.UserData.Room.HasOwnerRights(session.UserData.Info))
 				return;
 
-			uint itemId = request.GetUInt32();
+			throw new NotImplementedException ();
+			/*
 
 			RoomItem item = room.GetRoomItemHandler().GetItem(itemId);
 
@@ -41,6 +42,7 @@ namespace Yupi.Messages.Pets
 			}
 
 			item.PetsList.Clear();
+			*/
 		}
 	}
 }

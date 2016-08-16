@@ -17,8 +17,11 @@ namespace Yupi.Messages.Wired
 					list = new List<FloorItem> ();
 				}
 				message.AppendInteger(list.Count);
-				foreach (FloorItem current20 in list) message.AppendInteger(current20.Id);
-				message.AppendInteger(item.BaseItem.SpriteId);
+				foreach (FloorItem current20 in list) {
+					message.AppendInteger (current20.Id);
+				}
+				throw new NotImplementedException ();
+				//message.AppendInteger(item.BaseItem.SpriteId);
 				message.AppendInteger(item.Id);
 				message.AppendString(extraString);
 				message.AppendInteger(3);

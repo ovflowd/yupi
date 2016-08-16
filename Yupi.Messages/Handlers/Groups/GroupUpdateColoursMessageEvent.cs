@@ -1,4 +1,7 @@
 ﻿using System;
+using Yupi.Model.Repository;
+using Yupi.Model.Domain;
+using Yupi.Model;
 
 
 
@@ -6,31 +9,28 @@ namespace Yupi.Messages.Groups
 {
 	public class GroupUpdateColoursMessageEvent : AbstractHandler
 	{
+		private Repository<Group> GroupRepository;
+
+		public GroupUpdateColoursMessageEvent ()
+		{
+			GroupRepository = DependencyFactory.Resolve<Repository<Group>> ();
+		}
+
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			uint groupId = request.GetUInt32();
-
+			int groupId = request.GetInteger ();
 			int color1 = request.GetInteger();
 			int color2 = request.GetInteger();
 
-			Group theGroup = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
+			Group group = GroupRepository.FindBy (groupId);
 
-			if (theGroup?.CreatorId != session.GetHabbo().Id)
+			if (group?.Creator != session.UserData.Info)
 				return;
 
-			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager ().GetQueryReactor ()) {
-				// TODO Fix Colour to Color
-				queryReactor.SetQuery("UPDATE groups_data Set colour1 = @color1, colour2 = @color2 WHERE id = @id");
-				queryReactor.AddParameter("color1", color1);
-				queryReactor.AddParameter("color2", color2);
-				queryReactor.AddParameter("id", theGroup.Id);
-				queryReactor.RunQuery ();
-			}
-			// TODO Refactor assign numbers earlier and implement save method on group!
-			theGroup.Colour1 = color1;
-			theGroup.Colour2 = color2;
-
-			router.GetComposer<GroupDataMessageComposer> ().Compose (session.GetHabbo().CurrentRoom, theGroup, session.GetHabbo());
+			group.Colour1 = new GroupSymbolColours() { Colour = color1 };
+			group.Colour2 = new GroupBackGroundColours() { Colour = color2 };
+			throw new NotImplementedException ();
+			//router.GetComposer<GroupDataMessageComposer> ().Compose (session.GetHabbo().CurrentRoom, group, session.GetHabbo());
 		}
 	}
 }

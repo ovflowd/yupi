@@ -16,6 +16,7 @@ namespace Yupi.Messages.Bots
 		// TODO Refactor
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
+			/*
 			Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
 
 			uint botId = request.GetUInt32();
@@ -117,6 +118,8 @@ namespace Yupi.Messages.Bots
 			default:
 				router.GetComposer<SetRoomUserMessageComposer> ().Compose (room, bot, room.GetGameMap ().GotPublicPool);
 			}
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

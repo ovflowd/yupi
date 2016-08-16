@@ -6,11 +6,11 @@ namespace Yupi.Messages.Rooms
 {
 	public class SaveRoomBrandingMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			uint itemId = request.GetUInt32();
-			uint count = request.GetUInt32();
-
+			uint itemId = request.GetUInt32 ();
+			uint count = request.GetUInt32 ();
+			/*
 			if (session?.GetHabbo() == null)
 				return;
 			Room room = session.GetHabbo().CurrentRoom;
@@ -31,6 +31,8 @@ namespace Yupi.Messages.Rooms
 			item.ExtraData = extraData;
 
 			room.GetRoomItemHandler().SetFloorItem(session, item, item.X, item.Y, item.Rot, false, false, true);
+*/
+			throw new NotImplementedException ();
 		}
 	}
 }

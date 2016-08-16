@@ -10,14 +10,7 @@ namespace Yupi.Messages.Items
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			if ((DateTime.Now - session.GetHabbo().LastGiftOpenTime).TotalSeconds <= 15.0)
-			{
-				session.SendNotif(Yupi.GetLanguage().GetVar("gift_one"));
-				return;
-			}
-
-			Yupi.Messages.Rooms currentRoom = session.GetHabbo().CurrentRoom;
-
+			/*
 			if (currentRoom == null)
 			{
 				session.SendWhisper(Yupi.GetLanguage().GetVar("gift_two"));
@@ -114,6 +107,8 @@ namespace Yupi.Messages.Items
 				session.GetHabbo().GetInventoryComponent().UpdateItems(true);
 			}
 			router.GetComposer<UpdateInventoryMessageComposer> ().Compose (session);
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

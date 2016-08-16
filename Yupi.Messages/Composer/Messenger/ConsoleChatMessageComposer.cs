@@ -9,9 +9,9 @@ namespace Yupi.Messages.Messenger
 		public override void Compose ( Yupi.Protocol.ISender session, MessengerMessage msg)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendInteger(msg.From);
+				message.AppendInteger(msg.From.Id);
 				message.AppendString(msg.Text);
-				message.AppendInteger(msg.Diff().TotalSeconds);
+				message.AppendInteger((int)msg.Diff().TotalSeconds);
 				session.Send (message);
 			}
 		}

@@ -9,22 +9,17 @@ namespace Yupi.Messages.Rooms
 	{
 		
 
-		public override void Compose ( Yupi.Protocol.ISender session, RoomSpacesMessageComposer.Type type, RoomData data)
+		public override void Compose ( Yupi.Protocol.ISender session, RoomSpacesMessageComposer.RoomSpacesType type, RoomData data)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendString(type.ToString());
+				message.AppendString(type.DisplayName);
 
-				// TODO use enum
-				switch (type) {
-				case Type.WALLPAPER:
+				if (type == RoomSpacesType.Wallpaper) {
 					message.AppendString(data.WallPaper);
-					break;
-				case Type.FLOOR:
+				} else if(type == RoomSpacesType.Floor) {
 					message.AppendString(data.Floor);
-					break;
-				case Type.LANDSCAPE:
+				} else {
 					message.AppendString(data.LandScape);
-					break;
 				}
 
 				session.Send (message);

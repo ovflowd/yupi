@@ -17,7 +17,8 @@ namespace Yupi.Messages.Events
 				message.AppendString (roomEvent.Name);
 				message.AppendString (roomEvent.Description);
 				message.AppendInteger (0);
-				message.AppendInteger ((int)Math.Floor ((roomEvent.Time - Yupi.GetUnixTimeStamp ()) / 60.0));
+				throw new NotImplementedException ();
+				//message.AppendInteger ((int)Math.Floor ((roomEvent.Time - Yupi.GetUnixTimeStamp ()) / 60.0));
 
 				message.AppendInteger (roomEvent.Category);
 

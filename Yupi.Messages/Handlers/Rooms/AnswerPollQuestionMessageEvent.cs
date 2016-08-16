@@ -22,6 +22,7 @@ namespace Yupi.Messages.Rooms
 			// TODO Is a windows line carriage required?
 			string text = string.Join("\r\n", list);
 
+			/*
 			Poll poll = Yupi.GetGame().GetPollManager().TryGetPollById(pollId);
 
 			if (poll != null && poll.Type == PollType.Matching)
@@ -51,6 +52,8 @@ namespace Yupi.Messages.Rooms
 				queryReactor.AddParameter("answer", text);
 				queryReactor.RunQuery();
 			}
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

@@ -8,7 +8,7 @@ namespace Yupi.Messages.Navigator
 {
 	public class CatalogPromotionGetRoomsMessageComposer : Yupi.Messages.Contracts.CatalogPromotionGetRoomsMessageComposer
 	{
-		public override void Compose ( Yupi.Protocol.ISender session, HashSet<RoomData> rooms)
+		public override void Compose ( Yupi.Protocol.ISender session, IList<RoomData> rooms)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendBool(true);

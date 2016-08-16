@@ -24,6 +24,7 @@
 
 namespace Yupi.Model.Domain
 {
+	// TODO Rename
      public class GroupBases
 	{ // TODO Isn't this class useless?
 		public virtual int Id { get; protected set; }

@@ -10,12 +10,15 @@ namespace Yupi.Messages.Rooms
 		{
 			uint roomId = request.GetUInt32();
 
+			/*
 			Room room = Yupi.GetGame().GetRoomManager().GetRoom(roomId);
 
 			if (room == null)
 				return;
 
 			router.GetComposer<RoomBannedListMessageComposer> ().Compose (session, roomId, room.BannedUsers());
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

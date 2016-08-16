@@ -3,7 +3,7 @@ using Yupi.Messages.Contracts;
 
 namespace Yupi.Messages.Rooms
 {
-	public class HasOwnerRightsMessageComposer : AbstactComposerEmpty
+	public class HasOwnerRightsMessageComposer : Contracts.HasOwnerRightsMessageComposer
 	{
 	}
 }

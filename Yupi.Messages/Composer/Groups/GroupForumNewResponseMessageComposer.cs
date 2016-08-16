@@ -9,6 +9,8 @@ namespace Yupi.Messages.Groups
 	public class GroupForumNewResponseMessageComposer : Yupi.Messages.Contracts.GroupForumNewResponseMessageComposer
 	{
 		public override void Compose( Yupi.Protocol.ISender session, int groupId, int threadId, int messageCount, UserInfo user, int timestamp, string content) {
+			throw new NotImplementedException ();
+			/*
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(groupId);
 				message.AppendInteger(threadId);
@@ -25,6 +27,7 @@ namespace Yupi.Messages.Groups
 				message.AppendInteger(0);
 				session.Send (message);
 			}
+			*/
 		}
 	}
 }

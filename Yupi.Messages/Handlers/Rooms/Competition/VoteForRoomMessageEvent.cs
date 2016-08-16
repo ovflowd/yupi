@@ -13,6 +13,7 @@ namespace Yupi.Messages.Competition
 		{
 			request.GetString(); // TODO unused
 
+			/*
 			if (session.GetHabbo().DailyCompetitionVotes <= 0)
 				return;
 
@@ -56,7 +57,9 @@ namespace Yupi.Messages.Competition
 
 
 			router.GetComposer<CompetitionVotingInfoMessageComposer> ().Compose (session, competition, session.GetHabbo().DailyCompetitionVotes);
-		}
+*/
+			throw new NotImplementedException ();
+}
 	}
 }
 

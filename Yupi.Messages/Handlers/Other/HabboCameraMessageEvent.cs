@@ -9,6 +9,8 @@ namespace Yupi.Messages.Other
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
+			throw new NotImplementedException();
+			/*
 			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
 			{
 				queryReactor.SetQuery($"SELECT * FROM cms_stories_photos_preview WHERE user_id = {session.GetHabbo().Id} AND type = 'PHOTO' ORDER BY id DESC LIMIT 1");
@@ -49,7 +51,7 @@ namespace Yupi.Messages.Other
 					}
 				}
 			}
-
+*/
 			router.GetComposer<CameraPurchaseOkComposer> ().Compose (session);
 		}
 	}

@@ -15,9 +15,9 @@ namespace Yupi.Messages.Groups
 				message.AppendInteger (group.Id);
 				message.AppendString (group.Name);
 				message.AppendString (group.Description);
-				message.AppendInteger (group.RoomId);
-				message.AppendInteger (group.Colour1);
-				message.AppendInteger (group.Colour2);
+				message.AppendInteger (group.Room.Id);
+				message.AppendInteger (group.Colour1.Colour);
+				message.AppendInteger (group.Colour2.Colour);
 				message.AppendInteger (group.State);
 				message.AppendInteger (group.AdminOnlyDeco);
 				message.AppendBool (false);

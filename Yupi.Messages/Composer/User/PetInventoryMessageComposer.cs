@@ -13,7 +13,7 @@ namespace Yupi.Messages.User
 				message.AppendInteger(1);
 				message.AppendInteger(1);
 				message.AppendInteger(pets.Count);
-
+				/*
 				foreach (PetInfo pet in pets) {
 					message.AppendInteger(pet.Id);
 					message.AppendString(pet.Name);
@@ -35,7 +35,8 @@ namespace Yupi.Messages.User
 						message.AppendInteger (0);
 					}
 				}
-
+*/
+				throw new NotImplementedException ();
 				session.Send (message);
 			}
 		}

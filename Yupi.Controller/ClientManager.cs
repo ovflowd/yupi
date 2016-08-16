@@ -4,6 +4,7 @@ using Yupi.Protocol;
 using Yupi.Model.Domain;
 using System.Linq;
 using Yupi.Model;
+using Yupi.Model.Repository;
 
 namespace Yupi.Controller
 {

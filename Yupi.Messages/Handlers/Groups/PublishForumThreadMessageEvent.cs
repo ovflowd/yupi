@@ -2,67 +2,61 @@
 
 
 using System.Data;
+using Yupi.Model.Repository;
+using Yupi.Model.Domain;
+using Yupi.Model;
 
 namespace Yupi.Messages.Groups
 {
 	public class PublishForumThreadMessageEvent : AbstractHandler
 	{
+		private Repository<Group> GroupRepository;
+
+		public PublishForumThreadMessageEvent ()
+		{
+			GroupRepository = DependencyFactory.Resolve<Repository<Group>> ();
+		}
+
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			// TODO Flood protection?
-			if (Yupi.GetUnixTimeStamp() - session.GetHabbo().LastSqlQuery < 20)
-				return;
-
-			uint groupId = request.GetUInt32();
-			uint threadId = request.GetUInt32();
+			int groupId = request.GetInteger();
+			int threadId = request.GetInteger();
 			string subject = request.GetString();
 			string content = request.GetString();
 
-			Group group = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
+			Group group = GroupRepository.FindBy(groupId);
 
-			if (group == null || group.Forum.Id == 0)
+			if (group == null)
 				return;
 
-			// TODO Millenium bug
-			int timestamp = Yupi.GetUnixTimeStamp();
+			GroupForumThread thread;
 
-			using (IQueryAdapter dbClient = Yupi.GetDatabaseManager().GetQueryReactor())
-			{
-				if (threadId != 0)
-				{
-					dbClient.SetQuery("SELECT * FROM groups_forums_posts WHERE id = @threadId");
-					dbClient.AddParameter("threadId", threadId);
+			if (threadId == 0) {
+				// New thread
+				thread = new GroupForumThread ();
+			} else {
+				thread = group.Forum.GetThread (threadId);
 
-					DataRow row = dbClient.GetRow();
-					GroupForumPost post = new GroupForumPost(row);
-
-					if (post.Locked || post.Hidden)
-					{
-						session.SendNotif(Yupi.GetLanguage().GetVar("forums_cancel"));
-						return;
-					}
+				if (thread == null) {
+					return;
 				}
-
-				session.GetHabbo().LastSqlQuery = Yupi.GetUnixTimeStamp();
-				dbClient.SetQuery(
-					"INSERT INTO groups_forums_posts (group_id, parent_id, timestamp, poster_id, poster_name, poster_look, subject, post_content) VALUES (@gid, @pard, @ts, @pid, @pnm, @plk, @subjc, @content)");
-				dbClient.AddParameter("gid", groupId);
-				dbClient.AddParameter("pard", threadId);
-				dbClient.AddParameter("ts", timestamp);
-				dbClient.AddParameter("pid", session.GetHabbo().Id);
-				dbClient.AddParameter("pnm", session.GetHabbo().UserName);
-				dbClient.AddParameter("plk", session.GetHabbo().Look);
-				dbClient.AddParameter("subjc", subject);
-				dbClient.AddParameter("content", content);
-
-				threadId = (uint) dbClient.GetInteger();
 			}
 
+			if (thread.Locked || thread.Hidden)
+			{
+				return;
+			}
+
+			GroupForumPost post = new GroupForumPost () {
+				Content = content,
+				Subject = subject,
+				Poster = session.UserData.Info
+			};
+
 			group.Forum.ForumScore += 0.25;
-			group.Forum.ForumLastPosterName = session.GetHabbo().UserName;
-			group.Forum.ForumLastPosterId = session.GetHabbo().Id;
-			group.Forum.ForumLastPosterTimestamp = (uint) timestamp;
-			group.Forum.ForumMessagesCount++;
+			// TODO SAVE
+			throw new NotImplementedException ();
+			/*
 			group.UpdateForum();
 
 			if (threadId == 0)
@@ -73,7 +67,7 @@ namespace Yupi.Messages.Groups
 			{
 				router.GetComposer<GroupForumNewResponseMessageComposer> ().Compose (
 					session, groupId, threadId, group.Forum.ForumMessagesCount, session.GetHabbo (), timestamp);
-			}
+			}*/
 		}
 	}
 }

@@ -15,6 +15,7 @@ namespace Yupi.Messages.Rooms
 			int num = request.GetInteger();
 			int num2 = request.GetInteger();
 
+			/*
 			Room room = Yupi.GetGame().GetRoomManager().LoadRoom(id);
 
 			if (room == null || room.RoomData == null)
@@ -24,6 +25,8 @@ namespace Yupi.Messages.Rooms
 
 			router.GetComposer<RoomDataMessageComposer> ().Compose (session, room, show, true);
 			router.GetComposer<LoadRoomRightsListMessageComposer> ().Compose (session, room);
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

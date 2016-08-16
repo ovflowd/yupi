@@ -8,6 +8,7 @@ namespace Yupi.Messages.Rooms
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
+			/*
 			Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
 
 			if (room == null || session.GetHabbo().RatedRooms.Contains(room.RoomId) || room.CheckRights(session, true))
@@ -40,6 +41,8 @@ namespace Yupi.Messages.Rooms
 
 			// TODO Someone with rights can't vote, right?!
 			router.GetComposer<RoomRatingMessageComposer> ().Compose (session, room.RoomData.Score, room.CheckRights (session, true));
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

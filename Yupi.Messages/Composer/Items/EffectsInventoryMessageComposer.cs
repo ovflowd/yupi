@@ -7,7 +7,7 @@ namespace Yupi.Messages.Items
 {
 	public class EffectsInventoryMessageComposer : Yupi.Messages.Contracts.EffectsInventoryMessageComposer
 	{
-		public override void Compose ( Yupi.Protocol.ISender session, List<AvatarEffect> effects)
+		public override void Compose ( Yupi.Protocol.ISender session, IList<AvatarEffect> effects)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(effects.Count);

@@ -6,9 +6,9 @@ using Yupi.Model;
 
 namespace Yupi.Messages.Contracts
 {
-	public abstract class LoadModerationToolMessageComposer : AbstractComposer<ModerationTool, UserInfo>
+	public abstract class LoadModerationToolMessageComposer : AbstractComposer
 	{
-		public override void Compose(Yupi.Protocol.ISender session, ModerationTool tool, UserInfo user)
+		public virtual void Compose(Yupi.Protocol.ISender session, IList<SupportTicket> Tickets, IList<ModerationTemplate> Templates, IList<string> UserMessagePresets, IList<string> RoomMessagePresets, UserInfo user)
 		{
 		 // Do nothing by default.
 		}

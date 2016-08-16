@@ -16,6 +16,7 @@ namespace Yupi.Messages.Competition
 
 			int code = request.GetInteger();
 
+			/*
 			Room room = session.GetHabbo().CurrentRoom;
 			RoomData roomData = room?.RoomData;
 
@@ -73,7 +74,8 @@ namespace Yupi.Messages.Competition
 
 					router.GetComposer<CompetitionEntrySubmitResultMessageComposer> ().Compose (session, competition, 0);
 				}
-			}
+			}*/
+			throw new NotImplementedException ();
 		}
 	}
 }

@@ -3,6 +3,7 @@ using Yupi.Protocol.Buffers;
 
 using System.Collections.Generic;
 using System.Linq;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Other
 {
@@ -12,6 +13,9 @@ namespace Yupi.Messages.Other
 		public override void Compose ( Yupi.Protocol.ISender session)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
+				throw new NotImplementedException ();
+
+				/*
 				List<string> clothing = session.GetHabbo().ClothesManagerManager.Clothing;
 
 				message.StartArray();
@@ -42,6 +46,7 @@ namespace Yupi.Messages.Other
 				message.EndArray();
 
 				session.Send (message);
+				*/
 			}
 		}
 	}

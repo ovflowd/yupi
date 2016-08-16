@@ -10,6 +10,7 @@ namespace Yupi.Messages.Items
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
+			/*
 			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
 
 			if (room == null || !room.CheckRights(session, true))
@@ -73,6 +74,8 @@ namespace Yupi.Messages.Items
 				dbClient.RunFastQuery($"DELETE FROM pets_data WHERE id = {moplaId};");
 				dbClient.RunFastQuery($"DELETE FROM pets_plants WHERE pet_id = {moplaId};");
 			}
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

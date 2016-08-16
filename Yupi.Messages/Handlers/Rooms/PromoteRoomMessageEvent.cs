@@ -13,6 +13,7 @@ namespace Yupi.Messages.Rooms
 			uint pageId = request.GetUInt32();
 			uint itemId = request.GetUInt32();
 
+			/*
 			CatalogPage page = Yupi.GetGame().GetCatalogManager().GetPage(pageId);
 			CatalogItem catalogItem = page?.GetItem(itemId);
 
@@ -81,6 +82,8 @@ namespace Yupi.Messages.Rooms
 
 			// TODO Use Enum for Badges!
 			session.GetHabbo().GetBadgeComponent().GiveBadge("RADZZ", true, session);
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

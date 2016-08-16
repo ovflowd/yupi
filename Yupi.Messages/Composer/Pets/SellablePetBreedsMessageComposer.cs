@@ -11,6 +11,8 @@ namespace Yupi.Messages.Pets
 		public override void Compose ( Yupi.Protocol.ISender session, string type)
 		{
 			// TODO Refactor?
+
+			/*
 			string petType = PetTypeManager.GetPetTypeByHabboPetType(type);
 
 			uint petId = PetTypeManager.GetPetRaceByItemName(petType);
@@ -31,6 +33,8 @@ namespace Yupi.Messages.Pets
 				}
 				session.Send (message);
 			}
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

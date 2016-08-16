@@ -14,7 +14,7 @@ namespace Yupi.Messages.Items
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			uint id = request.GetUInt32();
-
+			/*
 			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
 
 			if (room == null)
@@ -77,6 +77,8 @@ namespace Yupi.Messages.Items
 
 			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
 				room.GetRoomItemHandler().SaveFurniture(queryReactor);
+				*/
+			throw new NotImplementedException ();
 		}
 	}
 }

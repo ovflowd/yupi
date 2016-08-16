@@ -3,40 +3,47 @@
 
 
 using Yupi.Messages.Rooms;
+using Yupi.Model.Domain;
+using Yupi.Model.Repository;
+using Yupi.Model;
+using Yupi.Controller;
 
 namespace Yupi.Messages.Groups
 {
 	public class GroupUpdateSettingsMessageEvent : AbstractHandler
 	{
+		private Repository<Group> GroupRepository;
+		private RoomManager RoomManager;
+
+		public GroupUpdateSettingsMessageEvent ()
+		{
+			GroupRepository = DependencyFactory.Resolve<Repository<Group>> ();
+			RoomManager = DependencyFactory.Resolve<RoomManager> ();
+		}
+
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			uint groupId = request.GetUInt32();
+			int groupId = request.GetInteger ();
 			uint state = request.GetUInt32();
 			uint admindeco = request.GetUInt32();
 
-			Group group = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
+			Group group = GroupRepository.FindBy (groupId);
 
-			if (group?.CreatorId != session.GetHabbo().Id)
+			if (group?.Creator != session.UserData.Info)
 				return;
-
-			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager ().GetQueryReactor ()) {
-				queryReactor.SetQuery ("UPDATE groups_data SET state = @state, admindeco = @admindeco WHERE id = @id");
-				queryReactor.AddParameter("state", state);
-				queryReactor.AddParameter("admindeco", admindeco);
-				queryReactor.AddParameter("id", group.Id);
-				queryReactor.RunQuery ();
-			}
 
 			group.State = state;
 			group.AdminOnlyDeco = admindeco;
 
-			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(group.RoomId);
+			GroupRepository.Save (group);
 
+			Room room = RoomManager.GetIfLoaded(group.Room);
+			/*
 			if (room != null)
 			{
 				foreach (RoomUser current in room.GetRoomUserManager().GetRoomUsers())
 				{
-					if (room.RoomData.OwnerId != current.UserId && !group.Admins.ContainsKey(current.UserId) &&
+					if (room.Data.Owner != current.UserId && !group.Admins.ContainsKey(current.UserId) &&
 						group.Members.ContainsKey(current.UserId))
 					{
 						// TODO USE F*KING ENUMS!
@@ -58,8 +65,10 @@ namespace Yupi.Messages.Groups
 					}
 				}
 			}
-				
 			router.GetComposer<GroupDataMessageComposer> ().Compose (session.GetHabbo().CurrentRoom, group, session.GetHabbo());
+				*/
+			throw new NotImplementedException ();
+
 		}
 	}
 }

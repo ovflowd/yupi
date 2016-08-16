@@ -280,7 +280,6 @@
     <Compile Include="Domain\Items\LovelockItem.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\Repository.cs" />
-    <Compile Include="Domain\Support\ModerationTool.cs" />
     <Compile Include="Domain\Support\ModerationTemplate.cs" />
     <Compile Include="Domain\Items\WiredItem.cs" />
     <Compile Include="Domain\BaseItems\WiredBaseItem.cs" />
@@ -333,6 +332,8 @@
     <Compile Include="Domain\Users\Habbo.cs" />
     <Compile Include="Domain\Rooms\Room.cs" />
     <Compile Include="Domain\Users\FriendRequest.cs" />
+    <Compile Include="Domain\Groups\GroupMember.cs" />
+    <Compile Include="Domain\Groups\GroupForumThread.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

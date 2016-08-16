@@ -9,6 +9,7 @@ namespace Yupi.Messages.Rooms
 		{
 			uint roomId = request.GetUInt32();
 
+			/*
 			session.GetHabbo().FavoriteRooms.Remove(roomId);
 			router.GetComposer<FavouriteRoomsUpdateMessageComposer> ().Compose (session, roomId, false);
 
@@ -18,6 +19,8 @@ namespace Yupi.Messages.Rooms
 				queryReactor.AddParameter ("room", roomId);
 				queryReactor.RunQuery ();
 			}
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

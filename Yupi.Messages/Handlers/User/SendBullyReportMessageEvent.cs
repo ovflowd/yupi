@@ -8,6 +8,7 @@ using Yupi.Model.Domain;
 using Yupi.Model.Repository;
 using Yupi.Messages.Support;
 using Yupi.Protocol;
+using Yupi.Controller;
 
 namespace Yupi.Messages.Handlers.User
 {

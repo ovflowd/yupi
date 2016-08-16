@@ -12,7 +12,7 @@ namespace Yupi.Messages.Catalog
 			string productName = string.Empty;
 			string productDescription = string.Empty;
 			bool isValid = false;
-
+			/*
 			DataRow row;
 
 			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
@@ -39,6 +39,8 @@ namespace Yupi.Messages.Catalog
 			}
 
 			session.GetHabbo().NotifyVoucher(isValid, productName, productDescription);
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

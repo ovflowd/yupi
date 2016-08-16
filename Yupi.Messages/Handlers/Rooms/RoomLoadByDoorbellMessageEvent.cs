@@ -5,9 +5,9 @@ namespace Yupi.Messages.Rooms
 {
 	public class RoomLoadByDoorbellMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			Room currentLoadingRoom = CurrentLoadingRoom;
+			/*Room currentLoadingRoom = CurrentLoadingRoom;
 
 			if (currentLoadingRoom == null || !session.GetHabbo().LoadingChecksPassed)
 				return queuedServerMessageBuffer;
@@ -32,15 +32,15 @@ namespace Yupi.Messages.Rooms
 
 			if (currentLoadingRoom.RoomData.WallPaper != "0.0")
 			{
-				router.GetComposer<RoomSpacesMessageComposer> ().Compose (session, RoomSpacesMessageComposer.Type.WALLPAPER, currentLoadingRoom);
+				router.GetComposer<RoomSpacesMessageComposer> ().Compose (session, RoomSpacesMessageComposer.RoomSpacesType.WALLPAPER, currentLoadingRoom);
 			}
 
 			if (currentLoadingRoom.RoomData.Floor != "0.0")
 			{
-				router.GetComposer<RoomSpacesMessageComposer> ().Compose (session, RoomSpacesMessageComposer.Type.FLOOR, currentLoadingRoom);
+				router.GetComposer<RoomSpacesMessageComposer> ().Compose (session, RoomSpacesMessageComposer.RoomSpacesType.FLOOR, currentLoadingRoom);
 			}
 
-			router.GetComposer<RoomSpacesMessageComposer> ().Compose (session, RoomSpacesMessageComposer.Type.LANDSCAPE, currentLoadingRoom);
+			router.GetComposer<RoomSpacesMessageComposer> ().Compose (session, RoomSpacesMessageComposer.RoomSpacesType.LANDSCAPE, currentLoadingRoom);
 
 			if (currentLoadingRoom.CheckRights(session, true))
 			{
@@ -62,6 +62,8 @@ namespace Yupi.Messages.Rooms
 
 
 			router.GetComposer<RoomUpdateMessageComposer> ().Compose (session, currentLoadingRoom.RoomId);
+*/
+			throw new NotImplementedException ();
 		}
 	}
 }

@@ -7,17 +7,9 @@ namespace Yupi.Messages.Pets
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			uint petId = request.GetUInt32();
+			int petId = request.GetInteger();
 
-			Yupi.Messages.Rooms currentRoom = session.GetHabbo().CurrentRoom;
-
-			if (currentRoom == null)
-				return;
-
-			Pet petData;
-
-			if ((petData = currentRoom.GetRoomUserManager().GetPet(petId).PetData) == null)
-				return;
+			// TODO Validate
 
 			router.GetComposer<PetTrainerPanelMessageComposer> ().Compose (session, petId);
 		}

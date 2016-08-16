@@ -1,4 +1,5 @@
 ﻿using System;
+using Yupi.Model.Domain;
 
 
 
@@ -8,13 +9,13 @@ namespace Yupi.Messages.Rooms
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
-			RoomUser roomUserByHabbo = room?.GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().Id);
+			Room room = session.UserData.Room;
 
-			if (roomUserByHabbo == null)
+			if (room == null) {
 				return;
+			}
 
-			router.GetComposer<TypingStatusMessageComposer> ().Compose (session, roomUserByHabbo.VirtualId, false);
+			room.Router.GetComposer<TypingStatusMessageComposer> ().Compose (room, session.UserData.RoomEntity.Id, false);
 		}
 	}
 }

@@ -8,6 +8,7 @@ namespace Yupi.Messages.Rooms
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
+			/*
 			Room currentRoom = session.GetHabbo().CurrentRoom;
 
 			RoomUser roomUserByHabbo = currentRoom?.GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().Id);
@@ -29,6 +30,8 @@ namespace Yupi.Messages.Rooms
 			RoomUser roomUserByVirtualId = currentRoom.GetRoomUserManager().GetRoomUserByVirtualId((int) roomUserByHabbo.HorseId);
 
 			roomUserByVirtualId.MoveTo(targetX, targetY);
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

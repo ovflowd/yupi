@@ -12,6 +12,7 @@ namespace Yupi.Messages.Items
 		{
 			uint itemId = request.GetUInt32();
 
+			/*
 			RoomItem item = session.GetHabbo().CurrentRoom.GetRoomItemHandler().GetItem(itemId);
 
 			if (item == null)
@@ -24,6 +25,8 @@ namespace Yupi.Messages.Items
 
 			router.GetComposer<YouTubeLoadVideoMessageComposer> ().Compose (session, item);
 			router.GetComposer<YouTubeLoadPlaylistsMessageComposer> ().Compose (session, item, videos);
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

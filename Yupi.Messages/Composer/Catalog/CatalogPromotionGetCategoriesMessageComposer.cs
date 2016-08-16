@@ -9,6 +9,8 @@ namespace Yupi.Messages.Catalog
 		public override void Compose ( Yupi.Protocol.ISender session)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
+				throw new NotImplementedException ();
+				/*
 				message.AppendInteger(Yupi.GetGame().GetNavigator().Promomessage.Count);
 
 				foreach (PromoCategory cat in Yupi.GetGame().GetNavigator().Promomessage.Values)
@@ -16,7 +18,7 @@ namespace Yupi.Messages.Catalog
 					message.AppendInteger(cat.Id);
 					message.AppendString(cat.Caption);
 					message.AppendBool(cat.Visible);
-				}
+				}*/
 
 				session.Send (message);
 			}

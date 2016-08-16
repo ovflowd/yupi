@@ -10,6 +10,7 @@ namespace Yupi.Messages.Rooms
 		{
 			uint roomId = request.GetUInt32();
 
+			/*
 			RoomData data = Yupi.GetGame().GetRoomManager().GenerateRoomData(roomId);
 
 			if (roomId != 0 && data == null)
@@ -22,6 +23,8 @@ namespace Yupi.Messages.Rooms
 
 				router.GetComposer<HomeRoomMessageComposer> ().Compose (session, roomId);
 			}
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

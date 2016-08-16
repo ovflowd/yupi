@@ -8,6 +8,7 @@ namespace Yupi.Messages.Items
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
+			/*
 			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
 
 			if (room == null || !room.CanTradeInRoom)
@@ -20,6 +21,8 @@ namespace Yupi.Messages.Items
 				return;
 
 			userTrade.TakeBackItem(session.GetHabbo().Id, item);
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

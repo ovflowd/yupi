@@ -13,10 +13,11 @@ namespace Yupi.Messages.Rooms
 				message.AppendInteger(room.Id);
 				message.AppendString(room.Name);
 				message.AppendString(room.Description);
-				message.AppendInteger(room.State);
-				message.AppendInteger(room.Category);
+				message.AppendInteger((int)room.State);
+				message.AppendInteger(room.Category.Id);
 				message.AppendInteger(room.UsersMax);
-				message.AppendInteger(room.Model.MapSizeX*room.Model.MapSizeY > 200 ? 50 : 25); // TODO Magic number
+				throw new NotImplementedException ();
+				//message.AppendInteger(room.Model.MapSizeX*room.Model.MapSizeY > 200 ? 50 : 25); // TODO Magic number
 				message.AppendInteger(room.Tags.Count);
 
 				foreach (string s in room.Tags)

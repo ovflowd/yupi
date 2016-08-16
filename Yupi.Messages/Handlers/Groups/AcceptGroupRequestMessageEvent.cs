@@ -1,4 +1,7 @@
 ﻿using System;
+using Yupi.Model.Repository;
+using Yupi.Model.Domain;
+using Yupi.Model;
 
 
 
@@ -6,29 +9,28 @@ namespace Yupi.Messages.Groups
 {
 	public class AcceptGroupRequestMessageEvent : AbstractHandler
 	{
+		private Repository<Group> GroupRepository;
+		private Repository<UserInfo> UserRepository;
+
+		public AcceptGroupRequestMessageEvent ()
+		{
+			GroupRepository = DependencyFactory.Resolve<Repository<Group>> ();
+			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>> ();
+		}
+
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			uint groupId = request.GetUInt32();
-			uint userId = request.GetUInt32();
+			int groupId = request.GetInteger();
+			int userId = request.GetInteger();
 
-			Group group = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
+			Group group = GroupRepository.FindBy(groupId);
+			UserInfo user = UserRepository.FindBy (userId);
 
-			if (session.GetHabbo().Id != group.CreatorId && !group.Admins.ContainsKey(session.GetHabbo().Id) &&
-				!group.Requests.ContainsKey(userId))
-				return;
-
-			if (group.Members.ContainsKey(userId))
-			{
-				group.Requests.Remove(userId);
-
-				using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager ().GetQueryReactor ()) {
-					queryReactor.SetQuery ("DELETE FROM group_requests WHERE group_id = @group_id AND user_id = @user_id");
-					queryReactor.AddParameter("group_id", groupId);
-					queryReactor.AddParameter("user_id", userId);
-					queryReactor.RunQuery ();
-				}
+			if (group == null || !group.Admins.Contains(session.UserData.Info) || !group.Requests.Contains(user)) {
 				return;
 			}
+			throw new NotImplementedException ();
+			/*
 
 			GroupMember memberGroup = group.Requests[userId];
 
@@ -38,21 +40,8 @@ namespace Yupi.Messages.Groups
 			group.Admins.Add(userId, group.Members[userId]);
 
 			router.GetComposer<GroupDataMessageComposer> ().Compose (session, group, session.GetHabbo());
-			router.GetComposer<GroupMembersMessageComposer> ().Compose (session, group, 0u, session);
-
-			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager ().GetQueryReactor ()) {
-				queryReactor.SetQuery ("DELETE FROM group_requests WHERE group_id = @group_id AND user_id = @user_id");
-				queryReactor.AddParameter("group_id", groupId);
-				queryReactor.AddParameter("user_id", userId);
-				queryReactor.RunQuery ();
-
-				queryReactor.SetQuery ("INSERT INTO group_members (group_id, user_id, rank, date_join) VALUES (@group_id, @user_id, @rank, @timestamp)");
-				queryReactor.AddParameter("group_id", groupId);
-				queryReactor.AddParameter("user_id", userId);
-				queryReactor.AddParameter("rank", 0);
-				queryReactor.AddParameter("timestamp", Yupi.GetUnixTimeStamp());
-				queryReactor.RunQuery ();
-			}
+			router.GetComposer<GroupMembersMessageComposer> ().Compose (session, group, 0u, session);	
+			*/
 		}
 	}
 }

@@ -19,7 +19,7 @@ namespace Yupi.Messages.User
 
 		public override void HandleMessage (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			List<Room> rooms = RoomManager.LoadedRooms.Where(x => x.Users.Any()).ToList();
+			List<Room> rooms = RoomManager.GetActive().ToList();
 
 			router.GetComposer<FindMoreFriendsSuccessMessageComposer> ().Compose (session, rooms.Any());
 

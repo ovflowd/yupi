@@ -18,6 +18,7 @@ namespace Yupi.Messages.Items
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(1);
 				message.AppendInteger(0);
+				/*
 				message.AppendInteger(floor.Count + wall.Count + songDisks.Count);
 
 				foreach (UserItem userItem in floor)
@@ -55,7 +56,8 @@ namespace Yupi.Messages.Items
 				foreach (UserItem userItem in songDisks)
 				{
 					SerializeFloor(message, userItem);
-				}
+				}*/
+				throw new NotImplementedException ();
 				session.Send (message);
 			}
 		}
@@ -63,6 +65,7 @@ namespace Yupi.Messages.Items
 		// TODO Refactor
 		private void SerializeFloor(ServerMessage message, UserItem item)
 		{
+			/*
 			message.AppendInteger(item.Id);
 			message.AppendString(item.BaseItem.Type.ToString(CultureInfo.InvariantCulture).ToUpper());
 			message.AppendInteger(item.Id);
@@ -189,7 +192,7 @@ namespace Yupi.Messages.Items
                 messageBuffer.AppendString((BaseItem.InteractionType == InteractionType.gift)
                     ? string.Empty
                     : ExtraData);*/
-
+			/*
 			message.AppendBool(item.BaseItem.AllowRecycle);
 			message.AppendBool(item.BaseItem.AllowTrade);
 			message.AppendBool(item.LimitedSellId <= 0 && item.BaseItem.AllowInventoryStack);
@@ -202,6 +205,8 @@ namespace Yupi.Messages.Items
 				message.AppendString (string.Empty); //slotId
 				message.AppendInteger (0);
 			}
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

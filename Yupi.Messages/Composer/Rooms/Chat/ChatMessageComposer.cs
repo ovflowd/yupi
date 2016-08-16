@@ -12,7 +12,8 @@ namespace Yupi.Messages.Chat
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(entityId);
 				message.AppendString(msg);
-				message.AppendInteger(ChatEmotions.GetEmotionsForText(msg));
+				throw new NotImplementedException ();
+				//message.AppendInteger(ChatEmotions.GetEmotionsForText(msg));
 				message.AppendInteger(color);
 				message.AppendInteger(0);
 				message.AppendInteger(count);

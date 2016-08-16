@@ -34,14 +34,15 @@ namespace Yupi.Messages.Pets
 					message.AppendInteger(1);
 					message.AppendInteger(2);
 					message.AppendInteger(2);
-					message.AppendInteger(pet.Info.PetHair);
+					message.AppendInteger(pet.Info.Hair);
 					message.AppendInteger(pet.Info.HairDye);
 					message.AppendInteger(3);
-					message.AppendInteger(pet.Info.PetHair);
+					message.AppendInteger(pet.Info.Hair);
 					message.AppendInteger(pet.Info.HairDye);
 				}
 				message.AppendBool(pet.Info.HaveSaddle);
-				message.AppendBool(pet.RidingHorse);
+				throw new NotImplementedException ();
+				//message.AppendBool(pet.RidingHorse);
 				room.Send (message);
 			}
 		}

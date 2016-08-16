@@ -13,9 +13,12 @@ namespace Yupi.Messages.User
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(entities.Count);
-
+				/*
 				foreach (RoomEntity entity in entities)
 					entity.SerializeStatus(message); // RoomUser::SerializeStatus
+					*/
+				throw new NotImplementedException();
+
 				session.Send (message);
 			}
 		}
@@ -24,7 +27,8 @@ namespace Yupi.Messages.User
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(1);
-				user.SerializeStatus(message);
+				//user.SerializeStatus(message);
+				throw new NotImplementedException();
 				session.Send (message);
 			}
 		}

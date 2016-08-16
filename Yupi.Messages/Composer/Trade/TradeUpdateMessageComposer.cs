@@ -24,6 +24,7 @@ namespace Yupi.Messages.Trade
 			foreach (UserItem current in user.OfferedItems)
 			{
 				message.AppendInteger(current.Id);
+				/*
 				message.AppendString(current.BaseItem.Type.ToString().ToLower());
 				message.AppendInteger(current.Id);
 				message.AppendInteger(current.BaseItem.SpriteId);
@@ -37,6 +38,8 @@ namespace Yupi.Messages.Trade
 
 				if (current.BaseItem.Type == 's')
 					message.AppendInteger(0);
+					*/
+				throw new NotImplementedException ();
 			}
 		}
 	}

@@ -29,6 +29,6 @@ namespace Yupi.Model.Domain
 		public virtual int Id { get; protected set; }
 
 		// TODO Isn't this class useless?
-		public virtual string Colour { get; set; }
+		public virtual int Colour { get; set; }
     }
 }

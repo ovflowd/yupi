@@ -10,7 +10,7 @@ namespace Yupi.Messages.Rooms
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-	
+	/*
 			Room room = session.GetHabbo ().CurrentRoom;
 
 			if (room == null || !room.CheckRights (session, true)) {
@@ -128,6 +128,8 @@ namespace Yupi.Messages.Rooms
 				// TODO Sure this shouldn't be a room broadcast?
 				router.GetComposer<RoomForwardMessageComposer> ().Compose (session, room.RoomId);
 			}
+			*/
+			throw new NotImplementedException ();
 		}
 
 	}

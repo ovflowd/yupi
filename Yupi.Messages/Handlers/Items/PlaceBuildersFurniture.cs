@@ -15,6 +15,8 @@ namespace Yupi.Messages.Items
 			int x = request.GetInteger();
 			int y = request.GetInteger();
 			int dir = request.GetInteger();
+
+			/*
 			Yupi.Messages.Rooms actualRoom = session.GetHabbo().CurrentRoom;
 			CatalogItem item = Yupi.GetGame().GetCatalogManager().GetItem(itemId);
 
@@ -50,6 +52,8 @@ namespace Yupi.Messages.Items
 				router.GetComposer<AddFloorItemMessageComposer> ().Compose (actualRoom, newItem);
 				actualRoom.GetGameMap().AddItemToMap(newItem);
 			}
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

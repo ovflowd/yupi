@@ -5,6 +5,7 @@ namespace Yupi.Messages.Groups
 {
 	public class FavouriteGroupMessageComposer : Yupi.Messages.Contracts.FavouriteGroupMessageComposer
 	{
+		// TODO userId vs groupId ??? TEST !!!
 		public override void Compose ( Yupi.Protocol.ISender session, int userId)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {

@@ -40,7 +40,7 @@ namespace Yupi.Model.Domain
 		public virtual string GroupName { get; set; }
 
 		[OneToMany]
-		protected virtual IList<AchievementLevel> Levels { get; set; }
+		public virtual IList<AchievementLevel> Levels { get; protected set; }
 
 		public Achievement ()
 		{

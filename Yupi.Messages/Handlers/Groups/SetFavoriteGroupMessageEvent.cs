@@ -1,4 +1,7 @@
 ﻿using System;
+using Yupi.Model.Domain;
+using Yupi.Model.Repository;
+using Yupi.Model;
 
 
 
@@ -6,36 +9,41 @@ namespace Yupi.Messages.Groups
 {
 	public class SetFavoriteGroupMessageEvent : AbstractHandler
 	{
+		private Repository<Group> GroupRepository;
+		private Repository<UserInfo> UserRepository;
+
+		public SetFavoriteGroupMessageEvent ()
+		{
+			GroupRepository = DependencyFactory.Resolve<Repository<Group>> ();
+			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>> ();
+		}
+
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			uint groupId = request.GetUInt32();
+			int groupId = request.GetInteger();
 
-			Group theGroup = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
+			Group theGroup = GroupRepository.FindBy(groupId);
 
 			if (theGroup == null)
 				return;
 
-			if (!theGroup.Members.ContainsKey(session.GetHabbo().Id))
+			// TODO Refactor group!
+			if (!theGroup.Members.Contains(session.UserData.Info))
 				return;
 
-			session.GetHabbo().FavouriteGroup = theGroup.Id;
-			router.GetComposer<GroupDataMessageComposer> ().Compose (session, theGroup, session.GetHabbo());
+			session.UserData.Info.FavouriteGroup = theGroup;
 
-			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager ().GetQueryReactor ()) {
-				queryReactor.SetQuery ("UPDATE users_stats SET favourite_group = @group_id WHERE id = @user_id");
-				queryReactor.AddParameter("group_id", theGroup.Id);
-				queryReactor.AddParameter("user_id", session.GetHabbo ().Id);
-				queryReactor.RunQuery ();
-			}
+			UserRepository.Save (session.UserData.Info);
 
-			// TODO Why do we need to send the user id?
-			router.GetComposer<FavouriteGroupMessageComposer> ().Compose (session, session.GetHabbo ().Id);
+			router.GetComposer<GroupDataMessageComposer> ().Compose (session, theGroup, session.UserData.Info);
 
+			// TODO Is this required (see below!)
+			router.GetComposer<FavouriteGroupMessageComposer> ().Compose (session, session.UserData.Info.Id);
 
-			if (session.GetHabbo().CurrentRoom != null && !session.GetHabbo().CurrentRoom.LoadedGroups.ContainsKey(theGroup.Id))
+			if (session.UserData.Room != null && !session.UserData.Room.GroupsInRoom.Contains(theGroup))
 			{
-					session.GetHabbo().CurrentRoom.LoadedGroups.Add(theGroup.Id, theGroup.Badge);
-					router.GetComposer<RoomGroupMessageComposer> ().Compose (session.GetHabbo ().CurrentRoom);
+				session.UserData.Room.GroupsInRoom.Add(theGroup);
+				session.UserData.Room.Router.GetComposer<RoomGroupMessageComposer> ().Compose (session.UserData.Room, session.UserData.Room.GroupsInRoom);
 			}
 
 			router.GetComposer<ChangeFavouriteGroupMessageComposer> ().Compose (session, theGroup, 0);

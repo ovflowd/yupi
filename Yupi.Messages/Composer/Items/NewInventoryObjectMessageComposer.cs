@@ -23,9 +23,9 @@ namespace Yupi.Messages.Items
 		public override void Compose ( Yupi.Protocol.ISender session, BaseItem item, List<Item> list)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendInteger(1);
+				message.AppendInteger(1); // TODO Hardcoded value
 
-				message.AppendInteger(item.Type);
+				message.AppendInteger((int)item.Type);
 				message.AppendInteger(list.Count);
 
 				foreach (Item current in list)

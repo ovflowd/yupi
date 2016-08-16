@@ -12,7 +12,8 @@ namespace Yupi.Messages.Rooms
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(room.Id);
-				message.AppendBool(room.CheckRights(user, true));
+				//message.AppendBool(room.CheckRights(user, true));
+				throw new NotImplementedException();
 				session.Send (message);
 			}
 		}

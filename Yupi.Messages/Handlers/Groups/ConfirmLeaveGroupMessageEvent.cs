@@ -1,32 +1,35 @@
 ﻿using System;
-
-
-
-using Yupi.Messages.Rooms;
+using Yupi.Model;
+using Yupi.Model.Repository;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Groups
 {
 	public class ConfirmLeaveGroupMessageEvent : AbstractHandler
 	{
+		private Repository<Group> GroupRepository;
+
+		public ConfirmLeaveGroupMessageEvent ()
+		{
+			GroupRepository = DependencyFactory.Resolve<Repository<Group>> ();
+		}
+
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			uint groupId = request.GetUInt32();
+			int groupId = request.GetInteger ();
+			int userId = request.GetInteger ();
 
-			uint userId = request.GetUInt32();
-
-			Group group = Yupi.GetGame().GetGroupManager().GetGroup(groupId);
+			Group group = GroupRepository.FindBy (groupId);
 
 			if (group == null)
 				return;
 
-			if (group.CreatorId == userId)
+			if (group.Creator.Id == userId)
 			{
-				session.SendNotif(Yupi.GetLanguage().GetVar("user_room_video_true"));
 				return;
-			}
-
+			}/*
 			// TODO Refactor
-			if (userId == session.GetHabbo().Id || group.Admins.ContainsKey(session.GetHabbo().Id))
+			if (userId == session.UserData.Info.Id || group.Admins.Contains(session.UserData.Info))
 			{
 				GroupMember memberShip;
 
@@ -96,7 +99,8 @@ namespace Yupi.Messages.Groups
 				router.GetComposer<GroupDataMessageComposer> ().Compose (session, group, session.GetHabbo());
 				router.GetComposer<GroupMembersMessageComposer> ().Compose (session, group);
 				router.GetComposer<GrouprequestReloadMessageComposer> ().Compose (session, groupId);
-			}
+			}*/
+			throw new NotImplementedException ();
 		}
 	}
 }

@@ -9,6 +9,7 @@ namespace Yupi.Messages.Pets
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
+			/*
 			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
 
 			if ((room == null) || !room.CheckRights(session))
@@ -57,6 +58,8 @@ namespace Yupi.Messages.Pets
 
 			pet.UpdateNeeded = true;
 			room.GetGameMap().UpdateUserMovement(new Point(oldX, oldY), new Point(x, y), pet);
+			*/
+			throw new NotImplementedException ();
 		}
 	}
 }

@@ -24,6 +24,7 @@ namespace Yupi.Messages.Items
 
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
+			/*
 			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
 			if (room == null)
@@ -89,10 +90,13 @@ namespace Yupi.Messages.Items
 
 			foreach (RoomUser current in room.GetRoomUserManager().UserList.Values.Where(current => current != null))
 				room.GetRoomUserManager().UpdateUserStatus(current, true);
+				*/
+			throw new NotImplementedException ();
 		}
 
 		private void PlantMonsterplant(IRouter router,  Yupi.Protocol.ISender session, FloorItem<MonsterPlantBaseItem> mopla, RoomData room)
 		{
+			/*
 			int rarity = 0, internalRarity;
 
 			if (room == null || mopla == null)
@@ -142,11 +146,13 @@ namespace Yupi.Messages.Items
 				queryreactor2.RunQuery ();
 
 				room.GetRoomUserManager().SavePets(queryreactor2);
-			}
+			}*/
+			throw new NotImplementedException ();
 		}
 
 		private void TriggerLoveLock(IRouter router, UserInfo session, LovelockItem loveLock)
 		{
+			/*
 			string[] loveLockParams = loveLock.ExtraData.Split(Convert.ToChar(5));
 
 			try
@@ -201,7 +207,8 @@ namespace Yupi.Messages.Items
 			catch
 			{
 				session.SendNotif(Yupi.GetLanguage().GetVar("lovelock_error_3"));
-			}
+			}*/
+			throw new NotImplementedException ();
 		}
 	}
 }

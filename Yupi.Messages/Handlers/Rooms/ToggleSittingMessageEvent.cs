@@ -7,6 +7,7 @@ namespace Yupi.Messages.Rooms
 	{
 		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
+			/*
 			RoomUser user = session.GetHabbo().CurrentRoom.GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().Id);
 
 			if (user == null)
@@ -26,7 +27,8 @@ namespace Yupi.Messages.Rooms
 				user.UpdateNeeded = true;
 				user.IsSitting = true;
 			}
-
+*/
+			throw new NotImplementedException ();
 			// TODO Shouldn't this TOGGLE?
 		}
 	}
