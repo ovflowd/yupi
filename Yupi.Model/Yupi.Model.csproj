@@ -286,7 +286,6 @@
     <Compile Include="Domain\Users\WardrobeItem.cs" />
     <Compile Include="Domain\Users\Components\Inventory.cs" />
     <Compile Include="Domain\Achievements\TalentType.cs" />
-    <Compile Include="Headspring\Enumeration.cs" />
     <Compile Include="UserType.cs" />
     <Compile Include="EnumAsInt32.cs" />
     <Compile Include="EnumTypeConvention.cs" />
@@ -324,6 +323,7 @@
     <Compile Include="Domain\Groups\GroupForumThread.cs" />
     <Compile Include="ModelHelper.cs" />
     <Compile Include="Test.cs" />
+    <Compile Include="Headspring\Enumeration.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
