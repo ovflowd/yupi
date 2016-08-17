@@ -55,6 +55,7 @@ namespace Yupi.Controller
 		}
 
 		public void AddClient(ISession<Habbo> session) {
+			// TODO Should be user specific
 			session.UserData = new Habbo (session, Router.Default);
 			Connections.Add (session);
 		}

@@ -11,45 +11,26 @@ using log4net;
 using Yupi.Util;
 using log4net.Appender;
 using Yupi.Model.Repository;
+using log4net.Repository.Hierarchy;
 
 namespace Yupi.Main
 {
 	public class Server
 	{
-		private ModelHelper ModelHelper;
 		private IServer<Habbo> TCPServer;
 		private ClientManager ClientManager;
-		private Router Router;
 
 		public Server ()
 		{ 
-			// TODO Implement properly
+			SetupLogger ();
 
-			((log4net.Repository.Hierarchy.Hierarchy)LogManager.GetRepository()).Root.Level = log4net.Core.Level.Debug;
-			((log4net.Repository.Hierarchy.Hierarchy)LogManager.GetRepository()).RaiseConfigurationChanged(EventArgs.Empty);
-
-
-			if (MonoUtil.IsRunningOnMono ()) {
-				var appender = new log4net.Appender.ManagedColoredConsoleAppender();
-				appender.Layout = new log4net.Layout.PatternLayout(@"%date %-5level %message%newline");
-				appender.Threshold = log4net.Core.Level.Debug;
-				appender.ActivateOptions();
-				log4net.Config.BasicConfigurator.Configure(appender);
-			} else {
-				var appender = new log4net.Appender.ColoredConsoleAppender();
-				appender.Layout = new log4net.Layout.PatternLayout(@"%date %-5level %message%newline");
-				appender.Threshold = log4net.Core.Level.Debug;
-				appender.ActivateOptions();
-				log4net.Config.BasicConfigurator.Configure(appender);
-			}
-				
-			ModelHelper = new ModelHelper ();
 			// TODO Close Session & Multiple sessions!
 			var factory = ModelHelper.CreateFactory ();
 			var dbSession = factory.OpenSession ();
 
 			DependencyFactory.RegisterInstance (dbSession);
 
+			// TODO Don't hardcode this stuff :)
 			var repo = DependencyFactory.Resolve<Repository<UserInfo>> ();
 			var info = new UserInfo () {
 				UserName = "HelloWorld"
@@ -57,13 +38,14 @@ namespace Yupi.Main
 			repo.Save (info);
 			DependencyFactory.Resolve<SSOManager> ().GenerateTicket(info);
 
-
-			// TODO Don't hardcode this stuff :)
 			Router.Default = new Router ("PRODUCTION-201510201205-42435347", "../../../Config/", typeof(AchievementProgressMessageComposer).Assembly);
 
 			ClientManager = DependencyFactory.Resolve<ClientManager> ();
-			Router = Router.Default;
 
+			SetupTCP ();
+		}
+
+		private void SetupTCP() {
 			TCPServer = ServerFactory<Habbo>.CreateServer(30000);
 
 			TCPServer.OnConnectionOpened += ClientManager.AddClient; // TODO Connection security!
@@ -74,8 +56,27 @@ namespace Yupi.Main
 				// TODO When using message pool the SimpleClientMessageBuffer becomes invalid (after several messages) -> DEBUG
 				ClientMessage message = new ClientMessage();
 				message.Setup(body);
-				Router.Handle(session.UserData, message);
+				Router.Default.Handle(session.UserData, message);
 			};
+		}
+
+		private void SetupLogger() {
+			Hierarchy hierarchy = (Hierarchy)LogManager.GetRepository();
+			hierarchy.Root.Level = log4net.Core.Level.Debug;
+			hierarchy.RaiseConfigurationChanged(EventArgs.Empty);
+
+			AppenderSkeleton appender;
+			if (MonoUtil.IsRunningOnMono ()) {
+				appender = new log4net.Appender.ManagedColoredConsoleAppender();
+
+			} else {
+				appender = new log4net.Appender.ColoredConsoleAppender();
+			}
+			// TODO Add File Appender
+			appender.Layout = new log4net.Layout.PatternLayout(@"%date %-5level %message%newline");
+			appender.Threshold = log4net.Core.Level.Debug;
+			appender.ActivateOptions();
+			log4net.Config.BasicConfigurator.Configure(appender);
 		}
 
 		public void Run() {

@@ -14,7 +14,6 @@ namespace Yupi.Messages
 {
 	public class Router : Yupi.Protocol.IRouter
 	{
-		// TODO Remove
 		public static Router Default;
 
 		private static readonly log4net.ILog Logger = log4net.LogManager
@@ -30,10 +29,9 @@ namespace Yupi.Messages
 
 		public Router (string release, string configDir, Assembly messageAssembly)
 		{
-			library = new PacketLibrary (release, configDir);
 			pool = new ServerMessagePool ();
-
 			MessageAssembly = messageAssembly;
+			library = new PacketLibrary (release, configDir);
 			LoadHandlers ();
 			LoadComposers ();
 		}
