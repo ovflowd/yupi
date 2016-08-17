@@ -9,14 +9,14 @@ namespace Yupi.Messages.Navigator
 	{
 		private RoomManager RoomManager;
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			int roomId = request.GetInteger();
 
 			string pWd = request.GetString();
 
-			if (session.UserData.Room != null) {
-				RoomManager.RemoveUser (session.UserData.RoomEntity);
+			if (session.Room != null) {
+				RoomManager.RemoveUser (session.RoomEntity);
 			}
 
 			Room room = RoomManager.LoadOrGet (roomId);
@@ -26,15 +26,15 @@ namespace Yupi.Messages.Navigator
 			}
 
 			if (room.GetUserCount() >= room.Data.UsersMax
-			    && !session.UserData.Info.HasPermission ("fuse_enter_full_rooms")
-			    && room.Data.Owner != session.UserData.Info) {
+			    && !session.Info.HasPermission ("fuse_enter_full_rooms")
+			    && room.Data.Owner != session.Info) {
 
 				/// TODO Remove on other room load / disconnect
-				room.Queue.Add (session.UserData.Info);
+				room.Queue.Add (session.Info);
 
 				router.GetComposer<RoomQueueComposer> ().Compose (session, room.Queue.Count);
-			} else if (!session.UserData.Info.HasPermission ("fuse_enter_any_room")
-			          && room.Data.BannedUsers.Contains (session.UserData.Info)) {
+			} else if (!session.Info.HasPermission ("fuse_enter_any_room")
+			          && room.Data.BannedUsers.Contains (session.Info)) {
 				router.GetComposer<RoomEnterErrorMessageComposer> ().Compose (session, RoomEnterErrorMessageComposer.Error.BANNED);
 				router.GetComposer<OutOfRoomMessageComposer> ().Compose (session);
 			} else {
@@ -44,9 +44,9 @@ namespace Yupi.Messages.Navigator
 				// TODO Extract to controller!
 
 				if (!isReload
-				    && !session.UserData.Info.HasPermission ("fuse_enter_any_room")
-					&& !room.HasOwnerRights (session.UserData.Info)
-					&& session.UserData.TeleportingTo != room.Data) {
+				    && !session.Info.HasPermission ("fuse_enter_any_room")
+					&& !room.HasOwnerRights (session.Info)
+					&& session.TeleportingTo != room.Data) {
 
 					switch (room.Data.State) {
 					case RoomState.BELL:
@@ -59,7 +59,7 @@ namespace Yupi.Messages.Navigator
 
 							foreach (Habbo user in room.GetSessions()) {
 								if (room.HasRights (user.Info)) {
-									user.Session.Router.GetComposer<DoorbellMessageComposer> ().Compose (user, session.UserData.Info.UserName);
+									user.Router.GetComposer<DoorbellMessageComposer> ().Compose (user, session.Info.UserName);
 								}
 							}
 						}
@@ -76,12 +76,12 @@ namespace Yupi.Messages.Navigator
 					}
 				}
 
-				room.GroupsInRoom.Add (session.UserData.Info.FavouriteGroup);
+				room.GroupsInRoom.Add (session.Info.FavouriteGroup);
 
 				router.GetComposer<RoomGroupMessageComposer> ().Compose (session, room.GroupsInRoom);
 				router.GetComposer<InitialRoomInfoMessageComposer> ().Compose (session, room.Data);
 
-				if (session.UserData.Info.SpectatorMode) {
+				if (session.Info.SpectatorMode) {
 					router.GetComposer<SpectatorModeMessageComposer> ().Compose (session);
 				}
 
@@ -97,19 +97,19 @@ namespace Yupi.Messages.Navigator
 				// TODO Magic numbers!
 				int rightsLevel = 0;
 
-				if (room.HasOwnerRights (session.UserData.Info)) {
+				if (room.HasOwnerRights (session.Info)) {
 					rightsLevel = 4;
 					router.GetComposer<HasOwnerRightsMessageComposer> ().Compose (session);
-				} else if (room.HasRights (session.UserData.Info)) {
+				} else if (room.HasRights (session.Info)) {
 					rightsLevel = 1;
 				}
 
 				router.GetComposer<RoomRightsLevelMessageComposer> ().Compose (session, rightsLevel);
-				router.GetComposer<RoomRatingMessageComposer> ().Compose (session, room.Data.Score, room.CanVote(session.UserData.Info));
+				router.GetComposer<RoomRatingMessageComposer> ().Compose (session, room.Data.Score, room.CanVote(session.Info));
 				router.GetComposer<RoomUpdateMessageComposer> ().Compose (session, room.Data.Id);
 
-				session.UserData.Info.RecentlyVisitedRooms.Add (room.Data);
-				session.UserData.Room = room;
+				session.Info.RecentlyVisitedRooms.Add (room.Data);
+				session.Room = room;
 				// TODO Add room entity?
 			}
 		}

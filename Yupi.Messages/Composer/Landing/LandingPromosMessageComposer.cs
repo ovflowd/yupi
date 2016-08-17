@@ -14,7 +14,7 @@ namespace Yupi.Messages.Landing
 				message.AppendInteger(promos.Count);
 
 				foreach (HotelLandingPromos promo in promos) {
-					message.AppendInteger (promo.Index);
+					message.AppendInteger (promo.Id);
 					message.AppendString (promo.Header);
 					message.AppendString (promo.Body);
 					message.AppendString (promo.Button);

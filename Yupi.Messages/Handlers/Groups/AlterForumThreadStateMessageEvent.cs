@@ -11,14 +11,14 @@ namespace Yupi.Messages.Groups
 {
 	public class AlterForumThreadStateMessageEvent : AbstractHandler
 	{
-		private Repository<Group> GroupRepository;
+		private IRepository<Group> GroupRepository;
 
 		public AlterForumThreadStateMessageEvent ()
 		{
-			GroupRepository = DependencyFactory.Resolve<Repository<Group>> ();
+			GroupRepository = DependencyFactory.Resolve<IRepository<Group>> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			int groupId = request.GetInteger ();
 			int threadId = request.GetInteger ();
@@ -29,9 +29,9 @@ namespace Yupi.Messages.Groups
 			if (theGroup != null) {
 				GroupForumThread thread = theGroup.Forum.GetThread (threadId);
 
-				if (thread != null && (thread.Creator == session.UserData.Info || theGroup.Admins.Contains(session.UserData.Info))) {
+				if (thread != null && (thread.Creator == session.Info || theGroup.Admins.Contains(session.Info))) {
 					thread.Hidden = stateToSet == 20;
-					thread.HiddenBy = session.UserData.Info;
+					thread.HiddenBy = session.Info;
 
 					GroupRepository.Save (theGroup);
 

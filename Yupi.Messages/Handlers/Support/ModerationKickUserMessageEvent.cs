@@ -17,9 +17,9 @@ namespace Yupi.Messages.Support
 			RoomManager = DependencyFactory.Resolve<RoomManager>();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			if (!session.UserData.Info.HasPermission("fuse_kick"))
+			if (!session.Info.HasPermission("fuse_kick"))
 				return;
 
 			int userId = request.GetInteger();
@@ -29,8 +29,8 @@ namespace Yupi.Messages.Support
 
 			// TODO Log
 
-			if (target != null && target.UserData.Info.Rank < session.UserData.Info.Rank) {
-				RoomManager.RemoveUser (target.UserData.RoomEntity);
+			if (target != null && target.Info.Rank < session.Info.Rank) {
+				RoomManager.RemoveUser (target.RoomEntity);
 				target.Router.GetComposer<AlertNotificationMessageComposer> ().Compose(target, message);
 			}
 		}

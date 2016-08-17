@@ -10,7 +10,7 @@ namespace Yupi.Controller
 	public class ModerationTool
 	{
 		private ClientManager ClientManager;
-		private Repository<UserInfo> UserRepository;
+		private IRepository<UserInfo> UserRepository;
 
 		public virtual IList<SupportTicket> Tickets { get; private set; }
 		public virtual IList<ModerationTemplate> Templates { get; private set; }
@@ -20,7 +20,7 @@ namespace Yupi.Controller
 		public ModerationTool ()
 		{
 			ClientManager = DependencyFactory.Resolve<ClientManager>();
-			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>>();
+			UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>>();
 
 			// TODO Load
 		}
@@ -55,8 +55,8 @@ namespace Yupi.Controller
 			};
 
 			if (session != null) {
-				ban.IP = session.RemoteAddress;
-				ban.MachineId = session.UserData.MachineId;
+				ban.IP = session.Session.RemoteAddress;
+				ban.MachineId = session.MachineId;
 
 				ClientManager.Disconnect (session, T._ ("Banned"));
 			}

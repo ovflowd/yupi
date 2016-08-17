@@ -12,7 +12,7 @@ namespace Yupi.Controller
 	public class RoomManager
 	{
 		private List<Room> _loadedRooms;
-		private Repository<RoomData> RoomRepository;
+		private IRepository<RoomData> RoomRepository;
 
 		public IReadOnlyList<Room> LoadedRooms {
 			get {
@@ -23,7 +23,7 @@ namespace Yupi.Controller
 		public RoomManager ()
 		{
 			_loadedRooms = new List<Room> (); 
-			RoomRepository = DependencyFactory.Resolve<Repository<RoomData>> ();
+			RoomRepository = DependencyFactory.Resolve<IRepository<RoomData>> ();
 		}
 
 		public bool isLoaded(RoomData room) {
@@ -83,7 +83,7 @@ namespace Yupi.Controller
 
 			if (entity.Type == EntityType.User) {
 				UserEntity user = (UserEntity)entity;
-				user.User.Session.Router.GetComposer<OutOfRoomMessageComposer> ()
+				user.User.Router.GetComposer<OutOfRoomMessageComposer> ()
 				.Compose (user.User, 2);
 
 				user.User.IsRidingHorse = false;

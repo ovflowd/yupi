@@ -10,14 +10,14 @@ namespace Yupi.Messages.Navigator
 {
 	public class NewNavigatorAddSavedSearchEvent : AbstractHandler
 	{
-		private Repository<UserInfo> UserRepository;
+		private IRepository<UserInfo> UserRepository;
 
 		public NewNavigatorAddSavedSearchEvent ()
 		{
-			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>> ();
+			UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			// TODO Refactor
 			string value1 = request.GetString();
@@ -29,11 +29,11 @@ namespace Yupi.Messages.Navigator
 				Value2 = value2
 			};
 					
-			session.UserData.Info.NavigatorLog.Add(naviLog);
+			session.Info.NavigatorLog.Add(naviLog);
 
-			UserRepository.Save (session.UserData.Info);
+			UserRepository.Save (session.Info);
 
-			router.GetComposer<NavigatorSavedSearchesComposer> ().Compose (session, session.UserData.Info.NavigatorLog);
+			router.GetComposer<NavigatorSavedSearchesComposer> ().Compose (session, session.Info.NavigatorLog);
 		}
 	}
 }

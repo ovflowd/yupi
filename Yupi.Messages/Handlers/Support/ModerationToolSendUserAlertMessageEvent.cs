@@ -15,9 +15,9 @@ namespace Yupi.Messages.Support
 			ClientManager = DependencyFactory.Resolve<ClientManager>();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			if (!session.UserData.Info.HasPermission("fuse_alert"))
+			if (!session.Info.HasPermission("fuse_alert"))
 				return;
 
 			int userId = request.GetInteger();

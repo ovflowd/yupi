@@ -17,7 +17,7 @@ namespace Yupi.Messages.User
 			RoomManager = DependencyFactory.Resolve<RoomManager> ();
 		}
 
-		public override void HandleMessage (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			List<Room> rooms = RoomManager.GetActive().ToList();
 

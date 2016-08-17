@@ -9,16 +9,16 @@ namespace Yupi.Messages.Support
 {
 	public class ModerationToolIssueChatlogMessageEvent : AbstractHandler
 	{
-		private Repository<SupportTicket> TicketRepository;
+		private IRepository<SupportTicket> TicketRepository;
 
 		public ModerationToolIssueChatlogMessageEvent ()
 		{
-			TicketRepository = DependencyFactory.Resolve<Repository<SupportTicket>> ();
+			TicketRepository = DependencyFactory.Resolve<IRepository<SupportTicket>> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			if (!session.UserData.Info.HasPermission ("fuse_mod"))
+			if (!session.Info.HasPermission ("fuse_mod"))
 				return;
 
 			int ticketId = message.GetInteger ();

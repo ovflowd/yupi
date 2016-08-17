@@ -7,7 +7,7 @@ namespace Yupi.Messages.Items
 {
 	public class SaveFootballGateOutfitMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			uint pId = request.GetUInt32();
 			string gender = request.GetString();

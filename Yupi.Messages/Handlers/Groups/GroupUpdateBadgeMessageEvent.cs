@@ -10,14 +10,14 @@ namespace Yupi.Messages.Groups
 {
 	public class GroupUpdateBadgeMessageEvent : AbstractHandler
 	{
-		private Repository<Group> GroupRepository;
+		private IRepository<Group> GroupRepository;
 
 		public GroupUpdateBadgeMessageEvent ()
 		{
-			GroupRepository = DependencyFactory.Resolve<Repository<Group>> ();
+			GroupRepository = DependencyFactory.Resolve<IRepository<Group>> ();
 		}
 
-		public override void HandleMessage (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			int groupId = request.GetInteger ();
 			Group group = GroupRepository.FindBy (groupId);

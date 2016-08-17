@@ -15,7 +15,7 @@ namespace Yupi.Messages.Catalog
 			CatalogController = DependencyFactory.Resolve<CatalogController> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			// TODO Maximum items
 
@@ -25,7 +25,7 @@ namespace Yupi.Messages.Catalog
 			int amount = message.GetInteger();
 
 			CatalogItem item = CatalogController.GetById (pageId, itemId);
-			CatalogController.Purchase (session.UserData, item, extraData, amount);
+			CatalogController.Purchase (session, item, extraData, amount);
 		}
 	}
 }

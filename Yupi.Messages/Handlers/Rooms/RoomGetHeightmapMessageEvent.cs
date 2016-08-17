@@ -10,7 +10,7 @@ namespace Yupi.Messages.Rooms
 {
 	public class RoomGetHeightmapMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			/*
 			if (session.GetHabbo ().LoadingRoom <= 0u || CurrentLoadingRoom == null)
@@ -40,7 +40,7 @@ namespace Yupi.Messages.Rooms
 				return;
 
 			if (CurrentLoadingRoom.RoomData.UsersNow >= CurrentLoadingRoom.RoomData.UsersMax &&
-				!session.UserData.Info.HasPermission("fuse_enter_full_rooms"))
+				!session.Info.HasPermission("fuse_enter_full_rooms"))
 			{
 				
 				router.GetComposer<RoomEnterErrorMessageComposer> ().Compose (session, RoomEnterErrorMessageComposer.Error.ROOM_FULL);

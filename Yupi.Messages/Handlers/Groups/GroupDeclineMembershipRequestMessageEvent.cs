@@ -7,7 +7,7 @@ namespace Yupi.Messages.Groups
 {
 	public class GroupDeclineMembershipRequestMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			int groupId = request.GetInteger();
 			int userId = request.GetInteger();

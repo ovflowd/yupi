@@ -9,36 +9,36 @@ namespace Yupi.Messages.User
 {
 	public class UserUpdateLookMessageEvent : AbstractHandler
 	{
-		private Repository<UserInfo> UserRepository;
+		private IRepository<UserInfo> UserRepository;
 		private AchievementManager AchievementManager;
 		private MessengerController MessengerController;
 
 		public UserUpdateLookMessageEvent ()
 		{
-			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>> ();
+			UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>> ();
 			AchievementManager = DependencyFactory.Resolve<AchievementManager> ();
 			MessengerController = DependencyFactory.Resolve<MessengerController> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			string gender = message.GetString();
 			string look = message.GetString();
 
 			// TODO Validate gender & look
-			session.UserData.Info.Look = look;
-            session.UserData.Info.Gender = gender;
-			UserRepository.Save (session.UserData.Info);
+			session.Info.Look = look;
+            session.Info.Gender = gender;
+			UserRepository.Save (session.Info);
 
-			AchievementManager.ProgressUserAchievement(session.UserData, "ACH_AvatarLooks", 1);
+			AchievementManager.ProgressUserAchievement(session, "ACH_AvatarLooks", 1);
 
-			if (session.UserData.Room == null)
+			if (session.Room == null)
 				return;
 
-			router.GetComposer<UpdateAvatarAspectMessageComposer> ().Compose (session, session.UserData.Info);
-			router.GetComposer<UpdateUserDataMessageComposer> ().Compose (session.UserData.Room, session.UserData.Info, session.UserData.RoomEntity.Id);
+			router.GetComposer<UpdateAvatarAspectMessageComposer> ().Compose (session, session.Info);
+			router.GetComposer<UpdateUserDataMessageComposer> ().Compose (session.Room, session.Info, session.RoomEntity.Id);
 
-			MessengerController.UpdateUser (session.UserData.Info);
+			MessengerController.UpdateUser (session.Info);
 		}
 	}
 }

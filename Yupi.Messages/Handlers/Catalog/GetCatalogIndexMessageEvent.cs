@@ -9,24 +9,24 @@ namespace Yupi.Messages.Catalog
 {
 	public class GetCatalogIndexMessageEvent : AbstractHandler
 	{
-		private Repository<CatalogPage> CatalogRepository;
+		private IRepository<CatalogPage> CatalogRepository;
 
 		public GetCatalogIndexMessageEvent ()
 		{
-			CatalogRepository = DependencyFactory.Resolve<Repository<CatalogPage>> ();
+			CatalogRepository = DependencyFactory.Resolve<IRepository<CatalogPage>> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			List<CatalogPage> pages = CatalogRepository
-				.FilterBy (x => x.Parent == null && x.MinRank <= session.UserData.Info.Rank)
+				.FilterBy (x => x.Parent == null && x.MinRank <= session.Info.Rank)
 				.OrderBy (x => x.OrderNum).ToList();
 
 			// TODO Type?!
 			string type = message.GetString ().ToUpper ();
 
 			router.GetComposer<CatalogueOfferConfigMessageComposer> ().Compose (session);
-			router.GetComposer<CatalogueIndexMessageComposer> ().Compose (session, pages, type, session.UserData.Info.Rank);
+			router.GetComposer<CatalogueIndexMessageComposer> ().Compose (session, pages, type, session.Info.Rank);
 		}
 	}
 }

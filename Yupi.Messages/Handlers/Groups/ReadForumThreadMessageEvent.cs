@@ -12,14 +12,14 @@ namespace Yupi.Messages.Groups
 {
 	public class ReadForumThreadMessageEvent : AbstractHandler
 	{
-		private Repository<Group> GroupRepository;
+		private IRepository<Group> GroupRepository;
 
 		public ReadForumThreadMessageEvent ()
 		{
-			GroupRepository = DependencyFactory.Resolve<Repository<Group>> ();
+			GroupRepository = DependencyFactory.Resolve<IRepository<Group>> ();
 		}
 
-		public override void HandleMessage (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			int groupId = request.GetInteger ();
 			int threadId = request.GetInteger ();

@@ -9,15 +9,15 @@ namespace Yupi.Messages.User
 	public class HotelViewRequestBadgeMessageEvent : AbstractHandler
 	{
 		private HotelLandingManager HotelView;
-		private Repository<UserInfo> UserRepository;
+		private IRepository<UserInfo> UserRepository;
 
 		public HotelViewRequestBadgeMessageEvent ()
 		{
 			HotelView = DependencyFactory.Resolve<HotelLandingManager> ();
-			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>> ();
+			UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			
 			string name = message.GetString();
@@ -26,8 +26,8 @@ namespace Yupi.Messages.User
 				return;
 
 			string badge = HotelView.HotelViewBadges[name];
-			session.UserData.Info.Badges.GiveBadge(badge);
-			UserRepository.Save (session.UserData.Info);
+			session.Info.Badges.GiveBadge(badge);
+			UserRepository.Save (session.Info);
 		}
 	}
 }

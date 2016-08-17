@@ -14,31 +14,31 @@ namespace Yupi.Messages.Music
 {
 	public class JukeboxAddPlaylistItemMessageEvent : AbstractHandler
 	{
-		private Repository<SongItem> ItemRepository;
+		private IRepository<SongItem> ItemRepository;
 
 		public JukeboxAddPlaylistItemMessageEvent ()
 		{
-			ItemRepository = DependencyFactory.Resolve<Repository<SongItem>> ();
+			ItemRepository = DependencyFactory.Resolve<IRepository<SongItem>> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			if (session.UserData.Room == null
-				|| !session.UserData.Room.HasOwnerRights(session.UserData.Info)) {
+			if (session.Room == null
+				|| !session.Room.HasOwnerRights(session.Info)) {
 				return;
 			}
 				
 			int itemId = message.GetInteger();
 
-			SongItem item = session.UserData.Info.Inventory.GetFloorItem(itemId) as SongItem;
+			SongItem item = session.Info.Inventory.GetFloorItem(itemId) as SongItem;
 
 			if (item == null)
 				return;
 
-			SongMachineComponent songMachine = session.UserData.Room.Data.SongMachine;
+			SongMachineComponent songMachine = session.Room.Data.SongMachine;
 
 			if (songMachine.TryAdd (item)) {
-				session.UserData.Info.Inventory.FloorItems.Remove (item);
+				session.Info.Inventory.FloorItems.Remove (item);
 				router.GetComposer<RemoveInventoryObjectMessageComposer> ().Compose (session, item.Id);
 
 				ItemRepository.Save (item);

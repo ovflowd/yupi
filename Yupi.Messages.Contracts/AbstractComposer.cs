@@ -39,7 +39,7 @@ namespace Yupi.Messages.Contracts
 		public abstract void Compose( Yupi.Protocol.ISender session, T first, U second, V third, W fourth);
 	}
 
-	public abstract class AbstactComposerEmpty : AbstractComposerVoid {
+	public abstract class AbstractComposerEmpty : AbstractComposerVoid {
 		public override void Compose ( Yupi.Protocol.ISender session)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {

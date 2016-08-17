@@ -13,12 +13,12 @@ namespace Yupi.Messages.Other
 			AchievementManager = DependencyFactory.Resolve<AchievementManager> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			// TODO Doesn't seem right here! Could easily be faked by wrong packets!
-			AchievementManager.ProgressUserAchievement(session.UserData, "ACH_AllTimeHotelPresence", 1);
+			AchievementManager.ProgressUserAchievement(session, "ACH_AllTimeHotelPresence", 1);
 
-			session.UserData.TimePingReceived = DateTime.Now;
+			session.TimePingReceived = DateTime.Now;
 		}
 	}
 }

@@ -9,14 +9,14 @@ namespace Yupi.Messages.Groups
 {
 	public class UpdateThreadMessageEvent : AbstractHandler
 	{
-		private Repository<Group> GroupRepository;
+		private IRepository<Group> GroupRepository;
 
 		public UpdateThreadMessageEvent ()
 		{
-			GroupRepository = DependencyFactory.Resolve<Repository<Group>> ();
+			GroupRepository = DependencyFactory.Resolve<IRepository<Group>> ();
 		}
 
-		public override void HandleMessage (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			int groupId = request.GetInteger ();
 			int threadId = request.GetInteger ();
@@ -31,7 +31,7 @@ namespace Yupi.Messages.Groups
 
 			GroupForumThread thread = theGroup.Forum.GetThread (threadId);
 
-			if (thread.Creator == session.UserData.Info || theGroup.Admins.Contains (session.UserData.Info)) {
+			if (thread.Creator == session.Info || theGroup.Admins.Contains (session.Info)) {
 				thread.Locked = Lock;
 				thread.Pinned = pin;
 			}

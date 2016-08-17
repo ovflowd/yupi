@@ -6,12 +6,12 @@ namespace Yupi.Messages.Guides
 {
 	public class VisitRoomGuides : AbstractHandler
 	{
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			if (session.UserData.GuideOtherUser == null)
+			if (session.GuideOtherUser == null)
 				return;
 
-			router.GetComposer<RoomForwardMessageComposer> ().Compose (session, session.UserData.GuideOtherUser.Room.Data.Id);
+			router.GetComposer<RoomForwardMessageComposer> ().Compose (session, session.GuideOtherUser.Room.Data.Id);
 		}
 	}
 }

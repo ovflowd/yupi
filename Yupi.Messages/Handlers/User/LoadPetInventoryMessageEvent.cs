@@ -4,9 +4,9 @@ namespace Yupi.Messages.User
 {
 	public class LoadPetInventoryMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			session.Router.GetComposer<PetInventoryMessageComposer>().Compose(session, session.UserData.Info.Inventory.Pets);
+			session.Router.GetComposer<PetInventoryMessageComposer>().Compose(session, session.Info.Inventory.Pets);
 		}
 	}
 }

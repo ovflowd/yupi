@@ -9,18 +9,18 @@ namespace Yupi.Messages.Support
 {
 	public class ModerationToolCloseIssueMessageEvent : AbstractHandler
 	{
-		private Repository<SupportTicket> TicketRepository;
+		private IRepository<SupportTicket> TicketRepository;
 		private ClientManager ClientManager;
 
 		public ModerationToolCloseIssueMessageEvent ()
 		{
-			TicketRepository = DependencyFactory.Resolve<Repository<SupportTicket>> ();
+			TicketRepository = DependencyFactory.Resolve<IRepository<SupportTicket>> ();
 			ClientManager = DependencyFactory.Resolve<ClientManager> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			if (!session.UserData.Info.HasPermission ("fuse_mod")) {
+			if (!session.Info.HasPermission ("fuse_mod")) {
 				return;
 			}
 
@@ -37,9 +37,7 @@ namespace Yupi.Messages.Support
 			if (ticket != null && TicketCloseReason.TryFromInt32 (result, out reason)) {
 				ticket.Close (reason);
 
-				var staffs = ClientManager.Connections.Where(x => x.UserData.Info.HasPermission("handle_cfh"));
-
-				foreach (var staff in staffs) {
+				foreach (Habbo staff in ClientManager.GetByPermission("handle_cfh")) {
 					staff.Router.GetComposer<ModerationToolIssueMessageComposer> ().Compose (staff, ticket);
 				}
 			}

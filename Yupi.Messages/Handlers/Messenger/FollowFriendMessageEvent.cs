@@ -17,11 +17,11 @@ namespace Yupi.Messages.Messenger
 		}
 
 		// TODO Refactor
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			int userId = request.GetInteger();
 
-			Relationship relationship = session.UserData.Info.Relationships.FindByUser (userId);
+			Relationship relationship = session.Info.Relationships.FindByUser (userId);
 
 			if (relationship == null) {
 				router.GetComposer<FollowFriendErrorMessageComposer> ().Compose (session, 0);
@@ -29,10 +29,10 @@ namespace Yupi.Messages.Messenger
 
 				var friendSession = ClientManager.GetByUserId (userId);
 
-				if (friendSession == null || friendSession.UserData.Room == null) {
+				if (friendSession == null || friendSession.Room == null) {
 					router.GetComposer<FollowFriendErrorMessageComposer> ().Compose (session, 2);
 				} else {
-					router.GetComposer<RoomForwardMessageComposer> ().Compose (session, friendSession.UserData.Room.Data.Id);
+					router.GetComposer<RoomForwardMessageComposer> ().Compose (session, friendSession.Room.Data.Id);
 				}
 			}
 		}

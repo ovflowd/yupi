@@ -6,9 +6,9 @@ namespace Yupi.Messages.Music
 {
 	public class LoadJukeboxDiscsMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			SongItem[] items = session.UserData.Info.Inventory.FloorItems.OfType<SongItem> ().ToArray ();
+			SongItem[] items = session.Info.Inventory.FloorItems.OfType<SongItem> ().ToArray ();
 
 			router.GetComposer<SongsLibraryMessageComposer> ().Compose (session, items);
 		}

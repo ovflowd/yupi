@@ -5,6 +5,9 @@ using Yupi.Model.Domain;
 using System.Linq;
 using Yupi.Model;
 using Yupi.Model.Repository;
+using Yupi.Util;
+using Yupi.Net;
+using Yupi.Messages;
 
 namespace Yupi.Controller
 {
@@ -27,27 +30,32 @@ namespace Yupi.Controller
 			return Connections.Any (x => x.UserData.Info == info);
 		}
 
-		public ISession<Habbo> GetByInfo(UserInfo info) {
-			return Connections.SingleOrDefault (x => x.UserData.Info == info);
+		public Habbo GetByInfo(UserInfo info) {
+			return Connections.SingleOrDefault (x => x.UserData.Info == info)?.UserData;
 		}
 
-		public ISession<Habbo> GetByUserId(int id) {
-			return Connections.SingleOrDefault (x => x.UserData.Info.Id == id);
+		public Habbo GetByUserId(int id) {
+			return Connections.SingleOrDefault (x => x.UserData.Info.Id == id)?.UserData;
 		}
 
-		public void Disconnect(ISession<Habbo> session, string reason) {
-			RoomEntity entity = session.UserData.RoomEntity;
+		public void Disconnect(Habbo session, string reason) {
+			RoomEntity entity = session.RoomEntity;
 
 			if (entity != null) {
 				RoomManager.RemoveUser (entity);
 			}
 
-			session.Disconnect ();
+			session.Session.Disconnect ();
 
-			Logger.DebugFormat ("User disconnected [{0}] Reason: {1}", session.UserData.MachineId, reason);
+			Logger.DebugFormat ("User disconnected [{0}] Reason: {1}", session.MachineId, reason);
+		}
+
+		public IEnumerable<Habbo> GetByPermission(string permission) {
+			return Connections.Where (x => x.UserData.Info.HasPermission (permission)).Select (x => x.UserData);
 		}
 
 		public void AddClient(ISession<Habbo> session) {
+			session.UserData = new Habbo (session, Router.Default);
 			Connections.Add (session);
 		}
 

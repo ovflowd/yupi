@@ -12,16 +12,16 @@ namespace Yupi.Messages.Groups
 {
 	public class GroupUpdateSettingsMessageEvent : AbstractHandler
 	{
-		private Repository<Group> GroupRepository;
+		private IRepository<Group> GroupRepository;
 		private RoomManager RoomManager;
 
 		public GroupUpdateSettingsMessageEvent ()
 		{
-			GroupRepository = DependencyFactory.Resolve<Repository<Group>> ();
+			GroupRepository = DependencyFactory.Resolve<IRepository<Group>> ();
 			RoomManager = DependencyFactory.Resolve<RoomManager> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			int groupId = request.GetInteger ();
 			uint state = request.GetUInt32();
@@ -29,7 +29,7 @@ namespace Yupi.Messages.Groups
 
 			Group group = GroupRepository.FindBy (groupId);
 
-			if (group?.Creator != session.UserData.Info)
+			if (group?.Creator != session.Info)
 				return;
 
 			group.State = state;

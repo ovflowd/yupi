@@ -9,7 +9,7 @@ namespace Yupi.Messages.User
 {
 	public class RoomSettingsMuteUserMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			int targetUserId = message.GetInteger ();
 			// TODO Refactor
@@ -17,17 +17,17 @@ namespace Yupi.Messages.User
 
 			uint duration = message.GetUInt32 ();
 
-			Room room = session.UserData.Room;
+			Room room = session.Room;
 	
 			if (room == null
-			    || (room.Data.WhoCanBan == 0 && !room.HasOwnerRights (session.UserData.Info))
-			    || (room.Data.WhoCanBan == 1 && !room.HasRights (session.UserData.Info))) {
+			    || (room.Data.WhoCanBan == 0 && !room.HasOwnerRights (session.Info))
+			    || (room.Data.WhoCanBan == 1 && !room.HasRights (session.Info))) {
 				return;
 			}
 
 			UserEntity targetUser = room.GetEntity (targetUserId) as UserEntity;
 
-			if (targetUser == null || targetUser.UserInfo.Rank >= session.UserData.Info.Rank)
+			if (targetUser == null || targetUser.UserInfo.Rank >= session.Info.Rank)
 				return;
 
 			room.Data.MutedEntities.Add (new RoomMute () {
@@ -35,7 +35,7 @@ namespace Yupi.Messages.User
 				ExpiresAt = DateTime.Now.AddMinutes (duration)
 			});
 
-			targetUser.User.Session.Router.GetComposer<SuperNotificationMessageComposer> ()
+			targetUser.User.Router.GetComposer<SuperNotificationMessageComposer> ()
 				.Compose (targetUser.User, T._("Notice"), string.Format (T._("room_owner_has_mute_user"), duration), "", "", "", 4); 
 		}
 	}

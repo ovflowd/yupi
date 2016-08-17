@@ -8,21 +8,21 @@ namespace Yupi.Messages.Navigator
 {
 	public class NewNavigatorResizeEvent : AbstractHandler
 	{
-		private Repository<UserPreferences> PreferenceRepository;
+		private IRepository<UserPreferences> PreferenceRepository;
 
 		public NewNavigatorResizeEvent ()
 		{
-			PreferenceRepository = DependencyFactory.Resolve<Repository<UserPreferences>> ();
+			PreferenceRepository = DependencyFactory.Resolve<IRepository<UserPreferences>> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			int x = request.GetInteger();
 			int y = request.GetInteger();
 			int width = request.GetInteger();
 			int height = request.GetInteger();
 
-			UserPreferences preferences = session.UserData.Info.Preferences;
+			UserPreferences preferences = session.Info.Preferences;
 
 			preferences.NewnaviX = x;
 			preferences.NewnaviY = y;

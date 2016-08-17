@@ -6,9 +6,9 @@ namespace Yupi.Messages.User
 {
 	public class WardrobeMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			router.GetComposer<LoadWardrobeMessageComposer> ().Compose (session, session.UserData.Info.Inventory.Wardrobe);
+			router.GetComposer<LoadWardrobeMessageComposer> ().Compose (session, session.Info.Inventory.Wardrobe);
 		}
 	}
 }

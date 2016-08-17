@@ -14,7 +14,7 @@ namespace Yupi.Messages.Rooms
 				message.AppendBool(isNotReload);
 				/*
 				message.AppendBool(Yupi.GetGame().GetNavigator() != null && Yupi.GetGame().GetNavigator().GetPublicRoom(room.RoomData.Id) != null);
-				message.AppendBool(!isNotReload || session.UserData.Info.HasPermission("fuse_mod"));
+				message.AppendBool(!isNotReload || session.Info.HasPermission("fuse_mod"));
 				message.AppendBool(room.IsMuted);
 				message.AppendInteger(room.WhoCanMute);
 				message.AppendInteger(room.WhoCanKick);

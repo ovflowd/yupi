@@ -9,16 +9,16 @@ namespace Yupi.Messages.Groups
 {
 	public class SetFavoriteGroupMessageEvent : AbstractHandler
 	{
-		private Repository<Group> GroupRepository;
-		private Repository<UserInfo> UserRepository;
+		private IRepository<Group> GroupRepository;
+		private IRepository<UserInfo> UserRepository;
 
 		public SetFavoriteGroupMessageEvent ()
 		{
-			GroupRepository = DependencyFactory.Resolve<Repository<Group>> ();
-			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>> ();
+			GroupRepository = DependencyFactory.Resolve<IRepository<Group>> ();
+			UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			int groupId = request.GetInteger();
 
@@ -28,22 +28,22 @@ namespace Yupi.Messages.Groups
 				return;
 
 			// TODO Refactor group!
-			if (!theGroup.Members.Contains(session.UserData.Info))
+			if (!theGroup.Members.Contains(session.Info))
 				return;
 
-			session.UserData.Info.FavouriteGroup = theGroup;
+			session.Info.FavouriteGroup = theGroup;
 
-			UserRepository.Save (session.UserData.Info);
+			UserRepository.Save (session.Info);
 
-			router.GetComposer<GroupDataMessageComposer> ().Compose (session, theGroup, session.UserData.Info);
+			router.GetComposer<GroupDataMessageComposer> ().Compose (session, theGroup, session.Info);
 
 			// TODO Is this required (see below!)
-			router.GetComposer<FavouriteGroupMessageComposer> ().Compose (session, session.UserData.Info.Id);
+			router.GetComposer<FavouriteGroupMessageComposer> ().Compose (session, session.Info.Id);
 
-			if (session.UserData.Room != null && !session.UserData.Room.GroupsInRoom.Contains(theGroup))
+			if (session.Room != null && !session.Room.GroupsInRoom.Contains(theGroup))
 			{
-				session.UserData.Room.GroupsInRoom.Add(theGroup);
-				session.UserData.Room.Router.GetComposer<RoomGroupMessageComposer> ().Compose (session.UserData.Room, session.UserData.Room.GroupsInRoom);
+				session.Room.GroupsInRoom.Add(theGroup);
+				session.Room.Router.GetComposer<RoomGroupMessageComposer> ().Compose (session.Room, session.Room.GroupsInRoom);
 			}
 
 			router.GetComposer<ChangeFavouriteGroupMessageComposer> ().Compose (session, theGroup, 0);

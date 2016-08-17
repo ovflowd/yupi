@@ -10,18 +10,18 @@ namespace Yupi.Messages.Support
 {
 	public class SubmitHelpTicketMessageEvent : AbstractHandler
 	{
-		private Repository<RoomData> RoomRepository;
-		private Repository<UserInfo> UserRepository;
+		private IRepository<RoomData> RoomRepository;
+		private IRepository<UserInfo> UserRepository;
 		private ClientManager ClientManager;
 
 		public SubmitHelpTicketMessageEvent ()
 		{
 			ClientManager = DependencyFactory.Resolve<ClientManager> ();
-			RoomRepository = DependencyFactory.Resolve<Repository<RoomData>> ();
-			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>> ();
+			RoomRepository = DependencyFactory.Resolve<IRepository<RoomData>> ();
+			UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			string content = message.GetString();
 			int category = message.GetInteger();
@@ -40,8 +40,8 @@ namespace Yupi.Messages.Support
 				chats[i] = message.GetString();
 			}
 
-			var pendingTickets = session.UserData.Info.SupportTickets.Where(x => x.Status != TicketStatus.Closed);
-			var lastAbusive = session.UserData.Info.SupportTickets.OrderByDescending(x => x.CreatedAt).FirstOrDefault (x => x.Status == TicketStatus.Closed && x.CloseReason == TicketCloseReason.Abusive);
+			var pendingTickets = session.Info.SupportTickets.Where(x => x.Status != TicketStatus.Closed);
+			var lastAbusive = session.Info.SupportTickets.OrderByDescending(x => x.CreatedAt).FirstOrDefault (x => x.Status == TicketStatus.Closed && x.CloseReason == TicketCloseReason.Abusive);
 
 			if (pendingTickets.Count() != 0) {
 				router.GetComposer<TicketUserAlertComposer> ().Compose (session, TicketUserAlertComposer.Status.HAS_PENDING, pendingTickets.First());
@@ -63,12 +63,10 @@ namespace Yupi.Messages.Support
 					Type = 7 // TODO Hardcoded value
 				};
 						
-				session.UserData.Info.SupportTickets.Add (newTicket);
-				UserRepository.Save (session.UserData.Info);
+				session.Info.SupportTickets.Add (newTicket);
+				UserRepository.Save (session.Info);
 
-				var staffs = ClientManager.Connections.Where(x => x.UserData.Info.HasPermission("handle_cfh"));
-
-				foreach (var staff in staffs) {
+				foreach (Habbo staff in ClientManager.GetByPermission("handle_cfh")) {
 					// TODO Create a controller for this...
 					staff.Router.GetComposer<ModerationToolIssueMessageComposer> ().Compose (staff, newTicket);
 				}

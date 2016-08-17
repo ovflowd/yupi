@@ -9,11 +9,11 @@ namespace Yupi.Messages.Catalog
 {
 	public class CatalogueClubPageMessageComposer : Yupi.Messages.Contracts.CatalogueClubPageMessageComposer
 	{
-		private Repository<CatalogPage> CatalogRepository;
+		private IRepository<CatalogPage> CatalogRepository;
 
 		public CatalogueClubPageMessageComposer ()
 		{
-			CatalogRepository = DependencyFactory.Resolve<Repository<CatalogPage>> ();
+			CatalogRepository = DependencyFactory.Resolve<IRepository<CatalogPage>> ();
 		}
 
 		public override void Compose ( Yupi.Protocol.ISender session, int windowId)

@@ -12,14 +12,14 @@ namespace Yupi.Messages.Groups
 {
 	public class GroupMakeAdministratorMessageEvent : AbstractHandler
 	{
-		private Repository<Group> GroupRepository;
+		private IRepository<Group> GroupRepository;
 
 		public GroupMakeAdministratorMessageEvent ()
 		{
-			GroupRepository = DependencyFactory.Resolve<Repository<Group>> ();
+			GroupRepository = DependencyFactory.Resolve<IRepository<Group>> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			int groupId = request.GetInteger();
 			int memberId = request.GetInteger();
@@ -27,7 +27,7 @@ namespace Yupi.Messages.Groups
 			Group group = GroupRepository.FindBy (groupId);
 			throw new NotImplementedException ();
 			/*
-			if (session.UserData.Info != group.Creator || !group.Members.ContainsKey(memberId) ||
+			if (session.Info != group.Creator || !group.Members.ContainsKey(memberId) ||
 				group.Admins.ContainsKey(memberId))
 				return;
 

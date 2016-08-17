@@ -8,14 +8,14 @@ namespace Yupi.Messages.Catalog
 {
 	public class GetCatalogPageMessageEvent : AbstractHandler
 	{
-		private Repository<CatalogPage> CatalogRepository;
+		private IRepository<CatalogPage> CatalogRepository;
 
 		public GetCatalogPageMessageEvent ()
 		{
-			CatalogRepository = DependencyFactory.Resolve<Repository<CatalogPage>> ();
+			CatalogRepository = DependencyFactory.Resolve<IRepository<CatalogPage>> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			int pageId = message.GetInteger();
 
@@ -23,7 +23,7 @@ namespace Yupi.Messages.Catalog
 
 			CatalogPage page = CatalogRepository.FindBy (pageId);
 
-			if (page == null || !page.Enabled || !page.Visible || page.MinRank > session.UserData.Info.Rank)
+			if (page == null || !page.Enabled || !page.Visible || page.MinRank > session.Info.Rank)
 				return;
 
 			router.GetComposer<CataloguePageMessageComposer> ().Compose (session, page);

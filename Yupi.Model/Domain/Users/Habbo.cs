@@ -1,13 +1,14 @@
 ﻿using System;
 using Yupi.Protocol;
 using Yupi.Model.Domain;
+using Yupi.Net;
 
 namespace Yupi.Model.Domain
 {
 	[Ignore]
 	public class Habbo : ISender
 	{
-		public UserInfo Info { get; protected set; }
+		public UserInfo Info { get; set; }
 
 		public UserEntity RoomEntity { get; protected set; }
 
@@ -21,23 +22,23 @@ namespace Yupi.Model.Domain
 		public Room Room { get; set; }
 
 		public ISession<Habbo> Session { get; set; }
+		public IRouter Router { get; set; }
 
 		// TODO Can this be solved in a better way?
 		public Habbo GuideOtherUser;
 
 		public RoomData TeleportingTo;
 
-		public Habbo (ISession<Habbo> session, UserInfo info)
+		public Habbo (ISession<Habbo> session, IRouter router)
 		{
-			Info = info;
-			Session = session;
+			this.Session = session;
+			this.Router = router;
 			TimePingReceived = DateTime.Now;
 		}
 
 		public void Send (Yupi.Protocol.Buffers.ServerMessage message)
 		{
-			// TODO Link session
-			throw new NotImplementedException ();
+			Session.Send(message.GetReversedBytes());
 		}
 	}
 }

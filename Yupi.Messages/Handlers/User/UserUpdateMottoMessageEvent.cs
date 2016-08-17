@@ -8,27 +8,27 @@ namespace Yupi.Messages.User
 {
 	public class UserUpdateMottoMessageEvent : AbstractHandler
 	{
-		private Repository<UserInfo> UserRepository;
+		private IRepository<UserInfo> UserRepository;
 		private AchievementManager AchievementManager;
 
 		public UserUpdateMottoMessageEvent ()
 		{
-			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>> ();
+			UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>> ();
 			AchievementManager = DependencyFactory.Resolve<AchievementManager> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			string motto = message.GetString ();
 
 			// TODO Filter!
-			session.UserData.Info.Motto = motto;
+			session.Info.Motto = motto;
 
-			UserRepository.Save (session.UserData.Info);
+			UserRepository.Save (session.Info);
 
-			router.GetComposer<UpdateUserDataMessageComposer> ().Compose (session.UserData.Room, session.UserData.Info, session.UserData.RoomEntity.Id);
+			router.GetComposer<UpdateUserDataMessageComposer> ().Compose (session.Room, session.Info, session.RoomEntity.Id);
 
-			AchievementManager.ProgressUserAchievement(session.UserData, "ACH_Motto", 1);
+			AchievementManager.ProgressUserAchievement(session, "ACH_Motto", 1);
 		}
 	}
 }

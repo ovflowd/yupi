@@ -10,18 +10,18 @@ namespace Yupi.Messages.Support
 {
 	public class ModerationLockTradeMessageEvent : AbstractHandler
 	{
-		private Repository<UserInfo> UserRepository;
+		private IRepository<UserInfo> UserRepository;
 		private ClientManager ClientManager;
 
 		public ModerationLockTradeMessageEvent ()
 		{
-			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>>();
+			UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>>();
 			ClientManager = DependencyFactory.Resolve<ClientManager>();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			if (!session.UserData.Info.HasPermission("fuse_lock_trade"))
+			if (!session.Info.HasPermission("fuse_lock_trade"))
 				return;
 
 			int userId = request.GetInteger();

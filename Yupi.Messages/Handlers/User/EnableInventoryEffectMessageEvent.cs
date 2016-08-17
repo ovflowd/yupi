@@ -14,9 +14,9 @@ namespace Yupi.Messages.User
 			EffectController = DependencyFactory.Resolve<AvatarEffectController> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			UserEntity userEntity = session.UserData.RoomEntity;
+			UserEntity userEntity = session.RoomEntity;
 
 			if (userEntity == null) {
 				return;
@@ -24,11 +24,11 @@ namespace Yupi.Messages.User
 			
 			int effectId = message.GetInteger();
 
-			if (session.UserData.IsRidingHorse)
+			if (session.IsRidingHorse)
 				return;
 			
 			if (effectId == 0) {
-				EffectController.StopEffect (session.UserData, session.UserData.Info.EffectComponent.ActiveEffect);
+				EffectController.StopEffect (session, session.Info.EffectComponent.ActiveEffect);
 			} else {
 				EffectController.ActivateEffect (userEntity, effectId);
 			}

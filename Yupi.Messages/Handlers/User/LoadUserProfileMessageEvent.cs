@@ -10,14 +10,14 @@ namespace Yupi.Messages.User
 {
 	public class LoadUserProfileMessageEvent : AbstractHandler
 	{
-		private Repository<UserInfo> UserRepository;
+		private IRepository<UserInfo> UserRepository;
 
 		public LoadUserProfileMessageEvent ()
 		{
-			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>> ();
+			UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			int userId = message.GetInteger();
 			message.GetBool(); // TODO Unused
@@ -29,7 +29,7 @@ namespace Yupi.Messages.User
 				return;
 			}
 
-			router.GetComposer<UserProfileMessageComposer> ().Compose (session, user, session.UserData.Info);
+			router.GetComposer<UserProfileMessageComposer> ().Compose (session, user, session.Info);
 			router.GetComposer<UserBadgesMessageComposer> ().Compose (session, user);
 		}
 	}

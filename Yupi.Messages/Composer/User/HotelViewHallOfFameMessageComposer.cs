@@ -11,11 +11,11 @@ namespace Yupi.Messages.User
 {
 	public class HotelViewHallOfFameMessageComposer : Yupi.Messages.Contracts.HotelViewHallOfFameMessageComposer
 	{
-		private Repository<HallOfFameElement> FameRepository;
+		private IRepository<HallOfFameElement> FameRepository;
 
 		public HotelViewHallOfFameMessageComposer ()
 		{
-			FameRepository = DependencyFactory.Resolve<Repository<HallOfFameElement>> ();
+			FameRepository = DependencyFactory.Resolve<IRepository<HallOfFameElement>> ();
 		}
 
 		public override void Compose (Yupi.Protocol.ISender session, string code)

@@ -12,7 +12,7 @@ namespace Yupi.Messages.Chat
 {
 	public class UserWhisperMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			/*
 			if (!session.GetHabbo().InRoom)
@@ -68,7 +68,7 @@ namespace Yupi.Messages.Chat
 			currentRoom.AddChatlog(session.GetHabbo().Id, $"<whispered to {text2}>: {msg}", false);
 
 			if (!roomUserByHabbo.IsBot &&
-				(colour == 2 || (colour == 23 && !session.UserData.Info.HasPermission("fuse_mod")) || colour < 0 ||
+				(colour == 2 || (colour == 23 && !session.Info.HasPermission("fuse_mod")) || colour < 0 ||
 					colour > 29))
 				colour = roomUserByHabbo.LastBubble; // or can also be just 0
 

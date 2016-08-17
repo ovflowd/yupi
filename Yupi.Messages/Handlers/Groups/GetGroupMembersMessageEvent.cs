@@ -8,14 +8,14 @@ namespace Yupi.Messages.Groups
 {
 	public class GetGroupMembersMessageEvent : AbstractHandler
 	{
-		private Repository<Group> GroupRepository;
+		private IRepository<Group> GroupRepository;
 
 		public GetGroupMembersMessageEvent ()
 		{
-			GroupRepository = DependencyFactory.Resolve<Repository<Group>> ();
+			GroupRepository = DependencyFactory.Resolve<IRepository<Group>> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			int groupId = request.GetInteger();
 			int page = request.GetInteger();
@@ -28,7 +28,7 @@ namespace Yupi.Messages.Groups
 				return;
 			}
 
-			router.GetComposer<GroupMembersMessageComposer> ().Compose (session, group, reqType, session.UserData.Info, searchVal, page);
+			router.GetComposer<GroupMembersMessageComposer> ().Compose (session, group, reqType, session.Info, searchVal, page);
 		}
 	}
 }

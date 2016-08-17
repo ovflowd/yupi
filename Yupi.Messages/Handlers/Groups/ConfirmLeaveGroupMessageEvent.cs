@@ -7,14 +7,14 @@ namespace Yupi.Messages.Groups
 {
 	public class ConfirmLeaveGroupMessageEvent : AbstractHandler
 	{
-		private Repository<Group> GroupRepository;
+		private IRepository<Group> GroupRepository;
 
 		public ConfirmLeaveGroupMessageEvent ()
 		{
-			GroupRepository = DependencyFactory.Resolve<Repository<Group>> ();
+			GroupRepository = DependencyFactory.Resolve<IRepository<Group>> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			int groupId = request.GetInteger ();
 			int userId = request.GetInteger ();
@@ -29,7 +29,7 @@ namespace Yupi.Messages.Groups
 				return;
 			}/*
 			// TODO Refactor
-			if (userId == session.UserData.Info.Id || group.Admins.Contains(session.UserData.Info))
+			if (userId == session.Info.Id || group.Admins.Contains(session.Info))
 			{
 				GroupMember memberShip;
 

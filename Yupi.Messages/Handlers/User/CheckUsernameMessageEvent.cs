@@ -11,22 +11,38 @@ namespace Yupi.Messages.User
 {
 	public class CheckUsernameMessageEvent : AbstractHandler
 	{
-		protected Repository<UserInfo> UserRepository;
+		protected IRepository<UserInfo> UserRepository;
 
 		public CheckUsernameMessageEvent ()
 		{
-			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>> ();
+			UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			string newName = message.GetString();
-							
-			List<string> alternatives;
-			NameChangedUpdatesMessageComposer.Status status = Validate (newName, session.UserData.Info.UserName, out alternatives);
 
-			router.GetComposer<NameChangedUpdatesMessageComposer> ()
-				.Compose (session, status, newName, alternatives);
+			List<string> alternatives;
+			NameChangedUpdatesMessageComposer.Status status = Validate (newName, session.Info.UserName, out alternatives);
+
+			if (status == NameChangedUpdatesMessageComposer.Status.OK) {
+				session.Info.UserName = newName;
+
+				router.GetComposer<UpdateUsernameMessageComposer> ().Compose (session, newName);
+				// TODO Refactor
+
+				UserRepository.Save (session.Info);
+
+				if (session.Room != null)
+				{
+					router.GetComposer<UserUpdateNameInRoomMessageComposer> ()
+						.Compose (session.Room, session);
+				}
+
+				// TODO Update room owner 
+
+				// TODO Notify messenger
+			}
 		}
 
 		protected NameChangedUpdatesMessageComposer.Status Validate(string newName, string oldName, out List<string> alternatives) {

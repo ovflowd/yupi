@@ -8,14 +8,14 @@ namespace Yupi.Messages.Groups
 {
 	public class GroupManageMessageEvent : AbstractHandler
 	{
-		private Repository<Group> GroupRepository;
+		private IRepository<Group> GroupRepository;
 
 		public GroupManageMessageEvent ()
 		{
-			GroupRepository = DependencyFactory.Resolve<Repository<Group>> ();
+			GroupRepository = DependencyFactory.Resolve<IRepository<Group>> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			int groupId = request.GetInteger ();
 			Group group = GroupRepository.FindBy (groupId);
@@ -24,8 +24,8 @@ namespace Yupi.Messages.Groups
 				return;
 
 			// TODO Hardcoded value! (should use user rights instead of rank!)
-			if (group.Admins.Contains (session.UserData.Info) || group.Creator != session.UserData.Info ||
-			    session.UserData.Info.HasPermission ("fuse_manage_any_group")) {
+			if (group.Admins.Contains (session.Info) || group.Creator != session.Info ||
+			    session.Info.HasPermission ("fuse_manage_any_group")) {
 
 				router.GetComposer<GroupDataEditMessageComposer> ().Compose (session, group);
 			}

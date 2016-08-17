@@ -2,7 +2,7 @@
 
 namespace Yupi.Messages.Trade
 {
-	public class TradeConfirmationMessageComposer : Contracts.AbstactComposerEmpty
+	public class TradeConfirmationMessageComposer : Contracts.AbstractComposerEmpty
 	{
 		
 	}

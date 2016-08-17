@@ -8,16 +8,16 @@ namespace Yupi.Messages.Catalog
 {
 	public class PurchaseFromCatalogAsGiftMessageEvent : AbstractHandler
 	{
-		private Repository<UserInfo> UserRepository;
+		private IRepository<UserInfo> UserRepository;
 		private CatalogController CatalogController;
 
 		public PurchaseFromCatalogAsGiftMessageEvent ()
 		{
-			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>> ();
+			UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>> ();
 			CatalogController = DependencyFactory.Resolve<CatalogController> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			int pageId = message.GetInteger();
 			int itemId = message.GetInteger();
@@ -36,7 +36,7 @@ namespace Yupi.Messages.Catalog
 			}
 
 			CatalogItem item = CatalogController.GetById (pageId, itemId);
-			CatalogController.PurchaseGift (session.UserData, item, extraData, info);
+			CatalogController.PurchaseGift (session, item, extraData, info);
 		}
 	}
 }

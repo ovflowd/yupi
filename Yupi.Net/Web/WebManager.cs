@@ -32,6 +32,8 @@ namespace Yupi.Net.Web
 {
      public static class WebManager
     {
+		// TODO Implement
+		/*
         /// <summary>
         ///     Does REST GET Request with jSON Return
         /// </summary>
@@ -99,6 +101,6 @@ namespace Yupi.Net.Web
 
             using (StreamReader streamReader = new StreamReader(httpResponseStream))
                 return streamReader.ReadToEnd();
-        }
+        }*/
     }
 }

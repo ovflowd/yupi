@@ -16,7 +16,7 @@ namespace Yupi.Messages.Messenger
 			ClientManager = DependencyFactory.Resolve<ClientManager>();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			int count = request.GetInteger();
 
@@ -29,14 +29,14 @@ namespace Yupi.Messages.Messenger
 			string content = request.GetString();
 
 			foreach (int userId in users) {
-				Relationship relationship = session.UserData.Info.Relationships.FindByUser (userId);
+				Relationship relationship = session.Info.Relationships.FindByUser (userId);
 				if (relationship == null) {
 					continue;
 				}
 
 				var friendSession = ClientManager.GetByInfo (relationship.Friend);
 			
-				friendSession?.Router.GetComposer<ConsoleInvitationMessageComposer> ().Compose (friendSession, session.UserData.Info.Id, content);
+				friendSession?.Router.GetComposer<ConsoleInvitationMessageComposer> ().Compose (friendSession, session.Info.Id, content);
 			}
 		}
 	}

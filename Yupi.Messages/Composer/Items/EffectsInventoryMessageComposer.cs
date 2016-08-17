@@ -18,7 +18,7 @@ namespace Yupi.Messages.Items
 					message.AppendInteger(current.Type);
 					message.AppendInteger(current.TotalDuration);
 					message.AppendInteger(0);
-					message.AppendInteger(current.TimeLeft);
+					message.AppendInteger(current.TimeLeft());
 					message.AppendBool(current.TotalDuration == -1);
 				}
 				session.Send (message);

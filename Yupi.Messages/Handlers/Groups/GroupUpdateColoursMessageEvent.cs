@@ -9,14 +9,14 @@ namespace Yupi.Messages.Groups
 {
 	public class GroupUpdateColoursMessageEvent : AbstractHandler
 	{
-		private Repository<Group> GroupRepository;
+		private IRepository<Group> GroupRepository;
 
 		public GroupUpdateColoursMessageEvent ()
 		{
-			GroupRepository = DependencyFactory.Resolve<Repository<Group>> ();
+			GroupRepository = DependencyFactory.Resolve<IRepository<Group>> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			int groupId = request.GetInteger ();
 			int color1 = request.GetInteger();
@@ -24,7 +24,7 @@ namespace Yupi.Messages.Groups
 
 			Group group = GroupRepository.FindBy (groupId);
 
-			if (group?.Creator != session.UserData.Info)
+			if (group?.Creator != session.Info)
 				return;
 
 			group.Colour1 = new GroupSymbolColours() { Colour = color1 };

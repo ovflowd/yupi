@@ -14,18 +14,18 @@ namespace Yupi.Messages.Support
 {
 	public class ModerationToolPerformRoomActionMessageEvent : AbstractHandler
 	{
-		private Repository<RoomData> RoomRepository;
+		private IRepository<RoomData> RoomRepository;
 		private RoomManager RoomManager;
 
 		public ModerationToolPerformRoomActionMessageEvent ()
 		{
-			RoomRepository = DependencyFactory.Resolve<Repository<RoomData>> ();
+			RoomRepository = DependencyFactory.Resolve<IRepository<RoomData>> ();
 			RoomManager = DependencyFactory.Resolve<RoomManager> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			if (!session.UserData.Info.HasPermission("fuse_mod"))
+			if (!session.Info.HasPermission("fuse_mod"))
 				return;
 
 			int roomId = message.GetInteger();

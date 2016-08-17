@@ -33,11 +33,11 @@ namespace Yupi.Controller
 {
 	public class TalentManager
 	{
-		//private Repository<Talent> TalentRepository;
+		//private IRepository<Talent> TalentRepository;
 
 		public TalentManager ()
 		{
-			//TalentRepository = DependencyFactory.Resolve<Repository<Talent>> ();
+			//TalentRepository = DependencyFactory.Resolve<IRepository<Talent>> ();
 		}
 
 		public bool LevelIsCompleted (UserInfo user, TalentType trackType, int talentLevel)

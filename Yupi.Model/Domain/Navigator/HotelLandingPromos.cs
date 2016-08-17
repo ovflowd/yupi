@@ -38,8 +38,6 @@ namespace Yupi.Model.Domain
 
 		public virtual string Image { get; protected set; }
 
-		public virtual int Index { get; protected set; }
-
 		public virtual int InGamePromo { get; protected set; }
 
 		public virtual string SpecialAction { get; protected set; }

@@ -9,11 +9,11 @@ namespace Yupi.Messages.Pets
 {
 	public class PetBreedCancelMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			int itemId = request.GetInteger();
 
-			if (session.UserData.Room == null || !session.UserData.Room.HasOwnerRights(session.UserData.Info))
+			if (session.Room == null || !session.Room.HasOwnerRights(session.Info))
 				return;
 
 			throw new NotImplementedException ();

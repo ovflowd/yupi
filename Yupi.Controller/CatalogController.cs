@@ -10,14 +10,14 @@ namespace Yupi.Controller
 {
 	public class CatalogController
 	{
-		private Repository<CatalogItem> ItemRepository;
-		private Repository<UserInfo> UserRepository;
+		private IRepository<CatalogItem> ItemRepository;
+		private IRepository<UserInfo> UserRepository;
 		private AchievementManager AchievementManager;
 
 		public CatalogController ()
 		{
-			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>> ();
-			ItemRepository = DependencyFactory.Resolve<Repository<CatalogItem>> ();
+			UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>> ();
+			ItemRepository = DependencyFactory.Resolve<IRepository<CatalogItem>> ();
 			AchievementManager = DependencyFactory.Resolve<AchievementManager> ();
 		}
 
@@ -54,7 +54,7 @@ namespace Yupi.Controller
 			if (!catalogItem.CanPurchase(user.Info.Wallet, amount)) {
 				// TODO Should this really only be sent when the item is Limited? (no error on other items?)
 				if (catalogItem is LimitedCatalogItem) {
-					user.Session.Router.GetComposer<CatalogLimitedItemSoldOutMessageComposer> ().Compose (user); 
+					user.Router.GetComposer<CatalogLimitedItemSoldOutMessageComposer> ().Compose (user); 
 				}
 				return false;
 			}
@@ -62,7 +62,7 @@ namespace Yupi.Controller
 			// TODO Move to CanPurchase
 			if (catalogItem.ClubOnly && !user.Info.Subscription.IsValid())
 			{
-				user.Session.Router.GetComposer<CatalogPurchaseNotAllowedMessageComposer>().Compose(user.Session, true);  
+				user.Router.GetComposer<CatalogPurchaseNotAllowedMessageComposer>().Compose(user, true);  
 				return false;
 			}
 
@@ -70,8 +70,8 @@ namespace Yupi.Controller
 
 			ItemRepository.Save (catalogItem);
 
-			user.Session.Router.GetComposer<CreditsBalanceMessageComposer> ().Compose (user, user.Info.Wallet.Credits);  
-			user.Session.Router.GetComposer<ActivityPointsMessageComposer> ().Compose (user, user.Info.Wallet);
+			user.Router.GetComposer<CreditsBalanceMessageComposer> ().Compose (user, user.Info.Wallet.Credits);  
+			user.Router.GetComposer<ActivityPointsMessageComposer> ().Compose (user, user.Info.Wallet);
 
 			var items = new Dictionary<BaseItem, List<Item>> ();
 
@@ -89,12 +89,12 @@ namespace Yupi.Controller
 				user.Info.Inventory.Add(item);
 			}
 
-			user.Session.Router.GetComposer<UpdateInventoryMessageComposer> ().Compose (user);
-			user.Session.Router.GetComposer<PurchaseOkComposer> ().Compose (user, catalogItem, catalogItem.BaseItems);
+			user.Router.GetComposer<UpdateInventoryMessageComposer> ().Compose (user);
+			user.Router.GetComposer<PurchaseOkComposer> ().Compose (user, catalogItem, catalogItem.BaseItems);
 
 			// TODO Can this be solved better?
 			foreach (var item in items) {
-				user.Session.Router.GetComposer<NewInventoryObjectMessageComposer> ().Compose (user, item.Key, item.Value);
+				user.Router.GetComposer<NewInventoryObjectMessageComposer> ().Compose (user, item.Key, item.Value);
 			}
 
 			if (catalogItem.Badge.Length > 0) {

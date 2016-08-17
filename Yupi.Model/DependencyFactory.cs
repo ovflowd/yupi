@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
+using System.Reflection;
+using Yupi.Model.Repository;
 
 namespace Yupi.Model
 {
@@ -35,6 +37,7 @@ namespace Yupi.Model
 		static DependencyFactory()
 		{
 			_container = new UnityContainer();
+			_container.RegisterType(typeof(IRepository<>),typeof(Repository<>));
 
 			_container.RegisterTypes(
 				AllClasses.FromLoadedAssemblies(),
@@ -43,20 +46,17 @@ namespace Yupi.Model
 				WithLifetime.ContainerControlled);
 		}
 
+		public static void RegisterInstance<T>(T instance) {
+			_container.RegisterInstance (instance);
+		}
+
 		/// <summary>
 		/// Resolves the type parameter T to an instance of the appropriate type.
 		/// </summary>
 		/// <typeparam name="T">Type of object to return</typeparam>
 		public static T Resolve<T>()
 		{
-			T ret = default(T);
-
-			if (Container.IsRegistered(typeof(T)))
-			{
-				ret = Container.Resolve<T>();
-			}
-
-			return ret;
+			return Container.Resolve<T> ();
 		}
 	}
 }

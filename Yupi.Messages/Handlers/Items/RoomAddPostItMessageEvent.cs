@@ -6,10 +6,10 @@ namespace Yupi.Messages.Items
 {
 	public class RoomAddPostItMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			
-			if (session.UserData.Room == null || !session.UserData.Room.HasRights (session.UserData.Info))
+			if (session.Room == null || !session.Room.HasRights (session.Info))
 				return;
 
 			int id = request.GetInteger ();

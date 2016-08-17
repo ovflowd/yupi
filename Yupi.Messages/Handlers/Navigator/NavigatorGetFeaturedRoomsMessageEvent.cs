@@ -8,14 +8,14 @@ namespace Yupi.Messages.Navigator
 {
 	public class NavigatorGetFeaturedRoomsMessageEvent : AbstractHandler
 	{
-		private Repository<RoomData> RoomRepository;
+		private IRepository<RoomData> RoomRepository;
 
 		public NavigatorGetFeaturedRoomsMessageEvent ()
 		{
-			RoomRepository = DependencyFactory.Resolve<Repository<RoomData>> ();
+			RoomRepository = DependencyFactory.Resolve<IRepository<RoomData>> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			int roomId = request.GetInteger();
 

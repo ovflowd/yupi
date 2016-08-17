@@ -14,11 +14,11 @@ namespace Yupi.Messages.Guides
 			AchievementManager = DependencyFactory.Resolve<AchievementManager> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			router.GetComposer<OnGuideSessionDetachedMessageComposer> ().Compose (session, 2);
 
-			AchievementManager.ProgressUserAchievement(session.UserData, "ACH_GuideFeedbackGiver", 1);
+			AchievementManager.ProgressUserAchievement(session, "ACH_GuideFeedbackGiver", 1);
 		}
 	}
 }

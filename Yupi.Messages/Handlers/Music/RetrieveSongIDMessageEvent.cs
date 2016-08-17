@@ -8,14 +8,14 @@ namespace Yupi.Messages.Music
 {
 	public class RetrieveSongIDMessageEvent : AbstractHandler
 	{
-		private Repository<SongData> SongRepository;
+		private IRepository<SongData> SongRepository;
 
 		public RetrieveSongIDMessageEvent ()
 		{
-			SongRepository = DependencyFactory.Resolve<Repository<SongData>> ();
+			SongRepository = DependencyFactory.Resolve<IRepository<SongData>> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			string name = message.GetString();
 

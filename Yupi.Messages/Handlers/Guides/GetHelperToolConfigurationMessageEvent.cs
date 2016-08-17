@@ -13,7 +13,7 @@ namespace Yupi.Messages.Guides
 			GuideManager = DependencyFactory.Resolve<GuideManager> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			bool onDuty = message.GetBool();
 
@@ -23,9 +23,9 @@ namespace Yupi.Messages.Guides
 			message.GetBool();
 
 			if (onDuty)
-				GuideManager.Add(session.UserData);
+				GuideManager.Add(session);
 			else
-				GuideManager.Remove(session.UserData);
+				GuideManager.Remove(session);
 
 			router.GetComposer<HelperToolConfigurationMessageComposer> ().Compose (session, onDuty,
 				GuideManager.Guides.Count, GuideManager.Helpers.Count, GuideManager.Guardians.Count);

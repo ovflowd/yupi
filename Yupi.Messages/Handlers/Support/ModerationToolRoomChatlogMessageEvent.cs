@@ -7,16 +7,16 @@ namespace Yupi.Messages.Support
 {
 	public class ModerationToolRoomChatlogMessageEvent : AbstractHandler
 	{
-		private Repository<RoomData> RoomRepository;
+		private IRepository<RoomData> RoomRepository;
 
 		public ModerationToolRoomChatlogMessageEvent ()
 		{
-			RoomRepository = DependencyFactory.Resolve<Repository<RoomData>> ();
+			RoomRepository = DependencyFactory.Resolve<IRepository<RoomData>> ();
 		}
 
-		public override void HandleMessage (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			if (!session.UserData.Info.HasPermission ("fuse_chatlogs")) {
+			if (!session.Info.HasPermission ("fuse_chatlogs")) {
 				return;
 			}
 

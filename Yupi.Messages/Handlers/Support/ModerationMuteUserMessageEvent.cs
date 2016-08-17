@@ -14,15 +14,15 @@ namespace Yupi.Messages.Support
 			ClientManager = DependencyFactory.Resolve<ClientManager>();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			if (!session.UserData.Info.HasPermission("fuse_mute"))
+			if (!session.Info.HasPermission("fuse_mute"))
 				return;
 
 			int userId = request.GetInteger ();
 			string message = request.GetString();
 
-			session.UserData.Info.Muted = true;
+			session.Info.Muted = true;
 
 			var target = ClientManager.GetByUserId (userId);
 

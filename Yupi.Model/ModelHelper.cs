@@ -13,21 +13,15 @@ namespace Yupi.Model
 {
 	public class ModelHelper
 	{
-		private const string DbFile = "test.db";
+		private const string testFile = "test.sqlite";
 
 		public static ISessionFactory CreateFactory ()
 		{
 			var cfg = new ORMConfiguration ();
 
 			IPersistenceConfigurer db;
-			if (MonoUtil.IsRunningOnMono ()) {
-				db = MonoSQLiteConfiguration.Standard
-					.UsingFile (DbFile);
-			} else {
-				db = SQLiteConfiguration.Standard
-					.UsingFile (DbFile);
-			}
-
+			//db = MySQLConfiguration.Standard.ConnectionString(x => x.Server("localhost").Username("yupi").Password("changeme").Database("yupi"));
+			db = GetSQLite();
 			return Fluently.Configure ()
 				.Database (db)
 				.Mappings (m =>
@@ -44,16 +38,24 @@ namespace Yupi.Model
 				.BuildSessionFactory ();
 		}
 
+		private static IPersistenceConfigurer GetSQLite() {
+			if (MonoUtil.IsRunningOnMono ()) {
+				return MonoSQLiteConfiguration.Standard
+					.UsingFile(testFile).ShowSql();
+			} else {
+				return SQLiteConfiguration.Standard.UsingFile(testFile).ShowSql();
+			}
+		}
+
 		private static void BuildSchema (Configuration config)
 		{
-			// delete the existing db on each run
-			if (File.Exists (DbFile))
-				File.Delete (DbFile);
-
+			if (File.Exists (testFile)) {
+				return;
+			}
 			// this NHibernate tool takes a configuration (with mapping info in)
 			// and exports a database schema from it
 			new SchemaExport (config)
-				.Create (true, false);
+				.Create (false, true);
 		}
 	}
 }

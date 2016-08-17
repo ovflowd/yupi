@@ -11,18 +11,18 @@ namespace Yupi.Messages.Messenger
 {
 	public class ConsoleSearchFriendsMessageEvent : AbstractHandler
 	{
-		private Repository<UserInfo> UserRepository;
+		private IRepository<UserInfo> UserRepository;
 
 		public ConsoleSearchFriendsMessageEvent ()
 		{
-			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>>();
+			UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>>();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
     		string query = request.GetString ();
 
-			List<UserInfo> friends = session.UserData.Info.Relationships
+			List<UserInfo> friends = session.Info.Relationships
 				.Relationships
 				.Where (x => x.Friend.UserName.StartsWith (query))
 				.Select(x => x.Friend)

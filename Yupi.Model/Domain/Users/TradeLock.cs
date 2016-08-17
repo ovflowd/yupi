@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Yupi.Model
+namespace Yupi.Model.Domain
 {
 	public class TradeLock
 	{

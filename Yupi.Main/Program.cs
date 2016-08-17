@@ -24,10 +24,10 @@ namespace Yupi.Main
 		{
 			while (true) {
 				// TODO Reimplement
-				Console.ReadLine ();
+				Thread.Sleep(1000);
 				//ConsoleCommandHandler.InvokeCommand ();
 
-				YupiWriterManager.WriteLine ("Waiting For Command Input...", "Yupi.Boot", ConsoleColor.DarkCyan);
+				//YupiWriterManager.WriteLine ("Waiting For Command Input...", "Yupi.Boot", ConsoleColor.DarkCyan);
 			}
 		}
 

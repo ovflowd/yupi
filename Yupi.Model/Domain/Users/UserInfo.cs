@@ -43,6 +43,8 @@ namespace Yupi.Model.Domain
 		public virtual bool HideInRoom { get; set; }
 
 		public virtual DateTime LastOnline { get; set; }
+
+		// TODO Move to log
 		public virtual IPAddress LastIp { get; set; }
 
 		public virtual bool Muted { get; set; }
@@ -57,7 +59,7 @@ namespace Yupi.Model.Domain
 		public virtual int Rank { get; set; }
 
 		[ManyToMany]
-		public virtual HashSet<RoomData> RatedRooms { get; protected set; }
+		public virtual IList<RoomData> RatedRooms { get; protected set; }
 
 		[ManyToMany]
 		public virtual IList<RoomData> RecentlyVisitedRooms { get; protected set; }
@@ -96,6 +98,30 @@ namespace Yupi.Model.Domain
 
 		public UserInfo() {
 			FavouriteGroup = Group.None;
+			Badges = new UserBadgeComponent ();
+			Wallet = new UserWallet ();
+			Preferences = new UserPreferences ();
+			EffectComponent = new UserEffectComponent ();
+			CreateDate = DateTime.Now;
+			Subscription = new Subscription ();
+			NavigatorLog = new List<UserSearchLog> ();
+			FavoriteRooms = new List<RoomData> ();
+			SupportTickets = new List<SupportTicket> ();
+			TradeLocks = new List<TradeLock> ();
+			MutedUsers = new List<UserInfo> ();
+			Cautions = new List<UserCaution> ();
+			Bans = new List<UserBan> ();
+			Rank = 1;
+			RatedRooms = new List<RoomData> ();
+			RecentlyVisitedRooms = new List<RoomData> ();
+			Relationships = new RelationshipComponent ();
+			Respect = new UserRespectComponent ();
+			Tags = new List<string> ();
+			Talents = new List<UserTalent> ();
+			UserGroups = new List<Group> ();
+			Achievements = new List<UserAchievement> ();
+			Inventory = new Inventory ();
+			UsersRooms = new List<RoomData> ();
 		}
 
 		public virtual bool IsBanned() {

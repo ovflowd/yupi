@@ -8,21 +8,21 @@ namespace Yupi.Messages.Groups
 {
 	public class RemoveFavouriteGroupMessageEvent : AbstractHandler
 	{
-		private Repository<UserInfo> UserRepository;
+		private IRepository<UserInfo> UserRepository;
 
 		public RemoveFavouriteGroupMessageEvent ()
 		{
-			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>> ();
+			UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			request.GetUInt32(); // TODO Unused!
-			session.UserData.Info.FavouriteGroup = null;
+			session.Info.FavouriteGroup = null;
 
-			UserRepository.Save (session.UserData.Info);
+			UserRepository.Save (session.Info);
 
-			router.GetComposer<FavouriteGroupMessageComposer> ().Compose (session, session.UserData.Info.Id);
+			router.GetComposer<FavouriteGroupMessageComposer> ().Compose (session, session.Info.Id);
 			router.GetComposer<ChangeFavouriteGroupMessageComposer> ().Compose (session, null, 0);
 		}
 	}

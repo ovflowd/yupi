@@ -15,14 +15,14 @@ namespace Yupi.Messages.Messenger
 			RelationshipController = DependencyFactory.Resolve<RelationshipController> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			int count = request.GetInteger();
 			for (int i = 0; i < count; i++)
 			{
 				int friendId = request.GetInteger();
 
-				RelationshipController.Remove (session.UserData, friendId);
+				RelationshipController.Remove (session, friendId);
 			}
 		}
 	}

@@ -8,22 +8,22 @@ namespace Yupi.Messages.Navigator
 {
 	public class NewNavigatorDeleteSavedSearchEvent : AbstractHandler
 	{
-		private Repository<UserInfo> UserRepository;
+		private IRepository<UserInfo> UserRepository;
 
 		public NewNavigatorDeleteSavedSearchEvent ()
 		{
-			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>> ();
+			UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			int searchId = request.GetInteger();
 
-			session.UserData.Info.NavigatorLog.RemoveAll (x => x.Id == searchId);
+			session.Info.NavigatorLog.RemoveAll (x => x.Id == searchId);
 
-			UserRepository.Save (session.UserData.Info);
+			UserRepository.Save (session.Info);
 
-			router.GetComposer<NavigatorSavedSearchesComposer> ().Compose (session, session.UserData.Info.NavigatorLog);
+			router.GetComposer<NavigatorSavedSearchesComposer> ().Compose (session, session.Info.NavigatorLog);
 		}
 	}
 }

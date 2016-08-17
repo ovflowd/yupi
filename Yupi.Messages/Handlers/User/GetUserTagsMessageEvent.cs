@@ -8,9 +8,9 @@ namespace Yupi.Messages.User
 {
 	public class GetUserTagsMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			Room room = session.UserData.Room;
+			Room room = session.Room;
 
 			int userId = message.GetInteger();
 
@@ -24,7 +24,7 @@ namespace Yupi.Messages.User
 
 			// TODO Move to proper place!
 			/*
-			if (session.UserData.Info.Tags.Count >= 5) {
+			if (session.Info.Tags.Count >= 5) {
 				Yupi.GetGame ()
 					.GetAchievementManager ()
 					.ProgressUserAchievement (roomUserByHabbo.GetClient (), "ACH_UserTags", 5);

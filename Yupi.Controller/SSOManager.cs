@@ -5,12 +5,13 @@ using Yupi.Model;
 using Yupi.Protocol;
 using System.Collections.Generic;
 using Yupi.Messages.Contracts;
+using Yupi.Net;
 
 namespace Yupi.Controller
 {
 	public class SSOManager
 	{
-		private Repository<UserInfo> UserRepository;
+		private IRepository<UserInfo> UserRepository;
 		private ClientManager ClientManager;
 		private IDictionary<string, UserInfo> Tickets;
 		private AchievementManager AchievementManager;
@@ -18,18 +19,18 @@ namespace Yupi.Controller
 
 		public SSOManager ()
 		{
-			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>> ();
+			UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>> ();
 			ClientManager = DependencyFactory.Resolve<ClientManager> ();
 			Tickets = new Dictionary<string, UserInfo> ();
 			AchievementManager = DependencyFactory.Resolve<AchievementManager> ();
 			ModerationTool = DependencyFactory.Resolve<ModerationTool> ();
 		}
 
-		public void TryLogin(ISession<Habbo> session, string ssoTicket) {
+		public void TryLogin(Habbo session, string ssoTicket) {
 			if (Tickets.ContainsKey (ssoTicket)) {
 				UserInfo user = Tickets [ssoTicket];
 
-				session.UserData = new Habbo (session, user);
+				session.Info = user;
 
 				// TODO Log login attempts (with IP)
 
@@ -37,10 +38,12 @@ namespace Yupi.Controller
 					ClientManager.Disconnect (session, "Banned from Server.");
 				} else {
 					
-					session.Router.GetComposer<UniqueMachineIDMessageComposer> ().Compose (session, session.UserData.MachineId);  
+					session.Router.GetComposer<UniqueMachineIDMessageComposer> ().Compose (session, session.MachineId);  
 					session.Router.GetComposer<AuthenticationOKMessageComposer> ().Compose (session);    
-					session.Router.GetComposer<HomeRoomMessageComposer> ().Compose (session, user.HomeRoom.Id);  
-				
+
+					if (user.HomeRoom != null) {
+						session.Router.GetComposer<HomeRoomMessageComposer> ().Compose (session, user.HomeRoom.Id);  
+					}
 					// TODO Implement
 					//session.Router.GetComposer<MinimailCountMessageComposer> ().Compose (session, user.MinimailUnreadMessages);  
 
@@ -66,9 +69,9 @@ namespace Yupi.Controller
 					session.Router.GetComposer<SendAchievementsRequirementsMessageComposer>().Compose(session, AchievementManager.Achievements);
 					session.Router.GetComposer<EffectsInventoryMessageComposer>().Compose(session, user.EffectComponent.Effects);
 
-					AchievementManager.TryProgressHabboClubAchievements(session.UserData);
-					AchievementManager.TryProgressRegistrationAchievements(session.UserData);
-					AchievementManager.TryProgressLoginAchievements(session.UserData);
+					AchievementManager.TryProgressHabboClubAchievements(session);
+					AchievementManager.TryProgressRegistrationAchievements(session);
+					AchievementManager.TryProgressLoginAchievements(session);
 				}
 
 			} else {
@@ -76,8 +79,11 @@ namespace Yupi.Controller
 			}
 		}
 
-		public void GenerateTicket() {
-			throw new NotImplementedException ();
+		public string GenerateTicket(UserInfo info) {
+			Tickets.Clear ();
+			Tickets.Add ("DEBUG", info);
+			// FIXME Implement :D
+			return "DEBUG";
 		}
 	}
 }

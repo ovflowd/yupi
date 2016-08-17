@@ -11,11 +11,11 @@ namespace Yupi.Messages.Groups
 	// TODO Rename
 	public class GroupPurchasePartsMessageComposer : Yupi.Messages.Contracts.GroupPurchasePartsMessageComposer
 	{
-		private Repository<GroupBases> GroupBaseRepository;
-		private Repository<GroupSymbols> SymbolRepository;
-		private Repository<GroupBaseColours> BaseColorRepository;
-		private Repository<GroupSymbolColours> SymbolColorRepository;
-		private Repository<GroupBackGroundColours> BackgroundColorRepository;
+		private IRepository<GroupBases> GroupBaseRepository;
+		private IRepository<GroupSymbols> SymbolRepository;
+		private IRepository<GroupBaseColours> BaseColorRepository;
+		private IRepository<GroupSymbolColours> SymbolColorRepository;
+		private IRepository<GroupBackGroundColours> BackgroundColorRepository;
 
 		// TODO Refactor
 		public override void Compose ( Yupi.Protocol.ISender session)

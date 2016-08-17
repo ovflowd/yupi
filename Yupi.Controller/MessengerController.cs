@@ -3,6 +3,7 @@ using Yupi.Model.Domain;
 using Yupi.Model;
 using Yupi.Messages.Contracts;
 using Yupi.Protocol;
+using Yupi.Net;
 
 namespace Yupi.Controller
 {
@@ -18,8 +19,8 @@ namespace Yupi.Controller
 		public void UpdateUser(UserInfo user) {
 			foreach (Relationship friend in user.Relationships.Relationships) {
 				if (ClientManager.IsOnline (friend.Friend)) {
-					ISession<Habbo> session = ClientManager.GetByInfo (friend.Friend);
-					Relationship relationship = session.UserData.Info.Relationships.FindByUser (user);
+					Habbo session = ClientManager.GetByInfo (friend.Friend);
+					Relationship relationship = session.Info.Relationships.FindByUser (user);
 
 					session.Router.GetComposer<FriendUpdateMessageComposer> ()
 						.Compose (session, relationship);

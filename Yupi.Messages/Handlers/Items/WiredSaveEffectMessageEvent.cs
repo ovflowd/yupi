@@ -8,7 +8,7 @@ namespace Yupi.Messages.Items
 {
 	public class WiredSaveEffectMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			uint itemId = request.GetUInt32();
 			/*
@@ -179,7 +179,7 @@ namespace Yupi.Messages.Items
 				}
 			case Interaction.ActionGiveReward:
 				{
-					if (!session.UserData.Info.HasPermission("fuse_use_superwired"))
+					if (!session.Info.HasPermission("fuse_use_superwired"))
 						return;
 
 					request.GetInteger();

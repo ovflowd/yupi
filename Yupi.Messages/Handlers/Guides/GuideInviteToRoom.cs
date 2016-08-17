@@ -5,15 +5,15 @@ namespace Yupi.Messages.Guides
 {
 	public class GuideInviteToRoom : AbstractHandler
 	{
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			Room room = session.UserData.Room;
+			Room room = session.Room;
 
-			if (session.UserData.Room == null || session.UserData.GuideOtherUser == null) {
+			if (session.Room == null || session.GuideOtherUser == null) {
 				return;
 			}
 
-			router.GetComposer<OnGuideSessionInvitedToGuideRoomMessageComposer> ().Compose (session.UserData.GuideOtherUser, room.Data.Id, room.Data.Name);
+			router.GetComposer<OnGuideSessionInvitedToGuideRoomMessageComposer> ().Compose (session.GuideOtherUser, room.Data.Id, room.Data.Name);
 
 			// TODO Is this really required
 			router.GetComposer<OnGuideSessionInvitedToGuideRoomMessageComposer> ().Compose (session, room.Data.Id, room.Data.Name);

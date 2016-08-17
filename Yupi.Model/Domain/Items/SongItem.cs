@@ -5,6 +5,8 @@ namespace Yupi.Model.Domain
 	// TODO SongItem vs MusicDiscItem
 	public class SongItem : FloorItem<MusicDiscBaseItem>
 	{
+		// TODO remove
+		[Ignore]
 		public virtual SongData Song { 
 			get { 
 				return BaseItem.Song;

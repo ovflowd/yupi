@@ -8,15 +8,15 @@ namespace Yupi.Messages.Groups
 {
 	public class GroupUpdateNameMessageEvent : AbstractHandler
 	{
-		private Repository<Group> GroupRepository;
+		private IRepository<Group> GroupRepository;
 
 		public GroupUpdateNameMessageEvent ()
 		{
-			GroupRepository = DependencyFactory.Resolve<Repository<Group>> ();
+			GroupRepository = DependencyFactory.Resolve<IRepository<Group>> ();
 		}
 
 		// TODO Refactor
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			int groupId = request.GetInteger();
 			string name = request.GetString();
@@ -24,7 +24,7 @@ namespace Yupi.Messages.Groups
 
 			Group theGroup = GroupRepository.FindBy(groupId);
 
-			if (theGroup?.Creator != session.UserData.Info)
+			if (theGroup?.Creator != session.Info)
 				return;
 
 			theGroup.Name = name;
@@ -32,10 +32,10 @@ namespace Yupi.Messages.Groups
 
 			GroupRepository.Save (theGroup);
 
-			if (session.UserData.Room != null) {
-				session.UserData.Room.Router.GetComposer<GroupDataMessageComposer> ().Compose (session.UserData.Room, theGroup, session.UserData.Info);
+			if (session.Room != null) {
+				session.Room.Router.GetComposer<GroupDataMessageComposer> ().Compose (session.Room, theGroup, session.Info);
 			} else {
-				router.GetComposer<GroupDataMessageComposer> ().Compose (session, theGroup, session.UserData.Info);
+				router.GetComposer<GroupDataMessageComposer> ().Compose (session, theGroup, session.Info);
 			}
 		}
 	}

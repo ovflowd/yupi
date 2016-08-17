@@ -11,11 +11,11 @@ namespace Yupi.Controller
 {
 	public class AvatarEffectController
 	{
-		private Repository<UserInfo> UserRepository;
+		private IRepository<UserInfo> UserRepository;
 	
 		public AvatarEffectController ()
 		{
-			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>> ();
+			UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>> ();
 		}
 
 		// TODO Validate effectIDs !!!
@@ -31,7 +31,7 @@ namespace Yupi.Controller
 
 			UserRepository.Save (user.Info);
 
-			user.Session.Router.GetComposer<AddEffectToInventoryMessageComposer> ().Compose (user, effect);
+			user.Router.GetComposer<AddEffectToInventoryMessageComposer> ().Compose (user, effect);
 		}
 
 		public void ActivateEffect (UserEntity user, int effectId)
@@ -77,7 +77,7 @@ namespace Yupi.Controller
 				UserRepository.Save (user.Info);
 			}
 
-			user.Session.Router.GetComposer<StopAvatarEffectMessageComposer> ().Compose (user, effect);
+			user.Router.GetComposer<StopAvatarEffectMessageComposer> ().Compose (user, effect);
 		}
 	
 		private void EnableInRoom (UserEntity entity, AvatarEffect effect, bool setAsCurrentEffect = true)

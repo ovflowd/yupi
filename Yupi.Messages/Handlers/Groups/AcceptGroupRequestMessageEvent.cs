@@ -9,16 +9,16 @@ namespace Yupi.Messages.Groups
 {
 	public class AcceptGroupRequestMessageEvent : AbstractHandler
 	{
-		private Repository<Group> GroupRepository;
-		private Repository<UserInfo> UserRepository;
+		private IRepository<Group> GroupRepository;
+		private IRepository<UserInfo> UserRepository;
 
 		public AcceptGroupRequestMessageEvent ()
 		{
-			GroupRepository = DependencyFactory.Resolve<Repository<Group>> ();
-			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>> ();
+			GroupRepository = DependencyFactory.Resolve<IRepository<Group>> ();
+			UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			int groupId = request.GetInteger();
 			int userId = request.GetInteger();
@@ -26,7 +26,7 @@ namespace Yupi.Messages.Groups
 			Group group = GroupRepository.FindBy(groupId);
 			UserInfo user = UserRepository.FindBy (userId);
 
-			if (group == null || !group.Admins.Contains(session.UserData.Info) || !group.Requests.Contains(user)) {
+			if (group == null || !group.Admins.Contains(session.Info) || !group.Requests.Contains(user)) {
 				return;
 			}
 			throw new NotImplementedException ();

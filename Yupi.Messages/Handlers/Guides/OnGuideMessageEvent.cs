@@ -15,7 +15,7 @@ namespace Yupi.Messages.Guides
 			GuideManager = DependencyFactory.Resolve<GuideManager> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			request.GetBool(); // TODO Unused 
 
@@ -40,8 +40,8 @@ namespace Yupi.Messages.Guides
 			router.GetComposer<OnGuideSessionAttachedMessageComposer> ().Compose (session, false, userId, message, 30);
 			router.GetComposer<OnGuideSessionAttachedMessageComposer> ().Compose (guide, true, userId, message, 15);
 
-			guide.GuideOtherUser = session.UserData;
-			session.UserData.GuideOtherUser = guide;
+			guide.GuideOtherUser = session;
+			session.GuideOtherUser = guide;
 		}
 	}
 }

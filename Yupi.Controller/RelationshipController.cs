@@ -9,19 +9,19 @@ namespace Yupi.Controller
 {
 	public class RelationshipController
 	{
-		private Repository<Relationship> RelationshipRepository;
+		private IRepository<Relationship> RelationshipRepository;
 		private ClientManager ClientManager;
 
 		public RelationshipController ()
 		{
-			RelationshipRepository = DependencyFactory.Resolve<Repository<Relationship>>();
+			RelationshipRepository = DependencyFactory.Resolve<IRepository<Relationship>>();
 			ClientManager = DependencyFactory.Resolve<ClientManager>();
 		}
 
 		public void Remove(Habbo user, int friendId) {
 			Relationship relationship = user.Info.Relationships.FindByUser (friendId);
 			Remove (user.Info, relationship);
-			user.Session.Router.GetComposer<FriendUpdateMessageComposer> ().Compose(user, null);
+			user.Router.GetComposer<FriendUpdateMessageComposer> ().Compose(user, null);
 		}
 
 		private void Remove(UserInfo user, Relationship relationship) {

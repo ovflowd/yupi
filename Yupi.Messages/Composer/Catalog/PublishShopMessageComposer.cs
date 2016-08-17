@@ -2,7 +2,7 @@
 
 namespace Yupi.Messages.Catalog
 {
-	public class PublishShopMessageComposer : Contracts.AbstactComposerEmpty
+	public class PublishShopMessageComposer : Contracts.AbstractComposerEmpty
 	{
 		
 	}

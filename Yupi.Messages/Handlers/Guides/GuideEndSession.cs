@@ -7,9 +7,9 @@ namespace Yupi.Messages.Guides
 	// TODO Rename
 	public class GuideEndSession : AbstractHandler
 	{
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			Habbo requester = session.UserData.GuideOtherUser;
+			Habbo requester = session.GuideOtherUser;
 
 			// TODO Test & Fixme !!!
 
@@ -17,7 +17,7 @@ namespace Yupi.Messages.Guides
 			router.GetComposer<OnGuideSessionDetachedMessageComposer> ().Compose (session, 0);
 
 			requester.GuideOtherUser = null;
-			session.UserData.GuideOtherUser = null;
+			session.GuideOtherUser = null;
 		}
 	}
 }

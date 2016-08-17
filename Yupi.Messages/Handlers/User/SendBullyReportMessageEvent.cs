@@ -14,11 +14,11 @@ namespace Yupi.Messages.Handlers.User
 {
 	public class SendBullyReportMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			int reportedId = message.GetInteger();
 
-			UserInfo reportedUser = DependencyFactory.Resolve<Repository<UserInfo>> ().FindBy(reportedId);
+			UserInfo reportedUser = DependencyFactory.Resolve<IRepository<UserInfo>> ().FindBy(reportedId);
 
 			SupportTicket ticket = new SupportTicket () {
 				Category = 104,

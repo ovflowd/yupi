@@ -15,8 +15,8 @@ namespace Yupi.Messages.Navigator
 	{
 		private RoomManager RoomManager;
 		private ClientManager ClientManager;
-		private Repository<RoomData> RoomRepository;
-		private Repository<NavigatorCategory> NavigatorRepository;
+		private IRepository<RoomData> RoomRepository;
+		private IRepository<NavigatorCategory> NavigatorRepository;
 
 		public override void Compose (Yupi.Protocol.ISender session, string staticId, string query)
 		{

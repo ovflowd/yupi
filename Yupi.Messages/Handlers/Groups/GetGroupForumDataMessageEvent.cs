@@ -8,21 +8,21 @@ namespace Yupi.Messages.Groups
 {
 	public class GetGroupForumDataMessageEvent : AbstractHandler
 	{
-		private Repository<Group> GroupRepository;
+		private IRepository<Group> GroupRepository;
 
 		public GetGroupForumDataMessageEvent ()
 		{
-			GroupRepository = DependencyFactory.Resolve<Repository<Group>> ();
+			GroupRepository = DependencyFactory.Resolve<IRepository<Group>> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			int groupId = request.GetInteger ();
 
 			Group theGroup = GroupRepository.FindBy (groupId);
 
 			if (theGroup != null) {
-				router.GetComposer<GroupForumDataMessageComposer> ().Compose (session, theGroup, session.UserData.Info);
+				router.GetComposer<GroupForumDataMessageComposer> ().Compose (session, theGroup, session.Info);
 			}
 		}
 	}

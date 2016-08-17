@@ -30,6 +30,7 @@ using Yupi.Protocol;
 using Yupi.Messages.Contracts;
 using Yupi.Model.Domain;
 using Yupi.Model;
+using Yupi.Net;
 
 namespace Yupi.Controller
 {
@@ -38,13 +39,13 @@ namespace Yupi.Controller
 		public IDictionary<string, Achievement> Achievements;
 		private ClientManager ClientManager;
 
-		private Repository<Achievement> AchievementRepository;
-		private Repository<UserInfo> UserRepository;
+		private IRepository<Achievement> AchievementRepository;
+		private IRepository<UserInfo> UserRepository;
 
 		public AchievementManager ()
 		{
-			AchievementRepository = DependencyFactory.Resolve<Repository<Achievement>> ();
-			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>> ();
+			AchievementRepository = DependencyFactory.Resolve<IRepository<Achievement>> ();
+			UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>> ();
 			ClientManager = DependencyFactory.Resolve<ClientManager> ();
 			LoadAchievements ();
 		}
@@ -163,15 +164,8 @@ namespace Yupi.Controller
 		}
 
 		public bool ProgressUserAchievement (UserInfo info, string achievementGroup, int progressAmount) {
-			ISession<Habbo> session = ClientManager.GetByInfo (info);
-
-			Habbo user = null;
-
-			if (session != null) {
-				user = session.UserData;
-			}
-
-			return ProgressUserAchievement (info, achievementGroup, progressAmount, user);
+			Habbo session = ClientManager.GetByInfo (info);
+			return ProgressUserAchievement (info, achievementGroup, progressAmount, session);
 		}
 
 		public bool ProgressUserAchievement (Habbo user, string achievementGroup, int progressAmount)
@@ -210,15 +204,15 @@ namespace Yupi.Controller
 					user.Badges.GiveBadge (achievementGroup + userAchievement.Level.Level);
 
 					if (session != null) {
-						session.Session.Router.GetComposer<ActivityPointsMessageComposer> ().Compose (session, user.Wallet);
+						session.Router.GetComposer<ActivityPointsMessageComposer> ().Compose (session, user.Wallet);
 				
 						// Send Unlocked Composer
-						session.Session.Router.GetComposer<UnlockAchievementMessageComposer> ().Compose (session,
+						session.Router.GetComposer<UnlockAchievementMessageComposer> ().Compose (session,
 							achievement, userAchievement.Level.Level,
 							userAchievement.Level.RewardPoints, userAchievement.Level.RewardPixels);
 
 						// Send Score Composer
-						session.Session.Router.GetComposer<AchievementPointsMessageComposer> ().Compose (session, user.Wallet.AchievementPoints);
+						session.Router.GetComposer<AchievementPointsMessageComposer> ().Compose (session, user.Wallet.AchievementPoints);
 
 					}
 					// TODO Reimplement talents properly
@@ -227,8 +221,8 @@ namespace Yupi.Controller
 				UserRepository.Save (user);
 
 				if (session != null) {
-					session.Session.Router.GetComposer<AchievementProgressMessageComposer> ().Compose (session, userAchievement);
-					session.Session.Router.GetComposer<UpdateUserDataMessageComposer> ().Compose (session, user);
+					session.Router.GetComposer<AchievementProgressMessageComposer> ().Compose (session, userAchievement);
+					session.Router.GetComposer<UpdateUserDataMessageComposer> ().Compose (session, user);
 				}
 
 				return true;

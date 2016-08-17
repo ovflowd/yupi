@@ -8,14 +8,14 @@ namespace Yupi.Messages.Groups
 {
 	public class UpdateForumSettingsMessageEvent : AbstractHandler
 	{
-		private Repository<Group> GroupRepository;
+		private IRepository<Group> GroupRepository;
 
 		public UpdateForumSettingsMessageEvent ()
 		{
-			GroupRepository = DependencyFactory.Resolve<Repository<Group>> ();
+			GroupRepository = DependencyFactory.Resolve<IRepository<Group>> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			int groupId = request.GetInteger ();
 			uint whoCanRead = request.GetUInt32();
@@ -25,7 +25,7 @@ namespace Yupi.Messages.Groups
 
 			Group group = GroupRepository.FindBy (groupId);
 
-			if (group?.Creator != session.UserData.Info)
+			if (group?.Creator != session.Info)
 				return;
 
 			// TODO Check rights?!
@@ -35,7 +35,7 @@ namespace Yupi.Messages.Groups
 			group.Forum.WhoCanMod = whoCanMod;
 
 			GroupRepository.Save (group);
-			router.GetComposer<GroupForumDataMessageComposer> ().Compose (session, group, session.UserData.Info);
+			router.GetComposer<GroupForumDataMessageComposer> ().Compose (session, group, session.Info);
 		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Mono.Data.Sqlite;
 
 namespace Yupi.Model
 {
@@ -6,8 +7,8 @@ namespace Yupi.Model
 	{  
 		public MonoSQLiteDriver() 
 			: base(
-				"Mono.Data.Sqlite",
-				"Mono.Data.Sqlite",  
+				"Mono.Data.Sqlite", 
+				"Mono.Data.Sqlite", 
 				"Mono.Data.Sqlite.SqliteConnection",  
 				"Mono.Data.Sqlite.SqliteCommand")  
 		{  

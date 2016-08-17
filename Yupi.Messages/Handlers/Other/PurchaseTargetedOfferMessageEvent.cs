@@ -10,16 +10,16 @@ namespace Yupi.Messages.Other
 {
 	public class PurchaseTargetedOfferMessageEvent : AbstractHandler
 	{
-		private Repository<TargetedOffer> OfferRepository;
+		private IRepository<TargetedOffer> OfferRepository;
 		private CatalogController CatalogController;
 
 		public PurchaseTargetedOfferMessageEvent ()
 		{
-			OfferRepository = DependencyFactory.Resolve<Repository<TargetedOffer>> ();
+			OfferRepository = DependencyFactory.Resolve<IRepository<TargetedOffer>> ();
 			CatalogController = DependencyFactory.Resolve<CatalogController> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			int offerId = request.GetInteger();
 			int quantity = request.GetInteger();
@@ -29,7 +29,7 @@ namespace Yupi.Messages.Other
 			if (offer == null)
 				return;
 
-			CatalogController.Purchase(session.UserData, offer, string.Empty, quantity);
+			CatalogController.Purchase(session, offer, string.Empty, quantity);
 		}
 	}
 }

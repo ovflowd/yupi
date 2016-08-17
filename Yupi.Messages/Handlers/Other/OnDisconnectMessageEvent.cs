@@ -1,4 +1,6 @@
 ﻿using System;
+using Yupi.Controller;
+using Yupi.Model;
 
 namespace Yupi.Messages.Other
 {
@@ -10,9 +12,17 @@ namespace Yupi.Messages.Other
 			}
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		private ClientManager ClientManager;
+
+		public OnDisconnectMessageEvent ()
 		{
-			session.Disconnect();
+			ClientManager = DependencyFactory.Resolve<ClientManager> ();
+		}
+
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		{
+
+			ClientManager.Disconnect(session, "User disconnected");
 		}
 	}
 }

@@ -10,14 +10,14 @@ namespace Yupi.Messages.Groups
 {
 	public class PublishForumThreadMessageEvent : AbstractHandler
 	{
-		private Repository<Group> GroupRepository;
+		private IRepository<Group> GroupRepository;
 
 		public PublishForumThreadMessageEvent ()
 		{
-			GroupRepository = DependencyFactory.Resolve<Repository<Group>> ();
+			GroupRepository = DependencyFactory.Resolve<IRepository<Group>> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			int groupId = request.GetInteger();
 			int threadId = request.GetInteger();
@@ -50,7 +50,7 @@ namespace Yupi.Messages.Groups
 			GroupForumPost post = new GroupForumPost () {
 				Content = content,
 				Subject = subject,
-				Poster = session.UserData.Info
+				Poster = session.Info
 			};
 
 			group.Forum.ForumScore += 0.25;

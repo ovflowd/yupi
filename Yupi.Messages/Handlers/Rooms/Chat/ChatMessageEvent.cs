@@ -6,7 +6,7 @@ namespace Yupi.Messages.Chat
 {
 	public class ChatMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			/*
 			Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
@@ -20,7 +20,7 @@ namespace Yupi.Messages.Chat
 			int bubble = request.GetInteger();
 			int count = request.GetInteger();
 
-			if (!roomUser.IsBot && (bubble == 2 || (bubble == 23 && !session.UserData.Info.HasPermission("fuse_mod")) || bubble < 0 ||
+			if (!roomUser.IsBot && (bubble == 2 || (bubble == 23 && !session.Info.HasPermission("fuse_mod")) || bubble < 0 ||
 				bubble > 29))
 				bubble = roomUser.LastBubble;
 

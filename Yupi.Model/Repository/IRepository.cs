@@ -15,6 +15,7 @@ namespace Yupi.Model.Repository
 		T FindBy(int id);
 		T FindBy(Expression<Func<T, bool>> expression);
 		IQueryable<T> FilterBy(Expression<Func<T, bool>> expression);
+		bool Exists (Expression<Func<T, bool>> expression);
 	}
 }
 

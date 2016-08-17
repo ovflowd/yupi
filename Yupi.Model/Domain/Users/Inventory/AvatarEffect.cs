@@ -18,8 +18,7 @@ namespace Yupi.Model.Domain
 		// TODO What is this good for?
 		public virtual short Type { get; set; }
 
-		public virtual int TimeLeft {
-			get {
+		public virtual int TimeLeft() {
 				if (!Activated || TotalDuration == -1)
 					return -1;
 
@@ -29,12 +28,11 @@ namespace Yupi.Model.Domain
 					return 0;
 
 				return (int)(TotalDuration - remaining);
-			}
 		}
 
 		public virtual bool HasExpired ()
 		{
-			return TimeLeft != -1 && TimeLeft <= 0;
+			return TimeLeft() != -1 && TimeLeft() <= 0;
 		}
 
 		public virtual void Activate ()

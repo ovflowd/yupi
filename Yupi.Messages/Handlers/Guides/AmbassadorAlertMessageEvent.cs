@@ -17,14 +17,14 @@ namespace Yupi.Messages.Guides
 			ClientManager = DependencyFactory.Resolve<ClientManager> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			if (!session.UserData.Info.HasPermission ("send_ambassador_alert"))
+			if (!session.Info.HasPermission ("send_ambassador_alert"))
 				return;
 
 			int userId = message.GetInteger();
 
-			ISession<Habbo> user = ClientManager.GetByUserId (userId);
+			Habbo user = ClientManager.GetByUserId (userId);
 
 			user.Router.GetComposer<SuperNotificationMessageComposer> ()
 				.Compose (user, "${notification.ambassador.alert.warning.title}",

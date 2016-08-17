@@ -13,18 +13,18 @@ namespace Yupi.Messages.Navigator
 {
 	public class ToggleStaffPickMessageEvent : AbstractHandler
 	{
-		private Repository<RoomData> RoomRepository;
+		private IRepository<RoomData> RoomRepository;
 		private AchievementManager AchievementManager;
 		private RoomManager RoomManager;
 
 		public ToggleStaffPickMessageEvent ()
 		{
-			RoomRepository = DependencyFactory.Resolve<Repository<RoomData>> ();
+			RoomRepository = DependencyFactory.Resolve<IRepository<RoomData>> ();
 			AchievementManager = DependencyFactory.Resolve<AchievementManager> ();
 			RoomManager = DependencyFactory.Resolve<RoomManager> ();
 		}
 
-		public override void HandleMessage (Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			int roomId = request.GetInteger ();
 

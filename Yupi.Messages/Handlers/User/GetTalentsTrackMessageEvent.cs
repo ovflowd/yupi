@@ -10,14 +10,14 @@ namespace Yupi.Messages.User
 {
 	public class GetTalentsTrackMessageEvent : AbstractHandler
 	{
-		private Repository<Talent> TalentRepository;
+		private IRepository<Talent> TalentRepository;
 
 		public GetTalentsTrackMessageEvent ()
 		{
-			TalentRepository = DependencyFactory.Resolve<Repository<Talent>> ();
+			TalentRepository = DependencyFactory.Resolve<IRepository<Talent>> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			string trackType = message.GetString();
 			TalentType talentType;

@@ -13,7 +13,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
+    <OutputPath>..\Build\bin\Debug</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -22,7 +22,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
+    <OutputPath>..\Build\bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
@@ -105,7 +105,6 @@
     <Compile Include="Handlers\User\LoadPetInventoryMessageEvent.cs" />
     <Compile Include="Handlers\User\CheckUsernameMessageEvent.cs" />
     <Compile Include="Composer\User\NameChangedUpdatesMessageComposer.cs" />
-    <Compile Include="Handlers\User\ChangeUsernameMessageEvent.cs" />
     <Compile Include="Composer\User\UpdateUsernameMessageComposer.cs" />
     <Compile Include="Composer\User\UserUpdateNameInRoomMessageComposer.cs" />
     <Compile Include="Handlers\User\RelationshipsGetMessageEvent.cs" />

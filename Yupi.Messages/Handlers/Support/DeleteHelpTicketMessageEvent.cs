@@ -9,26 +9,24 @@ namespace Yupi.Messages.Support
 {
 	public class DeleteHelpTicketMessageEvent : AbstractHandler
 	{
-		private Repository<SupportTicket> TicketRepository;
+		private IRepository<SupportTicket> TicketRepository;
 		private ClientManager ClientManager;
 
 		public DeleteHelpTicketMessageEvent ()
 		{
-			TicketRepository = DependencyFactory.Resolve<Repository<SupportTicket>> ();
+			TicketRepository = DependencyFactory.Resolve<IRepository<SupportTicket>> ();
 			ClientManager = DependencyFactory.Resolve<ClientManager> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			var openTickets = session.UserData.Info.SupportTickets.Where(x => x.Status != TicketStatus.Closed);
+			var openTickets = session.Info.SupportTickets.Where(x => x.Status != TicketStatus.Closed);
 
 			foreach(SupportTicket ticket in openTickets) {
 				ticket.Close (TicketCloseReason.Deleted);
 				TicketRepository.Save (ticket);
 
-				var staffs = ClientManager.Connections.Where(x => x.UserData.Info.HasPermission("handle_cfh"));
-
-				foreach (var staff in staffs) {
+				foreach (Habbo staff in ClientManager.GetByPermission("handle_cfh")) {
 					staff.Router.GetComposer<ModerationToolIssueMessageComposer> ().Compose (staff, ticket);
 				}
 			}

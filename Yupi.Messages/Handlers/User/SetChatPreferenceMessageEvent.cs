@@ -8,17 +8,17 @@ namespace Yupi.Messages.User
 {
 	public class SetChatPreferenceMessageEvent : AbstractHandler
 	{
-		private Repository<UserInfo> UserRepository;
+		private IRepository<UserInfo> UserRepository;
 
 		public SetChatPreferenceMessageEvent ()
 		{
-			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>> ();
+			UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>> ();
 		}
 
-		public override void HandleMessage ( Yupi.Protocol.ISession<Yupi.Model.Domain.Habbo> session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			session.UserData.Info.Preferences.PreferOldChat = message.GetBool();
-			UserRepository.Save (session.UserData.Info);
+			session.Info.Preferences.PreferOldChat = message.GetBool();
+			UserRepository.Save (session.Info);
 		}
 	}
 }
