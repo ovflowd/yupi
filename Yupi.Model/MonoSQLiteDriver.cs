@@ -1,5 +1,4 @@
 ﻿using System;
-using Mono.Data.Sqlite;
 
 namespace Yupi.Model
 {
