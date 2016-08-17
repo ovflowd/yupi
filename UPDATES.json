@@ -6,33 +6,8 @@
       "color": "DarkRed"
     },
     {
-      "title": "01/03/2016",
-      "message": "Welcome to Yupi Emulator. Enjoy our Work!",
-      "color": "DarkCyan"
-    },
-    {
-      "title": "03/03/2016",
-      "message": "Latest Yupi Emulator Build, provides Update Checker!",
-      "color": "White"
-    },
-    {
-      "title": "04/03/2016",
-      "message": "New Yupi is Finally Ready!! Check it out now!",
-      "color": "DarkGreen"
-    },
-    {
-      "title": "15/03/2016",
-      "message": "Yupi Latest Binaries Released!",
-      "color": "DarkGreen"
-    },
-    {
-      "title": "20/03/2016",
-      "message": "New Collaborator! Felix (TheDoct0r11)",
-      "color": "White"
-    },
-    {
-      "title": "29/03/2016",
-      "message": "Yupi uses now SuperSocket and ready for Linux!",
+      "title": "08/17/2016",
+      "message": "NEW Yupi Development Build Released!",
       "color": "DarkGreen"
     }
   ]
