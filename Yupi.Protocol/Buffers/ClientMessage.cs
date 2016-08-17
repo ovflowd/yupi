@@ -83,6 +83,7 @@ namespace Yupi.Protocol.Buffers
             return arrayBytes;
         }
 			
+		// TODO Rename to ReadString()
 		public string GetString()
         {
             int stringLength = GetShort();
@@ -124,5 +125,9 @@ namespace Yupi.Protocol.Buffers
         {
 			return (uint)GetInteger ();
         }
+
+		public byte[] GetBody() {
+			return _body;
+		}
     }
 }

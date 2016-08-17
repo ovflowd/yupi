@@ -8,6 +8,7 @@ using Yupi.Model.Domain;
 using Yupi.Messages.Contracts;
 using System.IO;
 using System.Reflection;
+using System.Text;
 
 namespace Yupi.Messages
 {
@@ -60,7 +61,11 @@ namespace Yupi.Messages
 				Logger.WarnFormat ("Unknown incoming message {0}", message.Id);
 			} else {
 				if (Logger.IsDebugEnabled) {
-					Logger.DebugFormat ("Handle {0} for [{1}]", handler.GetType ().Name, session.Session.RemoteAddress);
+					Logger.DebugFormat ("Handle {0} for [{1}]: {2}", 
+						handler.GetType ().Name, 
+						session.Session.RemoteAddress,
+						Encoding.Default.GetString(message.GetBody())
+					);
 				}
 				handler.HandleMessage (session, message, this);
 			}

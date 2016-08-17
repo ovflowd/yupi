@@ -66,8 +66,6 @@ namespace Yupi.Model.Domain
 
 		public virtual RelationshipComponent Relationships { get; protected set; }
 
-		public virtual string ReleaseName { get; set; }
-
 		public virtual UserRespectComponent Respect { get; protected set; }
 
 		public virtual DateTime SpamFloodTime { get; set; }

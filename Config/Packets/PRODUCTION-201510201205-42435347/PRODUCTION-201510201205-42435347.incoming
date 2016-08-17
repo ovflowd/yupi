@@ -1,5 +1,5 @@
 [INIT]
-ReleaseVersion=4000
+ReleaseVersionEvent=4000
 InitCryptoMessageEvent=3988
 GenerateSecretKeyMessageEvent=1242
 UniqueIDMessageEvent=3823
