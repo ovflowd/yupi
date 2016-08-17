@@ -1,0 +1,253 @@
+/**
+     Because i love chocolat...                                      
+                                    88 88  
+                                    "" 88  
+                                       88  
+8b       d8 88       88 8b,dPPYba,  88 88  
+`8b     d8' 88       88 88P'    "8a 88 88  
+ `8b   d8'  88       88 88       d8 88 ""  
+  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa  
+    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88  
+    d8'                 88                 
+   d8'                  88     
+   
+   Private Habbo Hotel Emulating System
+   @author Claudio A. Santoro W.
+   @author Kessiler R.
+   @version dev-beta
+   @license MIT
+   @copyright Sulake Corporation Oy
+   @observation All Rights of Habbo, Habbo Hotel, and all Habbo contents and it's names, is copyright from Sulake
+   Corporation Oy. Yupi! has nothing linked with Sulake. 
+   This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
+*/
+
+using System;
+using System.Text;
+using Yupi.Emulator.Game.Rooms.Chat.Enums;
+
+
+
+namespace Yupi.Emulator.Game.Rooms.Data
+{
+    /// <summary>
+    ///     Class DynamicRoomModel.
+    /// </summary>
+     public class DynamicRoomModel
+    {
+        /// <summary>
+        ///     The _static model
+        /// </summary>
+        private RoomModel _staticModel;
+
+        /// <summary>
+        ///     The club only
+        /// </summary>
+     public bool ClubOnly;
+
+        /// <summary>
+        ///     The door orientation
+        /// </summary>
+     public int DoorOrientation;
+
+        /// <summary>
+        ///     The door x
+        /// </summary>
+     public int DoorX;
+
+        /// <summary>
+        ///     The door y
+        /// </summary>
+     public int DoorY;
+
+        /// <summary>
+        ///     The door z
+        /// </summary>
+     public double DoorZ;
+
+        /// <summary>
+        ///     The heightmap
+        /// </summary>
+     public string Heightmap;
+
+        /// <summary>
+        ///     The heightmap serialized
+        /// </summary>
+     public bool HeightmapSerialized;
+
+        /// <summary>
+        ///     The map size x
+        /// </summary>
+     public int MapSizeX;
+
+        /// <summary>
+        ///     The map size y
+        /// </summary>
+     public int MapSizeY;
+
+        /// <summary>
+        ///     The sq character
+        /// </summary>
+     public char[][] SqChar;
+
+        /// <summary>
+        ///     The sq floor height
+        /// </summary>
+     public short[][] SqFloorHeight;
+
+        /// <summary>
+        ///     The sq seat rot
+        /// </summary>
+     public byte[][] SqSeatRot;
+
+        /// <summary>
+        ///     The sq state
+        /// </summary>
+     public SquareState[][] SqState;
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="DynamicRoomModel" /> class.
+        /// </summary>
+        /// <param name="pModel">The p model.</param>
+        /// <param name="room">The room.</param>
+     public DynamicRoomModel(RoomModel pModel, Room room)
+        {
+            _staticModel = pModel;
+            DoorX = _staticModel.DoorX;
+            DoorY = _staticModel.DoorY;
+            DoorZ = _staticModel.DoorZ;
+            DoorOrientation = _staticModel.DoorOrientation;
+            Heightmap = _staticModel.Heightmap;
+            MapSizeX = _staticModel.MapSizeX;
+            MapSizeY = _staticModel.MapSizeY;
+            ClubOnly = _staticModel.ClubOnly;
+            Generate();
+        }
+
+        /// <summary>
+        ///     Generates this instance.
+        /// </summary>
+     public void Generate()
+        {
+            SqState = new SquareState[MapSizeX][];
+            for (int i = 0; i < MapSizeX; i++) SqState[i] = new SquareState[MapSizeY];
+            SqFloorHeight = new short[MapSizeX][];
+            for (int i = 0; i < MapSizeX; i++) SqFloorHeight[i] = new short[MapSizeY];
+            SqSeatRot = new byte[MapSizeX][];
+            for (int i = 0; i < MapSizeX; i++) SqSeatRot[i] = new byte[MapSizeY];
+            SqChar = new char[MapSizeX][];
+            for (int i = 0; i < MapSizeX; i++) SqChar[i] = new char[MapSizeY];
+            for (int i = 0; i < MapSizeY; i++)
+            {
+                for (int j = 0; j < MapSizeX; j++)
+                {
+                    if (j > _staticModel.MapSizeX - 1 || i > _staticModel.MapSizeY - 1)
+                        SqState[j][i] = SquareState.Blocked;
+                    else
+                    {
+                        SqState[j][i] = _staticModel.SqState[j][i];
+                        SqFloorHeight[j][i] = _staticModel.SqFloorHeight[j][i];
+                        SqSeatRot[j][i] = _staticModel.SqSeatRot[j][i];
+                        SqChar[j][i] = _staticModel.SqChar[j][i];
+                    }
+                }
+            }
+
+            HeightmapSerialized = false;
+        }
+
+        /// <summary>
+        ///     Refreshes the arrays.
+        /// </summary>
+     public void RefreshArrays() => Generate();
+
+        /// <summary>
+        ///     Sets the state of the update.
+        /// </summary>
+     public void SetUpdateState() => HeightmapSerialized = false;
+
+        /// <summary>
+        ///     Adds the x.
+        /// </summary>
+     public void AddX()
+        {
+            {
+                MapSizeX++;
+                RefreshArrays();
+            }
+        }
+
+        /// <summary>
+        ///     Opens the square.
+        /// </summary>
+        /// <param name="x">The x.</param>
+        /// <param name="y">The y.</param>
+        /// <param name="z">The z.</param>
+     public void OpenSquare(int x, int y, double z)
+        {
+            if (z > 9.0) z = 9.0;
+            if (z < 0.0) z = 0.0;
+            SqFloorHeight[x][y] = (short) z;
+
+            SqState[x][y] = SquareState.Open;
+        }
+
+        /// <summary>
+        ///     Adds the y.
+        /// </summary>
+     public void AddY()
+        {
+            {
+                MapSizeY++;
+                RefreshArrays();
+            }
+        }
+
+        /// <summary>
+        ///     Sets the mapsize.
+        /// </summary>
+        /// <param name="x">The x.</param>
+        /// <param name="y">The y.</param>
+     public void SetMapsize(int x, int y)
+        {
+            MapSizeX = x;
+            MapSizeY = y;
+            RefreshArrays();
+        }
+
+        /// <summary>
+        ///     Destroys this instance.
+        /// </summary>
+     public void Destroy()
+        {
+            Array.Clear(SqState, 0, SqState.Length);
+            Array.Clear(SqFloorHeight, 0, SqFloorHeight.Length);
+            Array.Clear(SqSeatRot, 0, SqSeatRot.Length);
+            _staticModel = null;
+            Heightmap = null;
+            SqState = null;
+            SqFloorHeight = null;
+            SqSeatRot = null;
+        }
+		// TODO Cache
+		public string GetHeightMap() {
+			StringBuilder stringBuilder = new StringBuilder();
+			for (int i = 0; i < MapSizeY; i++)
+			{
+				for (int j = 0; j < MapSizeX; j++)
+				{
+					try
+					{
+						stringBuilder.Append(SqChar[j][i].ToString());
+					}
+					catch (Exception)
+					{
+						stringBuilder.Append("0");
+					}
+				}
+				stringBuilder.Append(Convert.ToChar(13));
+			}
+			return stringBuilder.ToString();
+		}
+    }
+}

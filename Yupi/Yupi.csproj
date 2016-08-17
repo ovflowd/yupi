@@ -1,0 +1,535 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <BaseIntermediateOutputPath>Build\Temp\</BaseIntermediateOutputPath>
+    <StartAction>Project</StartAction>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Properties\Yupi.ico</ApplicationIcon>
+    <ProjectGuid>{4F3B6B3F-7754-40C9-B3DD-8D83BFA59FE5}</ProjectGuid>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+    <NoStdLib>False</NoStdLib>
+    <OutputType>Exe</OutputType>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <IntermediateOutputPath>Build\Temp\$(Configuration)\</IntermediateOutputPath>
+    <WarningLevel>4</WarningLevel>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publicar\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>Yupi</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
+    <BaseAddress>4194304</BaseAddress>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <FileAlignment>4096</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>Custom</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>false</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\App.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <OutputPath>Build\Executables\x86\</OutputPath>
+    <Prefer32Bit>true</Prefer32Bit>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <Optimize>true</Optimize>
+    <ErrorReport>prompt</ErrorReport>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>6</LangVersion>
+    <Externalconsole>true</Externalconsole>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <OutputPath>Build\Executables\x64\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <Optimize>true</Optimize>
+    <FileAlignment>4096</FileAlignment>
+    <PlatformTarget>x64</PlatformTarget>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <LangVersion>6</LangVersion>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <Prefer32Bit>false</Prefer32Bit>
+    <BaseAddress>4194304</BaseAddress>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <Externalconsole>true</Externalconsole>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DebugSymbols>false</DebugSymbols>
+    <OutputPath>Build\Executables\x86\</OutputPath>
+    <DebugType>none</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <ErrorReport>none</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+    <LangVersion>6</LangVersion>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Externalconsole>true</Externalconsole>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DebugSymbols>false</DebugSymbols>
+    <OutputPath>Build\Executables\x64\</OutputPath>
+    <FileAlignment>4096</FileAlignment>
+    <DebugType>none</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <ErrorReport>none</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+    <LangVersion>6</LangVersion>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <BaseAddress>4194304</BaseAddress>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <Externalconsole>true</Externalconsole>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <OutputPath>Build\Executables\AnyCPU\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <Optimize>true</Optimize>
+    <FileAlignment>4096</FileAlignment>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <LangVersion>6</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+    <Externalconsole>true</Externalconsole>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>Build\Executables\AnyCPU\</OutputPath>
+    <FileAlignment>4096</FileAlignment>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <LangVersion>6</LangVersion>
+    <ErrorReport>none</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+    <DebugType>full</DebugType>
+    <Externalconsole>true</Externalconsole>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Yupi.Emulator.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyName>Yupi</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="DotNetty.Buffers">
+      <HintPath>..\packages\DotNetty.Buffers.0.2.3\lib\net45\DotNetty.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetty.Common">
+      <HintPath>..\packages\DotNetty.Common.0.2.3\lib\net45\DotNetty.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetty.Transport">
+      <HintPath>..\packages\DotNetty.Transport.0.2.3\lib\net45\DotNetty.Transport.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Log4Net.Async">
+      <HintPath>..\packages\Log4Net.Async.2.0.0.0\lib\net40\Log4Net.Async.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>..\packages\MySql.Data.6.9.8\lib\net45\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.Common">
+      <HintPath>..\packages\SuperSocket.1.6.6\lib\net45\SuperSocket.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.SocketBase">
+      <HintPath>..\packages\SuperSocket.1.6.6\lib\net45\SuperSocket.SocketBase.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.Facility">
+      <HintPath>..\packages\SuperSocket.1.6.6\lib\net45\SuperSocket.Facility.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Configuration" />
+    <Reference Include="SuperSocket.SocketEngine">
+      <HintPath>..\packages\SuperSocket.Engine.1.6.6\lib\net45\SuperSocket.SocketEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.SocketService">
+      <HintPath>..\packages\SuperSocket.Engine.1.6.6\lib\net45\SuperSocket.SocketService.exe</HintPath>
+    </Reference>
+    <Reference Include="PommaLabs.Thrower">
+      <HintPath>..\packages\Thrower.2.2.1\lib\net45\PommaLabs.Thrower.dll</HintPath>
+    </Reference>
+    <Reference Include="Troschuetz.Random">
+      <HintPath>..\packages\Troschuetz.Random.4.0.3\lib\net45\Troschuetz.Random.dll</HintPath>
+    </Reference>
+    <Reference Include="Finsa.CodeServices.Common">
+      <HintPath>..\packages\Finsa.CodeServices.Common.4.1.1\lib\net45\Finsa.CodeServices.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="CodeProject.ObjectPool">
+      <HintPath>..\packages\CodeProject.ObjectPool.1.10.1\lib\net45\CodeProject.ObjectPool.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Emulator\Core\Algorithms\Astar\PathNode.cs" />
+    <Compile Include="Emulator\Core\Algorithms\Encryption\Converter.cs" />
+    <Compile Include="Emulator\Core\Algorithms\Encryption\Rc4.cs" />
+    <Compile Include="Emulator\Core\Algorithms\GameField\Algorithm\GametileUpdate.cs" />
+    <Compile Include="Emulator\Core\Algorithms\GameField\GameField.cs" />
+    <Compile Include="Emulator\Core\Algorithms\GameField\PointField.cs" />
+    <Compile Include="Emulator\Core\Algorithms\Astar\AStar.cs" />
+    <Compile Include="Emulator\Core\Algorithms\Astar\Enums\AStarHeuristicType.cs" />
+    <Compile Include="Emulator\Core\Algorithms\Astar\Interfaces\IIndexedObject.cs" />
+    <Compile Include="Emulator\Core\Algorithms\Astar\Interfaces\IPathNode.cs" />
+    <Compile Include="Emulator\Core\Algorithms\Astar\Interfaces\IWeightAddable.cs" />
+    <Compile Include="Emulator\Core\Algorithms\Astar\PriorityQueue.cs" />
+    <Compile Include="Emulator\Game\Pathfinding\Vectors\Coord.cs" />
+    <Compile Include="Emulator\Game\Pets\PetTypeManager.cs" />
+    <Compile Include="Emulator\Game\Pets\Structs\PetType.cs" />
+    <Compile Include="Emulator\Game\RoomBots\Interfaces\BotCommand.cs" />
+    <Compile Include="Emulator\Game\RoomBots\Interfaces\CatalogBot.cs" />
+    <Compile Include="Emulator\Game\RoomBots\Models\BaseBot.cs" />
+    <Compile Include="Emulator\Core\Settings\ServerLanguageSettings.cs" />
+    <Compile Include="Emulator\Game\Catalogs\TargetedOfferManager.cs" />
+    <Compile Include="Emulator\Game\Items\Datas\HighscoreData.cs" />
+    <Compile Include="Emulator\Game\Items\Interfaces\HighScoreLine.cs" />
+    <Compile Include="Emulator\Game\Items\Handlers\HopperHandler.cs" />
+    <Compile Include="Emulator\Game\Items\ItemManager.cs" />
+    <Compile Include="Emulator\Game\Items\ClothingManager.cs" />
+    <Compile Include="Emulator\Game\Items\Handlers\CrackableEggHandler.cs" />
+    <Compile Include="Emulator\Game\Items\Handlers\PinataHandler.cs" />
+    <Compile Include="Emulator\Game\Items\Interfaces\ClothingItem.cs" />
+    <Compile Include="Emulator\Game\Items\Interfaces\PinataItem.cs" />
+    <Compile Include="Emulator\Game\Items\Interfaces\RoomItem.cs" />
+    <Compile Include="Emulator\Game\Items\Handlers\TeleHandler.cs" />
+    <Compile Include="Emulator\Game\Items\Datas\TonerData.cs" />
+    <Compile Include="Emulator\Game\Items\Interfaces\UserItem.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Conditions\TimerTrigger.cs" />
+    <Compile Include="Emulator\Core\Security\ServerMutantManager.cs" />
+    <Compile Include="Emulator\Game\Users\ExchangeManager.cs" />
+    <Compile Include="Emulator\Game\Users\Figures\AvatarFigureParts.cs" />
+    <Compile Include="Emulator\Game\Browser\Models\PromoCategory.cs" />
+    <Compile Include="Emulator\Game\Pathfinding\Vectors\ThreeDCoord.cs" />
+    <Compile Include="Emulator\Game\Pets\PetBreeding.cs" />
+    <Compile Include="Emulator\Game\Pets\Structs\PetCommand.cs" />
+    <Compile Include="Emulator\Game\Polls\Enums\PollType.cs" />
+    <Compile Include="Emulator\Game\Rooms\Items\ByteToItemEffectEnum.cs" />
+    <Compile Include="Emulator\Game\Rooms\Chat\Chatlog.cs" />
+    <Compile Include="Emulator\Game\Rooms\Data\DynamicRoomModel.cs" />
+    <Compile Include="Emulator\Game\Rooms\Items\Games\Handlers\GameItemHandler.cs" />
+    <Compile Include="Emulator\Game\Rooms\User\Path\Gamemap.cs" />
+    <Compile Include="Emulator\Game\Rooms\Items\Games\Types\Banzai\BattleBanzai.cs" />
+    <Compile Include="Emulator\Game\Rooms\Items\Games\Types\Soccer\ComeDirection.cs" />
+    <Compile Include="Emulator\Game\Rooms\Items\Games\Types\Freeze\Freeze.cs" />
+    <Compile Include="Emulator\Game\Rooms\Items\Games\Types\Freeze\Enum\FreezePowerUp.cs" />
+    <Compile Include="Emulator\Game\Rooms\Items\Games\GameManager.cs" />
+    <Compile Include="Emulator\Game\Rooms\Items\Games\Types\Soccer\Enums\IComeDirection.cs" />
+    <Compile Include="Emulator\Game\Rooms\Items\Games\Types\Soccer\Soccer.cs" />
+    <Compile Include="Emulator\Game\Rooms\Items\Games\Teams\Enums\Team.cs" />
+    <Compile Include="Emulator\Game\Rooms\Items\Games\Teams\TeamManager.cs" />
+    <Compile Include="Emulator\Game\Rooms\Chat\Interfaces\InvokedChatMessage.cs" />
+    <Compile Include="Emulator\Game\Rooms\Items\Enums\ItemEffectType.cs" />
+    <Compile Include="Emulator\Game\Rooms\Items\ItemTriggeredArgs.cs" />
+    <Compile Include="Emulator\Game\Rooms\Room.cs" />
+    <Compile Include="Emulator\Game\Rooms\Events\RoomEventsManager.cs" />
+    <Compile Include="Emulator\Game\Rooms\RoomInvokedItems\RoomAlert.cs" />
+    <Compile Include="Emulator\Game\Rooms\RoomInvokedItems\RoomKick.cs" />
+    <Compile Include="Emulator\Game\Rooms\Items\Handlers\RoomItemHandler.cs" />
+    <Compile Include="Emulator\Game\Rooms\RoomManager.cs" />
+    <Compile Include="Emulator\Game\Rooms\User\RoomUser.cs" />
+    <Compile Include="Emulator\Game\Rooms\Competitions\RoomCompetitionManager.cs" />
+    <Compile Include="Emulator\Game\Rooms\User\RoomUserManager.cs" />
+    <Compile Include="Emulator\Game\Rooms\Chat\Enums\SquareState.cs" />
+    <Compile Include="Emulator\Game\Rooms\Items\Games\Teams\TeamScoreChangedArgs.cs" />
+    <Compile Include="Emulator\Game\Rooms\Items\Teleports\TeleUserData.cs" />
+    <Compile Include="Emulator\Game\Rooms\User\Trade\Trade.cs" />
+    <Compile Include="Emulator\Game\Rooms\Chat\UserSaysArgs.cs" />
+    <Compile Include="Emulator\Game\Rooms\User\Path\UserWalksOnArgs.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Conditions\DateRangeActive.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Conditions\FurniHasFurni.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Conditions\FurniHasNotFurni.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Conditions\FurniHasNotUsers.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Conditions\FurniHasUsers.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Conditions\HowManyUsers.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Conditions\TimeLessThan.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Conditions\TimeMoreThan.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Conditions\IsGroupMember.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Conditions\IsNotGroupMember.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Conditions\ItemsCoincide.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Conditions\ItemsNotCoincide.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Conditions\ItemsTypeDontMatch.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Conditions\ItemsTypeMatches.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Conditions\NotHowManyUsersInRoom.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Conditions\TriggererNotOnFurni.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Conditions\UserHasHanditem.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Conditions\TriggererOnFurni.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Conditions\UserHasFurni.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Conditions\UserIsNotWearingBadge.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Conditions\UserIsNotWearingEffect.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Conditions\UserIsWearingBadge.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Conditions\UserIsWearingEffect.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Effects\Chase.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Effects\EffectUser.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Effects\GiveReward.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Effects\GiveScore.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Effects\KickUser.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Effects\MoveRotateFurni.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Effects\MoveToDir.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Effects\MuteUser.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Effects\ResetPosition.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Effects\ResetTimers.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Effects\ShowMessage.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Effects\TeleportToFurni.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Effects\LeaveTeam.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Effects\JoinTeam.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Effects\BotFollowAvatar.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Effects\BotTalkToAvatar.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Effects\BotTalk.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Effects\BotMove.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Effects\BotTeleport.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Effects\BotGiveHanditem.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Effects\BotClothes.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Effects\CallStacks.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Effects\Template.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Effects\ToggleFurniState.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Movement.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Triggers\Collision.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Triggers\FurniStateToggled.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Triggers\GameEnds.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Triggers\BotReachedAvatar.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Triggers\BotReachedStuff.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Triggers\GameStarts.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Triggers\LongRepeater.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Triggers\Repeater.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Triggers\SaysKeyword.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Triggers\ScoreAchieved.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Triggers\TemplateTrigger.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Triggers\UserEntersRoom.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Triggers\WalksOffFurni.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Handlers\Triggers\WalksOnFurni.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Interfaces\IWiredCycler.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\Interfaces\IWiredItem.cs" />
+    <Compile Include="Emulator\Game\Items\Wired\WiredHandler.cs" />
+    <Compile Include="Emulator\Game\Users\EmoticonManager.cs" />
+    <Compile Include="Emulator\Game\Users\YoutubeManager.cs" />
+    <Compile Include="Emulator\Game\Users\HallOfFame.cs" />
+    <Compile Include="Emulator\Game\Users\Inventory\UserClothesManager.cs" />
+    <Compile Include="Emulator\Core\Security\BlackWords\BlackWordsManager.cs" />
+    <Compile Include="Emulator\Core\Security\BlackWords\Structs\BlackWordTypeSettings.cs" />
+    <Compile Include="Emulator\Core\Security\ServerSecurityChatFilter.cs" />
+    <Compile Include="Emulator\Core\Security\UserChatInputFilter.cs" />
+    <Compile Include="Emulator\Core\Settings\ServerDatabaseSettings.cs" />
+    <Compile Include="Emulator\Core\Settings\ServerConfigurationSettings.cs" />
+    <Compile Include="Emulator\Core\Settings\ConsoleCommandHandler.cs" />
+    <Compile Include="Emulator\Core\Settings\ServerExtraSettings.cs" />
+    <Compile Include="Emulator\Game\Catalogs\CatalogManager.cs" />
+    <Compile Include="Emulator\Game\Catalogs\Wrappers\GiftWrapper.cs" />
+    <Compile Include="Emulator\Game\Events\Interfaces\EventCategory.cs" />
+    <Compile Include="Emulator\Game\Events\EventManager.cs" />
+    <Compile Include="Emulator\Game\HabboHotel.cs" />
+    <Compile Include="Emulator\Game\GameClients\Interfaces\GameClient.cs" />
+    <Compile Include="Emulator\Game\GameClients\GameClientManager.cs" />
+    <Compile Include="Emulator\Game\Groups\GroupManager.cs" />
+    <Compile Include="Emulator\Game\Browser\Models\PublicCategory.cs" />
+    <Compile Include="Emulator\Game\Browser\HotelBrowserManager.cs" />
+    <Compile Include="Emulator\Game\Browser\Enums\PublicImageType.cs" />
+    <Compile Include="Emulator\Game\Browser\Models\PublicItem.cs" />
+    <Compile Include="Emulator\Game\Browser\Enums\PublicItemType.cs" />
+    <Compile Include="Emulator\Game\Pathfinding\MinHeap.cs" />
+    <Compile Include="Emulator\Game\Pathfinding\PathFinder.cs" />
+    <Compile Include="Emulator\Game\Pathfinding\PathFinderNode.cs" />
+    <Compile Include="Emulator\Game\Pathfinding\Rotation.cs" />
+    <Compile Include="Emulator\Game\Pathfinding\Vectors\Vector2D.cs" />
+    <Compile Include="Emulator\Game\Pets\Enums\DatabaseUpdateState.cs" />
+    <Compile Include="Emulator\Game\Pets\MoplaBreed.cs" />
+    <Compile Include="Emulator\Game\Pets\Enums\MoplaState.cs" />
+    <Compile Include="Emulator\Game\Pets\PetCommandHandler.cs" />
+    <Compile Include="Emulator\Game\Pets\PetLocale.cs" />
+    <Compile Include="Emulator\Game\Pets\Structs\PetRace.cs" />
+    <Compile Include="Emulator\Game\Polls\PollManager.cs" />
+    <Compile Include="Emulator\Game\Users\Fuses\RoleManager.cs" />
+    <Compile Include="Emulator\Game\RoomBots\Enumerators\AIType.cs" />
+    <Compile Include="Emulator\Game\RoomBots\Interfaces\BotAi.cs" />
+    <Compile Include="Emulator\Game\RoomBots\BotManager.cs" />
+    <Compile Include="Emulator\Game\RoomBots\Models\GenericBot.cs" />
+    <Compile Include="Emulator\Game\RoomBots\Models\PetBot.cs" />
+    <Compile Include="Emulator\Game\RoomBots\RoomBot.cs" />
+    <Compile Include="Emulator\Game\SoundMachine\SoundMachineSongManager.cs" />
+    <Compile Include="Emulator\Game\Support\HelperSession.cs" />
+    <Compile Include="Emulator\Game\Support\ModerationBan.cs" />
+    <Compile Include="Emulator\Game\Support\ModerationBanManager.cs" />
+    <Compile Include="Emulator\Game\Support\ModerationBanType.cs" />
+    <Compile Include="Emulator\Game\Support\ModerationTool.cs" />
+    <Compile Include="Emulator\Game\Users\Factories\HabboFactory.cs" />
+    <Compile Include="Emulator\Game\Users\Badges\UserBadgeManager.cs" />
+    <Compile Include="Emulator\Game\Users\Guides\GuideManager.cs" />
+    <Compile Include="Emulator\Game\Users\Inventory\Components\InventoryComponent.cs" />
+    <Compile Include="Emulator\Game\Users\Messenger\HabboMessenger.cs" />
+    <Compile Include="Emulator\Game\Users\Messenger\SearchResultFactory.cs" />
+    <Compile Include="Emulator\Game\Users\Subscriptions\SubscriptionManager.cs" />
+    <Compile Include="Emulator\Game\Users\Data\Models\UserData.cs" />
+    <Compile Include="Emulator\Game\Users\Factories\UserDataFactory.cs" />
+    <Compile Include="Emulator\Game\Users\Data\Exceptions\UserDataNotFoundException.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Emulator\Core\Util\Coordinates\CoordinatesFormatter.cs" />
+    <Compile Include="Emulator\Core\Util\Math\RandomNumberGenerator.cs" />
+    <Compile Include="Emulator\Yupi.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorAlert.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorBanzaiScoreCounter.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorBanzaiTimer.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorCannon.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorCrackableEgg.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorDice.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorFireworks.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorFootball.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorFreezeScoreCounter.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorFreezeTile.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorFreezeTimer.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorFxBox.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorGate.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorGenericSwitch.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorGroupForumTerminal.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorGroupGate.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorHabboWheel.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorHCGate.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorHopper.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorJukebox.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorLoveShuffler.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorMannequin.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorOneWayGate.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorPuzzleBox.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorQuickTeleport.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorRoller.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorScoreboard.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorScoreCounter.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorSpinningBottle.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorSwitch.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorTeleport.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorVendor.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorVikingCotie.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorWalkInternalLink.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Controllers\InteractorWired.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Enums\GlobalInteraction.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\InteractionFactory.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\InteractionTypes.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Interfaces\IFurniInteractor.cs" />
+    <Compile Include="Emulator\Game\Items\Interactions\Models\IFurniInteractorModel.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="CacheManager.cs" />
+    <Compile Include="FurnitureDataManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.1 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Properties\App.config" />
+    <None Include="Properties\app.manifest" />
+    <None Include="Config\log4net.config" />
+    <None Include="Config\log4net.unix.config" />
+    <None Include="supersocket.cmd" />
+    <None Include="supersocket.sh" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Properties\Yupi.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Emulator\Game\Users\Inventory\Structs\" />
+    <Folder Include="Emulator\Game\Items\Interactions\" />
+    <Folder Include="Emulator\Core\Io\" />
+    <Folder Include="Emulator\Game\Rooms\Events\Models\" />
+    <Folder Include="Emulator\Game\SoundMachine\Songs\" />
+    <Folder Include="Emulator\Game\Rooms\Competitions\Models\" />
+    <Folder Include="Emulator\Game\Users\Messenger\Structs\" />
+    <Folder Include="Emulator\Core\Security\BlackWords\Enums\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\GitInfo.1.1.1\build\GitInfo.targets" Condition="Exists('..\packages\GitInfo.1.1.1\build\GitInfo.targets')" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'x64' ">
+    <BaseAddress>4194304</BaseAddress>
+    <RegisterForComInterop>False</RegisterForComInterop>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Major>1</Major>
+    <Minor>0</Minor>
+    <Build>0</Build>
+    <Revision>0</Revision>
+    <Hash>0</Hash>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Yupi.Net\Yupi.Net.csproj">
+      <Project>{8D09AE29-53E7-405D-9F9E-CDDE1164851A}</Project>
+      <Name>Yupi.Net</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Yupi.Protocol\Yupi.Protocol.csproj">
+      <Project>{9AE3ADAB-A767-4123-BE78-34E1DFCF33FB}</Project>
+      <Name>Yupi.Protocol</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
