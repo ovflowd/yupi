@@ -1,1 +1,0 @@
-[Divulga] User: {0} (Id: {1}), Método: {0} ({4}), Msg: {3}, Palavra: {2}

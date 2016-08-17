@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -33,30 +33,36 @@
     <Externalconsole>true</Externalconsole>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CodeProject.ObjectPool, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\CodeProject.ObjectPool.1.0.4\lib\net40\CodeProject.ObjectPool.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentNHibernate, Version=1.1.0.685, Culture=neutral, PublicKeyToken=8aa435e3cb308880">
+      <HintPath>..\packages\FluentNHibernate.1.1.0.694\lib\FluentNHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4">
+      <HintPath>..\packages\Iesi.Collections.1.0.1\lib\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="Log4Net.Async, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Log4Net.Async.1.0.0.0\lib\net40\Log4Net.Async.dll</HintPath>
+    </Reference>
+    <Reference Include="MadMilkman.Ini, Version=1.0.0.0, Culture=neutral, PublicKeyToken=4e0b5157a7ffbb74">
+      <HintPath>..\packages\MadMilkman.Ini.1.0.0.0\lib\net20\MadMilkman.Ini.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate, Version=3.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4">
+      <HintPath>..\packages\NHibernate.3.0.0.4000\lib\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.ByteCode.Castle, Version=3.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4">
+      <HintPath>..\packages\NHibernate.3.0.0.4000\lib\NHibernate.ByteCode.Castle.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Data.Linq, Version=1.13.41.2, Culture=neutral, PublicKeyToken=cab60358ab4081ea">
+      <HintPath>..\packages\NHibernate.3.0.0.4000\lib\Remotion.Data.Linq.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="MadMilkman.Ini">
-      <HintPath>..\packages\MadMilkman.Ini.1.0.6.0\lib\net20\MadMilkman.Ini.dll</HintPath>
-    </Reference>
-    <Reference Include="FluentNHibernate">
-      <HintPath>..\packages\FluentNHibernate.2.0.3.0\lib\net40\FluentNHibernate.dll</HintPath>
-    </Reference>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate">
-      <HintPath>..\packages\NHibernate.4.0.4.4000\lib\net40\NHibernate.dll</HintPath>
-    </Reference>
-    <Reference Include="Log4Net.Async">
-      <HintPath>..\packages\Log4Net.Async.2.0.3\lib\net40\Log4Net.Async.dll</HintPath>
-    </Reference>
-    <Reference Include="Iesi.Collections">
-      <HintPath>..\packages\Iesi.Collections.4.0.1.4000\lib\net40\Iesi.Collections.dll</HintPath>
-    </Reference>
-    <Reference Include="PommaLabs.Thrower">
-      <HintPath>..\packages\Thrower.3.0.1\lib\net45\PommaLabs.Thrower.dll</HintPath>
-    </Reference>
-    <Reference Include="CodeProject.ObjectPool">
-      <HintPath>..\packages\CodeProject.ObjectPool.2.0.1\lib\net45\CodeProject.ObjectPool.dll</HintPath>
+    <Reference Include="Thrower, Version=0.9.1.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Thrower.0.9.1\lib\net20\Thrower.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -102,5 +108,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="readme.txt" />
   </ItemGroup>
 </Project>

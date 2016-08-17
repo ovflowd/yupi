@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -28,19 +28,19 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CodeProject.ObjectPool, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\CodeProject.ObjectPool.1.0.4\lib\net40\CodeProject.ObjectPool.dll</HintPath>
+    </Reference>
+    <Reference Include="MadMilkman.Ini, Version=1.0.0.0, Culture=neutral, PublicKeyToken=4e0b5157a7ffbb74">
+      <HintPath>..\packages\MadMilkman.Ini.1.0.0.0\lib\net20\MadMilkman.Ini.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="MadMilkman.Ini">
-      <HintPath>..\packages\MadMilkman.Ini.1.0.6.0\lib\net20\MadMilkman.Ini.dll</HintPath>
-    </Reference>
-    <Reference Include="PommaLabs.Thrower">
-      <HintPath>..\packages\Thrower.3.0.1\lib\net45\PommaLabs.Thrower.dll</HintPath>
-    </Reference>
-    <Reference Include="CodeProject.ObjectPool">
-      <HintPath>..\packages\CodeProject.ObjectPool.2.0.1\lib\net45\CodeProject.ObjectPool.dll</HintPath>
+    <Reference Include="Thrower, Version=0.9.1.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Thrower.0.9.1\lib\net20\Thrower.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
