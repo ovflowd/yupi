@@ -59,7 +59,7 @@ namespace Yupi.Main
 
 
 			// TODO Don't hardcode this stuff :)
-			Router.Default = new Router ("PRODUCTION-201510201205-42435347", "../../../Yupi/Build/Variables/", typeof(AchievementProgressMessageComposer).Assembly);
+			Router.Default = new Router ("PRODUCTION-201510201205-42435347", "../../../Config/", typeof(AchievementProgressMessageComposer).Assembly);
 
 			ClientManager = DependencyFactory.Resolve<ClientManager> ();
 			Router = Router.Default;

@@ -1,6 +1,5 @@
 ﻿using System;
 using Yupi.Util;
-using Yupi.Emulator.Core.Io.Logger;
 using System.Reflection;
 using System.Linq;
 using System.Threading;

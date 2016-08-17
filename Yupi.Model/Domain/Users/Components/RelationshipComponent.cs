@@ -14,6 +14,13 @@ namespace Yupi.Model.Domain.Components
 		public virtual IList<FriendRequest> SentRequests { get; protected set; }
 		public virtual IList<FriendRequest> ReceivedRequests { get; protected set; }
 
+		public RelationshipComponent ()
+		{
+			Relationships = new List<Relationship> ();
+			SentRequests = new List<FriendRequest> ();
+			ReceivedRequests = new List<FriendRequest> ();
+		}
+
 		public virtual bool IsFriendsWith(UserInfo user) {
 			return Relationships.Any (x => x.Friend == user);
 		}

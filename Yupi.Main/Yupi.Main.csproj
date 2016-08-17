@@ -71,10 +71,6 @@
       <Project>{6CC9871D-F8D6-4586-8681-E9AAECA60D60}</Project>
       <Name>Yupi.Util</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Yupi.IO\Yupi.IO.csproj">
-      <Project>{7F200CC1-2EB9-4ABF-AB31-0100A4E4B436}</Project>
-      <Name>Yupi.IO</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Yupi.Model\Yupi.Model.csproj">
       <Project>{8B402ADE-66C4-4D92-9DA6-162860FC225E}</Project>
       <Name>Yupi.Model</Name>

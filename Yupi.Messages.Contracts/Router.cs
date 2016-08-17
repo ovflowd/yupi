@@ -45,6 +45,10 @@ namespace Yupi.Messages
 				Logger.ErrorFormat ("Invalid composer {0}", typeof(T).Name);
 			}
 
+			if (Logger.IsDebugEnabled) {
+				Logger.DebugFormat ("Compose {0}", typeof(T).Name);
+			}
+
 			return (T)composer;
 		}
 
@@ -70,9 +74,13 @@ namespace Yupi.Messages
 			foreach (Type handlerType in handlers) {
 				short id = library.GetIncomingId (handlerType.Name);
 
-				if (id != 0) {
-					AbstractHandler handler = (AbstractHandler)Activator.CreateInstance(handlerType);
-					Incoming.Add (id, handler);
+				if (id > 0) {
+					if (Incoming.ContainsKey (id)) {
+						Logger.ErrorFormat ("Duplicate Handler Id [{0}]", id);
+					} else {
+						AbstractHandler handler = (AbstractHandler)Activator.CreateInstance (handlerType);
+						Incoming.Add (id, handler);
+					}
 				}
 			}
 		}
@@ -85,14 +93,15 @@ namespace Yupi.Messages
 			foreach (Type composerType in composers) {
 				short id = library.GetOutgoingId (composerType.Name);
 
-				if (id != 0) {
+				if (id > 0) {
+
 					IComposer composer = (IComposer)Activator.CreateInstance (composerType);
 					composer.Init (id, pool);
 
 					// TODO Remove one Add
 					Outgoing.Add (composerType, composer);
 					if (composerType.BaseType.Namespace.StartsWith ("Yupi.Messages.Contracts")
-						&& !composerType.BaseType.Name.StartsWith("AbstractComposer")) {
+					     && !composerType.BaseType.Name.StartsWith ("AbstractComposer")) {
 						Outgoing.Add (composerType.BaseType, composer);
 					}
 				}

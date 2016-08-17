@@ -57,27 +57,24 @@ namespace Yupi.Controller
 			
 		public void TryProgressLoginAchievements (Habbo session)
 		{
-			throw new NotImplementedException ();
+			// FIXME
 			/*
-			if (session.GetHabbo () == null)
-				return;
-
 			if (session.GetHabbo ().Achievements.ContainsKey ("ACH_Login")) {
-				int daysBtwLastLogin = Yupi.GetUnixTimeStamp () - session.GetHabbo ().PreviousOnline;
+				int daysBtwLastLogin = Yupi.GetUnixTimeStamp () - session.Info.PreviousOnline;
 
 				if (daysBtwLastLogin >= 51840 && daysBtwLastLogin <= 112320)
-					ProgressUserAchievement (session, "ACH_Login", 1, true);
+					ProgressUserAchievement (session, "ACH_Login", );
 
 				return;
 			}
 
-			ProgressUserAchievement (session, "ACH_Login", 1, true);
+			ProgressUserAchievement (session, "ACH_Login", 1);
 			*/
 		}
 			
 		public void TryProgressRegistrationAchievements (Habbo session)
 		{
-			throw new NotImplementedException ();
+			// FIXME
 
 			/*
 			if (session.GetHabbo () == null)
@@ -112,45 +109,43 @@ namespace Yupi.Controller
 			
 		public void TryProgressHabboClubAchievements (Habbo session)
 		{
-			throw new NotImplementedException ();
-			/*
-			if (session.GetHabbo () == null || !session.GetHabbo ().GetSubscriptionManager ().HasSubscription)
+			if (!session.Info.Subscription.IsValid())
 				return;
 
+			/*
 			if (session.GetHabbo ().Achievements.ContainsKey ("ACH_VipHC")) {
 				UserAchievement clubAch = session.GetHabbo ().GetAchievementData ("ACH_VipHC");
 
 				if (clubAch.Level == 5)
 					return;
 
-				Subscription subscription = session.GetHabbo ().GetSubscriptionManager ().GetSubscription ();
+				Subscription subscription = session.Info.Subscription;
 
-				int sinceActivation = Yupi.GetUnixTimeStamp () - subscription.ActivateTime;
+				TimeSpan sinceActivation = DateTime.Now - subscription.ActivateTime;
 
-				if (sinceActivation < 31556926)
-					return;
+				int years = sinceActivation.TotalDays / 365;
 
-				if (sinceActivation >= 31556926) {
+				if (sinceActivation.TotalDays >= 1) {
 					ProgressUserAchievement (session, "ACH_VipHC", 1);
 					ProgressUserAchievement (session, "ACH_BasicClub", 1);
 				}
 
-				if (sinceActivation >= 63113851) {
+				if (sinceActivation.TotalDays >= 2) {
 					ProgressUserAchievement (session, "ACH_VipHC", 1);
 					ProgressUserAchievement (session, "ACH_BasicClub", 1);
 				}
 
-				if (sinceActivation >= 94670777) {
+				if (sinceActivation.TotalDays >= 3) {
 					ProgressUserAchievement (session, "ACH_VipHC", 1);
 					ProgressUserAchievement (session, "ACH_BasicClub", 1);
 				}
 
-				if (sinceActivation >= 126227704) {
+				if (sinceActivation.TotalDays >= 4) {
 					ProgressUserAchievement (session, "ACH_VipHC", 1);
 					ProgressUserAchievement (session, "ACH_BasicClub", 1);
 				}
 
-				if (sinceActivation >= 157784630) {
+				if (sinceActivation.TotalDays >= 5) {
 					ProgressUserAchievement (session, "ACH_VipHC", 1);
 					ProgressUserAchievement (session, "ACH_BasicClub", 1);
 				}
@@ -161,6 +156,7 @@ namespace Yupi.Controller
 			ProgressUserAchievement (session, "ACH_VipHC", 1, true);
 			ProgressUserAchievement (session, "ACH_BasicClub", 1, true);
 			*/
+			// FIXME
 		}
 
 		public bool ProgressUserAchievement (UserInfo info, string achievementGroup, int progressAmount) {

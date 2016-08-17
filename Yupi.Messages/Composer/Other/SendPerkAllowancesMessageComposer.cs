@@ -21,10 +21,11 @@ namespace Yupi.Messages.Other
 				message.AppendString("requirement.unfulfilled.helper_level_2");
 				message.AppendBool(false);
 
-				throw new NotImplementedException ();
-
-				/*
+				// FIXME
 				message.AppendString("USE_GUIDE_TOOL");
+				message.AppendString("requirement.unfulfilled.helper_level_4");
+				message.AppendBool(false);
+				/*
 				message.AppendString((info.TalentStatus == "helper" && info.CurrentTalentLevel >= 4) || (info.Rank >= 4) ? string.Empty : "requirement.unfulfilled.helper_level_4");
 				message.AppendBool((info.TalentStatus == "helper" && info.CurrentTalentLevel >= 4) || (info.Rank >= 4));
 */
@@ -43,8 +44,8 @@ namespace Yupi.Messages.Other
 				message.AppendString("CITIZEN");
 				message.AppendString(string.Empty);
 
-				throw new NotImplementedException ();
-			//	message.AppendBool(info.TalentStatus == "helper" || info.CurrentTalentLevel >= 4);
+				// FIXME
+				message.AppendBool(false); // info.TalentStatus == "helper" || info.CurrentTalentLevel >= 4
 
 				message.AppendString("MOUSE_ZOOM");
 				message.AppendString(string.Empty);

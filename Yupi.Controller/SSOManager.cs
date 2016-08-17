@@ -59,7 +59,8 @@ namespace Yupi.Controller
 					}
 					session.Router.GetComposer<CreditsBalanceMessageComposer> ().Compose (session, user.Wallet.Credits);  
 
-					session.Router.GetComposer<ActivityPointsMessageComposer> ().Compose (session, user.Wallet);            
+					// TODO Results in DC (package looks right though)
+					//session.Router.GetComposer<ActivityPointsMessageComposer> ().Compose (session, user.Wallet);            
 
 					if (user.HasPermission("fuse_modtool")) {
 						session.Router.GetComposer<LoadModerationToolMessageComposer>().Compose(session, ModerationTool.Tickets, 

@@ -33,12 +33,11 @@ namespace Yupi.Messages.Other
 
 			InitMessenger (session, router);
 
-			// TODO Must this really be sent here?
 			router.GetComposer<CitizenshipStatusMessageComposer> ().Compose (session, "citizenship");
 			router.GetComposer<GameCenterGamesListMessageComposer> ().Compose (session);
 			router.GetComposer<AchievementPointsMessageComposer> ().Compose (session, session.Info.Wallet.AchievementPoints);
-			router.GetComposer<FigureSetIdsMessageComposer> ().Compose (session);
 
+			router.GetComposer<FigureSetIdsMessageComposer> ().Compose (session);
 			router.GetComposer<CatalogPromotionGetCategoriesMessageComposer> ().Compose (session);
 
 			IList<TargetedOffer> offers = OfferRepository.FilterBy (x => x.ExpiresAt > DateTime.Now).ToList ();

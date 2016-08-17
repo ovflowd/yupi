@@ -97,7 +97,7 @@ namespace Yupi.Protocol.Buffers
         /// <param name="header">The header.</param>
         public void Init(short header)
         {
-            _buffer.SetLength(0);
+			_buffer.SetLength(0);
             Id = header;
             AppendShort(header);
         }
@@ -176,7 +176,9 @@ namespace Yupi.Protocol.Buffers
         ///     Appends the integer.
         /// </summary>
         /// <param name="value">The i.</param>
-        public void AppendInteger(int value) => AppendBytes(BitConverter.GetBytes(value), true);
+		public void AppendInteger(int value) {
+			AppendBytes (BitConverter.GetBytes (value), true);
+		}
 
         /// <summary>
         ///     Appends the integer.
@@ -246,6 +248,7 @@ namespace Yupi.Protocol.Buffers
         /// <param name="isInt">if set to <c>true</c> [is int].</param>
         public void AppendBytes(byte[] b, bool isInt)
         {
+			// TODO Proper BigEndian Encoding!
             if (isInt)
                 Array.Reverse(b);
 
@@ -271,7 +274,7 @@ namespace Yupi.Protocol.Buffers
         ///     Gets the bytes.
         /// </summary>
         /// <returns>System.Byte[].</returns>
-        public byte[] GetBytes() => CurrentMessage.ToArray();
+        //public byte[] GetBytes() => CurrentMessage.ToArray();
 
         /// <summary>
         ///     Gets the reversed bytes.

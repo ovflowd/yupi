@@ -94,7 +94,6 @@ namespace Yupi.Model.Domain
 
 		[OneToMany]
 		public virtual IList<RoomData> UsersRooms { get; protected set; }
-		public virtual bool IsVip { get; set; }
 
 		public UserInfo() {
 			FavouriteGroup = Group.None;
@@ -122,6 +121,11 @@ namespace Yupi.Model.Domain
 			Achievements = new List<UserAchievement> ();
 			Inventory = new Inventory ();
 			UsersRooms = new List<RoomData> ();
+			Look = "hr-115-42.hd-190-1.ch-215-62.lg-285-91.sh-290-62";
+			Gender = "M";
+			Motto = string.Empty;
+			Email = string.Empty;
+			BuilderInfo = new UserBuilderComponent ();
 		}
 
 		public virtual bool IsBanned() {
@@ -143,7 +147,8 @@ namespace Yupi.Model.Domain
 
 		// TODO Use enum!
 		public virtual bool HasPermission(string permission) {
-			throw new NotImplementedException ();
+			// FIXME
+			return false;
 		}
 			
 		// TODO Cleanup

@@ -10,7 +10,8 @@ namespace Yupi.Messages.User
 		{
 			// TODO Can we send credits using this composer too?
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendInteger(2);
+				message.AppendInteger(2); // count
+
 				message.AppendInteger(0);
 				message.AppendInteger(wallet.Duckets);
 				message.AppendInteger(5);
