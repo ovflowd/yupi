@@ -51,11 +51,17 @@
     <Compile Include="Support\WordfilterManager.cs" />
     <Compile Include="SSOManager.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="Navigator\NavigatorView.cs" />
+    <Compile Include="Navigator\OfficialView.cs" />
+    <Compile Include="Navigator\HotelView.cs" />
+    <Compile Include="Navigator\MyWorldView.cs" />
+    <Compile Include="Navigator\RoomAdsView.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Items\" />
     <Folder Include="Support\" />
+    <Folder Include="Navigator\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Yupi.Model\Yupi.Model.csproj">
