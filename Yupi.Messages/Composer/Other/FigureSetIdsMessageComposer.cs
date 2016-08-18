@@ -12,13 +12,12 @@ namespace Yupi.Messages.Other
 		// TODO Refactor
 		public override void Compose ( Yupi.Protocol.ISender session)
 		{
+			throw new NotImplementedException ();
+			/*
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				throw new NotImplementedException ();
-
-				/*
 				List<string> clothing = session.GetHabbo().ClothesManagerManager.Clothing;
 
-				message.StartArray();
+				message.AppendInteger (clothing.Count);
 
 				foreach (
 					ClothingItem item1 in
@@ -26,12 +25,9 @@ namespace Yupi.Messages.Other
 				{
 					foreach (int clothe in item1.Clothes)
 						message.AppendInteger(clothe);
-
-					message.SaveArray();
 				}
 
-				message.EndArray();
-				message.StartArray();
+				message.AppendInteger (clothing.Count);
 
 				foreach (
 					ClothingItem item2 in
@@ -39,15 +35,11 @@ namespace Yupi.Messages.Other
 				{
 					foreach (int clothe in item2.Clothes)
 						message.AppendString(item2.ItemName);
-
-					message.SaveArray();
 				}
 
-				message.EndArray();
-
 				session.Send (message);
-				*/
 			}
+			*/
 		}
 	}
 }

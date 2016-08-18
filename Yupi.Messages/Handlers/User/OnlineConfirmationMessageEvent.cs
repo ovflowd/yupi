@@ -1,4 +1,6 @@
 ﻿using System;
+using Yupi.Messages.Contracts;
+using Yupi.Util;
 
 
 
@@ -8,6 +10,14 @@ namespace Yupi.Messages.User
 	{
 		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
+			string username = request.GetString();
+
+			if (username != session.Info.UserName) {
+				// TODO Should we check this and disconnect on mismatch?
+			}
+
+			// TODO Welcome message
+			router.GetComposer<SuperNotificationMessageComposer>().Compose(session, T._("Welcome"), T._("This is a development build"));
 			/*
 			YupiWriterManager.WriteLine(request.GetString() + " joined game. With IP " + session.RemoteAddress, "Yupi.User", ConsoleColor.DarkGreen);
 
@@ -25,7 +35,6 @@ namespace Yupi.Messages.User
 					? ServerConfigurationSettings.Data["welcome.message.title"]
 					: string.Empty, ServerConfigurationSettings.Data["welcome.message.image"]);
 					*/
-			throw new NotImplementedException ();
 		}
 	}
 }

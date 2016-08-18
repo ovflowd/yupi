@@ -12,11 +12,13 @@ namespace Yupi.Messages.Other
 	{
 		private IRepository<MessengerMessage> MessengerRepository;
 		private IRepository<TargetedOffer> OfferRepository;
+		private IRepository<PromotionNavigatorCategory> PromotionRepository;
 
 		public InfoRetrieveMessageEvent ()
 		{
 			MessengerRepository = DependencyFactory.Resolve<IRepository<MessengerMessage>> ();
 			OfferRepository = DependencyFactory.Resolve<IRepository<TargetedOffer>> ();
+			PromotionRepository = DependencyFactory.Resolve<IRepository<PromotionNavigatorCategory>> ();
 		}
 
 		public override void HandleMessage (Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
@@ -37,11 +39,23 @@ namespace Yupi.Messages.Other
 			router.GetComposer<GameCenterGamesListMessageComposer> ().Compose (session);
 			router.GetComposer<AchievementPointsMessageComposer> ().Compose (session, session.Info.Wallet.AchievementPoints);
 
-			router.GetComposer<FigureSetIdsMessageComposer> ().Compose (session);
-			router.GetComposer<CatalogPromotionGetCategoriesMessageComposer> ().Compose (session);
+			// TODO Should these really be send here?
+			//router.GetComposer<FigureSetIdsMessageComposer> ().Compose (session);
+			router.GetComposer<CatalogPromotionGetCategoriesMessageComposer> ().Compose (session, PromotionRepository.All().ToList());
 
-			IList<TargetedOffer> offers = OfferRepository.FilterBy (x => x.ExpiresAt > DateTime.Now).ToList ();
-			router.GetComposer<TargetedOfferMessageComposer> ().Compose (session, offers);
+			/*
+			// TODO Implement TargetedOffer completely
+			TargetedOffer offer = new TargetedOffer() {
+				ExpiresAt = DateTime.Now.AddDays(1),
+				Title = "Test",
+				Description = "Test",
+				CreditsCost = 1,
+				Image = "test.png",
+
+			};
+
+			router.GetComposer<TargetedOfferMessageComposer> ().Compose (session, offer);
+			*/
 		}
 
 		private void InitMessenger (Yupi.Model.Domain.Habbo session, Yupi.Protocol.IRouter router)

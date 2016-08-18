@@ -30,6 +30,9 @@ namespace Yupi.Main
 
 			DependencyFactory.RegisterInstance (dbSession);
 
+			// TODO Don't run this if DB is not new!
+			ModelHelper.Populate ();
+
 			// TODO Don't hardcode this stuff :)
 			var repo = DependencyFactory.Resolve<Repository<UserInfo>> ();
 			var info = new UserInfo () {
@@ -74,9 +77,17 @@ namespace Yupi.Main
 			}
 			// TODO Add File Appender
 			appender.Layout = new log4net.Layout.PatternLayout(@"%date %-5level %message%newline");
-			appender.Threshold = log4net.Core.Level.Debug;
+			appender.Threshold = log4net.Core.Level.Warn;
 			appender.ActivateOptions();
 			log4net.Config.BasicConfigurator.Configure(appender);
+
+			var fileAppender = new log4net.Appender.FileAppender ();
+			fileAppender.AppendToFile = true;
+			fileAppender.Layout = new log4net.Layout.PatternLayout(@"%date %-5level %message%newline");
+			fileAppender.Threshold = log4net.Core.Level.Debug;
+			fileAppender.File = "log.txt";
+			fileAppender.ActivateOptions ();
+			log4net.Config.BasicConfigurator.Configure(fileAppender);
 		}
 
 		public void Run() {

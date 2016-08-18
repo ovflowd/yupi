@@ -9,15 +9,15 @@ namespace Yupi.Messages.Navigator
 {
 	public class FlatCategoriesMessageComposer : Yupi.Messages.Contracts.FlatCategoriesMessageComposer
 	{
-		public override void Compose ( Yupi.Protocol.ISender session, IList<NavigatorCategory> categories, int userRank)
+		public override void Compose ( Yupi.Protocol.ISender session, IList<FlatNavigatorCategory> categories, int userRank)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (categories.Count);
 
-				foreach (NavigatorCategory flatCat in categories)
+				foreach (FlatNavigatorCategory flatCat in categories)
 				{
 					message.AppendInteger(flatCat.Id);
-					message.AppendString(flatCat.Caption);
+					message.AppendString(flatCat.Caption+flatCat.Id);
 					message.AppendBool(flatCat.MinRank <= userRank); // TODO What is this usually used for?
 					message.AppendBool(false);
 					message.AppendString("NONE");

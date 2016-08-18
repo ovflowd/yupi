@@ -10,15 +10,15 @@ namespace Yupi.Model.Domain
 	{
 		public virtual int Id { get; protected set; }
 		public virtual bool AllowGift { get; set; }
-		public virtual bool ClubOnly { get; protected set; }
+		public virtual bool ClubOnly { get; set; }
 
 		// TODO Rename to CostCredits?
-		public virtual int CreditsCost { get; protected set; }
-		public virtual int DiamondsCost { get; protected set; }
-		public virtual int DucketsCost { get; protected set; }
-		public virtual bool HaveOffer { get; protected set; }
-		public virtual string Name { get; protected set; }
-		public virtual string Badge { get; protected set; }
+		public virtual int CreditsCost { get; set; }
+		public virtual int DiamondsCost { get; set; }
+		public virtual int DucketsCost { get; set; }
+		public virtual bool HaveOffer { get; set; }
+		public virtual string Name { get; set; }
+		public virtual string Badge { get; set; }
 
 		public virtual CatalogPage PageId { get; set; }
 		public virtual IDictionary<BaseItem, int> BaseItems { get; protected set; }

@@ -8,6 +8,7 @@ using Yupi.Model.Domain;
 using NHibernate.Cfg;
 using System.IO;
 using NHibernate.Tool.hbm2ddl;
+using Yupi.Model.Repository;
 
 namespace Yupi.Model
 {
@@ -50,6 +51,17 @@ namespace Yupi.Model
 		private static void BuildSchema (Configuration config)
 		{
 			new SchemaUpdate (config).Execute (false, true);
+		}
+
+		// TODO Proper initial data
+		public static void Populate() {
+			PopulateObject(new NavigatorCategory () { Caption = "Test" });
+			PopulateObject (new FlatNavigatorCategory () { Caption = "Test2" });
+		}
+
+		private static void PopulateObject<T>(T data) {
+			IRepository<T> Repository = DependencyFactory.Resolve<IRepository<T>> ();
+			Repository.Save (data);
 		}
 	}
 }

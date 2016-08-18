@@ -10,9 +10,9 @@ namespace Yupi.Messages.User
 		public override void Compose ( Yupi.Protocol.ISender session, Subscription subscription)
 		{ // TODO refactor
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendString("club_habbo");
+				message.AppendString("club_habbo"); // product name
 
-				if (subscription != null) {
+				if (subscription != null && subscription.IsValid()) {
 					int days = (subscription.ExpireTime - DateTime.Now).Days;
 					int activeFor = (DateTime.Now - subscription.ActivateTime).Days;
 					int months = days / 31;

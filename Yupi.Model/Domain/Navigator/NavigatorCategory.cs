@@ -33,6 +33,7 @@ namespace Yupi.Model.Domain
 		public virtual bool IsOpened { get; set; }
 		public virtual bool IsImage { get; set; }
 		public virtual int MinRank { get; set; }
+
 		[OneToMany]
 		public virtual IList<NavigatorCategory> SubCategories { get; protected set; }
 

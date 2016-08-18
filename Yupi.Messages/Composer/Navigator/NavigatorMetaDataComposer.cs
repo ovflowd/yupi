@@ -7,6 +7,7 @@ namespace Yupi.Messages.Navigator
 	{
 		public override void Compose ( Yupi.Protocol.ISender session)
 		{
+			// TODO Implement
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(4);
 				message.AppendString("official_view");

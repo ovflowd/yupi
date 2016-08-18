@@ -6,7 +6,7 @@ namespace Yupi.Messages.Messenger
 	{
 		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			throw new NotImplementedException ();
+			// TODO Implement
 			//session.GetHabbo().GetMessenger();
 		}
 	}
