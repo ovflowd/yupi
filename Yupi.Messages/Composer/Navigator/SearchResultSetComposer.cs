@@ -6,6 +6,7 @@ using System.Data;
 using Yupi.Model.Domain;
 using Yupi.Controller;
 using Yupi.Model.Repository;
+using Yupi.Model;
 
 
 namespace Yupi.Messages.Navigator
@@ -18,43 +19,85 @@ namespace Yupi.Messages.Navigator
 		private IRepository<RoomData> RoomRepository;
 		private IRepository<NavigatorCategory> NavigatorRepository;
 
+		public SearchResultSetComposer ()
+		{
+			NavigatorRepository = DependencyFactory.Resolve<IRepository<NavigatorCategory>> ();
+		}
+
 		public override void Compose (Yupi.Protocol.ISender session, string staticId, string query)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendString (staticId);
 				message.AppendString (query);
-				message.AppendInteger (query.Length > 0 ? 1 : GetNewNavigatorLength (staticId));
 
-				throw new NotImplementedException ();
+				NavigatorView view = NavigatorView.FromValue (staticId);
 
-				/*
-				if (query.Length > 0)
-					SerializeSearches (query, message);
-				else
-					SerializeSearchResultListStatics (staticId, true, message);
+				IDictionary<NavigatorCategory, IList<RoomData>> categories = view.GetCategories (query);
+				message.AppendInteger (categories.Count);
+
+				foreach (var category in categories) {
+					message.AppendString (staticId);
+					message.AppendString (category.Key.Caption);
+					message.AppendInteger (1); // TODO actionAllowed ( 1 = Show More, 2 = Back)
+					message.AppendBool (!category.Key.IsOpened);
+					message.AppendInteger (category.Key.IsImage); // TODO ViewMode (Possible Values?)
+
+					// Room Count
+					message.AppendInteger (category.Value.Count);
+
+					foreach (RoomData roomData in category.Value) {
+						Serialize (roomData, message);
+					}
+				}
 
 				session.Send (message);
-				*/
 			}
 		}
 
-		private int GetNewNavigatorLength (string value)
+
+		private void Serialize (RoomData data, ServerMessage messageBuffer)
 		{
-			switch (value) {
-			case "official_view":
-				return 2;
+			Room room = RoomManager.GetIfLoaded (data);
 
-			case "myworld_view":
-				return 5;
+			messageBuffer.AppendInteger (data.Id);
+			messageBuffer.AppendString (data.Name);
+			messageBuffer.AppendInteger (data.Owner.Id);
+			messageBuffer.AppendString (data.Owner.UserName);
+			messageBuffer.AppendInteger ((int)data.State);
+			messageBuffer.AppendInteger (room == null ? 0 : room.GetUserCount ());
+			messageBuffer.AppendInteger (data.UsersMax);
+			messageBuffer.AppendString (data.Description);
+			messageBuffer.AppendInteger (data.TradeState);
+			messageBuffer.AppendInteger (data.Score); // Score
+			messageBuffer.AppendInteger (data.Score); // Ranking Difference?
+			messageBuffer.AppendInteger (data.Category.Id);
+			messageBuffer.AppendInteger (data.Tags.Count);
 
-			case "hotel_view":
-			case "roomads_view":
-				//return Yupi.GetGame ().GetNavigator ().FlatCatsCount + 1;
-				throw new NotImplementedException();
+			foreach (string tag in data.Tags) {
+				messageBuffer.AppendString (tag);
+			}
+				
+			RoomFlags flags = data.GetFlags ();
+
+			messageBuffer.AppendInteger ((int)flags);
+
+			if ((flags & RoomFlags.Image) > 0) {
+				messageBuffer.AppendString (data.NavigatorImage);
 			}
 
-			return 1;
+			if ((flags & RoomFlags.Group) > 0) {
+				messageBuffer.AppendInteger (data.Group.Id);
+				messageBuffer.AppendString (data.Group.Name);
+				messageBuffer.AppendString (data.Group.Badge);
+			}
+
+			if ((flags & RoomFlags.Event) > 0) {
+				messageBuffer.AppendString (data.Event.Name);
+				messageBuffer.AppendString (data.Event.Description);
+				messageBuffer.AppendInteger ((int)(data.Event.ExpiresAt - DateTime.Now).TotalMinutes);
+			}
 		}
+			
 		/*
 		private void SerializeSearchResultListFlatcats (NavigatorCategory flatCat, bool direct, ServerMessage messageBuffer)
 		{
@@ -91,8 +134,10 @@ namespace Yupi.Messages.Navigator
 */
 		private void SerializeSearchResultListStatics (string staticId, bool direct, ServerMessage messageBuffer, UserInfo user, bool opened = false, bool showImage = false)
 		{
-			throw new NotImplementedException ();
-
+			
+			return;
+			//throw new NotImplementedException ();
+		
 			/*
 			if (string.IsNullOrEmpty (staticId) || staticId == "official")
 				staticId = "official_view";
@@ -107,6 +152,8 @@ namespace Yupi.Messages.Navigator
 
 			switch (staticId) {
 			case "hotel_view":
+			case "official_view":
+			case "myworld_view":
 				{
 					NavigatorCategory navCategory =  NavigatorRepository.FindBy (x => x.Caption == staticId);
 
@@ -117,8 +164,7 @@ namespace Yupi.Messages.Navigator
 					}
 					break;
 				}
-			case "official_view":
-			case "myworld_view":
+			
 				{
 					NavigatorCategory navCategory =  NavigatorRepository.FindBy (x => x.Caption == staticId);
 					if (navCategory != null) {
@@ -307,72 +353,7 @@ namespace Yupi.Messages.Navigator
 			}
 		}
 
-		private void Serialize(RoomData data, ServerMessage messageBuffer) {
-			Room room = RoomManager.GetIfLoaded (data);
-
-			messageBuffer.AppendInteger(data.Id);
-			messageBuffer.AppendString(data.Name);
-			messageBuffer.AppendInteger(data.Owner.Id);
-			messageBuffer.AppendString(data.Owner.UserName);
-			messageBuffer.AppendInteger((int)data.State);
-			messageBuffer.AppendInteger(room == null ? 0 : room.GetUserCount());
-			messageBuffer.AppendInteger(data.UsersMax);
-			messageBuffer.AppendString(data.Description);
-			messageBuffer.AppendInteger(data.TradeState);
-			messageBuffer.AppendInteger(data.Score);
-			messageBuffer.AppendInteger(0);
-			messageBuffer.AppendInteger(data.Category.Id);
-			messageBuffer.AppendInteger(data.Tags.Count);
-
-			foreach (string tag in data.Tags) {
-				messageBuffer.AppendString (tag);
-			}
-
-			string imageData = null;
-			throw new NotImplementedException ();
-
-			int enumType = enterRoom ? 32 : 0;
-
-			PublicItem publicItem = Yupi.GetGame()?.GetNavigator()?.GetPublicRoom(data.Id);
-
-			if (!string.IsNullOrEmpty(publicItem?.Image))
-			{
-				imageData = publicItem.Image;
-
-				enumType += 1;
-			}
-
-			if (data.Group != null)
-				enumType += 2;
-
-			if (showEvents && data.Event != null)
-				enumType += 4;
-
-			if (data.Type == "private")
-				enumType += 8;
-
-			if (data.AllowPets)
-				enumType += 16;
-
-			messageBuffer.AppendInteger(enumType);
-
-			if (imageData != null)
-				messageBuffer.AppendString(imageData);
-
-			if (data.Group != null)
-			{
-				messageBuffer.AppendInteger(data.Group.Id);
-				messageBuffer.AppendString(data.Group.Name);
-				messageBuffer.AppendString(data.Group.Badge);
-			}
-
-			if (showEvents && data.Event != null)
-			{
-				messageBuffer.AppendString(data.Event.Name);
-				messageBuffer.AppendString(data.Event.Description);
-				messageBuffer.AppendInteger((int)Math.Floor((data.Event.Time - Yupi.GetUnixTimeStamp()) / 60.0));
-			}
-		}
+		
 		*/
 	}
 }

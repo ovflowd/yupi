@@ -17,7 +17,7 @@ namespace Yupi.Messages
 		public static Router Default;
 
 		private static readonly log4net.ILog Logger = log4net.LogManager
-			.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+			.GetLogger (System.Reflection.MethodBase.GetCurrentMethod ().DeclaringType);
 
 		private Dictionary<short, AbstractHandler> Incoming;
 		private Dictionary<Type, IComposer> Outgoing;
@@ -36,7 +36,8 @@ namespace Yupi.Messages
 			LoadComposers ();
 		}
 
-		public T GetComposer<T>() {
+		public T GetComposer<T> ()
+		{
 			IComposer composer;
 			Outgoing.TryGetValue (typeof(T), out composer);
 
@@ -51,7 +52,8 @@ namespace Yupi.Messages
 			return (T)composer;
 		}
 
-		public void Handle (Habbo session, ClientMessage message) {
+		public void Handle (Habbo session, ClientMessage message)
+		{
 			AbstractHandler handler;
 			Incoming.TryGetValue (message.Id, out handler);
 
@@ -59,20 +61,27 @@ namespace Yupi.Messages
 				Logger.WarnFormat ("Unknown incoming message {0}", message.Id);
 			} else {
 				if (Logger.IsDebugEnabled) {
-					Logger.WarnFormat ("Handle {0} for [{1}]: {2}", 
+					Logger.WarnFormat ("Handle [{0}] {1} for [{2}]: {3}", 
+						message.Id,
 						handler.GetType ().Name, 
 						session.Session.RemoteAddress,
-						Encoding.Default.GetString(message.GetBody())
+						Encoding.Default.GetString (message.GetBody ())
 					);
 				}
-				handler.HandleMessage (session, message, this);
+
+				try {
+					handler.HandleMessage (session, message, this);
+				} catch (Exception e) {
+					Logger.Error ("Exception thrown in Handler", e);
+				}
 			}
 		}
 		// TODO Fix handler names in *.incoming
-		private void LoadHandlers() {
+		private void LoadHandlers ()
+		{
 			Incoming = new Dictionary<short, AbstractHandler> ();
 
-			IEnumerable<Type> handlers = GetImplementing <AbstractHandler>();
+			IEnumerable<Type> handlers = GetImplementing <AbstractHandler> ();
 
 			foreach (Type handlerType in handlers) {
 				short id = library.GetIncomingId (handlerType.Name);
@@ -88,10 +97,11 @@ namespace Yupi.Messages
 			}
 		}
 
-		private void LoadComposers() {
+		private void LoadComposers ()
+		{
 			Outgoing = new Dictionary<Type, IComposer> ();
 
-			IEnumerable<Type> composers = GetImplementing <IComposer>();
+			IEnumerable<Type> composers = GetImplementing <IComposer> ();
 
 			foreach (Type composerType in composers) {
 				short id = library.GetOutgoingId (composerType.Name);
@@ -104,15 +114,16 @@ namespace Yupi.Messages
 					// TODO Remove one Add
 					Outgoing.Add (composerType, composer);
 					if (composerType.BaseType.Namespace.StartsWith ("Yupi.Messages.Contracts")
-					     && !composerType.BaseType.Name.StartsWith ("AbstractComposer")) {
+					    && !composerType.BaseType.Name.StartsWith ("AbstractComposer")) {
 						Outgoing.Add (composerType.BaseType, composer);
 					}
 				}
 			}
 		}
 
-		private IEnumerable<Type> GetImplementing<T>() {
-			return MessageAssembly.GetTypes ().Where (p => typeof(T).IsAssignableFrom (p) && p.GetConstructor(Type.EmptyTypes) != null);
+		private IEnumerable<Type> GetImplementing<T> ()
+		{
+			return MessageAssembly.GetTypes ().Where (p => typeof(T).IsAssignableFrom (p) && p.GetConstructor (Type.EmptyTypes) != null);
 		}
 	}
 }

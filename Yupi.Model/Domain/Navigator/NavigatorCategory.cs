@@ -26,6 +26,7 @@ using System.Collections.Generic;
 
 namespace Yupi.Model.Domain
 {
+	[IsDiscriminated]
 	public class NavigatorCategory
 	{
 		public virtual int Id { get; protected set; }
@@ -37,15 +38,7 @@ namespace Yupi.Model.Domain
 		[OneToMany]
 		public virtual IList<NavigatorCategory> SubCategories { get; protected set; }
 
-		/// <summary>
-		///     Initializes a new instance of the <see cref="NavigatorCategory" /> class.
-		/// </summary>
-		/// <param name="id">The identifier.</param>
-		/// <param name="caption">The caption.</param>
-		/// <param name="isOpened"></param>
-		/// <param name="isImage"></param>
-		/// <param name="subCategories"></param>
-		public NavigatorCategory ()
+		protected NavigatorCategory ()
 		{
 			SubCategories = new List<NavigatorCategory> ();
 		}
