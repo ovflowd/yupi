@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -8,8 +8,6 @@
     <RootNamespace>Yupi.Messages</RootNamespace>
     <AssemblyName>Yupi.Messages</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,32 +28,11 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.SQLite, Version=1.0.102.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Data.SQLite.Core.1.0.102.0\lib\net45\System.Data.SQLite.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Data.SQLite.EF6, Version=1.0.102.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Data.SQLite.EF6.1.0.102.0\lib\net45\System.Data.SQLite.EF6.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Data.SQLite.Linq, Version=1.0.102.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Data.SQLite.Linq.1.0.102.0\lib\net45\System.Data.SQLite.Linq.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="UnixTimestamp">
@@ -627,10 +604,51 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Composer\" />
+    <Folder Include="Handlers\" />
+    <Folder Include="Handlers\User\" />
+    <Folder Include="Composer\User\" />
+    <Folder Include="Handlers\GameCenter\" />
+    <Folder Include="Composer\GameCenter\" />
+    <Folder Include="Handlers\Music\" />
+    <Folder Include="Composer\Music\" />
+    <Folder Include="Handlers\Guides\" />
+    <Folder Include="Composer\Guides\" />
+    <Folder Include="Composer\Notification\" />
+    <Folder Include="Handlers\Support\" />
+    <Folder Include="Composer\Support\" />
+    <Folder Include="Handlers\Messenger\" />
+    <Folder Include="Composer\Messenger\" />
+    <Folder Include="Handlers\Navigator\" />
+    <Folder Include="Composer\Navigator\" />
+    <Folder Include="Handlers\Other\" />
+    <Folder Include="Composer\Other\" />
+    <Folder Include="Handlers\Groups\" />
+    <Folder Include="Composer\Groups\" />
+    <Folder Include="Handlers\Pets\" />
+    <Folder Include="Composer\Pets\" />
+    <Folder Include="Handlers\Items\" />
+    <Folder Include="Composer\Items\" />
+    <Folder Include="Composer\Items\Youtube\" />
+    <Folder Include="Handlers\Rooms\" />
+    <Folder Include="Composer\Rooms\" />
+    <Folder Include="Handlers\Bots\" />
+    <Folder Include="Composer\Bots\" />
+    <Folder Include="Handlers\Landing\" />
+    <Folder Include="Composer\Landing\" />
+    <Folder Include="Handlers\Rooms\Chat\" />
+    <Folder Include="Composer\Rooms\Chat\" />
+    <Folder Include="Composer\Rooms\Camera\" />
+    <Folder Include="Handlers\Rooms\Camera\" />
+    <Folder Include="Handlers\Rooms\Competition\" />
+    <Folder Include="Composer\Achievements\" />
+    <Folder Include="Composer\Items\Wired\" />
+    <Folder Include="Composer\Rooms\Games\" />
+    <Folder Include="Composer\Trade\" />
+  </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
       <Properties>
@@ -640,11 +658,4 @@
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
-  <Import Project="..\packages\System.Data.SQLite.Core.1.0.102.0\build\net45\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.102.0\build\net45\System.Data.SQLite.Core.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.102.0\build\net45\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.102.0\build\net45\System.Data.SQLite.Core.targets'))" />
-  </Target>
 </Project>
