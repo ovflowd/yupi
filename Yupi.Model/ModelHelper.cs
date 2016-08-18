@@ -50,13 +50,15 @@ namespace Yupi.Model
 
 		private static void BuildSchema (Configuration config)
 		{
+			// TODO Use https://github.com/schambers/fluentmigrator/
+			// @see http://stackoverflow.com/questions/5884359/fluent-nhibernate-create-database-schema-only-if-not-existing
 			new SchemaUpdate (config).Execute (false, true);
 		}
 
 		// TODO Proper initial data
 		public static void Populate() {
-			PopulateObject(new NavigatorCategory () { Caption = "Test" });
-			PopulateObject (new FlatNavigatorCategory () { Caption = "Test2" });
+			//PopulateObject(new NavigatorCategory () { Caption = "Test" });
+			//PopulateObject (new FlatNavigatorCategory () { Caption = "Test2" });
 		}
 
 		private static void PopulateObject<T>(T data) {

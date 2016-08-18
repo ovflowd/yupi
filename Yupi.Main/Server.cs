@@ -77,17 +77,17 @@ namespace Yupi.Main
 			}
 			// TODO Add File Appender
 			appender.Layout = new log4net.Layout.PatternLayout(@"%date %-5level %message%newline");
-			appender.Threshold = log4net.Core.Level.Warn;
+			appender.Threshold = log4net.Core.Level.Debug;
 			appender.ActivateOptions();
 			log4net.Config.BasicConfigurator.Configure(appender);
-
+			/*
 			var fileAppender = new log4net.Appender.FileAppender ();
 			fileAppender.AppendToFile = true;
 			fileAppender.Layout = new log4net.Layout.PatternLayout(@"%date %-5level %message%newline");
 			fileAppender.Threshold = log4net.Core.Level.Debug;
 			fileAppender.File = "log.txt";
 			fileAppender.ActivateOptions ();
-			log4net.Config.BasicConfigurator.Configure(fileAppender);
+			log4net.Config.BasicConfigurator.Configure(fileAppender);*/
 		}
 
 		public void Run() {

@@ -349,6 +349,8 @@
     <Compile Include="Headspring\Enumeration.cs" />
     <Compile Include="Domain\Navigator\PromotionNavigatorCategory.cs" />
     <Compile Include="Domain\Navigator\FlatNavigatorCategory.cs" />
+    <Compile Include="Domain\Navigator\OfficialNavigatorCategory.cs" />
+    <Compile Include="Domain\Rooms\RoomFlags.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -47,6 +47,8 @@ namespace Yupi.Model.Domain
 		// TODO What are those exactly? (Format!)
 		public virtual string CCTs { get; set; }
 
+		public virtual string NavigatorImage { get; set; }
+
 		public virtual SongMachineComponent SongMachine { get; protected set; }
 
 		/// <summary>
@@ -241,6 +243,31 @@ namespace Yupi.Model.Domain
 			MutedEntities = new List<RoomMute> ();
 		}
 			
+		public virtual RoomFlags GetFlags() {
+			RoomFlags flag = RoomFlags.Default;
+
+			if (NavigatorImage != null) {
+				flag |= RoomFlags.Image;
+			}
+
+			if (Group != null) {
+				flag |= RoomFlags.Group;
+			}
+
+			if (Event != null) {
+				flag |= RoomFlags.Event;
+			}
+
+			if (Type == "private") {
+				flag |= RoomFlags.Private;
+			}
+
+			if (AllowPets) {
+				flag |= RoomFlags.AllowPets;
+			}
+			return flag;
+		}
+
 		// TODO Remove when not used anymore
 		/*
         /// <summary>
