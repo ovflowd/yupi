@@ -9,7 +9,7 @@ namespace Yupi.Messages.Items
 		public override void HandleMessage (Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			
-			if (session.Room == null || !session.Room.HasRights (session.Info))
+			if (session.Room == null || !session.Room.Data.HasRights (session.Info))
 				return;
 
 			int id = request.GetInteger ();

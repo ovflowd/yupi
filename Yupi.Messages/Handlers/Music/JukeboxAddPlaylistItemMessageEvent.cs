@@ -24,7 +24,7 @@ namespace Yupi.Messages.Music
 		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			if (session.Room == null
-				|| !session.Room.HasOwnerRights(session.Info)) {
+				|| !session.Room.Data.HasOwnerRights(session.Info)) {
 				return;
 			}
 				

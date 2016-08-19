@@ -2,31 +2,31 @@
 
 using Yupi.Protocol.Buffers;
 using Yupi.Model.Domain;
+using Yupi.Messages.Encoders;
 
 namespace Yupi.Messages.Rooms
 {
 	public class RoomDataMessageComposer : Yupi.Messages.Contracts.RoomDataMessageComposer
 	{
-		public override void Compose ( Yupi.Protocol.ISender session, RoomData room, bool show, bool isNotReload)
+		public override void Compose ( Yupi.Protocol.ISender session, RoomData room, UserInfo user, bool show, bool isNotReload)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendBool(show);
+
+				message.Append (room);
+
 				message.AppendBool(isNotReload);
-				/*
-				message.AppendBool(Yupi.GetGame().GetNavigator() != null && Yupi.GetGame().GetNavigator().GetPublicRoom(room.RoomData.Id) != null);
-				message.AppendBool(!isNotReload || session.Info.HasPermission("fuse_mod"));
+				message.AppendBool(room.IsPublic);
+				message.AppendBool(!isNotReload);
 				message.AppendBool(room.IsMuted);
+
 				message.AppendInteger(room.WhoCanMute);
 				message.AppendInteger(room.WhoCanKick);
 				message.AppendInteger(room.WhoCanBan);
-				message.AppendBool(room.CheckRights(session, true));
-				*/
-				throw new NotImplementedException ();
-				message.AppendInteger(room.ChatType);
-				message.AppendInteger(room.ChatBalloon);
-				message.AppendInteger(room.ChatSpeed);
-				message.AppendInteger(room.ChatMaxDistance);
-				message.AppendInteger(room.ChatFloodProtection);
+
+				message.AppendBool(room.HasOwnerRights(user));
+
+				message.Append (room.Chat);
 				session.Send (message);
 			}
 		}

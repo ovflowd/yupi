@@ -94,7 +94,6 @@ namespace Yupi.Model.Domain
 		public virtual IList<RoomData> UsersRooms { get; protected set; }
 
 		public UserInfo() {
-			FavouriteGroup = Group.None;
 			Badges = new UserBadgeComponent ();
 			Wallet = new UserWallet ();
 			Preferences = new UserPreferences ();

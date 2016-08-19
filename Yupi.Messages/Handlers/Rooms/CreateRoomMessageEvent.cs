@@ -1,43 +1,58 @@
 ﻿using System;
+using Yupi.Messages.Contracts;
+using Yupi.Model.Domain;
+using Yupi.Model.Repository;
+using Yupi.Model;
 
 
 namespace Yupi.Messages.Rooms
 {
 	public class CreateRoomMessageEvent : AbstractHandler
 	{
+		private IRepository<NavigatorCategory> NavigatorRepository;
+		private IRepository<RoomData> RoomRepository;
+
+		public CreateRoomMessageEvent ()
+		{
+			NavigatorRepository = DependencyFactory.Resolve<IRepository<NavigatorCategory>> ();
+			RoomRepository = DependencyFactory.Resolve<IRepository<RoomData>> ();
+		}
+		
 		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			/*
-			// TODO Magic number!
-			if (session.GetHabbo().UsersRooms.Count >= 75)
-			{
-				session.SendNotif(Yupi.GetLanguage().GetVar("user_has_more_then_75_rooms"));
-
-				return;
-			}
-
-			if (Yupi.GetUnixTimeStamp() - session.GetHabbo().LastSqlQuery < 20)
-			{
-				session.SendNotif(Yupi.GetLanguage().GetVar("user_create_room_flood_error"));
-				return;
-			}
-
 			string name = request.GetString();
 			string description = request.GetString();
 			string roomModel = request.GetString();
-			int category = request.GetInteger();
+			int categoryId = request.GetInteger();
 			int maxVisitors = request.GetInteger();
 			int tradeState = request.GetInteger();
 
-			RoomData data = Yupi.GetGame().GetRoomManager().CreateRoom(session, name, description, roomModel, category, maxVisitors, tradeState);
+			RoomModel model;
 
-			if (data == null)
+			if (!RoomModel.TryParse (roomModel, out model)) {
 				return;
+			}
 
-			session.GetHabbo().LastSqlQuery = Yupi.GetUnixTimeStamp();
+			NavigatorCategory category = NavigatorRepository.FindBy (categoryId);
+
+			if (category.MinRank > session.Info.Rank) {
+				return;
+			}
+
+			// TODO Filter Name, Description, max visitors
+			RoomData data = new RoomData() {
+				Name = name,
+				Description = description,
+				Model = model,
+				Category = category,
+				UsersMax = maxVisitors,
+				TradeState = tradeState,
+				Owner = session.Info
+			};
+
+			RoomRepository.Save (data);
+
 			router.GetComposer<OnCreateRoomInfoMessageComposer> ().Compose (session, data);
-			*/
-			throw new NotImplementedException ();
 		}
 	}
 }

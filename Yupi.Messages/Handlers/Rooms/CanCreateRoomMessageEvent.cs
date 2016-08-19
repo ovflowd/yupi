@@ -6,7 +6,7 @@ namespace Yupi.Messages.Rooms
 	{
 		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			router.GetComposer<CanCreateRoomMessageComposer> ().Compose (session);
+			router.GetComposer<CanCreateRoomMessageComposer> ().Compose (session, session.Info);
 		}
 	}
 }

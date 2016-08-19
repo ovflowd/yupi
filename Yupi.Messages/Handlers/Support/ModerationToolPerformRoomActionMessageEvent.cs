@@ -23,17 +23,17 @@ namespace Yupi.Messages.Support
 			RoomManager = DependencyFactory.Resolve<RoomManager> ();
 		}
 
-		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
-			if (!session.Info.HasPermission("fuse_mod"))
+			if (!session.Info.HasPermission ("fuse_mod"))
 				return;
 
-			int roomId = message.GetInteger();
+			int roomId = message.GetInteger ();
 
 			// TODO Refactor (shoud be enum)
-			bool lockRoom = message.GetIntegerAsBool();
-			bool inappropriateRoom = message.GetIntegerAsBool();
-			bool kickUsers = message.GetIntegerAsBool();
+			bool lockRoom = message.GetIntegerAsBool ();
+			bool inappropriateRoom = message.GetIntegerAsBool ();
+			bool kickUsers = message.GetIntegerAsBool ();
 
 			RoomData roomData = RoomRepository.FindBy (roomId);
 
@@ -41,8 +41,7 @@ namespace Yupi.Messages.Support
 				return;
 			}
 
-			if (lockRoom)
-			{
+			if (lockRoom) {
 				roomData.State = RoomState.LOCKED;
 			}
 
@@ -52,15 +51,16 @@ namespace Yupi.Messages.Support
 				room = RoomManager.LoadedRooms.FirstOrDefault (x => x.Data.Id == roomData.Id);
 			}
 
-			if (inappropriateRoom)
-			{
+			if (inappropriateRoom) {
 				// TODO Translate
-				roomData.Name = T._("Inappropriate for Hotel Management");
+				roomData.Name = T._ ("Inappropriate for Hotel Management");
 				roomData.Description = string.Empty;
-				roomData.Tags.Clear();
+				roomData.Tags.Clear ();
 
 				if (room != null) {
-					room.Router.GetComposer<RoomDataMessageComposer> ().Compose (room, roomData, false, true);
+					foreach (Habbo entitySession in room.GetSessions()) {
+						entitySession.Router.GetComposer<RoomDataMessageComposer> ().Compose (entitySession, roomData, entitySession.Info, false, true);
+					}
 				}
 			}
 

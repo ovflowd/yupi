@@ -2,6 +2,7 @@
 
 using Yupi.Protocol.Buffers;
 using Yupi.Model.Domain;
+using Yupi.Messages.Encoders;
 
 namespace Yupi.Messages.Rooms
 {
@@ -30,11 +31,8 @@ namespace Yupi.Messages.Rooms
 				message.AppendInteger(room.HideWall);
 				message.AppendInteger(room.WallThickness);
 				message.AppendInteger(room.FloorThickness);
-				message.AppendInteger(room.ChatType);
-				message.AppendInteger(room.ChatBalloon);
-				message.AppendInteger(room.ChatSpeed);
-				message.AppendInteger(room.ChatMaxDistance);
-				message.AppendInteger(room.ChatFloodProtection > 2 ? 2 : room.ChatFloodProtection);
+				message.Append(room.Chat);
+				message.AppendInteger(room.Chat.FloodProtection > 2 ? 2 : room.Chat.FloodProtection);
 				message.AppendBool(false); //allow_dyncats_checkbox
 				message.AppendInteger(room.WhoCanMute);
 				message.AppendInteger(room.WhoCanKick);

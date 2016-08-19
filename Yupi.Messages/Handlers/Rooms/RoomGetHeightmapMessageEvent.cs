@@ -1,7 +1,4 @@
 ﻿using System;
-
-
-
 using Yupi.Messages.Items;
 
 
@@ -10,52 +7,33 @@ namespace Yupi.Messages.Rooms
 {
 	public class RoomGetHeightmapMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			/*
-			if (session.GetHabbo ().LoadingRoom <= 0u || CurrentLoadingRoom == null)
+			if (session.Room == null)
 				return;
-
-			RoomData roomData = CurrentLoadingRoom.RoomData;
-
-			if (roomData == null)
-				return;
-
-			if (roomData.Model == null || CurrentLoadingRoom.GetGameMap () == null) {
-				router.GetComposer<OutOfRoomMessageComposer> ().Compose (session);
-				session.ClearRoomLoading ();
-			} else {
-				router.GetComposer<HeightMapMessageComposer> ().Compose (session, CurrentLoadingRoom.GetGameMap ());
-				router.GetComposer<FloorMapMessageComposer> ().Compose (session, CurrentLoadingRoom.GetGameMap ().Model.GetHeightmap (), 
-					CurrentLoadingRoom.RoomData.WallHeight);
-				GetRoomData3 ();
-			}*/
 			throw new NotImplementedException ();
+			//router.GetComposer<HeightMapMessageComposer> ().Compose (session, session.Room.GetGameMap ());
+			router.GetComposer<FloorMapMessageComposer> ().Compose (session,session.Room.Data.Model.Heightmap, 
+				session.Room.Data.WallHeight);
+
+
+			if (session.Room.GetUserCount () >= session.Room.Data.UsersMax &&
+			    !session.Info.HasPermission ("fuse_enter_full_rooms")) {
+				router.GetComposer<RoomEnterErrorMessageComposer> ().Compose (session, RoomEnterErrorMessageComposer.Error.ROOM_FULL);
+			} else {
+				//router.GetComposer<RoomFloorItemsMessageComposer> ().Compose (session, session.Room.Data, session.Room.GetRoomItemHandler ().FloorItems);
+				//router.GetComposer<RoomWallItemsMessageComposer> ().Compose (session, session.Room.Data, session.Room.GetRoomItemHandler ().WallItems);
+			
+				// TODO Implement
+				//CurrentLoadingRoom.GetRoomUserManager().AddUserToRoom(session, session.SpectatorMode);
+				throw new NotImplementedException ();
+				//GetRoomData3 ();
+			}
 		}
 
-		private void GetRoomData3( Yupi.Protocol.ISender session, Yupi.Protocol.IRouter router)
+		private void GetRoomData3 (Yupi.Protocol.ISender session, Yupi.Protocol.IRouter router)
 		{
 			/*
-			if (session.GetHabbo().LoadingRoom <= 0u || !session.GetHabbo().LoadingChecksPassed ||  CurrentLoadingRoom == null || session == null)
-				return;
-
-			if (CurrentLoadingRoom.RoomData.UsersNow >= CurrentLoadingRoom.RoomData.UsersMax &&
-				!session.Info.HasPermission("fuse_enter_full_rooms"))
-			{
-				
-				router.GetComposer<RoomEnterErrorMessageComposer> ().Compose (session, RoomEnterErrorMessageComposer.Error.ROOM_FULL);
-				return;
-			}
-
-			router.GetComposer<RoomFloorItemsMessageComposer> ().Compose (session, CurrentLoadingRoom.RoomData, CurrentLoadingRoom.GetRoomItemHandler ().FloorItems);
-			router.GetComposer<RoomWallItemsMessageComposer> ().Compose (session, CurrentLoadingRoom.RoomData, CurrentLoadingRoom.GetRoomItemHandler ().WallItems);
-
-
-			CurrentLoadingRoom.GetRoomUserManager().AddUserToRoom(session, session.GetHabbo().SpectatorMode);
-
-			// TODO Why is the spectator mode disabled here?
-			session.GetHabbo().SpectatorMode = false;
-
 			RoomCompetition competition = Yupi.GetGame().GetRoomManager().GetCompetitionManager().Competition;
 
 			if (competition != null)
@@ -92,8 +70,6 @@ namespace Yupi.Messages.Rooms
 			{
 				router.GetComposer<FloodFilterMessageComposer> ().Compose (session, session.GetHabbo ().FloodTime - Yupi.GetUnixTimeStamp ());
 			}
-
-			session.ClearRoomLoading();
 
 			Poll poll;
 

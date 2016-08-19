@@ -20,6 +20,11 @@ namespace Yupi.Model.Domain
 			}
 		}
 
+		public UserEntity (Habbo user)
+		{
+			this.User = user;
+		}
+
 		public override void Send (Yupi.Protocol.Buffers.ServerMessage message)
 		{
 			

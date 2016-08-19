@@ -29,7 +29,10 @@ namespace Yupi.Model.Domain
 			this.Data = data;
 			Users = new List<RoomEntity> ();
 			GroupsInRoom = new HashSet<Group> ();
-			GroupsInRoom.Add (Data.Group);
+
+			if (Data.Group != null) {
+				GroupsInRoom.Add (Data.Group);
+			}
 		}
 
 		public bool CanVote(UserInfo user) {
@@ -48,18 +51,14 @@ namespace Yupi.Model.Domain
 		public bool HasUsers() {
 			return Users.Any (x => x.Type == EntityType.User);
 		}
-
-		public bool HasOwnerRights(UserInfo user) {
-			return (Data.Owner == user || user.HasPermission ("fuse_any_room_controller"));
-		}
-
-		public bool HasRights(UserInfo user) {
-			return (Data.Owner == user || user.HasPermission ("fuse_any_rooms_rights") || Data.Rights.Contains(user));
-		}
-
+			
 		// TODO Consider using back references...
 		public RoomEntity GetEntity(int id) {
 			return Users.Single (entity => entity.Id == id);
+		}
+
+		public void AddUser(Habbo user) {
+			Users.Add (new UserEntity (user));
 		}
 
 		public void Send (Yupi.Protocol.Buffers.ServerMessage message)

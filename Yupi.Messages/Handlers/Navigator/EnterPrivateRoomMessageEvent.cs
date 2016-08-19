@@ -2,12 +2,18 @@
 using Yupi.Controller;
 using Yupi.Model.Domain;
 using Yupi.Messages.Contracts;
+using Yupi.Model;
 
 namespace Yupi.Messages.Navigator
 {
 	public class EnterPrivateRoomMessageEvent : AbstractHandler
 	{
 		private RoomManager RoomManager;
+
+		public EnterPrivateRoomMessageEvent ()
+		{
+			RoomManager = DependencyFactory.Resolve<RoomManager> ();
+		}
 
 		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
@@ -45,7 +51,7 @@ namespace Yupi.Messages.Navigator
 
 				if (!isReload
 				    && !session.Info.HasPermission ("fuse_enter_any_room")
-					&& !room.HasOwnerRights (session.Info)
+					&& !room.Data.HasOwnerRights (session.Info)
 					&& session.TeleportingTo != room.Data) {
 
 					switch (room.Data.State) {
@@ -58,7 +64,7 @@ namespace Yupi.Messages.Navigator
 							router.GetComposer<DoorbellMessageComposer> ().Compose (session, string.Empty);
 
 							foreach (Habbo user in room.GetSessions()) {
-								if (room.HasRights (user.Info)) {
+								if (room.Data.HasRights (user.Info)) {
 									user.Router.GetComposer<DoorbellMessageComposer> ().Compose (user, session.Info.UserName);
 								}
 							}
@@ -76,7 +82,9 @@ namespace Yupi.Messages.Navigator
 					}
 				}
 
-				room.GroupsInRoom.Add (session.Info.FavouriteGroup);
+				if (session.Info.FavouriteGroup != null) {
+					room.GroupsInRoom.Add (session.Info.FavouriteGroup);
+				}
 
 				router.GetComposer<RoomGroupMessageComposer> ().Compose (session, room.GroupsInRoom);
 				router.GetComposer<InitialRoomInfoMessageComposer> ().Compose (session, room.Data);
@@ -97,10 +105,10 @@ namespace Yupi.Messages.Navigator
 				// TODO Magic numbers!
 				int rightsLevel = 0;
 
-				if (room.HasOwnerRights (session.Info)) {
+				if (room.Data.HasOwnerRights (session.Info)) {
 					rightsLevel = 4;
 					router.GetComposer<HasOwnerRightsMessageComposer> ().Compose (session);
-				} else if (room.HasRights (session.Info)) {
+				} else if (room.Data.HasRights (session.Info)) {
 					rightsLevel = 1;
 				}
 

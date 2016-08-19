@@ -261,15 +261,6 @@ namespace Yupi.Protocol.Buffers
         /// <param name="number">The number.</param>
         public void AppendByte(int number) => CurrentMessage.WriteByte((byte) number);
 
-		public void Append<T>(IList<T> list) where T : IConvertible {
-			AppendInteger (list.Count);
-
-			foreach (T item in list) {
-			//	Append (item);
-				// TODO Must refactor to generic
-			}
-		}
-
         /// <summary>
         ///     Gets the bytes.
         /// </summary>

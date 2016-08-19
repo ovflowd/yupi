@@ -1,4 +1,7 @@
 ﻿using System;
+using Yupi.Controller;
+using System.Collections.Generic;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Navigator
 {
@@ -6,14 +9,14 @@ namespace Yupi.Messages.Navigator
 	{
 		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			if (session == null)
-				return;
+			string staticId = request.GetString();
+			string query = request.GetString();
 
-			string name = request.GetString();
-			// TODO What???
-			string junk = request.GetString();
+			NavigatorView view = NavigatorView.FromValue (staticId);
 
-			router.GetComposer<SearchResultSetComposer> ().Compose (session, name, junk);
+			// TODO Create SearchResult class instead of Dictionary
+			IList<SearchResultEntry> categories = view.GetCategories (query, session.Info);
+			router.GetComposer<SearchResultSetComposer> ().Compose (session, staticId, query, categories);
 		}
 	}
 }

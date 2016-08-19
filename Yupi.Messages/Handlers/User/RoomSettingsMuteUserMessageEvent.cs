@@ -20,8 +20,8 @@ namespace Yupi.Messages.User
 			Room room = session.Room;
 	
 			if (room == null
-			    || (room.Data.WhoCanBan == 0 && !room.HasOwnerRights (session.Info))
-			    || (room.Data.WhoCanBan == 1 && !room.HasRights (session.Info))) {
+			    || (room.Data.WhoCanBan == 0 && !room.Data.HasOwnerRights (session.Info))
+				|| (room.Data.WhoCanBan == 1 && !room.Data.HasRights (session.Info))) {
 				return;
 			}
 

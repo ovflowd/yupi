@@ -81,30 +81,7 @@ namespace Yupi.Model.Domain
 		/// </summary>
 		public virtual NavigatorCategory Category { get; set; }
 
-		/// <summary>
-		///     Chat Balloon Type
-		/// </summary>
-		public virtual uint ChatBalloon { get; set; }
-
-		/// <summary>
-		///     Chat Walk Speed
-		/// </summary>
-		public virtual uint ChatSpeed { get; set; }
-
-		/// <summary>
-		///     Chat Max Distance each Other Message
-		/// </summary>
-		public virtual uint ChatMaxDistance { get; set; }
-
-		/// <summary>
-		///     Chat Flood Protection
-		/// </summary>
-		public virtual uint ChatFloodProtection { get; set; }
-
-		/// <summary>
-		///     Room Chat Type
-		/// </summary>
-		public virtual int ChatType { get; set; }
+		public virtual RoomChatSettings Chat { get; protected set; }
 
 		/// <summary>
 		///     Room Description
@@ -167,9 +144,7 @@ namespace Yupi.Model.Domain
 		[OneToMany]
 		public virtual IList<string> Tags { get; protected set; }
 
-		/// <summary>
-		///     Room Trade State
-		/// </summary>
+		// TODO Enum private/public
 		public virtual int TradeState { get; set; }
 
 		// TODO Enum private/public
@@ -178,11 +153,9 @@ namespace Yupi.Model.Domain
 		/// <summary>
 		///     Max Amount of Users on Room
 		/// </summary>
-		public virtual uint UsersMax { get; set; }
+		public virtual int UsersMax { get; set; }
 
-		/// <summary>
-		///     Room Wall Height
-		/// </summary>
+		// TODO Isn't this part of the model?
 		public virtual int WallHeight { get; set; }
 
 		/// <summary>
@@ -221,6 +194,14 @@ namespace Yupi.Model.Domain
 
 		public virtual IList<RoomMute> MutedEntities { get; protected set; }
 
+		[Ignore]
+		public virtual bool IsPublic {
+			get {
+				// TODO Remove Type!
+				return Type != "private";
+			}
+		}
+
 		public RoomData ()
 		{
 			// TODO Should be removed...
@@ -241,6 +222,7 @@ namespace Yupi.Model.Domain
 			WordFilter = new List<string> ();
 			Rights = new List<UserInfo> ();
 			MutedEntities = new List<RoomMute> ();
+			Chat = new RoomChatSettings ();
 		}
 			
 		public virtual RoomFlags GetFlags() {
@@ -266,6 +248,14 @@ namespace Yupi.Model.Domain
 				flag |= RoomFlags.AllowPets;
 			}
 			return flag;
+		}
+
+		public virtual bool HasOwnerRights(UserInfo user) {
+			return (Owner == user || user.HasPermission ("fuse_any_room_controller"));
+		}
+
+		public virtual bool HasRights(UserInfo user) {
+			return (Owner == user || user.HasPermission ("fuse_any_rooms_rights") || Rights.Contains(user));
 		}
 
 		// TODO Remove when not used anymore

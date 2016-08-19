@@ -575,6 +575,8 @@
     <Compile Include="Composer\Catalog\GiftErrorMessageComposer.cs" />
     <Compile Include="Composer\Messenger\NotAcceptingRequestsMessageComposer.cs" />
     <Compile Include="Handlers\Other\ReleaseVersionEvent.cs" />
+    <Compile Include="Encoders\RoomEncoder.cs" />
+    <Compile Include="Encoders\ListEncoder.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -648,6 +650,7 @@
     <Folder Include="Composer\Items\Wired\" />
     <Folder Include="Composer\Rooms\Games\" />
     <Folder Include="Composer\Trade\" />
+    <Folder Include="Encoders\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

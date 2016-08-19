@@ -2,6 +2,7 @@
 
 using Yupi.Protocol.Buffers;
 using Yupi.Model.Domain;
+using Yupi.Messages.Encoders;
 
 namespace Yupi.Messages.Rooms
 {
@@ -10,11 +11,7 @@ namespace Yupi.Messages.Rooms
 		public override void Compose ( Yupi.Protocol.ISender session, RoomData data)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendInteger(data.ChatType);
-				message.AppendInteger(data.ChatBalloon);
-				message.AppendInteger(data.ChatSpeed);
-				message.AppendInteger(data.ChatMaxDistance);
-				message.AppendInteger(data.ChatFloodProtection);
+				message.Append(data.Chat);
 				session.Send (message);
 			}
 		}

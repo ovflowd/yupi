@@ -3,6 +3,7 @@ using Yupi.Protocol.Buffers;
 using Yupi.Net;
 using System.Collections.Generic;
 using Yupi.Model.Domain;
+using Yupi.Messages.Encoders;
 
 
 namespace Yupi.Messages.User

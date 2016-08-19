@@ -5,9 +5,9 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Contracts
 {
-	public abstract class SearchResultSetComposer : AbstractComposer<string, string>
+	public abstract class SearchResultSetComposer : AbstractComposer<string, string, IList<SearchResultEntry>>
 	{
-		public override void Compose(Yupi.Protocol.ISender session, string staticId, string query)
+		public override void Compose(Yupi.Protocol.ISender session, string staticId, string query, IList<SearchResultEntry> result)
 		{
 		 // Do nothing by default.
 		}

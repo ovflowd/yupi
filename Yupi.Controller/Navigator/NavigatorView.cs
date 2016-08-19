@@ -19,24 +19,24 @@ namespace Yupi.Controller
 		/// <summary>
 		/// Public rooms
 		/// </summary>
-		public static readonly HotelView Hotel = new HotelView();
+		public static readonly HotelView Hotel = new HotelView ();
 
 		/// <summary>
 		/// User's Rooms
 		/// </summary>
-		public static readonly MyWorldView MyWorld = new MyWorldView();
+		public static readonly MyWorldView MyWorld = new MyWorldView ();
 
 		/// <summary>
 		/// Event Rooms
 		/// </summary>
-		public static readonly RoomAdsView RoomAds = new RoomAdsView();
+		public static readonly RoomAdsView RoomAds = new RoomAdsView ();
 
-		public NavigatorView (string value) : base(value, value)
+		public NavigatorView (string value) : base (value, value)
 		{
 			
 		}
 
-		public abstract IDictionary<NavigatorCategory, IList<RoomData>> GetCategories (string query);
+		public abstract IList<SearchResultEntry> GetCategories (string query, UserInfo user);
 	}
 
 	public abstract class NavigatorView<T> : NavigatorView where T : NavigatorCategory
@@ -50,20 +50,26 @@ namespace Yupi.Controller
 			RoomRepository = DependencyFactory.Resolve<IRepository<RoomData>> ();
 		}
 
-		public override IDictionary<NavigatorCategory, IList<RoomData>> GetCategories (string query)
+		protected virtual Func<RoomData, bool> GetRoomPredicate (string query, UserInfo user)
 		{
-			var result = new Dictionary<NavigatorCategory, IList<RoomData>> ();
+			return x => true;
+		}
+
+		public override IList<SearchResultEntry> GetCategories (string query, UserInfo user)
+		{
+			List<SearchResultEntry> result = new List<SearchResultEntry> ();
 			var categories = NavigatorRepository.All ();
 
 			foreach (NavigatorCategory category in categories) {
-				if (!result.ContainsKey (category)) {
-					IList<RoomData> rooms = RoomRepository.FilterBy (x => x.Category == category).ToList ();
+				IList<RoomData> rooms = RoomRepository
+						.FilterBy (x => x.Category == category)
+						.Where (GetRoomPredicate (query, user))
+						.ToList ();
 
-					// TODO Filter query
+				// TODO Filter query
 
-					if(rooms.Count > 0) {
-						result.Add (category, rooms);
-					}
+				if (rooms.Count > 0) {
+					result.Add (new SearchResultEntry(category, rooms));
 				}
 			}
 

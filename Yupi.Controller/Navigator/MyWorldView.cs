@@ -9,6 +9,11 @@ namespace Yupi.Controller
 		{
 
 		}
+
+		protected override Func<RoomData, bool> GetRoomPredicate (string query, UserInfo user)
+		{
+			return x => base.GetRoomPredicate (query, user)(x) && x.Owner == user;
+		}
 	}
 }
 

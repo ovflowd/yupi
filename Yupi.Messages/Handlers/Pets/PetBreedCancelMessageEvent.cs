@@ -13,7 +13,7 @@ namespace Yupi.Messages.Pets
 		{
 			int itemId = request.GetInteger();
 
-			if (session.Room == null || !session.Room.HasOwnerRights(session.Info))
+			if (session.Room == null || !session.Room.Data.HasOwnerRights(session.Info))
 				return;
 
 			throw new NotImplementedException ();

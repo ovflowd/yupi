@@ -43,7 +43,9 @@ namespace Yupi.Messages.Navigator
 			Room room = RoomManager.GetIfLoaded (roomData);
 
 			if (room != null) {
-				room.Router.GetComposer<RoomDataMessageComposer> ().Compose (room, roomData, true, true);
+				foreach (Habbo entitySession in room.GetSessions()) {
+					entitySession.Router.GetComposer<RoomDataMessageComposer> ().Compose (entitySession, roomData, entitySession.Info, true, true);
+				}
 			}
 		}
 	}
