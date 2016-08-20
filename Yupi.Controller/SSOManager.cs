@@ -40,6 +40,7 @@ namespace Yupi.Controller
 				} else {
 					
 					session.Router.GetComposer<UniqueMachineIDMessageComposer> ().Compose (session, session.MachineId);  
+
 					session.Router.GetComposer<AuthenticationOKMessageComposer> ().Compose (session);    
 
 					session.Router.GetComposer<HomeRoomMessageComposer> ().Compose (session, user.HomeRoom == null ? 0 : user.HomeRoom.Id);  

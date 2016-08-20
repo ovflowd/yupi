@@ -12,6 +12,9 @@ namespace Yupi.Messages.User
 		{
 			string username = request.GetString();
 
+			// TODO Implement
+			//session.Router.GetComposer<HotelClosedMessageComposer> ().Compose (session, 8, 0, false);
+
 			if (username != session.Info.UserName) {
 				// TODO Should we check this and disconnect on mismatch?
 			}

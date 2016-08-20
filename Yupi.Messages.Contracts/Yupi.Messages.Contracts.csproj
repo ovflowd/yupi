@@ -302,6 +302,7 @@
     <Compile Include="AbstractHandler.cs" />
     <Compile Include="PacketLibrary.cs" />
     <Compile Include="Composer\Rooms\UpdateUserStatusMessageComposer.cs" />
+    <Compile Include="Composer\Other\HotelClosedMessageComposer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

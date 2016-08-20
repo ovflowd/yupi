@@ -16,6 +16,7 @@ HotelViewDailyquestMessageComposer=3607
 HotelViewHallOfFameMessageComposer=3344
 CompetitionEntrySubmitResultMessageComposer=3593
 CompetitionVotingInfoMessageComposer=3427
+HotelClosedMessageComposer=3204
 
 [HabboBasicInfo]
 UserObjectMessageComposer=2779

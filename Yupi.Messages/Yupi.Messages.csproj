@@ -577,6 +577,7 @@
     <Compile Include="Encoders\RoomEncoder.cs" />
     <Compile Include="Encoders\ListEncoder.cs" />
     <Compile Include="Composer\Rooms\UpdateUserStatusMessageComposer.cs" />
+    <Compile Include="Composer\Other\HotelClosedMessageComposer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
