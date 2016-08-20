@@ -494,7 +494,6 @@
     <Compile Include="Composer\Rooms\RoomOwnershipMessageComposer.cs" />
     <Compile Include="Composer\Rooms\ApplyHanditemMessageComposer.cs" />
     <Compile Include="Composer\Rooms\ApplyEffectMessageComposer.cs" />
-    <Compile Include="Composer\User\UpdateUserStatusMessageComposer.cs" />
     <Compile Include="Composer\User\SendAchievementsRequirementsMessageComposer.cs" />
     <Compile Include="Composer\User\AchievementListMessageComposer.cs" />
     <Compile Include="Composer\Achievements\AchievementProgressMessageComposer.cs" />
@@ -577,6 +576,7 @@
     <Compile Include="Handlers\Other\ReleaseVersionEvent.cs" />
     <Compile Include="Encoders\RoomEncoder.cs" />
     <Compile Include="Encoders\ListEncoder.cs" />
+    <Compile Include="Composer\Rooms\UpdateUserStatusMessageComposer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -34,6 +34,8 @@ namespace Yupi.Messages.Support
 					message.AppendInteger(-1);
 					message.AppendInteger(-1);
 				}
+
+				session.Send (message);
 			}
 		}
 	}

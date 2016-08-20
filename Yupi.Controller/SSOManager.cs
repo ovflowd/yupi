@@ -6,6 +6,7 @@ using Yupi.Protocol;
 using System.Collections.Generic;
 using Yupi.Messages.Contracts;
 using Yupi.Net;
+using System.Linq;
 
 namespace Yupi.Controller
 {
@@ -43,8 +44,7 @@ namespace Yupi.Controller
 
 					session.Router.GetComposer<HomeRoomMessageComposer> ().Compose (session, user.HomeRoom == null ? 0 : user.HomeRoom.Id);  
 
-					// TODO Implement
-					//session.Router.GetComposer<MinimailCountMessageComposer> ().Compose (session, user.MinimailUnreadMessages);  
+					session.Router.GetComposer<MinimailCountMessageComposer> ().Compose (session, user.Minimail.Count(x => !x.Seen));  
 
 					session.Router.GetComposer<FavouriteRoomsMessageComposer> ().Compose (session, user.FavoriteRooms);  
 
@@ -57,9 +57,7 @@ namespace Yupi.Controller
 						session.Router.GetComposer<EnableTradingMessageComposer> ().Compose (session);  
 					}
 					session.Router.GetComposer<CreditsBalanceMessageComposer> ().Compose (session, user.Wallet.Credits);  
-
-					// TODO Results in DC (package looks right though)
-					//session.Router.GetComposer<ActivityPointsMessageComposer> ().Compose (session, user.Wallet);            
+					session.Router.GetComposer<ActivityPointsMessageComposer> ().Compose (session, user.Wallet);            
 
 					if (user.HasPermission("fuse_modtool")) {
 						session.Router.GetComposer<LoadModerationToolMessageComposer>().Compose(session, ModerationTool.Tickets, 

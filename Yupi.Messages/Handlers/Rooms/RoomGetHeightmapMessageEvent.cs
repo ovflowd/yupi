@@ -1,5 +1,7 @@
 ﻿using System;
 using Yupi.Messages.Items;
+using Yupi.Model.Domain;
+using Yupi.Messages.User;
 
 
 
@@ -11,8 +13,9 @@ namespace Yupi.Messages.Rooms
 		{
 			if (session.Room == null)
 				return;
-			throw new NotImplementedException ();
-			//router.GetComposer<HeightMapMessageComposer> ().Compose (session, session.Room.GetGameMap ());
+
+			router.GetComposer<HeightMapMessageComposer> ().Compose (session, session.Room.HeightMap);
+
 			router.GetComposer<FloorMapMessageComposer> ().Compose (session,session.Room.Data.Model.Heightmap, 
 				session.Room.Data.WallHeight);
 
@@ -25,8 +28,28 @@ namespace Yupi.Messages.Rooms
 				//router.GetComposer<RoomWallItemsMessageComposer> ().Compose (session, session.Room.Data, session.Room.GetRoomItemHandler ().WallItems);
 			
 				// TODO Implement
+				router.GetComposer<SetRoomUserMessageComposer>().Compose(session, session.Room.Users);
+				router.GetComposer<RoomFloorWallLevelsMessageComposer> ().Compose (session, session.Room.Data);
+				router.GetComposer<RoomOwnershipMessageComposer> ().Compose (session, session.Room.Data, session.Info);
+
+				foreach(UserInfo userWithRights in session.Room.Data.Rights) {
+					router.GetComposer<GiveRoomRightsMessageComposer> ()
+						.Compose (session, session.Room.Data.Id, userWithRights);
+				}
+
+				router.GetComposer<UpdateUserStatusMessageComposer> ().Compose (session, session.Room.Users);
+				//Yupi.GetGame().GetRoomEvents().SerializeEventInfo(CurrentLoadingRoom.RoomId);
+
+				foreach(RoomEntity entity in session.Room.Users) {
+				//DanceStatusMessageComposer
+				//RoomUserIdleMessageComposer
+				//ApplyHanditemMessageComposer
+				//ApplyEffectMessageComposer
+					if (entity is UserEntity) {
+						router.GetComposer<UpdateUserDataMessageComposer> ().Compose (session, ((UserEntity)entity).UserInfo);
+					}
+				}
 				//CurrentLoadingRoom.GetRoomUserManager().AddUserToRoom(session, session.SpectatorMode);
-				throw new NotImplementedException ();
 				//GetRoomData3 ();
 			}
 		}

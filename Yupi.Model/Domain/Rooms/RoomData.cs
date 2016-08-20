@@ -223,6 +223,7 @@ namespace Yupi.Model.Domain
 			Rights = new List<UserInfo> ();
 			MutedEntities = new List<RoomMute> ();
 			Chat = new RoomChatSettings ();
+			BannedUsers = new List<UserInfo> ();
 		}
 			
 		public virtual RoomFlags GetFlags() {

@@ -271,7 +271,6 @@
     <Compile Include="Domain\Support\ModerationTemplate.cs" />
     <Compile Include="Domain\Items\WiredItem.cs" />
     <Compile Include="Domain\BaseItems\WiredBaseItem.cs" />
-    <Compile Include="Domain\Rooms\Gamemap.cs" />
     <Compile Include="DependencyFactory.cs" />
     <Compile Include="Domain\Users\UserInfo.cs" />
     <Compile Include="Domain\Users\Badge.cs" />
@@ -330,6 +329,8 @@
     <Compile Include="Domain\Rooms\RoomFlags.cs" />
     <Compile Include="Domain\Navigator\SearchResultEntry.cs" />
     <Compile Include="Domain\Rooms\Components\RoomChatSettings.cs" />
+    <Compile Include="Domain\Rooms\HeightMap.cs" />
+    <Compile Include="Domain\Users\Minimail.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

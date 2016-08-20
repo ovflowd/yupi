@@ -8,7 +8,7 @@ namespace Yupi.Messages.Rooms
 		public override void Compose ( Yupi.Protocol.ISender session, string heightmap, int wallHeight)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendBool(true);
+				message.AppendBool(true); // TODO Hardcoded
 				message.AppendInteger(wallHeight);
 				message.AppendString(heightmap);
 				session.Send (message);

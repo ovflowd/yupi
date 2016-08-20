@@ -77,6 +77,10 @@ namespace Yupi.Controller
 		}
 
 		public void RemoveUser(RoomEntity entity) {
+			if (entity == null) {
+				return;
+			}
+
 			Room room = entity.Room;
 
 			room.Users.Remove (entity);

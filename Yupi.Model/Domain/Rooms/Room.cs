@@ -12,6 +12,8 @@ namespace Yupi.Model.Domain
 
 		public RoomData Data { get; private set; }
 
+		public HeightMap HeightMap { get; private set; }
+
 		public IRouter Router { get; private set; }
 
 		// TODO Implementation detail -> Private!
@@ -27,6 +29,8 @@ namespace Yupi.Model.Domain
 			}
 
 			this.Data = data;
+			this.HeightMap = new HeightMap (this.Data.Model.Heightmap);
+
 			Users = new List<RoomEntity> ();
 			GroupsInRoom = new HashSet<Group> ();
 

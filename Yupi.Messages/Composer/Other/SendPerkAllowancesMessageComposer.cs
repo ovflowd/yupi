@@ -11,11 +11,11 @@ namespace Yupi.Messages.Other
 		public override void Compose ( Yupi.Protocol.ISender session, UserInfo info, bool enableBetaCamera)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) { 
-				message.AppendInteger(11);
+				message.AppendInteger(11); // Count
 
-				message.AppendString("BUILDER_AT_WORK");
-				message.AppendString(string.Empty);
-				message.AppendBool(true);
+				message.AppendString("BUILDER_AT_WORK"); // Name
+				message.AppendString(string.Empty); // Error Message
+				message.AppendBool(true); // Allowed
 
 				message.AppendString("VOTE_IN_COMPETITIONS");
 				message.AppendString("requirement.unfulfilled.helper_level_2");
@@ -43,7 +43,6 @@ namespace Yupi.Messages.Other
 
 				message.AppendString("CITIZEN");
 				message.AppendString(string.Empty);
-
 				// FIXME
 				message.AppendBool(false); // info.TalentStatus == "helper" || info.CurrentTalentLevel >= 4
 
@@ -64,6 +63,8 @@ namespace Yupi.Messages.Other
 				message.AppendString("NAVIGATOR_PHASE_TWO_2014");
 				message.AppendString(string.Empty);
 				message.AppendBool(true);
+
+				session.Send (message);
 			}
 		}
 	}

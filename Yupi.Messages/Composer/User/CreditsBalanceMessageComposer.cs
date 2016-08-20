@@ -8,7 +8,7 @@ namespace Yupi.Messages.User
 		public override void Compose (Yupi.Protocol.ISender session, int credits)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendString(credits.ToString() + ".0"); // really, double as string?!
+				message.AppendString(credits.ToString());
 				session.Send (message);
 			}
 		}

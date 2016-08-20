@@ -17,7 +17,7 @@ namespace Yupi.Messages.User
 			}
 
 			// TODO Welcome message
-			router.GetComposer<SuperNotificationMessageComposer>().Compose(session, T._("Welcome"), T._("This is a development build"));
+			//router.GetComposer<SuperNotificationMessageComposer>().Compose(session, T._("Welcome"), T._("This is a development build"));
 			/*
 			YupiWriterManager.WriteLine(request.GetString() + " joined game. With IP " + session.RemoteAddress, "Yupi.User", ConsoleColor.DarkGreen);
 

@@ -268,7 +268,6 @@
     <Compile Include="Composer\User\UpdateAvatarAspectMessageComposer.cs" />
     <Compile Include="Composer\User\UpdateIgnoreStatusMessageComposer.cs" />
     <Compile Include="Composer\User\UpdateUserDataMessageComposer.cs" />
-    <Compile Include="Composer\User\UpdateUserStatusMessageComposer.cs" />
     <Compile Include="Composer\User\UpdateUsernameMessageComposer.cs" />
     <Compile Include="Composer\User\UserBadgesMessageComposer.cs" />
     <Compile Include="Composer\User\UserClubRightsMessageComposer.cs" />
@@ -302,6 +301,7 @@
     <Compile Include="Router.cs" />
     <Compile Include="AbstractHandler.cs" />
     <Compile Include="PacketLibrary.cs" />
+    <Compile Include="Composer\Rooms\UpdateUserStatusMessageComposer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

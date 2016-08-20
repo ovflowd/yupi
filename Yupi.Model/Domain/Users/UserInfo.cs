@@ -36,6 +36,8 @@ namespace Yupi.Model.Domain
 		public virtual IList<SupportTicket> SupportTickets { get; protected set; }
 		public virtual IList<TradeLock> TradeLocks { get; protected set; }
 
+		public virtual IList<Minimail> Minimail { get; protected set; }
+
 		public virtual Group FavouriteGroup { get; set; }
 		public virtual RoomData HomeRoom { get; set; }
 
@@ -123,6 +125,7 @@ namespace Yupi.Model.Domain
 			Motto = string.Empty;
 			Email = string.Empty;
 			BuilderInfo = new UserBuilderComponent ();
+			Minimail = new List<Minimail> ();
 		}
 
 		public virtual bool IsBanned() {
@@ -231,35 +234,6 @@ namespace Yupi.Model.Domain
             _mClient = null;
         }
 
-                        		public virtual void InitMessenger()
-        {
-            GameClient client = GetClient();
-
-            if (client == null)
-                return;
-
-			client.Router.GetComposer<LoadFriendsCategories>().Compose(client);
-
-            client.SendMessage(_messenger.SerializeCategories());
-
-			client.Router.GetComposer<LoadFriendsMessageComposer>().Compose(client, _messenger.Friends, client);
-			client.Router.GetComposer<FriendRequestsMessageComposer>().Compose(client, _messenger.Requests);
-
-            if (Yupi.OfflineMessages.ContainsKey(Id))
-            {
-                List<OfflineMessage> list = Yupi.OfflineMessages[Id];
-                foreach (OfflineMessage current in list)
-				{
-					client.Router.GetComposer<ConsoleChatMessageComposer>().Compose(client, current);
-				}
-                Yupi.OfflineMessages.Remove(Id);
-                OfflineMessage.RemoveAllMessages(Yupi.GetDatabaseManager().GetQueryReactor(), Id);
-            }
-
-            if (_messenger.Requests.Count > Yupi.FriendRequestLimit)
-                client.SendNotif(Yupi.GetLanguage().GetVar("user_friend_request_max"));
-
-            _messenger.OnStatusChanged(false);
-        }*/
+      */
 	}
 }

@@ -71,6 +71,7 @@ namespace Yupi.Messages.Catalog
 				}
 
 				message.AppendInteger (windowId);
+				session.Send(message);
 				*/
 			}
 		}

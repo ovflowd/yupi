@@ -3,9 +3,9 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Contracts
 {
-	public abstract class HeightMapMessageComposer : AbstractComposer<Gamemap>
+	public abstract class HeightMapMessageComposer : AbstractComposer<HeightMap>
 	{
-		public override void Compose(Yupi.Protocol.ISender session, Gamemap map)
+		public override void Compose(Yupi.Protocol.ISender session, HeightMap map)
 		{
 		 // Do nothing by default.
 		}

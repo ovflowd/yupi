@@ -8,6 +8,7 @@ namespace Yupi.Messages.Rooms
 		public override void Compose ( Yupi.Protocol.ISender session)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
+				// TODO Implement
 				message.AppendInteger (0);
 				session.Send (message);
 			}

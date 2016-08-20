@@ -31,10 +31,8 @@ namespace Yupi.Messages.Rooms
 			if (room == null) {
 				return;
 			}
-			bool show = false;
-			/*
+
 			bool show = !(num == 0 && num2 == 1);
-			*/
 			router.GetComposer<RoomDataMessageComposer> ().Compose (session, room, session.Info, show, true);
 			router.GetComposer<LoadRoomRightsListMessageComposer> ().Compose (session, room);
 		}

@@ -12,6 +12,7 @@ namespace Yupi.Messages.GameCenter
 				message.AppendInteger(18);
 				message.AppendInteger(-1);
 				message.AppendInteger(0);
+				session.Send (message);
 			}
 		}
 	}

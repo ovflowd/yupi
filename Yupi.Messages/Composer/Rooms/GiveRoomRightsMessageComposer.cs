@@ -7,7 +7,7 @@ namespace Yupi.Messages.Rooms
 {
 	public class GiveRoomRightsMessageComposer : Yupi.Messages.Contracts.GiveRoomRightsMessageComposer
 	{
-		public override void Compose ( Yupi.Protocol.ISender session, uint roomId, UserInfo habbo)
+		public override void Compose ( Yupi.Protocol.ISender session, int roomId, UserInfo habbo)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(roomId);

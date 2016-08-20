@@ -7,6 +7,7 @@ namespace Yupi.Messages.Notification
 {
 	public class SuperNotificationMessageComposer : Yupi.Messages.Contracts.SuperNotificationMessageComposer
 	{
+		// TODO Title default: ${generic.alert.title}
 		// TODO might be that url default is "event:"
 		// unknown might be icon id!
 		public override void Compose( Yupi.Protocol.ISender session, string title, string content, string url = "", string urlName = "", string unknown = "", int unknown2 = 4) {

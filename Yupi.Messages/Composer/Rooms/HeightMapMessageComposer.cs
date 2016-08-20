@@ -7,23 +7,17 @@ namespace Yupi.Messages.Rooms
 {
 	public class HeightMapMessageComposer : Yupi.Messages.Contracts.HeightMapMessageComposer
 	{
-		public override void Compose ( Yupi.Protocol.ISender session, Gamemap map)
+		public override void Compose ( Yupi.Protocol.ISender session, HeightMap map)
 		{
-			/*
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendInteger(map.Model.MapSizeX);
-				message.AppendInteger(map.Model.MapSizeX*map.Model.MapSizeY);
-				for (int i = 0; i < map.Model.MapSizeY; i++)
+				message.AppendInteger(map.TotalX);
+				message.AppendInteger(map.Map.Length);  // Width * Height
+				for (int i = 0; i< map.Map.Length; i++)
 				{
-					for (int j = 0; j < map.Model.MapSizeX; j++)
-					{
-						message.AppendShort((short) (map.SqAbsoluteHeight(j, i)*256));
-					}
+					message.AppendShort((short)(map.Map[i] == 'x' ? -256 : 0));
 				}
 				session.Send (message);
 			}
-			*/
-			throw new NotImplementedException ();
 		}
 	}
 }

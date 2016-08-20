@@ -10,7 +10,7 @@ namespace Yupi.Messages.Rooms
 {
 	public class SetRoomUserMessageComposer : Yupi.Messages.Contracts.SetRoomUserMessageComposer
 	{
-		public override void Compose ( Yupi.Protocol.ISender room, List<RoomEntity> users)
+		public override void Compose ( Yupi.Protocol.ISender room, IList<RoomEntity> users)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (users.Count);
@@ -31,6 +31,8 @@ namespace Yupi.Messages.Rooms
 				room.Send (message);
 			}
 		}
+
+		// TODO Refactor?
 
 		private void Serialize(ServerMessage messageBuffer, RoomEntity entity) {
 			if (entity is UserEntity) {
