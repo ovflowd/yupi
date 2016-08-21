@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using Yupi.Messages.Contracts;
 using Yupi.Net;
 using System.Linq;
+using Yupi.Util;
+using Yupi.Util.Collections;
 
 namespace Yupi.Controller
 {
@@ -14,7 +16,7 @@ namespace Yupi.Controller
 	{
 		private IRepository<UserInfo> UserRepository;
 		private ClientManager ClientManager;
-		private IDictionary<string, UserInfo> Tickets;
+		private BiDictionary<string, UserInfo> Tickets;
 		private AchievementManager AchievementManager;
 		private ModerationTool ModerationTool;
 
@@ -22,14 +24,18 @@ namespace Yupi.Controller
 		{
 			UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>> ();
 			ClientManager = DependencyFactory.Resolve<ClientManager> ();
-			Tickets = new Dictionary<string, UserInfo> ();
+			Tickets = new BiDictionary<string, UserInfo> ();
 			AchievementManager = DependencyFactory.Resolve<AchievementManager> ();
 			ModerationTool = DependencyFactory.Resolve<ModerationTool> ();
 		}
 
-		public void TryLogin(Habbo session, string ssoTicket) {
-			if (Tickets.ContainsKey (ssoTicket)) {
-				UserInfo user = Tickets [ssoTicket];
+		public void TryLogin (Habbo session, string ssoTicket)
+		{
+			UserInfo user;
+			Tickets.TryGetByFirst (ssoTicket, out user);
+
+			if (user != null) {
+				Tickets.TryRemoveByFirst (ssoTicket);
 
 				session.Info = user;
 
@@ -45,11 +51,11 @@ namespace Yupi.Controller
 
 					session.Router.GetComposer<HomeRoomMessageComposer> ().Compose (session, user.HomeRoom == null ? 0 : user.HomeRoom.Id);  
 
-					session.Router.GetComposer<MinimailCountMessageComposer> ().Compose (session, user.Minimail.Count(x => !x.Seen));  
+					session.Router.GetComposer<MinimailCountMessageComposer> ().Compose (session, user.Minimail.Count (x => !x.Seen));  
 
 					session.Router.GetComposer<FavouriteRoomsMessageComposer> ().Compose (session, user.FavoriteRooms);  
 
-					session.Router.GetComposer<UserClubRightsMessageComposer> ().Compose (session, user.Subscription.IsValid(),
+					session.Router.GetComposer<UserClubRightsMessageComposer> ().Compose (session, user.Subscription.IsValid (),
 						user.Rank);     
 					
 					session.Router.GetComposer<EnableNotificationsMessageComposer> ().Compose (session);   
@@ -60,17 +66,17 @@ namespace Yupi.Controller
 					session.Router.GetComposer<CreditsBalanceMessageComposer> ().Compose (session, user.Wallet.Credits);  
 					session.Router.GetComposer<ActivityPointsMessageComposer> ().Compose (session, user.Wallet);            
 
-					if (user.HasPermission("fuse_modtool")) {
-						session.Router.GetComposer<LoadModerationToolMessageComposer>().Compose(session, ModerationTool.Tickets, 
+					if (user.HasPermission ("fuse_modtool")) {
+						session.Router.GetComposer<LoadModerationToolMessageComposer> ().Compose (session, ModerationTool.Tickets, 
 							ModerationTool.Templates, ModerationTool.UserMessagePresets, ModerationTool.RoomMessagePresets, user);
 					}
 
-					session.Router.GetComposer<SendAchievementsRequirementsMessageComposer>().Compose(session, AchievementManager.Achievements);
-					session.Router.GetComposer<EffectsInventoryMessageComposer>().Compose(session, user.EffectComponent.Effects);
+					session.Router.GetComposer<SendAchievementsRequirementsMessageComposer> ().Compose (session, AchievementManager.Achievements);
+					session.Router.GetComposer<EffectsInventoryMessageComposer> ().Compose (session, user.EffectComponent.Effects);
 
-					AchievementManager.TryProgressHabboClubAchievements(session);
-					AchievementManager.TryProgressRegistrationAchievements(session);
-					AchievementManager.TryProgressLoginAchievements(session);
+					AchievementManager.TryProgressHabboClubAchievements (session);
+					AchievementManager.TryProgressRegistrationAchievements (session);
+					AchievementManager.TryProgressLoginAchievements (session);
 				}
 
 			} else {
@@ -78,11 +84,17 @@ namespace Yupi.Controller
 			}
 		}
 
-		public string GenerateTicket(UserInfo info) {
-			Tickets.Clear ();
-			Tickets.Add ("DEBUG", info);
-			// FIXME Implement :D
-			return "DEBUG";
+		public string GenerateTicket (UserInfo info)
+		{
+			Tickets.TryRemoveBySecond (info);
+
+			string ticket = Cryptography.GetUniqueKey (12);
+			
+			if (Tickets.TryAdd (ticket, info)) {
+				return ticket;
+			} else {
+				return null;
+			}
 		}
 	}
 }

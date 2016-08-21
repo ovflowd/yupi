@@ -32,16 +32,6 @@ namespace Yupi.Main
 
 			// TODO Don't run this if DB is not new!
 			ModelHelper.Populate ();
-
-			// TODO Don't hardcode this stuff :)
-			var repo = DependencyFactory.Resolve<Repository<UserInfo>> ();
-			var info = new UserInfo () {
-				UserName = "HelloWorld",
-				Rank = 7
-			};
-			repo.Save (info);
-			DependencyFactory.Resolve<SSOManager> ().GenerateTicket (info);
-
 			Router.Default = new Router ("PRODUCTION-201510201205-42435347", "../../../Config/", typeof(AchievementProgressMessageComposer).Assembly);
 
 			ClientManager = DependencyFactory.Resolve<ClientManager> ();

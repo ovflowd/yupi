@@ -1,4 +1,6 @@
 ﻿using System;
+using Yupi.Model.Domain;
+using System.Collections.Generic;
 
 
 
@@ -11,31 +13,28 @@ namespace Yupi.Messages.Rooms
 			int targetX = request.GetInteger();
 			int targetY = request.GetInteger();
 
+			RoomEntity entity = session.RoomEntity;
+
+			if (entity == null || !entity.CanWalk || entity.Position.Equals (targetX, targetY)) {
+				return;
+			}
+				
 			throw new NotImplementedException ();
-			/*
-			Room currentRoom = session.GetHabbo().CurrentRoom;
+			// Teleport
+			entity.Position.X = targetX;
+			entity.Position.Y = targetY;
+			entity.Position.Z = session.Room.HeightMap.GetTileHeight (targetX, targetY);
+			var tmp = new List<RoomEntity> ();
+			tmp.Add (entity);
+			router.GetComposer<UpdateUserStatusMessageComposer> ().Compose (session, tmp);
 
-			RoomUser roomUserByHabbo = currentRoom?.GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().Id);
 
-			if (roomUserByHabbo == null || !roomUserByHabbo.CanWalk)
-				return;
+			/* TODO Implement Horse
+			if (entity.RidingHorse) {
+				RoomUser roomUserByVirtualId = currentRoom.GetRoomUserManager ().GetRoomUserByVirtualId ((int)roomUserByHabbo.HorseId);
 
-			int targetX = request.GetInteger();
-			int targetY = request.GetInteger();
-
-			if (targetX == roomUserByHabbo.X && targetY == roomUserByHabbo.Y)
-				return;
-
-			roomUserByHabbo.MoveTo(targetX, targetY);
-
-			if (!roomUserByHabbo.RidingHorse)
-				return;
-
-			RoomUser roomUserByVirtualId = currentRoom.GetRoomUserManager().GetRoomUserByVirtualId((int) roomUserByHabbo.HorseId);
-
-			roomUserByVirtualId.MoveTo(targetX, targetY);
-			*/
-			throw new NotImplementedException ();
+				roomUserByVirtualId.MoveTo (targetX, targetY);
+			}*/
 		}
 	}
 }

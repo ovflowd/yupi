@@ -6,9 +6,9 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Contracts
 {
-	public abstract class UpdateFurniStackMapMessageComposer : AbstractComposer<IList<Vector>, RoomData>
+	public abstract class UpdateFurniStackMapMessageComposer : AbstractComposer<IList<Vector3D>, RoomData>
 	{
-		public override void Compose(Yupi.Protocol.ISender session, IList<Vector> affectedTiles, RoomData room)
+		public override void Compose(Yupi.Protocol.ISender session, IList<Vector3D> affectedTiles, RoomData room)
 		{
 		 // Do nothing by default.
 		}

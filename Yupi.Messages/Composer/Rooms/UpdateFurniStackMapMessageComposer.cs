@@ -9,11 +9,11 @@ namespace Yupi.Messages.Rooms
 {
 	public class UpdateFurniStackMapMessageComposer : Yupi.Messages.Contracts.UpdateFurniStackMapMessageComposer
 	{
-		public override void Compose ( Yupi.Protocol.ISender session, IList<Vector> affectedTiles, RoomData room)
+		public override void Compose ( Yupi.Protocol.ISender session, IList<Vector3D> affectedTiles, RoomData room)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendByte((byte) affectedTiles.Count);
-				foreach (Vector coord in affectedTiles)
+				foreach (Vector3D coord in affectedTiles)
 				{ // TODO What about coord.Z?
 					message.AppendByte((byte) coord.X);
 					message.AppendByte((byte) coord.Y);

@@ -62,7 +62,7 @@ namespace Yupi.Model.Domain
 
 		#endregion
 
-		public virtual Vector BreadingTile { get; set; }
+		public virtual Vector3D BreadingTile { get; set; }
 
 		public virtual string Color { get; set; }
 		// TODO Do pets have mottos?
@@ -100,7 +100,7 @@ namespace Yupi.Model.Domain
 
 		public virtual uint WaitingForBreading { get; set; }
 
-		public virtual Vector Position { get; set; }
+		public virtual Vector3D Position { get; set; }
 
 		[Ignore]
 		public virtual int Level {

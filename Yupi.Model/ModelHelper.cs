@@ -23,7 +23,7 @@ namespace Yupi.Model
 
 			IPersistenceConfigurer db;
 			//db = MySQLConfiguration.Standard.ConnectionString(x => x.Server("localhost").Username("yupi").Password("changeme").Database("yupi"));
-			db = GetSQLite();
+			db = GetSQLite ();
 			return Fluently.Configure ()
 				.Database (db)
 				.Mappings (m =>
@@ -35,17 +35,18 @@ namespace Yupi.Model
 						.IncludeBase<BaseItem> ()
 						.IncludeBase<FloorItem> ()
 						.IncludeBase<WallItem> ()
-			                                        ))
+			))
 				.ExposeConfiguration (BuildSchema)
 				.BuildSessionFactory ();
 		}
 
-		private static IPersistenceConfigurer GetSQLite() {
+		private static IPersistenceConfigurer GetSQLite ()
+		{
 			if (MonoUtil.IsRunningOnMono ()) {
 				return MonoSQLiteConfiguration.Standard
-					.UsingFile(testFile).ShowSql();
+					.UsingFile (testFile).ShowSql ();
 			} else {
-				return SQLiteConfiguration.Standard.UsingFile(testFile).ShowSql();
+				return SQLiteConfiguration.Standard.UsingFile (testFile).ShowSql ();
 			}
 		}
 
@@ -57,17 +58,31 @@ namespace Yupi.Model
 		}
 
 		// TODO Proper initial data
-		public static void Populate() {
-			PopulateObject(new OfficialNavigatorCategory () { Caption = "Test" });
-			PopulateObject (new FlatNavigatorCategory () { Caption = "Test2" });
-			PopulateObject (new FlatNavigatorCategory () { Caption = "Test1" });
+		public static void Populate ()
+		{
+			PopulateObject (
+				new UserInfo () { UserName = "User" }, 
+				new UserInfo () { UserName = "Admin", Rank = 9 }
+			);
+
+			PopulateObject (
+				new OfficialNavigatorCategory () { Caption = "Test" }
+			);
+
+			PopulateObject (
+				new FlatNavigatorCategory () { Caption = "Test2" }, 
+				new FlatNavigatorCategory () { Caption = "Test1" }
+			);
 		}
 
-		private static void PopulateObject<T>(T data) {
+		private static void PopulateObject<T> (params T[] data)
+		{
 			IRepository<T> Repository = DependencyFactory.Resolve<IRepository<T>> ();
 
 			if (!Repository.All ().Any ()) {
-				Repository.Save (data);
+				foreach (T obj in data) {
+					Repository.Save (obj);
+				}
 			}
 		}
 	}

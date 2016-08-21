@@ -8,18 +8,20 @@ namespace Yupi.Model.Domain
 	public abstract class RoomEntity : ISender
 	{
 		public int Id;
-		public Vector Position;
+		public Vector3D Position;
 
 		// TODO Use enum
 		public int RotHead;
 		public int RotBody;
 		public Room Room { get; private set; }
+		public bool CanWalk { get; private set; }
 
 		public abstract EntityType Type { get; }
 
 		public RoomEntity (Room room)
 		{
 			this.Room = room;
+			this.CanWalk = true;
 		}
 
 		public virtual void Send (Yupi.Protocol.Buffers.ServerMessage message)

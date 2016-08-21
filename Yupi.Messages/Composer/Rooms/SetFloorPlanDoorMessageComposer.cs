@@ -6,7 +6,7 @@ namespace Yupi.Messages.Rooms
 {
 	public class SetFloorPlanDoorMessageComposer : Yupi.Messages.Contracts.SetFloorPlanDoorMessageComposer
 	{
-		public override void Compose ( Yupi.Protocol.ISender session, Vector doorPos, int direction)
+		public override void Compose ( Yupi.Protocol.ISender session, Vector3D doorPos, int direction)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (doorPos.X);
