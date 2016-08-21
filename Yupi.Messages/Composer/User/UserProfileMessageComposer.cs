@@ -38,7 +38,7 @@ namespace Yupi.Messages.User
 					message.AppendString (group.Colour1.Colour.ToString());
 					message.AppendString (group.Colour2.Colour.ToString());
 					message.AppendBool (group == user.FavouriteGroup);
-					message.AppendInteger (-1);
+					message.AppendInteger (-1); // TODO Constant
 					message.AppendBool (group.Forum != null);
 				}
 

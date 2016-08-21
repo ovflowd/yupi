@@ -14,6 +14,7 @@ namespace Yupi.Messages.Items
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				if (data.Group != null) {
+					// TODO Refactor
 					if (data.Group.AdminOnlyDeco == 1u) {
 						message.AppendInteger (data.Group.Admins.Count + 1);
 
@@ -43,9 +44,12 @@ namespace Yupi.Messages.Items
 				}
 
 				message.AppendInteger (items.Count);
-				throw new NotImplementedException ();
-			//	foreach (KeyValuePair<uint, RoomItem> roomItem in items)
-			//		roomItem.Value.Serialize (message);
+
+				foreach (KeyValuePair<uint, FloorItem> roomItem in items) {
+					// RoomItem::Serialize
+					throw new NotImplementedException ();
+					//roomItem.Value.Serialize (message);
+				}
 
 				session.Send (message);
 			}

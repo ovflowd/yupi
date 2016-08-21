@@ -60,13 +60,11 @@
     <Reference Include="CodeProject.ObjectPool">
       <HintPath>..\packages\CodeProject.ObjectPool.2.0.1\lib\net45\CodeProject.ObjectPool.dll</HintPath>
     </Reference>
-    <Reference Include="System.Data.SQLite, Version=1.0.102.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+    <Reference Include="System.Data.SQLite, Version=1.0.102.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139">
       <HintPath>..\packages\System.Data.SQLite.Core.1.0.102.0\lib\net45\System.Data.SQLite.dll</HintPath>
-      <Private>True</Private>
     </Reference>
-    <Reference Include="System.Data.SQLite.Linq, Version=1.0.102.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+    <Reference Include="System.Data.SQLite.Linq, Version=1.0.102.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139">
       <HintPath>..\packages\System.Data.SQLite.Linq.1.0.102.0\lib\net45\System.Data.SQLite.Linq.dll</HintPath>
-      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -337,7 +335,6 @@
     <Compile Include="Domain\Navigator\FlatNavigatorCategory.cs" />
     <Compile Include="Domain\Navigator\OfficialNavigatorCategory.cs" />
     <Compile Include="Domain\Rooms\RoomFlags.cs" />
-    <Compile Include="Domain\Navigator\SearchResultEntry.cs" />
     <Compile Include="Domain\Rooms\Components\RoomChatSettings.cs" />
     <Compile Include="Domain\Rooms\HeightMap.cs" />
     <Compile Include="Domain\Users\Minimail.cs" />

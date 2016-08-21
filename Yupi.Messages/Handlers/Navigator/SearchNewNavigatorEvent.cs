@@ -15,7 +15,7 @@ namespace Yupi.Messages.Navigator
 			NavigatorView view = NavigatorView.FromValue (staticId);
 
 			// TODO Create SearchResult class instead of Dictionary
-			IList<SearchResultEntry> categories = view.GetCategories (query, session.Info);
+			IDictionary<NavigatorCategory, IList<RoomData>> categories = view.GetCategories (query, session.Info);
 			router.GetComposer<SearchResultSetComposer> ().Compose (session, staticId, query, categories);
 		}
 	}

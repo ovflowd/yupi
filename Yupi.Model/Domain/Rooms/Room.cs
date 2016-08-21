@@ -2,6 +2,7 @@
 using Yupi.Protocol;
 using System.Collections.Generic;
 using System.Linq;
+using System.Diagnostics;
 
 namespace Yupi.Model.Domain
 {
@@ -62,7 +63,11 @@ namespace Yupi.Model.Domain
 		}
 
 		public void AddUser(Habbo user) {
-			Users.Add (new UserEntity (user));
+			user.RoomEntity = new UserEntity (user, this);
+			user.RoomEntity.Position = Data.Model.Door;
+			user.RoomEntity.RotBody = Data.Model.DoorOrientation;
+			user.RoomEntity.RotHead = Data.Model.DoorOrientation;
+			Users.Add (user.RoomEntity );
 		}
 
 		public void Send (Yupi.Protocol.Buffers.ServerMessage message)

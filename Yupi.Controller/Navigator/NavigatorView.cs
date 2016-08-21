@@ -5,6 +5,7 @@ using Yupi.Model.Domain;
 using Yupi.Model.Repository;
 using Yupi.Model;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace Yupi.Controller
 {
@@ -36,7 +37,7 @@ namespace Yupi.Controller
 			
 		}
 
-		public abstract IList<SearchResultEntry> GetCategories (string query, UserInfo user);
+		public abstract IDictionary<NavigatorCategory, IList<RoomData>> GetCategories (string query, UserInfo user);
 	}
 
 	public abstract class NavigatorView<T> : NavigatorView where T : NavigatorCategory
@@ -50,30 +51,17 @@ namespace Yupi.Controller
 			RoomRepository = DependencyFactory.Resolve<IRepository<RoomData>> ();
 		}
 
-		protected virtual Func<RoomData, bool> GetRoomPredicate (string query, UserInfo user)
+		protected virtual Expression<Func<RoomData, bool>> GetRoomPredicate (string query, UserInfo user)
 		{
-			return x => true;
+			return x => x.Name.StartsWith(query) && x.Category is T;
 		}
 
-		public override IList<SearchResultEntry> GetCategories (string query, UserInfo user)
+		public override IDictionary<NavigatorCategory, IList<RoomData>> GetCategories (string query, UserInfo user)
 		{
-			List<SearchResultEntry> result = new List<SearchResultEntry> ();
-			var categories = NavigatorRepository.All ();
-
-			foreach (NavigatorCategory category in categories) {
-				IList<RoomData> rooms = RoomRepository
-						.FilterBy (x => x.Category == category)
-						.Where (GetRoomPredicate (query, user))
-						.ToList ();
-
-				// TODO Filter query
-
-				if (rooms.Count > 0) {
-					result.Add (new SearchResultEntry(category, rooms));
-				}
-			}
-
-			return result;
+			return RoomRepository
+				.FilterBy (GetRoomPredicate (query, user))
+				.GroupBy (x => x.Category)
+				.ToDictionary (x => x.Key, x => (IList<RoomData>)x.ToList ());
 		}
 	}
 }

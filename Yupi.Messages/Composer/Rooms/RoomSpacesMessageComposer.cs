@@ -2,6 +2,7 @@
 
 using Yupi.Protocol.Buffers;
 using Yupi.Model.Domain;
+using System.Globalization;
 
 namespace Yupi.Messages.Rooms
 {
@@ -15,11 +16,11 @@ namespace Yupi.Messages.Rooms
 				message.AppendString(type.DisplayName);
 
 				if (type == RoomSpacesType.Wallpaper) {
-					message.AppendString(data.WallPaper);
+					message.AppendString(data.WallPaper.ToString(CultureInfo.InvariantCulture));
 				} else if(type == RoomSpacesType.Floor) {
-					message.AppendString(data.Floor);
+					message.AppendString(data.Floor.ToString(CultureInfo.InvariantCulture));
 				} else {
-					message.AppendString(data.LandScape);
+					message.AppendString(data.LandScape.ToString(CultureInfo.InvariantCulture));
 				}
 
 				session.Send (message);

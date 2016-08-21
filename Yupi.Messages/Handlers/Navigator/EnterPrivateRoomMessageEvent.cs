@@ -10,6 +10,7 @@ namespace Yupi.Messages.Navigator
 	{
 		private RoomManager RoomManager;
 
+		// TODO Rename? This look like GetRoomInfoEvent or something like that
 		public EnterPrivateRoomMessageEvent ()
 		{
 			RoomManager = DependencyFactory.Resolve<RoomManager> ();
@@ -93,15 +94,20 @@ namespace Yupi.Messages.Navigator
 					router.GetComposer<SpectatorModeMessageComposer> ().Compose (session);
 				}
 
-				router.GetComposer<RoomSpacesMessageComposer> ()
+				if (room.Data.WallPaper > 0) {
+					router.GetComposer<RoomSpacesMessageComposer> ()
 					.Compose (session, RoomSpacesMessageComposer.RoomSpacesType.Wallpaper, room.Data);
-				
-				router.GetComposer<RoomSpacesMessageComposer> ()
+				}
+
+				if (room.Data.Floor > 0) {
+					router.GetComposer<RoomSpacesMessageComposer> ()
 					.Compose (session, RoomSpacesMessageComposer.RoomSpacesType.Floor, room.Data);
-				
+				}
+
+				if (room.Data.LandScape > 0) {
 				router.GetComposer<RoomSpacesMessageComposer> ()
 					.Compose (session, RoomSpacesMessageComposer.RoomSpacesType.Landscape, room.Data);
-
+			    }
 				// TODO Magic numbers!
 				int rightsLevel = 0;
 
@@ -118,7 +124,7 @@ namespace Yupi.Messages.Navigator
 
 				session.Info.RecentlyVisitedRooms.Add (room.Data);
 				session.Room = room;
-				// TODO Add room entity?
+				session.Room.AddUser (session);
 			}
 		}
 	}

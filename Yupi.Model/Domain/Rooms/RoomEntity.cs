@@ -13,9 +13,14 @@ namespace Yupi.Model.Domain
 		// TODO Use enum
 		public int RotHead;
 		public int RotBody;
-		public Room Room;
+		public Room Room { get; private set; }
 
 		public abstract EntityType Type { get; }
+
+		public RoomEntity (Room room)
+		{
+			this.Room = room;
+		}
 
 		public virtual void Send (Yupi.Protocol.Buffers.ServerMessage message)
 		{

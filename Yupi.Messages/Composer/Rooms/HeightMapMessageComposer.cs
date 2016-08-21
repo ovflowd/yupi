@@ -11,10 +11,10 @@ namespace Yupi.Messages.Rooms
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(map.TotalX);
-				message.AppendInteger(map.Map.Length);  // Width * Height
-				for (int i = 0; i< map.Map.Length; i++)
+				message.AppendInteger(map.MapSize);
+				for (int i = 0; i< map.MapSize; i++)
 				{
-					message.AppendShort((short)(map.Map[i] == 'x' ? -256 : 0));
+					message.AppendShort((short)(map.GetTileHeight(i)*256));
 				}
 				session.Send (message);
 			}

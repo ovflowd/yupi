@@ -1,5 +1,7 @@
 ﻿using System;
 using Yupi.Model.Domain;
+using System.Linq.Expressions;
+using Yupi.Util;
 
 namespace Yupi.Controller
 {
@@ -10,9 +12,9 @@ namespace Yupi.Controller
 
 		}
 
-		protected override Func<RoomData, bool> GetRoomPredicate (string query, UserInfo user)
+		protected override Expression<Func<RoomData, bool>> GetRoomPredicate (string query, UserInfo user)
 		{
-			return x => base.GetRoomPredicate (query, user)(x) && x.Owner == user;
+			return base.GetRoomPredicate (query, user).AndAlso (x => x.Owner == user);
 		}
 	}
 }

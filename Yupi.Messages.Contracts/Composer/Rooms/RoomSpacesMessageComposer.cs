@@ -12,6 +12,8 @@ namespace Yupi.Messages.Contracts
 			public static readonly RoomSpacesType Floor = new RoomSpacesType(1, "floor");
 			public static readonly RoomSpacesType Landscape = new RoomSpacesType(2, "landscape");
 
+			// TODO landscapeanim
+
 			private RoomSpacesType (int value, string displayName) : base(value, displayName)
 			{
 				

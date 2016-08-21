@@ -66,13 +66,14 @@ namespace Yupi.Model.Domain
 		// TODO ???
 		public virtual uint State { get; set; }
 
-		public Group (UserInfo creator) : this()
+		public Group (UserInfo creator) : this ()
 		{
 			Creator = creator;
 			Admins.Add (creator);
 		}
 
-		protected Group() {
+		protected Group ()
+		{
 			Admins = new List<UserInfo> ();
 			Members = new List<UserInfo> ();
 			Requests = new List<UserInfo> ();

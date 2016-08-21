@@ -20,7 +20,7 @@ namespace Yupi.Model.Domain
 			}
 		}
 
-		public UserEntity (Habbo user)
+		public UserEntity (Habbo user, Room room) : base(room)
 		{
 			this.User = user;
 		}

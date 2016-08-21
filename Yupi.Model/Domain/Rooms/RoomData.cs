@@ -91,21 +91,11 @@ namespace Yupi.Model.Domain
 		public virtual RoomEvent Event { get; set; }
 
 		/// <summary>
-		///     Floor String?
-		/// </summary>
-		public virtual string Floor { get; set; }
-
-		/// <summary>
 		///     Room Flor Thickness
 		/// </summary>
 		public virtual int FloorThickness { get; set; }
 
-		public virtual Group Group { get; set; }
-
-		/// <summary>
-		///     Landscape String
-		/// </summary>
-		public virtual string LandScape { get; set; }
+		public virtual Group Group { get; set;}
 
 		/// <summary>
 		///     Room Name
@@ -158,10 +148,10 @@ namespace Yupi.Model.Domain
 		// TODO Isn't this part of the model?
 		public virtual int WallHeight { get; set; }
 
-		/// <summary>
-		///     The wall paper
-		/// </summary>
-		public virtual string WallPaper { get; set; }
+		// TODO Determine proper type!
+		public virtual float WallPaper { get; set; }
+		public virtual float Floor { get; set; }
+		public virtual float LandScape { get; set; }
 
 		/// <summary>
 		///     Room Wall Tchickness
@@ -213,10 +203,6 @@ namespace Yupi.Model.Domain
 			AllowPetsEating = false;
 			AllowWalkThrough = true;
 			HideWall = false;
-			WallPaper = "0.0";
-			Floor = "0.0";
-			LandScape = "0.0";
-			Group = null;
 			AllowRightsOverride = false;
 			TradeState = 2;
 			WordFilter = new List<string> ();
@@ -224,6 +210,7 @@ namespace Yupi.Model.Domain
 			MutedEntities = new List<RoomMute> ();
 			Chat = new RoomChatSettings ();
 			BannedUsers = new List<UserInfo> ();
+			WallHeight = -1;
 		}
 			
 		public virtual RoomFlags GetFlags() {

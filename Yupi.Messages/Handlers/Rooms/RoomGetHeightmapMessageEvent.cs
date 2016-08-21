@@ -2,6 +2,7 @@
 using Yupi.Messages.Items;
 using Yupi.Model.Domain;
 using Yupi.Messages.User;
+using System.Collections.Generic;
 
 
 
@@ -24,10 +25,9 @@ namespace Yupi.Messages.Rooms
 			    !session.Info.HasPermission ("fuse_enter_full_rooms")) {
 				router.GetComposer<RoomEnterErrorMessageComposer> ().Compose (session, RoomEnterErrorMessageComposer.Error.ROOM_FULL);
 			} else {
-				//router.GetComposer<RoomFloorItemsMessageComposer> ().Compose (session, session.Room.Data, session.Room.GetRoomItemHandler ().FloorItems);
-				//router.GetComposer<RoomWallItemsMessageComposer> ().Compose (session, session.Room.Data, session.Room.GetRoomItemHandler ().WallItems);
-			
 				// TODO Implement
+				router.GetComposer<RoomFloorItemsMessageComposer> ().Compose (session, session.Room.Data, new Dictionary<uint, FloorItem>());
+				router.GetComposer<RoomWallItemsMessageComposer> ().Compose (session, session.Room.Data, new Dictionary<uint, FloorItem>());
 				router.GetComposer<SetRoomUserMessageComposer>().Compose(session, session.Room.Users);
 				router.GetComposer<RoomFloorWallLevelsMessageComposer> ().Compose (session, session.Room.Data);
 				router.GetComposer<RoomOwnershipMessageComposer> ().Compose (session, session.Room.Data, session.Info);

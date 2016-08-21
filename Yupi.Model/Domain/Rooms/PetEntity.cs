@@ -12,6 +12,11 @@ namespace Yupi.Model.Domain
 				return EntityType.Pet;
 			}
 		}
+
+		public PetEntity (Room room) : base(room)
+		{
+
+		}
 	}
 }
 

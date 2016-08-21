@@ -10,7 +10,7 @@ namespace Yupi.Model.Domain
 	{
 		public UserInfo Info { get; set; }
 
-		public UserEntity RoomEntity { get; protected set; }
+		public UserEntity RoomEntity { get; set; }
 
 		public string ReleaseName;
 

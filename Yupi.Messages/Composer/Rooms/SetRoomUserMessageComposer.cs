@@ -32,7 +32,7 @@ namespace Yupi.Messages.Rooms
 			}
 		}
 
-		// TODO Refactor?
+		// TODO Refactor
 
 		private void Serialize(ServerMessage messageBuffer, RoomEntity entity) {
 			if (entity is UserEntity) {
@@ -56,15 +56,18 @@ namespace Yupi.Messages.Rooms
 			messageBuffer.AppendInteger (user.Position.X);
 			messageBuffer.AppendInteger (user.Position.Y);
 			messageBuffer.AppendString (user.Position.Z.ToString (CultureInfo.InvariantCulture));
-			messageBuffer.AppendInteger (0);
-			messageBuffer.AppendInteger (1);
-			messageBuffer.AppendString (user.UserInfo.Gender.ToLower ());
-			messageBuffer.AppendInteger (user.UserInfo.FavouriteGroup.Id);
-			messageBuffer.AppendInteger (0);
-			messageBuffer.AppendString (user.UserInfo.FavouriteGroup.Name);
-			messageBuffer.AppendString ("");
-			messageBuffer.AppendInteger (user.UserInfo.Wallet.AchievementPoints);
-			messageBuffer.AppendBool (false);
+			messageBuffer.AppendInteger (0); // loc12
+			messageBuffer.AppendInteger (1); // loc13 (= Type)
+
+			// if loc13 == 1 {
+			messageBuffer.AppendString (user.UserInfo.Gender); // _loc14_.§_-5YY§
+			messageBuffer.AppendInteger (user.UserInfo.FavouriteGroup?.Id ?? 0); // _loc14_.§_-1tV§
+			messageBuffer.AppendInteger (0); // _loc14_.§_-1xu§
+			messageBuffer.AppendString (user.UserInfo.FavouriteGroup?.Name ?? string.Empty); // _loc14_.groupName
+			messageBuffer.AppendString (""); // loc15
+			messageBuffer.AppendInteger (user.UserInfo.Wallet.AchievementPoints); // _loc14_.§_-5DP§
+			messageBuffer.AppendBool (false); // _loc14_.§_-32l§
+			// }
 		}
 
 		private void Serialize (ServerMessage messageBuffer, PetEntity pet)
