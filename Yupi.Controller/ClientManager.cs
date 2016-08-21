@@ -62,7 +62,7 @@ namespace Yupi.Controller
 
 		public void RemoveClient(ISession<Habbo> session) {
 			Connections.Remove (session);
-			Disconnect (session, "Socket closed");
+			Disconnect (session.UserData, "Socket closed");
 		}
 	}
 }

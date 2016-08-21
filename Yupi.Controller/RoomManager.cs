@@ -73,6 +73,9 @@ namespace Yupi.Controller
 					continue;
 				}
 
+				session.Router.GetComposer<OutOfRoomMessageComposer> ()
+					.Compose (session, 2);
+				
 				RemoveUser (session);
 			}
 		}
@@ -88,8 +91,7 @@ namespace Yupi.Controller
 			// TODO Stop effect
 			// TODO Stop trade
 
-			session.Router.GetComposer<OutOfRoomMessageComposer> ()
-				.Compose (session, 2);
+			// TODO Update Room Users?!
 
 			session.IsRidingHorse = false;
 

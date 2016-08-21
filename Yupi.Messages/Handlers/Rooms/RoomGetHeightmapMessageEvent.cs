@@ -37,10 +37,14 @@ namespace Yupi.Messages.Rooms
 						.Compose (session, session.Room.Data.Id, userWithRights);
 				}
 
+				// TODO Send to other users?!
 				router.GetComposer<UpdateUserStatusMessageComposer> ().Compose (session, session.Room.Users);
+
+				// TODO Implement
 				//Yupi.GetGame().GetRoomEvents().SerializeEventInfo(CurrentLoadingRoom.RoomId);
 
 				foreach(RoomEntity entity in session.Room.Users) {
+					// TODO Implement
 				//DanceStatusMessageComposer
 				//RoomUserIdleMessageComposer
 				//ApplyHanditemMessageComposer
@@ -49,8 +53,8 @@ namespace Yupi.Messages.Rooms
 						router.GetComposer<UpdateUserDataMessageComposer> ().Compose (session, ((UserEntity)entity).UserInfo);
 					}
 				}
-				//CurrentLoadingRoom.GetRoomUserManager().AddUserToRoom(session, session.SpectatorMode);
-				//GetRoomData3 ();
+
+				//GetRoomData3()
 			}
 		}
 

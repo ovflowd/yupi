@@ -14,6 +14,7 @@ namespace Yupi.Messages.Rooms
 				message.AppendInteger(map.MapSize);
 				for (int i = 0; i< map.MapSize; i++)
 				{
+					// TODO Why *256?
 					message.AppendShort((short)(map.GetTileHeight(i)*256));
 				}
 				session.Send (message);
