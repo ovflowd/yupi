@@ -23,7 +23,7 @@ namespace Yupi.Messages.Navigator
 			string pWd = request.GetString();
 
 			if (session.Room != null) {
-				RoomManager.RemoveUser (session.RoomEntity);
+				RoomManager.RemoveUser (session);
 			}
 
 			Room room = RoomManager.LoadOrGet (roomId);

@@ -14,7 +14,7 @@ namespace Yupi.Messages.Navigator
 			if (session.Room == null)
 				return;
 
-			RoomManager.RemoveUser (session.RoomEntity);
+			RoomManager.RemoveUser (session);
 
 			// TODO Implement
 			/*

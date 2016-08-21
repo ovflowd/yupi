@@ -30,7 +30,7 @@ namespace Yupi.Messages.Support
 			// TODO Log
 
 			if (target != null && target.Info.Rank < session.Info.Rank) {
-				RoomManager.RemoveUser (target.RoomEntity);
+				RoomManager.RemoveUser (target);
 				target.Router.GetComposer<AlertNotificationMessageComposer> ().Compose(target, message);
 			}
 		}

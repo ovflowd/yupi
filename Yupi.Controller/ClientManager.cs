@@ -42,7 +42,7 @@ namespace Yupi.Controller
 			RoomEntity entity = session.RoomEntity;
 
 			if (entity != null) {
-				RoomManager.RemoveUser (entity);
+				RoomManager.RemoveUser (session);
 			}
 
 			session.Session.Disconnect ();
@@ -62,6 +62,7 @@ namespace Yupi.Controller
 
 		public void RemoveClient(ISession<Habbo> session) {
 			Connections.Remove (session);
+			Disconnect (session, "Socket closed");
 		}
 	}
 }

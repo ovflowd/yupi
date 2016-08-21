@@ -26,16 +26,19 @@ namespace Yupi.Controller
 			RoomRepository = DependencyFactory.Resolve<IRepository<RoomData>> ();
 		}
 
-		public bool isLoaded(RoomData room) {
+		public bool isLoaded (RoomData room)
+		{
 			return _loadedRooms.Any (x => x.Data == room);
 		}
 
-		public Room LoadOrGet(int roomId) {
+		public Room LoadOrGet (int roomId)
+		{
 			RoomData data = RoomRepository.FindBy (roomId);
 			return LoadOrGet (data);
 		}
 
-		public Room LoadOrGet(RoomData data) {
+		public Room LoadOrGet (RoomData data)
+		{
 			if (data == null) {
 				return null;
 			}
@@ -50,64 +53,67 @@ namespace Yupi.Controller
 			return room;
 		}
 
-		public Room GetIfLoaded(RoomData room) {
+		public Room GetIfLoaded (RoomData room)
+		{
 			return _loadedRooms.FirstOrDefault (x => x.Data == room);
 		}
 
-		public int UsersNow(RoomData data) {
+		public int UsersNow (RoomData data)
+		{
 			Room room = GetIfLoaded (data);
 			return room == null ? 0 : room.GetUserCount ();
 		}
 
-		public void KickAll(Room room) {
-			IEnumerable<RoomEntity> users = room.Users.Where (x => x.Type == EntityType.User);
+		public void KickAll (Room room)
+		{
+			foreach (Habbo session in room.GetSessions()) {
+				
 
-			foreach (RoomEntity entity in users) {
-				UserEntity user = (UserEntity)entity;
-
-				if (user.UserInfo.HasPermission ("ignore_room_kick")) {
+				if (session.Info.HasPermission ("ignore_room_kick")) {
 					continue;
 				}
 
-				RemoveUser (user);
-
-				// TODO Stop effect
-				// TODO Stop trade
+				RemoveUser (session);
 			}
 		}
 
-		public void RemoveUser(RoomEntity entity) {
-			if (entity == null) {
+		public void RemoveUser (Habbo session)
+		{
+			if (session.Room == null) {
 				return;
 			}
 
-			Room room = entity.Room;
+			session.Room.Users.Remove (session.RoomEntity);
 
-			room.Users.Remove (entity);
+			// TODO Stop effect
+			// TODO Stop trade
 
-			if (entity.Type == EntityType.User) {
-				UserEntity user = (UserEntity)entity;
-				user.User.Router.GetComposer<OutOfRoomMessageComposer> ()
-				.Compose (user.User, 2);
+			session.Router.GetComposer<OutOfRoomMessageComposer> ()
+				.Compose (session, 2);
 
-				user.User.IsRidingHorse = false;
-			}
+			session.IsRidingHorse = false;
+
+			session.Room = null;
+			session.RoomEntity = null;
 		}
 
-		public IOrderedEnumerable<Room> GetActive() {
+		public IOrderedEnumerable<Room> GetActive ()
+		{
 			return LoadedRooms
 				.Where (x => x.GetUserCount () > 0)
 				.OrderByDescending (x => x.GetUserCount ());
 		}
 
-		public IEnumerable<RoomData> GetEventRooms() {
+		public IEnumerable<RoomData> GetEventRooms ()
+		{
 			return RoomRepository
 				.FilterBy (x => x.Event != null && !x.Event.HasExpired ())
 				.OrderByDescending (x => UsersNow (x))
-				.AsEnumerable();
+				.AsEnumerable ();
 		}
 
-		public IList<RoomData> Search(string query) {
+		public IList<RoomData> Search (string query)
+		{
 			bool containsOwner = false, containsGroup = false;
 
 			// TODO Can't both be combined like a search on google: owner:Noob group:NoobGroup RandomName
@@ -130,11 +136,11 @@ namespace Yupi.Controller
 			} else if (containsGroup) {
 				rooms = RoomRepository.FilterBy (x => x.Group.Name == query).ToList ();
 			} else {
-				rooms.AddRange (LoadedRooms.Where (x => x.Data.Name.ContainsIgnoreCase (query)).Take (50).Select(x => x.Data));
+				rooms.AddRange (LoadedRooms.Where (x => x.Data.Name.ContainsIgnoreCase (query)).Take (50).Select (x => x.Data));
 
 				if (rooms.Count < 50) {
 					// Use ToUpper() as that can be translated to SQL
-					rooms.AddRange (RoomRepository.FilterBy (x => x.Name.ToUpper().Contains(query.ToUpper())).Take(50 - rooms.Count));
+					rooms.AddRange (RoomRepository.FilterBy (x => x.Name.ToUpper ().Contains (query.ToUpper ())).Take (50 - rooms.Count));
 				}
 			}
 
