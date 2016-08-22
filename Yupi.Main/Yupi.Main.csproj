@@ -55,13 +55,11 @@
     <Reference Include="CodeProject.ObjectPool">
       <HintPath>..\packages\CodeProject.ObjectPool.2.0.1\lib\net45\CodeProject.ObjectPool.dll</HintPath>
     </Reference>
-    <Reference Include="System.Data.SQLite, Version=1.0.102.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+    <Reference Include="System.Data.SQLite, Version=1.0.102.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139">
       <HintPath>..\packages\System.Data.SQLite.Core.1.0.102.0\lib\net45\System.Data.SQLite.dll</HintPath>
-      <Private>True</Private>
     </Reference>
-    <Reference Include="System.Data.SQLite.Linq, Version=1.0.102.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+    <Reference Include="System.Data.SQLite.Linq, Version=1.0.102.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139">
       <HintPath>..\packages\System.Data.SQLite.Linq.1.0.102.0\lib\net45\System.Data.SQLite.Linq.dll</HintPath>
-      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -99,6 +97,10 @@
     <ProjectReference Include="..\Yupi.Controller\Yupi.Controller.csproj">
       <Project>{40F4057A-7752-4BA3-849B-FDEBCC238717}</Project>
       <Name>Yupi.Controller</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Yupi.Rest\Yupi.Rest.csproj">
+      <Project>{A323F1A6-8E91-430F-BCE8-F8AD306D4DED}</Project>
+      <Name>Yupi.Rest</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -84,11 +84,20 @@ namespace Yupi.Controller
 			}
 		}
 
+		public string GenerateTicket (int userId) {
+			UserInfo user = UserRepository.FindBy (userId);
+			return GenerateTicket (user);
+		}
+
 		public string GenerateTicket (UserInfo info)
 		{
+			if (info == null) {
+				return null;
+			}
+
 			Tickets.TryRemoveBySecond (info);
 
-			string ticket = Cryptography.GetUniqueKey (12);
+			string ticket = Cryptography.GetUniqueKey (20);
 			
 			if (Tickets.TryAdd (ticket, info)) {
 				return ticket;

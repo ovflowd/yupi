@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yupi.Messages.Contracts", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yupi.Main", "Yupi.Main\Yupi.Main.csproj", "{4776521A-52AD-4A62-85A0-AB992C9D8F2F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yupi.Rest", "Yupi.Rest\Yupi.Rest.csproj", "{A323F1A6-8E91-430F-BCE8-F8AD306D4DED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -125,6 +127,18 @@ Global
 		{9AE3ADAB-A767-4123-BE78-34E1DFCF33FB}.Release|x64.Build.0 = Release|Any CPU
 		{9AE3ADAB-A767-4123-BE78-34E1DFCF33FB}.Release|x86.ActiveCfg = Release|Any CPU
 		{9AE3ADAB-A767-4123-BE78-34E1DFCF33FB}.Release|x86.Build.0 = Release|Any CPU
+		{A323F1A6-8E91-430F-BCE8-F8AD306D4DED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A323F1A6-8E91-430F-BCE8-F8AD306D4DED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A323F1A6-8E91-430F-BCE8-F8AD306D4DED}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A323F1A6-8E91-430F-BCE8-F8AD306D4DED}.Debug|x64.Build.0 = Debug|Any CPU
+		{A323F1A6-8E91-430F-BCE8-F8AD306D4DED}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A323F1A6-8E91-430F-BCE8-F8AD306D4DED}.Debug|x86.Build.0 = Debug|Any CPU
+		{A323F1A6-8E91-430F-BCE8-F8AD306D4DED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A323F1A6-8E91-430F-BCE8-F8AD306D4DED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A323F1A6-8E91-430F-BCE8-F8AD306D4DED}.Release|x64.ActiveCfg = Release|Any CPU
+		{A323F1A6-8E91-430F-BCE8-F8AD306D4DED}.Release|x64.Build.0 = Release|Any CPU
+		{A323F1A6-8E91-430F-BCE8-F8AD306D4DED}.Release|x86.ActiveCfg = Release|Any CPU
+		{A323F1A6-8E91-430F-BCE8-F8AD306D4DED}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -12,6 +12,7 @@ using Yupi.Util;
 using log4net.Appender;
 using Yupi.Model.Repository;
 using log4net.Repository.Hierarchy;
+using Yupi.Rest;
 
 namespace Yupi.Main
 {
@@ -19,6 +20,7 @@ namespace Yupi.Main
 	{
 		private IServer<Habbo> TCPServer;
 		private ClientManager ClientManager;
+		private RestServer RestServer;
 
 		public Server ()
 		{ 
@@ -35,6 +37,8 @@ namespace Yupi.Main
 			Router.Default = new Router ("PRODUCTION-201510201205-42435347", "../../../Config/", typeof(AchievementProgressMessageComposer).Assembly);
 
 			ClientManager = DependencyFactory.Resolve<ClientManager> ();
+
+			RestServer = new RestServer ();
 
 			SetupTCP ();
 		}
@@ -85,6 +89,7 @@ namespace Yupi.Main
 		public void Run ()
 		{
 			TCPServer.Start ();
+			RestServer.Start ();
 		}
 	}
 }
