@@ -23,6 +23,7 @@ namespace Yupi.Model.Repository
 		public void Save (T entity)
 		{
 			session.SaveOrUpdate (entity);
+			session.Flush ();
 		}
 
 		public void Delete (T entity)

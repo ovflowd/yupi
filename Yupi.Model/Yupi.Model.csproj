@@ -339,6 +339,7 @@
     <Compile Include="Domain\Users\Minimail.cs" />
     <Compile Include="Test\ValidateModel.cs" />
     <Compile Include="Domain\Rooms\Components\Vector3D.cs" />
+    <Compile Include="CascadeConvention.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

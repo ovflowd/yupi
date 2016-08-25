@@ -13,7 +13,7 @@ namespace Yupi.Model.Domain
 			}
 		}
 
-		public PetEntity (Room room) : base(room)
+		public PetEntity (Room room, int id) : base(room, id)
 		{
 
 		}

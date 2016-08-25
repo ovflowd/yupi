@@ -18,8 +18,9 @@ namespace Yupi.Model.Domain
 
 		public abstract EntityType Type { get; }
 
-		public RoomEntity (Room room)
+		public RoomEntity (Room room, int id)
 		{
+			this.Id = id;
 			this.Room = room;
 			this.CanWalk = true;
 		}

@@ -2,6 +2,7 @@
 
 namespace Yupi.Model.Domain.Components
 {
+	// TODO Should Vector classes be imutable? (like String class)
 	public class Vector2D {
 		public virtual int X { get; set; }
 		public virtual int Y { get; set; }
@@ -14,6 +15,12 @@ namespace Yupi.Model.Domain.Components
 		public Vector2D(int x, int y) {
 			this.X = x;
 			this.Y = y;
+		}
+
+		public Vector2D (Vector2D other)
+		{
+			this.X = other.X;
+			this.Y = other.Y;
 		}
 
 		public virtual bool Equals(Vector2D other)
@@ -53,6 +60,11 @@ namespace Yupi.Model.Domain.Components
 
 		public Vector3D(int x, int y, double z) : base(x, y) {
 			this.Z = z;
+		}
+
+		public Vector3D (Vector3D other) : base(other)
+		{
+			this.Z = other.Z;
 		}
 
 		public virtual bool Equals(Vector3D other)

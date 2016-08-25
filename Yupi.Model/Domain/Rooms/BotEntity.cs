@@ -8,7 +8,7 @@ namespace Yupi.Model.Domain
 	{
 		public BotInfo Info { get; set; }
 
-		public BotEntity (Room room) : base(room)
+		public BotEntity (Room room, int id) : base(room, id)
 		{
 			
 		}

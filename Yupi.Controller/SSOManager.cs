@@ -32,10 +32,18 @@ namespace Yupi.Controller
 		public void TryLogin (Habbo session, string ssoTicket)
 		{
 			UserInfo user;
+
+			// FIXME Thread safety!
 			Tickets.TryGetByFirst (ssoTicket, out user);
 
 			if (user != null) {
 				Tickets.TryRemoveByFirst (ssoTicket);
+
+				IList<ISession<Habbo>> toDisconnect = ClientManager.Connections.Where (x => x.UserData?.Info == user).ToList();
+
+				foreach(ISession<Habbo> duplicateSession in toDisconnect) {
+					ClientManager.Disconnect (duplicateSession.UserData, "Logged in from other location.");
+				}
 
 				session.Info = user;
 
@@ -44,7 +52,7 @@ namespace Yupi.Controller
 				if (user.IsBanned ()) {
 					ClientManager.Disconnect (session, "Banned from Server.");
 				} else {
-					
+
 					session.Router.GetComposer<UniqueMachineIDMessageComposer> ().Compose (session, session.MachineId);  
 
 					session.Router.GetComposer<AuthenticationOKMessageComposer> ().Compose (session);    

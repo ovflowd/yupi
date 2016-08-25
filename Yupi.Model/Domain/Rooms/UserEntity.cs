@@ -20,14 +20,14 @@ namespace Yupi.Model.Domain
 			}
 		}
 
-		public UserEntity (Habbo user, Room room) : base(room)
+		public UserEntity (Habbo user, Room room, int id) : base(room, id)
 		{
 			this.User = user;
 		}
 
 		public override void Send (Yupi.Protocol.Buffers.ServerMessage message)
 		{
-			
+			throw new NotImplementedException ();
 		}
 
 		public override void OnRoomExit ()

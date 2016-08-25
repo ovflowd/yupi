@@ -18,8 +18,7 @@ namespace Yupi.Messages.Rooms
 			if (entity == null || !entity.CanWalk || entity.Position.Equals (targetX, targetY)) {
 				return;
 			}
-				
-			throw new NotImplementedException ();
+
 			// Teleport
 			entity.Position.X = targetX;
 			entity.Position.Y = targetY;

@@ -3,6 +3,7 @@ using Yupi.Protocol;
 using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
+using Yupi.Model.Domain.Components;
 
 namespace Yupi.Model.Domain
 {
@@ -23,6 +24,9 @@ namespace Yupi.Model.Domain
 		// TODO What is this used for?
 		public ISet<Group> GroupsInRoom { get; private set; }
 
+		// TODO Can this be implemented better?
+		private int entityIdCounter;
+
 		public Room (RoomData data)
 		{
 			if (data == null) {
@@ -38,6 +42,8 @@ namespace Yupi.Model.Domain
 			if (Data.Group != null) {
 				GroupsInRoom.Add (Data.Group);
 			}
+
+			entityIdCounter = 0;
 		}
 
 		public bool CanVote(UserInfo user) {
@@ -63,8 +69,8 @@ namespace Yupi.Model.Domain
 		}
 
 		public void AddUser(Habbo user) {
-			user.RoomEntity = new UserEntity (user, this);
-			user.RoomEntity.Position = Data.Model.Door;
+			user.RoomEntity = new UserEntity (user, this, ++entityIdCounter);
+			user.RoomEntity.Position = new Vector3D(Data.Model.Door);
 			user.RoomEntity.RotBody = Data.Model.DoorOrientation;
 			user.RoomEntity.RotHead = Data.Model.DoorOrientation;
 			Users.Add (user.RoomEntity );
