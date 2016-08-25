@@ -8,6 +8,7 @@ namespace Yupi.Model
 {
 	public class Conventions : IHasManyConvention, IHasManyToManyConvention
 	{
+		// TODO Use AttributePropertyConvention (https://github.com/jagregory/fluent-nhibernate/wiki/Available-conventions)
 		// Taken from http://stackoverflow.com/questions/6091654/fluentnhibernate-automapping-onetomany-relation-using-attribute-and-convention
 		public void Apply(IOneToManyCollectionInstance instance)
 		{

@@ -342,6 +342,8 @@
     <Compile Include="Domain\Users\Minimail.cs" />
     <Compile Include="Test\ValidateModel.cs" />
     <Compile Include="CascadeConvention.cs" />
+    <Compile Include="VectorConvention.cs" />
+    <Compile Include="Vector3UserType.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

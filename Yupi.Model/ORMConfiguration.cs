@@ -17,7 +17,7 @@ namespace Yupi.Model
 
 		public override bool IsComponent (Type type)
 		{
-			return type != null && type.Namespace.EndsWith ("Components");
+			return type != null && type.Namespace.EndsWith ("Components") || type == typeof(Vector3UserType);
 		}
 
 		public override bool IsDiscriminated (Type type)

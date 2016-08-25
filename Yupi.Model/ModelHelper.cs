@@ -32,6 +32,7 @@ namespace Yupi.Model
 						.Conventions.Add<Conventions> ()
 						.Conventions.Add<EnumTypeConvention> ()
 						.Conventions.Add<IPAddressConvention> ()
+						.Conventions.Add<VectorConvention> ()
 						.Conventions.Add<CascadeConvention>()
 						.IncludeBase<BaseItem> ()
 						.IncludeBase<FloorItem> ()

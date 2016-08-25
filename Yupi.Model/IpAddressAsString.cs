@@ -15,7 +15,7 @@ namespace Yupi.Model
 	{
 		public override object NullSafeGet(IDataReader rs, string[] names, object owner)
 		{
-			object obj = NHibernateUtil.String.NullSafeGet(rs, names);
+			object obj = NHibernateUtil.Double.NullSafeGet(rs, names);
 			if (obj == null)
 			{
 				return null;

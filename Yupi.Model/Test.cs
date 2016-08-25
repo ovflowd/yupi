@@ -6,6 +6,7 @@ namespace Yupi.Model
 	{
 		public static void Main(string[] args) {
 			ModelHelper.CreateFactory ();
+			Console.WriteLine ("Test Complete");
 		}
 	}
 }
