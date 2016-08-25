@@ -9,27 +9,21 @@ namespace Yupi.Messages.Rooms
 	{
 		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			/*
-			Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
-
-			RoomUser roomUserByHabbo = room?.GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().Id);
-
-			if (roomUserByHabbo == null)
-				return;
-
-			roomUserByHabbo.UnIdle();
-
 			int x = request.GetInteger();
 			int y = request.GetInteger();
 
-			if (x == roomUserByHabbo.X && y == roomUserByHabbo.Y)
+			if (session.RoomEntity == null || session.RoomEntity.Position.Equals (x, y)) {
 				return;
+			}
+
+			session.RoomEntity.UnIdle();
 
 			int rotation = PathFinder.CalculateRotation(roomUserByHabbo.X, roomUserByHabbo.Y, x, y);
 
-			roomUserByHabbo.SetRot(rotation, false);
-			roomUserByHabbo.UpdateNeeded = true;
+			session.RoomEntity.SetRot(rotation, false);
 
+			// TODO Implement Horse
+			/*
 			if (!roomUserByHabbo.RidingHorse)
 				return;
 
@@ -38,7 +32,6 @@ namespace Yupi.Messages.Rooms
 			roomUserByVirtualId.SetRot(rotation, false);
 			roomUserByVirtualId.UpdateNeeded = true;
 			*/
-			throw new NotImplementedException ();
 		}
 	}
 }
