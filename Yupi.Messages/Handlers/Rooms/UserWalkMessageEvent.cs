@@ -19,6 +19,7 @@ namespace Yupi.Messages.Rooms
 				return;
 			}
 
+			// TODO Implement pathfinder
 			// Teleport
 			entity.Position.X = targetX;
 			entity.Position.Y = targetY;
