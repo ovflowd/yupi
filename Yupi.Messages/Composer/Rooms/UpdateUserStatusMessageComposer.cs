@@ -17,9 +17,7 @@ namespace Yupi.Messages.Rooms
 
 				foreach (RoomEntity entity in entities) {
 					message.AppendInteger(entity.Id);
-					message.AppendInteger(entity.Position.X);
-					message.AppendInteger(entity.Position.Y);
-					message.AppendString(entity.Position.Z.ToString(CultureInfo.InvariantCulture));
+					message.Append(entity.Position);
 					message.AppendInteger(entity.RotHead);
 					message.AppendInteger(entity.RotBody);
 					message.AppendString(string.Empty); // TODO Extra Data

@@ -5,6 +5,7 @@ using Yupi.Protocol.Buffers;
 using System.Collections.Generic;
 using Yupi.Model.Domain;
 using System.Globalization;
+using Yupi.Messages.Encoders;
 
 namespace Yupi.Messages.Rooms
 {
@@ -53,9 +54,7 @@ namespace Yupi.Messages.Rooms
 			messageBuffer.AppendString (user.UserInfo.Motto);
 			messageBuffer.AppendString (user.UserInfo.Look);
 			messageBuffer.AppendInteger (user.Id);
-			messageBuffer.AppendInteger (user.Position.X);
-			messageBuffer.AppendInteger (user.Position.Y);
-			messageBuffer.AppendString (user.Position.Z.ToString (CultureInfo.InvariantCulture));
+			messageBuffer.Append (user.Position);
 			messageBuffer.AppendInteger (0); // loc12
 			messageBuffer.AppendInteger (1); // loc13 (= Type)
 
@@ -114,9 +113,7 @@ namespace Yupi.Messages.Rooms
 			messageBuffer.AppendString (bot.Info.Motto);
 			messageBuffer.AppendString (bot.Info.Look.ToLower ());
 			messageBuffer.AppendInteger (bot.Id);
-			messageBuffer.AppendInteger (bot.Position.X);
-			messageBuffer.AppendInteger (bot.Position.Y);
-			messageBuffer.AppendString (bot.Position.Z.ToString (CultureInfo.InvariantCulture));
+			messageBuffer.Append (bot.Position);
 			messageBuffer.AppendInteger (0);
 			messageBuffer.AppendInteger ((int)bot.Type);
 			messageBuffer.AppendString (bot.Info.Gender.ToString());

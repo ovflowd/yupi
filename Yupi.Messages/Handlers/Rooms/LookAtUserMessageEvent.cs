@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 
 
 
@@ -12,7 +13,7 @@ namespace Yupi.Messages.Rooms
 			int x = request.GetInteger();
 			int y = request.GetInteger();
 
-			if (session.RoomEntity == null || session.RoomEntity.Position.Equals (x, y)) {
+			if (session.RoomEntity == null || session.RoomEntity.Position == new Vector3(x, y, 0)) {
 				return;
 			}
 

@@ -70,7 +70,7 @@ namespace Yupi.Model.Domain
 
 		public void AddUser(Habbo user) {
 			user.RoomEntity = new UserEntity (user, this, ++entityIdCounter);
-			user.RoomEntity.Position = new Vector3D(Data.Model.Door);
+			user.RoomEntity.Position = Data.Model.Door;
 			user.RoomEntity.RotBody = Data.Model.DoorOrientation;
 			user.RoomEntity.RotHead = Data.Model.DoorOrientation;
 			Users.Add (user.RoomEntity );

@@ -1,6 +1,7 @@
 ﻿using System;
 using Yupi.Model.Domain.Components;
 using Yupi.Protocol;
+using System.Numerics;
 
 namespace Yupi.Model.Domain
 {
@@ -8,7 +9,7 @@ namespace Yupi.Model.Domain
 	public abstract class RoomEntity : ISender
 	{
 		public int Id;
-		public Vector3D Position;
+		public Vector3 Position;
 
 		// TODO Use enum
 		public int RotHead;

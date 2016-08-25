@@ -1,6 +1,7 @@
 ﻿using System;
 using Yupi.Model.Domain;
 using System.Collections.Generic;
+using System.Numerics;
 
 
 
@@ -15,7 +16,7 @@ namespace Yupi.Messages.Rooms
 
 			RoomEntity entity = session.RoomEntity;
 
-			if (entity == null || !entity.CanWalk || entity.Position.Equals (targetX, targetY)) {
+			if (entity == null || !entity.CanWalk || entity.Position == new Vector3 (targetX, targetY, 0)) {
 				return;
 			}
 

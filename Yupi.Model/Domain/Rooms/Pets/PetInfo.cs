@@ -25,6 +25,7 @@
 using System;
 using System.Collections.Generic;
 using Yupi.Model.Domain.Components;
+using System.Numerics;
 
 namespace Yupi.Model.Domain
 {
@@ -62,7 +63,7 @@ namespace Yupi.Model.Domain
 
 		#endregion
 
-		public virtual Vector3D BreadingTile { get; set; }
+		public virtual Vector3 BreadingTile { get; set; }
 
 		public virtual string Color { get; set; }
 		// TODO Do pets have mottos?
@@ -100,7 +101,7 @@ namespace Yupi.Model.Domain
 
 		public virtual uint WaitingForBreading { get; set; }
 
-		public virtual Vector3D Position { get; set; }
+		public virtual Vector3 Position { get; set; }
 
 		[Ignore]
 		public virtual int Level {
