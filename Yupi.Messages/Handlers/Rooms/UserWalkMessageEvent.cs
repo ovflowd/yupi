@@ -25,9 +25,7 @@ namespace Yupi.Messages.Rooms
 			entity.Position.X = targetX;
 			entity.Position.Y = targetY;
 			entity.Position.Z = session.Room.HeightMap.GetTileHeight (targetX, targetY);
-			var tmp = new List<RoomEntity> ();
-			tmp.Add (entity);
-			router.GetComposer<UpdateUserStatusMessageComposer> ().Compose (session, tmp);
+			entity.ScheduleUpdate ();
 
 
 			/* TODO Implement Horse

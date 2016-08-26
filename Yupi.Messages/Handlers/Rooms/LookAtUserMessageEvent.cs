@@ -30,9 +30,7 @@ namespace Yupi.Messages.Rooms
 
 			int rotation = position.CalculateRotation(target);
 
-			session.RoomEntity.RotHead = rotation;
-			session.RoomEntity.RotBody = rotation;
-			router.GetComposer<UpdateUserStatusMessageComposer> ().Compose (session, session.Room.Users);
+			session.RoomEntity.SetRotation (rotation);
 			// TODO Implement
 			//session.RoomEntity.UnIdle();
 

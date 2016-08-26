@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
 using Yupi.Model.Domain.Components;
+using System.Threading;
 
 namespace Yupi.Model.Domain
 {
 	[Ignore]
 	public class Room : ISender
 	{
-		public IList<UserInfo> Queue { get; private set; } 
+		public IList<UserInfo> Queue { get; private set; }
 
 		public RoomData Data { get; private set; }
 
@@ -26,6 +27,13 @@ namespace Yupi.Model.Domain
 
 		// TODO Can this be implemented better?
 		private int entityIdCounter;
+
+		private Timer Timer;
+
+		/// <summary>
+		/// The period between timer ticks in milliseconds
+		/// </summary>
+		private const int TICK_PERIOD = 10000;
 
 		public Room (RoomData data)
 		{
@@ -44,36 +52,47 @@ namespace Yupi.Model.Domain
 			}
 
 			entityIdCounter = 0;
+			this.Timer = new Timer (OnTick, null, 0, TICK_PERIOD);
 		}
 
-		public bool CanVote(UserInfo user) {
+		private void OnTick (object state)
+		{
+			List<RoomEntity> changes = Users.Where (x => x.NeedsUpdate).ToList ();
+		}
+
+		public bool CanVote (UserInfo user)
+		{
 			return !user.RatedRooms.Contains (this.Data) && this.Data.Owner != user;
 		}
 
-		public int GetUserCount() {
+		public int GetUserCount ()
+		{
 			return Users.Where (x => x.Type == EntityType.User).Count ();
 		}
 
-		public IEnumerable<Habbo> GetSessions() {
+		public IEnumerable<Habbo> GetSessions ()
+		{
 			// TODO Reimplement Users properly to prevent these queries!
 			return Users.Where (x => x.Type == EntityType.User).Select (x => ((UserEntity)x).User);
 		}
 
-		public bool HasUsers() {
+		public bool HasUsers ()
+		{
 			return Users.Any (x => x.Type == EntityType.User);
 		}
 			
 		// TODO Consider using back references...
-		public RoomEntity GetEntity(int id) {
+		public RoomEntity GetEntity (int id)
+		{
 			return Users.Single (entity => entity.Id == id);
 		}
 
-		public void AddUser(Habbo user) {
+		public void AddUser (Habbo user)
+		{
 			user.RoomEntity = new UserEntity (user, this, ++entityIdCounter);
 			user.RoomEntity.Position = Data.Model.Door;
-			user.RoomEntity.RotBody = Data.Model.DoorOrientation;
-			user.RoomEntity.RotHead = Data.Model.DoorOrientation;
-			Users.Add (user.RoomEntity );
+			user.RoomEntity.SetRotation (Data.Model.DoorOrientation);
+			Users.Add (user.RoomEntity);
 		}
 
 		public void Send (Yupi.Protocol.Buffers.ServerMessage message)

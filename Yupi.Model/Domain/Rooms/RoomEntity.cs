@@ -12,10 +12,11 @@ namespace Yupi.Model.Domain
 		public Vector3 Position;
 
 		// TODO Use enum
-		public int RotHead;
-		public int RotBody;
+		public int RotHead { get; private set; }
+		public int RotBody { get; private set; }
 		public Room Room { get; private set; }
 		public bool CanWalk { get; private set; }
+		public bool NeedsUpdate { get; private set; }
 
 		public abstract EntityType Type { get; }
 
@@ -33,6 +34,16 @@ namespace Yupi.Model.Domain
 
 		public virtual void OnRoomExit () {
 			// Do nothing
+		}
+
+		public void SetRotation(int rotation) {
+			this.RotBody = rotation;
+			this.RotHead = rotation;
+			ScheduleUpdate ();
+		}
+
+		public void ScheduleUpdate() {
+			NeedsUpdate = true;
 		}
 	}
 }
