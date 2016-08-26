@@ -344,12 +344,14 @@
     <Compile Include="CascadeConvention.cs" />
     <Compile Include="VectorConvention.cs" />
     <Compile Include="Vector3UserType.cs" />
+    <Compile Include="Util\Vector2Ext.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Domain\Rooms\User\" />
     <Folder Include="Domain\Util\" />
     <Folder Include="Test\" />
+    <Folder Include="Util\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Yupi.Protocol\Yupi.Protocol.csproj">
