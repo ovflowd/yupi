@@ -33,11 +33,13 @@ namespace Yupi.Controller
 		{
 			UserInfo user;
 
-			// FIXME Thread safety!
-			Tickets.TryGetByFirst (ssoTicket, out user);
+			lock (Tickets) {
+				Tickets.TryGetByFirst (ssoTicket, out user);
+				Tickets.TryRemoveByFirst (ssoTicket);
+			}
 
 			if (user != null) {
-				Tickets.TryRemoveByFirst (ssoTicket);
+				
 
 				IList<ISession<Habbo>> toDisconnect = ClientManager.Connections.Where (x => x.UserData?.Info == user).ToList();
 
@@ -103,14 +105,16 @@ namespace Yupi.Controller
 				return null;
 			}
 
-			Tickets.TryRemoveBySecond (info);
+			lock (Tickets) {
+				Tickets.TryRemoveBySecond (info);
 
-			string ticket = Cryptography.GetUniqueKey (20);
+				string ticket = Cryptography.GetUniqueKey (20);
 			
-			if (Tickets.TryAdd (ticket, info)) {
-				return ticket;
-			} else {
-				return null;
+				if (Tickets.TryAdd (ticket, info)) {
+					return ticket;
+				} else {
+					return null;
+				}
 			}
 		}
 	}
