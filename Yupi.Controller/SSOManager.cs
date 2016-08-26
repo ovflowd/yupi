@@ -41,10 +41,10 @@ namespace Yupi.Controller
 			if (user != null) {
 				
 
-				IList<ISession<Habbo>> toDisconnect = ClientManager.Connections.Where (x => x.UserData?.Info == user).ToList();
+				Habbo toDisconnect = ClientManager.GetByInfo (user);
 
-				foreach(ISession<Habbo> duplicateSession in toDisconnect) {
-					ClientManager.Disconnect (duplicateSession.UserData, "Logged in from other location.");
+				if (toDisconnect != null) {
+					ClientManager.Disconnect (toDisconnect, "Logged in from other location.");
 				}
 
 				session.Info = user;

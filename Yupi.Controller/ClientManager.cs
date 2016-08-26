@@ -13,7 +13,7 @@ namespace Yupi.Controller
 {
 	public class ClientManager
 	{
-		public IList<ISession<Habbo>> Connections { get; private set; }
+		private IList<ISession<Habbo>> Connections { get; set; }
 
 		private RoomManager RoomManager;
 
@@ -27,15 +27,21 @@ namespace Yupi.Controller
 		}
 
 		public bool IsOnline(UserInfo info) {
-			return Connections.Any (x => x.UserData.Info == info);
+			lock (Connections) {
+				return Connections.Any (x => x.UserData.Info == info);
+			}
 		}
 
 		public Habbo GetByInfo(UserInfo info) {
-			return Connections.SingleOrDefault (x => x.UserData.Info == info)?.UserData;
+			lock (Connections) {
+				return Connections.SingleOrDefault (x => x.UserData.Info == info)?.UserData;
+			}
 		}
 
 		public Habbo GetByUserId(int id) {
-			return Connections.SingleOrDefault (x => x.UserData.Info.Id == id)?.UserData;
+			lock (Connections) {
+				return Connections.SingleOrDefault (x => x.UserData.Info?.Id == id)?.UserData;
+			}
 		}
 
 		public void Disconnect(Habbo session, string reason) {
@@ -51,17 +57,24 @@ namespace Yupi.Controller
 		}
 
 		public IEnumerable<Habbo> GetByPermission(string permission) {
-			return Connections.Where (x => x.UserData.Info.HasPermission (permission)).Select (x => x.UserData);
+			lock (Connections) {
+				return Connections.Where (x => x.UserData.Info.HasPermission (permission)).Select (x => x.UserData);
+			}
 		}
 
 		public void AddClient(ISession<Habbo> session) {
 			// TODO Should be user specific
 			session.UserData = new Habbo (session, Router.Default);
-			Connections.Add (session);
+
+			lock (Connections) {
+				Connections.Add (session);
+			}
 		}
 
 		public void RemoveClient(ISession<Habbo> session) {
-			Connections.Remove (session);
+			lock (Connections) {
+				Connections.Remove (session);
+			}
 			Disconnect (session.UserData, "Socket closed");
 		}
 	}
