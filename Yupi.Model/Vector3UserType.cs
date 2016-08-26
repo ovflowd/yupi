@@ -34,6 +34,11 @@ namespace Yupi.Model
 			}
 		}
 
+		bool ICompositeUserType.Equals(object x, object y)
+		{
+			return Equals(x, y);
+		}
+
 		public object GetPropertyValue (object component, int property)
 		{
 			Vector3 vector = (Vector3)component;
