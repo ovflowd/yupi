@@ -9,7 +9,7 @@ namespace Yupi.Model.Domain
 	public abstract class RoomEntity : ISender
 	{
 		public int Id;
-		public Vector3 Position;
+		public Vector3 Position { get; private set; }
 
 		// TODO Use enum
 		public int RotHead { get; private set; }
@@ -42,11 +42,16 @@ namespace Yupi.Model.Domain
 			ScheduleUpdate ();
 		}
 
-		public void ScheduleUpdate() {
+		public void SetPosition(Vector3 newPosition) {
+			this.Position = newPosition;
+			ScheduleUpdate ();
+		}
+
+		private void ScheduleUpdate() {
 			NeedsUpdate = true;
 		}
 
-		public void UpdateComplete() {
+		internal void UpdateComplete() {
 			NeedsUpdate = false;
 		}
 	}

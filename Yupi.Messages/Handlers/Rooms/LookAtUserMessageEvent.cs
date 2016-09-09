@@ -35,12 +35,6 @@ namespace Yupi.Messages.Rooms
 			// TODO Implement
 			//session.RoomEntity.UnIdle();
 
-			//int rotation = PathFinder.CalculateRotation(roomUserByHabbo.X, roomUserByHabbo.Y, x, y);
-
-			//session.RoomEntity.SetRot(rotation, false);
-
-
-
 			// TODO Implement Horse
 			/*
 			if (!roomUserByHabbo.RidingHorse)

@@ -106,10 +106,9 @@ namespace Yupi.Model.Domain
 		public void AddUser (Habbo user)
 		{
 			user.RoomEntity = new UserEntity (user, this, ++entityIdCounter);
-			user.RoomEntity.Position = Data.Model.Door;
+			user.RoomEntity.SetPosition(Data.Model.Door);
 			user.RoomEntity.SetRotation (Data.Model.DoorOrientation);
 			Users.Add (user.RoomEntity);
-			user.RoomEntity.ScheduleUpdate ();
 		}
 
 		/// <summary>
