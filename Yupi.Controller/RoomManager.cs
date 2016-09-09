@@ -55,7 +55,7 @@ namespace Yupi.Controller
 
 		private void OnRoomTick (Room room, List<RoomEntity> changes)
 		{
-			room.Each (
+			room.EachUser (
 				(session) => {
 					session.Router.GetComposer<UpdateUserStatusMessageComposer> ()
 						.Compose (session, changes);
@@ -76,7 +76,7 @@ namespace Yupi.Controller
 
 		public void KickAll (Room room)
 		{
-			room.Each (
+			room.EachUser (
 				(session) => {
 					if (session.Info.HasPermission ("ignore_room_kick")) {
 						return;

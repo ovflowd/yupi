@@ -9,7 +9,7 @@ using System.Threading;
 namespace Yupi.Model.Domain
 {
 	[Ignore]
-	public class Room
+	public class Room : IDisposable
 	{
 		public IList<UserInfo> Queue { get; private set; }
 
@@ -62,6 +62,19 @@ namespace Yupi.Model.Domain
 			this.Timer = new Timer (OnTick, null, 0, TICK_PERIOD);
 		}
 
+		public void Dispose ()
+		{
+			Dispose (true);
+			GC.SuppressFinalize (this);
+		}
+
+		protected virtual void Dispose (bool disposing)
+		{
+			if (disposing) {
+				Timer.Dispose ();
+			}
+		}
+
 		private void OnTick (object state)
 		{
 			List<RoomEntity> changes = new List<RoomEntity> (this.Users.Count);
@@ -106,7 +119,7 @@ namespace Yupi.Model.Domain
 		public void AddUser (Habbo user)
 		{
 			user.RoomEntity = new UserEntity (user, this, ++entityIdCounter);
-			user.RoomEntity.SetPosition(Data.Model.Door);
+			user.RoomEntity.SetPosition (Data.Model.Door);
 			user.RoomEntity.SetRotation (Data.Model.DoorOrientation);
 			Users.Add (user.RoomEntity);
 		}
@@ -118,9 +131,17 @@ namespace Yupi.Model.Domain
 		/// This function won't generate a callback for bots!
 		/// </remarks>
 		/// <param name="sendToUser">The callback (most likely used to broadcast a message)</param>
-		public void Each(Action<Habbo> sendToUser) {
+		public void EachUser (Action<Habbo> sendToUser)
+		{
 			foreach (Habbo session in GetSessions()) {
 				sendToUser (session);
+			}
+		}
+
+		public void EachEntity (Action<RoomEntity> foreachEntity)
+		{
+			foreach (RoomEntity entity in Users) {
+				foreachEntity (entity);
 			}
 		}
 	}

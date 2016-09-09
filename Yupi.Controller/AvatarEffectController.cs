@@ -88,7 +88,7 @@ namespace Yupi.Controller
 				entity.UserInfo.EffectComponent.ActiveEffect = effect;
 			}
 
-			userRoom.Each (
+			userRoom.EachUser (
 				(session) => {
 					session.Router.GetComposer<ApplyEffectMessageComposer> ()
 						.Compose (session, entity, effect);

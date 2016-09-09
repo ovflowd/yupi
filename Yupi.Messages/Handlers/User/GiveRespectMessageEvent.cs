@@ -44,7 +44,7 @@ namespace Yupi.Messages.User
 			session.Info.Respect.DailyRespectPoints--;
 			roomUserByHabbo.User.Info.Respect.Respect++;
 
-			room.Each (
+			room.EachUser (
 				(roomSession) => {
 					roomSession.Router.GetComposer<GiveRespectsMessageComposer> ().Compose (roomSession, roomUserByHabbo.Id, roomUserByHabbo.UserInfo.Respect.Respect);
 					roomSession.Router.GetComposer<RoomUserActionMessageComposer> ().Compose (roomSession, roomUserByHabbo.Id);

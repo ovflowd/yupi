@@ -37,7 +37,7 @@ namespace Yupi.Messages.User
 
 			router.GetComposer<UpdateAvatarAspectMessageComposer> ().Compose (session, session.Info);
 
-			session.Room.Each (
+			session.Room.EachUser (
 				(roomSession) => {
 					roomSession.Router.GetComposer<UpdateUserDataMessageComposer> ().Compose (roomSession, session.Info, session.RoomEntity.Id);
 				}

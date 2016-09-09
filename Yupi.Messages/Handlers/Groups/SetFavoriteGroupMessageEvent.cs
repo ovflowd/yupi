@@ -44,7 +44,7 @@ namespace Yupi.Messages.Groups
 			{
 				session.Room.GroupsInRoom.Add(theGroup);
 
-				session.Room.Each ((entitySession) => {
+				session.Room.EachUser ((entitySession) => {
 					entitySession.Router.GetComposer<RoomGroupMessageComposer> ().Compose (entitySession, session.Room.GroupsInRoom);
 				});
 

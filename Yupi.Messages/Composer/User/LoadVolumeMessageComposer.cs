@@ -17,7 +17,7 @@ namespace Yupi.Messages.User
 				message.AppendBool(preferences.DisableCameraFollow);
 				// TODO Add to preferences
 				message.AppendInteger(3); // collapse friends (3 = no) 
-				message.AppendInteger(preferences.ChatColor); //bubble
+				message.AppendInteger(preferences.ChatBubbleStyle.Value); //bubble
 
 				session.Send(message);
 			}

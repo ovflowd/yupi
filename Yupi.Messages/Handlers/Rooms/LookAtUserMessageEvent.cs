@@ -15,17 +15,13 @@ namespace Yupi.Messages.Rooms
 				return;
 			}
 
-			Vector2 target = new Vector2 (x, y);
-			Vector2 position = new Vector2 (
-				session.RoomEntity.Position.X, 
-				session.RoomEntity.Position.Y
-			);
+			Vector3 target = new Vector3 (x, y, 0);
 
-			if (position == target) {
+			if (session.RoomEntity.Position == target) {
 				return;
 			}
 
-			int rotation = position.CalculateRotation(target);
+			int rotation = session.RoomEntity.Position.CalculateRotation(target);
 
 			session.RoomEntity.SetRotation (rotation);
 

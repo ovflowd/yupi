@@ -50,7 +50,7 @@ namespace Yupi.Messages.Rooms
 					//ApplyEffectMessageComposer
 				}
 
-				session.Room.Each (entity => {
+				session.Room.EachUser (entity => {
 					entity.Router.GetComposer<SetRoomUserMessageComposer> ()
 						.Compose (entity, session.RoomEntity);
 				});

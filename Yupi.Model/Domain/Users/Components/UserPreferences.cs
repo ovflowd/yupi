@@ -5,10 +5,7 @@ namespace Yupi.Model.Domain.Components
 {
     public class UserPreferences
     {
-        /// <summary>
-        ///     User Chat Color
-        /// </summary>
-		public virtual int ChatColor { get; set; }
+		public virtual ChatBubbleStyle ChatBubbleStyle { get; set; }
 
         /// <summary>
         ///     Disable Room Camera

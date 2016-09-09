@@ -36,10 +36,19 @@ namespace Yupi.Model.Domain
 			// Do nothing
 		}
 
-		public void SetRotation(int rotation) {
-			this.RotBody = rotation;
+		public void SetHeadRotation(int rotation) {
 			this.RotHead = rotation;
 			ScheduleUpdate ();
+		}
+
+		public void SetBodyRotation(int rotation) {
+			this.RotBody = rotation;
+			ScheduleUpdate ();
+		}
+
+		public void SetRotation(int rotation) {
+			SetBodyRotation (rotation);
+			SetHeadRotation (rotation);
 		}
 
 		public void SetPosition(Vector3 newPosition) {

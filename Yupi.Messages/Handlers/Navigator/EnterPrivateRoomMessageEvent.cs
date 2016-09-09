@@ -64,7 +64,7 @@ namespace Yupi.Messages.Navigator
 							// TODO String.Empty == 'I am ringing'
 							router.GetComposer<DoorbellMessageComposer> ().Compose (session, string.Empty);
 
-							room.Each ((user) => {
+							room.EachUser ((user) => {
 								if (room.Data.HasRights (user.Info)) {
 									user.Router.GetComposer<DoorbellMessageComposer> ().Compose (user, session.Info.UserName);
 								}

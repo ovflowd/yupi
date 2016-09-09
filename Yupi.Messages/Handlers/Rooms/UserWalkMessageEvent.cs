@@ -28,7 +28,6 @@ namespace Yupi.Messages.Rooms
 			position.Z = session.Room.HeightMap.GetTileHeight (targetX, targetY);
 			entity.SetPosition (position);
 
-
 			/* TODO Implement Horse
 			if (entity.RidingHorse) {
 				RoomUser roomUserByVirtualId = currentRoom.GetRoomUserManager ().GetRoomUserByVirtualId ((int)roomUserByHabbo.HorseId);

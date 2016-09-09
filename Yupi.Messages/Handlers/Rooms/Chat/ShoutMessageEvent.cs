@@ -9,14 +9,7 @@ namespace Yupi.Messages.Chat
 		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
 			/*
-			Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
-
-			if (room == null)
-				return;
-
-			RoomUser roomUserByHabbo = room.GetRoomUserManager()?.GetRoomUserByHabbo(session.GetHabbo().Id);
-
-			if (roomUserByHabbo == null)
+			if (session.RoomEntity == null)
 				return;
 
 			string msg = request.GetString();
@@ -31,8 +24,7 @@ namespace Yupi.Messages.Chat
 					bubble = roomUserByHabbo.LastBubble;
 			}
 
-			roomUserByHabbo.Chat(session, msg, true, -1, bubble);
-			*/
+			roomUserByHabbo.Chat(session, msg, true, -1, bubble);*/
 			throw new NotImplementedException ();
 		}
 	}

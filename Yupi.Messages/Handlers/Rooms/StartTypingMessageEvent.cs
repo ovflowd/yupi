@@ -15,7 +15,7 @@ namespace Yupi.Messages.Rooms
 				return;
 			}
 
-			session.Room.Each ((entitySession) => {
+			session.Room.EachUser ((entitySession) => {
 				entitySession.Room.Router.GetComposer<TypingStatusMessageComposer> ().Compose (entitySession, session.RoomEntity.Id, true);
 			});
 		}

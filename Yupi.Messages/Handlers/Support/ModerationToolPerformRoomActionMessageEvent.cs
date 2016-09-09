@@ -58,7 +58,7 @@ namespace Yupi.Messages.Support
 				roomData.Tags.Clear ();
 
 				if (room != null) {
-					room.Each ((entitySession) => {
+					room.EachUser ((entitySession) => {
 						entitySession.Router.GetComposer<RoomDataMessageComposer> ().Compose (entitySession, roomData, entitySession.Info, false, true);
 					});
 				}

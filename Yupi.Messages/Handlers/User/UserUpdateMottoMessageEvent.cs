@@ -30,7 +30,7 @@ namespace Yupi.Messages.User
 				return;
 			}
 
-			session.Room.Each (
+			session.Room.EachUser (
 				(roomSession) => {
 					router.GetComposer<UpdateUserDataMessageComposer> ().Compose (roomSession, session.Info, session.RoomEntity.Id);
 				}

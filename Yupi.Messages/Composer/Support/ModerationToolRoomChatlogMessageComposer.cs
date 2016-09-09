@@ -33,7 +33,7 @@ namespace Yupi.Messages.Support
 					message.AppendInteger(entry.User.Id);
 					message.AppendString(entry.User.UserName);
 					message.AppendString(entry.Message);
-					message.AppendBool(entry.GlobalMessage);
+					message.AppendBool(!entry.Whisper);
 				}
 				session.Send (message);
 			}

@@ -317,7 +317,6 @@
     <Compile Include="IpAddressAsString.cs" />
     <Compile Include="IPAddressConvention.cs" />
     <Compile Include="Domain\Users\TradeLock.cs" />
-    <Compile Include="Domain\Rooms\ChatlogEntry.cs" />
     <Compile Include="Domain\Rooms\RoomCompetition.cs" />
     <Compile Include="Domain\Rooms\BotEntity.cs" />
     <Compile Include="Domain\Rooms\EntityType.cs" />
@@ -345,6 +344,9 @@
     <Compile Include="VectorConvention.cs" />
     <Compile Include="Vector3UserType.cs" />
     <Compile Include="Util\Vector2Ext.cs" />
+    <Compile Include="Domain\Rooms\Chat\ChatBubbleStyle.cs" />
+    <Compile Include="Domain\Rooms\Chat\ChatlogEntry.cs" />
+    <Compile Include="Domain\Rooms\Chat\ChatEmotion.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -352,6 +354,7 @@
     <Folder Include="Domain\Util\" />
     <Folder Include="Test\" />
     <Folder Include="Util\" />
+    <Folder Include="Domain\Rooms\Chat\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Yupi.Protocol\Yupi.Protocol.csproj">

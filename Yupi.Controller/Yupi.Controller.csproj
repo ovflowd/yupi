@@ -64,10 +64,13 @@
     <Compile Include="Navigator\HotelView.cs" />
     <Compile Include="Navigator\MyWorldView.cs" />
     <Compile Include="Navigator\RoomAdsView.cs" />
+    <Compile Include="Room\Chat\ChatEmotionHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Items\" />
+    <Folder Include="Room\" />
+    <Folder Include="Room\Chat\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Yupi.Model\Yupi.Model.csproj">

@@ -1,21 +1,29 @@
 ﻿using System;
 using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
+using Yupi.Controller;
+using Yupi.Model;
 
 
 namespace Yupi.Messages.Chat
 {
 	public class ChatMessageComposer : Yupi.Messages.Contracts.ChatMessageComposer
 	{
-		// TODO Use enum for color
-		public override void Compose ( Yupi.Protocol.ISender session, uint entityId, string msg, int color, int count = 0)
+		private ChatEmotionHelper ChatEmotions;
+
+		public ChatMessageComposer ()
+		{
+			ChatEmotions = DependencyFactory.Resolve<ChatEmotionHelper> ();
+		}
+
+		public override void Compose ( Yupi.Protocol.ISender session, int entityId, string msg, ChatBubbleStyle color, int count = 0)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(entityId);
 				message.AppendString(msg);
-				throw new NotImplementedException ();
-				//message.AppendInteger(ChatEmotions.GetEmotionsForText(msg));
-				message.AppendInteger(color);
-				message.AppendInteger(0);
+				message.AppendInteger((int)ChatEmotions.GetEmotionForText(msg));
+				message.AppendInteger(color.Value);
+				message.AppendInteger(0); // TODO Unknown
 				message.AppendInteger(count);
 				session.Send (message);
 			}
