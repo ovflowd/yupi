@@ -43,7 +43,11 @@ namespace Yupi.Messages.Groups
 			if (session.Room != null && !session.Room.GroupsInRoom.Contains(theGroup))
 			{
 				session.Room.GroupsInRoom.Add(theGroup);
-				session.Room.Router.GetComposer<RoomGroupMessageComposer> ().Compose (session.Room, session.Room.GroupsInRoom);
+
+				session.Room.Each ((entitySession) => {
+					entitySession.Router.GetComposer<RoomGroupMessageComposer> ().Compose (entitySession, session.Room.GroupsInRoom);
+				});
+
 			}
 
 			router.GetComposer<ChangeFavouriteGroupMessageComposer> ().Compose (session, theGroup, 0);

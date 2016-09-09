@@ -21,9 +21,16 @@ namespace Yupi.Model.Domain
 
 		// TODO Refactor?
 		public bool IsRidingHorse { get; set; }
-		public Room Room { get; set; }
+
+		// TODO Remove?
+		public Room Room { 
+			get { 
+				return RoomEntity?.Room; 
+			} 
+		}
 
 		public ISession<Habbo> Session { get; set; }
+
 		public IRouter Router { get; set; }
 
 		// TODO Can this be solved in a better way?
@@ -40,7 +47,7 @@ namespace Yupi.Model.Domain
 
 		public void Send (Yupi.Protocol.Buffers.ServerMessage message)
 		{
-			Session.Send(message.GetReversedBytes());
+			Session.Send (message.GetReversedBytes ());
 		}
 	}
 }

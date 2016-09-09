@@ -33,7 +33,10 @@ namespace Yupi.Messages.Groups
 			GroupRepository.Save (theGroup);
 
 			if (session.Room != null) {
-				session.Room.Router.GetComposer<GroupDataMessageComposer> ().Compose (session.Room, theGroup, session.Info);
+				session.Room.Each ((entitySession) => {
+					entitySession.Room.Router.GetComposer<GroupDataMessageComposer> ().Compose (entitySession, theGroup, session.Info);
+				});
+
 			} else {
 				router.GetComposer<GroupDataMessageComposer> ().Compose (session, theGroup, session.Info);
 			}

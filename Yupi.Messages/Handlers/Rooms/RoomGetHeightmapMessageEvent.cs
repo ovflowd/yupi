@@ -12,12 +12,12 @@ namespace Yupi.Messages.Rooms
 	{
 		public override void HandleMessage (Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			if (session.Room == null)
+			if (session.Room == null || session.RoomEntity == null)
 				return;
 
 			router.GetComposer<HeightMapMessageComposer> ().Compose (session, session.Room.HeightMap);
 
-			router.GetComposer<FloorMapMessageComposer> ().Compose (session,session.Room.Data.Model.Heightmap, 
+			router.GetComposer<FloorMapMessageComposer> ().Compose (session, session.Room.Data.Model.Heightmap, 
 				session.Room.Data.WallHeight);
 
 
@@ -26,34 +26,36 @@ namespace Yupi.Messages.Rooms
 				router.GetComposer<RoomEnterErrorMessageComposer> ().Compose (session, RoomEnterErrorMessageComposer.Error.ROOM_FULL);
 			} else {
 				// TODO Implement
-				router.GetComposer<RoomFloorItemsMessageComposer> ().Compose (session, session.Room.Data, new Dictionary<uint, FloorItem>());
-				router.GetComposer<RoomWallItemsMessageComposer> ().Compose (session, session.Room.Data, new Dictionary<uint, FloorItem>());
-				router.GetComposer<SetRoomUserMessageComposer>().Compose(session, session.Room.Users);
+				router.GetComposer<RoomFloorItemsMessageComposer> ().Compose (session, session.Room.Data, new Dictionary<uint, FloorItem> ());
+				router.GetComposer<RoomWallItemsMessageComposer> ().Compose (session, session.Room.Data, new Dictionary<uint, FloorItem> ());
+				router.GetComposer<SetRoomUserMessageComposer> ().Compose (session, session.Room.Users);
 				router.GetComposer<RoomFloorWallLevelsMessageComposer> ().Compose (session, session.Room.Data);
 				router.GetComposer<RoomOwnershipMessageComposer> ().Compose (session, session.Room.Data, session.Info);
 
-				foreach(UserInfo userWithRights in session.Room.Data.Rights) {
+				foreach (UserInfo userWithRights in session.Room.Data.Rights) {
 					router.GetComposer<GiveRoomRightsMessageComposer> ()
 						.Compose (session, session.Room.Data.Id, userWithRights);
 				}
-
-				// TODO Send to other users?!
+					
 				router.GetComposer<UpdateUserStatusMessageComposer> ().Compose (session, session.Room.Users);
 
 				// TODO Implement
 				//Yupi.GetGame().GetRoomEvents().SerializeEventInfo(CurrentLoadingRoom.RoomId);
 
-				foreach(RoomEntity entity in session.Room.Users) {
+				foreach (RoomEntity entity in session.Room.Users) {
 					// TODO Implement
-				//DanceStatusMessageComposer
-				//RoomUserIdleMessageComposer
-				//ApplyHanditemMessageComposer
-				//ApplyEffectMessageComposer
-					if (entity is UserEntity) {
-						router.GetComposer<UpdateUserDataMessageComposer> ().Compose (session, ((UserEntity)entity).UserInfo);
-					}
+					//DanceStatusMessageComposer
+					//RoomUserIdleMessageComposer
+					//ApplyHanditemMessageComposer
+					//ApplyEffectMessageComposer
 				}
 
+				session.Room.Each (entity => {
+					entity.Router.GetComposer<SetRoomUserMessageComposer> ()
+						.Compose (entity, session.RoomEntity);
+				});
+
+				// TODO Implement
 				//GetRoomData3()
 			}
 		}

@@ -46,11 +46,21 @@ namespace Yupi.Controller
 			Room room = GetIfLoaded (data);
 
 			if (room == null) {
-				room = new Room (data);
+				room = new Room (data, OnRoomTick);
 				_loadedRooms.Add (room);
 			}
 
 			return room;
+		}
+
+		private void OnRoomTick (Room room, List<RoomEntity> changes)
+		{
+			room.Each (
+				(session) => {
+					session.Router.GetComposer<UpdateUserStatusMessageComposer> ()
+						.Compose (session, changes);
+				}
+			);
 		}
 
 		public Room GetIfLoaded (RoomData room)
@@ -66,18 +76,18 @@ namespace Yupi.Controller
 
 		public void KickAll (Room room)
 		{
-			foreach (Habbo session in room.GetSessions()) {
-				
+			room.Each (
+				(session) => {
+					if (session.Info.HasPermission ("ignore_room_kick")) {
+						return;
+					}
 
-				if (session.Info.HasPermission ("ignore_room_kick")) {
-					continue;
+					session.Router.GetComposer<OutOfRoomMessageComposer> ()
+						.Compose (session, 2);
+
+					RemoveUser (session);
 				}
-
-				session.Router.GetComposer<OutOfRoomMessageComposer> ()
-					.Compose (session, 2);
-				
-				RemoveUser (session);
-			}
+			);
 		}
 
 		public void RemoveUser (Habbo session)
@@ -95,7 +105,6 @@ namespace Yupi.Controller
 
 			session.IsRidingHorse = false;
 
-			session.Room = null;
 			session.RoomEntity = null;
 		}
 
@@ -112,41 +121,6 @@ namespace Yupi.Controller
 				.FilterBy (x => x.Event != null && !x.Event.HasExpired ())
 				.OrderByDescending (x => UsersNow (x))
 				.AsEnumerable ();
-		}
-
-		public IList<RoomData> Search (string query)
-		{
-			bool containsOwner = false, containsGroup = false;
-
-			// TODO Can't both be combined like a search on google: owner:Noob group:NoobGroup RandomName
-			if (query.StartsWith ("owner:")) {
-				query = query.Replace ("owner:", string.Empty);
-
-				containsOwner = true;
-			} else if (query.StartsWith ("group:")) {
-				query = query.Replace ("group:", string.Empty);
-
-				containsGroup = true;
-			}
-
-			query = query.Trim ();
-
-			List<RoomData> rooms = new List<RoomData> ();
-
-			if (containsOwner) {
-				rooms = RoomRepository.FilterBy (x => x.Owner.UserName == query).ToList ();
-			} else if (containsGroup) {
-				rooms = RoomRepository.FilterBy (x => x.Group.Name == query).ToList ();
-			} else {
-				rooms.AddRange (LoadedRooms.Where (x => x.Data.Name.ContainsIgnoreCase (query)).Take (50).Select (x => x.Data));
-
-				if (rooms.Count < 50) {
-					// Use ToUpper() as that can be translated to SQL
-					rooms.AddRange (RoomRepository.FilterBy (x => x.Name.ToUpper ().Contains (query.ToUpper ())).Take (50 - rooms.Count));
-				}
-			}
-
-			return rooms;
 		}
 	}
 }

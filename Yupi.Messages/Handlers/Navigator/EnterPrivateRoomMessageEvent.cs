@@ -16,11 +16,11 @@ namespace Yupi.Messages.Navigator
 			RoomManager = DependencyFactory.Resolve<RoomManager> ();
 		}
 
-		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			int roomId = request.GetInteger();
+			int roomId = request.GetInteger ();
 
-			string pWd = request.GetString();
+			string pWd = request.GetString ();
 
 			if (session.Room != null) {
 				RoomManager.RemoveUser (session);
@@ -32,7 +32,7 @@ namespace Yupi.Messages.Navigator
 				return;
 			}
 
-			if (room.GetUserCount() >= room.Data.UsersMax
+			if (room.GetUserCount () >= room.Data.UsersMax
 			    && !session.Info.HasPermission ("fuse_enter_full_rooms")
 			    && room.Data.Owner != session.Info) {
 
@@ -41,7 +41,7 @@ namespace Yupi.Messages.Navigator
 
 				router.GetComposer<RoomQueueComposer> ().Compose (session, room.Queue.Count);
 			} else if (!session.Info.HasPermission ("fuse_enter_any_room")
-			          && room.Data.BannedUsers.Contains (session.Info)) {
+			           && room.Data.BannedUsers.Contains (session.Info)) {
 				router.GetComposer<RoomEnterErrorMessageComposer> ().Compose (session, RoomEnterErrorMessageComposer.Error.BANNED);
 				router.GetComposer<OutOfRoomMessageComposer> ().Compose (session);
 			} else {
@@ -52,8 +52,8 @@ namespace Yupi.Messages.Navigator
 
 				if (!isReload
 				    && !session.Info.HasPermission ("fuse_enter_any_room")
-					&& !room.Data.HasOwnerRights (session.Info)
-					&& session.TeleportingTo != room.Data) {
+				    && !room.Data.HasOwnerRights (session.Info)
+				    && session.TeleportingTo != room.Data) {
 
 					switch (room.Data.State) {
 					case RoomState.BELL:
@@ -64,11 +64,11 @@ namespace Yupi.Messages.Navigator
 							// TODO String.Empty == 'I am ringing'
 							router.GetComposer<DoorbellMessageComposer> ().Compose (session, string.Empty);
 
-							foreach (Habbo user in room.GetSessions()) {
+							room.Each ((user) => {
 								if (room.Data.HasRights (user.Info)) {
 									user.Router.GetComposer<DoorbellMessageComposer> ().Compose (user, session.Info.UserName);
 								}
-							}
+							});
 						}
 
 						return;
@@ -105,9 +105,9 @@ namespace Yupi.Messages.Navigator
 				}
 
 				if (room.Data.LandScape > 0) {
-				router.GetComposer<RoomSpacesMessageComposer> ()
+					router.GetComposer<RoomSpacesMessageComposer> ()
 					.Compose (session, RoomSpacesMessageComposer.RoomSpacesType.Landscape, room.Data);
-			    }
+				}
 				// TODO Magic numbers!
 				int rightsLevel = 0;
 
@@ -119,12 +119,11 @@ namespace Yupi.Messages.Navigator
 				}
 
 				router.GetComposer<RoomRightsLevelMessageComposer> ().Compose (session, rightsLevel);
-				router.GetComposer<RoomRatingMessageComposer> ().Compose (session, room.Data.Score, room.CanVote(session.Info));
+				router.GetComposer<RoomRatingMessageComposer> ().Compose (session, room.Data.Score, room.CanVote (session.Info));
 				router.GetComposer<RoomUpdateMessageComposer> ().Compose (session, room.Data.Id);
 
 				session.Info.RecentlyVisitedRooms.Add (room.Data);
-				session.Room = room;
-				session.Room.AddUser (session);
+				room.AddUser (session);
 			}
 		}
 	}

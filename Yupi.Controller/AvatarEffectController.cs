@@ -12,7 +12,7 @@ namespace Yupi.Controller
 	public class AvatarEffectController
 	{
 		private IRepository<UserInfo> UserRepository;
-	
+
 		public AvatarEffectController ()
 		{
 			UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>> ();
@@ -36,7 +36,7 @@ namespace Yupi.Controller
 
 		public void ActivateEffect (UserEntity user, int effectId)
 		{
-			if (user.Room == null || !user.UserInfo.EffectComponent.HasEffect(effectId) || effectId < 1)
+			if (user.Room == null || !user.UserInfo.EffectComponent.HasEffect (effectId) || effectId < 1)
 				return;
 
 			if (user.UserInfo.EffectComponent.ActiveEffect != null) {
@@ -57,16 +57,16 @@ namespace Yupi.Controller
 		{
 			throw new NotImplementedException ();
 		}
-			
+
 		public void CheckExpired (Habbo user)
 		{
-			var expiredEffects = user.Info.EffectComponent.Effects.Where (current => current.HasExpired());
+			var expiredEffects = user.Info.EffectComponent.Effects.Where (current => current.HasExpired ());
 
 			foreach (AvatarEffect effect in expiredEffects) {
 				StopEffect (user, effect);
 			}
 		}
-			
+
 		public void StopEffect (Habbo user, AvatarEffect effect)
 		{
 			if (effect == null)
@@ -79,7 +79,7 @@ namespace Yupi.Controller
 
 			user.Router.GetComposer<StopAvatarEffectMessageComposer> ().Compose (user, effect);
 		}
-	
+
 		private void EnableInRoom (UserEntity entity, AvatarEffect effect, bool setAsCurrentEffect = true)
 		{
 			Room userRoom = entity.Room;
@@ -88,7 +88,12 @@ namespace Yupi.Controller
 				entity.UserInfo.EffectComponent.ActiveEffect = effect;
 			}
 
-			userRoom.Router.GetComposer<ApplyEffectMessageComposer> ().Compose (userRoom, entity, effect); 
+			userRoom.Each (
+				(session) => {
+					session.Router.GetComposer<ApplyEffectMessageComposer> ()
+						.Compose (session, entity, effect);
+				}
+			);
 		}
 	}
 }

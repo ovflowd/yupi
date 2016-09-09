@@ -45,6 +45,10 @@ namespace Yupi.Model.Domain
 		public void ScheduleUpdate() {
 			NeedsUpdate = true;
 		}
+
+		public void UpdateComplete() {
+			NeedsUpdate = false;
+		}
 	}
 }
 

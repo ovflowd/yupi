@@ -9,7 +9,7 @@ using System.Threading;
 namespace Yupi.Model.Domain
 {
 	[Ignore]
-	public class Room : ISender
+	public class Room
 	{
 		public IList<UserInfo> Queue { get; private set; }
 
@@ -30,17 +30,24 @@ namespace Yupi.Model.Domain
 
 		private Timer Timer;
 
+		// TODO Experiment with the length of the period
 		/// <summary>
 		/// The period between timer ticks in milliseconds
 		/// </summary>
-		private const int TICK_PERIOD = 10000;
+		private const int TICK_PERIOD = 500;
 
-		public Room (RoomData data)
+		[Ignore]
+		public delegate void OnRoomTick (Room room, List<RoomEntity> changes);
+
+		private OnRoomTick OnTickCallback;
+
+		public Room (RoomData data, OnRoomTick onTickCallback)
 		{
 			if (data == null) {
 				throw new ArgumentNullException ();
 			}
 
+			this.OnTickCallback = onTickCallback;
 			this.Data = data;
 			this.HeightMap = new HeightMap (this.Data.Model.Heightmap);
 
@@ -57,7 +64,16 @@ namespace Yupi.Model.Domain
 
 		private void OnTick (object state)
 		{
-			List<RoomEntity> changes = Users.Where (x => x.NeedsUpdate).ToList ();
+			List<RoomEntity> changes = new List<RoomEntity> (this.Users.Count);
+
+			foreach (RoomEntity entity in this.Users) {
+				if (entity.NeedsUpdate) {
+					changes.Add (entity);
+					entity.UpdateComplete ();
+				}
+			}
+
+			this.OnTickCallback (this, changes);
 		}
 
 		public bool CanVote (UserInfo user)
@@ -70,7 +86,7 @@ namespace Yupi.Model.Domain
 			return Users.Where (x => x.Type == EntityType.User).Count ();
 		}
 
-		public IEnumerable<Habbo> GetSessions ()
+		private IEnumerable<Habbo> GetSessions ()
 		{
 			// TODO Reimplement Users properly to prevent these queries!
 			return Users.Where (x => x.Type == EntityType.User).Select (x => ((UserEntity)x).User);
@@ -93,16 +109,20 @@ namespace Yupi.Model.Domain
 			user.RoomEntity.Position = Data.Model.Door;
 			user.RoomEntity.SetRotation (Data.Model.DoorOrientation);
 			Users.Add (user.RoomEntity);
+			user.RoomEntity.ScheduleUpdate ();
 		}
 
-		public void Send (Yupi.Protocol.Buffers.ServerMessage message)
-		{
-			foreach (RoomEntity entity in Users) {
-				if (entity is UserEntity) {
-					entity.Send (message);
-				}
+		/// <summary>
+		/// Executes the callback for every REAL Session
+		/// </summary>
+		/// <remarks>
+		/// This function won't generate a callback for bots!
+		/// </remarks>
+		/// <param name="sendToUser">The callback (most likely used to broadcast a message)</param>
+		public void Each(Action<Habbo> sendToUser) {
+			foreach (Habbo session in GetSessions()) {
+				sendToUser (session);
 			}
 		}
 	}
 }
-

@@ -19,7 +19,13 @@ namespace Yupi.Messages.Support
 
 			Room room = session.Room;
 
-			router.GetComposer<SuperNotificationMessageComposer> ().Compose (room, "", message, "", "", "admin", 3);
+			session.Room.Each (
+				(roomSession) => {
+					roomSession.Router.GetComposer<SuperNotificationMessageComposer> ()
+						.Compose (roomSession, "", message, "", "", "admin", 3);
+				}
+			);
+
 		}
 	}
 }

@@ -35,8 +35,13 @@ namespace Yupi.Messages.User
 
 				if (session.Room != null)
 				{
-					router.GetComposer<UserUpdateNameInRoomMessageComposer> ()
-						.Compose (session.Room, session);
+					session.Room.Each (
+						(roomSession) => {
+							router.GetComposer<UserUpdateNameInRoomMessageComposer> ()
+								.Compose (roomSession, session);
+						}
+					);
+
 				}
 
 				// TODO Update room owner 

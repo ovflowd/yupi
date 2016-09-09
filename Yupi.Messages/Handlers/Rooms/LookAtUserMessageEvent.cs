@@ -31,6 +31,7 @@ namespace Yupi.Messages.Rooms
 			int rotation = position.CalculateRotation(target);
 
 			session.RoomEntity.SetRotation (rotation);
+
 			// TODO Implement
 			//session.RoomEntity.UnIdle();
 

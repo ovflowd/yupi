@@ -58,9 +58,9 @@ namespace Yupi.Messages.Support
 				roomData.Tags.Clear ();
 
 				if (room != null) {
-					foreach (Habbo entitySession in room.GetSessions()) {
+					room.Each ((entitySession) => {
 						entitySession.Router.GetComposer<RoomDataMessageComposer> ().Compose (entitySession, roomData, entitySession.Info, false, true);
-					}
+					});
 				}
 			}
 

@@ -36,7 +36,12 @@ namespace Yupi.Messages.User
 				return;
 
 			router.GetComposer<UpdateAvatarAspectMessageComposer> ().Compose (session, session.Info);
-			router.GetComposer<UpdateUserDataMessageComposer> ().Compose (session.Room, session.Info, session.RoomEntity.Id);
+
+			session.Room.Each (
+				(roomSession) => {
+					roomSession.Router.GetComposer<UpdateUserDataMessageComposer> ().Compose (roomSession, session.Info, session.RoomEntity.Id);
+				}
+			);
 
 			MessengerController.UpdateUser (session.Info);
 		}

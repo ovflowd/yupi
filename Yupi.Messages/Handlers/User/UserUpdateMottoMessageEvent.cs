@@ -26,7 +26,15 @@ namespace Yupi.Messages.User
 
 			UserRepository.Save (session.Info);
 
-			router.GetComposer<UpdateUserDataMessageComposer> ().Compose (session.Room, session.Info, session.RoomEntity.Id);
+			if (session.Room == null) {
+				return;
+			}
+
+			session.Room.Each (
+				(roomSession) => {
+					router.GetComposer<UpdateUserDataMessageComposer> ().Compose (roomSession, session.Info, session.RoomEntity.Id);
+				}
+			);
 
 			AchievementManager.ProgressUserAchievement(session, "ACH_Motto", 1);
 		}
