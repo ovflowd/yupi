@@ -22,10 +22,11 @@ namespace Yupi.Messages.Rooms
 
 			// TODO Implement pathfinder
 			// Teleport
-			entity.Position.X = targetX;
-			entity.Position.Y = targetY;
-			entity.Position.Z = session.Room.HeightMap.GetTileHeight (targetX, targetY);
-			entity.ScheduleUpdate ();
+			Vector3 position = entity.Position;
+			position.X = targetX;
+			position.Y = targetY;
+			position.Z = session.Room.HeightMap.GetTileHeight (targetX, targetY);
+			entity.SetPosition (position);
 
 
 			/* TODO Implement Horse

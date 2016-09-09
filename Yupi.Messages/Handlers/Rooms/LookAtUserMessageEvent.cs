@@ -2,9 +2,6 @@
 using System.Numerics;
 using Yupi.Model;
 
-
-
-
 namespace Yupi.Messages.Rooms
 {
 	public class LookAtUserMessageEvent : AbstractHandler

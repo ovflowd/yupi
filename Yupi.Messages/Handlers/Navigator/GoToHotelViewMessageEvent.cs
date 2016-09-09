@@ -30,8 +30,6 @@ namespace Yupi.Messages.Navigator
 			{
 				router.GetComposer<LandingRewardMessageComposer> ().Compose (session, hotelView);
 			}*/
-
-			session.Room = null;
 		}
 	}
 }
