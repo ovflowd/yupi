@@ -19,7 +19,7 @@ namespace Yupi.Messages.GameCenter
 				message.AppendInteger (user.Id);
 				message.AppendInteger (0);
 				message.AppendInteger (1);
-				message.AppendString (user.UserName);
+				message.AppendString (user.Name);
 				message.AppendString (user.Look);
 				message.AppendString (user.Gender);
 				message.AppendInteger (1);

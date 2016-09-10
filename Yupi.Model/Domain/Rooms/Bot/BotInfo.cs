@@ -2,11 +2,8 @@
 
 namespace Yupi.Model.Domain
 {
-	public class BotInfo
+	public class BotInfo : BaseInfo
 	{
-		public virtual int Id { get; set; }
-		public virtual string Name { get; set; }
-		public virtual string Motto { get; set; }
 		public virtual string Look { get; set; }
 		public virtual char Gender { get; set; }
 		public virtual UserInfo Owner { get; set; }

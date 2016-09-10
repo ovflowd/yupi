@@ -15,12 +15,12 @@ namespace Yupi.Messages.Pets
 				message.AppendString(pet1.Info.Name);
 				message.AppendInteger(pet1.Info.Level);
 				message.AppendString(pet1.Info.Look);
-				message.AppendString(pet1.Info.Owner.UserName);
+				message.AppendString(pet1.Info.Owner.Name);
 				message.AppendInteger(pet2.Info.Id);
 				message.AppendString(pet2.Info.Name);
 				message.AppendInteger(pet2.Info.Level);
 				message.AppendString(pet2.Info.Look);
-				message.AppendString(pet2.Info.Owner.UserName);
+				message.AppendString(pet2.Info.Owner.Name);
 				message.AppendInteger(4);
 
 				message.AppendInteger(1);

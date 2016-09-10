@@ -90,7 +90,7 @@ namespace Yupi.Messages.Groups
 					
 				if (group.AdminOnlyDeco == 0u)
 				{
-					if (Yupi.GetGame().GetRoomManager().GetRoom(group.RoomId).GetRoomUserManager().GetRoomUserByHabbo(byeUser?.UserName) != null)
+					if (Yupi.GetGame().GetRoomManager().GetRoom(group.RoomId).GetRoomUserManager().GetRoomUserByHabbo(byeUser?.Name) != null)
 					{
 						router.GetComposer<RoomRightsLevelMessageComposer> ().Compose (session, 0);
 					}

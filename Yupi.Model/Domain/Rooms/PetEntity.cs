@@ -13,6 +13,12 @@ namespace Yupi.Model.Domain
 			}
 		}
 
+		public override BaseInfo BaseInfo {
+			get {
+				return Info;
+			}
+		}
+
 		public PetEntity (Room room, int id) : base(room, id)
 		{
 

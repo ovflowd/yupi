@@ -13,7 +13,7 @@ namespace Yupi.Messages.User
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (habbo.Info.Id);
 				message.AppendInteger (habbo.Room.Data.Id);
-				message.AppendString (habbo.Info.UserName);
+				message.AppendString (habbo.Info.Name);
 				room.Send (message);
 			}
 		}

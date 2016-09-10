@@ -23,10 +23,10 @@ namespace Yupi.Messages.User
 			string newName = message.GetString();
 
 			List<string> alternatives;
-			NameChangedUpdatesMessageComposer.Status status = Validate (newName, session.Info.UserName, out alternatives);
+			NameChangedUpdatesMessageComposer.Status status = Validate (newName, session.Info.Name, out alternatives);
 
 			if (status == NameChangedUpdatesMessageComposer.Status.OK) {
-				session.Info.UserName = newName;
+				session.Info.Name = newName;
 
 				router.GetComposer<UpdateUsernameMessageComposer> ().Compose (session, newName);
 				// TODO Refactor
@@ -73,7 +73,7 @@ namespace Yupi.Messages.User
 		}
 
 		protected bool DoesExist(string name) {
-			return UserRepository.Exists((x) => x.UserName == name);
+			return UserRepository.Exists((x) => x.Name == name);
 		}
 
 		protected bool ContainsInvalidChars(string name) {

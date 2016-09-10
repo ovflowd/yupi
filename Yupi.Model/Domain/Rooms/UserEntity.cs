@@ -12,6 +12,12 @@ namespace Yupi.Model.Domain
 			} 
 		}
 
+		public override BaseInfo BaseInfo {
+			get {
+				return UserInfo;
+			}
+		}
+
 		public Habbo User;
 
 		public override EntityType Type {

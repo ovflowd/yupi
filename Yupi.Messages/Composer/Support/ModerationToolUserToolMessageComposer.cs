@@ -15,7 +15,7 @@ namespace Yupi.Messages.Support
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				// TODO Refactor
 				message.AppendInteger (user.Id);
-				message.AppendString (user.UserName);
+				message.AppendString (user.Name);
 				message.AppendString (user.Look);
 				message.AppendInteger ((int)(DateTime.Now - user.CreateDate).TotalHours);
 				message.AppendInteger ((int)(DateTime.Now - user.LastOnline).TotalHours);

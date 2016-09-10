@@ -50,7 +50,7 @@ namespace Yupi.Messages.Rooms
 			Group group = user.UserInfo.FavouriteGroup;
 
 			messageBuffer.AppendInteger (user.UserInfo.Id);
-			messageBuffer.AppendString (user.UserInfo.UserName);
+			messageBuffer.AppendString (user.UserInfo.Name);
 			messageBuffer.AppendString (user.UserInfo.Motto);
 			messageBuffer.AppendString (user.UserInfo.Look);
 			messageBuffer.AppendInteger (user.Id);
@@ -95,7 +95,7 @@ namespace Yupi.Messages.Rooms
 			messageBuffer.AppendInteger (pet.Type);
 			messageBuffer.AppendInteger (pet.Info.RaceId);
 			messageBuffer.AppendInteger (pet.Info.Owner.Id);
-			messageBuffer.AppendString (pet.Info.Owner.UserName);
+			messageBuffer.AppendString (pet.Info.Owner.Name);
 			messageBuffer.AppendInteger (pet.Info.Type == "pet_monster" ? 0 : 1);
 			messageBuffer.AppendBool (pet.Info.HaveSaddle);
 			messageBuffer.AppendBool (pet.RidingHorse);
@@ -118,7 +118,7 @@ namespace Yupi.Messages.Rooms
 			messageBuffer.AppendInteger ((int)bot.Type);
 			messageBuffer.AppendString (bot.Info.Gender.ToString());
 			messageBuffer.AppendInteger (bot.Info.Owner.Id);
-			messageBuffer.AppendString (bot.Info.Owner.UserName);
+			messageBuffer.AppendString (bot.Info.Owner.Name);
 			messageBuffer.AppendInteger (5);
 			messageBuffer.AppendShort (1);
 			messageBuffer.AppendShort (2);

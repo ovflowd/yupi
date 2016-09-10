@@ -11,7 +11,7 @@ namespace Yupi.Messages.Messenger
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(request.From.Id);
-				message.AppendString(request.From.UserName);
+				message.AppendString(request.From.Name);
 				message.AppendString(request.From.Look);
 				session.Send (message);
 			}

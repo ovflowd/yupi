@@ -37,7 +37,7 @@ namespace Yupi.Messages.Groups
 				message.AppendBool(group.Admins.ContainsKey(session.GetHabbo().Id));
 				message.AppendString(Yupi.GetHabboById(@group.CreatorId) == null
 					? string.Empty
-					: Yupi.GetHabboById(group.CreatorId).UserName);
+					: Yupi.GetHabboById(group.CreatorId).Name);
 				message.AppendBool(newWindow);
 				message.AppendBool(group.AdminOnlyDeco == 0u);
 				message.AppendInteger(group.Requests.Count);

@@ -23,8 +23,6 @@ namespace Yupi.Messages.Chat
 
 			string message = request.GetString ();
 			int bubbleId = request.GetInteger ();
-
-			// Client side message id?
 			int count = request.GetInteger ();
 
 			ChatBubbleStyle bubble;

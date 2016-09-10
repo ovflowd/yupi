@@ -27,7 +27,7 @@ namespace Yupi.Messages.Groups
 			router.GetComposer<GroupMembersMessageComposer> ().Compose (session, group, 0u, session);
 
 			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(group.RoomId);
-			RoomUser roomUserByHabbo = room?.GetRoomUserManager().GetRoomUserByHabbo(Yupi.GetHabboById(num2).UserName);
+			RoomUser roomUserByHabbo = room?.GetRoomUserManager().GetRoomUserByHabbo(Yupi.GetHabboById(num2).Name);
 
 			if (roomUserByHabbo != null)
 			{

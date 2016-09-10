@@ -12,7 +12,7 @@ namespace Yupi.Messages.Items
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				/*
 				item.Serialize(message);
-				message.AppendString(room.Data.Owner.UserName);
+				message.AppendString(room.Data.Owner.Name);
 				*/
 				throw new NotImplementedException ();
 				room.Send (message);

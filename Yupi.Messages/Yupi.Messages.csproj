@@ -591,6 +591,7 @@
     <Compile Include="Composer\Other\HotelClosedMessageComposer.cs" />
     <Compile Include="Encoders\VectorEncoder.cs" />
     <Compile Include="Handlers\Other\LagWarningLogEvent.cs" />
+    <Compile Include="Encoders\ChatEncoder.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

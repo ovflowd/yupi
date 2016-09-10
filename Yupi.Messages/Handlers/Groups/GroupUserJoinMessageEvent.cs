@@ -35,7 +35,7 @@ namespace Yupi.Messages.Groups
 					}
 
 					group.Members.Add(user.Id,
-						new GroupMember(user.Id, user.UserName, user.Look, group.Id, 0, Yupi.GetUnixTimeStamp()));
+						new GroupMember(user.Id, user.Name, user.Look, group.Id, 0, Yupi.GetUnixTimeStamp()));
 
 					session.GetHabbo().UserGroups.Add(group.Members[user.Id]);
 				}
@@ -50,7 +50,7 @@ namespace Yupi.Messages.Groups
 							queryReactor.RunQuery ();
 						}
 
-						GroupMember groupRequest = new GroupMember(user.Id, user.UserName, user.Look, group.Id, 0,
+						GroupMember groupRequest = new GroupMember(user.Id, user.Name, user.Look, group.Id, 0,
 							Yupi.GetUnixTimeStamp());
 
 						group.Requests.Add(user.Id, groupRequest);

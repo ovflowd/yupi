@@ -40,7 +40,7 @@ namespace Yupi.Messages.Messenger
 		private void Serialize(ServerMessage reply, UserInfo user)
 		{
 			reply.AppendInteger(user.Id);
-			reply.AppendString(user.UserName);
+			reply.AppendString(user.Name);
 			reply.AppendString(user.Motto);
 			reply.AppendBool(ClientManager.IsOnline(user));
 			reply.AppendBool(false); // TODO Hardcoded

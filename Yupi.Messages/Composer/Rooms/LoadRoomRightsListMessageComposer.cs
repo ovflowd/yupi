@@ -19,7 +19,7 @@ namespace Yupi.Messages.Rooms
 
 				foreach (UserInfo habboForId in room.Rights) {
 					message.AppendInteger (habboForId.Id);
-					message.AppendString (habboForId.UserName);
+					message.AppendString (habboForId.Name);
 				}
 
 				session.Send (message);

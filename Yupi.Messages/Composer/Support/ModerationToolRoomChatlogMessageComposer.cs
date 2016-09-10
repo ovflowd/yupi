@@ -31,7 +31,7 @@ namespace Yupi.Messages.Support
 					ChatlogEntry entry = room.Chatlog [room.Chatlog.Count - i];
 					message.AppendInteger((int)(DateTime.Now - entry.Timestamp).TotalMilliseconds);
 					message.AppendInteger(entry.User.Id);
-					message.AppendString(entry.User.UserName);
+					message.AppendString(entry.User.Name);
 					message.AppendString(entry.Message);
 					message.AppendBool(!entry.Whisper);
 				}

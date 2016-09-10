@@ -27,7 +27,7 @@ namespace Yupi.Messages.Support
 				message.AppendBool(false); // TODO Meaning? (isOwnerInRoom?)
 
 				message.AppendInteger(data.Owner.Id);
-				message.AppendString(data.Owner.UserName);
+				message.AppendString(data.Owner.Name);
 				message.AppendBool(isLoaded);
 				message.AppendString(data.Name);
 				message.AppendString(data.Description);

@@ -29,7 +29,7 @@ namespace Yupi.Messages.Other
 						queryReactor2.SetQuery(
 							"INSERT INTO cms_stories_photos (user_id,user_name,room_id,image_preview_url,image_url,type,date,tags) VALUES (@user_id,@user_name,@room_id,@image_url,@image_url,@type,@date,@tags)");
 						queryReactor2.AddParameter("user_id", session.GetHabbo().Id);
-						queryReactor2.AddParameter("user_name", session.GetHabbo().UserName);
+						queryReactor2.AddParameter("user_name", session.GetHabbo().Name);
 						queryReactor2.AddParameter("room_id", room);
 						queryReactor2.AddParameter("image_url", image);
 						queryReactor2.AddParameter("type", "PHOTO");

@@ -36,7 +36,7 @@ namespace Yupi.Messages.Camera
 				{
 					queryReactor.SetQuery("INSERT INTO cms_stories_photos_preview (user_id,user_name,room_id,image_preview_url,image_url,type,date,tags) VALUES (@userid,@username,@roomid,@imagepreviewurl,@imageurl,@types,@dates,@tag)");
 					queryReactor.AddParameter("userid", session.GetHabbo().Id);
-					queryReactor.AddParameter("username", session.GetHabbo().UserName);
+					queryReactor.AddParameter("username", session.GetHabbo().Name);
 					queryReactor.AddParameter("roomid", roomId);
 					queryReactor.AddParameter("imagepreviewurl", encodedurl);
 					queryReactor.AddParameter("imageurl", encodedurl);

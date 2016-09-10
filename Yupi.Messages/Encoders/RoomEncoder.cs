@@ -15,7 +15,7 @@ namespace Yupi.Messages.Encoders
 			message.AppendInteger (data.Id);
 			message.AppendString (data.Name);
 			message.AppendInteger (data.Owner.Id);
-			message.AppendString (data.Owner.UserName);
+			message.AppendString (data.Owner.Name);
 			message.AppendInteger ((int)data.State);
 			message.AppendInteger (room == null ? 0 : room.GetUserCount());
 			message.AppendInteger (data.UsersMax);

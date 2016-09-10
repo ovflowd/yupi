@@ -27,7 +27,7 @@ namespace Yupi.Messages.User
 					message.AppendInteger (current.Type);
 					message.AppendInteger (current.Type == 1 ? num : (current.Type == 2 ? num2 : num3));
 					message.AppendInteger (current.Friend.Id);
-					message.AppendString (current.Friend.UserName);
+					message.AppendString (current.Friend.Name);
 					message.AppendString (current.Friend.Look);
 				}
 

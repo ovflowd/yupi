@@ -15,7 +15,7 @@ namespace Yupi.Messages.Rooms
 
 				foreach (UserInfo user in room.BannedUsers) {
 					message.AppendInteger (user.Id); 
-					message.AppendString (user.UserName);
+					message.AppendString (user.Name);
 				}
 				session.Send (message);
 			}

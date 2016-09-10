@@ -129,5 +129,10 @@ namespace Yupi.Protocol.Buffers
 		public byte[] GetBody() {
 			return _body;
 		}
+
+		public override string ToString ()
+    	{
+			return String.Join (",", _body);
+    	}
     }
 }

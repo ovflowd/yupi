@@ -348,6 +348,7 @@
     <Compile Include="Domain\Rooms\Chat\ChatlogEntry.cs" />
     <Compile Include="Domain\Rooms\Chat\ChatEmotion.cs" />
     <Compile Include="Domain\Rooms\Chat\Link.cs" />
+    <Compile Include="Domain\Util\BaseInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

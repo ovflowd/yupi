@@ -8,15 +8,21 @@ namespace Yupi.Model.Domain
 	{
 		public BotInfo Info { get; set; }
 
-		public BotEntity (Room room, int id) : base(room, id)
-		{
-			
-		}
-
 		public override EntityType Type {
 			get {
 				return EntityType.Bot;
 			}
+		}
+
+		public override BaseInfo BaseInfo {
+			get {
+				return Info;
+			}
+		}
+
+		public BotEntity (Room room, int id) : base(room, id)
+		{
+			
 		}
 	}
 }

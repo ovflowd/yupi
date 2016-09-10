@@ -11,7 +11,7 @@ namespace Yupi.Messages.Events
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (room.Id);
 				message.AppendInteger (room.Owner.Id);
-				message.AppendString (room.Owner.UserName);
+				message.AppendString (room.Owner.Name);
 				message.AppendInteger (1);
 				message.AppendInteger (1);
 				message.AppendString (roomEvent.Name);

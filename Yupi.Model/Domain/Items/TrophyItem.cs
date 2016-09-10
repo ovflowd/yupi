@@ -17,7 +17,7 @@ namespace Yupi.Model.Domain
 
 		public override string GetExtraData ()
 		{
-			return string.Concat (User.UserName, Convert.ToChar (9),
+			return string.Concat (User.Name, Convert.ToChar (9),
 				CreatedAt.ToString ("dd-MM-yyyy"), Convert.ToChar (9), Message);
 		}
 	}

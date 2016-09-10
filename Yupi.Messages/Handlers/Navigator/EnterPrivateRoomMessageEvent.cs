@@ -66,7 +66,7 @@ namespace Yupi.Messages.Navigator
 
 							room.EachUser ((user) => {
 								if (room.Data.HasRights (user.Info)) {
-									user.Router.GetComposer<DoorbellMessageComposer> ().Compose (user, session.Info.UserName);
+									user.Router.GetComposer<DoorbellMessageComposer> ().Compose (user, session.Info.Name);
 								}
 							});
 						}

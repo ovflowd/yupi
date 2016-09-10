@@ -111,7 +111,12 @@ namespace Yupi.Model.Domain
 		// TODO Consider using back references...
 		public RoomEntity GetEntity (int id)
 		{
-			return Users.Single (entity => entity.Id == id);
+			return Users.SingleOrDefault (entity => entity.Id == id);
+		}
+
+		public RoomEntity GetEntity (string name)
+		{
+			return Users.SingleOrDefault (entity => entity.BaseInfo.Name == name);
 		}
 
 		public void AddUser (Habbo user)

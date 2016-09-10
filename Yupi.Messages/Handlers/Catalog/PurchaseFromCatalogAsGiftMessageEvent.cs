@@ -29,7 +29,7 @@ namespace Yupi.Messages.Catalog
 			int giftColor = message.GetInteger();
 			bool showSender = message.GetBool(); 
 
-			UserInfo info = UserRepository.FindBy (x => x.UserName == giftUser);
+			UserInfo info = UserRepository.FindBy (x => x.Name == giftUser);
 
 			if(info == null) {
 				router.GetComposer<GiftErrorMessageComposer> ().Compose (session, giftUser);

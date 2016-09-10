@@ -22,7 +22,7 @@ namespace Yupi.Model.Domain
 
 		public override string GetExtraData ()
 		{
-			return string.Join ("\n", Owner.UserName, CreatedAt.Year, CreatedAt.Month, CreatedAt.Day, 
+			return string.Join ("\n", Owner.Name, CreatedAt.Year, CreatedAt.Month, CreatedAt.Day, 
 				Song.LengthSeconds, Song.Name);
 		}
 	}

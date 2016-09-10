@@ -16,7 +16,7 @@ namespace Yupi.Messages.Support
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (user.Id);
-				message.AppendString (user.UserName);
+				message.AppendString (user.Name);
 				message.AppendInteger (user.RecentlyVisitedRooms.Count);
 
 				foreach (RoomData room in user.RecentlyVisitedRooms) {
@@ -36,7 +36,7 @@ namespace Yupi.Messages.Support
 						message.AppendInteger ((int)(DateTime.Now - chat.Timestamp).TotalSeconds);
 
 						message.AppendInteger (chat.User.Id);
-						message.AppendString (chat.User.UserName);
+						message.AppendString (chat.User.Name);
 						message.AppendString (chat.Message);
 						message.AppendBool (false);
 					}

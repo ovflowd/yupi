@@ -14,7 +14,7 @@ namespace Yupi.Messages.Groups
 				message.AppendInteger(group.Id);
 				message.AppendInteger(type);
 				message.AppendInteger(user.Id);
-				message.AppendString(user.UserName);
+				message.AppendString(user.Name);
 				message.AppendString(user.Look);
 				message.AppendString(string.Empty);
 				session.Send (message);

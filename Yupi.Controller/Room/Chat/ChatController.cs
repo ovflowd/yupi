@@ -35,12 +35,38 @@ namespace Yupi.Controller
 			return false;
 		}
 
+		public void Whisper (Habbo session, string message, ChatBubbleStyle bubble, RoomEntity target, int count = -1)
+		{
+			if (!Validate (ref message) || TryHandleCommand (message) || !bubble.CanUse (session.Info)) {
+				return;
+			}
+
+			// TODO Implement
+			// session.RoomEntity.UnIdle();
+
+			ChatlogEntry entry = CreateEntry (session, message, bubble);
+			entry.Whisper = true;
+			// TODO Save Whisper target
+			// TODO Save Chatlog
+
+			session.Router.GetComposer<WhisperMessageComposer> ().Compose (session, entry, count);
+
+			if (target != null) {
+				target.HandleChatMessage (session.RoomEntity, targetSession => {
+					targetSession.Router.GetComposer<WhisperMessageComposer> ()
+						.Compose (targetSession, entry, count);
+				});
+			}
+
+			// TODO Trigger Wired
+		}
+
 		public void Shout (Habbo session, string message, ChatBubbleStyle bubble, int count = -1)
 		{
-			/*Chat (session, message, bubble, (user, entry) => { 
+			Chat (session, message, bubble, (user, entry) => { 
 				user.Router.GetComposer<ShoutMessageComposer> ()
 					.Compose (user, entry, count);
-			});*/
+			});
 		}
 
 		public void Chat (Habbo session, string message, ChatBubbleStyle bubble, int count = -1)
@@ -51,30 +77,34 @@ namespace Yupi.Controller
 			});
 		}
 
-		private void Chat (Habbo session, string message, ChatBubbleStyle bubble, Action<Habbo, ChatlogEntry> composer)
+		private ChatlogEntry CreateEntry (Habbo session, string message, ChatBubbleStyle bubble)
 		{
-			if (!Validate (ref message) || TryHandleCommand (message)) {
-				return;
-			}
-
-			// TODO Implement
-			// session.RoomEntity.UnIdle();
-
 			ChatlogEntry entry = new ChatlogEntry (message) {
 				User = session.Info,
 				Bubble = bubble
 			};
 
 			session.Room.Data.Chatlog.Add (entry);
+			return entry;
+		}
 
-			// TODO Save Chatlog
+		private void Chat (Habbo session, string message, ChatBubbleStyle bubble, Action<Habbo, ChatlogEntry> composer)
+		{
+			if (!Validate (ref message) || TryHandleCommand (message) || !bubble.CanUse (session.Info)) {
+				return;
+			}
+
+			// TODO Implement
+			// session.RoomEntity.UnIdle();
+
+			ChatlogEntry entry = CreateEntry (session, message, bubble);
 
 			session.Info.Preferences.ChatBubbleStyle = bubble;
 			// TODO Save Preferences
-
+			// TODO Save Chatlog
 			session.Room.EachEntity (
 				entity => {
-					entity.HandleChatMessage (session.RoomEntity, user => composer(user, entry));
+					entity.HandleChatMessage (session.RoomEntity, user => composer (user, entry));
 				}
 			);
 

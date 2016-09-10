@@ -24,12 +24,12 @@ namespace Yupi.Messages.Messenger
 
 			List<UserInfo> friends = session.Info.Relationships
 				.Relationships
-				.Where (x => x.Friend.UserName.StartsWith (query))
+				.Where (x => x.Friend.Name.StartsWith (query))
 				.Select(x => x.Friend)
 				.ToList();
 			
 			List<UserInfo> users = UserRepository
-				.FilterBy (x => x.UserName.StartsWith (query))
+				.FilterBy (x => x.Name.StartsWith (query))
 				.Where(x => !friends.Contains(x))
 				.Take(50) // TODO Proper limit
 				.ToList();

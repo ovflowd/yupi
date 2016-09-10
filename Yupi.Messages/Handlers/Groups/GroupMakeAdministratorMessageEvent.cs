@@ -39,7 +39,7 @@ namespace Yupi.Messages.Groups
 
 			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(group.RoomId);
 
-			RoomUser roomUserByHabbo = room?.GetRoomUserManager().GetRoomUserByHabbo(Yupi.GetHabboById(memberId).UserName);
+			RoomUser roomUserByHabbo = room?.GetRoomUserManager().GetRoomUserByHabbo(Yupi.GetHabboById(memberId).Name);
 
 			if (roomUserByHabbo != null)
 			{

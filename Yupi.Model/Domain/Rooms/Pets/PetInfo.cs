@@ -29,7 +29,7 @@ using System.Numerics;
 
 namespace Yupi.Model.Domain
 {
-	public class PetInfo
+	public class PetInfo : BaseInfo
 	{
 		private int[] ExperienceLevels = {
 			100,
@@ -51,8 +51,6 @@ namespace Yupi.Model.Domain
 			51900
 		};
 
-		public virtual uint Id { get; set; }
-
 		#region Horse
 
 		public virtual bool AnyoneCanRide { get; set; }
@@ -66,8 +64,6 @@ namespace Yupi.Model.Domain
 		public virtual Vector3 BreadingTile { get; set; }
 
 		public virtual string Color { get; set; }
-		// TODO Do pets have mottos?
-		public virtual string Motto { get; set; }
 
 		public virtual DateTime CreatedAt { get; set; }
 
@@ -76,8 +72,6 @@ namespace Yupi.Model.Domain
 		public virtual int Experience { get; set; }
 
 		public virtual DateTime LastHealth { get; set; }
-
-		public virtual string Name { get; set; }
 
 		public virtual uint Nutrition { get; set; }
 
@@ -130,6 +124,7 @@ namespace Yupi.Model.Domain
 			}
 		}
 
+		// TODO Refactor looks!
 		[Ignore]
 		public virtual string Look {
 			get { 

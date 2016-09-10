@@ -94,7 +94,7 @@ namespace Yupi.Messages.Groups
 										if (current != null)
 										{
 											message.AppendInteger(current.Id);
-											message.AppendString(current.UserName);
+											message.AppendString(current.Name);
 											message.AppendString(current.Look);
 										}
 
@@ -127,7 +127,7 @@ namespace Yupi.Messages.Groups
 		{
 			response.AppendInteger(member.Rank == 2 ? 0 : member.Rank == 1 ? 1 : 2);
 			response.AppendInteger(member.Id);
-			response.AppendString(member.UserName);
+			response.AppendString(member.Name);
 			response.AppendString(member.Look);
 			throw new NotImplementedException ();
 			//response.AppendString(Yupi.GetGroupDateJoinString(member.DateJoin));
@@ -168,7 +168,7 @@ namespace Yupi.Messages.Groups
 			if (string.IsNullOrWhiteSpace (searchVal)) {
 				return theGroup.Requests.ToList ();
 			} else {
-				return theGroup.Requests.Where (request => request.UserName.ToLower ().Contains (searchVal.ToLower ()))
+				return theGroup.Requests.Where (request => request.Name.ToLower ().Contains (searchVal.ToLower ()))
 					.ToList ();
 			}
 		}

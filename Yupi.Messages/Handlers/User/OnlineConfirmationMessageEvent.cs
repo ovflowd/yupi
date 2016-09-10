@@ -15,7 +15,7 @@ namespace Yupi.Messages.User
 			// TODO Implement
 			//session.Router.GetComposer<HotelClosedMessageComposer> ().Compose (session, 8, 0, false);
 
-			if (username != session.Info.UserName) {
+			if (username != session.Info.Name) {
 				// TODO Should we check this and disconnect on mismatch?
 			}
 
@@ -31,9 +31,9 @@ namespace Yupi.Messages.User
 			if (!ServerConfigurationSettings.Data.ContainsKey("welcome.message.image") ||
 				string.IsNullOrEmpty(ServerConfigurationSettings.Data["welcome.message.image"]))
 				session.SendNotifWithScroll(ServerExtraSettings.WelcomeMessage.Replace("%username%",
-					session.GetHabbo().UserName));
+					session.GetHabbo().Name));
 			else
-				session.SendNotif(ServerExtraSettings.WelcomeMessage.Replace("%username%", session.GetHabbo().UserName),
+				session.SendNotif(ServerExtraSettings.WelcomeMessage.Replace("%username%", session.GetHabbo().Name),
 					ServerConfigurationSettings.Data.ContainsKey("welcome.message.title")
 					? ServerConfigurationSettings.Data["welcome.message.title"]
 					: string.Empty, ServerConfigurationSettings.Data["welcome.message.image"]);

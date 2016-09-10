@@ -22,7 +22,7 @@ namespace Yupi.Model
 			var cfg = new ORMConfiguration ();
 
 			IPersistenceConfigurer db;
-			//db = MySQLConfiguration.Standard.ConnectionString(x => x.Server("localhost").Username("yupi").Password("changeme").Database("yupi"));
+			//db = MySQLConfiguration.Standard.ConnectionString(x => x.Server("localhost").Name("yupi").Password("changeme").Database("yupi"));
 			db = GetSQLite ();
 			return Fluently.Configure ()
 				.Database (db)
@@ -63,8 +63,8 @@ namespace Yupi.Model
 		public static void Populate ()
 		{
 			PopulateObject (
-				new UserInfo () { UserName = "User" }, 
-				new UserInfo () { UserName = "Admin", Rank = 9 }
+				new UserInfo () { Name = "User" }, 
+				new UserInfo () { Name = "Admin", Rank = 9 }
 			);
 
 			PopulateObject (

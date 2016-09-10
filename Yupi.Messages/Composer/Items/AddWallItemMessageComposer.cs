@@ -19,7 +19,7 @@ namespace Yupi.Messages.Items
 				message.AppendInteger(-1);
 				message.AppendInteger(item.BaseItem.Modes > 1 ? 1 : 0);
 				message.AppendInteger(user.Id);
-				message.AppendString(user.UserName);
+				message.AppendString(user.Name);
 				session.Send (message);
 				*/
 				throw new NotImplementedException ();

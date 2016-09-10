@@ -12,10 +12,10 @@ namespace Yupi.Messages.Guides
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(habbo.Id);
-				message.AppendString(habbo.UserName);
+				message.AppendString(habbo.Name);
 				message.AppendString(habbo.Look);
 				message.AppendInteger(habbo.Id);
-				message.AppendString(habbo.UserName);
+				message.AppendString(habbo.Name);
 				message.AppendString(habbo.Look);
 				session.Send (message);
 			}

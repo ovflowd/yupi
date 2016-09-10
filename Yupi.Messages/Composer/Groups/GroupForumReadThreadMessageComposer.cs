@@ -21,13 +21,13 @@ namespace Yupi.Messages.Groups
 					message.AppendInteger(post.Id);
 					message.AppendInteger(post.Id);
 					message.AppendInteger(post.Poster.Id);
-					message.AppendString(post.Poster.UserName);
+					message.AppendString(post.Poster.Name);
 					message.AppendString(post.Poster.Look);
 					message.AppendInteger((int)(DateTime.Now - post.Timestamp).TotalSeconds);
 					message.AppendString(post.Content);
 					message.AppendByte(0); // TODO What are these values?
 					message.AppendInteger(post.HiddenBy.Id);
-					message.AppendString(post.HiddenBy.UserName);
+					message.AppendString(post.HiddenBy.Name);
 					message.AppendInteger(0);
 					message.AppendInteger(0);
 				}

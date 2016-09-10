@@ -30,7 +30,7 @@ namespace Yupi.Messages.User
 				for (int rank = 1; rank <= rankings.Count; ++rank) {
 					HallOfFameElement element = rankings [rank - 1];
 					message.AppendInteger (element.User.Id);
-					message.AppendString (element.User.UserName);
+					message.AppendString (element.User.Name);
 					message.AppendString (element.User.Look);
 					message.AppendInteger (rank);
 					message.AppendInteger (element.Score);

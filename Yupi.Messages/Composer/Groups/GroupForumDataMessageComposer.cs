@@ -22,7 +22,7 @@ namespace Yupi.Messages.Groups
 				message.AppendInteger(0);
 				message.AppendInteger(0);
 				message.AppendInteger(group.Forum.GetLastPost().Poster.Id);
-				message.AppendString(group.Forum.GetLastPost().Poster.UserName);
+				message.AppendString(group.Forum.GetLastPost().Poster.Name);
 				message.AppendInteger((int)group.Forum.GetLastPost().Timestamp.ToUnix().SecondsSinceEpoch);
 				message.AppendInteger(group.Forum.WhoCanRead);
 				message.AppendInteger(group.Forum.WhoCanPost);

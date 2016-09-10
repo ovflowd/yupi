@@ -24,7 +24,7 @@ namespace Yupi.Messages.Pets
 				message.AppendInteger(pet.Respect);
 				message.AppendInteger(pet.Owner.Id);
 				message.AppendInteger(pet.Age);
-				message.AppendString(pet.Owner.UserName);
+				message.AppendString(pet.Owner.Name);
 				message.AppendInteger(1);
 				message.AppendBool(pet.HaveSaddle);
 				message.AppendBool(

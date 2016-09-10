@@ -20,7 +20,7 @@ namespace Yupi.Messages.Messenger
 				} else {
 					message.AppendInteger (0);
 					message.AppendInteger (relationship.Friend.Id);
-					message.AppendString (relationship.Friend.UserName);
+					message.AppendString (relationship.Friend.Name);
 					/*
 					message.AppendInteger (relationship.Friend.IsOnline);
 					message.AppendBool (!relationship.Friend.AppearOffline && relationship.Friend.IsOnline);

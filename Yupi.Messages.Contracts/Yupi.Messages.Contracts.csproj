@@ -314,6 +314,8 @@
     <Compile Include="PacketLibrary.cs" />
     <Compile Include="Composer\Rooms\UpdateUserStatusMessageComposer.cs" />
     <Compile Include="Composer\Other\HotelClosedMessageComposer.cs" />
+    <Compile Include="Composer\Chat\ShoutMessageComposer.cs" />
+    <Compile Include="Composer\Chat\WhisperMessageComposer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

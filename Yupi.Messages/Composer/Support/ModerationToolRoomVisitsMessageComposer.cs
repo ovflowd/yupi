@@ -13,7 +13,7 @@ namespace Yupi.Messages.Support
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (user.Id);
-				message.AppendString (user.UserName);
+				message.AppendString (user.Name);
 				message.AppendInteger (user.RecentlyVisitedRooms.Count);
 				// TODO Refactor
 				foreach (RoomData roomData in user.RecentlyVisitedRooms) {

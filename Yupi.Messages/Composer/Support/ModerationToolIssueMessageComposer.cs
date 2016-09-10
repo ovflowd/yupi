@@ -18,11 +18,11 @@ namespace Yupi.Messages.Support
 				message.AppendInteger(ticket.Score);
 				message.AppendInteger(1); // TODO magic constant
 				message.AppendInteger(ticket.Sender.Id);
-				message.AppendString(ticket.Sender.UserName);
+				message.AppendString(ticket.Sender.Name);
 				message.AppendInteger(ticket.ReportedUser.Id);
-				message.AppendString(ticket.ReportedUser.UserName);
+				message.AppendString(ticket.ReportedUser.Name);
 				message.AppendInteger(ticket.Staff.Id);
-				message.AppendString(ticket.Staff.UserName);
+				message.AppendString(ticket.Staff.Name);
 				message.AppendString(ticket.Message);
 				message.AppendInteger(0);
 

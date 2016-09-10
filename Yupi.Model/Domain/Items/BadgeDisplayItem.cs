@@ -19,7 +19,7 @@ namespace Yupi.Model.Domain
 
 		public override string GetExtraData ()
 		{
-			return string.Join("|", Badge, Owner.UserName, CreatedAt.ToString ("dd-MM-yyyy"));
+			return string.Join("|", Badge, Owner.Name, CreatedAt.ToString ("dd-MM-yyyy"));
 		}
 	}
 }

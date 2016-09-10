@@ -19,6 +19,7 @@ namespace Yupi.Model.Domain
 		public bool NeedsUpdate { get; private set; }
 
 		public abstract EntityType Type { get; }
+		public abstract BaseInfo BaseInfo { get; }
 
 		public RoomEntity (Room room, int id)
 		{

@@ -20,7 +20,7 @@ namespace Yupi.Messages.Rooms
 			if (room == null)
 				return;
 
-			if (room.RoomData.Owner != session.GetHabbo().UserName && session.GetHabbo().Rank <= 6u)
+			if (room.RoomData.Owner != session.GetHabbo().Name && session.GetHabbo().Rank <= 6u)
 				return;
 
 			if (session.GetHabbo().GetInventoryComponent() != null)
@@ -44,8 +44,8 @@ namespace Yupi.Messages.Rooms
 			}
 
 			// TODO Remove those damn $ strings...
-			if (session.GetHabbo().Rank > 5u && session.GetHabbo().UserName != roomData.Owner)
-				Yupi.GetGame().GetModerationTool().LogStaffEntry(session.GetHabbo().UserName, roomData.Name, "Room deletion", $"Deleted room ID {roomData.Id}");
+			if (session.GetHabbo().Rank > 5u && session.GetHabbo().Name != roomData.Owner)
+				Yupi.GetGame().GetModerationTool().LogStaffEntry(session.GetHabbo().Name, roomData.Name, "Room deletion", $"Deleted room ID {roomData.Id}");
 
 			RoomData roomData2 = (from p in session.GetHabbo().UsersRooms where p.Id == roomId select p).SingleOrDefault();
 

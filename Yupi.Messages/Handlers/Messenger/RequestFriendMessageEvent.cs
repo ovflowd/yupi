@@ -21,7 +21,7 @@ namespace Yupi.Messages.Messenger
 		{
 			string friendName =	request.GetString ();
 
-			UserInfo friend = UserRepository.FindBy (x => x.UserName == friendName);
+			UserInfo friend = UserRepository.FindBy (x => x.Name == friendName);
 
 			if (friend != null) {
 

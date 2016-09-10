@@ -14,7 +14,7 @@ namespace Yupi.Messages.Groups
 				message.AppendInteger(groupId);
 				message.AppendInteger(thread.Id);
 				message.AppendInteger(thread.Creator.Id);
-				message.AppendString(thread.Creator.UserName);
+				message.AppendString(thread.Creator.Name);
 				message.AppendString(thread.Subject);
 				message.AppendBool(thread.Pinned);
 				message.AppendBool(thread.Locked);
@@ -27,7 +27,7 @@ namespace Yupi.Messages.Groups
 				message.AppendInteger((int)(DateTime.Now - thread.CreatedAt).TotalSeconds);
 				message.AppendByte(thread.Hidden ? 10 : 1);
 				message.AppendInteger(1);
-				message.AppendString(thread.HiddenBy.UserName);
+				message.AppendString(thread.HiddenBy.Name);
 				message.AppendInteger(0);
 				session.Send (message);
 			}

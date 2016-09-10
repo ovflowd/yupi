@@ -211,6 +211,7 @@ namespace Yupi.Model.Domain
 			Chat = new RoomChatSettings ();
 			BannedUsers = new List<UserInfo> ();
 			WallHeight = -1;
+			Chatlog = new List<ChatlogEntry> ();
 		}
 			
 		public virtual RoomFlags GetFlags() {

@@ -54,6 +54,7 @@ namespace Yupi.Model.Domain.Components
 			Volume1 = 100;
 			Volume2 = 100;
 			Volume3 = 100;
+			ChatBubbleStyle = ChatBubbleStyle.Normal;
         }
     }
 }

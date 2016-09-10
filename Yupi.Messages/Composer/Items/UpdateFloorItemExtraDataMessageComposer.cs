@@ -102,7 +102,7 @@ namespace Yupi.Messages.Items
 						{
 							message.AppendInteger(line.Value.Score);
 							message.AppendInteger(1);
-							message.AppendString(line.Value.Username);
+							message.AppendString(line.Value.Name);
 						}
 
 						break;

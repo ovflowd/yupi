@@ -12,7 +12,7 @@ namespace Yupi.Messages.Notification
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(1);
 				message.AppendInteger(habbo.Id);
-				message.AppendString(habbo.UserName);
+				message.AppendString(habbo.Name);
 				message.AppendString("BadWord: " + word);
 				session.Send(message);
 			}

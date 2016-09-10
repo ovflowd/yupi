@@ -9,11 +9,9 @@ using System.Net;
 
 namespace Yupi.Model.Domain
 {
-	public class UserInfo
+	public class UserInfo : BaseInfo
 	{
-		public static UserInfo None = new UserInfo() { Id = 0, UserName = string.Empty };
-
-		public virtual int Id { get; protected set; }
+		public static UserInfo None = new UserInfo() { Id = 0, Name = string.Empty };
 
 		public virtual UserBadgeComponent Badges { get; protected set; }
 		public virtual UserBuilderComponent BuilderInfo { get; protected set; }
@@ -85,8 +83,6 @@ namespace Yupi.Model.Domain
 
 		public virtual IList<UserAchievement> Achievements { get; protected set; }
 
-		public virtual string UserName { get; set; }
-		public virtual string Motto { get; set; }
 		public virtual string Look { get; set; }
 		public virtual string Gender { get; set; }
 

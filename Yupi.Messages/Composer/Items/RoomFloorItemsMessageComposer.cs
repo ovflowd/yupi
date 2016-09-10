@@ -22,25 +22,25 @@ namespace Yupi.Messages.Items
 						foreach (UserInfo member in data.Group.Admins) {
 							if (member != null) {
 								message.AppendInteger (member.Id);
-								message.AppendString (member.UserName);
+								message.AppendString (member.Name);
 							}
 						}
 
 						message.AppendInteger (data.Owner.Id);
-						message.AppendString (data.Owner.UserName);
+						message.AppendString (data.Owner.Name);
 					} else {
 
 						message.AppendInteger (data.Group.Members.Count + 1);
 
 						foreach (UserInfo member in data.Group.Members) {
 							message.AppendInteger (member.Id);
-							message.AppendString (member.UserName);
+							message.AppendString (member.Name);
 						}
 					}
 				} else {
 					message.AppendInteger (1);
 					message.AppendInteger (data.Owner.Id);
-					message.AppendString (data.Owner.UserName);
+					message.AppendString (data.Owner.Name);
 				}
 
 				message.AppendInteger (items.Count);

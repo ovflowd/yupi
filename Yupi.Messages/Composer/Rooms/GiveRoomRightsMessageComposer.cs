@@ -12,7 +12,7 @@ namespace Yupi.Messages.Rooms
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger(roomId);
 				message.AppendInteger(habbo.Id);
-				message.AppendString(habbo.UserName);
+				message.AppendString(habbo.Name);
 				session.Send (message);
 			}
 		}

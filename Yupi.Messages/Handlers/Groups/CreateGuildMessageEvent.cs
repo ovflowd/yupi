@@ -28,7 +28,7 @@ namespace Yupi.Messages.Groups
 			/*
 			RoomData roomData = Yupi.GetGame().GetRoomManager().GenerateRoomData(roomid);
 
-			if (roomData.Owner != session.GetHabbo().UserName)
+			if (roomData.Owner != session.GetHabbo().Name)
 				return;
 
 			for (int i = 0; i < num6*3; i++)

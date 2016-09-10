@@ -19,7 +19,7 @@ namespace Yupi.Messages.User
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
 				message.AppendInteger (user.Id);
-				message.AppendString (user.UserName);
+				message.AppendString (user.Name);
 				message.AppendString (user.Look);
 				message.AppendString (user.Motto);
 				message.AppendString (user.CreateDate.ToString ("dd/MM/yyyy"));

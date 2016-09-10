@@ -17,7 +17,7 @@ namespace Yupi.Messages.Groups
 				message.AppendInteger(messageCount);
 				message.AppendInteger(0);
 				message.AppendInteger(user.Id);
-				message.AppendString(user.UserName);
+				message.AppendString(user.Name);
 				message.AppendString(user.Look);
 				message.AppendInteger(Yupi.GetUnixTimeStamp() - timestamp);
 				message.AppendString(content);
