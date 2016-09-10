@@ -337,3 +337,4 @@ HabboCameraMessageEvent=2077
 HabboCameraPublishPhoto=3657
 GetCameraRequest=3961
 GetCameraPriceMessageEvent=3124
+LagWarningLogEvent=1822

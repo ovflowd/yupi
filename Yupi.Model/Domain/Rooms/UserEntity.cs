@@ -25,11 +25,14 @@ namespace Yupi.Model.Domain
 			this.User = user;
 		}
 
-		public override void Send (Yupi.Protocol.Buffers.ServerMessage message)
+		public override void HandleChatMessage (UserEntity user, Action<Habbo> sendTo)
 		{
-			throw new NotImplementedException ();
+			if (!User.Info.MutedUsers.Contains (user.User.Info)) {
+				base.HandleChatMessage (user, sendTo);
+				sendTo (User);
+			}
 		}
-
+			
 		public override void OnRoomExit ()
 		{
 			

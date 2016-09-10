@@ -6,7 +6,7 @@ using System.Numerics;
 namespace Yupi.Model.Domain
 {
 	[Ignore]
-	public abstract class RoomEntity : ISender
+	public abstract class RoomEntity
 	{
 		public int Id;
 		public Vector3 Position { get; private set; }
@@ -27,28 +27,38 @@ namespace Yupi.Model.Domain
 			this.CanWalk = true;
 		}
 
-		public virtual void Send (Yupi.Protocol.Buffers.ServerMessage message)
-		{
-			// Do nothing
-		}
-
 		public virtual void OnRoomExit () {
 			// Do nothing
 		}
 
-		public void SetHeadRotation(int rotation) {
-			this.RotHead = rotation;
-			ScheduleUpdate ();
+		public virtual void HandleChatMessage(UserEntity user, Action<Habbo> sendTo) {
+			// TODO Implement Tent
+			// TODO Implement Distance?
+
+			int rotation = Position.CalculateRotation (user.Position);
+			// TODO Should only be temporary
+			// TODO Add distance calculation!
+			SetHeadRotation (rotation);
 		}
 
-		public void SetBodyRotation(int rotation) {
-			this.RotBody = rotation;
+		public void SetHeadRotation(int rotation) {
+			if (rotation < 0 || rotation > 7) {
+				throw new ArgumentOutOfRangeException ("rotation");
+			}
+
+			int delta = this.RotBody - rotation;
+			this.RotHead = (this.RotBody - Math.Sign(delta)) % 8;
 			ScheduleUpdate ();
 		}
 
 		public void SetRotation(int rotation) {
-			SetBodyRotation (rotation);
-			SetHeadRotation (rotation);
+			if (rotation < 0 || rotation > 7) {
+				throw new ArgumentOutOfRangeException ("rotation");
+			}
+
+			this.RotBody = rotation;
+			this.RotHead = rotation;
+			ScheduleUpdate ();
 		}
 
 		public void SetPosition(Vector3 newPosition) {

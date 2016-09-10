@@ -34,7 +34,7 @@ namespace Yupi.Messages.Groups
 
 			if (session.Room != null) {
 				session.Room.EachUser ((entitySession) => {
-					entitySession.Room.Router.GetComposer<GroupDataMessageComposer> ().Compose (entitySession, theGroup, session.Info);
+					entitySession.Router.GetComposer<GroupDataMessageComposer> ().Compose (entitySession, theGroup, session.Info);
 				});
 
 			} else {

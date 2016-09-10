@@ -3,9 +3,9 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Contracts
 {
-	public abstract class ChatMessageComposer : AbstractComposer<int, string, ChatBubbleStyle, int>
+	public abstract class ChatMessageComposer : AbstractComposer<ChatlogEntry, int>
 	{
-		public override void Compose(Yupi.Protocol.ISender session, int entityId, string msg, ChatBubbleStyle color, int count = 0)
+		public override void Compose(Yupi.Protocol.ISender session, ChatlogEntry msg, int count = -1)
 		{
 		 // Do nothing by default.
 		}

@@ -64,7 +64,7 @@
     <Compile Include="Navigator\HotelView.cs" />
     <Compile Include="Navigator\MyWorldView.cs" />
     <Compile Include="Navigator\RoomAdsView.cs" />
-    <Compile Include="Room\Chat\ChatEmotionHelper.cs" />
+    <Compile Include="Room\Chat\ChatController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

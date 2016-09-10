@@ -6,7 +6,7 @@ namespace Yupi.Model.Domain
 	public class ChatBubbleStyle : Enumeration<ChatBubbleStyle>
 	{
 		public static readonly ChatBubbleStyle Normal = new ChatBubbleStyle (0, "Normal");
-		public static readonly ChatBubbleStyle Generic = new ChatBubbleStyle (1, "Generic");
+		public static readonly ChatBubbleStyle Generic = new ChatBubbleStyle (1, "Generic", x => false);
 		public static readonly ChatBubbleStyle Bot = new ChatBubbleStyle (2, "Bot", x => false);
 		public static readonly ChatBubbleStyle FiringMyLazer = new ChatBubbleStyle (3, "FiringMyLazer");
 		public static readonly ChatBubbleStyle GothicRose = new ChatBubbleStyle (4, "GothicRose");

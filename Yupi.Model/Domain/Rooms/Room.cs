@@ -17,8 +17,6 @@ namespace Yupi.Model.Domain
 
 		public HeightMap HeightMap { get; private set; }
 
-		public IRouter Router { get; private set; }
-
 		// TODO Implementation detail -> Private!
 		public IList<RoomEntity> Users { get; private set; }
 
@@ -135,6 +133,12 @@ namespace Yupi.Model.Domain
 		{
 			foreach (Habbo session in GetSessions()) {
 				sendToUser (session);
+			}
+		}
+
+		public void EachBot(Action<BotEntity> foreachBot) {
+			foreach (BotEntity entity in Users.OfType<BotEntity>()) {
+				foreachBot (entity);
 			}
 		}
 

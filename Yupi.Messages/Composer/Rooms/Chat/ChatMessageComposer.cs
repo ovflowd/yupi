@@ -3,28 +3,32 @@ using Yupi.Protocol.Buffers;
 using Yupi.Model.Domain;
 using Yupi.Controller;
 using Yupi.Model;
+using Yupi.Util;
 
 
 namespace Yupi.Messages.Chat
 {
 	public class ChatMessageComposer : Yupi.Messages.Contracts.ChatMessageComposer
 	{
-		private ChatEmotionHelper ChatEmotions;
-
-		public ChatMessageComposer ()
-		{
-			ChatEmotions = DependencyFactory.Resolve<ChatEmotionHelper> ();
-		}
-
-		public override void Compose ( Yupi.Protocol.ISender session, int entityId, string msg, ChatBubbleStyle color, int count = 0)
+		public override void Compose (Yupi.Protocol.ISender session, ChatlogEntry msg, int count = -1)
 		{
 			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendInteger(entityId);
-				message.AppendString(msg);
-				message.AppendInteger((int)ChatEmotions.GetEmotionForText(msg));
-				message.AppendInteger(color.Value);
-				message.AppendInteger(0); // TODO Unknown
-				message.AppendInteger(count);
+				message.AppendInteger (msg.User.Id);
+				message.AppendString (msg.FilteredMessage());
+				message.AppendInteger ((int)msg.GetEmotion());
+				message.AppendInteger (msg.Bubble.Value);
+
+				// Replaces placeholders the way String.Format does: {0}
+				message.AppendInteger (msg.Links.Count);
+
+				foreach (Link link in msg.Links) {
+					message.AppendString (link.URL);
+					message.AppendString (link.Text);
+					message.AppendBool (link.IsInternal);
+				}
+
+				// Count is used to detect lag (client side)
+				message.AppendInteger (count);
 				session.Send (message);
 			}
 		}
