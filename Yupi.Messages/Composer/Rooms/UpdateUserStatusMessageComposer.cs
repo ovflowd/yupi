@@ -27,7 +27,6 @@ namespace Yupi.Messages.Rooms
 					// sign Model.Domain.Sign
 					// (probably human & pet?) gst Model.Domain.Gesture#DisplayName
 					// (probably pet only) gst Model.Domain.PetGesture#DisplayName
-					// wav
 					// trd
 				}
 

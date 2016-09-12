@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Yupi.Model.Domain
 {
@@ -10,7 +11,12 @@ namespace Yupi.Model.Domain
 		public HumanStatus (HumanEntity entity) : base(entity)
 		{
 			SetRights ();
-			RegisterStatus (Rights);
+		}
+
+		protected override void GetStates (List<IStatusString> states)
+		{
+			base.GetStates (states);
+			states.Add (this.Rights);
 		}
 
 		protected virtual void SetRights() {

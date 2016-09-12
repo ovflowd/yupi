@@ -1,4 +1,6 @@
 ﻿using System;
+using Yupi.Model.Domain;
+using System.Collections.Generic;
 
 
 
@@ -8,23 +10,18 @@ namespace Yupi.Messages.Rooms
 	{
 		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			/*
-			Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
-			RoomUser roomUserByHabbo = room?.GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().Id);
-
-			if (roomUserByHabbo == null)
+			if (session.RoomEntity == null)
 				return;
 
-			roomUserByHabbo.UnIdle();
+			session.RoomEntity.Wake();
 
-			// TODO Should this value be verified?
 			int value = request.GetInteger();
 
-			roomUserByHabbo.AddStatus("sign", Convert.ToString(value));
-			roomUserByHabbo.UpdateNeeded = true;
-			roomUserByHabbo.SignTime = Yupi.GetUnixTimeStamp() + 5; // TODO Why +5
-			*/
-			throw new NotImplementedException ();
+			Sign sign;
+
+			if (Sign.TryFromInt32 (value, out sign)) {
+				session.RoomEntity.Status.Sign (sign);
+			}
 		}
 	}
 }

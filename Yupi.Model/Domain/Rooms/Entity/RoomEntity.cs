@@ -83,6 +83,7 @@ namespace Yupi.Model.Domain
 
 		internal void UpdateComplete() {
 			NeedsUpdate = false;
+			Status.OnUpdateComplete();
 		}
 
 		public void Sleep() {

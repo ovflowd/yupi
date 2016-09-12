@@ -3,7 +3,7 @@ using Headspring;
 
 namespace Yupi.Model.Domain
 {
-	public class Sign : Enumeration<Sign>
+	public class Sign : Enumeration<Sign>, IStatusString
 	{
 		public static readonly Sign Zero = new Sign(0, "Zero");
 		public static readonly Sign One = new Sign(1, "One");
@@ -27,6 +27,11 @@ namespace Yupi.Model.Domain
 		protected Sign (int value, string displayName) : base (value, displayName)
 		{
 			
+		}
+
+		public string ToStatusString ()
+		{
+			return "sign " + this.Value;
 		}
 	}
 }

@@ -12,19 +12,14 @@ namespace Yupi.Model.Domain
 
 		private RoomEntity Entity;
 
-		private List<IStatusString> States;
+		private List<IStatusString> TemporaryStates;
 
 		public EntityStatus (RoomEntity entity)
 		{
 			Contract.Requires (entity != null);
 			this.Entity = entity;	
 			SetPosture (StandPosture.Default);
-			States = new List<IStatusString> ();
-			RegisterStatus (this.Posture);
-		}
-
-		protected void RegisterStatus(params IStatusString[] status) {
-			States.AddRange (status);
+			TemporaryStates = new List<IStatusString> ();
 		}
 
 		private void SetPosture (EntityPosture posture)
@@ -32,6 +27,10 @@ namespace Yupi.Model.Domain
 			Contract.Requires (posture != null);
 			this.Posture = posture;
 			OnChange ();
+		}
+
+		internal void OnUpdateComplete() {
+			this.TemporaryStates.Clear ();
 		}
 
 		public bool IsSitting() {
@@ -46,17 +45,30 @@ namespace Yupi.Model.Domain
 			SetPosture (SitPosture.Default);
 		}
 
+		public void Sign(Sign sign) {
+			this.TemporaryStates.Add (sign);
+			this.OnChange ();
+		}
+
 		public override string ToString ()
 		{
-			return ToStatusString(this.Posture);
+			return ToStatusString();
 		}
 
 		protected void OnChange() {
 			this.Entity.ScheduleUpdate();
 		}
 
-		private string ToStatusString(params IStatusString[] states) {
-			List<string> stateStrings = new List<string> (states.Length);
+		protected virtual void GetStates(List<IStatusString> states) {
+			states.Add (this.Posture);
+			states.AddRange (this.TemporaryStates);
+		}
+
+		private string ToStatusString() {
+			List<IStatusString> states = new List<IStatusString>();
+			GetStates (states);
+
+			List<string> stateStrings = new List<string> (states.Count);
 
 			foreach (IStatusString state in states) {
 				string statusStr = state?.ToStatusString ();

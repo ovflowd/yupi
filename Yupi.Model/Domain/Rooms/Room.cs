@@ -88,11 +88,14 @@ namespace Yupi.Model.Domain
 			foreach (RoomEntity entity in this.Users) {
 				if (entity.NeedsUpdate) {
 					changes.Add (entity);
-					entity.UpdateComplete ();
 				}
 			}
 
 			this.OnTickCallback (this, changes);
+
+			foreach (RoomEntity entity in changes) {
+				entity.UpdateComplete ();
+			}
 		}
 
 		public bool CanVote (UserInfo user)
