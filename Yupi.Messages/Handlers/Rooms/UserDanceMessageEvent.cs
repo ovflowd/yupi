@@ -1,4 +1,5 @@
 ﻿using System;
+using Yupi.Model.Domain;
 
 
 
@@ -8,28 +9,19 @@ namespace Yupi.Messages.Rooms
 	{
 		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			/*
-			Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
-			RoomUser roomUserByHabbo = room?.GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().Id);
-
-			if (roomUserByHabbo == null)
+			if (session.RoomEntity == null)
 				return;
 
-			roomUserByHabbo.UnIdle();
+			session.RoomEntity.Wake();
 
-			uint danceId = request.GetUInt32();
+			int danceId = request.GetInteger();
 
-			if (danceId > 4)
-				danceId = 0;
+			Dance dance;
 
-			if (danceId > 0 && roomUserByHabbo.CarryItemId > 0)
-				roomUserByHabbo.CarryItem(0);
-
-			roomUserByHabbo.DanceId = danceId;
-
-			router.GetComposer<DanceStatusMessageComposer> ().Compose (room, roomUserByHabbo.VirtualId, danceId);
-			*/
-			throw new NotImplementedException ();
+			if (Dance.TryFromInt32 (danceId, out dance)) {
+				// TODO Remove Item from hand
+				session.RoomEntity.SetDance(dance);
+			}
 		}
 	}
 }

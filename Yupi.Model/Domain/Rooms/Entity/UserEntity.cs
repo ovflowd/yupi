@@ -31,6 +31,15 @@ namespace Yupi.Model.Domain
 			this.User = user;
 		}
 
+		public override void SetDance (Dance dance)
+		{
+			if (dance.ClubOnly && !this.User.Info.Subscription.IsValid()) {
+				return;
+			}
+
+			base.SetDance (dance);
+		}
+
 		public override void HandleChatMessage (UserEntity user, Action<Habbo> sendTo)
 		{
 			if (!User.Info.MutedUsers.Contains (user.User.Info)) {

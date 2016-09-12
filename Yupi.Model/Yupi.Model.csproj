@@ -318,7 +318,6 @@
     <Compile Include="IPAddressConvention.cs" />
     <Compile Include="Domain\Users\TradeLock.cs" />
     <Compile Include="Domain\Rooms\RoomCompetition.cs" />
-    <Compile Include="Domain\Rooms\RoomEntity.cs" />
     <Compile Include="Domain\Rooms\TradeUser.cs" />
     <Compile Include="Domain\Users\Habbo.cs" />
     <Compile Include="Domain\Rooms\Room.cs" />
@@ -345,13 +344,7 @@
     <Compile Include="Domain\Rooms\Chat\Link.cs" />
     <Compile Include="Domain\Util\BaseInfo.cs" />
     <Compile Include="Domain\Rooms\Sign.cs" />
-    <Compile Include="Domain\Rooms\User\Gesture.cs" />
     <Compile Include="Domain\Rooms\Pets\PetGesture.cs" />
-    <Compile Include="Domain\Rooms\Posture\EntityPosture.cs" />
-    <Compile Include="Domain\Rooms\Posture\StandPosture.cs" />
-    <Compile Include="Domain\Rooms\Posture\SwimPosture.cs" />
-    <Compile Include="Domain\Rooms\Posture\LayPosture.cs" />
-    <Compile Include="Domain\Rooms\Posture\SitPosture.cs" />
     <Compile Include="Domain\Rooms\Entity\BotEntity.cs" />
     <Compile Include="Domain\Rooms\Entity\EntityStatus.cs" />
     <Compile Include="Domain\Rooms\Entity\EntityType.cs" />
@@ -363,6 +356,14 @@
     <Compile Include="Domain\Rooms\Entity\HumanEntity.cs" />
     <Compile Include="Domain\Rooms\Entity\PetStatus.cs" />
     <Compile Include="Domain\Rooms\Entity\UserAction.cs" />
+    <Compile Include="Domain\Rooms\Entity\RoomEntity.cs" />
+    <Compile Include="Domain\Rooms\Entity\Human\Gesture.cs" />
+    <Compile Include="Domain\Rooms\Entity\Posture\EntityPosture.cs" />
+    <Compile Include="Domain\Rooms\Entity\Posture\LayPosture.cs" />
+    <Compile Include="Domain\Rooms\Entity\Posture\SitPosture.cs" />
+    <Compile Include="Domain\Rooms\Entity\Posture\StandPosture.cs" />
+    <Compile Include="Domain\Rooms\Entity\Posture\SwimPosture.cs" />
+    <Compile Include="Domain\Rooms\Entity\Human\Dance.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -371,8 +372,9 @@
     <Folder Include="Test\" />
     <Folder Include="Util\" />
     <Folder Include="Domain\Rooms\Chat\" />
-    <Folder Include="Domain\Rooms\Posture\" />
     <Folder Include="Domain\Rooms\Entity\" />
+    <Folder Include="Domain\Rooms\Entity\Human\" />
+    <Folder Include="Domain\Rooms\Entity\Posture\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Yupi.Protocol\Yupi.Protocol.csproj">

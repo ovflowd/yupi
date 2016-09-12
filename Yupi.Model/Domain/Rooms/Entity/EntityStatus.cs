@@ -31,7 +31,7 @@ namespace Yupi.Model.Domain
 		{
 			Contract.Requires (posture != null);
 			this.Posture = posture;
-			this.Entity.ScheduleUpdate();
+			OnChange ();
 		}
 
 		public bool IsSitting() {
@@ -49,6 +49,10 @@ namespace Yupi.Model.Domain
 		public override string ToString ()
 		{
 			return ToStatusString(this.Posture);
+		}
+
+		protected void OnChange() {
+			this.Entity.ScheduleUpdate();
 		}
 
 		private string ToStatusString(params IStatusString[] states) {

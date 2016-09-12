@@ -9,6 +9,7 @@ using Yupi.Util;
 
 namespace Yupi.Controller
 {
+	// TODO Refactor; Class might become blob!
 	public class RoomManager
 	{
 		private List<Room> _loadedRooms;
@@ -46,15 +47,28 @@ namespace Yupi.Controller
 			Room room = GetIfLoaded (data);
 
 			if (room == null) {
-				room = new Room (data, OnRoomTick, OnEntityCreation);
+				room = new Room (data, OnRoomTick) {
+					OnEntityCreateCallback = OnEntityCreation,
+					OnHumanEntityCreate = OnHumanEntityCreation
+				};
 				_loadedRooms.Add (room);
 			}
 
 			return room;
 		}
 
+		private void OnHumanEntityCreation(HumanEntity entity) {
+			entity.OnDanceChange += OnDanceChange;
+		}
+
 		private void OnEntityCreation(RoomEntity entity) {
 			entity.OnSleepChangeCB += OnSleepChange;
+		}
+
+		private void OnDanceChange(HumanEntity entity) {
+			entity.Room.EachUser (roomSession => { 
+				roomSession.Router.GetComposer<DanceStatusMessageComposer> ().Compose (roomSession, entity.Id, entity.Dance);
+			});
 		}
 
 		private void OnSleepChange(RoomEntity entity) {

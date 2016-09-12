@@ -40,18 +40,20 @@ namespace Yupi.Model.Domain
 		[Ignore]
 		public delegate void OnEntityCreate(RoomEntity entity);
 
+		[Ignore]
+		public delegate void OnHumanEntityCreateT(HumanEntity entity);
+
 		private OnRoomTick OnTickCallback;
 
-		private OnEntityCreate OnEntityCreateCallback;
+		public OnEntityCreate OnEntityCreateCallback;
+		public OnHumanEntityCreateT OnHumanEntityCreate;
 
-		public Room (RoomData data, OnRoomTick onTickCallback, OnEntityCreate onEntityCreateCallback)
+		public Room (RoomData data, OnRoomTick onTickCallback)
 		{
 			Contract.Requires(onTickCallback != null);
-			Contract.Requires(onEntityCreateCallback != null);
 			Contract.Requires(data != null);
 
 			this.OnTickCallback = onTickCallback;
-			this.OnEntityCreateCallback = onEntityCreateCallback;
 			this.Data = data;
 			this.HeightMap = new HeightMap (this.Data.Model.Heightmap);
 
@@ -132,6 +134,7 @@ namespace Yupi.Model.Domain
 			user.RoomEntity.SetRotation (Data.Model.DoorOrientation);
 
 			this.OnEntityCreateCallback (user.RoomEntity);
+			this.OnHumanEntityCreate (user.RoomEntity);
 
 			Users.Add (user.RoomEntity);
 		}

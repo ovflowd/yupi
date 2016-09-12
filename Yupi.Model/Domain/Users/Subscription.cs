@@ -2,6 +2,7 @@ using System;
 
 namespace Yupi.Model.Domain
 {
+	// TODO HC & VIP
 	public class Subscription
 	{
 		public virtual int Id { get; protected set; }
