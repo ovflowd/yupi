@@ -12,16 +12,15 @@ namespace Yupi.Messages.User
 		public override void HandleMessage (Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
 		{
 			int targetUserId = message.GetInteger ();
-			// TODO Refactor
-			message.GetUInt32 ();
 
-			uint duration = message.GetUInt32 ();
+			message.GetUInt32 (); // TODO Unknown
+
+			int duration = message.GetInteger ();
 
 			Room room = session.Room;
-	
+
 			if (room == null
-			    || (room.Data.WhoCanBan == 0 && !room.Data.HasOwnerRights (session.Info))
-				|| (room.Data.WhoCanBan == 1 && !room.Data.HasRights (session.Info))) {
+				|| !room.Data.ModerationSettings.CanMute(session.Info)) {
 				return;
 			}
 
@@ -36,7 +35,7 @@ namespace Yupi.Messages.User
 			});
 
 			targetUser.User.Router.GetComposer<SuperNotificationMessageComposer> ()
-				.Compose (targetUser.User, T._("Notice"), string.Format (T._("room_owner_has_mute_user"), duration), "", "", "", 4); 
+				.Compose (targetUser.User, T._("Notice"), string.Format (T._("The owner of the room has muted you for {0} minutes!"), duration), "", "", "", 4); 
 		}
 	}
 }

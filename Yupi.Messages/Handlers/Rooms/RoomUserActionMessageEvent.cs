@@ -1,6 +1,4 @@
 ﻿using System;
-
-
 using Yupi.Messages.User;
 using Yupi.Model.Domain;
 
@@ -33,4 +31,3 @@ namespace Yupi.Messages.Rooms
 		}
 	}
 }
-

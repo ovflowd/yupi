@@ -55,13 +55,11 @@ namespace Yupi.Messages.Navigator
 				    && !room.Data.HasOwnerRights (session.Info)
 				    && session.TeleportingTo != room.Data) {
 
-					switch (room.Data.State) {
-					case RoomState.BELL:
-
+					if (room.Data.State == RoomState.Bell) {
 						if (room.GetUserCount () == 0) {
 							router.GetComposer<DoorbellNoOneMessageComposer> ().Compose (session);
 						} else {
-							// TODO String.Empty == 'I am ringing'
+							// TODO String.Empty == 'I am ringing' ?
 							router.GetComposer<DoorbellMessageComposer> ().Compose (session, string.Empty);
 
 							room.EachUser ((user) => {
@@ -73,13 +71,12 @@ namespace Yupi.Messages.Navigator
 
 						return;
 
-					case RoomState.LOCKED:
+					} else if(room.Data.State == RoomState.Locked) {
 						if (pWd != room.Data.Password) {
 							router.GetComposer<RoomErrorMessageComposer> ().Compose (session, -100002);
 							router.GetComposer<OutOfRoomMessageComposer> ().Compose (session);
 							return;
 						}
-						break;
 					}
 				}
 

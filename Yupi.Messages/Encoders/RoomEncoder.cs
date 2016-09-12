@@ -16,11 +16,11 @@ namespace Yupi.Messages.Encoders
 			message.AppendString (data.Name);
 			message.AppendInteger (data.Owner.Id);
 			message.AppendString (data.Owner.Name);
-			message.AppendInteger ((int)data.State);
+			message.AppendInteger (data.State.Value);
 			message.AppendInteger (room == null ? 0 : room.GetUserCount());
 			message.AppendInteger (data.UsersMax);
 			message.AppendString (data.Description);
-			message.AppendInteger (data.TradeState);
+			message.AppendInteger (data.TradeState.Value);
 			message.AppendInteger (data.Score); // Score
 			message.AppendInteger (data.Score); // Ranking Difference?
 			message.AppendInteger (data.Category.Id);
@@ -52,11 +52,17 @@ namespace Yupi.Messages.Encoders
 		}
 	
 		public static void Append(this ServerMessage message, RoomChatSettings chat) {
-			message.AppendInteger(chat.Type);
-			message.AppendInteger(chat.Balloon);
-			message.AppendInteger(chat.Speed);
+			message.AppendInteger(chat.Type.Value);
+			message.AppendInteger(chat.Balloon.Value);
+			message.AppendInteger(chat.Speed.Value);
 			message.AppendInteger(chat.MaxDistance);
-			message.AppendInteger(chat.FloodProtection);
+			message.AppendInteger(chat.FloodProtection.Value);
+		}
+
+		public static void Append(this ServerMessage message, ModerationSettings modSettings) {
+			message.AppendInteger(modSettings.WhoCanMute.Value);
+			message.AppendInteger(modSettings.WhoCanKick.Value);
+			message.AppendInteger(modSettings.WhoCanBan.Value);
 		}
 	}
 }

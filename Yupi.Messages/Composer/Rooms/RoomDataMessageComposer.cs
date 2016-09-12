@@ -20,9 +20,7 @@ namespace Yupi.Messages.Rooms
 				message.AppendBool(!isNotReload);
 				message.AppendBool(room.IsMuted);
 
-				message.AppendInteger(room.WhoCanMute);
-				message.AppendInteger(room.WhoCanKick);
-				message.AppendInteger(room.WhoCanBan);
+				message.Append (room.ModerationSettings);
 
 				message.AppendBool(room.HasOwnerRights(user));
 

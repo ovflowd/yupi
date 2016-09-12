@@ -1,106 +1,156 @@
 ﻿using System;
 
 using System.Collections.Generic;
+using Yupi.Model.Repository;
+using Yupi.Model.Domain;
+using Yupi.Model;
+using Yupi.Controller;
+using Yupi.Model.Domain.Components;
 
 
 namespace Yupi.Messages.Rooms
 {
 	public class RoomSaveSettingsMessageEvent : AbstractHandler
 	{
+		private RoomManager RoomManager;
+		private Repository<RoomData> RoomRepository;
+		private Repository<FlatNavigatorCategory> NavigatorCategoryRepository;
+
+		public RoomSaveSettingsMessageEvent ()
+		{
+			RoomManager = DependencyFactory.Resolve<RoomManager> ();
+			RoomRepository = DependencyFactory.Resolve<Repository<RoomData>> ();
+			NavigatorCategoryRepository = DependencyFactory.Resolve<Repository<FlatNavigatorCategory>> ();
+		}
+
 		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			/*
-			Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
+			int roomId = request.GetInteger();
 
-			if (room == null || !room.CheckRights(session, true))
-				return;
+			RoomData roomData = RoomRepository.FindBy (roomId);
 
-			// TODO Unused
-			request.GetInteger();
-
-			string oldName = room.RoomData.Name;
-
-			room.RoomData.Name = request.GetString();
-
-			if (room.RoomData.Name.Length < 3)
-			{
-				room.RoomData.Name = oldName;
+			if (roomData == null || !roomData.HasOwnerRights(session.Info)) {
 				return;
 			}
 
-			room.RoomData.Description = request.GetString();
-			room.RoomData.State = request.GetInteger();
+			// TODO Filter
+			string newName = request.GetString();
 
-			if (room.RoomData.State < 0 || room.RoomData.State > 2)
-			{
-				room.RoomData.State = 0;
-
-				return;
+			// TODO Magic constant
+			if (newName.Length > 2) {
+				roomData.Description = request.GetString();
 			}
-			room.RoomData.PassWord = request.GetString();
-			room.RoomData.UsersMax = request.GetUInt32();
-			room.RoomData.Category = request.GetInteger();
 
-			uint tagCount = request.GetUInt32();
+			int stateId = request.GetInteger ();
 
-			if (tagCount > 2)
-				return;
+			RoomState state;
 
-			List<string> tags = new List<string>();
+			if (RoomState.TryFromInt32 (stateId, out state)) {
+				roomData.State = state;
+			}
 
-			for (int i = 0; i < tagCount; i++)
-				tags.Add(request.GetString().ToLower());
+			roomData.Password = request.GetString();
+			roomData.UsersMax = request.GetInteger();
 
-			room.RoomData.TradeState = request.GetInteger();
-			room.RoomData.AllowPets = request.GetBool();
-			room.RoomData.AllowPetsEating = request.GetBool();
-			room.RoomData.AllowWalkThrough = request.GetBool();
-			room.RoomData.HideWall = request.GetBool();
-			room.RoomData.WallThickness = request.GetInteger();
+			int categoryId = request.GetInteger();
 
-			if (room.RoomData.WallThickness < -2 || room.RoomData.WallThickness > 1)
-				room.RoomData.WallThickness = 0;
+			FlatNavigatorCategory category = NavigatorCategoryRepository.FindBy (categoryId);
 
-			room.RoomData.FloorThickness = request.GetInteger();
+			if (category != null && category.MinRank <= session.Info.Rank) {
+				roomData.Category = category;
+			}
 
-			if (room.RoomData.FloorThickness < -2 || room.RoomData.FloorThickness > 1)
-				room.RoomData.FloorThickness = 0;
+			int tagCount = request.GetInteger();
 
-			room.RoomData.WhoCanMute = request.GetInteger();
-			room.RoomData.WhoCanKick = request.GetInteger();
-			room.RoomData.WhoCanBan = request.GetInteger();
-			room.RoomData.ChatType = request.GetInteger();
-			room.RoomData.ChatBalloon = request.GetUInt32();
-			room.RoomData.ChatSpeed = request.GetUInt32();
-			room.RoomData.ChatMaxDistance = request.GetUInt32();
+			if (tagCount <= 2) {
+				roomData.Tags.Clear ();
+	
+				for (int i = 0; i < tagCount; i++)
+					roomData.Tags.Add (request.GetString ().ToLower ());
+			}
 
-			// TODO Check this in setter!
-			if (room.RoomData.ChatMaxDistance > 90)
-				room.RoomData.ChatMaxDistance = 90;
+			TradingState tradeState;
 
-			room.RoomData.ChatFloodProtection = request.GetUInt32(); //chat_flood_sensitivity
+			if (TradingState.TryFromInt32 (request.GetInteger (), out tradeState)) {
+				roomData.TradeState = tradeState;
+			}
 
-			if (room.RoomData.ChatFloodProtection > 2)
-				room.RoomData.ChatFloodProtection = 2;
+			roomData.AllowPets = request.GetBool();
+			roomData.AllowPetsEating = request.GetBool();
+			roomData.AllowWalkThrough = request.GetBool();
 
-			request.GetBool(); //allow_dyncats_checkbox
+			bool hideWall = request.GetBool();
+			int wallThickness = request.GetInteger();
+			int floorThickness = request.GetInteger();
 
-			PublicCategory flatCat = Yupi.GetGame().GetNavigator().GetFlatCat(room.RoomData.Category);
+			if (session.Info.Subscription.IsValid ()) {
+				roomData.HideWall = hideWall;
+				roomData.WallThickness = wallThickness;
+				roomData.FloorThickness = floorThickness;
+			} else {
+				roomData.HideWall = false;
+				roomData.WallThickness = 0;
+				roomData.FloorThickness = 0;
+			}
 
-			if (flatCat == null || flatCat.MinRank > session.GetHabbo().Rank)
-				room.RoomData.Category = 0;
+			RoomModerationRight right;
 
-			room.ClearTags();
-			room.AddTagRange(tags);
+			if (RoomModerationRight.TryFromInt32 (request.GetInteger (), out right)) {
+				roomData.ModerationSettings.WhoCanMute = right;
+			}
 
-			router.GetComposer<RoomSettingsSavedMessageComposer> ().Compose (session, room.RoomId);
-			router.GetComposer<RoomUpdateMessageComposer> ().Compose (session, room.RoomId);
-			router.GetComposer<RoomFloorWallLevelsMessageComposer> ().Compose (session.GetHabbo ().CurrentRoom, room.RoomData);
-			router.GetComposer<RoomChatOptionsMessageComposer> ().Compose (session.GetHabbo ().CurrentRoom, room.RoomData);
+			if (RoomModerationRight.TryFromInt32 (request.GetInteger (), out right)) {
+				roomData.ModerationSettings.WhoCanKick = right;
+			}
 
-			router.GetComposer<RoomDataMessageComposer> ().Compose (room, room, true, true);
-			*/
-			throw new NotImplementedException ();
+			if (RoomModerationRight.TryFromInt32 (request.GetInteger (), out right)) {
+				roomData.ModerationSettings.WhoCanBan = right;
+			}
+				
+			ChatType chatType;
+
+			if (ChatType.TryFromInt32 (request.GetInteger (), out chatType)) {
+				roomData.Chat.Type = chatType;
+			}
+
+			ChatBalloon chatBalloon;
+
+			if (ChatBalloon.TryFromInt32 (request.GetInteger (), out chatBalloon)) {
+				roomData.Chat.Balloon = chatBalloon;
+			}
+				
+			ChatSpeed chatSpeed;
+
+			if (ChatSpeed.TryFromInt32 (request.GetInteger (), out chatSpeed)) {
+				roomData.Chat.Speed = chatSpeed;
+			}
+
+			int maxDistance = request.GetInteger();
+
+			if (roomData.Chat.isValidDistance (maxDistance)) {
+				roomData.Chat.SetMaxDistance(maxDistance);
+			}
+
+			FloodProtection floodProtection;
+
+			if (FloodProtection.TryFromInt32 (request.GetInteger (), out floodProtection)) {
+				roomData.Chat.FloodProtection = floodProtection;
+			}
+
+			request.GetBool(); //TODO allow_dyncats_checkbox
+
+			router.GetComposer<RoomSettingsSavedMessageComposer> ().Compose (session, roomData.Id);
+
+			Room room = RoomManager.GetIfLoaded (roomData);
+
+			if (room != null) {
+				room.EachUser (x => {
+					x.Router.GetComposer<RoomUpdateMessageComposer> ().Compose (x, roomData.Id);
+					x.Router.GetComposer<RoomFloorWallLevelsMessageComposer> ().Compose (x, roomData);
+					x.Router.GetComposer<RoomChatOptionsMessageComposer> ().Compose (x, roomData);
+					x.Router.GetComposer<RoomDataMessageComposer> ().Compose (x, roomData, x.Info, true, true);
+				});
+			}
 		}
 	}
 }

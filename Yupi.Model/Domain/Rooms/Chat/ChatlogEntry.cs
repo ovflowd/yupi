@@ -76,7 +76,7 @@ namespace Yupi.Model.Domain
 		{
 			// TODO Cache
 			// Default is Gesture.None (because it has the value 0)
-			return Emotions.FirstOrDefault (x => Message.Contains(x.Key)).Value;
+			return Emotions.FirstOrDefault (x => Message.Contains(x.Key)).Value ?? Gesture.None;
 		}
 
 		public virtual string FilteredMessage() {

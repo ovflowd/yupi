@@ -27,15 +27,25 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 using Yupi.Model.Domain.Components;
+using Headspring;
 
 
 namespace Yupi.Model.Domain
 {
-	public enum RoomState
+	public class RoomState : Enumeration<RoomState>
 	{
-		OPEN,
-		BELL,
-		LOCKED
+		public static readonly RoomState Open = new RoomState (0, "Open");
+		public static readonly RoomState Bell = new RoomState (1, "Bell");
+		public static readonly RoomState Locked = new RoomState (2, "Locked");
+
+		/// <summary>
+		/// Invisible in navigator to users without rights
+		/// </summary>
+		public static readonly RoomState Invisible = new RoomState (3, "Invisible");
+
+		public RoomState (int value, string displayName) : base (value, displayName)
+		{
+		}
 	}
 
 	public class RoomData
@@ -90,10 +100,6 @@ namespace Yupi.Model.Domain
 
 		public virtual RoomEvent Event { get; set; }
 
-		/// <summary>
-		///     Room Flor Thickness
-		/// </summary>
-		public virtual int FloorThickness { get; set; }
 
 		public virtual Group Group { get; set;}
 
@@ -134,8 +140,7 @@ namespace Yupi.Model.Domain
 		[OneToMany]
 		public virtual IList<string> Tags { get; protected set; }
 
-		// TODO Enum private/public
-		public virtual int TradeState { get; set; }
+		public virtual TradingState TradeState { get; set; }
 
 		// TODO Enum private/public
 		public virtual string Type { get; set; }
@@ -153,28 +158,13 @@ namespace Yupi.Model.Domain
 		public virtual float Floor { get; set; }
 		public virtual float LandScape { get; set; }
 
-		/// <summary>
-		///     Room Wall Tchickness
-		/// </summary>
+		// TODO Enum
 		public virtual int WallThickness { get; set; }
-
-		// TODO Use enum?
-		/// <summary>
-		///     Who Can Ban Users in Room
-		/// </summary>
-		public virtual int WhoCanBan { get; set; }
-
-		/// <summary>
-		///     Who Can Kick Users in Room
-		/// </summary>
-		public virtual int WhoCanKick { get; set; }
-
-		/// <summary>
-		///     Who Can Mute Users in Room
-		/// </summary>
-		public virtual int WhoCanMute { get; set; }
+		public virtual int FloorThickness { get; set; }
 
 		public virtual bool IsMuted { get; set; }
+
+		public virtual ModerationSettings ModerationSettings { get; protected set; }
 
 		/// <summary>
 		///     Room Private Black Words
@@ -204,7 +194,7 @@ namespace Yupi.Model.Domain
 			AllowWalkThrough = true;
 			HideWall = false;
 			AllowRightsOverride = false;
-			TradeState = 2;
+			TradeState = TradingState.NotAllowed;
 			WordFilter = new List<string> ();
 			Rights = new List<UserInfo> ();
 			MutedEntities = new List<RoomMute> ();
@@ -212,6 +202,8 @@ namespace Yupi.Model.Domain
 			BannedUsers = new List<UserInfo> ();
 			WallHeight = -1;
 			Chatlog = new List<ChatlogEntry> ();
+			ModerationSettings = new ModerationSettings (this);
+			State = RoomState.Open;
 		}
 			
 		public virtual RoomFlags GetFlags() {

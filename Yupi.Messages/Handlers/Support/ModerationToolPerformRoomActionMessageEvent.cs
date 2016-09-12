@@ -42,7 +42,7 @@ namespace Yupi.Messages.Support
 			}
 
 			if (lockRoom) {
-				roomData.State = RoomState.LOCKED;
+				roomData.State = RoomState.Locked;
 			}
 
 			Room room = null;

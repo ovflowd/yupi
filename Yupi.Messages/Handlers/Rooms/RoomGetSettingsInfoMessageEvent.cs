@@ -1,20 +1,29 @@
 ﻿using System;
+using Yupi.Model.Domain;
+using Yupi.Model.Repository;
+using Yupi.Model;
 
 
 namespace Yupi.Messages.Rooms
 {
 	public class RoomGetSettingsInfoMessageEvent : AbstractHandler
 	{
+		private Repository<RoomData> RoomRepository;
+
+		public RoomGetSettingsInfoMessageEvent ()
+		{
+			RoomRepository = DependencyFactory.Resolve<Repository<RoomData>> ();
+		}
+
 		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			/*
-			Room room = Yupi.GetGame().GetRoomManager().GetRoom(request.GetUInt32());
-			if (room == null)
-				return;
+			int roomId = request.GetInteger();
 
-			router.GetComposer<RoomSettingsDataMessageComposer> ().Compose (session, room);
-			*/
-			throw new NotImplementedException ();
+			RoomData room = RoomRepository.FindBy (roomId);
+
+			if (room != null && room.HasOwnerRights(session.Info)) {
+				router.GetComposer<RoomSettingsDataMessageComposer> ().Compose (session, room);
+			}
 		}
 	}
 }

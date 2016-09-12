@@ -25,11 +25,13 @@ namespace Yupi.Messages.Rooms
 			string roomModel = request.GetString();
 			int categoryId = request.GetInteger();
 			int maxVisitors = request.GetInteger();
-			int tradeState = request.GetInteger();
+			int tradeStateId = request.GetInteger();
 
 			RoomModel model;
+			TradingState tradeState;
 
-			if (!RoomModel.TryParse (roomModel, out model)) {
+			if (!RoomModel.TryParse (roomModel, out model) 
+				|| !TradingState.TryFromInt32(tradeStateId, out tradeState)) {
 				return;
 			}
 

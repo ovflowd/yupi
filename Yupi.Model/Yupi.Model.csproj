@@ -364,6 +364,13 @@
     <Compile Include="Domain\Rooms\Entity\Posture\SwimPosture.cs" />
     <Compile Include="Domain\Rooms\Entity\Human\Dance.cs" />
     <Compile Include="Domain\Rooms\Entity\Human\Sign.cs" />
+    <Compile Include="Domain\Rooms\TradingState.cs" />
+    <Compile Include="Domain\Rooms\RoomModerationRight.cs" />
+    <Compile Include="Domain\Rooms\Components\ModerationSettings.cs" />
+    <Compile Include="Domain\Rooms\Chat\ChatType.cs" />
+    <Compile Include="Domain\Rooms\Chat\ChatBalloon.cs" />
+    <Compile Include="Domain\Rooms\Chat\ChatSpeed.cs" />
+    <Compile Include="Domain\Rooms\Chat\FloodProtection.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -14,17 +14,16 @@ namespace Yupi.Messages.Rooms
 				message.AppendInteger(room.Id);
 				message.AppendString(room.Name);
 				message.AppendString(room.Description);
-				message.AppendInteger((int)room.State);
+				message.AppendInteger(room.State.Value);
 				message.AppendInteger(room.Category.Id);
 				message.AppendInteger(room.UsersMax);
-				throw new NotImplementedException ();
-				//message.AppendInteger(room.Model.MapSizeX*room.Model.MapSizeY > 200 ? 50 : 25); // TODO Magic number
+				message.AppendInteger(0); // unused
 				message.AppendInteger(room.Tags.Count);
 
 				foreach (string s in room.Tags)
 					message.AppendString(s);
 
-				message.AppendInteger(room.TradeState);
+				message.AppendInteger(room.TradeState.Value);
 				message.AppendInteger(room.AllowPets);
 				message.AppendInteger(room.AllowPetsEating);
 				message.AppendInteger(room.AllowWalkThrough);
@@ -32,11 +31,8 @@ namespace Yupi.Messages.Rooms
 				message.AppendInteger(room.WallThickness);
 				message.AppendInteger(room.FloorThickness);
 				message.Append(room.Chat);
-				message.AppendInteger(room.Chat.FloodProtection > 2 ? 2 : room.Chat.FloodProtection);
-				message.AppendBool(false); //allow_dyncats_checkbox
-				message.AppendInteger(room.WhoCanMute);
-				message.AppendInteger(room.WhoCanKick);
-				message.AppendInteger(room.WhoCanBan);
+				message.AppendBool(false); //TODO allow_dyncats_checkbox
+				message.Append(room.ModerationSettings);
 				session.Send (message);
 			}
 		}
