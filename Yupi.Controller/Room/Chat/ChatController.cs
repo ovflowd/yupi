@@ -40,9 +40,8 @@ namespace Yupi.Controller
 			if (!Validate (ref message) || TryHandleCommand (message) || !bubble.CanUse (session.Info)) {
 				return;
 			}
-
-			// TODO Implement
-			// session.RoomEntity.UnIdle();
+				
+			session.RoomEntity.Wake();
 
 			ChatlogEntry entry = CreateEntry (session, message, bubble);
 			entry.Whisper = true;
@@ -94,8 +93,7 @@ namespace Yupi.Controller
 				return;
 			}
 
-			// TODO Implement
-			// session.RoomEntity.UnIdle();
+			session.RoomEntity.Wake();
 
 			ChatlogEntry entry = CreateEntry (session, message, bubble);
 

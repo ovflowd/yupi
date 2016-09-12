@@ -362,6 +362,7 @@
     <Compile Include="Domain\Rooms\Entity\UserEntity.cs" />
     <Compile Include="Domain\Rooms\Entity\HumanEntity.cs" />
     <Compile Include="Domain\Rooms\Entity\PetStatus.cs" />
+    <Compile Include="Domain\Rooms\Entity\UserAction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

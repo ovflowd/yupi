@@ -25,8 +25,7 @@ namespace Yupi.Messages.Rooms
 
 			session.RoomEntity.SetRotation (rotation);
 
-			// TODO Implement
-			//session.RoomEntity.UnIdle();
+			session.RoomEntity.Wake();
 
 			// TODO Implement Horse
 			/*

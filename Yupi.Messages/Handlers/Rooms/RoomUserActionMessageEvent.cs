@@ -2,36 +2,34 @@
 
 
 using Yupi.Messages.User;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Rooms
 {
 	public class RoomUserActionMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			/*
-			Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
-			RoomUser roomUserByHabbo = room?.GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().Id);
-
-			if (roomUserByHabbo == null)
+			if (session.RoomEntity == null)
 				return;
 
-			roomUserByHabbo.UnIdle();
+			int actionId = request.GetInteger ();
 
-			// TODO Number meaning?
-			int num = request.GetInteger();
+			UserAction action;
 
-			roomUserByHabbo.DanceId = 0;
-
-			router.GetComposer<RoomUserActionMessageComposer> ().Compose (room, roomUserByHabbo.VirtualId, num);
-
-			if (num == 5)
-			{
-				roomUserByHabbo.IsAsleep = true;
-				router.GetComposer<RoomUserIdleMessageComposer> ().Compose (room, roomUserByHabbo.VirtualId, roomUserByHabbo.IsAsleep);
+			if (!UserAction.TryParse (actionId, out action)) {
+				return;
 			}
-			*/
-			throw new NotImplementedException ();
+				
+			if (action == UserAction.Idle) {
+				session.RoomEntity.Sleep ();
+			} else {
+				session.RoomEntity.Wake ();
+
+				session.RoomEntity.Room.EachUser (roomSession => { 
+					roomSession.Router.GetComposer<RoomUserActionMessageComposer> ().Compose (roomSession, session.RoomEntity.Id, action);
+				});
+			}
 		}
 	}
 }

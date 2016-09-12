@@ -20,6 +20,8 @@ namespace Yupi.Messages.Rooms
 				return;
 			}
 
+			entity.Wake ();
+
 			// TODO Implement pathfinder
 			// Teleport
 			Vector3 position = entity.Position;

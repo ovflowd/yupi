@@ -47,7 +47,6 @@ namespace Yupi.Messages.User
 			room.EachUser (
 				(roomSession) => {
 					roomSession.Router.GetComposer<GiveRespectsMessageComposer> ().Compose (roomSession, roomUserByHabbo.Id, roomUserByHabbo.UserInfo.Respect.Respect);
-					roomSession.Router.GetComposer<RoomUserActionMessageComposer> ().Compose (roomSession, roomUserByHabbo.Id);
 				}
 			);
 

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Diagnostics;
 using Yupi.Model.Domain.Components;
 using System.Threading;
+using System.Diagnostics.Contracts;
 
 namespace Yupi.Model.Domain
 {
@@ -36,16 +37,21 @@ namespace Yupi.Model.Domain
 
 		[Ignore]
 		public delegate void OnRoomTick (Room room, List<RoomEntity> changes);
+		[Ignore]
+		public delegate void OnEntityCreate(RoomEntity entity);
 
 		private OnRoomTick OnTickCallback;
 
-		public Room (RoomData data, OnRoomTick onTickCallback)
+		private OnEntityCreate OnEntityCreateCallback;
+
+		public Room (RoomData data, OnRoomTick onTickCallback, OnEntityCreate onEntityCreateCallback)
 		{
-			if (data == null) {
-				throw new ArgumentNullException ();
-			}
+			Contract.Requires(onTickCallback != null);
+			Contract.Requires(onEntityCreateCallback != null);
+			Contract.Requires(data != null);
 
 			this.OnTickCallback = onTickCallback;
+			this.OnEntityCreateCallback = onEntityCreateCallback;
 			this.Data = data;
 			this.HeightMap = new HeightMap (this.Data.Model.Heightmap);
 
@@ -124,6 +130,9 @@ namespace Yupi.Model.Domain
 			user.RoomEntity = new UserEntity (user, this, ++entityIdCounter);
 			user.RoomEntity.SetPosition (Data.Model.Door);
 			user.RoomEntity.SetRotation (Data.Model.DoorOrientation);
+
+			this.OnEntityCreateCallback (user.RoomEntity);
+
 			Users.Add (user.RoomEntity);
 		}
 

@@ -159,6 +159,7 @@ namespace Yupi.Controller
 			// FIXME
 		}
 
+		// TODO Enum?
 		public bool ProgressUserAchievement (UserInfo info, string achievementGroup, int progressAmount) {
 			Habbo session = ClientManager.GetByInfo (info);
 			return ProgressUserAchievement (info, achievementGroup, progressAmount, session);

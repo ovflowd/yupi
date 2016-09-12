@@ -46,11 +46,21 @@ namespace Yupi.Controller
 			Room room = GetIfLoaded (data);
 
 			if (room == null) {
-				room = new Room (data, OnRoomTick);
+				room = new Room (data, OnRoomTick, OnEntityCreation);
 				_loadedRooms.Add (room);
 			}
 
 			return room;
+		}
+
+		private void OnEntityCreation(RoomEntity entity) {
+			entity.OnSleepChangeCB += OnSleepChange;
+		}
+
+		private void OnSleepChange(RoomEntity entity) {
+			entity.Room.EachUser (roomSession => { 
+				roomSession.Router.GetComposer<RoomUserIdleMessageComposer> ().Compose (roomSession, entity.Id, entity.IsAsleep);
+			});
 		}
 
 		private void OnRoomTick (Room room, List<RoomEntity> changes)

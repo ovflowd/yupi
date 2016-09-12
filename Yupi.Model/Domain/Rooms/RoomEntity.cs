@@ -17,10 +17,15 @@ namespace Yupi.Model.Domain
 		public int RotBody { get; private set; }
 		public Room Room { get; private set; }
 		public bool NeedsUpdate { get; private set; }
+		public bool IsAsleep { get; private set; }
 
 		public abstract EntityType Type { get; }
 		public abstract BaseInfo BaseInfo { get; }
 		public abstract EntityStatus Status { get; }
+
+		[Ignore]
+		public delegate void OnSleepChange(RoomEntity entity);
+		public OnSleepChange OnSleepChangeCB { get; set; }
 
 		public RoomEntity (Room room, int id)
 		{
@@ -78,6 +83,20 @@ namespace Yupi.Model.Domain
 
 		internal void UpdateComplete() {
 			NeedsUpdate = false;
+		}
+
+		public void Sleep() {
+			if (!this.IsAsleep) {
+				this.IsAsleep = true;
+				OnSleepChangeCB (this);
+			}
+		}
+
+		public void Wake() {
+			if (this.IsAsleep) {
+				this.IsAsleep = false;
+				OnSleepChangeCB (this);
+			}
 		}
 	}
 }
