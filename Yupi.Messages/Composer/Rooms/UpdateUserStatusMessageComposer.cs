@@ -20,7 +20,15 @@ namespace Yupi.Messages.Rooms
 					message.Append(entity.Position);
 					message.AppendInteger(entity.RotHead);
 					message.AppendInteger(entity.RotBody);
-					message.AppendString(string.Empty); // TODO Extra Data
+					message.AppendString(entity.Status.ToString()); // TODO Extra Data
+
+					// TODO Implement states:
+					// mv x,y,z
+					// sign Model.Domain.Sign
+					// (probably human & pet?) gst Model.Domain.Gesture#DisplayName
+					// (probably pet only) gst Model.Domain.PetGesture#DisplayName
+					// wav
+					// trd
 				}
 
 				session.Send (message);

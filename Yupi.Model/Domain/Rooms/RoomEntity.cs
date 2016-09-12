@@ -2,6 +2,7 @@
 using Yupi.Model.Domain.Components;
 using Yupi.Protocol;
 using System.Numerics;
+using System.Collections.Generic;
 
 namespace Yupi.Model.Domain
 {
@@ -15,17 +16,16 @@ namespace Yupi.Model.Domain
 		public int RotHead { get; private set; }
 		public int RotBody { get; private set; }
 		public Room Room { get; private set; }
-		public bool CanWalk { get; private set; }
 		public bool NeedsUpdate { get; private set; }
 
 		public abstract EntityType Type { get; }
 		public abstract BaseInfo BaseInfo { get; }
+		public abstract EntityStatus Status { get; }
 
 		public RoomEntity (Room room, int id)
 		{
 			this.Id = id;
 			this.Room = room;
-			this.CanWalk = true;
 		}
 
 		public virtual void OnRoomExit () {
@@ -40,6 +40,11 @@ namespace Yupi.Model.Domain
 			// TODO Should only be temporary
 			// TODO Add distance calculation!
 			SetHeadRotation (rotation);
+		}
+
+		public bool CanWalk() {
+			// TODO Implement
+			return true;
 		}
 
 		public void SetHeadRotation(int rotation) {
@@ -67,7 +72,7 @@ namespace Yupi.Model.Domain
 			ScheduleUpdate ();
 		}
 
-		private void ScheduleUpdate() {
+		internal void ScheduleUpdate() {
 			NeedsUpdate = true;
 		}
 

@@ -4,7 +4,7 @@ using Yupi.Model.Domain;
 namespace Yupi.Model.Domain
 {
 	[Ignore]
-	public class BotEntity : RoomEntity
+	public class BotEntity : HumanEntity
 	{
 		public BotInfo Info { get; set; }
 

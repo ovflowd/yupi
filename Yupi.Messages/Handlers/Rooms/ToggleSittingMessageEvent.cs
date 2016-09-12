@@ -1,35 +1,34 @@
 ﻿using System;
+using System.Numerics;
+using Yupi.Model.Domain;
 
 
 namespace Yupi.Messages.Rooms
 {
 	public class ToggleSittingMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		public override void HandleMessage (Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
 		{
-			/*
-			RoomUser user = session.GetHabbo().CurrentRoom.GetRoomUserManager().GetRoomUserByHabbo(session.GetHabbo().Id);
-
-			if (user == null)
+			if (session.RoomEntity == null) {
 				return;
-
-			if (user.Statusses.ContainsKey("lay") || user.IsLyingDown || user.RidingHorse || user.IsWalking)
-				return;
-
-			if (user.RotBody%2 != 0)
-				user.RotBody--;
-
-			user.Z = session.GetHabbo().CurrentRoom.GetGameMap().SqAbsoluteHeight(user.X, user.Y);
-
-			if (!user.Statusses.ContainsKey("sit"))
-			{
-				user.Statusses.Add("sit", "0.55");
-				user.UpdateNeeded = true;
-				user.IsSitting = true;
 			}
-*/
-			throw new NotImplementedException ();
-			// TODO Shouldn't this TOGGLE?
+
+			if (session.RoomEntity.RotBody % 2 != 0) {
+				session.RoomEntity.SetRotation (session.RoomEntity.RotBody - 1);
+			}
+
+			Vector3 position = session.RoomEntity.Position;
+			position.Z = session.Room.HeightMap.GetTileHeight (session.RoomEntity.Position);
+			session.RoomEntity.SetPosition (position);
+
+			EntityStatus status = session.RoomEntity.Status;
+
+			if (status.IsSitting ()) {
+				status.Stand ();
+			} else {
+				// TODO Stop dancing
+				status.Sit();
+			}
 		}
 	}
 }

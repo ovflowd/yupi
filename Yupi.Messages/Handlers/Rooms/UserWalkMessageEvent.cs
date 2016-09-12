@@ -16,7 +16,7 @@ namespace Yupi.Messages.Rooms
 
 			RoomEntity entity = session.RoomEntity;
 
-			if (entity == null || !entity.CanWalk || entity.Position.Equals(new Vector2 (targetX, targetY))) {
+			if (entity == null || !entity.CanWalk() || entity.Position.Equals(new Vector2 (targetX, targetY))) {
 				return;
 			}
 

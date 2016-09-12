@@ -9,7 +9,7 @@ namespace Yupi.Messages.Encoders
 		public static void Append(this ServerMessage message, ChatlogEntry entry, int count) {
 			message.AppendInteger (entry.User.Id);
 			message.AppendString (entry.FilteredMessage());
-			message.AppendInteger ((int)entry.GetEmotion());
+			message.AppendInteger (entry.GetEmotion().Value);
 			message.AppendInteger (entry.Bubble.Value);
 
 			// Replaces placeholders the way String.Format does: {0}

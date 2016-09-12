@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 
 namespace Yupi.Model.Domain
 {
@@ -76,6 +77,10 @@ namespace Yupi.Model.Domain
 		public short GetTileHeight (int index)
 		{
 			return Map [index];
+		}
+
+		public short GetTileHeight(Vector3 position) {
+			return GetTileHeight ((int)position.X, (int)position.Y);
 		}
 	}
 }

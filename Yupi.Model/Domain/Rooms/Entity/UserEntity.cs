@@ -4,7 +4,7 @@ using Yupi.Model.Domain;
 namespace Yupi.Model.Domain
 {
 	[Ignore]
-	public class UserEntity : RoomEntity
+	public class UserEntity : HumanEntity
 	{
 		public UserInfo UserInfo { 
 			get { 

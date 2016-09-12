@@ -14,49 +14,49 @@ namespace Yupi.Model.Domain
 		public virtual IList<Link> Links { get; protected set; }
 		public virtual bool Whisper { get; set; }
 
-		private static Dictionary<string, ChatEmotion> Emotions;
+		private static Dictionary<string, Gesture> Emotions;
 
 		static ChatlogEntry() {
-			Emotions = new Dictionary<string, ChatEmotion>
+			Emotions = new Dictionary<string, Gesture>
 			{
 				// Smile
-				{":)", ChatEmotion.Smile},
-				{";)", ChatEmotion.Smile},
-				{":d", ChatEmotion.Smile},
-				{";d", ChatEmotion.Smile},
-				{":]", ChatEmotion.Smile},
-				{";]", ChatEmotion.Smile},
-				{"=)", ChatEmotion.Smile},
-				{"=]", ChatEmotion.Smile},
-				{":-)", ChatEmotion.Smile},
+				{":)", Gesture.Smile},
+				{";)", Gesture.Smile},
+				{":d", Gesture.Smile},
+				{";d", Gesture.Smile},
+				{":]", Gesture.Smile},
+				{";]", Gesture.Smile},
+				{"=)", Gesture.Smile},
+				{"=]", Gesture.Smile},
+				{":-)", Gesture.Smile},
 
 				// Angry
-				{">:(", ChatEmotion.Angry},
-				{">:[", ChatEmotion.Angry},
-				{">;[", ChatEmotion.Angry},
-				{">;(", ChatEmotion.Angry},
-				{">=(", ChatEmotion.Angry},
-				{":@", ChatEmotion.Angry},
+				{">:(", Gesture.Angry},
+				{">:[", Gesture.Angry},
+				{">;[", Gesture.Angry},
+				{">;(", Gesture.Angry},
+				{">=(", Gesture.Angry},
+				{":@", Gesture.Angry},
 
-				// Shocked
-				{":o", ChatEmotion.Shocked},
-				{";o", ChatEmotion.Shocked},
-				{">;o", ChatEmotion.Shocked},
-				{">:o", ChatEmotion.Shocked},
-				{"=o", ChatEmotion.Shocked},
-				{">=o", ChatEmotion.Shocked},
+				// Surprised
+				{":o", Gesture.Surprised},
+				{";o", Gesture.Surprised},
+				{">;o", Gesture.Surprised},
+				{">:o", Gesture.Surprised},
+				{"=o", Gesture.Surprised},
+				{">=o", Gesture.Surprised},
 
 				// Sad
-				{";'(", ChatEmotion.Sad},
-				{";[", ChatEmotion.Sad},
-				{":[", ChatEmotion.Sad},
-				{";(", ChatEmotion.Sad},
-				{"=(", ChatEmotion.Sad},
-				{"='(", ChatEmotion.Sad},
-				{"=[", ChatEmotion.Sad},
-				{"='[", ChatEmotion.Sad},
-				{":(", ChatEmotion.Sad},
-				{":-(", ChatEmotion.Sad}
+				{";'(", Gesture.Sad},
+				{";[", Gesture.Sad},
+				{":[", Gesture.Sad},
+				{";(", Gesture.Sad},
+				{"=(", Gesture.Sad},
+				{"='(", Gesture.Sad},
+				{"=[", Gesture.Sad},
+				{"='[", Gesture.Sad},
+				{":(", Gesture.Sad},
+				{":-(", Gesture.Sad}
 			};
 		}
 
@@ -72,10 +72,10 @@ namespace Yupi.Model.Domain
 			Timestamp = DateTime.Now;
 		}
 
-		public virtual ChatEmotion GetEmotion()
+		public virtual Gesture GetEmotion()
 		{
 			// TODO Cache
-			// Default is ChatEmotion.None (because it has the value 0)
+			// Default is Gesture.None (because it has the value 0)
 			return Emotions.FirstOrDefault (x => Message.Contains(x.Key)).Value;
 		}
 
