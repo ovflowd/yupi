@@ -3,6 +3,7 @@ using Yupi.Messages.Items;
 using Yupi.Model.Domain;
 using Yupi.Messages.User;
 using System.Collections.Generic;
+using System.Linq;
 
 
 
@@ -43,9 +44,13 @@ namespace Yupi.Messages.Rooms
 				//Yupi.GetGame().GetRoomEvents().SerializeEventInfo(CurrentLoadingRoom.RoomId);
 
 				foreach (RoomEntity entity in session.Room.Users) {
+
+					if (entity is HumanEntity) {
+						router.GetComposer<DanceStatusMessageComposer> ().Compose (session, entity.Id, ((HumanEntity)entity).Dance);
+					}
+					router.GetComposer<RoomUserIdleMessageComposer>().Compose(session, entity.Id, entity.IsAsleep);
+
 					// TODO Implement
-					//DanceStatusMessageComposer
-					//RoomUserIdleMessageComposer
 					//ApplyHanditemMessageComposer
 					//ApplyEffectMessageComposer
 				}

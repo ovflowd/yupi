@@ -79,6 +79,10 @@ namespace Yupi.Controller
 
 		private void OnRoomTick (Room room, List<RoomEntity> changes)
 		{
+			if (changes.Count == 0) {
+				return;
+			}
+
 			room.EachUser (
 				(session) => {
 					session.Router.GetComposer<UpdateUserStatusMessageComposer> ()
