@@ -340,7 +340,6 @@
     <Compile Include="Vector3UserType.cs" />
     <Compile Include="Util\Vector2Ext.cs" />
     <Compile Include="Domain\Rooms\Chat\ChatBubbleStyle.cs" />
-    <Compile Include="Domain\Rooms\Chat\ChatlogEntry.cs" />
     <Compile Include="Domain\Rooms\Chat\Link.cs" />
     <Compile Include="Domain\Util\BaseInfo.cs" />
     <Compile Include="Domain\Rooms\Pets\PetGesture.cs" />
@@ -371,6 +370,7 @@
     <Compile Include="Domain\Rooms\Chat\ChatBalloon.cs" />
     <Compile Include="Domain\Rooms\Chat\ChatSpeed.cs" />
     <Compile Include="Domain\Rooms\Chat\FloodProtection.cs" />
+    <Compile Include="Domain\Rooms\Chat\ChatMessage.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

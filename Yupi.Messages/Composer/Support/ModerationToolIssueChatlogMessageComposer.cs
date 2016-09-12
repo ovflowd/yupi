@@ -35,7 +35,7 @@ namespace Yupi.Messages.Support
 				message.AppendShort((short)count);
 
 				for (int i = 1; i <= count; ++i) {
-					ChatlogEntry entry = ticket.Room.Chatlog [ticket.Room.Chatlog.Count - i];
+					ChatMessage entry = ticket.Room.Chatlog [ticket.Room.Chatlog.Count - i];
 					message.AppendInteger((int)(DateTime.Now - entry.Timestamp).TotalMilliseconds);
 					message.AppendInteger(entry.User.Id);
 					message.AppendString(entry.User.Name);

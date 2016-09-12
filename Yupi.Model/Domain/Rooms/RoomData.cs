@@ -117,7 +117,7 @@ namespace Yupi.Model.Domain
 
 		// TODO Implement bans with time & expire on server ticks?
 		public virtual IList<UserInfo> BannedUsers { get; protected set; }
-		public virtual IList<ChatlogEntry> Chatlog { get; protected set; }
+		public virtual IList<ChatMessage> Chatlog { get; protected set; }
 
 		/// <summary>
 		///     Room Password
@@ -201,7 +201,7 @@ namespace Yupi.Model.Domain
 			Chat = new RoomChatSettings ();
 			BannedUsers = new List<UserInfo> ();
 			WallHeight = -1;
-			Chatlog = new List<ChatlogEntry> ();
+			Chatlog = new List<ChatMessage> ();
 			ModerationSettings = new ModerationSettings (this);
 			State = RoomState.Open;
 		}

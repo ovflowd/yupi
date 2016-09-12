@@ -6,8 +6,8 @@ namespace Yupi.Messages.Encoders
 {
 	public static class ChatEncoder
 	{
-		public static void Append(this ServerMessage message, ChatlogEntry entry, int count) {
-			message.AppendInteger (entry.User.Id);
+		public static void Append(this ServerMessage message, ChatMessage entry, int count) {
+			message.AppendInteger (entry.Entity.Id);
 			message.AppendString (entry.FilteredMessage());
 			message.AppendInteger (entry.GetEmotion().Value);
 			message.AppendInteger (entry.Bubble.Value);

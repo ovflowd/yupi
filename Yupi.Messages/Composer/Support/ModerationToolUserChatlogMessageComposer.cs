@@ -32,7 +32,7 @@ namespace Yupi.Messages.Support
 
 					message.AppendShort ((short)room.Chatlog.Count);
 
-					foreach (ChatlogEntry chat in room.Chatlog) {
+					foreach (ChatMessage chat in room.Chatlog) {
 						message.AppendInteger ((int)(DateTime.Now - chat.Timestamp).TotalSeconds);
 
 						message.AppendInteger (chat.User.Id);

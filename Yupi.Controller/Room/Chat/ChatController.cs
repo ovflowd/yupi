@@ -43,7 +43,7 @@ namespace Yupi.Controller
 				
 			session.RoomEntity.Wake();
 
-			ChatlogEntry entry = CreateEntry (session, message, bubble);
+			ChatMessage entry = CreateMessage (session, message, bubble);
 			entry.Whisper = true;
 			// TODO Save Whisper target
 			// TODO Save Chatlog
@@ -76,18 +76,19 @@ namespace Yupi.Controller
 			});
 		}
 
-		private ChatlogEntry CreateEntry (Habbo session, string message, ChatBubbleStyle bubble)
+		private ChatMessage CreateMessage (Habbo session, string message, ChatBubbleStyle bubble)
 		{
-			ChatlogEntry entry = new ChatlogEntry (message) {
-				User = session.Info,
-				Bubble = bubble
+			ChatMessage msg = new ChatMessage (message) {
+				Entity = session.RoomEntity,
+				Bubble = bubble,
+				User = session.Info
 			};
 
-			session.Room.Data.Chatlog.Add (entry);
-			return entry;
+			session.Room.Data.Chatlog.Add (msg);
+			return msg;
 		}
 
-		private void Chat (Habbo session, string message, ChatBubbleStyle bubble, Action<Habbo, ChatlogEntry> composer)
+		private void Chat (Habbo session, string message, ChatBubbleStyle bubble, Action<Habbo, ChatMessage> composer)
 		{
 			if (!Validate (ref message) || TryHandleCommand (message) || !bubble.CanUse (session.Info)) {
 				return;
@@ -95,7 +96,7 @@ namespace Yupi.Controller
 
 			session.RoomEntity.Wake();
 
-			ChatlogEntry entry = CreateEntry (session, message, bubble);
+			ChatMessage entry = CreateMessage (session, message, bubble);
 
 			session.Info.Preferences.ChatBubbleStyle = bubble;
 			// TODO Save Preferences
