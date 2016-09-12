@@ -1,4 +1,8 @@
 ﻿using System;
+using Yupi.Controller;
+using Yupi.Model.Domain;
+using Yupi.Model.Repository;
+using Yupi.Model;
 
 
 
@@ -6,25 +10,25 @@ namespace Yupi.Messages.Rooms
 {
 	public class SetHomeRoomMessageEvent : AbstractHandler
 	{
-		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		private Repository<RoomData> RoomRepository;
+		private Repository<UserInfo> UserRepository;
+
+		public SetHomeRoomMessageEvent ()
 		{
-			uint roomId = request.GetUInt32();
+			RoomRepository = DependencyFactory.Resolve<Repository<RoomData>> ();
+			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>> ();
+		}
 
-			/*
-			RoomData data = Yupi.GetGame().GetRoomManager().GenerateRoomData(roomId);
+		public override void HandleMessage (Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		{
+			int roomId = request.GetInteger ();
 
-			if (roomId != 0 && data == null)
-			{
-				session.GetHabbo().HomeRoom = roomId;
+			RoomData room = RoomRepository.FindBy (roomId);
 
-				using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-					queryReactor.RunFastQuery(string.Concat("UPDATE users SET home_room = ", roomId,
-						" WHERE id = ", session.GetHabbo().Id));
-
-				router.GetComposer<HomeRoomMessageComposer> ().Compose (session, roomId);
+			if (room != null) {
+				session.Info.HomeRoom = room;
+				UserRepository.Save (session.Info);
 			}
-			*/
-			throw new NotImplementedException ();
 		}
 	}
 }
