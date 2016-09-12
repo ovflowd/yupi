@@ -6,6 +6,8 @@ using Yupi.Model.Repository;
 using Yupi.Model;
 using System.Linq;
 using System.Linq.Expressions;
+using Yupi.Util;
+using NHibernate.Criterion;
 
 namespace Yupi.Controller
 {
@@ -53,7 +55,32 @@ namespace Yupi.Controller
 
 		protected virtual Expression<Func<RoomData, bool>> GetRoomPredicate (string query, UserInfo user)
 		{
-			return x => x.Name.StartsWith(query) && x.Category is T;
+			Expression<Func<RoomData, bool>> predicate = (x => x.Category is T);
+
+			string filter = "";
+			string[] values = query.Split(' ');
+
+			if (query.Contains (":")) {
+				string[] args = query.Split (new char[] { ':' }, 2);
+
+				if (args.Length >= 2) {
+					filter = args [0];
+					values = args [1].Split (' ');
+				}
+			}
+
+			// TODO Refactor (I don't really like this...)
+			switch (filter) {
+			case "owner":
+				return predicate.AndAlso (x => x.Owner.Name == values [0]);
+			case "tag":
+				return predicate.AndAlso (x => x.Tags.Any (tag => values.Contains (tag)));
+			case "roomname":
+			default:
+				return predicate.AndAlso (x => x.Name.IsIn (values));
+			case "group":
+				return predicate.AndAlso (x => x.Group.Name.IsIn (values));
+			}
 		}
 
 		public override IDictionary<NavigatorCategory, IList<RoomData>> GetCategories (string query, UserInfo user)
