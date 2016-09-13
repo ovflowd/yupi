@@ -72,6 +72,9 @@
     <Reference Include="Config.Net">
       <HintPath>..\packages\Config.Net.1.3.0.244\lib\net45\Config.Net.dll</HintPath>
     </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

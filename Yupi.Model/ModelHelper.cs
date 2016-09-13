@@ -78,6 +78,7 @@ namespace Yupi.Model
 			// TODO Use https://github.com/schambers/fluentmigrator/
 			// @see http://stackoverflow.com/questions/5884359/fluent-nhibernate-create-database-schema-only-if-not-existing
 
+			SchemaMetadataUpdater.QuoteTableAndColumns(config);
 			new SchemaUpdate (config).Execute (false, true);
 		}
 
