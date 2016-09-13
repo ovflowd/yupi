@@ -10,20 +10,30 @@ using System.IO;
 using NHibernate.Tool.hbm2ddl;
 using Yupi.Model.Repository;
 using NHibernate.Util;
+using Yupi.Util.Settings;
 
 namespace Yupi.Model
 {
 	public class ModelHelper
 	{
-		private const string testFile = "test.sqlite";
-
 		public static ISessionFactory CreateFactory ()
 		{
 			var cfg = new ORMConfiguration ();
 
 			IPersistenceConfigurer db;
-			//db = MySQLConfiguration.Standard.ConnectionString(x => x.Server("localhost").Name("yupi").Password("changeme").Database("yupi"));
-			db = GetSQLite ();
+
+			switch ((DatabaseType)DatabaseSettings.Type) {
+			case DatabaseType.MySQL:
+				db = GetMySql ();
+				break;
+			case DatabaseType.SQLite:
+				db = GetSQLite ();
+				break;
+			default:
+				throw new InvalidDataException ("Invalid database type");
+			}
+
+
 			return Fluently.Configure ()
 				.Database (db)
 				.Mappings (m =>
@@ -33,7 +43,7 @@ namespace Yupi.Model
 						.Conventions.Add<EnumTypeConvention> ()
 						.Conventions.Add<IPAddressConvention> ()
 						.Conventions.Add<VectorConvention> ()
-						.Conventions.Add<CascadeConvention>()
+						.Conventions.Add<CascadeConvention> ()
 						.IncludeBase<BaseItem> ()
 						.IncludeBase<FloorItem> ()
 						.IncludeBase<WallItem> ()
@@ -42,13 +52,24 @@ namespace Yupi.Model
 				.BuildSessionFactory ();
 		}
 
+		private static IPersistenceConfigurer GetMySql ()
+		{
+			return MySQLConfiguration.Standard
+				.ConnectionString (x => 
+					x.Server (DatabaseSettings.Host)
+					.Username (DatabaseSettings.Username)
+					.Password (DatabaseSettings.Password)
+					.Database (DatabaseSettings.Name)
+			);
+		}
+
 		private static IPersistenceConfigurer GetSQLite ()
 		{
 			if (MonoUtil.IsRunningOnMono ()) {
 				return MonoSQLiteConfiguration.Standard
-					.UsingFile (testFile).ShowSql ();
+					.UsingFile (DatabaseSettings.Name + ".sqlite").ShowSql ();
 			} else {
-				return SQLiteConfiguration.Standard.UsingFile (testFile).ShowSql ();
+				return SQLiteConfiguration.Standard.UsingFile (DatabaseSettings.Name + ".sqlite").ShowSql ();
 			}
 		}
 
@@ -56,6 +77,7 @@ namespace Yupi.Model
 		{
 			// TODO Use https://github.com/schambers/fluentmigrator/
 			// @see http://stackoverflow.com/questions/5884359/fluent-nhibernate-create-database-schema-only-if-not-existing
+
 			new SchemaUpdate (config).Execute (false, true);
 		}
 

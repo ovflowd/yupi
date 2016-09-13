@@ -5,6 +5,9 @@ using Yupi.Model.Repository;
 using Yupi.Model;
 using System.Collections.Generic;
 using System.Linq;
+using Yupi.Controller;
+using Yupi.Util;
+using Yupi.Util.Settings;
 
 namespace Yupi.Messages.Other
 {
@@ -29,9 +32,8 @@ namespace Yupi.Messages.Other
 				session.Info.BuilderInfo.BuildersExpire,
 				session.Info.BuilderInfo.BuildersItemsMax
 			);
-
-			// TODO Camera hardcoded (disabled)
-			router.GetComposer<SendPerkAllowancesMessageComposer> ().Compose (session, session.Info, false);
+				
+			router.GetComposer<SendPerkAllowancesMessageComposer> ().Compose (session, session.Info, GameSettings.EnableCamera);
 
 			InitMessenger (session, router);
 
