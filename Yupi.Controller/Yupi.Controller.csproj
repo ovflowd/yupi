@@ -49,6 +49,21 @@
     <Reference Include="NHibernate">
       <HintPath>..\packages\NHibernate.4.0.4.4000\lib\net40\NHibernate.dll</HintPath>
     </Reference>
+    <Reference Include="PommaLabs.Thrower">
+      <HintPath>..\packages\Thrower.2.2.1\lib\net45\PommaLabs.Thrower.dll</HintPath>
+    </Reference>
+    <Reference Include="Troschuetz.Random">
+      <HintPath>..\packages\Troschuetz.Random.4.0.3\lib\net45\Troschuetz.Random.dll</HintPath>
+    </Reference>
+    <Reference Include="Finsa.CodeServices.Common">
+      <HintPath>..\packages\Finsa.CodeServices.Common.4.1.1\lib\net45\Finsa.CodeServices.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics.Vectors">
+      <HintPath>..\packages\System.Numerics.Vectors.4.1.1\lib\portable-net45+win8+wp8+wpa81\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="Priority Queue">
+      <HintPath>..\packages\OptimizedPriorityQueue.3.0.0\lib\net45\Priority Queue.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -71,12 +86,14 @@
     <Compile Include="Navigator\MyWorldView.cs" />
     <Compile Include="Navigator\RoomAdsView.cs" />
     <Compile Include="Room\Chat\ChatController.cs" />
+    <Compile Include="Room\Pathfinding\AStar.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Items\" />
     <Folder Include="Room\" />
     <Folder Include="Room\Chat\" />
+    <Folder Include="Room\Pathfinding\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Yupi.Model\Yupi.Model.csproj">
