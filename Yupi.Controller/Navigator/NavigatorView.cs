@@ -57,6 +57,10 @@ namespace Yupi.Controller
 		{
 			Expression<Func<RoomData, bool>> predicate = (x => x.Category is T);
 
+			if (string.IsNullOrEmpty (query)) {
+				return predicate;
+			}
+
 			string filter = "";
 			string[] values = query.Split(' ');
 
