@@ -26,11 +26,13 @@ namespace Yupi.Model.Domain
 		[Ignore]
 		public delegate void OnSleepChange(RoomEntity entity);
 		public OnSleepChange OnSleepChangeCB { get; set; }
+		private Queue<Vector2> Steps;
 
 		public RoomEntity (Room room, int id)
 		{
 			this.Id = id;
 			this.Room = room;
+			Steps = new Queue<Vector2> ();
 		}
 
 		public virtual void OnRoomExit () {
@@ -45,6 +47,25 @@ namespace Yupi.Model.Domain
 			// TODO Should only be temporary
 			// TODO Add distance calculation!
 			SetHeadRotation (rotation);
+		}
+
+		public bool HasSteps() {
+			return Steps.Count > 0;
+		}
+
+		public void NextStep() {
+			if (!HasSteps ()) {
+				throw new InvalidOperationException();
+			}
+
+			Vector2 nextStep = Steps.Dequeue ();
+
+			// TODO Be consequent about Vector2 vs Vector3!
+			SetPosition (new Vector3(nextStep.X, nextStep.Y, Room.HeightMap.GetTileHeight ((int)nextStep.X, (int)nextStep.Y)));
+		}
+
+		public void Walk(Vector2 target) {
+			this.Steps = new Queue<Vector2>(Room.Pathfinder.Find (this.Position.ToVector2(), target));
 		}
 
 		public bool CanWalk() {

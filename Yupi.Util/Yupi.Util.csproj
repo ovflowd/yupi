@@ -49,6 +49,12 @@
     <Reference Include="Config.Net">
       <HintPath>..\packages\Config.Net.1.3.0.244\lib\net45\Config.Net.dll</HintPath>
     </Reference>
+    <Reference Include="Priority Queue">
+      <HintPath>..\packages\OptimizedPriorityQueue.3.0.0\lib\net45\Priority Queue.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics.Vectors">
+      <HintPath>..\packages\System.Numerics.Vectors.4.1.1\lib\portable-net45+win8+wp8+wpa81\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -65,6 +71,7 @@
     <Compile Include="Settings\GameSettings.cs" />
     <Compile Include="Settings\DatabaseSettings.cs" />
     <Compile Include="Settings\DatabaseType.cs" />
+    <Compile Include="AStar.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

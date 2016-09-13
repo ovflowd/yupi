@@ -6,6 +6,8 @@ using System.Diagnostics;
 using Yupi.Model.Domain.Components;
 using System.Threading;
 using System.Diagnostics.Contracts;
+using Yupi.Util;
+using System.Numerics;
 
 namespace Yupi.Model.Domain
 {
@@ -28,6 +30,7 @@ namespace Yupi.Model.Domain
 		private int entityIdCounter;
 
 		private Timer Timer;
+		public AStar<Vector2> Pathfinder { get; private set; }
 
 		// TODO Experiment with the length of the period
 		/// <summary>
@@ -56,6 +59,7 @@ namespace Yupi.Model.Domain
 			this.OnTickCallback = onTickCallback;
 			this.Data = data;
 			this.HeightMap = new HeightMap (this.Data.Model.Heightmap);
+			this.Pathfinder = new AStar<Vector2> (HeightMap.IsWalkable, HeightMap.GetNeighbours, Vector2.Distance);
 
 			Users = new List<RoomEntity> ();
 			GroupsInRoom = new HashSet<Group> ();
@@ -86,6 +90,10 @@ namespace Yupi.Model.Domain
 			List<RoomEntity> changes = new List<RoomEntity> (this.Users.Count);
 
 			foreach (RoomEntity entity in this.Users) {
+				if (entity.HasSteps()) {
+					entity.NextStep ();
+				}
+
 				if (entity.NeedsUpdate) {
 					changes.Add (entity);
 				}

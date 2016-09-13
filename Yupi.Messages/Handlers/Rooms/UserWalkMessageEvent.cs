@@ -16,19 +16,15 @@ namespace Yupi.Messages.Rooms
 
 			RoomEntity entity = session.RoomEntity;
 
-			if (entity == null || !entity.CanWalk() || entity.Position.Equals(new Vector2 (targetX, targetY))) {
+			var target = new Vector2 (targetX, targetY);
+
+			if (entity == null || !entity.CanWalk() || entity.Position.Equals(target)) {
 				return;
 			}
 
 			entity.Wake ();
 
-			// TODO Implement pathfinder
-			// Teleport
-			Vector3 position = entity.Position;
-			position.X = targetX;
-			position.Y = targetY;
-			position.Z = session.Room.HeightMap.GetTileHeight (targetX, targetY);
-			entity.SetPosition (position);
+			entity.Walk(target);
 
 			/* TODO Implement Horse
 			if (entity.RidingHorse) {

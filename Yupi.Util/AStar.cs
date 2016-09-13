@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Numerics;
 using Priority_Queue;
+using System.Collections;
 
-namespace Yupi.Controller
+namespace Yupi.Util
 {
 	public class AStar<TileType> where TileType : IEquatable<TileType>
 	{
@@ -38,13 +39,13 @@ namespace Yupi.Controller
 		private readonly HashSet<Node> ClosedList;
 
 		private Func<TileType, bool> IsWalkable;
-		private Func<TileType, TileType[]> GetNeighbours;
+		private Func<TileType, ICollection> GetNeighbours;
 		private Func<TileType, TileType, float> GetDistance;
 
 		private object Lock;
 
 		public AStar (Func<TileType, bool> isWalkable, 
-		              Func<TileType, TileType[]> getNeighbours, 
+			Func<TileType, ICollection> getNeighbours, 
 		              Func<TileType, TileType, float> getDistance)
 		{
 			Lock = new object ();

@@ -2,6 +2,7 @@
 using System.Diagnostics.Contracts;
 using System.Text;
 using System.Collections.Generic;
+using System.Numerics;
 
 namespace Yupi.Model.Domain
 {
@@ -13,6 +14,7 @@ namespace Yupi.Model.Domain
 		private RoomEntity Entity;
 
 		private List<IStatusString> TemporaryStates;
+		private Queue<Vector2> Steps;
 
 		public EntityStatus (RoomEntity entity)
 		{

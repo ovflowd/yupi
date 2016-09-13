@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
-using Yupi.Controller;
 using System.Numerics;
+using Yupi.Util;
 
 namespace Yupi.Tests
 {
@@ -22,15 +22,10 @@ namespace Yupi.Tests
 			};
 		}
 
-		private float distance (Vector2 start, Vector2 target)
-		{
-			return (target - start).Length ();
-		}
-
 		[Test ()]
 		public void OneTile ()
 		{
-			AStar<Vector2> astar = new AStar<Vector2> (x => true, getNeighbours, distance);
+			AStar<Vector2> astar = new AStar<Vector2> (x => true, getNeighbours, Vector2.Distance);
 			var nodes = astar.Find (new Vector2 (0, 0), new Vector2 (1, 1));
 
 			Assert.That (nodes.Count == 2);
@@ -40,7 +35,7 @@ namespace Yupi.Tests
 
 		[Test ()]
 		public void MultipleTiles() {
-			AStar<Vector2> astar = new AStar<Vector2> (x => true, getNeighbours, distance);
+			AStar<Vector2> astar = new AStar<Vector2> (x => true, getNeighbours, Vector2.Distance);
 			var nodes = astar.Find (new Vector2 (0, 0), new Vector2 (0, 2));
 			Assert.That (nodes.Count == 3);
 			Assert.AreEqual (new Vector2 (0, 2), nodes [0]);
@@ -52,7 +47,7 @@ namespace Yupi.Tests
 		public void BlockingTile() {
 			AStar<Vector2> astar = new AStar<Vector2> (x => {
 				return x != new Vector2(0, 1);
-			}, getNeighbours, distance);
+			}, getNeighbours, Vector2.Distance);
 			var nodes = astar.Find (new Vector2 (0, 0), new Vector2 (0, 2));
 			Assert.That (nodes.Count == 3);
 			Assert.AreEqual (new Vector2 (0, 2), nodes [0]);
@@ -64,7 +59,7 @@ namespace Yupi.Tests
 		public void BlockingTarget() {
 			AStar<Vector2> astar = new AStar<Vector2> (x => {
 				return x != new Vector2(0, 2);
-			}, getNeighbours, distance);
+			}, getNeighbours, Vector2.Distance);
 			var nodes = astar.Find (new Vector2 (0, 0), new Vector2 (0, 2));
 			Assert.IsNull (nodes);
 		}
@@ -73,7 +68,7 @@ namespace Yupi.Tests
 		public void BlockingStart() {
 			AStar<Vector2> astar = new AStar<Vector2> (x => {
 				return x != new Vector2(0, 0);
-			}, getNeighbours, distance);
+			}, getNeighbours, Vector2.Distance);
 			var nodes = astar.Find (new Vector2 (0, 0), new Vector2 (0, 2));
 			Assert.That (nodes.Count == 3);
 			Assert.AreEqual (new Vector2 (0, 2), nodes [0]);
@@ -85,7 +80,7 @@ namespace Yupi.Tests
 		public void Reuse() {
 			AStar<Vector2> astar = new AStar<Vector2> (x => {
 				return x != new Vector2(0, 1);
-			}, getNeighbours, distance);
+			}, getNeighbours, Vector2.Distance);
 
 			var nodes = astar.Find (new Vector2 (0, 0), new Vector2 (0, 2));
 

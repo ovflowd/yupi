@@ -51,5 +51,9 @@
       <Project>{40F4057A-7752-4BA3-849B-FDEBCC238717}</Project>
       <Name>Yupi.Controller</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Yupi.Util\Yupi.Util.csproj">
+      <Project>{6CC9871D-F8D6-4586-8681-E9AAECA60D60}</Project>
+      <Name>Yupi.Util</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

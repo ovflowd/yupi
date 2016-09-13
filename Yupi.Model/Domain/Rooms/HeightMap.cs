@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using System.Collections.Generic;
 
 namespace Yupi.Model.Domain
 {
@@ -43,6 +44,38 @@ namespace Yupi.Model.Domain
 			}
 		}
 
+		public bool IsWalkable (Vector2 position)
+		{
+			// TODO Implement properly
+			return GetTileHeight (position) >= 0;
+		}
+
+		public bool IsValidTile(Vector2 position) {
+			return position.X >= 0 
+				&& position.Y >= 0 
+				&& position.Y < TotalY 
+				&& position.X < TotalX;
+		}
+
+		public List<Vector2> GetNeighbours(Vector2 position) {
+			List<Vector2> neighbours = new List<Vector2> (8);
+			for (int x = -1; x <= 1; ++x) {
+				for (int y = -1; y <= 1; ++y) {
+					if (y == 0 && x == 0) {
+						continue;
+					}
+
+					Vector2 neighbour = position + new Vector2 (x, y);
+
+					if (IsValidTile (neighbour)) {
+						neighbours.Add (neighbour);
+					}
+				}
+			}
+
+			return neighbours;
+		}
+
 		private short ParseTileChar (char height)
 		{
 			if (height == 'x') {
@@ -79,7 +112,13 @@ namespace Yupi.Model.Domain
 			return Map [index];
 		}
 
-		public short GetTileHeight(Vector3 position) {
+		public short GetTileHeight (Vector2 position)
+		{
+			return GetTileHeight ((int)position.X, (int)position.Y);
+		}
+
+		public short GetTileHeight (Vector3 position)
+		{
 			return GetTileHeight ((int)position.X, (int)position.Y);
 		}
 	}
