@@ -5,35 +5,30 @@ using Priority_Queue;
 
 namespace Yupi.Controller
 {
-	public class AStar
+	public class AStar<TileType> where TileType : IEquatable<TileType>
 	{
 		private class Node : IEquatable<Node>
 		{
-			public readonly Vector2 Tile;
+			public readonly TileType Tile;
 			public float GScore;
 			public Node Predecessor;
 
-			public Node (float x, float y) : this (new Vector2 (x, y))
-			{
-
-			}
-
-			public Node (Vector2 tile)
+			public Node (TileType tile)
 			{
 				this.Tile = tile;
 			}
 
 			public bool Equals (Node other)
 			{
-				return this.Tile == other.Tile;
+				return this.Tile.Equals (other.Tile);
 			}
 
-			public override bool Equals(object obj)
+			public override bool Equals (object obj)
 			{
-				return Equals(obj as Node);
+				return Equals (obj as Node);
 			}
 
-			public override int GetHashCode()
+			public override int GetHashCode ()
 			{
 				return this.Tile.GetHashCode ();
 			}
@@ -42,14 +37,27 @@ namespace Yupi.Controller
 		private readonly SimplePriorityQueue<Node> OpenList;
 		private readonly HashSet<Node> ClosedList;
 
-		public AStar ()
+		private Func<TileType, bool> IsWalkable;
+		private Func<TileType, TileType[]> GetNeighbours;
+		private Func<TileType, TileType, float> GetDistance;
+
+		public AStar (Func<TileType, bool> isWalkable, 
+			Func<TileType, TileType[]> getNeighbours, 
+			Func<TileType, TileType, float> getDistance)
 		{
 			OpenList = new SimplePriorityQueue<Node> ();
 			ClosedList = new HashSet<Node> ();
+			this.IsWalkable = isWalkable;
+			this.GetNeighbours = getNeighbours;
+			this.GetDistance = getDistance;
 		}
 
-		public List<Vector2> Find (Vector2 start, Vector2 target)
+		public List<TileType> Find (TileType start, TileType target)
 		{
+			if (!IsWalkable (target)) {
+				return null;
+			}
+
 			OpenList.Enqueue (new Node (start), 0);
 
 			Node targetNode = new Node (target);
@@ -57,8 +65,8 @@ namespace Yupi.Controller
 			while (OpenList.Count > 0) {
 				Node currentNode = OpenList.Dequeue ();
 
-				if (currentNode.Tile == target) {
-					return Reconstruct(currentNode);
+				if (currentNode.Tile.Equals (target)) {
+					return Reconstruct (currentNode);
 				}
 
 				ClosedList.Add (currentNode);
@@ -69,8 +77,9 @@ namespace Yupi.Controller
 			return null;
 		}
 
-		private List<Vector2> Reconstruct(Node current) {
-			List<Vector2> path = new List<Vector2> ();
+		private List<TileType> Reconstruct (Node current)
+		{
+			List<TileType> path = new List<TileType> ();
 
 
 			while (current != null) {
@@ -81,28 +90,21 @@ namespace Yupi.Controller
 			return path;
 		}
 
-		private Node[] GetSuccessors (Node node)
-		{
-			return new Node[] {
-				new Node (node.Tile.X - 1, node.Tile.Y),
-				new Node (node.Tile.X - 1, node.Tile.Y - 1),
-				new Node (node.Tile.X - 1, node.Tile.Y + 1),
-				new Node (node.Tile.X + 1, node.Tile.Y),
-				new Node (node.Tile.X + 1, node.Tile.Y - 1),
-				new Node (node.Tile.X + 1, node.Tile.Y + 1),
-				new Node (node.Tile.X, node.Tile.Y + 1),
-				new Node (node.Tile.X, node.Tile.Y - 1),
-			};
-		}
-
 		private void expandNode (Node currentNode, Node target)
 		{
-			foreach (Node succ in GetSuccessors(currentNode)) {
+			foreach (TileType succTile in GetNeighbours(currentNode.Tile)) {
+
+				Node succ = new Node (succTile);
+
 				if (ClosedList.Contains (succ)) {
 					continue;
 				}
 
-				float tentative_g = currentNode.GScore + cost(currentNode, succ);
+				if (!IsWalkable (succ.Tile)) {
+					continue;
+				}
+
+				float tentative_g = currentNode.GScore + cost (currentNode, succ);
 
 				if (OpenList.Contains (succ) && succ.GScore < tentative_g) {
 					continue;
@@ -111,7 +113,7 @@ namespace Yupi.Controller
 				succ.GScore = tentative_g;
 				succ.Predecessor = currentNode;
 
-				float fScore = tentative_g + distance(succ, target);
+				float fScore = tentative_g + GetDistance (succ.Tile, target.Tile);
 
 				if (OpenList.Contains (succ)) {
 					OpenList.UpdatePriority (succ, fScore);
@@ -121,13 +123,9 @@ namespace Yupi.Controller
 			}
 		}
 
-		private float cost(Node prev, Node next) {
-			return 1;
-		}
-
-		private float distance (Node start, Node target)
+		private float cost (Node prev, Node next)
 		{
-			return (target.Tile - start.Tile).Length ();
+			return 1;
 		}
 	}
 }
