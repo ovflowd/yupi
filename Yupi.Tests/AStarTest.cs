@@ -80,6 +80,27 @@ namespace Yupi.Tests
 			Assert.AreEqual (new Vector2 (0, 1), nodes [1]);
 			Assert.AreEqual (new Vector2 (0, 0), nodes [2]);
 		}
+
+		[Test ()]
+		public void Reuse() {
+			AStar<Vector2> astar = new AStar<Vector2> (x => {
+				return x != new Vector2(0, 1);
+			}, getNeighbours, distance);
+
+			var nodes = astar.Find (new Vector2 (0, 0), new Vector2 (0, 2));
+
+			Assert.That (nodes.Count == 3);
+			Assert.AreEqual (new Vector2 (0, 2), nodes [0]);
+			Assert.AreEqual (new Vector2 (-1, 1), nodes [1]);
+			Assert.AreEqual (new Vector2 (0, 0), nodes [2]);
+
+			nodes = astar.Find (new Vector2 (1, 0), new Vector2 (0, 2));
+
+			Assert.That (nodes.Count == 3);
+			Assert.AreEqual (new Vector2 (0, 2), nodes [0]);
+			Assert.AreEqual (new Vector2 (1, 1), nodes [1]);
+			Assert.AreEqual (new Vector2 (1, 0), nodes [2]);
+		}
 	}
 }
 

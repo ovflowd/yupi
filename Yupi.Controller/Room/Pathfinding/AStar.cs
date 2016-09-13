@@ -41,10 +41,13 @@ namespace Yupi.Controller
 		private Func<TileType, TileType[]> GetNeighbours;
 		private Func<TileType, TileType, float> GetDistance;
 
+		private object Lock;
+
 		public AStar (Func<TileType, bool> isWalkable, 
-			Func<TileType, TileType[]> getNeighbours, 
-			Func<TileType, TileType, float> getDistance)
+		              Func<TileType, TileType[]> getNeighbours, 
+		              Func<TileType, TileType, float> getDistance)
 		{
+			Lock = new object ();
 			OpenList = new SimplePriorityQueue<Node> ();
 			ClosedList = new HashSet<Node> ();
 			this.IsWalkable = isWalkable;
@@ -53,6 +56,16 @@ namespace Yupi.Controller
 		}
 
 		public List<TileType> Find (TileType start, TileType target)
+		{
+			lock (this.Lock) {
+				List<TileType> result = FindImpl (start, target);
+				this.OpenList.Clear ();
+				this.ClosedList.Clear ();
+				return result;
+			}
+		}
+
+		private List<TileType> FindImpl (TileType start, TileType target)
 		{
 			if (!IsWalkable (target)) {
 				return null;
@@ -73,7 +86,6 @@ namespace Yupi.Controller
 
 				expandNode (currentNode, targetNode);
 			}
-
 			return null;
 		}
 
