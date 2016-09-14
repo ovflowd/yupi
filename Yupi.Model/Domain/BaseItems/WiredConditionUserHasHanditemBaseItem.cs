@@ -2,11 +2,10 @@
 
 namespace Yupi.Model.Domain
 {
-	public class WiredConditionUserHasHanditemBaseItem : WiredBaseItem
-	{
-		public WiredConditionUserHasHanditemBaseItem ()
-		{
-		}
-	}
+    public class WiredConditionUserHasHanditemBaseItem : WiredBaseItem
+    {
+        public WiredConditionUserHasHanditemBaseItem()
+        {
+        }
+    }
 }
-

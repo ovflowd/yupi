@@ -8,27 +8,28 @@ using Yupi.Util;
 
 namespace Yupi.Messages.User
 {
-	public class FindMoreFriendsMessageEvent : AbstractHandler
-	{
-		private RoomManager RoomManager;
+    public class FindMoreFriendsMessageEvent : AbstractHandler
+    {
+        private RoomManager RoomManager;
 
-		public FindMoreFriendsMessageEvent ()
-		{
-			RoomManager = DependencyFactory.Resolve<RoomManager> ();
-		}
+        public FindMoreFriendsMessageEvent()
+        {
+            RoomManager = DependencyFactory.Resolve<RoomManager>();
+        }
 
-		public override void HandleMessage (Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
-		{
-			List<Room> rooms = RoomManager.GetActive().ToList();
+        public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message,
+            Yupi.Protocol.IRouter router)
+        {
+            List<Room> rooms = RoomManager.GetActive().ToList();
 
-			router.GetComposer<FindMoreFriendsSuccessMessageComposer> ().Compose (session, rooms.Any());
+            router.GetComposer<FindMoreFriendsSuccessMessageComposer>().Compose(session, rooms.Any());
 
-			Room room = rooms.Random ();
+            Room room = rooms.Random();
 
-			if (room != null) {
-				router.GetComposer<RoomForwardMessageComposer> ().Compose (session, room.Data.Id);
-			}
-		}
-	}
+            if (room != null)
+            {
+                router.GetComposer<RoomForwardMessageComposer>().Compose(session, room.Data.Id);
+            }
+        }
+    }
 }
-

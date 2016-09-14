@@ -30,10 +30,10 @@ using System.Data;
 
 namespace Yupi.Net.Web
 {
-     public static class WebManager
+    public static class WebManager
     {
-		// TODO Implement
-		/*
+        // TODO Implement
+        /*
         /// <summary>
         ///     Does REST GET Request with jSON Return
         /// </summary>

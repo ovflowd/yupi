@@ -5,50 +5,48 @@ using Yupi.Net;
 
 namespace Yupi.Model.Domain
 {
-	[Ignore]
-	public class Habbo : ISender
-	{
-		public UserInfo Info { get; set; }
+    [Ignore]
+    public class Habbo : ISender
+    {
+        public UserInfo Info { get; set; }
 
-		public UserEntity RoomEntity { get; set; }
+        public UserEntity RoomEntity { get; set; }
 
-		public string ReleaseName;
+        public string ReleaseName;
 
-		public DateTime TimePingReceived;
+        public DateTime TimePingReceived;
 
-		// TODO Is this at the right place?
-		public string MachineId;
+        // TODO Is this at the right place?
+        public string MachineId;
 
-		// TODO Refactor?
-		public bool IsRidingHorse { get; set; }
+        // TODO Refactor?
+        public bool IsRidingHorse { get; set; }
 
-		// TODO Remove?
-		public Room Room { 
-			get { 
-				return RoomEntity?.Room; 
-			} 
-		}
+        // TODO Remove?
+        public Room Room
+        {
+            get { return RoomEntity?.Room; }
+        }
 
-		public ISession<Habbo> Session { get; set; }
+        public ISession<Habbo> Session { get; set; }
 
-		public IRouter Router { get; set; }
+        public IRouter Router { get; set; }
 
-		// TODO Can this be solved in a better way?
-		public Habbo GuideOtherUser;
+        // TODO Can this be solved in a better way?
+        public Habbo GuideOtherUser;
 
-		public RoomData TeleportingTo;
+        public RoomData TeleportingTo;
 
-		public Habbo (ISession<Habbo> session, IRouter router)
-		{
-			this.Session = session;
-			this.Router = router;
-			TimePingReceived = DateTime.Now;
-		}
+        public Habbo(ISession<Habbo> session, IRouter router)
+        {
+            this.Session = session;
+            this.Router = router;
+            TimePingReceived = DateTime.Now;
+        }
 
-		public void Send (Yupi.Protocol.Buffers.ServerMessage message)
-		{
-			Session.Send (message.GetReversedBytes ());
-		}
-	}
+        public void Send(Yupi.Protocol.Buffers.ServerMessage message)
+        {
+            Session.Send(message.GetReversedBytes());
+        }
+    }
 }
-

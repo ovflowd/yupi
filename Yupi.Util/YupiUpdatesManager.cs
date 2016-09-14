@@ -38,38 +38,48 @@ namespace Yupi.Util
         /// <summary>
         ///     Running Version Tag
         /// </summary>
-		public readonly string GithubVersionTag = Assembly.GetEntryAssembly().GetCustomAttributes(false).OfType<AssemblyFileVersionAttribute>().Single().Version;
+        public readonly string GithubVersionTag =
+            Assembly.GetEntryAssembly()
+                .GetCustomAttributes(false)
+                .OfType<AssemblyFileVersionAttribute>()
+                .Single()
+                .Version;
 
         /// <summary>
         ///     Running Version
         /// </summary>
-		public readonly string GithubVersion = Assembly.GetEntryAssembly().GetCustomAttributes(false).OfType<AssemblyInformationalVersionAttribute>().Single().InformationalVersion;
+        public readonly string GithubVersion =
+            Assembly.GetEntryAssembly()
+                .GetCustomAttributes(false)
+                .OfType<AssemblyInformationalVersionAttribute>()
+                .Single()
+                .InformationalVersion;
 
         /// <summary>
         ///     Store Update Message
         /// </summary>
-		public YupiUpdatesManager()
-		{
-			// TODO Reimplement
-			//_updateMessage = WebManager.HttpGetJsonDataset (Yupi.GithubUpdateFile);
-		}
+        public YupiUpdatesManager()
+        {
+            // TODO Reimplement
+            //_updateMessage = WebManager.HttpGetJsonDataset (Yupi.GithubUpdateFile);
+        }
 
         /// <summary>
         ///     Generate Update Message and Echoes
         /// </summary>
         private void GenerateUpdateMessage()
         {
-			/*
-			if (message == null) {
-				return;
-			}
+            /*
+            if (message == null) {
+                return;
+            }
 
             DataTable dataTable = message.Tables["items"];
 
             foreach (DataRow row in dataTable.Rows)
                 YupiWriterManager.WriteLine(row["message"].ToString(), row["title"].ToString(), (ConsoleColor)Enum.Parse(typeof(ConsoleColor), row["color"].ToString()));
                 */
-			throw new NotImplementedException ();
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -82,8 +92,8 @@ namespace Yupi.Util
             Console.Clear();
 
             Console.WriteLine();
-			throw new NotImplementedException ();
-           // GenerateUpdateMessage(_updateMessage);
+            throw new NotImplementedException();
+            // GenerateUpdateMessage(_updateMessage);
 
             Console.ForegroundColor = ConsoleColor.White;
 
@@ -101,7 +111,7 @@ namespace Yupi.Util
             else
                 YupiWriterManager.WriteLine("You're not Updated with Yupi Repo! Please Download last Version", "Yupi.Repo", ConsoleColor.DarkYellow);
                 */
-			throw new NotImplementedException ();
+            throw new NotImplementedException();
         }
 
         /// <summary>

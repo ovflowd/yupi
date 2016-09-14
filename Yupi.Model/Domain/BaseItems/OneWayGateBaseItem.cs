@@ -2,9 +2,7 @@
 
 namespace Yupi.Model.Domain
 {
-	public class OneWayGateBaseItem : FloorBaseItem
-	{
-		
-	}
+    public class OneWayGateBaseItem : FloorBaseItem
+    {
+    }
 }
-

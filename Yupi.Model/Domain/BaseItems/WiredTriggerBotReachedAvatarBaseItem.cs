@@ -2,11 +2,10 @@
 
 namespace Yupi.Model.Domain
 {
-	public class WiredTriggerBotReachedAvatarBaseItem : WiredBaseItem
-	{
-		public WiredTriggerBotReachedAvatarBaseItem ()
-		{
-		}
-	}
+    public class WiredTriggerBotReachedAvatarBaseItem : WiredBaseItem
+    {
+        public WiredTriggerBotReachedAvatarBaseItem()
+        {
+        }
+    }
 }
-

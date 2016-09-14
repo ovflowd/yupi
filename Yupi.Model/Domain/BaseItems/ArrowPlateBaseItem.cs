@@ -2,11 +2,10 @@
 
 namespace Yupi.Model.Domain
 {
-	public class ArrowPlateBaseItem : FloorBaseItem
-	{
-		public ArrowPlateBaseItem ()
-		{
-		}
-	}
+    public class ArrowPlateBaseItem : FloorBaseItem
+    {
+        public ArrowPlateBaseItem()
+        {
+        }
+    }
 }
-

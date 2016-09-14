@@ -44,20 +44,20 @@ namespace Yupi.Protocol.Buffers
         /// </summary>
         private int _position;
 
-		public short Id { get; private set; }
+        public short Id { get; private set; }
 
-		public void Setup(byte[] body)
+        public void Setup(byte[] body)
         {
-			_body = body;
-			Id = GetShort ();
+            _body = body;
+            Id = GetShort();
         }
-			
-        protected override void OnResetState ()
-    	{
-			Id = 0;
-			_body = null;
-    	}
-			
+
+        protected override void OnResetState()
+        {
+            Id = 0;
+            _body = null;
+        }
+
         private byte[] ReadBytes(int len)
         {
             byte[] arrayBytes = new byte[len];
@@ -67,8 +67,8 @@ namespace Yupi.Protocol.Buffers
 
             return arrayBytes;
         }
-			
-		public byte[] GetBytes(int len)
+
+        public byte[] GetBytes(int len)
         {
             byte[] arrayBytes = new byte[len];
             int pos = _position;
@@ -82,57 +82,63 @@ namespace Yupi.Protocol.Buffers
 
             return arrayBytes;
         }
-			
-		// TODO Rename to ReadString()
-		public string GetString()
+
+        // TODO Rename to ReadString()
+        public string GetString()
         {
             int stringLength = GetShort();
 
-			if (stringLength == 0 || _position + stringLength > _body.Length) {
-				// TODO Print warning
-				return string.Empty;
-			}
+            if (stringLength == 0 || _position + stringLength > _body.Length)
+            {
+                // TODO Print warning
+                return string.Empty;
+            }
 
-			string value = Encoding.UTF8.GetString(_body, _position, stringLength);
+            string value = Encoding.UTF8.GetString(_body, _position, stringLength);
 
             _position += stringLength;
 
             return value;
         }
-			
-		public bool GetBool() {
-			return _body[_position++] == 1;
-		}
-			
-		public short GetShort() {
-			short value = BinaryHelper.ToShort (_body, _position);
-			_position += 2;
-			return value;
-		}
-			
-		public int GetInteger() {
-			int value = BinaryHelper.ToInt (_body, _position);
-			_position += 4;
-			return value;
-		}
 
-		// TODO Probably inappropriate
-		public bool GetIntegerAsBool() {
-			return GetInteger () == 1;
-		}
-			
-		public uint GetUInt32()
+        public bool GetBool()
         {
-			return (uint)GetInteger ();
+            return _body[_position++] == 1;
         }
 
-		public byte[] GetBody() {
-			return _body;
-		}
+        public short GetShort()
+        {
+            short value = BinaryHelper.ToShort(_body, _position);
+            _position += 2;
+            return value;
+        }
 
-		public override string ToString ()
-    	{
-			return String.Join (",", _body);
-    	}
+        public int GetInteger()
+        {
+            int value = BinaryHelper.ToInt(_body, _position);
+            _position += 4;
+            return value;
+        }
+
+        // TODO Probably inappropriate
+        public bool GetIntegerAsBool()
+        {
+            return GetInteger() == 1;
+        }
+
+        public uint GetUInt32()
+        {
+            return (uint) GetInteger();
+        }
+
+        public byte[] GetBody()
+        {
+            return _body;
+        }
+
+        public override string ToString()
+        {
+            return String.Join(",", _body);
+        }
     }
 }

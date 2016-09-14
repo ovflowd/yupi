@@ -2,9 +2,7 @@
 
 namespace Yupi.Messages.Catalog
 {
-	public class CatalogLimitedItemSoldOutMessageComposer : Contracts.CatalogLimitedItemSoldOutMessageComposer
-	{
-		
-	}
+    public class CatalogLimitedItemSoldOutMessageComposer : Contracts.CatalogLimitedItemSoldOutMessageComposer
+    {
+    }
 }
-

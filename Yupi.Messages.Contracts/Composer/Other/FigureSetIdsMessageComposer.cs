@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace Yupi.Messages.Contracts
 {
-	public abstract class FigureSetIdsMessageComposer : AbstractComposerVoid
-	{
-		public override void Compose(Yupi.Protocol.ISender session)
-		{
-		 // Do nothing by default.
-		}
-	}
+    public abstract class FigureSetIdsMessageComposer : AbstractComposerVoid
+    {
+        public override void Compose(Yupi.Protocol.ISender session)
+        {
+            // Do nothing by default.
+        }
+    }
 }

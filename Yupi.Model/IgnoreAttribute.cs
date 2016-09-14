@@ -2,8 +2,7 @@
 
 namespace Yupi.Model
 {
-	public sealed class IgnoreAttribute : Attribute
-	{
-	}
+    public sealed class IgnoreAttribute : Attribute
+    {
+    }
 }
-

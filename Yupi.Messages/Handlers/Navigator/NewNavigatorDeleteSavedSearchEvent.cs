@@ -6,25 +6,25 @@ using Yupi.Model;
 
 namespace Yupi.Messages.Navigator
 {
-	public class NewNavigatorDeleteSavedSearchEvent : AbstractHandler
-	{
-		private IRepository<UserInfo> UserRepository;
+    public class NewNavigatorDeleteSavedSearchEvent : AbstractHandler
+    {
+        private IRepository<UserInfo> UserRepository;
 
-		public NewNavigatorDeleteSavedSearchEvent ()
-		{
-			UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>> ();
-		}
+        public NewNavigatorDeleteSavedSearchEvent()
+        {
+            UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>>();
+        }
 
-		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
-		{
-			int searchId = request.GetInteger();
+        public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
+            Yupi.Protocol.IRouter router)
+        {
+            int searchId = request.GetInteger();
 
-			session.Info.NavigatorLog.RemoveAll (x => x.Id == searchId);
+            session.Info.NavigatorLog.RemoveAll(x => x.Id == searchId);
 
-			UserRepository.Save (session.Info);
+            UserRepository.Save(session.Info);
 
-			router.GetComposer<NavigatorSavedSearchesComposer> ().Compose (session, session.Info.NavigatorLog);
-		}
-	}
+            router.GetComposer<NavigatorSavedSearchesComposer>().Compose(session, session.Info.NavigatorLog);
+        }
+    }
 }
-

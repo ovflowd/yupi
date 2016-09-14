@@ -2,9 +2,7 @@
 
 namespace Yupi.Model.Domain
 {
-	public class IceSkateBaseItem : FloorBaseItem
-	{
-		
-	}
+    public class IceSkateBaseItem : FloorBaseItem
+    {
+    }
 }
-

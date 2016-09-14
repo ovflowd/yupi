@@ -2,11 +2,10 @@
 
 namespace Yupi.Model.Domain
 {
-	public class JukeBoxBaseItem : FloorBaseItem
-	{
-		public JukeBoxBaseItem ()
-		{
-		}
-	}
+    public class JukeBoxBaseItem : FloorBaseItem
+    {
+        public JukeBoxBaseItem()
+        {
+        }
+    }
 }
-

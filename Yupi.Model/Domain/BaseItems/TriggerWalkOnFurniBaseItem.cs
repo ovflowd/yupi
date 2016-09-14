@@ -2,11 +2,10 @@
 
 namespace Yupi.Model.Domain
 {
-	public class TriggerWalkOnFurniBaseItem : FloorBaseItem
-	{
-		public TriggerWalkOnFurniBaseItem ()
-		{
-		}
-	}
+    public class TriggerWalkOnFurniBaseItem : FloorBaseItem
+    {
+        public TriggerWalkOnFurniBaseItem()
+        {
+        }
+    }
 }
-

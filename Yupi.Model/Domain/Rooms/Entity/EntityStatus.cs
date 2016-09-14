@@ -6,81 +6,90 @@ using System.Numerics;
 
 namespace Yupi.Model.Domain
 {
-	[Ignore]
-	public abstract class EntityStatus
-	{
-		public EntityPosture Posture { get; private set; }
+    [Ignore]
+    public abstract class EntityStatus
+    {
+        public EntityPosture Posture { get; private set; }
 
-		private RoomEntity Entity;
+        private RoomEntity Entity;
 
-		private List<IStatusString> TemporaryStates;
+        private List<IStatusString> TemporaryStates;
 
-		public EntityStatus (RoomEntity entity)
-		{
-			Contract.Requires (entity != null);
-			this.Entity = entity;	
-			SetPosture (StandPosture.Default);
-			TemporaryStates = new List<IStatusString> ();
-		}
+        public EntityStatus(RoomEntity entity)
+        {
+            Contract.Requires(entity != null);
+            this.Entity = entity;
+            SetPosture(StandPosture.Default);
+            TemporaryStates = new List<IStatusString>();
+        }
 
-		public void SetPosture (EntityPosture posture)
-		{
-			Contract.Requires (posture != null);
-			this.Posture = posture;
-			OnChange ();
-		}
+        public void SetPosture(EntityPosture posture)
+        {
+            Contract.Requires(posture != null);
+            this.Posture = posture;
+            OnChange();
+        }
 
-		internal void OnUpdateComplete() {
-			this.TemporaryStates.Clear ();
-		}
+        internal void OnUpdateComplete()
+        {
+            this.TemporaryStates.Clear();
+        }
 
-		public bool IsSitting() {
-			return this.Posture is SitPosture;
-		}
+        public bool IsSitting()
+        {
+            return this.Posture is SitPosture;
+        }
 
-		public void Stand() {
-			SetPosture (StandPosture.Default);
-		}
+        public void Stand()
+        {
+            SetPosture(StandPosture.Default);
+        }
 
-		public void Sit() {
-			SetPosture (SitPosture.Default);
-		}
+        public void Sit()
+        {
+            SetPosture(SitPosture.Default);
+        }
 
-		public void Sign(Sign sign) {
-			this.TemporaryStates.Add (sign);
-			this.OnChange ();
-		}
+        public void Sign(Sign sign)
+        {
+            this.TemporaryStates.Add(sign);
+            this.OnChange();
+        }
 
-		public override string ToString ()
-		{
-			return ToStatusString();
-		}
+        public override string ToString()
+        {
+            return ToStatusString();
+        }
 
-		protected void OnChange() {
-			this.Entity.ScheduleUpdate();
-		}
+        protected void OnChange()
+        {
+            this.Entity.ScheduleUpdate();
+        }
 
-		protected virtual void GetStates(List<IStatusString> states) {
-			states.Add (this.Posture);
-			states.AddRange (this.TemporaryStates);
-		}
+        protected virtual void GetStates(List<IStatusString> states)
+        {
+            states.Add(this.Posture);
+            states.AddRange(this.TemporaryStates);
+        }
 
-		private string ToStatusString() {
-			List<IStatusString> states = new List<IStatusString>();
-			GetStates (states);
+        private string ToStatusString()
+        {
+            List<IStatusString> states = new List<IStatusString>();
+            GetStates(states);
 
-			List<string> stateStrings = new List<string> (states.Count);
+            List<string> stateStrings = new List<string>(states.Count);
 
-			foreach (IStatusString state in states) {
-				string statusStr = state?.ToStatusString ();
+            foreach (IStatusString state in states)
+            {
+                string statusStr = state?.ToStatusString();
 
-				if (!string.IsNullOrEmpty (statusStr)) {
-					stateStrings.Add (statusStr);
-				}
-			}
+                if (!string.IsNullOrEmpty(statusStr))
+                {
+                    stateStrings.Add(statusStr);
+                }
+            }
 
-			return string.Join ("/", stateStrings);
-		}
-	}
+            return string.Join("/", stateStrings);
+        }
+    }
 }
-

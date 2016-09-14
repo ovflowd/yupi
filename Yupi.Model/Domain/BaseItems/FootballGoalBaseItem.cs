@@ -2,10 +2,9 @@
 
 namespace Yupi.Model.Domain
 {
-	public class FootballGoalBaseItem : FloorBaseItem
-	{
-		// TODO Should be enum
-		public virtual int Color { get; set; }
-	}
+    public class FootballGoalBaseItem : FloorBaseItem
+    {
+        // TODO Should be enum
+        public virtual int Color { get; set; }
+    }
 }
-

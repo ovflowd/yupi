@@ -2,11 +2,10 @@
 
 namespace Yupi.Model.Domain
 {
-	public class SnowBoardSlopeBaseItem : FloorBaseItem
-	{
-		public SnowBoardSlopeBaseItem ()
-		{
-		}
-	}
+    public class SnowBoardSlopeBaseItem : FloorBaseItem
+    {
+        public SnowBoardSlopeBaseItem()
+        {
+        }
+    }
 }
-

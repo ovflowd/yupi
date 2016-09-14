@@ -2,11 +2,10 @@
 
 namespace Yupi.Model.Domain
 {
-	public class FreezeTimerBaseItem : FloorBaseItem
-	{
-		public FreezeTimerBaseItem ()
-		{
-		}
-	}
+    public class FreezeTimerBaseItem : FloorBaseItem
+    {
+        public FreezeTimerBaseItem()
+        {
+        }
+    }
 }
-

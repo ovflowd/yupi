@@ -2,10 +2,8 @@
 
 namespace Yupi.Model.Domain
 {
-	// TODO Rename to soccer?
-	public class FootballBaseItem : FloorBaseItem
-	{
-		
-	}
+    // TODO Rename to soccer?
+    public class FootballBaseItem : FloorBaseItem
+    {
+    }
 }
-

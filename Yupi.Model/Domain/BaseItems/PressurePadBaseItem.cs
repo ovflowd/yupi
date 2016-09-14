@@ -2,11 +2,10 @@
 
 namespace Yupi.Model.Domain
 {
-	public class PressurePadBaseItem : FloorBaseItem
-	{
-		public PressurePadBaseItem ()
-		{
-		}
-	}
+    public class PressurePadBaseItem : FloorBaseItem
+    {
+        public PressurePadBaseItem()
+        {
+        }
+    }
 }
-

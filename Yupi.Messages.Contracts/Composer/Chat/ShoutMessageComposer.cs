@@ -3,9 +3,7 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Contracts
 {
-	public abstract class ShoutMessageComposer : ChatMessageComposer
-	{
-		
-	}
+    public abstract class ShoutMessageComposer : ChatMessageComposer
+    {
+    }
 }
-

@@ -4,25 +4,26 @@ using Headspring;
 
 namespace Yupi.Messages.Contracts
 {
-	public abstract class RoomSpacesMessageComposer : AbstractComposer<RoomSpacesMessageComposer.RoomSpacesType, RoomData>
-	{
-		public class RoomSpacesType : Enumeration<RoomSpacesType>
-		{
-			public static readonly RoomSpacesType Wallpaper = new RoomSpacesType(0, "wallpaper");
-			public static readonly RoomSpacesType Floor = new RoomSpacesType(1, "floor");
-			public static readonly RoomSpacesType Landscape = new RoomSpacesType(2, "landscape");
+    public abstract class RoomSpacesMessageComposer :
+        AbstractComposer<RoomSpacesMessageComposer.RoomSpacesType, RoomData>
+    {
+        public class RoomSpacesType : Enumeration<RoomSpacesType>
+        {
+            public static readonly RoomSpacesType Wallpaper = new RoomSpacesType(0, "wallpaper");
+            public static readonly RoomSpacesType Floor = new RoomSpacesType(1, "floor");
+            public static readonly RoomSpacesType Landscape = new RoomSpacesType(2, "landscape");
 
-			// TODO landscapeanim
+            // TODO landscapeanim
 
-			private RoomSpacesType (int value, string displayName) : base(value, displayName)
-			{
-				
-			}
-		}
+            private RoomSpacesType(int value, string displayName) : base(value, displayName)
+            {
+            }
+        }
 
-		public override void Compose(Yupi.Protocol.ISender session, RoomSpacesMessageComposer.RoomSpacesType type, RoomData data)
-		{
-		 // Do nothing by default.
-		}
-	}
+        public override void Compose(Yupi.Protocol.ISender session, RoomSpacesMessageComposer.RoomSpacesType type,
+            RoomData data)
+        {
+            // Do nothing by default.
+        }
+    }
 }

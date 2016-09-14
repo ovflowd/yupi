@@ -2,11 +2,10 @@
 
 namespace Yupi.Model.Domain
 {
-	public class WiredActionBotTalkToAvatarBaseItem : WiredBaseItem
-	{
-		public WiredActionBotTalkToAvatarBaseItem ()
-		{
-		}
-	}
+    public class WiredActionBotTalkToAvatarBaseItem : WiredBaseItem
+    {
+        public WiredActionBotTalkToAvatarBaseItem()
+        {
+        }
+    }
 }
-

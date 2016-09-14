@@ -2,11 +2,10 @@
 
 namespace Yupi.Model.Domain
 {
-	public class WiredActionJoinTeamBaseItem : WiredBaseItem
-	{
-		public WiredActionJoinTeamBaseItem ()
-		{
-		}
-	}
+    public class WiredActionJoinTeamBaseItem : WiredBaseItem
+    {
+        public WiredActionJoinTeamBaseItem()
+        {
+        }
+    }
 }
-

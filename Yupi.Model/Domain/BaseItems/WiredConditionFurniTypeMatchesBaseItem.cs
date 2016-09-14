@@ -2,11 +2,10 @@
 
 namespace Yupi.Model.Domain
 {
-	public class WiredConditionFurniTypeMatchesBaseItem : WiredBaseItem
-	{
-		public WiredConditionFurniTypeMatchesBaseItem ()
-		{
-		}
-	}
+    public class WiredConditionFurniTypeMatchesBaseItem : WiredBaseItem
+    {
+        public WiredConditionFurniTypeMatchesBaseItem()
+        {
+        }
+    }
 }
-

@@ -5,29 +5,30 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Groups
 {
-	public class ConfirmLeaveGroupMessageEvent : AbstractHandler
-	{
-		private IRepository<Group> GroupRepository;
+    public class ConfirmLeaveGroupMessageEvent : AbstractHandler
+    {
+        private IRepository<Group> GroupRepository;
 
-		public ConfirmLeaveGroupMessageEvent ()
-		{
-			GroupRepository = DependencyFactory.Resolve<IRepository<Group>> ();
-		}
+        public ConfirmLeaveGroupMessageEvent()
+        {
+            GroupRepository = DependencyFactory.Resolve<IRepository<Group>>();
+        }
 
-		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
-		{
-			int groupId = request.GetInteger ();
-			int userId = request.GetInteger ();
+        public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
+            Yupi.Protocol.IRouter router)
+        {
+            int groupId = request.GetInteger();
+            int userId = request.GetInteger();
 
-			Group group = GroupRepository.FindBy (groupId);
+            Group group = GroupRepository.FindBy(groupId);
 
-			if (group == null)
-				return;
+            if (group == null)
+                return;
 
-			if (group.Creator.Id == userId)
-			{
-				return;
-			}/*
+            if (group.Creator.Id == userId)
+            {
+                return;
+            } /*
 			// TODO Refactor
 			if (userId == session.Info.Id || group.Admins.Contains(session.Info))
 			{
@@ -100,7 +101,7 @@ namespace Yupi.Messages.Groups
 				router.GetComposer<GroupMembersMessageComposer> ().Compose (session, group);
 				router.GetComposer<GrouprequestReloadMessageComposer> ().Compose (session, groupId);
 			}*/
-			throw new NotImplementedException ();
-		}
-	}
+            throw new NotImplementedException();
+        }
+    }
 }

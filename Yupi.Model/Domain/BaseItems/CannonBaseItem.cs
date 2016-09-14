@@ -2,11 +2,10 @@
 
 namespace Yupi.Model.Domain
 {
-	public class CannonBaseItem : FloorBaseItem
-	{
-		public CannonBaseItem ()
-		{
-		}
-	}
+    public class CannonBaseItem : FloorBaseItem
+    {
+        public CannonBaseItem()
+        {
+        }
+    }
 }
-

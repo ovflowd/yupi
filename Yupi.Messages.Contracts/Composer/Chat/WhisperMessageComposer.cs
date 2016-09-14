@@ -2,9 +2,7 @@
 
 namespace Yupi.Messages.Contracts
 {
-	public abstract class WhisperMessageComposer : ChatMessageComposer
-	{
-
-	}
+    public abstract class WhisperMessageComposer : ChatMessageComposer
+    {
+    }
 }
-

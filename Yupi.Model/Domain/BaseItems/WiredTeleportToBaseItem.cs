@@ -2,11 +2,10 @@
 
 namespace Yupi.Model.Domain
 {
-	public class WiredTeleportToBaseItem : WiredBaseItem
-	{
-		public WiredTeleportToBaseItem ()
-		{
-		}
-	}
+    public class WiredTeleportToBaseItem : WiredBaseItem
+    {
+        public WiredTeleportToBaseItem()
+        {
+        }
+    }
 }
-

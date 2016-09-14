@@ -2,11 +2,10 @@
 
 namespace Yupi.Model.Domain
 {
-	public class FloorSwitch : FloorBaseItem
-	{
-		public FloorSwitch ()
-		{
-		}
-	}
+    public class FloorSwitch : FloorBaseItem
+    {
+        public FloorSwitch()
+        {
+        }
+    }
 }
-

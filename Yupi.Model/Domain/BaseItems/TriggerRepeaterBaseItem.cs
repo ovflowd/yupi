@@ -2,11 +2,10 @@
 
 namespace Yupi.Model.Domain
 {
-	public class TriggerRepeaterBaseItem : FloorBaseItem
-	{
-		public TriggerRepeaterBaseItem ()
-		{
-		}
-	}
+    public class TriggerRepeaterBaseItem : FloorBaseItem
+    {
+        public TriggerRepeaterBaseItem()
+        {
+        }
+    }
 }
-

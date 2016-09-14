@@ -28,42 +28,49 @@ using System.Linq;
 
 namespace Yupi.Model.Domain
 {
-	/// <summary>
-	///     Class Achievement.
-	/// </summary>
-	public class Achievement
-	{
-		public virtual int Id { get; protected set; }
-		
-		public virtual string Category { get; set; }
+    /// <summary>
+    ///     Class Achievement.
+    /// </summary>
+    public class Achievement
+    {
+        public virtual int Id { get; protected set; }
 
-		public virtual string GroupName { get; set; }
+        public virtual string Category { get; set; }
 
-		[OneToMany]
-		public virtual IList<AchievementLevel> Levels { get; protected set; }
+        public virtual string GroupName { get; set; }
 
-		public Achievement ()
-		{
-			Levels = new List<AchievementLevel> ();
-		}
+        [OneToMany]
+        public virtual IList<AchievementLevel> Levels { get; protected set; }
 
-		public virtual int GetMaxLevel() {
-			return Levels.Count - 1;
-		}
+        public Achievement()
+        {
+            Levels = new List<AchievementLevel>();
+        }
 
-		public virtual AchievementLevel DefaultLevel() {
-			if (Levels.Any ()) {
-				return Levels [0];
-			} else {
-				return null;
-			}
-		}
+        public virtual int GetMaxLevel()
+        {
+            return Levels.Count - 1;
+        }
 
-		public virtual AchievementLevel NextLevel(AchievementLevel current) {
-			if (current.Level == GetMaxLevel ()) {
-				return current;
-			}
-			return Levels.Single (x => x.Level == current.Level + 1);
-		}
-	}
+        public virtual AchievementLevel DefaultLevel()
+        {
+            if (Levels.Any())
+            {
+                return Levels[0];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public virtual AchievementLevel NextLevel(AchievementLevel current)
+        {
+            if (current.Level == GetMaxLevel())
+            {
+                return current;
+            }
+            return Levels.Single(x => x.Level == current.Level + 1);
+        }
+    }
 }

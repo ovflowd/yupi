@@ -6,50 +6,53 @@ using System.Collections.Generic;
 
 namespace Yupi.Net.DotNettyImpl
 {
-	public class FlashPolicyHandler : ByteToMessageDecoder
-	{
-		private CrossDomainSettings FlashPolicy;
+    public class FlashPolicyHandler : ByteToMessageDecoder
+    {
+        private CrossDomainSettings FlashPolicy;
 
-		public FlashPolicyHandler (CrossDomainSettings flashPolicy)
-		{
-			this.FlashPolicy = flashPolicy;
-		}
-		
+        public FlashPolicyHandler(CrossDomainSettings flashPolicy)
+        {
+            this.FlashPolicy = flashPolicy;
+        }
 
-		protected override void Decode (IChannelHandlerContext context, IByteBuffer input, List<object> output)
-		{
-			if (input.ReadableBytes < 2) {
-				return;
-			}
 
-			input.MarkReaderIndex ();
+        protected override void Decode(IChannelHandlerContext context, IByteBuffer input, List<object> output)
+        {
+            if (input.ReadableBytes < 2)
+            {
+                return;
+            }
 
-			byte magic1 = input.ReadByte ();
-			byte magic2 = input.ReadByte ();
+            input.MarkReaderIndex();
 
-			bool isFlashPolicyRequest = (magic1 == '<' && magic2 == 'p');
+            byte magic1 = input.ReadByte();
+            byte magic2 = input.ReadByte();
 
-			if (isFlashPolicyRequest) {
-				input.SkipBytes (input.ReadableBytes);
+            bool isFlashPolicyRequest = (magic1 == '<' && magic2 == 'p');
 
-				// Make sure no downstream handler can interfere with sending our policy response
-				removeAllPipelineHandlers (context.Channel.Pipeline);
+            if (isFlashPolicyRequest)
+            {
+                input.SkipBytes(input.ReadableBytes);
 
-				// Write the policy and close the connection
-				context.WriteAndFlushAsync (FlashPolicy.GetBytes ()).ContinueWith (delegate {
-					context.CloseAsync ();
-				});
-			} else {
-				// Remove ourselves
-				context.Channel.Pipeline.Remove (this);
-			}
-		}
+                // Make sure no downstream handler can interfere with sending our policy response
+                removeAllPipelineHandlers(context.Channel.Pipeline);
 
-		private void removeAllPipelineHandlers(IChannelPipeline pipeline) {
-			while (pipeline.First() != null) {
-				pipeline.RemoveFirst ();
-			}
-		}
-	}
+                // Write the policy and close the connection
+                context.WriteAndFlushAsync(FlashPolicy.GetBytes()).ContinueWith(delegate { context.CloseAsync(); });
+            }
+            else
+            {
+                // Remove ourselves
+                context.Channel.Pipeline.Remove(this);
+            }
+        }
+
+        private void removeAllPipelineHandlers(IChannelPipeline pipeline)
+        {
+            while (pipeline.First() != null)
+            {
+                pipeline.RemoveFirst();
+            }
+        }
+    }
 }
-

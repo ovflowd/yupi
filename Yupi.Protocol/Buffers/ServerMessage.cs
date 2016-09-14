@@ -31,7 +31,7 @@ using CodeProject.ObjectPool;
 
 namespace Yupi.Protocol.Buffers
 {
-	// TODO Refactor + implement pooled object properly
+    // TODO Refactor + implement pooled object properly
     public class ServerMessage : PooledObject, IDisposable
     {
         /// <summary>
@@ -97,7 +97,7 @@ namespace Yupi.Protocol.Buffers
         /// <param name="header">The header.</param>
         public void Init(short header)
         {
-			_buffer.SetLength(0);
+            _buffer.SetLength(0);
             Id = header;
             AppendShort(header);
         }
@@ -176,9 +176,10 @@ namespace Yupi.Protocol.Buffers
         ///     Appends the integer.
         /// </summary>
         /// <param name="value">The i.</param>
-		public void AppendInteger(int value) {
-			AppendBytes (BitConverter.GetBytes (value), true);
-		}
+        public void AppendInteger(int value)
+        {
+            AppendBytes(BitConverter.GetBytes(value), true);
+        }
 
         /// <summary>
         ///     Appends the integer.
@@ -192,7 +193,7 @@ namespace Yupi.Protocol.Buffers
         /// <param name="i">if set to <c>true</c> [i].</param>
         public void AppendInteger(bool i) => AppendInteger(i ? 1 : 0);
 
-		/*
+        /*
         public void AppendIntegersArray(string str, char delimiter, int lenght, int defaultValue = 0, int maxValue = 0)
         {
             if (string.IsNullOrEmpty(str))
@@ -221,8 +222,8 @@ namespace Yupi.Protocol.Buffers
             }
         }
 */
-    
-		/// <summary>
+
+        /// <summary>
         ///     Appends the bool.
         /// </summary>
         /// <param name="b">if set to <c>true</c> [b].</param>
@@ -235,9 +236,9 @@ namespace Yupi.Protocol.Buffers
         /// <param name="isUtf8">If string is UTF8</param>
         public void AppendString(string s)
         {
-			byte[] bytes = Encoding.UTF8.GetBytes(s);
-			// TODO Pay attention to length!
-			AppendShort((short)bytes.Length);
+            byte[] bytes = Encoding.UTF8.GetBytes(s);
+            // TODO Pay attention to length!
+            AppendShort((short) bytes.Length);
             AppendBytes(bytes, false);
         }
 
@@ -248,7 +249,7 @@ namespace Yupi.Protocol.Buffers
         /// <param name="isInt">if set to <c>true</c> [is int].</param>
         public void AppendBytes(byte[] b, bool isInt)
         {
-			// TODO Proper BigEndian Encoding!
+            // TODO Proper BigEndian Encoding!
             if (isInt)
                 Array.Reverse(b);
 
@@ -266,7 +267,6 @@ namespace Yupi.Protocol.Buffers
         /// </summary>
         /// <returns>System.Byte[].</returns>
         //public byte[] GetBytes() => CurrentMessage.ToArray();
-
         /// <summary>
         ///     Gets the reversed bytes.
         /// </summary>
@@ -274,7 +274,7 @@ namespace Yupi.Protocol.Buffers
         public byte[] GetReversedBytes()
         {
             byte[] bytes;
-			// TODO Why do we need to copy
+            // TODO Why do we need to copy
             using (MemoryStream finalBuffer = new MemoryStream())
             {
                 byte[] length = BitConverter.GetBytes((int) CurrentMessage.Length);
@@ -288,16 +288,16 @@ namespace Yupi.Protocol.Buffers
                 bytes = finalBuffer.ToArray();
             }
 
-			//if (Yupi.PacketDebugMode) {
-				// string package = Encoding.UTF8.GetString (bytes);
+            //if (Yupi.PacketDebugMode) {
+            // string package = Encoding.UTF8.GetString (bytes);
 
-			// TODO Packet debugging
-				// TODO Escape special chars
+            // TODO Packet debugging
+            // TODO Escape special chars
 
-				/*YupiWriterManager.WriteLine(
-					$"Handled: {Id}: " + Environment.NewLine + package + Environment.NewLine,
-					"Yupi.Outgoing", ConsoleColor.DarkGray);*/
-			//}
+            /*YupiWriterManager.WriteLine(
+                $"Handled: {Id}: " + Environment.NewLine + package + Environment.NewLine,
+                "Yupi.Outgoing", ConsoleColor.DarkGray);*/
+            //}
 
             return bytes;
         }

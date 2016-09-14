@@ -28,17 +28,16 @@ using System.Linq;
 
 namespace Yupi.Model.Domain
 {
-	public class RoomCompetition
-	{
-		public virtual int Id { get; protected set; }
-		public virtual IList<RoomCompetitionEntry> Entries { get; protected set; }
-		public virtual string Name { get; protected set; }
-		public virtual IList<BaseItem> RequiredItems { get; protected set; }
+    public class RoomCompetition
+    {
+        public virtual int Id { get; protected set; }
+        public virtual IList<RoomCompetitionEntry> Entries { get; protected set; }
+        public virtual string Name { get; protected set; }
+        public virtual IList<BaseItem> RequiredItems { get; protected set; }
 
-		public RoomCompetition ()
-		{
-			RequiredItems = new List<BaseItem> ();
-		}
-	}
-
+        public RoomCompetition()
+        {
+            RequiredItems = new List<BaseItem>();
+        }
+    }
 }

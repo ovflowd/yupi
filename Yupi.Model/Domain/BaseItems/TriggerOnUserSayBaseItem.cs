@@ -2,11 +2,10 @@
 
 namespace Yupi.Model.Domain
 {
-	public class TriggerOnUserSayBaseItem : FloorBaseItem
-	{
-		public TriggerOnUserSayBaseItem ()
-		{
-		}
-	}
+    public class TriggerOnUserSayBaseItem : FloorBaseItem
+    {
+        public TriggerOnUserSayBaseItem()
+        {
+        }
+    }
 }
-

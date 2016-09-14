@@ -8,28 +8,28 @@ using Yupi.Protocol;
 
 namespace Yupi.Messages.Guides
 {
-	public class AmbassadorAlertMessageEvent : AbstractHandler
-	{
-		private ClientManager ClientManager;
+    public class AmbassadorAlertMessageEvent : AbstractHandler
+    {
+        private ClientManager ClientManager;
 
-		public AmbassadorAlertMessageEvent ()
-		{
-			ClientManager = DependencyFactory.Resolve<ClientManager> ();
-		}
+        public AmbassadorAlertMessageEvent()
+        {
+            ClientManager = DependencyFactory.Resolve<ClientManager>();
+        }
 
-		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
-		{
-			if (!session.Info.HasPermission ("send_ambassador_alert"))
-				return;
+        public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message,
+            Yupi.Protocol.IRouter router)
+        {
+            if (!session.Info.HasPermission("send_ambassador_alert"))
+                return;
 
-			int userId = message.GetInteger();
+            int userId = message.GetInteger();
 
-			Habbo user = ClientManager.GetByUserId (userId);
+            Habbo user = ClientManager.GetByUserId(userId);
 
-			user.Router.GetComposer<SuperNotificationMessageComposer> ()
-				.Compose (user, "${notification.ambassador.alert.warning.title}",
-					"${notification.ambassador.alert.warning.message}");
-		}
-	}
+            user.Router.GetComposer<SuperNotificationMessageComposer>()
+                .Compose(user, "${notification.ambassador.alert.warning.title}",
+                    "${notification.ambassador.alert.warning.message}");
+        }
+    }
 }
-

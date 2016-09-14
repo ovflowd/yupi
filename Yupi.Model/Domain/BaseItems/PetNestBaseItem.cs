@@ -2,11 +2,10 @@
 
 namespace Yupi.Model.Domain
 {
-	public class PetNestBaseItem : FloorBaseItem
-	{
-		public PetNestBaseItem ()
-		{
-		}
-	}
+    public class PetNestBaseItem : FloorBaseItem
+    {
+        public PetNestBaseItem()
+        {
+        }
+    }
 }
-

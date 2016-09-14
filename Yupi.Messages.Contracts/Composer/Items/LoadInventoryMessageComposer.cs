@@ -6,11 +6,11 @@ using Yupi.Model.Domain.Components;
 
 namespace Yupi.Messages.Contracts
 {
-	public abstract class LoadInventoryMessageComposer : AbstractComposer<Inventory>
-	{
-		public override void Compose(Yupi.Protocol.ISender session, Inventory inventory)
-		{
-		 // Do nothing by default.
-		}
-	}
+    public abstract class LoadInventoryMessageComposer : AbstractComposer<Inventory>
+    {
+        public override void Compose(Yupi.Protocol.ISender session, Inventory inventory)
+        {
+            // Do nothing by default.
+        }
+    }
 }

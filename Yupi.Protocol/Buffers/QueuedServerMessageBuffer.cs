@@ -41,7 +41,7 @@ namespace Yupi.Protocol.Buffers
         ///     Initializes a new instance of the <see cref="QueuedServerMessageBuffer" /> class.
         /// </summary>
         /// <param name="connection">The connection.</param>
-		public QueuedServerMessageBuffer()
+        public QueuedServerMessageBuffer()
         {
             _packet = new List<byte>();
         }
@@ -50,7 +50,7 @@ namespace Yupi.Protocol.Buffers
         ///     Gets the get packet.
         /// </summary>
         /// <value>The get packet.</value>
-     public byte[] GetPacket => _packet.ToArray();
+        public byte[] GetPacket => _packet.ToArray();
 
         /// <summary>
         ///     Disposes this instance.
@@ -59,30 +59,33 @@ namespace Yupi.Protocol.Buffers
         {
             _packet = null;
         }
-			
+
         /// <summary>
         ///     Appends the response.
         /// </summary>
         /// <param name="messageBuffer">The messageBuffer.</param>
-		 void AppendResponse(ServerMessage messageBuffer) {
-			AppendBytes (messageBuffer.GetReversedBytes ());
-		}
+        void AppendResponse(ServerMessage messageBuffer)
+        {
+            AppendBytes(messageBuffer.GetReversedBytes());
+        }
 
-		// TODO Remove alias
+        // TODO Remove alias
         /// <summary>
         ///     Adds the bytes.
         /// </summary>
         /// <param name="bytes">The bytes.</param>
-		 void AddBytes(byte[] bytes) {
-			AppendBytes (bytes);
-		}
+        void AddBytes(byte[] bytes)
+        {
+            AppendBytes(bytes);
+        }
 
         /// <summary>
         ///     Appends the bytes.
         /// </summary>
         /// <param name="bytes">The bytes.</param>
-		private void AppendBytes(IEnumerable<byte> bytes) {
-			_packet.AddRange (bytes);
-		}
+        private void AppendBytes(IEnumerable<byte> bytes)
+        {
+            _packet.AddRange(bytes);
+        }
     }
 }

@@ -2,9 +2,7 @@
 
 namespace Yupi.Model.Domain
 {
-	public class TeleportBaseItem : FloorBaseItem
-	{
-		
-	}
+    public class TeleportBaseItem : FloorBaseItem
+    {
+    }
 }
-

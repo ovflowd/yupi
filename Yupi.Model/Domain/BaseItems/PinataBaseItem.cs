@@ -2,11 +2,10 @@
 
 namespace Yupi.Model.Domain
 {
-	public class PinataBaseItem : FloorBaseItem
-	{
-		public PinataBaseItem ()
-		{
-		}
-	}
+    public class PinataBaseItem : FloorBaseItem
+    {
+        public PinataBaseItem()
+        {
+        }
+    }
 }
-

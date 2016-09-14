@@ -4,30 +4,38 @@ using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Rooms
 {
-	public class RoomUserActionMessageEvent : AbstractHandler
-	{
-		public override void HandleMessage (Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
-		{
-			if (session.RoomEntity == null)
-				return;
+    public class RoomUserActionMessageEvent : AbstractHandler
+    {
+        public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
+            Yupi.Protocol.IRouter router)
+        {
+            if (session.RoomEntity == null)
+                return;
 
-			int actionId = request.GetInteger ();
+            int actionId = request.GetInteger();
 
-			UserAction action;
+            UserAction action;
 
-			if (!UserAction.TryParse (actionId, out action)) {
-				return;
-			}
-				
-			if (action == UserAction.Idle) {
-				session.RoomEntity.Sleep ();
-			} else {
-				session.RoomEntity.Wake ();
+            if (!UserAction.TryParse(actionId, out action))
+            {
+                return;
+            }
 
-				session.RoomEntity.Room.EachUser (roomSession => { 
-					roomSession.Router.GetComposer<RoomUserActionMessageComposer> ().Compose (roomSession, session.RoomEntity.Id, action);
-				});
-			}
-		}
-	}
+            if (action == UserAction.Idle)
+            {
+                session.RoomEntity.Sleep();
+            }
+            else
+            {
+                session.RoomEntity.Wake();
+
+                session.RoomEntity.Room.EachUser(
+                    roomSession =>
+                    {
+                        roomSession.Router.GetComposer<RoomUserActionMessageComposer>()
+                            .Compose(roomSession, session.RoomEntity.Id, action);
+                    });
+            }
+        }
+    }
 }

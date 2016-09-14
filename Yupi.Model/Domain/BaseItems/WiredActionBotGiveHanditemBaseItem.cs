@@ -2,11 +2,10 @@
 
 namespace Yupi.Model.Domain
 {
-	public class WiredActionBotGiveHanditemBaseItem : WiredBaseItem
-	{
-		public WiredActionBotGiveHanditemBaseItem ()
-		{
-		}
-	}
+    public class WiredActionBotGiveHanditemBaseItem : WiredBaseItem
+    {
+        public WiredActionBotGiveHanditemBaseItem()
+        {
+        }
+    }
 }
-

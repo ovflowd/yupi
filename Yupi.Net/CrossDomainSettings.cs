@@ -21,6 +21,7 @@
    Corporation Oy. Yupi! has nothing linked with Sulake. 
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
+
 using System.Text;
 using System;
 using System.Collections.ObjectModel;
@@ -34,21 +35,23 @@ namespace Yupi.Net
     {
         private byte[] xmlPolicyBytes;
 
-		public CrossDomainSettings(string domain, int port) {
-			string[] lines = new string[]
-			{
-				"<?xml version=\"1.0\"?>",
-				"<!DOCTYPE cross-domain-policy SYSTEM \"/xml/dtds/cross-domain-policy.dtd\">",
-				"<cross-domain-policy>",
-				"<allow-access-from domain=\""+ domain +"\" to-ports=\"" + port + "\" />",
-				"</cross-domain-policy>\0"
-			};
+        public CrossDomainSettings(string domain, int port)
+        {
+            string[] lines = new string[]
+            {
+                "<?xml version=\"1.0\"?>",
+                "<!DOCTYPE cross-domain-policy SYSTEM \"/xml/dtds/cross-domain-policy.dtd\">",
+                "<cross-domain-policy>",
+                "<allow-access-from domain=\"" + domain + "\" to-ports=\"" + port + "\" />",
+                "</cross-domain-policy>\0"
+            };
 
-			xmlPolicyBytes = Encoding.ASCII.GetBytes(String.Join ("\r\n", lines));
-		}
+            xmlPolicyBytes = Encoding.ASCII.GetBytes(String.Join("\r\n", lines));
+        }
 
-		public byte[] GetBytes() {
-			return xmlPolicyBytes;
-		}
+        public byte[] GetBytes()
+        {
+            return xmlPolicyBytes;
+        }
     }
 }

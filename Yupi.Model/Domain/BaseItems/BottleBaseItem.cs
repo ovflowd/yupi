@@ -2,9 +2,7 @@
 
 namespace Yupi.Model.Domain
 {
-	public class BottleBaseItem : FloorBaseItem
-	{
-		
-	}
+    public class BottleBaseItem : FloorBaseItem
+    {
+    }
 }
-

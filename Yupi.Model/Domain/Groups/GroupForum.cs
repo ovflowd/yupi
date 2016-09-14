@@ -21,62 +21,69 @@
    Corporation Oy. Yupi! has nothing linked with Sulake. 
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
+
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Yupi.Model.Domain
 {
-	public class GroupForum
-	{
-		public virtual int Id { get; protected set; }
+    public class GroupForum
+    {
+        public virtual int Id { get; protected set; }
 
-		public virtual string ForumDescription { get; set; }
+        public virtual string ForumDescription { get; set; }
 
-		public virtual string ForumName { get; set; }
+        public virtual string ForumName { get; set; }
 
-		public virtual double ForumScore { get; set; }
+        public virtual double ForumScore { get; set; }
 
-		// TODO Enum
-		public virtual uint WhoCanMod { get; set; }
+        // TODO Enum
+        public virtual uint WhoCanMod { get; set; }
 
-		public virtual uint WhoCanPost { get; set; }
+        public virtual uint WhoCanPost { get; set; }
 
-		public virtual uint WhoCanRead { get; set; }
+        public virtual uint WhoCanRead { get; set; }
 
-		public virtual uint WhoCanThread { get; set; }
+        public virtual uint WhoCanThread { get; set; }
 
-		public virtual IList<GroupForumThread> Threads { get; protected set; }
+        public virtual IList<GroupForumThread> Threads { get; protected set; }
 
-		public GroupForum ()
-		{
-			Threads = new List<GroupForumThread> ();
-		}
+        public GroupForum()
+        {
+            Threads = new List<GroupForumThread>();
+        }
 
-		public virtual GroupForumThread GetThread(int id) {
-			return Threads.SingleOrDefault(x => x.Id == id);
-		}
+        public virtual GroupForumThread GetThread(int id)
+        {
+            return Threads.SingleOrDefault(x => x.Id == id);
+        }
 
-		public virtual int GetMessageCount() {
-			int count = 0;
-			foreach (GroupForumThread thread in Threads) {
-				count += thread.Posts.Count;
-			}
+        public virtual int GetMessageCount()
+        {
+            int count = 0;
+            foreach (GroupForumThread thread in Threads)
+            {
+                count += thread.Posts.Count;
+            }
 
-			return count;
-		}
+            return count;
+        }
 
-		public virtual GroupForumPost GetLastPost() {
-			GroupForumPost newest = null;
+        public virtual GroupForumPost GetLastPost()
+        {
+            GroupForumPost newest = null;
 
-			foreach (GroupForumThread thread in Threads) {
-				GroupForumPost current = thread.Posts.Last();
+            foreach (GroupForumThread thread in Threads)
+            {
+                GroupForumPost current = thread.Posts.Last();
 
-				if (newest == null || current.Timestamp > newest.Timestamp) {
-					newest = current;
-				}
-			}
+                if (newest == null || current.Timestamp > newest.Timestamp)
+                {
+                    newest = current;
+                }
+            }
 
-			return newest;
-		}
-	}
+            return newest;
+        }
+    }
 }

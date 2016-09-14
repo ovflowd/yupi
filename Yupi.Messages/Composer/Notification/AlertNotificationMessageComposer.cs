@@ -2,9 +2,7 @@
 
 namespace Yupi.Messages.Notification
 {
-	public class AlertNotificationMessageComposer : BroadcastNotifMessageComposer
-	{
-		
-	}
+    public class AlertNotificationMessageComposer : BroadcastNotifMessageComposer
+    {
+    }
 }
-

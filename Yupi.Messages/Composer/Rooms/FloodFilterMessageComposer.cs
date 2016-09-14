@@ -3,15 +3,15 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Rooms
 {
-	public class FloodFilterMessageComposer : Yupi.Messages.Contracts.FloodFilterMessageComposer
-	{
-		public override void Compose ( Yupi.Protocol.ISender session, int remainingSeconds)
-		{
-			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendInteger (remainingSeconds);
-				session.Send (message);
-			}
-		}
-	}
+    public class FloodFilterMessageComposer : Yupi.Messages.Contracts.FloodFilterMessageComposer
+    {
+        public override void Compose(Yupi.Protocol.ISender session, int remainingSeconds)
+        {
+            using (ServerMessage message = Pool.GetMessageBuffer(Id))
+            {
+                message.AppendInteger(remainingSeconds);
+                session.Send(message);
+            }
+        }
+    }
 }
-

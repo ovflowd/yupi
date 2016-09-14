@@ -12,118 +12,137 @@ using System.Text;
 
 namespace Yupi.Messages
 {
-	public class Router : Yupi.Protocol.IRouter
-	{
-		public static Router Default;
+    public class Router : Yupi.Protocol.IRouter
+    {
+        public static Router Default;
 
-		private static readonly log4net.ILog Logger = log4net.LogManager
-			.GetLogger (System.Reflection.MethodBase.GetCurrentMethod ().DeclaringType);
+        private static readonly log4net.ILog Logger = log4net.LogManager
+            .GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-		private Dictionary<short, AbstractHandler> Incoming;
-		private Dictionary<Type, IComposer> Outgoing;
+        private Dictionary<short, AbstractHandler> Incoming;
+        private Dictionary<Type, IComposer> Outgoing;
 
-		private PacketLibrary library;
-		private ServerMessagePool pool;
+        private PacketLibrary library;
+        private ServerMessagePool pool;
 
-		private Assembly MessageAssembly;
+        private Assembly MessageAssembly;
 
-		public Router (string release, string configDir, Assembly messageAssembly)
-		{
-			pool = new ServerMessagePool ();
-			MessageAssembly = messageAssembly;
-			library = new PacketLibrary (release, configDir);
-			LoadHandlers ();
-			LoadComposers ();
-		}
+        public Router(string release, string configDir, Assembly messageAssembly)
+        {
+            pool = new ServerMessagePool();
+            MessageAssembly = messageAssembly;
+            library = new PacketLibrary(release, configDir);
+            LoadHandlers();
+            LoadComposers();
+        }
 
-		public T GetComposer<T> ()
-		{
-			IComposer composer;
-			Outgoing.TryGetValue (typeof(T), out composer);
+        public T GetComposer<T>()
+        {
+            IComposer composer;
+            Outgoing.TryGetValue(typeof(T), out composer);
 
-			if (composer == null) {
-				Logger.ErrorFormat ("Invalid composer {0}", typeof(T).Name);
-			}
+            if (composer == null)
+            {
+                Logger.ErrorFormat("Invalid composer {0}", typeof(T).Name);
+            }
 
-			if (Logger.IsDebugEnabled) {
-				Logger.WarnFormat ("Compose {0}", typeof(T).Name);
-			}
+            if (Logger.IsDebugEnabled)
+            {
+                Logger.WarnFormat("Compose {0}", typeof(T).Name);
+            }
 
-			return (T)composer;
-		}
+            return (T) composer;
+        }
 
-		public void Handle (Habbo session, ClientMessage message)
-		{
-			AbstractHandler handler;
-			Incoming.TryGetValue (message.Id, out handler);
+        public void Handle(Habbo session, ClientMessage message)
+        {
+            AbstractHandler handler;
+            Incoming.TryGetValue(message.Id, out handler);
 
-			if (handler == null) {
-				Logger.WarnFormat ("Unknown incoming message {0}", message.Id);
-			} else {
-				if (Logger.IsDebugEnabled) {
-					Logger.WarnFormat ("Handle [{0}] {1} for [{2}]: {3}", 
-						message.Id,
-						handler.GetType ().Name, 
-						session.Session.RemoteAddress,
-						Encoding.Default.GetString (message.GetBody ())
-					);
-				}
+            if (handler == null)
+            {
+                Logger.WarnFormat("Unknown incoming message {0}", message.Id);
+            }
+            else
+            {
+                if (Logger.IsDebugEnabled)
+                {
+                    Logger.WarnFormat("Handle [{0}] {1} for [{2}]: {3}",
+                        message.Id,
+                        handler.GetType().Name,
+                        session.Session.RemoteAddress,
+                        Encoding.Default.GetString(message.GetBody())
+                    );
+                }
 
-				try {
-					handler.HandleMessage (session, message, this);
-				} catch (Exception e) {
-					Logger.Error ("Exception thrown in Handler", e);
-				}
-			}
-		}
-		// TODO Fix handler names in *.incoming
-		private void LoadHandlers ()
-		{
-			Incoming = new Dictionary<short, AbstractHandler> ();
+                try
+                {
+                    handler.HandleMessage(session, message, this);
+                }
+                catch (Exception e)
+                {
+                    Logger.Error("Exception thrown in Handler", e);
+                }
+            }
+        }
 
-			IEnumerable<Type> handlers = GetImplementing <AbstractHandler> ();
+        // TODO Fix handler names in *.incoming
+        private void LoadHandlers()
+        {
+            Incoming = new Dictionary<short, AbstractHandler>();
 
-			foreach (Type handlerType in handlers) {
-				short id = library.GetIncomingId (handlerType.Name);
+            IEnumerable<Type> handlers = GetImplementing<AbstractHandler>();
 
-				if (id > 0) {
-					if (Incoming.ContainsKey (id)) {
-						Logger.ErrorFormat ("Duplicate Handler Id [{0}]", id);
-					} else {
-						AbstractHandler handler = (AbstractHandler)Activator.CreateInstance (handlerType);
-						Incoming.Add (id, handler);
-					}
-				}
-			}
-		}
+            foreach (Type handlerType in handlers)
+            {
+                short id = library.GetIncomingId(handlerType.Name);
 
-		private void LoadComposers ()
-		{
-			Outgoing = new Dictionary<Type, IComposer> ();
+                if (id > 0)
+                {
+                    if (Incoming.ContainsKey(id))
+                    {
+                        Logger.ErrorFormat("Duplicate Handler Id [{0}]", id);
+                    }
+                    else
+                    {
+                        AbstractHandler handler = (AbstractHandler) Activator.CreateInstance(handlerType);
+                        Incoming.Add(id, handler);
+                    }
+                }
+            }
+        }
 
-			IEnumerable<Type> composers = GetImplementing <IComposer> ();
+        private void LoadComposers()
+        {
+            Outgoing = new Dictionary<Type, IComposer>();
 
-			foreach (Type composerType in composers) {
-				short id = library.GetOutgoingId (composerType.Name);
+            IEnumerable<Type> composers = GetImplementing<IComposer>();
 
-				if (id > 0) {
+            foreach (Type composerType in composers)
+            {
+                short id = library.GetOutgoingId(composerType.Name);
 
-					IComposer composer = (IComposer)Activator.CreateInstance (composerType);
-					composer.Init (id, pool);
+                if (id > 0)
+                {
+                    IComposer composer = (IComposer) Activator.CreateInstance(composerType);
+                    composer.Init(id, pool);
 
-					// TODO Remove one Add
-					Outgoing.Add (composerType, composer);
-					if (composerType.BaseType.Namespace.StartsWith ("Yupi.Messages.Contracts")
-					    && !composerType.BaseType.Name.StartsWith ("AbstractComposer")) {
-						Outgoing.Add (composerType.BaseType, composer);
-					}
-				}
-			}
-		}
+                    // TODO Remove one Add
+                    Outgoing.Add(composerType, composer);
+                    if (composerType.BaseType.Namespace.StartsWith("Yupi.Messages.Contracts")
+                        && !composerType.BaseType.Name.StartsWith("AbstractComposer"))
+                    {
+                        Outgoing.Add(composerType.BaseType, composer);
+                    }
+                }
+            }
+        }
 
-		private IEnumerable<Type> GetImplementing<T> ()
-		{
-			return MessageAssembly.GetTypes ().Where (p => typeof(T).IsAssignableFrom (p) && p.GetConstructor (Type.EmptyTypes) != null);
-		}
-	}
+        private IEnumerable<Type> GetImplementing<T>()
+        {
+            return
+                MessageAssembly.GetTypes()
+                    .Where(p => typeof(T).IsAssignableFrom(p) && p.GetConstructor(Type.EmptyTypes) != null);
+        }
+    }
 }

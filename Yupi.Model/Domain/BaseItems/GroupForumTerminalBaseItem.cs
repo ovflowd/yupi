@@ -2,11 +2,10 @@
 
 namespace Yupi.Model.Domain
 {
-	public class GroupForumTerminalBaseItem : FloorBaseItem
-	{
-		public GroupForumTerminalBaseItem ()
-		{
-		}
-	}
+    public class GroupForumTerminalBaseItem : FloorBaseItem
+    {
+        public GroupForumTerminalBaseItem()
+        {
+        }
+    }
 }
-

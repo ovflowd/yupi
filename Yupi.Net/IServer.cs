@@ -26,28 +26,29 @@ using System;
 
 namespace Yupi.Net
 {
-	public delegate void MessageReceived<T>(ISession<T> session, byte[] body);
-	public delegate void ConnectionOpened<T>(ISession<T> session);
-	public delegate void ConnectionClosed<T>(ISession<T> session);
+    public delegate void MessageReceived<T>(ISession<T> session, byte[] body);
 
-	public interface IServer<T>
-	{
-		event MessageReceived<T> OnMessageReceived;
-		event ConnectionOpened<T> OnConnectionOpened;
-		event ConnectionClosed<T> OnConnectionClosed;
+    public delegate void ConnectionOpened<T>(ISession<T> session);
 
-		/// <summary>
-		/// Starts this server instance.
-		/// </summary>
-		/// <returns>
-		/// return true if start successfull, else false
-		/// </returns>
-		bool Start();
+    public delegate void ConnectionClosed<T>(ISession<T> session);
 
-		/// <summary>
-		/// Stops this server instance.
-		/// </summary>
-		void Stop();
-	}
+    public interface IServer<T>
+    {
+        event MessageReceived<T> OnMessageReceived;
+        event ConnectionOpened<T> OnConnectionOpened;
+        event ConnectionClosed<T> OnConnectionClosed;
+
+        /// <summary>
+        /// Starts this server instance.
+        /// </summary>
+        /// <returns>
+        /// return true if start successfull, else false
+        /// </returns>
+        bool Start();
+
+        /// <summary>
+        /// Stops this server instance.
+        /// </summary>
+        void Stop();
+    }
 }
-

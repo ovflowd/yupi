@@ -2,9 +2,7 @@
 
 namespace Yupi.Model.Domain
 {
-	public class AlertBaseItem : FloorBaseItem
-	{
-		
-	}
+    public class AlertBaseItem : FloorBaseItem
+    {
+    }
 }
-

@@ -2,11 +2,10 @@
 
 namespace Yupi.Model.Domain
 {
-	public class TriggerRoomEnterBaseItem : FloorBaseItem
-	{
-		public TriggerRoomEnterBaseItem ()
-		{
-		}
-	}
+    public class TriggerRoomEnterBaseItem : FloorBaseItem
+    {
+        public TriggerRoomEnterBaseItem()
+        {
+        }
+    }
 }
-

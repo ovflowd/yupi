@@ -2,11 +2,10 @@
 
 namespace Yupi.Model.Domain
 {
-	public class WiredConditionUserHasFurniBaseItem : WiredBaseItem
-	{
-		public WiredConditionUserHasFurniBaseItem ()
-		{
-		}
-	}
+    public class WiredConditionUserHasFurniBaseItem : WiredBaseItem
+    {
+        public WiredConditionUserHasFurniBaseItem()
+        {
+        }
+    }
 }
-

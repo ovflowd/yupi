@@ -3,22 +3,22 @@
 
 namespace Yupi.Messages.Items
 {
-	public class TradeAcceptMessageEvent : AbstractHandler
-	{
-		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
-		{
-			/*
-			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
+    public class TradeAcceptMessageEvent : AbstractHandler
+    {
+        public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
+            Yupi.Protocol.IRouter router)
+        {
+            /*
+            Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
 
-			if (room == null || !room.CanTradeInRoom)
-				return;
+            if (room == null || !room.CanTradeInRoom)
+                return;
 
-			Trade userTrade = room.GetUserTrade(session.GetHabbo().Id);
+            Trade userTrade = room.GetUserTrade(session.GetHabbo().Id);
 
-			userTrade?.Accept(session.GetHabbo().Id);
-			*/
-			throw new NotImplementedException ();
-		}
-	}
+            userTrade?.Accept(session.GetHabbo().Id);
+            */
+            throw new NotImplementedException();
+        }
+    }
 }
-

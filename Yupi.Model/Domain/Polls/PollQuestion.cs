@@ -3,25 +3,25 @@ using System.Linq;
 
 namespace Yupi.Model.Domain
 {
-	public class PollQuestion
-	{
-		public virtual int Id { get; protected set; }
+    public class PollQuestion
+    {
+        public virtual int Id { get; protected set; }
 
-		public virtual IList<string> Answers { get; protected set; }
+        public virtual IList<string> Answers { get; protected set; }
 
-		// TODO Rename
-		public virtual PollAnswerType AnswerType { get; set; }
+        // TODO Rename
+        public virtual PollAnswerType AnswerType { get; set; }
 
-		// TODO Use id?
-		public virtual string CorrectAnswer { get; set; }
-		public virtual string Question { get; set; }
+        // TODO Use id?
+        public virtual string CorrectAnswer { get; set; }
+        public virtual string Question { get; set; }
 
-		public PollQuestion ()
-		{
-			Answers = new List<string> ();
-		}
+        public PollQuestion()
+        {
+            Answers = new List<string>();
+        }
 
-		/*
+        /*
         /// <summary>
         ///     Serializes the specified messageBuffer.
         /// </summary>
@@ -47,5 +47,5 @@ namespace Yupi.Model.Domain
             }
         }
    */
-	}
+    }
 }

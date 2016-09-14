@@ -2,11 +2,10 @@
 
 namespace Yupi.Model.Domain
 {
-	public class WiredConditionDateRangeActiveBaseItem : WiredBaseItem
-	{
-		public WiredConditionDateRangeActiveBaseItem ()
-		{
-		}
-	}
+    public class WiredConditionDateRangeActiveBaseItem : WiredBaseItem
+    {
+        public WiredConditionDateRangeActiveBaseItem()
+        {
+        }
+    }
 }
-

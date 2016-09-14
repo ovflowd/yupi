@@ -2,9 +2,7 @@
 
 namespace Yupi.Model.Domain
 {
-	public class HopperBaseItem : FloorBaseItem
-	{
-		
-	}
+    public class HopperBaseItem : FloorBaseItem
+    {
+    }
 }
-

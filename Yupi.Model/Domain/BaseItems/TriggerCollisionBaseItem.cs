@@ -2,11 +2,10 @@
 
 namespace Yupi.Model.Domain
 {
-	public class TriggerCollisionBaseItem : FloorBaseItem
-	{
-		public TriggerCollisionBaseItem ()
-		{
-		}
-	}
+    public class TriggerCollisionBaseItem : FloorBaseItem
+    {
+        public TriggerCollisionBaseItem()
+        {
+        }
+    }
 }
-

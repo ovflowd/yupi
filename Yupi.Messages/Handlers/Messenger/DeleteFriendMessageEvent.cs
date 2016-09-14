@@ -6,25 +6,25 @@ using Yupi.Model;
 
 namespace Yupi.Messages.Messenger
 {
-	public class DeleteFriendMessageEvent : AbstractHandler
-	{
-		private RelationshipController RelationshipController;
+    public class DeleteFriendMessageEvent : AbstractHandler
+    {
+        private RelationshipController RelationshipController;
 
-		public DeleteFriendMessageEvent ()
-		{
-			RelationshipController = DependencyFactory.Resolve<RelationshipController> ();
-		}
+        public DeleteFriendMessageEvent()
+        {
+            RelationshipController = DependencyFactory.Resolve<RelationshipController>();
+        }
 
-		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
-		{
-			int count = request.GetInteger();
-			for (int i = 0; i < count; i++)
-			{
-				int friendId = request.GetInteger();
+        public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
+            Yupi.Protocol.IRouter router)
+        {
+            int count = request.GetInteger();
+            for (int i = 0; i < count; i++)
+            {
+                int friendId = request.GetInteger();
 
-				RelationshipController.Remove (session, friendId);
-			}
-		}
-	}
+                RelationshipController.Remove(session, friendId);
+            }
+        }
+    }
 }
-

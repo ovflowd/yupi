@@ -2,11 +2,10 @@
 
 namespace Yupi.Model.Domain
 {
-	public class WiredConditionTriggerOnFurniBaseItem : WiredBaseItem
-	{
-		public WiredConditionTriggerOnFurniBaseItem ()
-		{
-		}
-	}
+    public class WiredConditionTriggerOnFurniBaseItem : WiredBaseItem
+    {
+        public WiredConditionTriggerOnFurniBaseItem()
+        {
+        }
+    }
 }
-

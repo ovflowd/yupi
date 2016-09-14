@@ -30,77 +30,78 @@ using DotNetty.Transport.Channels;
 
 namespace Yupi.Net.DotNettyImpl
 {
-	public class MessageHandler<T> : ChannelHandlerAdapter, ISession<T>
+    public class MessageHandler<T> : ChannelHandlerAdapter, ISession<T>
     {
-		public IPAddress RemoteAddress {
-			get {
-				return ((IPEndPoint)Channel.RemoteAddress).Address;
-			}
-		}
+        public IPAddress RemoteAddress
+        {
+            get { return ((IPEndPoint) Channel.RemoteAddress).Address; }
+        }
 
-		public T UserData { get; set; }
+        public T UserData { get; set; }
 
-		private IChannel Channel;
-		private MessageReceived<T> OnMessage;
-		private ConnectionClosed<T> OnConnectionClosed;
-		private ConnectionOpened<T> OnConnectionOpened;
+        private IChannel Channel;
+        private MessageReceived<T> OnMessage;
+        private ConnectionClosed<T> OnConnectionClosed;
+        private ConnectionOpened<T> OnConnectionOpened;
 
-		private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger
-			(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger
+            (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-		public MessageHandler (IChannel channel, MessageReceived<T> onMessage, ConnectionClosed<T> onConnectionClosed, ConnectionOpened<T> onConnectionOpened)
-		{
-			this.Channel = channel;
-			this.OnMessage = onMessage;
-			this.OnConnectionClosed = onConnectionClosed;
-			this.OnConnectionOpened = onConnectionOpened;
-		}
+        public MessageHandler(IChannel channel, MessageReceived<T> onMessage, ConnectionClosed<T> onConnectionClosed,
+            ConnectionOpened<T> onConnectionOpened)
+        {
+            this.Channel = channel;
+            this.OnMessage = onMessage;
+            this.OnConnectionClosed = onConnectionClosed;
+            this.OnConnectionOpened = onConnectionOpened;
+        }
 
-		public void Disconnect() {
-			Channel.DisconnectAsync ();
-		}
+        public void Disconnect()
+        {
+            Channel.DisconnectAsync();
+        }
 
         public override void ChannelRead(IChannelHandlerContext context, object message)
         {
             IByteBuffer dataBuffer = message as IByteBuffer;
 
-			byte[] data = new byte[dataBuffer.ReadableBytes];
+            byte[] data = new byte[dataBuffer.ReadableBytes];
 
-			dataBuffer.ReadBytes (data);
+            dataBuffer.ReadBytes(data);
 
-			OnMessage (this, data);
+            OnMessage(this, data);
 
-			dataBuffer.Release ();
+            dataBuffer.Release();
         }
 
         public override void ExceptionCaught(IChannelHandlerContext context, Exception exception)
         {
-			Logger.Warn ("A networking error occured", exception);
-			context.CloseAsync();
+            Logger.Warn("A networking error occured", exception);
+            context.CloseAsync();
         }
 
-		public void Send (byte[] data)
-		{
-			this.Channel.WriteAndFlushAsync (data);
-		}
+        public void Send(byte[] data)
+        {
+            this.Channel.WriteAndFlushAsync(data);
+        }
 
-		public void Send (ArraySegment<byte> data)
-		{
-			byte[] buffer = new byte[data.Count];
-			Array.Copy (data.Array, data.Offset, buffer, 0, data.Count);
-			Send (buffer);
-		}
-			
-		public override void ChannelActive (IChannelHandlerContext context)
-		{
-			OnConnectionOpened (this);
-			base.ChannelActive (context);
-		}
+        public void Send(ArraySegment<byte> data)
+        {
+            byte[] buffer = new byte[data.Count];
+            Array.Copy(data.Array, data.Offset, buffer, 0, data.Count);
+            Send(buffer);
+        }
 
-		public override void ChannelInactive (IChannelHandlerContext context)
-		{
-			OnConnectionClosed (this);
-			base.ChannelInactive (context);
-		}
+        public override void ChannelActive(IChannelHandlerContext context)
+        {
+            OnConnectionOpened(this);
+            base.ChannelActive(context);
+        }
+
+        public override void ChannelInactive(IChannelHandlerContext context)
+        {
+            OnConnectionClosed(this);
+            base.ChannelInactive(context);
+        }
     }
 }

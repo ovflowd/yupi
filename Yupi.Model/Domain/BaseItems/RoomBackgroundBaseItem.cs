@@ -2,11 +2,10 @@
 
 namespace Yupi.Model.Domain
 {
-	public class RoomBackgroundBaseItem : FloorBaseItem
-	{
-		public RoomBackgroundBaseItem ()
-		{
-		}
-	}
+    public class RoomBackgroundBaseItem : FloorBaseItem
+    {
+        public RoomBackgroundBaseItem()
+        {
+        }
+    }
 }
-

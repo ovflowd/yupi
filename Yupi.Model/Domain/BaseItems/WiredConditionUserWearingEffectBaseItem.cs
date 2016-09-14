@@ -2,11 +2,10 @@
 
 namespace Yupi.Model.Domain
 {
-	public class WiredConditionUserWearingEffectBaseItem : WiredBaseItem
-	{
-		public WiredConditionUserWearingEffectBaseItem ()
-		{
-		}
-	}
+    public class WiredConditionUserWearingEffectBaseItem : WiredBaseItem
+    {
+        public WiredConditionUserWearingEffectBaseItem()
+        {
+        }
+    }
 }
-

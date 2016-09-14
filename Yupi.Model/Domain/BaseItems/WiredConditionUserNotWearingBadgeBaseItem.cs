@@ -2,11 +2,10 @@
 
 namespace Yupi.Model.Domain
 {
-	public class WiredConditionUserNotWearingBadgeBaseItem : WiredBaseItem
-	{
-		public WiredConditionUserNotWearingBadgeBaseItem ()
-		{
-		}
-	}
+    public class WiredConditionUserNotWearingBadgeBaseItem : WiredBaseItem
+    {
+        public WiredConditionUserNotWearingBadgeBaseItem()
+        {
+        }
+    }
 }
-

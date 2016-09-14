@@ -26,21 +26,21 @@ using System.Collections.Generic;
 
 namespace Yupi.Model.Domain
 {
-	[IsDiscriminated]
-	public class NavigatorCategory
-	{
-		public virtual int Id { get; protected set; }
-		public virtual string Caption { get; set; }
-		public virtual bool IsOpened { get; set; }
-		public virtual bool IsImage { get; set; }
-		public virtual int MinRank { get; set; }
+    [IsDiscriminated]
+    public class NavigatorCategory
+    {
+        public virtual int Id { get; protected set; }
+        public virtual string Caption { get; set; }
+        public virtual bool IsOpened { get; set; }
+        public virtual bool IsImage { get; set; }
+        public virtual int MinRank { get; set; }
 
-		[OneToMany]
-		public virtual IList<NavigatorCategory> SubCategories { get; protected set; }
+        [OneToMany]
+        public virtual IList<NavigatorCategory> SubCategories { get; protected set; }
 
-		protected NavigatorCategory ()
-		{
-			SubCategories = new List<NavigatorCategory> ();
-		}
-	}
+        protected NavigatorCategory()
+        {
+            SubCategories = new List<NavigatorCategory>();
+        }
+    }
 }

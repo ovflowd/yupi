@@ -2,11 +2,10 @@
 
 namespace Yupi.Model.Domain
 {
-	public class WiredActionChaseBaseItem : WiredBaseItem
-	{
-		public WiredActionChaseBaseItem ()
-		{
-		}
-	}
+    public class WiredActionChaseBaseItem : WiredBaseItem
+    {
+        public WiredActionChaseBaseItem()
+        {
+        }
+    }
 }
-

@@ -2,9 +2,7 @@
 
 namespace Yupi.Model.Domain
 {
-	public class DiceBaseItem : FloorBaseItem
-	{
-		
-	}
+    public class DiceBaseItem : FloorBaseItem
+    {
+    }
 }
-

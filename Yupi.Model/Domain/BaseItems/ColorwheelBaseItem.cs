@@ -2,11 +2,10 @@
 
 namespace Yupi.Model.Domain
 {
-	public class ColorwheelBaseItem : WallBaseItem
-	{
-		public ColorwheelBaseItem ()
-		{
-		}
-	}
+    public class ColorwheelBaseItem : WallBaseItem
+    {
+        public ColorwheelBaseItem()
+        {
+        }
+    }
 }
-

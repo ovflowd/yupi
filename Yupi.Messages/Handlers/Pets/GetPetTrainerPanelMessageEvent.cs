@@ -3,16 +3,16 @@
 
 namespace Yupi.Messages.Pets
 {
-	public class GetPetTrainerPanelMessageEvent : AbstractHandler
-	{
-		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
-		{
-			int petId = request.GetInteger();
+    public class GetPetTrainerPanelMessageEvent : AbstractHandler
+    {
+        public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
+            Yupi.Protocol.IRouter router)
+        {
+            int petId = request.GetInteger();
 
-			// TODO Validate
+            // TODO Validate
 
-			router.GetComposer<PetTrainerPanelMessageComposer> ().Compose (session, petId);
-		}
-	}
+            router.GetComposer<PetTrainerPanelMessageComposer>().Compose(session, petId);
+        }
+    }
 }
-

@@ -2,11 +2,10 @@
 
 namespace Yupi.Model.Domain
 {
-	public class TileStackMagicBaseItem : FloorBaseItem
-	{
-		public TileStackMagicBaseItem ()
-		{
-		}
-	}
+    public class TileStackMagicBaseItem : FloorBaseItem
+    {
+        public TileStackMagicBaseItem()
+        {
+        }
+    }
 }
-

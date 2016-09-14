@@ -8,26 +8,27 @@ using Yupi.Model;
 
 namespace Yupi.Messages.User
 {
-	public class GetTalentsTrackMessageEvent : AbstractHandler
-	{
-		private IRepository<Talent> TalentRepository;
+    public class GetTalentsTrackMessageEvent : AbstractHandler
+    {
+        private IRepository<Talent> TalentRepository;
 
-		public GetTalentsTrackMessageEvent ()
-		{
-			TalentRepository = DependencyFactory.Resolve<IRepository<Talent>> ();
-		}
+        public GetTalentsTrackMessageEvent()
+        {
+            TalentRepository = DependencyFactory.Resolve<IRepository<Talent>>();
+        }
 
-		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
-		{
-			string trackType = message.GetString();
-			TalentType talentType;
+        public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message,
+            Yupi.Protocol.IRouter router)
+        {
+            string trackType = message.GetString();
+            TalentType talentType;
 
-			if (TalentType.TryParse (trackType, out talentType)) {
-				List<Talent> talents = TalentRepository.FilterBy (x => x.Type == talentType).ToList();
+            if (TalentType.TryParse(trackType, out talentType))
+            {
+                List<Talent> talents = TalentRepository.FilterBy(x => x.Type == talentType).ToList();
 
-				router.GetComposer<TalentsTrackMessageComposer> ().Compose (session, talentType, talents);
-			}
-		}
-	}
+                router.GetComposer<TalentsTrackMessageComposer>().Compose(session, talentType, talents);
+            }
+        }
+    }
 }
-

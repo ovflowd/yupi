@@ -4,18 +4,19 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Guides
 {
-	public class OnGuideSessionAttachedMessageComposer : Yupi.Messages.Contracts.OnGuideSessionAttachedMessageComposer
-	{
-		// TODO Find the meaning of val1 & val2
-		public override void Compose( Yupi.Protocol.ISender session, bool val1, int userId, string message, int val2) {
-			using (ServerMessage response = Pool.GetMessageBuffer (Id)) {
-				response.AppendBool(false);
-				response.AppendInteger(userId);
-				response.AppendString(message);
-				response.AppendInteger(30);
-				session.Send (response);
-			}
-		}
-	}
+    public class OnGuideSessionAttachedMessageComposer : Yupi.Messages.Contracts.OnGuideSessionAttachedMessageComposer
+    {
+        // TODO Find the meaning of val1 & val2
+        public override void Compose(Yupi.Protocol.ISender session, bool val1, int userId, string message, int val2)
+        {
+            using (ServerMessage response = Pool.GetMessageBuffer(Id))
+            {
+                response.AppendBool(false);
+                response.AppendInteger(userId);
+                response.AppendString(message);
+                response.AppendInteger(30);
+                session.Send(response);
+            }
+        }
+    }
 }
-

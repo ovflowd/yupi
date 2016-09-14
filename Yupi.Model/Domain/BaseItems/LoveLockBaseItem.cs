@@ -2,11 +2,10 @@
 
 namespace Yupi.Model.Domain
 {
-	public class LoveLockBaseItem : FloorBaseItem
-	{
-		public LoveLockBaseItem ()
-		{
-		}
-	}
+    public class LoveLockBaseItem : FloorBaseItem
+    {
+        public LoveLockBaseItem()
+        {
+        }
+    }
 }
-

@@ -3,15 +3,15 @@ using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Items
 {
-	public class RemovePetFromInventoryComposer : Yupi.Messages.Contracts.RemovePetFromInventoryComposer
-	{
-		public override void Compose ( Yupi.Protocol.ISender session, uint petId)
-		{
-			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendInteger (petId);
-				session.Send (message);
-			}
-		}
-	}
+    public class RemovePetFromInventoryComposer : Yupi.Messages.Contracts.RemovePetFromInventoryComposer
+    {
+        public override void Compose(Yupi.Protocol.ISender session, uint petId)
+        {
+            using (ServerMessage message = Pool.GetMessageBuffer(Id))
+            {
+                message.AppendInteger(petId);
+                session.Send(message);
+            }
+        }
+    }
 }
-

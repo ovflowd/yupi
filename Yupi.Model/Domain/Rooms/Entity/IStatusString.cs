@@ -2,9 +2,8 @@
 
 namespace Yupi.Model
 {
-	public interface IStatusString
-	{
-		string ToStatusString();
-	}
+    public interface IStatusString
+    {
+        string ToStatusString();
+    }
 }
-

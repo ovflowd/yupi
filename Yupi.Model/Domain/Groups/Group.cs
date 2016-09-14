@@ -29,54 +29,54 @@ using System.Globalization;
 
 namespace Yupi.Model.Domain
 {
-	public class Group
-	{
-		public virtual int Id { get; protected set; }
+    public class Group
+    {
+        public virtual int Id { get; protected set; }
 
-		public virtual string Name { get; set; }
+        public virtual string Name { get; set; }
 
-		public virtual uint AdminOnlyDeco { get; set; }
+        public virtual uint AdminOnlyDeco { get; set; }
 
-		public virtual string Badge { get; set; }
+        public virtual string Badge { get; set; }
 
-		// TODO Rename
-		public virtual GroupSymbolColours Colour1 { get; set; }
+        // TODO Rename
+        public virtual GroupSymbolColours Colour1 { get; set; }
 
-		public virtual GroupBackGroundColours Colour2 { get; set; }
+        public virtual GroupBackGroundColours Colour2 { get; set; }
 
-		public virtual int CreateTime { get; set; }
+        public virtual int CreateTime { get; set; }
 
-		public virtual UserInfo Creator { get; set; }
+        public virtual UserInfo Creator { get; set; }
 
-		public virtual string Description { get; set; }
+        public virtual string Description { get; set; }
 
-		public virtual GroupForum Forum { get; set; }
+        public virtual GroupForum Forum { get; set; }
 
-		[ManyToMany]
-		public virtual IList<UserInfo> Admins { get; protected set; }
+        [ManyToMany]
+        public virtual IList<UserInfo> Admins { get; protected set; }
 
-		[ManyToMany]
-		public virtual IList<UserInfo> Members { get; protected set; }
+        [ManyToMany]
+        public virtual IList<UserInfo> Members { get; protected set; }
 
-		[ManyToMany]
-		public virtual IList<UserInfo> Requests { get; protected set; }
+        [ManyToMany]
+        public virtual IList<UserInfo> Requests { get; protected set; }
 
-		public virtual RoomData Room { get; set; }
+        public virtual RoomData Room { get; set; }
 
-		// TODO ???
-		public virtual uint State { get; set; }
+        // TODO ???
+        public virtual uint State { get; set; }
 
-		public Group (UserInfo creator) : this ()
-		{
-			Creator = creator;
-			Admins.Add (creator);
-		}
+        public Group(UserInfo creator) : this()
+        {
+            Creator = creator;
+            Admins.Add(creator);
+        }
 
-		protected Group ()
-		{
-			Admins = new List<UserInfo> ();
-			Members = new List<UserInfo> ();
-			Requests = new List<UserInfo> ();
-		}
-	}
+        protected Group()
+        {
+            Admins = new List<UserInfo>();
+            Members = new List<UserInfo>();
+            Requests = new List<UserInfo>();
+        }
+    }
 }

@@ -2,11 +2,10 @@
 
 namespace Yupi.Model.Domain
 {
-	public class WiredToggleStateBaseItem : WiredBaseItem
-	{
-		public WiredToggleStateBaseItem ()
-		{
-		}
-	}
+    public class WiredToggleStateBaseItem : WiredBaseItem
+    {
+        public WiredToggleStateBaseItem()
+        {
+        }
+    }
 }
-

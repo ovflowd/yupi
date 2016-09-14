@@ -2,11 +2,10 @@
 
 namespace Yupi.Model.Domain
 {
-	public class FireworksBaseItem : FloorBaseItem
-	{
-		public FireworksBaseItem ()
-		{
-		}
-	}
+    public class FireworksBaseItem : FloorBaseItem
+    {
+        public FireworksBaseItem()
+        {
+        }
+    }
 }
-

@@ -6,130 +6,153 @@ using System.Collections.Generic;
 
 namespace Yupi.Model.Domain
 {
-	[Ignore]
-	public abstract class RoomEntity
-	{
-		public int Id;
-		public Vector3 Position { get; private set; }
+    [Ignore]
+    public abstract class RoomEntity
+    {
+        public int Id;
+        public Vector3 Position { get; private set; }
 
-		// TODO Use enum
-		public int RotHead { get; private set; }
-		public int RotBody { get; private set; }
-		public Room Room { get; private set; }
-		public bool NeedsUpdate { get; private set; }
-		public bool IsAsleep { get; private set; }
+        // TODO Use enum
+        public int RotHead { get; private set; }
+        public int RotBody { get; private set; }
+        public Room Room { get; private set; }
+        public bool NeedsUpdate { get; private set; }
+        public bool IsAsleep { get; private set; }
 
-		public abstract EntityType Type { get; }
-		public abstract BaseInfo BaseInfo { get; }
-		public abstract EntityStatus Status { get; }
+        public abstract EntityType Type { get; }
+        public abstract BaseInfo BaseInfo { get; }
+        public abstract EntityStatus Status { get; }
 
-		[Ignore]
-		public delegate void OnSleepChange(RoomEntity entity);
-		public OnSleepChange OnSleepChangeCB { get; set; }
-		private Queue<Vector2> Steps;
+        [Ignore]
+        public delegate void OnSleepChange(RoomEntity entity);
 
-		public RoomEntity (Room room, int id)
-		{
-			this.Id = id;
-			this.Room = room;
-			Steps = new Queue<Vector2> ();
-		}
+        public OnSleepChange OnSleepChangeCB { get; set; }
+        private Queue<Vector2> Steps;
 
-		public virtual void OnRoomExit () {
-			// Do nothing
-		}
+        public RoomEntity(Room room, int id)
+        {
+            this.Id = id;
+            this.Room = room;
+            Steps = new Queue<Vector2>();
+        }
 
-		public virtual void HandleChatMessage(UserEntity user, Action<Habbo> sendTo) {
-			// TODO Implement Tent
-			// TODO Implement Distance?
+        public virtual void OnRoomExit()
+        {
+            // Do nothing
+        }
 
-			int rotation = Position.CalculateRotation (user.Position);
-			// TODO Should only be temporary
-			// TODO Add distance calculation!
-			SetHeadRotation (rotation);
-		}
+        public virtual void HandleChatMessage(UserEntity user, Action<Habbo> sendTo)
+        {
+            // TODO Implement Tent
+            // TODO Implement Distance?
 
-		public bool HasSteps() {
-			return Steps.Count > 0;
-		}
+            int rotation = Position.CalculateRotation(user.Position);
+            // TODO Should only be temporary
+            // TODO Add distance calculation!
+            SetHeadRotation(rotation);
+        }
 
-		public void NextStep() {
-			if (!HasSteps ()) {
-				throw new InvalidOperationException();
-			}
+        public bool HasSteps()
+        {
+            return Steps.Count > 0;
+        }
 
-			Vector2 nextStep = Steps.Dequeue ();
+        public void NextStep()
+        {
+            if (!HasSteps())
+            {
+                throw new InvalidOperationException();
+            }
 
-			// TODO Be consequent about Vector2 vs Vector3!
-			Vector3 nextPos = new Vector3(nextStep.X, nextStep.Y, Room.HeightMap.GetTileHeight ((int)nextStep.X, (int)nextStep.Y));
+            Vector2 nextStep = Steps.Dequeue();
 
-			if (HasSteps ()) {
-				Vector2 move = Steps.Peek ();
-				SetRotation(nextPos.ToVector2().CalculateRotation (move));
-				Status.SetPosture (new WalkPosture (new Vector3(move.X, move.Y, Room.HeightMap.GetTileHeight ((int)move.X, (int)move.Y))));
-			} else {
-				Status.SetPosture (StandPosture.Default);
-			}
+            // TODO Be consequent about Vector2 vs Vector3!
+            Vector3 nextPos = new Vector3(nextStep.X, nextStep.Y,
+                Room.HeightMap.GetTileHeight((int) nextStep.X, (int) nextStep.Y));
 
-			SetPosition (nextPos);
-		}
+            if (HasSteps())
+            {
+                Vector2 move = Steps.Peek();
+                SetRotation(nextPos.ToVector2().CalculateRotation(move));
+                Status.SetPosture(
+                    new WalkPosture(new Vector3(move.X, move.Y, Room.HeightMap.GetTileHeight((int) move.X, (int) move.Y))));
+            }
+            else
+            {
+                Status.SetPosture(StandPosture.Default);
+            }
 
-		public void Walk(Vector2 target) {
-			this.Steps = new Queue<Vector2>(Room.Pathfinder.Find (this.Position.ToVector2(), target));
-		}
+            SetPosition(nextPos);
+        }
 
-		public bool CanWalk() {
-			// TODO Implement
-			return true;
-		}
+        public void Walk(Vector2 target)
+        {
+            this.Steps = new Queue<Vector2>(Room.Pathfinder.Find(this.Position.ToVector2(), target));
+        }
 
-		public void SetHeadRotation(int rotation) {
-			if (rotation < 0 || rotation > 7) {
-				throw new ArgumentOutOfRangeException ("rotation");
-			}
+        public bool CanWalk()
+        {
+            // TODO Implement
+            return true;
+        }
 
-			int delta = this.RotBody - rotation;
-			this.RotHead = (this.RotBody - Math.Sign(delta)) % 8;
-			ScheduleUpdate ();
-		}
+        public void SetHeadRotation(int rotation)
+        {
+            if (rotation < 0 || rotation > 7)
+            {
+                throw new ArgumentOutOfRangeException("rotation");
+            }
 
-		public void SetRotation(int rotation) {
-			if (rotation < 0 || rotation > 7) {
-				throw new ArgumentOutOfRangeException ("rotation");
-			}
+            int delta = this.RotBody - rotation;
+            this.RotHead = (this.RotBody - Math.Sign(delta))%8;
+            ScheduleUpdate();
+        }
 
-			this.RotBody = rotation;
-			this.RotHead = rotation;
-			ScheduleUpdate ();
-		}
+        public void SetRotation(int rotation)
+        {
+            if (rotation < 0 || rotation > 7)
+            {
+                throw new ArgumentOutOfRangeException("rotation");
+            }
 
-		public void SetPosition(Vector3 newPosition) {
-			this.Position = newPosition;
-			ScheduleUpdate ();
-		}
+            this.RotBody = rotation;
+            this.RotHead = rotation;
+            ScheduleUpdate();
+        }
 
-		internal void ScheduleUpdate() {
-			NeedsUpdate = true;
-		}
+        public void SetPosition(Vector3 newPosition)
+        {
+            this.Position = newPosition;
+            ScheduleUpdate();
+        }
 
-		internal void UpdateComplete() {
-			NeedsUpdate = false;
-			Status.OnUpdateComplete();
-		}
+        internal void ScheduleUpdate()
+        {
+            NeedsUpdate = true;
+        }
 
-		public void Sleep() {
-			if (!this.IsAsleep) {
-				this.IsAsleep = true;
-				OnSleepChangeCB (this);
-			}
-		}
+        internal void UpdateComplete()
+        {
+            NeedsUpdate = false;
+            Status.OnUpdateComplete();
+        }
 
-		public void Wake() {
-			if (this.IsAsleep) {
-				this.IsAsleep = false;
-				OnSleepChangeCB (this);
-			}
-		}
-	}
+        public void Sleep()
+        {
+            if (!this.IsAsleep)
+            {
+                this.IsAsleep = true;
+                OnSleepChangeCB(this);
+            }
+        }
+
+        public void Wake()
+        {
+            if (this.IsAsleep)
+            {
+                this.IsAsleep = false;
+                OnSleepChangeCB(this);
+            }
+        }
+    }
 }
-

@@ -2,9 +2,7 @@
 
 namespace Yupi.Model.Domain
 {
-	public class OfficialNavigatorCategory : NavigatorCategory
-	{
-		
-	}
+    public class OfficialNavigatorCategory : NavigatorCategory
+    {
+    }
 }
-

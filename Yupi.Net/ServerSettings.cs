@@ -26,25 +26,24 @@ using System;
 
 namespace Yupi.Net
 {
-	public class ServerSettings : IServerSettings
-	{
-		public string IP { get; set; }
+    public class ServerSettings : IServerSettings
+    {
+        public string IP { get; set; }
 
-		public int Port { get; set; }
+        public int Port { get; set; }
 
-		public int MaxWorkingThreads { get; set; } = 0;
+        public int MaxWorkingThreads { get; set; } = 0;
 
-		public int MinWorkingThreads { get; set; } = 0;
+        public int MinWorkingThreads { get; set; } = 0;
 
-		public int MinIOThreads { get; set; } = 0;
+        public int MinIOThreads { get; set; } = 0;
 
-		public int MaxIOThreads { get; set; } = 0;
+        public int MaxIOThreads { get; set; } = 0;
 
-		public int BufferSize { get; set; } = 4096;
+        public int BufferSize { get; set; } = 4096;
 
-		public int Backlog { get; set; } = 100;
+        public int Backlog { get; set; } = 100;
 
-		public int MaxConnections { get; set; } = 1000;
-	}
+        public int MaxConnections { get; set; } = 1000;
+    }
 }
-

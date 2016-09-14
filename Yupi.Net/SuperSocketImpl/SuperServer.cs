@@ -31,71 +31,76 @@ using SuperSocket.SocketBase.Logging;
 
 namespace Yupi.Net.SuperSocketImpl
 {
-	public class SuperServer<T> : AppServer<Session<T>, RequestInfo>, IServer<T>
-	{
-		public event MessageReceived<T> OnMessageReceived = delegate{};
+    public class SuperServer<T> : AppServer<Session<T>, RequestInfo>, IServer<T>
+    {
+        public event MessageReceived<T> OnMessageReceived = delegate { };
 
-		public event ConnectionOpened<T> OnConnectionOpened = delegate{};
+        public event ConnectionOpened<T> OnConnectionOpened = delegate { };
 
-		public event ConnectionClosed<T> OnConnectionClosed = delegate{};
+        public event ConnectionClosed<T> OnConnectionClosed = delegate { };
 
-		private CrossDomainSettings FlashPolicy;
+        private CrossDomainSettings FlashPolicy;
 
-		public SuperServer (IServerSettings settings, CrossDomainSettings flashPolicy) : base(new DefaultReceiveFilterFactory<FlashReceiveFilter, RequestInfo>())
-		{
-			FlashPolicy = flashPolicy;
+        public SuperServer(IServerSettings settings, CrossDomainSettings flashPolicy)
+            : base(new DefaultReceiveFilterFactory<FlashReceiveFilter, RequestInfo>())
+        {
+            FlashPolicy = flashPolicy;
 
-			IRootConfig rootConfig = CreateRootConfig (settings);
-	
-			IServerConfig config = CreateServerConfig (settings);
-		
-			Setup (rootConfig, config, logFactory: new Log4NetLogFactory());
-		
-			base.NewRequestReceived += HandleRequest;
+            IRootConfig rootConfig = CreateRootConfig(settings);
 
-			base.NewSessionConnected += (Session<T> session) => OnConnectionOpened(session);
+            IServerConfig config = CreateServerConfig(settings);
 
-			base.SessionClosed += (Session<T> session, CloseReason value) => OnConnectionClosed(session);
-		}
+            Setup(rootConfig, config, logFactory: new Log4NetLogFactory());
 
-		private void HandleRequest(Session<T> session, RequestInfo requestInfo) {
-			if(requestInfo.IsFlashRequest) {
-				session.Send(FlashPolicy.GetBytes());
-				session.Disconnect ();
-			} else {
-				OnMessageReceived (session, requestInfo.Body);
-			}
-		}
+            base.NewRequestReceived += HandleRequest;
 
-		private IServerConfig CreateServerConfig(IServerSettings settings) {
-			
-			ServerConfig config = new ServerConfig ();
-			config.Ip = settings.IP;
-			config.Port = settings.Port;
-			config.ReceiveBufferSize = settings.BufferSize;
-			config.SendBufferSize = settings.BufferSize;
-			config.ListenBacklog = settings.Backlog;
-			config.MaxConnectionNumber = settings.MaxConnections;
+            base.NewSessionConnected += (Session<T> session) => OnConnectionOpened(session);
 
-			return config;
-		}
+            base.SessionClosed += (Session<T> session, CloseReason value) => OnConnectionClosed(session);
+        }
 
-		private IRootConfig CreateRootConfig(IServerSettings settings) {
-			RootConfig rootConfig = new RootConfig ();
-			if(settings.MaxWorkingThreads != 0)
-				rootConfig.MaxWorkingThreads = settings.MaxWorkingThreads;
+        private void HandleRequest(Session<T> session, RequestInfo requestInfo)
+        {
+            if (requestInfo.IsFlashRequest)
+            {
+                session.Send(FlashPolicy.GetBytes());
+                session.Disconnect();
+            }
+            else
+            {
+                OnMessageReceived(session, requestInfo.Body);
+            }
+        }
 
-			if(settings.MinWorkingThreads != 0)
-				rootConfig.MinWorkingThreads = settings.MinWorkingThreads;
+        private IServerConfig CreateServerConfig(IServerSettings settings)
+        {
+            ServerConfig config = new ServerConfig();
+            config.Ip = settings.IP;
+            config.Port = settings.Port;
+            config.ReceiveBufferSize = settings.BufferSize;
+            config.SendBufferSize = settings.BufferSize;
+            config.ListenBacklog = settings.Backlog;
+            config.MaxConnectionNumber = settings.MaxConnections;
 
-			if(settings.MaxIOThreads != 0)
-				rootConfig.MaxCompletionPortThreads = settings.MaxIOThreads;
+            return config;
+        }
 
-			if(settings.MinIOThreads != 0)
-				rootConfig.MinCompletionPortThreads = settings.MinIOThreads;
+        private IRootConfig CreateRootConfig(IServerSettings settings)
+        {
+            RootConfig rootConfig = new RootConfig();
+            if (settings.MaxWorkingThreads != 0)
+                rootConfig.MaxWorkingThreads = settings.MaxWorkingThreads;
 
-			return rootConfig;
-		}
-	}
+            if (settings.MinWorkingThreads != 0)
+                rootConfig.MinWorkingThreads = settings.MinWorkingThreads;
+
+            if (settings.MaxIOThreads != 0)
+                rootConfig.MaxCompletionPortThreads = settings.MaxIOThreads;
+
+            if (settings.MinIOThreads != 0)
+                rootConfig.MinCompletionPortThreads = settings.MinIOThreads;
+
+            return rootConfig;
+        }
+    }
 }
-

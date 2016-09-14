@@ -28,32 +28,30 @@ using SuperSocket.SocketBase.Protocol;
 
 namespace Yupi.Net.SuperSocketImpl
 {
-	public class Session<T> : AppSession<Session<T>, RequestInfo>, ISession<T>
-	{
-		public System.Net.IPAddress RemoteAddress {
-			get {
-				return RemoteEndPoint.Address;
-			}
-		}
+    public class Session<T> : AppSession<Session<T>, RequestInfo>, ISession<T>
+    {
+        public System.Net.IPAddress RemoteAddress
+        {
+            get { return RemoteEndPoint.Address; }
+        }
 
 
-		public T UserData { get; set; }
+        public T UserData { get; set; }
 
-		protected override void HandleException(Exception e)
-		{
-			Logger.Warn ("A networking error occured", e);
-			Disconnect ();
-		}
+        protected override void HandleException(Exception e)
+        {
+            Logger.Warn("A networking error occured", e);
+            Disconnect();
+        }
 
-		public void Send (byte[] data)
-		{
-			Send (new ArraySegment<byte> (data));
-		}
+        public void Send(byte[] data)
+        {
+            Send(new ArraySegment<byte>(data));
+        }
 
-		public void Disconnect ()
-		{
-			base.Close ();
-		}
-	}
+        public void Disconnect()
+        {
+            base.Close();
+        }
+    }
 }
-
