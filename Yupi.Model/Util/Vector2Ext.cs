@@ -16,12 +16,15 @@ namespace Yupi.Model
 
 		public static int CalculateRotation (this Vector2 source, Vector2 target)
 		{
-			Vector2 direction = target - source;
-			double theta = Math.Atan2 (direction.Y, direction.X);
+			double theta = Math.Atan2 (target.Y - source.Y, target.X - source.X);
 
 			double degree = theta * 180 / Math.PI;
 
-			return ((int)degree + 90) / 45;
+			if (degree < 0) {
+				degree += 360;
+			}
+
+			return (((int)degree + 90) / 45) % 8;
 		}
 
 		public static bool Equals (this Vector3 a, Vector2 b)

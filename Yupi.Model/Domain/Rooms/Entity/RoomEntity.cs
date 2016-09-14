@@ -61,7 +61,17 @@ namespace Yupi.Model.Domain
 			Vector2 nextStep = Steps.Dequeue ();
 
 			// TODO Be consequent about Vector2 vs Vector3!
-			SetPosition (new Vector3(nextStep.X, nextStep.Y, Room.HeightMap.GetTileHeight ((int)nextStep.X, (int)nextStep.Y)));
+			Vector3 nextPos = new Vector3(nextStep.X, nextStep.Y, Room.HeightMap.GetTileHeight ((int)nextStep.X, (int)nextStep.Y));
+
+			if (HasSteps ()) {
+				Vector2 move = Steps.Peek ();
+				SetRotation(nextPos.ToVector2().CalculateRotation (move));
+				Status.SetPosture (new WalkPosture (new Vector3(move.X, move.Y, Room.HeightMap.GetTileHeight ((int)move.X, (int)move.Y))));
+			} else {
+				Status.SetPosture (StandPosture.Default);
+			}
+
+			SetPosition (nextPos);
 		}
 
 		public void Walk(Vector2 target) {

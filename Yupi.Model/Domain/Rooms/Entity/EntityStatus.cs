@@ -14,7 +14,6 @@ namespace Yupi.Model.Domain
 		private RoomEntity Entity;
 
 		private List<IStatusString> TemporaryStates;
-		private Queue<Vector2> Steps;
 
 		public EntityStatus (RoomEntity entity)
 		{
@@ -24,7 +23,7 @@ namespace Yupi.Model.Domain
 			TemporaryStates = new List<IStatusString> ();
 		}
 
-		private void SetPosture (EntityPosture posture)
+		public void SetPosture (EntityPosture posture)
 		{
 			Contract.Requires (posture != null);
 			this.Posture = posture;

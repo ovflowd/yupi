@@ -377,6 +377,7 @@
     <Compile Include="Domain\Rooms\Chat\ChatSpeed.cs" />
     <Compile Include="Domain\Rooms\Chat\FloodProtection.cs" />
     <Compile Include="Domain\Rooms\Chat\ChatMessage.cs" />
+    <Compile Include="Domain\Rooms\Entity\Posture\WalkPosture.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
