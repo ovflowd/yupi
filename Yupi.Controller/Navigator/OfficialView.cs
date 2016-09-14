@@ -32,8 +32,8 @@ namespace Yupi.Controller
     {
         #region Constructors
 
-        public OfficialView()
-            : base("official_view")
+        public OfficialView(int orderNum)
+            : base(orderNum, "official_view")
         {
         }
 

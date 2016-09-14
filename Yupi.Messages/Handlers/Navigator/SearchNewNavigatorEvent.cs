@@ -40,7 +40,12 @@ namespace Yupi.Messages.Navigator
             string staticId = request.GetString();
             string query = request.GetString();
 
-            NavigatorView view = NavigatorView.FromValue(staticId);
+            NavigatorView view;
+
+            if (!NavigatorView.TryParse(staticId, out view))
+            {
+                return;
+            }
 
             // TODO Create SearchResult class instead of Dictionary
             IDictionary<NavigatorCategory, IList<RoomData>> categories = view.GetCategories(query, session.Info);

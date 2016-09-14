@@ -34,8 +34,8 @@ namespace Yupi.Controller
     {
         #region Constructors
 
-        public MyWorldView()
-            : base("myworld_view")
+        public MyWorldView(int orderNum)
+            : base(orderNum, "myworld_view")
         {
         }
 

@@ -39,36 +39,38 @@ namespace Yupi.Controller
     using Yupi.Util;
 
     // TODO Not sure wether this should be here or in Model
-    public abstract class NavigatorView : Enumeration<NavigatorView, string>
+    public abstract class NavigatorView : Enumeration<NavigatorView>
     {
         #region Fields
 
         /// <summary>
         /// Public rooms
         /// </summary>
-        public static readonly HotelView Hotel = new HotelView();
+        public static readonly HotelView Hotel = new HotelView(2);
 
         /// <summary>
         /// User's Rooms
         /// </summary>
-        public static readonly MyWorldView MyWorld = new MyWorldView();
+        public static readonly MyWorldView MyWorld = new MyWorldView(3);
 
         /// <summary>
         /// Official Rooms
         /// </summary>
-        public static readonly OfficialView Official = new OfficialView();
+        public static readonly OfficialView Official = new OfficialView(1);
 
         /// <summary>
         /// Event Rooms
         /// </summary>
-        public static readonly RoomAdsView RoomAds = new RoomAdsView();
+        public static readonly RoomAdsView RoomAds = new RoomAdsView(4);
+
+        private static NavigatorView[] Sorted;
 
         #endregion Fields
 
         #region Constructors
 
-        public NavigatorView(string value)
-            : base(value, value)
+        public NavigatorView(int value, string displayName)
+            : base(value, displayName)
         {
         }
 
@@ -77,6 +79,15 @@ namespace Yupi.Controller
         #region Methods
 
         public abstract IDictionary<NavigatorCategory, IList<RoomData>> GetCategories(string query, UserInfo user);
+
+        public static NavigatorView[] GetSorted() {
+            if (NavigatorView.Sorted == null)
+            {
+                NavigatorView.Sorted = GetAll().OrderBy(x => x.Value).ToArray();
+            }
+            return NavigatorView.Sorted;
+        }
+
 
         #endregion Methods
     }
@@ -93,8 +104,8 @@ namespace Yupi.Controller
 
         #region Constructors
 
-        protected NavigatorView(string value)
-            : base(value)
+        protected NavigatorView(int value, string displayName)
+            : base(value, displayName)
         {
             NavigatorRepository = DependencyFactory.Resolve<IRepository<T>>();
             RoomRepository = DependencyFactory.Resolve<IRepository<RoomData>>();

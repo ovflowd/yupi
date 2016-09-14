@@ -32,8 +32,8 @@ namespace Yupi.Controller
     {
         #region Constructors
 
-        public HotelView()
-            : base("hotel_view")
+        public HotelView(int orderNum)
+            : base(orderNum, "hotel_view")
         {
         }
 

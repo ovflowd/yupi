@@ -32,8 +32,8 @@ namespace Yupi.Controller
     {
         #region Constructors
 
-        public RoomAdsView()
-            : base("roomads_view")
+        public RoomAdsView(int orderNum)
+            : base(orderNum, "roomads_view")
         {
         }
 

@@ -37,7 +37,7 @@ namespace Yupi.Messages.Navigator
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
             {
-                NavigatorView[] views = NavigatorView.GetAll();
+                NavigatorView[] views = NavigatorView.GetSorted();
 
                 message.AppendInteger(views.Length);
 
