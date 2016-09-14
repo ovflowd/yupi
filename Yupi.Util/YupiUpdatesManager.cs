@@ -107,12 +107,6 @@ namespace Yupi.Util
         /// </summary>
         public void ShowVersionMessage()
         {
-            /*
-			if (CompareVersion())
-                YupiWriterManager.WriteLine("You're running Last Yupi Version from Repo.", "Yupi.Repo");
-            else
-                YupiWriterManager.WriteLine("You're not Updated with Yupi Repo! Please Download last Version", "Yupi.Repo", ConsoleColor.DarkYellow);
-                */
             throw new NotImplementedException();
         }
 
