@@ -55,6 +55,9 @@
     <Reference Include="System.Numerics.Vectors">
       <HintPath>..\packages\System.Numerics.Vectors.4.1.1\lib\portable-net45+win8+wp8+wpa81\System.Numerics.Vectors.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework">
+      <Package>nunit</Package>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -71,7 +74,8 @@
     <Compile Include="Settings\GameSettings.cs" />
     <Compile Include="Settings\DatabaseSettings.cs" />
     <Compile Include="Settings\DatabaseType.cs" />
-    <Compile Include="AStar.cs" />
+    <Compile Include="Pathfinding\AStar.cs" />
+    <Compile Include="Pathfinding\Pathfinder.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -88,5 +92,6 @@
   <ItemGroup>
     <Folder Include="Collections\" />
     <Folder Include="Settings\" />
+    <Folder Include="Pathfinding\" />
   </ItemGroup>
 </Project>

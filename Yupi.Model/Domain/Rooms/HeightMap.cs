@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Numerics;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Yupi.Model.Domain
 {
@@ -30,15 +31,14 @@ namespace Yupi.Model.Domain
 		{
 			// TODO Use other representation internally!
 			string[] rows = map.Split ('\r');	
-			TotalX = rows.Length;
-			TotalY = rows.Length > 0 ? rows [0].Length : 0;
+			TotalY = rows.Length;
+			TotalX = rows.Length > 0 ? rows [0].Length : 0;
 
 			Map = new short[TotalX * TotalY];
 
 			for (int y = 0; y < TotalY; ++y) {
 				for (int x = 0; x < TotalX; ++x) {
-					// TODO Parse to byte/short
-					short height = ParseTileChar (rows [x] [y]);
+					short height = ParseTileChar (rows [y] [x]);
 					SetTileHeight (x, y, height);
 				}
 			}
@@ -50,14 +50,16 @@ namespace Yupi.Model.Domain
 			return GetTileHeight (position) >= 0;
 		}
 
-		public bool IsValidTile(Vector2 position) {
-			return position.X >= 0 
-				&& position.Y >= 0 
-				&& position.Y < TotalY 
-				&& position.X < TotalX;
+		public bool IsValidTile (Vector2 position)
+		{
+			return position.X >= 0
+			&& position.Y >= 0
+			&& position.Y < TotalY
+			&& position.X < TotalX;
 		}
 
-		public List<Vector2> GetNeighbours(Vector2 position) {
+		public List<Vector2> GetNeighbours (Vector2 position)
+		{
 			List<Vector2> neighbours = new List<Vector2> (8);
 			for (int x = -1; x <= 1; ++x) {
 				for (int y = -1; y <= 1; ++y) {
@@ -120,6 +122,64 @@ namespace Yupi.Model.Domain
 		public short GetTileHeight (Vector3 position)
 		{
 			return GetTileHeight ((int)position.X, (int)position.Y);
+		}
+
+		/// <summary>
+		/// Get the internal map. Should only be used for testing.
+		/// </summary>
+		/// <returns>The map as string representation</returns>
+		public string GetMap ()
+		{
+			StringBuilder sb = new StringBuilder ();
+
+			for (int x = 0; x < this.TotalX; ++x) {
+				for (int y = 0; y < this.TotalY; ++y) {
+					short height = GetTileHeight (x, y);
+
+					if (height < 0) {
+						sb.Append ("x");
+					} else {
+						sb.Append (base32 [height]);
+					}
+				}
+
+				if (x + 1 < this.TotalX) {
+					sb.Append ('\r');
+				}
+			}
+
+			return sb.ToString ();
+		}
+
+		public override string ToString ()
+		{
+			StringBuilder sb = new StringBuilder ();
+
+			string map = GetMap ();
+			string[] lines = map.Split ('\r');
+
+			sb.Append ("  ");
+
+			for (int y = 0; y < lines [0].Length; ++y) {
+				sb.Append (" ");
+				sb.Append (y.ToString("D2"));
+			}
+
+			sb.AppendLine ();
+
+			for (int x = 0; x < lines.Length; ++x) {
+				sb.Append (x.ToString("D2"));
+				sb.Append (" ");
+
+				foreach (char tile in lines[x]) {
+					sb.Append (tile.ToString ().PadLeft(2));
+					sb.Append (" ");
+				}
+
+				sb.AppendLine ();
+			}
+
+			return sb.ToString ();
 		}
 	}
 }

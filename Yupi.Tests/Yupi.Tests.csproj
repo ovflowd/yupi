@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AStarTest.cs" />
+    <Compile Include="HeightmapTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -54,6 +55,10 @@
     <ProjectReference Include="..\Yupi.Util\Yupi.Util.csproj">
       <Project>{6CC9871D-F8D6-4586-8681-E9AAECA60D60}</Project>
       <Name>Yupi.Util</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Yupi.Model\Yupi.Model.csproj">
+      <Project>{8B402ADE-66C4-4D92-9DA6-162860FC225E}</Project>
+      <Name>Yupi.Model</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

@@ -2,6 +2,7 @@
 using System;
 using System.Numerics;
 using Yupi.Util;
+using Yupi.Util.Pathfinding;
 
 namespace Yupi.Tests
 {
@@ -25,76 +26,80 @@ namespace Yupi.Tests
 		[Test ()]
 		public void OneTile ()
 		{
-			AStar<Vector2> astar = new AStar<Vector2> (x => true, getNeighbours, Vector2.Distance);
+			Pathfinder astar = new Pathfinder (x => true, getNeighbours);
 			var nodes = astar.Find (new Vector2 (0, 0), new Vector2 (1, 1));
 
-			Assert.That (nodes.Count == 2);
-			Assert.AreEqual (new Vector2 (1, 1), nodes [0]);
-			Assert.AreEqual (new Vector2 (0, 0), nodes [1]);
+			Assert.That (nodes, Is.EquivalentTo ( new Vector2[] { 
+				new Vector2 (0, 0),
+				new Vector2 (1, 1)
+			}));
 		}
 
 		[Test ()]
 		public void MultipleTiles() {
-			AStar<Vector2> astar = new AStar<Vector2> (x => true, getNeighbours, Vector2.Distance);
+			Pathfinder astar = new Pathfinder (x => true, getNeighbours);
 			var nodes = astar.Find (new Vector2 (0, 0), new Vector2 (0, 2));
-			Assert.That (nodes.Count == 3);
-			Assert.AreEqual (new Vector2 (0, 2), nodes [0]);
-			Assert.AreEqual (new Vector2 (0, 1), nodes [1]);
-			Assert.AreEqual (new Vector2 (0, 0), nodes [2]);
+
+			Assert.That (nodes, Is.EquivalentTo ( new Vector2[] { 
+				new Vector2 (0, 0),
+				new Vector2 (0, 1),
+				new Vector2 (0, 2)
+			}));
 		}
 
 		[Test ()]
 		public void BlockingTile() {
-			AStar<Vector2> astar = new AStar<Vector2> (x => {
+			Pathfinder astar = new Pathfinder (x => {
 				return x != new Vector2(0, 1);
-			}, getNeighbours, Vector2.Distance);
+			}, getNeighbours);
 			var nodes = astar.Find (new Vector2 (0, 0), new Vector2 (0, 2));
-			Assert.That (nodes.Count == 3);
-			Assert.AreEqual (new Vector2 (0, 2), nodes [0]);
-			Assert.AreEqual (new Vector2 (-1, 1), nodes [1]);
-			Assert.AreEqual (new Vector2 (0, 0), nodes [2]);
+
+			Assert.That (nodes, Is.EquivalentTo ( new Vector2[] { 
+				new Vector2 (0, 0),
+				new Vector2 (-1, 1),
+				new Vector2 (0, 2)
+			}));
 		}
 
 		[Test ()]
 		public void BlockingTarget() {
-			AStar<Vector2> astar = new AStar<Vector2> (x => {
+			Pathfinder astar = new Pathfinder (x => {
 				return x != new Vector2(0, 2);
-			}, getNeighbours, Vector2.Distance);
+			}, getNeighbours);
 			var nodes = astar.Find (new Vector2 (0, 0), new Vector2 (0, 2));
 			Assert.IsNull (nodes);
 		}
 
 		[Test ()]
 		public void BlockingStart() {
-			AStar<Vector2> astar = new AStar<Vector2> (x => {
+			Pathfinder astar = new Pathfinder (x => {
 				return x != new Vector2(0, 0);
-			}, getNeighbours, Vector2.Distance);
+			}, getNeighbours);
 			var nodes = astar.Find (new Vector2 (0, 0), new Vector2 (0, 2));
-			Assert.That (nodes.Count == 3);
-			Assert.AreEqual (new Vector2 (0, 2), nodes [0]);
-			Assert.AreEqual (new Vector2 (0, 1), nodes [1]);
-			Assert.AreEqual (new Vector2 (0, 0), nodes [2]);
+			Assert.IsNull (nodes);
 		}
 
 		[Test ()]
 		public void Reuse() {
-			AStar<Vector2> astar = new AStar<Vector2> (x => {
+			Pathfinder astar = new Pathfinder (x => {
 				return x != new Vector2(0, 1);
-			}, getNeighbours, Vector2.Distance);
+			}, getNeighbours);
 
 			var nodes = astar.Find (new Vector2 (0, 0), new Vector2 (0, 2));
 
-			Assert.That (nodes.Count == 3);
-			Assert.AreEqual (new Vector2 (0, 2), nodes [0]);
-			Assert.AreEqual (new Vector2 (-1, 1), nodes [1]);
-			Assert.AreEqual (new Vector2 (0, 0), nodes [2]);
+			Assert.That (nodes, Is.EquivalentTo ( new Vector2[] { 
+				new Vector2 (0, 0),
+				new Vector2 (-1, 1),
+				new Vector2 (0, 2)
+			}));
 
 			nodes = astar.Find (new Vector2 (1, 0), new Vector2 (0, 2));
 
-			Assert.That (nodes.Count == 3);
-			Assert.AreEqual (new Vector2 (0, 2), nodes [0]);
-			Assert.AreEqual (new Vector2 (1, 1), nodes [1]);
-			Assert.AreEqual (new Vector2 (1, 0), nodes [2]);
+			Assert.That (nodes, Is.EquivalentTo ( new Vector2[] { 
+				new Vector2 (1, 0),
+				new Vector2 (1, 1),
+				new Vector2 (0, 2)
+			}));
 		}
 	}
 }

@@ -4,11 +4,11 @@ using System.Numerics;
 using Priority_Queue;
 using System.Collections;
 
-namespace Yupi.Util
+namespace Yupi.Util.Pathfinding
 {
-	public class AStar<TileType> where TileType : IEquatable<TileType>
+	public abstract class AStar<TileType> where TileType : IEquatable<TileType>
 	{
-		private class Node : IEquatable<Node>
+		protected class Node : IEquatable<Node>
 		{
 			public readonly TileType Tile;
 			public float GScore;
@@ -40,26 +40,31 @@ namespace Yupi.Util
 
 		private Func<TileType, bool> IsWalkable;
 		private Func<TileType, ICollection> GetNeighbours;
-		private Func<TileType, TileType, float> GetDistance;
 
 		private object Lock;
 
 		public AStar (Func<TileType, bool> isWalkable, 
-			Func<TileType, ICollection> getNeighbours, 
-		              Func<TileType, TileType, float> getDistance)
+			Func<TileType, ICollection> getNeighbours)
 		{
 			Lock = new object ();
 			OpenList = new SimplePriorityQueue<Node> ();
 			ClosedList = new HashSet<Node> ();
 			this.IsWalkable = isWalkable;
 			this.GetNeighbours = getNeighbours;
-			this.GetDistance = getDistance;
 		}
+
+		protected abstract float GetDistance(TileType start, TileType target);
+		protected abstract float Cost (TileType prev, TileType next);
 
 		public List<TileType> Find (TileType start, TileType target)
 		{
+			if (!IsWalkable (target) || !IsWalkable(start)) {
+				return null;
+			}
+
 			lock (this.Lock) {
-				List<TileType> result = FindImpl (start, target);
+				// Swap target & start to receive result in right order
+				List<TileType> result = FindImpl (target, start);
 				this.OpenList.Clear ();
 				this.ClosedList.Clear ();
 				return result;
@@ -68,10 +73,6 @@ namespace Yupi.Util
 
 		private List<TileType> FindImpl (TileType start, TileType target)
 		{
-			if (!IsWalkable (target)) {
-				return null;
-			}
-
 			OpenList.Enqueue (new Node (start), 0);
 
 			Node targetNode = new Node (target);
@@ -117,7 +118,7 @@ namespace Yupi.Util
 					continue;
 				}
 
-				float tentative_g = currentNode.GScore + cost (currentNode, succ);
+				float tentative_g = currentNode.GScore + Cost (currentNode.Tile, succ.Tile);
 
 				if (OpenList.Contains (succ) && succ.GScore < tentative_g) {
 					continue;
@@ -134,11 +135,6 @@ namespace Yupi.Util
 					OpenList.Enqueue (succ, fScore);
 				}
 			}
-		}
-
-		private float cost (Node prev, Node next)
-		{
-			return 1;
 		}
 	}
 }
