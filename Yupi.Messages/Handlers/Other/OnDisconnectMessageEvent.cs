@@ -1,28 +1,29 @@
-﻿using Yupi.Controller;
+﻿using System;
+using Yupi.Controller;
 using Yupi.Model;
-using Yupi.Model.Domain;
-using Yupi.Protocol;
-using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Other
 {
-    public class OnDisconnectMessageEvent : AbstractHandler
-    {
-        private readonly ClientManager ClientManager;
+	public class OnDisconnectMessageEvent : AbstractHandler
+	{
+		public override bool RequireUser {
+			get { 
+				return false; 
+			}
+		}
 
-        public OnDisconnectMessageEvent()
-        {
-            ClientManager = DependencyFactory.Resolve<ClientManager>();
-        }
+		private ClientManager ClientManager;
 
-        public override bool RequireUser
-        {
-            get { return false; }
-        }
+		public OnDisconnectMessageEvent ()
+		{
+			ClientManager = DependencyFactory.Resolve<ClientManager> ();
+		}
 
-        public override void HandleMessage(Habbo session, ClientMessage request, IRouter router)
-        {
-            ClientManager.Disconnect(session, "User disconnected");
-        }
-    }
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		{
+
+			ClientManager.Disconnect(session, "User disconnected");
+		}
+	}
 }
+

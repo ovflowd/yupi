@@ -1,19 +1,20 @@
-﻿using Yupi.Protocol;
+﻿using System;
+using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.GameCenter
 {
-    public class GameCenterGamesLeftMessageComposer : Contracts.GameCenterGamesLeftMessageComposer
-    {
-        public override void Compose(ISender session)
-        {
-            // TODO  hardcoded message
-            using (var message = Pool.GetMessageBuffer(Id))
-            {
-                message.AppendInteger(18);
-                message.AppendInteger(-1);
-                message.AppendInteger(0);
-                session.Send(message);
-            }
-        }
-    }
+	public class GameCenterGamesLeftMessageComposer : Yupi.Messages.Contracts.GameCenterGamesLeftMessageComposer
+	{
+		public override void Compose ( Yupi.Protocol.ISender session)
+		{
+			// TODO  hardcoded message
+			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
+				message.AppendInteger(18);
+				message.AppendInteger(-1);
+				message.AppendInteger(0);
+				session.Send (message);
+			}
+		}
+	}
 }
+

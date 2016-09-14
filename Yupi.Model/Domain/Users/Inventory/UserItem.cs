@@ -1,8 +1,11 @@
-﻿namespace Yupi.Model.Domain
+﻿using System;
+
+namespace Yupi.Model.Domain
 {
-    // TODO Remove
-    public class UserItem
-    {
-        public virtual int Id { get; set; }
-    }
+	// TODO Remove
+	public class UserItem
+	{
+		public virtual int Id { get; set; }
+	}
 }
+

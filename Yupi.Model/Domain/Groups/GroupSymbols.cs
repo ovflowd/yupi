@@ -26,8 +26,8 @@ namespace Yupi.Model.Domain
 {
     public class GroupSymbols
     {
-        public virtual int Id { get; protected set; }
-        public virtual string Value1 { get; set; }
-        public virtual string Value2 { get; set; }
+		public virtual int Id { get; protected set; }
+		public virtual string Value1 { get; set; }
+		public virtual string Value2 { get; set; }
     }
 }

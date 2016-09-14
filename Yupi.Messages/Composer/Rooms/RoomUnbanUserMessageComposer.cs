@@ -1,17 +1,18 @@
-﻿using Yupi.Protocol;
+﻿using System;
+using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Rooms
 {
-    public class RoomUnbanUserMessageComposer : Contracts.RoomUnbanUserMessageComposer
-    {
-        public override void Compose(ISender session, uint roomId, uint userId)
-        {
-            using (var message = Pool.GetMessageBuffer(Id))
-            {
-                message.AppendInteger(roomId);
-                message.AppendInteger(userId);
-                session.Send(message);
-            }
-        }
-    }
+	public class RoomUnbanUserMessageComposer : Yupi.Messages.Contracts.RoomUnbanUserMessageComposer
+	{
+		public override void Compose ( Yupi.Protocol.ISender session, uint roomId, uint userId)
+		{
+			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
+				message.AppendInteger (roomId);
+				message.AppendInteger (userId);
+				session.Send (message);
+			}
+		}
+	}
 }
+

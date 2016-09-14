@@ -1,14 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Yupi.Model.Domain
 {
-    public class VendingBaseItem : FloorBaseItem
-    {
-        public VendingBaseItem()
-        {
-            VendingIds = new List<int>();
-        }
+	public class VendingBaseItem : FloorBaseItem
+	{
+		public virtual IList<int> VendingIds { get; protected set; }
 
-        public virtual IList<int> VendingIds { get; protected set; }
-    }
+		public VendingBaseItem() {
+			VendingIds = new List<int>();
+		}
+	}
 }
+

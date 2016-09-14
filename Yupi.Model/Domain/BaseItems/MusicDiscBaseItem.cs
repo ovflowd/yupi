@@ -1,15 +1,17 @@
-﻿namespace Yupi.Model.Domain
-{
-    public class MusicDiscBaseItem : FloorBaseItem
-    {
-        public virtual SongData Song { get; protected set; }
+﻿using System;
 
-        public override Item CreateNew()
-        {
-            return new SongItem
-            {
-                BaseItem = this
-            };
-        }
-    }
+namespace Yupi.Model.Domain
+{
+	public class MusicDiscBaseItem : FloorBaseItem
+	{
+		public virtual SongData Song { get; protected set; }
+
+		public override Item CreateNew ()
+		{
+			return new SongItem () {
+				BaseItem = this
+			};
+		}
+	}
 }
+

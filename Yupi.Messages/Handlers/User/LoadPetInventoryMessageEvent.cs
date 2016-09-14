@@ -1,14 +1,13 @@
-﻿using Yupi.Model.Domain;
-using Yupi.Protocol;
-using Yupi.Protocol.Buffers;
+﻿using System;
 
 namespace Yupi.Messages.User
 {
-    public class LoadPetInventoryMessageEvent : AbstractHandler
-    {
-        public override void HandleMessage(Habbo session, ClientMessage message, IRouter router)
-        {
-            session.Router.GetComposer<PetInventoryMessageComposer>().Compose(session, session.Info.Inventory.Pets);
-        }
-    }
+	public class LoadPetInventoryMessageEvent : AbstractHandler
+	{
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		{
+			session.Router.GetComposer<PetInventoryMessageComposer>().Compose(session, session.Info.Inventory.Pets);
+		}
+	}
 }
+

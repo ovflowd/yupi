@@ -2,8 +2,12 @@
 
 namespace Yupi.Model
 {
-    [AttributeUsage(AttributeTargets.Property)]
-    public sealed class ManyToManyAttribute : Attribute
-    {
-    }
+	[System.AttributeUsage(System.AttributeTargets.Property)]
+	public sealed class ManyToManyAttribute : Attribute
+	{
+		public ManyToManyAttribute ()
+		{
+		}
+	}
 }
+

@@ -1,16 +1,18 @@
-﻿namespace Yupi.Model.Domain
-{
-    public class FootballGateBaseItem : FloorBaseItem
-    {
-        // TODO Should be enum
-        public virtual int Color { get; set; }
+﻿using System;
 
-        public override Item CreateNew()
-        {
-            return new FootballGateItem
-            {
-                BaseItem = this
-            };
-        }
-    }
+namespace Yupi.Model.Domain
+{
+	public class FootballGateBaseItem : FloorBaseItem
+	{
+		// TODO Should be enum
+		public virtual int Color { get; set; }
+
+		public override Item CreateNew ()
+		{
+			return new FootballGateItem () {
+				BaseItem = this
+			};
+		}
+	}
 }
+

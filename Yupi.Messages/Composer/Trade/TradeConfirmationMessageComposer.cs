@@ -1,8 +1,10 @@
-﻿using Yupi.Messages.Contracts;
+﻿using System;
 
 namespace Yupi.Messages.Trade
 {
-    public class TradeConfirmationMessageComposer : AbstractComposerEmpty
-    {
-    }
+	public class TradeConfirmationMessageComposer : Contracts.AbstractComposerEmpty
+	{
+		
+	}
 }
+

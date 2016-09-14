@@ -21,51 +21,49 @@
    Corporation Oy. Yupi! has nothing linked with Sulake. 
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
-
 using System;
 
 namespace Yupi.Model.Domain
 {
-    /// <summary>
-    ///     Class RoomEvent.
-    /// </summary>
-    public class RoomEvent
-    {
-        public RoomEvent()
-        {
-            ExpiresAt = new DateTime().AddHours(2);
-        }
+	/// <summary>
+	///     Class RoomEvent.
+	/// </summary>
+	public class RoomEvent
+	{
+		public virtual int Id { get; protected set; }
 
-        public virtual int Id { get; protected set; }
+		/// <summary>
+		///     The category
+		/// </summary>
+		public virtual int Category { get; set; }
+		// TODO What is the category? Foreing key!
+		/// <summary>
+		///     The description
+		/// </summary>
+		public virtual string Description { get; set; }
 
-        /// <summary>
-        ///     The category
-        /// </summary>
-        public virtual int Category { get; set; }
+		/// <summary>
+		///     The name
+		/// </summary>
+		public virtual string Name { get; set; }
 
-        // TODO What is the category? Foreing key!
-        /// <summary>
-        ///     The description
-        /// </summary>
-        public virtual string Description { get; set; }
+		/// <summary>
+		///     The time
+		/// </summary>
+		public virtual DateTime ExpiresAt { get; set; }
 
-        /// <summary>
-        ///     The name
-        /// </summary>
-        public virtual string Name { get; set; }
+		public RoomEvent ()
+		{
+			ExpiresAt = new DateTime ().AddHours (2);
+		}
 
-        /// <summary>
-        ///     The time
-        /// </summary>
-        public virtual DateTime ExpiresAt { get; set; }
-
-        /// <summary>
-        ///     Gets a value indicating whether this instance has expired.
-        /// </summary>
-        /// <value><c>true</c> if this instance has expired; otherwise, <c>false</c>.</value>
-        public virtual bool HasExpired()
-        {
-            return ExpiresAt < DateTime.Now;
-        }
-    }
+		/// <summary>
+		///     Gets a value indicating whether this instance has expired.
+		/// </summary>
+		/// <value><c>true</c> if this instance has expired; otherwise, <c>false</c>.</value>
+		public virtual bool HasExpired ()
+		{
+			return ExpiresAt < DateTime.Now;
+		}
+	}
 }

@@ -1,32 +1,36 @@
-﻿using Yupi.Controller;
-using Yupi.Model;
+﻿using System;
 using Yupi.Model.Domain;
-using Yupi.Protocol;
-using Yupi.Protocol.Buffers;
+using Yupi.Model;
+using Yupi.Controller;
+
+
 
 namespace Yupi.Messages.Chat
 {
-    public class ChatMessageEvent : AbstractHandler
-    {
-        private readonly ChatController Chat;
+	public class ChatMessageEvent : AbstractHandler
+	{
+		private ChatController Chat;
 
-        public ChatMessageEvent()
-        {
-            Chat = DependencyFactory.Resolve<ChatController>();
-        }
+		public ChatMessageEvent ()
+		{
+			Chat = DependencyFactory.Resolve<ChatController> ();
+		}
 
-        public override void HandleMessage(Habbo session, ClientMessage request, IRouter router)
-        {
-            if (session.RoomEntity == null)
-                return;
+		public override void HandleMessage (Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		{
+			if (session.RoomEntity == null)
+				return;
 
-            var message = request.GetString();
-            var bubbleId = request.GetInteger();
-            var count = request.GetInteger();
+			string message = request.GetString ();
+			int bubbleId = request.GetInteger ();
+			int count = request.GetInteger ();
 
-            ChatBubbleStyle bubble;
+			ChatBubbleStyle bubble;
 
-            if (ChatBubbleStyle.TryFromInt32(bubbleId, out bubble)) Chat.Chat(session, message, bubble);
-        }
-    }
+			if (ChatBubbleStyle.TryFromInt32 (bubbleId, out bubble)) {
+				Chat.Chat (session, message, bubble);
+			}
+		}
+	}
 }
+

@@ -1,18 +1,21 @@
-﻿namespace Yupi.Model.Domain
-{
-    public class PetBaseItem : FloorBaseItem
-    {
-        public override ItemType Type
-        {
-            get { return ItemType.Pet; }
-        }
+﻿using System;
 
-        public override Item CreateNew()
-        {
-            return new PetItem
-            {
-                BaseItem = this
-            };
-        }
-    }
+namespace Yupi.Model.Domain
+{
+	public class PetBaseItem : FloorBaseItem
+	{
+		public override ItemType Type {
+			get {
+				return ItemType.Pet;
+			}
+		}
+
+		public override Item CreateNew ()
+		{
+			return new PetItem () {
+				BaseItem = this
+			};
+		}
+	}
 }
+

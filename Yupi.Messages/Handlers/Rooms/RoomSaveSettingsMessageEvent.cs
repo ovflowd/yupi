@@ -1,135 +1,157 @@
-﻿using Yupi.Controller;
-using Yupi.Model;
-using Yupi.Model.Domain;
+﻿using System;
+
+using System.Collections.Generic;
 using Yupi.Model.Repository;
-using Yupi.Protocol;
-using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
+using Yupi.Model;
+using Yupi.Controller;
+using Yupi.Model.Domain.Components;
+
 
 namespace Yupi.Messages.Rooms
 {
-    public class RoomSaveSettingsMessageEvent : AbstractHandler
-    {
-        private readonly Repository<FlatNavigatorCategory> NavigatorCategoryRepository;
-        private readonly RoomManager RoomManager;
-        private readonly Repository<RoomData> RoomRepository;
+	public class RoomSaveSettingsMessageEvent : AbstractHandler
+	{
+		private RoomManager RoomManager;
+		private Repository<RoomData> RoomRepository;
+		private Repository<FlatNavigatorCategory> NavigatorCategoryRepository;
 
-        public RoomSaveSettingsMessageEvent()
-        {
-            RoomManager = DependencyFactory.Resolve<RoomManager>();
-            RoomRepository = DependencyFactory.Resolve<Repository<RoomData>>();
-            NavigatorCategoryRepository = DependencyFactory.Resolve<Repository<FlatNavigatorCategory>>();
-        }
+		public RoomSaveSettingsMessageEvent ()
+		{
+			RoomManager = DependencyFactory.Resolve<RoomManager> ();
+			RoomRepository = DependencyFactory.Resolve<Repository<RoomData>> ();
+			NavigatorCategoryRepository = DependencyFactory.Resolve<Repository<FlatNavigatorCategory>> ();
+		}
 
-        public override void HandleMessage(Habbo session, ClientMessage request, IRouter router)
-        {
-            var roomId = request.GetInteger();
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		{
+			int roomId = request.GetInteger();
 
-            var roomData = RoomRepository.FindBy(roomId);
+			RoomData roomData = RoomRepository.FindBy (roomId);
 
-            if ((roomData == null) || !roomData.HasOwnerRights(session.Info)) return;
+			if (roomData == null || !roomData.HasOwnerRights(session.Info)) {
+				return;
+			}
 
-            // TODO Filter
-            var newName = request.GetString();
+			// TODO Filter
+			string newName = request.GetString();
 
-            // TODO Magic constant
-            if (newName.Length > 2) roomData.Description = request.GetString();
+			// TODO Magic constant
+			if (newName.Length > 2) {
+				roomData.Description = request.GetString();
+			}
 
-            var stateId = request.GetInteger();
+			int stateId = request.GetInteger ();
 
-            RoomState state;
+			RoomState state;
 
-            if (RoomState.TryFromInt32(stateId, out state)) roomData.State = state;
+			if (RoomState.TryFromInt32 (stateId, out state)) {
+				roomData.State = state;
+			}
 
-            roomData.Password = request.GetString();
-            roomData.UsersMax = request.GetInteger();
+			roomData.Password = request.GetString();
+			roomData.UsersMax = request.GetInteger();
 
-            var categoryId = request.GetInteger();
+			int categoryId = request.GetInteger();
 
-            var category = NavigatorCategoryRepository.FindBy(categoryId);
+			FlatNavigatorCategory category = NavigatorCategoryRepository.FindBy (categoryId);
 
-            if ((category != null) && (category.MinRank <= session.Info.Rank)) roomData.Category = category;
+			if (category != null && category.MinRank <= session.Info.Rank) {
+				roomData.Category = category;
+			}
 
-            var tagCount = request.GetInteger();
+			int tagCount = request.GetInteger();
 
-            if (tagCount <= 2)
-            {
-                roomData.Tags.Clear();
+			if (tagCount <= 2) {
+				roomData.Tags.Clear ();
+	
+				for (int i = 0; i < tagCount; i++)
+					roomData.Tags.Add (request.GetString ().ToLower ());
+			}
 
-                for (var i = 0; i < tagCount; i++)
-                    roomData.Tags.Add(request.GetString().ToLower());
-            }
+			TradingState tradeState;
 
-            TradingState tradeState;
+			if (TradingState.TryFromInt32 (request.GetInteger (), out tradeState)) {
+				roomData.TradeState = tradeState;
+			}
 
-            if (TradingState.TryFromInt32(request.GetInteger(), out tradeState)) roomData.TradeState = tradeState;
+			roomData.AllowPets = request.GetBool();
+			roomData.AllowPetsEating = request.GetBool();
+			roomData.AllowWalkThrough = request.GetBool();
 
-            roomData.AllowPets = request.GetBool();
-            roomData.AllowPetsEating = request.GetBool();
-            roomData.AllowWalkThrough = request.GetBool();
+			bool hideWall = request.GetBool();
+			int wallThickness = request.GetInteger();
+			int floorThickness = request.GetInteger();
 
-            var hideWall = request.GetBool();
-            var wallThickness = request.GetInteger();
-            var floorThickness = request.GetInteger();
+			if (session.Info.Subscription.IsValid ()) {
+				roomData.HideWall = hideWall;
+				roomData.WallThickness = wallThickness;
+				roomData.FloorThickness = floorThickness;
+			} else {
+				roomData.HideWall = false;
+				roomData.WallThickness = 0;
+				roomData.FloorThickness = 0;
+			}
 
-            if (session.Info.Subscription.IsValid())
-            {
-                roomData.HideWall = hideWall;
-                roomData.WallThickness = wallThickness;
-                roomData.FloorThickness = floorThickness;
-            }
-            else
-            {
-                roomData.HideWall = false;
-                roomData.WallThickness = 0;
-                roomData.FloorThickness = 0;
-            }
+			RoomModerationRight right;
 
-            RoomModerationRight right;
+			if (RoomModerationRight.TryFromInt32 (request.GetInteger (), out right)) {
+				roomData.ModerationSettings.WhoCanMute = right;
+			}
 
-            if (RoomModerationRight.TryFromInt32(request.GetInteger(), out right))
-                roomData.ModerationSettings.WhoCanMute = right;
+			if (RoomModerationRight.TryFromInt32 (request.GetInteger (), out right)) {
+				roomData.ModerationSettings.WhoCanKick = right;
+			}
 
-            if (RoomModerationRight.TryFromInt32(request.GetInteger(), out right))
-                roomData.ModerationSettings.WhoCanKick = right;
+			if (RoomModerationRight.TryFromInt32 (request.GetInteger (), out right)) {
+				roomData.ModerationSettings.WhoCanBan = right;
+			}
+				
+			ChatType chatType;
 
-            if (RoomModerationRight.TryFromInt32(request.GetInteger(), out right))
-                roomData.ModerationSettings.WhoCanBan = right;
+			if (ChatType.TryFromInt32 (request.GetInteger (), out chatType)) {
+				roomData.Chat.Type = chatType;
+			}
 
-            ChatType chatType;
+			ChatBalloon chatBalloon;
 
-            if (ChatType.TryFromInt32(request.GetInteger(), out chatType)) roomData.Chat.Type = chatType;
+			if (ChatBalloon.TryFromInt32 (request.GetInteger (), out chatBalloon)) {
+				roomData.Chat.Balloon = chatBalloon;
+			}
+				
+			ChatSpeed chatSpeed;
 
-            ChatBalloon chatBalloon;
+			if (ChatSpeed.TryFromInt32 (request.GetInteger (), out chatSpeed)) {
+				roomData.Chat.Speed = chatSpeed;
+			}
 
-            if (ChatBalloon.TryFromInt32(request.GetInteger(), out chatBalloon)) roomData.Chat.Balloon = chatBalloon;
+			int maxDistance = request.GetInteger();
 
-            ChatSpeed chatSpeed;
+			if (roomData.Chat.isValidDistance (maxDistance)) {
+				roomData.Chat.SetMaxDistance(maxDistance);
+			}
 
-            if (ChatSpeed.TryFromInt32(request.GetInteger(), out chatSpeed)) roomData.Chat.Speed = chatSpeed;
+			FloodProtection floodProtection;
 
-            var maxDistance = request.GetInteger();
+			if (FloodProtection.TryFromInt32 (request.GetInteger (), out floodProtection)) {
+				roomData.Chat.FloodProtection = floodProtection;
+			}
 
-            if (roomData.Chat.isValidDistance(maxDistance)) roomData.Chat.SetMaxDistance(maxDistance);
+			request.GetBool(); //TODO allow_dyncats_checkbox
 
-            FloodProtection floodProtection;
+			router.GetComposer<RoomSettingsSavedMessageComposer> ().Compose (session, roomData.Id);
 
-            if (FloodProtection.TryFromInt32(request.GetInteger(), out floodProtection))
-                roomData.Chat.FloodProtection = floodProtection;
+			Room room = RoomManager.GetIfLoaded (roomData);
 
-            request.GetBool(); //TODO allow_dyncats_checkbox
-
-            router.GetComposer<RoomSettingsSavedMessageComposer>().Compose(session, roomData.Id);
-
-            var room = RoomManager.GetIfLoaded(roomData);
-
-            if (room != null)
-                room.EachUser(x =>
-                {
-                    x.Router.GetComposer<RoomUpdateMessageComposer>().Compose(x, roomData.Id);
-                    x.Router.GetComposer<RoomFloorWallLevelsMessageComposer>().Compose(x, roomData);
-                    x.Router.GetComposer<RoomChatOptionsMessageComposer>().Compose(x, roomData);
-                    x.Router.GetComposer<RoomDataMessageComposer>().Compose(x, roomData, x.Info, true, true);
-                });
-        }
-    }
+			if (room != null) {
+				room.EachUser (x => {
+					x.Router.GetComposer<RoomUpdateMessageComposer> ().Compose (x, roomData.Id);
+					x.Router.GetComposer<RoomFloorWallLevelsMessageComposer> ().Compose (x, roomData);
+					x.Router.GetComposer<RoomChatOptionsMessageComposer> ().Compose (x, roomData);
+					x.Router.GetComposer<RoomDataMessageComposer> ().Compose (x, roomData, x.Info, true, true);
+				});
+			}
+		}
+	}
 }
+

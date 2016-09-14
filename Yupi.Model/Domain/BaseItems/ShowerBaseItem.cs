@@ -1,6 +1,12 @@
-﻿namespace Yupi.Model.Domain
+﻿using System;
+
+namespace Yupi.Model.Domain
 {
-    public class ShowerBaseItem : FloorBaseItem
-    {
-    }
+	public class ShowerBaseItem : FloorBaseItem
+	{
+		public ShowerBaseItem ()
+		{
+		}
+	}
 }
+

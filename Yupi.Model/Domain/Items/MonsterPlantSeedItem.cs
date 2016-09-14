@@ -2,21 +2,23 @@
 
 namespace Yupi.Model.Domain
 {
-    public class MonsterPlantSeedItem : FloorItem<MonsterPlantSeedBaseItem>
-    {
-        [Ignore] private static readonly Random Rand = new Random();
+	public class MonsterPlantSeedItem : FloorItem<MonsterPlantSeedBaseItem>
+	{
+		// TODO Is this correct?
+		public virtual int Race { get; set; }
 
-        // TODO Is this correct?
-        public virtual int Race { get; set; }
+		[Ignore]
+		private static Random Rand = new Random();
 
-        public override void TryParseExtraData(string data)
-        {
-            Race = Rand.Next(12);
-        }
+		public override void TryParseExtraData (string data)
+		{
+			Race = Rand.Next (12);
+		}
 
-        public override string GetExtraData()
-        {
-            return Race.ToString();
-        }
-    }
+		public override string GetExtraData ()
+		{
+			return Race.ToString ();
+		}
+	}
 }
+

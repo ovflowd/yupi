@@ -23,82 +23,84 @@
 */
 
 using System;
-using System.Reflection;
+using System.Net;
+using System.Threading.Tasks;
+using DotNetty.Buffers;
+using DotNetty.Transport.Channels;
 
 namespace Yupi.Net.DotNettyImpl
 {
-    public class MessageHandler<T> : ChannelHandlerAdapter, ISession<T>
+	public class MessageHandler<T> : ChannelHandlerAdapter, ISession<T>
     {
-        private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger
-            (MethodBase.GetCurrentMethod().DeclaringType);
+		public IPAddress RemoteAddress {
+			get {
+				return ((IPEndPoint)Channel.RemoteAddress).Address;
+			}
+		}
 
-        private readonly IChannel Channel;
-        private readonly ConnectionClosed<T> OnConnectionClosed;
-        private readonly ConnectionOpened<T> OnConnectionOpened;
-        private readonly MessageReceived<T> OnMessage;
+		public T UserData { get; set; }
 
-        public MessageHandler(IChannel channel, MessageReceived<T> onMessage, ConnectionClosed<T> onConnectionClosed,
-            ConnectionOpened<T> onConnectionOpened)
-        {
-            Channel = channel;
-            OnMessage = onMessage;
-            OnConnectionClosed = onConnectionClosed;
-            OnConnectionOpened = onConnectionOpened;
-        }
+		private IChannel Channel;
+		private MessageReceived<T> OnMessage;
+		private ConnectionClosed<T> OnConnectionClosed;
+		private ConnectionOpened<T> OnConnectionOpened;
 
-        public IPAddress RemoteAddress
-        {
-            get { return ((IPEndPoint) Channel.RemoteAddress).Address; }
-        }
+		private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger
+			(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public T UserData { get; set; }
+		public MessageHandler (IChannel channel, MessageReceived<T> onMessage, ConnectionClosed<T> onConnectionClosed, ConnectionOpened<T> onConnectionOpened)
+		{
+			this.Channel = channel;
+			this.OnMessage = onMessage;
+			this.OnConnectionClosed = onConnectionClosed;
+			this.OnConnectionOpened = onConnectionOpened;
+		}
 
-        public void Disconnect()
-        {
-            Channel.DisconnectAsync();
-        }
-
-        public void Send(byte[] data)
-        {
-            Channel.WriteAndFlushAsync(data);
-        }
-
-        public void Send(ArraySegment<byte> data)
-        {
-            var buffer = new byte[data.Count];
-            Array.Copy(data.Array, data.Offset, buffer, 0, data.Count);
-            Send(buffer);
-        }
+		public void Disconnect() {
+			Channel.DisconnectAsync ();
+		}
 
         public override void ChannelRead(IChannelHandlerContext context, object message)
         {
             IByteBuffer dataBuffer = message as IByteBuffer;
 
-            var data = new byte[dataBuffer.ReadableBytes];
+			byte[] data = new byte[dataBuffer.ReadableBytes];
 
-            dataBuffer.ReadBytes(data);
+			dataBuffer.ReadBytes (data);
 
-            OnMessage(this, data);
+			OnMessage (this, data);
 
-            dataBuffer.Release();
+			dataBuffer.Release ();
         }
 
         public override void ExceptionCaught(IChannelHandlerContext context, Exception exception)
         {
-            Logger.Warn("A networking error occured", exception);
-            context.CloseAsync();
+			Logger.Warn ("A networking error occured", exception);
+			context.CloseAsync();
         }
 
-        public override void ChannelActive(IChannelHandlerContext context)
-        {
-            OnConnectionOpened(this);
-            base.ChannelActive(context);
-        }
+		public void Send (byte[] data)
+		{
+			this.Channel.WriteAndFlushAsync (data);
+		}
 
-        public override void ChannelInactive(IChannelHandlerContext context)
-        {
-            OnConnectionClosed(this);
-            base.ChannelInactive(context);
-        }
+		public void Send (ArraySegment<byte> data)
+		{
+			byte[] buffer = new byte[data.Count];
+			Array.Copy (data.Array, data.Offset, buffer, 0, data.Count);
+			Send (buffer);
+		}
+			
+		public override void ChannelActive (IChannelHandlerContext context)
+		{
+			OnConnectionOpened (this);
+			base.ChannelActive (context);
+		}
+
+		public override void ChannelInactive (IChannelHandlerContext context)
+		{
+			OnConnectionClosed (this);
+			base.ChannelInactive (context);
+		}
     }
 }

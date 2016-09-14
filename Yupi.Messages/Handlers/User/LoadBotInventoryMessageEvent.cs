@@ -1,16 +1,15 @@
 ﻿using System;
-using Yupi.Model.Domain;
-using Yupi.Protocol;
-using Yupi.Protocol.Buffers;
+using Yupi.Messages.Bots;
 
 namespace Yupi.Messages.User
 {
-    public class LoadBotInventoryMessageEvent : AbstractHandler
-    {
-        public override void HandleMessage(Habbo session, ClientMessage message, IRouter router)
-        {
-            throw new NotImplementedException();
-            //router.GetComposer<BotInventoryMessageComposer> ().Compose (session, session.GetHabbo ().GetInventoryComponent ()._inventoryBots);
-        }
-    }
+	public class LoadBotInventoryMessageEvent : AbstractHandler
+	{
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		{
+			throw new NotImplementedException ();
+			//router.GetComposer<BotInventoryMessageComposer> ().Compose (session, session.GetHabbo ().GetInventoryComponent ()._inventoryBots);
+		}
+	}
 }
+

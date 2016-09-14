@@ -2,11 +2,11 @@
 
 namespace Yupi.Util
 {
-    public static class DateTimeExt
-    {
-        public static UnixTimestamp ToUnix(this DateTime dateTime)
-        {
-            return UnixTimestamp.FromDateTime(dateTime);
-        }
-    }
+	public static class DateTimeExt
+	{
+		public static UnixTimestamp ToUnix(this DateTime dateTime) {
+			return UnixTimestamp.FromDateTime(dateTime);
+		}
+	}
 }
+

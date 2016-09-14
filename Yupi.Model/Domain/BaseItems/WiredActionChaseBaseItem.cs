@@ -1,6 +1,12 @@
-﻿namespace Yupi.Model.Domain
+﻿using System;
+
+namespace Yupi.Model.Domain
 {
-    public class WiredActionChaseBaseItem : WiredBaseItem
-    {
-    }
+	public class WiredActionChaseBaseItem : WiredBaseItem
+	{
+		public WiredActionChaseBaseItem ()
+		{
+		}
+	}
 }
+

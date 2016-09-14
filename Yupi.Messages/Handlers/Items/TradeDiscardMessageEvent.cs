@@ -1,6 +1,10 @@
-﻿namespace Yupi.Messages.Items
+﻿using System;
+
+namespace Yupi.Messages.Items
 {
-    public class TradeDiscardMessageEvent : TradeCancelMessageEvent
-    {
-    }
+	public class TradeDiscardMessageEvent : TradeCancelMessageEvent
+	{
+		
+	}
 }
+

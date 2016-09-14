@@ -1,34 +1,36 @@
-﻿using Yupi.Controller;
+﻿using System;
 using Yupi.Messages.Notification;
+using Yupi.Controller;
 using Yupi.Model;
-using Yupi.Model.Domain;
-using Yupi.Protocol;
-using Yupi.Protocol.Buffers;
+
 
 namespace Yupi.Messages.Support
 {
-    public class ModerationToolSendUserAlertMessageEvent : AbstractHandler
-    {
-        private readonly ClientManager ClientManager;
+	public class ModerationToolSendUserAlertMessageEvent : AbstractHandler
+	{
+		private ClientManager ClientManager;
 
-        public ModerationToolSendUserAlertMessageEvent()
-        {
-            ClientManager = DependencyFactory.Resolve<ClientManager>();
-        }
+		public ModerationToolSendUserAlertMessageEvent ()
+		{
+			ClientManager = DependencyFactory.Resolve<ClientManager>();
+		}
 
-        public override void HandleMessage(Habbo session, ClientMessage request, IRouter router)
-        {
-            if (!session.Info.HasPermission("fuse_alert"))
-                return;
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		{
+			if (!session.Info.HasPermission("fuse_alert"))
+				return;
 
-            var userId = request.GetInteger();
-            var message = request.GetString();
+			int userId = request.GetInteger();
+			string message = request.GetString();
 
-            var target = ClientManager.GetByUserId(userId);
+			var target = ClientManager.GetByUserId (userId);
 
-            // TODO Log alert
+			// TODO Log alert
 
-            if (target != null) target.Router.GetComposer<AlertNotificationMessageComposer>().Compose(target, message);
-        }
-    }
+			if (target != null) {
+				target.Router.GetComposer<AlertNotificationMessageComposer> ().Compose(target, message);
+			}
+		}
+	}
 }
+

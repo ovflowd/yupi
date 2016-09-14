@@ -1,8 +1,11 @@
-﻿namespace Yupi.Model.Domain
+﻿using System;
+
+namespace Yupi.Model.Domain
 {
-    public class UserCaution
-    {
-        public virtual int Id { get; protected set; }
-        // TODO Implement
-    }
+	public class UserCaution
+	{
+		public virtual int Id { get; protected set; }
+		// TODO Implement
+	}
 }
+

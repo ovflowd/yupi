@@ -1,10 +1,13 @@
-﻿namespace Yupi.Model
+﻿using System;
+
+namespace Yupi.Model
 {
-    public enum ItemType
-    {
-        Floor = 1,
-        Wall = 2,
-        Pet = 3,
-        Badge = 4
-    }
+	public enum ItemType
+	{
+		Floor = 1,
+		Wall = 2,
+		Pet = 3,
+		Badge = 4
+	}
 }
+

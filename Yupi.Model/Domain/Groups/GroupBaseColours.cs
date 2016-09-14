@@ -24,10 +24,10 @@
 
 namespace Yupi.Model.Domain
 {
-    public class GroupBaseColours
-    {
-        public virtual int Id { get; protected set; }
-        // TODO Isn't this class useless?
-        public virtual string Colour { get; set; }
-    }
+	public class GroupBaseColours
+	{
+		public virtual int Id { get; protected set; }
+		// TODO Isn't this class useless?
+		public virtual string Colour { get; set; }
+	}
 }

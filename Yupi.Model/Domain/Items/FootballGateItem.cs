@@ -1,19 +1,22 @@
-﻿namespace Yupi.Model.Domain
+﻿using System;
+
+namespace Yupi.Model.Domain
 {
-    public class FootballGateItem : FloorItem<FootballGateBaseItem>
-    {
-        public FootballGateItem()
-        {
-            LookMale = "lg-270-82.ch-210-66";
-            LookFemale = "lg-270-82.ch-210-66";
-        }
+	public class FootballGateItem : FloorItem<FootballGateBaseItem>
+	{
+		public virtual string LookMale { get; set; }
+		public virtual string LookFemale { get; set; }
 
-        public virtual string LookMale { get; set; }
-        public virtual string LookFemale { get; set; }
+		public FootballGateItem ()
+		{
+			LookMale = "lg-270-82.ch-210-66";
+			LookFemale = "lg-270-82.ch-210-66";
+		}
 
-        public override string GetExtraData()
-        {
-            return string.Join(";", LookMale, LookFemale);
-        }
-    }
+		public override string GetExtraData ()
+		{
+			return String.Join (";", LookMale, LookFemale);
+		}
+	}
 }
+

@@ -1,20 +1,23 @@
-﻿using Yupi.Model.Domain;
+﻿using System;
+using Yupi.Model.Domain;
 
 namespace Yupi.Model
 {
-    public class GroupMember
-    {
-        public GroupMember(UserInfo user) : this()
-        {
-            User = user;
-        }
+	public class GroupMember
+	{
+		public virtual int Id { get; protected set; }
+		public virtual UserInfo User { get; protected set; }
 
-        protected GroupMember()
-        {
-            // NHibernate
-        }
+		public GroupMember (UserInfo user) : this()
+		{
+			this.User = user;
+		}
 
-        public virtual int Id { get; protected set; }
-        public virtual UserInfo User { get; protected set; }
-    }
+		protected GroupMember ()
+		{
+			// NHibernate
+		}
+		
+	}
 }
+

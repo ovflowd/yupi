@@ -1,45 +1,46 @@
 ﻿using System;
-using Yupi.Controller;
-using Yupi.Messages.Notification;
-using Yupi.Model;
 using Yupi.Model.Domain;
 using Yupi.Model.Repository;
-using Yupi.Protocol;
-using Yupi.Protocol.Buffers;
+using Yupi.Model;
+using Yupi.Controller;
+using Yupi.Messages.Notification;
+
 
 namespace Yupi.Messages.Support
 {
-    public class ModerationLockTradeMessageEvent : AbstractHandler
-    {
-        private readonly ClientManager ClientManager;
-        private readonly IRepository<UserInfo> UserRepository;
+	public class ModerationLockTradeMessageEvent : AbstractHandler
+	{
+		private IRepository<UserInfo> UserRepository;
+		private ClientManager ClientManager;
 
-        public ModerationLockTradeMessageEvent()
-        {
-            UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>>();
-            ClientManager = DependencyFactory.Resolve<ClientManager>();
-        }
+		public ModerationLockTradeMessageEvent ()
+		{
+			UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>>();
+			ClientManager = DependencyFactory.Resolve<ClientManager>();
+		}
 
-        public override void HandleMessage(Habbo session, ClientMessage request, IRouter router)
-        {
-            if (!session.Info.HasPermission("fuse_lock_trade"))
-                return;
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		{
+			if (!session.Info.HasPermission("fuse_lock_trade"))
+				return;
 
-            var userId = request.GetInteger();
-            var message = request.GetString();
-            var hours = request.GetInteger();
+			int userId = request.GetInteger();
+			string message = request.GetString();
+			int hours = request.GetInteger();
 
-            var user = UserRepository.FindBy(userId);
+			UserInfo user = UserRepository.FindBy (userId);
 
-            user.TradeLocks.Add(new TradeLock
-            {
-                ExpiresAt = DateTime.Now.AddHours(hours)
-            });
+			user.TradeLocks.Add (new TradeLock () {
+				ExpiresAt = DateTime.Now.AddHours(hours)
+			});
 
-            UserRepository.Save(user);
+			UserRepository.Save (user);
 
-            var target = ClientManager.GetByInfo(user);
-            if (target != null) target.Router.GetComposer<AlertNotificationMessageComposer>().Compose(target, message);
-        }
-    }
+			var target = ClientManager.GetByInfo (user);
+			if (target != null) {
+				target.Router.GetComposer<AlertNotificationMessageComposer> ().Compose(target, message);
+			}
+		}
+	}
 }
+

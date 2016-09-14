@@ -1,82 +1,80 @@
-﻿using System.Linq;
+﻿using System;
 using Yupi.Messages.Contracts;
-using Yupi.Model;
 using Yupi.Model.Domain;
 using Yupi.Model.Repository;
-using Yupi.Protocol;
-using Yupi.Protocol.Buffers;
+using Yupi.Model;
+using System.Collections.Generic;
+using System.Linq;
+using Yupi.Controller;
+using Yupi.Util;
 using Yupi.Util.Settings;
 
 namespace Yupi.Messages.Other
 {
-    public class InfoRetrieveMessageEvent : AbstractHandler
-    {
-        private readonly IRepository<MessengerMessage> MessengerRepository;
-        private IRepository<TargetedOffer> OfferRepository;
-        private readonly IRepository<PromotionNavigatorCategory> PromotionRepository;
+	public class InfoRetrieveMessageEvent : AbstractHandler
+	{
+		private IRepository<MessengerMessage> MessengerRepository;
+		private IRepository<TargetedOffer> OfferRepository;
+		private IRepository<PromotionNavigatorCategory> PromotionRepository;
 
-        public InfoRetrieveMessageEvent()
-        {
-            MessengerRepository = DependencyFactory.Resolve<IRepository<MessengerMessage>>();
-            OfferRepository = DependencyFactory.Resolve<IRepository<TargetedOffer>>();
-            PromotionRepository = DependencyFactory.Resolve<IRepository<PromotionNavigatorCategory>>();
-        }
+		public InfoRetrieveMessageEvent ()
+		{
+			MessengerRepository = DependencyFactory.Resolve<IRepository<MessengerMessage>> ();
+			OfferRepository = DependencyFactory.Resolve<IRepository<TargetedOffer>> ();
+			PromotionRepository = DependencyFactory.Resolve<IRepository<PromotionNavigatorCategory>> ();
+		}
 
-        public override void HandleMessage(Habbo session, ClientMessage request, IRouter router)
-        {
-            router.GetComposer<UserObjectMessageComposer>().Compose(session, session.Info);
-            router.GetComposer<BuildersClubMembershipMessageComposer>().Compose(
-                session,
-                session.Info.BuilderInfo.BuildersExpire,
-                session.Info.BuilderInfo.BuildersItemsMax
-            );
+		public override void HandleMessage (Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		{
+			router.GetComposer<UserObjectMessageComposer> ().Compose (session, session.Info);
+			router.GetComposer<BuildersClubMembershipMessageComposer> ().Compose (
+				session, 
+				session.Info.BuilderInfo.BuildersExpire,
+				session.Info.BuilderInfo.BuildersItemsMax
+			);
+				
+			router.GetComposer<SendPerkAllowancesMessageComposer> ().Compose (session, session.Info, GameSettings.EnableCamera);
 
-            router.GetComposer<SendPerkAllowancesMessageComposer>()
-                .Compose(session, session.Info, GameSettings.EnableCamera);
+			InitMessenger (session, router);
 
-            InitMessenger(session, router);
+			router.GetComposer<CitizenshipStatusMessageComposer> ().Compose (session, "citizenship");
+			router.GetComposer<GameCenterGamesListMessageComposer> ().Compose (session);
+			router.GetComposer<AchievementPointsMessageComposer> ().Compose (session, session.Info.Wallet.AchievementPoints);
 
-            router.GetComposer<CitizenshipStatusMessageComposer>().Compose(session, "citizenship");
-            router.GetComposer<GameCenterGamesListMessageComposer>().Compose(session);
-            router.GetComposer<AchievementPointsMessageComposer>()
-                .Compose(session, session.Info.Wallet.AchievementPoints);
+			// TODO Should these really be send here?
+			//router.GetComposer<FigureSetIdsMessageComposer> ().Compose (session);
+			router.GetComposer<CatalogPromotionGetCategoriesMessageComposer> ().Compose (session, PromotionRepository.All().ToList());
 
-            // TODO Should these really be send here?
-            //router.GetComposer<FigureSetIdsMessageComposer> ().Compose (session);
-            router.GetComposer<CatalogPromotionGetCategoriesMessageComposer>()
-                .Compose(session, PromotionRepository.All().ToList());
+			/*
+			// TODO Implement TargetedOffer completely
+			TargetedOffer offer = new TargetedOffer() {
+				ExpiresAt = DateTime.Now.AddDays(1),
+				Title = "Test",
+				Description = "Test",
+				CreditsCost = 1,
+				Image = "test.png",
 
-            /*
-            // TODO Implement TargetedOffer completely
-            TargetedOffer offer = new TargetedOffer() {
-                ExpiresAt = DateTime.Now.AddDays(1),
-                Title = "Test",
-                Description = "Test",
-                CreditsCost = 1,
-                Image = "test.png",
+			};
 
-            };
+			router.GetComposer<TargetedOfferMessageComposer> ().Compose (session, offer);
+			*/
+		}
 
-            router.GetComposer<TargetedOfferMessageComposer> ().Compose (session, offer);
-            */
-        }
+		private void InitMessenger (Yupi.Model.Domain.Habbo session, Yupi.Protocol.IRouter router)
+		{
+			router.GetComposer<LoadFriendsCategoriesComposer> ().Compose (session);
 
-        private void InitMessenger(Habbo session, IRouter router)
-        {
-            router.GetComposer<LoadFriendsCategoriesComposer>().Compose(session);
+			router.GetComposer<LoadFriendsMessageComposer> ().Compose (session, session.Info.Relationships.Relationships);
+			router.GetComposer<FriendRequestsMessageComposer> ().Compose (session, session.Info.Relationships.ReceivedRequests);
 
-            router.GetComposer<LoadFriendsMessageComposer>().Compose(session, session.Info.Relationships.Relationships);
-            router.GetComposer<FriendRequestsMessageComposer>()
-                .Compose(session, session.Info.Relationships.ReceivedRequests);
+			var messages = MessengerRepository.FilterBy (x => x.To == session.Info && !x.Read);
 
-            var messages = MessengerRepository.FilterBy(x => (x.To == session.Info) && !x.Read);
-
-            foreach (var message in messages)
-            {
-                router.GetComposer<ConsoleChatMessageComposer>().Compose(session, message);
-                message.Read = true;
-                MessengerRepository.Save(message);
-            }
-        }
-    }
+			foreach (MessengerMessage message in messages) {
+				router.GetComposer<ConsoleChatMessageComposer> ().Compose (session, message);
+				message.Read = true;
+				MessengerRepository.Save (message);
+			}
+		}
+	}
 }
+

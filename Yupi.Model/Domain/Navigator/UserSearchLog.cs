@@ -24,11 +24,12 @@
 
 namespace Yupi.Model.Domain
 {
-    public class UserSearchLog
-    {
-        public virtual int Id { get; protected set; }
-        // TODO Rename
-        public virtual string Value1 { get; set; }
-        public virtual string Value2 { get; set; }
-    }
+	public class UserSearchLog
+	{
+		public virtual int Id { get; protected set; }
+		// TODO Rename
+		public virtual string Value1 { get; set; }
+		public virtual string Value2 { get; set; }
+
+	}
 }

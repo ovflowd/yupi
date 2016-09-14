@@ -1,66 +1,73 @@
-﻿using System.Linq;
-using Yupi.Controller;
-using Yupi.Messages.Contracts;
-using Yupi.Model;
-using Yupi.Model.Domain;
+﻿using System;
 using Yupi.Model.Repository;
-using Yupi.Protocol;
-using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
+using Yupi.Controller;
+using Yupi.Model;
 using Yupi.Util;
+using Yupi.Messages.Contracts;
+using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
+
 
 namespace Yupi.Messages.Support
 {
-    public class ModerationToolPerformRoomActionMessageEvent : AbstractHandler
-    {
-        private readonly RoomManager RoomManager;
-        private readonly IRepository<RoomData> RoomRepository;
+	public class ModerationToolPerformRoomActionMessageEvent : AbstractHandler
+	{
+		private IRepository<RoomData> RoomRepository;
+		private RoomManager RoomManager;
 
-        public ModerationToolPerformRoomActionMessageEvent()
-        {
-            RoomRepository = DependencyFactory.Resolve<IRepository<RoomData>>();
-            RoomManager = DependencyFactory.Resolve<RoomManager>();
-        }
+		public ModerationToolPerformRoomActionMessageEvent ()
+		{
+			RoomRepository = DependencyFactory.Resolve<IRepository<RoomData>> ();
+			RoomManager = DependencyFactory.Resolve<RoomManager> ();
+		}
 
-        public override void HandleMessage(Habbo session, ClientMessage message, IRouter router)
-        {
-            if (!session.Info.HasPermission("fuse_mod"))
-                return;
+		public override void HandleMessage (Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		{
+			if (!session.Info.HasPermission ("fuse_mod"))
+				return;
 
-            var roomId = message.GetInteger();
+			int roomId = message.GetInteger ();
 
-            // TODO Refactor (shoud be enum)
-            var lockRoom = message.GetIntegerAsBool();
-            var inappropriateRoom = message.GetIntegerAsBool();
-            var kickUsers = message.GetIntegerAsBool();
+			// TODO Refactor (shoud be enum)
+			bool lockRoom = message.GetIntegerAsBool ();
+			bool inappropriateRoom = message.GetIntegerAsBool ();
+			bool kickUsers = message.GetIntegerAsBool ();
 
-            var roomData = RoomRepository.FindBy(roomId);
+			RoomData roomData = RoomRepository.FindBy (roomId);
 
-            if (roomData == null) return;
+			if (roomData == null) {
+				return;
+			}
 
-            if (lockRoom) roomData.State = RoomState.Locked;
+			if (lockRoom) {
+				roomData.State = RoomState.Locked;
+			}
 
-            Room room = null;
+			Room room = null;
 
-            if (inappropriateRoom || kickUsers)
-                room = RoomManager.LoadedRooms.FirstOrDefault(x => x.Data.Id == roomData.Id);
+			if (inappropriateRoom || kickUsers) {
+				room = RoomManager.LoadedRooms.FirstOrDefault (x => x.Data.Id == roomData.Id);
+			}
 
-            if (inappropriateRoom)
-            {
-                // TODO Translate
-                roomData.Name = T._("Inappropriate for Hotel Management");
-                roomData.Description = string.Empty;
-                roomData.Tags.Clear();
+			if (inappropriateRoom) {
+				// TODO Translate
+				roomData.Name = T._ ("Inappropriate for Hotel Management");
+				roomData.Description = string.Empty;
+				roomData.Tags.Clear ();
 
-                if (room != null)
-                    room.EachUser(
-                        entitySession =>
-                        {
-                            entitySession.Router.GetComposer<RoomDataMessageComposer>()
-                                .Compose(entitySession, roomData, entitySession.Info, false, true);
-                        });
-            }
+				if (room != null) {
+					room.EachUser ((entitySession) => {
+						entitySession.Router.GetComposer<RoomDataMessageComposer> ().Compose (entitySession, roomData, entitySession.Info, false, true);
+					});
+				}
+			}
 
-            if (kickUsers && (room != null)) RoomManager.KickAll(room);
-        }
-    }
+			if (kickUsers && room != null) {
+				RoomManager.KickAll (room);
+			}
+		}
+	}
 }
+

@@ -1,31 +1,34 @@
-﻿using Yupi.Model;
+﻿using System;
 using Yupi.Model.Domain;
 using Yupi.Model.Repository;
-using Yupi.Protocol;
-using Yupi.Protocol.Buffers;
+using Yupi.Model;
+
+
 
 namespace Yupi.Messages.Support
 {
-    public class ModerationToolIssueChatlogMessageEvent : AbstractHandler
-    {
-        private readonly IRepository<SupportTicket> TicketRepository;
+	public class ModerationToolIssueChatlogMessageEvent : AbstractHandler
+	{
+		private IRepository<SupportTicket> TicketRepository;
 
-        public ModerationToolIssueChatlogMessageEvent()
-        {
-            TicketRepository = DependencyFactory.Resolve<IRepository<SupportTicket>>();
-        }
+		public ModerationToolIssueChatlogMessageEvent ()
+		{
+			TicketRepository = DependencyFactory.Resolve<IRepository<SupportTicket>> ();
+		}
 
-        public override void HandleMessage(Habbo session, ClientMessage message, IRouter router)
-        {
-            if (!session.Info.HasPermission("fuse_mod"))
-                return;
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		{
+			if (!session.Info.HasPermission ("fuse_mod"))
+				return;
 
-            var ticketId = message.GetInteger();
+			int ticketId = message.GetInteger ();
 
-            var ticket = TicketRepository.FindBy(ticketId);
+			SupportTicket ticket = TicketRepository.FindBy (ticketId);
 
-            if (ticket != null)
-                router.GetComposer<ModerationToolIssueChatlogMessageComposer>().Compose(session, ticket);
-        }
-    }
+			if (ticket != null) {
+				router.GetComposer<ModerationToolIssueChatlogMessageComposer> ().Compose (session, ticket);
+			}
+		}
+	}
 }
+

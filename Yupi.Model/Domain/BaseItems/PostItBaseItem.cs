@@ -1,13 +1,15 @@
-﻿namespace Yupi.Model.Domain
+﻿using System;
+
+namespace Yupi.Model.Domain
 {
-    public class PostItBaseItem : WallBaseItem
-    {
-        public override Item CreateNew()
-        {
-            return new PostItItem
-            {
-                BaseItem = this
-            };
-        }
-    }
+	public class PostItBaseItem : WallBaseItem
+	{
+		public override Item CreateNew ()
+		{
+			return new PostItItem() {
+				BaseItem = this
+			};
+		}
+	}
 }
+

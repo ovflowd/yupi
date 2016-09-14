@@ -1,45 +1,45 @@
-﻿using Yupi.Controller;
-using Yupi.Model;
-using Yupi.Model.Domain;
+﻿using System;
 using Yupi.Model.Repository;
-using Yupi.Protocol;
-using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
+using Yupi.Controller;
+using Yupi.Model;
+using System.Linq;
 
 namespace Yupi.Messages.Support
 {
-    public class ModerationToolReleaseIssueMessageEvent : AbstractHandler
-    {
-        private readonly ClientManager ClientManager;
-        private readonly IRepository<SupportTicket> TicketRepository;
+	public class ModerationToolReleaseIssueMessageEvent : AbstractHandler
+	{
+		private IRepository<SupportTicket> TicketRepository;
+		private ClientManager ClientManager;
 
-        public ModerationToolReleaseIssueMessageEvent()
-        {
-            TicketRepository = DependencyFactory.Resolve<IRepository<SupportTicket>>();
-            ClientManager = DependencyFactory.Resolve<ClientManager>();
-        }
+		public ModerationToolReleaseIssueMessageEvent ()
+		{
+			TicketRepository = DependencyFactory.Resolve<IRepository<SupportTicket>> ();
+			ClientManager = DependencyFactory.Resolve<ClientManager> ();
+		}
 
-        public override void HandleMessage(Habbo session, ClientMessage message, IRouter router)
-        {
-            if (!session.Info.HasPermission("fuse_mod"))
-                return;
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		{
+			if (!session.Info.HasPermission("fuse_mod"))
+				return;
 
-            var ticketCount = message.GetInteger();
+			int ticketCount = message.GetInteger();
 
-            for (var i = 0; i < ticketCount; i++)
-            {
-                var ticketId = message.GetInteger();
+			for (int i = 0; i < ticketCount; i++) {
+				int ticketId = message.GetInteger ();
 
-                var ticket = TicketRepository.FindBy(ticketId);
+				SupportTicket ticket = TicketRepository.FindBy (ticketId);
 
-                if (ticket != null)
-                {
-                    ticket.Release();
-                    TicketRepository.Save(ticket);
-                }
+				if (ticket != null) {
+					ticket.Release ();
+					TicketRepository.Save (ticket);
+				}
 
-                foreach (var staff in ClientManager.GetByPermission("handle_cfh"))
-                    staff.Router.GetComposer<ModerationToolIssueMessageComposer>().Compose(staff, ticket);
-            }
-        }
-    }
+				foreach (Habbo staff in ClientManager.GetByPermission("handle_cfh")) {
+					staff.Router.GetComposer<ModerationToolIssueMessageComposer> ().Compose (staff, ticket);
+				}
+			}
+		}
+	}
 }
+

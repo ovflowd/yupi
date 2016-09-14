@@ -1,6 +1,12 @@
-﻿namespace Yupi.Model.Domain
+﻿using System;
+
+namespace Yupi.Model.Domain
 {
-    public class WiredActionBotTalkToAvatarBaseItem : WiredBaseItem
-    {
-    }
+	public class WiredActionBotTalkToAvatarBaseItem : WiredBaseItem
+	{
+		public WiredActionBotTalkToAvatarBaseItem ()
+		{
+		}
+	}
 }
+

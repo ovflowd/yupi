@@ -1,35 +1,36 @@
-﻿using Yupi.Model;
+﻿using System;
 using Yupi.Model.Domain;
 using Yupi.Model.Repository;
-using Yupi.Protocol;
-using Yupi.Protocol.Buffers;
+using Yupi.Model;
+
 
 namespace Yupi.Messages.Support
 {
-    public class ModerationToolUserToolMessageEvent : AbstractHandler
-    {
-        private readonly IRepository<SupportTicket> SupportRepository;
-        private readonly IRepository<UserInfo> UserRepository;
+	public class ModerationToolUserToolMessageEvent : AbstractHandler
+	{
+		private IRepository<UserInfo> UserRepository;
+		private IRepository<SupportTicket> SupportRepository;
 
-        public ModerationToolUserToolMessageEvent()
-        {
-            UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>>();
-            SupportRepository = DependencyFactory.Resolve<IRepository<SupportTicket>>();
-        }
+		public ModerationToolUserToolMessageEvent ()
+		{
+			UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>> ();
+			SupportRepository = DependencyFactory.Resolve<IRepository<SupportTicket>> ();
+		}
 
-        public override void HandleMessage(Habbo session, ClientMessage message, IRouter router)
-        {
-            // TODO Rewrite rights management to prevent usage of strings...
-            if (session.Info.HasPermission("fuse_mod"))
-            {
-                var userId = message.GetInteger();
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		{
+			// TODO Rewrite rights management to prevent usage of strings...
+			if (session.Info.HasPermission("fuse_mod"))
+			{
+				int userId = message.GetInteger();
 
-                var info = UserRepository.FindBy(userId);
-                var tickets = SupportRepository.FilterBy(x => x.Sender == session.Info);
+				UserInfo info = UserRepository.FindBy (userId);
+				var tickets = SupportRepository.FilterBy (x => x.Sender == session.Info);
 
 
-                router.GetComposer<ModerationToolUserToolMessageComposer>().Compose(session, info);
-            }
-        }
-    }
+				router.GetComposer<ModerationToolUserToolMessageComposer> ().Compose (session, info);
+			}
+		}
+	}
 }
+

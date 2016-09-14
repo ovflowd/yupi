@@ -1,8 +1,10 @@
-﻿using Yupi.Messages.Contracts;
+﻿using System;
 
 namespace Yupi.Messages.Catalog
 {
-    public class PublishShopMessageComposer : AbstractComposerEmpty
-    {
-    }
+	public class PublishShopMessageComposer : Contracts.AbstractComposerEmpty
+	{
+		
+	}
 }
+

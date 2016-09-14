@@ -1,32 +1,33 @@
-﻿using Yupi.Model;
+﻿using System;
 using Yupi.Model.Domain;
 using Yupi.Model.Repository;
-using Yupi.Protocol;
-using Yupi.Protocol.Buffers;
+using Yupi.Model;
+
 
 namespace Yupi.Messages.Catalog
 {
-    public class GetCatalogPageMessageEvent : AbstractHandler
-    {
-        private readonly IRepository<CatalogPage> CatalogRepository;
+	public class GetCatalogPageMessageEvent : AbstractHandler
+	{
+		private IRepository<CatalogPage> CatalogRepository;
 
-        public GetCatalogPageMessageEvent()
-        {
-            CatalogRepository = DependencyFactory.Resolve<IRepository<CatalogPage>>();
-        }
+		public GetCatalogPageMessageEvent ()
+		{
+			CatalogRepository = DependencyFactory.Resolve<IRepository<CatalogPage>> ();
+		}
 
-        public override void HandleMessage(Habbo session, ClientMessage message, IRouter router)
-        {
-            var pageId = message.GetInteger();
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		{
+			int pageId = message.GetInteger();
 
-            message.GetInteger(); // TODO unused
+			message.GetInteger(); // TODO unused
 
-            var page = CatalogRepository.FindBy(pageId);
+			CatalogPage page = CatalogRepository.FindBy (pageId);
 
-            if ((page == null) || !page.Enabled || !page.Visible || (page.MinRank > session.Info.Rank))
-                return;
+			if (page == null || !page.Enabled || !page.Visible || page.MinRank > session.Info.Rank)
+				return;
 
-            router.GetComposer<CataloguePageMessageComposer>().Compose(session, page);
-        }
-    }
+			router.GetComposer<CataloguePageMessageComposer> ().Compose (session, page);
+		}
+	}
 }
+

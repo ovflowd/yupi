@@ -1,15 +1,15 @@
-﻿using Yupi.Model.Domain;
-using Yupi.Protocol;
-using Yupi.Protocol.Buffers;
+﻿using System;
+
 
 namespace Yupi.Messages.User
 {
-    public class GetCurrencyBalanceMessageEvent : AbstractHandler
-    {
-        public override void HandleMessage(Habbo session, ClientMessage message, IRouter router)
-        {
-            router.GetComposer<CreditsBalanceMessageComposer>().Compose(session, session.Info.Wallet.Credits);
-            router.GetComposer<ActivityPointsMessageComposer>().Compose(session, session.Info.Wallet);
-        }
-    }
+	public class GetCurrencyBalanceMessageEvent : AbstractHandler
+	{
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		{
+			router.GetComposer<CreditsBalanceMessageComposer>().Compose(session, session.Info.Wallet.Credits);
+			router.GetComposer<ActivityPointsMessageComposer>().Compose(session, session.Info.Wallet);
+		}
+	}
 }
+

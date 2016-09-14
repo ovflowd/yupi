@@ -1,13 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using Yupi.Model.Domain;
-using Yupi.Protocol;
+using System.Collections.Generic;
 
 namespace Yupi.Messages.Contracts
 {
-    public class PetInventoryMessageComposer : AbstractComposer<IList<PetItem>>
-    {
-        public override void Compose(ISender session, IList<PetItem> pets)
-        {
-        }
-    }
+	public class PetInventoryMessageComposer : AbstractComposer<IList<PetItem>>
+	{
+		public override void Compose (Yupi.Protocol.ISender session, IList<PetItem> pets)
+		{
+			
+		}
+	}
 }
+

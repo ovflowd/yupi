@@ -1,8 +1,11 @@
-﻿namespace Yupi.Util
+﻿using System;
+
+namespace Yupi.Util
 {
-    public enum DatabaseType
-    {
-        MySQL,
-        SQLite
-    }
+	public enum DatabaseType
+	{
+		MySQL,
+		SQLite
+	}
 }
+

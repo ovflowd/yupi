@@ -1,7 +1,10 @@
-﻿namespace Yupi.Model.Domain
+﻿using System;
+
+namespace Yupi.Model.Domain
 {
-    public class FreezeGateBaseItem : FloorBaseItem
-    {
-        public virtual int Color { get; set; }
-    }
+	public class FreezeGateBaseItem : FloorBaseItem
+	{
+		public virtual int Color { get; set; }
+	}
 }
+

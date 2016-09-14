@@ -1,43 +1,43 @@
-﻿using Yupi.Controller;
-using Yupi.Model;
-using Yupi.Model.Domain;
+﻿using System;
 using Yupi.Model.Repository;
-using Yupi.Protocol;
-using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
+using Yupi.Model;
+using Yupi.Controller;
 
 namespace Yupi.Messages.User
 {
-    public class UserUpdateMottoMessageEvent : AbstractHandler
-    {
-        private readonly AchievementManager AchievementManager;
-        private readonly IRepository<UserInfo> UserRepository;
+	public class UserUpdateMottoMessageEvent : AbstractHandler
+	{
+		private IRepository<UserInfo> UserRepository;
+		private AchievementManager AchievementManager;
 
-        public UserUpdateMottoMessageEvent()
-        {
-            UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>>();
-            AchievementManager = DependencyFactory.Resolve<AchievementManager>();
-        }
+		public UserUpdateMottoMessageEvent ()
+		{
+			UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>> ();
+			AchievementManager = DependencyFactory.Resolve<AchievementManager> ();
+		}
 
-        public override void HandleMessage(Habbo session, ClientMessage message, IRouter router)
-        {
-            var motto = message.GetString();
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		{
+			string motto = message.GetString ();
 
-            // TODO Filter!
-            session.Info.Motto = motto;
+			// TODO Filter!
+			session.Info.Motto = motto;
 
-            UserRepository.Save(session.Info);
+			UserRepository.Save (session.Info);
 
-            if (session.Room == null) return;
+			if (session.Room == null) {
+				return;
+			}
 
-            session.Room.EachUser(
-                roomSession =>
-                {
-                    router.GetComposer<UpdateUserDataMessageComposer>()
-                        .Compose(roomSession, session.Info, session.RoomEntity.Id);
-                }
-            );
+			session.Room.EachUser (
+				(roomSession) => {
+					router.GetComposer<UpdateUserDataMessageComposer> ().Compose (roomSession, session.Info, session.RoomEntity.Id);
+				}
+			);
 
-            AchievementManager.ProgressUserAchievement(session, "ACH_Motto", 1);
-        }
-    }
+			AchievementManager.ProgressUserAchievement(session, "ACH_Motto", 1);
+		}
+	}
 }
+

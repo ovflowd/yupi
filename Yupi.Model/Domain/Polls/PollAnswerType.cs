@@ -1,6 +1,6 @@
 ﻿namespace Yupi.Model.Domain
 {
-    public enum PollAnswerType
+     public enum PollAnswerType
     {
         RadioSelection = 1,
         Selection = 2,

@@ -1,15 +1,14 @@
-﻿using Yupi.Model.Domain;
-using Yupi.Protocol;
-using Yupi.Protocol.Buffers;
+﻿using System;
 
 namespace Yupi.Messages.Pets
 {
-    public class GetSellablePetBreedsMessageEvent : AbstractHandler
-    {
-        public override void HandleMessage(Habbo session, ClientMessage request, IRouter router)
-        {
-            var type = request.GetString();
-            router.GetComposer<SellablePetBreedsMessageComposer>().Compose(session, type);
-        }
-    }
+	public class GetSellablePetBreedsMessageEvent : AbstractHandler
+	{
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		{
+			string type = request.GetString();
+			router.GetComposer<SellablePetBreedsMessageComposer> ().Compose (session, type);
+		}
+	}
 }
+

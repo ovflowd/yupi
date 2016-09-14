@@ -1,6 +1,10 @@
-﻿namespace Yupi.Messages.Items
+﻿using System;
+
+namespace Yupi.Messages.Items
 {
-    public class RoomWallItemsMessageComposer : RoomFloorItemsMessageComposer
-    {
-    }
+	public class RoomWallItemsMessageComposer : RoomFloorItemsMessageComposer
+	{
+		
+	}
 }
+

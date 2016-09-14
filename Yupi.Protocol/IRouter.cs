@@ -1,7 +1,10 @@
-﻿namespace Yupi.Protocol
+﻿using System;
+
+namespace Yupi.Protocol
 {
-    public interface IRouter
-    {
-        T GetComposer<T>();
-    }
+	public interface IRouter
+	{
+		T GetComposer<T> ();
+	}
 }
+

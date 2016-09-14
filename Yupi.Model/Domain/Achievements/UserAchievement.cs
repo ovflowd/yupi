@@ -21,7 +21,6 @@
    Corporation Oy. Yupi! has nothing linked with Sulake. 
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
-
 using System;
 
 namespace Yupi.Model.Domain
@@ -29,28 +28,30 @@ namespace Yupi.Model.Domain
     /// <summary>
     ///     Class UserAchievement.
     /// </summary>
-    public class UserAchievement
+     public class UserAchievement
     {
-        public virtual int Id { get; protected set; }
-        public virtual Achievement Achievement { get; set; }
+		public virtual int Id { get; protected set; }
+		public virtual Achievement Achievement { get; set; }
+	
+		public virtual AchievementLevel Level { get; set; }
 
-        public virtual AchievementLevel Level { get; set; }
+		public virtual int Progress { get; set; }
 
-        public virtual int Progress { get; set; }
+		public virtual bool CanIncreaseLevel() {
+			if (this.Level.Level + 1 > Achievement.GetMaxLevel ()) {
+				return false;
+			}
 
-        public virtual bool CanIncreaseLevel()
-        {
-            if (Level.Level + 1 > Achievement.GetMaxLevel()) return false;
+			return (Progress >= Achievement.NextLevel(Level).Requirement);
+		}
 
-            return Progress >= Achievement.NextLevel(Level).Requirement;
-        }
+		public virtual void IncreaseLevel() {
+			if (!CanIncreaseLevel ()) {
+				throw new InvalidOperationException ();
+			}
 
-        public virtual void IncreaseLevel()
-        {
-            if (!CanIncreaseLevel()) throw new InvalidOperationException();
-
-            Level = Achievement.NextLevel(Level);
-            Progress = 0;
-        }
+			Level = Achievement.NextLevel (Level);
+			Progress = 0;
+		}
     }
 }

@@ -22,215 +22,225 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
+using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
-using Headspring;
+using System.Data;
 using Yupi.Model.Domain.Components;
+using Headspring;
+
 
 namespace Yupi.Model.Domain
 {
-    public class RoomState : Enumeration<RoomState>
-    {
-        public static readonly RoomState Open = new RoomState(0, "Open");
-        public static readonly RoomState Bell = new RoomState(1, "Bell");
-        public static readonly RoomState Locked = new RoomState(2, "Locked");
+	public class RoomState : Enumeration<RoomState>
+	{
+		public static readonly RoomState Open = new RoomState (0, "Open");
+		public static readonly RoomState Bell = new RoomState (1, "Bell");
+		public static readonly RoomState Locked = new RoomState (2, "Locked");
 
-        /// <summary>
-        ///     Invisible in navigator to users without rights
-        /// </summary>
-        public static readonly RoomState Invisible = new RoomState(3, "Invisible");
+		/// <summary>
+		/// Invisible in navigator to users without rights
+		/// </summary>
+		public static readonly RoomState Invisible = new RoomState (3, "Invisible");
 
-        public RoomState(int value, string displayName) : base(value, displayName)
-        {
-        }
-    }
+		public RoomState (int value, string displayName) : base (value, displayName)
+		{
+		}
+	}
 
-    public class RoomData
-    {
-        public RoomData()
-        {
-            // TODO Should be removed...
-            Name = "Unknown Room";
-            Description = string.Empty;
-            Type = "private";
-            Tags = new List<string>();
-            AllowPets = true;
-            AllowPetsEating = false;
-            AllowWalkThrough = true;
-            HideWall = false;
-            AllowRightsOverride = false;
-            TradeState = TradingState.NotAllowed;
-            WordFilter = new List<string>();
-            Rights = new List<UserInfo>();
-            MutedEntities = new List<RoomMute>();
-            Chat = new RoomChatSettings();
-            BannedUsers = new List<UserInfo>();
-            WallHeight = -1;
-            Chatlog = new List<ChatMessage>();
-            ModerationSettings = new ModerationSettings(this);
-            State = RoomState.Open;
-        }
+	public class RoomData
+	{
+		public virtual int Id { get; protected set; }
 
-        public virtual int Id { get; protected set; }
+		public virtual RoomModel Model { get; set; }
 
-        public virtual RoomModel Model { get; set; }
+		// TODO What are those exactly? (Format!)
+		public virtual string CCTs { get; set; }
 
-        // TODO What are those exactly? (Format!)
-        public virtual string CCTs { get; set; }
+		public virtual string NavigatorImage { get; set; }
 
-        public virtual string NavigatorImage { get; set; }
+		public virtual SongMachineComponent SongMachine { get; protected set; }
 
-        public virtual SongMachineComponent SongMachine { get; protected set; }
+		/// <summary>
+		///     Allow Pets in Room
+		/// </summary>
+		public virtual bool AllowPets { get; set; }
 
-        /// <summary>
-        ///     Allow Pets in Room
-        /// </summary>
-        public virtual bool AllowPets { get; set; }
+		/// <summary>
+		///     Allow Other Users Pets Eat in Room
+		/// </summary>
+		public virtual bool AllowPetsEating { get; set; }
 
-        /// <summary>
-        ///     Allow Other Users Pets Eat in Room
-        /// </summary>
-        public virtual bool AllowPetsEating { get; set; }
+		/// <summary>
+		///     Allow Users Walk Through Other Users
+		/// </summary>
+		public virtual bool AllowWalkThrough { get; set; }
 
-        /// <summary>
-        ///     Allow Users Walk Through Other Users
-        /// </summary>
-        public virtual bool AllowWalkThrough { get; set; }
+		/// <summary>
+		///     Hide Wall in Room
+		/// </summary>
+		public virtual bool HideWall { get; set; }
 
-        /// <summary>
-        ///     Hide Wall in Room
-        /// </summary>
-        public virtual bool HideWall { get; set; }
+		/// <summary>
+		///     Allow Override Room Rights
+		/// </summary>
+		public virtual bool AllowRightsOverride { get; set; }
 
-        /// <summary>
-        ///     Allow Override Room Rights
-        /// </summary>
-        public virtual bool AllowRightsOverride { get; set; }
+		/// <summary>
+		///     Room Category
+		/// </summary>
+		public virtual NavigatorCategory Category { get; set; }
 
-        /// <summary>
-        ///     Room Category
-        /// </summary>
-        public virtual NavigatorCategory Category { get; set; }
+		public virtual RoomChatSettings Chat { get; protected set; }
 
-        public virtual RoomChatSettings Chat { get; protected set; }
+		/// <summary>
+		///     Room Description
+		/// </summary>
+		public virtual string Description { get; set; }
 
-        /// <summary>
-        ///     Room Description
-        /// </summary>
-        public virtual string Description { get; set; }
-
-        public virtual RoomEvent Event { get; set; }
+		public virtual RoomEvent Event { get; set; }
 
 
-        public virtual Group Group { get; set; }
+		public virtual Group Group { get; set;}
 
-        /// <summary>
-        ///     Room Name
-        /// </summary>
-        public virtual string Name { get; set; }
+		/// <summary>
+		///     Room Name
+		/// </summary>
+		public virtual string Name { get; set; }
 
-        /// <summary>
-        ///     Room Owner
-        /// </summary>
-        public virtual UserInfo Owner { get; set; }
+		/// <summary>
+		///     Room Owner
+		/// </summary>
+		public virtual UserInfo Owner { get; set; }
 
-        public virtual IList<UserInfo> Rights { get; protected set; }
+		public virtual IList<UserInfo> Rights { get; protected set; }
 
-        // TODO Implement bans with time & expire on server ticks?
-        public virtual IList<UserInfo> BannedUsers { get; protected set; }
-        public virtual IList<ChatMessage> Chatlog { get; protected set; }
+		// TODO Implement bans with time & expire on server ticks?
+		public virtual IList<UserInfo> BannedUsers { get; protected set; }
+		public virtual IList<ChatMessage> Chatlog { get; protected set; }
 
-        /// <summary>
-        ///     Room Password
-        /// </summary>
-        public virtual string Password { get; set; }
+		/// <summary>
+		///     Room Password
+		/// </summary>
+		public virtual string Password { get; set; }
 
-        /// <summary>
-        ///     Room Score
-        /// </summary>
-        public virtual int Score { get; set; }
+		/// <summary>
+		///     Room Score
+		/// </summary>
+		public virtual int Score { get; set; }
 
-        /// <summary>
-        ///     Room Locked State
-        /// </summary>
-        public virtual RoomState State { get; set; }
+		/// <summary>
+		///     Room Locked State
+		/// </summary>
+		public virtual RoomState State { get; set; }
 
-        /// <summary>
-        ///     Room Tags
-        /// </summary>
-        [OneToMany]
-        public virtual IList<string> Tags { get; protected set; }
+		/// <summary>
+		///     Room Tags
+		/// </summary>
+		[OneToMany]
+		public virtual IList<string> Tags { get; protected set; }
 
-        public virtual TradingState TradeState { get; set; }
+		public virtual TradingState TradeState { get; set; }
 
-        // TODO Enum private/public
-        public virtual string Type { get; set; }
+		// TODO Enum private/public
+		public virtual string Type { get; set; }
 
-        /// <summary>
-        ///     Max Amount of Users on Room
-        /// </summary>
-        public virtual int UsersMax { get; set; }
+		/// <summary>
+		///     Max Amount of Users on Room
+		/// </summary>
+		public virtual int UsersMax { get; set; }
 
-        // TODO Isn't this part of the model?
-        public virtual int WallHeight { get; set; }
+		// TODO Isn't this part of the model?
+		public virtual int WallHeight { get; set; }
 
-        // TODO Determine proper type!
-        public virtual float WallPaper { get; set; }
-        public virtual float Floor { get; set; }
-        public virtual float LandScape { get; set; }
+		// TODO Determine proper type!
+		public virtual float WallPaper { get; set; }
+		public virtual float Floor { get; set; }
+		public virtual float LandScape { get; set; }
 
-        // TODO Enum
-        public virtual int WallThickness { get; set; }
-        public virtual int FloorThickness { get; set; }
+		// TODO Enum
+		public virtual int WallThickness { get; set; }
+		public virtual int FloorThickness { get; set; }
 
-        public virtual bool IsMuted { get; set; }
+		public virtual bool IsMuted { get; set; }
 
-        public virtual ModerationSettings ModerationSettings { get; protected set; }
+		public virtual ModerationSettings ModerationSettings { get; protected set; }
 
-        /// <summary>
-        ///     Room Private Black Words
-        /// </summary>
-        [OneToMany]
-        public virtual IList<string> WordFilter { get; protected set; }
+		/// <summary>
+		///     Room Private Black Words
+		/// </summary>
+		[OneToMany]
+		public virtual IList<string> WordFilter { get; protected set; }
 
-        public virtual IList<RoomMute> MutedEntities { get; protected set; }
+		public virtual IList<RoomMute> MutedEntities { get; protected set; }
 
-        [Ignore]
-        public virtual bool IsPublic
-        {
-            get
-            {
-                // TODO Remove Type!
-                return Type != "private";
-            }
-        }
+		[Ignore]
+		public virtual bool IsPublic {
+			get {
+				// TODO Remove Type!
+				return Type != "private";
+			}
+		}
 
-        public virtual RoomFlags GetFlags()
-        {
-            var flag = RoomFlags.Default;
+		public RoomData ()
+		{
+			// TODO Should be removed...
+			Name = "Unknown Room";
+			Description = string.Empty;
+			Type = "private";
+			Tags = new List<string> ();
+			AllowPets = true;
+			AllowPetsEating = false;
+			AllowWalkThrough = true;
+			HideWall = false;
+			AllowRightsOverride = false;
+			TradeState = TradingState.NotAllowed;
+			WordFilter = new List<string> ();
+			Rights = new List<UserInfo> ();
+			MutedEntities = new List<RoomMute> ();
+			Chat = new RoomChatSettings ();
+			BannedUsers = new List<UserInfo> ();
+			WallHeight = -1;
+			Chatlog = new List<ChatMessage> ();
+			ModerationSettings = new ModerationSettings (this);
+			State = RoomState.Open;
+		}
+			
+		public virtual RoomFlags GetFlags() {
+			RoomFlags flag = RoomFlags.Default;
 
-            if (NavigatorImage != null) flag |= RoomFlags.Image;
+			if (NavigatorImage != null) {
+				flag |= RoomFlags.Image;
+			}
 
-            if (Group != null) flag |= RoomFlags.Group;
+			if (Group != null) {
+				flag |= RoomFlags.Group;
+			}
 
-            if (Event != null) flag |= RoomFlags.Event;
+			if (Event != null) {
+				flag |= RoomFlags.Event;
+			}
 
-            if (Type == "private") flag |= RoomFlags.Private;
+			if (Type == "private") {
+				flag |= RoomFlags.Private;
+			}
 
-            if (AllowPets) flag |= RoomFlags.AllowPets;
-            return flag;
-        }
+			if (AllowPets) {
+				flag |= RoomFlags.AllowPets;
+			}
+			return flag;
+		}
 
-        public virtual bool HasOwnerRights(UserInfo user)
-        {
-            return (Owner == user) || user.HasPermission("fuse_any_room_controller");
-        }
+		public virtual bool HasOwnerRights(UserInfo user) {
+			return (Owner == user || user.HasPermission ("fuse_any_room_controller"));
+		}
 
-        public virtual bool HasRights(UserInfo user)
-        {
-            return (Owner == user) || user.HasPermission("fuse_any_rooms_rights") || Rights.Contains(user);
-        }
+		public virtual bool HasRights(UserInfo user) {
+			return (Owner == user || user.HasPermission ("fuse_any_rooms_rights") || Rights.Contains(user));
+		}
 
-        /*
+		// TODO Remove when not used anymore
+		/*
         /// <summary>
         ///     Serializes the specified messageBuffer.
         /// </summary>
@@ -238,69 +248,67 @@ namespace Yupi.Model.Domain
         /// <param name="showEvents">if set to <c>true</c> [show events].</param>
         /// <param name="enterRoom"></param>
      public void Serialize(SimpleServerMessageBuffer messageBuffer, bool showEvents = false, bool enterRoom = false) 
-        {
-            messageBuffer.AppendInteger(data.Id);
-            messageBuffer.AppendString(data.Name);
-            messageBuffer.AppendInteger(data.OwnerId);
-            messageBuffer.AppendString(data.Owner);
-            messageBuffer.AppendInteger(data.State);
-            messageBuffer.AppendInteger(data.UsersNow);
-            messageBuffer.AppendInteger(data.UsersMax);
-            messageBuffer.AppendString(data.Description);
-            messageBuffer.AppendInteger(data.TradeState);
-            messageBuffer.AppendInteger(data.Score);
-            messageBuffer.AppendInteger(0);
-            messageBuffer.AppendInteger(data.Category > 0 ? data.Category : 0);
-            messageBuffer.AppendInteger(data.TagCount);
+		{
+			messageBuffer.AppendInteger(data.Id);
+			messageBuffer.AppendString(data.Name);
+			messageBuffer.AppendInteger(data.OwnerId);
+			messageBuffer.AppendString(data.Owner);
+			messageBuffer.AppendInteger(data.State);
+			messageBuffer.AppendInteger(data.UsersNow);
+			messageBuffer.AppendInteger(data.UsersMax);
+			messageBuffer.AppendString(data.Description);
+			messageBuffer.AppendInteger(data.TradeState);
+			messageBuffer.AppendInteger(data.Score);
+			messageBuffer.AppendInteger(0);
+			messageBuffer.AppendInteger(data.Category > 0 ? data.Category : 0);
+			messageBuffer.AppendInteger(data.TagCount);
 
-            foreach (string current in data.Tags.Where(current => current != null))
-                messageBuffer.AppendString(current);
+			foreach (string current in data.Tags.Where(current => current != null))
+				messageBuffer.AppendString(current);
 
-            string imageData = null;
+			string imageData = null;
 
-            int enumType = enterRoom ? 32 : 0;
+			int enumType = enterRoom ? 32 : 0;
 
-            PublicItem publicItem = Yupi.GetGame()?.GetNavigator()?.GetPublicRoom(data.Id);
+			PublicItem publicItem = Yupi.GetGame()?.GetNavigator()?.GetPublicRoom(data.Id);
 
-            if (!string.IsNullOrEmpty(publicItem?.Image))
-            {
-                imageData = publicItem.Image;
+			if (!string.IsNullOrEmpty(publicItem?.Image))
+			{
+				imageData = publicItem.Image;
 
-                enumType += 1;
-            }
+				enumType += 1;
+			}
 
-            if (data.Group != null)
-                enumType += 2;
+			if (data.Group != null)
+				enumType += 2;
 
-            if (showEvents && data.Event != null)
-                enumType += 4;
+			if (showEvents && data.Event != null)
+				enumType += 4;
 
-            if (data.Type == "private")
-                enumType += 8;
+			if (data.Type == "private")
+				enumType += 8;
 
-            if (data.AllowPets)
-                enumType += 16;
+			if (data.AllowPets)
+				enumType += 16;
 
-            messageBuffer.AppendInteger(enumType);
+			messageBuffer.AppendInteger(enumType);
 
-            if (imageData != null)
-                messageBuffer.AppendString(imageData);
+			if (imageData != null)
+				messageBuffer.AppendString(imageData);
 
-            if (data.Group != null)
-            {
-                messageBuffer.AppendInteger(data.Group.Id);
-                messageBuffer.AppendString(data.Group.Name);
-                messageBuffer.AppendString(data.Group.Badge);
-            }
+			if (data.Group != null)
+			{
+				messageBuffer.AppendInteger(data.Group.Id);
+				messageBuffer.AppendString(data.Group.Name);
+				messageBuffer.AppendString(data.Group.Badge);
+			}
 
-            if (showEvents && data.Event != null)
-            {
-                messageBuffer.AppendString(data.Event.Name);
-                messageBuffer.AppendString(data.Event.Description);
-                messageBuffer.AppendInteger((int)Math.Floor((data.Event.Time - Yupi.GetUnixTimeStamp()) / 60.0));
-            }
-        }*/
-
-        // TODO Remove when not used anymore
-    }
+			if (showEvents && data.Event != null)
+			{
+				messageBuffer.AppendString(data.Event.Name);
+				messageBuffer.AppendString(data.Event.Description);
+				messageBuffer.AppendInteger((int)Math.Floor((data.Event.Time - Yupi.GetUnixTimeStamp()) / 60.0));
+			}
+		}*/
+	}
 }

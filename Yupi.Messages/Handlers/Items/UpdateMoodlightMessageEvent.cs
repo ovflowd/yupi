@@ -1,55 +1,55 @@
-﻿using Yupi.Model.Domain;
-using Yupi.Protocol;
-using Yupi.Protocol.Buffers;
+﻿using System;
+using System.Text.RegularExpressions;
+
+
 
 namespace Yupi.Messages.Items
 {
-    public class UpdateMoodlightMessageEvent : AbstractHandler
-    {
-        public override void HandleMessage(Habbo session, ClientMessage request, IRouter router)
-        {
-            /*
-            Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
+	public class UpdateMoodlightMessageEvent : AbstractHandler
+	{
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		{
+			/*
+			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
 
-            if (room == null || !room.CheckRights(session, true) || room.MoodlightData == null)
-                return;
+			if (room == null || !room.CheckRights(session, true) || room.MoodlightData == null)
+				return;
 
-            RoomItem item = room.GetRoomItemHandler().GetItem(room.MoodlightData.ItemId);
+			RoomItem item = room.GetRoomItemHandler().GetItem(room.MoodlightData.ItemId);
 
-            if (item == null || item.GetBaseItem().InteractionType != Interaction.Dimmer)
-                return;
+			if (item == null || item.GetBaseItem().InteractionType != Interaction.Dimmer)
+				return;
 
-            int preset = request.GetInteger();
+			int preset = request.GetInteger();
 
-            // TODO Meaning?
-            int num2 = request.GetInteger();
+			// TODO Meaning?
+			int num2 = request.GetInteger();
 
-            string color = request.GetString();
-            int intensity = request.GetInteger();
-            bool bgOnly = num2 >= 2;
+			string color = request.GetString();
+			int intensity = request.GetInteger();
+			bool bgOnly = num2 >= 2;
 
-            if (!IsValidColor (color) || !IsValidIntensity (intensity)) {
-                return;
-            }
+			if (!IsValidColor (color) || !IsValidIntensity (intensity)) {
+				return;
+			}
 
-            room.MoodlightData.Enabled = true;
+			room.MoodlightData.Enabled = true;
 
-            room.MoodlightData.CurrentPreset = preset;
-            room.MoodlightData.UpdatePreset(preset, color, intensity, bgOnly);
+			room.MoodlightData.CurrentPreset = preset;
+			room.MoodlightData.UpdatePreset(preset, color, intensity, bgOnly);
 
-            item.ExtraData = room.MoodlightData.GenerateExtraData();
-            item.UpdateState();
-            */
-        }
+			item.ExtraData = room.MoodlightData.GenerateExtraData();
+			item.UpdateState();
+			*/
+		}
 
-        private bool IsValidIntensity(int intensity)
-        {
-            return (0 <= intensity) && (intensity <= 255);
-        }
+		private bool IsValidIntensity(int intensity) {
+			return 0 <= intensity && intensity <= 255;
+		}
 
-        private bool IsValidColor(string hexRGB)
-        {
-            return Regex.IsMatch(hexRGB, "^#[0-9A-F]{6}$", RegexOptions.IgnoreCase);
-        }
-    }
+		private bool IsValidColor(string hexRGB) {
+			return Regex.IsMatch (hexRGB, "^#[0-9A-F]{6}$", RegexOptions.IgnoreCase);
+		}
+	}
 }
+

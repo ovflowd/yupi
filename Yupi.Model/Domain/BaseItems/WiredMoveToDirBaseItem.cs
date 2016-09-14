@@ -1,6 +1,12 @@
-﻿namespace Yupi.Model.Domain
+﻿using System;
+
+namespace Yupi.Model.Domain
 {
-    public class WiredMoveToDirBaseItem : WiredBaseItem
-    {
-    }
+	public class WiredMoveToDirBaseItem : WiredBaseItem
+	{
+		public WiredMoveToDirBaseItem ()
+		{
+		}
+	}
 }
+

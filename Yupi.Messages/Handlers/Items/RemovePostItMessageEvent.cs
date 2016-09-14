@@ -1,28 +1,28 @@
 ﻿using System;
-using Yupi.Model.Domain;
-using Yupi.Protocol;
-using Yupi.Protocol.Buffers;
+
+
 
 namespace Yupi.Messages.Items
 {
-    public class RemovePostItMessageEvent : AbstractHandler
-    {
-        public override void HandleMessage(Habbo session, ClientMessage request, IRouter router)
-        {
-            /*
-            Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
+	public class RemovePostItMessageEvent : AbstractHandler
+	{
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		{
+			/*
+			Yupi.Messages.Rooms room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
 
-            if (room == null || !room.CheckRights(session, true))
-                return;
+			if (room == null || !room.CheckRights(session, true))
+				return;
 
-            RoomItem item = room.GetRoomItemHandler().GetItem(request.GetUInt32());
+			RoomItem item = room.GetRoomItemHandler().GetItem(request.GetUInt32());
 
-            if (item == null || item.GetBaseItem().InteractionType != Interaction.PostIt)
-                return;
+			if (item == null || item.GetBaseItem().InteractionType != Interaction.PostIt)
+				return;
 
-            room.GetRoomItemHandler().RemoveFurniture(session, item.Id);
-            */
-            throw new NotImplementedException();
-        }
-    }
+			room.GetRoomItemHandler().RemoveFurniture(session, item.Id);
+			*/
+			throw new NotImplementedException ();
+		}
+	}
 }
+

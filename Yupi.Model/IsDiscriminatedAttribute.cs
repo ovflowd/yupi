@@ -2,7 +2,8 @@
 
 namespace Yupi.Model
 {
-    public sealed class IsDiscriminatedAttribute : Attribute
-    {
-    }
+	public sealed class IsDiscriminatedAttribute : Attribute
+	{
+	}
 }
+

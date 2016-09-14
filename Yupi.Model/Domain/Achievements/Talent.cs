@@ -21,19 +21,18 @@
    Corporation Oy. Yupi! has nothing linked with Sulake. 
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
-
 using System.Collections.Generic;
 
 namespace Yupi.Model.Domain
 {
     public class Talent
     {
-        public virtual int Id { get; protected set; }
-        public virtual TalentType Type { get; set; }
+		public virtual int Id { get; protected set; }
+		public virtual TalentType Type{ get; set; }
 
-        [OneToMany]
-        public virtual IList<TalentLevel> Levels { get; set; }
+		[OneToMany]
+		public virtual IList<TalentLevel> Levels { get; set; }
 
-        public virtual BaseItem PrizeItem { get; set; }
+		public virtual BaseItem PrizeItem { get; set; }
     }
 }

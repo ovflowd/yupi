@@ -1,72 +1,69 @@
 ﻿using System;
-using System.Collections.Generic;
-using Yupi.Model;
 using Yupi.Model.Domain;
+using Yupi.Model;
 using Yupi.Model.Repository;
 using Yupi.Util;
+using System.Collections.Generic;
 
 namespace Yupi.Controller
 {
-    public class ModerationTool
-    {
-        private readonly ClientManager ClientManager;
-        private readonly IRepository<UserInfo> UserRepository;
+	public class ModerationTool
+	{
+		private ClientManager ClientManager;
+		private IRepository<UserInfo> UserRepository;
 
-        public ModerationTool()
-        {
-            ClientManager = DependencyFactory.Resolve<ClientManager>();
-            UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>>();
+		public virtual IList<SupportTicket> Tickets { get; private set; }
+		public virtual IList<ModerationTemplate> Templates { get; private set; }
+		public virtual IList<string> UserMessagePresets { get; private set; }
+		public virtual IList<string> RoomMessagePresets { get; private set; }
 
-            // TODO Load
-        }
+		public ModerationTool ()
+		{
+			ClientManager = DependencyFactory.Resolve<ClientManager>();
+			UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>>();
 
-        public virtual IList<SupportTicket> Tickets { get; private set; }
-        public virtual IList<ModerationTemplate> Templates { get; private set; }
-        public virtual IList<string> UserMessagePresets { get; private set; }
-        public virtual IList<string> RoomMessagePresets { get; private set; }
+			// TODO Load
+		}
 
-        public bool CanBan(UserInfo staff, int targetId)
-        {
-            var target = UserRepository.FindBy(targetId);
+		public bool CanBan(UserInfo staff, int targetId) {
+			UserInfo target = UserRepository.FindBy (targetId);
 
-            if (target == null) return false;
+			if (target == null) {
+				return false;
+			}
 
-            return CanBan(staff, target);
-        }
+			return CanBan (staff, target);
+		}
 
-        public bool CanBan(UserInfo staff, UserInfo target)
-        {
-            return staff.Rank > target.Rank;
-        }
+		public bool CanBan(UserInfo staff, UserInfo target) {
+			return staff.Rank > target.Rank;
+		}
 
-        public void BanUser(int userId, int hours, string reason)
-        {
-            var user = UserRepository.FindBy(userId);
-            BanUser(user, hours, reason);
-        }
+		public void BanUser(int userId, int hours, string reason) {
+			UserInfo user = UserRepository.FindBy (userId);
+			BanUser (user, hours, reason);
+		}
+			
+		public void BanUser(UserInfo user, int hours, string reason) {
+			var session = ClientManager.GetByInfo (user);
 
-        public void BanUser(UserInfo user, int hours, string reason)
-        {
-            var session = ClientManager.GetByInfo(user);
+			UserBan ban = new UserBan () {
+				User = user,
+				IP = user.LastIp,
+				ExpiresAt = DateTime.Now.AddHours(hours),
+				Reason = reason
+			};
 
-            var ban = new UserBan
-            {
-                User = user,
-                IP = user.LastIp,
-                ExpiresAt = DateTime.Now.AddHours(hours),
-                Reason = reason
-            };
+			if (session != null) {
+				ban.IP = session.Session.RemoteAddress;
+				ban.MachineId = session.MachineId;
 
-            if (session != null)
-            {
-                ban.IP = session.Session.RemoteAddress;
-                ban.MachineId = session.MachineId;
+				ClientManager.Disconnect (session, T._ ("Banned"));
+			}
 
-                ClientManager.Disconnect(session, T._("Banned"));
-            }
-
-            user.Bans.Add(ban);
-            UserRepository.Save(user);
-        }
-    }
+			user.Bans.Add (ban);
+			UserRepository.Save (user);
+		}
+	}
 }
+

@@ -32,29 +32,33 @@ namespace Headspring
         where TEnumeration : Enumeration<TEnumeration, TValue>
         where TValue : IComparable
     {
-        private static readonly Lazy<TEnumeration[]> _enumerations = new Lazy<TEnumeration[]>(GetEnumerations);
+        readonly string _displayName;
+        readonly TValue _value;
+
+        private static Lazy<TEnumeration[]> _enumerations = new Lazy<TEnumeration[]>(GetEnumerations);
 
         protected Enumeration(TValue value, string displayName)
         {
-            Value = value;
-            DisplayName = displayName;
+            _value = value;
+            _displayName = displayName;
         }
 
-        public TValue Value { get; }
+        public TValue Value
+        {
+            get { return _value; }
+        }
 
-        public string DisplayName { get; }
+        public string DisplayName
+        {
+            get { return _displayName; }
+        }
 
         public int CompareTo(TEnumeration other)
         {
             return Value.CompareTo(other.Value);
         }
 
-        public bool Equals(TEnumeration other)
-        {
-            return (other != null) && Value.Equals(other.Value);
-        }
-
-        public sealed override string ToString()
+        public override sealed string ToString()
         {
             return DisplayName;
         }
@@ -66,7 +70,7 @@ namespace Headspring
 
         private static TEnumeration[] GetEnumerations()
         {
-            var enumerationType = typeof(TEnumeration);
+            Type enumerationType = typeof(TEnumeration);
             return enumerationType
                 .GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)
                 .Where(info => enumerationType.IsAssignableFrom(info.FieldType))
@@ -78,6 +82,11 @@ namespace Headspring
         public override bool Equals(object obj)
         {
             return Equals(obj as TEnumeration);
+        }
+
+        public bool Equals(TEnumeration other)
+        {
+            return other != null && Value.Equals(other.Value);
         }
 
         public override int GetHashCode()
@@ -105,7 +114,7 @@ namespace Headspring
             return Parse(displayName, "display name", item => item.DisplayName == displayName);
         }
 
-        private static bool TryParse(Func<TEnumeration, bool> predicate, out TEnumeration result)
+        static bool TryParse(Func<TEnumeration, bool> predicate, out TEnumeration result)
         {
             result = GetAll().FirstOrDefault(predicate);
             return result != null;
@@ -117,7 +126,7 @@ namespace Headspring
 
             if (!TryParse(predicate, out result))
             {
-                var message = string.Format("'{0}' is not a valid {1} in {2}", value, description, typeof(TEnumeration));
+                string message = string.Format("'{0}' is not a valid {1} in {2}", value, description, typeof(TEnumeration));
                 throw new ArgumentException(message, "value");
             }
 

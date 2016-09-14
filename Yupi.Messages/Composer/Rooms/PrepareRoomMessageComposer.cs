@@ -1,6 +1,10 @@
-﻿namespace Yupi.Messages.Rooms
+﻿using System;
+
+namespace Yupi.Messages.Rooms
 {
-    public class PrepareRoomMessageComposer : Contracts.PrepareRoomMessageComposer
-    {
-    }
+	public class PrepareRoomMessageComposer : Contracts.PrepareRoomMessageComposer
+	{
+		
+	}
 }
+

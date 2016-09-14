@@ -1,16 +1,15 @@
-﻿using Yupi.Model.Domain;
-using Yupi.Protocol;
-using Yupi.Protocol.Buffers;
+﻿using System;
 
 namespace Yupi.Messages.Landing
 {
-    public class LandingLoadWidgetMessageEvent : AbstractHandler
-    {
-        public override void HandleMessage(Habbo session, ClientMessage request, IRouter router)
-        {
-            var text = request.GetString();
+	public class LandingLoadWidgetMessageEvent : AbstractHandler
+	{
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		{
+			string text = request.GetString();
 
-            router.GetComposer<LandingWidgetMessageComposer>().Compose(session, text);
-        }
-    }
+			router.GetComposer<LandingWidgetMessageComposer> ().Compose (session, text);
+		}
+	}
 }
+

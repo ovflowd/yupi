@@ -1,6 +1,10 @@
-﻿namespace Yupi.Model.Domain
+﻿using System;
+
+namespace Yupi.Model.Domain
 {
-    public class HabboWheelBaseItem : WallBaseItem
-    {
-    }
+	public class HabboWheelBaseItem : WallBaseItem
+	{
+		
+	}
 }
+

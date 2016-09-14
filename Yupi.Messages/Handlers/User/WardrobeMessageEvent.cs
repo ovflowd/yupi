@@ -1,14 +1,15 @@
-﻿using Yupi.Model.Domain;
-using Yupi.Protocol;
-using Yupi.Protocol.Buffers;
+﻿using System;
+using System.Data;
+
 
 namespace Yupi.Messages.User
 {
-    public class WardrobeMessageEvent : AbstractHandler
-    {
-        public override void HandleMessage(Habbo session, ClientMessage message, IRouter router)
-        {
-            router.GetComposer<LoadWardrobeMessageComposer>().Compose(session, session.Info.Inventory.Wardrobe);
-        }
-    }
+	public class WardrobeMessageEvent : AbstractHandler
+	{
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		{
+			router.GetComposer<LoadWardrobeMessageComposer> ().Compose (session, session.Info.Inventory.Wardrobe);
+		}
+	}
 }
+

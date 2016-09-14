@@ -1,13 +1,15 @@
+using Yupi.Protocol.Buffers;
+using System.Collections.Generic;
+using Yupi.Model.Domain;
 using Yupi.Model.Domain.Components;
-using Yupi.Protocol;
 
 namespace Yupi.Messages.Contracts
 {
-    public abstract class JukeboxPlaylistMessageComposer : AbstractComposer<SongMachineComponent>
-    {
-        public override void Compose(ISender session, SongMachineComponent songMachine)
-        {
-            // Do nothing by default.
-        }
-    }
+	public abstract class JukeboxPlaylistMessageComposer : AbstractComposer<SongMachineComponent>
+	{
+		public override void Compose(Yupi.Protocol.ISender session, SongMachineComponent songMachine)
+		{
+		 // Do nothing by default.
+		}
+	}
 }

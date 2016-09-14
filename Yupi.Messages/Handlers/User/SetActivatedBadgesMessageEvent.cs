@@ -1,39 +1,43 @@
-﻿using Yupi.Model;
+﻿using System;
 using Yupi.Model.Domain;
 using Yupi.Model.Repository;
-using Yupi.Protocol;
-using Yupi.Protocol.Buffers;
+using Yupi.Model;
+
+
 
 namespace Yupi.Messages.User
 {
-    public class SetActivatedBadgesMessageEvent : AbstractHandler
-    {
-        private readonly IRepository<UserInfo> UserRepository;
+	public class SetActivatedBadgesMessageEvent : AbstractHandler
+	{
+		private IRepository<UserInfo> UserRepository;
 
-        public SetActivatedBadgesMessageEvent()
-        {
-            UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>>();
-        }
+		public SetActivatedBadgesMessageEvent ()
+		{
+			UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>> ();
+		}
 
-        public override void HandleMessage(Habbo session, ClientMessage message, IRouter router)
-        {
-            session.Info.Badges.ResetSlots();
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		{
+			session.Info.Badges.ResetSlots();
 
-            for (var i = 0; i < 5; i++)
-            {
-                var slot = message.GetInteger();
-                var code = message.GetString();
+			for (int i = 0; i < 5; i++)
+			{
+				int slot = message.GetInteger();
+				string code = message.GetString();
 
-                var badge = session.Info.Badges.GetBadge(code);
+				Badge badge = session.Info.Badges.GetBadge (code);
 
-                if ((badge == default(Badge)) || (slot < 1) || (slot > 5)) continue;
+				if (badge == default(Badge) || slot < 1 || slot > 5) {
+					continue;
+				}
 
-                badge.Slot = slot;
-            }
+				badge.Slot = slot;
+			}
 
-            UserRepository.Save(session.Info);
+			UserRepository.Save (session.Info);
 
-            router.GetComposer<UserBadgesMessageComposer>().Compose(session, session.Info);
-        }
-    }
+			router.GetComposer<UserBadgesMessageComposer> ().Compose (session, session.Info);
+		}
+	}
 }
+

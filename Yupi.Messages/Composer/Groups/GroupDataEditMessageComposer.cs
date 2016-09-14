@@ -1,68 +1,70 @@
-﻿using Yupi.Model.Domain;
-using Yupi.Protocol;
+﻿using System;
+
+using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
 
 namespace Yupi.Messages.Groups
 {
-    public class GroupDataEditMessageComposer : Contracts.GroupDataEditMessageComposer
-    {
-        public override void Compose(ISender session, Group group)
-        {
-            using (var message = Pool.GetMessageBuffer(Id))
-            {
-                message.AppendInteger(0);
-                message.AppendBool(true);
-                message.AppendInteger(group.Id);
-                message.AppendString(group.Name);
-                message.AppendString(group.Description);
-                message.AppendInteger(group.Room.Id);
-                message.AppendInteger(group.Colour1.Colour);
-                message.AppendInteger(group.Colour2.Colour);
-                message.AppendInteger(group.State);
-                message.AppendInteger(group.AdminOnlyDeco);
-                message.AppendBool(false);
-                message.AppendString(string.Empty);
+	public class GroupDataEditMessageComposer : Yupi.Messages.Contracts.GroupDataEditMessageComposer
+	{
+		public override void Compose ( Yupi.Protocol.ISender session, Group group)
+		{
+			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
+				message.AppendInteger (0);
+				message.AppendBool (true);
+				message.AppendInteger (group.Id);
+				message.AppendString (group.Name);
+				message.AppendString (group.Description);
+				message.AppendInteger (group.Room.Id);
+				message.AppendInteger (group.Colour1.Colour);
+				message.AppendInteger (group.Colour2.Colour);
+				message.AppendInteger (group.State);
+				message.AppendInteger (group.AdminOnlyDeco);
+				message.AppendBool (false);
+				message.AppendString (string.Empty);
 
-                // TODO Hardcoded stuff..
+				// TODO Hardcoded stuff..
 
-                var array = group.Badge.Replace("b", string.Empty).Split('s');
+				string[] array = group.Badge.Replace("b", string.Empty).Split('s');
 
-                message.AppendInteger(5);
+				message.AppendInteger(5);
 
-                var num = 5 - array.Length;
+				int num = 5 - array.Length;
 
-                var num2 = 0;
-                var array2 = array;
+				int num2 = 0;
+				string[] array2 = array;
 
-                foreach (var text in array2)
-                {
-                    message.AppendInteger(text.Length >= 6
-                        ? uint.Parse(text.Substring(0, 3))
-                        : uint.Parse(text.Substring(0, 2)));
-                    message.AppendInteger(text.Length >= 6
-                        ? uint.Parse(text.Substring(3, 2))
-                        : uint.Parse(text.Substring(2, 2)));
+				foreach (string text in array2)
+				{
+					message.AppendInteger(text.Length >= 6
+						? uint.Parse(text.Substring(0, 3))
+						: uint.Parse(text.Substring(0, 2)));
+					message.AppendInteger(text.Length >= 6
+						? uint.Parse(text.Substring(3, 2))
+						: uint.Parse(text.Substring(2, 2)));
 
-                    if (text.Length < 5)
-                        message.AppendInteger(0);
-                    else if (text.Length >= 6)
-                        message.AppendInteger(uint.Parse(text.Substring(5, 1)));
-                    else
-                        message.AppendInteger(uint.Parse(text.Substring(4, 1)));
-                }
+					if (text.Length < 5)
+						message.AppendInteger(0);
+					else if (text.Length >= 6)
+						message.AppendInteger(uint.Parse(text.Substring(5, 1)));
+					else
+						message.AppendInteger(uint.Parse(text.Substring(4, 1)));
+				}
 
-                while (num2 != num)
-                {
-                    message.AppendInteger(0);
-                    message.AppendInteger(0);
-                    message.AppendInteger(0);
-                    num2++;
-                }
+				while (num2 != num)
+				{
+					message.AppendInteger(0);
+					message.AppendInteger(0);
+					message.AppendInteger(0);
+					num2++;
+				}
 
-                message.AppendString(group.Badge);
-                message.AppendInteger(group.Members.Count);
+				message.AppendString(group.Badge);
+				message.AppendInteger(group.Members.Count);
 
-                session.Send(message);
-            }
-        }
-    }
+				session.Send (message);
+			}
+		}
+	}
 }
+

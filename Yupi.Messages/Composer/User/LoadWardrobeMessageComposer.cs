@@ -1,25 +1,29 @@
-﻿using System.Collections.Generic;
+﻿using System;
+
+using System.Data;
+using Yupi.Protocol.Buffers;
+using Yupi.Model;
+using System.Collections.Generic;
 using Yupi.Model.Domain;
-using Yupi.Protocol;
 
 namespace Yupi.Messages.User
 {
-    public class LoadWardrobeMessageComposer : Contracts.LoadWardrobeMessageComposer
-    {
-        public override void Compose(ISender session, IList<WardrobeItem> wardrobe)
-        {
-            using (var message = Pool.GetMessageBuffer(Id))
-            {
-                message.AppendInteger(wardrobe.Count);
-                foreach (var item in wardrobe)
-                {
-                    message.AppendInteger(item.Slot);
-                    message.AppendString(item.Look);
-                    message.AppendString(item.Gender.ToUpper());
-                }
+	public class LoadWardrobeMessageComposer : Yupi.Messages.Contracts.LoadWardrobeMessageComposer
+	{
+		public override void Compose (Yupi.Protocol.ISender session, IList<WardrobeItem> wardrobe)
+		{
+			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
+				message.AppendInteger (wardrobe.Count);
+				foreach (WardrobeItem item in wardrobe) {
+					message.AppendInteger (item.Slot);
+					message.AppendString (item.Look);
+					message.AppendString (item.Gender.ToUpper());
+				}
 
-                session.Send(message);
-            }
-        }
-    }
+				session.Send (message);
+			}
+
+		}
+	}
 }
+

@@ -23,105 +23,104 @@
 */
 
 using System;
+using System.Collections.Concurrent;
+using System.Net;
 using System.Threading.Tasks;
+using DotNetty.Transport.Bootstrapping;
+using DotNetty.Transport.Channels;
+using DotNetty.Transport.Channels.Sockets;
 
 namespace Yupi.Net.DotNettyImpl
 {
-    internal class ConnectionManager<T> : IServer<T>
-    {
-        /// <summary>
-        ///     Child Server Workers
-        /// </summary>
-        private IEventLoopGroup ChildServerWorkers;
+	class ConnectionManager<T> : IServer<T>
+	{
+		public event MessageReceived<T> OnMessageReceived = delegate {};
 
-        private readonly CrossDomainSettings FlashPolicy;
+		public event ConnectionOpened<T> OnConnectionOpened = delegate {};
 
-        /// <summary>
-        ///     Main Server Worker
-        /// </summary>
-        private IEventLoopGroup MainServerWorkers;
+		public event ConnectionClosed<T> OnConnectionClosed = delegate {};
 
-        /// <summary>
-        ///     Server Channel
-        /// </summary>
-        private IChannel ServerChannel;
+		/// <summary>
+		///     Server Channel
+		/// </summary>
+		private IChannel ServerChannel;
 
-        private readonly IServerSettings Settings;
+		/// <summary>
+		///     Main Server Worker
+		/// </summary>
+		private IEventLoopGroup MainServerWorkers;
 
-        public ConnectionManager(IServerSettings settings, CrossDomainSettings flashPolicy)
-        {
-            Settings = settings;
-            FlashPolicy = flashPolicy;
-        }
+		/// <summary>
+		///     Child Server Workers
+		/// </summary>
+		private IEventLoopGroup ChildServerWorkers;
 
-        public event MessageReceived<T> OnMessageReceived = delegate { };
+		private IServerSettings Settings;
 
-        public event ConnectionOpened<T> OnConnectionOpened = delegate { };
+		private CrossDomainSettings FlashPolicy;
 
-        public event ConnectionClosed<T> OnConnectionClosed = delegate { };
+		public ConnectionManager (IServerSettings settings, CrossDomainSettings flashPolicy)
+		{
+			this.Settings = settings;
+			this.FlashPolicy = flashPolicy;
+		}
+		
+		public bool Start()
+		{      
+			MainServerWorkers = this.Settings.MaxIOThreads == 0 ? new MultithreadEventLoopGroup() : new MultithreadEventLoopGroup(this.Settings.MaxIOThreads);
 
-        public bool Start()
-        {
-            MainServerWorkers = Settings.MaxIOThreads == 0
-                ? new MultithreadEventLoopGroup()
-                : new MultithreadEventLoopGroup(Settings.MaxIOThreads);
+			ChildServerWorkers = this.Settings.MaxWorkingThreads == 0 ? new MultithreadEventLoopGroup() : new MultithreadEventLoopGroup(this.Settings.MaxWorkingThreads);
 
-            ChildServerWorkers = Settings.MaxWorkingThreads == 0
-                ? new MultithreadEventLoopGroup()
-                : new MultithreadEventLoopGroup(Settings.MaxWorkingThreads);
+			try
+			{
+				ServerBootstrap server = new ServerBootstrap();
 
-            try
-            {
-                ServerBootstrap server = new ServerBootstrap();
+				HeaderDecoder headerDecoder = new HeaderDecoder();
+				FlashPolicyHandler flashHandler = new FlashPolicyHandler(FlashPolicy);
 
-                var headerDecoder = new HeaderDecoder();
-                var flashHandler = new FlashPolicyHandler(FlashPolicy);
+				server
+					.Group(MainServerWorkers, ChildServerWorkers)
+					.Channel<TcpServerSocketChannel>()
+					.Option(ChannelOption.AutoRead, true)
+					.Option(ChannelOption.SoBacklog, 100)
+					.Option(ChannelOption.SoKeepalive, true)
+					.Option(ChannelOption.ConnectTimeout, TimeSpan.MaxValue)
+					.Option(ChannelOption.TcpNodelay, false)
+					.Option(ChannelOption.SoRcvbuf, this.Settings.BufferSize)
+					.ChildHandler(new ActionChannelInitializer<ISocketChannel>(channel =>
+						{
+							/*
+							 * Note: we have to create a new MessageHandler for each 
+							 * session because it has stateful properties.
+							 */
+							MessageHandler<T> messageHandler = new MessageHandler<T>(channel, OnMessageReceived, OnConnectionClosed, OnConnectionOpened);
+							channel.Pipeline.AddFirst(flashHandler);
+							channel.Pipeline.AddLast(headerDecoder, messageHandler);
+						}));
 
-                server
-                    .Group(MainServerWorkers, ChildServerWorkers)
-                    .Channel<TcpServerSocketChannel>()
-                    .Option(ChannelOption.AutoRead, true)
-                    .Option(ChannelOption.SoBacklog, 100)
-                    .Option(ChannelOption.SoKeepalive, true)
-                    .Option(ChannelOption.ConnectTimeout, TimeSpan.MaxValue)
-                    .Option(ChannelOption.TcpNodelay, false)
-                    .Option(ChannelOption.SoRcvbuf, Settings.BufferSize)
-                    .ChildHandler(new ActionChannelInitializer<ISocketChannel>(channel =>
-                    {
-                        /*
-                         * Note: we have to create a new MessageHandler for each 
-                         * session because it has stateful properties.
-                         */
-                        var messageHandler = new MessageHandler<T>(channel, OnMessageReceived, OnConnectionClosed,
-                            OnConnectionOpened);
-                        channel.Pipeline.AddFirst(flashHandler);
-                        channel.Pipeline.AddLast(headerDecoder, messageHandler);
-                    }));
+				Task<IChannel> task = server.BindAsync(Settings.IP, Settings.Port);
+				task.Wait();
+				ServerChannel = task.Result;
+				return true;
+			}
+			catch
+			{
+				// TODO Store/print error
+				return false;
+			}     
+		}
 
-                Task<IChannel> task = server.BindAsync(Settings.IP, Settings.Port);
-                task.Wait();
-                ServerChannel = task.Result;
-                return true;
-            }
-            catch
-            {
-                // TODO Store/print error
-                return false;
-            }
-        }
+		public void Stop()
+		{
+			DoStop ().Wait();
+		}
 
-        public void Stop()
-        {
-            DoStop().Wait();
-        }
+		private async Task DoStop() {
+			await ServerChannel.CloseAsync();
 
-        private async Task DoStop()
-        {
-            await ServerChannel.CloseAsync();
+			await MainServerWorkers.ShutdownGracefullyAsync();
 
-            await MainServerWorkers.ShutdownGracefullyAsync();
-
-            await ChildServerWorkers.ShutdownGracefullyAsync();
-        }
-    }
+			await ChildServerWorkers.ShutdownGracefullyAsync();
+		}
+	}
 }

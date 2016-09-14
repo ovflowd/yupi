@@ -1,6 +1,12 @@
-﻿namespace Yupi.Model.Domain
+﻿using System;
+
+namespace Yupi.Model.Domain
 {
-    public class GuildForumBaseItem : FloorBaseItem
-    {
-    }
+	public class GuildForumBaseItem : FloorBaseItem
+	{
+		public GuildForumBaseItem ()
+		{
+		}
+	}
 }
+

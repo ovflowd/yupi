@@ -1,57 +1,59 @@
 ﻿using System;
-using Yupi.Model.Domain;
-using Yupi.Protocol;
-using Yupi.Protocol.Buffers;
+
+using System.Collections.Generic;
+
+
 
 namespace Yupi.Messages.Rooms
 {
-    public class RoomRemoveUserRightsMessageEvent : AbstractHandler
-    {
-        public override void HandleMessage(Habbo session, ClientMessage request, IRouter router)
-        {
-            /*
-            Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
+	public class RoomRemoveUserRightsMessageEvent : AbstractHandler 
+	{
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		{
+			/*
+			Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
 
-            if (room == null || !room.CheckRights(session, true))
-                return;
+			if (room == null || !room.CheckRights(session, true))
+				return;
 
-            List<uint> users = new List<uint> ();
+			List<uint> users = new List<uint> ();
 
-            int count = request.GetInteger();
+			int count = request.GetInteger();
 
-            {
-                for (int i = 0; i < count; i++)
-                {
-                    uint userId = request.GetUInt32();
+			{
+				for (int i = 0; i < count; i++)
+				{
+					uint userId = request.GetUInt32();
 
-                    if (room.UsersWithRights.Contains(userId))
-                        room.UsersWithRights.Remove(userId);
+					if (room.UsersWithRights.Contains(userId))
+						room.UsersWithRights.Remove(userId);
 
-                    RoomUser roomUserByHabbo = room.GetRoomUserManager().GetRoomUserByHabbo(userId);
+					RoomUser roomUserByHabbo = room.GetRoomUserManager().GetRoomUserByHabbo(userId);
 
-                    if (roomUserByHabbo == null || roomUserByHabbo.IsBot) {
-                        continue;
-                    }
+					if (roomUserByHabbo == null || roomUserByHabbo.IsBot) {
+						continue;
+					}
 
-                    users.Add (userId);
+					users.Add (userId);
 
-                    router.GetComposer<RoomRightsLevelMessageComposer> ().Compose (roomUserByHabbo.GetClient(), 0);
-                    roomUserByHabbo.RemoveStatus("flatctrl 1");
-                    roomUserByHabbo.UpdateNeeded = true;
+					router.GetComposer<RoomRightsLevelMessageComposer> ().Compose (roomUserByHabbo.GetClient(), 0);
+					roomUserByHabbo.RemoveStatus("flatctrl 1");
+					roomUserByHabbo.UpdateNeeded = true;
 
-                    router.GetComposer<RemoveRightsMessageComposer> ().Compose (session, room.RoomId, userId);
-                }
+					router.GetComposer<RemoveRightsMessageComposer> ().Compose (session, room.RoomId, userId);
+				}
 
-                UsersWithRights();
+				UsersWithRights();
 
-                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor()) {
-                    queryReactor.SetQuery("DELETE FROM rooms_rights WHERE room_id = @room AND user_id IN (" + String.Join(",", users) +")");
-                    queryReactor.AddParameter ("room", room.RoomId);
-                    queryReactor.RunQuery ();
-                }
-            }
-            */
-            throw new NotImplementedException();
-        }
-    }
+				using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor()) {
+					queryReactor.SetQuery("DELETE FROM rooms_rights WHERE room_id = @room AND user_id IN (" + String.Join(",", users) +")");
+					queryReactor.AddParameter ("room", room.RoomId);
+					queryReactor.RunQuery ();
+				}
+			}
+			*/
+			throw new NotImplementedException ();
+		}
+	}
 }
+

@@ -1,130 +1,128 @@
-﻿using Yupi.Controller;
+﻿using System;
+using Yupi.Controller;
+using Yupi.Model.Domain;
 using Yupi.Messages.Contracts;
 using Yupi.Model;
-using Yupi.Model.Domain;
-using Yupi.Protocol;
-using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Navigator
 {
-    public class EnterPrivateRoomMessageEvent : AbstractHandler
-    {
-        private readonly RoomManager RoomManager;
+	public class EnterPrivateRoomMessageEvent : AbstractHandler
+	{
+		private RoomManager RoomManager;
 
-        // TODO Rename? This look like GetRoomInfoEvent or something like that
-        public EnterPrivateRoomMessageEvent()
-        {
-            RoomManager = DependencyFactory.Resolve<RoomManager>();
-        }
+		// TODO Rename? This look like GetRoomInfoEvent or something like that
+		public EnterPrivateRoomMessageEvent ()
+		{
+			RoomManager = DependencyFactory.Resolve<RoomManager> ();
+		}
 
-        public override void HandleMessage(Habbo session, ClientMessage request, IRouter router)
-        {
-            var roomId = request.GetInteger();
+		public override void HandleMessage (Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		{
+			int roomId = request.GetInteger ();
 
-            var pWd = request.GetString();
+			string pWd = request.GetString ();
 
-            if (session.Room != null) RoomManager.RemoveUser(session);
+			if (session.Room != null) {
+				RoomManager.RemoveUser (session);
+			}
 
-            var room = RoomManager.LoadOrGet(roomId);
+			Room room = RoomManager.LoadOrGet (roomId);
 
-            if (room == null) return;
+			if (room == null) {
+				return;
+			}
 
-            if ((room.GetUserCount() >= room.Data.UsersMax)
-                && !session.Info.HasPermission("fuse_enter_full_rooms")
-                && (room.Data.Owner != session.Info))
-            {
-                /// TODO Remove on other room load / disconnect
-                room.Queue.Add(session.Info);
+			if (room.GetUserCount () >= room.Data.UsersMax
+			    && !session.Info.HasPermission ("fuse_enter_full_rooms")
+			    && room.Data.Owner != session.Info) {
 
-                router.GetComposer<RoomQueueComposer>().Compose(session, room.Queue.Count);
-            }
-            else if (!session.Info.HasPermission("fuse_enter_any_room")
-                     && room.Data.BannedUsers.Contains(session.Info))
-            {
-                router.GetComposer<RoomEnterErrorMessageComposer>()
-                    .Compose(session, RoomEnterErrorMessageComposer.Error.BANNED);
-                router.GetComposer<OutOfRoomMessageComposer>().Compose(session);
-            }
-            else
-            {
-                router.GetComposer<PrepareRoomMessageComposer>().Compose(session);
+				/// TODO Remove on other room load / disconnect
+				room.Queue.Add (session.Info);
 
-                var isReload = false;
-                // TODO Extract to controller!
+				router.GetComposer<RoomQueueComposer> ().Compose (session, room.Queue.Count);
+			} else if (!session.Info.HasPermission ("fuse_enter_any_room")
+			           && room.Data.BannedUsers.Contains (session.Info)) {
+				router.GetComposer<RoomEnterErrorMessageComposer> ().Compose (session, RoomEnterErrorMessageComposer.Error.BANNED);
+				router.GetComposer<OutOfRoomMessageComposer> ().Compose (session);
+			} else {
+				router.GetComposer<PrepareRoomMessageComposer> ().Compose (session);
 
-                if (!isReload
-                    && !session.Info.HasPermission("fuse_enter_any_room")
-                    && !room.Data.HasOwnerRights(session.Info)
-                    && (session.TeleportingTo != room.Data))
-                    if (room.Data.State == RoomState.Bell)
-                    {
-                        if (room.GetUserCount() == 0)
-                        {
-                            router.GetComposer<DoorbellNoOneMessageComposer>().Compose(session);
-                        }
-                        else
-                        {
-                            // TODO String.Empty == 'I am ringing' ?
-                            router.GetComposer<DoorbellMessageComposer>().Compose(session, string.Empty);
+				bool isReload = false;
+				// TODO Extract to controller!
 
-                            room.EachUser(user =>
-                            {
-                                if (room.Data.HasRights(user.Info))
-                                    user.Router.GetComposer<DoorbellMessageComposer>().Compose(user, session.Info.Name);
-                            });
-                        }
+				if (!isReload
+				    && !session.Info.HasPermission ("fuse_enter_any_room")
+				    && !room.Data.HasOwnerRights (session.Info)
+				    && session.TeleportingTo != room.Data) {
 
-                        return;
-                    }
-                    else if (room.Data.State == RoomState.Locked)
-                    {
-                        if (pWd != room.Data.Password)
-                        {
-                            router.GetComposer<RoomErrorMessageComposer>().Compose(session, -100002);
-                            router.GetComposer<OutOfRoomMessageComposer>().Compose(session);
-                            return;
-                        }
-                    }
+					if (room.Data.State == RoomState.Bell) {
+						if (room.GetUserCount () == 0) {
+							router.GetComposer<DoorbellNoOneMessageComposer> ().Compose (session);
+						} else {
+							// TODO String.Empty == 'I am ringing' ?
+							router.GetComposer<DoorbellMessageComposer> ().Compose (session, string.Empty);
 
-                if (session.Info.FavouriteGroup != null) room.GroupsInRoom.Add(session.Info.FavouriteGroup);
+							room.EachUser ((user) => {
+								if (room.Data.HasRights (user.Info)) {
+									user.Router.GetComposer<DoorbellMessageComposer> ().Compose (user, session.Info.Name);
+								}
+							});
+						}
 
-                router.GetComposer<RoomGroupMessageComposer>().Compose(session, room.GroupsInRoom);
-                router.GetComposer<InitialRoomInfoMessageComposer>().Compose(session, room.Data);
+						return;
 
-                if (session.Info.SpectatorMode) router.GetComposer<SpectatorModeMessageComposer>().Compose(session);
+					} else if(room.Data.State == RoomState.Locked) {
+						if (pWd != room.Data.Password) {
+							router.GetComposer<RoomErrorMessageComposer> ().Compose (session, -100002);
+							router.GetComposer<OutOfRoomMessageComposer> ().Compose (session);
+							return;
+						}
+					}
+				}
 
-                if (room.Data.WallPaper > 0)
-                    router.GetComposer<RoomSpacesMessageComposer>()
-                        .Compose(session, RoomSpacesMessageComposer.RoomSpacesType.Wallpaper, room.Data);
+				if (session.Info.FavouriteGroup != null) {
+					room.GroupsInRoom.Add (session.Info.FavouriteGroup);
+				}
 
-                if (room.Data.Floor > 0)
-                    router.GetComposer<RoomSpacesMessageComposer>()
-                        .Compose(session, RoomSpacesMessageComposer.RoomSpacesType.Floor, room.Data);
+				router.GetComposer<RoomGroupMessageComposer> ().Compose (session, room.GroupsInRoom);
+				router.GetComposer<InitialRoomInfoMessageComposer> ().Compose (session, room.Data);
 
-                if (room.Data.LandScape > 0)
-                    router.GetComposer<RoomSpacesMessageComposer>()
-                        .Compose(session, RoomSpacesMessageComposer.RoomSpacesType.Landscape, room.Data);
-                // TODO Magic numbers!
-                var rightsLevel = 0;
+				if (session.Info.SpectatorMode) {
+					router.GetComposer<SpectatorModeMessageComposer> ().Compose (session);
+				}
 
-                if (room.Data.HasOwnerRights(session.Info))
-                {
-                    rightsLevel = 4;
-                    router.GetComposer<HasOwnerRightsMessageComposer>().Compose(session);
-                }
-                else if (room.Data.HasRights(session.Info))
-                {
-                    rightsLevel = 1;
-                }
+				if (room.Data.WallPaper > 0) {
+					router.GetComposer<RoomSpacesMessageComposer> ()
+					.Compose (session, RoomSpacesMessageComposer.RoomSpacesType.Wallpaper, room.Data);
+				}
 
-                router.GetComposer<RoomRightsLevelMessageComposer>().Compose(session, rightsLevel);
-                router.GetComposer<RoomRatingMessageComposer>()
-                    .Compose(session, room.Data.Score, room.CanVote(session.Info));
-                router.GetComposer<RoomUpdateMessageComposer>().Compose(session, room.Data.Id);
+				if (room.Data.Floor > 0) {
+					router.GetComposer<RoomSpacesMessageComposer> ()
+					.Compose (session, RoomSpacesMessageComposer.RoomSpacesType.Floor, room.Data);
+				}
 
-                session.Info.RecentlyVisitedRooms.Add(room.Data);
-                room.AddUser(session);
-            }
-        }
-    }
+				if (room.Data.LandScape > 0) {
+					router.GetComposer<RoomSpacesMessageComposer> ()
+					.Compose (session, RoomSpacesMessageComposer.RoomSpacesType.Landscape, room.Data);
+				}
+				// TODO Magic numbers!
+				int rightsLevel = 0;
+
+				if (room.Data.HasOwnerRights (session.Info)) {
+					rightsLevel = 4;
+					router.GetComposer<HasOwnerRightsMessageComposer> ().Compose (session);
+				} else if (room.Data.HasRights (session.Info)) {
+					rightsLevel = 1;
+				}
+
+				router.GetComposer<RoomRightsLevelMessageComposer> ().Compose (session, rightsLevel);
+				router.GetComposer<RoomRatingMessageComposer> ().Compose (session, room.Data.Score, room.CanVote (session.Info));
+				router.GetComposer<RoomUpdateMessageComposer> ().Compose (session, room.Data.Id);
+
+				session.Info.RecentlyVisitedRooms.Add (room.Data);
+				room.AddUser (session);
+			}
+		}
+	}
 }
+

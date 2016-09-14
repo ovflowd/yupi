@@ -1,17 +1,18 @@
-﻿using Yupi.Protocol;
+﻿using System;
+using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Rooms
 {
-    public class RoomErrorMessageComposer : Contracts.RoomErrorMessageComposer
-    {
-        // TODO ErrorCode???
-        public override void Compose(ISender session, int errorCode)
-        {
-            using (var message = Pool.GetMessageBuffer(Id))
-            {
-                message.AppendInteger(errorCode);
-                session.Send(message);
-            }
-        }
-    }
+	public class RoomErrorMessageComposer : Yupi.Messages.Contracts.RoomErrorMessageComposer
+	{
+		// TODO ErrorCode???
+		public override void Compose ( Yupi.Protocol.ISender session, int errorCode)
+		{
+			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
+				message.AppendInteger (errorCode); 
+				session.Send (message);
+			}
+		}
+	}
 }
+

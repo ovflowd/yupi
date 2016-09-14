@@ -1,6 +1,12 @@
-﻿namespace Yupi.Model.Domain
+﻿using System;
+
+namespace Yupi.Model.Domain
 {
-    public class WiredHighscoreBaseItem : WiredBaseItem
-    {
-    }
+	public class WiredHighscoreBaseItem : WiredBaseItem
+	{
+		public WiredHighscoreBaseItem ()
+		{
+		}
+	}
 }
+

@@ -1,7 +1,10 @@
-﻿namespace Yupi.Messages
+﻿using System;
+
+namespace Yupi.Messages
 {
-    public interface IGameClient
-    {
-        // HACK
-    }
+	public interface IGameClient
+	{
+		// HACK
+	}
 }
+

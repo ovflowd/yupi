@@ -22,55 +22,64 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-using System;
+using System.Collections.Generic;
+using System.Linq;
 using Yupi.Model.Domain;
+using Yupi.Model.Repository;
+using Yupi.Model;
+using System;
 
 namespace Yupi.Controller
 {
-    public class TalentManager
-    {
-        //private IRepository<Talent> TalentRepository;
+	public class TalentManager
+	{
+		//private IRepository<Talent> TalentRepository;
 
-        public bool LevelIsCompleted(UserInfo user, TalentType trackType, int talentLevel)
-        {
-            throw new NotImplementedException();
-        }
+		public TalentManager ()
+		{
+			//TalentRepository = DependencyFactory.Resolve<IRepository<Talent>> ();
+		}
 
-        public void CompleteUserTalent(Habbo user, Talent talent)
-        {
-            throw new NotImplementedException();
-            /*if (user.Info.Talents.Any ((x) => x.Talent == talent))
-                return;
+		public bool LevelIsCompleted (UserInfo user, TalentType trackType, int talentLevel)
+		{
+			throw new NotImplementedException ();
+		}
 
-            if (!LevelIsCompleted (user, talent.Type, talent.Level))
-                return;
+		public void CompleteUserTalent (Habbo user, Talent talent)
+		{
+			throw new NotImplementedException ();
+			/*if (user.Info.Talents.Any ((x) => x.Talent == talent))
+				return;
 
-            if (talent.PrizeBaseItem != null)
-                Yupi.GetGame ()
+			if (!LevelIsCompleted (user, talent.Type, talent.Level))
+				return;
+
+			if (talent.PrizeBaseItem != null)
+				Yupi.GetGame ()
                     .GetCatalogManager ()
                     .DeliverItems (session, talent.PrizeBaseItem, 1,
-                    string.Empty, 0, 0, string.Empty);
+					string.Empty, 0, 0, string.Empty);
 
-            user.Info.Talents.Add (talent.Id, new UserTalent (talent.Id, 1));
+			user.Info.Talents.Add (talent.Id, new UserTalent (talent.Id, 1));
 
-            user.Session.Router.GetComposer<AchievementTalentComposer> ().Compose (user, talent);
+			user.Session.Router.GetComposer<AchievementTalentComposer> ().Compose (user, talent);
 
-            if (talent.Type == "citizenship") {
-                switch (talent.Level) {
-                case 3:
-                    Yupi.GetGame ().GetAchievementManager ().ProgressUserAchievement (session, "ACH_Citizenship", 1);
-                    break;
-                case 4:
-                    session.GetHabbo ().GetSubscriptionManager ().AddSubscription (7);
+			if (talent.Type == "citizenship") {
+				switch (talent.Level) {
+				case 3:
+					Yupi.GetGame ().GetAchievementManager ().ProgressUserAchievement (session, "ACH_Citizenship", 1);
+					break;
+				case 4:
+					session.GetHabbo ().GetSubscriptionManager ().AddSubscription (7);
 
-                    using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager ().GetQueryReactor ())
-                        queryReactor.RunFastQuery (
+					using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager ().GetQueryReactor ())
+						queryReactor.RunFastQuery (
                                 $"UPDATE users SET talent_status = 'helper' WHERE id = '{session.GetHabbo().Id}'");
-                        
-                        
-                    break;
-                }
-            }*/
-        }
-    }
+						
+						
+					break;
+				}
+			}*/
+		}
+	}
 }

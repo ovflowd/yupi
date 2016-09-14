@@ -1,129 +1,140 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
+using Priority_Queue;
+using System.Collections;
 
 namespace Yupi.Util.Pathfinding
 {
-    public abstract class AStar<TileType> where TileType : IEquatable<TileType>
-    {
-        private readonly HashSet<Node> ClosedList;
+	public abstract class AStar<TileType> where TileType : IEquatable<TileType>
+	{
+		protected class Node : IEquatable<Node>
+		{
+			public readonly TileType Tile;
+			public float GScore;
+			public Node Predecessor;
 
-        private readonly SimplePriorityQueue<Node> OpenList;
-        private readonly Func<TileType, ICollection> GetNeighbours;
+			public Node (TileType tile)
+			{
+				this.Tile = tile;
+			}
 
-        private readonly Func<TileType, bool> IsWalkable;
+			public bool Equals (Node other)
+			{
+				return this.Tile.Equals (other.Tile);
+			}
 
-        private readonly object Lock;
+			public override bool Equals (object obj)
+			{
+				return Equals (obj as Node);
+			}
 
-        public AStar(Func<TileType, bool> isWalkable,
-            Func<TileType, ICollection> getNeighbours)
-        {
-            Lock = new object();
-            OpenList = new SimplePriorityQueue<Node>();
-            ClosedList = new HashSet<Node>();
-            IsWalkable = isWalkable;
-            GetNeighbours = getNeighbours;
-        }
+			public override int GetHashCode ()
+			{
+				return this.Tile.GetHashCode ();
+			}
+		}
 
-        protected abstract float GetDistance(TileType start, TileType target);
-        protected abstract float Cost(TileType prev, TileType next);
+		private readonly SimplePriorityQueue<Node> OpenList;
+		private readonly HashSet<Node> ClosedList;
 
-        public List<TileType> Find(TileType start, TileType target)
-        {
-            if (!IsWalkable(target) || !IsWalkable(start)) return null;
+		private Func<TileType, bool> IsWalkable;
+		private Func<TileType, ICollection> GetNeighbours;
 
-            lock (Lock)
-            {
-                // Swap target & start to receive result in right order
-                var result = FindImpl(target, start);
-                OpenList.Clear();
-                ClosedList.Clear();
-                return result;
-            }
-        }
+		private object Lock;
 
-        private List<TileType> FindImpl(TileType start, TileType target)
-        {
-            OpenList.Enqueue(new Node(start), 0);
+		public AStar (Func<TileType, bool> isWalkable, 
+			Func<TileType, ICollection> getNeighbours)
+		{
+			Lock = new object ();
+			OpenList = new SimplePriorityQueue<Node> ();
+			ClosedList = new HashSet<Node> ();
+			this.IsWalkable = isWalkable;
+			this.GetNeighbours = getNeighbours;
+		}
 
-            var targetNode = new Node(target);
+		protected abstract float GetDistance(TileType start, TileType target);
+		protected abstract float Cost (TileType prev, TileType next);
 
-            while (OpenList.Count > 0)
-            {
-                Node currentNode = OpenList.Dequeue();
+		public List<TileType> Find (TileType start, TileType target)
+		{
+			if (!IsWalkable (target) || !IsWalkable(start)) {
+				return null;
+			}
 
-                if (currentNode.Tile.Equals(target)) return Reconstruct(currentNode);
+			lock (this.Lock) {
+				// Swap target & start to receive result in right order
+				List<TileType> result = FindImpl (target, start);
+				this.OpenList.Clear ();
+				this.ClosedList.Clear ();
+				return result;
+			}
+		}
 
-                ClosedList.Add(currentNode);
+		private List<TileType> FindImpl (TileType start, TileType target)
+		{
+			OpenList.Enqueue (new Node (start), 0);
 
-                expandNode(currentNode, targetNode);
-            }
-            return null;
-        }
+			Node targetNode = new Node (target);
 
-        private List<TileType> Reconstruct(Node current)
-        {
-            var path = new List<TileType>();
+			while (OpenList.Count > 0) {
+				Node currentNode = OpenList.Dequeue ();
+
+				if (currentNode.Tile.Equals (target)) {
+					return Reconstruct (currentNode);
+				}
+
+				ClosedList.Add (currentNode);
+
+				expandNode (currentNode, targetNode);
+			}
+			return null;
+		}
+
+		private List<TileType> Reconstruct (Node current)
+		{
+			List<TileType> path = new List<TileType> ();
 
 
-            while (current != null)
-            {
-                path.Add(current.Tile);
-                current = current.Predecessor;
-            }
+			while (current != null) {
+				path.Add (current.Tile);
+				current = current.Predecessor;
+			}
 
-            return path;
-        }
+			return path;
+		}
 
-        private void expandNode(Node currentNode, Node target)
-        {
-            foreach (TileType succTile in GetNeighbours(currentNode.Tile))
-            {
-                var succ = new Node(succTile);
+		private void expandNode (Node currentNode, Node target)
+		{
+			foreach (TileType succTile in GetNeighbours(currentNode.Tile)) {
 
-                if (ClosedList.Contains(succ)) continue;
+				Node succ = new Node (succTile);
 
-                if (!IsWalkable(succ.Tile)) continue;
+				if (ClosedList.Contains (succ)) {
+					continue;
+				}
 
-                var tentative_g = currentNode.GScore + Cost(currentNode.Tile, succ.Tile);
+				if (!IsWalkable (succ.Tile)) {
+					continue;
+				}
 
-                if (OpenList.Contains(succ) && (succ.GScore < tentative_g)) continue;
+				float tentative_g = currentNode.GScore + Cost (currentNode.Tile, succ.Tile);
 
-                succ.GScore = tentative_g;
-                succ.Predecessor = currentNode;
+				if (OpenList.Contains (succ) && succ.GScore < tentative_g) {
+					continue;
+				}
 
-                var fScore = tentative_g + GetDistance(succ.Tile, target.Tile);
+				succ.GScore = tentative_g;
+				succ.Predecessor = currentNode;
 
-                if (OpenList.Contains(succ)) OpenList.UpdatePriority(succ, fScore);
-                else OpenList.Enqueue(succ, fScore);
-            }
-        }
+				float fScore = tentative_g + GetDistance (succ.Tile, target.Tile);
 
-        protected class Node : IEquatable<Node>
-        {
-            public readonly TileType Tile;
-            public float GScore;
-            public Node Predecessor;
-
-            public Node(TileType tile)
-            {
-                Tile = tile;
-            }
-
-            public bool Equals(Node other)
-            {
-                return Tile.Equals(other.Tile);
-            }
-
-            public override bool Equals(object obj)
-            {
-                return Equals(obj as Node);
-            }
-
-            public override int GetHashCode()
-            {
-                return Tile.GetHashCode();
-            }
-        }
-    }
+				if (OpenList.Contains (succ)) {
+					OpenList.UpdatePriority (succ, fScore);
+				} else {
+					OpenList.Enqueue (succ, fScore);
+				}
+			}
+		}
+	}
 }

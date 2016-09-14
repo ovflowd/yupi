@@ -1,21 +1,23 @@
-﻿using Yupi.Model.Domain;
+﻿using System;
+using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
 using Yupi.Protocol;
 
 namespace Yupi.Messages.Items
 {
-    public class LoveLockDialogueMessageComposer : Contracts.LoveLockDialogueMessageComposer
-    {
-        public override void Compose(ISender user1, ISender user2, LovelockItem loveLock)
-        {
-            using (var message = Pool.GetMessageBuffer(Id))
-            {
-                message.AppendInteger(loveLock.Id);
-                message.AppendBool(true);
+	public class LoveLockDialogueMessageComposer : Yupi.Messages.Contracts.LoveLockDialogueMessageComposer
+	{
+		public override void Compose ( Yupi.Protocol.ISender user1,  Yupi.Protocol.ISender user2, LovelockItem loveLock)
+		{
+			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
+				message.AppendInteger(loveLock.Id);
+				message.AppendBool(true);
 
-                // TODO use loveLock.InteractingUser
-                user1.Send(message);
-                user2.Send(message);
-            }
-        }
-    }
+				// TODO use loveLock.InteractingUser
+				user1.Send (message);
+				user2.Send (message);
+			}
+		}
+	}
 }
+

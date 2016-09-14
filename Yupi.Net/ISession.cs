@@ -23,16 +23,18 @@
 */
 
 using System;
+using System.Net;
 
 namespace Yupi.Net
 {
-    public interface ISession<T>
-    {
-        IPAddress RemoteAddress { get; }
-        T UserData { get; set; }
+	public interface ISession <T>
+	{
+		IPAddress RemoteAddress { get; }
+		T UserData { get; set; }
 
-        void Send(ArraySegment<byte> data);
-        void Send(byte[] data);
-        void Disconnect();
-    }
+		void Send(ArraySegment<byte> data);
+		void Send(byte[] data);
+		void Disconnect();
+	}
 }
+

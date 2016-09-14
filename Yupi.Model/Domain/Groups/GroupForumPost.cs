@@ -22,30 +22,31 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
+using System.Data;
 using System;
 
 namespace Yupi.Model.Domain
 {
-    public class GroupForumPost
-    {
-        public GroupForumPost()
-        {
-            Hidden = false;
-            Timestamp = DateTime.Now;
-        }
+	public class GroupForumPost
+	{
+		public virtual int Id { get; protected set; }
 
-        public virtual int Id { get; protected set; }
+		public virtual bool Hidden { get; set; }
 
-        public virtual bool Hidden { get; set; }
+		public virtual UserInfo HiddenBy { get; set; }
 
-        public virtual UserInfo HiddenBy { get; set; }
+		public virtual UserInfo Poster { get; set; }
 
-        public virtual UserInfo Poster { get; set; }
+		public virtual string Content { get; set; }
 
-        public virtual string Content { get; set; }
+		public virtual string Subject { get; set; }
 
-        public virtual string Subject { get; set; }
+		public virtual DateTime Timestamp { get; set; }
 
-        public virtual DateTime Timestamp { get; set; }
-    }
+		public GroupForumPost ()
+		{
+			Hidden = false;
+			Timestamp = DateTime.Now;
+		}
+	}
 }

@@ -23,22 +23,23 @@
 */
 
 
+
 namespace Yupi.Model.Domain
 {
-    public class HotelLandingPromos
-    {
-        public virtual int Id { get; protected set; }
+	public class HotelLandingPromos
+	{
+		public virtual int Id { get; protected set; }
 
-        public virtual string Body { get; protected set; }
+		public virtual string Body { get; protected set; }
 
-        public virtual string Button { get; protected set; }
+		public virtual string Button { get; protected set; }
 
-        public virtual string Header { get; protected set; }
+		public virtual string Header { get; protected set; }
 
-        public virtual string Image { get; protected set; }
+		public virtual string Image { get; protected set; }
 
-        public virtual int InGamePromo { get; protected set; }
+		public virtual int InGamePromo { get; protected set; }
 
-        public virtual string SpecialAction { get; protected set; }
-    }
+		public virtual string SpecialAction { get; protected set; }
+	}
 }

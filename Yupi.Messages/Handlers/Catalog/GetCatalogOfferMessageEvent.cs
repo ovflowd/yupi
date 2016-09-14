@@ -1,25 +1,24 @@
 ﻿using System;
-using Yupi.Model.Domain;
-using Yupi.Protocol;
-using Yupi.Protocol.Buffers;
+
 
 namespace Yupi.Messages.Catalog
 {
-    public class GetCatalogOfferMessageEvent : AbstractHandler
-    {
-        public override void HandleMessage(Habbo session, ClientMessage message, IRouter router)
-        {
-            var num = message.GetUInt32();
-            throw new NotImplementedException();
-            /*
-            CatalogItem catalogItem = Yupi.GetGame().GetCatalogManager().GetItemFromOffer(num);
+	public class GetCatalogOfferMessageEvent : AbstractHandler
+	{
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
+		{
+			uint num = message.GetUInt32();
+			throw new NotImplementedException ();
+			/*
+			CatalogItem catalogItem = Yupi.GetGame().GetCatalogManager().GetItemFromOffer(num);
 
-            if (catalogItem == null || CatalogManager.LastSentOffer == num)
-                return;
+			if (catalogItem == null || CatalogManager.LastSentOffer == num)
+				return;
 
-            CatalogManager.LastSentOffer = num;
+			CatalogManager.LastSentOffer = num;
 
-            router.GetComposer<CatalogOfferMessageComposer> ().Compose (session, catalogItem);*/
-        }
-    }
+			router.GetComposer<CatalogOfferMessageComposer> ().Compose (session, catalogItem);*/
+		}
+	}
 }
+

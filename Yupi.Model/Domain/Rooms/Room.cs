@@ -1,163 +1,180 @@
 ﻿using System;
+using Yupi.Protocol;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Diagnostics;
+using Yupi.Model.Domain.Components;
 using System.Threading;
+using System.Diagnostics.Contracts;
 using Yupi.Util.Pathfinding;
+using System.Numerics;
 
 namespace Yupi.Model.Domain
 {
-    [Ignore]
-    public class Room : IDisposable
-    {
-        [Ignore]
-        public delegate void OnEntityCreate(RoomEntity entity);
+	[Ignore]
+	public class Room : IDisposable
+	{
+		public IList<UserInfo> Queue { get; private set; }
 
-        [Ignore]
-        public delegate void OnHumanEntityCreateT(HumanEntity entity);
+		public RoomData Data { get; private set; }
 
-        [Ignore]
-        public delegate void OnRoomTick(Room room, List<RoomEntity> changes);
+		public HeightMap HeightMap { get; private set; }
 
-        // TODO Experiment with the length of the period
-        /// <summary>
-        ///     The period between timer ticks in milliseconds
-        /// </summary>
-        private const int TICK_PERIOD = 500;
+		// TODO Implementation detail -> Private!
+		public IList<RoomEntity> Users { get; private set; }
 
-        // TODO Can this be implemented better?
-        private int entityIdCounter;
+		// TODO What is this used for?
+		public ISet<Group> GroupsInRoom { get; private set; }
 
-        public OnEntityCreate OnEntityCreateCallback;
-        public OnHumanEntityCreateT OnHumanEntityCreate;
+		// TODO Can this be implemented better?
+		private int entityIdCounter;
 
-        private readonly OnRoomTick OnTickCallback;
+		private Timer Timer;
+		public Pathfinder Pathfinder { get; private set; }
 
-        private readonly Timer Timer;
+		// TODO Experiment with the length of the period
+		/// <summary>
+		/// The period between timer ticks in milliseconds
+		/// </summary>
+		private const int TICK_PERIOD = 500;
 
-        public Room(RoomData data, OnRoomTick onTickCallback)
-        {
-            Contract.Requires(onTickCallback != null);
-            Contract.Requires(data != null);
+		[Ignore]
+		public delegate void OnRoomTick (Room room, List<RoomEntity> changes);
+		[Ignore]
+		public delegate void OnEntityCreate(RoomEntity entity);
 
-            OnTickCallback = onTickCallback;
-            Data = data;
-            HeightMap = new HeightMap(Data.Model.Heightmap);
-            Pathfinder = new Pathfinder(HeightMap.IsWalkable, HeightMap.GetNeighbours);
+		[Ignore]
+		public delegate void OnHumanEntityCreateT(HumanEntity entity);
 
-            Users = new List<RoomEntity>();
-            GroupsInRoom = new HashSet<Group>();
+		private OnRoomTick OnTickCallback;
 
-            if (Data.Group != null) GroupsInRoom.Add(Data.Group);
+		public OnEntityCreate OnEntityCreateCallback;
+		public OnHumanEntityCreateT OnHumanEntityCreate;
 
-            entityIdCounter = 0;
-            Timer = new Timer(OnTick, null, 0, TICK_PERIOD);
-        }
+		public Room (RoomData data, OnRoomTick onTickCallback)
+		{
+			Contract.Requires(onTickCallback != null);
+			Contract.Requires(data != null);
 
-        public IList<UserInfo> Queue { get; private set; }
+			this.OnTickCallback = onTickCallback;
+			this.Data = data;
+			this.HeightMap = new HeightMap (this.Data.Model.Heightmap);
+			this.Pathfinder = new Pathfinder(HeightMap.IsWalkable, HeightMap.GetNeighbours);
 
-        public RoomData Data { get; }
+			Users = new List<RoomEntity> ();
+			GroupsInRoom = new HashSet<Group> ();
 
-        public HeightMap HeightMap { get; }
+			if (Data.Group != null) {
+				GroupsInRoom.Add (Data.Group);
+			}
 
-        // TODO Implementation detail -> Private!
-        public IList<RoomEntity> Users { get; }
+			entityIdCounter = 0;
+			this.Timer = new Timer (OnTick, null, 0, TICK_PERIOD);
+		}
 
-        // TODO What is this used for?
-        public ISet<Group> GroupsInRoom { get; }
-        public Pathfinder Pathfinder { get; private set; }
+		public void Dispose ()
+		{
+			Dispose (true);
+			GC.SuppressFinalize (this);
+		}
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+		protected virtual void Dispose (bool disposing)
+		{
+			if (disposing) {
+				Timer.Dispose ();
+			}
+		}
 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing) Timer.Dispose();
-        }
+		private void OnTick (object state)
+		{
+			List<RoomEntity> changes = new List<RoomEntity> (this.Users.Count);
 
-        private void OnTick(object state)
-        {
-            var changes = new List<RoomEntity>(Users.Count);
+			foreach (RoomEntity entity in this.Users) {
+				if (entity.HasSteps()) {
+					entity.NextStep ();
+				}
 
-            foreach (var entity in Users)
-            {
-                if (entity.HasSteps()) entity.NextStep();
+				if (entity.NeedsUpdate) {
+					changes.Add (entity);
+				}
+			}
 
-                if (entity.NeedsUpdate) changes.Add(entity);
-            }
+			this.OnTickCallback (this, changes);
 
-            OnTickCallback(this, changes);
+			foreach (RoomEntity entity in changes) {
+				entity.UpdateComplete ();
+			}
+		}
 
-            foreach (var entity in changes) entity.UpdateComplete();
-        }
+		public bool CanVote (UserInfo user)
+		{
+			return !user.RatedRooms.Contains (this.Data) && this.Data.Owner != user;
+		}
 
-        public bool CanVote(UserInfo user)
-        {
-            return !user.RatedRooms.Contains(Data) && (Data.Owner != user);
-        }
+		public int GetUserCount ()
+		{
+			return Users.Where (x => x.Type == EntityType.User).Count ();
+		}
 
-        public int GetUserCount()
-        {
-            return Users.Where(x => x.Type == EntityType.User).Count();
-        }
+		private IEnumerable<Habbo> GetSessions ()
+		{
+			// TODO Reimplement Users properly to prevent these queries!
+			return Users.Where (x => x.Type == EntityType.User).Select (x => ((UserEntity)x).User);
+		}
 
-        private IEnumerable<Habbo> GetSessions()
-        {
-            // TODO Reimplement Users properly to prevent these queries!
-            return Users.Where(x => x.Type == EntityType.User).Select(x => ((UserEntity) x).User);
-        }
+		public bool HasUsers ()
+		{
+			return Users.Any (x => x.Type == EntityType.User);
+		}
+			
+		// TODO Consider using back references...
+		public RoomEntity GetEntity (int id)
+		{
+			return Users.SingleOrDefault (entity => entity.Id == id);
+		}
 
-        public bool HasUsers()
-        {
-            return Users.Any(x => x.Type == EntityType.User);
-        }
+		public RoomEntity GetEntity (string name)
+		{
+			return Users.SingleOrDefault (entity => entity.BaseInfo.Name == name);
+		}
 
-        // TODO Consider using back references...
-        public RoomEntity GetEntity(int id)
-        {
-            return Users.SingleOrDefault(entity => entity.Id == id);
-        }
+		public void AddUser (Habbo user)
+		{
+			user.RoomEntity = new UserEntity (user, this, ++entityIdCounter);
+			user.RoomEntity.SetPosition (Data.Model.Door);
+			user.RoomEntity.SetRotation (Data.Model.DoorOrientation);
 
-        public RoomEntity GetEntity(string name)
-        {
-            return Users.SingleOrDefault(entity => entity.BaseInfo.Name == name);
-        }
+			this.OnEntityCreateCallback (user.RoomEntity);
+			this.OnHumanEntityCreate (user.RoomEntity);
 
-        public void AddUser(Habbo user)
-        {
-            user.RoomEntity = new UserEntity(user, this, ++entityIdCounter);
-            user.RoomEntity.SetPosition(Data.Model.Door);
-            user.RoomEntity.SetRotation(Data.Model.DoorOrientation);
+			Users.Add (user.RoomEntity);
+		}
 
-            OnEntityCreateCallback(user.RoomEntity);
-            OnHumanEntityCreate(user.RoomEntity);
+		/// <summary>
+		/// Executes the callback for every REAL Session
+		/// </summary>
+		/// <remarks>
+		/// This function won't generate a callback for bots!
+		/// </remarks>
+		/// <param name="sendToUser">The callback (most likely used to broadcast a message)</param>
+		public void EachUser (Action<Habbo> sendToUser)
+		{
+			foreach (Habbo session in GetSessions()) {
+				sendToUser (session);
+			}
+		}
 
-            Users.Add(user.RoomEntity);
-        }
+		public void EachBot(Action<BotEntity> foreachBot) {
+			foreach (BotEntity entity in Users.OfType<BotEntity>()) {
+				foreachBot (entity);
+			}
+		}
 
-        /// <summary>
-        ///     Executes the callback for every REAL Session
-        /// </summary>
-        /// <remarks>
-        ///     This function won't generate a callback for bots!
-        /// </remarks>
-        /// <param name="sendToUser">The callback (most likely used to broadcast a message)</param>
-        public void EachUser(Action<Habbo> sendToUser)
-        {
-            foreach (var session in GetSessions()) sendToUser(session);
-        }
-
-        public void EachBot(Action<BotEntity> foreachBot)
-        {
-            foreach (var entity in Users.OfType<BotEntity>()) foreachBot(entity);
-        }
-
-        public void EachEntity(Action<RoomEntity> foreachEntity)
-        {
-            foreach (var entity in Users) foreachEntity(entity);
-        }
-    }
+		public void EachEntity (Action<RoomEntity> foreachEntity)
+		{
+			foreach (RoomEntity entity in Users) {
+				foreachEntity (entity);
+			}
+		}
+	}
 }

@@ -1,16 +1,17 @@
-﻿using Yupi.Protocol;
+﻿using System;
+using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Other
 {
-    public class UniqueMachineIDMessageComposer : Contracts.UniqueMachineIDMessageComposer
-    {
-        public override void Compose(ISender session, string machineId)
-        {
-            using (var message = Pool.GetMessageBuffer(Id))
-            {
-                message.AppendString(machineId);
-                session.Send(message);
-            }
-        }
-    }
+	public class UniqueMachineIDMessageComposer : Yupi.Messages.Contracts.UniqueMachineIDMessageComposer
+	{
+		public override void Compose ( Yupi.Protocol.ISender session, string machineId)
+		{
+			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
+				message.AppendString(machineId);
+				session.Send (message);
+			}
+		}
+	}
 }
+

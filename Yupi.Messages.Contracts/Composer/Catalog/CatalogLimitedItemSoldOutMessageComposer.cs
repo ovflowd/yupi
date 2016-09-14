@@ -1,6 +1,10 @@
-﻿namespace Yupi.Messages.Contracts
+﻿using System;
+
+namespace Yupi.Messages.Contracts
 {
-    public class CatalogLimitedItemSoldOutMessageComposer : AbstractComposerEmpty
-    {
-    }
+	public class CatalogLimitedItemSoldOutMessageComposer : AbstractComposerEmpty
+	{
+		
+	}
 }
+

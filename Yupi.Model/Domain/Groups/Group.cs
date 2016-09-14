@@ -23,57 +23,60 @@
 */
 
 using System.Collections.Generic;
+using System.Data;
+using System.Globalization;
+
 
 namespace Yupi.Model.Domain
 {
-    public class Group
-    {
-        public Group(UserInfo creator) : this()
-        {
-            Creator = creator;
-            Admins.Add(creator);
-        }
+	public class Group
+	{
+		public virtual int Id { get; protected set; }
 
-        protected Group()
-        {
-            Admins = new List<UserInfo>();
-            Members = new List<UserInfo>();
-            Requests = new List<UserInfo>();
-        }
+		public virtual string Name { get; set; }
 
-        public virtual int Id { get; protected set; }
+		public virtual uint AdminOnlyDeco { get; set; }
 
-        public virtual string Name { get; set; }
+		public virtual string Badge { get; set; }
 
-        public virtual uint AdminOnlyDeco { get; set; }
+		// TODO Rename
+		public virtual GroupSymbolColours Colour1 { get; set; }
 
-        public virtual string Badge { get; set; }
+		public virtual GroupBackGroundColours Colour2 { get; set; }
 
-        // TODO Rename
-        public virtual GroupSymbolColours Colour1 { get; set; }
+		public virtual int CreateTime { get; set; }
 
-        public virtual GroupBackGroundColours Colour2 { get; set; }
+		public virtual UserInfo Creator { get; set; }
 
-        public virtual int CreateTime { get; set; }
+		public virtual string Description { get; set; }
 
-        public virtual UserInfo Creator { get; set; }
+		public virtual GroupForum Forum { get; set; }
 
-        public virtual string Description { get; set; }
+		[ManyToMany]
+		public virtual IList<UserInfo> Admins { get; protected set; }
 
-        public virtual GroupForum Forum { get; set; }
+		[ManyToMany]
+		public virtual IList<UserInfo> Members { get; protected set; }
 
-        [ManyToMany]
-        public virtual IList<UserInfo> Admins { get; protected set; }
+		[ManyToMany]
+		public virtual IList<UserInfo> Requests { get; protected set; }
 
-        [ManyToMany]
-        public virtual IList<UserInfo> Members { get; protected set; }
+		public virtual RoomData Room { get; set; }
 
-        [ManyToMany]
-        public virtual IList<UserInfo> Requests { get; protected set; }
+		// TODO ???
+		public virtual uint State { get; set; }
 
-        public virtual RoomData Room { get; set; }
+		public Group (UserInfo creator) : this ()
+		{
+			Creator = creator;
+			Admins.Add (creator);
+		}
 
-        // TODO ???
-        public virtual uint State { get; set; }
-    }
+		protected Group ()
+		{
+			Admins = new List<UserInfo> ();
+			Members = new List<UserInfo> ();
+			Requests = new List<UserInfo> ();
+		}
+	}
 }

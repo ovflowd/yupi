@@ -1,52 +1,54 @@
 ﻿using System;
-using Yupi.Net;
 using Yupi.Protocol;
-using Yupi.Protocol.Buffers;
+using Yupi.Model.Domain;
+using Yupi.Net;
 
 namespace Yupi.Model.Domain
 {
-    [Ignore]
-    public class Habbo : ISender
-    {
-        // TODO Can this be solved in a better way?
-        public Habbo GuideOtherUser;
+	[Ignore]
+	public class Habbo : ISender
+	{
+		public UserInfo Info { get; set; }
 
-        // TODO Is this at the right place?
-        public string MachineId;
+		public UserEntity RoomEntity { get; set; }
 
-        public string ReleaseName;
+		public string ReleaseName;
 
-        public RoomData TeleportingTo;
+		public DateTime TimePingReceived;
 
-        public DateTime TimePingReceived;
+		// TODO Is this at the right place?
+		public string MachineId;
 
-        public Habbo(ISession<Habbo> session, IRouter router)
-        {
-            Session = session;
-            Router = router;
-            TimePingReceived = DateTime.Now;
-        }
+		// TODO Refactor?
+		public bool IsRidingHorse { get; set; }
 
-        public UserInfo Info { get; set; }
+		// TODO Remove?
+		public Room Room { 
+			get { 
+				return RoomEntity?.Room; 
+			} 
+		}
 
-        public UserEntity RoomEntity { get; set; }
+		public ISession<Habbo> Session { get; set; }
 
-        // TODO Refactor?
-        public bool IsRidingHorse { get; set; }
+		public IRouter Router { get; set; }
 
-        // TODO Remove?
-        public Room Room
-        {
-            get { return RoomEntity?.Room; }
-        }
+		// TODO Can this be solved in a better way?
+		public Habbo GuideOtherUser;
 
-        public ISession<Habbo> Session { get; set; }
+		public RoomData TeleportingTo;
 
-        public IRouter Router { get; set; }
+		public Habbo (ISession<Habbo> session, IRouter router)
+		{
+			this.Session = session;
+			this.Router = router;
+			TimePingReceived = DateTime.Now;
+		}
 
-        public void Send(ServerMessage message)
-        {
-            Session.Send(message.GetReversedBytes());
-        }
-    }
+		public void Send (Yupi.Protocol.Buffers.ServerMessage message)
+		{
+			Session.Send (message.GetReversedBytes ());
+		}
+	}
 }
+

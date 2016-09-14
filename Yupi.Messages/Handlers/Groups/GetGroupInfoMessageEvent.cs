@@ -1,31 +1,32 @@
-﻿using Yupi.Model;
+﻿using System;
 using Yupi.Model.Domain;
 using Yupi.Model.Repository;
-using Yupi.Protocol;
-using Yupi.Protocol.Buffers;
+using Yupi.Model;
+
 
 namespace Yupi.Messages.Groups
 {
-    public class GetGroupInfoMessageEvent : AbstractHandler
-    {
-        private readonly IRepository<Group> GroupRepository;
+	public class GetGroupInfoMessageEvent : AbstractHandler
+	{
+		private IRepository<Group> GroupRepository;
 
-        public GetGroupInfoMessageEvent()
-        {
-            GroupRepository = DependencyFactory.Resolve<IRepository<Group>>();
-        }
+		public GetGroupInfoMessageEvent ()
+		{
+			GroupRepository = DependencyFactory.Resolve<IRepository<Group>> ();
+		}
 
-        public override void HandleMessage(Habbo session, ClientMessage request, IRouter router)
-        {
-            var groupId = request.GetInteger();
-            var newWindow = request.GetBool();
+		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
+		{
+			int groupId = request.GetInteger();
+			bool newWindow = request.GetBool();
 
-            var group = GroupRepository.FindBy(groupId);
+			Group group = GroupRepository.FindBy (groupId);
 
-            if (group == null)
-                return;
+			if (group == null)
+				return;
 
-            router.GetComposer<GroupDataMessageComposer>().Compose(session, group, session.Info, newWindow);
-        }
-    }
+			router.GetComposer<GroupDataMessageComposer> ().Compose (session, group, session.Info, newWindow);
+		}
+	}
 }
+

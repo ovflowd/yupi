@@ -24,16 +24,16 @@
 
 namespace Yupi.Model.Domain
 {
-    public class AchievementLevel
-    {
-        public virtual int Id { get; protected set; }
+	public class AchievementLevel
+	{
+		public virtual int Id { get; protected set; }
 
-        public virtual int Level { get; set; }
+		public virtual int Level { get; set; }
 
-        public virtual int RewardPixels { get; set; }
+		public virtual int RewardPixels { get; set; }
 
-        public virtual int RewardPoints { get; set; }
+		public virtual int RewardPoints { get; set; }
 
-        public virtual int Requirement { get; set; }
-    }
+		public virtual int Requirement { get; set; }
+	}
 }
