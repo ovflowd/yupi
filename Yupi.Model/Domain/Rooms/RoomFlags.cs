@@ -1,7 +1,9 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System;
+
+    #region Enumerations
+
     [Flags]
     public enum RoomFlags
     {
@@ -13,4 +15,6 @@ namespace Yupi.Model.Domain
         AllowPets = 16,
         EnterRoom = 32
     }
+
+    #endregion Enumerations
 }

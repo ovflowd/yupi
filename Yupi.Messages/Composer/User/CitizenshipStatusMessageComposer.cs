@@ -1,11 +1,14 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Net;
-
-namespace Yupi.Messages.User
+﻿namespace Yupi.Messages.User
 {
+    using System;
+
+    using Yupi.Net;
+    using Yupi.Protocol.Buffers;
+
     public class CitizenshipStatusMessageComposer : Yupi.Messages.Contracts.CitizenshipStatusMessageComposer
     {
+        #region Methods
+
         // TODO Replace value with a proper name
         public override void Compose(Yupi.Protocol.ISender session, string value)
         {
@@ -17,5 +20,7 @@ namespace Yupi.Messages.User
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

@@ -1,11 +1,14 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Items
+﻿namespace Yupi.Messages.Items
 {
+    using System;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class OpenGiftMessageComposer : Yupi.Messages.Contracts.OpenGiftMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, BaseItem item, string text)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -20,5 +23,7 @@ namespace Yupi.Messages.Items
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

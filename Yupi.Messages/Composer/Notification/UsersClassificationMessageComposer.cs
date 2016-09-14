@@ -1,11 +1,14 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Notification
+﻿namespace Yupi.Messages.Notification
 {
+    using System;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class UsersClassificationMessageComposer : Yupi.Messages.Contracts.UsersClassificationMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, UserInfo habbo, string word)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -17,5 +20,7 @@ namespace Yupi.Messages.Notification
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

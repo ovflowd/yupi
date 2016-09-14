@@ -1,12 +1,14 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-
-namespace Yupi.Messages.User
+﻿namespace Yupi.Messages.User
 {
+    using System;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class UserUpdateNameInRoomMessageComposer : Yupi.Messages.Contracts.UserUpdateNameInRoomMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender room, Habbo habbo)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -17,5 +19,7 @@ namespace Yupi.Messages.User
                 room.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

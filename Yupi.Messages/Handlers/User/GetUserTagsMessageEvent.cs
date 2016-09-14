@@ -1,11 +1,13 @@
-﻿using System;
-using Yupi.Model.Domain;
-
-
-namespace Yupi.Messages.User
+﻿namespace Yupi.Messages.User
 {
+    using System;
+
+    using Yupi.Model.Domain;
+
     public class GetUserTagsMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message,
             Yupi.Protocol.IRouter router)
         {
@@ -30,5 +32,7 @@ namespace Yupi.Messages.User
 
             }*/
         }
+
+        #endregion Methods
     }
 }

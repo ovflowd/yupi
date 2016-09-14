@@ -1,12 +1,14 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Net;
-
-
-namespace Yupi.Messages
+﻿namespace Yupi.Messages
 {
+    using System;
+
+    using Yupi.Net;
+    using Yupi.Protocol.Buffers;
+
     public abstract class AbstractHandler
     {
+        #region Properties
+
         /// <summary>
         /// Gets a value indicating whether this <see cref="Yupi.Messages.AbstractHandler"/> requires a user being attached to the session
         /// </summary>
@@ -19,7 +21,13 @@ namespace Yupi.Messages
             }
         }
 
+        #endregion Properties
+
+        #region Methods
+
         public abstract void HandleMessage(Yupi.Model.Domain.Habbo session, ClientMessage request,
             Yupi.Protocol.IRouter router);
+
+        #endregion Methods
     }
 }

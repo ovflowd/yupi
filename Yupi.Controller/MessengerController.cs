@@ -1,20 +1,31 @@
-﻿using System;
-using Yupi.Model.Domain;
-using Yupi.Model;
-using Yupi.Messages.Contracts;
-using Yupi.Protocol;
-using Yupi.Net;
-
-namespace Yupi.Controller
+﻿namespace Yupi.Controller
 {
+    using System;
+
+    using Yupi.Messages.Contracts;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Net;
+    using Yupi.Protocol;
+
     public class MessengerController
     {
+        #region Fields
+
         private ClientManager ClientManager;
+
+        #endregion Fields
+
+        #region Constructors
 
         public MessengerController()
         {
             ClientManager = DependencyFactory.Resolve<ClientManager>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public void UpdateUser(UserInfo user)
         {
@@ -30,5 +41,7 @@ namespace Yupi.Controller
                 }
             }
         }
+
+        #endregion Methods
     }
 }

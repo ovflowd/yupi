@@ -1,10 +1,11 @@
-﻿using System;
-
-
-namespace Yupi.Messages.Pets
+﻿namespace Yupi.Messages.Pets
 {
+    using System;
+
     public class GetPetTrainerPanelMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -14,5 +15,7 @@ namespace Yupi.Messages.Pets
 
             router.GetComposer<PetTrainerPanelMessageComposer>().Compose(session, petId);
         }
+
+        #endregion Methods
     }
 }

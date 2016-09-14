@@ -1,10 +1,13 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-
-namespace Yupi.Messages.Notification
+﻿namespace Yupi.Messages.Notification
 {
+    using System;
+
+    using Yupi.Protocol.Buffers;
+
     public class BroadcastNotifMessageComposer : Yupi.Messages.Contracts.BroadcastNotifMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, string text)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -14,5 +17,7 @@ namespace Yupi.Messages.Notification
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

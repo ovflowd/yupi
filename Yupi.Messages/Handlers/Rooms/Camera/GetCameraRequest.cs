@@ -1,11 +1,12 @@
-﻿using System;
-using System.Web.Script.Serialization;
-
-
-namespace Yupi.Messages.Camera
+﻿namespace Yupi.Messages.Camera
 {
+    using System;
+    using System.Web.Script.Serialization;
+
     public class GetCameraRequest : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -53,5 +54,7 @@ namespace Yupi.Messages.Camera
             }*/
             throw new NotImplementedException();
         }
+
+        #endregion Methods
     }
 }

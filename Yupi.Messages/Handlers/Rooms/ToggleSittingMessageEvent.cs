@@ -1,12 +1,14 @@
-﻿using System;
-using System.Numerics;
-using Yupi.Model.Domain;
-
-
-namespace Yupi.Messages.Rooms
+﻿namespace Yupi.Messages.Rooms
 {
+    using System;
+    using System.Numerics;
+
+    using Yupi.Model.Domain;
+
     public class ToggleSittingMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -36,5 +38,7 @@ namespace Yupi.Messages.Rooms
                 status.Sit();
             }
         }
+
+        #endregion Methods
     }
 }

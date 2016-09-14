@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-
-
-namespace Yupi.Messages.Rooms
+﻿namespace Yupi.Messages.Rooms
 {
+    using System;
+    using System.Collections.Generic;
+
     public class AnswerPollQuestionMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -31,7 +32,6 @@ namespace Yupi.Messages.Rooms
                 else
                     poll.AnswersNegative++;
 
-
                 router.GetComposer<MatchingPollAnsweredMessageComposer> ().Compose (session, session.GetHabbo ().Id, text);
                 session.GetHabbo().AnsweredPool = true;
 
@@ -54,5 +54,7 @@ namespace Yupi.Messages.Rooms
             */
             throw new NotImplementedException();
         }
+
+        #endregion Methods
     }
 }

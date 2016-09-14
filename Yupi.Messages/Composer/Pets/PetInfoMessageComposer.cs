@@ -1,11 +1,14 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Pets
+﻿namespace Yupi.Messages.Pets
 {
+    using System;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class PetInfoMessageComposer : Yupi.Messages.Contracts.PetInfoMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender room, PetInfo pet)
         {
             /*
@@ -51,5 +54,7 @@ namespace Yupi.Messages.Pets
             }*/
             throw new NotImplementedException();
         }
+
+        #endregion Methods
     }
 }

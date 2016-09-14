@@ -1,23 +1,33 @@
-﻿using System;
-using Yupi.Model.Domain;
-using Yupi.Model;
-using Yupi.Model.Repository;
-using Yupi.Controller;
-using Yupi.Protocol;
-
-
-namespace Yupi.Messages.User
+﻿namespace Yupi.Messages.User
 {
+    using System;
+
+    using Yupi.Controller;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+    using Yupi.Protocol;
+
     public class SetRelationshipMessageEvent : AbstractHandler
     {
-        private IRepository<UserInfo> UserRepository;
+        #region Fields
+
         private MessengerController MessengerController;
+        private IRepository<UserInfo> UserRepository;
+
+        #endregion Fields
+
+        #region Constructors
 
         public SetRelationshipMessageEvent()
         {
             UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>>();
             MessengerController = DependencyFactory.Resolve<MessengerController>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message,
             Yupi.Protocol.IRouter router)
@@ -45,5 +55,7 @@ namespace Yupi.Messages.User
 
             MessengerController.UpdateUser(session.Info);
         }
+
+        #endregion Methods
     }
 }

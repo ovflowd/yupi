@@ -1,12 +1,14 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-
-namespace Yupi.Messages.Trade
+﻿namespace Yupi.Messages.Trade
 {
+    using System;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class TradeUpdateMessageComposer : Yupi.Messages.Contracts.TradeUpdateMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, TradeUser first, TradeUser second)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -43,5 +45,7 @@ namespace Yupi.Messages.Trade
                 throw new NotImplementedException();
             }
         }
+
+        #endregion Methods
     }
 }

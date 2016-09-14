@@ -1,18 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Yupi.Model.Domain.Components
+﻿namespace Yupi.Model.Domain.Components
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class SongMachineComponent
     {
-        protected virtual List<SongItem> _SongItems { get; set; }
+        #region Constructors
 
-        [Ignore]
-        public virtual IReadOnlyList<SongItem> SongItems
+        public SongMachineComponent()
         {
-            get { return _SongItems.AsReadOnly(); }
+            _SongItems = new List<SongItem>();
         }
+
+        #endregion Constructors
+
+        #region Properties
 
         [Ignore]
         public virtual int Capacity
@@ -21,9 +24,29 @@ namespace Yupi.Model.Domain.Components
             }
         }
 
-        public SongMachineComponent()
+        [Ignore]
+        public virtual IReadOnlyList<SongItem> SongItems
         {
-            _SongItems = new List<SongItem>();
+            get { return _SongItems.AsReadOnly(); }
+        }
+
+        protected virtual List<SongItem> _SongItems
+        {
+            get; set;
+        }
+
+        #endregion Properties
+
+        #region Methods
+
+        public virtual SongItem Find(int id)
+        {
+            return _SongItems.SingleOrDefault(x => x.Id == id);
+        }
+
+        public virtual void Remove(SongItem item)
+        {
+            _SongItems.Remove(item);
         }
 
         public virtual bool TryAdd(SongItem item)
@@ -39,14 +62,6 @@ namespace Yupi.Model.Domain.Components
             }
         }
 
-        public virtual void Remove(SongItem item)
-        {
-            _SongItems.Remove(item);
-        }
-
-        public virtual SongItem Find(int id)
-        {
-            return _SongItems.SingleOrDefault(x => x.Id == id);
-        }
+        #endregion Methods
     }
 }

@@ -1,13 +1,15 @@
-﻿using System;
-using Yupi.Model.Domain;
-using System.Collections.Generic;
-using System.Numerics;
-
-
-namespace Yupi.Messages.Rooms
+﻿namespace Yupi.Messages.Rooms
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Numerics;
+
+    using Yupi.Model.Domain;
+
     public class UserWalkMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -34,5 +36,7 @@ namespace Yupi.Messages.Rooms
                 roomUserByVirtualId.MoveTo (targetX, targetY);
             }*/
         }
+
+        #endregion Methods
     }
 }

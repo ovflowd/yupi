@@ -1,12 +1,14 @@
-﻿using System;
-using Yupi.Messages.Contracts;
-using Yupi.Util;
-
-
-namespace Yupi.Messages.User
+﻿namespace Yupi.Messages.User
 {
+    using System;
+
+    using Yupi.Messages.Contracts;
+    using Yupi.Util;
+
     public class OnlineConfirmationMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -40,5 +42,7 @@ namespace Yupi.Messages.User
                     : string.Empty, ServerConfigurationSettings.Data["welcome.message.image"]);
                     */
         }
+
+        #endregion Methods
     }
 }

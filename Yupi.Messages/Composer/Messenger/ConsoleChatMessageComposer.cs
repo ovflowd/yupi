@@ -1,11 +1,14 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Messenger
+﻿namespace Yupi.Messages.Messenger
 {
+    using System;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class ConsoleChatMessageComposer : Yupi.Messages.Contracts.ConsoleChatMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, MessengerMessage msg)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -16,5 +19,7 @@ namespace Yupi.Messages.Messenger
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

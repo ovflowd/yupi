@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Messenger
+﻿namespace Yupi.Messages.Messenger
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class LoadFriendsMessageComposer : Yupi.Messages.Contracts.LoadFriendsMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, IList<Relationship> friends)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -39,5 +42,7 @@ namespace Yupi.Messages.Messenger
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

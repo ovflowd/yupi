@@ -1,11 +1,12 @@
-﻿using System;
-using System.Data;
-
-
-namespace Yupi.Messages.Rooms
+﻿namespace Yupi.Messages.Rooms
 {
+    using System;
+    using System.Data;
+
     public class RoomRemoveAllRightsMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -34,7 +35,6 @@ namespace Yupi.Messages.Rooms
 
                 removeRightsComposer.Compose (session, room.RoomId, userId);
 
-
                 if (roomUserByHabbo == null || roomUserByHabbo.IsBot)
                     continue;
 
@@ -54,5 +54,7 @@ namespace Yupi.Messages.Rooms
             */
             throw new NotImplementedException();
         }
+
+        #endregion Methods
     }
 }

@@ -1,10 +1,13 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-
-namespace Yupi.Messages.Rooms
+﻿namespace Yupi.Messages.Rooms
 {
+    using System;
+
+    using Yupi.Protocol.Buffers;
+
     public class ApplyEffectMessageComposer : Yupi.Messages.Contracts.ApplyEffectMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, Yupi.Model.Domain.RoomEntity entity,
             Yupi.Model.Domain.AvatarEffect effect)
         {
@@ -16,5 +19,7 @@ namespace Yupi.Messages.Rooms
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

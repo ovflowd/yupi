@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Yupi.Messages.Items
+﻿namespace Yupi.Messages.Items
 {
+    using System;
+
     public class TradeDiscardMessageEvent : TradeCancelMessageEvent
     {
     }

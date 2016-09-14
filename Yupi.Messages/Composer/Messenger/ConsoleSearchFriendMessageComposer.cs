@@ -1,21 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-using Yupi.Util;
-using Yupi.Controller;
-using Yupi.Model;
-
-namespace Yupi.Messages.Messenger
+﻿namespace Yupi.Messages.Messenger
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Yupi.Controller;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+    using Yupi.Util;
+
     public class ConsoleSearchFriendMessageComposer : Yupi.Messages.Contracts.ConsoleSearchFriendMessageComposer
     {
+        #region Fields
+
         private ClientManager ClientManager;
+
+        #endregion Fields
+
+        #region Constructors
 
         public ConsoleSearchFriendMessageComposer()
         {
             ClientManager = DependencyFactory.Resolve<ClientManager>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void Compose(Yupi.Protocol.ISender session, List<UserInfo> foundFriends,
             List<UserInfo> foundUsers)
@@ -52,5 +63,7 @@ namespace Yupi.Messages.Messenger
             reply.AppendString(user.Look);
             reply.AppendString(user.LastOnline.ToUnix().ToString());
         }
+
+        #endregion Methods
     }
 }

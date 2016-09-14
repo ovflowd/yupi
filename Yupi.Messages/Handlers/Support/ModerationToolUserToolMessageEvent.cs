@@ -1,21 +1,31 @@
-﻿using System;
-using Yupi.Model.Domain;
-using Yupi.Model.Repository;
-using Yupi.Model;
-
-
-namespace Yupi.Messages.Support
+﻿namespace Yupi.Messages.Support
 {
+    using System;
+
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+
     public class ModerationToolUserToolMessageEvent : AbstractHandler
     {
-        private IRepository<UserInfo> UserRepository;
+        #region Fields
+
         private IRepository<SupportTicket> SupportRepository;
+        private IRepository<UserInfo> UserRepository;
+
+        #endregion Fields
+
+        #region Constructors
 
         public ModerationToolUserToolMessageEvent()
         {
             UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>>();
             SupportRepository = DependencyFactory.Resolve<IRepository<SupportTicket>>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message,
             Yupi.Protocol.IRouter router)
@@ -28,9 +38,10 @@ namespace Yupi.Messages.Support
                 UserInfo info = UserRepository.FindBy(userId);
                 var tickets = SupportRepository.FilterBy(x => x.Sender == session.Info);
 
-
                 router.GetComposer<ModerationToolUserToolMessageComposer>().Compose(session, info);
             }
         }
+
+        #endregion Methods
     }
 }

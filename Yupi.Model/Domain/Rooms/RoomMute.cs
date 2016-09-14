@@ -1,17 +1,36 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System;
+
     public class RoomMute
     {
-        public virtual int Id { get; protected set; }
-        public virtual UserInfo Entity { get; set; }
-        public virtual DateTime ExpiresAt { get; set; }
+        #region Properties
+
+        public virtual UserInfo Entity
+        {
+            get; set;
+        }
+
+        public virtual DateTime ExpiresAt
+        {
+            get; set;
+        }
+
+        public virtual int Id
+        {
+            get; protected set;
+        }
+
+        #endregion Properties
+
+        #region Methods
 
         // TODO Clean up mutes from time to time
         public virtual bool HasExpired()
         {
             return DateTime.Now > ExpiresAt;
         }
+
+        #endregion Methods
     }
 }

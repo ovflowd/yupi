@@ -1,11 +1,14 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Navigator
+﻿namespace Yupi.Messages.Navigator
 {
+    using System;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class LandingRewardMessageComposer : Yupi.Messages.Contracts.LandingRewardMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, HotelLandingManager manager, UserInfo user)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -17,5 +20,7 @@ namespace Yupi.Messages.Navigator
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

@@ -1,11 +1,15 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System;
+
     public class WiredActionCallStacksBaseItem : WiredBaseItem
     {
+        #region Constructors
+
         public WiredActionCallStacksBaseItem()
         {
         }
+
+        #endregion Constructors
     }
 }

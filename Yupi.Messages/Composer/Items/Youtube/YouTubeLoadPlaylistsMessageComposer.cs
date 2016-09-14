@@ -1,13 +1,16 @@
-﻿using System;
-using Yupi.Protocol;
-using System.Collections.Generic;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Youtube
+﻿namespace Yupi.Messages.Youtube
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol;
+    using Yupi.Protocol.Buffers;
+
     public class YouTubeLoadPlaylistsMessageComposer : Yupi.Messages.Contracts.YouTubeLoadPlaylistsMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, YoutubeTVItem tv,
             Dictionary<string, YoutubeVideo> videos)
         {
@@ -28,5 +31,7 @@ namespace Yupi.Messages.Youtube
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

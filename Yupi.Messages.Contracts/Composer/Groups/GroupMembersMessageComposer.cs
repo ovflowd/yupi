@@ -1,12 +1,15 @@
-using Yupi.Protocol.Buffers;
-using System.Collections.Generic;
-using System.Linq;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Contracts
+﻿namespace Yupi.Messages.Contracts
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public abstract class GroupMembersMessageComposer : AbstractComposer<UserInfo, Group>
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, UserInfo user, Group group)
         {
             // Do nothing by default.
@@ -17,5 +20,7 @@ namespace Yupi.Messages.Contracts
         {
             // Do nothing by default.
         }
+
+        #endregion Methods
     }
 }

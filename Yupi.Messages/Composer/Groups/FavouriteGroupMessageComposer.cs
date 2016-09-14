@@ -1,10 +1,13 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-
-namespace Yupi.Messages.Groups
+﻿namespace Yupi.Messages.Groups
 {
+    using System;
+
+    using Yupi.Protocol.Buffers;
+
     public class FavouriteGroupMessageComposer : Yupi.Messages.Contracts.FavouriteGroupMessageComposer
     {
+        #region Methods
+
         // TODO userId vs groupId ??? TEST !!!
         public override void Compose(Yupi.Protocol.ISender session, int userId)
         {
@@ -14,5 +17,7 @@ namespace Yupi.Messages.Groups
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

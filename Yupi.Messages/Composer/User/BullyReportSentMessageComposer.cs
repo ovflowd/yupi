@@ -1,12 +1,14 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Net;
-
-
-namespace Yupi.Messages.User
+﻿namespace Yupi.Messages.User
 {
+    using System;
+
+    using Yupi.Net;
+    using Yupi.Protocol.Buffers;
+
     public class BullyReportSentMessageComposer : Yupi.Messages.Contracts.BullyReportSentMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -15,5 +17,7 @@ namespace Yupi.Messages.User
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

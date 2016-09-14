@@ -1,11 +1,13 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-
-namespace Yupi.Messages.GameCenter
+﻿namespace Yupi.Messages.GameCenter
 {
-    public class GameCenterGameAchievementsMessageComposer :
-        Yupi.Messages.Contracts.GameCenterGameAchievementsMessageComposer
+    using System;
+
+    using Yupi.Protocol.Buffers;
+
+    public class GameCenterGameAchievementsMessageComposer : Yupi.Messages.Contracts.GameCenterGameAchievementsMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session)
         {
             // TODO Must be implemented
@@ -31,5 +33,7 @@ namespace Yupi.Messages.GameCenter
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

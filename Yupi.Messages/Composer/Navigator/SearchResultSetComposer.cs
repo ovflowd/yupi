@@ -1,20 +1,22 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using System.Collections.Generic;
-using System.Linq;
-using System.Data;
-using Yupi.Model.Domain;
-using Yupi.Controller;
-using Yupi.Model.Repository;
-using Yupi.Model;
-using Yupi.Messages.Encoders;
-
-
-namespace Yupi.Messages.Navigator
+﻿namespace Yupi.Messages.Navigator
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Linq;
+
+    using Yupi.Controller;
+    using Yupi.Messages.Encoders;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+    using Yupi.Protocol.Buffers;
+
     // TODO Refactor
     public class SearchResultSetComposer : Yupi.Messages.Contracts.SearchResultSetComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, string staticId, string query,
             IDictionary<NavigatorCategory, IList<RoomData>> results)
         {
@@ -45,5 +47,7 @@ namespace Yupi.Messages.Navigator
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

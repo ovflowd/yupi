@@ -1,10 +1,13 @@
-﻿using System;
-using Yupi.Messages.Catalog;
-
-namespace Yupi.Messages.Rooms
+﻿namespace Yupi.Messages.Rooms
 {
+    using System;
+
+    using Yupi.Messages.Catalog;
+
     public class PromoteRoomMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -35,7 +38,7 @@ namespace Yupi.Messages.Rooms
 
             if (!room.CheckRights(session, true))
                 return;
-            
+
             // TODO Why do we need to check this? Should be the responsibility of a setter...
             if (catalogItem.CreditsCost > 0)
             {
@@ -83,5 +86,7 @@ namespace Yupi.Messages.Rooms
             */
             throw new NotImplementedException();
         }
+
+        #endregion Methods
     }
 }

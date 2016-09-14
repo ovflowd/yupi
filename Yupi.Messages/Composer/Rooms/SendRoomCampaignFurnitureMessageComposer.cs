@@ -1,11 +1,13 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-
-namespace Yupi.Messages.Rooms
+﻿namespace Yupi.Messages.Rooms
 {
-    public class SendRoomCampaignFurnitureMessageComposer :
-        Yupi.Messages.Contracts.SendRoomCampaignFurnitureMessageComposer
+    using System;
+
+    using Yupi.Protocol.Buffers;
+
+    public class SendRoomCampaignFurnitureMessageComposer : Yupi.Messages.Contracts.SendRoomCampaignFurnitureMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -15,5 +17,7 @@ namespace Yupi.Messages.Rooms
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

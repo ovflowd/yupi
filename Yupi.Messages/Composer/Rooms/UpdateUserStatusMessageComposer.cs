@@ -1,15 +1,18 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-using Yupi.Messages.Encoders;
-using System.Globalization;
-using System.Text;
-using System.Collections.Generic;
-
-namespace Yupi.Messages.Rooms
+﻿namespace Yupi.Messages.Rooms
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Text;
+
+    using Yupi.Messages.Encoders;
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class UpdateUserStatusMessageComposer : Contracts.UpdateUserStatusMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, IList<Yupi.Model.Domain.RoomEntity> entities)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -35,5 +38,7 @@ namespace Yupi.Messages.Rooms
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

@@ -1,19 +1,30 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-using Yupi.Controller;
-using Yupi.Model;
-
-namespace Yupi.Messages.User
+﻿namespace Yupi.Messages.User
 {
+    using System;
+
+    using Yupi.Controller;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class GiveRespectMessageEvent : AbstractHandler
     {
+        #region Fields
+
         private AchievementManager AchievementManager;
+
+        #endregion Fields
+
+        #region Constructors
 
         public GiveRespectMessageEvent()
         {
             AchievementManager = DependencyFactory.Resolve<AchievementManager>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, ClientMessage message,
             Yupi.Protocol.IRouter router)
@@ -50,5 +61,7 @@ namespace Yupi.Messages.User
                 }
             );
         }
+
+        #endregion Methods
     }
 }

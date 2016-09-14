@@ -1,12 +1,15 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using System.Collections.Generic;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Catalog
+﻿namespace Yupi.Messages.Catalog
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class RecyclerRewardsMessageComposer : Yupi.Messages.Contracts.RecyclerRewardsMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, EcotronLevel[] levels)
         {
             // TODO Hardcoded message
@@ -33,5 +36,7 @@ namespace Yupi.Messages.Catalog
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

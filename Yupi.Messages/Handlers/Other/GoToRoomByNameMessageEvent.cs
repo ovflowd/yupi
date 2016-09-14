@@ -1,22 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Yupi.Messages.User;
-using Yupi.Controller;
-using Yupi.Model;
-using Yupi.Util;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Other
+﻿namespace Yupi.Messages.Other
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Yupi.Controller;
+    using Yupi.Messages.User;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Util;
+
     public class GoToRoomByNameMessageEvent : AbstractHandler
     {
+        #region Fields
+
         private RoomManager RoomManager;
+
+        #endregion Fields
+
+        #region Constructors
 
         public GoToRoomByNameMessageEvent()
         {
             RoomManager = DependencyFactory.Resolve<RoomManager>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
@@ -42,5 +53,7 @@ namespace Yupi.Messages.Other
                 }
             }
         }
+
+        #endregion Methods
     }
 }

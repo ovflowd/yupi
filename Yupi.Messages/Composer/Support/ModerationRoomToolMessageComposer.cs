@@ -1,20 +1,30 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-using Yupi.Controller;
-using Yupi.Model;
-
-
-namespace Yupi.Messages.Support
+﻿namespace Yupi.Messages.Support
 {
+    using System;
+
+    using Yupi.Controller;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class ModerationRoomToolMessageComposer : Yupi.Messages.Contracts.ModerationRoomToolMessageComposer
     {
+        #region Fields
+
         private RoomManager RoomManager;
+
+        #endregion Fields
+
+        #region Constructors
 
         public ModerationRoomToolMessageComposer()
         {
             RoomManager = DependencyFactory.Resolve<RoomManager>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         // TODO Refactor
         public override void Compose(Yupi.Protocol.ISender session, RoomData data, bool isLoaded)
@@ -41,5 +51,7 @@ namespace Yupi.Messages.Support
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

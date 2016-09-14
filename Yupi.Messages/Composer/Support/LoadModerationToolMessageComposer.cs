@@ -1,14 +1,17 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using System.Collections.Generic;
-using System.Linq;
-using Yupi.Model.Domain;
-using Yupi.Model;
-
-namespace Yupi.Messages.Support
+﻿namespace Yupi.Messages.Support
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class LoadModerationToolMessageComposer : Yupi.Messages.Contracts.LoadModerationToolMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, IList<SupportTicket> Tickets,
             IList<ModerationTemplate> Templates, IList<string> UserMessagePresets, IList<string> RoomMessagePresets,
             UserInfo user)
@@ -110,5 +113,7 @@ namespace Yupi.Messages.Support
                 message.AppendInteger(-1);
             }
         }
+
+        #endregion Methods
     }
 }

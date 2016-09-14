@@ -1,14 +1,11 @@
-﻿using System;
-using System.Numerics;
-
-namespace Yupi.Model
+﻿namespace Yupi.Model
 {
+    using System;
+    using System.Numerics;
+
     public static class Vector2Ext
     {
-        public static Vector2 ToVector2(this Vector3 source)
-        {
-            return new Vector2(source.X, source.Y);
-        }
+        #region Methods
 
         public static int CalculateRotation(this Vector3 source, Vector3 target)
         {
@@ -33,5 +30,12 @@ namespace Yupi.Model
         {
             return a.X == b.X && a.Y == b.Y;
         }
+
+        public static Vector2 ToVector2(this Vector3 source)
+        {
+            return new Vector2(source.X, source.Y);
+        }
+
+        #endregion Methods
     }
 }

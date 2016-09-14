@@ -1,19 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using Yupi.Util;
-using System.Linq;
-
-namespace Yupi.Model.Domain.Components
+﻿namespace Yupi.Model.Domain.Components
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Yupi.Util;
+
     public class UserEffectComponent
     {
-        public virtual IList<AvatarEffect> Effects { get; protected set; }
-        public virtual AvatarEffect ActiveEffect { get; set; }
+        #region Constructors
 
         public UserEffectComponent()
         {
             Effects = new List<AvatarEffect>();
         }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public virtual AvatarEffect ActiveEffect
+        {
+            get; set;
+        }
+
+        public virtual IList<AvatarEffect> Effects
+        {
+            get; protected set;
+        }
+
+        #endregion Properties
+
+        #region Methods
 
         // TODO Call this somewhere :D
         public virtual void Cleanup()
@@ -26,5 +44,7 @@ namespace Yupi.Model.Domain.Components
         {
             return effectId < 1 || Effects.Any(x => x.EffectId == effectId);
         }
+
+        #endregion Methods
     }
 }

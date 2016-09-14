@@ -1,12 +1,14 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-
-namespace Yupi.Messages.Catalog
+﻿namespace Yupi.Messages.Catalog
 {
+    using System;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class CataloguePageMessageComposer : Yupi.Messages.Contracts.CataloguePageMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, CatalogPage page)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -419,9 +421,6 @@ namespace Yupi.Messages.Catalog
                 break;
             }
 
-
-
-
             foreach (BaseItem baseItem in item.Items) {
                 if (item.Name == "g0 group_product" || item.Name.StartsWith ("builders_club_addon_") ||
                     item.Name.StartsWith ("builders_club_time_"))
@@ -469,5 +468,7 @@ namespace Yupi.Messages.Catalog
             messageBuffer.AppendBool (item.HaveOffer && !item.IsLimited);
             */
         }
+
+        #endregion Methods
     }
 }

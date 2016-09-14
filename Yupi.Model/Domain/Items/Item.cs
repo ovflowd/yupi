@@ -1,16 +1,30 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System;
+
     [IsDiscriminated]
     public abstract class Item
     {
-        public virtual int Id { get; set; }
+        #region Properties
 
-        public virtual UserInfo Owner { get; set; }
+        public virtual int Id
+        {
+            get; set;
+        }
+
+        public virtual UserInfo Owner
+        {
+            get; set;
+        }
+
+        #endregion Properties
+
+        #region Methods
 
         public virtual void TryParseExtraData(string data)
         {
         }
+
+        #endregion Methods
     }
 }

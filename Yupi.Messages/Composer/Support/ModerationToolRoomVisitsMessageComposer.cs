@@ -1,13 +1,15 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using System.Linq;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Support
+﻿namespace Yupi.Messages.Support
 {
-    public class ModerationToolRoomVisitsMessageComposer :
-        Yupi.Messages.Contracts.ModerationToolRoomVisitsMessageComposer
+    using System;
+    using System.Linq;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
+    public class ModerationToolRoomVisitsMessageComposer : Yupi.Messages.Contracts.ModerationToolRoomVisitsMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, UserInfo user)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -28,5 +30,7 @@ namespace Yupi.Messages.Support
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

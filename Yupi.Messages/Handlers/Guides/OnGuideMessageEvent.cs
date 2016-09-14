@@ -1,24 +1,34 @@
-﻿using System;
-using Yupi.Controller;
-using Yupi.Model;
-using Yupi.Model.Domain;
-
-
-namespace Yupi.Messages.Guides
+﻿namespace Yupi.Messages.Guides
 {
+    using System;
+
+    using Yupi.Controller;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+
     public class OnGuideMessageEvent : AbstractHandler
     {
+        #region Fields
+
         private GuideManager GuideManager;
+
+        #endregion Fields
+
+        #region Constructors
 
         public OnGuideMessageEvent()
         {
             GuideManager = DependencyFactory.Resolve<GuideManager>();
         }
 
+        #endregion Constructors
+
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
-            request.GetBool(); // TODO Unused 
+            request.GetBool(); // TODO Unused
 
             string idAsString = request.GetString();
 
@@ -46,5 +56,7 @@ namespace Yupi.Messages.Guides
             guide.GuideOtherUser = session;
             session.GuideOtherUser = guide;
         }
+
+        #endregion Methods
     }
 }

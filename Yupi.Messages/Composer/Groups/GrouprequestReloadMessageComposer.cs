@@ -1,10 +1,13 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-
-namespace Yupi.Messages.Groups
+﻿namespace Yupi.Messages.Groups
 {
+    using System;
+
+    using Yupi.Protocol.Buffers;
+
     public class GrouprequestReloadMessageComposer : Yupi.Messages.Contracts.GrouprequestReloadMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, int groupId)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -13,5 +16,7 @@ namespace Yupi.Messages.Groups
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

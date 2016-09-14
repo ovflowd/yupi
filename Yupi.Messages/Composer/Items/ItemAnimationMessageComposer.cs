@@ -1,13 +1,15 @@
-﻿using System;
-using System.Drawing;
-using Yupi.Protocol.Buffers;
-using System.Globalization;
-
-
-namespace Yupi.Messages.Items
+﻿namespace Yupi.Messages.Items
 {
+    using System;
+    using System.Drawing;
+    using System.Globalization;
+
+    using Yupi.Protocol.Buffers;
+
     public class ItemAnimationMessageComposer : Yupi.Messages.Contracts.ItemAnimationMessageComposer
     {
+        #region Methods
+
         // TODO Refactor
         public override void Compose(Yupi.Protocol.ISender session, Tuple<Point, double> pos,
             Tuple<Point, double> nextPos, uint rollerId, uint affectedId, ItemAnimationMessageComposer.Type type)
@@ -39,5 +41,7 @@ namespace Yupi.Messages.Items
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

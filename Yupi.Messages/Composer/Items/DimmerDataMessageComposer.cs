@@ -1,12 +1,14 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-
-namespace Yupi.Messages.Items
+﻿namespace Yupi.Messages.Items
 {
+    using System;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class DimmerDataMessageComposer : Yupi.Messages.Contracts.DimmerDataMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, MoodlightData moodlight)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -25,5 +27,7 @@ namespace Yupi.Messages.Items
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

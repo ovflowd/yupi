@@ -1,19 +1,30 @@
-﻿using System;
-using Yupi.Messages.User;
-using Yupi.Controller;
-using Yupi.Model;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Messenger
+﻿namespace Yupi.Messages.Messenger
 {
+    using System;
+
+    using Yupi.Controller;
+    using Yupi.Messages.User;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+
     public class FollowFriendMessageEvent : AbstractHandler
     {
+        #region Fields
+
         private ClientManager ClientManager;
+
+        #endregion Fields
+
+        #region Constructors
 
         public FollowFriendMessageEvent()
         {
             ClientManager = DependencyFactory.Resolve<ClientManager>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         // TODO Refactor
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
@@ -41,5 +52,7 @@ namespace Yupi.Messages.Messenger
                 }
             }
         }
+
+        #endregion Methods
     }
 }

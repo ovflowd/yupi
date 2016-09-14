@@ -1,21 +1,27 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-using Yupi.Model.Repository;
-using System.Linq;
-using System.Collections.Generic;
-
-
-namespace Yupi.Messages.Groups
+﻿namespace Yupi.Messages.Groups
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+    using Yupi.Protocol.Buffers;
+
     // TODO Rename
     public class GroupPurchasePartsMessageComposer : Yupi.Messages.Contracts.GroupPurchasePartsMessageComposer
     {
-        private IRepository<GroupBases> GroupBaseRepository;
-        private IRepository<GroupSymbols> SymbolRepository;
-        private IRepository<GroupBaseColours> BaseColorRepository;
-        private IRepository<GroupSymbolColours> SymbolColorRepository;
+        #region Fields
+
         private IRepository<GroupBackGroundColours> BackgroundColorRepository;
+        private IRepository<GroupBaseColours> BaseColorRepository;
+        private IRepository<GroupBases> GroupBaseRepository;
+        private IRepository<GroupSymbolColours> SymbolColorRepository;
+        private IRepository<GroupSymbols> SymbolRepository;
+
+        #endregion Fields
+
+        #region Methods
 
         // TODO Refactor
         public override void Compose(Yupi.Protocol.ISender session)
@@ -73,5 +79,7 @@ namespace Yupi.Messages.Groups
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

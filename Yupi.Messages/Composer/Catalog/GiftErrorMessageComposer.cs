@@ -1,10 +1,13 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-
-namespace Yupi.Messages.Catalog
+﻿namespace Yupi.Messages.Catalog
 {
+    using System;
+
+    using Yupi.Protocol.Buffers;
+
     public class GiftErrorMessageComposer : Contracts.GiftErrorMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, string username)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -13,5 +16,7 @@ namespace Yupi.Messages.Catalog
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

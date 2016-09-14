@@ -1,26 +1,34 @@
-﻿using System;
-using Yupi.Model;
-using Yupi.Model.Domain;
-using Yupi.Net;
-using Yupi.Controller;
-using Yupi.Protocol.Buffers;
-using Yupi.Messages;
-using Yupi.Messages.User;
-using Yupi.Messages.Achievements;
-using log4net;
-using Yupi.Util;
-using log4net.Appender;
-using Yupi.Model.Repository;
-using log4net.Repository.Hierarchy;
-using Yupi.Rest;
-
-namespace Yupi.Main
+﻿namespace Yupi.Main
 {
+    using System;
+
+    using log4net;
+    using log4net.Appender;
+    using log4net.Repository.Hierarchy;
+
+    using Yupi.Controller;
+    using Yupi.Messages;
+    using Yupi.Messages.Achievements;
+    using Yupi.Messages.User;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+    using Yupi.Net;
+    using Yupi.Protocol.Buffers;
+    using Yupi.Rest;
+    using Yupi.Util;
+
     public class Server
     {
-        private IServer<Habbo> TCPServer;
+        #region Fields
+
         private ClientManager ClientManager;
         private RestServer RestServer;
+        private IServer<Habbo> TCPServer;
+
+        #endregion Fields
+
+        #region Constructors
 
         public Server()
         {
@@ -44,20 +52,14 @@ namespace Yupi.Main
             SetupTCP();
         }
 
-        private void SetupTCP()
-        {
-            TCPServer = ServerFactory<Habbo>.CreateServer(30000);
+        #endregion Constructors
 
-            TCPServer.OnConnectionOpened += ClientManager.AddClient; // TODO Connection security!
-            TCPServer.OnConnectionClosed += ClientManager.RemoveClient;
-            TCPServer.OnMessageReceived += (ISession<Habbo> session, byte[] body) =>
-            {
-                //using(global::Yupi.Emulator.Messages.Buffers.SimpleClientMessageBuffer message = ClientMessageFactory.GetClientMessage()) {
-                // TODO When using message pool the SimpleClientMessageBuffer becomes invalid (after several messages) -> DEBUG
-                ClientMessage message = new ClientMessage();
-                message.Setup(body);
-                Router.Default.Handle(session.UserData, message);
-            };
+        #region Methods
+
+        public void Run()
+        {
+            TCPServer.Start();
+            RestServer.Start();
         }
 
         private void SetupLogger()
@@ -90,10 +92,22 @@ namespace Yupi.Main
             log4net.Config.BasicConfigurator.Configure(fileAppender);*/
         }
 
-        public void Run()
+        private void SetupTCP()
         {
-            TCPServer.Start();
-            RestServer.Start();
+            TCPServer = ServerFactory<Habbo>.CreateServer(30000);
+
+            TCPServer.OnConnectionOpened += ClientManager.AddClient; // TODO Connection security!
+            TCPServer.OnConnectionClosed += ClientManager.RemoveClient;
+            TCPServer.OnMessageReceived += (ISession<Habbo> session, byte[] body) =>
+            {
+                //using(global::Yupi.Emulator.Messages.Buffers.SimpleClientMessageBuffer message = ClientMessageFactory.GetClientMessage()) {
+                // TODO When using message pool the SimpleClientMessageBuffer becomes invalid (after several messages) -> DEBUG
+                ClientMessage message = new ClientMessage();
+                message.Setup(body);
+                Router.Default.Handle(session.UserData, message);
+            };
         }
+
+        #endregion Methods
     }
 }

@@ -1,10 +1,11 @@
-﻿using System;
-
-
-namespace Yupi.Messages.Bots
+﻿namespace Yupi.Messages.Bots
 {
+    using System;
+
     public class BotSpeechListMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -24,5 +25,7 @@ namespace Yupi.Messages.Bots
             */
             throw new NotImplementedException();
         }
+
+        #endregion Methods
     }
 }

@@ -1,10 +1,21 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System;
+
     public class Minimail
     {
-        public virtual int Id { get; protected set; }
-        public virtual bool Seen { get; protected set; }
+        #region Properties
+
+        public virtual int Id
+        {
+            get; protected set;
+        }
+
+        public virtual bool Seen
+        {
+            get; protected set;
+        }
+
+        #endregion Properties
     }
 }

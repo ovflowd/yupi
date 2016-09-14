@@ -1,18 +1,24 @@
-﻿using System;
-using Yupi.Model.Domain;
-using Yupi.Model.Repository;
-using Yupi.Model;
-using Yupi.Controller;
-using Yupi.Util;
-
-
-namespace Yupi.Messages.Messenger
+﻿namespace Yupi.Messages.Messenger
 {
+    using System;
+
+    using Yupi.Controller;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+    using Yupi.Util;
+
     public class AcceptFriendMessageEvent : AbstractHandler
     {
-        private IRepository<UserInfo> UserRepository;
+        #region Fields
+
         private AchievementManager AchievementManager;
         private ClientManager ClientManager;
+        private IRepository<UserInfo> UserRepository;
+
+        #endregion Fields
+
+        #region Constructors
 
         public AcceptFriendMessageEvent()
         {
@@ -20,6 +26,10 @@ namespace Yupi.Messages.Messenger
             AchievementManager = DependencyFactory.Resolve<AchievementManager>();
             ClientManager = DependencyFactory.Resolve<ClientManager>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
@@ -55,5 +65,7 @@ namespace Yupi.Messages.Messenger
                 }
             }
         }
+
+        #endregion Methods
     }
 }

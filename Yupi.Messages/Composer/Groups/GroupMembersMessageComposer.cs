@@ -1,13 +1,16 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using System.Collections.Generic;
-using System.Linq;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Groups
+﻿namespace Yupi.Messages.Groups
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class GroupMembersMessageComposer : Yupi.Messages.Contracts.GroupMembersMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, UserInfo user, Group group)
         {
             Compose(session, group, 0u, user);
@@ -134,6 +137,19 @@ namespace Yupi.Messages.Groups
             //response.AppendString(Yupi.GetGroupDateJoinString(member.DateJoin));
         }
 
+        private List<UserInfo> GetGroupRequestsByString(Group theGroup, string searchVal)
+        {
+            if (string.IsNullOrWhiteSpace(searchVal))
+            {
+                return theGroup.Requests.ToList();
+            }
+            else
+            {
+                return theGroup.Requests.Where(request => request.Name.ToLower().Contains(searchVal.ToLower()))
+                    .ToList();
+            }
+        }
+
         // TODO Useless copy to list?
         private List<UserInfo> GetGroupUsersByString(Group theGroup, string searchVal, uint req)
         {
@@ -164,17 +180,6 @@ namespace Yupi.Messages.Groups
             throw new NotImplementedException();
         }
 
-        private List<UserInfo> GetGroupRequestsByString(Group theGroup, string searchVal)
-        {
-            if (string.IsNullOrWhiteSpace(searchVal))
-            {
-                return theGroup.Requests.ToList();
-            }
-            else
-            {
-                return theGroup.Requests.Where(request => request.Name.ToLower().Contains(searchVal.ToLower()))
-                    .ToList();
-            }
-        }
+        #endregion Methods
     }
 }

@@ -1,20 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using MadMilkman.Ini;
-
-namespace Yupi.Messages
+﻿namespace Yupi.Messages
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+
+    using MadMilkman.Ini;
+
     public class PacketLibrary
     {
+        #region Fields
+
         private static readonly log4net.ILog Logger = log4net.LogManager
             .GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+        private string ConfigDir;
         private Dictionary<string, short> Incoming;
         private Dictionary<string, short> Outgoing;
-
         private string Release;
-        private string ConfigDir;
+
+        #endregion Fields
+
+        #region Constructors
 
         public PacketLibrary(string release, string configDir)
         {
@@ -23,11 +29,9 @@ namespace Yupi.Messages
             Reload();
         }
 
-        public void Reload()
-        {
-            LoadIncoming();
-            LoadOutgoing();
-        }
+        #endregion Constructors
+
+        #region Methods
 
         public short GetIncomingId(string name)
         {
@@ -55,6 +59,12 @@ namespace Yupi.Messages
             }
 
             return id;
+        }
+
+        public void Reload()
+        {
+            LoadIncoming();
+            LoadOutgoing();
         }
 
         private void LoadIncoming()
@@ -103,5 +113,7 @@ namespace Yupi.Messages
                 }
             }
         }
+
+        #endregion Methods
     }
 }

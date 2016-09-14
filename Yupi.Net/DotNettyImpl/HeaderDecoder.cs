@@ -1,13 +1,16 @@
-﻿using System;
-using DotNetty.Codecs;
-using DotNetty.Transport.Channels;
-using DotNetty.Buffers;
-using System.Collections.Generic;
-
-namespace Yupi.Net.DotNettyImpl
+﻿namespace Yupi.Net.DotNettyImpl
 {
+    using System;
+    using System.Collections.Generic;
+
+    using DotNetty.Buffers;
+    using DotNetty.Codecs;
+    using DotNetty.Transport.Channels;
+
     public class HeaderDecoder : ByteToMessageDecoder
     {
+        #region Methods
+
         /// <summary>
         /// Decode the header of a message if available
         /// </summary>
@@ -35,5 +38,7 @@ namespace Yupi.Net.DotNettyImpl
 
             output.Add(input.ReadBytes(length));
         }
+
+        #endregion Methods
     }
 }

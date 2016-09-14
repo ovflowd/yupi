@@ -1,14 +1,17 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using System.Collections.Generic;
-using Yupi.Model.Domain;
-using System.Globalization;
-using Yupi.Messages.Encoders;
-
-namespace Yupi.Messages.Rooms
+﻿namespace Yupi.Messages.Rooms
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+
+    using Yupi.Messages.Encoders;
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class SetRoomUserMessageComposer : Yupi.Messages.Contracts.SetRoomUserMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender room, IList<RoomEntity> users)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -35,7 +38,6 @@ namespace Yupi.Messages.Rooms
         }
 
         // TODO Refactor
-
         private void Serialize(ServerMessage messageBuffer, RoomEntity entity)
         {
             if (entity is UserEntity)
@@ -133,5 +135,7 @@ namespace Yupi.Messages.Rooms
             messageBuffer.AppendShort(4);
             messageBuffer.AppendShort(5);
         }
+
+        #endregion Methods
     }
 }

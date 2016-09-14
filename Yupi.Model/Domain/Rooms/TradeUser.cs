@@ -1,17 +1,33 @@
-using System.Collections.Generic;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System.Collections.Generic;
+
     [Ignore]
     public class TradeUser
     {
+        #region Fields
+
         public List<UserItem> OfferedItems;
         public RoomEntity User;
-        public bool HasAccepted { get; set; }
+
+        #endregion Fields
+
+        #region Constructors
 
         public TradeUser()
         {
             OfferedItems = new List<UserItem>();
         }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public bool HasAccepted
+        {
+            get; set;
+        }
+
+        #endregion Properties
     }
 }

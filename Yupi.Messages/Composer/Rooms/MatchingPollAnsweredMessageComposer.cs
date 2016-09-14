@@ -1,10 +1,13 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-
-namespace Yupi.Messages.Rooms
+﻿namespace Yupi.Messages.Rooms
 {
+    using System;
+
+    using Yupi.Protocol.Buffers;
+
     public class MatchingPollAnsweredMessageComposer : Yupi.Messages.Contracts.MatchingPollAnsweredMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, uint userId, string text)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -15,5 +18,7 @@ namespace Yupi.Messages.Rooms
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

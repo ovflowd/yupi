@@ -1,30 +1,35 @@
-﻿using System;
-using NHibernate;
-using NHibernate.Linq;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-
-namespace Yupi.Model.Repository
+﻿namespace Yupi.Model.Repository
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Linq.Expressions;
+
+    using NHibernate;
+    using NHibernate.Linq;
+
     public class Repository<T> : IRepository<T>
     {
+        #region Fields
+
         private ISession session;
+
+        #endregion Fields
+
+        #region Constructors
 
         public Repository(ISession session)
         {
             this.session = session;
         }
 
-        public bool Exists(Expression<Func<T, bool>> expression)
-        {
-            return FilterBy(expression).Any();
-        }
+        #endregion Constructors
 
-        public void Save(T entity)
+        #region Methods
+
+        public IQueryable<T> All()
         {
-            session.SaveOrUpdate(entity);
-            session.Flush();
+            return session.Query<T>();
         }
 
         public void Delete(T entity)
@@ -37,19 +42,9 @@ namespace Yupi.Model.Repository
             session.Delete(session.Load<T>(Id));
         }
 
-        public IList<T> ToList()
+        public bool Exists(Expression<Func<T, bool>> expression)
         {
-            throw new NotImplementedException();
-        }
-
-        public IQueryable<T> All()
-        {
-            return session.Query<T>();
-        }
-
-        public T FindBy(Expression<Func<T, bool>> expression)
-        {
-            return FilterBy(expression).SingleOrDefault();
+            return FilterBy(expression).Any();
         }
 
         public IQueryable<T> FilterBy(Expression<Func<T, bool>> expression)
@@ -57,9 +52,27 @@ namespace Yupi.Model.Repository
             return All().Where(expression).AsQueryable();
         }
 
+        public T FindBy(Expression<Func<T, bool>> expression)
+        {
+            return FilterBy(expression).SingleOrDefault();
+        }
+
         public T FindBy(int id)
         {
             return session.Get<T>(id);
         }
+
+        public void Save(T entity)
+        {
+            session.SaveOrUpdate(entity);
+            session.Flush();
+        }
+
+        public IList<T> ToList()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion Methods
     }
 }

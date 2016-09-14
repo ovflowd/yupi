@@ -1,16 +1,18 @@
+﻿#region Header
+
 /**
-     Because i love chocolat...                                      
-                                    88 88  
-                                    "" 88  
-                                       88  
-8b       d8 88       88 8b,dPPYba,  88 88  
-`8b     d8' 88       88 88P'    "8a 88 88  
- `8b   d8'  88       88 88       d8 88 ""  
-  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa  
-    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88  
-    d8'                 88                 
-   d8'                  88     
-   
+     Because i love chocolat...
+                                    88 88
+                                    "" 88
+                                       88
+8b       d8 88       88 8b,dPPYba,  88 88
+`8b     d8' 88       88 88P'    "8a 88 88
+ `8b   d8'  88       88 88       d8 88 ""
+  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa
+    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88
+    d8'                 88
+   d8'                  88
+
    Private Habbo Hotel Emulating System
    @author Claudio A. Santoro W.
    @author Kessiler R.
@@ -18,171 +20,26 @@
    @license MIT
    @copyright Sulake Corporation Oy
    @observation All Rights of Habbo, Habbo Hotel, and all Habbo contents and it's names, is copyright from Sulake
-   Corporation Oy. Yupi! has nothing linked with Sulake. 
+   Corporation Oy. Yupi! has nothing linked with Sulake.
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Data;
-using Yupi.Model.Domain.Components;
-using Headspring;
-
+#endregion Header
 
 namespace Yupi.Model.Domain
 {
-    public class RoomState : Enumeration<RoomState>
-    {
-        public static readonly RoomState Open = new RoomState(0, "Open");
-        public static readonly RoomState Bell = new RoomState(1, "Bell");
-        public static readonly RoomState Locked = new RoomState(2, "Locked");
+    using System;
+    using System.Collections.Concurrent;
+    using System.Collections.Generic;
+    using System.Data;
 
-        /// <summary>
-        /// Invisible in navigator to users without rights
-        /// </summary>
-        public static readonly RoomState Invisible = new RoomState(3, "Invisible");
+    using Headspring;
 
-        public RoomState(int value, string displayName) : base(value, displayName)
-        {
-        }
-    }
+    using Yupi.Model.Domain.Components;
 
     public class RoomData
     {
-        public virtual int Id { get; protected set; }
-
-        public virtual RoomModel Model { get; set; }
-
-        // TODO What are those exactly? (Format!)
-        public virtual string CCTs { get; set; }
-
-        public virtual string NavigatorImage { get; set; }
-
-        public virtual SongMachineComponent SongMachine { get; protected set; }
-
-        /// <summary>
-        ///     Allow Pets in Room
-        /// </summary>
-        public virtual bool AllowPets { get; set; }
-
-        /// <summary>
-        ///     Allow Other Users Pets Eat in Room
-        /// </summary>
-        public virtual bool AllowPetsEating { get; set; }
-
-        /// <summary>
-        ///     Allow Users Walk Through Other Users
-        /// </summary>
-        public virtual bool AllowWalkThrough { get; set; }
-
-        /// <summary>
-        ///     Hide Wall in Room
-        /// </summary>
-        public virtual bool HideWall { get; set; }
-
-        /// <summary>
-        ///     Allow Override Room Rights
-        /// </summary>
-        public virtual bool AllowRightsOverride { get; set; }
-
-        /// <summary>
-        ///     Room Category
-        /// </summary>
-        public virtual NavigatorCategory Category { get; set; }
-
-        public virtual RoomChatSettings Chat { get; protected set; }
-
-        /// <summary>
-        ///     Room Description
-        /// </summary>
-        public virtual string Description { get; set; }
-
-        public virtual RoomEvent Event { get; set; }
-
-
-        public virtual Group Group { get; set; }
-
-        /// <summary>
-        ///     Room Name
-        /// </summary>
-        public virtual string Name { get; set; }
-
-        /// <summary>
-        ///     Room Owner
-        /// </summary>
-        public virtual UserInfo Owner { get; set; }
-
-        public virtual IList<UserInfo> Rights { get; protected set; }
-
-        // TODO Implement bans with time & expire on server ticks?
-        public virtual IList<UserInfo> BannedUsers { get; protected set; }
-        public virtual IList<ChatMessage> Chatlog { get; protected set; }
-
-        /// <summary>
-        ///     Room Password
-        /// </summary>
-        public virtual string Password { get; set; }
-
-        /// <summary>
-        ///     Room Score
-        /// </summary>
-        public virtual int Score { get; set; }
-
-        /// <summary>
-        ///     Room Locked State
-        /// </summary>
-        public virtual RoomState State { get; set; }
-
-        /// <summary>
-        ///     Room Tags
-        /// </summary>
-        [OneToMany]
-        public virtual IList<string> Tags { get; protected set; }
-
-        public virtual TradingState TradeState { get; set; }
-
-        // TODO Enum private/public
-        public virtual string Type { get; set; }
-
-        /// <summary>
-        ///     Max Amount of Users on Room
-        /// </summary>
-        public virtual int UsersMax { get; set; }
-
-        // TODO Isn't this part of the model?
-        public virtual int WallHeight { get; set; }
-
-        // TODO Determine proper type!
-        public virtual float WallPaper { get; set; }
-        public virtual float Floor { get; set; }
-        public virtual float LandScape { get; set; }
-
-        // TODO Enum
-        public virtual int WallThickness { get; set; }
-        public virtual int FloorThickness { get; set; }
-
-        public virtual bool IsMuted { get; set; }
-
-        public virtual ModerationSettings ModerationSettings { get; protected set; }
-
-        /// <summary>
-        ///     Room Private Black Words
-        /// </summary>
-        [OneToMany]
-        public virtual IList<string> WordFilter { get; protected set; }
-
-        public virtual IList<RoomMute> MutedEntities { get; protected set; }
-
-        [Ignore]
-        public virtual bool IsPublic
-        {
-            get
-            {
-                // TODO Remove Type!
-                return Type != "private";
-            }
-        }
+        #region Constructors
 
         public RoomData()
         {
@@ -207,6 +64,262 @@ namespace Yupi.Model.Domain
             ModerationSettings = new ModerationSettings(this);
             State = RoomState.Open;
         }
+
+        #endregion Constructors
+
+        #region Properties
+
+        /// <summary>
+        ///     Allow Pets in Room
+        /// </summary>
+        public virtual bool AllowPets
+        {
+            get; set;
+        }
+
+        /// <summary>
+        ///     Allow Other Users Pets Eat in Room
+        /// </summary>
+        public virtual bool AllowPetsEating
+        {
+            get; set;
+        }
+
+        /// <summary>
+        ///     Allow Override Room Rights
+        /// </summary>
+        public virtual bool AllowRightsOverride
+        {
+            get; set;
+        }
+
+        /// <summary>
+        ///     Allow Users Walk Through Other Users
+        /// </summary>
+        public virtual bool AllowWalkThrough
+        {
+            get; set;
+        }
+
+        // TODO Implement bans with time & expire on server ticks?
+        public virtual IList<UserInfo> BannedUsers
+        {
+            get; protected set;
+        }
+
+        /// <summary>
+        ///     Room Category
+        /// </summary>
+        public virtual NavigatorCategory Category
+        {
+            get; set;
+        }
+
+        // TODO What are those exactly? (Format!)
+        public virtual string CCTs
+        {
+            get; set;
+        }
+
+        public virtual RoomChatSettings Chat
+        {
+            get; protected set;
+        }
+
+        public virtual IList<ChatMessage> Chatlog
+        {
+            get; protected set;
+        }
+
+        /// <summary>
+        ///     Room Description
+        /// </summary>
+        public virtual string Description
+        {
+            get; set;
+        }
+
+        public virtual RoomEvent Event
+        {
+            get; set;
+        }
+
+        public virtual float Floor
+        {
+            get; set;
+        }
+
+        public virtual int FloorThickness
+        {
+            get; set;
+        }
+
+        public virtual Group Group
+        {
+            get; set;
+        }
+
+        /// <summary>
+        ///     Hide Wall in Room
+        /// </summary>
+        public virtual bool HideWall
+        {
+            get; set;
+        }
+
+        public virtual int Id
+        {
+            get; protected set;
+        }
+
+        public virtual bool IsMuted
+        {
+            get; set;
+        }
+
+        [Ignore]
+        public virtual bool IsPublic
+        {
+            get
+            {
+                // TODO Remove Type!
+                return Type != "private";
+            }
+        }
+
+        public virtual float LandScape
+        {
+            get; set;
+        }
+
+        public virtual RoomModel Model
+        {
+            get; set;
+        }
+
+        public virtual ModerationSettings ModerationSettings
+        {
+            get; protected set;
+        }
+
+        public virtual IList<RoomMute> MutedEntities
+        {
+            get; protected set;
+        }
+
+        /// <summary>
+        ///     Room Name
+        /// </summary>
+        public virtual string Name
+        {
+            get; set;
+        }
+
+        public virtual string NavigatorImage
+        {
+            get; set;
+        }
+
+        /// <summary>
+        ///     Room Owner
+        /// </summary>
+        public virtual UserInfo Owner
+        {
+            get; set;
+        }
+
+        /// <summary>
+        ///     Room Password
+        /// </summary>
+        public virtual string Password
+        {
+            get; set;
+        }
+
+        public virtual IList<UserInfo> Rights
+        {
+            get; protected set;
+        }
+
+        /// <summary>
+        ///     Room Score
+        /// </summary>
+        public virtual int Score
+        {
+            get; set;
+        }
+
+        public virtual SongMachineComponent SongMachine
+        {
+            get; protected set;
+        }
+
+        /// <summary>
+        ///     Room Locked State
+        /// </summary>
+        public virtual RoomState State
+        {
+            get; set;
+        }
+
+        /// <summary>
+        ///     Room Tags
+        /// </summary>
+        [OneToMany]
+        public virtual IList<string> Tags
+        {
+            get; protected set;
+        }
+
+        public virtual TradingState TradeState
+        {
+            get; set;
+        }
+
+        // TODO Enum private/public
+        public virtual string Type
+        {
+            get; set;
+        }
+
+        /// <summary>
+        ///     Max Amount of Users on Room
+        /// </summary>
+        public virtual int UsersMax
+        {
+            get; set;
+        }
+
+        // TODO Isn't this part of the model?
+        public virtual int WallHeight
+        {
+            get; set;
+        }
+
+        // TODO Determine proper type!
+        public virtual float WallPaper
+        {
+            get; set;
+        }
+
+        // TODO Enum
+        public virtual int WallThickness
+        {
+            get; set;
+        }
+
+        /// <summary>
+        ///     Room Private Black Words
+        /// </summary>
+        [OneToMany]
+        public virtual IList<string> WordFilter
+        {
+            get; protected set;
+        }
+
+        #endregion Properties
+
+        #region Methods
 
         public virtual RoomFlags GetFlags()
         {
@@ -249,6 +362,10 @@ namespace Yupi.Model.Domain
             return (Owner == user || user.HasPermission("fuse_any_rooms_rights") || Rights.Contains(user));
         }
 
+        #endregion Methods
+
+        #region Other
+
         // TODO Remove when not used anymore
         /*
         /// <summary>
@@ -257,7 +374,7 @@ namespace Yupi.Model.Domain
         /// <param name="messageBuffer">The messageBuffer.</param>
         /// <param name="showEvents">if set to <c>true</c> [show events].</param>
         /// <param name="enterRoom"></param>
-     public void Serialize(SimpleServerMessageBuffer messageBuffer, bool showEvents = false, bool enterRoom = false) 
+         public void Serialize(SimpleServerMessageBuffer messageBuffer, bool showEvents = false, bool enterRoom = false)
         {
             messageBuffer.AppendInteger(data.Id);
             messageBuffer.AppendString(data.Name);
@@ -320,5 +437,32 @@ namespace Yupi.Model.Domain
                 messageBuffer.AppendInteger((int)Math.Floor((data.Event.Time - Yupi.GetUnixTimeStamp()) / 60.0));
             }
         }*/
+
+        #endregion Other
+    }
+
+    public class RoomState : Enumeration<RoomState>
+    {
+        #region Fields
+
+        public static readonly RoomState Bell = new RoomState(1, "Bell");
+
+        /// <summary>
+        /// Invisible in navigator to users without rights
+        /// </summary>
+        public static readonly RoomState Invisible = new RoomState(3, "Invisible");
+        public static readonly RoomState Locked = new RoomState(2, "Locked");
+        public static readonly RoomState Open = new RoomState(0, "Open");
+
+        #endregion Fields
+
+        #region Constructors
+
+        public RoomState(int value, string displayName)
+            : base(value, displayName)
+        {
+        }
+
+        #endregion Constructors
     }
 }

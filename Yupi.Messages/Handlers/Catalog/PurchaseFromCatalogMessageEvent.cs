@@ -1,19 +1,30 @@
-﻿using System;
-using Yupi.Messages.Notification;
-using Yupi.Controller;
-using Yupi.Model;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Catalog
+﻿namespace Yupi.Messages.Catalog
 {
+    using System;
+
+    using Yupi.Controller;
+    using Yupi.Messages.Notification;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+
     public class PurchaseFromCatalogMessageEvent : AbstractHandler
     {
+        #region Fields
+
         private CatalogController CatalogController;
+
+        #endregion Fields
+
+        #region Constructors
 
         public PurchaseFromCatalogMessageEvent()
         {
             CatalogController = DependencyFactory.Resolve<CatalogController>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message,
             Yupi.Protocol.IRouter router)
@@ -28,5 +39,7 @@ namespace Yupi.Messages.Catalog
             CatalogItem item = CatalogController.GetById(pageId, itemId);
             CatalogController.Purchase(session, item, extraData, amount);
         }
+
+        #endregion Methods
     }
 }

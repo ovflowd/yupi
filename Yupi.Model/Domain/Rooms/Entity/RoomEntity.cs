@@ -1,33 +1,24 @@
-﻿using System;
-using Yupi.Model.Domain.Components;
-using Yupi.Protocol;
-using System.Numerics;
-using System.Collections.Generic;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Numerics;
+
+    using Yupi.Model.Domain.Components;
+    using Yupi.Protocol;
+
     [Ignore]
     public abstract class RoomEntity
     {
+        #region Fields
+
         public int Id;
-        public Vector3 Position { get; private set; }
 
-        // TODO Use enum
-        public int RotHead { get; private set; }
-        public int RotBody { get; private set; }
-        public Room Room { get; private set; }
-        public bool NeedsUpdate { get; private set; }
-        public bool IsAsleep { get; private set; }
-
-        public abstract EntityType Type { get; }
-        public abstract BaseInfo BaseInfo { get; }
-        public abstract EntityStatus Status { get; }
-
-        [Ignore]
-        public delegate void OnSleepChange(RoomEntity entity);
-
-        public OnSleepChange OnSleepChangeCB { get; set; }
         private Queue<Vector2> Steps;
+
+        #endregion Fields
+
+        #region Constructors
 
         public RoomEntity(Room room, int id)
         {
@@ -36,9 +27,76 @@ namespace Yupi.Model.Domain
             Steps = new Queue<Vector2>();
         }
 
-        public virtual void OnRoomExit()
+        #endregion Constructors
+
+        #region Delegates
+
+        [Ignore]
+        public delegate void OnSleepChange(RoomEntity entity);
+
+        #endregion Delegates
+
+        #region Properties
+
+        public abstract BaseInfo BaseInfo
         {
-            // Do nothing
+            get;
+        }
+
+        public bool IsAsleep
+        {
+            get; private set;
+        }
+
+        public bool NeedsUpdate
+        {
+            get; private set;
+        }
+
+        public OnSleepChange OnSleepChangeCB
+        {
+            get; set;
+        }
+
+        public Vector3 Position
+        {
+            get; private set;
+        }
+
+        public Room Room
+        {
+            get; private set;
+        }
+
+        public int RotBody
+        {
+            get; private set;
+        }
+
+        // TODO Use enum
+        public int RotHead
+        {
+            get; private set;
+        }
+
+        public abstract EntityStatus Status
+        {
+            get;
+        }
+
+        public abstract EntityType Type
+        {
+            get;
+        }
+
+        #endregion Properties
+
+        #region Methods
+
+        public bool CanWalk()
+        {
+            // TODO Implement
+            return true;
         }
 
         public virtual void HandleChatMessage(UserEntity user, Action<Habbo> sendTo)
@@ -85,15 +143,9 @@ namespace Yupi.Model.Domain
             SetPosition(nextPos);
         }
 
-        public void Walk(Vector2 target)
+        public virtual void OnRoomExit()
         {
-            this.Steps = new Queue<Vector2>(Room.Pathfinder.Find(this.Position.ToVector2(), target));
-        }
-
-        public bool CanWalk()
-        {
-            // TODO Implement
-            return true;
+            // Do nothing
         }
 
         public void SetHeadRotation(int rotation)
@@ -108,6 +160,12 @@ namespace Yupi.Model.Domain
             ScheduleUpdate();
         }
 
+        public void SetPosition(Vector3 newPosition)
+        {
+            this.Position = newPosition;
+            ScheduleUpdate();
+        }
+
         public void SetRotation(int rotation)
         {
             if (rotation < 0 || rotation > 7)
@@ -118,23 +176,6 @@ namespace Yupi.Model.Domain
             this.RotBody = rotation;
             this.RotHead = rotation;
             ScheduleUpdate();
-        }
-
-        public void SetPosition(Vector3 newPosition)
-        {
-            this.Position = newPosition;
-            ScheduleUpdate();
-        }
-
-        internal void ScheduleUpdate()
-        {
-            NeedsUpdate = true;
-        }
-
-        internal void UpdateComplete()
-        {
-            NeedsUpdate = false;
-            Status.OnUpdateComplete();
         }
 
         public void Sleep()
@@ -154,5 +195,23 @@ namespace Yupi.Model.Domain
                 OnSleepChangeCB(this);
             }
         }
+
+        public void Walk(Vector2 target)
+        {
+            this.Steps = new Queue<Vector2>(Room.Pathfinder.Find(this.Position.ToVector2(), target));
+        }
+
+        internal void ScheduleUpdate()
+        {
+            NeedsUpdate = true;
+        }
+
+        internal void UpdateComplete()
+        {
+            NeedsUpdate = false;
+            Status.OnUpdateComplete();
+        }
+
+        #endregion Methods
     }
 }

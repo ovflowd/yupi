@@ -1,10 +1,13 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-
-namespace Yupi.Messages.Other
+﻿namespace Yupi.Messages.Other
 {
+    using System;
+
+    using Yupi.Protocol.Buffers;
+
     public class HotelClosedMessageComposer : Contracts.HotelClosedMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, int openHour, int openMinute, bool userThrownOut)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -15,5 +18,7 @@ namespace Yupi.Messages.Other
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

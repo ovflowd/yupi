@@ -1,10 +1,11 @@
-﻿using System;
-
-
-namespace Yupi.Messages.Rooms
+﻿namespace Yupi.Messages.Rooms
 {
+    using System;
+
     public class SaveRoomBrandingMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -31,8 +32,10 @@ namespace Yupi.Messages.Rooms
             item.ExtraData = extraData;
 
             room.GetRoomItemHandler().SetFloorItem(session, item, item.X, item.Y, item.Rot, false, false, true);
-*/
+            */
             throw new NotImplementedException();
         }
+
+        #endregion Methods
     }
 }

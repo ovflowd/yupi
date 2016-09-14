@@ -1,15 +1,16 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using System.Collections.Generic;
-using System.Linq;
-using Yupi.Model.Domain;
-
-
-namespace Yupi.Messages.Support
+﻿namespace Yupi.Messages.Support
 {
-    public class ModerationToolIssueChatlogMessageComposer :
-        Yupi.Messages.Contracts.ModerationToolIssueChatlogMessageComposer
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
+    public class ModerationToolIssueChatlogMessageComposer : Yupi.Messages.Contracts.ModerationToolIssueChatlogMessageComposer
     {
+        #region Methods
+
         // TODO Refactor
         public override void Compose(Yupi.Protocol.ISender session, SupportTicket ticket)
         {
@@ -46,5 +47,7 @@ namespace Yupi.Messages.Support
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

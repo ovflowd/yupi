@@ -1,16 +1,24 @@
-﻿using System;
-using SuperSocket.Facility.Protocol;
-using SuperSocket.SocketBase.Protocol;
-using System.Text;
-using SuperSocket.Common;
-
-namespace Yupi.Net.SuperSocketImpl
+﻿namespace Yupi.Net.SuperSocketImpl
 {
+    using System;
+    using System.Text;
+
+    using SuperSocket.Common;
+    using SuperSocket.Facility.Protocol;
+    using SuperSocket.SocketBase.Protocol;
+
     public class ReceiveFilter : FixedHeaderReceiveFilter<RequestInfo>
     {
-        public ReceiveFilter() : base(4)
+        #region Constructors
+
+        public ReceiveFilter()
+            : base(4)
         {
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         protected override int GetBodyLengthFromHeader(byte[] header, int offset, int length)
         {
@@ -22,5 +30,7 @@ namespace Yupi.Net.SuperSocketImpl
         {
             return new RequestInfo(bodyBuffer.CloneRange(offset, length));
         }
+
+        #endregion Methods
     }
 }

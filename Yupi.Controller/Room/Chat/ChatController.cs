@@ -1,39 +1,37 @@
-﻿using System;
-using Yupi.Model.Domain;
-using Yupi.Messages.Contracts;
-using Yupi.Model;
-
-namespace Yupi.Controller
+﻿namespace Yupi.Controller
 {
+    using System;
+
+    using Yupi.Messages.Contracts;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+
     public class ChatController
     {
+        #region Fields
+
         public const int MAX_MESSAGE_LENGTH = 100;
 
-        private bool Validate(ref string message)
+        #endregion Fields
+
+        #region Methods
+
+        public void Chat(Habbo session, string message, ChatBubbleStyle bubble, int count = -1)
         {
-            if (message.Length > MAX_MESSAGE_LENGTH)
+            Chat(session, message, bubble, (user, entry) =>
             {
-                return false;
-            }
-
-            /* TODO Implement
-                if (!ServerSecurityChatFilter.CanTalk(session, msg))
-                    return false;
-                    */
-
-            // TODO Wordfilter
-            // TODO Flood
-            // TODO Room Mute
-
-            return true;
+                user.Router.GetComposer<ChatMessageComposer>()
+                    .Compose(user, entry, count);
+            });
         }
 
-        private bool TryHandleCommand(string message)
+        public void Shout(Habbo session, string message, ChatBubbleStyle bubble, int count = -1)
         {
-            /* TODO Command manager
-                 * return msg.StartsWith(":") && CommandsManager.TryExecute(msg.Substring(1), session)
-                */
-            return false;
+            Chat(session, message, bubble, (user, entry) =>
+            {
+                user.Router.GetComposer<ShoutMessageComposer>()
+                    .Compose(user, entry, count);
+            });
         }
 
         public void Whisper(Habbo session, string message, ChatBubbleStyle bubble, RoomEntity target, int count = -1)
@@ -64,37 +62,6 @@ namespace Yupi.Controller
             // TODO Trigger Wired
         }
 
-        public void Shout(Habbo session, string message, ChatBubbleStyle bubble, int count = -1)
-        {
-            Chat(session, message, bubble, (user, entry) =>
-            {
-                user.Router.GetComposer<ShoutMessageComposer>()
-                    .Compose(user, entry, count);
-            });
-        }
-
-        public void Chat(Habbo session, string message, ChatBubbleStyle bubble, int count = -1)
-        {
-            Chat(session, message, bubble, (user, entry) =>
-            {
-                user.Router.GetComposer<ChatMessageComposer>()
-                    .Compose(user, entry, count);
-            });
-        }
-
-        private ChatMessage CreateMessage(Habbo session, string message, ChatBubbleStyle bubble)
-        {
-            ChatMessage msg = new ChatMessage(message)
-            {
-                Entity = session.RoomEntity,
-                Bubble = bubble,
-                User = session.Info
-            };
-
-            session.Room.Data.Chatlog.Add(msg);
-            return msg;
-        }
-
         private void Chat(Habbo session, string message, ChatBubbleStyle bubble, Action<Habbo, ChatMessage> composer)
         {
             if (!Validate(ref message) || TryHandleCommand(message) || !bubble.CanUse(session.Info))
@@ -115,5 +82,47 @@ namespace Yupi.Controller
 
             // TODO Trigger Wired
         }
+
+        private ChatMessage CreateMessage(Habbo session, string message, ChatBubbleStyle bubble)
+        {
+            ChatMessage msg = new ChatMessage(message)
+            {
+                Entity = session.RoomEntity,
+                Bubble = bubble,
+                User = session.Info
+            };
+
+            session.Room.Data.Chatlog.Add(msg);
+            return msg;
+        }
+
+        private bool TryHandleCommand(string message)
+        {
+            /* TODO Command manager
+                 * return msg.StartsWith(":") && CommandsManager.TryExecute(msg.Substring(1), session)
+                */
+            return false;
+        }
+
+        private bool Validate(ref string message)
+        {
+            if (message.Length > MAX_MESSAGE_LENGTH)
+            {
+                return false;
+            }
+
+            /* TODO Implement
+                if (!ServerSecurityChatFilter.CanTalk(session, msg))
+                    return false;
+                    */
+
+            // TODO Wordfilter
+            // TODO Flood
+            // TODO Room Mute
+
+            return true;
+        }
+
+        #endregion Methods
     }
 }

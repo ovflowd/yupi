@@ -1,47 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
-using Priority_Queue;
-using System.Collections;
-
-namespace Yupi.Util.Pathfinding
+﻿namespace Yupi.Util.Pathfinding
 {
-    public abstract class AStar<TileType> where TileType : IEquatable<TileType>
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Numerics;
+
+    using Priority_Queue;
+
+    public abstract class AStar<TileType>
+        where TileType : IEquatable<TileType>
     {
-        protected class Node : IEquatable<Node>
-        {
-            public readonly TileType Tile;
-            public float GScore;
-            public Node Predecessor;
+        #region Fields
 
-            public Node(TileType tile)
-            {
-                this.Tile = tile;
-            }
-
-            public bool Equals(Node other)
-            {
-                return this.Tile.Equals(other.Tile);
-            }
-
-            public override bool Equals(object obj)
-            {
-                return Equals(obj as Node);
-            }
-
-            public override int GetHashCode()
-            {
-                return this.Tile.GetHashCode();
-            }
-        }
-
-        private readonly SimplePriorityQueue<Node> OpenList;
         private readonly HashSet<Node> ClosedList;
+        private readonly SimplePriorityQueue<Node> OpenList;
 
-        private Func<TileType, bool> IsWalkable;
         private Func<TileType, ICollection> GetNeighbours;
-
+        private Func<TileType, bool> IsWalkable;
         private object Lock;
+
+        #endregion Fields
+
+        #region Constructors
 
         public AStar(Func<TileType, bool> isWalkable,
             Func<TileType, ICollection> getNeighbours)
@@ -53,8 +33,9 @@ namespace Yupi.Util.Pathfinding
             this.GetNeighbours = getNeighbours;
         }
 
-        protected abstract float GetDistance(TileType start, TileType target);
-        protected abstract float Cost(TileType prev, TileType next);
+        #endregion Constructors
+
+        #region Methods
 
         public List<TileType> Find(TileType start, TileType target)
         {
@@ -73,41 +54,9 @@ namespace Yupi.Util.Pathfinding
             }
         }
 
-        private List<TileType> FindImpl(TileType start, TileType target)
-        {
-            OpenList.Enqueue(new Node(start), 0);
+        protected abstract float Cost(TileType prev, TileType next);
 
-            Node targetNode = new Node(target);
-
-            while (OpenList.Count > 0)
-            {
-                Node currentNode = OpenList.Dequeue();
-
-                if (currentNode.Tile.Equals(target))
-                {
-                    return Reconstruct(currentNode);
-                }
-
-                ClosedList.Add(currentNode);
-
-                expandNode(currentNode, targetNode);
-            }
-            return null;
-        }
-
-        private List<TileType> Reconstruct(Node current)
-        {
-            List<TileType> path = new List<TileType>();
-
-
-            while (current != null)
-            {
-                path.Add(current.Tile);
-                current = current.Predecessor;
-            }
-
-            return path;
-        }
+        protected abstract float GetDistance(TileType start, TileType target);
 
         private void expandNode(Node currentNode, Node target)
         {
@@ -147,5 +96,86 @@ namespace Yupi.Util.Pathfinding
                 }
             }
         }
+
+        private List<TileType> FindImpl(TileType start, TileType target)
+        {
+            OpenList.Enqueue(new Node(start), 0);
+
+            Node targetNode = new Node(target);
+
+            while (OpenList.Count > 0)
+            {
+                Node currentNode = OpenList.Dequeue();
+
+                if (currentNode.Tile.Equals(target))
+                {
+                    return Reconstruct(currentNode);
+                }
+
+                ClosedList.Add(currentNode);
+
+                expandNode(currentNode, targetNode);
+            }
+            return null;
+        }
+
+        private List<TileType> Reconstruct(Node current)
+        {
+            List<TileType> path = new List<TileType>();
+
+            while (current != null)
+            {
+                path.Add(current.Tile);
+                current = current.Predecessor;
+            }
+
+            return path;
+        }
+
+        #endregion Methods
+
+        #region Nested Types
+
+        protected class Node : IEquatable<Node>
+        {
+            #region Fields
+
+            public readonly TileType Tile;
+
+            public float GScore;
+            public Node Predecessor;
+
+            #endregion Fields
+
+            #region Constructors
+
+            public Node(TileType tile)
+            {
+                this.Tile = tile;
+            }
+
+            #endregion Constructors
+
+            #region Methods
+
+            public bool Equals(Node other)
+            {
+                return this.Tile.Equals(other.Tile);
+            }
+
+            public override bool Equals(object obj)
+            {
+                return Equals(obj as Node);
+            }
+
+            public override int GetHashCode()
+            {
+                return this.Tile.GetHashCode();
+            }
+
+            #endregion Methods
+        }
+
+        #endregion Nested Types
     }
 }

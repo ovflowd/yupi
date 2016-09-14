@@ -1,11 +1,14 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Controller;
-
-namespace Yupi.Messages.Navigator
+﻿namespace Yupi.Messages.Navigator
 {
+    using System;
+
+    using Yupi.Controller;
+    using Yupi.Protocol.Buffers;
+
     public class NavigatorMetaDataComposer : Yupi.Messages.Contracts.NavigatorMetaDataComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -27,5 +30,7 @@ namespace Yupi.Messages.Navigator
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

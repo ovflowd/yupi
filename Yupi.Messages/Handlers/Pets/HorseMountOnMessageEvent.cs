@@ -1,11 +1,12 @@
-﻿using System;
-using System.Drawing;
-
-
-namespace Yupi.Messages.Pets
+﻿namespace Yupi.Messages.Pets
 {
+    using System;
+    using System.Drawing;
+
     public class HorseMountOnMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -93,7 +94,7 @@ namespace Yupi.Messages.Pets
                 session.SendNotif(Yupi.GetLanguage().GetVar("horse_error_2"));
                 return;
             }
-                
+
             if (session.GetHabbo().Id != pet.PetData.OwnerId)
             {
                     Yupi.GetGame().GetAchievementManager().ProgressUserAchievement(session, "ACH_HorseRent", 1);
@@ -103,5 +104,7 @@ namespace Yupi.Messages.Pets
             */
             throw new NotImplementedException();
         }
+
+        #endregion Methods
     }
 }

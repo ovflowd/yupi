@@ -1,14 +1,17 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using System.Diagnostics;
-using System.Globalization;
-using Yupi.Model.Domain;
-using Yupi.Util;
-
-namespace Yupi.Messages.Support
+﻿namespace Yupi.Messages.Support
 {
+    using System;
+    using System.Diagnostics;
+    using System.Globalization;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+    using Yupi.Util;
+
     public class TicketUserAlertComposer : Yupi.Messages.Contracts.TicketUserAlertComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, Status status, SupportTicket ticket = null)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -26,5 +29,7 @@ namespace Yupi.Messages.Support
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

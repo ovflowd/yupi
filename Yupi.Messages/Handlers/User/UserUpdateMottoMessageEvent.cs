@@ -1,21 +1,32 @@
-﻿using System;
-using Yupi.Model.Repository;
-using Yupi.Model.Domain;
-using Yupi.Model;
-using Yupi.Controller;
-
-namespace Yupi.Messages.User
+﻿namespace Yupi.Messages.User
 {
+    using System;
+
+    using Yupi.Controller;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+
     public class UserUpdateMottoMessageEvent : AbstractHandler
     {
-        private IRepository<UserInfo> UserRepository;
+        #region Fields
+
         private AchievementManager AchievementManager;
+        private IRepository<UserInfo> UserRepository;
+
+        #endregion Fields
+
+        #region Constructors
 
         public UserUpdateMottoMessageEvent()
         {
             UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>>();
             AchievementManager = DependencyFactory.Resolve<AchievementManager>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message,
             Yupi.Protocol.IRouter router)
@@ -42,5 +53,7 @@ namespace Yupi.Messages.User
 
             AchievementManager.ProgressUserAchievement(session, "ACH_Motto", 1);
         }
+
+        #endregion Methods
     }
 }

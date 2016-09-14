@@ -1,10 +1,11 @@
-﻿using System;
-
-
-namespace Yupi.Messages.Pets
+﻿namespace Yupi.Messages.Pets
 {
+    using System;
+
     public class HorseAllowAllRideMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -34,5 +35,7 @@ namespace Yupi.Messages.Pets
             */
             throw new NotImplementedException();
         }
+
+        #endregion Methods
     }
 }

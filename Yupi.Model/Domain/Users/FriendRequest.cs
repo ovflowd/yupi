@@ -1,22 +1,41 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System;
+
     public class FriendRequest
     {
-        public virtual int Id { get; protected set; }
-        public virtual UserInfo To { get; set; }
-        public virtual UserInfo From { get; set; }
-
-        protected FriendRequest()
-        {
-            // For NHIbernate
-        }
+        #region Constructors
 
         public FriendRequest(UserInfo from, UserInfo to)
         {
             From = from;
             To = to;
         }
+
+        protected FriendRequest()
+        {
+            // For NHIbernate
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public virtual UserInfo From
+        {
+            get; set;
+        }
+
+        public virtual int Id
+        {
+            get; protected set;
+        }
+
+        public virtual UserInfo To
+        {
+            get; set;
+        }
+
+        #endregion Properties
     }
 }

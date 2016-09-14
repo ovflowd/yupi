@@ -1,11 +1,14 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Groups
+﻿namespace Yupi.Messages.Groups
 {
+    using System;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class GroupDataEditMessageComposer : Yupi.Messages.Contracts.GroupDataEditMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, Group group)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -65,5 +68,7 @@ namespace Yupi.Messages.Groups
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

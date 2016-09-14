@@ -1,17 +1,24 @@
-﻿using System;
-using Yupi.Model.Repository;
-using Yupi.Model.Domain;
-using Yupi.Controller;
-using Yupi.Model;
-
-namespace Yupi.Messages.Messenger
+﻿namespace Yupi.Messages.Messenger
 {
+    using System;
+
+    using Yupi.Controller;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+
     // TODO Rename?
     public class ConsoleInstantChatMessageEvent : AbstractHandler
     {
-        private IRepository<UserInfo> UserRepository;
+        #region Fields
+
         private ClientManager ClientManager;
+        private IRepository<UserInfo> UserRepository;
         private WordfilterManager Wordfilter;
+
+        #endregion Fields
+
+        #region Constructors
 
         public ConsoleInstantChatMessageEvent()
         {
@@ -19,6 +26,10 @@ namespace Yupi.Messages.Messenger
             ClientManager = DependencyFactory.Resolve<ClientManager>();
             Wordfilter = DependencyFactory.Resolve<WordfilterManager>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
@@ -49,5 +60,7 @@ namespace Yupi.Messages.Messenger
                 // TODO Store for chatlog
             }
         }
+
+        #endregion Methods
     }
 }

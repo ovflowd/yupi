@@ -1,11 +1,13 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-
-
-namespace Yupi.Messages.Notification
+﻿namespace Yupi.Messages.Notification
 {
+    using System;
+
+    using Yupi.Protocol.Buffers;
+
     public class SuperNotificationMessageComposer : Yupi.Messages.Contracts.SuperNotificationMessageComposer
     {
+        #region Methods
+
         // TODO Title default: ${generic.alert.title}
         // TODO might be that url default is "event:"
         // unknown might be icon id!
@@ -56,5 +58,7 @@ namespace Yupi.Messages.Notification
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

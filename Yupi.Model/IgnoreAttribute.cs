@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Yupi.Model
+﻿namespace Yupi.Model
 {
+    using System;
+
     public sealed class IgnoreAttribute : Attribute
     {
     }

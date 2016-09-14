@@ -1,9 +1,13 @@
-﻿using System;
-
-namespace Yupi.Model
+﻿namespace Yupi.Model
 {
+    using System;
+
     public interface IStatusString
     {
+        #region Methods
+
         string ToStatusString();
+
+        #endregion Methods
     }
 }

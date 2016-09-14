@@ -1,12 +1,14 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-
-namespace Yupi.Messages.Messenger
+﻿namespace Yupi.Messages.Messenger
 {
+    using System;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class FriendUpdateMessageComposer : Yupi.Messages.Contracts.FriendUpdateMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, Relationship relationship)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -44,5 +46,7 @@ namespace Yupi.Messages.Messenger
                 }
             }
         }
+
+        #endregion Methods
     }
 }

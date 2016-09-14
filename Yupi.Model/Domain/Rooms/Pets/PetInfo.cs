@@ -1,16 +1,18 @@
+﻿#region Header
+
 /**
-     Because i love chocolat...                                      
-                                    88 88  
-                                    "" 88  
-                                       88  
-8b       d8 88       88 8b,dPPYba,  88 88  
-`8b     d8' 88       88 88P'    "8a 88 88  
- `8b   d8'  88       88 88       d8 88 ""  
-  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa  
-    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88  
-    d8'                 88                 
-   d8'                  88     
-   
+     Because i love chocolat...
+                                    88 88
+                                    "" 88
+                                       88
+8b       d8 88       88 8b,dPPYba,  88 88
+`8b     d8' 88       88 88P'    "8a 88 88
+ `8b   d8'  88       88 88       d8 88 ""
+  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa
+    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88
+    d8'                 88
+   d8'                  88
+
    Private Habbo Hotel Emulating System
    @author Claudio A. Santoro W.
    @author Kessiler R.
@@ -18,20 +20,25 @@
    @license MIT
    @copyright Sulake Corporation Oy
    @observation All Rights of Habbo, Habbo Hotel, and all Habbo contents and it's names, is copyright from Sulake
-   Corporation Oy. Yupi! has nothing linked with Sulake. 
+   Corporation Oy. Yupi! has nothing linked with Sulake.
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-using System;
-using System.Collections.Generic;
-using Yupi.Model.Domain.Components;
-using System.Numerics;
+#endregion Header
 
 namespace Yupi.Model.Domain
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Numerics;
+
+    using Yupi.Model.Domain.Components;
+
     public class PetInfo : BaseInfo
     {
-        private int[] ExperienceLevels =
+        #region Fields
+
+        private int[] ExperienceLevels = 
         {
             100,
             200,
@@ -52,51 +59,71 @@ namespace Yupi.Model.Domain
             51900
         };
 
-        #region Horse
+        #endregion Fields
 
-        public virtual bool AnyoneCanRide { get; set; }
+        #region Properties
 
-        public virtual int HairDye { get; set; }
+        [Ignore]
+        public virtual int Age
+        {
+            get { return (int) (DateTime.Now - CreatedAt).TotalDays; }
+        }
 
-        public virtual bool HaveSaddle { get; set; }
+        public virtual bool AnyoneCanRide
+        {
+            get; set;
+        }
 
-        #endregion
+        public virtual Vector3 BreadingTile
+        {
+            get; set;
+        }
 
-        public virtual Vector3 BreadingTile { get; set; }
+        public virtual string Color
+        {
+            get; set;
+        }
 
-        public virtual string Color { get; set; }
+        public virtual DateTime CreatedAt
+        {
+            get; set;
+        }
 
-        public virtual DateTime CreatedAt { get; set; }
+        public virtual int Energy
+        {
+            get; set;
+        }
 
-        public virtual int Energy { get; set; }
+        public virtual int Experience
+        {
+            get; set;
+        }
 
-        public virtual int Experience { get; set; }
+        [Ignore]
+        public virtual int ExperienceGoal
+        {
+            get { return ExperienceLevels[Level - 1]; }
+        }
 
-        public virtual DateTime LastHealth { get; set; }
+        public virtual int Hair
+        {
+            get; set;
+        }
 
-        public virtual uint Nutrition { get; set; }
+        public virtual int HairDye
+        {
+            get; set;
+        }
 
-        public virtual UserInfo Owner { get; set; }
+        public virtual bool HaveSaddle
+        {
+            get; set;
+        }
 
-        public virtual int Hair { get; set; }
-
-        public virtual bool PlacedInRoom { get; set; }
-
-        // TODO seems to be the same...
-        public virtual int Race { get; set; }
-        public virtual int RaceId { get; set; }
-
-        public virtual int Rarity { get; set; }
-
-        public virtual uint Respect { get; set; }
-
-        public virtual RoomData Room { get; set; }
-
-        public virtual string Type { get; set; }
-
-        public virtual uint WaitingForBreading { get; set; }
-
-        public virtual Vector3 Position { get; set; }
+        public virtual DateTime LastHealth
+        {
+            get; set;
+        }
 
         [Ignore]
         public virtual int Level
@@ -112,24 +139,72 @@ namespace Yupi.Model.Domain
             }
         }
 
-        [Ignore]
-        public virtual int ExperienceGoal
-        {
-            get { return ExperienceLevels[Level - 1]; }
-        }
-
-        [Ignore]
-        public virtual int Age
-        {
-            get { return (int) (DateTime.Now - CreatedAt).TotalDays; }
-        }
-
         // TODO Refactor looks!
         [Ignore]
         public virtual string Look
         {
             get { return string.Concat(RaceId, " ", Race, " ", Color); }
         }
+
+        public virtual uint Nutrition
+        {
+            get; set;
+        }
+
+        public virtual UserInfo Owner
+        {
+            get; set;
+        }
+
+        public virtual bool PlacedInRoom
+        {
+            get; set;
+        }
+
+        public virtual Vector3 Position
+        {
+            get; set;
+        }
+
+        // TODO seems to be the same...
+        public virtual int Race
+        {
+            get; set;
+        }
+
+        public virtual int RaceId
+        {
+            get; set;
+        }
+
+        public virtual int Rarity
+        {
+            get; set;
+        }
+
+        public virtual uint Respect
+        {
+            get; set;
+        }
+
+        public virtual RoomData Room
+        {
+            get; set;
+        }
+
+        public virtual string Type
+        {
+            get; set;
+        }
+
+        public virtual uint WaitingForBreading
+        {
+            get; set;
+        }
+
+        #endregion Properties
+
+        #region Other
 
         /*
         public void OnRespect ()
@@ -225,5 +300,7 @@ namespace Yupi.Model.Domain
             if (DbState != DatabaseUpdateState.NeedsInsert)
                 DbState = DatabaseUpdateState.NeedsUpdate;
         }*/
+
+        #endregion Other
     }
 }

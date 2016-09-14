@@ -1,11 +1,14 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Encoders
+﻿namespace Yupi.Messages.Encoders
 {
+    using System;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public static class ChatEncoder
     {
+        #region Methods
+
         public static void Append(this ServerMessage message, ChatMessage entry, int count)
         {
             message.AppendInteger(entry.Entity.Id);
@@ -26,5 +29,7 @@ namespace Yupi.Messages.Encoders
             // Count is used to detect lag (client side)
             message.AppendInteger(count);
         }
+
+        #endregion Methods
     }
 }

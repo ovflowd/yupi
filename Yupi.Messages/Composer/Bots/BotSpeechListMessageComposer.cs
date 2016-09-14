@@ -1,11 +1,14 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Bots
+﻿namespace Yupi.Messages.Bots
 {
+    using System;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class BotSpeechListMessageComposer : Yupi.Messages.Contracts.BotSpeechListMessageComposer
     {
+        #region Methods
+
         // TODO Refactor
         public override void Compose(Yupi.Protocol.ISender session, int num, BotInfo bot)
         {
@@ -28,7 +31,7 @@ namespace Yupi.Messages.Bots
             default:
                 return;
             }
-                
+
             using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
                 message.AppendInteger (bot.Id);
                 message.AppendInteger (num);
@@ -38,5 +41,7 @@ namespace Yupi.Messages.Bots
             */
             throw new NotImplementedException();
         }
+
+        #endregion Methods
     }
 }

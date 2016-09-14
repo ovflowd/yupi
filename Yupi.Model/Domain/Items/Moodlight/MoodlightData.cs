@@ -1,18 +1,12 @@
-using System.Collections.Generic;
-using System.Data;
-using System.Text;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Text;
+
     public class MoodlightData
     {
-        public virtual int Id { get; protected set; }
-
-        public virtual MoodlightPreset CurrentPreset { get; set; }
-
-        public virtual bool Enabled { get; set; }
-
-        public virtual IList<MoodlightPreset> Presets { get; protected set; }
+        #region Constructors
 
         public MoodlightData()
         {
@@ -20,6 +14,34 @@ namespace Yupi.Model.Domain
             Enabled = false;
             CurrentPreset = new MoodlightPreset();
         }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public virtual MoodlightPreset CurrentPreset
+        {
+            get; set;
+        }
+
+        public virtual bool Enabled
+        {
+            get; set;
+        }
+
+        public virtual int Id
+        {
+            get; protected set;
+        }
+
+        public virtual IList<MoodlightPreset> Presets
+        {
+            get; protected set;
+        }
+
+        #endregion Properties
+
+        #region Methods
 
         public virtual string GenerateExtraData()
         {
@@ -35,5 +57,7 @@ namespace Yupi.Model.Domain
             stringBuilder.Append(CurrentPreset.ColorIntensity);
             return stringBuilder.ToString();
         }
+
+        #endregion Methods
     }
 }

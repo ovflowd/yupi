@@ -1,10 +1,13 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-
-namespace Yupi.Messages.Other
+﻿namespace Yupi.Messages.Other
 {
+    using System;
+
+    using Yupi.Protocol.Buffers;
+
     public class SecretKeyMessageComposer : Yupi.Messages.Contracts.SecretKeyMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session)
         {
             // TODO Public networks???
@@ -16,5 +19,7 @@ namespace Yupi.Messages.Other
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

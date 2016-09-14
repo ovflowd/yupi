@@ -1,10 +1,13 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-
-namespace Yupi.Messages.Landing
+﻿namespace Yupi.Messages.Landing
 {
+    using System;
+
+    using Yupi.Protocol.Buffers;
+
     public class LandingWidgetMessageComposer : Yupi.Messages.Contracts.LandingWidgetMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, string text)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -25,5 +28,7 @@ namespace Yupi.Messages.Landing
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

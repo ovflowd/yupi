@@ -1,29 +1,54 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System;
+
     [Ignore]
     public abstract class HumanEntity : RoomEntity
     {
-        public HumanStatus HumanStatus { get; private set; }
+        #region Fields
 
-        public Dance Dance { get; private set; }
+        public OnDanceChangeType OnDanceChange;
+
+        #endregion Fields
+
+        #region Constructors
+
+        public HumanEntity(Room room, int id)
+            : base(room, id)
+        {
+            HumanStatus = new HumanStatus(this);
+            this.Dance = Dance.None;
+        }
+
+        #endregion Constructors
+
+        #region Delegates
 
         [Ignore]
         public delegate void OnDanceChangeType(HumanEntity entity);
+
+        #endregion Delegates
+
+        #region Properties
+
+        public Dance Dance
+        {
+            get; private set;
+        }
+
+        public HumanStatus HumanStatus
+        {
+            get; private set;
+        }
 
         public override EntityStatus Status
         {
             get { return HumanStatus; }
         }
 
-        public OnDanceChangeType OnDanceChange;
+        #endregion Properties
 
-        public HumanEntity(Room room, int id) : base(room, id)
-        {
-            HumanStatus = new HumanStatus(this);
-            this.Dance = Dance.None;
-        }
+        #region Methods
 
         public virtual void SetDance(Dance dance)
         {
@@ -35,5 +60,7 @@ namespace Yupi.Model.Domain
         {
             this.SetDance(Dance.None);
         }
+
+        #endregion Methods
     }
 }

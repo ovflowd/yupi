@@ -1,10 +1,13 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-
-namespace Yupi.Messages.Messenger
+﻿namespace Yupi.Messages.Messenger
 {
+    using System;
+
+    using Yupi.Protocol.Buffers;
+
     public class NotAcceptingRequestsMessageComposer : Contracts.NotAcceptingRequestsMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -14,5 +17,7 @@ namespace Yupi.Messages.Messenger
                 session.Send(message); // TODO Hardcoded
             }
         }
+
+        #endregion Methods
     }
 }

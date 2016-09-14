@@ -1,23 +1,33 @@
-﻿using System;
-using Yupi.Model.Domain;
-using Yupi.Model.Repository;
-using Yupi.Model;
-using Yupi.Controller;
-using Yupi.Messages.Notification;
-
-
-namespace Yupi.Messages.Support
+﻿namespace Yupi.Messages.Support
 {
+    using System;
+
+    using Yupi.Controller;
+    using Yupi.Messages.Notification;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+
     public class ModerationLockTradeMessageEvent : AbstractHandler
     {
-        private IRepository<UserInfo> UserRepository;
+        #region Fields
+
         private ClientManager ClientManager;
+        private IRepository<UserInfo> UserRepository;
+
+        #endregion Fields
+
+        #region Constructors
 
         public ModerationLockTradeMessageEvent()
         {
             UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>>();
             ClientManager = DependencyFactory.Resolve<ClientManager>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
@@ -44,5 +54,7 @@ namespace Yupi.Messages.Support
                 target.Router.GetComposer<AlertNotificationMessageComposer>().Compose(target, message);
             }
         }
+
+        #endregion Methods
     }
 }

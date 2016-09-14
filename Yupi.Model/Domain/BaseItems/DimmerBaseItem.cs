@@ -1,10 +1,12 @@
-﻿using System;
+﻿namespace Yupi.Model.Domain
+{
+    using System;
 
-namespace Yupi.Model.Domain
-{ // TODO Consistency: Moodlight vs Dimmer
-
+    // TODO Consistency: Moodlight vs Dimmer
     public class DimmerBaseItem : WallBaseItem
     {
+        #region Methods
+
         public override Item CreateNew()
         {
             return new DimmerItem()
@@ -12,5 +14,7 @@ namespace Yupi.Model.Domain
                 BaseItem = this
             };
         }
+
+        #endregion Methods
     }
 }

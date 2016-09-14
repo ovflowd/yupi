@@ -1,13 +1,26 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System;
+
     public class TalentLevel
     {
-        public virtual int Id { get; protected set; }
+        #region Properties
 
-        public virtual int Level { get; set; }
+        public virtual Achievement Achievement
+        {
+            get; set;
+        }
 
-        public virtual Achievement Achievement { get; set; }
+        public virtual int Id
+        {
+            get; protected set;
+        }
+
+        public virtual int Level
+        {
+            get; set;
+        }
+
+        #endregion Properties
     }
 }

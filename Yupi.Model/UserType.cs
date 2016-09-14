@@ -1,41 +1,48 @@
-﻿using System;
-using NHibernate.UserTypes;
-using System.Data;
-using NHibernate.SqlTypes;
-
-namespace Yupi.Model
+﻿namespace Yupi.Model
 {
+    using System;
+    using System.Data;
+
+    using NHibernate.SqlTypes;
+    using NHibernate.UserTypes;
+
     public abstract class UserType : IUserType
     {
-        #region Implementation of IUserType
+        #region Properties
 
-        bool IUserType.Equals(object x, object y)
+        public bool IsMutable
         {
-            return Equals(x, y);
+            get { return false; }
         }
 
-        public int GetHashCode(object x)
+        /// <summary>
+        /// The type returned by <c>NullSafeGet()</c>
+        /// </summary>
+        public abstract Type ReturnedType
         {
-            return x == null ? 0 : x.GetHashCode();
+            get;
         }
 
-        public abstract object NullSafeGet(IDataReader rs, string[] names, object owner);
-
-        public abstract void NullSafeSet(IDbCommand cmd, object value, int index);
-
-        public virtual object DeepCopy(object value)
+        /// <summary>
+        /// The SQL types for the columns mapped by this type.
+        /// </summary>
+        public abstract SqlType[] SqlTypes
         {
-            return value;
+            get;
         }
 
-        public virtual object Replace(object original, object target, object owner)
-        {
-            return original;
-        }
+        #endregion Properties
+
+        #region Methods
 
         public virtual object Assemble(object cached, object owner)
         {
             return cached;
+        }
+
+        public virtual object DeepCopy(object value)
+        {
+            return value;
         }
 
         public virtual object Disassemble(object value)
@@ -43,21 +50,25 @@ namespace Yupi.Model
             return value;
         }
 
-        /// <summary>
-        /// The SQL types for the columns mapped by this type.
-        /// </summary>
-        public abstract SqlType[] SqlTypes { get; }
-
-        /// <summary>
-        /// The type returned by <c>NullSafeGet()</c>
-        /// </summary>
-        public abstract Type ReturnedType { get; }
-
-        public bool IsMutable
+        public int GetHashCode(object x)
         {
-            get { return false; }
+            return x == null ? 0 : x.GetHashCode();
         }
 
-        #endregion
+        bool IUserType.Equals(object x, object y)
+        {
+            return Equals(x, y);
+        }
+
+        public abstract object NullSafeGet(IDataReader rs, string[] names, object owner);
+
+        public abstract void NullSafeSet(IDbCommand cmd, object value, int index);
+
+        public virtual object Replace(object original, object target, object owner)
+        {
+            return original;
+        }
+
+        #endregion Methods
     }
 }

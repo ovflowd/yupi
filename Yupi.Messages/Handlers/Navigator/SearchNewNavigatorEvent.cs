@@ -1,12 +1,15 @@
-﻿using System;
-using Yupi.Controller;
-using System.Collections.Generic;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Navigator
+﻿namespace Yupi.Messages.Navigator
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Yupi.Controller;
+    using Yupi.Model.Domain;
+
     public class SearchNewNavigatorEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -19,5 +22,7 @@ namespace Yupi.Messages.Navigator
             IDictionary<NavigatorCategory, IList<RoomData>> categories = view.GetCategories(query, session.Info);
             router.GetComposer<SearchResultSetComposer>().Compose(session, staticId, query, categories);
         }
+
+        #endregion Methods
     }
 }

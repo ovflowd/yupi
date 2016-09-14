@@ -1,13 +1,27 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System;
+
     public class BaseInfo
     {
-        public virtual int Id { get; protected set; }
-        public virtual string Name { get; set; }
+        #region Properties
+
+        public virtual int Id
+        {
+            get; protected set;
+        }
 
         // TODO Do pets have mottos?
-        public virtual string Motto { get; set; }
+        public virtual string Motto
+        {
+            get; set;
+        }
+
+        public virtual string Name
+        {
+            get; set;
+        }
+
+        #endregion Properties
     }
 }

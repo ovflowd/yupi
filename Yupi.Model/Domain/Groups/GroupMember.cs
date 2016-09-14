@@ -1,14 +1,15 @@
-﻿using System;
-using Yupi.Model.Domain;
-
-namespace Yupi.Model
+﻿namespace Yupi.Model
 {
+    using System;
+
+    using Yupi.Model.Domain;
+
     public class GroupMember
     {
-        public virtual int Id { get; protected set; }
-        public virtual UserInfo User { get; protected set; }
+        #region Constructors
 
-        public GroupMember(UserInfo user) : this()
+        public GroupMember(UserInfo user)
+            : this()
         {
             this.User = user;
         }
@@ -17,5 +18,21 @@ namespace Yupi.Model
         {
             // NHibernate
         }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public virtual int Id
+        {
+            get; protected set;
+        }
+
+        public virtual UserInfo User
+        {
+            get; protected set;
+        }
+
+        #endregion Properties
     }
 }

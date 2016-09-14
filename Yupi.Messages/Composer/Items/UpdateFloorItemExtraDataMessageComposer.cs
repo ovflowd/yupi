@@ -1,14 +1,15 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using System.Collections.Generic;
-using Yupi.Model.Domain;
-
-
-namespace Yupi.Messages.Items
+﻿namespace Yupi.Messages.Items
 {
-    public class UpdateFloorItemExtraDataMessageComposer :
-        Yupi.Messages.Contracts.UpdateFloorItemExtraDataMessageComposer
+    using System;
+    using System.Collections.Generic;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
+    public class UpdateFloorItemExtraDataMessageComposer : Yupi.Messages.Contracts.UpdateFloorItemExtraDataMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender room, FloorItem item)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -30,7 +31,7 @@ namespace Yupi.Messages.Items
                         }
 
                         break;
-                    }              
+                    }
                 case Interaction.Mannequin:
                     {
                         message.AppendInteger(1);
@@ -154,12 +155,14 @@ namespace Yupi.Messages.Items
                         message.AppendString(item.ExtraData);
 
                         break;
-                    }  
+                    }
                 }
-*/
+            */
                 throw new NotImplementedException();
                 room.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

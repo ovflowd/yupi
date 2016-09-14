@@ -1,10 +1,11 @@
-﻿using System;
-
-
-namespace Yupi.Messages.Items
+﻿namespace Yupi.Messages.Items
 {
+    using System;
+
     public class ActivateMoodlightMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -31,5 +32,7 @@ namespace Yupi.Messages.Items
             */
             throw new NotImplementedException();
         }
+
+        #endregion Methods
     }
 }

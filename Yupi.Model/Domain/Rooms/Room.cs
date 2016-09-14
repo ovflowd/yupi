@@ -1,36 +1,24 @@
-﻿using System;
-using Yupi.Protocol;
-using System.Collections.Generic;
-using System.Linq;
-using System.Diagnostics;
-using Yupi.Model.Domain.Components;
-using System.Threading;
-using System.Diagnostics.Contracts;
-using Yupi.Util.Pathfinding;
-using System.Numerics;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Diagnostics.Contracts;
+    using System.Linq;
+    using System.Numerics;
+    using System.Threading;
+
+    using Yupi.Model.Domain.Components;
+    using Yupi.Protocol;
+    using Yupi.Util.Pathfinding;
+
     [Ignore]
     public class Room : IDisposable
     {
-        public IList<UserInfo> Queue { get; private set; }
+        #region Fields
 
-        public RoomData Data { get; private set; }
-
-        public HeightMap HeightMap { get; private set; }
-
-        // TODO Implementation detail -> Private!
-        public IList<RoomEntity> Users { get; private set; }
-
-        // TODO What is this used for?
-        public ISet<Group> GroupsInRoom { get; private set; }
-
-        // TODO Can this be implemented better?
-        private int entityIdCounter;
-
-        private Timer Timer;
-        public Pathfinder Pathfinder { get; private set; }
+        public OnEntityCreate OnEntityCreateCallback;
+        public OnHumanEntityCreateT OnHumanEntityCreate;
 
         // TODO Experiment with the length of the period
         /// <summary>
@@ -38,19 +26,14 @@ namespace Yupi.Model.Domain
         /// </summary>
         private const int TICK_PERIOD = 500;
 
-        [Ignore]
-        public delegate void OnRoomTick(Room room, List<RoomEntity> changes);
-
-        [Ignore]
-        public delegate void OnEntityCreate(RoomEntity entity);
-
-        [Ignore]
-        public delegate void OnHumanEntityCreateT(HumanEntity entity);
-
+        // TODO Can this be implemented better?
+        private int entityIdCounter;
         private OnRoomTick OnTickCallback;
+        private Timer Timer;
 
-        public OnEntityCreate OnEntityCreateCallback;
-        public OnHumanEntityCreateT OnHumanEntityCreate;
+        #endregion Fields
+
+        #region Constructors
 
         public Room(RoomData data, OnRoomTick onTickCallback)
         {
@@ -74,10 +57,132 @@ namespace Yupi.Model.Domain
             this.Timer = new Timer(OnTick, null, 0, TICK_PERIOD);
         }
 
+        #endregion Constructors
+
+        #region Delegates
+
+        [Ignore]
+        public delegate void OnEntityCreate(RoomEntity entity);
+
+        [Ignore]
+        public delegate void OnHumanEntityCreateT(HumanEntity entity);
+
+        [Ignore]
+        public delegate void OnRoomTick(Room room, List<RoomEntity> changes);
+
+        #endregion Delegates
+
+        #region Properties
+
+        public RoomData Data
+        {
+            get; private set;
+        }
+
+        // TODO What is this used for?
+        public ISet<Group> GroupsInRoom
+        {
+            get; private set;
+        }
+
+        public HeightMap HeightMap
+        {
+            get; private set;
+        }
+
+        public Pathfinder Pathfinder
+        {
+            get; private set;
+        }
+
+        public IList<UserInfo> Queue
+        {
+            get; private set;
+        }
+
+        // TODO Implementation detail -> Private!
+        public IList<RoomEntity> Users
+        {
+            get; private set;
+        }
+
+        #endregion Properties
+
+        #region Methods
+
+        public void AddUser(Habbo user)
+        {
+            user.RoomEntity = new UserEntity(user, this, ++entityIdCounter);
+            user.RoomEntity.SetPosition(Data.Model.Door);
+            user.RoomEntity.SetRotation(Data.Model.DoorOrientation);
+
+            this.OnEntityCreateCallback(user.RoomEntity);
+            this.OnHumanEntityCreate(user.RoomEntity);
+
+            Users.Add(user.RoomEntity);
+        }
+
+        public bool CanVote(UserInfo user)
+        {
+            return !user.RatedRooms.Contains(this.Data) && this.Data.Owner != user;
+        }
+
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        public void EachBot(Action<BotEntity> foreachBot)
+        {
+            foreach (BotEntity entity in Users.OfType<BotEntity>())
+            {
+                foreachBot(entity);
+            }
+        }
+
+        public void EachEntity(Action<RoomEntity> foreachEntity)
+        {
+            foreach (RoomEntity entity in Users)
+            {
+                foreachEntity(entity);
+            }
+        }
+
+        /// <summary>
+        /// Executes the callback for every REAL Session
+        /// </summary>
+        /// <remarks>
+        /// This function won't generate a callback for bots!
+        /// </remarks>
+        /// <param name="sendToUser">The callback (most likely used to broadcast a message)</param>
+        public void EachUser(Action<Habbo> sendToUser)
+        {
+            foreach (Habbo session in GetSessions())
+            {
+                sendToUser(session);
+            }
+        }
+
+        // TODO Consider using back references...
+        public RoomEntity GetEntity(int id)
+        {
+            return Users.SingleOrDefault(entity => entity.Id == id);
+        }
+
+        public RoomEntity GetEntity(string name)
+        {
+            return Users.SingleOrDefault(entity => entity.BaseInfo.Name == name);
+        }
+
+        public int GetUserCount()
+        {
+            return Users.Where(x => x.Type == EntityType.User).Count();
+        }
+
+        public bool HasUsers()
+        {
+            return Users.Any(x => x.Type == EntityType.User);
         }
 
         protected virtual void Dispose(bool disposing)
@@ -86,6 +191,12 @@ namespace Yupi.Model.Domain
             {
                 Timer.Dispose();
             }
+        }
+
+        private IEnumerable<Habbo> GetSessions()
+        {
+            // TODO Reimplement Users properly to prevent these queries!
+            return Users.Where(x => x.Type == EntityType.User).Select(x => ((UserEntity) x).User);
         }
 
         private void OnTick(object state)
@@ -113,79 +224,6 @@ namespace Yupi.Model.Domain
             }
         }
 
-        public bool CanVote(UserInfo user)
-        {
-            return !user.RatedRooms.Contains(this.Data) && this.Data.Owner != user;
-        }
-
-        public int GetUserCount()
-        {
-            return Users.Where(x => x.Type == EntityType.User).Count();
-        }
-
-        private IEnumerable<Habbo> GetSessions()
-        {
-            // TODO Reimplement Users properly to prevent these queries!
-            return Users.Where(x => x.Type == EntityType.User).Select(x => ((UserEntity) x).User);
-        }
-
-        public bool HasUsers()
-        {
-            return Users.Any(x => x.Type == EntityType.User);
-        }
-
-        // TODO Consider using back references...
-        public RoomEntity GetEntity(int id)
-        {
-            return Users.SingleOrDefault(entity => entity.Id == id);
-        }
-
-        public RoomEntity GetEntity(string name)
-        {
-            return Users.SingleOrDefault(entity => entity.BaseInfo.Name == name);
-        }
-
-        public void AddUser(Habbo user)
-        {
-            user.RoomEntity = new UserEntity(user, this, ++entityIdCounter);
-            user.RoomEntity.SetPosition(Data.Model.Door);
-            user.RoomEntity.SetRotation(Data.Model.DoorOrientation);
-
-            this.OnEntityCreateCallback(user.RoomEntity);
-            this.OnHumanEntityCreate(user.RoomEntity);
-
-            Users.Add(user.RoomEntity);
-        }
-
-        /// <summary>
-        /// Executes the callback for every REAL Session
-        /// </summary>
-        /// <remarks>
-        /// This function won't generate a callback for bots!
-        /// </remarks>
-        /// <param name="sendToUser">The callback (most likely used to broadcast a message)</param>
-        public void EachUser(Action<Habbo> sendToUser)
-        {
-            foreach (Habbo session in GetSessions())
-            {
-                sendToUser(session);
-            }
-        }
-
-        public void EachBot(Action<BotEntity> foreachBot)
-        {
-            foreach (BotEntity entity in Users.OfType<BotEntity>())
-            {
-                foreachBot(entity);
-            }
-        }
-
-        public void EachEntity(Action<RoomEntity> foreachEntity)
-        {
-            foreach (RoomEntity entity in Users)
-            {
-                foreachEntity(entity);
-            }
-        }
+        #endregion Methods
     }
 }

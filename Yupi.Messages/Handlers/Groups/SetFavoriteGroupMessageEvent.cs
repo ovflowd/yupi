@@ -1,21 +1,31 @@
-﻿using System;
-using Yupi.Model.Domain;
-using Yupi.Model.Repository;
-using Yupi.Model;
-
-
-namespace Yupi.Messages.Groups
+﻿namespace Yupi.Messages.Groups
 {
+    using System;
+
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+
     public class SetFavoriteGroupMessageEvent : AbstractHandler
     {
+        #region Fields
+
         private IRepository<Group> GroupRepository;
         private IRepository<UserInfo> UserRepository;
+
+        #endregion Fields
+
+        #region Constructors
 
         public SetFavoriteGroupMessageEvent()
         {
             GroupRepository = DependencyFactory.Resolve<IRepository<Group>>();
             UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
@@ -54,5 +64,7 @@ namespace Yupi.Messages.Groups
 
             router.GetComposer<ChangeFavouriteGroupMessageComposer>().Compose(session, theGroup, 0);
         }
+
+        #endregion Methods
     }
 }

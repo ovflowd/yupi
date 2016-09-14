@@ -1,10 +1,13 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-
-namespace Yupi.Messages.Catalog
+﻿namespace Yupi.Messages.Catalog
 {
+    using System;
+
+    using Yupi.Protocol.Buffers;
+
     public class ReloadEcotronMessageComposer : Yupi.Messages.Contracts.ReloadEcotronMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session)
         {
             // TODO Hardcoded message
@@ -15,5 +18,7 @@ namespace Yupi.Messages.Catalog
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

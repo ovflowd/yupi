@@ -1,12 +1,15 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-using System.Globalization;
-
-namespace Yupi.Messages.Rooms
+﻿namespace Yupi.Messages.Rooms
 {
+    using System;
+    using System.Globalization;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class RoomSpacesMessageComposer : Yupi.Messages.Contracts.RoomSpacesMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, RoomSpacesMessageComposer.RoomSpacesType type,
             RoomData data)
         {
@@ -30,5 +33,7 @@ namespace Yupi.Messages.Rooms
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

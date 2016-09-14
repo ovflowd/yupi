@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.User
+﻿namespace Yupi.Messages.User
 {
-    public class SendAchievementsRequirementsMessageComposer :
-        Yupi.Messages.Contracts.SendAchievementsRequirementsMessageComposer
+    using System;
+    using System.Collections.Generic;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
+    public class SendAchievementsRequirementsMessageComposer : Yupi.Messages.Contracts.SendAchievementsRequirementsMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, IDictionary<string, Achievement> achievements)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -30,5 +32,7 @@ namespace Yupi.Messages.User
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

@@ -1,14 +1,16 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using System.Collections.Generic;
-using Yupi.Messages.Encoders;
-
-namespace Yupi.Messages.User
+﻿namespace Yupi.Messages.User
 {
-    // TODO Shouldn't this be called NameCHECKED
+    using System;
+    using System.Collections.Generic;
 
+    using Yupi.Messages.Encoders;
+    using Yupi.Protocol.Buffers;
+
+    // TODO Shouldn't this be called NameCHECKED
     public class NameChangedUpdatesMessageComposer : Yupi.Messages.Contracts.NameChangedUpdatesMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, Status status, string newName,
             IList<string> alternatives = null)
         {
@@ -28,5 +30,7 @@ namespace Yupi.Messages.User
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

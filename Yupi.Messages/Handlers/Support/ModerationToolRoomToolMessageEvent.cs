@@ -1,22 +1,32 @@
-﻿using System;
-using Yupi.Model;
-using Yupi.Model.Repository;
-using Yupi.Model.Domain;
-using Yupi.Controller;
-
-
-namespace Yupi.Messages.Support
+﻿namespace Yupi.Messages.Support
 {
+    using System;
+
+    using Yupi.Controller;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+
     public class ModerationToolRoomToolMessageEvent : AbstractHandler
     {
-        private IRepository<RoomData> RoomRepository;
+        #region Fields
+
         private RoomManager RoomManager;
+        private IRepository<RoomData> RoomRepository;
+
+        #endregion Fields
+
+        #region Constructors
 
         public ModerationToolRoomToolMessageEvent()
         {
             RoomRepository = DependencyFactory.Resolve<IRepository<RoomData>>();
             RoomManager = DependencyFactory.Resolve<RoomManager>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message,
             Yupi.Protocol.IRouter router)
@@ -30,5 +40,7 @@ namespace Yupi.Messages.Support
 
             router.GetComposer<ModerationRoomToolMessageComposer>().Compose(session, room, RoomManager.isLoaded(room));
         }
+
+        #endregion Methods
     }
 }

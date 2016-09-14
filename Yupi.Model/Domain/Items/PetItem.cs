@@ -1,17 +1,33 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System;
+
     public class PetItem : Item
     {
-        public virtual PetBaseItem BaseItem { get; set; }
-
-        public virtual PetInfo Info { get; set; }
+        #region Constructors
 
         public PetItem()
         {
             Info = new PetInfo();
         }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public virtual PetBaseItem BaseItem
+        {
+            get; set;
+        }
+
+        public virtual PetInfo Info
+        {
+            get; set;
+        }
+
+        #endregion Properties
+
+        #region Methods
 
         public virtual string GetExtraData()
         {
@@ -39,5 +55,7 @@ namespace Yupi.Model.Domain
             Info.Color = color;
             Info.Owner = Owner;
         }
+
+        #endregion Methods
     }
 }

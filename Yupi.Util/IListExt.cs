@@ -1,11 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Yupi.Util
+﻿namespace Yupi.Util
 {
+    using System;
+    using System.Collections.Generic;
+
     public static class IListExt
     {
+        #region Fields
+
         private static Random rnd = new Random();
+
+        #endregion Fields
+
+        #region Methods
+
+        public static T Random<T>(this IList<T> list)
+        {
+            if (list.Count == 0)
+            {
+                return default(T);
+            }
+
+            lock (rnd)
+            {
+                return list[rnd.Next(list.Count)];
+            }
+        }
 
         public static int RemoveAll<T>(this IList<T> list, Predicate<T> match)
         {
@@ -28,17 +47,6 @@ namespace Yupi.Util
             return count;
         }
 
-        public static T Random<T>(this IList<T> list)
-        {
-            if (list.Count == 0)
-            {
-                return default(T);
-            }
-
-            lock (rnd)
-            {
-                return list[rnd.Next(list.Count)];
-            }
-        }
+        #endregion Methods
     }
 }

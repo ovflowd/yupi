@@ -1,22 +1,32 @@
-﻿using System;
-using Yupi.Model.Domain;
-using Yupi.Model.Repository;
-using Yupi.Model;
-using Yupi.Controller;
-
-
-namespace Yupi.Messages.Other
+﻿namespace Yupi.Messages.Other
 {
+    using System;
+
+    using Yupi.Controller;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+
     public class PurchaseTargetedOfferMessageEvent : AbstractHandler
     {
-        private IRepository<TargetedOffer> OfferRepository;
+        #region Fields
+
         private CatalogController CatalogController;
+        private IRepository<TargetedOffer> OfferRepository;
+
+        #endregion Fields
+
+        #region Constructors
 
         public PurchaseTargetedOfferMessageEvent()
         {
             OfferRepository = DependencyFactory.Resolve<IRepository<TargetedOffer>>();
             CatalogController = DependencyFactory.Resolve<CatalogController>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
@@ -31,5 +41,7 @@ namespace Yupi.Messages.Other
 
             CatalogController.Purchase(session, offer, string.Empty, quantity);
         }
+
+        #endregion Methods
     }
 }

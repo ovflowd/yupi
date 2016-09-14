@@ -1,11 +1,13 @@
-﻿using System;
-using Yupi.Model.Domain;
-
-
-namespace Yupi.Messages.Guides
+﻿namespace Yupi.Messages.Guides
 {
+    using System;
+
+    using Yupi.Model.Domain;
+
     public class OnGuideSessionDetachedMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message,
             Yupi.Protocol.IRouter router)
         {
@@ -20,5 +22,7 @@ namespace Yupi.Messages.Guides
             router.GetComposer<OnGuideSessionStartedMessageComposer>().Compose(session, requester.Info);
             router.GetComposer<OnGuideSessionStartedMessageComposer>().Compose(requester, requester.Info);
         }
+
+        #endregion Methods
     }
 }

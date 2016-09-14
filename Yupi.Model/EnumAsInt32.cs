@@ -1,14 +1,33 @@
-﻿using System;
-using NHibernate;
-using NHibernate.SqlTypes;
-using System.Diagnostics;
-using System.Data;
-using Headspring;
-
-namespace Yupi.Model
+﻿namespace Yupi.Model
 {
-    public class EnumAsInt32<T> : UserType where T : Headspring.Enumeration<T>
+    using System;
+    using System.Data;
+    using System.Diagnostics;
+
+    using Headspring;
+
+    using NHibernate;
+    using NHibernate.SqlTypes;
+
+    public class EnumAsInt32<T> : UserType
+        where T : Headspring.Enumeration<T>
     {
+        #region Properties
+
+        public override Type ReturnedType
+        {
+            get { return typeof(T); }
+        }
+
+        public override SqlType[] SqlTypes
+        {
+            get { return new[] {SqlTypeFactory.Int32}; }
+        }
+
+        #endregion Properties
+
+        #region Methods
+
         public override object NullSafeGet(System.Data.IDataReader rs, string[] names, object owner)
         {
             object obj = NHibernateUtil.Int32.NullSafeGet(rs, names);
@@ -28,14 +47,6 @@ namespace Yupi.Model
             }
         }
 
-        public override SqlType[] SqlTypes
-        {
-            get { return new[] {SqlTypeFactory.Int32}; }
-        }
-
-        public override Type ReturnedType
-        {
-            get { return typeof(T); }
-        }
+        #endregion Methods
     }
 }

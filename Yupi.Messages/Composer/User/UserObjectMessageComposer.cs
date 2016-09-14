@@ -1,13 +1,16 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using System.Globalization;
-using Yupi.Model.Domain;
-using Yupi.Util;
-
-namespace Yupi.Messages.User
+﻿namespace Yupi.Messages.User
 {
+    using System;
+    using System.Globalization;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+    using Yupi.Util;
+
     public class UserObjectMessageComposer : Yupi.Messages.Contracts.UserObjectMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, UserInfo habbo)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -30,5 +33,7 @@ namespace Yupi.Messages.User
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

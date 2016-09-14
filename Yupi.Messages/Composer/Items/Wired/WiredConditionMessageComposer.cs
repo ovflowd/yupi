@@ -1,16 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Wired
+﻿namespace Yupi.Messages.Wired
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class WiredConditionMessageComposer : Yupi.Messages.Contracts.WiredConditionMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, FloorItem item, List<FloorItem> list,
             string extraString)
         {
-// TODO Won't work properly. Must implement composer correctly...
+            // TODO Won't work properly. Must implement composer correctly...
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
             {
                 message.AppendBool(false);
@@ -31,7 +34,6 @@ namespace Yupi.Messages.Wired
                 message.AppendString(extraString);
                 message.AppendInteger(3);
 
-
                 message.AppendInteger(0);
                 message.AppendInteger(0);
                 message.AppendInteger(0);
@@ -41,5 +43,7 @@ namespace Yupi.Messages.Wired
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

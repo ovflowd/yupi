@@ -1,24 +1,31 @@
-﻿using System;
-using Yupi.Model.Repository;
-using Yupi.Model.Domain;
-using Yupi.Model;
-using Yupi.Protocol;
-using System.Collections.Generic;
-using Yupi.Messages.Contracts;
-using Yupi.Net;
-using System.Linq;
-using Yupi.Util;
-using Yupi.Util.Collections;
-
-namespace Yupi.Controller
+﻿namespace Yupi.Controller
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Yupi.Messages.Contracts;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+    using Yupi.Net;
+    using Yupi.Protocol;
+    using Yupi.Util;
+    using Yupi.Util.Collections;
+
     public class SSOManager
     {
-        private IRepository<UserInfo> UserRepository;
-        private ClientManager ClientManager;
-        private BiDictionary<string, UserInfo> Tickets;
+        #region Fields
+
         private AchievementManager AchievementManager;
+        private ClientManager ClientManager;
         private ModerationTool ModerationTool;
+        private BiDictionary<string, UserInfo> Tickets;
+        private IRepository<UserInfo> UserRepository;
+
+        #endregion Fields
+
+        #region Constructors
 
         public SSOManager()
         {
@@ -27,6 +34,40 @@ namespace Yupi.Controller
             Tickets = new BiDictionary<string, UserInfo>();
             AchievementManager = DependencyFactory.Resolve<AchievementManager>();
             ModerationTool = DependencyFactory.Resolve<ModerationTool>();
+        }
+
+        #endregion Constructors
+
+        #region Methods
+
+        public string GenerateTicket(int userId)
+        {
+            UserInfo user = UserRepository.FindBy(userId);
+            return GenerateTicket(user);
+        }
+
+        public string GenerateTicket(UserInfo info)
+        {
+            if (info == null)
+            {
+                return null;
+            }
+
+            lock (Tickets)
+            {
+                Tickets.TryRemoveBySecond(info);
+
+                string ticket = Cryptography.GetUniqueKey(20);
+
+                if (Tickets.TryAdd(ticket, info))
+                {
+                    return ticket;
+                }
+                else
+                {
+                    return null;
+                }
+            }
         }
 
         public void TryLogin(Habbo session, string ssoTicket)
@@ -107,34 +148,6 @@ namespace Yupi.Controller
             }
         }
 
-        public string GenerateTicket(int userId)
-        {
-            UserInfo user = UserRepository.FindBy(userId);
-            return GenerateTicket(user);
-        }
-
-        public string GenerateTicket(UserInfo info)
-        {
-            if (info == null)
-            {
-                return null;
-            }
-
-            lock (Tickets)
-            {
-                Tickets.TryRemoveBySecond(info);
-
-                string ticket = Cryptography.GetUniqueKey(20);
-
-                if (Tickets.TryAdd(ticket, info))
-                {
-                    return ticket;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
+        #endregion Methods
     }
 }

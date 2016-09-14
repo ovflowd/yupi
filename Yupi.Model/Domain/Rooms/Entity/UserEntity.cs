@@ -1,42 +1,48 @@
-﻿using System;
-using Yupi.Model.Domain;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System;
+
+    using Yupi.Model.Domain;
+
     [Ignore]
     public class UserEntity : HumanEntity
     {
-        public UserInfo UserInfo
+        #region Fields
+
+        public Habbo User;
+
+        #endregion Fields
+
+        #region Constructors
+
+        public UserEntity(Habbo user, Room room, int id)
+            : base(room, id)
         {
-            get { return User.Info; }
+            this.User = user;
         }
+
+        #endregion Constructors
+
+        #region Properties
 
         public override BaseInfo BaseInfo
         {
             get { return UserInfo; }
         }
 
-        public Habbo User;
-
         public override EntityType Type
         {
             get { return EntityType.User; }
         }
 
-        public UserEntity(Habbo user, Room room, int id) : base(room, id)
+        public UserInfo UserInfo
         {
-            this.User = user;
+            get { return User.Info; }
         }
 
-        public override void SetDance(Dance dance)
-        {
-            if (dance.ClubOnly && !this.User.Info.Subscription.IsValid())
-            {
-                return;
-            }
+        #endregion Properties
 
-            base.SetDance(dance);
-        }
+        #region Methods
 
         public override void HandleChatMessage(UserEntity user, Action<Habbo> sendTo)
         {
@@ -50,5 +56,17 @@ namespace Yupi.Model.Domain
         public override void OnRoomExit()
         {
         }
+
+        public override void SetDance(Dance dance)
+        {
+            if (dance.ClubOnly && !this.User.Info.Subscription.IsValid())
+            {
+                return;
+            }
+
+            base.SetDance(dance);
+        }
+
+        #endregion Methods
     }
 }

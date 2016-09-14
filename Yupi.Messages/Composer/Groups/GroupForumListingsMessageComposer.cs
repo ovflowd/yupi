@@ -1,16 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using Yupi.Protocol.Buffers;
-using System.Data;
-using System.Linq;
-using Yupi.Model.Domain;
-using Yupi.Util;
-
-namespace Yupi.Messages.Groups
+﻿namespace Yupi.Messages.Groups
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Linq;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+    using Yupi.Util;
+
     public class GroupForumListingsMessageComposer : Yupi.Messages.Contracts.GroupForumListingsMessageComposer
     {
+        #region Fields
+
         private const int TotalPerPage = 20;
+
+        #endregion Fields
+
+        #region Methods
 
         public override void Compose(Yupi.Protocol.ISender session, int selectType, int startIndex)
         {
@@ -52,7 +59,6 @@ namespace Yupi.Messages.Groups
 
                         message.AppendInteger(table.Rows.Count);
 
-
                         SerializeForumRoot(message, groupList);
                     }
                     break;
@@ -86,7 +92,6 @@ namespace Yupi.Messages.Groups
             }
         }
 
-
         private void SerializeForumRoot(ServerMessage message, List<Group> groupList)
         {
             foreach (Group group in groupList)
@@ -105,5 +110,7 @@ namespace Yupi.Messages.Groups
                 message.AppendInteger((int) group.Forum.GetLastPost().Timestamp.ToUnix().SecondsSinceEpoch);
             }
         }
+
+        #endregion Methods
     }
 }

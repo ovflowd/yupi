@@ -1,11 +1,13 @@
-﻿using System;
-using Yupi.Messages.Rooms;
-
-
-namespace Yupi.Messages.Groups
+﻿namespace Yupi.Messages.Groups
 {
+    using System;
+
+    using Yupi.Messages.Rooms;
+
     public class RemoveGroupAdminMessageEvent : AbstractHandler
     {
+        #region Methods
+
         // TODO Refactor
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
@@ -46,5 +48,7 @@ namespace Yupi.Messages.Groups
             }
             */
         }
+
+        #endregion Methods
     }
 }

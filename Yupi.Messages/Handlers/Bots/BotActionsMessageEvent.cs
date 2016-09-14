@@ -1,13 +1,16 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using Yupi.Messages.Rooms;
-using Yupi.Messages.Notification;
-
-namespace Yupi.Messages.Bots
+﻿namespace Yupi.Messages.Bots
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Yupi.Messages.Notification;
+    using Yupi.Messages.Rooms;
+
     public class BotActionsMessageEvent : AbstractHandler
     {
+        #region Methods
+
         // TODO Refactor
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
@@ -117,5 +120,7 @@ namespace Yupi.Messages.Bots
             */
             throw new NotImplementedException();
         }
+
+        #endregion Methods
     }
 }

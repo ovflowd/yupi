@@ -1,11 +1,14 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Pets
+﻿namespace Yupi.Messages.Pets
 {
+    using System;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class PetBreedMessageComposer : Yupi.Messages.Contracts.PetBreedMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, uint furniId, PetEntity pet1, PetEntity pet2)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -115,5 +118,7 @@ namespace Yupi.Messages.Pets
                 throw new NotImplementedException();
             }
         }
+
+        #endregion Methods
     }
 }

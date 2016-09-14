@@ -1,19 +1,30 @@
-﻿using System;
-using Yupi.Util;
-using Yupi.Model.Domain;
-using Yupi.Controller;
-using Yupi.Model;
-
-namespace Yupi.Messages.Messenger
+﻿namespace Yupi.Messages.Messenger
 {
+    using System;
+
+    using Yupi.Controller;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Util;
+
     public class DeleteFriendMessageEvent : AbstractHandler
     {
+        #region Fields
+
         private RelationshipController RelationshipController;
+
+        #endregion Fields
+
+        #region Constructors
 
         public DeleteFriendMessageEvent()
         {
             RelationshipController = DependencyFactory.Resolve<RelationshipController>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
@@ -26,5 +37,7 @@ namespace Yupi.Messages.Messenger
                 RelationshipController.Remove(session, friendId);
             }
         }
+
+        #endregion Methods
     }
 }

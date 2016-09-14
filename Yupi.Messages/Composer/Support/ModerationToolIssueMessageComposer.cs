@@ -1,11 +1,14 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Support
+﻿namespace Yupi.Messages.Support
 {
+    using System;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class ModerationToolIssueMessageComposer : Yupi.Messages.Contracts.ModerationToolIssueMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, SupportTicket ticket)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -38,5 +41,7 @@ namespace Yupi.Messages.Support
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

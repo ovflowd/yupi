@@ -1,26 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
-using System.Text;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Numerics;
+    using System.Text;
+
     [Ignore]
     public class HeightMap
     {
-        private short[] Map;
-
-        public virtual int MapSize
-        {
-            get
-            {
-                return Map.Length;
-            }
-        }
-
-        public virtual int TotalX { get; private set; }
-
-        public virtual int TotalY { get; private set; }
+        #region Fields
 
         private static readonly char[] base32 = new[]
                                                     {
@@ -28,6 +16,12 @@ namespace Yupi.Model.Domain
                                                         'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
                                                         'p', 'q', 'r', 's', 't', 'u', 'v'
                                                     };
+
+        private short[] Map;
+
+        #endregion Fields
+
+        #region Constructors
 
         public HeightMap(string map)
         {
@@ -48,88 +42,31 @@ namespace Yupi.Model.Domain
             }
         }
 
-        public bool IsWalkable(Vector2 position)
-        {
-            // TODO Implement properly
-            return GetTileHeight(position) >= 0;
-        }
+        #endregion Constructors
 
-        public bool IsValidTile(Vector2 position)
-        {
-            return position.X >= 0 && position.Y >= 0 && position.Y < TotalY && position.X < TotalX;
-        }
+        #region Properties
 
-        public List<Vector2> GetNeighbours(Vector2 position)
+        public virtual int MapSize
         {
-            List<Vector2> neighbours = new List<Vector2>(8);
-            for (int x = -1; x <= 1; ++x)
+            get
             {
-                for (int y = -1; y <= 1; ++y)
-                {
-                    if (y == 0 && x == 0)
-                    {
-                        continue;
-                    }
-
-                    Vector2 neighbour = position + new Vector2(x, y);
-
-                    if (IsValidTile(neighbour))
-                    {
-                        neighbours.Add(neighbour);
-                    }
-                }
+                return Map.Length;
             }
-
-            return neighbours;
         }
 
-        private short ParseTileChar(char height)
+        public virtual int TotalX
         {
-            if (height == 'x')
-            {
-                return -1;
-            }
-
-            short index = (short)Array.IndexOf(base32, height);
-
-            if (index < 0)
-            {
-                throw new ArgumentOutOfRangeException("height");
-            }
-
-            return index;
+            get; private set;
         }
 
-        private void SetTileHeight(int x, int y, short height)
+        public virtual int TotalY
         {
-            Map[x * TotalY + y] = height;
+            get; private set;
         }
 
-        /// <summary>
-        /// The height of the tile with furniture.
-        /// </summary>
-        /// <returns>The height.</returns>
-        /// <param name="x">The x coordinate.</param>
-        /// <param name="y">The y coordinate.</param>
-        public short GetTileHeight(int x, int y)
-        {
-            return Map[x * TotalY + y];
-        }
+        #endregion Properties
 
-        public short GetTileHeight(int index)
-        {
-            return Map[index];
-        }
-
-        public short GetTileHeight(Vector2 position)
-        {
-            return GetTileHeight((int)position.X, (int)position.Y);
-        }
-
-        public short GetTileHeight(Vector3 position)
-        {
-            return GetTileHeight((int)position.X, (int)position.Y);
-        }
+        #region Methods
 
         /// <summary>
         /// Get the internal map. Should only be used for testing.
@@ -162,6 +99,67 @@ namespace Yupi.Model.Domain
             }
 
             return sb.ToString();
+        }
+
+        public List<Vector2> GetNeighbours(Vector2 position)
+        {
+            List<Vector2> neighbours = new List<Vector2>(8);
+            for (int x = -1; x <= 1; ++x)
+            {
+                for (int y = -1; y <= 1; ++y)
+                {
+                    if (y == 0 && x == 0)
+                    {
+                        continue;
+                    }
+
+                    Vector2 neighbour = position + new Vector2(x, y);
+
+                    if (IsValidTile(neighbour))
+                    {
+                        neighbours.Add(neighbour);
+                    }
+                }
+            }
+
+            return neighbours;
+        }
+
+        /// <summary>
+        /// The height of the tile with furniture.
+        /// </summary>
+        /// <returns>The height.</returns>
+        /// <param name="x">The x coordinate.</param>
+        /// <param name="y">The y coordinate.</param>
+        public short GetTileHeight(int x, int y)
+        {
+            return Map[x * TotalY + y];
+        }
+
+        public short GetTileHeight(int index)
+        {
+            return Map[index];
+        }
+
+        public short GetTileHeight(Vector2 position)
+        {
+            return GetTileHeight((int)position.X, (int)position.Y);
+        }
+
+        public short GetTileHeight(Vector3 position)
+        {
+            return GetTileHeight((int)position.X, (int)position.Y);
+        }
+
+        public bool IsValidTile(Vector2 position)
+        {
+            return position.X >= 0 && position.Y >= 0 && position.Y < TotalY && position.X < TotalX;
+        }
+
+        public bool IsWalkable(Vector2 position)
+        {
+            // TODO Implement properly
+            return GetTileHeight(position) >= 0;
         }
 
         public override string ToString()
@@ -197,5 +195,29 @@ namespace Yupi.Model.Domain
 
             return sb.ToString();
         }
+
+        private short ParseTileChar(char height)
+        {
+            if (height == 'x')
+            {
+                return -1;
+            }
+
+            short index = (short)Array.IndexOf(base32, height);
+
+            if (index < 0)
+            {
+                throw new ArgumentOutOfRangeException("height");
+            }
+
+            return index;
+        }
+
+        private void SetTileHeight(int x, int y, short height)
+        {
+            Map[x * TotalY + y] = height;
+        }
+
+        #endregion Methods
     }
 }

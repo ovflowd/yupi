@@ -1,14 +1,19 @@
-using System.Collections.Generic;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Contracts
+﻿namespace Yupi.Messages.Contracts
 {
+    using System.Collections.Generic;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public abstract class FavouriteRoomsMessageComposer : AbstractComposer<IList<RoomData>>
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, IList<RoomData> rooms)
         {
             // Do nothing by default.
         }
+
+        #endregion Methods
     }
 }

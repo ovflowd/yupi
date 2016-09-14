@@ -1,11 +1,12 @@
-﻿using System;
-using System.Data;
-
-
-namespace Yupi.Messages.Catalog
+﻿namespace Yupi.Messages.Catalog
 {
+    using System;
+    using System.Data;
+
     public class RedeemVoucherMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -43,5 +44,7 @@ namespace Yupi.Messages.Catalog
             */
             throw new NotImplementedException();
         }
+
+        #endregion Methods
     }
 }

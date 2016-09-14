@@ -1,12 +1,14 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-
-namespace Yupi.Messages.Catalog
+﻿namespace Yupi.Messages.Catalog
 {
+    using System;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class CatalogOfferMessageComposer : Yupi.Messages.Contracts.CatalogOfferMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, CatalogItem item)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -87,7 +89,7 @@ namespace Yupi.Messages.Catalog
                             message.AppendString (item.ExtraData);
                         else
                             message.AppendString (string.Empty);
-*/
+            */
                         throw new NotImplementedException();
                         message.AppendInteger(item.BaseItems[baseItem]);
                         message.AppendBool(item is LimitedCatalogItem);
@@ -105,5 +107,7 @@ namespace Yupi.Messages.Catalog
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

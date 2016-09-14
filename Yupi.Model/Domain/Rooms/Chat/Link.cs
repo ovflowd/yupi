@@ -1,14 +1,32 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System;
+
     public class Link
     {
-        public virtual int Id { get; protected set; }
-        public virtual string URL { get; set; }
-        public virtual string Text { get; set; }
+        #region Properties
+
+        public virtual int Id
+        {
+            get; protected set;
+        }
 
         // Internal will open in window with id habboMain
-        public virtual bool IsInternal { get; set; }
+        public virtual bool IsInternal
+        {
+            get; set;
+        }
+
+        public virtual string Text
+        {
+            get; set;
+        }
+
+        public virtual string URL
+        {
+            get; set;
+        }
+
+        #endregion Properties
     }
 }

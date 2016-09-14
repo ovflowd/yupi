@@ -1,16 +1,18 @@
+﻿#region Header
+
 /**
-     Because i love chocolat...                                      
-                                    88 88  
-                                    "" 88  
-                                       88  
-8b       d8 88       88 8b,dPPYba,  88 88  
-`8b     d8' 88       88 88P'    "8a 88 88  
- `8b   d8'  88       88 88       d8 88 ""  
-  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa  
-    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88  
-    d8'                 88                 
-   d8'                  88     
-   
+     Because i love chocolat...
+                                    88 88
+                                    "" 88
+                                       88
+8b       d8 88       88 8b,dPPYba,  88 88
+`8b     d8' 88       88 88P'    "8a 88 88
+ `8b   d8'  88       88 88       d8 88 ""
+  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa
+    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88
+    d8'                 88
+   d8'                  88
+
    Private Habbo Hotel Emulating System
    @author Claudio A. Santoro W.
    @author Kessiler R.
@@ -18,29 +20,38 @@
    @license MIT
    @copyright Sulake Corporation Oy
    @observation All Rights of Habbo, Habbo Hotel, and all Habbo contents and it's names, is copyright from Sulake
-   Corporation Oy. Yupi! has nothing linked with Sulake. 
+   Corporation Oy. Yupi! has nothing linked with Sulake.
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Yupi.Model.Repository;
-using Yupi.Protocol;
-using Yupi.Messages.Contracts;
-using Yupi.Model.Domain;
-using Yupi.Model;
-using Yupi.Net;
+#endregion Header
 
 namespace Yupi.Controller
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Yupi.Messages.Contracts;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+    using Yupi.Net;
+    using Yupi.Protocol;
+
     public class AchievementManager
     {
+        #region Fields
+
         public IDictionary<string, Achievement> Achievements;
-        private ClientManager ClientManager;
 
         private IRepository<Achievement> AchievementRepository;
+        private ClientManager ClientManager;
         private IRepository<UserInfo> UserRepository;
+
+        #endregion Fields
+
+        #region Constructors
 
         public AchievementManager()
         {
@@ -50,61 +61,25 @@ namespace Yupi.Controller
             LoadAchievements();
         }
 
-        private void LoadAchievements()
+        #endregion Constructors
+
+        #region Methods
+
+        public Achievement GetAchievement(string achievementGroup)
         {
-            Achievements = AchievementRepository.All().ToDictionary((x) => x.GroupName);
+            return Achievements[achievementGroup];
         }
 
-        public void TryProgressLoginAchievements(Habbo session)
+        // TODO Enum?
+        public bool ProgressUserAchievement(UserInfo info, string achievementGroup, int progressAmount)
         {
-            // FIXME
-            /*
-            if (session.GetHabbo ().Achievements.ContainsKey ("ACH_Login")) {
-                int daysBtwLastLogin = Yupi.GetUnixTimeStamp () - session.Info.PreviousOnline;
-
-                if (daysBtwLastLogin >= 51840 && daysBtwLastLogin <= 112320)
-                    ProgressUserAchievement (session, "ACH_Login", );
-
-                return;
-            }
-
-            ProgressUserAchievement (session, "ACH_Login", 1);
-            */
+            Habbo session = ClientManager.GetByInfo(info);
+            return ProgressUserAchievement(info, achievementGroup, progressAmount, session);
         }
 
-        public void TryProgressRegistrationAchievements(Habbo session)
+        public bool ProgressUserAchievement(Habbo user, string achievementGroup, int progressAmount)
         {
-            // FIXME
-
-            /*
-            if (session.GetHabbo () == null)
-                return;
-
-            if (session.GetHabbo ().Achievements.ContainsKey ("ACH_RegistrationDuration")) {
-                UserAchievement regAch = session.GetHabbo ().GetAchievementData ("ACH_RegistrationDuration");
-
-                if (regAch.Level == 5)
-                    return;
-
-                double sinceMember = Yupi.GetUnixTimeStamp () - (int)session.GetHabbo ().CreateDate;
-
-                uint daysSinceMember = Convert.ToUInt32 (Math.Round (sinceMember / 86400));
-
-                if (daysSinceMember == regAch.Progress)
-                    return;
-
-                uint days = daysSinceMember - regAch.Progress;
-
-                if (days < 1)
-                    return;
-
-                ProgressUserAchievement (session, "ACH_RegistrationDuration", days);
-
-                return;
-            }
-
-            ProgressUserAchievement (session, "ACH_RegistrationDuration", 1, true);
-            */
+            return ProgressUserAchievement(user.Info, achievementGroup, progressAmount, user);
         }
 
         public void TryProgressHabboClubAchievements(Habbo session)
@@ -159,16 +134,61 @@ namespace Yupi.Controller
             // FIXME
         }
 
-        // TODO Enum?
-        public bool ProgressUserAchievement(UserInfo info, string achievementGroup, int progressAmount)
+        public void TryProgressLoginAchievements(Habbo session)
         {
-            Habbo session = ClientManager.GetByInfo(info);
-            return ProgressUserAchievement(info, achievementGroup, progressAmount, session);
+            // FIXME
+            /*
+            if (session.GetHabbo ().Achievements.ContainsKey ("ACH_Login")) {
+                int daysBtwLastLogin = Yupi.GetUnixTimeStamp () - session.Info.PreviousOnline;
+
+                if (daysBtwLastLogin >= 51840 && daysBtwLastLogin <= 112320)
+                    ProgressUserAchievement (session, "ACH_Login", );
+
+                return;
+            }
+
+            ProgressUserAchievement (session, "ACH_Login", 1);
+            */
         }
 
-        public bool ProgressUserAchievement(Habbo user, string achievementGroup, int progressAmount)
+        public void TryProgressRegistrationAchievements(Habbo session)
         {
-            return ProgressUserAchievement(user.Info, achievementGroup, progressAmount, user);
+            // FIXME
+
+            /*
+            if (session.GetHabbo () == null)
+                return;
+
+            if (session.GetHabbo ().Achievements.ContainsKey ("ACH_RegistrationDuration")) {
+                UserAchievement regAch = session.GetHabbo ().GetAchievementData ("ACH_RegistrationDuration");
+
+                if (regAch.Level == 5)
+                    return;
+
+                double sinceMember = Yupi.GetUnixTimeStamp () - (int)session.GetHabbo ().CreateDate;
+
+                uint daysSinceMember = Convert.ToUInt32 (Math.Round (sinceMember / 86400));
+
+                if (daysSinceMember == regAch.Progress)
+                    return;
+
+                uint days = daysSinceMember - regAch.Progress;
+
+                if (days < 1)
+                    return;
+
+                ProgressUserAchievement (session, "ACH_RegistrationDuration", days);
+
+                return;
+            }
+
+            ProgressUserAchievement (session, "ACH_RegistrationDuration", 1, true);
+            */
+        }
+
+        private void LoadAchievements()
+        {
+            Achievements = AchievementRepository.All().ToDictionary((x) => x.GroupName);
         }
 
         private bool ProgressUserAchievement(UserInfo user, string achievementGroup, int progressAmount, Habbo session)
@@ -237,9 +257,6 @@ namespace Yupi.Controller
             return false;
         }
 
-        public Achievement GetAchievement(string achievementGroup)
-        {
-            return Achievements[achievementGroup];
-        }
+        #endregion Methods
     }
 }

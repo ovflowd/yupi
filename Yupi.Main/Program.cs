@@ -1,14 +1,21 @@
-﻿using System;
-using Yupi.Util;
-using System.Reflection;
-using System.Linq;
-using System.Threading;
-
-namespace Yupi.Main
+﻿namespace Yupi.Main
 {
+    using System;
+    using System.Linq;
+    using System.Reflection;
+    using System.Threading;
+
+    using Yupi.Util;
+
     class MainClass
     {
+        #region Fields
+
         private static Server Yupi;
+
+        #endregion Fields
+
+        #region Methods
 
         public static void Main(string[] args)
         {
@@ -57,5 +64,7 @@ namespace Yupi.Main
             Console.WriteLine("        " + "  .NET Framework " + Environment.Version + " C# 6 Roslyn");
             Console.WriteLine();
         }
+
+        #endregion Methods
     }
 }

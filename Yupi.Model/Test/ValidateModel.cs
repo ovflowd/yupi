@@ -1,10 +1,13 @@
-﻿using System;
-using Yupi.Model.Domain;
-
-namespace Yupi.Model
+﻿namespace Yupi.Model
 {
+    using System;
+
+    using Yupi.Model.Domain;
+
     public class ValidateModel
     {
+        #region Methods
+
         // TODO Implement as Model Validator (Room Model Extensions)
         public static void ValidateDoor()
         {
@@ -43,5 +46,7 @@ namespace Yupi.Model
                 }
             }
         }
+
+        #endregion Methods
     }
 }

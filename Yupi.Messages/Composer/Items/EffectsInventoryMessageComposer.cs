@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Items
+﻿namespace Yupi.Messages.Items
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class EffectsInventoryMessageComposer : Yupi.Messages.Contracts.EffectsInventoryMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, IList<AvatarEffect> effects)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -25,5 +28,7 @@ namespace Yupi.Messages.Items
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

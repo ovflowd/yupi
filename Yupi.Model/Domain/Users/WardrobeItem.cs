@@ -1,12 +1,31 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System;
+
     public class WardrobeItem
     {
-        public virtual int Id { get; protected set; }
-        public virtual int Slot { get; set; }
-        public virtual string Look { get; set; }
-        public virtual string Gender { get; set; }
+        #region Properties
+
+        public virtual string Gender
+        {
+            get; set;
+        }
+
+        public virtual int Id
+        {
+            get; protected set;
+        }
+
+        public virtual string Look
+        {
+            get; set;
+        }
+
+        public virtual int Slot
+        {
+            get; set;
+        }
+
+        #endregion Properties
     }
 }

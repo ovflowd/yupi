@@ -1,18 +1,28 @@
-﻿using System;
-using Yupi.Controller;
-using Yupi.Model;
-
-
-namespace Yupi.Messages.Support
+﻿namespace Yupi.Messages.Support
 {
+    using System;
+
+    using Yupi.Controller;
+    using Yupi.Model;
+
     public class ModerationBanUserMessageEvent : AbstractHandler
     {
+        #region Fields
+
         private ModerationTool ModerationTool;
+
+        #endregion Fields
+
+        #region Constructors
 
         public ModerationBanUserMessageEvent()
         {
             ModerationTool = DependencyFactory.Resolve<ModerationTool>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
@@ -29,5 +39,7 @@ namespace Yupi.Messages.Support
                 ModerationTool.BanUser(userId, hours, reason);
             }
         }
+
+        #endregion Methods
     }
 }

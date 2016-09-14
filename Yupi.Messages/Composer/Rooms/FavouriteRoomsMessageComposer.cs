@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Rooms
+﻿namespace Yupi.Messages.Rooms
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class FavouriteRoomsMessageComposer : Yupi.Messages.Contracts.FavouriteRoomsMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, IList<RoomData> rooms)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -19,5 +22,7 @@ namespace Yupi.Messages.Rooms
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

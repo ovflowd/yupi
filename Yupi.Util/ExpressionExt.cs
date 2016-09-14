@@ -1,10 +1,12 @@
-﻿using System;
-using System.Linq.Expressions;
-
-namespace Yupi.Util
+﻿namespace Yupi.Util
 {
+    using System;
+    using System.Linq.Expressions;
+
     public static class ExpressionExt
     {
+        #region Methods
+
         /// <summary>
         /// And for LINQ Expressions
         /// </summary>
@@ -29,12 +31,20 @@ namespace Yupi.Util
                 Expression.AndAlso(left, right), parameter);
         }
 
+        #endregion Methods
 
-        private class ReplaceExpressionVisitor
-            : ExpressionVisitor
+        #region Nested Types
+
+        private class ReplaceExpressionVisitor : ExpressionVisitor
         {
-            private readonly Expression _oldValue;
+            #region Fields
+
             private readonly Expression _newValue;
+            private readonly Expression _oldValue;
+
+            #endregion Fields
+
+            #region Constructors
 
             public ReplaceExpressionVisitor(Expression oldValue, Expression newValue)
             {
@@ -42,12 +52,20 @@ namespace Yupi.Util
                 _newValue = newValue;
             }
 
+            #endregion Constructors
+
+            #region Methods
+
             public override Expression Visit(Expression node)
             {
                 if (node == _oldValue)
                     return _newValue;
                 return base.Visit(node);
             }
+
+            #endregion Methods
         }
+
+        #endregion Nested Types
     }
 }

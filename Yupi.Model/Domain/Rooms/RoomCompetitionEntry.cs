@@ -1,11 +1,26 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System;
+
     public class RoomCompetitionEntry
     {
-        public virtual int Id { get; set; }
-        public virtual RoomData Room { get; set; }
-        public virtual int Votes { get; set; }
+        #region Properties
+
+        public virtual int Id
+        {
+            get; set;
+        }
+
+        public virtual RoomData Room
+        {
+            get; set;
+        }
+
+        public virtual int Votes
+        {
+            get; set;
+        }
+
+        #endregion Properties
     }
 }

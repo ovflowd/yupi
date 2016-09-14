@@ -1,9 +1,11 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System;
+
     public class BadgeDisplayBaseItem : FloorBaseItem
     {
+        #region Methods
+
         public override Item CreateNew()
         {
             return new BadgeDisplayItem()
@@ -11,5 +13,7 @@ namespace Yupi.Model.Domain
                 BaseItem = this
             };
         }
+
+        #endregion Methods
     }
 }

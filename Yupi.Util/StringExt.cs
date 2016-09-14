@@ -1,9 +1,11 @@
-﻿using System;
-
-namespace Yupi.Util
+﻿namespace Yupi.Util
 {
+    using System;
+
     public static class StringExt
     {
+        #region Methods
+
         public static bool Contains(this string source, string toCheck, StringComparison comp)
         {
             return source.IndexOf(toCheck, comp) >= 0;
@@ -13,5 +15,7 @@ namespace Yupi.Util
         {
             return Contains(source, toCheck, StringComparison.OrdinalIgnoreCase);
         }
+
+        #endregion Methods
     }
 }

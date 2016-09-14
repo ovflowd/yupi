@@ -1,21 +1,31 @@
-﻿using System;
-using Yupi.Controller;
-using Yupi.Model;
-using Yupi.Messages.Notification;
-
-
-namespace Yupi.Messages.Support
+﻿namespace Yupi.Messages.Support
 {
+    using System;
+
+    using Yupi.Controller;
+    using Yupi.Messages.Notification;
+    using Yupi.Model;
+
     public class ModerationKickUserMessageEvent : AbstractHandler
     {
+        #region Fields
+
         private ClientManager ClientManager;
         private RoomManager RoomManager;
+
+        #endregion Fields
+
+        #region Constructors
 
         public ModerationKickUserMessageEvent()
         {
             ClientManager = DependencyFactory.Resolve<ClientManager>();
             RoomManager = DependencyFactory.Resolve<RoomManager>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
@@ -36,5 +46,7 @@ namespace Yupi.Messages.Support
                 target.Router.GetComposer<AlertNotificationMessageComposer>().Compose(target, message);
             }
         }
+
+        #endregion Methods
     }
 }

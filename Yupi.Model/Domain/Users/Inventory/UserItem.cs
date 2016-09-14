@@ -1,10 +1,17 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System;
+
     // TODO Remove
     public class UserItem
     {
-        public virtual int Id { get; set; }
+        #region Properties
+
+        public virtual int Id
+        {
+            get; set;
+        }
+
+        #endregion Properties
     }
 }

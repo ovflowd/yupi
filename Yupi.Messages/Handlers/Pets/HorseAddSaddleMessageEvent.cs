@@ -1,10 +1,13 @@
-﻿using System;
-using Yupi.Messages.Rooms;
-
-namespace Yupi.Messages.Pets
+﻿namespace Yupi.Messages.Pets
 {
+    using System;
+
+    using Yupi.Messages.Rooms;
+
     public class HorseAddSaddleMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -130,7 +133,7 @@ namespace Yupi.Messages.Pets
                 room.GetRoomItemHandler().RemoveFurniture(session, item.Id, false);
 
                 router.GetComposer<SetRoomUserMessageComposer> ().Compose (room, pet);
-    
+
                 if (isForHorse)
                 {
                     router.GetComposer<SerializePetMessageComposer> ().Compose (room, pet);
@@ -139,5 +142,7 @@ namespace Yupi.Messages.Pets
             */
             throw new NotImplementedException();
         }
+
+        #endregion Methods
     }
 }

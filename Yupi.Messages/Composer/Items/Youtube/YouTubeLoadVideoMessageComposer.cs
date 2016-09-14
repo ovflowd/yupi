@@ -1,12 +1,14 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-
-namespace Yupi.Messages.Youtube
+﻿namespace Yupi.Messages.Youtube
 {
+    using System;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class YouTubeLoadVideoMessageComposer : Yupi.Messages.Contracts.YouTubeLoadVideoMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, YoutubeTVItem tv)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -19,5 +21,7 @@ namespace Yupi.Messages.Youtube
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

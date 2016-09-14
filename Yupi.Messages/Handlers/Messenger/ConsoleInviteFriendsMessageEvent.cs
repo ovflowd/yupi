@@ -1,20 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using Yupi.Controller;
-using Yupi.Model;
-using Yupi.Model.Domain;
-
-
-namespace Yupi.Messages.Messenger
+﻿namespace Yupi.Messages.Messenger
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Yupi.Controller;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+
     public class ConsoleInviteFriendsMessageEvent : AbstractHandler
     {
+        #region Fields
+
         private ClientManager ClientManager;
+
+        #endregion Fields
+
+        #region Constructors
 
         public ConsoleInviteFriendsMessageEvent()
         {
             ClientManager = DependencyFactory.Resolve<ClientManager>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
@@ -44,5 +54,7 @@ namespace Yupi.Messages.Messenger
                     .Compose(friendSession, session.Info.Id, content);
             }
         }
+
+        #endregion Methods
     }
 }

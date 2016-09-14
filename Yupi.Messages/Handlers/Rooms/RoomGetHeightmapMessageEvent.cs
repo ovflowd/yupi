@@ -1,15 +1,17 @@
-﻿using System;
-using Yupi.Messages.Items;
-using Yupi.Model.Domain;
-using Yupi.Messages.User;
-using System.Collections.Generic;
-using System.Linq;
-
-
-namespace Yupi.Messages.Rooms
+﻿namespace Yupi.Messages.Rooms
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Yupi.Messages.Items;
+    using Yupi.Messages.User;
+    using Yupi.Model.Domain;
+
     public class RoomGetHeightmapMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -20,7 +22,6 @@ namespace Yupi.Messages.Rooms
 
             router.GetComposer<FloorMapMessageComposer>().Compose(session, session.Room.Data.Model.Heightmap,
                 session.Room.Data.WallHeight);
-
 
             if (session.Room.GetUserCount() >= session.Room.Data.UsersMax &&
                 !session.Info.HasPermission("fuse_enter_full_rooms"))
@@ -85,7 +86,7 @@ namespace Yupi.Messages.Rooms
                 if (CurrentLoadingRoom.CheckRights(session, true))
                 {
                     if (!competition.Entries.ContainsKey (CurrentLoadingRoom.RoomData.Id))
-                        router.GetComposer<CompetitionEntrySubmitResultMessageComposer> ().Compose (session, competition, 
+                        router.GetComposer<CompetitionEntrySubmitResultMessageComposer> ().Compose (session, competition,
                             CurrentLoadingRoom.RoomData.State != 0 ? 4 : 1);
                     else
                     {
@@ -125,5 +126,7 @@ namespace Yupi.Messages.Rooms
             */
             throw new NotImplementedException();
         }
+
+        #endregion Methods
     }
 }

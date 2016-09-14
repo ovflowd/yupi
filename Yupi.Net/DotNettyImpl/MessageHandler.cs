@@ -1,16 +1,18 @@
-﻿/**
-     Because i love chocolat...                                      
-                                    88 88  
-                                    "" 88  
-                                       88  
-8b       d8 88       88 8b,dPPYba,  88 88  
-`8b     d8' 88       88 88P'    "8a 88 88  
- `8b   d8'  88       88 88       d8 88 ""  
-  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa  
-    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88  
-    d8'                 88                 
-   d8'                  88     
-   
+﻿#region Header
+
+/**
+     Because i love chocolat...
+                                    88 88
+                                    "" 88
+                                       88
+8b       d8 88       88 8b,dPPYba,  88 88
+`8b     d8' 88       88 88P'    "8a 88 88
+ `8b   d8'  88       88 88       d8 88 ""
+  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa
+    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88
+    d8'                 88
+   d8'                  88
+
    Private Habbo Hotel Emulating System
    @author Claudio A. Santoro W.
    @author Kessiler R.
@@ -18,34 +20,36 @@
    @license MIT
    @copyright Sulake Corporation Oy
    @observation All Rights of Habbo, Habbo Hotel, and all Habbo contents and it's names, is copyright from Sulake
-   Corporation Oy. Yupi! has nothing linked with Sulake. 
+   Corporation Oy. Yupi! has nothing linked with Sulake.
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-using System;
-using System.Net;
-using System.Threading.Tasks;
-using DotNetty.Buffers;
-using DotNetty.Transport.Channels;
+#endregion Header
 
 namespace Yupi.Net.DotNettyImpl
 {
+    using System;
+    using System.Net;
+    using System.Threading.Tasks;
+
+    using DotNetty.Buffers;
+    using DotNetty.Transport.Channels;
+
     public class MessageHandler<T> : ChannelHandlerAdapter, ISession<T>
     {
-        public IPAddress RemoteAddress
-        {
-            get { return ((IPEndPoint) Channel.RemoteAddress).Address; }
-        }
-
-        public T UserData { get; set; }
-
-        private IChannel Channel;
-        private MessageReceived<T> OnMessage;
-        private ConnectionClosed<T> OnConnectionClosed;
-        private ConnectionOpened<T> OnConnectionOpened;
+        #region Fields
 
         private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger
             (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+        private IChannel Channel;
+        private ConnectionClosed<T> OnConnectionClosed;
+        private ConnectionOpened<T> OnConnectionOpened;
+        private MessageReceived<T> OnMessage;
+
+        #endregion Fields
+
+        #region Constructors
 
         public MessageHandler(IChannel channel, MessageReceived<T> onMessage, ConnectionClosed<T> onConnectionClosed,
             ConnectionOpened<T> onConnectionOpened)
@@ -56,9 +60,34 @@ namespace Yupi.Net.DotNettyImpl
             this.OnConnectionOpened = onConnectionOpened;
         }
 
-        public void Disconnect()
+        #endregion Constructors
+
+        #region Properties
+
+        public IPAddress RemoteAddress
         {
-            Channel.DisconnectAsync();
+            get { return ((IPEndPoint) Channel.RemoteAddress).Address; }
+        }
+
+        public T UserData
+        {
+            get; set;
+        }
+
+        #endregion Properties
+
+        #region Methods
+
+        public override void ChannelActive(IChannelHandlerContext context)
+        {
+            OnConnectionOpened(this);
+            base.ChannelActive(context);
+        }
+
+        public override void ChannelInactive(IChannelHandlerContext context)
+        {
+            OnConnectionClosed(this);
+            base.ChannelInactive(context);
         }
 
         public override void ChannelRead(IChannelHandlerContext context, object message)
@@ -72,6 +101,11 @@ namespace Yupi.Net.DotNettyImpl
             OnMessage(this, data);
 
             dataBuffer.Release();
+        }
+
+        public void Disconnect()
+        {
+            Channel.DisconnectAsync();
         }
 
         public override void ExceptionCaught(IChannelHandlerContext context, Exception exception)
@@ -92,16 +126,6 @@ namespace Yupi.Net.DotNettyImpl
             Send(buffer);
         }
 
-        public override void ChannelActive(IChannelHandlerContext context)
-        {
-            OnConnectionOpened(this);
-            base.ChannelActive(context);
-        }
-
-        public override void ChannelInactive(IChannelHandlerContext context)
-        {
-            OnConnectionClosed(this);
-            base.ChannelInactive(context);
-        }
+        #endregion Methods
     }
 }

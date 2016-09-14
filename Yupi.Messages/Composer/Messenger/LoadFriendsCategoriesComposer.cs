@@ -1,13 +1,16 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-
-namespace Yupi.Messages.Messenger
+﻿namespace Yupi.Messages.Messenger
 {
+    using System;
+
+    using Yupi.Protocol.Buffers;
+
     public class LoadFriendsCategoriesComposer : Yupi.Messages.Contracts.LoadFriendsCategoriesComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session)
         {
-// TODO Hardcoded message
+            // TODO Hardcoded message
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
             {
                 message.AppendInteger(2000);
@@ -18,5 +21,7 @@ namespace Yupi.Messages.Messenger
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

@@ -1,11 +1,14 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.User
+﻿namespace Yupi.Messages.User
 {
+    using System;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class SubscriptionStatusMessageComposer : Yupi.Messages.Contracts.SubscriptionStatusMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, Subscription subscription)
         {
             // TODO refactor
@@ -45,5 +48,7 @@ namespace Yupi.Messages.User
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

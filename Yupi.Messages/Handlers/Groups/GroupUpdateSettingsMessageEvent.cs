@@ -1,22 +1,33 @@
-﻿using System;
-using Yupi.Messages.Rooms;
-using Yupi.Model.Domain;
-using Yupi.Model.Repository;
-using Yupi.Model;
-using Yupi.Controller;
-
-namespace Yupi.Messages.Groups
+﻿namespace Yupi.Messages.Groups
 {
+    using System;
+
+    using Yupi.Controller;
+    using Yupi.Messages.Rooms;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+
     public class GroupUpdateSettingsMessageEvent : AbstractHandler
     {
+        #region Fields
+
         private IRepository<Group> GroupRepository;
         private RoomManager RoomManager;
+
+        #endregion Fields
+
+        #region Constructors
 
         public GroupUpdateSettingsMessageEvent()
         {
             GroupRepository = DependencyFactory.Resolve<IRepository<Group>>();
             RoomManager = DependencyFactory.Resolve<RoomManager>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
@@ -67,5 +78,7 @@ namespace Yupi.Messages.Groups
                 */
             throw new NotImplementedException();
         }
+
+        #endregion Methods
     }
 }

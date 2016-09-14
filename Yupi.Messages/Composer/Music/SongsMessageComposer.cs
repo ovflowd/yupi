@@ -1,18 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Music
+﻿namespace Yupi.Messages.Music
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class SongsMessageComposer : Yupi.Messages.Contracts.SongsMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, List<SongData> songs)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
             {
                 message.AppendInteger(songs.Count);
-
 
                 foreach (SongData current in songs)
                 {
@@ -27,5 +29,7 @@ namespace Yupi.Messages.Music
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

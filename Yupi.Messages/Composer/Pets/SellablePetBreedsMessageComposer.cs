@@ -1,12 +1,14 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using System.Collections.Generic;
-
-
-namespace Yupi.Messages.Pets
+﻿namespace Yupi.Messages.Pets
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Yupi.Protocol.Buffers;
+
     public class SellablePetBreedsMessageComposer : Yupi.Messages.Contracts.SellablePetBreedsMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, string type)
         {
             // TODO Refactor?
@@ -35,5 +37,7 @@ namespace Yupi.Messages.Pets
             */
             throw new NotImplementedException();
         }
+
+        #endregion Methods
     }
 }

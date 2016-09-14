@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Yupi.Messages.Trade
+﻿namespace Yupi.Messages.Trade
 {
+    using System;
+
     public class TradeCompletedMessageComposer : Contracts.AbstractComposerEmpty
     {
     }

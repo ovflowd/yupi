@@ -1,11 +1,14 @@
-using Yupi.Protocol.Buffers;
-using System.Collections.Generic;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Contracts
+﻿namespace Yupi.Messages.Contracts
 {
+    using System.Collections.Generic;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public abstract class NewInventoryObjectMessageComposer : AbstractComposer<BaseItem, List<Item>>
     {
+        #region Methods
+
         public virtual void Compose(Yupi.Protocol.ISender session, int itemId)
         {
             // TODO Remove?
@@ -15,5 +18,7 @@ namespace Yupi.Messages.Contracts
         {
             // Do nothing by default.
         }
+
+        #endregion Methods
     }
 }

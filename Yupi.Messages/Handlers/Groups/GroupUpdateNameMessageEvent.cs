@@ -1,19 +1,29 @@
-﻿using System;
-using Yupi.Model.Repository;
-using Yupi.Model;
-using Yupi.Model.Domain;
-
-
-namespace Yupi.Messages.Groups
+﻿namespace Yupi.Messages.Groups
 {
+    using System;
+
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+
     public class GroupUpdateNameMessageEvent : AbstractHandler
     {
+        #region Fields
+
         private IRepository<Group> GroupRepository;
+
+        #endregion Fields
+
+        #region Constructors
 
         public GroupUpdateNameMessageEvent()
         {
             GroupRepository = DependencyFactory.Resolve<IRepository<Group>>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         // TODO Refactor
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
@@ -47,5 +57,7 @@ namespace Yupi.Messages.Groups
                 router.GetComposer<GroupDataMessageComposer>().Compose(session, theGroup, session.Info);
             }
         }
+
+        #endregion Methods
     }
 }

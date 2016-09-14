@@ -1,11 +1,13 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-
-namespace Yupi.Messages.Navigator
+﻿namespace Yupi.Messages.Navigator
 {
-    public class LandingCommunityChallengeMessageComposer :
-        Yupi.Messages.Contracts.LandingCommunityChallengeMessageComposer
+    using System;
+
+    using Yupi.Protocol.Buffers;
+
+    public class LandingCommunityChallengeMessageComposer : Yupi.Messages.Contracts.LandingCommunityChallengeMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, int onlineFriends)
         {
             // TODO Magic numbers!
@@ -24,5 +26,7 @@ namespace Yupi.Messages.Navigator
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

@@ -1,15 +1,22 @@
-﻿using System;
-using Yupi.Model.Domain;
-using System.Collections.Generic;
-using Yupi.Util;
-
-namespace Yupi.Controller
+﻿namespace Yupi.Controller
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Yupi.Model.Domain;
+    using Yupi.Util;
+
     public class GuideManager
     {
+        #region Fields
+
+        public IList<Habbo> Guardians;
         public IList<Habbo> Guides;
         public IList<Habbo> Helpers;
-        public IList<Habbo> Guardians;
+
+        #endregion Fields
+
+        #region Constructors
 
         public GuideManager()
         {
@@ -18,11 +25,9 @@ namespace Yupi.Controller
             Guardians = new List<Habbo>();
         }
 
-        public Habbo GetRandomGuide()
-        {
-            // TODO Should this also look into Helpers/Guardians? Also we should make sure the selected Guide isn't busy already!
-            return Guides.Random();
-        }
+        #endregion Constructors
+
+        #region Methods
 
         public void Add(Habbo user)
         {
@@ -30,10 +35,18 @@ namespace Yupi.Controller
             Guides.Add(user);
         }
 
+        public Habbo GetRandomGuide()
+        {
+            // TODO Should this also look into Helpers/Guardians? Also we should make sure the selected Guide isn't busy already!
+            return Guides.Random();
+        }
+
         public void Remove(Habbo user)
         {
             // TODO Implement Helpers & Guardians
             Guides.Remove(user);
         }
+
+        #endregion Methods
     }
 }

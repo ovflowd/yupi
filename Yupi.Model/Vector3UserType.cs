@@ -1,15 +1,23 @@
-﻿using System;
-using NHibernate.SqlTypes;
-using NHibernate;
-using System.Data;
-using System.Numerics;
-using NHibernate.UserTypes;
-using NHibernate.Type;
-
-namespace Yupi.Model
+﻿namespace Yupi.Model
 {
+    using System;
+    using System.Data;
+    using System.Numerics;
+
+    using NHibernate;
+    using NHibernate.SqlTypes;
+    using NHibernate.Type;
+    using NHibernate.UserTypes;
+
     public class Vector3UserType : ICompositeUserType
     {
+        #region Properties
+
+        public bool IsMutable
+        {
+            get { return false; }
+        }
+
         public string[] PropertyNames
         {
             get { return new[] {"X", "Y", "Z"}; }
@@ -25,14 +33,28 @@ namespace Yupi.Model
             get { return typeof(Vector3); }
         }
 
-        public bool IsMutable
+        #endregion Properties
+
+        #region Methods
+
+        public object Assemble(object cached, NHibernate.Engine.ISessionImplementor session, object owner)
         {
-            get { return false; }
+            return cached;
         }
 
-        bool ICompositeUserType.Equals(object x, object y)
+        public object DeepCopy(object value)
         {
-            return Equals(x, y);
+            return value;
+        }
+
+        public object Disassemble(object value, NHibernate.Engine.ISessionImplementor session)
+        {
+            return value;
+        }
+
+        public int GetHashCode(object x)
+        {
+            return x == null ? 0 : x.GetHashCode();
         }
 
         public object GetPropertyValue(object component, int property)
@@ -51,53 +73,9 @@ namespace Yupi.Model
             }
         }
 
-        public void SetPropertyValue(object component, int property, object value)
+        bool ICompositeUserType.Equals(object x, object y)
         {
-            if (component == null)
-                throw new ArgumentNullException("component");
-
-            Vector3 vector = (Vector3) component;
-
-            switch (property)
-            {
-                case 0:
-                    vector.X = (float) value;
-                    break;
-                case 1:
-                    vector.Y = (float) value;
-                    break;
-                case 2:
-                    vector.Z = (float) value;
-                    break;
-                default:
-                    throw new Exception("No implementation for property index of '" + property + "'.");
-            }
-        }
-
-        public int GetHashCode(object x)
-        {
-            return x == null ? 0 : x.GetHashCode();
-        }
-
-        public object DeepCopy(object value)
-        {
-            return value;
-        }
-
-        public object Disassemble(object value, NHibernate.Engine.ISessionImplementor session)
-        {
-            return value;
-        }
-
-        public object Assemble(object cached, NHibernate.Engine.ISessionImplementor session, object owner)
-        {
-            return cached;
-        }
-
-        public object Replace(object original, object target, NHibernate.Engine.ISessionImplementor session,
-            object owner)
-        {
-            return original;
+            return Equals(x, y);
         }
 
         public object NullSafeGet(IDataReader rs, string[] names, NHibernate.Engine.ISessionImplementor session,
@@ -126,5 +104,36 @@ namespace Yupi.Model
             ((IDataParameter) cmd.Parameters[index + 1]).Value = vector.Y;
             ((IDataParameter) cmd.Parameters[index + 2]).Value = vector.Z;
         }
+
+        public object Replace(object original, object target, NHibernate.Engine.ISessionImplementor session,
+            object owner)
+        {
+            return original;
+        }
+
+        public void SetPropertyValue(object component, int property, object value)
+        {
+            if (component == null)
+                throw new ArgumentNullException("component");
+
+            Vector3 vector = (Vector3) component;
+
+            switch (property)
+            {
+                case 0:
+                    vector.X = (float) value;
+                    break;
+                case 1:
+                    vector.Y = (float) value;
+                    break;
+                case 2:
+                    vector.Z = (float) value;
+                    break;
+                default:
+                    throw new Exception("No implementation for property index of '" + property + "'.");
+            }
+        }
+
+        #endregion Methods
     }
 }

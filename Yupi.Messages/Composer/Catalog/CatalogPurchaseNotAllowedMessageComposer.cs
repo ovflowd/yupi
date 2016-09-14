@@ -1,11 +1,13 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-
-namespace Yupi.Messages.Catalog
+﻿namespace Yupi.Messages.Catalog
 {
-    public class CatalogPurchaseNotAllowedMessageComposer :
-        Yupi.Messages.Contracts.CatalogPurchaseNotAllowedMessageComposer
+    using System;
+
+    using Yupi.Protocol.Buffers;
+
+    public class CatalogPurchaseNotAllowedMessageComposer : Yupi.Messages.Contracts.CatalogPurchaseNotAllowedMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, bool isForbidden)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -14,5 +16,7 @@ namespace Yupi.Messages.Catalog
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

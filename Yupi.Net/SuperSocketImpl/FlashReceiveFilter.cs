@@ -1,23 +1,40 @@
-﻿using System;
-using SuperSocket.SocketBase.Protocol;
-
-namespace Yupi.Net.SuperSocketImpl
+﻿namespace Yupi.Net.SuperSocketImpl
 {
+    using System;
+
+    using SuperSocket.SocketBase.Protocol;
+
     public class FlashReceiveFilter : IReceiveFilter<RequestInfo>
     {
-        public int LeftBufferSize { get; private set; }
+        #region Constructors
 
-        public IReceiveFilter<RequestInfo> NextReceiveFilter { get; private set; }
+        public FlashReceiveFilter()
+        {
+            this.NextReceiveFilter = new ReceiveFilter();
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public int LeftBufferSize
+        {
+            get; private set;
+        }
+
+        public IReceiveFilter<RequestInfo> NextReceiveFilter
+        {
+            get; private set;
+        }
 
         public FilterState State
         {
             get { return FilterState.Normal; }
         }
 
-        public FlashReceiveFilter()
-        {
-            this.NextReceiveFilter = new ReceiveFilter();
-        }
+        #endregion Properties
+
+        #region Methods
 
         public RequestInfo Filter(byte[] readBuffer, int offset, int length, bool toBeCopied, out int rest)
         {
@@ -43,5 +60,7 @@ namespace Yupi.Net.SuperSocketImpl
         {
             // Do nothing
         }
+
+        #endregion Methods
     }
 }

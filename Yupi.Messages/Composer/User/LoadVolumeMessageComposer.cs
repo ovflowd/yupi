@@ -1,11 +1,14 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain.Components;
-
-namespace Yupi.Messages.User
+﻿namespace Yupi.Messages.User
 {
+    using System;
+
+    using Yupi.Model.Domain.Components;
+    using Yupi.Protocol.Buffers;
+
     public class LoadVolumeMessageComposer : Yupi.Messages.Contracts.LoadVolumeMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, UserPreferences preferences)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -17,11 +20,13 @@ namespace Yupi.Messages.User
                 message.AppendBool(preferences.IgnoreRoomInvite);
                 message.AppendBool(preferences.DisableCameraFollow);
                 // TODO Add to preferences
-                message.AppendInteger(3); // collapse friends (3 = no) 
+                message.AppendInteger(3); // collapse friends (3 = no)
                 message.AppendInteger(preferences.ChatBubbleStyle.Value); //bubble
 
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

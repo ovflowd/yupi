@@ -1,13 +1,15 @@
-﻿using System;
-using Yupi.Model.Domain;
-using Yupi.Messages.Contracts;
-using Yupi.Util;
-
-
-namespace Yupi.Messages.User
+﻿namespace Yupi.Messages.User
 {
+    using System;
+
+    using Yupi.Messages.Contracts;
+    using Yupi.Model.Domain;
+    using Yupi.Util;
+
     public class RoomSettingsMuteUserMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message,
             Yupi.Protocol.IRouter router)
         {
@@ -40,5 +42,7 @@ namespace Yupi.Messages.User
                 .Compose(targetUser.User, T._("Notice"),
                     string.Format(T._("The owner of the room has muted you for {0} minutes!"), duration), "", "", "", 4);
         }
+
+        #endregion Methods
     }
 }

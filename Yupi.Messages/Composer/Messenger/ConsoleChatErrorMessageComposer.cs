@@ -1,10 +1,13 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-
-namespace Yupi.Messages.Messenger
+﻿namespace Yupi.Messages.Messenger
 {
+    using System;
+
+    using Yupi.Protocol.Buffers;
+
     public class ConsoleChatErrorMessageComposer : Yupi.Messages.Contracts.ConsoleChatErrorMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, int errorId, uint conversationId)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -15,5 +18,7 @@ namespace Yupi.Messages.Messenger
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

@@ -1,8 +1,9 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-
-namespace Yupi.Messages.Other
+﻿namespace Yupi.Messages.Other
 {
+    using System;
+
+    using Yupi.Protocol.Buffers;
+
     public class AuthenticationOKMessageComposer : Contracts.AuthenticationOKMessageComposer
     {
     }

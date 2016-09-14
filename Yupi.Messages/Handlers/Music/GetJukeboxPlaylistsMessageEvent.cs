@@ -1,10 +1,11 @@
-﻿using System;
-
-
-namespace Yupi.Messages.Music
+﻿namespace Yupi.Messages.Music
 {
+    using System;
+
     public class GetJukeboxPlaylistsMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message,
             Yupi.Protocol.IRouter router)
         {
@@ -13,5 +14,7 @@ namespace Yupi.Messages.Music
 
             router.GetComposer<JukeboxPlaylistMessageComposer>().Compose(session, session.Room.Data.SongMachine);
         }
+
+        #endregion Methods
     }
 }

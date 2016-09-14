@@ -1,7 +1,9 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System;
+
+    #region Enumerations
+
     [Ignore]
     public enum EntityType
     {
@@ -10,4 +12,6 @@ namespace Yupi.Model.Domain
         Guide = 3, // TODO Test that!
         Bot = 4
     }
+
+    #endregion Enumerations
 }

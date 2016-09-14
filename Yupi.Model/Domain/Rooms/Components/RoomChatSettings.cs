@@ -1,15 +1,12 @@
-﻿using System;
-using Headspring;
-
-namespace Yupi.Model.Domain.Components
+﻿namespace Yupi.Model.Domain.Components
 {
+    using System;
+
+    using Headspring;
+
     public class RoomChatSettings
     {
-        public virtual ChatBalloon Balloon { get; set; }
-        public virtual ChatSpeed Speed { get; set; }
-        public virtual int MaxDistance { get; protected set; }
-        public virtual FloodProtection FloodProtection { get; set; }
-        public virtual ChatType Type { get; set; }
+        #region Constructors
 
         public RoomChatSettings()
         {
@@ -19,6 +16,39 @@ namespace Yupi.Model.Domain.Components
             FloodProtection = FloodProtection.Standard;
             Type = ChatType.FreeFlowMode;
         }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public virtual ChatBalloon Balloon
+        {
+            get; set;
+        }
+
+        public virtual FloodProtection FloodProtection
+        {
+            get; set;
+        }
+
+        public virtual int MaxDistance
+        {
+            get; protected set;
+        }
+
+        public virtual ChatSpeed Speed
+        {
+            get; set;
+        }
+
+        public virtual ChatType Type
+        {
+            get; set;
+        }
+
+        #endregion Properties
+
+        #region Methods
 
         public bool isValidDistance(int distance)
         {
@@ -34,5 +64,7 @@ namespace Yupi.Model.Domain.Components
 
             this.MaxDistance = distance;
         }
+
+        #endregion Methods
     }
 }

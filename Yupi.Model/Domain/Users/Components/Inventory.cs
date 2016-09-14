@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Yupi.Model.Domain.Components
+﻿namespace Yupi.Model.Domain.Components
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class Inventory
     {
-        [OneToMany]
-        public virtual IList<WardrobeItem> Wardrobe { get; protected set; }
-
-        public virtual IList<PetItem> Pets { get; protected set; }
-
-        public virtual IList<FloorItem> FloorItems { get; protected set; }
-
-        public virtual IList<WallItem> WallItems { get; protected set; }
+        #region Constructors
 
         public Inventory()
         {
@@ -23,10 +16,34 @@ namespace Yupi.Model.Domain.Components
             this.WallItems = new List<WallItem>();
         }
 
-        public virtual FloorItem GetFloorItem(int id)
+        #endregion Constructors
+
+        #region Properties
+
+        public virtual IList<FloorItem> FloorItems
         {
-            return FloorItems.SingleOrDefault(x => x.Id == id);
+            get; protected set;
         }
+
+        public virtual IList<PetItem> Pets
+        {
+            get; protected set;
+        }
+
+        public virtual IList<WallItem> WallItems
+        {
+            get; protected set;
+        }
+
+        [OneToMany]
+        public virtual IList<WardrobeItem> Wardrobe
+        {
+            get; protected set;
+        }
+
+        #endregion Properties
+
+        #region Methods
 
         // TODO Use visitor pattern to achieve this?
         public virtual void Add(Item item)
@@ -44,5 +61,12 @@ namespace Yupi.Model.Domain.Components
                 Pets.Add((PetItem) item);
             }
         }
+
+        public virtual FloorItem GetFloorItem(int id)
+        {
+            return FloorItems.SingleOrDefault(x => x.Id == id);
+        }
+
+        #endregion Methods
     }
 }

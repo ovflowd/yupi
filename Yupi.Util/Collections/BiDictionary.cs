@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Runtime.Serialization;
-
-namespace Yupi.Util.Collections
+﻿namespace Yupi.Util.Collections
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Runtime.Serialization;
+
     /// <summary>
     /// This is a dictionary guaranteed to have only one of each value and key. 
     /// It may be searched either by TFirst or by TSecond, giving a unique answer because it is 1 to 1.
@@ -14,10 +14,26 @@ namespace Yupi.Util.Collections
     /// <typeparam name="TSecond">The type of the "value"</typeparam>
     public class BiDictionary<TFirst, TSecond>
     {
+        #region Fields
+
         IDictionary<TFirst, TSecond> firstToSecond = new Dictionary<TFirst, TSecond>();
         IDictionary<TSecond, TFirst> secondToFirst = new Dictionary<TSecond, TFirst>();
 
-        #region Exception throwing methods
+        #endregion Fields
+
+        #region Properties
+
+        /// <summary>
+        /// The number of pairs stored in the dictionary
+        /// </summary>
+        public Int32 Count
+        {
+            get { return firstToSecond.Count; }
+        }
+
+        #endregion Properties
+
+        #region Methods
 
         /// <summary>
         /// Tries to add the pair to the dictionary.
@@ -32,6 +48,15 @@ namespace Yupi.Util.Collections
 
             firstToSecond.Add(first, second);
             secondToFirst.Add(second, first);
+        }
+
+        /// <summary>
+        /// Removes all items from the dictionary.
+        /// </summary>
+        public void Clear()
+        {
+            firstToSecond.Clear();
+            secondToFirst.Clear();
         }
 
         /// <summary>
@@ -64,7 +89,6 @@ namespace Yupi.Util.Collections
             return first;
         }
 
-
         /// <summary>
         /// Remove the record containing first.
         /// If first is not in the dictionary, throws an Exception.
@@ -95,10 +119,6 @@ namespace Yupi.Util.Collections
             firstToSecond.Remove(first);
         }
 
-        #endregion
-
-        #region Try methods
-
         /// <summary>
         /// Tries to add the pair to the dictionary.
         /// Returns false if either element is already in the dictionary        
@@ -115,7 +135,6 @@ namespace Yupi.Util.Collections
             secondToFirst.Add(second, first);
             return true;
         }
-
 
         /// <summary>
         /// Find the TSecond corresponding to the TFirst first.
@@ -173,23 +192,6 @@ namespace Yupi.Util.Collections
             return true;
         }
 
-        #endregion
-
-        /// <summary>
-        /// The number of pairs stored in the dictionary
-        /// </summary>
-        public Int32 Count
-        {
-            get { return firstToSecond.Count; }
-        }
-
-        /// <summary>
-        /// Removes all items from the dictionary.
-        /// </summary>
-        public void Clear()
-        {
-            firstToSecond.Clear();
-            secondToFirst.Clear();
-        }
+        #endregion Methods
     }
 }

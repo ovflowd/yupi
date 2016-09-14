@@ -1,12 +1,15 @@
-﻿using System;
-using Yupi.Protocol;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Achievements
+﻿namespace Yupi.Messages.Achievements
 {
+    using System;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol;
+    using Yupi.Protocol.Buffers;
+
     public class AchievementProgressMessageComposer : Contracts.AchievementProgressMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, UserAchievement userAchievement)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -27,5 +30,7 @@ namespace Yupi.Messages.Achievements
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

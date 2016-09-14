@@ -1,21 +1,23 @@
-﻿using System;
-using Yupi.Model.Domain;
-using Yupi.Model;
-using Yupi.Model.Repository;
-using Yupi.Util;
-using System.Collections.Generic;
-
-namespace Yupi.Controller
+﻿namespace Yupi.Controller
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+    using Yupi.Util;
+
     public class ModerationTool
     {
+        #region Fields
+
         private ClientManager ClientManager;
         private IRepository<UserInfo> UserRepository;
 
-        public virtual IList<SupportTicket> Tickets { get; private set; }
-        public virtual IList<ModerationTemplate> Templates { get; private set; }
-        public virtual IList<string> UserMessagePresets { get; private set; }
-        public virtual IList<string> RoomMessagePresets { get; private set; }
+        #endregion Fields
+
+        #region Constructors
 
         public ModerationTool()
         {
@@ -25,22 +27,33 @@ namespace Yupi.Controller
             // TODO Load
         }
 
-        public bool CanBan(UserInfo staff, int targetId)
+        #endregion Constructors
+
+        #region Properties
+
+        public virtual IList<string> RoomMessagePresets
         {
-            UserInfo target = UserRepository.FindBy(targetId);
-
-            if (target == null)
-            {
-                return false;
-            }
-
-            return CanBan(staff, target);
+            get; private set;
         }
 
-        public bool CanBan(UserInfo staff, UserInfo target)
+        public virtual IList<ModerationTemplate> Templates
         {
-            return staff.Rank > target.Rank;
+            get; private set;
         }
+
+        public virtual IList<SupportTicket> Tickets
+        {
+            get; private set;
+        }
+
+        public virtual IList<string> UserMessagePresets
+        {
+            get; private set;
+        }
+
+        #endregion Properties
+
+        #region Methods
 
         public void BanUser(int userId, int hours, string reason)
         {
@@ -71,5 +84,24 @@ namespace Yupi.Controller
             user.Bans.Add(ban);
             UserRepository.Save(user);
         }
+
+        public bool CanBan(UserInfo staff, int targetId)
+        {
+            UserInfo target = UserRepository.FindBy(targetId);
+
+            if (target == null)
+            {
+                return false;
+            }
+
+            return CanBan(staff, target);
+        }
+
+        public bool CanBan(UserInfo staff, UserInfo target)
+        {
+            return staff.Rank > target.Rank;
+        }
+
+        #endregion Methods
     }
 }

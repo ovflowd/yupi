@@ -1,11 +1,20 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System;
+
     public class FootballGateBaseItem : FloorBaseItem
     {
+        #region Properties
+
         // TODO Should be enum
-        public virtual int Color { get; set; }
+        public virtual int Color
+        {
+            get; set;
+        }
+
+        #endregion Properties
+
+        #region Methods
 
         public override Item CreateNew()
         {
@@ -14,5 +23,7 @@ namespace Yupi.Model.Domain
                 BaseItem = this
             };
         }
+
+        #endregion Methods
     }
 }

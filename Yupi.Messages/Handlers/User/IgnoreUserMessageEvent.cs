@@ -1,10 +1,11 @@
-﻿using System;
-
-
-namespace Yupi.Messages.User
+﻿namespace Yupi.Messages.User
 {
+    using System;
+
     public class IgnoreUserMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -22,8 +23,10 @@ namespace Yupi.Messages.User
 
             session.GetHabbo().MutedUsers.Add(habbo.Id);
             router.GetComposer<UpdateIgnoreStatusMessageComposer> ().Compose (session, UpdateIgnoreStatusMessageComposer.State.IGNORE, username);
-        */
+            */
             throw new NotImplementedException();
         }
+
+        #endregion Methods
     }
 }

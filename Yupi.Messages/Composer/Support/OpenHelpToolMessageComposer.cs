@@ -1,16 +1,19 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using System.Globalization;
-using Yupi.Model.Domain;
-using Yupi.Model.Repository;
-using Yupi.Model;
-using Yupi.Util;
-using System.Collections.Generic;
-
-namespace Yupi.Messages.Support
+﻿namespace Yupi.Messages.Support
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+    using Yupi.Protocol.Buffers;
+    using Yupi.Util;
+
     public class OpenHelpToolMessageComposer : Yupi.Messages.Contracts.OpenHelpToolMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, IList<SupportTicket> tickets)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -27,5 +30,7 @@ namespace Yupi.Messages.Support
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

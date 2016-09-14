@@ -1,10 +1,13 @@
-﻿using System;
-using Yupi.Messages.Notification;
-
-namespace Yupi.Messages.Items
+﻿namespace Yupi.Messages.Items
 {
+    using System;
+
+    using Yupi.Messages.Notification;
+
     public class UsePurchasableClothingMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -32,9 +35,9 @@ namespace Yupi.Messages.Items
             SendResponse();
 
             room.GetRoomItemHandler().RemoveFurniture(session, item.Id, false);
-        
+
             session.Router.GetComposer<SuperNotificationMessageComposer>()
-                .Compose(session, "${notification.figureset.redeemed.success.title}", "${notification.figureset.redeemed.success.messageBuffer}", 
+                .Compose(session, "${notification.figureset.redeemed.success.title}", "${notification.figureset.redeemed.success.messageBuffer}",
                     "event:avatareditor/open", "${notification.figureset.redeemed.success.linkTitle}");
 
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor()) {
@@ -45,5 +48,7 @@ namespace Yupi.Messages.Items
             */
             throw new NotImplementedException();
         }
+
+        #endregion Methods
     }
 }

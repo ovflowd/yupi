@@ -1,12 +1,15 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-using Yupi.Messages.Encoders;
-
-namespace Yupi.Messages.Rooms
+﻿namespace Yupi.Messages.Rooms
 {
+    using System;
+
+    using Yupi.Messages.Encoders;
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class RoomChatOptionsMessageComposer : Yupi.Messages.Contracts.RoomChatOptionsMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, RoomData data)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -15,5 +18,7 @@ namespace Yupi.Messages.Rooms
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

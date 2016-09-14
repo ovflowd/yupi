@@ -1,11 +1,13 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-
-
-namespace Yupi.Messages.Guides
+﻿namespace Yupi.Messages.Guides
 {
+    using System;
+
+    using Yupi.Protocol.Buffers;
+
     public class OnGuideSessionAttachedMessageComposer : Yupi.Messages.Contracts.OnGuideSessionAttachedMessageComposer
     {
+        #region Methods
+
         // TODO Find the meaning of val1 & val2
         public override void Compose(Yupi.Protocol.ISender session, bool val1, int userId, string message, int val2)
         {
@@ -18,5 +20,7 @@ namespace Yupi.Messages.Guides
                 session.Send(response);
             }
         }
+
+        #endregion Methods
     }
 }

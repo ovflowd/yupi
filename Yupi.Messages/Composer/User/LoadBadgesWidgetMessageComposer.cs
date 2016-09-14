@@ -1,14 +1,17 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-using System.Collections.Generic;
-using System.Linq;
-using Yupi.Model.Domain.Components;
-
-namespace Yupi.Messages.User
+﻿namespace Yupi.Messages.User
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Yupi.Model.Domain;
+    using Yupi.Model.Domain.Components;
+    using Yupi.Protocol.Buffers;
+
     public class LoadBadgesWidgetMessageComposer : Contracts.LoadBadgesWidgetMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, UserBadgeComponent badges)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -34,5 +37,7 @@ namespace Yupi.Messages.User
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

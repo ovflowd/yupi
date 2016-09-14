@@ -1,19 +1,30 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-using Yupi.Controller;
-using Yupi.Model;
-
-namespace Yupi.Messages.User
+﻿namespace Yupi.Messages.User
 {
+    using System;
+
+    using Yupi.Controller;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class UserProfileMessageComposer : Yupi.Messages.Contracts.UserProfileMessageComposer
     {
+        #region Fields
+
         private ClientManager Manager;
+
+        #endregion Fields
+
+        #region Constructors
 
         public UserProfileMessageComposer()
         {
             Manager = DependencyFactory.Resolve<ClientManager>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void Compose(Yupi.Protocol.ISender session, UserInfo user, UserInfo requester)
         {
@@ -50,5 +61,7 @@ namespace Yupi.Messages.User
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

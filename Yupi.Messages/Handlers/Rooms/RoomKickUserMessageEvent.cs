@@ -1,10 +1,11 @@
-﻿using System;
-
-
-namespace Yupi.Messages.Rooms
+﻿namespace Yupi.Messages.Rooms
 {
+    using System;
+
     public class RoomKickUserMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -35,5 +36,7 @@ namespace Yupi.Messages.Rooms
             */
             throw new NotImplementedException();
         }
+
+        #endregion Methods
     }
 }

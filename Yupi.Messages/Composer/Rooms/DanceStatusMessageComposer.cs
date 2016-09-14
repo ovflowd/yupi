@@ -1,11 +1,14 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Rooms
+﻿namespace Yupi.Messages.Rooms
 {
+    using System;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class DanceStatusMessageComposer : Yupi.Messages.Contracts.DanceStatusMessageComposer
     {
+        #region Methods
+
         // TODO Create enum for Dances
         // TODO Replace entityId with RoomEntity EVERYWHERE!
         public override void Compose(Yupi.Protocol.ISender room, int entityId, Dance dance)
@@ -17,5 +20,7 @@ namespace Yupi.Messages.Rooms
                 room.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

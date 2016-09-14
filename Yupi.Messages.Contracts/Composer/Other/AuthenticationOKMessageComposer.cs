@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Yupi.Messages.Contracts
+﻿namespace Yupi.Messages.Contracts
 {
+    using System;
+
     public abstract class AuthenticationOKMessageComposer : Contracts.AbstractComposerEmpty
     {
     }

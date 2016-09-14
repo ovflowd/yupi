@@ -1,19 +1,20 @@
-﻿using System;
-using System.Drawing;
-using Yupi.Protocol;
-using Yupi.Model.Domain;
-
-
-namespace Yupi.Messages.Items
+﻿namespace Yupi.Messages.Items
 {
+    using System;
+    using System.Drawing;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol;
+
     // TODO Potentially blob class...
     public class TriggerItemMessageEvent : AbstractHandler
     {
+        #region Methods
+
         /*
          * TODO
          * Also handles the following: UseHabboWheelMessageEvent, TriggerWallItemMessageEvent, EnterOneWayDoorMessageEvent, TriggerDiceRollMessageEvent
          */
-
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -204,5 +205,7 @@ namespace Yupi.Messages.Items
             }*/
             throw new NotImplementedException();
         }
+
+        #endregion Methods
     }
 }

@@ -1,22 +1,33 @@
-﻿using System;
-using Yupi.Model.Repository;
-using Yupi.Model.Domain;
-using Yupi.Controller;
-using Yupi.Model;
-using System.Linq;
-
-namespace Yupi.Messages.Support
+﻿namespace Yupi.Messages.Support
 {
+    using System;
+    using System.Linq;
+
+    using Yupi.Controller;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+
     public class ModerationToolReleaseIssueMessageEvent : AbstractHandler
     {
-        private IRepository<SupportTicket> TicketRepository;
+        #region Fields
+
         private ClientManager ClientManager;
+        private IRepository<SupportTicket> TicketRepository;
+
+        #endregion Fields
+
+        #region Constructors
 
         public ModerationToolReleaseIssueMessageEvent()
         {
             TicketRepository = DependencyFactory.Resolve<IRepository<SupportTicket>>();
             ClientManager = DependencyFactory.Resolve<ClientManager>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message,
             Yupi.Protocol.IRouter router)
@@ -44,5 +55,7 @@ namespace Yupi.Messages.Support
                 }
             }
         }
+
+        #endregion Methods
     }
 }

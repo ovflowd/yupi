@@ -1,16 +1,18 @@
+﻿#region Header
+
 /**
-     Because i love chocolat...                                      
-                                    88 88  
-                                    "" 88  
-                                       88  
-8b       d8 88       88 8b,dPPYba,  88 88  
-`8b     d8' 88       88 88P'    "8a 88 88  
- `8b   d8'  88       88 88       d8 88 ""  
-  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa  
-    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88  
-    d8'                 88                 
-   d8'                  88     
-   
+     Because i love chocolat...
+                                    88 88
+                                    "" 88
+                                       88
+8b       d8 88       88 8b,dPPYba,  88 88
+`8b     d8' 88       88 88P'    "8a 88 88
+ `8b   d8'  88       88 88       d8 88 ""
+  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa
+    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88
+    d8'                 88
+   d8'                  88
+
    Private Habbo Hotel Emulating System
    @author Claudio A. Santoro W.
    @author Kessiler R.
@@ -18,24 +20,38 @@
    @license MIT
    @copyright Sulake Corporation Oy
    @observation All Rights of Habbo, Habbo Hotel, and all Habbo contents and it's names, is copyright from Sulake
-   Corporation Oy. Yupi! has nothing linked with Sulake. 
+   Corporation Oy. Yupi! has nothing linked with Sulake.
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-using System.Collections.Generic;
-using System;
+#endregion Header
 
 namespace Yupi.Protocol.Buffers
 {
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     ///     Class QueuedServerMessageBuffer.
     /// </summary>
     public class QueuedServerMessageBuffer : IDisposable
     {
+        #region Fields
+
+        /// <summary>
+        ///     Gets the get packet.
+        /// </summary>
+        /// <value>The get packet.</value>
+        public byte[] GetPacket = > _packet.ToArray();
+
         /// <summary>
         ///     The _packet
         /// </summary>
         private List<byte> _packet;
+
+        #endregion Fields
+
+        #region Constructors
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="QueuedServerMessageBuffer" /> class.
@@ -46,11 +62,9 @@ namespace Yupi.Protocol.Buffers
             _packet = new List<byte>();
         }
 
-        /// <summary>
-        ///     Gets the get packet.
-        /// </summary>
-        /// <value>The get packet.</value>
-        public byte[] GetPacket => _packet.ToArray();
+        #endregion Constructors
+
+        #region Methods
 
         /// <summary>
         ///     Disposes this instance.
@@ -58,15 +72,6 @@ namespace Yupi.Protocol.Buffers
         public void Dispose()
         {
             _packet = null;
-        }
-
-        /// <summary>
-        ///     Appends the response.
-        /// </summary>
-        /// <param name="messageBuffer">The messageBuffer.</param>
-        void AppendResponse(ServerMessage messageBuffer)
-        {
-            AppendBytes(messageBuffer.GetReversedBytes());
         }
 
         // TODO Remove alias
@@ -87,5 +92,16 @@ namespace Yupi.Protocol.Buffers
         {
             _packet.AddRange(bytes);
         }
+
+        /// <summary>
+        ///     Appends the response.
+        /// </summary>
+        /// <param name="messageBuffer">The messageBuffer.</param>
+        void AppendResponse(ServerMessage messageBuffer)
+        {
+            AppendBytes(messageBuffer.GetReversedBytes());
+        }
+
+        #endregion Methods
     }
 }

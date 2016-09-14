@@ -1,12 +1,18 @@
-﻿using System;
-using NGettext;
-
-namespace Yupi.Util
+﻿namespace Yupi.Util
 {
+    using System;
+
+    using NGettext;
+
     public class T
     {
+        #region Fields
+
         private static readonly ICatalog _Catalog = new Catalog("Example", "./locale");
 
+        #endregion Fields
+
+        #region Methods
 
         public static string _(string text)
         {
@@ -47,5 +53,7 @@ namespace Yupi.Util
         {
             return _Catalog.GetParticularPluralString(context, text, pluralText, n, args);
         }
+
+        #endregion Methods
     }
 }

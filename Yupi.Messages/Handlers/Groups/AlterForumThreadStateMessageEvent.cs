@@ -1,20 +1,31 @@
-﻿using System;
-using System.Data;
-using Yupi.Messages.Notification;
-using Yupi.Model.Repository;
-using Yupi.Model.Domain;
-using Yupi.Model;
-
-namespace Yupi.Messages.Groups
+﻿namespace Yupi.Messages.Groups
 {
+    using System;
+    using System.Data;
+
+    using Yupi.Messages.Notification;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+
     public class AlterForumThreadStateMessageEvent : AbstractHandler
     {
+        #region Fields
+
         private IRepository<Group> GroupRepository;
+
+        #endregion Fields
+
+        #region Constructors
 
         public AlterForumThreadStateMessageEvent()
         {
             GroupRepository = DependencyFactory.Resolve<IRepository<Group>>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
@@ -45,5 +56,7 @@ namespace Yupi.Messages.Groups
                 }
             }
         }
+
+        #endregion Methods
     }
 }

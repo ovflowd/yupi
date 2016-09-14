@@ -1,10 +1,13 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-
-namespace Yupi.Messages.User
+﻿namespace Yupi.Messages.User
 {
+    using System;
+
+    using Yupi.Protocol.Buffers;
+
     public class HotelViewCountdownMessageComposer : Yupi.Messages.Contracts.HotelViewCountdownMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, string time)
         {
             DateTime date;
@@ -21,5 +24,7 @@ namespace Yupi.Messages.User
             // TODO Why is there a output?
             Console.WriteLine(diff.TotalSeconds);
         }
+
+        #endregion Methods
     }
 }

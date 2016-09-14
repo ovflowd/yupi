@@ -1,12 +1,15 @@
-﻿using System;
-using Yupi.Net;
-using Yupi.Protocol.Buffers;
-using Yupi.Protocol;
-
-namespace Yupi.Messages.User
+﻿namespace Yupi.Messages.User
 {
+    using System;
+
+    using Yupi.Net;
+    using Yupi.Protocol;
+    using Yupi.Protocol.Buffers;
+
     public class GiveRespectsMessageComposer : Yupi.Messages.Contracts.GiveRespectsMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender room, int user, int respect)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -16,5 +19,7 @@ namespace Yupi.Messages.User
                 room.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

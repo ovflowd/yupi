@@ -1,17 +1,28 @@
-﻿using System;
-using Yupi.Controller;
-using Yupi.Model;
-
-namespace Yupi.Messages.Other
+﻿namespace Yupi.Messages.Other
 {
+    using System;
+
+    using Yupi.Controller;
+    using Yupi.Model;
+
     public class RequestLatencyTestMessageEvent : AbstractHandler
     {
+        #region Fields
+
         private AchievementManager AchievementManager;
+
+        #endregion Fields
+
+        #region Constructors
 
         public RequestLatencyTestMessageEvent()
         {
             AchievementManager = DependencyFactory.Resolve<AchievementManager>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
@@ -21,5 +32,7 @@ namespace Yupi.Messages.Other
 
             session.TimePingReceived = DateTime.Now;
         }
+
+        #endregion Methods
     }
 }

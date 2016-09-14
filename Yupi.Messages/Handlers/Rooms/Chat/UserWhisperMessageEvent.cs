@@ -1,21 +1,32 @@
-﻿using System;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Collections.Generic;
-using Yupi.Model.Domain;
-using Yupi.Controller;
-using Yupi.Model;
-
-namespace Yupi.Messages.Chat
+﻿namespace Yupi.Messages.Chat
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text.RegularExpressions;
+
+    using Yupi.Controller;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+
     public class UserWhisperMessageEvent : AbstractHandler
     {
+        #region Fields
+
         private ChatController Chat;
+
+        #endregion Fields
+
+        #region Constructors
 
         public UserWhisperMessageEvent()
         {
             Chat = DependencyFactory.Resolve<ChatController>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
@@ -47,5 +58,7 @@ namespace Yupi.Messages.Chat
 
             Chat.Whisper(session, msg, bubble, target, -1);
         }
+
+        #endregion Methods
     }
 }

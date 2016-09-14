@@ -1,10 +1,11 @@
-﻿using System;
-
-
-namespace Yupi.Messages.Other
+﻿namespace Yupi.Messages.Other
 {
+    using System;
+
     public class SaveRoomThumbnailMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -25,8 +26,10 @@ namespace Yupi.Messages.Other
             string outData = Converter.Deflate (bytes);
 
             WebManager.HttpPostJson (ServerExtraSettings.StoriesApiThumbnailServerUrl, outData);
-*/
+            */
             router.GetComposer<ThumbnailSuccessMessageComposer>().Compose(session);
         }
+
+        #endregion Methods
     }
 }

@@ -1,10 +1,11 @@
-﻿using System;
-
-
-namespace Yupi.Messages.Groups
+﻿namespace Yupi.Messages.Groups
 {
+    using System;
+
     public class GroupUserJoinMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -59,5 +60,7 @@ namespace Yupi.Messages.Groups
                 router.GetComposer<GroupDataMessageComposer> ().Compose (session, group, session.GetHabbo());
             }*/
         }
+
+        #endregion Methods
     }
 }

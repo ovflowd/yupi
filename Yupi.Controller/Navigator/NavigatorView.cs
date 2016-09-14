@@ -1,23 +1,23 @@
-﻿using System;
-using Headspring;
-using System.Collections.Generic;
-using Yupi.Model.Domain;
-using Yupi.Model.Repository;
-using Yupi.Model;
-using System.Linq;
-using System.Linq.Expressions;
-using Yupi.Util;
-using NHibernate.Criterion;
-
-namespace Yupi.Controller
+﻿namespace Yupi.Controller
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Linq.Expressions;
+
+    using Headspring;
+
+    using NHibernate.Criterion;
+
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+    using Yupi.Util;
+
     // TODO Not sure wether this should be here or in Model
     public abstract class NavigatorView : Enumeration<NavigatorView, string>
     {
-        /// <summary>
-        /// Official Rooms
-        /// </summary>
-        public static readonly OfficialView Official = new OfficialView();
+        #region Fields
 
         /// <summary>
         /// Public rooms
@@ -30,26 +30,62 @@ namespace Yupi.Controller
         public static readonly MyWorldView MyWorld = new MyWorldView();
 
         /// <summary>
+        /// Official Rooms
+        /// </summary>
+        public static readonly OfficialView Official = new OfficialView();
+
+        /// <summary>
         /// Event Rooms
         /// </summary>
         public static readonly RoomAdsView RoomAds = new RoomAdsView();
 
-        public NavigatorView(string value) : base(value, value)
+        #endregion Fields
+
+        #region Constructors
+
+        public NavigatorView(string value)
+            : base(value, value)
         {
         }
 
+        #endregion Constructors
+
+        #region Methods
+
         public abstract IDictionary<NavigatorCategory, IList<RoomData>> GetCategories(string query, UserInfo user);
+
+        #endregion Methods
     }
 
-    public abstract class NavigatorView<T> : NavigatorView where T : NavigatorCategory
+    public abstract class NavigatorView<T> : NavigatorView
+        where T : NavigatorCategory
     {
+        #region Fields
+
         protected IRepository<T> NavigatorRepository;
         protected IRepository<RoomData> RoomRepository;
 
-        protected NavigatorView(string value) : base(value)
+        #endregion Fields
+
+        #region Constructors
+
+        protected NavigatorView(string value)
+            : base(value)
         {
             NavigatorRepository = DependencyFactory.Resolve<IRepository<T>>();
             RoomRepository = DependencyFactory.Resolve<IRepository<RoomData>>();
+        }
+
+        #endregion Constructors
+
+        #region Methods
+
+        public override IDictionary<NavigatorCategory, IList<RoomData>> GetCategories(string query, UserInfo user)
+        {
+            return RoomRepository
+                .FilterBy(GetRoomPredicate(query, user))
+                .GroupBy(x => x.Category)
+                .ToDictionary(x => x.Key, x => (IList<RoomData>) x.ToList());
         }
 
         protected virtual Expression<Func<RoomData, bool>> GetRoomPredicate(string query, UserInfo user)
@@ -90,12 +126,6 @@ namespace Yupi.Controller
             }
         }
 
-        public override IDictionary<NavigatorCategory, IList<RoomData>> GetCategories(string query, UserInfo user)
-        {
-            return RoomRepository
-                .FilterBy(GetRoomPredicate(query, user))
-                .GroupBy(x => x.Category)
-                .ToDictionary(x => x.Key, x => (IList<RoomData>) x.ToList());
-        }
+        #endregion Methods
     }
 }

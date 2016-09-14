@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-
-namespace Yupi.Messages.Groups
+﻿namespace Yupi.Messages.Groups
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Linq;
+
     public class GetGroupForumsMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -15,5 +17,7 @@ namespace Yupi.Messages.Groups
 
             router.GetComposer<GroupForumListingsMessageComposer>().Compose(session, selectType, startIndex);
         }
+
+        #endregion Methods
     }
 }

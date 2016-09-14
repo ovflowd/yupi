@@ -1,18 +1,10 @@
-﻿using System;
-
-namespace Yupi.Model.Domain.Components
+﻿namespace Yupi.Model.Domain.Components
 {
+    using System;
+
     public class ModerationSettings
     {
-        public virtual RoomModerationRight WhoCanMute { get; set; }
-        public virtual RoomModerationRight WhoCanKick { get; set; }
-        public virtual RoomModerationRight WhoCanBan { get; set; }
-
-        protected virtual RoomData Room { get; set; }
-
-        protected ModerationSettings()
-        {
-        }
+        #region Constructors
 
         public ModerationSettings(RoomData room)
         {
@@ -22,9 +14,41 @@ namespace Yupi.Model.Domain.Components
             this.Room = room;
         }
 
-        public bool CanMute(UserInfo info)
+        protected ModerationSettings()
         {
-            if (this.WhoCanMute == RoomModerationRight.None)
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public virtual RoomModerationRight WhoCanBan
+        {
+            get; set;
+        }
+
+        public virtual RoomModerationRight WhoCanKick
+        {
+            get; set;
+        }
+
+        public virtual RoomModerationRight WhoCanMute
+        {
+            get; set;
+        }
+
+        protected virtual RoomData Room
+        {
+            get; set;
+        }
+
+        #endregion Properties
+
+        #region Methods
+
+        public bool CanBan(UserInfo info)
+        {
+            if (this.WhoCanBan == RoomModerationRight.None)
             {
                 return this.Room.HasOwnerRights(info);
             }
@@ -50,9 +74,9 @@ namespace Yupi.Model.Domain.Components
             }
         }
 
-        public bool CanBan(UserInfo info)
+        public bool CanMute(UserInfo info)
         {
-            if (this.WhoCanBan == RoomModerationRight.None)
+            if (this.WhoCanMute == RoomModerationRight.None)
             {
                 return this.Room.HasOwnerRights(info);
             }
@@ -61,5 +85,7 @@ namespace Yupi.Model.Domain.Components
                 return this.Room.HasRights(info);
             }
         }
+
+        #endregion Methods
     }
 }

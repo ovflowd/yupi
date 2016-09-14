@@ -1,21 +1,31 @@
-﻿using System;
-using Yupi.Model.Domain;
-using Yupi.Model.Domain.Components;
-using Yupi.Messages.Contracts;
-using Yupi.Model.Repository;
-using Yupi.Model;
-
-
-namespace Yupi.Messages.Music
+﻿namespace Yupi.Messages.Music
 {
+    using System;
+
+    using Yupi.Messages.Contracts;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Domain.Components;
+    using Yupi.Model.Repository;
+
     public class JukeboxAddPlaylistItemMessageEvent : AbstractHandler
     {
+        #region Fields
+
         private IRepository<SongItem> ItemRepository;
+
+        #endregion Fields
+
+        #region Constructors
 
         public JukeboxAddPlaylistItemMessageEvent()
         {
             ItemRepository = DependencyFactory.Resolve<IRepository<SongItem>>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message,
             Yupi.Protocol.IRouter router)
@@ -45,5 +55,7 @@ namespace Yupi.Messages.Music
 
             router.GetComposer<JukeboxPlaylistMessageComposer>().Compose(session, songMachine);
         }
+
+        #endregion Methods
     }
 }

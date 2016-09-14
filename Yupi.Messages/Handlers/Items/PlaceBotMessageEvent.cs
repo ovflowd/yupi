@@ -1,10 +1,13 @@
-﻿using System;
-using Yupi.Messages.Bots;
-
-namespace Yupi.Messages.Items
+﻿namespace Yupi.Messages.Items
 {
+    using System;
+
+    using Yupi.Messages.Bots;
+
     public class PlaceBotMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -49,8 +52,10 @@ namespace Yupi.Messages.Items
 
             session.GetHabbo().GetInventoryComponent().MoveBotToRoom(botId);
             router.GetComposer<BotInventoryMessageComposer> ().Compose (session, session.GetHabbo ().GetInventoryComponent ()._inventoryBots);
-*/
+            */
             throw new NotImplementedException();
         }
+
+        #endregion Methods
     }
 }

@@ -1,11 +1,14 @@
-﻿using System;
-using Yupi.Messages.Notification;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Support
+﻿namespace Yupi.Messages.Support
 {
+    using System;
+
+    using Yupi.Messages.Notification;
+    using Yupi.Model.Domain;
+
     public class ModerationToolSendRoomAlertMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -27,5 +30,7 @@ namespace Yupi.Messages.Support
                 }
             );
         }
+
+        #endregion Methods
     }
 }

@@ -1,11 +1,13 @@
-﻿using System;
-using System.Security.Cryptography;
-using System.Text;
-
-namespace Yupi.Util
+﻿namespace Yupi.Util
 {
+    using System;
+    using System.Security.Cryptography;
+    using System.Text;
+
     public class Cryptography
     {
+        #region Methods
+
         public static string GetUniqueKey(int length)
         {
             string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
@@ -23,5 +25,7 @@ namespace Yupi.Util
             }
             return result.ToString();
         }
+
+        #endregion Methods
     }
 }

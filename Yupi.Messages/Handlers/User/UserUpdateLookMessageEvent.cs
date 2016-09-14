@@ -1,17 +1,24 @@
-﻿using System;
-using Yupi.Model.Domain;
-using Yupi.Model.Repository;
-using Yupi.Model;
-using Yupi.Controller;
-using Yupi.Messages.Contracts;
-
-namespace Yupi.Messages.User
+﻿namespace Yupi.Messages.User
 {
+    using System;
+
+    using Yupi.Controller;
+    using Yupi.Messages.Contracts;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+
     public class UserUpdateLookMessageEvent : AbstractHandler
     {
-        private IRepository<UserInfo> UserRepository;
+        #region Fields
+
         private AchievementManager AchievementManager;
         private MessengerController MessengerController;
+        private IRepository<UserInfo> UserRepository;
+
+        #endregion Fields
+
+        #region Constructors
 
         public UserUpdateLookMessageEvent()
         {
@@ -19,6 +26,10 @@ namespace Yupi.Messages.User
             AchievementManager = DependencyFactory.Resolve<AchievementManager>();
             MessengerController = DependencyFactory.Resolve<MessengerController>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message,
             Yupi.Protocol.IRouter router)
@@ -48,5 +59,7 @@ namespace Yupi.Messages.User
 
             MessengerController.UpdateUser(session.Info);
         }
+
+        #endregion Methods
     }
 }

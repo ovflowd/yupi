@@ -1,10 +1,13 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-
-namespace Yupi.Messages.Other
+﻿namespace Yupi.Messages.Other
 {
+    using System;
+
+    using Yupi.Protocol.Buffers;
+
     public class ThumbnailSuccessMessageComposer : Yupi.Messages.Contracts.ThumbnailSuccessMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -14,5 +17,7 @@ namespace Yupi.Messages.Other
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

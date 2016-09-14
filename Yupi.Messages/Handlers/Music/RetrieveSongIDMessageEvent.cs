@@ -1,19 +1,29 @@
-﻿using System;
-using Yupi.Model.Domain;
-using Yupi.Model.Repository;
-using Yupi.Model;
-
-
-namespace Yupi.Messages.Music
+﻿namespace Yupi.Messages.Music
 {
+    using System;
+
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+
     public class RetrieveSongIDMessageEvent : AbstractHandler
     {
+        #region Fields
+
         private IRepository<SongData> SongRepository;
+
+        #endregion Fields
+
+        #region Constructors
 
         public RetrieveSongIDMessageEvent()
         {
             SongRepository = DependencyFactory.Resolve<IRepository<SongData>>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message,
             Yupi.Protocol.IRouter router)
@@ -27,5 +37,7 @@ namespace Yupi.Messages.Music
                 router.GetComposer<RetrieveSongIDMessageComposer>().Compose(session, name, song.Id);
             }
         }
+
+        #endregion Methods
     }
 }

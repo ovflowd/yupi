@@ -1,12 +1,14 @@
-﻿using System;
-using Yupi.Model.Domain;
-
-
-namespace Yupi.Messages.Guides
+﻿namespace Yupi.Messages.Guides
 {
+    using System;
+
+    using Yupi.Model.Domain;
+
     // TODO Rename
     public class GuideEndSession : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message,
             Yupi.Protocol.IRouter router)
         {
@@ -20,5 +22,7 @@ namespace Yupi.Messages.Guides
             requester.GuideOtherUser = null;
             session.GuideOtherUser = null;
         }
+
+        #endregion Methods
     }
 }

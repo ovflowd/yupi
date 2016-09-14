@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Items
+﻿namespace Yupi.Messages.Items
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class RoomFloorItemsMessageComposer : Yupi.Messages.Contracts.RoomFloorItemsMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, RoomData data,
             IReadOnlyDictionary<uint, FloorItem> items)
         {
@@ -18,7 +21,6 @@ namespace Yupi.Messages.Items
                     if (data.Group.AdminOnlyDeco == 1u)
                     {
                         message.AppendInteger(data.Group.Admins.Count + 1);
-
 
                         foreach (UserInfo member in data.Group.Admins)
                         {
@@ -62,5 +64,7 @@ namespace Yupi.Messages.Items
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

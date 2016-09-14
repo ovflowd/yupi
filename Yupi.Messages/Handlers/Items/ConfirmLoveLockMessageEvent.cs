@@ -1,9 +1,11 @@
-﻿using System;
-
-namespace Yupi.Messages.Items
+﻿namespace Yupi.Messages.Items
 {
+    using System;
+
     public class ConfirmLoveLockMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -107,8 +109,10 @@ namespace Yupi.Messages.Items
             userOne.CanWalk = true;
             userTwo.CanWalk = true;
 
-*/
+            */
             throw new NotImplementedException();
         }
+
+        #endregion Methods
     }
 }

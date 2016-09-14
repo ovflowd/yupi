@@ -1,11 +1,14 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain.Components;
-
-namespace Yupi.Messages.User
+﻿namespace Yupi.Messages.User
 {
+    using System;
+
+    using Yupi.Model.Domain.Components;
+    using Yupi.Protocol.Buffers;
+
     public class ActivityPointsMessageComposer : Yupi.Messages.Contracts.ActivityPointsMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, UserWallet wallet)
         {
             // TODO Can we send credits using this composer too?
@@ -22,5 +25,7 @@ namespace Yupi.Messages.User
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

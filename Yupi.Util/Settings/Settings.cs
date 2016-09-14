@@ -1,13 +1,20 @@
-﻿using System;
-using Config.Net;
-using System.IO;
-using System.Reflection;
-
-namespace Yupi.Util.Settings
+﻿namespace Yupi.Util.Settings
 {
+    using System;
+    using System.IO;
+    using System.Reflection;
+
+    using Config.Net;
+
     public static class Settings
     {
+        #region Fields
+
         private static readonly string ConfigDir;
+
+        #endregion Fields
+
+        #region Constructors
 
         static Settings()
         {
@@ -25,9 +32,15 @@ namespace Yupi.Util.Settings
             }
         }
 
+        #endregion Constructors
+
+        #region Methods
+
         public static string GetPath(string fileName)
         {
             return Path.Combine(ConfigDir, fileName);
         }
+
+        #endregion Methods
     }
 }

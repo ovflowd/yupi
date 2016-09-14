@@ -1,11 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using Yupi.Messages.Catalog;
-
-namespace Yupi.Messages.Groups
+﻿namespace Yupi.Messages.Groups
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Yupi.Messages.Catalog;
+
     public class CreateGuildMessageEvent : AbstractHandler
     {
+        #region Methods
+
         // TODO Refactor
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
@@ -67,13 +70,14 @@ namespace Yupi.Messages.Groups
             {
                 router.GetComposer<RoomGroupMessageComposer> ().Compose (CurrentLoadingRoom);
 
-
                 if (session.GetHabbo ().FavouriteGroup != theGroup.Id) {
                     router.GetComposer<ChangeFavouriteGroupMessageComposer> ().Compose (session, theGroup, CurrentLoadingRoom.GetRoomUserManager ().GetRoomUserByHabbo (session.GetHabbo ().Id).VirtualId);
                 }
             }
 
-*/
+            */
         }
+
+        #endregion Methods
     }
 }

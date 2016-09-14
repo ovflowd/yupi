@@ -1,13 +1,21 @@
-﻿using System;
-using Nancy;
-using Yupi.Model;
-using Yupi.Controller;
-
-namespace Yupi.Rest
+﻿namespace Yupi.Rest
 {
+    using System;
+
+    using Nancy;
+
+    using Yupi.Controller;
+    using Yupi.Model;
+
     public class SSOModule : NancyModule
     {
+        #region Fields
+
         private SSOManager SSOManager;
+
+        #endregion Fields
+
+        #region Constructors
 
         public SSOModule()
         {
@@ -19,14 +27,31 @@ namespace Yupi.Rest
             };
         }
 
+        #endregion Constructors
+
+        #region Nested Types
+
         private class SSOTicket
         {
-            public string Ticket { get; set; }
+            #region Constructors
 
             public SSOTicket(string ticket)
             {
                 this.Ticket = ticket;
             }
+
+            #endregion Constructors
+
+            #region Properties
+
+            public string Ticket
+            {
+                get; set;
+            }
+
+            #endregion Properties
         }
+
+        #endregion Nested Types
     }
 }

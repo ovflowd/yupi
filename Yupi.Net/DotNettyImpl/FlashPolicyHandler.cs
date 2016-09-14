@@ -1,20 +1,30 @@
-﻿using System;
-using DotNetty.Codecs;
-using DotNetty.Transport.Channels;
-using DotNetty.Buffers;
-using System.Collections.Generic;
-
-namespace Yupi.Net.DotNettyImpl
+﻿namespace Yupi.Net.DotNettyImpl
 {
+    using System;
+    using System.Collections.Generic;
+
+    using DotNetty.Buffers;
+    using DotNetty.Codecs;
+    using DotNetty.Transport.Channels;
+
     public class FlashPolicyHandler : ByteToMessageDecoder
     {
+        #region Fields
+
         private CrossDomainSettings FlashPolicy;
+
+        #endregion Fields
+
+        #region Constructors
 
         public FlashPolicyHandler(CrossDomainSettings flashPolicy)
         {
             this.FlashPolicy = flashPolicy;
         }
 
+        #endregion Constructors
+
+        #region Methods
 
         protected override void Decode(IChannelHandlerContext context, IByteBuffer input, List<object> output)
         {
@@ -54,5 +64,7 @@ namespace Yupi.Net.DotNettyImpl
                 pipeline.RemoveFirst();
             }
         }
+
+        #endregion Methods
     }
 }

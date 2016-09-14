@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Wired
+﻿namespace Yupi.Messages.Wired
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class WiredTriggerMessageComposer : Yupi.Messages.Contracts.WiredTriggerMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, FloorItem item, List<FloorItem> items, int delay,
             string extraInfo, int unknown)
         {
@@ -34,5 +37,7 @@ namespace Yupi.Messages.Wired
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

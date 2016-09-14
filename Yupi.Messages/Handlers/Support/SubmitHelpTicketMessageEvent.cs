@@ -1,18 +1,24 @@
-﻿using System;
-using Yupi.Model.Repository;
-using Yupi.Model.Domain;
-using Yupi.Model;
-using Yupi.Controller;
-using System.Linq;
-
-
-namespace Yupi.Messages.Support
+﻿namespace Yupi.Messages.Support
 {
+    using System;
+    using System.Linq;
+
+    using Yupi.Controller;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+
     public class SubmitHelpTicketMessageEvent : AbstractHandler
     {
+        #region Fields
+
+        private ClientManager ClientManager;
         private IRepository<RoomData> RoomRepository;
         private IRepository<UserInfo> UserRepository;
-        private ClientManager ClientManager;
+
+        #endregion Fields
+
+        #region Constructors
 
         public SubmitHelpTicketMessageEvent()
         {
@@ -20,6 +26,10 @@ namespace Yupi.Messages.Support
             RoomRepository = DependencyFactory.Resolve<IRepository<RoomData>>();
             UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message,
             Yupi.Protocol.IRouter router)
@@ -84,5 +94,7 @@ namespace Yupi.Messages.Support
                 }
             }
         }
+
+        #endregion Methods
     }
 }

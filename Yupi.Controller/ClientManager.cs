@@ -1,24 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using Yupi.Protocol;
-using Yupi.Model.Domain;
-using System.Linq;
-using Yupi.Model;
-using Yupi.Model.Repository;
-using Yupi.Util;
-using Yupi.Net;
-using Yupi.Messages;
-
-namespace Yupi.Controller
+﻿namespace Yupi.Controller
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Yupi.Messages;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+    using Yupi.Net;
+    using Yupi.Protocol;
+    using Yupi.Util;
+
     public class ClientManager
     {
-        private IList<ISession<Habbo>> Connections { get; set; }
-
-        private RoomManager RoomManager;
+        #region Fields
 
         private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger
             (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+        private RoomManager RoomManager;
+
+        #endregion Fields
+
+        #region Constructors
 
         public ClientManager()
         {
@@ -26,27 +31,27 @@ namespace Yupi.Controller
             RoomManager = DependencyFactory.Resolve<RoomManager>();
         }
 
-        public bool IsOnline(UserInfo info)
+        #endregion Constructors
+
+        #region Properties
+
+        private IList<ISession<Habbo>> Connections
         {
-            lock (Connections)
-            {
-                return Connections.Any(x => x.UserData.Info == info);
-            }
+            get; set;
         }
 
-        public Habbo GetByInfo(UserInfo info)
-        {
-            lock (Connections)
-            {
-                return Connections.SingleOrDefault(x => x.UserData.Info == info)?.UserData;
-            }
-        }
+        #endregion Properties
 
-        public Habbo GetByUserId(int id)
+        #region Methods
+
+        public void AddClient(ISession<Habbo> session)
         {
+            // TODO Should be user specific
+            session.UserData = new Habbo(session, Router.Default);
+
             lock (Connections)
             {
-                return Connections.SingleOrDefault(x => x.UserData.Info?.Id == id)?.UserData;
+                Connections.Add(session);
             }
         }
 
@@ -64,6 +69,14 @@ namespace Yupi.Controller
             Logger.DebugFormat("User disconnected [{0}] Reason: {1}", session.MachineId, reason);
         }
 
+        public Habbo GetByInfo(UserInfo info)
+        {
+            lock (Connections)
+            {
+                return Connections.SingleOrDefault(x => x.UserData.Info == info)?.UserData;
+            }
+        }
+
         public IEnumerable<Habbo> GetByPermission(string permission)
         {
             lock (Connections)
@@ -72,14 +85,19 @@ namespace Yupi.Controller
             }
         }
 
-        public void AddClient(ISession<Habbo> session)
+        public Habbo GetByUserId(int id)
         {
-            // TODO Should be user specific
-            session.UserData = new Habbo(session, Router.Default);
-
             lock (Connections)
             {
-                Connections.Add(session);
+                return Connections.SingleOrDefault(x => x.UserData.Info?.Id == id)?.UserData;
+            }
+        }
+
+        public bool IsOnline(UserInfo info)
+        {
+            lock (Connections)
+            {
+                return Connections.Any(x => x.UserData.Info == info);
             }
         }
 
@@ -91,5 +109,7 @@ namespace Yupi.Controller
             }
             Disconnect(session.UserData, "Socket closed");
         }
+
+        #endregion Methods
     }
 }

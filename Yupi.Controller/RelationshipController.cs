@@ -1,22 +1,33 @@
-﻿using System;
-using Yupi.Model.Domain;
-using Yupi.Util;
-using Yupi.Model.Repository;
-using Yupi.Model;
-using Yupi.Messages.Contracts;
-
-namespace Yupi.Controller
+﻿namespace Yupi.Controller
 {
+    using System;
+
+    using Yupi.Messages.Contracts;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+    using Yupi.Util;
+
     public class RelationshipController
     {
-        private IRepository<Relationship> RelationshipRepository;
+        #region Fields
+
         private ClientManager ClientManager;
+        private IRepository<Relationship> RelationshipRepository;
+
+        #endregion Fields
+
+        #region Constructors
 
         public RelationshipController()
         {
             RelationshipRepository = DependencyFactory.Resolve<IRepository<Relationship>>();
             ClientManager = DependencyFactory.Resolve<ClientManager>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public void Remove(Habbo user, int friendId)
         {
@@ -34,7 +45,6 @@ namespace Yupi.Controller
                 user.Relationships.Relationships.Remove(relationship);
                 relationship.Friend.Relationships.Relationships.Remove(friendRelation);
 
-
                 relationship.Deleted = true;
                 var friend = ClientManager.GetByUserId(relationship.Friend.Id);
 
@@ -48,5 +58,7 @@ namespace Yupi.Controller
                 RelationshipRepository.Delete(friendRelation);
             }
         }
+
+        #endregion Methods
     }
 }

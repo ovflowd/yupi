@@ -1,11 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using Yupi.Protocol.Buffers;
-
-namespace Yupi.Messages.Navigator
+﻿namespace Yupi.Messages.Navigator
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Yupi.Protocol.Buffers;
+
     public class NavigatorLiftedRoomsComposer : Yupi.Messages.Contracts.NavigatorLiftedRoomsComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -24,5 +27,7 @@ namespace Yupi.Messages.Navigator
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

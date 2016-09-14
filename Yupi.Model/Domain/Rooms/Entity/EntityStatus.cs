@@ -1,19 +1,22 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-using System.Text;
-using System.Collections.Generic;
-using System.Numerics;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
+    using System.Numerics;
+    using System.Text;
+
     [Ignore]
     public abstract class EntityStatus
     {
-        public EntityPosture Posture { get; private set; }
+        #region Fields
 
         private RoomEntity Entity;
-
         private List<IStatusString> TemporaryStates;
+
+        #endregion Fields
+
+        #region Constructors
 
         public EntityStatus(RoomEntity entity)
         {
@@ -23,31 +26,29 @@ namespace Yupi.Model.Domain
             TemporaryStates = new List<IStatusString>();
         }
 
-        public void SetPosture(EntityPosture posture)
+        #endregion Constructors
+
+        #region Properties
+
+        public EntityPosture Posture
         {
-            Contract.Requires(posture != null);
-            this.Posture = posture;
-            OnChange();
+            get; private set;
         }
 
-        internal void OnUpdateComplete()
-        {
-            this.TemporaryStates.Clear();
-        }
+        #endregion Properties
+
+        #region Methods
 
         public bool IsSitting()
         {
             return this.Posture is SitPosture;
         }
 
-        public void Stand()
+        public void SetPosture(EntityPosture posture)
         {
-            SetPosture(StandPosture.Default);
-        }
-
-        public void Sit()
-        {
-            SetPosture(SitPosture.Default);
+            Contract.Requires(posture != null);
+            this.Posture = posture;
+            OnChange();
         }
 
         public void Sign(Sign sign)
@@ -56,20 +57,35 @@ namespace Yupi.Model.Domain
             this.OnChange();
         }
 
+        public void Sit()
+        {
+            SetPosture(SitPosture.Default);
+        }
+
+        public void Stand()
+        {
+            SetPosture(StandPosture.Default);
+        }
+
         public override string ToString()
         {
             return ToStatusString();
         }
 
-        protected void OnChange()
+        internal void OnUpdateComplete()
         {
-            this.Entity.ScheduleUpdate();
+            this.TemporaryStates.Clear();
         }
 
         protected virtual void GetStates(List<IStatusString> states)
         {
             states.Add(this.Posture);
             states.AddRange(this.TemporaryStates);
+        }
+
+        protected void OnChange()
+        {
+            this.Entity.ScheduleUpdate();
         }
 
         private string ToStatusString()
@@ -91,5 +107,7 @@ namespace Yupi.Model.Domain
 
             return string.Join("/", stateStrings);
         }
+
+        #endregion Methods
     }
 }

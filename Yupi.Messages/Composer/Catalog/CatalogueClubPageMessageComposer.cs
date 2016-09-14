@@ -1,20 +1,31 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using System.Collections.Generic;
-using Yupi.Model.Domain;
-using Yupi.Model.Repository;
-using Yupi.Model;
-
-namespace Yupi.Messages.Catalog
+﻿namespace Yupi.Messages.Catalog
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+    using Yupi.Protocol.Buffers;
+
     public class CatalogueClubPageMessageComposer : Yupi.Messages.Contracts.CatalogueClubPageMessageComposer
     {
+        #region Fields
+
         private IRepository<CatalogPage> CatalogRepository;
+
+        #endregion Fields
+
+        #region Constructors
 
         public CatalogueClubPageMessageComposer()
         {
             CatalogRepository = DependencyFactory.Resolve<IRepository<CatalogPage>>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void Compose(Yupi.Protocol.ISender session, int windowId)
         {
@@ -76,5 +87,7 @@ namespace Yupi.Messages.Catalog
                 */
             }
         }
+
+        #endregion Methods
     }
 }

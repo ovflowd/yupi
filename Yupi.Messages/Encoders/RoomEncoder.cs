@@ -1,14 +1,17 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-using Yupi.Model;
-using Yupi.Controller;
-using Yupi.Model.Domain.Components;
-
-namespace Yupi.Messages.Encoders
+﻿namespace Yupi.Messages.Encoders
 {
+    using System;
+
+    using Yupi.Controller;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Domain.Components;
+    using Yupi.Protocol.Buffers;
+
     public static class RoomEncoder
     {
+        #region Methods
+
         public static void Append(this ServerMessage message, RoomData data)
         {
             RoomManager manager = DependencyFactory.Resolve<RoomManager>();
@@ -71,5 +74,7 @@ namespace Yupi.Messages.Encoders
             message.AppendInteger(modSettings.WhoCanKick.Value);
             message.AppendInteger(modSettings.WhoCanBan.Value);
         }
+
+        #endregion Methods
     }
 }

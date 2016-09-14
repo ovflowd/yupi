@@ -1,10 +1,13 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-
-namespace Yupi.Messages.GameCenter
+﻿namespace Yupi.Messages.GameCenter
 {
+    using System;
+
+    using Yupi.Protocol.Buffers;
+
     public class GameCenterJoinGameQueueMessageComposer : Yupi.Messages.Contracts.GameCenterJoinGameQueueMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session)
         {
             // TODO  hardcoded message
@@ -14,5 +17,7 @@ namespace Yupi.Messages.GameCenter
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

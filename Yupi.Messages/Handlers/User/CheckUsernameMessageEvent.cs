@@ -1,21 +1,32 @@
-﻿using System;
-using System.Data;
-using System.Collections.Generic;
-using Yupi.Model.Domain;
-using Yupi.Model.Repository;
-using Yupi.Model;
-using System.Text.RegularExpressions;
-
-namespace Yupi.Messages.User
+﻿namespace Yupi.Messages.User
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Text.RegularExpressions;
+
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+
     public class CheckUsernameMessageEvent : AbstractHandler
     {
+        #region Fields
+
         protected IRepository<UserInfo> UserRepository;
+
+        #endregion Fields
+
+        #region Constructors
 
         public CheckUsernameMessageEvent()
         {
             UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message,
             Yupi.Protocol.IRouter router)
@@ -45,10 +56,35 @@ namespace Yupi.Messages.User
                     );
                 }
 
-                // TODO Update room owner 
+                // TODO Update room owner
 
                 // TODO Notify messenger
             }
+        }
+
+        protected bool ContainsInvalidChars(string name)
+        {
+            // TODO Use ASCII ???
+            const string pattern = "[abcdefghijklmnopqrstuvwxyz1234567890.,_-;:?!@áéíóúÁÉÍÓÚñÑÜüÝý]+";
+
+            string lowerName = name.ToLower();
+
+            string[] forbiddenWords = {"mod", "admin", "m0d"};
+
+            foreach (string forbidden in forbiddenWords)
+            {
+                if (lowerName.Contains(forbidden))
+                {
+                    return true;
+                }
+            }
+
+            return !Regex.IsMatch(name, pattern);
+        }
+
+        protected bool DoesExist(string name)
+        {
+            return UserRepository.Exists((x) => x.Name == name);
         }
 
         protected NameChangedUpdatesMessageComposer.Status Validate(string newName, string oldName,
@@ -85,36 +121,13 @@ namespace Yupi.Messages.User
             }
         }
 
-        protected bool DoesExist(string name)
-        {
-            return UserRepository.Exists((x) => x.Name == name);
-        }
-
-        protected bool ContainsInvalidChars(string name)
-        {
-            // TODO Use ASCII ???
-            const string pattern = "[abcdefghijklmnopqrstuvwxyz1234567890.,_-;:?!@áéíóúÁÉÍÓÚñÑÜüÝý]+";
-
-            string lowerName = name.ToLower();
-
-            string[] forbiddenWords = {"mod", "admin", "m0d"};
-
-            foreach (string forbidden in forbiddenWords)
-            {
-                if (lowerName.Contains(forbidden))
-                {
-                    return true;
-                }
-            }
-
-            return !Regex.IsMatch(name, pattern);
-        }
-
         private List<string> GetAlternatives(string name)
         {
             List<string> alternatives = new List<string>();
             // TODO Implement
             return alternatives;
         }
+
+        #endregion Methods
     }
 }

@@ -1,11 +1,12 @@
-﻿using System;
-using System.Data;
-
-
-namespace Yupi.Messages.Other
+﻿namespace Yupi.Messages.Other
 {
+    using System;
+    using System.Data;
+
     public class HabboCameraMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -51,8 +52,10 @@ namespace Yupi.Messages.Other
                     }
                 }
             }
-*/
+            */
             router.GetComposer<CameraPurchaseOkComposer>().Compose(session);
         }
+
+        #endregion Methods
     }
 }

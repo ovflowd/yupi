@@ -1,11 +1,14 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-
-namespace Yupi.Messages.Music
+﻿namespace Yupi.Messages.Music
 {
+    using System;
+
+    using Yupi.Protocol.Buffers;
+
     // TODO Refactor?
     public class JukeboxNowPlayingMessageComposer : Yupi.Messages.Contracts.JukeboxNowPlayingMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, uint songId, int playlistPosition, int songPosition)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -18,5 +21,7 @@ namespace Yupi.Messages.Music
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

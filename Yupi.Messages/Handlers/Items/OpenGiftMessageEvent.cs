@@ -1,11 +1,13 @@
-﻿using System;
-using System.Data;
-using System.Collections.Generic;
-
-namespace Yupi.Messages.Items
+﻿namespace Yupi.Messages.Items
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+
     public class OpenGiftMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -97,7 +99,6 @@ namespace Yupi.Messages.Items
                 queryReactor.AddParameter ("id", item.Id);
                 queryReactor.RunQuery ();
 
-    
                 List<UserItem> list = Yupi.GetGame()
                     .GetCatalogManager()
                     .DeliverItems(session, item2, 1, (string) row["extradata"], 0, 0, string.Empty);
@@ -109,5 +110,7 @@ namespace Yupi.Messages.Items
             */
             throw new NotImplementedException();
         }
+
+        #endregion Methods
     }
 }

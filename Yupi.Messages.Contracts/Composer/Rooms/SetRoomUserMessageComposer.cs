@@ -1,12 +1,15 @@
-using Yupi.Protocol.Buffers;
-using System.Collections.Generic;
-using Yupi.Model.Domain;
-using System.Globalization;
-
-namespace Yupi.Messages.Contracts
+﻿namespace Yupi.Messages.Contracts
 {
+    using System.Collections.Generic;
+    using System.Globalization;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public abstract class SetRoomUserMessageComposer : AbstractComposer<IList<RoomEntity>>
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender room, IList<RoomEntity> users)
         {
             // Do nothing by default.
@@ -16,5 +19,7 @@ namespace Yupi.Messages.Contracts
         {
             // Do nothing by default.
         }
+
+        #endregion Methods
     }
 }

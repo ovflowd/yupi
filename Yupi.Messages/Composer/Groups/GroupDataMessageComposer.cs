@@ -1,12 +1,14 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-
-namespace Yupi.Messages.Groups
+﻿namespace Yupi.Messages.Groups
 {
+    using System;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class GroupDataMessageComposer : Yupi.Messages.Contracts.GroupDataMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, Group group, UserInfo habbo, bool newWindow = false)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -47,5 +49,7 @@ namespace Yupi.Messages.Groups
                 throw new NotImplementedException();
             }
         }
+
+        #endregion Methods
     }
 }

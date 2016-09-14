@@ -1,28 +1,25 @@
-﻿using System;
-using Microsoft.Practices.Unity;
-using Microsoft.Practices.Unity.Configuration;
-using System.Reflection;
-using Yupi.Model.Repository;
-
-namespace Yupi.Model
+﻿namespace Yupi.Model
 {
+    using System;
+    using System.Reflection;
+
+    using Microsoft.Practices.Unity;
+    using Microsoft.Practices.Unity.Configuration;
+
+    using Yupi.Model.Repository;
+
     /// <summary>
     /// Simple wrapper for unity resolution.
     /// </summary>
     public class DependencyFactory
     {
+        #region Fields
+
         private static IUnityContainer _container;
 
-        /// <summary>
-        /// Public reference to the unity container which will 
-        /// allow the ability to register instrances or take 
-        /// other actions on the container.
-        /// </summary>
-        public static IUnityContainer Container
-        {
-            get { return _container; }
-            private set { _container = value; }
-        }
+        #endregion Fields
+
+        #region Constructors
 
         /// <summary>
         /// Static constructor for DependencyFactory which will 
@@ -40,6 +37,25 @@ namespace Yupi.Model
                 WithLifetime.ContainerControlled);
         }
 
+        #endregion Constructors
+
+        #region Properties
+
+        /// <summary>
+        /// Public reference to the unity container which will 
+        /// allow the ability to register instrances or take 
+        /// other actions on the container.
+        /// </summary>
+        public static IUnityContainer Container
+        {
+            get { return _container; }
+            private set { _container = value; }
+        }
+
+        #endregion Properties
+
+        #region Methods
+
         public static void RegisterInstance<T>(T instance)
         {
             _container.RegisterInstance(instance);
@@ -53,5 +69,7 @@ namespace Yupi.Model
         {
             return Container.Resolve<T>();
         }
+
+        #endregion Methods
     }
 }

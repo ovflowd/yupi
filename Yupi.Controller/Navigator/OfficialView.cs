@@ -1,12 +1,18 @@
-﻿using System;
-using Yupi.Model.Domain;
-
-namespace Yupi.Controller
+﻿namespace Yupi.Controller
 {
+    using System;
+
+    using Yupi.Model.Domain;
+
     public class OfficialView : NavigatorView<OfficialNavigatorCategory>
     {
-        public OfficialView() : base("official_view")
+        #region Constructors
+
+        public OfficialView()
+            : base("official_view")
         {
         }
+
+        #endregion Constructors
     }
 }

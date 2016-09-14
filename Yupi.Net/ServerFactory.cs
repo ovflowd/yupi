@@ -1,9 +1,11 @@
-﻿using System;
-
-namespace Yupi.Net
+﻿namespace Yupi.Net
 {
+    using System;
+
     public class ServerFactory<T>
     {
+        #region Methods
+
         public static IServer<T> CreateServer(int port)
         {
             IServerSettings settings = new ServerSettings()
@@ -29,5 +31,7 @@ namespace Yupi.Net
             // TODO Add selection for SuperSocket vs DotNetty
             return new SuperSocketImpl.SuperServer<T>(settings, flashPolicy);
         }
+
+        #endregion Methods
     }
 }

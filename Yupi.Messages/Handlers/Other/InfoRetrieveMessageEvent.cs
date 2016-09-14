@@ -1,21 +1,28 @@
-﻿using System;
-using Yupi.Messages.Contracts;
-using Yupi.Model.Domain;
-using Yupi.Model.Repository;
-using Yupi.Model;
-using System.Collections.Generic;
-using System.Linq;
-using Yupi.Controller;
-using Yupi.Util;
-using Yupi.Util.Settings;
-
-namespace Yupi.Messages.Other
+﻿namespace Yupi.Messages.Other
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Yupi.Controller;
+    using Yupi.Messages.Contracts;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+    using Yupi.Util;
+    using Yupi.Util.Settings;
+
     public class InfoRetrieveMessageEvent : AbstractHandler
     {
+        #region Fields
+
         private IRepository<MessengerMessage> MessengerRepository;
         private IRepository<TargetedOffer> OfferRepository;
         private IRepository<PromotionNavigatorCategory> PromotionRepository;
+
+        #endregion Fields
+
+        #region Constructors
 
         public InfoRetrieveMessageEvent()
         {
@@ -23,6 +30,10 @@ namespace Yupi.Messages.Other
             OfferRepository = DependencyFactory.Resolve<IRepository<TargetedOffer>>();
             PromotionRepository = DependencyFactory.Resolve<IRepository<PromotionNavigatorCategory>>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
@@ -81,5 +92,7 @@ namespace Yupi.Messages.Other
                 MessengerRepository.Save(message);
             }
         }
+
+        #endregion Methods
     }
 }

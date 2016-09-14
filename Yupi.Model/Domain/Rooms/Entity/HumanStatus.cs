@@ -1,17 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System;
+    using System.Collections.Generic;
+
     [Ignore]
     public class HumanStatus : EntityStatus
     {
-        public RoomRightLevel Rights { get; private set; }
+        #region Constructors
 
-        public HumanStatus(HumanEntity entity) : base(entity)
+        public HumanStatus(HumanEntity entity)
+            : base(entity)
         {
             SetRights();
         }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public RoomRightLevel Rights
+        {
+            get; private set;
+        }
+
+        #endregion Properties
+
+        #region Methods
 
         protected override void GetStates(List<IStatusString> states)
         {
@@ -24,5 +38,7 @@ namespace Yupi.Model.Domain
             Rights = RoomRightLevel.None;
             // TODO Implement
         }
+
+        #endregion Methods
     }
 }

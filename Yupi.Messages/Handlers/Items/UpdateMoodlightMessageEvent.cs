@@ -1,11 +1,12 @@
-﻿using System;
-using System.Text.RegularExpressions;
-
-
-namespace Yupi.Messages.Items
+﻿namespace Yupi.Messages.Items
 {
+    using System;
+    using System.Text.RegularExpressions;
+
     public class UpdateMoodlightMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -43,14 +44,16 @@ namespace Yupi.Messages.Items
             */
         }
 
+        private bool IsValidColor(string hexRGB)
+        {
+            return Regex.IsMatch(hexRGB, "^#[0-9A-F]{6}$", RegexOptions.IgnoreCase);
+        }
+
         private bool IsValidIntensity(int intensity)
         {
             return 0 <= intensity && intensity <= 255;
         }
 
-        private bool IsValidColor(string hexRGB)
-        {
-            return Regex.IsMatch(hexRGB, "^#[0-9A-F]{6}$", RegexOptions.IgnoreCase);
-        }
+        #endregion Methods
     }
 }

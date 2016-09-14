@@ -1,14 +1,16 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using System.Collections.Generic;
-using Yupi.Model.Domain;
-using Yupi.Model.Domain.Components;
-
-
-namespace Yupi.Messages.Music
+﻿namespace Yupi.Messages.Music
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Yupi.Model.Domain;
+    using Yupi.Model.Domain.Components;
+    using Yupi.Protocol.Buffers;
+
     public class JukeboxPlaylistMessageComposer : Yupi.Messages.Contracts.JukeboxPlaylistMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, SongMachineComponent songMachine)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -25,5 +27,7 @@ namespace Yupi.Messages.Music
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

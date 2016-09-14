@@ -1,10 +1,13 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-
-namespace Yupi.Messages.Guides
+﻿namespace Yupi.Messages.Guides
 {
+    using System;
+
+    using Yupi.Protocol.Buffers;
+
     public class OnGuideSessionErrorComposer : Yupi.Messages.Contracts.OnGuideSessionErrorComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session)
         {
             // TODO Hardcoded message
@@ -14,5 +17,7 @@ namespace Yupi.Messages.Guides
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

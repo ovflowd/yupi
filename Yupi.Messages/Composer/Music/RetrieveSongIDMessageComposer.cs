@@ -1,10 +1,13 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-
-namespace Yupi.Messages.Music
+﻿namespace Yupi.Messages.Music
 {
+    using System;
+
+    using Yupi.Protocol.Buffers;
+
     public class RetrieveSongIDMessageComposer : Yupi.Messages.Contracts.RetrieveSongIDMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, string name, int songId)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -14,5 +17,7 @@ namespace Yupi.Messages.Music
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

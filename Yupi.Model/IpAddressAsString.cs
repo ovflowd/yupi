@@ -1,18 +1,35 @@
-﻿using System;
-using NHibernate.SqlTypes;
-using System.Net;
-using System.Data;
-using NHibernate;
-using System.Diagnostics;
-
-namespace Yupi.Model
+﻿namespace Yupi.Model
 {
+    using System;
+    using System.Data;
+    using System.Diagnostics;
+    using System.Net;
+
+    using NHibernate;
+    using NHibernate.SqlTypes;
+
     /// <summary>
     /// Stores System.Net.IPAddress as String
     /// </summary>
     /// <see cref="http://t-code.pl/blog/2011/07/ipaddress-nvarchar-nhibernate-custom-mapping/"/>
     public class IpAddressAsString : UserType
     {
+        #region Properties
+
+        public override Type ReturnedType
+        {
+            get { return typeof(IPAddress); }
+        }
+
+        public override SqlType[] SqlTypes
+        {
+            get { return new SqlType[] {SqlTypeFactory.GetString(15)}; }
+        }
+
+        #endregion Properties
+
+        #region Methods
+
         public override object NullSafeGet(IDataReader rs, string[] names, object owner)
         {
             object obj = NHibernateUtil.Double.NullSafeGet(rs, names);
@@ -36,14 +53,6 @@ namespace Yupi.Model
             }
         }
 
-        public override SqlType[] SqlTypes
-        {
-            get { return new SqlType[] {SqlTypeFactory.GetString(15)}; }
-        }
-
-        public override Type ReturnedType
-        {
-            get { return typeof(IPAddress); }
-        }
+        #endregion Methods
     }
 }

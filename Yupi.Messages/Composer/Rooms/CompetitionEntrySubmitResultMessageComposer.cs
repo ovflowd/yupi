@@ -1,12 +1,14 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Rooms
+﻿namespace Yupi.Messages.Rooms
 {
-    public class CompetitionEntrySubmitResultMessageComposer :
-        Yupi.Messages.Contracts.CompetitionEntrySubmitResultMessageComposer
+    using System;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
+    public class CompetitionEntrySubmitResultMessageComposer : Yupi.Messages.Contracts.CompetitionEntrySubmitResultMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, RoomCompetition competition, int status,
             RoomData room = null)
         {
@@ -54,5 +56,7 @@ namespace Yupi.Messages.Rooms
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

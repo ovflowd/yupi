@@ -1,14 +1,16 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-using System.Collections.Generic;
-
-
-namespace Yupi.Messages.Navigator
+﻿namespace Yupi.Messages.Navigator
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     // TODO Renamed from NavigatorCategorys
     public class NavigatorCategoriesComposer : Yupi.Messages.Contracts.NavigatorCategoriesComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, IList<NavigatorCategory> categories)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -20,5 +22,7 @@ namespace Yupi.Messages.Navigator
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

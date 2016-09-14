@@ -1,17 +1,24 @@
-﻿using System;
-using Yupi.Messages.Rooms;
-using Yupi.Model.Domain;
-using Yupi.Model.Repository;
-using Yupi.Model;
-using Yupi.Controller;
-
-namespace Yupi.Messages.Navigator
+﻿namespace Yupi.Messages.Navigator
 {
+    using System;
+
+    using Yupi.Controller;
+    using Yupi.Messages.Rooms;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+
     public class ToggleStaffPickMessageEvent : AbstractHandler
     {
-        private IRepository<RoomData> RoomRepository;
+        #region Fields
+
         private AchievementManager AchievementManager;
         private RoomManager RoomManager;
+        private IRepository<RoomData> RoomRepository;
+
+        #endregion Fields
+
+        #region Constructors
 
         public ToggleStaffPickMessageEvent()
         {
@@ -19,6 +26,10 @@ namespace Yupi.Messages.Navigator
             AchievementManager = DependencyFactory.Resolve<AchievementManager>();
             RoomManager = DependencyFactory.Resolve<RoomManager>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
@@ -49,5 +60,7 @@ namespace Yupi.Messages.Navigator
                     });
             }
         }
+
+        #endregion Methods
     }
 }

@@ -1,10 +1,13 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-
-namespace Yupi.Messages.User
+﻿namespace Yupi.Messages.User
 {
+    using System;
+
+    using Yupi.Protocol.Buffers;
+
     public class RoomForwardMessageComposer : Yupi.Messages.Contracts.RoomForwardMessageComposer
     {
+        #region Methods
+
         // TODO Use RoomInfo
         public override void Compose(Yupi.Protocol.ISender session, int roomId)
         {
@@ -14,5 +17,7 @@ namespace Yupi.Messages.User
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

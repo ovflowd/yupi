@@ -1,12 +1,15 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using System.Collections.Generic;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Groups
+﻿namespace Yupi.Messages.Groups
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class GroupForumThreadRootMessageComposer : Yupi.Messages.Contracts.GroupForumThreadRootMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, int groupId, int startIndex,
             IList<GroupForumThread> threads)
         {
@@ -39,5 +42,7 @@ namespace Yupi.Messages.Groups
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

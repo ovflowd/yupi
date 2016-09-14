@@ -1,9 +1,16 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System;
+
     public class YoutubeTVItem : FloorItem<YoutubeTvBaseItem>
     {
-        public virtual YoutubeVideo PlayingVideo { get; set; }
+        #region Properties
+
+        public virtual YoutubeVideo PlayingVideo
+        {
+            get; set;
+        }
+
+        #endregion Properties
     }
 }

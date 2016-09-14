@@ -1,10 +1,13 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-
-namespace Yupi.Messages.Groups
+﻿namespace Yupi.Messages.Groups
 {
+    using System;
+
+    using Yupi.Protocol.Buffers;
+
     public class GroupForumNewThreadMessageComposer : Yupi.Messages.Contracts.GroupForumNewThreadMessageComposer
     {
+        #region Methods
+
         // TODO Hardcoded
         public override void Compose(Yupi.Protocol.ISender session, int groupId, int threadId, int habboId,
             string subject, string content, int timestamp)
@@ -35,5 +38,7 @@ namespace Yupi.Messages.Groups
                 */
             }
         }
+
+        #endregion Methods
     }
 }

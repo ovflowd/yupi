@@ -1,10 +1,19 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System;
+
     public class MusicDiscBaseItem : FloorBaseItem
     {
-        public virtual SongData Song { get; protected set; }
+        #region Properties
+
+        public virtual SongData Song
+        {
+            get; protected set;
+        }
+
+        #endregion Properties
+
+        #region Methods
 
         public override Item CreateNew()
         {
@@ -13,5 +22,7 @@ namespace Yupi.Model.Domain
                 BaseItem = this
             };
         }
+
+        #endregion Methods
     }
 }

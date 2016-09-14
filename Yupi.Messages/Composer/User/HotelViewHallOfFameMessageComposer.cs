@@ -1,22 +1,32 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using System.Collections.Generic;
-using Yupi.Model.Domain;
-using Yupi.Model.Repository;
-using Yupi.Model;
-using System.Linq;
-
-
-namespace Yupi.Messages.User
+﻿namespace Yupi.Messages.User
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+    using Yupi.Protocol.Buffers;
+
     public class HotelViewHallOfFameMessageComposer : Yupi.Messages.Contracts.HotelViewHallOfFameMessageComposer
     {
+        #region Fields
+
         private IRepository<HallOfFameElement> FameRepository;
+
+        #endregion Fields
+
+        #region Constructors
 
         public HotelViewHallOfFameMessageComposer()
         {
             FameRepository = DependencyFactory.Resolve<IRepository<HallOfFameElement>>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void Compose(Yupi.Protocol.ISender session, string code)
         {
@@ -41,5 +51,7 @@ namespace Yupi.Messages.User
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

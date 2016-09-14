@@ -1,22 +1,57 @@
-using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System;
+
     public class AvatarEffect
     {
-        public virtual int Id { get; set; }
-
-        public virtual int EffectId { get; set; }
+        #region Properties
 
         // TODO Redundant information (UserEffectComponent.ActiveEffect)
-        public virtual bool Activated { get; set; }
+        public virtual bool Activated
+        {
+            get; set;
+        }
 
-        public virtual DateTime ActivatedAt { get; set; }
+        public virtual DateTime ActivatedAt
+        {
+            get; set;
+        }
 
-        public virtual int TotalDuration { get; set; }
+        public virtual int EffectId
+        {
+            get; set;
+        }
+
+        public virtual int Id
+        {
+            get; set;
+        }
+
+        public virtual int TotalDuration
+        {
+            get; set;
+        }
 
         // TODO What is this good for?
-        public virtual short Type { get; set; }
+        public virtual short Type
+        {
+            get; set;
+        }
+
+        #endregion Properties
+
+        #region Methods
+
+        public virtual void Activate()
+        {
+            Activated = true;
+            ActivatedAt = DateTime.Now;
+        }
+
+        public virtual bool HasExpired()
+        {
+            return TimeLeft() != -1 && TimeLeft() <= 0;
+        }
 
         public virtual int TimeLeft()
         {
@@ -31,15 +66,6 @@ namespace Yupi.Model.Domain
             return (int) (TotalDuration - remaining);
         }
 
-        public virtual bool HasExpired()
-        {
-            return TimeLeft() != -1 && TimeLeft() <= 0;
-        }
-
-        public virtual void Activate()
-        {
-            Activated = true;
-            ActivatedAt = DateTime.Now;
-        }
+        #endregion Methods
     }
 }

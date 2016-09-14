@@ -1,19 +1,29 @@
-﻿using System;
-using Yupi.Model.Domain;
-using Yupi.Controller;
-using Yupi.Model;
-
-
-namespace Yupi.Messages.Chat
+﻿namespace Yupi.Messages.Chat
 {
+    using System;
+
+    using Yupi.Controller;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+
     public class ShoutMessageEvent : AbstractHandler
     {
+        #region Fields
+
         private ChatController Chat;
+
+        #endregion Fields
+
+        #region Constructors
 
         public ShoutMessageEvent()
         {
             Chat = DependencyFactory.Resolve<ChatController>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
@@ -31,5 +41,7 @@ namespace Yupi.Messages.Chat
                 Chat.Shout(session, message, bubble);
             }
         }
+
+        #endregion Methods
     }
 }

@@ -1,10 +1,13 @@
-﻿using System;
-using Yupi.Messages.Groups;
-
-namespace Yupi.Messages.Rooms
+﻿namespace Yupi.Messages.Rooms
 {
+    using System;
+
+    using Yupi.Messages.Groups;
+
     public class RoomLoadByDoorbellMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -24,7 +27,6 @@ namespace Yupi.Messages.Rooms
 
             router.GetComposer<RoomGroupMessageComposer> ().Compose (session);
             router.GetComposer<InitialRoomInfoMessageComposer> ().Compose (session, currentLoadingRoom);
-
 
             if (session.GetHabbo().SpectatorMode)
             {
@@ -58,13 +60,14 @@ namespace Yupi.Messages.Rooms
                 router.GetComposer<RoomRightsLevelMessageComposer> ().Compose (session, 0);
             }
 
-            router.GetComposer<RoomRatingMessageComposer> ().Compose (session, urrentLoadingRoom.RoomData.Score, 
+            router.GetComposer<RoomRatingMessageComposer> ().Compose (session, urrentLoadingRoom.RoomData.Score,
                 !session.GetHabbo ().RatedRooms.Contains (currentLoadingRoom.RoomId) && !currentLoadingRoom.CheckRights (session, true)); // TODO Refactor
 
-
             router.GetComposer<RoomUpdateMessageComposer> ().Compose (session, currentLoadingRoom.RoomId);
-*/
+            */
             throw new NotImplementedException();
         }
+
+        #endregion Methods
     }
 }

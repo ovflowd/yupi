@@ -1,15 +1,28 @@
-﻿using System;
-using SuperSocket.SocketBase.Protocol;
-
-namespace Yupi.Net.SuperSocketImpl
+﻿namespace Yupi.Net.SuperSocketImpl
 {
+    using System;
+
+    using SuperSocket.SocketBase.Protocol;
+
     public class RequestInfo : BinaryRequestInfo
     {
-        public bool IsFlashRequest { get; private set; }
+        #region Constructors
 
-        public RequestInfo(byte[] body, bool isFlashRequest = false) : base("__MESSAGE__", body)
+        public RequestInfo(byte[] body, bool isFlashRequest = false)
+            : base("__MESSAGE__", body)
         {
             IsFlashRequest = isFlashRequest;
         }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public bool IsFlashRequest
+        {
+            get; private set;
+        }
+
+        #endregion Properties
     }
 }

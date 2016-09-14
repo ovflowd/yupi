@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-
-namespace Yupi.Messages.User
+﻿namespace Yupi.Messages.User
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class TalentsTrackMessageComposer : Yupi.Messages.Contracts.TalentsTrackMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, TalentType trackType, IList<Talent> talents)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -28,7 +30,7 @@ namespace Yupi.Messages.User
                     foreach (TalentLevel child in current.Levels)
                     {
                         /*	UserAchievement achievment = child.Achievement;
-    
+
                             int num;
                             // TODO Refactor What does num mean?!
                             if (failLevel != -1 && failLevel < child.Level) {
@@ -41,17 +43,17 @@ namespace Yupi.Messages.User
                             } else {
                                 num = 1;
                             }
-    
+
                             message.AppendInteger (child.Achievement.Id);
                             message.AppendInteger (0); // TODO Magic constant
-    
+
                             message.AppendString(child.Achievement.GroupName+child.Achievement.DefaultLevel);
                             message.AppendInteger(num);
-    
+
                             message.AppendInteger(achievment != null ? achievment.Progress : 0);
                             message.AppendInteger(child.GetAchievement() == null ? 0
                                 : child.GetAchievement().Levels[child.AchievementLevel].Requirement);
-    
+
                             if (num != 2 && failLevel == -1)
                                 failLevel = child.Level;
                                 */
@@ -69,5 +71,7 @@ namespace Yupi.Messages.User
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

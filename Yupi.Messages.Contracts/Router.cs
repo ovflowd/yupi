@@ -1,31 +1,36 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using Yupi.Protocol.Buffers;
-using Yupi.Net;
-using Yupi.Protocol;
-using Yupi.Model.Domain;
-using Yupi.Messages.Contracts;
-using System.IO;
-using System.Reflection;
-using System.Text;
-
-namespace Yupi.Messages
+﻿namespace Yupi.Messages
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
+    using System.Text;
+
+    using Yupi.Messages.Contracts;
+    using Yupi.Model.Domain;
+    using Yupi.Net;
+    using Yupi.Protocol;
+    using Yupi.Protocol.Buffers;
+
     public class Router : Yupi.Protocol.IRouter
     {
+        #region Fields
+
         public static Router Default;
 
         private static readonly log4net.ILog Logger = log4net.LogManager
             .GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private Dictionary<short, AbstractHandler> Incoming;
-        private Dictionary<Type, IComposer> Outgoing;
-
         private PacketLibrary library;
+        private Assembly MessageAssembly;
+        private Dictionary<Type, IComposer> Outgoing;
         private ServerMessagePool pool;
 
-        private Assembly MessageAssembly;
+        #endregion Fields
+
+        #region Constructors
 
         public Router(string release, string configDir, Assembly messageAssembly)
         {
@@ -35,6 +40,10 @@ namespace Yupi.Messages
             LoadHandlers();
             LoadComposers();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public T GetComposer<T>()
         {
@@ -86,30 +95,11 @@ namespace Yupi.Messages
             }
         }
 
-        // TODO Fix handler names in *.incoming
-        private void LoadHandlers()
+        private IEnumerable<Type> GetImplementing<T>()
         {
-            Incoming = new Dictionary<short, AbstractHandler>();
-
-            IEnumerable<Type> handlers = GetImplementing<AbstractHandler>();
-
-            foreach (Type handlerType in handlers)
-            {
-                short id = library.GetIncomingId(handlerType.Name);
-
-                if (id > 0)
-                {
-                    if (Incoming.ContainsKey(id))
-                    {
-                        Logger.ErrorFormat("Duplicate Handler Id [{0}]", id);
-                    }
-                    else
-                    {
-                        AbstractHandler handler = (AbstractHandler) Activator.CreateInstance(handlerType);
-                        Incoming.Add(id, handler);
-                    }
-                }
-            }
+            return
+                MessageAssembly.GetTypes()
+                    .Where(p => typeof(T).IsAssignableFrom(p) && p.GetConstructor(Type.EmptyTypes) != null);
         }
 
         private void LoadComposers()
@@ -138,11 +128,32 @@ namespace Yupi.Messages
             }
         }
 
-        private IEnumerable<Type> GetImplementing<T>()
+        // TODO Fix handler names in *.incoming
+        private void LoadHandlers()
         {
-            return
-                MessageAssembly.GetTypes()
-                    .Where(p => typeof(T).IsAssignableFrom(p) && p.GetConstructor(Type.EmptyTypes) != null);
+            Incoming = new Dictionary<short, AbstractHandler>();
+
+            IEnumerable<Type> handlers = GetImplementing<AbstractHandler>();
+
+            foreach (Type handlerType in handlers)
+            {
+                short id = library.GetIncomingId(handlerType.Name);
+
+                if (id > 0)
+                {
+                    if (Incoming.ContainsKey(id))
+                    {
+                        Logger.ErrorFormat("Duplicate Handler Id [{0}]", id);
+                    }
+                    else
+                    {
+                        AbstractHandler handler = (AbstractHandler) Activator.CreateInstance(handlerType);
+                        Incoming.Add(id, handler);
+                    }
+                }
+            }
         }
+
+        #endregion Methods
     }
 }

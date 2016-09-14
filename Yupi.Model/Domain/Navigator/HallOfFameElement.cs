@@ -1,14 +1,32 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System;
+
     public class HallOfFameElement
     {
-        public virtual int Id { get; protected set; }
+        #region Properties
 
         // TODO Competition should not be string?!
-        public virtual string Competition { get; set; }
-        public virtual int Score { get; set; }
-        public virtual UserInfo User { get; set; }
+        public virtual string Competition
+        {
+            get; set;
+        }
+
+        public virtual int Id
+        {
+            get; protected set;
+        }
+
+        public virtual int Score
+        {
+            get; set;
+        }
+
+        public virtual UserInfo User
+        {
+            get; set;
+        }
+
+        #endregion Properties
     }
 }

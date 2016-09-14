@@ -1,11 +1,14 @@
-﻿using System;
-using FluentNHibernate.Conventions;
-using FluentNHibernate.Conventions.Instances;
-
-namespace Yupi.Model
+﻿namespace Yupi.Model
 {
+    using System;
+
+    using FluentNHibernate.Conventions;
+    using FluentNHibernate.Conventions.Instances;
+
     public class CascadeConvention : IHasManyConvention, IReferenceConvention
     {
+        #region Methods
+
         public void Apply(IManyToOneInstance instance)
         {
             instance.Cascade.All();
@@ -15,5 +18,7 @@ namespace Yupi.Model
         {
             instance.Cascade.AllDeleteOrphan();
         }
+
+        #endregion Methods
     }
 }

@@ -1,10 +1,11 @@
-﻿using System;
-
-
-namespace Yupi.Messages.Groups
+﻿namespace Yupi.Messages.Groups
 {
+    using System;
+
     public class GroupDeclineMembershipRequestMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -34,7 +35,7 @@ namespace Yupi.Messages.Groups
             }
 
             router.GetComposer<GroupDataMessageComposer> ().Compose (session, group, session.GetHabbo());
-        
+
             using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager ().GetQueryReactor ()) {
                 queryReactor.SetQuery ("DELETE FROM group_requests WHERE group_id = @group_id AND user_id = @user_id");
                 queryReactor.AddParameter("group_id", groupId);
@@ -43,5 +44,7 @@ namespace Yupi.Messages.Groups
             }
             */
         }
+
+        #endregion Methods
     }
 }

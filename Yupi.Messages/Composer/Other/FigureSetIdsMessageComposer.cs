@@ -1,13 +1,16 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using System.Collections.Generic;
-using System.Linq;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Other
+﻿namespace Yupi.Messages.Other
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class FigureSetIdsMessageComposer : Yupi.Messages.Contracts.FigureSetIdsMessageComposer
     {
+        #region Methods
+
         // TODO Refactor
         public override void Compose(Yupi.Protocol.ISender session)
         {
@@ -40,5 +43,7 @@ namespace Yupi.Messages.Other
             }
             */
         }
+
+        #endregion Methods
     }
 }

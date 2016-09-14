@@ -1,10 +1,13 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-
-namespace Yupi.Messages.Items
+﻿namespace Yupi.Messages.Items
 {
+    using System;
+
+    using Yupi.Protocol.Buffers;
+
     public class RemovePetFromInventoryComposer : Yupi.Messages.Contracts.RemovePetFromInventoryComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, uint petId)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -13,5 +16,7 @@ namespace Yupi.Messages.Items
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

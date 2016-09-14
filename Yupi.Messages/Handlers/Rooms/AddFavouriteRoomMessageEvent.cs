@@ -1,11 +1,13 @@
-﻿using System;
-using Yupi.Messages.Rooms;
-
-
-namespace Yupi.Messages.Rooms
+﻿namespace Yupi.Messages.Rooms
 {
+    using System;
+
+    using Yupi.Messages.Rooms;
+
     public class AddFavouriteRoomMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -14,5 +16,7 @@ namespace Yupi.Messages.Rooms
             throw new NotImplementedException();
             //session.Info.FavoriteRooms.Add(roomId);
         }
+
+        #endregion Methods
     }
 }

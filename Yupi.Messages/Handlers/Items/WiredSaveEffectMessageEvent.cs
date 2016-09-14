@@ -1,12 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Items
+﻿namespace Yupi.Messages.Items
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
+    public class WiredSaveConditionMessageEvent : WiredSaveEffectMessageEvent
+    {
+    }
+
     public class WiredSaveEffectMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -20,6 +27,25 @@ namespace Yupi.Messages.Items
                     .GetItem(itemId);
 
             SaveWired(session, item, request);
+            */
+            throw new NotImplementedException();
+        }
+
+        private IList<Item> GetFurniItems(ClientMessage request, RoomData room)
+        {
+            /*
+            List<RoomItem> list = new List<RoomItem>();
+            int itemCount = request.GetInteger();
+
+            for (int i = 0; i < itemCount; i++)
+            {
+                RoomItem item = room.GetRoomItemHandler().GetItem(request.GetUInt32());
+
+                if (item != null)
+                    list.Add(item);
+            }
+
+            return list;
             */
             throw new NotImplementedException();
         }
@@ -504,39 +530,18 @@ namespace Yupi.Messages.Items
             }
 
             session.Send(new SimpleServerMessageBuffer(PacketLibraryManager.OutgoingHandler("SaveWiredMessageComposer")));
-*/
-            throw new NotImplementedException();
-        }
-
-        private IList<Item> GetFurniItems(ClientMessage request, RoomData room)
-        {
-            /*
-            List<RoomItem> list = new List<RoomItem>();
-            int itemCount = request.GetInteger();
-
-            for (int i = 0; i < itemCount; i++)
-            {
-                RoomItem item = room.GetRoomItemHandler().GetItem(request.GetUInt32());
-
-                if (item != null)
-                    list.Add(item);
-            }
-
-            return list;
             */
             throw new NotImplementedException();
         }
-    }
 
-    public class WiredSaveTriggerMessageEvent : WiredSaveEffectMessageEvent
-    {
+        #endregion Methods
     }
 
     public class WiredSaveMatchingMessageEvent : WiredSaveEffectMessageEvent
     {
     }
 
-    public class WiredSaveConditionMessageEvent : WiredSaveEffectMessageEvent
+    public class WiredSaveTriggerMessageEvent : WiredSaveEffectMessageEvent
     {
     }
 }

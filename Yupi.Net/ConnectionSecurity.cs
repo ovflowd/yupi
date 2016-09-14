@@ -1,16 +1,18 @@
-﻿/**
-     Because i love chocolat...                                      
-                                    88 88  
-                                    "" 88  
-                                       88  
-8b       d8 88       88 8b,dPPYba,  88 88  
-`8b     d8' 88       88 88P'    "8a 88 88  
- `8b   d8'  88       88 88       d8 88 ""  
-  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa  
-    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88  
-    d8'                 88                 
-   d8'                  88     
-   
+﻿#region Header
+
+/**
+     Because i love chocolat...
+                                    88 88
+                                    "" 88
+                                       88
+8b       d8 88       88 8b,dPPYba,  88 88
+`8b     d8' 88       88 88P'    "8a 88 88
+ `8b   d8'  88       88 88       d8 88 ""
+  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa
+    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88
+    d8'                 88
+   d8'                  88
+
    Private Habbo Hotel Emulating System
    @author Claudio A. Santoro W.
    @author Kessiler R.
@@ -18,25 +20,33 @@
    @license MIT
    @copyright Sulake Corporation Oy
    @observation All Rights of Habbo, Habbo Hotel, and all Habbo contents and it's names, is copyright from Sulake
-   Corporation Oy. Yupi! has nothing linked with Sulake. 
+   Corporation Oy. Yupi! has nothing linked with Sulake.
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-using System.Collections.Generic;
+#endregion Header
 
 namespace Yupi.Net.DotNettyImpl
 {
+    using System.Collections.Generic;
+
     class ConnectionSecurity
     {
-        /// <summary>
-        ///     Server Connections By IP Address
-        /// </summary>
-        private Dictionary<string, uint> ServerClientConnectionsByAddress;
+        #region Fields
 
         /// <summary>
         ///     Blocked Client Connections By IP Address
         /// </summary>
         private List<string> BlockedClientConnectionsByAddress;
+
+        /// <summary>
+        ///     Server Connections By IP Address
+        /// </summary>
+        private Dictionary<string, uint> ServerClientConnectionsByAddress;
+
+        #endregion Fields
+
+        #region Constructors
 
         /// <summary>
         ///     Initialize Security Manager
@@ -47,6 +57,10 @@ namespace Yupi.Net.DotNettyImpl
 
             BlockedClientConnectionsByAddress = new List<string>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         /// <summary>
         ///     Add Client
@@ -61,29 +75,6 @@ namespace Yupi.Net.DotNettyImpl
             {
                 ServerClientConnectionsByAddress.Add(clientAddress, 1);
             }
-        }
-
-        /// <summary>
-        ///     Remove Client
-        /// </summary>
-        public void RemoveClient(string clientAddress)
-        {
-            if (ServerClientConnectionsByAddress.ContainsKey(clientAddress))
-            {
-                // TODO Should never get < 0
-                ServerClientConnectionsByAddress[clientAddress]--;
-            }
-        }
-
-        /// <summary>
-        ///     Get Client Count
-        /// </summary>
-        private uint GetClientCount(string clientAddress)
-        {
-            if (ServerClientConnectionsByAddress.ContainsKey(clientAddress))
-                return ServerClientConnectionsByAddress[clientAddress];
-
-            return 0;
         }
 
         /// <summary>
@@ -120,5 +111,30 @@ namespace Yupi.Net.DotNettyImpl
 
             return true;
         }
+
+        /// <summary>
+        ///     Remove Client
+        /// </summary>
+        public void RemoveClient(string clientAddress)
+        {
+            if (ServerClientConnectionsByAddress.ContainsKey(clientAddress))
+            {
+                // TODO Should never get < 0
+                ServerClientConnectionsByAddress[clientAddress]--;
+            }
+        }
+
+        /// <summary>
+        ///     Get Client Count
+        /// </summary>
+        private uint GetClientCount(string clientAddress)
+        {
+            if (ServerClientConnectionsByAddress.ContainsKey(clientAddress))
+                return ServerClientConnectionsByAddress[clientAddress];
+
+            return 0;
+        }
+
+        #endregion Methods
     }
 }

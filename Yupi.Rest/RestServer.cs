@@ -1,11 +1,18 @@
-﻿using System;
-using Nancy.Hosting.Self;
-
-namespace Yupi.Rest
+﻿namespace Yupi.Rest
 {
+    using System;
+
+    using Nancy.Hosting.Self;
+
     public class RestServer : IDisposable
     {
+        #region Fields
+
         private NancyHost Server;
+
+        #endregion Fields
+
+        #region Constructors
 
         public RestServer()
         {
@@ -22,15 +29,21 @@ namespace Yupi.Rest
             Server = new NancyHost(config, new Uri("http://localhost:8080"));
         }
 
-        public void Start()
-        {
-            Server.Start();
-        }
+        #endregion Constructors
+
+        #region Methods
 
         public void Dispose()
         {
             Server.Dispose();
             Server = null;
         }
+
+        public void Start()
+        {
+            Server.Start();
+        }
+
+        #endregion Methods
     }
 }

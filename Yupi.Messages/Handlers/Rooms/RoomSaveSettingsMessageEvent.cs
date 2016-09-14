@@ -1,19 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using Yupi.Model.Repository;
-using Yupi.Model.Domain;
-using Yupi.Model;
-using Yupi.Controller;
-using Yupi.Model.Domain.Components;
-
-
-namespace Yupi.Messages.Rooms
+﻿namespace Yupi.Messages.Rooms
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Yupi.Controller;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Domain.Components;
+    using Yupi.Model.Repository;
+
     public class RoomSaveSettingsMessageEvent : AbstractHandler
     {
+        #region Fields
+
+        private Repository<FlatNavigatorCategory> NavigatorCategoryRepository;
         private RoomManager RoomManager;
         private Repository<RoomData> RoomRepository;
-        private Repository<FlatNavigatorCategory> NavigatorCategoryRepository;
+
+        #endregion Fields
+
+        #region Constructors
 
         public RoomSaveSettingsMessageEvent()
         {
@@ -21,6 +27,10 @@ namespace Yupi.Messages.Rooms
             RoomRepository = DependencyFactory.Resolve<Repository<RoomData>>();
             NavigatorCategoryRepository = DependencyFactory.Resolve<Repository<FlatNavigatorCategory>>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
@@ -171,5 +181,7 @@ namespace Yupi.Messages.Rooms
                 });
             }
         }
+
+        #endregion Methods
     }
 }

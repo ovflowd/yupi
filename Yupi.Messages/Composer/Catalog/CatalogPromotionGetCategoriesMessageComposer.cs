@@ -1,15 +1,16 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-using System.Collections.Generic;
-
-
-namespace Yupi.Messages.Catalog
+﻿namespace Yupi.Messages.Catalog
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     // TODO Rename  (This is Navigator); this has nothing to do with Catalog!
-    public class CatalogPromotionGetCategoriesMessageComposer :
-        Yupi.Messages.Contracts.CatalogPromotionGetCategoriesMessageComposer
+    public class CatalogPromotionGetCategoriesMessageComposer : Yupi.Messages.Contracts.CatalogPromotionGetCategoriesMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session,
             IList<PromotionNavigatorCategory> promotionCategories)
         {
@@ -27,5 +28,7 @@ namespace Yupi.Messages.Catalog
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

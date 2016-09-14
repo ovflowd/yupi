@@ -1,12 +1,15 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-using Yupi.Protocol;
-
-namespace Yupi.Messages.Items
+﻿namespace Yupi.Messages.Items
 {
+    using System;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol;
+    using Yupi.Protocol.Buffers;
+
     public class LoveLockDialogueMessageComposer : Yupi.Messages.Contracts.LoveLockDialogueMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender user1, Yupi.Protocol.ISender user2, LovelockItem loveLock)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -19,5 +22,7 @@ namespace Yupi.Messages.Items
                 user2.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

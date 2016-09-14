@@ -1,14 +1,17 @@
-﻿using System;
-using System.Data;
-using Yupi.Protocol.Buffers;
-using Yupi.Model;
-using System.Collections.Generic;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.User
+﻿namespace Yupi.Messages.User
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class LoadWardrobeMessageComposer : Yupi.Messages.Contracts.LoadWardrobeMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, IList<WardrobeItem> wardrobe)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -24,5 +27,7 @@ namespace Yupi.Messages.User
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

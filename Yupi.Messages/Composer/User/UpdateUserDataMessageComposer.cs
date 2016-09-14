@@ -1,12 +1,14 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-
-namespace Yupi.Messages.User
+﻿namespace Yupi.Messages.User
 {
+    using System;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class UpdateUserDataMessageComposer : Yupi.Messages.Contracts.UpdateUserDataMessageComposer
     {
+        #region Methods
+
         // TODO Does -1 mean self???
         public override void Compose(Yupi.Protocol.ISender room, UserInfo habbo, int roomUserId = -1)
         {
@@ -22,5 +24,7 @@ namespace Yupi.Messages.User
                 room.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

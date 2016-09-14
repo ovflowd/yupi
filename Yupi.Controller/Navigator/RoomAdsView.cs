@@ -1,12 +1,18 @@
-﻿using System;
-using Yupi.Model.Domain;
-
-namespace Yupi.Controller
+﻿namespace Yupi.Controller
 {
+    using System;
+
+    using Yupi.Model.Domain;
+
     public class RoomAdsView : NavigatorView<PromotionNavigatorCategory>
     {
-        public RoomAdsView() : base("roomads_view")
+        #region Constructors
+
+        public RoomAdsView()
+            : base("roomads_view")
         {
         }
+
+        #endregion Constructors
     }
 }

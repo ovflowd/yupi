@@ -1,13 +1,17 @@
-﻿using NUnit.Framework;
-using System;
-using Yupi.Model.Domain;
-
-namespace Yupi.Tests
+﻿namespace Yupi.Tests
 {
-    [TestFixture()]
+    using System;
+
+    using NUnit.Framework;
+
+    using Yupi.Model.Domain;
+
+    [TestFixture]
     public class HeightmapTest
     {
-        [Test()]
+        #region Methods
+
+        [Test]
         public void ModelString()
         {
             string heightmap = RoomModel.Model_a.Heightmap;
@@ -18,7 +22,7 @@ namespace Yupi.Tests
             Assert.AreEqual(heightmap, map.GetMap());
         }
 
-        [Test()]
+        [Test]
         public void Walkable()
         {
             string heightmap = RoomModel.Model_a.Heightmap;
@@ -34,5 +38,7 @@ namespace Yupi.Tests
                 }
             }
         }
+
+        #endregion Methods
     }
 }

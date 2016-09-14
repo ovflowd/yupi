@@ -1,21 +1,35 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System;
+
     [Ignore]
     public class PetEntity : RoomEntity
     {
-        public PetInfo Info { get; set; }
-        public PetStatus PetStatus { get; private set; }
+        #region Constructors
 
-        public override EntityType Type
+        public PetEntity(Room room, int id)
+            : base(room, id)
         {
-            get { return EntityType.Pet; }
+            PetStatus = new PetStatus(this);
         }
+
+        #endregion Constructors
+
+        #region Properties
 
         public override BaseInfo BaseInfo
         {
             get { return Info; }
+        }
+
+        public PetInfo Info
+        {
+            get; set;
+        }
+
+        public PetStatus PetStatus
+        {
+            get; private set;
         }
 
         public override EntityStatus Status
@@ -23,9 +37,11 @@ namespace Yupi.Model.Domain
             get { return PetStatus; }
         }
 
-        public PetEntity(Room room, int id) : base(room, id)
+        public override EntityType Type
         {
-            PetStatus = new PetStatus(this);
+            get { return EntityType.Pet; }
         }
+
+        #endregion Properties
     }
 }

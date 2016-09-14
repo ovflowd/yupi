@@ -1,16 +1,18 @@
+﻿#region Header
+
 /**
-     Because i love chocolat...                                      
-                                    88 88  
-                                    "" 88  
-                                       88  
-8b       d8 88       88 8b,dPPYba,  88 88  
-`8b     d8' 88       88 88P'    "8a 88 88  
- `8b   d8'  88       88 88       d8 88 ""  
-  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa  
-    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88  
-    d8'                 88                 
-   d8'                  88     
-   
+     Because i love chocolat...
+                                    88 88
+                                    "" 88
+                                       88
+8b       d8 88       88 8b,dPPYba,  88 88
+`8b     d8' 88       88 88P'    "8a 88 88
+ `8b   d8'  88       88 88       d8 88 ""
+  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa
+    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88
+    d8'                 88
+   d8'                  88
+
    Private Habbo Hotel Emulating System
    @author Claudio A. Santoro W.
    @author Kessiler R.
@@ -18,32 +20,35 @@
    @license MIT
    @copyright Sulake Corporation Oy
    @observation All Rights of Habbo, Habbo Hotel, and all Habbo contents and it's names, is copyright from Sulake
-   Corporation Oy. Yupi! has nothing linked with Sulake. 
+   Corporation Oy. Yupi! has nothing linked with Sulake.
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-using System.Collections.Generic;
-using System.Linq;
-using Yupi.Model.Domain;
-using Yupi.Model.Repository;
-using Yupi.Model;
-using System;
+#endregion Header
 
 namespace Yupi.Controller
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+
     public class TalentManager
     {
-        //private IRepository<Talent> TalentRepository;
+        #region Constructors
 
+        //private IRepository<Talent> TalentRepository;
         public TalentManager()
         {
             //TalentRepository = DependencyFactory.Resolve<IRepository<Talent>> ();
         }
 
-        public bool LevelIsCompleted(UserInfo user, TalentType trackType, int talentLevel)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion Constructors
+
+        #region Methods
 
         public void CompleteUserTalent(Habbo user, Talent talent)
         {
@@ -75,11 +80,17 @@ namespace Yupi.Controller
                     using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager ().GetQueryReactor ())
                         queryReactor.RunFastQuery (
                                 $"UPDATE users SET talent_status = 'helper' WHERE id = '{session.GetHabbo().Id}'");
-                        
-                        
+
                     break;
                 }
             }*/
         }
+
+        public bool LevelIsCompleted(UserInfo user, TalentType trackType, int talentLevel)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion Methods
     }
 }

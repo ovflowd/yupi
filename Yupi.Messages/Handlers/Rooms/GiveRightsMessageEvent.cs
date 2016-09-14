@@ -1,10 +1,11 @@
-﻿using System;
-
-
-namespace Yupi.Messages.Rooms
+﻿namespace Yupi.Messages.Rooms
 {
+    using System;
+
     public class GiveRightsMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -36,10 +37,8 @@ namespace Yupi.Messages.Rooms
                 queryReactor.RunQuery ();
             }
 
-
                 router.GetComposer<GiveRoomRightsMessageComposer> ().Compose (session, room.RoomId, roomUserByHabbo.GetClient ().GetHabbo ());
                 roomUserByHabbo.UpdateNeeded = true;
-
 
                 roomUserByHabbo.AddStatus("flatctrl 1", string.Empty);
 
@@ -48,5 +47,7 @@ namespace Yupi.Messages.Rooms
             */
             throw new NotImplementedException();
         }
+
+        #endregion Methods
     }
 }

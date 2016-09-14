@@ -1,10 +1,13 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-
-namespace Yupi.Messages.Guides
+﻿namespace Yupi.Messages.Guides
 {
+    using System;
+
+    using Yupi.Protocol.Buffers;
+
     public class HelperToolConfigurationMessageComposer : Yupi.Messages.Contracts.HelperToolConfigurationMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, bool onDuty, int guideCount, int helperCount,
             int guardianCount)
         {
@@ -17,5 +20,7 @@ namespace Yupi.Messages.Guides
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

@@ -1,11 +1,10 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System;
+
     public class FootballGateItem : FloorItem<FootballGateBaseItem>
     {
-        public virtual string LookMale { get; set; }
-        public virtual string LookFemale { get; set; }
+        #region Constructors
 
         public FootballGateItem()
         {
@@ -13,9 +12,29 @@ namespace Yupi.Model.Domain
             LookFemale = "lg-270-82.ch-210-66";
         }
 
+        #endregion Constructors
+
+        #region Properties
+
+        public virtual string LookFemale
+        {
+            get; set;
+        }
+
+        public virtual string LookMale
+        {
+            get; set;
+        }
+
+        #endregion Properties
+
+        #region Methods
+
         public override string GetExtraData()
         {
             return String.Join(";", LookMale, LookFemale);
         }
+
+        #endregion Methods
     }
 }

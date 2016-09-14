@@ -1,10 +1,13 @@
-﻿using System;
-using Yupi.Messages.Rooms;
-
-namespace Yupi.Messages.Competition
+﻿namespace Yupi.Messages.Competition
 {
+    using System;
+
+    using Yupi.Messages.Rooms;
+
     public class VoteForRoomMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
@@ -52,10 +55,11 @@ namespace Yupi.Messages.Competition
                 queryReactor.RunQuery ();
             }
 
-
             router.GetComposer<CompetitionVotingInfoMessageComposer> ().Compose (session, competition, session.GetHabbo().DailyCompetitionVotes);
-*/
+            */
             throw new NotImplementedException();
         }
+
+        #endregion Methods
     }
 }

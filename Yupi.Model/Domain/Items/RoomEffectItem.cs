@@ -1,12 +1,21 @@
-﻿using System;
-using System.Globalization;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System;
+    using System.Globalization;
+
     public class RoomEffectItem : FloorItem<RoomEffectBaseItem>
     {
+        #region Properties
+
         // TODO Number???
-        public virtual double Number { get; set; }
+        public virtual double Number
+        {
+            get; set;
+        }
+
+        #endregion Properties
+
+        #region Methods
 
         public override string GetExtraData()
         {
@@ -19,5 +28,7 @@ namespace Yupi.Model.Domain
             double.TryParse(data, out tmp);
             Number = tmp;
         }
+
+        #endregion Methods
     }
 }

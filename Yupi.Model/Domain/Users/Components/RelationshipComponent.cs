@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Yupi.Util;
-
-namespace Yupi.Model.Domain.Components
+﻿namespace Yupi.Model.Domain.Components
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Yupi.Util;
+
     public class RelationshipComponent
     {
-        [OneToMany]
-        public virtual IList<Relationship> Relationships { get; protected set; }
-
-        // TODO Not really happy with this implementation
-        public virtual IList<FriendRequest> SentRequests { get; protected set; }
-        public virtual IList<FriendRequest> ReceivedRequests { get; protected set; }
+        #region Constructors
 
         public RelationshipComponent()
         {
@@ -21,20 +17,30 @@ namespace Yupi.Model.Domain.Components
             ReceivedRequests = new List<FriendRequest>();
         }
 
-        public virtual bool IsFriendsWith(UserInfo user)
+        #endregion Constructors
+
+        #region Properties
+
+        public virtual IList<FriendRequest> ReceivedRequests
         {
-            return Relationships.Any(x => x.Friend == user);
+            get; protected set;
         }
 
-        public virtual Relationship FindByUser(UserInfo user)
+        [OneToMany]
+        public virtual IList<Relationship> Relationships
         {
-            return Relationships.Single(x => x.Friend == user);
+            get; protected set;
         }
 
-        public virtual Relationship FindByUser(int userId)
+        // TODO Not really happy with this implementation
+        public virtual IList<FriendRequest> SentRequests
         {
-            return Relationships.SingleOrDefault(x => x.Friend.Id == userId);
+            get; protected set;
         }
+
+        #endregion Properties
+
+        #region Methods
 
         public virtual Relationship Add(UserInfo friend)
         {
@@ -48,9 +54,26 @@ namespace Yupi.Model.Domain.Components
             return relationship;
         }
 
+        public virtual Relationship FindByUser(UserInfo user)
+        {
+            return Relationships.Single(x => x.Friend == user);
+        }
+
+        public virtual Relationship FindByUser(int userId)
+        {
+            return Relationships.SingleOrDefault(x => x.Friend.Id == userId);
+        }
+
         public virtual bool HasSentRequestTo(UserInfo user)
         {
             return SentRequests.Any(x => x.To == user);
         }
+
+        public virtual bool IsFriendsWith(UserInfo user)
+        {
+            return Relationships.Any(x => x.Friend == user);
+        }
+
+        #endregion Methods
     }
 }

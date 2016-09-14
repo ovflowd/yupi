@@ -1,10 +1,13 @@
-﻿using System;
-using Yupi.Messages.User;
-
-namespace Yupi.Messages.Guides
+﻿namespace Yupi.Messages.Guides
 {
+    using System;
+
+    using Yupi.Messages.User;
+
     public class VisitRoomGuides : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message,
             Yupi.Protocol.IRouter router)
         {
@@ -13,5 +16,7 @@ namespace Yupi.Messages.Guides
 
             router.GetComposer<RoomForwardMessageComposer>().Compose(session, session.GuideOtherUser.Room.Data.Id);
         }
+
+        #endregion Methods
     }
 }

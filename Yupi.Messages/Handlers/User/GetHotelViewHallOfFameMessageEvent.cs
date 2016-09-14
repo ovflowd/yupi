@@ -1,9 +1,11 @@
-﻿using System;
-
-namespace Yupi.Messages.User
+﻿namespace Yupi.Messages.User
 {
+    using System;
+
     public class GetHotelViewHallOfFameMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message,
             Yupi.Protocol.IRouter router)
         {
@@ -11,5 +13,7 @@ namespace Yupi.Messages.User
 
             router.GetComposer<HotelViewHallOfFameMessageComposer>().Compose(session, code);
         }
+
+        #endregion Methods
     }
 }

@@ -1,15 +1,18 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using System.Collections.Generic;
-using System.Collections;
-using Yupi.Model.Domain.Components;
-using Yupi.Model.Domain;
-using System.Numerics;
-
-namespace Yupi.Messages.Rooms
+﻿namespace Yupi.Messages.Rooms
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Numerics;
+
+    using Yupi.Model.Domain;
+    using Yupi.Model.Domain.Components;
+    using Yupi.Protocol.Buffers;
+
     public class UpdateFurniStackMapMessageComposer : Yupi.Messages.Contracts.UpdateFurniStackMapMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, IList<Vector3> affectedTiles, RoomData room)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -26,5 +29,7 @@ namespace Yupi.Messages.Rooms
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

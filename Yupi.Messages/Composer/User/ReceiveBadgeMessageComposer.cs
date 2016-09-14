@@ -1,10 +1,13 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-
-namespace Yupi.Messages.User
+﻿namespace Yupi.Messages.User
 {
+    using System;
+
+    using Yupi.Protocol.Buffers;
+
     public class ReceiveBadgeMessageComposer : Yupi.Messages.Contracts.ReceiveBadgeMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, string badgeId)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -14,5 +17,7 @@ namespace Yupi.Messages.User
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

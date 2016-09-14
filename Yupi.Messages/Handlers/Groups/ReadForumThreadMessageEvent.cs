@@ -1,21 +1,32 @@
-﻿using System;
-using System.Data;
-using System.Collections.Generic;
-using Yupi.Model.Domain;
-using Yupi.Model.Repository;
-using Yupi.Model;
-using System.Linq;
-
-namespace Yupi.Messages.Groups
+﻿namespace Yupi.Messages.Groups
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Linq;
+
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+
     public class ReadForumThreadMessageEvent : AbstractHandler
     {
+        #region Fields
+
         private IRepository<Group> GroupRepository;
+
+        #endregion Fields
+
+        #region Constructors
 
         public ReadForumThreadMessageEvent()
         {
             GroupRepository = DependencyFactory.Resolve<IRepository<Group>>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
@@ -46,5 +57,7 @@ namespace Yupi.Messages.Groups
             router.GetComposer<GroupForumReadThreadMessageComposer>()
                 .Compose(session, groupId, threadId, startIndex, posts);
         }
+
+        #endregion Methods
     }
 }

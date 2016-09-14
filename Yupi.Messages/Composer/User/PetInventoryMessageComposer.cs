@@ -1,12 +1,15 @@
-﻿using System;
-using Yupi.Model.Domain;
-using System.Collections.Generic;
-using Yupi.Protocol.Buffers;
-
-namespace Yupi.Messages.User
+﻿namespace Yupi.Messages.User
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class PetInventoryMessageComposer : Contracts.PetInventoryMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, IList<PetItem> pets)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -36,10 +39,12 @@ namespace Yupi.Messages.User
                         message.AppendInteger (0);
                     }
                 }
-*/
+            */
                 throw new NotImplementedException();
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

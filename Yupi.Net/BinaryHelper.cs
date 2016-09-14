@@ -1,9 +1,31 @@
-﻿using System;
-
-namespace Yupi.Net
+﻿namespace Yupi.Net
 {
+    using System;
+
     public class BinaryHelper
     {
+        #region Methods
+
+        public static byte[] GetBytes(int value)
+        {
+            byte[] data = BitConverter.GetBytes(value);
+            if (BitConverter.IsLittleEndian)
+            {
+                Array.Reverse(data);
+            }
+            return data;
+        }
+
+        public static byte[] GetBytes(short value)
+        {
+            byte[] data = BitConverter.GetBytes(value);
+            if (BitConverter.IsLittleEndian)
+            {
+                Array.Reverse(data);
+            }
+            return data;
+        }
+
         public static int ToInt(byte[] data, int offset = 0)
         {
             CheckRange(data, offset, 4);
@@ -29,24 +51,6 @@ namespace Yupi.Net
             }
         }
 
-        public static byte[] GetBytes(int value)
-        {
-            byte[] data = BitConverter.GetBytes(value);
-            if (BitConverter.IsLittleEndian)
-            {
-                Array.Reverse(data);
-            }
-            return data;
-        }
-
-        public static byte[] GetBytes(short value)
-        {
-            byte[] data = BitConverter.GetBytes(value);
-            if (BitConverter.IsLittleEndian)
-            {
-                Array.Reverse(data);
-            }
-            return data;
-        }
+        #endregion Methods
     }
 }

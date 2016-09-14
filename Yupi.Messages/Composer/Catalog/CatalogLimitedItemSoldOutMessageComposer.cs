@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Yupi.Messages.Catalog
+﻿namespace Yupi.Messages.Catalog
 {
+    using System;
+
     public class CatalogLimitedItemSoldOutMessageComposer : Contracts.CatalogLimitedItemSoldOutMessageComposer
     {
     }

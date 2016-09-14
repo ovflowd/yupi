@@ -1,15 +1,17 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Net;
-using System.Collections.Generic;
-using Yupi.Model.Domain;
-using Yupi.Messages.Encoders;
-
-
-namespace Yupi.Messages.User
+﻿namespace Yupi.Messages.User
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Yupi.Messages.Encoders;
+    using Yupi.Model.Domain;
+    using Yupi.Net;
+    using Yupi.Protocol.Buffers;
+
     public class UserTagsMessageComposer : Yupi.Messages.Contracts.UserTagsMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, UserInfo info)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -19,5 +21,7 @@ namespace Yupi.Messages.User
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

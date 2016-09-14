@@ -1,12 +1,15 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using System.Collections.Generic;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Catalog
+﻿namespace Yupi.Messages.Catalog
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class PurchaseOKMessageComposer : Yupi.Messages.Contracts.PurchaseOkComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, CatalogItem itemCatalog,
             IDictionary<BaseItem, int> items,
             int clubLevel = 1)
@@ -78,5 +81,7 @@ namespace Yupi.Messages.Catalog
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

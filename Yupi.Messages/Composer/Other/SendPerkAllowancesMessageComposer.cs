@@ -1,12 +1,14 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-
-
-namespace Yupi.Messages.Other
+﻿namespace Yupi.Messages.Other
 {
+    using System;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class SendPerkAllowancesMessageComposer : Yupi.Messages.Contracts.SendPerkAllowancesMessageComposer
     {
+        #region Methods
+
         // TODO Refactor (hardcoded)
         public override void Compose(Yupi.Protocol.ISender session, UserInfo info, bool enableBetaCamera)
         {
@@ -29,7 +31,7 @@ namespace Yupi.Messages.Other
                 /*
                 message.AppendString((info.TalentStatus == "helper" && info.CurrentTalentLevel >= 4) || (info.Rank >= 4) ? string.Empty : "requirement.unfulfilled.helper_level_4");
                 message.AppendBool((info.TalentStatus == "helper" && info.CurrentTalentLevel >= 4) || (info.Rank >= 4));
-*/
+            */
                 message.AppendString("JUDGE_CHAT_REVIEWS");
                 message.AppendString("requirement.unfulfilled.helper_level_6");
                 message.AppendBool(false);
@@ -68,5 +70,7 @@ namespace Yupi.Messages.Other
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

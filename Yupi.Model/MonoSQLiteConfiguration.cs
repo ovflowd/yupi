@@ -1,15 +1,14 @@
-﻿using System;
-using FluentNHibernate.Cfg.Db;
-using NHibernate.Dialect;
-
-namespace Yupi.Model
+﻿namespace Yupi.Model
 {
+    using System;
+
+    using FluentNHibernate.Cfg.Db;
+
+    using NHibernate.Dialect;
+
     public class MonoSQLiteConfiguration : PersistenceConfiguration<MonoSQLiteConfiguration>
     {
-        public static MonoSQLiteConfiguration Standard
-        {
-            get { return new MonoSQLiteConfiguration(); }
-        }
+        #region Constructors
 
         public MonoSQLiteConfiguration()
         {
@@ -17,6 +16,19 @@ namespace Yupi.Model
             Dialect<SQLiteDialect>();
             Raw("query.substitutions", "true=1;false=0");
         }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public static MonoSQLiteConfiguration Standard
+        {
+            get { return new MonoSQLiteConfiguration(); }
+        }
+
+        #endregion Properties
+
+        #region Methods
 
         public MonoSQLiteConfiguration InMemory()
         {
@@ -36,5 +48,7 @@ namespace Yupi.Model
             return ConnectionString(c => c
                 .Is(string.Format("Data Source={0};Version=3;New=True;Password={1};", fileName, password)));
         }
+
+        #endregion Methods
     }
 }

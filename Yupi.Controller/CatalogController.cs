@@ -1,18 +1,25 @@
-﻿using System;
-using Yupi.Model.Repository;
-using Yupi.Model.Domain;
-using Yupi.Model;
-using System.Linq;
-using Yupi.Messages.Contracts;
-using System.Collections.Generic;
-
-namespace Yupi.Controller
+﻿namespace Yupi.Controller
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Yupi.Messages.Contracts;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+
     public class CatalogController
     {
+        #region Fields
+
+        private AchievementManager AchievementManager;
         private IRepository<CatalogItem> ItemRepository;
         private IRepository<UserInfo> UserRepository;
-        private AchievementManager AchievementManager;
+
+        #endregion Fields
+
+        #region Constructors
 
         public CatalogController()
         {
@@ -21,32 +28,13 @@ namespace Yupi.Controller
             AchievementManager = DependencyFactory.Resolve<AchievementManager>();
         }
 
+        #endregion Constructors
+
+        #region Methods
+
         public CatalogItem GetById(int pageId, int itemId)
         {
             return ItemRepository.FindBy(x => x.Id == itemId && x.PageId.Id == pageId);
-        }
-
-        public void PurchaseGift(Habbo user, CatalogItem catalogItem, string extraData, UserInfo receiver)
-        {
-            if (!catalogItem.AllowGift)
-            {
-                return;
-            }
-
-            if (Purchase(user, catalogItem, extraData, 1) && user.Info != receiver)
-            {
-                AchievementManager
-                    .ProgressUserAchievement(user, "ACH_GiftGiver", 1);
-            }
-
-            throw new NotImplementedException();
-
-            /*
-             * 
-             *  Yupi.GetGame()
-                                .GetAchievementManager()
-                                .ProgressUserAchievement(clientByUserId, "ACH_GiftReceiver", 1, true);
-            */
         }
 
         // TODO Make extraData optional
@@ -116,5 +104,30 @@ namespace Yupi.Controller
 
             return true;
         }
+
+        public void PurchaseGift(Habbo user, CatalogItem catalogItem, string extraData, UserInfo receiver)
+        {
+            if (!catalogItem.AllowGift)
+            {
+                return;
+            }
+
+            if (Purchase(user, catalogItem, extraData, 1) && user.Info != receiver)
+            {
+                AchievementManager
+                    .ProgressUserAchievement(user, "ACH_GiftGiver", 1);
+            }
+
+            throw new NotImplementedException();
+
+            /*
+             *
+             *  Yupi.GetGame()
+                                .GetAchievementManager()
+                                .ProgressUserAchievement(clientByUserId, "ACH_GiftReceiver", 1, true);
+            */
+        }
+
+        #endregion Methods
     }
 }

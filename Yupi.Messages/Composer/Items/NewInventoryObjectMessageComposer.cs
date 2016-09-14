@@ -1,14 +1,16 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using System.Collections.Generic;
-using Yupi.Model.Domain;
+﻿namespace Yupi.Messages.Items
+{
+    using System;
+    using System.Collections.Generic;
 
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
 
-namespace Yupi.Messages.Items
-{ // TODO Refactor
-
+    // TODO Refactor
     public class NewInventoryObjectMessageComposer : Yupi.Messages.Contracts.NewInventoryObjectMessageComposer
     {
+        #region Methods
+
         // TODO Remove...
         public override void Compose(Yupi.Protocol.ISender session, int itemId)
         {
@@ -36,5 +38,7 @@ namespace Yupi.Messages.Items
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

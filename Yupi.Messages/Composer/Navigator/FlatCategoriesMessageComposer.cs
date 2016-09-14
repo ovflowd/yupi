@@ -1,14 +1,16 @@
-﻿using System;
-using System.Collections.Specialized;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-using System.Collections.Generic;
-
-
-namespace Yupi.Messages.Navigator
+﻿namespace Yupi.Messages.Navigator
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.Specialized;
+
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public class FlatCategoriesMessageComposer : Yupi.Messages.Contracts.FlatCategoriesMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, IList<FlatNavigatorCategory> categories,
             int userRank)
         {
@@ -30,5 +32,7 @@ namespace Yupi.Messages.Navigator
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

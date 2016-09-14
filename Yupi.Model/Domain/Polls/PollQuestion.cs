@@ -1,25 +1,51 @@
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class PollQuestion
     {
-        public virtual int Id { get; protected set; }
-
-        public virtual IList<string> Answers { get; protected set; }
-
-        // TODO Rename
-        public virtual PollAnswerType AnswerType { get; set; }
-
-        // TODO Use id?
-        public virtual string CorrectAnswer { get; set; }
-        public virtual string Question { get; set; }
+        #region Constructors
 
         public PollQuestion()
         {
             Answers = new List<string>();
         }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public virtual IList<string> Answers
+        {
+            get; protected set;
+        }
+
+        // TODO Rename
+        public virtual PollAnswerType AnswerType
+        {
+            get; set;
+        }
+
+        // TODO Use id?
+        public virtual string CorrectAnswer
+        {
+            get; set;
+        }
+
+        public virtual int Id
+        {
+            get; protected set;
+        }
+
+        public virtual string Question
+        {
+            get; set;
+        }
+
+        #endregion Properties
+
+        #region Other
 
         /*
         /// <summary>
@@ -46,6 +72,8 @@ namespace Yupi.Model.Domain
                 messageBuffer.AppendString(current);
             }
         }
-   */
+           */
+
+        #endregion Other
     }
 }

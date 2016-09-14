@@ -1,12 +1,15 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain.Components;
-using System.Numerics;
-
-namespace Yupi.Messages.Rooms
+﻿namespace Yupi.Messages.Rooms
 {
+    using System;
+    using System.Numerics;
+
+    using Yupi.Model.Domain.Components;
+    using Yupi.Protocol.Buffers;
+
     public class SetFloorPlanDoorMessageComposer : Yupi.Messages.Contracts.SetFloorPlanDoorMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, Vector3 doorPos, int direction)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -17,5 +20,7 @@ namespace Yupi.Messages.Rooms
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

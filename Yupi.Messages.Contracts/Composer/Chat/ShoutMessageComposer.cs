@@ -1,8 +1,9 @@
-﻿using System;
-using Yupi.Model.Domain;
-
-namespace Yupi.Messages.Contracts
+﻿namespace Yupi.Messages.Contracts
 {
+    using System;
+
+    using Yupi.Model.Domain;
+
     public abstract class ShoutMessageComposer : ChatMessageComposer
     {
     }

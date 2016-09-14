@@ -1,9 +1,11 @@
-﻿using System;
-
-namespace Yupi.Messages.Catalog
+﻿namespace Yupi.Messages.Catalog
 {
+    using System;
+
     public class CheckPetnameMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message,
             Yupi.Protocol.IRouter router)
         {
@@ -24,5 +26,7 @@ namespace Yupi.Messages.Catalog
 
             router.GetComposer<CheckPetNameMessageComposer>().Compose(session, statusCode, petName);
         }
+
+        #endregion Methods
     }
 }

@@ -1,12 +1,24 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System;
+
     public class LimitedCatalogItem : CatalogItem
     {
-        public virtual int LimitedStack { get; protected set; }
+        #region Properties
 
-        public virtual int LimitedSold { get; protected set; }
+        public virtual int LimitedSold
+        {
+            get; protected set;
+        }
+
+        public virtual int LimitedStack
+        {
+            get; protected set;
+        }
+
+        #endregion Properties
+
+        #region Methods
 
         public override bool CanPurchase(Yupi.Model.Domain.Components.UserWallet wallet, int amount = 1)
         {
@@ -18,5 +30,7 @@ namespace Yupi.Model.Domain
             base.Purchase(wallet, amount);
             LimitedSold++;
         }
+
+        #endregion Methods
     }
 }

@@ -1,38 +1,37 @@
-using System.Collections.Generic;
-using System.Linq;
-using Yupi.Model.Domain;
-using Yupi.Model.Repository;
-using Yupi.Model;
-using Yupi.Messages.Contracts;
-using System;
-
-
-namespace Yupi.Controller
+﻿namespace Yupi.Controller
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Yupi.Messages.Contracts;
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+
     public class AvatarEffectController
     {
+        #region Fields
+
         private IRepository<UserInfo> UserRepository;
+
+        #endregion Fields
+
+        #region Constructors
 
         public AvatarEffectController()
         {
             UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>>();
         }
 
-        // TODO Validate effectIDs !!!
-        public void AddNewEffect(Habbo user, int effectId, int duration, short type)
+        #endregion Constructors
+
+        #region Methods
+
+        // TODO Remove
+        public void ActivateCustomEffect(int effectId, bool setAsCurrentEffect = true)
         {
-            AvatarEffect effect = new AvatarEffect()
-            {
-                EffectId = effectId,
-                TotalDuration = duration,
-                Type = type
-            };
-
-            user.Info.EffectComponent.Effects.Add(effect);
-
-            UserRepository.Save(user.Info);
-
-            user.Router.GetComposer<AddEffectToInventoryMessageComposer>().Compose(user, effect);
+            throw new NotImplementedException();
         }
 
         public void ActivateEffect(UserEntity user, int effectId)
@@ -54,10 +53,21 @@ namespace Yupi.Controller
             EnableInRoom(user, avatarEffect);
         }
 
-        // TODO Remove
-        public void ActivateCustomEffect(int effectId, bool setAsCurrentEffect = true)
+        // TODO Validate effectIDs !!!
+        public void AddNewEffect(Habbo user, int effectId, int duration, short type)
         {
-            throw new NotImplementedException();
+            AvatarEffect effect = new AvatarEffect()
+            {
+                EffectId = effectId,
+                TotalDuration = duration,
+                Type = type
+            };
+
+            user.Info.EffectComponent.Effects.Add(effect);
+
+            UserRepository.Save(user.Info);
+
+            user.Router.GetComposer<AddEffectToInventoryMessageComposer>().Compose(user, effect);
         }
 
         public void CheckExpired(Habbo user)
@@ -101,5 +111,7 @@ namespace Yupi.Controller
                 }
             );
         }
+
+        #endregion Methods
     }
 }

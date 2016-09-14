@@ -1,16 +1,18 @@
-﻿/**
-     Because i love chocolat...                                      
-                                    88 88  
-                                    "" 88  
-                                       88  
-8b       d8 88       88 8b,dPPYba,  88 88  
-`8b     d8' 88       88 88P'    "8a 88 88  
- `8b   d8'  88       88 88       d8 88 ""  
-  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa  
-    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88  
-    d8'                 88                 
-   d8'                  88     
-   
+﻿#region Header
+
+/**
+     Because i love chocolat...
+                                    88 88
+                                    "" 88
+                                       88
+8b       d8 88       88 8b,dPPYba,  88 88
+`8b     d8' 88       88 88P'    "8a 88 88
+ `8b   d8'  88       88 88       d8 88 ""
+  `8b,d8'   "8a,   ,a88 88b,   ,a8" 88 aa
+    Y88'     `"YbbdP'Y8 88`YbbdP"'  88 88
+    d8'                 88
+   d8'                  88
+
    Private Habbo Hotel Emulating System
    @author Claudio A. Santoro W.
    @author Kessiler R.
@@ -18,25 +20,29 @@
    @license MIT
    @copyright Sulake Corporation Oy
    @observation All Rights of Habbo, Habbo Hotel, and all Habbo contents and it's names, is copyright from Sulake
-   Corporation Oy. Yupi! has nothing linked with Sulake. 
+   Corporation Oy. Yupi! has nothing linked with Sulake.
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-using System.Text.RegularExpressions;
+#endregion Header
 
 namespace Yupi.Model.Domain.Components
 {
+    using System.Text.RegularExpressions;
+
     public class WallCoordinate
     {
+        #region Fields
+
         protected int LengthX;
-
         protected int LengthY;
-
         protected WallSide Side;
-
         protected int WidthX;
-
         protected int WidthY;
+
+        #endregion Fields
+
+        #region Methods
 
         public static void TryParse(string wallPosition, out WallCoordinate coord)
         {
@@ -61,5 +67,7 @@ namespace Yupi.Model.Domain.Components
         {
             return ":w=" + WidthX + "," + WidthY + " " + "l=" + LengthX + "," + LengthY + " " + (char) Side;
         }
+
+        #endregion Methods
     }
 }

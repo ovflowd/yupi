@@ -1,25 +1,20 @@
-﻿using System;
-using Yupi.Model.Domain;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Yupi.Model.Domain;
+
     public class ChatMessage
     {
-        public virtual int Id { get; set; }
-
-        [Ignore]
-        public virtual RoomEntity Entity { get; set; }
-
-        public virtual DateTime Timestamp { get; protected set; }
-        public virtual string Message { get; protected set; }
-        public virtual ChatBubbleStyle Bubble { get; set; }
-        public virtual IList<Link> Links { get; protected set; }
-        public virtual bool Whisper { get; set; }
-        public virtual UserInfo User { get; set; }
+        #region Fields
 
         private static Dictionary<string, Gesture> Emotions;
+
+        #endregion Fields
+
+        #region Constructors
 
         static ChatMessage()
         {
@@ -66,7 +61,8 @@ namespace Yupi.Model.Domain
             };
         }
 
-        public ChatMessage(string message) : this()
+        public ChatMessage(string message)
+            : this()
         {
             Message = message;
         }
@@ -78,6 +74,61 @@ namespace Yupi.Model.Domain
             Timestamp = DateTime.Now;
         }
 
+        #endregion Constructors
+
+        #region Properties
+
+        public virtual ChatBubbleStyle Bubble
+        {
+            get; set;
+        }
+
+        [Ignore]
+        public virtual RoomEntity Entity
+        {
+            get; set;
+        }
+
+        public virtual int Id
+        {
+            get; set;
+        }
+
+        public virtual IList<Link> Links
+        {
+            get; protected set;
+        }
+
+        public virtual string Message
+        {
+            get; protected set;
+        }
+
+        public virtual DateTime Timestamp
+        {
+            get; protected set;
+        }
+
+        public virtual UserInfo User
+        {
+            get; set;
+        }
+
+        public virtual bool Whisper
+        {
+            get; set;
+        }
+
+        #endregion Properties
+
+        #region Methods
+
+        public virtual string FilteredMessage()
+        {
+            // TODO Filter
+            return Message.Trim();
+        }
+
         public virtual Gesture GetEmotion()
         {
             // TODO Cache
@@ -85,10 +136,6 @@ namespace Yupi.Model.Domain
             return Emotions.FirstOrDefault(x => Message.Contains(x.Key)).Value ?? Gesture.None;
         }
 
-        public virtual string FilteredMessage()
-        {
-            // TODO Filter
-            return Message.Trim();
-        }
+        #endregion Methods
     }
 }

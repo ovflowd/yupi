@@ -1,10 +1,13 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
-
-namespace Yupi.Messages.Guides
+﻿namespace Yupi.Messages.Guides
 {
+    using System;
+
+    using Yupi.Protocol.Buffers;
+
     public class OnGuideSessionDetachedMessageComposer : Yupi.Messages.Contracts.OnGuideSessionDetachedMessageComposer
     {
+        #region Methods
+
         // TODO Meaning of value (enum)
         public override void Compose(Yupi.Protocol.ISender session, int value)
         {
@@ -14,5 +17,7 @@ namespace Yupi.Messages.Guides
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

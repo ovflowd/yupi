@@ -1,19 +1,30 @@
-﻿using System;
-using Yupi.Model.Domain.Components;
-using Yupi.Model.Repository;
-using Yupi.Model.Domain;
-using Yupi.Model;
-
-namespace Yupi.Messages.Navigator
+﻿namespace Yupi.Messages.Navigator
 {
+    using System;
+
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Domain.Components;
+    using Yupi.Model.Repository;
+
     public class NewNavigatorResizeEvent : AbstractHandler
     {
+        #region Fields
+
         private IRepository<UserPreferences> PreferenceRepository;
+
+        #endregion Fields
+
+        #region Constructors
 
         public NewNavigatorResizeEvent()
         {
             PreferenceRepository = DependencyFactory.Resolve<IRepository<UserPreferences>>();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
@@ -32,5 +43,7 @@ namespace Yupi.Messages.Navigator
 
             PreferenceRepository.Save(preferences);
         }
+
+        #endregion Methods
     }
 }

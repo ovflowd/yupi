@@ -1,15 +1,17 @@
-﻿using System;
-using System.Linq;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-using Yupi.Model.Repository;
-using Yupi.Model;
-
-
-namespace Yupi.Messages.User
+﻿namespace Yupi.Messages.User
 {
+    using System;
+    using System.Linq;
+
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+    using Yupi.Protocol.Buffers;
+
     public class RelationshipMessageComposer : Yupi.Messages.Contracts.RelationshipMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, UserInfo habbo)
         {
             // TODO Refactor
@@ -35,5 +37,7 @@ namespace Yupi.Messages.User
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

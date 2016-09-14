@@ -1,9 +1,16 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
+    using System;
+
     public class FreezeCounterBaseItem : FloorBaseItem
     {
-        public virtual int Color { get; set; }
+        #region Properties
+
+        public virtual int Color
+        {
+            get; set;
+        }
+
+        #endregion Properties
     }
 }

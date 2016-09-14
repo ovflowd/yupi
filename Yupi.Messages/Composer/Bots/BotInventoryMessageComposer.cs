@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Specialized;
-using Yupi.Protocol.Buffers;
-
-
-namespace Yupi.Messages.Bots
+﻿namespace Yupi.Messages.Bots
 {
+    using System;
+    using System.Collections.Specialized;
+
+    using Yupi.Protocol.Buffers;
+
     public class BotInventoryMessageComposer : Yupi.Messages.Contracts.BotInventoryMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, HybridDictionary items)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -19,12 +21,14 @@ namespace Yupi.Messages.Bots
                     message.AppendInteger(current.BotId);
                     message.AppendString(current.Name);
                     message.AppendString(current.Motto);
-                    message.AppendString(current.Gender.ToLower()); 
+                    message.AppendString(current.Gender.ToLower());
                     message.AppendString(current.Look);
                 }*/
                 throw new NotImplementedException();
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }

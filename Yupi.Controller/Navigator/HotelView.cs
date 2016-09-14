@@ -1,12 +1,18 @@
-﻿using System;
-using Yupi.Model.Domain;
-
-namespace Yupi.Controller
+﻿namespace Yupi.Controller
 {
+    using System;
+
+    using Yupi.Model.Domain;
+
     public class HotelView : NavigatorView<FlatNavigatorCategory>
     {
-        public HotelView() : base("hotel_view")
+        #region Constructors
+
+        public HotelView()
+            : base("hotel_view")
         {
         }
+
+        #endregion Constructors
     }
 }

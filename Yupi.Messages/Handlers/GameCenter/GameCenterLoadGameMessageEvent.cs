@@ -1,9 +1,11 @@
-﻿using System;
-
-namespace Yupi.Messages.GameCenter
+﻿namespace Yupi.Messages.GameCenter
 {
+    using System;
+
     public class GameCenterLoadGameMessageEvent : AbstractHandler
     {
+        #region Methods
+
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message,
             Yupi.Protocol.IRouter router)
         {
@@ -15,5 +17,7 @@ namespace Yupi.Messages.GameCenter
             router.GetComposer<GameCenterAllAchievementsMessageComposer>().Compose(session);
             router.GetComposer<GameCenterEnterInGameMessageComposer>().Compose(session);
         }
+
+        #endregion Methods
     }
 }
