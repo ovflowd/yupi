@@ -132,8 +132,8 @@ namespace Yupi.Model.Domain
 		{
 			StringBuilder sb = new StringBuilder ();
 
-			for (int x = 0; x < this.TotalX; ++x) {
-				for (int y = 0; y < this.TotalY; ++y) {
+			for (int y = 0; y < this.TotalY; ++y) {
+				for (int x = 0; x < this.TotalX; ++x) {
 					short height = GetTileHeight (x, y);
 
 					if (height < 0) {
@@ -143,7 +143,7 @@ namespace Yupi.Model.Domain
 					}
 				}
 
-				if (x + 1 < this.TotalX) {
+				if (y + 1 < this.TotalY) {
 					sb.Append ('\r');
 				}
 			}
