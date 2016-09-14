@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Numerics;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Text;
 
 namespace Yupi.Model.Domain
@@ -12,20 +12,22 @@ namespace Yupi.Model.Domain
 
         public virtual int MapSize
         {
-            get { return Map.Length; }
+            get
+            {
+                return Map.Length;
+            }
         }
 
         public virtual int TotalX { get; private set; }
 
         public virtual int TotalY { get; private set; }
 
-        private static readonly char[] base32 = new char[]
-        {
-            '0', '1', '2', '3', '4', '5', '6', '7',
-            '8', '9', 'a', 'b', 'c', 'd', 'e', 'f',
-            'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
-            'o', 'p', 'q', 'r', 's', 't', 'u', 'v'
-        };
+        private static readonly char[] base32 = new[]
+                                                    {
+                                                        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b',
+                                                        'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
+                                                        'p', 'q', 'r', 's', 't', 'u', 'v'
+                                                    };
 
         public HeightMap(string map)
         {
@@ -34,7 +36,7 @@ namespace Yupi.Model.Domain
             TotalY = rows.Length;
             TotalX = rows.Length > 0 ? rows[0].Length : 0;
 
-            Map = new short[TotalX*TotalY];
+            Map = new short[TotalX * TotalY];
 
             for (int y = 0; y < TotalY; ++y)
             {
@@ -54,10 +56,7 @@ namespace Yupi.Model.Domain
 
         public bool IsValidTile(Vector2 position)
         {
-            return position.X >= 0
-                   && position.Y >= 0
-                   && position.Y < TotalY
-                   && position.X < TotalX;
+            return position.X >= 0 && position.Y >= 0 && position.Y < TotalY && position.X < TotalX;
         }
 
         public List<Vector2> GetNeighbours(Vector2 position)
@@ -91,7 +90,7 @@ namespace Yupi.Model.Domain
                 return -1;
             }
 
-            short index = (short) Array.IndexOf(base32, height);
+            short index = (short)Array.IndexOf(base32, height);
 
             if (index < 0)
             {
@@ -103,7 +102,7 @@ namespace Yupi.Model.Domain
 
         private void SetTileHeight(int x, int y, short height)
         {
-            Map[x*TotalY + y] = height;
+            Map[x * TotalY + y] = height;
         }
 
         /// <summary>
@@ -114,7 +113,7 @@ namespace Yupi.Model.Domain
         /// <param name="y">The y coordinate.</param>
         public short GetTileHeight(int x, int y)
         {
-            return Map[x*TotalY + y];
+            return Map[x * TotalY + y];
         }
 
         public short GetTileHeight(int index)
@@ -124,12 +123,12 @@ namespace Yupi.Model.Domain
 
         public short GetTileHeight(Vector2 position)
         {
-            return GetTileHeight((int) position.X, (int) position.Y);
+            return GetTileHeight((int)position.X, (int)position.Y);
         }
 
         public short GetTileHeight(Vector3 position)
         {
-            return GetTileHeight((int) position.X, (int) position.Y);
+            return GetTileHeight((int)position.X, (int)position.Y);
         }
 
         /// <summary>
@@ -140,9 +139,9 @@ namespace Yupi.Model.Domain
         {
             StringBuilder sb = new StringBuilder();
 
-            for (int x = 0; x < this.TotalX; ++x)
+            for (int y = 0; y < this.TotalY; ++y)
             {
-                for (int y = 0; y < this.TotalY; ++y)
+                for (int x = 0; x < this.TotalX; ++x)
                 {
                     short height = GetTileHeight(x, y);
 
@@ -156,7 +155,7 @@ namespace Yupi.Model.Domain
                     }
                 }
 
-                if (x + 1 < this.TotalX)
+                if (y + 1 < this.TotalY)
                 {
                     sb.Append('\r');
                 }
