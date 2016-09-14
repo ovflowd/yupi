@@ -36,7 +36,7 @@
         "Default" - Use the system default ANSI encoding (e.g. CodePage 1252 Western-European)
         CodePage  - e.g. "65001" for UTF-8
      -->
-    <Encoding CodePage="Detect"/>
+    <Encoding CodePage="65001"/>
     <Formatting>
         <Tabs Style="Spaces" SpacesPerTab="4"/>
         <ClosingComments Enabled="false" Format="End $(ElementType) $(Name)"/>
