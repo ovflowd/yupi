@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class FreezeTileBaseItem : FloorBaseItem
-	{
-		public FreezeTileBaseItem ()
-		{
-		}
-	}
+    public class FreezeTileBaseItem : FloorBaseItem
+    {
+    }
 }
-

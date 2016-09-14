@@ -2,40 +2,39 @@
 
 namespace Yupi.Model.Domain
 {
-	public class PetItem : Item {
-		public virtual PetBaseItem BaseItem { get; set; }
+    public class PetItem : Item
+    {
+        public PetItem()
+        {
+            Info = new PetInfo();
+        }
 
-		public virtual PetInfo Info { get; set; }
+        public virtual PetBaseItem BaseItem { get; set; }
 
-		public PetItem ()
-		{
-			Info = new PetInfo ();
-		}
+        public virtual PetInfo Info { get; set; }
 
-		public virtual string GetExtraData() {
-			throw new NotImplementedException ();
-		}
+        public virtual string GetExtraData()
+        {
+            throw new NotImplementedException();
+        }
 
-		public override void TryParseExtraData (string data)
-		{
-			string[] dataArray = data.Split('\n');
+        public override void TryParseExtraData(string data)
+        {
+            var dataArray = data.Split('\n');
 
-			if (dataArray.Length != 3) {
-				return;
-			}
+            if (dataArray.Length != 3) return;
 
-			// TODO Validate
-			string petName = dataArray[0];
-			string color = dataArray[2];
+            // TODO Validate
+            var petName = dataArray[0];
+            var color = dataArray[2];
 
-			int race;
-			int.TryParse (dataArray [1], out race);
+            int race;
+            int.TryParse(dataArray[1], out race);
 
-			Info.Name = petName;
-			Info.Race = race;
-			Info.Color = color;
-			Info.Owner = Owner;
-		}
-	}
+            Info.Name = petName;
+            Info.Race = race;
+            Info.Color = color;
+            Info.Owner = Owner;
+        }
+    }
 }
-

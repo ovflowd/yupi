@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class WiredActionBotFollowAvatarBaseItem : WiredBaseItem
-	{
-		public WiredActionBotFollowAvatarBaseItem ()
-		{
-		}
-	}
+    public class WiredActionBotFollowAvatarBaseItem : WiredBaseItem
+    {
+    }
 }
-

@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class WiredConditionDateRangeActiveBaseItem : WiredBaseItem
-	{
-		public WiredConditionDateRangeActiveBaseItem ()
-		{
-		}
-	}
+    public class WiredConditionDateRangeActiveBaseItem : WiredBaseItem
+    {
+    }
 }
-

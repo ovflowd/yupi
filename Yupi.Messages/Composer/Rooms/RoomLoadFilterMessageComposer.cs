@@ -1,23 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using Yupi.Protocol.Buffers;
+﻿using System.Collections.Generic;
+using Yupi.Protocol;
 
 namespace Yupi.Messages.Rooms
 {
-	public class RoomLoadFilterMessageComposer : Yupi.Messages.Contracts.RoomLoadFilterMessageComposer
-	{
-		public override void Compose ( Yupi.Protocol.ISender session, List<string> wordlist)
-		{
-			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendInteger(wordlist.Count);
+    public class RoomLoadFilterMessageComposer : Contracts.RoomLoadFilterMessageComposer
+    {
+        public override void Compose(ISender session, List<string> wordlist)
+        {
+            using (var message = Pool.GetMessageBuffer(Id))
+            {
+                message.AppendInteger(wordlist.Count);
 
-				foreach (string word in wordlist) {
-					message.AppendString (word);
-				}
+                foreach (var word in wordlist) message.AppendString(word);
 
-				session.Send (message);
-			}
-		}
-	}
+                session.Send(message);
+            }
+        }
+    }
 }
-

@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class WiredConditionTriggererNotOnFurniBaseItem : WiredBaseItem
-	{
-		public WiredConditionTriggererNotOnFurniBaseItem ()
-		{
-		}
-	}
+    public class WiredConditionTriggererNotOnFurniBaseItem : WiredBaseItem
+    {
+    }
 }
-

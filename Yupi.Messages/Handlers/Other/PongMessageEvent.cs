@@ -1,19 +1,20 @@
 ﻿using System;
+using Yupi.Model.Domain;
+using Yupi.Protocol;
+using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Other
 {
-	public class PongMessageEvent : AbstractHandler
-	{
-		public override bool RequireUser {
-			get { 
-				return false; 
-			}
-		}
+    public class PongMessageEvent : AbstractHandler
+    {
+        public override bool RequireUser
+        {
+            get { return false; }
+        }
 
-		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
-		{
-			session.TimePingReceived = DateTime.Now;
-		}
-	}
+        public override void HandleMessage(Habbo session, ClientMessage request, IRouter router)
+        {
+            session.TimePingReceived = DateTime.Now;
+        }
+    }
 }
-

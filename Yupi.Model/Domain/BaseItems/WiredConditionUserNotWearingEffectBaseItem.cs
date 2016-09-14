@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class WiredConditionUserNotWearingEffectBaseItem : WiredBaseItem
-	{
-		public WiredConditionUserNotWearingEffectBaseItem ()
-		{
-		}
-	}
+    public class WiredConditionUserNotWearingEffectBaseItem : WiredBaseItem
+    {
+    }
 }
-

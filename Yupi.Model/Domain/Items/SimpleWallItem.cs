@@ -1,9 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class SimpleWallItem : WallItem<WallBaseItem>
-	{
-	}
+    public class SimpleWallItem : WallItem<WallBaseItem>
+    {
+    }
 }
-

@@ -1,13 +1,11 @@
-﻿using System;
+﻿using Yupi.Protocol;
 
 namespace Yupi.Messages.Contracts
 {
-	public class RemoveInventoryObjectMessageComposer : AbstractComposer<int>
-	{
-		public override void Compose (Yupi.Protocol.ISender session, int itemId)
-		{
-			
-		}
-	}
+    public class RemoveInventoryObjectMessageComposer : AbstractComposer<int>
+    {
+        public override void Compose(ISender session, int itemId)
+        {
+        }
+    }
 }
-

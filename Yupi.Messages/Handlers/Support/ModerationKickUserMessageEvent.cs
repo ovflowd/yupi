@@ -1,39 +1,40 @@
-﻿using System;
-using Yupi.Controller;
-using Yupi.Model;
+﻿using Yupi.Controller;
 using Yupi.Messages.Notification;
-
+using Yupi.Model;
+using Yupi.Model.Domain;
+using Yupi.Protocol;
+using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Support
 {
-	public class ModerationKickUserMessageEvent : AbstractHandler
-	{
-		private ClientManager ClientManager;
-		private RoomManager RoomManager;
+    public class ModerationKickUserMessageEvent : AbstractHandler
+    {
+        private readonly ClientManager ClientManager;
+        private readonly RoomManager RoomManager;
 
-		public ModerationKickUserMessageEvent ()
-		{
-			ClientManager = DependencyFactory.Resolve<ClientManager>();
-			RoomManager = DependencyFactory.Resolve<RoomManager>();
-		}
+        public ModerationKickUserMessageEvent()
+        {
+            ClientManager = DependencyFactory.Resolve<ClientManager>();
+            RoomManager = DependencyFactory.Resolve<RoomManager>();
+        }
 
-		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
-		{
-			if (!session.Info.HasPermission("fuse_kick"))
-				return;
+        public override void HandleMessage(Habbo session, ClientMessage request, IRouter router)
+        {
+            if (!session.Info.HasPermission("fuse_kick"))
+                return;
 
-			int userId = request.GetInteger();
-			string message = request.GetString();
+            var userId = request.GetInteger();
+            var message = request.GetString();
 
-			var target = ClientManager.GetByUserId (userId);
+            var target = ClientManager.GetByUserId(userId);
 
-			// TODO Log
+            // TODO Log
 
-			if (target != null && target.Info.Rank < session.Info.Rank) {
-				RoomManager.RemoveUser (target);
-				target.Router.GetComposer<AlertNotificationMessageComposer> ().Compose(target, message);
-			}
-		}
-	}
+            if ((target != null) && (target.Info.Rank < session.Info.Rank))
+            {
+                RoomManager.RemoveUser(target);
+                target.Router.GetComposer<AlertNotificationMessageComposer>().Compose(target, message);
+            }
+        }
+    }
 }
-

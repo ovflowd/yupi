@@ -1,10 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class FlatNavigatorCategory : NavigatorCategory 
-	{
-		
-	}
+    public class FlatNavigatorCategory : NavigatorCategory
+    {
+    }
 }
-

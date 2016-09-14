@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class CannonBaseItem : FloorBaseItem
-	{
-		public CannonBaseItem ()
-		{
-		}
-	}
+    public class CannonBaseItem : FloorBaseItem
+    {
+    }
 }
-

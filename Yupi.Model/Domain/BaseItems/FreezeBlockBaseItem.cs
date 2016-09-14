@@ -1,10 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class FreezeBlockBaseItem : FloorBaseItem
-	{
-		
-	}
+    public class FreezeBlockBaseItem : FloorBaseItem
+    {
+    }
 }
-

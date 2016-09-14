@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class PetNestBaseItem : FloorBaseItem
-	{
-		public PetNestBaseItem ()
-		{
-		}
-	}
+    public class PetNestBaseItem : FloorBaseItem
+    {
+    }
 }
-

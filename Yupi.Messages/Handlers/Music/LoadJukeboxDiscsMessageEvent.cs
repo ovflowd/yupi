@@ -1,17 +1,17 @@
-﻿using System;
+﻿using System.Linq;
 using Yupi.Model.Domain;
-using System.Linq;
+using Yupi.Protocol;
+using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Music
 {
-	public class LoadJukeboxDiscsMessageEvent : AbstractHandler
-	{
-		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
-		{
-			SongItem[] items = session.Info.Inventory.FloorItems.OfType<SongItem> ().ToArray ();
+    public class LoadJukeboxDiscsMessageEvent : AbstractHandler
+    {
+        public override void HandleMessage(Habbo session, ClientMessage message, IRouter router)
+        {
+            var items = session.Info.Inventory.FloorItems.OfType<SongItem>().ToArray();
 
-			router.GetComposer<SongsLibraryMessageComposer> ().Compose (session, items);
-		}
-	}
+            router.GetComposer<SongsLibraryMessageComposer>().Compose(session, items);
+        }
+    }
 }
-

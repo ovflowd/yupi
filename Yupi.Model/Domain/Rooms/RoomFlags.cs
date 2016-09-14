@@ -2,16 +2,15 @@
 
 namespace Yupi.Model.Domain
 {
-	[Flags]
-	public enum RoomFlags
-	{
-		Default = 0,
-		Image = 1,
-		Group = 2,
-		Event = 4,
-		Private = 8,
-		AllowPets = 16,
-		EnterRoom = 32
-	}
+    [Flags]
+    public enum RoomFlags
+    {
+        Default = 0,
+        Image = 1,
+        Group = 2,
+        Event = 4,
+        Private = 8,
+        AllowPets = 16,
+        EnterRoom = 32
+    }
 }
-

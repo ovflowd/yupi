@@ -1,35 +1,33 @@
-﻿using System;
-using Yupi.Controller;
+﻿using Yupi.Model;
 using Yupi.Model.Domain;
 using Yupi.Model.Repository;
-using Yupi.Model;
-
-
+using Yupi.Protocol;
+using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Rooms
 {
-	public class SetHomeRoomMessageEvent : AbstractHandler
-	{
-		private Repository<RoomData> RoomRepository;
-		private Repository<UserInfo> UserRepository;
+    public class SetHomeRoomMessageEvent : AbstractHandler
+    {
+        private readonly Repository<RoomData> RoomRepository;
+        private readonly Repository<UserInfo> UserRepository;
 
-		public SetHomeRoomMessageEvent ()
-		{
-			RoomRepository = DependencyFactory.Resolve<Repository<RoomData>> ();
-			UserRepository = DependencyFactory.Resolve<Repository<UserInfo>> ();
-		}
+        public SetHomeRoomMessageEvent()
+        {
+            RoomRepository = DependencyFactory.Resolve<Repository<RoomData>>();
+            UserRepository = DependencyFactory.Resolve<Repository<UserInfo>>();
+        }
 
-		public override void HandleMessage (Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
-		{
-			int roomId = request.GetInteger ();
+        public override void HandleMessage(Habbo session, ClientMessage request, IRouter router)
+        {
+            var roomId = request.GetInteger();
 
-			RoomData room = RoomRepository.FindBy (roomId);
+            var room = RoomRepository.FindBy(roomId);
 
-			if (room != null) {
-				session.Info.HomeRoom = room;
-				UserRepository.Save (session.Info);
-			}
-		}
-	}
+            if (room != null)
+            {
+                session.Info.HomeRoom = room;
+                UserRepository.Save(session.Info);
+            }
+        }
+    }
 }
-

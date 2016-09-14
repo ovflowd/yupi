@@ -24,11 +24,12 @@
 
 namespace Yupi.Model.Domain
 {
-	// TODO Rename
-     public class GroupBases
-	{ // TODO Isn't this class useless?
-		public virtual int Id { get; protected set; }
-		public virtual string Value1 { get; set; }
-		public virtual string Value2 { get; set; }
+    // TODO Rename
+    public class GroupBases
+    {
+// TODO Isn't this class useless?
+        public virtual int Id { get; protected set; }
+        public virtual string Value1 { get; set; }
+        public virtual string Value2 { get; set; }
     }
 }

@@ -22,214 +22,219 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using Yupi.Model.Repository;
-using Yupi.Protocol;
 using Yupi.Messages.Contracts;
-using Yupi.Model.Domain;
 using Yupi.Model;
-using Yupi.Net;
+using Yupi.Model.Domain;
+using Yupi.Model.Repository;
 
 namespace Yupi.Controller
 {
-	public class AchievementManager
-	{
-		public IDictionary<string, Achievement> Achievements;
-		private ClientManager ClientManager;
+    public class AchievementManager
+    {
+        private readonly IRepository<Achievement> AchievementRepository;
+        public IDictionary<string, Achievement> Achievements;
+        private readonly ClientManager ClientManager;
+        private readonly IRepository<UserInfo> UserRepository;
 
-		private IRepository<Achievement> AchievementRepository;
-		private IRepository<UserInfo> UserRepository;
+        public AchievementManager()
+        {
+            AchievementRepository = DependencyFactory.Resolve<IRepository<Achievement>>();
+            UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>>();
+            ClientManager = DependencyFactory.Resolve<ClientManager>();
+            LoadAchievements();
+        }
 
-		public AchievementManager ()
-		{
-			AchievementRepository = DependencyFactory.Resolve<IRepository<Achievement>> ();
-			UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>> ();
-			ClientManager = DependencyFactory.Resolve<ClientManager> ();
-			LoadAchievements ();
-		}
+        private void LoadAchievements()
+        {
+            Achievements = AchievementRepository.All().ToDictionary(x => x.GroupName);
+        }
 
-		private void LoadAchievements ()
-		{
-			Achievements = AchievementRepository.All ().ToDictionary ((x) => x.GroupName);
-		}
-			
-		public void TryProgressLoginAchievements (Habbo session)
-		{
-			// FIXME
-			/*
-			if (session.GetHabbo ().Achievements.ContainsKey ("ACH_Login")) {
-				int daysBtwLastLogin = Yupi.GetUnixTimeStamp () - session.Info.PreviousOnline;
+        public void TryProgressLoginAchievements(Habbo session)
+        {
+            // FIXME
+            /*
+            if (session.GetHabbo ().Achievements.ContainsKey ("ACH_Login")) {
+                int daysBtwLastLogin = Yupi.GetUnixTimeStamp () - session.Info.PreviousOnline;
 
-				if (daysBtwLastLogin >= 51840 && daysBtwLastLogin <= 112320)
-					ProgressUserAchievement (session, "ACH_Login", );
+                if (daysBtwLastLogin >= 51840 && daysBtwLastLogin <= 112320)
+                    ProgressUserAchievement (session, "ACH_Login", );
 
-				return;
-			}
+                return;
+            }
 
-			ProgressUserAchievement (session, "ACH_Login", 1);
-			*/
-		}
-			
-		public void TryProgressRegistrationAchievements (Habbo session)
-		{
-			// FIXME
+            ProgressUserAchievement (session, "ACH_Login", 1);
+            */
+        }
 
-			/*
-			if (session.GetHabbo () == null)
-				return;
+        public void TryProgressRegistrationAchievements(Habbo session)
+        {
+            // FIXME
 
-			if (session.GetHabbo ().Achievements.ContainsKey ("ACH_RegistrationDuration")) {
-				UserAchievement regAch = session.GetHabbo ().GetAchievementData ("ACH_RegistrationDuration");
+            /*
+            if (session.GetHabbo () == null)
+                return;
 
-				if (regAch.Level == 5)
-					return;
+            if (session.GetHabbo ().Achievements.ContainsKey ("ACH_RegistrationDuration")) {
+                UserAchievement regAch = session.GetHabbo ().GetAchievementData ("ACH_RegistrationDuration");
 
-				double sinceMember = Yupi.GetUnixTimeStamp () - (int)session.GetHabbo ().CreateDate;
+                if (regAch.Level == 5)
+                    return;
 
-				uint daysSinceMember = Convert.ToUInt32 (Math.Round (sinceMember / 86400));
+                double sinceMember = Yupi.GetUnixTimeStamp () - (int)session.GetHabbo ().CreateDate;
 
-				if (daysSinceMember == regAch.Progress)
-					return;
+                uint daysSinceMember = Convert.ToUInt32 (Math.Round (sinceMember / 86400));
 
-				uint days = daysSinceMember - regAch.Progress;
+                if (daysSinceMember == regAch.Progress)
+                    return;
 
-				if (days < 1)
-					return;
+                uint days = daysSinceMember - regAch.Progress;
 
-				ProgressUserAchievement (session, "ACH_RegistrationDuration", days);
+                if (days < 1)
+                    return;
 
-				return;
-			}
+                ProgressUserAchievement (session, "ACH_RegistrationDuration", days);
 
-			ProgressUserAchievement (session, "ACH_RegistrationDuration", 1, true);
-			*/
-		}
-			
-		public void TryProgressHabboClubAchievements (Habbo session)
-		{
-			if (!session.Info.Subscription.IsValid())
-				return;
+                return;
+            }
 
-			/*
-			if (session.GetHabbo ().Achievements.ContainsKey ("ACH_VipHC")) {
-				UserAchievement clubAch = session.GetHabbo ().GetAchievementData ("ACH_VipHC");
+            ProgressUserAchievement (session, "ACH_RegistrationDuration", 1, true);
+            */
+        }
 
-				if (clubAch.Level == 5)
-					return;
+        public void TryProgressHabboClubAchievements(Habbo session)
+        {
+            if (!session.Info.Subscription.IsValid())
+                return;
 
-				Subscription subscription = session.Info.Subscription;
+            /*
+            if (session.GetHabbo ().Achievements.ContainsKey ("ACH_VipHC")) {
+                UserAchievement clubAch = session.GetHabbo ().GetAchievementData ("ACH_VipHC");
 
-				TimeSpan sinceActivation = DateTime.Now - subscription.ActivateTime;
+                if (clubAch.Level == 5)
+                    return;
 
-				int years = sinceActivation.TotalDays / 365;
+                Subscription subscription = session.Info.Subscription;
 
-				if (sinceActivation.TotalDays >= 1) {
-					ProgressUserAchievement (session, "ACH_VipHC", 1);
-					ProgressUserAchievement (session, "ACH_BasicClub", 1);
-				}
+                TimeSpan sinceActivation = DateTime.Now - subscription.ActivateTime;
 
-				if (sinceActivation.TotalDays >= 2) {
-					ProgressUserAchievement (session, "ACH_VipHC", 1);
-					ProgressUserAchievement (session, "ACH_BasicClub", 1);
-				}
+                int years = sinceActivation.TotalDays / 365;
 
-				if (sinceActivation.TotalDays >= 3) {
-					ProgressUserAchievement (session, "ACH_VipHC", 1);
-					ProgressUserAchievement (session, "ACH_BasicClub", 1);
-				}
+                if (sinceActivation.TotalDays >= 1) {
+                    ProgressUserAchievement (session, "ACH_VipHC", 1);
+                    ProgressUserAchievement (session, "ACH_BasicClub", 1);
+                }
 
-				if (sinceActivation.TotalDays >= 4) {
-					ProgressUserAchievement (session, "ACH_VipHC", 1);
-					ProgressUserAchievement (session, "ACH_BasicClub", 1);
-				}
+                if (sinceActivation.TotalDays >= 2) {
+                    ProgressUserAchievement (session, "ACH_VipHC", 1);
+                    ProgressUserAchievement (session, "ACH_BasicClub", 1);
+                }
 
-				if (sinceActivation.TotalDays >= 5) {
-					ProgressUserAchievement (session, "ACH_VipHC", 1);
-					ProgressUserAchievement (session, "ACH_BasicClub", 1);
-				}
+                if (sinceActivation.TotalDays >= 3) {
+                    ProgressUserAchievement (session, "ACH_VipHC", 1);
+                    ProgressUserAchievement (session, "ACH_BasicClub", 1);
+                }
 
-				return;
-			}
+                if (sinceActivation.TotalDays >= 4) {
+                    ProgressUserAchievement (session, "ACH_VipHC", 1);
+                    ProgressUserAchievement (session, "ACH_BasicClub", 1);
+                }
 
-			ProgressUserAchievement (session, "ACH_VipHC", 1, true);
-			ProgressUserAchievement (session, "ACH_BasicClub", 1, true);
-			*/
-			// FIXME
-		}
+                if (sinceActivation.TotalDays >= 5) {
+                    ProgressUserAchievement (session, "ACH_VipHC", 1);
+                    ProgressUserAchievement (session, "ACH_BasicClub", 1);
+                }
 
-		// TODO Enum?
-		public bool ProgressUserAchievement (UserInfo info, string achievementGroup, int progressAmount) {
-			Habbo session = ClientManager.GetByInfo (info);
-			return ProgressUserAchievement (info, achievementGroup, progressAmount, session);
-		}
+                return;
+            }
 
-		public bool ProgressUserAchievement (Habbo user, string achievementGroup, int progressAmount)
-		{
-			return ProgressUserAchievement (user.Info, achievementGroup, progressAmount, user);
-		}
-			
-		private bool ProgressUserAchievement(UserInfo user, string achievementGroup, int progressAmount, Habbo session) {
-			if (Achievements.ContainsKey (achievementGroup)) {
-				Achievement achievement = Achievements [achievementGroup];
+            ProgressUserAchievement (session, "ACH_VipHC", 1, true);
+            ProgressUserAchievement (session, "ACH_BasicClub", 1, true);
+            */
+            // FIXME
+        }
 
-				UserAchievement userAchievement = user.Achievements.Single (x => x.Achievement.GroupName == achievementGroup);
+        // TODO Enum?
+        public bool ProgressUserAchievement(UserInfo info, string achievementGroup, int progressAmount)
+        {
+            var session = ClientManager.GetByInfo(info);
+            return ProgressUserAchievement(info, achievementGroup, progressAmount, session);
+        }
 
-				if (userAchievement == null) {
-					userAchievement = new UserAchievement () {
-						Achievement = achievement,
-						Level = achievement.DefaultLevel()
-					};
+        public bool ProgressUserAchievement(Habbo user, string achievementGroup, int progressAmount)
+        {
+            return ProgressUserAchievement(user.Info, achievementGroup, progressAmount, user);
+        }
 
-					user.Achievements.Add (userAchievement);
-				}
+        private bool ProgressUserAchievement(UserInfo user, string achievementGroup, int progressAmount, Habbo session)
+        {
+            if (Achievements.ContainsKey(achievementGroup))
+            {
+                var achievement = Achievements[achievementGroup];
 
-				userAchievement.Progress += progressAmount;
+                var userAchievement = user.Achievements.Single(x => x.Achievement.GroupName == achievementGroup);
 
-				// If is new Level
-				if (userAchievement.CanIncreaseLevel()) {
-					userAchievement.IncreaseLevel ();
+                if (userAchievement == null)
+                {
+                    userAchievement = new UserAchievement
+                    {
+                        Achievement = achievement,
+                        Level = achievement.DefaultLevel()
+                    };
 
-					// Give Reward Points
-					user.Wallet.AchievementPoints += userAchievement.Level.RewardPoints;
-					user.Wallet.Duckets += userAchievement.Level.RewardPixels;
+                    user.Achievements.Add(userAchievement);
+                }
 
-					user.Badges.RemoveBadge (userAchievement.Achievement.GroupName + (userAchievement.Level.Level - 1));
+                userAchievement.Progress += progressAmount;
 
-					// Give new Badge
-					user.Badges.GiveBadge (achievementGroup + userAchievement.Level.Level);
+                // If is new Level
+                if (userAchievement.CanIncreaseLevel())
+                {
+                    userAchievement.IncreaseLevel();
 
-					if (session != null) {
-						session.Router.GetComposer<ActivityPointsMessageComposer> ().Compose (session, user.Wallet);
-				
-						// Send Unlocked Composer
-						session.Router.GetComposer<UnlockAchievementMessageComposer> ().Compose (session,
-							achievement, userAchievement.Level.Level,
-							userAchievement.Level.RewardPoints, userAchievement.Level.RewardPixels);
+                    // Give Reward Points
+                    user.Wallet.AchievementPoints += userAchievement.Level.RewardPoints;
+                    user.Wallet.Duckets += userAchievement.Level.RewardPixels;
 
-						// Send Score Composer
-						session.Router.GetComposer<AchievementPointsMessageComposer> ().Compose (session, user.Wallet.AchievementPoints);
+                    user.Badges.RemoveBadge(userAchievement.Achievement.GroupName + (userAchievement.Level.Level - 1));
 
-					}
-					// TODO Reimplement talents properly
-				}
+                    // Give new Badge
+                    user.Badges.GiveBadge(achievementGroup + userAchievement.Level.Level);
 
-				UserRepository.Save (user);
+                    if (session != null)
+                    {
+                        session.Router.GetComposer<ActivityPointsMessageComposer>().Compose(session, user.Wallet);
 
-				if (session != null) {
-					session.Router.GetComposer<AchievementProgressMessageComposer> ().Compose (session, userAchievement);
-					session.Router.GetComposer<UpdateUserDataMessageComposer> ().Compose (session, user);
-				}
+                        // Send Unlocked Composer
+                        session.Router.GetComposer<UnlockAchievementMessageComposer>().Compose(session,
+                            achievement, userAchievement.Level.Level,
+                            userAchievement.Level.RewardPoints, userAchievement.Level.RewardPixels);
 
-				return true;
-			}
+                        // Send Score Composer
+                        session.Router.GetComposer<AchievementPointsMessageComposer>()
+                            .Compose(session, user.Wallet.AchievementPoints);
+                    }
+                    // TODO Reimplement talents properly
+                }
 
-			return false;
-		}
+                UserRepository.Save(user);
 
-		public Achievement GetAchievement (string achievementGroup) {
+                if (session != null)
+                {
+                    session.Router.GetComposer<AchievementProgressMessageComposer>().Compose(session, userAchievement);
+                    session.Router.GetComposer<UpdateUserDataMessageComposer>().Compose(session, user);
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public Achievement GetAchievement(string achievementGroup)
+        {
             return Achievements[achievementGroup];
-		}
-	}
+        }
+    }
 }

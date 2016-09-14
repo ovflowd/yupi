@@ -1,35 +1,29 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	[Ignore]
-	public class PetEntity : RoomEntity
-	{
-		public PetInfo Info { get; set; }
-		public PetStatus PetStatus { get; private set; }
+    [Ignore]
+    public class PetEntity : RoomEntity
+    {
+        public PetEntity(Room room, int id) : base(room, id)
+        {
+            PetStatus = new PetStatus(this);
+        }
 
-		public override EntityType Type {
-			get {
-				return EntityType.Pet;
-			}
-		}
+        public PetInfo Info { get; set; }
+        public PetStatus PetStatus { get; }
 
-		public override BaseInfo BaseInfo {
-			get {
-				return Info;
-			}
-		}
+        public override EntityType Type
+        {
+            get { return EntityType.Pet; }
+        }
 
-		public override EntityStatus Status {
-			get {
-				return PetStatus;
-			}
-		}
+        public override BaseInfo BaseInfo
+        {
+            get { return Info; }
+        }
 
-		public PetEntity (Room room, int id) : base(room, id)
-		{
-			PetStatus = new PetStatus (this);
-		}
-	}
+        public override EntityStatus Status
+        {
+            get { return PetStatus; }
+        }
+    }
 }
-

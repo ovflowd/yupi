@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class WiredConditionNotGroupMemberBaseItem : WiredBaseItem
-	{
-		public WiredConditionNotGroupMemberBaseItem ()
-		{
-		}
-	}
+    public class WiredConditionNotGroupMemberBaseItem : WiredBaseItem
+    {
+    }
 }
-

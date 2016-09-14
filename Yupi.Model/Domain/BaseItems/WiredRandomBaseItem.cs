@@ -1,11 +1,7 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	// TODO Renamed from SpecialRandom
-	public class WiredRandomBaseItem : WiredBaseItem
-	{
-		
-	}
+    // TODO Renamed from SpecialRandom
+    public class WiredRandomBaseItem : WiredBaseItem
+    {
+    }
 }
-

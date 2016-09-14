@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class TriggerStateChangedBaseItem : FloorBaseItem
-	{
-		public TriggerStateChangedBaseItem ()
-		{
-		}
-	}
+    public class TriggerStateChangedBaseItem : FloorBaseItem
+    {
+    }
 }
-

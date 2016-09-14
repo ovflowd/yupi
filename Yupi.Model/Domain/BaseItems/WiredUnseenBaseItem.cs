@@ -1,13 +1,7 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	// TODO Renamed from SpecialUnseen
-	public class WiredUnseenBaseItem : WiredBaseItem
-	{
-		public WiredUnseenBaseItem ()
-		{
-		}
-	}
+    // TODO Renamed from SpecialUnseen
+    public class WiredUnseenBaseItem : WiredBaseItem
+    {
+    }
 }
-

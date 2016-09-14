@@ -1,39 +1,37 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	[Ignore]
-	public abstract class HumanEntity : RoomEntity
-	{
-		public HumanStatus HumanStatus { get; private set; }
+    [Ignore]
+    public abstract class HumanEntity : RoomEntity
+    {
+        [Ignore]
+        public delegate void OnDanceChangeType(HumanEntity entity);
 
-		public Dance Dance { get; private set; }
+        public OnDanceChangeType OnDanceChange;
 
-		[Ignore]
-		public delegate void OnDanceChangeType(HumanEntity entity);
+        public HumanEntity(Room room, int id) : base(room, id)
+        {
+            HumanStatus = new HumanStatus(this);
+            Dance = Dance.None;
+        }
 
-		public override EntityStatus Status {
-			get {
-				return HumanStatus;
-			}
-		}
+        public HumanStatus HumanStatus { get; }
 
-		public OnDanceChangeType OnDanceChange;
+        public Dance Dance { get; private set; }
 
-		public HumanEntity (Room room, int id) : base (room, id)
-		{
-			HumanStatus = new HumanStatus (this);
-			this.Dance = Dance.None;
-		}
+        public override EntityStatus Status
+        {
+            get { return HumanStatus; }
+        }
 
-		public virtual void SetDance(Dance dance) {
-			this.Dance = dance;
-			OnDanceChange (this);
-		}
+        public virtual void SetDance(Dance dance)
+        {
+            Dance = dance;
+            OnDanceChange(this);
+        }
 
-		public void StopDance() {
-			this.SetDance (Dance.None);
-		}
-	}
+        public void StopDance()
+        {
+            SetDance(Dance.None);
+        }
+    }
 }
-

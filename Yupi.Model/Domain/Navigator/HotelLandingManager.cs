@@ -22,40 +22,37 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-using System;
 using System.Collections.Generic;
-using System.Data;
-
 
 namespace Yupi.Model.Domain
 {
-	/// <summary>
-	///     Class HotelView.
-	/// </summary>
-	public class HotelLandingManager
-	{
-		public virtual int Id { get; protected set; }
+    /// <summary>
+    ///     Class HotelView.
+    /// </summary>
+    public class HotelLandingManager
+    {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="HotelLandingManager" /> class.
+        /// </summary>
+        public HotelLandingManager()
+        {
+            HotelViewPromosIndexers = new List<HotelLandingPromos>();
+            HotelViewBadges = new Dictionary<string, string>();
+        }
 
-		/// <summary>
-		///     The furni reward identifier
-		/// </summary>
-		public virtual BaseItem FurniReward { get; set; }
+        public virtual int Id { get; protected set; }
 
-		// TODO What does this contain?
-		public virtual Dictionary<string, string> HotelViewBadges { get; set; }
+        /// <summary>
+        ///     The furni reward identifier
+        /// </summary>
+        public virtual BaseItem FurniReward { get; set; }
 
-		/// <summary>
-		///     The hotel view promos indexers
-		/// </summary>
-		public virtual IList<HotelLandingPromos> HotelViewPromosIndexers { get; set; }
+        // TODO What does this contain?
+        public virtual Dictionary<string, string> HotelViewBadges { get; set; }
 
-		/// <summary>
-		///     Initializes a new instance of the <see cref="HotelLandingManager" /> class.
-		/// </summary>
-		public HotelLandingManager ()
-		{
-			HotelViewPromosIndexers = new List<HotelLandingPromos> ();
-			HotelViewBadges = new Dictionary<string, string> ();
-		}
-	}
+        /// <summary>
+        ///     The hotel view promos indexers
+        /// </summary>
+        public virtual IList<HotelLandingPromos> HotelViewPromosIndexers { get; set; }
+    }
 }

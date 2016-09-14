@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class TriggerWalkOffFurniBaseItem : FloorBaseItem
-	{
-		public TriggerWalkOffFurniBaseItem ()
-		{
-		}
-	}
+    public class TriggerWalkOffFurniBaseItem : FloorBaseItem
+    {
+    }
 }
-

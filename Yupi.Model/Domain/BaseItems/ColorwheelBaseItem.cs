@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class ColorwheelBaseItem : WallBaseItem
-	{
-		public ColorwheelBaseItem ()
-		{
-		}
-	}
+    public class ColorwheelBaseItem : WallBaseItem
+    {
+    }
 }
-

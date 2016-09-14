@@ -1,10 +1,6 @@
-﻿using System;
-
-namespace Yupi.Messages.Contracts
+﻿namespace Yupi.Messages.Contracts
 {
-	public class PrepareRoomMessageComposer : AbstractComposerEmpty
-	{
-		
-	}
+    public class PrepareRoomMessageComposer : AbstractComposerEmpty
+    {
+    }
 }
-

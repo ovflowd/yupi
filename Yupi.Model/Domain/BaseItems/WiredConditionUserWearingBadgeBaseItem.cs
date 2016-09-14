@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class WiredConditionUserWearingBadgeBaseItem : WiredBaseItem
-	{
-		public WiredConditionUserWearingBadgeBaseItem ()
-		{
-		}
-	}
+    public class WiredConditionUserWearingBadgeBaseItem : WiredBaseItem
+    {
+    }
 }
-

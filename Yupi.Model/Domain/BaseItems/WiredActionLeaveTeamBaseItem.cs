@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class WiredActionLeaveTeamBaseItem : WiredBaseItem
-	{
-		public WiredActionLeaveTeamBaseItem ()
-		{
-		}
-	}
+    public class WiredActionLeaveTeamBaseItem : WiredBaseItem
+    {
+    }
 }
-

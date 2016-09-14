@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class WiredTriggerBotReachedAvatarBaseItem : WiredBaseItem
-	{
-		public WiredTriggerBotReachedAvatarBaseItem ()
-		{
-		}
-	}
+    public class WiredTriggerBotReachedAvatarBaseItem : WiredBaseItem
+    {
+    }
 }
-

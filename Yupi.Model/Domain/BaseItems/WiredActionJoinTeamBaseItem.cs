@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class WiredActionJoinTeamBaseItem : WiredBaseItem
-	{
-		public WiredActionJoinTeamBaseItem ()
-		{
-		}
-	}
+    public class WiredActionJoinTeamBaseItem : WiredBaseItem
+    {
+    }
 }
-

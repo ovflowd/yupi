@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class TriggerGameStartBaseItem : FloorBaseItem
-	{
-		public TriggerGameStartBaseItem ()
-		{
-		}
-	}
+    public class TriggerGameStartBaseItem : FloorBaseItem
+    {
+    }
 }
-

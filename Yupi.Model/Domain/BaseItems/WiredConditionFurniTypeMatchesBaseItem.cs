@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class WiredConditionFurniTypeMatchesBaseItem : WiredBaseItem
-	{
-		public WiredConditionFurniTypeMatchesBaseItem ()
-		{
-		}
-	}
+    public class WiredConditionFurniTypeMatchesBaseItem : WiredBaseItem
+    {
+    }
 }
-

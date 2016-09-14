@@ -1,20 +1,17 @@
-﻿using System;
-
-namespace Yupi.Model
+﻿namespace Yupi.Model
 {
-	public class StandPosture : EntityPosture
-	{
-		public static readonly StandPosture Default = new StandPosture();
+    public class StandPosture : EntityPosture
+    {
+        public static readonly StandPosture Default = new StandPosture();
 
-		private StandPosture ()
-		{
-			// Don't allow external initialization (useless)
-		}
+        private StandPosture()
+        {
+            // Don't allow external initialization (useless)
+        }
 
-		public override string ToStatusString ()
-		{
-			return "std";
-		}
-	}
+        public override string ToStatusString()
+        {
+            return "std";
+        }
+    }
 }
-

@@ -1,12 +1,12 @@
-using Yupi.Protocol.Buffers;
+using Yupi.Protocol;
 
 namespace Yupi.Messages.Contracts
 {
-	public abstract class DoorbellOpenedMessageComposer : AbstractComposerVoid
-	{
-		public override void Compose(Yupi.Protocol.ISender session)
-		{
-		 // Do nothing by default.
-		}
-	}
+    public abstract class DoorbellOpenedMessageComposer : AbstractComposerVoid
+    {
+        public override void Compose(ISender session)
+        {
+            // Do nothing by default.
+        }
+    }
 }

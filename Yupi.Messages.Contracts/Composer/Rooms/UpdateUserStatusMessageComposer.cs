@@ -1,15 +1,13 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using Yupi.Model.Domain;
-using System.Collections.Generic;
+using Yupi.Protocol;
 
 namespace Yupi.Messages.Contracts
 {
-	public class UpdateUserStatusMessageComposer : AbstractComposer<IList<RoomEntity>>
-	{
-		public override void Compose ( Yupi.Protocol.ISender session, IList<RoomEntity> entities)
-		{
-			
-		}
-	}
+    public class UpdateUserStatusMessageComposer : AbstractComposer<IList<RoomEntity>>
+    {
+        public override void Compose(ISender session, IList<RoomEntity> entities)
+        {
+        }
+    }
 }
-

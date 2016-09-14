@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class WiredTeleportToBaseItem : WiredBaseItem
-	{
-		public WiredTeleportToBaseItem ()
-		{
-		}
-	}
+    public class WiredTeleportToBaseItem : WiredBaseItem
+    {
+    }
 }
-

@@ -1,10 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class BanzaiFloorBaseItem : FloorBaseItem
-	{
-		
-	}
+    public class BanzaiFloorBaseItem : FloorBaseItem
+    {
+    }
 }
-

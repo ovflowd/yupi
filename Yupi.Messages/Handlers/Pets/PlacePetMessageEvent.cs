@@ -1,60 +1,56 @@
 ﻿using System;
-
-
-
-
-
-
+using Yupi.Model.Domain;
+using Yupi.Protocol;
+using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Pets
 {
-	public class PlacePetMessageEvent : AbstractHandler
-	{
-		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
-		{
-			/*
-			Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
+    public class PlacePetMessageEvent : AbstractHandler
+    {
+        public override void HandleMessage(Habbo session, ClientMessage request, IRouter router)
+        {
+            /*
+            Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
 
-			if (room == null || (!room.RoomData.AllowPets && !room.CheckRights(session, true)) ||
-				!room.CheckRights(session, true))
-				return;
+            if (room == null || (!room.RoomData.AllowPets && !room.CheckRights(session, true)) ||
+                !room.CheckRights(session, true))
+                return;
 
-			uint petId = request.GetUInt32();
+            uint petId = request.GetUInt32();
 
-			Pet pet = session.GetHabbo().GetInventoryComponent().GetPet(petId);
+            Pet pet = session.GetHabbo().GetInventoryComponent().GetPet(petId);
 
-			if (pet == null || pet.PlacedInRoom)
-				return;
+            if (pet == null || pet.PlacedInRoom)
+                return;
 
-			int x = request.GetInteger();
-			int y = request.GetInteger();
+            int x = request.GetInteger();
+            int y = request.GetInteger();
 
-			if (!room.GetGameMap().CanWalk(x, y, false))
-				return;
+            if (!room.GetGameMap().CanWalk(x, y, false))
+                return;
 
-			using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
-				queryReactor.RunFastQuery($"UPDATE pets_data SET room_id = {room.RoomId}, x = {x}, y = {y} WHERE id = {petId}");
+            using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                queryReactor.RunFastQuery($"UPDATE pets_data SET room_id = {room.RoomId}, x = {x}, y = {y} WHERE id = {petId}");
 
-			pet.PlacedInRoom = true;
-			pet.RoomId = room.RoomId;
+            pet.PlacedInRoom = true;
+            pet.RoomId = room.RoomId;
 
-			room.GetRoomUserManager()
-				.DeployBot(
-					new RoomBot(pet.PetId, Convert.ToUInt32(pet.OwnerId), pet.RoomId, AiType.Pet, "freeroam", pet.Name,
-						string.Empty, pet.Look, x, y, 0.0, 4, null, null, string.Empty, 0, string.Empty), pet);
+            room.GetRoomUserManager()
+                .DeployBot(
+                    new RoomBot(pet.PetId, Convert.ToUInt32(pet.OwnerId), pet.RoomId, AiType.Pet, "freeroam", pet.Name,
+                        string.Empty, pet.Look, x, y, 0.0, 4, null, null, string.Empty, 0, string.Empty), pet);
 
-			session.GetHabbo().GetInventoryComponent().MovePetToRoom(pet.PetId);
+            session.GetHabbo().GetInventoryComponent().MovePetToRoom(pet.PetId);
 
-			if (pet.DbState != DatabaseUpdateState.NeedsInsert)
-				pet.DbState = DatabaseUpdateState.NeedsUpdate;
+            if (pet.DbState != DatabaseUpdateState.NeedsInsert)
+                pet.DbState = DatabaseUpdateState.NeedsUpdate;
 
-			using (IQueryAdapter queryreactor = Yupi.GetDatabaseManager().GetQueryReactor())
-				room.GetRoomUserManager().SavePets(queryreactor);
+            using (IQueryAdapter queryreactor = Yupi.GetDatabaseManager().GetQueryReactor())
+                room.GetRoomUserManager().SavePets(queryreactor);
 
-			session.Send(session.GetHabbo().GetInventoryComponent().SerializePetInventory());
-			*/
-			throw new NotImplementedException ();
-		}
-	}
+            session.Send(session.GetHabbo().GetInventoryComponent().SerializePetInventory());
+            */
+            throw new NotImplementedException();
+        }
+    }
 }
-

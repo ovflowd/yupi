@@ -1,18 +1,18 @@
 ﻿using System;
-using Yupi.Messages.Rooms;
-
+using Yupi.Model.Domain;
+using Yupi.Protocol;
+using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Rooms
 {
-	public class AddFavouriteRoomMessageEvent : AbstractHandler
-	{
-		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
-		{
-			int roomId = request.GetInteger();
-			router.GetComposer<FavouriteRoomsUpdateMessageComposer> ().Compose (session, roomId, true);
-			throw new NotImplementedException ();
-			//session.Info.FavoriteRooms.Add(roomId);
-		}
-	}
+    public class AddFavouriteRoomMessageEvent : AbstractHandler
+    {
+        public override void HandleMessage(Habbo session, ClientMessage request, IRouter router)
+        {
+            var roomId = request.GetInteger();
+            router.GetComposer<FavouriteRoomsUpdateMessageComposer>().Compose(session, roomId, true);
+            throw new NotImplementedException();
+            //session.Info.FavoriteRooms.Add(roomId);
+        }
+    }
 }
-

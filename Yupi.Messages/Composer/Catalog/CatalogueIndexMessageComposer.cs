@@ -1,65 +1,63 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Yupi.Protocol.Buffers;
-using System.Collections.Generic;
 using Yupi.Model.Domain;
-
+using Yupi.Protocol;
 
 namespace Yupi.Messages.Catalog
 {
-	public class CatalogueIndexMessageComposer : Yupi.Messages.Contracts.CatalogueIndexMessageComposer
-	{
-		public override void Compose ( Yupi.Protocol.ISender session, IList<CatalogPage> sortedPages, string type, int rank)
-		{
-			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				// TODO Refactor pages to TREE
-				message.AppendBool(true);
-				message.AppendInteger(0);
-				message.AppendInteger(-1);
-				message.AppendString("root");
-				message.AppendString(string.Empty);
-				message.AppendInteger(0);
-				message.AppendInteger(sortedPages.Count());
+    public class CatalogueIndexMessageComposer : Contracts.CatalogueIndexMessageComposer
+    {
+        public override void Compose(ISender session, IList<CatalogPage> sortedPages, string type, int rank)
+        {
+            using (var message = Pool.GetMessageBuffer(Id))
+            {
+                // TODO Refactor pages to TREE
+                message.AppendBool(true);
+                message.AppendInteger(0);
+                message.AppendInteger(-1);
+                message.AppendString("root");
+                message.AppendString(string.Empty);
+                message.AppendInteger(0);
+                message.AppendInteger(sortedPages.Count());
 
-				foreach (CatalogPage cat in sortedPages)
-				{
-					message.AppendBool(cat.Visible);
-					message.AppendInteger(cat.IconImage);
-					message.AppendInteger(cat.Id);
-					message.AppendString(cat.CodeName);
-					message.AppendString(cat.Caption);
-					message.AppendInteger(cat.FlatOffers.Count);
+                foreach (var cat in sortedPages)
+                {
+                    message.AppendBool(cat.Visible);
+                    message.AppendInteger(cat.IconImage);
+                    message.AppendInteger(cat.Id);
+                    message.AppendString(cat.CodeName);
+                    message.AppendString(cat.Caption);
+                    message.AppendInteger(cat.FlatOffers.Count);
 
-					foreach (uint i in cat.FlatOffers.Keys)
-						message.AppendInteger(i);
-					
-					IOrderedEnumerable<CatalogPage> sortedSubPages =
-						cat.Children.Where(x => x.MinRank <= rank).OrderBy(x => x.OrderNum);
+                    foreach (var i in cat.FlatOffers.Keys)
+                        message.AppendInteger(i);
 
-					message.AppendInteger(sortedSubPages.Count());
+                    var sortedSubPages =
+                        cat.Children.Where(x => x.MinRank <= rank).OrderBy(x => x.OrderNum);
 
-					foreach (CatalogPage subCat in sortedSubPages)
-					{
-						message.AppendBool(subCat.Visible);
-						message.AppendInteger(subCat.IconImage);
-						message.AppendInteger(subCat.Id);
-						message.AppendString(subCat.CodeName);
-						message.AppendString(subCat.Caption);
-						message.AppendInteger(subCat.FlatOffers.Count);
+                    message.AppendInteger(sortedSubPages.Count());
 
-						foreach (uint i2 in subCat.FlatOffers.Keys)
-							message.AppendInteger(i2);
+                    foreach (var subCat in sortedSubPages)
+                    {
+                        message.AppendBool(subCat.Visible);
+                        message.AppendInteger(subCat.IconImage);
+                        message.AppendInteger(subCat.Id);
+                        message.AppendString(subCat.CodeName);
+                        message.AppendString(subCat.Caption);
+                        message.AppendInteger(subCat.FlatOffers.Count);
 
-						message.AppendInteger(0);
-					}
-				}
+                        foreach (var i2 in subCat.FlatOffers.Keys)
+                            message.AppendInteger(i2);
 
-				message.AppendBool(false);
-				message.AppendString(type);
+                        message.AppendInteger(0);
+                    }
+                }
 
-				session.Send (message);
-			}
-		}
-	}
+                message.AppendBool(false);
+                message.AppendString(type);
+
+                session.Send(message);
+            }
+        }
+    }
 }
-

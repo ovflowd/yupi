@@ -1,23 +1,22 @@
-﻿using System;
-using Yupi.Controller;
-using System.Collections.Generic;
+﻿using Yupi.Controller;
 using Yupi.Model.Domain;
+using Yupi.Protocol;
+using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Navigator
 {
-	public class SearchNewNavigatorEvent : AbstractHandler
-	{
-		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
-		{
-			string staticId = request.GetString();
-			string query = request.GetString();
+    public class SearchNewNavigatorEvent : AbstractHandler
+    {
+        public override void HandleMessage(Habbo session, ClientMessage request, IRouter router)
+        {
+            var staticId = request.GetString();
+            var query = request.GetString();
 
-			NavigatorView view = NavigatorView.FromValue (staticId);
+            var view = NavigatorView.FromValue(staticId);
 
-			// TODO Create SearchResult class instead of Dictionary
-			IDictionary<NavigatorCategory, IList<RoomData>> categories = view.GetCategories (query, session.Info);
-			router.GetComposer<SearchResultSetComposer> ().Compose (session, staticId, query, categories);
-		}
-	}
+            // TODO Create SearchResult class instead of Dictionary
+            var categories = view.GetCategories(query, session.Info);
+            router.GetComposer<SearchResultSetComposer>().Compose(session, staticId, query, categories);
+        }
+    }
 }
-

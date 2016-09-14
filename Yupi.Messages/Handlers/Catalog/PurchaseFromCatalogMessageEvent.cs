@@ -1,32 +1,31 @@
-﻿using System;
-using Yupi.Messages.Notification;
-using Yupi.Controller;
+﻿using Yupi.Controller;
 using Yupi.Model;
 using Yupi.Model.Domain;
+using Yupi.Protocol;
+using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Catalog
 {
-	public class PurchaseFromCatalogMessageEvent : AbstractHandler
-	{
-		private CatalogController CatalogController;
+    public class PurchaseFromCatalogMessageEvent : AbstractHandler
+    {
+        private readonly CatalogController CatalogController;
 
-		public PurchaseFromCatalogMessageEvent ()
-		{
-			CatalogController = DependencyFactory.Resolve<CatalogController> ();
-		}
+        public PurchaseFromCatalogMessageEvent()
+        {
+            CatalogController = DependencyFactory.Resolve<CatalogController>();
+        }
 
-		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
-		{
-			// TODO Maximum items
+        public override void HandleMessage(Habbo session, ClientMessage message, IRouter router)
+        {
+            // TODO Maximum items
 
-			int pageId = message.GetInteger();
-			int itemId = message.GetInteger();
-			string extraData = message.GetString();
-			int amount = message.GetInteger();
+            var pageId = message.GetInteger();
+            var itemId = message.GetInteger();
+            var extraData = message.GetString();
+            var amount = message.GetInteger();
 
-			CatalogItem item = CatalogController.GetById (pageId, itemId);
-			CatalogController.Purchase (session, item, extraData, amount);
-		}
-	}
+            var item = CatalogController.GetById(pageId, itemId);
+            CatalogController.Purchase(session, item, extraData, amount);
+        }
+    }
 }
-

@@ -1,10 +1,7 @@
-﻿using System;
-
-namespace Yupi.Model
+﻿namespace Yupi.Model
 {
-	public interface IStatusString
-	{
-		string ToStatusString();
-	}
+    public interface IStatusString
+    {
+        string ToStatusString();
+    }
 }
-

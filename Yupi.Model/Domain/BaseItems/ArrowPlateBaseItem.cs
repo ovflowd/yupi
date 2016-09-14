@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class ArrowPlateBaseItem : FloorBaseItem
-	{
-		public ArrowPlateBaseItem ()
-		{
-		}
-	}
+    public class ArrowPlateBaseItem : FloorBaseItem
+    {
+    }
 }
-

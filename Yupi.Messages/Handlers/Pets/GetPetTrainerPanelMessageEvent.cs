@@ -1,18 +1,18 @@
-﻿using System;
-
+﻿using Yupi.Model.Domain;
+using Yupi.Protocol;
+using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Pets
 {
-	public class GetPetTrainerPanelMessageEvent : AbstractHandler
-	{
-		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
-		{
-			int petId = request.GetInteger();
+    public class GetPetTrainerPanelMessageEvent : AbstractHandler
+    {
+        public override void HandleMessage(Habbo session, ClientMessage request, IRouter router)
+        {
+            var petId = request.GetInteger();
 
-			// TODO Validate
+            // TODO Validate
 
-			router.GetComposer<PetTrainerPanelMessageComposer> ().Compose (session, petId);
-		}
-	}
+            router.GetComposer<PetTrainerPanelMessageComposer>().Compose(session, petId);
+        }
+    }
 }
-

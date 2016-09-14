@@ -1,11 +1,8 @@
-﻿using System;
-
-namespace Yupi.Model.Domain.Components
+﻿namespace Yupi.Model.Domain.Components
 {
-	public enum WallSide
-	{
-		Left = 'l',
-		Right = 'r'
-	}
+    public enum WallSide
+    {
+        Left = 'l',
+        Right = 'r'
+    }
 }
-

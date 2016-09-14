@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class TriggerTimerBaseItem : FloorBaseItem
-	{
-		public TriggerTimerBaseItem ()
-		{
-		}
-	}
+    public class TriggerTimerBaseItem : FloorBaseItem
+    {
+    }
 }
-

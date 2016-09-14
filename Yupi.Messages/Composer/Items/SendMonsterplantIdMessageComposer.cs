@@ -1,17 +1,16 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
+﻿using Yupi.Protocol;
 
 namespace Yupi.Messages.Items
 {
-	public class SendMonsterplantIdMessageComposer : Yupi.Messages.Contracts.SendMonsterplantIdMessageComposer
-	{
-		public override void Compose ( Yupi.Protocol.ISender session, uint entityId)
-		{
-			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendInteger (entityId);
-				session.Send (message);
-			}
-		}
-	}
+    public class SendMonsterplantIdMessageComposer : Contracts.SendMonsterplantIdMessageComposer
+    {
+        public override void Compose(ISender session, uint entityId)
+        {
+            using (var message = Pool.GetMessageBuffer(Id))
+            {
+                message.AppendInteger(entityId);
+                session.Send(message);
+            }
+        }
+    }
 }
-

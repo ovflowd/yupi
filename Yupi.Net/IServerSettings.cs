@@ -22,25 +22,23 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-using System;
-
 namespace Yupi.Net
 {
-	public interface IServerSettings
-	{
-		/// <summary>
-		/// Gets the IP (interface) to bind to
-		/// </summary>
-		/// <value>Any | IPv6Any |Valid IP to bind to</value>
-		string IP { get; }
-		int Port { get; }
-		int MaxWorkingThreads  { get; }
-		int MinWorkingThreads  { get; }
-		int MinIOThreads  { get; }
-		int MaxIOThreads  { get; }
-		int BufferSize { get; }
-		int Backlog { get; }
-		int MaxConnections { get; }
-	}
-}
+    public interface IServerSettings
+    {
+        /// <summary>
+        ///     Gets the IP (interface) to bind to
+        /// </summary>
+        /// <value>Any | IPv6Any |Valid IP to bind to</value>
+        string IP { get; }
 
+        int Port { get; }
+        int MaxWorkingThreads { get; }
+        int MinWorkingThreads { get; }
+        int MinIOThreads { get; }
+        int MaxIOThreads { get; }
+        int BufferSize { get; }
+        int Backlog { get; }
+        int MaxConnections { get; }
+    }
+}

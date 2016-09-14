@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class WiredConditionTimeLessThanBaseItem : WiredBaseItem
-	{
-		public WiredConditionTimeLessThanBaseItem ()
-		{
-		}
-	}
+    public class WiredConditionTimeLessThanBaseItem : WiredBaseItem
+    {
+    }
 }
-

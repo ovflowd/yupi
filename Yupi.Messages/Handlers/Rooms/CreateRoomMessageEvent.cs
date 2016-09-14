@@ -1,61 +1,56 @@
-﻿using System;
-using Yupi.Messages.Contracts;
+﻿using Yupi.Model;
 using Yupi.Model.Domain;
 using Yupi.Model.Repository;
-using Yupi.Model;
-
+using Yupi.Protocol;
+using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Rooms
 {
-	public class CreateRoomMessageEvent : AbstractHandler
-	{
-		private IRepository<NavigatorCategory> NavigatorRepository;
-		private IRepository<RoomData> RoomRepository;
+    public class CreateRoomMessageEvent : AbstractHandler
+    {
+        private readonly IRepository<NavigatorCategory> NavigatorRepository;
+        private readonly IRepository<RoomData> RoomRepository;
 
-		public CreateRoomMessageEvent ()
-		{
-			NavigatorRepository = DependencyFactory.Resolve<IRepository<NavigatorCategory>> ();
-			RoomRepository = DependencyFactory.Resolve<IRepository<RoomData>> ();
-		}
-		
-		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
-		{
-			string name = request.GetString();
-			string description = request.GetString();
-			string roomModel = request.GetString();
-			int categoryId = request.GetInteger();
-			int maxVisitors = request.GetInteger();
-			int tradeStateId = request.GetInteger();
+        public CreateRoomMessageEvent()
+        {
+            NavigatorRepository = DependencyFactory.Resolve<IRepository<NavigatorCategory>>();
+            RoomRepository = DependencyFactory.Resolve<IRepository<RoomData>>();
+        }
 
-			RoomModel model;
-			TradingState tradeState;
+        public override void HandleMessage(Habbo session, ClientMessage request, IRouter router)
+        {
+            var name = request.GetString();
+            var description = request.GetString();
+            var roomModel = request.GetString();
+            var categoryId = request.GetInteger();
+            var maxVisitors = request.GetInteger();
+            var tradeStateId = request.GetInteger();
 
-			if (!RoomModel.TryParse (roomModel, out model) 
-				|| !TradingState.TryFromInt32(tradeStateId, out tradeState)) {
-				return;
-			}
+            RoomModel model;
+            TradingState tradeState;
 
-			NavigatorCategory category = NavigatorRepository.FindBy (categoryId);
+            if (!RoomModel.TryParse(roomModel, out model)
+                || !TradingState.TryFromInt32(tradeStateId, out tradeState)) return;
 
-			if (category.MinRank > session.Info.Rank) {
-				return;
-			}
+            var category = NavigatorRepository.FindBy(categoryId);
 
-			// TODO Filter Name, Description, max visitors
-			RoomData data = new RoomData() {
-				Name = name,
-				Description = description,
-				Model = model,
-				Category = category,
-				UsersMax = maxVisitors,
-				TradeState = tradeState,
-				Owner = session.Info
-			};
+            if (category.MinRank > session.Info.Rank) return;
 
-			RoomRepository.Save (data);
+            // TODO Filter Name, Description, max visitors
+            var data = new RoomData
+            {
+                Name = name,
+                Description = description,
+                Model = model,
+                Category = category,
+                UsersMax = maxVisitors,
+                TradeState = tradeState,
+                Owner = session.Info
+            };
 
-			router.GetComposer<OnCreateRoomInfoMessageComposer> ().Compose (session, data);
-		}
-	}
+            RoomRepository.Save(data);
+
+            router.GetComposer<OnCreateRoomInfoMessageComposer>().Compose(session, data);
+        }
+    }
 }
-

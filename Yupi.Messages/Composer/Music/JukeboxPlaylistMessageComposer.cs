@@ -1,31 +1,25 @@
-﻿using System;
-
-using Yupi.Protocol.Buffers;
-using System.Collections.Generic;
-using Yupi.Model.Domain;
-using Yupi.Model.Domain.Components;
-
+﻿using Yupi.Model.Domain.Components;
+using Yupi.Protocol;
 
 namespace Yupi.Messages.Music
 {
-	public class JukeboxPlaylistMessageComposer : Yupi.Messages.Contracts.JukeboxPlaylistMessageComposer
-	{
-		public override void Compose ( Yupi.Protocol.ISender session, SongMachineComponent songMachine)
-		{
-			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				
-				message.AppendInteger(songMachine.Capacity);
+    public class JukeboxPlaylistMessageComposer : Contracts.JukeboxPlaylistMessageComposer
+    {
+        public override void Compose(ISender session, SongMachineComponent songMachine)
+        {
+            using (var message = Pool.GetMessageBuffer(Id))
+            {
+                message.AppendInteger(songMachine.Capacity);
 
-				message.AppendInteger(songMachine.SongItems.Count);
+                message.AppendInteger(songMachine.SongItems.Count);
 
-				foreach (SongItem current in songMachine.SongItems)
-				{
-					message.AppendInteger(current.Id);
-					message.AppendInteger(current.Song.Id);
-				}
-				session.Send (message);
-			}
-		}
-	}
+                foreach (var current in songMachine.SongItems)
+                {
+                    message.AppendInteger(current.Id);
+                    message.AppendInteger(current.Song.Id);
+                }
+                session.Send(message);
+            }
+        }
+    }
 }
-

@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class WiredPositionResetBaseItem : WiredBaseItem
-	{
-		public WiredPositionResetBaseItem ()
-		{
-		}
-	}
+    public class WiredPositionResetBaseItem : WiredBaseItem
+    {
+    }
 }
-

@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class WiredGiveRewardBaseItem : WiredBaseItem
-	{
-		public WiredGiveRewardBaseItem ()
-		{
-		}
-	}
+    public class WiredGiveRewardBaseItem : WiredBaseItem
+    {
+    }
 }
-

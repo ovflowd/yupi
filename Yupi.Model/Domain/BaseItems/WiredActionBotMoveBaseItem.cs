@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class WiredActionBotMoveBaseItem : WiredBaseItem 
-	{
-		public WiredActionBotMoveBaseItem ()
-		{
-		}
-	}
+    public class WiredActionBotMoveBaseItem : WiredBaseItem
+    {
+    }
 }
-

@@ -1,12 +1,13 @@
-using Yupi.Protocol.Buffers;
+using Yupi.Protocol;
 
 namespace Yupi.Messages.Contracts
 {
-	public abstract class SuperNotificationMessageComposer : AbstractComposer
-	{
-		public virtual void Compose(Yupi.Protocol.ISender session, string title, string content, string url = "", string urlName = "", string unknown = "", int unknown2 = 4)
-		{
-		 // Do nothing by default.
-		}
-	}
+    public abstract class SuperNotificationMessageComposer : AbstractComposer
+    {
+        public virtual void Compose(ISender session, string title, string content, string url = "", string urlName = "",
+            string unknown = "", int unknown2 = 4)
+        {
+            // Do nothing by default.
+        }
+    }
 }

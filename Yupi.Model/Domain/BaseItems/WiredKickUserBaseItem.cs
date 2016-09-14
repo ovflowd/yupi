@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class WiredKickUserBaseItem : WiredBaseItem
-	{
-		public WiredKickUserBaseItem ()
-		{
-		}
-	}
+    public class WiredKickUserBaseItem : WiredBaseItem
+    {
+    }
 }
-

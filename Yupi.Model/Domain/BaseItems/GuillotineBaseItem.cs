@@ -1,10 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class GuillotineBaseItem : BedBaseItem
-	{
-		
-	}
+    public class GuillotineBaseItem : BedBaseItem
+    {
+    }
 }
-

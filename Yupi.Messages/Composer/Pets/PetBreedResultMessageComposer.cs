@@ -1,18 +1,17 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
+﻿using Yupi.Protocol;
 
 namespace Yupi.Messages.Pets
 {
-	public class PetBreedResultMessageComposer : Yupi.Messages.Contracts.PetBreedResultMessageComposer
-	{
-		public override void Compose ( Yupi.Protocol.ISender session, int petId, int randomValue)
-		{
-			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendInteger (petId);
-				message.AppendInteger (randomValue);
-				session.Send (message);
-			}
-		}
-	}
+    public class PetBreedResultMessageComposer : Contracts.PetBreedResultMessageComposer
+    {
+        public override void Compose(ISender session, int petId, int randomValue)
+        {
+            using (var message = Pool.GetMessageBuffer(Id))
+            {
+                message.AppendInteger(petId);
+                message.AppendInteger(randomValue);
+                session.Send(message);
+            }
+        }
+    }
 }
-

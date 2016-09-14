@@ -1,18 +1,17 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
+﻿using Yupi.Protocol;
 
 namespace Yupi.Messages.Rooms
 {
-	public class RoomRightsLevelMessageComposer : Yupi.Messages.Contracts.RoomRightsLevelMessageComposer
-	{
-		// TODO Level should be enum
-		public override void Compose ( Yupi.Protocol.ISender session, int level)
-		{
-			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendInteger (level);
-				session.Send (message);
-			}
-		}
-	}
+    public class RoomRightsLevelMessageComposer : Contracts.RoomRightsLevelMessageComposer
+    {
+        // TODO Level should be enum
+        public override void Compose(ISender session, int level)
+        {
+            using (var message = Pool.GetMessageBuffer(Id))
+            {
+                message.AppendInteger(level);
+                session.Send(message);
+            }
+        }
+    }
 }
-

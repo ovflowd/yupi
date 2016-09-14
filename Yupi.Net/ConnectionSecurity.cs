@@ -26,22 +26,22 @@ using System.Collections.Generic;
 
 namespace Yupi.Net.DotNettyImpl
 {
-    class ConnectionSecurity
+    internal class ConnectionSecurity
     {
-        /// <summary>
-        ///     Server Connections By IP Address
-        /// </summary>
-        private Dictionary<string, uint> ServerClientConnectionsByAddress;
-
         /// <summary>
         ///     Blocked Client Connections By IP Address
         /// </summary>
-		private List<string> BlockedClientConnectionsByAddress;
+        private readonly List<string> BlockedClientConnectionsByAddress;
+
+        /// <summary>
+        ///     Server Connections By IP Address
+        /// </summary>
+        private readonly Dictionary<string, uint> ServerClientConnectionsByAddress;
 
         /// <summary>
         ///     Initialize Security Manager
         /// </summary>
-		public ConnectionSecurity()
+        public ConnectionSecurity()
         {
             ServerClientConnectionsByAddress = new Dictionary<string, uint>();
 
@@ -53,11 +53,9 @@ namespace Yupi.Net.DotNettyImpl
         /// </summary>
         public void AddClient(string clientAddress)
         {
-			if (ServerClientConnectionsByAddress.ContainsKey (clientAddress)) {
-				ServerClientConnectionsByAddress [clientAddress]++;
-			} else {
-				ServerClientConnectionsByAddress.Add (clientAddress, 1);
-			}
+            if (ServerClientConnectionsByAddress.ContainsKey(clientAddress))
+                ServerClientConnectionsByAddress[clientAddress]++;
+            else ServerClientConnectionsByAddress.Add(clientAddress, 1);
         }
 
         /// <summary>
@@ -65,10 +63,8 @@ namespace Yupi.Net.DotNettyImpl
         /// </summary>
         public void RemoveClient(string clientAddress)
         {
-			if (ServerClientConnectionsByAddress.ContainsKey (clientAddress)) {
-				// TODO Should never get < 0
-				ServerClientConnectionsByAddress [clientAddress]--;
-			}
+            if (ServerClientConnectionsByAddress.ContainsKey(clientAddress))
+                ServerClientConnectionsByAddress[clientAddress]--;
         }
 
         /// <summary>
@@ -79,13 +75,13 @@ namespace Yupi.Net.DotNettyImpl
             if (ServerClientConnectionsByAddress.ContainsKey(clientAddress))
                 return ServerClientConnectionsByAddress[clientAddress];
 
-			return 0;
+            return 0;
         }
 
         /// <summary>
         ///     Check Availability of New Connection
         /// </summary>
-		public bool CheckClient(string clientAddress)
+        public bool CheckClient(string clientAddress)
         {
             if (BlockedClientConnectionsByAddress.Contains(clientAddress))
                 return false;
@@ -97,8 +93,8 @@ namespace Yupi.Net.DotNettyImpl
                 return true;
             }
 
-			// TODO Reimplement max connections
-			/*
+            // TODO Reimplement max connections
+            /*
             if (GetClientCount(clientAddress) >= ServerFactorySettings.MaxConnectionsByAddress)
             {
                 // TODO Drop all connections of this IP ?

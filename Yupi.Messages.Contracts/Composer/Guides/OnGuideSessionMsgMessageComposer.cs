@@ -1,12 +1,12 @@
-using Yupi.Protocol.Buffers;
+using Yupi.Protocol;
 
 namespace Yupi.Messages.Contracts
 {
-	public abstract class OnGuideSessionMsgMessageComposer : AbstractComposer<string, int>
-	{
-		public override void Compose(Yupi.Protocol.ISender session, string content, int userId)
-		{
-		 // Do nothing by default.
-		}
-	}
+    public abstract class OnGuideSessionMsgMessageComposer : AbstractComposer<string, int>
+    {
+        public override void Compose(ISender session, string content, int userId)
+        {
+            // Do nothing by default.
+        }
+    }
 }

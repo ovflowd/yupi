@@ -1,24 +1,25 @@
-﻿using System;
+﻿using System.Linq;
+using Yupi.Model;
 using Yupi.Model.Domain;
 using Yupi.Model.Repository;
-using Yupi.Model;
-using System.Linq;
+using Yupi.Protocol;
+using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Navigator
 {
-	public class NavigatorGetFlatCategoriesMessageEvent : AbstractHandler
-	{
-		private IRepository<FlatNavigatorCategory> NavigatorRepository;
+    public class NavigatorGetFlatCategoriesMessageEvent : AbstractHandler
+    {
+        private readonly IRepository<FlatNavigatorCategory> NavigatorRepository;
 
-		public NavigatorGetFlatCategoriesMessageEvent ()
-		{
-			NavigatorRepository = DependencyFactory.Resolve<IRepository<FlatNavigatorCategory>> ();
-		}
+        public NavigatorGetFlatCategoriesMessageEvent()
+        {
+            NavigatorRepository = DependencyFactory.Resolve<IRepository<FlatNavigatorCategory>>();
+        }
 
-		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
-		{
-			router.GetComposer<FlatCategoriesMessageComposer> ().Compose (session, NavigatorRepository.All().ToList(), session.Info.Rank);
-		}
-	}
+        public override void HandleMessage(Habbo session, ClientMessage request, IRouter router)
+        {
+            router.GetComposer<FlatCategoriesMessageComposer>()
+                .Compose(session, NavigatorRepository.All().ToList(), session.Info.Rank);
+        }
+    }
 }
-

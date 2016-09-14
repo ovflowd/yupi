@@ -1,9 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class SimpleFloorItem : FloorItem<FloorBaseItem>
-	{
-	}
+    public class SimpleFloorItem : FloorItem<FloorBaseItem>
+    {
+    }
 }
-

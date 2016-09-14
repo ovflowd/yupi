@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class TriggerLongRepeaterBaseItem : FloorBaseItem
-	{
-		public TriggerLongRepeaterBaseItem ()
-		{
-		}
-	}
+    public class TriggerLongRepeaterBaseItem : FloorBaseItem
+    {
+    }
 }
-

@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class WiredConditionStatePosBaseItem : WiredBaseItem
-	{
-		public WiredConditionStatePosBaseItem ()
-		{
-		}
-	}
+    public class WiredConditionStatePosBaseItem : WiredBaseItem
+    {
+    }
 }
-

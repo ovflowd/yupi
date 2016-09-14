@@ -1,17 +1,16 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
+﻿using Yupi.Protocol;
 
 namespace Yupi.Messages.Trade
 {
-	public class EnableTradingMessageComposer : Yupi.Messages.Contracts.EnableTradingMessageComposer
-	{
-		public override void Compose ( Yupi.Protocol.ISender session)
-		{
-			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendBool(true); 
-				session.Send (message);
-			}
-		}
-	}
+    public class EnableTradingMessageComposer : Contracts.EnableTradingMessageComposer
+    {
+        public override void Compose(ISender session)
+        {
+            using (var message = Pool.GetMessageBuffer(Id))
+            {
+                message.AppendBool(true);
+                session.Send(message);
+            }
+        }
+    }
 }
-

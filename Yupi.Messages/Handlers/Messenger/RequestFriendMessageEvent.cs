@@ -1,51 +1,51 @@
-﻿using System;
+﻿using Yupi.Controller;
+using Yupi.Model;
 using Yupi.Model.Domain;
 using Yupi.Model.Repository;
-using Yupi.Model;
-using Yupi.Controller;
+using Yupi.Protocol;
+using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Messenger
 {
-	public class RequestFriendMessageEvent : AbstractHandler
-	{
-		private IRepository<UserInfo> UserRepository;
-		private ClientManager ClientManager;
+    public class RequestFriendMessageEvent : AbstractHandler
+    {
+        private readonly ClientManager ClientManager;
+        private readonly IRepository<UserInfo> UserRepository;
 
-		public RequestFriendMessageEvent ()
-		{
-			UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>>();
-			ClientManager = DependencyFactory.Resolve<ClientManager>();
-		}
+        public RequestFriendMessageEvent()
+        {
+            UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>>();
+            ClientManager = DependencyFactory.Resolve<ClientManager>();
+        }
 
-		public override void HandleMessage (Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request, Yupi.Protocol.IRouter router)
-		{
-			string friendName =	request.GetString ();
+        public override void HandleMessage(Habbo session, ClientMessage request, IRouter router)
+        {
+            var friendName = request.GetString();
 
-			UserInfo friend = UserRepository.FindBy (x => x.Name == friendName);
+            var friend = UserRepository.FindBy(x => x.Name == friendName);
 
-			if (friend != null) {
+            if (friend != null)
+                if (friend.HasFriendRequestsDisabled)
+                {
+                    router.GetComposer<NotAcceptingRequestsMessageComposer>().Compose(session);
+                }
+                else
+                {
+                    if (!session.Info.Relationships.HasSentRequestTo(friend))
+                    {
+                        var friendRequest = new FriendRequest(session.Info, friend);
 
-				if (friend.HasFriendRequestsDisabled) {
-					router.GetComposer<NotAcceptingRequestsMessageComposer> ().Compose (session);
-				} else {
+                        session.Info.Relationships.SentRequests.Add(friendRequest);
 
-					if (!session.Info.Relationships.HasSentRequestTo (friend)) {
-						var friendRequest = new FriendRequest(session.Info, friend);
+                        UserRepository.Save(session.Info);
 
-						session.Info.Relationships.SentRequests.Add (friendRequest);
+                        var friendSession = ClientManager.GetByInfo(friend);
 
-						UserRepository.Save (session.Info);
-
-						var friendSession = ClientManager.GetByInfo (friend);
-
-						if (friendSession != null) {
-							friendSession.Router.GetComposer<ConsoleSendFriendRequestMessageComposer> ().Compose (friendSession, friendRequest);
-						}
-					} 
-				}
-			}
-
-		}
-	}
+                        if (friendSession != null)
+                            friendSession.Router.GetComposer<ConsoleSendFriendRequestMessageComposer>()
+                                .Compose(friendSession, friendRequest);
+                    }
+                }
+        }
+    }
 }
-

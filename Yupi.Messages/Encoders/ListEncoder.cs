@@ -1,17 +1,14 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using Yupi.Protocol.Buffers;
-using System.Collections.Generic;
 
 namespace Yupi.Messages.Encoders
 {
-	public static class ListEncoder
-	{
-		public static void Append(this ServerMessage message, IList<string> value) {
-			message.AppendInteger (value.Count);
-			foreach(string entry in value) {
-				message.AppendString(entry);
-			}
-		}
-	}
+    public static class ListEncoder
+    {
+        public static void Append(this ServerMessage message, IList<string> value)
+        {
+            message.AppendInteger(value.Count);
+            foreach (var entry in value) message.AppendString(entry);
+        }
+    }
 }
-

@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class YoutubeTvBaseItem : FloorBaseItem
-	{
-		public YoutubeTvBaseItem ()
-		{
-		}
-	}
+    public class YoutubeTvBaseItem : FloorBaseItem
+    {
+    }
 }
-

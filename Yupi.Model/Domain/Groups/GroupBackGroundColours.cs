@@ -26,9 +26,9 @@ namespace Yupi.Model.Domain
 {
     public class GroupBackGroundColours
     {
-		public virtual int Id { get; protected set; }
+        public virtual int Id { get; protected set; }
 
-		// TODO Isn't this class useless?
-		public virtual int Colour { get; set; }
+        // TODO Isn't this class useless?
+        public virtual int Colour { get; set; }
     }
 }

@@ -1,93 +1,93 @@
 ﻿using System;
-using Yupi.Model.Domain;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Yupi.Model.Domain
 {
-	public class ChatMessage
-	{
-		public virtual int Id { get; set; }
+    public class ChatMessage
+    {
+        private static readonly Dictionary<string, Gesture> Emotions;
 
-		[Ignore]
-		public virtual RoomEntity Entity { get; set; }
+        static ChatMessage()
+        {
+            Emotions = new Dictionary<string, Gesture>
+            {
+                // Smile
+                {":)", Gesture.Smile},
+                {";)", Gesture.Smile},
+                {":d", Gesture.Smile},
+                {";d", Gesture.Smile},
+                {":]", Gesture.Smile},
+                {";]", Gesture.Smile},
+                {"=)", Gesture.Smile},
+                {"=]", Gesture.Smile},
+                {":-)", Gesture.Smile},
 
-		public virtual DateTime Timestamp { get; protected set; }
-		public virtual string Message { get; protected set; }
-		public virtual ChatBubbleStyle Bubble { get; set; }
-		public virtual IList<Link> Links { get; protected set; }
-		public virtual bool Whisper { get; set; }
-		public virtual UserInfo User { get; set; }
+                // Angry
+                {">:(", Gesture.Angry},
+                {">:[", Gesture.Angry},
+                {">;[", Gesture.Angry},
+                {">;(", Gesture.Angry},
+                {">=(", Gesture.Angry},
+                {":@", Gesture.Angry},
 
-		private static Dictionary<string, Gesture> Emotions;
+                // Surprised
+                {":o", Gesture.Surprised},
+                {";o", Gesture.Surprised},
+                {">;o", Gesture.Surprised},
+                {">:o", Gesture.Surprised},
+                {"=o", Gesture.Surprised},
+                {">=o", Gesture.Surprised},
 
-		static ChatMessage() {
-			Emotions = new Dictionary<string, Gesture>
-			{
-				// Smile
-				{":)", Gesture.Smile},
-				{";)", Gesture.Smile},
-				{":d", Gesture.Smile},
-				{";d", Gesture.Smile},
-				{":]", Gesture.Smile},
-				{";]", Gesture.Smile},
-				{"=)", Gesture.Smile},
-				{"=]", Gesture.Smile},
-				{":-)", Gesture.Smile},
+                // Sad
+                {";'(", Gesture.Sad},
+                {";[", Gesture.Sad},
+                {":[", Gesture.Sad},
+                {";(", Gesture.Sad},
+                {"=(", Gesture.Sad},
+                {"='(", Gesture.Sad},
+                {"=[", Gesture.Sad},
+                {"='[", Gesture.Sad},
+                {":(", Gesture.Sad},
+                {":-(", Gesture.Sad}
+            };
+        }
 
-				// Angry
-				{">:(", Gesture.Angry},
-				{">:[", Gesture.Angry},
-				{">;[", Gesture.Angry},
-				{">;(", Gesture.Angry},
-				{">=(", Gesture.Angry},
-				{":@", Gesture.Angry},
+        public ChatMessage(string message) : this()
+        {
+            Message = message;
+        }
 
-				// Surprised
-				{":o", Gesture.Surprised},
-				{";o", Gesture.Surprised},
-				{">;o", Gesture.Surprised},
-				{">:o", Gesture.Surprised},
-				{"=o", Gesture.Surprised},
-				{">=o", Gesture.Surprised},
+        protected ChatMessage()
+        {
+            Links = new List<Link>();
+            Bubble = ChatBubbleStyle.Normal;
+            Timestamp = DateTime.Now;
+        }
 
-				// Sad
-				{";'(", Gesture.Sad},
-				{";[", Gesture.Sad},
-				{":[", Gesture.Sad},
-				{";(", Gesture.Sad},
-				{"=(", Gesture.Sad},
-				{"='(", Gesture.Sad},
-				{"=[", Gesture.Sad},
-				{"='[", Gesture.Sad},
-				{":(", Gesture.Sad},
-				{":-(", Gesture.Sad}
-			};
-		}
+        public virtual int Id { get; set; }
 
-		public ChatMessage (string message) : this()
-		{
-			Message = message;
-		}
+        [Ignore]
+        public virtual RoomEntity Entity { get; set; }
 
-		protected ChatMessage ()
-		{
-			Links = new List<Link> ();
-			Bubble = ChatBubbleStyle.Normal;
-			Timestamp = DateTime.Now;
-		}
+        public virtual DateTime Timestamp { get; protected set; }
+        public virtual string Message { get; protected set; }
+        public virtual ChatBubbleStyle Bubble { get; set; }
+        public virtual IList<Link> Links { get; protected set; }
+        public virtual bool Whisper { get; set; }
+        public virtual UserInfo User { get; set; }
 
-		public virtual Gesture GetEmotion()
-		{
-			// TODO Cache
-			// Default is Gesture.None (because it has the value 0)
-			return Emotions.FirstOrDefault (x => Message.Contains(x.Key)).Value ?? Gesture.None;
-		}
+        public virtual Gesture GetEmotion()
+        {
+            // TODO Cache
+            // Default is Gesture.None (because it has the value 0)
+            return Emotions.FirstOrDefault(x => Message.Contains(x.Key)).Value ?? Gesture.None;
+        }
 
-		public virtual string FilteredMessage() {
-			// TODO Filter
-			return Message.Trim ();
-		}
-	}
+        public virtual string FilteredMessage()
+        {
+            // TODO Filter
+            return Message.Trim();
+        }
+    }
 }
-

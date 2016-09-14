@@ -21,44 +21,43 @@
    Corporation Oy. Yupi! has nothing linked with Sulake. 
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
-using System.Text.RegularExpressions;
 
 namespace Yupi.Model.Domain.Components
 {
-	public class WallCoordinate
-	{
-		protected int LengthX;
+    public class WallCoordinate
+    {
+        protected int LengthX;
 
-		protected int LengthY;
+        protected int LengthY;
 
-		protected WallSide Side;
+        protected WallSide Side;
 
-		protected int WidthX;
+        protected int WidthX;
 
-		protected int WidthY;
+        protected int WidthY;
 
-		public static void TryParse(string wallPosition, out WallCoordinate coord)
-		{
-			coord = new WallCoordinate ();
-			// TODO Use regex?
-			string[] posD = wallPosition.Split (' ');
+        public static void TryParse(string wallPosition, out WallCoordinate coord)
+        {
+            coord = new WallCoordinate();
+            // TODO Use regex?
+            var posD = wallPosition.Split(' ');
 
-			coord.Side = posD [2] == "l" ? WallSide.Left : WallSide.Right;
+            coord.Side = posD[2] == "l" ? WallSide.Left : WallSide.Right;
 
-			string[] widD = posD [0].Substring (3).Split (',');
+            var widD = posD[0].Substring(3).Split(',');
 
-			int.TryParse (widD [0], out coord.WidthX);
-			int.TryParse (widD [1], out coord.WidthY);
+            int.TryParse(widD[0], out coord.WidthX);
+            int.TryParse(widD[1], out coord.WidthY);
 
-			string[] lenD = posD [1].Substring (2).Split (',');
+            var lenD = posD[1].Substring(2).Split(',');
 
-			int.TryParse (lenD [0], out coord.LengthX);
-			int.TryParse (lenD [1], out coord.LengthY);
-		}
+            int.TryParse(lenD[0], out coord.LengthX);
+            int.TryParse(lenD[1], out coord.LengthY);
+        }
 
-		public override string ToString ()
-		{ 
-			return ":w=" + WidthX + "," + WidthY + " " + "l=" + LengthX + "," + LengthY + " " + (char)Side;
-		}
-	}
+        public override string ToString()
+        {
+            return ":w=" + WidthX + "," + WidthY + " " + "l=" + LengthX + "," + LengthY + " " + (char) Side;
+        }
+    }
 }

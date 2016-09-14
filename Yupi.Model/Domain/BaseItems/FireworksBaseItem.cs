@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class FireworksBaseItem : FloorBaseItem
-	{
-		public FireworksBaseItem ()
-		{
-		}
-	}
+    public class FireworksBaseItem : FloorBaseItem
+    {
+    }
 }
-

@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class WiredConditionFurniHasNotFurniBaseItem : WiredBaseItem
-	{
-		public WiredConditionFurniHasNotFurniBaseItem ()
-		{
-		}
-	}
+    public class WiredConditionFurniHasNotFurniBaseItem : WiredBaseItem
+    {
+    }
 }
-

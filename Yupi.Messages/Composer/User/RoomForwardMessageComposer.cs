@@ -1,18 +1,17 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
+﻿using Yupi.Protocol;
 
 namespace Yupi.Messages.User
 {
-	public class RoomForwardMessageComposer : Yupi.Messages.Contracts.RoomForwardMessageComposer
-	{
-		// TODO Use RoomInfo
-		public override void Compose ( Yupi.Protocol.ISender session, int roomId)
-		{
-			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendInteger (roomId);
-				session.Send (message);
-			}
-		}
-	}
+    public class RoomForwardMessageComposer : Contracts.RoomForwardMessageComposer
+    {
+        // TODO Use RoomInfo
+        public override void Compose(ISender session, int roomId)
+        {
+            using (var message = Pool.GetMessageBuffer(Id))
+            {
+                message.AppendInteger(roomId);
+                session.Send(message);
+            }
+        }
+    }
 }
-

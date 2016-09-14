@@ -1,31 +1,25 @@
-﻿using System;
-
-using Yupi.Protocol.Buffers;
+﻿using System.Globalization;
 using Yupi.Model.Domain;
-using System.Globalization;
+using Yupi.Protocol;
 
 namespace Yupi.Messages.Rooms
 {
-	public class RoomSpacesMessageComposer : Yupi.Messages.Contracts.RoomSpacesMessageComposer
-	{
-		
+    public class RoomSpacesMessageComposer : Contracts.RoomSpacesMessageComposer
+    {
+        public override void Compose(ISender session, RoomSpacesType type, RoomData data)
+        {
+            using (var message = Pool.GetMessageBuffer(Id))
+            {
+                message.AppendString(type.DisplayName);
 
-		public override void Compose ( Yupi.Protocol.ISender session, RoomSpacesMessageComposer.RoomSpacesType type, RoomData data)
-		{
-			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendString(type.DisplayName);
+                if (type == RoomSpacesType.Wallpaper)
+                    message.AppendString(data.WallPaper.ToString(CultureInfo.InvariantCulture));
+                else if (type == RoomSpacesType.Floor)
+                    message.AppendString(data.Floor.ToString(CultureInfo.InvariantCulture));
+                else message.AppendString(data.LandScape.ToString(CultureInfo.InvariantCulture));
 
-				if (type == RoomSpacesType.Wallpaper) {
-					message.AppendString(data.WallPaper.ToString(CultureInfo.InvariantCulture));
-				} else if(type == RoomSpacesType.Floor) {
-					message.AppendString(data.Floor.ToString(CultureInfo.InvariantCulture));
-				} else {
-					message.AppendString(data.LandScape.ToString(CultureInfo.InvariantCulture));
-				}
-
-				session.Send (message);
-			}
-		}
-	}
+                session.Send(message);
+            }
+        }
+    }
 }
-

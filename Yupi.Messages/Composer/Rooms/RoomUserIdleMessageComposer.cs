@@ -1,18 +1,17 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
+﻿using Yupi.Protocol;
 
 namespace Yupi.Messages.Rooms
 {
-	public class RoomUserIdleMessageComposer : Yupi.Messages.Contracts.RoomUserIdleMessageComposer
-	{
-		public override void Compose ( Yupi.Protocol.ISender room, int entityId, bool isAsleep)
-		{
-			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendInteger (entityId);
-				message.AppendBool(isAsleep);
-				room.Send (message);
-			}
-		}
-	}
+    public class RoomUserIdleMessageComposer : Contracts.RoomUserIdleMessageComposer
+    {
+        public override void Compose(ISender room, int entityId, bool isAsleep)
+        {
+            using (var message = Pool.GetMessageBuffer(Id))
+            {
+                message.AppendInteger(entityId);
+                message.AppendBool(isAsleep);
+                room.Send(message);
+            }
+        }
+    }
 }
-

@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class WiredConditionBaseItemsDontMatchBaseItem : WiredBaseItem
-	{
-		public WiredConditionBaseItemsDontMatchBaseItem ()
-		{
-		}
-	}
+    public class WiredConditionBaseItemsDontMatchBaseItem : WiredBaseItem
+    {
+    }
 }
-

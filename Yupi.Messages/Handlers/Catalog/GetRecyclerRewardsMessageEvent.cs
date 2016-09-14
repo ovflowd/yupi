@@ -1,24 +1,24 @@
-﻿using System;
+﻿using System.Linq;
+using Yupi.Model;
 using Yupi.Model.Domain;
 using Yupi.Model.Repository;
-using Yupi.Model;
-using System.Linq;
+using Yupi.Protocol;
+using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Catalog
 {
-	public class GetRecyclerRewardsMessageEvent : AbstractHandler
-	{
-		private IRepository<EcotronLevel> EcotronRepository;
+    public class GetRecyclerRewardsMessageEvent : AbstractHandler
+    {
+        private readonly IRepository<EcotronLevel> EcotronRepository;
 
-		public GetRecyclerRewardsMessageEvent ()
-		{
-			EcotronRepository = DependencyFactory.Resolve<IRepository<EcotronLevel>> ();
-		}
+        public GetRecyclerRewardsMessageEvent()
+        {
+            EcotronRepository = DependencyFactory.Resolve<IRepository<EcotronLevel>>();
+        }
 
-		public override void HandleMessage ( Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message, Yupi.Protocol.IRouter router)
-		{
-			router.GetComposer<RecyclerRewardsMessageComposer> ().Compose (session, EcotronRepository.All ().ToArray ());
-		}
-	}
+        public override void HandleMessage(Habbo session, ClientMessage message, IRouter router)
+        {
+            router.GetComposer<RecyclerRewardsMessageComposer>().Compose(session, EcotronRepository.All().ToArray());
+        }
+    }
 }
-

@@ -1,20 +1,18 @@
-﻿using System;
-
-using Yupi.Protocol.Buffers;
+﻿using Yupi.Messages.Encoders;
 using Yupi.Model.Domain;
-using Yupi.Messages.Encoders;
+using Yupi.Protocol;
 
 namespace Yupi.Messages.Rooms
 {
-	public class RoomChatOptionsMessageComposer : Yupi.Messages.Contracts.RoomChatOptionsMessageComposer
-	{
-		public override void Compose ( Yupi.Protocol.ISender session, RoomData data)
-		{
-			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.Append(data.Chat);
-				session.Send (message);
-			}
-		}
-	}
+    public class RoomChatOptionsMessageComposer : Contracts.RoomChatOptionsMessageComposer
+    {
+        public override void Compose(ISender session, RoomData data)
+        {
+            using (var message = Pool.GetMessageBuffer(Id))
+            {
+                message.Append(data.Chat);
+                session.Send(message);
+            }
+        }
+    }
 }
-

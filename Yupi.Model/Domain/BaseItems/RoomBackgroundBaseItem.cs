@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class RoomBackgroundBaseItem : FloorBaseItem
-	{
-		public RoomBackgroundBaseItem ()
-		{
-		}
-	}
+    public class RoomBackgroundBaseItem : FloorBaseItem
+    {
+    }
 }
-

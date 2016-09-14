@@ -1,10 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class DiceBaseItem : FloorBaseItem
-	{
-		
-	}
+    public class DiceBaseItem : FloorBaseItem
+    {
+    }
 }
-

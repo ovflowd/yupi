@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class WiredActionBotGiveHanditemBaseItem : WiredBaseItem
-	{
-		public WiredActionBotGiveHanditemBaseItem ()
-		{
-		}
-	}
+    public class WiredActionBotGiveHanditemBaseItem : WiredBaseItem
+    {
+    }
 }
-

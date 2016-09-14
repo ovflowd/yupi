@@ -1,69 +1,69 @@
 ﻿using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-using Yupi.Model;
 using Yupi.Controller;
+using Yupi.Model;
+using Yupi.Model.Domain;
 using Yupi.Model.Domain.Components;
+using Yupi.Protocol.Buffers;
 
 namespace Yupi.Messages.Encoders
 {
-	public static class RoomEncoder
-	{
-		public static void Append(this ServerMessage message, RoomData data) {
-			RoomManager manager = DependencyFactory.Resolve<RoomManager> ();
-			Room room = manager.GetIfLoaded (data);
-			message.AppendInteger (data.Id);
-			message.AppendString (data.Name);
-			message.AppendInteger (data.Owner.Id);
-			message.AppendString (data.Owner.Name);
-			message.AppendInteger (data.State.Value);
-			message.AppendInteger (room == null ? 0 : room.GetUserCount());
-			message.AppendInteger (data.UsersMax);
-			message.AppendString (data.Description);
-			message.AppendInteger (data.TradeState.Value);
-			message.AppendInteger (data.Score); // Score
-			message.AppendInteger (data.Score); // Ranking Difference?
-			message.AppendInteger (data.Category.Id);
-			message.AppendInteger (data.Tags.Count);
+    public static class RoomEncoder
+    {
+        public static void Append(this ServerMessage message, RoomData data)
+        {
+            var manager = DependencyFactory.Resolve<RoomManager>();
+            var room = manager.GetIfLoaded(data);
+            message.AppendInteger(data.Id);
+            message.AppendString(data.Name);
+            message.AppendInteger(data.Owner.Id);
+            message.AppendString(data.Owner.Name);
+            message.AppendInteger(data.State.Value);
+            message.AppendInteger(room == null ? 0 : room.GetUserCount());
+            message.AppendInteger(data.UsersMax);
+            message.AppendString(data.Description);
+            message.AppendInteger(data.TradeState.Value);
+            message.AppendInteger(data.Score); // Score
+            message.AppendInteger(data.Score); // Ranking Difference?
+            message.AppendInteger(data.Category.Id);
+            message.AppendInteger(data.Tags.Count);
 
-			foreach (string tag in data.Tags) {
-				message.AppendString (tag);
-			}
+            foreach (var tag in data.Tags) message.AppendString(tag);
 
-			RoomFlags flags = data.GetFlags ();
+            var flags = data.GetFlags();
 
-			message.AppendInteger ((int)flags);
+            message.AppendInteger((int) flags);
 
-			if ((flags & RoomFlags.Image) > 0) {
-				message.AppendString (data.NavigatorImage);
-			}
+            if ((flags & RoomFlags.Image) > 0) message.AppendString(data.NavigatorImage);
 
-			if ((flags & RoomFlags.Group) > 0) {
-				message.AppendInteger (data.Group.Id);
-				message.AppendString (data.Group.Name);
-				message.AppendString (data.Group.Badge);
-			}
+            if ((flags & RoomFlags.Group) > 0)
+            {
+                message.AppendInteger(data.Group.Id);
+                message.AppendString(data.Group.Name);
+                message.AppendString(data.Group.Badge);
+            }
 
-			if ((flags & RoomFlags.Event) > 0) {
-				message.AppendString (data.Event.Name);
-				message.AppendString (data.Event.Description);
-				message.AppendInteger ((int)(data.Event.ExpiresAt - DateTime.Now).TotalMinutes);
-			}
-		}
-	
-		public static void Append(this ServerMessage message, RoomChatSettings chat) {
-			message.AppendInteger(chat.Type.Value);
-			message.AppendInteger(chat.Balloon.Value);
-			message.AppendInteger(chat.Speed.Value);
-			message.AppendInteger(chat.MaxDistance);
-			message.AppendInteger(chat.FloodProtection.Value);
-		}
+            if ((flags & RoomFlags.Event) > 0)
+            {
+                message.AppendString(data.Event.Name);
+                message.AppendString(data.Event.Description);
+                message.AppendInteger((int) (data.Event.ExpiresAt - DateTime.Now).TotalMinutes);
+            }
+        }
 
-		public static void Append(this ServerMessage message, ModerationSettings modSettings) {
-			message.AppendInteger(modSettings.WhoCanMute.Value);
-			message.AppendInteger(modSettings.WhoCanKick.Value);
-			message.AppendInteger(modSettings.WhoCanBan.Value);
-		}
-	}
+        public static void Append(this ServerMessage message, RoomChatSettings chat)
+        {
+            message.AppendInteger(chat.Type.Value);
+            message.AppendInteger(chat.Balloon.Value);
+            message.AppendInteger(chat.Speed.Value);
+            message.AppendInteger(chat.MaxDistance);
+            message.AppendInteger(chat.FloodProtection.Value);
+        }
+
+        public static void Append(this ServerMessage message, ModerationSettings modSettings)
+        {
+            message.AppendInteger(modSettings.WhoCanMute.Value);
+            message.AppendInteger(modSettings.WhoCanKick.Value);
+            message.AppendInteger(modSettings.WhoCanBan.Value);
+        }
+    }
 }
-

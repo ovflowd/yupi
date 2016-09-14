@@ -24,11 +24,11 @@
 
 namespace Yupi.Model.Domain
 {
-     public class UserTalent
+    public class UserTalent
     {
-		public virtual int Id { get; protected set; }
-		public virtual Talent Talent { get; set; }
-		public virtual TalentLevel Level { get; set; }
-		public virtual int State { get; set; }
+        public virtual int Id { get; protected set; }
+        public virtual Talent Talent { get; set; }
+        public virtual TalentLevel Level { get; set; }
+        public virtual int State { get; set; }
     }
 }

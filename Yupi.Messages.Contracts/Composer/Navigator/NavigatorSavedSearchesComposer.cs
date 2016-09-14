@@ -1,14 +1,14 @@
 using System.Collections.Generic;
-using Yupi.Protocol.Buffers;
 using Yupi.Model.Domain;
+using Yupi.Protocol;
 
 namespace Yupi.Messages.Contracts
 {
-	public abstract class NavigatorSavedSearchesComposer : AbstractComposer<IList<UserSearchLog>>
-	{
-		public override void Compose(Yupi.Protocol.ISender session, IList<UserSearchLog> searchLog)
-		{
-		 // Do nothing by default.
-		}
-	}
+    public abstract class NavigatorSavedSearchesComposer : AbstractComposer<IList<UserSearchLog>>
+    {
+        public override void Compose(ISender session, IList<UserSearchLog> searchLog)
+        {
+            // Do nothing by default.
+        }
+    }
 }

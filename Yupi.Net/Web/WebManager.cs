@@ -22,18 +22,12 @@
    This Emulator is Only for DEVELOPMENT uses. If you're selling this you're violating Sulakes Copyright.
 */
 
-using System.IO;
-using System.Net;
-using System.Net.Cache;
-using Newtonsoft.Json;
-using System.Data;
-
 namespace Yupi.Net.Web
 {
-     public static class WebManager
+    public static class WebManager
     {
-		// TODO Implement
-		/*
+        // TODO Implement
+        /*
         /// <summary>
         ///     Does REST GET Request with jSON Return
         /// </summary>

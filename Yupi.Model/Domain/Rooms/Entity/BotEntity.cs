@@ -1,29 +1,22 @@
-﻿using System;
-using Yupi.Model.Domain;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	[Ignore]
-	public class BotEntity : HumanEntity
-	{
-		public BotInfo Info { get; set; }
+    [Ignore]
+    public class BotEntity : HumanEntity
+    {
+        public BotEntity(Room room, int id) : base(room, id)
+        {
+        }
 
-		public override EntityType Type {
-			get {
-				return EntityType.Bot;
-			}
-		}
+        public BotInfo Info { get; set; }
 
-		public override BaseInfo BaseInfo {
-			get {
-				return Info;
-			}
-		}
+        public override EntityType Type
+        {
+            get { return EntityType.Bot; }
+        }
 
-		public BotEntity (Room room, int id) : base(room, id)
-		{
-			
-		}
-	}
+        public override BaseInfo BaseInfo
+        {
+            get { return Info; }
+        }
+    }
 }
-

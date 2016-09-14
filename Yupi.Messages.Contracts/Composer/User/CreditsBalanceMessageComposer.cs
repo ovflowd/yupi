@@ -1,14 +1,11 @@
-﻿using System;
-using Yupi.Model.Domain.Components;
+﻿using Yupi.Protocol;
 
 namespace Yupi.Messages.Contracts
 {
-	public class CreditsBalanceMessageComposer : AbstractComposer<int>
-	{
-		public override void Compose (Yupi.Protocol.ISender session, int credits)
-		{
-			
-		}
-	}
+    public class CreditsBalanceMessageComposer : AbstractComposer<int>
+    {
+        public override void Compose(ISender session, int credits)
+        {
+        }
+    }
 }
-

@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class WiredConditionHowManyUsersInRoomBaseItem : WiredBaseItem
-	{
-		public WiredConditionHowManyUsersInRoomBaseItem ()
-		{
-		}
-	}
+    public class WiredConditionHowManyUsersInRoomBaseItem : WiredBaseItem
+    {
+    }
 }
-

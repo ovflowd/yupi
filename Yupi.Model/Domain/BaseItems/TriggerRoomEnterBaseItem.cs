@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Yupi.Model.Domain
+﻿namespace Yupi.Model.Domain
 {
-	public class TriggerRoomEnterBaseItem : FloorBaseItem
-	{
-		public TriggerRoomEnterBaseItem ()
-		{
-		}
-	}
+    public class TriggerRoomEnterBaseItem : FloorBaseItem
+    {
+    }
 }
-

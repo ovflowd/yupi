@@ -1,18 +1,17 @@
-﻿using System;
-using Yupi.Protocol.Buffers;
+﻿using Yupi.Protocol;
 
 namespace Yupi.Messages.Guides
 {
-	public class OnGuideSessionErrorComposer : Yupi.Messages.Contracts.OnGuideSessionErrorComposer
-	{
-		public override void Compose ( Yupi.Protocol.ISender session)
-		{
-			// TODO Hardcoded message
-			using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
-				message.AppendInteger (0);
-				session.Send (message);
-			}
-		}
-	}
+    public class OnGuideSessionErrorComposer : Contracts.OnGuideSessionErrorComposer
+    {
+        public override void Compose(ISender session)
+        {
+            // TODO Hardcoded message
+            using (var message = Pool.GetMessageBuffer(Id))
+            {
+                message.AppendInteger(0);
+                session.Send(message);
+            }
+        }
+    }
 }
-
