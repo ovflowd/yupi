@@ -44,10 +44,12 @@ namespace Yupi.Model.Domain
         public OnEntityCreate OnEntityCreateCallback;
         public OnHumanEntityCreateT OnHumanEntityCreate;
 
-        // TODO Experiment with the length of the period
         /// <summary>
         /// The period between timer ticks in milliseconds
         /// </summary>
+        /// <remarks>
+        /// 500ms seem to be perfect for walking
+        /// </remarks>
         private const int TICK_PERIOD = 500;
 
         // TODO Can this be implemented better?
@@ -229,7 +231,7 @@ namespace Yupi.Model.Domain
 
             foreach (RoomEntity entity in this.Users)
             {
-                if (entity.HasSteps())
+                if (entity.IsWalking)
                 {
                     entity.NextStep();
                 }

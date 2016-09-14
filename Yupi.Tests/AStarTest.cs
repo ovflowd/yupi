@@ -62,7 +62,7 @@ namespace Yupi.Tests
             Assert.That(nodes, Is.EquivalentTo(new Vector2[]
             {
                 new Vector2(0, 0),
-                new Vector2(-1, 1),
+                new Vector2(1, 1),
                 new Vector2(0, 2)
             }));
         }
@@ -104,7 +104,7 @@ namespace Yupi.Tests
             Assert.That(nodes, Is.EquivalentTo(new Vector2[]
             {
                 new Vector2(0, 0),
-                new Vector2(-1, 1),
+                new Vector2(1, 1),
                 new Vector2(0, 2)
             }));
 
@@ -123,13 +123,13 @@ namespace Yupi.Tests
             return new Vector2[]
             {
                 new Vector2(tile.X - 1, tile.Y),
-                new Vector2(tile.X - 1, tile.Y - 1),
-                new Vector2(tile.X - 1, tile.Y + 1),
+                new Vector2(tile.X, tile.Y + 1),
+                new Vector2(tile.X, tile.Y - 1),
                 new Vector2(tile.X + 1, tile.Y),
                 new Vector2(tile.X + 1, tile.Y - 1),
                 new Vector2(tile.X + 1, tile.Y + 1),
-                new Vector2(tile.X, tile.Y + 1),
-                new Vector2(tile.X, tile.Y - 1),
+                new Vector2(tile.X - 1, tile.Y - 1),
+                new Vector2(tile.X - 1, tile.Y + 1)
             };
         }
 

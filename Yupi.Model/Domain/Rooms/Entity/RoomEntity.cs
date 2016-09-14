@@ -40,6 +40,8 @@ namespace Yupi.Model.Domain
 
         private Queue<Vector2> Steps;
 
+        private Vector3? NextPosition;
+
         #endregion Fields
 
         #region Delegates
@@ -51,56 +53,33 @@ namespace Yupi.Model.Domain
 
         #region Properties
 
-        public abstract BaseInfo BaseInfo
-        {
-            get;
-        }
+        public abstract BaseInfo BaseInfo { get; }
 
-        public bool IsAsleep
-        {
-            get; private set;
-        }
+        public bool IsAsleep { get; private set; }
 
-        public bool NeedsUpdate
-        {
-            get; private set;
-        }
+        public bool NeedsUpdate { get; private set; }
 
-        public OnSleepChange OnSleepChangeCB
-        {
-            get; set;
-        }
+        public OnSleepChange OnSleepChangeCB { get; set; }
 
-        public Vector3 Position
-        {
-            get; private set;
-        }
+        public Vector3 Position { get; private set; }
 
-        public Room Room
-        {
-            get; private set;
-        }
+        public Room Room { get; private set; }
 
-        public int RotBody
-        {
-            get; private set;
-        }
+        public int RotBody { get; private set; }
 
         // TODO Use enum
-        public int RotHead
-        {
-            get; private set;
+        public int RotHead { get; private set; }
+
+        public abstract EntityStatus Status { get; }
+
+        public abstract EntityType Type { get; }
+
+        public bool IsWalking {
+            get {
+                return this.Steps != null;
+            }
         }
 
-        public abstract EntityStatus Status
-        {
-            get;
-        }
-
-        public abstract EntityType Type
-        {
-            get;
-        }
 
         #endregion Properties
 
@@ -123,7 +102,8 @@ namespace Yupi.Model.Domain
             return true;
         }
 
-        public virtual void HandleChatMessage(UserEntity user, Action<Habbo> sendTo)
+        public virtual void HandleChatMessage(UserEntity user,
+                                              Action<Habbo> sendTo)
         {
             // TODO Implement Tent
             // TODO Implement Distance?
@@ -134,37 +114,24 @@ namespace Yupi.Model.Domain
             SetHeadRotation(rotation);
         }
 
-        public bool HasSteps()
-        {
-            return Steps.Count > 0;
-        }
-
         public void NextStep()
         {
-            if (!HasSteps())
+            if (Steps.Count == 0)
             {
-                throw new InvalidOperationException();
+                this.Steps = null;
+                this.Status.SetPosture(StandPosture.Default);
+                return;
             }
 
             Vector2 nextStep = Steps.Dequeue();
 
             // TODO Be consequent about Vector2 vs Vector3!
             Vector3 nextPos = new Vector3(nextStep.X, nextStep.Y,
-                Room.HeightMap.GetTileHeight((int) nextStep.X, (int) nextStep.Y));
+                                  Room.HeightMap.GetTileHeight((int)nextStep.X, (int)nextStep.Y));
 
-            if (HasSteps())
-            {
-                Vector2 move = Steps.Peek();
-                SetRotation(nextPos.ToVector2().CalculateRotation(move));
-                Status.SetPosture(
-                    new WalkPosture(new Vector3(move.X, move.Y, Room.HeightMap.GetTileHeight((int) move.X, (int) move.Y))));
-            }
-            else
-            {
-                Status.SetPosture(StandPosture.Default);
-            }
-
-            SetPosition(nextPos);
+            this.SetRotation(Position.CalculateRotation(nextPos));
+            this.Status.SetPosture(new WalkPosture(nextPos));
+            this.NextPosition = nextPos;
         }
 
         public virtual void OnRoomExit()
@@ -180,7 +147,7 @@ namespace Yupi.Model.Domain
             }
 
             int delta = this.RotBody - rotation;
-            this.RotHead = (this.RotBody - Math.Sign(delta))%8;
+            this.RotHead = (this.RotBody - Math.Sign(delta)) % 8;
             ScheduleUpdate();
         }
 
@@ -223,6 +190,8 @@ namespace Yupi.Model.Domain
         public void Walk(Vector2 target)
         {
             this.Steps = new Queue<Vector2>(Room.Pathfinder.Find(this.Position.ToVector2(), target));
+            // Remove start tile (not an actual step)
+            this.Steps.Dequeue();
         }
 
         internal void ScheduleUpdate()
@@ -234,6 +203,11 @@ namespace Yupi.Model.Domain
         {
             NeedsUpdate = false;
             Status.OnUpdateComplete();
+
+            if (NextPosition.HasValue)
+            {
+                this.Position = NextPosition.Value;
+            }
         }
 
         #endregion Methods

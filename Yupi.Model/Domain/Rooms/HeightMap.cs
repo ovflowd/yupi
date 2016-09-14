@@ -125,28 +125,19 @@ namespace Yupi.Model.Domain
             return sb.ToString();
         }
 
-        public List<Vector2> GetNeighbours(Vector2 position)
+        public Vector2[] GetNeighbours(Vector2 tile)
         {
-            List<Vector2> neighbours = new List<Vector2>(8);
-            for (int x = -1; x <= 1; ++x)
+            return new Vector2[]
             {
-                for (int y = -1; y <= 1; ++y)
-                {
-                    if (y == 0 && x == 0)
-                    {
-                        continue;
-                    }
-
-                    Vector2 neighbour = position + new Vector2(x, y);
-
-                    if (IsValidTile(neighbour))
-                    {
-                        neighbours.Add(neighbour);
-                    }
-                }
-            }
-
-            return neighbours;
+                new Vector2(tile.X - 1, tile.Y),
+                new Vector2(tile.X, tile.Y + 1),
+                new Vector2(tile.X, tile.Y - 1),
+                new Vector2(tile.X + 1, tile.Y),
+                new Vector2(tile.X + 1, tile.Y - 1),
+                new Vector2(tile.X + 1, tile.Y + 1),
+                new Vector2(tile.X - 1, tile.Y - 1),
+                new Vector2(tile.X - 1, tile.Y + 1)
+            };
         }
 
         /// <summary>
@@ -182,8 +173,7 @@ namespace Yupi.Model.Domain
 
         public bool IsWalkable(Vector2 position)
         {
-            // TODO Implement properly
-            return GetTileHeight(position) >= 0;
+            return IsValidTile(position) && GetTileHeight(position) >= 0;
         }
 
         public override string ToString()
