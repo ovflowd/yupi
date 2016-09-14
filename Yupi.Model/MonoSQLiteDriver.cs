@@ -4,18 +4,6 @@
 
     public class MonoSQLiteDriver : NHibernate.Driver.ReflectionBasedDriver
     {
-        #region Constructors
-
-        public MonoSQLiteDriver()
-            : base("Mono.Data.Sqlite",
-                "Mono.Data.Sqlite",
-                "Mono.Data.Sqlite.SqliteConnection",
-                "Mono.Data.Sqlite.SqliteCommand")
-        {
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public override string NamedPrefix
@@ -39,5 +27,17 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public MonoSQLiteDriver()
+            : base("Mono.Data.Sqlite",
+                "Mono.Data.Sqlite",
+                "Mono.Data.Sqlite.SqliteConnection",
+                "Mono.Data.Sqlite.SqliteCommand")
+        {
+        }
+
+        #endregion Constructors
     }
 }

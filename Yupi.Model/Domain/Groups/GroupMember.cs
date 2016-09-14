@@ -6,6 +6,20 @@
 
     public class GroupMember
     {
+        #region Properties
+
+        public virtual int Id
+        {
+            get; protected set;
+        }
+
+        public virtual UserInfo User
+        {
+            get; protected set;
+        }
+
+        #endregion Properties
+
         #region Constructors
 
         public GroupMember(UserInfo user)
@@ -20,19 +34,5 @@
         }
 
         #endregion Constructors
-
-        #region Properties
-
-        public virtual int Id
-        {
-            get; protected set;
-        }
-
-        public virtual UserInfo User
-        {
-            get; protected set;
-        }
-
-        #endregion Properties
     }
 }

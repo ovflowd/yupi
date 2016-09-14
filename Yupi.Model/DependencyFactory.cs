@@ -19,6 +19,21 @@
 
         #endregion Fields
 
+        #region Properties
+
+        /// <summary>
+        /// Public reference to the unity container which will 
+        /// allow the ability to register instrances or take 
+        /// other actions on the container.
+        /// </summary>
+        public static IUnityContainer Container
+        {
+            get { return _container; }
+            private set { _container = value; }
+        }
+
+        #endregion Properties
+
         #region Constructors
 
         /// <summary>
@@ -38,21 +53,6 @@
         }
 
         #endregion Constructors
-
-        #region Properties
-
-        /// <summary>
-        /// Public reference to the unity container which will 
-        /// allow the ability to register instrances or take 
-        /// other actions on the container.
-        /// </summary>
-        public static IUnityContainer Container
-        {
-            get { return _container; }
-            private set { _container = value; }
-        }
-
-        #endregion Properties
 
         #region Methods
 

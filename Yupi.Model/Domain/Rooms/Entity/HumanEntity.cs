@@ -11,17 +11,6 @@
 
         #endregion Fields
 
-        #region Constructors
-
-        public HumanEntity(Room room, int id)
-            : base(room, id)
-        {
-            HumanStatus = new HumanStatus(this);
-            this.Dance = Dance.None;
-        }
-
-        #endregion Constructors
-
         #region Delegates
 
         [Ignore]
@@ -47,6 +36,17 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public HumanEntity(Room room, int id)
+            : base(room, id)
+        {
+            HumanStatus = new HumanStatus(this);
+            this.Dance = Dance.None;
+        }
+
+        #endregion Constructors
 
         #region Methods
 

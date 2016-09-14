@@ -33,16 +33,6 @@ namespace Yupi.Model.Domain
 
     public class GroupForumPost
     {
-        #region Constructors
-
-        public GroupForumPost()
-        {
-            Hidden = false;
-            Timestamp = DateTime.Now;
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public virtual string Content
@@ -81,5 +71,15 @@ namespace Yupi.Model.Domain
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public GroupForumPost()
+        {
+            Hidden = false;
+            Timestamp = DateTime.Now;
+        }
+
+        #endregion Constructors
     }
 }

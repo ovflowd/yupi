@@ -4,15 +4,6 @@
 
     public class DimmerItem : WallItem<DimmerBaseItem>
     {
-        #region Constructors
-
-        public DimmerItem()
-        {
-            Data = new MoodlightData();
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public virtual MoodlightData Data
@@ -21,5 +12,14 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public DimmerItem()
+        {
+            Data = new MoodlightData();
+        }
+
+        #endregion Constructors
     }
 }

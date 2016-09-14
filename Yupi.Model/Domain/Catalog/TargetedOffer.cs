@@ -5,16 +5,6 @@
 
     public class TargetedOffer : CatalogItem
     {
-        #region Constructors
-
-        public TargetedOffer()
-        {
-            Products = new List<BaseItem>();
-            Icon = string.Empty;
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public virtual string Description
@@ -53,6 +43,16 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public TargetedOffer()
+        {
+            Products = new List<BaseItem>();
+            Icon = string.Empty;
+        }
+
+        #endregion Constructors
 
         #region Methods
 

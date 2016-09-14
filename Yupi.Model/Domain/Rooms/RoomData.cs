@@ -39,34 +39,6 @@ namespace Yupi.Model.Domain
 
     public class RoomData
     {
-        #region Constructors
-
-        public RoomData()
-        {
-            // TODO Should be removed...
-            Name = "Unknown Room";
-            Description = string.Empty;
-            Type = "private";
-            Tags = new List<string>();
-            AllowPets = true;
-            AllowPetsEating = false;
-            AllowWalkThrough = true;
-            HideWall = false;
-            AllowRightsOverride = false;
-            TradeState = TradingState.NotAllowed;
-            WordFilter = new List<string>();
-            Rights = new List<UserInfo>();
-            MutedEntities = new List<RoomMute>();
-            Chat = new RoomChatSettings();
-            BannedUsers = new List<UserInfo>();
-            WallHeight = -1;
-            Chatlog = new List<ChatMessage>();
-            ModerationSettings = new ModerationSettings(this);
-            State = RoomState.Open;
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         /// <summary>
@@ -318,6 +290,34 @@ namespace Yupi.Model.Domain
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public RoomData()
+        {
+            // TODO Should be removed...
+            Name = "Unknown Room";
+            Description = string.Empty;
+            Type = "private";
+            Tags = new List<string>();
+            AllowPets = true;
+            AllowPetsEating = false;
+            AllowWalkThrough = true;
+            HideWall = false;
+            AllowRightsOverride = false;
+            TradeState = TradingState.NotAllowed;
+            WordFilter = new List<string>();
+            Rights = new List<UserInfo>();
+            MutedEntities = new List<RoomMute>();
+            Chat = new RoomChatSettings();
+            BannedUsers = new List<UserInfo>();
+            WallHeight = -1;
+            Chatlog = new List<ChatMessage>();
+            ModerationSettings = new ModerationSettings(this);
+            State = RoomState.Open;
+        }
+
+        #endregion Constructors
 
         #region Methods
 

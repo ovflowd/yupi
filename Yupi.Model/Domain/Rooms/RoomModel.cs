@@ -311,15 +311,6 @@
 
         #endregion Fields
 
-        #region Constructors
-
-        private RoomModel(int value, string displayName)
-            : base(value, displayName)
-        {
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public bool ClubOnly
@@ -344,5 +335,14 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        private RoomModel(int value, string displayName)
+            : base(value, displayName)
+        {
+        }
+
+        #endregion Constructors
     }
 }

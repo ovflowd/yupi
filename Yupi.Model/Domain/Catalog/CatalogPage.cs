@@ -6,16 +6,6 @@
 
     public class CatalogPage
     {
-        #region Constructors
-
-        public CatalogPage()
-        {
-            Items = new List<CatalogItem>();
-            Children = new List<CatalogPage>();
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public virtual string Caption
@@ -135,5 +125,15 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public CatalogPage()
+        {
+            Items = new List<CatalogItem>();
+            Children = new List<CatalogPage>();
+        }
+
+        #endregion Constructors
     }
 }

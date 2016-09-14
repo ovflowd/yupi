@@ -4,15 +4,6 @@
 
     public class PetItem : Item
     {
-        #region Constructors
-
-        public PetItem()
-        {
-            Info = new PetInfo();
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public virtual PetBaseItem BaseItem
@@ -26,6 +17,15 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public PetItem()
+        {
+            Info = new PetInfo();
+        }
+
+        #endregion Constructors
 
         #region Methods
 

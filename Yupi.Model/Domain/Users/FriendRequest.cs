@@ -4,21 +4,6 @@
 
     public class FriendRequest
     {
-        #region Constructors
-
-        public FriendRequest(UserInfo from, UserInfo to)
-        {
-            From = from;
-            To = to;
-        }
-
-        protected FriendRequest()
-        {
-            // For NHIbernate
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public virtual UserInfo From
@@ -37,5 +22,20 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public FriendRequest(UserInfo from, UserInfo to)
+        {
+            From = from;
+            To = to;
+        }
+
+        protected FriendRequest()
+        {
+            // For NHIbernate
+        }
+
+        #endregion Constructors
     }
 }

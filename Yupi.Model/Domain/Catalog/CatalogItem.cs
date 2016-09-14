@@ -9,15 +9,6 @@
 
     public class CatalogItem
     {
-        #region Constructors
-
-        public CatalogItem()
-        {
-            BaseItems = new Dictionary<BaseItem, int>();
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public virtual bool AllowGift
@@ -77,6 +68,15 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public CatalogItem()
+        {
+            BaseItems = new Dictionary<BaseItem, int>();
+        }
+
+        #endregion Constructors
 
         #region Methods
 

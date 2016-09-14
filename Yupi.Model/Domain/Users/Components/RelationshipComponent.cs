@@ -8,17 +8,6 @@
 
     public class RelationshipComponent
     {
-        #region Constructors
-
-        public RelationshipComponent()
-        {
-            Relationships = new List<Relationship>();
-            SentRequests = new List<FriendRequest>();
-            ReceivedRequests = new List<FriendRequest>();
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public virtual IList<FriendRequest> ReceivedRequests
@@ -39,6 +28,17 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public RelationshipComponent()
+        {
+            Relationships = new List<Relationship>();
+            SentRequests = new List<FriendRequest>();
+            ReceivedRequests = new List<FriendRequest>();
+        }
+
+        #endregion Constructors
 
         #region Methods
 

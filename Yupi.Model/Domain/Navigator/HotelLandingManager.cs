@@ -37,19 +37,6 @@ namespace Yupi.Model.Domain
     /// </summary>
     public class HotelLandingManager
     {
-        #region Constructors
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="HotelLandingManager" /> class.
-        /// </summary>
-        public HotelLandingManager()
-        {
-            HotelViewPromosIndexers = new List<HotelLandingPromos>();
-            HotelViewBadges = new Dictionary<string, string>();
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         /// <summary>
@@ -80,5 +67,18 @@ namespace Yupi.Model.Domain
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="HotelLandingManager" /> class.
+        /// </summary>
+        public HotelLandingManager()
+        {
+            HotelViewPromosIndexers = new List<HotelLandingPromos>();
+            HotelViewBadges = new Dictionary<string, string>();
+        }
+
+        #endregion Constructors
     }
 }

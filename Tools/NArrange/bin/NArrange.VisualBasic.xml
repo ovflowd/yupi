@@ -1,0 +1,958 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NArrange.VisualBasic</name>
+    </assembly>
+    <members>
+        <member name="T:NArrange.VisualBasic.VBWriteVisitor">
+            <summary>
+            Visits a tree of code elements for writing VB code. 
+            </summary>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBWriteVisitor.#ctor(System.IO.TextWriter,NArrange.Core.Configuration.CodeConfiguration)">
+            <summary>
+            Creates a new VBWriteVisitor.
+            </summary>
+            <param name="writer">Text writer.</param>
+            <param name="configuration">Code configuration.</param>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBWriteVisitor.VisitAttributeElement(NArrange.Core.CodeElements.AttributeElement)">
+            <summary>
+            Processes an attribute element.
+            </summary>
+            <param name="element">Attribute code element.</param>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBWriteVisitor.VisitCommentElement(NArrange.Core.CodeElements.CommentElement)">
+            <summary>
+            Writes a comment line.
+            </summary>
+            <param name="comment">The comment.</param>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBWriteVisitor.VisitConditionDirectiveElement(NArrange.Core.CodeElements.ConditionDirectiveElement)">
+            <summary>
+            Writes a condition directive element.
+            </summary>
+            <param name="element">Condition directive code element.</param>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBWriteVisitor.VisitConstructorElement(NArrange.Core.CodeElements.ConstructorElement)">
+            <summary>
+            Processes a constructor element.
+            </summary>
+            <param name="element">Constructor code element.</param>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBWriteVisitor.VisitDelegateElement(NArrange.Core.CodeElements.DelegateElement)">
+            <summary>
+            Processes a delegate element.
+            </summary>
+            <param name="element">Delegate code element.</param>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBWriteVisitor.VisitEventElement(NArrange.Core.CodeElements.EventElement)">
+            <summary>
+            Processes an event element.
+            </summary>
+            <param name="element">Event code element.</param>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBWriteVisitor.VisitFieldElement(NArrange.Core.CodeElements.FieldElement)">
+            <summary>
+            Processes a field element.
+            </summary>
+            <param name="element">Field code element.</param>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBWriteVisitor.VisitMethodElement(NArrange.Core.CodeElements.MethodElement)">
+            <summary>
+            Processes a method element.
+            </summary>
+            <param name="element">Method code element.</param>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBWriteVisitor.VisitNamespaceElement(NArrange.Core.CodeElements.NamespaceElement)">
+            <summary>
+            Processes a namespace element.
+            </summary>
+            <param name="element">Namespace code element.</param>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBWriteVisitor.VisitPropertyElement(NArrange.Core.CodeElements.PropertyElement)">
+            <summary>
+            Processes a property element.
+            </summary>
+            <param name="element">Property code element.</param>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBWriteVisitor.VisitTypeElement(NArrange.Core.CodeElements.TypeElement)">
+            <summary>
+            Processes a type element.
+            </summary>
+            <param name="element">Type code element.</param>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBWriteVisitor.VisitUsingElement(NArrange.Core.CodeElements.UsingElement)">
+            <summary>
+            Processes a using element.
+            </summary>
+            <param name="element">Using/Import directive code element.</param>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBWriteVisitor.WriteBlockChildren(NArrange.Core.CodeElements.ICodeElement)">
+            <summary>
+            Writes children for a block element.
+            </summary>
+            <param name="element">Block code element.</param>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBWriteVisitor.WriteRegionBeginDirective(NArrange.Core.CodeElements.RegionElement)">
+            <summary>
+            Writes a starting region directive.
+            </summary>
+            <param name="element">Region element.</param>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBWriteVisitor.WriteRegionEndDirective(NArrange.Core.CodeElements.RegionElement)">
+            <summary>
+            Writes an ending region directive.
+            </summary>
+            <param name="element">Region element.</param>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBWriteVisitor.GetTypeParent(NArrange.Core.CodeElements.ICodeElement)">
+            <summary>
+            Gets the type parent.
+            </summary>
+            <param name="element">The element.</param>
+            <returns>The Type parent.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBWriteVisitor.WriteAccess(NArrange.Core.CodeAccess)">
+            <summary>
+            Writes the member or type access.
+            </summary>
+            <param name="codeAccess">The code access.</param>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBWriteVisitor.WriteAttributes(NArrange.Core.CodeElements.AttributedElement)">
+            <summary>
+            Writes a collection of element attributes.
+            </summary>
+            <param name="element">The element.</param>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBWriteVisitor.WriteBeginBlock">
+            <summary>
+            Writes the begin block.
+            </summary>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBWriteVisitor.WriteBody(NArrange.Core.CodeElements.TextCodeElement)">
+            <summary>
+            Writes the code element body text.
+            </summary>
+            <param name="element">The element.</param>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBWriteVisitor.WriteEndBlock(NArrange.Core.CodeElements.CodeElement)">
+            <summary>
+            Writes the end block for an element.
+            </summary>
+            <param name="codeElement">The code element.</param>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBWriteVisitor.WriteImplements(System.Collections.ObjectModel.ReadOnlyCollection{NArrange.Core.CodeElements.InterfaceReference})">
+            <summary>
+            Writes implements clauses.
+            </summary>
+            <param name="interfaceReferences">The interface references.</param>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBWriteVisitor.WriteMemberAttributes(NArrange.Core.MemberModifiers,System.Boolean)">
+            <summary>
+            Writes the member attributes.
+            </summary>
+            <param name="memberAttributes">The member attributes.</param>
+            <param name="overloads">Whether or not the member is overloaded.</param>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBWriteVisitor.WriteMethodType(System.String)">
+            <summary>
+            Writes the type of the method.
+            </summary>
+            <param name="returnType">The method return type.</param>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBWriteVisitor.WriteParameterList(System.String)">
+            <summary>
+            Writes the parameter list.
+            </summary>
+            <param name="paramList">The param list.</param>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBWriteVisitor.WriteReturnType(System.String)">
+            <summary>
+            Writes a member return type.
+            </summary>
+            <param name="returnType">The member return type.</param>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBWriteVisitor.WriteTypeParameterConstraints(NArrange.Core.CodeElements.TypeParameter)">
+            <summary>
+            Writes the type parameter constraints.
+            </summary>
+            <param name="typeParameter">The type parameter.</param>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBWriteVisitor.WriteTypeParameters(NArrange.Core.CodeElements.IGenericElement)">
+            <summary>
+            Writes the type parameters.
+            </summary>
+            <param name="genericElement">The generic element.</param>
+        </member>
+        <member name="T:NArrange.VisualBasic.VBWriter">
+            <summary>
+            Writes VB code elements to a file.
+            </summary>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBWriter.DoWriteElements(System.Collections.ObjectModel.ReadOnlyCollection{NArrange.Core.CodeElements.ICodeElement},System.IO.TextWriter)">
+            <summary>
+            Writes code elements to the specified writer.
+            </summary>
+            <param name="codeElements">The collection of elements to write.</param>
+            <param name="writer">Writer to write to.</param>
+        </member>
+        <member name="T:NArrange.VisualBasic.VBExtendedProperties">
+            <summary>
+            Extended property names.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBExtendedProperties.AccessModifier">
+            <summary>
+            AccessModifier extended property 
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBExtendedProperties.Default">
+            <summary>
+            Default extended property.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBExtendedProperties.Dim">
+            <summary>
+            Dim extended property.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBExtendedProperties.ExternalAlias">
+            <summary>
+            ExternalAlias extended property 
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBExtendedProperties.ExternalLibrary">
+            <summary>
+            ExternalLibrary extended property 
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBExtendedProperties.ExternalModifier">
+            <summary>
+            ExternalModifier extended property 
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBExtendedProperties.Handles">
+            <summary>
+            Handles extended property.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBExtendedProperties.Option">
+            <summary>
+            Option extended property.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBExtendedProperties.Overloads">
+            <summary>
+            Overloads extended property.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBExtendedProperties.WithEvents">
+            <summary>
+            WithEvents extended property.
+            </summary>
+        </member>
+        <member name="T:NArrange.VisualBasic.VBKeyword">
+            <summary>
+            Visual Basic keyword constants.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Alias">
+            <summary>
+            "Alias" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Ansi">
+            <summary>
+            "Ansi" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.As">
+            <summary>
+            "As" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Auto">
+            <summary>
+            "Auto" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Begin">
+            <summary>
+            "Begin" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Class">
+            <summary>
+            "Class" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Constant">
+            <summary>
+            "Const" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Custom">
+            <summary>
+            "Custom" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Declare">
+            <summary>
+            "Declare" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Default">
+            <summary>
+            "Default" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Delegate">
+            <summary>
+            "Delegate" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Dim">
+            <summary>
+            "Dim" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Else">
+            <summary>
+            "Else" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.ElseIf">
+            <summary>
+            "ElseIf" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.End">
+            <summary>
+            "End" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Enumeration">
+            <summary>
+            "Enum" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Event">
+            <summary>
+            "Event" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Friend">
+            <summary>
+            "Friend" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Function">
+            <summary>
+            "Function" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Handles">
+            <summary>
+            "Handles" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.If">
+            <summary>
+            "If" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Implements">
+            <summary>
+            "Implements" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Imports">
+            <summary>
+            "Imports" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Inherits">
+            <summary>
+            "Inherits" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Interface">
+            <summary>
+            "Interface" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Lib">
+            <summary>
+            "Lib" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Module">
+            <summary>
+            "Module" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.MustInherit">
+            <summary>
+            "MustInherit" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.MustOverride">
+            <summary>
+            "MustOverride" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Namespace">
+            <summary>
+            "Namespace" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Narrowing">
+            <summary>
+            "Narrowing" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.New">
+            <summary>
+            "New" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.NotInheritable">
+            <summary>
+            "NotInheritable" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.NotOverridable">
+            <summary>
+            "NotOverridable" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Of">
+            <summary>
+            "Of" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Operator">
+            <summary>
+            "Operator" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Option">
+            <summary>
+            "Option" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Overloads">
+            <summary>
+            "Overloads" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Overridable">
+            <summary>
+            "Overridable" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Overrides">
+            <summary>
+            "Overrides" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Partial">
+            <summary>
+            "Partial" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Private">
+            <summary>
+            "Private" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Property">
+            <summary>
+            "Property" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Protected">
+            <summary>
+            "Protected" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Public">
+            <summary>
+            "Public" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.ReadOnly">
+            <summary>
+            "ReadOnly" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.ReadWrite">
+            <summary>
+            "ReadWrite" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Region">
+            <summary>
+            "Region" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Rem">
+            <summary>
+            REM (line comment)
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Shadows">
+            <summary>
+            "Shadows" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Shared">
+            <summary>
+            "Shared" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Structure">
+            <summary>
+            "Structure" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Sub">
+            <summary>
+            "Sub" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Unicode">
+            <summary>
+            "Unicode" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.Widening">
+            <summary>
+            "Widening" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.WithEvents">
+            <summary>
+            "WithEvents" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword.WriteOnly">
+            <summary>
+            "WriteOnly" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBKeyword._specialNormalizedKeywords">
+            <summary>
+            A collection of keywords that have specialized normalization rules.
+            </summary>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBKeyword.IsVBKeyword(System.String)">
+            <summary>
+            Determines whether or not the specifed word is a VB keyword.
+            </summary>
+            <param name="word">The word to test.</param>
+            <returns>Whether or not the word is a VB keyword.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBKeyword.Normalize(System.String)">
+            <summary>
+            Normalizes a keyword for standard casing.
+            </summary>
+            <param name="keyword">VB keyword.</param>
+            <returns>The normalized keyword.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBKeyword.CreateNormalizedKeywordDictionary">
+            <summary>
+            Creates a dictionary of special cases when normalizing keywords.
+            </summary>
+            <returns>Normalized keyword dictionary.</returns>
+        </member>
+        <member name="T:NArrange.VisualBasic.VBSymbol">
+            <summary>
+            Visual Basic character constants.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBSymbol.AliasSeparator">
+            <summary>
+            Alias separator symbol.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBSymbol.Assignment">
+            <summary>
+            Assignment symbol.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBSymbol.BeginAttribute">
+            <summary>
+            Beginning of attribute symbol.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBSymbol.BeginComment">
+            <summary>
+            Beginning of comment symbol.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBSymbol.BeginParameterList">
+            <summary>
+            Beginning of parameter list symbol.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBSymbol.BeginString">
+            <summary>
+            Beginning of string symbol.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBSymbol.BeginTypeConstraintList">
+            <summary>
+            Begin type constraint list symbol.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBSymbol.EndAttribute">
+            <summary>
+            End of attribute symbol.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBSymbol.EndParameterList">
+            <summary>
+            End of parameter list symbol.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBSymbol.EndTypeConstraintList">
+            <summary>
+            End type constraint list symbol.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBSymbol.LineContinuation">
+            <summary>
+            Line continuation symbol.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBSymbol.LineDelimiter">
+            <summary>
+            Line delimiter symbol.
+            </summary>
+        </member>
+        <member name="F:NArrange.VisualBasic.VBSymbol.Preprocessor">
+            <summary>
+            Preprocessor symbol.
+            </summary>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBSymbol.IsVBSymbol(System.Char)">
+            <summary>
+            Determines if the specified char is a Visual Basic symbol character.
+            </summary>
+            <param name="character">The character.</param>
+            <returns>Whether or not the character is a VB symbol.</returns>
+        </member>
+        <member name="T:NArrange.VisualBasic.VBParser">
+            <summary>
+            NArrange Visual Basic parser implementation.
+            </summary>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.DoParseElements">
+            <summary>
+            Parses elements from the current point in the stream.
+            </summary>
+            <returns>A list of parsed code elements.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.CreateConstructor(NArrange.Core.CodeElements.MethodElement)">
+            <summary>
+            Creates a constructor from a method element.
+            </summary>
+            <param name="methodElement">The method element.</param>
+            <returns>A constructor element.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.GetAccess(System.Collections.Specialized.StringCollection)">
+            <summary>
+            Gets the member or type access.
+            </summary>
+            <param name="wordList">The word list.</param>
+            <returns>Member or type access.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.GetElementType(System.Collections.Specialized.StringCollection,NArrange.Core.ElementType@,System.Nullable{NArrange.Core.TypeElementType}@)">
+            <summary>
+            Gets the type of the element.
+            </summary>
+            <param name="wordList">The word list.</param>
+            <param name="elementType">Type of the element.</param>
+            <param name="typeElementType">Type of the type element.</param>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.GetMemberAttributes(System.Collections.Specialized.StringCollection)">
+            <summary>
+            Gets the member attributes.
+            </summary>
+            <param name="wordList">The word list.</param>
+            <returns>Member attributes.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.GetOperatorType(System.Collections.Specialized.StringCollection)">
+            <summary>
+            Gets the type of the operator.
+            </summary>
+            <param name="wordList">The word list.</param>
+            <returns>Operator type.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.IsAliasBreak(System.Char)">
+            <summary>
+            Determines whether or not the specified char is a VB special character
+            that signals a break in an alias.
+            </summary>
+            <param name="ch">Character to test.</param>
+            <returns>Whether or not the character signifies an alias break.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.PushComments(System.Collections.Generic.List{NArrange.Core.CodeElements.ICodeElement},System.Collections.Generic.List{NArrange.Core.CodeElements.ICommentElement})">
+            <summary>
+            Pushes the comments to code elements list.
+            </summary>
+            <param name="codeElements">The code elements.</param>
+            <param name="comments">The comments.</param>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.CaptureTypeName(System.Boolean)">
+            <summary>
+            Captures an type name alias from the stream.
+            </summary>
+            <param name="captureGeneric">Whether or not generic symbols should be captured.</param>
+            <returns>Type name.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.CaptureTypeName">
+            <summary>
+            Captures an type name alias from the stream.
+            </summary>
+            <returns>The type name.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.CaptureWord(System.Boolean)">
+            <summary>
+            Captures an alias or keyword from the stream.
+            </summary>
+            <param name="captureGeneric">Whether or not generic symbols should be parsed.</param>
+            <returns>Captured word.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.CaptureWord">
+            <summary>
+            Captures an alias or keyword from the stream.
+            </summary>
+            <returns>The captured word.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.EatLineContinuation">
+            <summary>
+            Eats a line continuation char(s).
+            </summary>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.EatLineContinuation(System.Text.StringBuilder)">
+            <summary>
+            Eats a line continuations capturing the text into the specified
+            string builder.
+            </summary>
+            <param name="builder">The string builder.</param>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.EatWord(System.String)">
+            <summary>
+            Eats a word.
+            </summary>
+            <param name="word">The word to eat.</param>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.EatWord(System.String,System.String)">
+            <summary>
+            Eats a specific word.
+            </summary>
+            <param name="word">The word to eat.</param>
+            <param name="message">The message if the word is not parsed.</param>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.ParseAttribute(System.Collections.ObjectModel.ReadOnlyCollection{NArrange.Core.CodeElements.ICommentElement})">
+            <summary>
+            Parses an attribute.
+            </summary>
+            <param name="comments">Comments to add.</param>
+            <returns>An attribute code element.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.ParseAttribute(System.Collections.ObjectModel.ReadOnlyCollection{NArrange.Core.CodeElements.ICommentElement},System.Boolean)">
+            <summary>
+            Parses an attribute.
+            </summary>
+            <param name="comments">The comments.</param>
+            <param name="nested">Whether or not the attribute is nested/chained.</param>
+            <returns>An attribute code element.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.ParseBlock(System.String)">
+            <summary>
+            Parses a block.
+            </summary>
+            <param name="blockName">Name of the block.</param>
+            <returns>Block text.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.ParseCommentLine">
+            <summary>
+            Parses a comment line.
+            </summary>
+            <returns>Comment element.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.ParseConditionDirective(System.String,System.Boolean@)">
+            <summary>
+            Parses a condition directive.
+            </summary>
+            <param name="line">The line to process.</param>
+            <param name="isIf">Whether or not the directive is an if condition.</param>
+            <returns>Condition directive code element.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.ParseDelegate(NArrange.Core.CodeAccess,NArrange.Core.MemberModifiers)">
+            <summary>
+            Parses a delegate.
+            </summary>
+            <param name="access">The member access.</param>
+            <param name="memberAttributes">The member attributes.</param>
+            <returns>Delegate code element.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.ParseElements(NArrange.Core.CodeElements.ICodeElement)">
+            <summary>
+            Parses elements from the current point in the stream.
+            </summary>
+            <param name="parentElement">Parent element</param>
+            <returns>A list of parsed code elements.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.ParseEvent(NArrange.Core.CodeAccess,NArrange.Core.MemberModifiers,System.Boolean)">
+            <summary>
+            Parses an event.
+            </summary>
+            <param name="access">The event access.</param>
+            <param name="memberAttributes">The member attributes.</param>
+            <param name="isCustom">Whether or not the event is custom.</param>
+            <returns>An event code element.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.ParseField(System.Collections.Specialized.StringCollection,NArrange.Core.CodeAccess,NArrange.Core.MemberModifiers,System.Boolean)">
+            <summary>
+            Parses a field.
+            </summary>
+            <param name="wordList">The word list.</param>
+            <param name="access">The field access.</param>
+            <param name="memberAttributes">The member attributes.</param>
+            <param name="untypedAssignment">Whether or not the field is untyped.</param>
+            <returns>A field code element.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.ParseImport">
+            <summary>
+            Parses an import directive.
+            </summary>
+            <returns>Using directive code element.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.ParseInitialValue">
+            <summary>
+            Parses an initial value, such as for a field.
+            </summary>
+            <returns>Initial value text.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.ParseMethod(NArrange.Core.CodeAccess,NArrange.Core.MemberModifiers,System.Boolean,System.Boolean,System.Boolean,NArrange.Core.OperatorType,System.Boolean,System.Boolean,System.String)">
+            <summary>
+            Parses a method.
+            </summary>
+            <param name="access">The member access.</param>
+            <param name="memberAttributes">The member attributes.</param>
+            <param name="isFunction">Whether or not the method is a function.</param>
+            <param name="isDelegate">Whether or not the method is a delegate.</param>
+            <param name="isOperator">Whether or not the method is an operator.</param>
+            <param name="operatorType">Type of the operator.</param>
+            <param name="inInterface">Whether or not the method is in an interface.</param>
+            <param name="isExternal">Whether or not the method is external.</param>
+            <param name="externalModifier">The external modifier.</param>
+            <returns>A method element.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.ParseNamespace">
+            <summary>
+            Parses a namespace definition.
+            </summary>
+            <returns>A namespace code element.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.ParseNestedText(System.Char,System.Char,System.Boolean,System.Boolean)">
+            <summary>
+            Parses nested text.
+            </summary>
+            <param name="beginChar">The begin char.</param>
+            <param name="endChar">The end char.</param>
+            <param name="beginExpected">Whether or not the begin char is expected.</param>
+            <param name="trim">Whether or not the text should be trimmed.</param>
+            <returns>The parsed nested text.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.ParseOption(System.Collections.ObjectModel.ReadOnlyCollection{NArrange.Core.CodeElements.ICommentElement})">
+            <summary>
+            Parses a VB Option directive from comments.
+            </summary>
+            <param name="comments">Comments to analyze.</param>
+            <returns>The code element.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.ParseParams">
+            <summary>
+            Parses a parameter list to a comma-separated string.
+            </summary>
+            <returns>Comma-separated string of parameters.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.ParseProperty(NArrange.Core.CodeAccess,NArrange.Core.MemberModifiers,System.Boolean,System.String,System.Boolean)">
+            <summary>
+            Parses a property.
+            </summary>
+            <param name="access">The access.</param>
+            <param name="memberAttributes">The member attributes.</param>
+            <param name="isDefault">Whether or not the property is a default property</param>
+            <param name="modifyAccess">The modify access.</param>
+            <param name="inInterface">Whether or not the property is part of an interface.</param>
+            <returns>A property code element.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.ParseRegion(System.String)">
+            <summary>
+            Parses a region from the preprocessor line.
+            </summary>
+            <param name="line">Region start line.</param>
+            <returns>A region element for the line.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.ParseType(NArrange.Core.CodeAccess,NArrange.Core.TypeModifiers,NArrange.Core.TypeElementType)">
+            <summary>
+            Parses a type definition.
+            </summary>
+            <param name="access">The access.</param>
+            <param name="typeAttributes">The type attributes.</param>
+            <param name="elementType">Type of the element.</param>
+            <returns>A type code element.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.ParseTypeParameterConstraint">
+            <summary>
+            Parses a type parameter constraint.
+            </summary>
+            <returns>The type parameter constraint text.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.ParseTypeParameters(NArrange.Core.CodeElements.IGenericElement)">
+            <summary>
+            Parses type parameters.
+            </summary>
+            <param name="genericElement">The generic element.</param>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.ReadCodeLine">
+            <summary>
+            Reads a code line.
+            </summary>
+            <returns>The code line.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.TryParseElement(NArrange.Core.CodeElements.ICodeElement,System.Text.StringBuilder,System.Collections.ObjectModel.ReadOnlyCollection{NArrange.Core.CodeElements.ICommentElement},System.Collections.ObjectModel.ReadOnlyCollection{NArrange.Core.CodeElements.AttributeElement})">
+            <summary>
+            Tries to parse a code element.
+            </summary>
+            <param name="parentElement">The parent element.</param>
+            <param name="elementBuilder">The element builder.</param>
+            <param name="comments">The comments.</param>
+            <param name="attributes">The attributes.</param>
+            <returns>Code element is succesful, otherwise null.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.TryParseImplements(System.String[]@)">
+            <summary>
+            Tries to parse an implements clause.
+            </summary>
+            <param name="implements">The implement clauses.</param>
+            <returns>Unhandled text.</returns>
+        </member>
+        <member name="M:NArrange.VisualBasic.VBParser.TryParseImplementsOrHandles(System.String[]@,System.String[]@,System.Boolean)">
+            <summary>
+            Tries to parse implements and handles clauses.
+            </summary>
+            <param name="implements">Parsed implements clauses.</param>
+            <param name="handles">Parsed handles claues.</param>
+            <param name="parseHandles">Whether or not handles should be parsed.</param>
+            <returns>Unhandled text.</returns>
+        </member>
+    </members>
+</doc>

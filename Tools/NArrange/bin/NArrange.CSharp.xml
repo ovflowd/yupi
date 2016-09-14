@@ -1,0 +1,813 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NArrange.CSharp</name>
+    </assembly>
+    <members>
+        <member name="T:NArrange.CSharp.CSharpExtendedProperties">
+            <summary>
+            CSharp extended element property names.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpExtendedProperties.Fixed">
+            <summary>
+            Property for whether or not the field is fixed (bool).
+            </summary>
+        </member>
+        <member name="T:NArrange.CSharp.CSharpKeyword">
+            <summary>
+            C# keyword constants.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.Abstract">
+            <summary>
+            "abstract" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.As">
+            <summary>
+            "as" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.Class">
+            <summary>
+            "class" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.Constant">
+            <summary>
+            "const" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.Delegate">
+            <summary>
+            "delegate" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.Elif">
+            <summary>
+            "elif" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.Else">
+            <summary>
+            "else" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.EndIf">
+            <summary>
+            "endif" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.EndRegion">
+            <summary>
+            "endregion" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.Enumeration">
+            <summary>
+            "enum" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.Event">
+            <summary>
+            "event" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.Explicit">
+            <summary>
+            "explicit" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.External">
+            <summary>
+            "extern" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.Fixed">
+            <summary>
+            "fixed" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.Global">
+            <summary>
+            "global" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.If">
+            <summary>
+            "if" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.Implicit">
+            <summary>
+            "implicit" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.Interface">
+            <summary>
+            "interface" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.Internal">
+            <summary>
+            "internal" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.Namespace">
+            <summary>
+            "namespace" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.New">
+            <summary>
+            "new" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.Operator">
+            <summary>
+            "operator" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.Override">
+            <summary>
+            "override" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.Partial">
+            <summary>
+            "partial" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.Private">
+            <summary>
+            "private" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.Protected">
+            <summary>
+            "protected" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.Public">
+            <summary>
+            "public" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.ReadOnly">
+            <summary>
+            "readonly" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.Region">
+            <summary>
+            "region" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.Sealed">
+            <summary>
+            "sealed" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.Static">
+            <summary>
+            "static" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.Structure">
+            <summary>
+            "struct" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.Unsafe">
+            <summary>
+            "unsafe" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.Using">
+            <summary>
+            "using" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.Virtual">
+            <summary>
+            "virtual" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.Void">
+            <summary>
+            "void" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.Volatile">
+            <summary>
+            "volatile" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.Where">
+            <summary>
+            "where" keyword.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpKeyword.NewConstraint">
+            <summary>
+            Type parameter new() constraint.
+            </summary>
+        </member>
+        <member name="T:NArrange.CSharp.CSharpParser">
+            <summary>
+            NArrange CSharp parser implementation.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpParser.EscapeChar">
+            <summary>
+            Escape character.
+            </summary>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.DoParseElements">
+            <summary>
+            Parses elements from the current point in the stream.
+            </summary>
+            <returns>Collection of parsed code elements.</returns>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.GetAccess(System.Collections.Specialized.StringCollection)">
+            <summary>
+            Gets the member or type access.
+            </summary>
+            <param name="wordList">The word list.</param>
+            <returns>Member or type access.</returns>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.GetElementType(System.Collections.Specialized.StringCollection,NArrange.Core.ElementType@,System.Nullable{NArrange.Core.TypeElementType}@)">
+            <summary>
+            Gets the type of the element.
+            </summary>
+            <param name="wordList">The word list.</param>
+            <param name="elementType">Type of the element.</param>
+            <param name="typeElementType">Type of the type element.</param>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.GetMemberAttributes(System.Collections.Specialized.StringCollection)">
+            <summary>
+            Gets a member modifiers flags enum from the modifer word list.
+            </summary>
+            <param name="wordList">Modifiers word list.</param>
+            <returns>Member modifier flags enumeration.</returns>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.GetMemberNameAndType(System.Collections.Specialized.StringCollection,System.String@,System.String@)">
+            <summary>
+            Extracts a member name.
+            </summary>
+            <param name="words">The words to extract the member name and type from.</param>
+            <param name="name">The member name.</param>
+            <param name="returnType">The meber return type.</param>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.GetOperatorType(System.Collections.Specialized.StringCollection)">
+            <summary>
+            Gets the operator type from the modifier list.
+            </summary>
+            <param name="wordList">Modifier words.</param>
+            <returns>Operator type.</returns>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.IsAliasBreak(System.Char)">
+            <summary>
+            Determines whether or not the specified char is a C# special character
+            that signals a break in an alias.
+            </summary>
+            <param name="ch">Character to test.</param>
+            <returns>True if the character is an alias break, otherwise false.</returns>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.ParseRegion(System.String)">
+            <summary>
+            Parses a region from the preprocessor line.
+            </summary>
+            <param name="line">Line of text containing the region to parse.</param>
+            <returns>A region element.</returns>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.PushComments(System.Collections.Generic.List{NArrange.Core.CodeElements.ICodeElement},System.Collections.Generic.List{NArrange.Core.CodeElements.ICommentElement})">
+            <summary>
+            Pushes the comments to the code elements collection.
+            </summary>
+            <param name="codeElements">The code elements.</param>
+            <param name="comments">The comments.</param>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.TrimTrailingWhiteSpace(System.Text.StringBuilder)">
+            <summary>
+            Trims the trailing white space.
+            </summary>
+            <param name="elementBuilder">The element builder.</param>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.TryFindAndRemoveWord(System.Collections.Specialized.StringCollection,System.String)">
+            <summary>
+            Tries to find and remove a word from the word list.
+            </summary>
+            <param name="wordList">The word list.</param>
+            <param name="word">The word to find and remove.</param>
+            <returns>Whether or not the word was found and removed.</returns>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.CaptureTypeName">
+            <summary>
+            Captures a type name alias from the stream.
+            </summary>
+            <returns>Captured type name.</returns>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.CaptureTypeName(System.Boolean)">
+            <summary>
+            Captures a type name alias from the stream.
+            </summary>
+            <param name="captureGeneric">
+            Whether or not to capture generic symbols.
+            </param>
+            <returns>Captured type name.</returns>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.CaptureWord">
+            <summary>
+            Captures an alias or keyword from the stream.
+            </summary>
+            <returns>Captured word.</returns>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.CaptureWord(System.Boolean)">
+            <summary>
+            Captures an alias or keyword from the stream.
+            </summary>
+            <param name="captureGeneric">
+            Whether or not to capture generic symbols, such as in type names.
+            </param>
+            <returns>Captured word.</returns>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.EatTrailingEndOfStatement">
+            <summary>
+            Eats a trailing end of statement.
+            </summary>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.ParseAliasList">
+            <summary>
+            Parses an alias list, such as for parameters.
+            </summary>
+            <returns>Alias array.</returns>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.ParseAttribute(System.Collections.ObjectModel.ReadOnlyCollection{NArrange.Core.CodeElements.ICommentElement})">
+            <summary>
+            Parses an attribute.
+            </summary>
+            <param name="comments">Comments to apply.</param>
+            <returns>Attribute code element.</returns>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.ParseAttribute(System.Collections.ObjectModel.ReadOnlyCollection{NArrange.Core.CodeElements.ICommentElement},System.Boolean)">
+            <summary>
+            Parses an attribute.
+            </summary>
+            <param name="comments">Comments to apply.</param>
+            <param name="nested">Whether or not this a a nested/chained attribute.</param>
+            <returns>Attribute element.</returns>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.ParseBlock(System.Boolean,NArrange.Core.CodeElements.CommentedElement)">
+            <summary>
+            Parses a member block.
+            </summary>
+            <param name="beginExpected">Begin block character expected.</param>
+            <param name="parentElement">Element to parse the block for.</param>
+            <returns>Block text.</returns>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.ParseCommentBlock">
+            <summary>
+            Parses a comment block.
+            </summary>
+            <returns>Comment code element.</returns>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.ParseCommentLine">
+            <summary>
+            Parses a comment line.
+            </summary>
+            <returns>Comment code element.</returns>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.ParseComments">
+            <summary>
+            Parses comments from the current position in the reader.
+            </summary>
+            <returns>Collection of comments.</returns>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.ParseConditionDirective(System.String,System.Boolean@)">
+            <summary>
+            Parses a condition directive.
+            </summary>
+            <param name="line">Directive line text.</param>
+            <param name="isIf">Whether or not the condition directive is an if directive.</param>
+            <returns>Condition directive code element.</returns>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.ParseConstructor(System.String,NArrange.Core.CodeAccess,NArrange.Core.MemberModifiers)">
+            <summary>
+            Parses a constructor.
+            </summary>
+            <param name="memberName">Member name.</param>
+            <param name="access">Member accessibility.</param>
+            <param name="memberAttributes">Member attributes.</param>
+            <returns>Constructor code element.</returns>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.ParseDelegate(System.String,NArrange.Core.CodeAccess,NArrange.Core.MemberModifiers,System.String)">
+            <summary>
+            Parses a delegate.
+            </summary>
+            <param name="memberName">Member name</param>
+            <param name="access">Code access</param>
+            <param name="memberAttributes">Member attributes</param>
+            <param name="returnType">Return type</param>
+            <returns>A delegate code element.</returns>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.ParseElements(NArrange.Core.CodeElements.ICodeElement)">
+            <summary>
+            Parses a collection of elements.
+            </summary>
+            <param name="parentElement">Parent element for context.</param>
+            <returns>Parsed code elements.</returns>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.ParseEvent(NArrange.Core.CodeAccess,NArrange.Core.MemberModifiers)">
+            <summary>
+            Parses an event.
+            </summary>
+            <param name="access">Member accessibility.</param>
+            <param name="memberAttributes">Member modifiers.</param>
+            <returns>Event code element.</returns>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.ParseField(System.Boolean,NArrange.Core.CodeAccess,NArrange.Core.MemberModifiers,System.String,System.String,System.Boolean,System.Boolean)">
+            <summary>
+            Parses a field.
+            </summary>
+            <param name="isAssignment">Has field assignment.</param>
+            <param name="access">Field access.</param>
+            <param name="memberAttributes">The member attributes.</param>
+            <param name="memberName">Name of the member.</param>
+            <param name="returnType">Return type.</param>
+            <param name="isVolatile">Whether or not the field is volatile.</param>
+            <param name="isFixed">Whether or not the field is fixed.</param>
+            <returns>A field code element.</returns>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.ParseInitialValue">
+            <summary>
+            Parses an initial value, such as for a field.
+            </summary>
+            <returns>Initial value text.</returns>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.ParseMethod(System.String,NArrange.Core.CodeAccess,NArrange.Core.MemberModifiers,System.String,System.Boolean,NArrange.Core.OperatorType)">
+            <summary>
+            Parses a method.
+            </summary>
+            <param name="memberName">Member name.</param>
+            <param name="access">Code access.</param>
+            <param name="memberAttributes">Member attributes.</param>
+            <param name="returnType">Return type.</param>
+            <param name="isOperator">Whether or not the method is an operator.</param>
+            <param name="operatorType">Type of the operator.</param>
+            <returns>Method code element.</returns>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.ParseNamespace">
+            <summary>
+            Parses a namespace definition.
+            </summary>
+            <returns>Namespace code element.</returns>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.ParseNestedText(System.Char,System.Char,System.Boolean,System.Boolean)">
+            <summary>
+            Parses nested text.
+            </summary>
+            <param name="beginChar">The begin char.</param>
+            <param name="endChar">The end char.</param>
+            <param name="beginExpected">Whether or not the begin char is expected.</param>
+            <param name="trim">Whether or not the parsed text should be trimmed.</param>
+            <returns>The parsed text.</returns>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.ParseParameters">
+            <summary>
+            Parses a parameter list.
+            </summary>
+            <returns>A comma-separated string of parameters.</returns>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.ParseProperty(System.String,System.String,NArrange.Core.CodeAccess,NArrange.Core.MemberModifiers)">
+            <summary>
+            Parses a property.
+            </summary>
+            <param name="memberName">Name of the member.</param>
+            <param name="returnType">Type of the return.</param>
+            <param name="access">The access.</param>
+            <param name="memberAttributes">The member attributes.</param>
+            <returns>A property code element.</returns>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.ParseType(NArrange.Core.CodeAccess,NArrange.Core.TypeModifiers,NArrange.Core.TypeElementType)">
+            <summary>
+            Parses a type definition.
+            </summary>
+            <param name="access">Type accessibility.</param>
+            <param name="typeAttributes">Type modifiers.</param>
+            <param name="elementType">Type element type.</param>
+            <returns>Type code element.</returns>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.ParseTypeParameterConstraints(NArrange.Core.CodeElements.IGenericElement)">
+            <summary>
+            Parses type parameter constraints and adds them to the
+            generic element.
+            </summary>
+            <param name="genericElement">The generic element.</param>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.ParseUsing">
+            <summary>
+            Parses a using directive code element.
+            </summary>
+            <returns>Using directive code element.</returns>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpParser.TryParseElement(NArrange.Core.CodeElements.ICodeElement,System.Text.StringBuilder,System.Collections.ObjectModel.ReadOnlyCollection{NArrange.Core.CodeElements.ICommentElement},System.Collections.ObjectModel.ReadOnlyCollection{NArrange.Core.CodeElements.AttributeElement})">
+            <summary>
+            Tries to parse a code element.
+            </summary>
+            <param name="parentElement">Parent element for context.</param>
+            <param name="elementBuilder">StringBuilder containing the unprocessed text.</param>
+            <param name="comments">Comments to apply to the element.</param>
+            <param name="attributes">Attributes to apply to the element.</param>
+            <returns>Code element if succesful, otherwise null.</returns>
+        </member>
+        <member name="T:NArrange.CSharp.CSharpSymbol">
+            <summary>
+            C# character constants.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpSymbol.AliasQualifier">
+            <summary>
+            Alias qualifier symbol.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpSymbol.AliasSeparator">
+            <summary>
+            Alias separator symbol.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpSymbol.Assignment">
+            <summary>
+            Assignment symbol.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpSymbol.BeginAttribute">
+            <summary>
+            Beginning of attribute symbol.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpSymbol.BeginBlock">
+            <summary>
+            Beginning of block symbol.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpSymbol.BeginCharLiteral">
+            <summary>
+            Beginning of character literal symbol.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpSymbol.BeginComment">
+            <summary>
+            Beginning of comment symbol.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpSymbol.BeginFinalizer">
+            <summary>
+            End of string symbol.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpSymbol.BeginGeneric">
+            <summary>
+            Beginning of generic parameter symbol.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpSymbol.BeginParameterList">
+            <summary>
+            Beginning of parameter list symbol.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpSymbol.BeginString">
+            <summary>
+            Beginning of string symbol.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpSymbol.BeginVerbatimString">
+            <summary>
+            Begin verbatim string symbol.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpSymbol.BlockCommentModifier">
+            <summary>
+            Beginning of block comment symbol.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpSymbol.EndAttribute">
+            <summary>
+            End of attribute symbol.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpSymbol.EndBlock">
+            <summary>
+            End of block symbol.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpSymbol.EndGeneric">
+            <summary>
+            End of generic parameter symbol.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpSymbol.EndOfStatement">
+            <summary>
+            End of statement symbol.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpSymbol.EndParameterList">
+            <summary>
+            End of parameter list symbol.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpSymbol.Negate">
+            <summary>
+            Negate symbol.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpSymbol.Nullable">
+            <summary>
+            Nullable symbol.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpSymbol.Preprocessor">
+            <summary>
+            Preprocessor symbol.
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpSymbol.TypeImplements">
+            <summary>
+            Type inheritance symbol.
+            </summary>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpSymbol.IsCSharpSymbol(System.Char)">
+            <summary>
+            Determines if the specified char is a Csharp symbol character.
+            </summary>
+            <param name="character">The character to test.</param>
+            <returns>True if the character is a C# symbol, otherwise false.</returns>
+        </member>
+        <member name="T:NArrange.CSharp.CSharpWriter">
+            <summary>
+            Writes CSharp code elements to a file.
+            </summary>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpWriter.DoWriteElements(System.Collections.ObjectModel.ReadOnlyCollection{NArrange.Core.CodeElements.ICodeElement},System.IO.TextWriter)">
+            <summary>
+            Writes code elements to the specified writer.
+            </summary>
+            <param name="codeElements">Code element collection to write.</param>
+            <param name="writer">Writer to write code elements to.</param>
+        </member>
+        <member name="T:NArrange.CSharp.CSharpWriteVisitor">
+            <summary>
+            Visits a tree of code elements for writing C# code 
+            </summary>
+        </member>
+        <member name="F:NArrange.CSharp.CSharpWriteVisitor.ClosingCommentPrefix">
+            <summary>
+            Closing comment prefix.
+            </summary>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpWriteVisitor.#ctor(System.IO.TextWriter,NArrange.Core.Configuration.CodeConfiguration)">
+            <summary>
+            Creates a new CSharpWriteVisitor.
+            </summary>
+            <param name="writer">Text writer to write code elements to.</param>
+            <param name="configuration">Code configuration.</param>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpWriteVisitor.VisitAttributeElement(NArrange.Core.CodeElements.AttributeElement)">
+            <summary>
+            Processes an attribute element.
+            </summary>
+            <param name="element">Attribute code element.</param>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpWriteVisitor.VisitCommentElement(NArrange.Core.CodeElements.CommentElement)">
+            <summary>
+            Writes a comment line.
+            </summary>
+            <param name="comment">Comment code element.</param>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpWriteVisitor.VisitConditionDirectiveElement(NArrange.Core.CodeElements.ConditionDirectiveElement)">
+            <summary>
+            Writes a condition directive element.
+            </summary>
+            <param name="element">Condition directive code element.</param>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpWriteVisitor.VisitConstructorElement(NArrange.Core.CodeElements.ConstructorElement)">
+            <summary>
+            Processes a constructor element.
+            </summary>
+            <param name="element">Constructor code element.</param>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpWriteVisitor.VisitDelegateElement(NArrange.Core.CodeElements.DelegateElement)">
+            <summary>
+            Processes a delegate element.
+            </summary>
+            <param name="element">Delegate code element.</param>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpWriteVisitor.VisitEventElement(NArrange.Core.CodeElements.EventElement)">
+            <summary>
+            Processes an event element.
+            </summary>
+            <param name="element">Event code element.</param>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpWriteVisitor.VisitFieldElement(NArrange.Core.CodeElements.FieldElement)">
+            <summary>
+            Processes a field element.
+            </summary>
+            <param name="element">Field code element.</param>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpWriteVisitor.VisitMethodElement(NArrange.Core.CodeElements.MethodElement)">
+            <summary>
+            Processes a method element.
+            </summary>
+            <param name="element">Method code element.</param>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpWriteVisitor.VisitNamespaceElement(NArrange.Core.CodeElements.NamespaceElement)">
+            <summary>
+            Processes a namespace element.
+            </summary>
+            <param name="element">Namespace code element.</param>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpWriteVisitor.VisitPropertyElement(NArrange.Core.CodeElements.PropertyElement)">
+            <summary>
+            Processes a property element.
+            </summary>
+            <param name="element">Property element to process.</param>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpWriteVisitor.VisitTypeElement(NArrange.Core.CodeElements.TypeElement)">
+            <summary>
+            Processes a type element.
+            </summary>
+            <param name="element">Type elemenent to process.</param>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpWriteVisitor.VisitUsingElement(NArrange.Core.CodeElements.UsingElement)">
+            <summary>
+            Processes a using element.
+            </summary>
+            <param name="element">Using element to process.</param>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpWriteVisitor.WriteRegionBeginDirective(NArrange.Core.CodeElements.RegionElement)">
+            <summary>
+            Writes a begin region directive.
+            </summary>
+            <param name="element">Region element.</param>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpWriteVisitor.WriteRegionEndDirective(NArrange.Core.CodeElements.RegionElement)">
+            <summary>
+            Writes an end region directive.
+            </summary>
+            <param name="element">Region element.</param>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpWriteVisitor.WriteAccess(NArrange.Core.CodeAccess)">
+            <summary>
+            Writes the accessibility for a member or type.
+            </summary>
+            <param name="codeAccess">Code member or type accessibility.</param>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpWriteVisitor.WriteAttributes(NArrange.Core.CodeElements.AttributedElement)">
+            <summary>
+            Writes a collection of element attributes.
+            </summary>
+            <param name="element">Attributed code element.</param>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpWriteVisitor.WriteBeginBlock">
+            <summary>
+            Writes the begin block for a member body.
+            </summary>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpWriteVisitor.WriteBody(NArrange.Core.CodeElements.TextCodeElement)">
+            <summary>
+            Writes a member body.
+            </summary>
+            <param name="element">The element.</param>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpWriteVisitor.WriteEndBlock">
+            <summary>
+            Writes the end block for a member body.
+            </summary>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpWriteVisitor.WriteMemberAttributes(NArrange.Core.MemberModifiers)">
+            <summary>
+            Writes the modifiers for a member.
+            </summary>
+            <param name="memberAttributes">Member modifiers.</param>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpWriteVisitor.WriteParameterList(System.String)">
+            <summary>
+            Writes a parameter list.
+            </summary>
+            <param name="paramList">String of comma-separated parameters.</param>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpWriteVisitor.WriteTypeParameterConstraints(NArrange.Core.CodeElements.IGenericElement)">
+            <summary>
+            Writes the type parameter constraints for a generic code element.
+            </summary>
+            <param name="genericElement">Generic code element.</param>
+        </member>
+        <member name="M:NArrange.CSharp.CSharpWriteVisitor.WriteTypeParameters(NArrange.Core.CodeElements.IGenericElement)">
+            <summary>
+            Writes the list of type parameters for a generic code element.
+            </summary>
+            <param name="genericElement">Generic code element.</param>
+        </member>
+    </members>
+</doc>

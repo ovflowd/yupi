@@ -33,15 +33,6 @@ namespace Yupi.Model.Domain
 
     public class GroupForum
     {
-        #region Constructors
-
-        public GroupForum()
-        {
-            Threads = new List<GroupForumThread>();
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public virtual string ForumDescription
@@ -91,6 +82,15 @@ namespace Yupi.Model.Domain
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public GroupForum()
+        {
+            Threads = new List<GroupForumThread>();
+        }
+
+        #endregion Constructors
 
         #region Methods
 

@@ -8,15 +8,6 @@
 
     public class UserEffectComponent
     {
-        #region Constructors
-
-        public UserEffectComponent()
-        {
-            Effects = new List<AvatarEffect>();
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public virtual AvatarEffect ActiveEffect
@@ -30,6 +21,15 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public UserEffectComponent()
+        {
+            Effects = new List<AvatarEffect>();
+        }
+
+        #endregion Constructors
 
         #region Methods
 

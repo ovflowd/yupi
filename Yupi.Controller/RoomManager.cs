@@ -20,6 +20,15 @@
 
         #endregion Fields
 
+        #region Properties
+
+        public IReadOnlyList<Room> LoadedRooms
+        {
+            get { return _loadedRooms.AsReadOnly(); }
+        }
+
+        #endregion Properties
+
         #region Constructors
 
         public RoomManager()
@@ -29,15 +38,6 @@
         }
 
         #endregion Constructors
-
-        #region Properties
-
-        public IReadOnlyList<Room> LoadedRooms
-        {
-            get { return _loadedRooms.AsReadOnly(); }
-        }
-
-        #endregion Properties
 
         #region Methods
 

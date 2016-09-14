@@ -33,15 +33,6 @@
 
         private class SSOTicket
         {
-            #region Constructors
-
-            public SSOTicket(string ticket)
-            {
-                this.Ticket = ticket;
-            }
-
-            #endregion Constructors
-
             #region Properties
 
             public string Ticket
@@ -50,6 +41,15 @@
             }
 
             #endregion Properties
+
+            #region Constructors
+
+            public SSOTicket(string ticket)
+            {
+                this.Ticket = ticket;
+            }
+
+            #endregion Constructors
         }
 
         #endregion Nested Types

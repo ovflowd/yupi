@@ -33,32 +33,6 @@
 
         #endregion Fields
 
-        #region Constructors
-
-        public Room(RoomData data, OnRoomTick onTickCallback)
-        {
-            Contract.Requires(onTickCallback != null);
-            Contract.Requires(data != null);
-
-            this.OnTickCallback = onTickCallback;
-            this.Data = data;
-            this.HeightMap = new HeightMap(this.Data.Model.Heightmap);
-            this.Pathfinder = new Pathfinder(HeightMap.IsWalkable, HeightMap.GetNeighbours);
-
-            Users = new List<RoomEntity>();
-            GroupsInRoom = new HashSet<Group>();
-
-            if (Data.Group != null)
-            {
-                GroupsInRoom.Add(Data.Group);
-            }
-
-            entityIdCounter = 0;
-            this.Timer = new Timer(OnTick, null, 0, TICK_PERIOD);
-        }
-
-        #endregion Constructors
-
         #region Delegates
 
         [Ignore]
@@ -107,6 +81,32 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public Room(RoomData data, OnRoomTick onTickCallback)
+        {
+            Contract.Requires(onTickCallback != null);
+            Contract.Requires(data != null);
+
+            this.OnTickCallback = onTickCallback;
+            this.Data = data;
+            this.HeightMap = new HeightMap(this.Data.Model.Heightmap);
+            this.Pathfinder = new Pathfinder(HeightMap.IsWalkable, HeightMap.GetNeighbours);
+
+            Users = new List<RoomEntity>();
+            GroupsInRoom = new HashSet<Group>();
+
+            if (Data.Group != null)
+            {
+                GroupsInRoom.Add(Data.Group);
+            }
+
+            entityIdCounter = 0;
+            this.Timer = new Timer(OnTick, null, 0, TICK_PERIOD);
+        }
+
+        #endregion Constructors
 
         #region Methods
 

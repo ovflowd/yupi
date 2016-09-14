@@ -23,6 +23,15 @@
 
         #endregion Fields
 
+        #region Properties
+
+        private IList<ISession<Habbo>> Connections
+        {
+            get; set;
+        }
+
+        #endregion Properties
+
         #region Constructors
 
         public ClientManager()
@@ -32,15 +41,6 @@
         }
 
         #endregion Constructors
-
-        #region Properties
-
-        private IList<ISession<Habbo>> Connections
-        {
-            get; set;
-        }
-
-        #endregion Properties
 
         #region Methods
 

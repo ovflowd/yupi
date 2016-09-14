@@ -4,16 +4,6 @@
 
     public class Poll
     {
-        #region Constructors
-
-        //public PollType Type{ get; set; }
-        public Poll()
-        {
-            Questions = new List<PollQuestion>();
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public virtual int Id
@@ -52,5 +42,15 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        //public PollType Type{ get; set; }
+        public Poll()
+        {
+            Questions = new List<PollQuestion>();
+        }
+
+        #endregion Constructors
     }
 }

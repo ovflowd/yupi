@@ -14,6 +14,51 @@
 
         #endregion Fields
 
+        #region Properties
+
+        public virtual ChatBubbleStyle Bubble
+        {
+            get; set;
+        }
+
+        [Ignore]
+        public virtual RoomEntity Entity
+        {
+            get; set;
+        }
+
+        public virtual int Id
+        {
+            get; set;
+        }
+
+        public virtual IList<Link> Links
+        {
+            get; protected set;
+        }
+
+        public virtual string Message
+        {
+            get; protected set;
+        }
+
+        public virtual DateTime Timestamp
+        {
+            get; protected set;
+        }
+
+        public virtual UserInfo User
+        {
+            get; set;
+        }
+
+        public virtual bool Whisper
+        {
+            get; set;
+        }
+
+        #endregion Properties
+
         #region Constructors
 
         static ChatMessage()
@@ -75,51 +120,6 @@
         }
 
         #endregion Constructors
-
-        #region Properties
-
-        public virtual ChatBubbleStyle Bubble
-        {
-            get; set;
-        }
-
-        [Ignore]
-        public virtual RoomEntity Entity
-        {
-            get; set;
-        }
-
-        public virtual int Id
-        {
-            get; set;
-        }
-
-        public virtual IList<Link> Links
-        {
-            get; protected set;
-        }
-
-        public virtual string Message
-        {
-            get; protected set;
-        }
-
-        public virtual DateTime Timestamp
-        {
-            get; protected set;
-        }
-
-        public virtual UserInfo User
-        {
-            get; set;
-        }
-
-        public virtual bool Whisper
-        {
-            get; set;
-        }
-
-        #endregion Properties
 
         #region Methods
 

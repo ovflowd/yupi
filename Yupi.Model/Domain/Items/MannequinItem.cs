@@ -4,16 +4,6 @@
 
     public class MannequinItem : FloorItem<MannequinBaseItem>
     {
-        #region Constructors
-
-        public MannequinItem()
-        {
-            Gender = "m";
-            Look = "lg-270-82.ch-210-66";
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         // TODO Enum for gender
@@ -28,6 +18,16 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public MannequinItem()
+        {
+            Gender = "m";
+            Look = "lg-270-82.ch-210-66";
+        }
+
+        #endregion Constructors
 
         #region Methods
 

@@ -22,17 +22,6 @@
 
         #endregion Fields
 
-        #region Constructors
-
-        public Habbo(ISession<Habbo> session, IRouter router)
-        {
-            this.Session = session;
-            this.Router = router;
-            TimePingReceived = DateTime.Now;
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public UserInfo Info
@@ -68,6 +57,17 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public Habbo(ISession<Habbo> session, IRouter router)
+        {
+            this.Session = session;
+            this.Router = router;
+            TimePingReceived = DateTime.Now;
+        }
+
+        #endregion Constructors
 
         #region Methods
 

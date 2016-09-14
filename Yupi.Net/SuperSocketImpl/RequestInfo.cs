@@ -6,6 +6,15 @@
 
     public class RequestInfo : BinaryRequestInfo
     {
+        #region Properties
+
+        public bool IsFlashRequest
+        {
+            get; private set;
+        }
+
+        #endregion Properties
+
         #region Constructors
 
         public RequestInfo(byte[] body, bool isFlashRequest = false)
@@ -15,14 +24,5 @@
         }
 
         #endregion Constructors
-
-        #region Properties
-
-        public bool IsFlashRequest
-        {
-            get; private set;
-        }
-
-        #endregion Properties
     }
 }

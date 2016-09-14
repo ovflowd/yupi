@@ -5,17 +5,6 @@
     // TODO HC & VIP
     public class Subscription
     {
-        #region Constructors
-
-        public Subscription()
-        {
-            ExpireTime = DateTime.Now;
-            ActivateTime = DateTime.Now;
-            LastGiftTime = DateTime.Now;
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public virtual DateTime ActivateTime
@@ -39,6 +28,17 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public Subscription()
+        {
+            ExpireTime = DateTime.Now;
+            ActivateTime = DateTime.Now;
+            LastGiftTime = DateTime.Now;
+        }
+
+        #endregion Constructors
 
         #region Methods
 

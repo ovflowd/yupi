@@ -13,16 +13,6 @@
 
         #endregion Fields
 
-        #region Constructors
-
-        public UserEntity(Habbo user, Room room, int id)
-            : base(room, id)
-        {
-            this.User = user;
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public override BaseInfo BaseInfo
@@ -41,6 +31,16 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public UserEntity(Habbo user, Room room, int id)
+            : base(room, id)
+        {
+            this.User = user;
+        }
+
+        #endregion Constructors
 
         #region Methods
 

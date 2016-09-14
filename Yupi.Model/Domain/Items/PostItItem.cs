@@ -4,15 +4,6 @@
 
     public class PostItItem : WallItem<WallBaseItem>
     {
-        #region Constructors
-
-        public PostItItem()
-        {
-            Color = "FFFF33";
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         // TODO Validate RGB-HTML string
@@ -27,6 +18,15 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public PostItItem()
+        {
+            Color = "FFFF33";
+        }
+
+        #endregion Constructors
 
         #region Methods
 

@@ -5,20 +5,6 @@
 
     public class UserPreferences
     {
-        #region Constructors
-
-        public UserPreferences()
-        {
-            NavigatorHeight = 600;
-            NavigatorWidth = 580;
-            Volume1 = 100;
-            Volume2 = 100;
-            Volume3 = 100;
-            ChatBubbleStyle = ChatBubbleStyle.Normal;
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public virtual ChatBubbleStyle ChatBubbleStyle
@@ -99,5 +85,19 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public UserPreferences()
+        {
+            NavigatorHeight = 600;
+            NavigatorWidth = 580;
+            Volume1 = 100;
+            Volume2 = 100;
+            Volume3 = 100;
+            ChatBubbleStyle = ChatBubbleStyle.Normal;
+        }
+
+        #endregion Constructors
     }
 }

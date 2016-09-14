@@ -5,15 +5,6 @@
 
     public class EcotronLevel
     {
-        #region Constructors
-
-        public EcotronLevel()
-        {
-            Rewards = new List<EcotronReward>();
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public virtual int Id
@@ -27,5 +18,14 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public EcotronLevel()
+        {
+            Rewards = new List<EcotronReward>();
+        }
+
+        #endregion Constructors
     }
 }

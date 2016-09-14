@@ -5,15 +5,6 @@
 
     public class VendingBaseItem : FloorBaseItem
     {
-        #region Constructors
-
-        public VendingBaseItem()
-        {
-            VendingIds = new List<int>();
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public virtual IList<int> VendingIds
@@ -22,5 +13,14 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public VendingBaseItem()
+        {
+            VendingIds = new List<int>();
+        }
+
+        #endregion Constructors
     }
 }

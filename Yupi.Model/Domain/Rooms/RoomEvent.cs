@@ -35,15 +35,6 @@ namespace Yupi.Model.Domain
     /// </summary>
     public class RoomEvent
     {
-        #region Constructors
-
-        public RoomEvent()
-        {
-            ExpiresAt = new DateTime().AddHours(2);
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         /// <summary>
@@ -85,6 +76,15 @@ namespace Yupi.Model.Domain
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public RoomEvent()
+        {
+            ExpiresAt = new DateTime().AddHours(2);
+        }
+
+        #endregion Constructors
 
         #region Methods
 

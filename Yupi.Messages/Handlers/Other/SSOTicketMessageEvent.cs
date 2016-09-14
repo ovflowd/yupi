@@ -13,15 +13,6 @@
 
         #endregion Fields
 
-        #region Constructors
-
-        public SSOTicketMessageEvent()
-        {
-            SSOManager = DependencyFactory.Resolve<SSOManager>();
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public override bool RequireUser
@@ -30,6 +21,15 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public SSOTicketMessageEvent()
+        {
+            SSOManager = DependencyFactory.Resolve<SSOManager>();
+        }
+
+        #endregion Constructors
 
         #region Methods
 

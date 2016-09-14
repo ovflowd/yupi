@@ -6,15 +6,6 @@
 
     public class FlashReceiveFilter : IReceiveFilter<RequestInfo>
     {
-        #region Constructors
-
-        public FlashReceiveFilter()
-        {
-            this.NextReceiveFilter = new ReceiveFilter();
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public int LeftBufferSize
@@ -33,6 +24,15 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public FlashReceiveFilter()
+        {
+            this.NextReceiveFilter = new ReceiveFilter();
+        }
+
+        #endregion Constructors
 
         #region Methods
 

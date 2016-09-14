@@ -34,24 +34,6 @@ namespace Yupi.Model.Domain
 
     public class Group
     {
-        #region Constructors
-
-        public Group(UserInfo creator)
-            : this()
-        {
-            Creator = creator;
-            Admins.Add(creator);
-        }
-
-        protected Group()
-        {
-            Admins = new List<UserInfo>();
-            Members = new List<UserInfo>();
-            Requests = new List<UserInfo>();
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public virtual uint AdminOnlyDeco
@@ -135,5 +117,23 @@ namespace Yupi.Model.Domain
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public Group(UserInfo creator)
+            : this()
+        {
+            Creator = creator;
+            Admins.Add(creator);
+        }
+
+        protected Group()
+        {
+            Admins = new List<UserInfo>();
+            Members = new List<UserInfo>();
+            Requests = new List<UserInfo>();
+        }
+
+        #endregion Constructors
     }
 }

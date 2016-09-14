@@ -18,44 +18,6 @@
 
         #endregion Fields
 
-        #region Constructors
-
-        public UserInfo()
-        {
-            Badges = new UserBadgeComponent();
-            Wallet = new UserWallet();
-            Preferences = new UserPreferences();
-            EffectComponent = new UserEffectComponent();
-            CreateDate = DateTime.Now;
-            Subscription = new Subscription();
-            NavigatorLog = new List<UserSearchLog>();
-            FavoriteRooms = new List<RoomData>();
-            SupportTickets = new List<SupportTicket>();
-            TradeLocks = new List<TradeLock>();
-            MutedUsers = new List<UserInfo>();
-            Cautions = new List<UserCaution>();
-            Bans = new List<UserBan>();
-            Rank = 1;
-            RatedRooms = new List<RoomData>();
-            RecentlyVisitedRooms = new List<RoomData>();
-            Relationships = new RelationshipComponent();
-            Respect = new UserRespectComponent();
-            Tags = new List<string>();
-            Talents = new List<UserTalent>();
-            UserGroups = new List<Group>();
-            Achievements = new List<UserAchievement>();
-            Inventory = new Inventory();
-            UsersRooms = new List<RoomData>();
-            Look = "hr-115-42.hd-190-1.ch-215-62.lg-285-91.sh-290-62";
-            Gender = "M";
-            Motto = string.Empty;
-            Email = string.Empty;
-            BuilderInfo = new UserBuilderComponent();
-            Minimail = new List<Minimail>();
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public virtual IList<UserAchievement> Achievements
@@ -269,6 +231,44 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public UserInfo()
+        {
+            Badges = new UserBadgeComponent();
+            Wallet = new UserWallet();
+            Preferences = new UserPreferences();
+            EffectComponent = new UserEffectComponent();
+            CreateDate = DateTime.Now;
+            Subscription = new Subscription();
+            NavigatorLog = new List<UserSearchLog>();
+            FavoriteRooms = new List<RoomData>();
+            SupportTickets = new List<SupportTicket>();
+            TradeLocks = new List<TradeLock>();
+            MutedUsers = new List<UserInfo>();
+            Cautions = new List<UserCaution>();
+            Bans = new List<UserBan>();
+            Rank = 1;
+            RatedRooms = new List<RoomData>();
+            RecentlyVisitedRooms = new List<RoomData>();
+            Relationships = new RelationshipComponent();
+            Respect = new UserRespectComponent();
+            Tags = new List<string>();
+            Talents = new List<UserTalent>();
+            UserGroups = new List<Group>();
+            Achievements = new List<UserAchievement>();
+            Inventory = new Inventory();
+            UsersRooms = new List<RoomData>();
+            Look = "hr-115-42.hd-190-1.ch-215-62.lg-285-91.sh-290-62";
+            Gender = "M";
+            Motto = string.Empty;
+            Email = string.Empty;
+            BuilderInfo = new UserBuilderComponent();
+            Minimail = new List<Minimail>();
+        }
+
+        #endregion Constructors
 
         #region Methods
 

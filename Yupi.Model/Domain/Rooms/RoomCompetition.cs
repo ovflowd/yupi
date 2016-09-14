@@ -34,15 +34,6 @@ namespace Yupi.Model.Domain
 
     public class RoomCompetition
     {
-        #region Constructors
-
-        public RoomCompetition()
-        {
-            RequiredItems = new List<BaseItem>();
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public virtual IList<RoomCompetitionEntry> Entries
@@ -66,5 +57,14 @@ namespace Yupi.Model.Domain
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public RoomCompetition()
+        {
+            RequiredItems = new List<BaseItem>();
+        }
+
+        #endregion Constructors
     }
 }

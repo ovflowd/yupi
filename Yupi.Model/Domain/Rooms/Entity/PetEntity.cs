@@ -5,16 +5,6 @@
     [Ignore]
     public class PetEntity : RoomEntity
     {
-        #region Constructors
-
-        public PetEntity(Room room, int id)
-            : base(room, id)
-        {
-            PetStatus = new PetStatus(this);
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public override BaseInfo BaseInfo
@@ -43,5 +33,15 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public PetEntity(Room room, int id)
+            : base(room, id)
+        {
+            PetStatus = new PetStatus(this);
+        }
+
+        #endregion Constructors
     }
 }

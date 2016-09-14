@@ -5,16 +5,6 @@
 
     public class GroupForumThread
     {
-        #region Constructors
-
-        public GroupForumThread()
-        {
-            Posts = new List<GroupForumPost>();
-            CreatedAt = DateTime.Now;
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public virtual DateTime CreatedAt
@@ -63,5 +53,15 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public GroupForumThread()
+        {
+            Posts = new List<GroupForumPost>();
+            CreatedAt = DateTime.Now;
+        }
+
+        #endregion Constructors
     }
 }

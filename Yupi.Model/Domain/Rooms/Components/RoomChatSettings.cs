@@ -6,19 +6,6 @@
 
     public class RoomChatSettings
     {
-        #region Constructors
-
-        public RoomChatSettings()
-        {
-            Balloon = ChatBalloon.Normal;
-            Speed = ChatSpeed.Normal;
-            MaxDistance = 14;
-            FloodProtection = FloodProtection.Standard;
-            Type = ChatType.FreeFlowMode;
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public virtual ChatBalloon Balloon
@@ -47,6 +34,19 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public RoomChatSettings()
+        {
+            Balloon = ChatBalloon.Normal;
+            Speed = ChatSpeed.Normal;
+            MaxDistance = 14;
+            FloodProtection = FloodProtection.Standard;
+            Type = ChatType.FreeFlowMode;
+        }
+
+        #endregion Constructors
 
         #region Methods
 

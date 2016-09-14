@@ -13,15 +13,6 @@
 
         #endregion Fields
 
-        #region Constructors
-
-        public OnDisconnectMessageEvent()
-        {
-            ClientManager = DependencyFactory.Resolve<ClientManager>();
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public override bool RequireUser
@@ -30,6 +21,15 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public OnDisconnectMessageEvent()
+        {
+            ClientManager = DependencyFactory.Resolve<ClientManager>();
+        }
+
+        #endregion Constructors
 
         #region Methods
 

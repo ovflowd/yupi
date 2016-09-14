@@ -17,18 +17,6 @@
 
         #endregion Fields
 
-        #region Constructors
-
-        public ModerationTool()
-        {
-            ClientManager = DependencyFactory.Resolve<ClientManager>();
-            UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>>();
-
-            // TODO Load
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public virtual IList<string> RoomMessagePresets
@@ -52,6 +40,18 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public ModerationTool()
+        {
+            ClientManager = DependencyFactory.Resolve<ClientManager>();
+            UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>>();
+
+            // TODO Load
+        }
+
+        #endregion Constructors
 
         #region Methods
 

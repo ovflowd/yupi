@@ -6,17 +6,6 @@
 
     public class MoodlightData
     {
-        #region Constructors
-
-        public MoodlightData()
-        {
-            Presets = new List<MoodlightPreset>();
-            Enabled = false;
-            CurrentPreset = new MoodlightPreset();
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public virtual MoodlightPreset CurrentPreset
@@ -40,6 +29,17 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public MoodlightData()
+        {
+            Presets = new List<MoodlightPreset>();
+            Enabled = false;
+            CurrentPreset = new MoodlightPreset();
+        }
+
+        #endregion Constructors
 
         #region Methods
 

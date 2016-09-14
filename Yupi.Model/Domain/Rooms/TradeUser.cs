@@ -12,15 +12,6 @@
 
         #endregion Fields
 
-        #region Constructors
-
-        public TradeUser()
-        {
-            OfferedItems = new List<UserItem>();
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public bool HasAccepted
@@ -29,5 +20,14 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public TradeUser()
+        {
+            OfferedItems = new List<UserItem>();
+        }
+
+        #endregion Constructors
     }
 }

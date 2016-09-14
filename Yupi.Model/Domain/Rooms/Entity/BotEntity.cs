@@ -7,15 +7,6 @@
     [Ignore]
     public class BotEntity : HumanEntity
     {
-        #region Constructors
-
-        public BotEntity(Room room, int id)
-            : base(room, id)
-        {
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public override BaseInfo BaseInfo
@@ -34,5 +25,14 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public BotEntity(Room room, int id)
+            : base(room, id)
+        {
+        }
+
+        #endregion Constructors
     }
 }

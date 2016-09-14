@@ -32,18 +32,6 @@ namespace Yupi.Net
 
     public class ServerSettings : IServerSettings
     {
-        #region Fields
-
-        = 0;
-        = 0;
-        = 0;
-        = 0;
-        = 100;
-        = 1000;
-        = 4096;
-
-        #endregion Fields
-
         #region Properties
 
         public int Backlog
@@ -92,5 +80,18 @@ namespace Yupi.Net
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public ServerSettings()
+        {
+            MinIOThreads = 0;
+            MaxIOThreads = 0;
+            BufferSize = 4096;
+            Backlog = 100;
+            MaxConnections = 1000;
+        }
+
+        #endregion Constructors
     }
 }

@@ -6,18 +6,6 @@
 
     public class Inventory
     {
-        #region Constructors
-
-        public Inventory()
-        {
-            this.Wardrobe = new List<WardrobeItem>();
-            this.Pets = new List<PetItem>();
-            this.FloorItems = new List<FloorItem>();
-            this.WallItems = new List<WallItem>();
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public virtual IList<FloorItem> FloorItems
@@ -42,6 +30,18 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public Inventory()
+        {
+            this.Wardrobe = new List<WardrobeItem>();
+            this.Pets = new List<PetItem>();
+            this.FloorItems = new List<FloorItem>();
+            this.WallItems = new List<WallItem>();
+        }
+
+        #endregion Constructors
 
         #region Methods
 

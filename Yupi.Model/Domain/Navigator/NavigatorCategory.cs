@@ -33,15 +33,6 @@ namespace Yupi.Model.Domain
     [IsDiscriminated]
     public class NavigatorCategory
     {
-        #region Constructors
-
-        protected NavigatorCategory()
-        {
-            SubCategories = new List<NavigatorCategory>();
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public virtual string Caption
@@ -76,5 +67,14 @@ namespace Yupi.Model.Domain
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        protected NavigatorCategory()
+        {
+            SubCategories = new List<NavigatorCategory>();
+        }
+
+        #endregion Constructors
     }
 }

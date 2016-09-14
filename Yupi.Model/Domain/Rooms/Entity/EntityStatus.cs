@@ -16,6 +16,15 @@
 
         #endregion Fields
 
+        #region Properties
+
+        public EntityPosture Posture
+        {
+            get; private set;
+        }
+
+        #endregion Properties
+
         #region Constructors
 
         public EntityStatus(RoomEntity entity)
@@ -27,15 +36,6 @@
         }
 
         #endregion Constructors
-
-        #region Properties
-
-        public EntityPosture Posture
-        {
-            get; private set;
-        }
-
-        #endregion Properties
 
         #region Methods
 

@@ -4,16 +4,6 @@
 
     public class FootballGateItem : FloorItem<FootballGateBaseItem>
     {
-        #region Constructors
-
-        public FootballGateItem()
-        {
-            LookMale = "lg-270-82.ch-210-66";
-            LookFemale = "lg-270-82.ch-210-66";
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public virtual string LookFemale
@@ -27,6 +17,16 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public FootballGateItem()
+        {
+            LookMale = "lg-270-82.ch-210-66";
+            LookFemale = "lg-270-82.ch-210-66";
+        }
+
+        #endregion Constructors
 
         #region Methods
 

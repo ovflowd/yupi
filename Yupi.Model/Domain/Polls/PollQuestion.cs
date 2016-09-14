@@ -5,15 +5,6 @@
 
     public class PollQuestion
     {
-        #region Constructors
-
-        public PollQuestion()
-        {
-            Answers = new List<string>();
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public virtual IList<string> Answers
@@ -44,6 +35,15 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public PollQuestion()
+        {
+            Answers = new List<string>();
+        }
+
+        #endregion Constructors
 
         #region Other
 

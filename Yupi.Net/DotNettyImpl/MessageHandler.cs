@@ -49,19 +49,6 @@ namespace Yupi.Net.DotNettyImpl
 
         #endregion Fields
 
-        #region Constructors
-
-        public MessageHandler(IChannel channel, MessageReceived<T> onMessage, ConnectionClosed<T> onConnectionClosed,
-            ConnectionOpened<T> onConnectionOpened)
-        {
-            this.Channel = channel;
-            this.OnMessage = onMessage;
-            this.OnConnectionClosed = onConnectionClosed;
-            this.OnConnectionOpened = onConnectionOpened;
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public IPAddress RemoteAddress
@@ -75,6 +62,19 @@ namespace Yupi.Net.DotNettyImpl
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public MessageHandler(IChannel channel, MessageReceived<T> onMessage, ConnectionClosed<T> onConnectionClosed,
+            ConnectionOpened<T> onConnectionOpened)
+        {
+            this.Channel = channel;
+            this.OnMessage = onMessage;
+            this.OnConnectionClosed = onConnectionClosed;
+            this.OnConnectionOpened = onConnectionOpened;
+        }
+
+        #endregion Constructors
 
         #region Methods
 

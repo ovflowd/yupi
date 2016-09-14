@@ -6,15 +6,6 @@
 
     public class SongMachineComponent
     {
-        #region Constructors
-
-        public SongMachineComponent()
-        {
-            _SongItems = new List<SongItem>();
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         [Ignore]
@@ -36,6 +27,15 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public SongMachineComponent()
+        {
+            _SongItems = new List<SongItem>();
+        }
+
+        #endregion Constructors
 
         #region Methods
 

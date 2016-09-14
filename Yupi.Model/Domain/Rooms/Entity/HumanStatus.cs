@@ -6,6 +6,15 @@
     [Ignore]
     public class HumanStatus : EntityStatus
     {
+        #region Properties
+
+        public RoomRightLevel Rights
+        {
+            get; private set;
+        }
+
+        #endregion Properties
+
         #region Constructors
 
         public HumanStatus(HumanEntity entity)
@@ -15,15 +24,6 @@
         }
 
         #endregion Constructors
-
-        #region Properties
-
-        public RoomRightLevel Rights
-        {
-            get; private set;
-        }
-
-        #endregion Properties
 
         #region Methods
 

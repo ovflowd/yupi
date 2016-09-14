@@ -18,17 +18,6 @@
 
         #endregion Fields
 
-        #region Constructors
-
-        public RoomEntity(Room room, int id)
-        {
-            this.Id = id;
-            this.Room = room;
-            Steps = new Queue<Vector2>();
-        }
-
-        #endregion Constructors
-
         #region Delegates
 
         [Ignore]
@@ -90,6 +79,17 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public RoomEntity(Room room, int id)
+        {
+            this.Id = id;
+            this.Room = room;
+            Steps = new Queue<Vector2>();
+        }
+
+        #endregion Constructors
 
         #region Methods
 

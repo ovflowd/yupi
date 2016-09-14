@@ -4,22 +4,6 @@
 
     public class ModerationSettings
     {
-        #region Constructors
-
-        public ModerationSettings(RoomData room)
-        {
-            this.WhoCanMute = RoomModerationRight.None;
-            this.WhoCanKick = RoomModerationRight.None;
-            this.WhoCanBan = RoomModerationRight.None;
-            this.Room = room;
-        }
-
-        protected ModerationSettings()
-        {
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public virtual RoomModerationRight WhoCanBan
@@ -43,6 +27,22 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public ModerationSettings(RoomData room)
+        {
+            this.WhoCanMute = RoomModerationRight.None;
+            this.WhoCanKick = RoomModerationRight.None;
+            this.WhoCanBan = RoomModerationRight.None;
+            this.Room = room;
+        }
+
+        protected ModerationSettings()
+        {
+        }
+
+        #endregion Constructors
 
         #region Methods
 

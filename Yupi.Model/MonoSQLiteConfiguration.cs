@@ -8,6 +8,15 @@
 
     public class MonoSQLiteConfiguration : PersistenceConfiguration<MonoSQLiteConfiguration>
     {
+        #region Properties
+
+        public static MonoSQLiteConfiguration Standard
+        {
+            get { return new MonoSQLiteConfiguration(); }
+        }
+
+        #endregion Properties
+
         #region Constructors
 
         public MonoSQLiteConfiguration()
@@ -18,15 +27,6 @@
         }
 
         #endregion Constructors
-
-        #region Properties
-
-        public static MonoSQLiteConfiguration Standard
-        {
-            get { return new MonoSQLiteConfiguration(); }
-        }
-
-        #endregion Properties
 
         #region Methods
 

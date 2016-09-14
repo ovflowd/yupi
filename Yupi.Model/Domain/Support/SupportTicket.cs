@@ -5,18 +5,6 @@
 
     public class SupportTicket
     {
-        #region Constructors
-
-        public SupportTicket()
-        {
-            Status = TicketStatus.Open;
-            ReportedChats = new List<string>();
-            Staff = UserInfo.None;
-            CreatedAt = DateTime.Now;
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         // TODO Use enum
@@ -89,6 +77,18 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public SupportTicket()
+        {
+            Status = TicketStatus.Open;
+            ReportedChats = new List<string>();
+            Staff = UserInfo.None;
+            CreatedAt = DateTime.Now;
+        }
+
+        #endregion Constructors
 
         #region Methods
 

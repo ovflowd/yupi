@@ -21,6 +21,28 @@
 
         #endregion Fields
 
+        #region Properties
+
+        public virtual int MapSize
+        {
+            get
+            {
+                return Map.Length;
+            }
+        }
+
+        public virtual int TotalX
+        {
+            get; private set;
+        }
+
+        public virtual int TotalY
+        {
+            get; private set;
+        }
+
+        #endregion Properties
+
         #region Constructors
 
         public HeightMap(string map)
@@ -43,28 +65,6 @@
         }
 
         #endregion Constructors
-
-        #region Properties
-
-        public virtual int MapSize
-        {
-            get
-            {
-                return Map.Length;
-            }
-        }
-
-        public virtual int TotalX
-        {
-            get; private set;
-        }
-
-        public virtual int TotalY
-        {
-            get; private set;
-        }
-
-        #endregion Properties
 
         #region Methods
 

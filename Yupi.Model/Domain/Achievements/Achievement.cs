@@ -36,15 +36,6 @@ namespace Yupi.Model.Domain
     /// </summary>
     public class Achievement
     {
-        #region Constructors
-
-        public Achievement()
-        {
-            Levels = new List<AchievementLevel>();
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public virtual string Category
@@ -69,6 +60,15 @@ namespace Yupi.Model.Domain
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public Achievement()
+        {
+            Levels = new List<AchievementLevel>();
+        }
+
+        #endregion Constructors
 
         #region Methods
 

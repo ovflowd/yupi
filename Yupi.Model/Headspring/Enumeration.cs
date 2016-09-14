@@ -49,16 +49,6 @@
 
         #endregion Fields
 
-        #region Constructors
-
-        protected Enumeration(TValue value, string displayName)
-        {
-            _value = value;
-            _displayName = displayName;
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public string DisplayName
@@ -72,6 +62,16 @@
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        protected Enumeration(TValue value, string displayName)
+        {
+            _value = value;
+            _displayName = displayName;
+        }
+
+        #endregion Constructors
 
         #region Methods
 
