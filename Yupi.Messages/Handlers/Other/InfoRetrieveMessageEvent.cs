@@ -63,6 +63,9 @@ namespace Yupi.Messages.Other
             Yupi.Protocol.IRouter router)
         {
             router.GetComposer<UserObjectMessageComposer>().Compose(session, session.Info);
+
+            // TODO Hardcoded (welcome lobby not developed)
+            router.GetComposer<NewbieStatusMessageComposer>().Compose(session, NewbieStatus.NORMAL);
             router.GetComposer<BuildersClubMembershipMessageComposer>().Compose(
                 session,
                 session.Info.BuilderInfo.BuildersExpire,

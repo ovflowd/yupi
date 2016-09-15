@@ -22,6 +22,10 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
+using Yupi.Model.Domain.Components;
+using System;
+
+
 namespace Yupi.Model.Domain
 {
     public class HotelLandingPromos
@@ -30,17 +34,17 @@ namespace Yupi.Model.Domain
 
         public virtual string Body
         {
-            get; protected set;
+            get; set;
         }
 
         public virtual string Button
         {
-            get; protected set;
+            get; set;
         }
 
-        public virtual string Header
+        public virtual string Title
         {
-            get; protected set;
+            get; set;
         }
 
         public virtual int Id
@@ -50,19 +54,21 @@ namespace Yupi.Model.Domain
 
         public virtual string Image
         {
-            get; protected set;
+            get; set;
+        }
+            
+        public virtual PromoLink Link
+        {
+            get; set;
         }
 
-        public virtual int InGamePromo
-        {
-            get; protected set;
-        }
-
-        public virtual string SpecialAction
-        {
-            get; protected set;
-        }
+        public virtual DateTime CreatedAt { get; set; }
 
         #endregion Properties
+
+        public HotelLandingPromos()
+        {
+            CreatedAt = DateTime.Now;
+        }
     }
 }

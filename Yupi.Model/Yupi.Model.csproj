@@ -377,6 +377,8 @@
     <Compile Include="Domain\Rooms\Chat\FloodProtection.cs" />
     <Compile Include="Domain\Rooms\Chat\ChatMessage.cs" />
     <Compile Include="Domain\Rooms\Entity\Posture\WalkPosture.cs" />
+    <Compile Include="Domain\Users\NewbieStatus.cs" />
+    <Compile Include="Domain\Navigator\Components\PromoLink.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -388,6 +390,7 @@
     <Folder Include="Domain\Rooms\Entity\" />
     <Folder Include="Domain\Rooms\Entity\Human\" />
     <Folder Include="Domain\Rooms\Entity\Posture\" />
+    <Folder Include="Domain\Navigator\Components\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Yupi.Protocol\Yupi.Protocol.csproj">

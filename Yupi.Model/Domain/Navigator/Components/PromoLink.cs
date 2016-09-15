@@ -1,5 +1,5 @@
 ﻿// ---------------------------------------------------------------------------------
-// <copyright file="LandingPromosMessageComposer.cs" company="https://github.com/sant0ro/Yupi">
+// <copyright file="PromoLink.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -22,39 +22,20 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-namespace Yupi.Messages.Landing
+using System;
+
+namespace Yupi.Model.Domain.Components
 {
-    using System;
-    using System.Collections.Generic;
+    public enum PromoLinkType {
+        External = 0,
+        Internal = 1,
+        Disabled = 2
+    }
 
-    using Yupi.Model.Domain;
-    using Yupi.Protocol.Buffers;
-
-    public class LandingPromosMessageComposer : Yupi.Messages.Contracts.LandingPromosMessageComposer
+    public class PromoLink
     {
-        #region Methods
-
-        public override void Compose(Yupi.Protocol.ISender session, List<HotelLandingPromos> promos)
-        {
-            using (ServerMessage message = Pool.GetMessageBuffer(Id))
-            {
-                message.AppendInteger(promos.Count);
-
-                foreach (HotelLandingPromos promo in promos)
-                {
-                    message.AppendInteger(promo.Id);
-                    message.AppendString(promo.Title);
-                    message.AppendString(promo.Body);
-                    message.AppendString(promo.Button);
-                    message.AppendInteger((int)promo.Link.Type);
-                    message.AppendString(promo.Link.Url);
-                    message.AppendString(promo.Image);
-                }
-
-                session.Send(message);
-            }
-        }
-
-        #endregion Methods
+        public virtual PromoLinkType Type { get; set; }
+        public virtual string Url { get; set; }
     }
 }
+

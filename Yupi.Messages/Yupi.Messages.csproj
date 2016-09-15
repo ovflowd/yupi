@@ -595,6 +595,7 @@
     <Compile Include="Encoders\VectorEncoder.cs" />
     <Compile Include="Handlers\Other\LagWarningLogEvent.cs" />
     <Compile Include="Encoders\ChatEncoder.cs" />
+    <Compile Include="Composer\User\NewbieStatusMessageComposer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

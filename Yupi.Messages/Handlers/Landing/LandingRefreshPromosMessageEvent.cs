@@ -22,22 +22,39 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
+using System.Collections.Generic;
+using Yupi.Model.Domain;
+using Yupi.Model.Repository;
+using Yupi.Model;
+using System.Linq;
+
+
 namespace Yupi.Messages.Landing
 {
     using System;
 
     public class LandingRefreshPromosMessageEvent : AbstractHandler
     {
+        private IRepository<HotelLandingPromos> PromosRepository;
+        private const int MAX_PROMOS = 10;
+
+        public LandingRefreshPromosMessageEvent()
+        {
+            PromosRepository = DependencyFactory.Resolve<IRepository<HotelLandingPromos>>();
+        }
+
         #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
-            /*HotelLandingManager hotelView = Yupi.GetGame().GetHotelView();
+            List<HotelLandingPromos> promos = PromosRepository
+                .All()
+                .OrderByDescending(x => x.CreatedAt)
+                .Take(MAX_PROMOS)
+                .ToList();
 
-            router.GetComposer<LandingPromosMessageComposer> ().Compose (session, hotelView.HotelViewPromosIndexers);
-            */
-            throw new NotImplementedException();
+            router.GetComposer<LandingPromosMessageComposer> ().Compose (session, promos);
         }
 
         #endregion Methods
