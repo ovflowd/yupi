@@ -74,8 +74,11 @@ namespace Yupi.Messages.Rooms
             // TODO Magic constant
             if (newName.Length > 2)
             {
-                roomData.Description = request.GetString();
+                roomData.Name = newName;
             }
+
+            // TODO Filter
+            roomData.Description = request.GetString();
 
             int stateId = request.GetInteger();
 
