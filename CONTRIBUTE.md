@@ -30,4 +30,5 @@ You can do awesome pull requests by clicking [here](https://github.com/sant0ro/y
 Get started by contributin in our API Documentation.. Just click [here](https://github.com/sant0ro/yupi/wiki)
 
 -- <i>Claudio A. Santoro W.</i> 
+
 -- <i>Felix</i>
