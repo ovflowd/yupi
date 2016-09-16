@@ -31,7 +31,7 @@ namespace Yupi.Model.Domain
 
     using Yupi.Model.Domain.Components;
 
-    public class CatalogItem
+    public class CatalogOffer
     {
         #region Properties
 
@@ -95,7 +95,7 @@ namespace Yupi.Model.Domain
 
         #region Constructors
 
-        public CatalogItem()
+        public CatalogOffer()
         {
             BaseItems = new Dictionary<BaseItem, int>();
         }

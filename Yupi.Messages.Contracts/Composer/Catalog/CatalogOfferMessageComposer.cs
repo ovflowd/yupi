@@ -27,11 +27,11 @@ namespace Yupi.Messages.Contracts
     using Yupi.Model.Domain;
     using Yupi.Protocol.Buffers;
 
-    public abstract class CatalogOfferMessageComposer : AbstractComposer<CatalogItem>
+    public abstract class CatalogOfferMessageComposer : AbstractComposer<CatalogOffer>
     {
         #region Methods
 
-        public override void Compose(Yupi.Protocol.ISender session, CatalogItem item)
+        public override void Compose(Yupi.Protocol.ISender session, CatalogOffer item)
         {
             // Do nothing by default.
         }

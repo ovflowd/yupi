@@ -38,7 +38,7 @@ namespace Yupi.Controller
         #region Fields
 
         private AchievementManager AchievementManager;
-        private IRepository<CatalogItem> ItemRepository;
+        private IRepository<CatalogOffer> ItemRepository;
         private IRepository<UserInfo> UserRepository;
 
         #endregion Fields
@@ -48,7 +48,7 @@ namespace Yupi.Controller
         public CatalogController()
         {
             UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>>();
-            ItemRepository = DependencyFactory.Resolve<IRepository<CatalogItem>>();
+            ItemRepository = DependencyFactory.Resolve<IRepository<CatalogOffer>>();
             AchievementManager = DependencyFactory.Resolve<AchievementManager>();
         }
 
@@ -56,13 +56,13 @@ namespace Yupi.Controller
 
         #region Methods
 
-        public CatalogItem GetById(int pageId, int itemId)
+        public CatalogOffer GetById(int pageId, int itemId)
         {
             return ItemRepository.FindBy(x => x.Id == itemId && x.PageId.Id == pageId);
         }
 
         // TODO Make extraData optional
-        public bool Purchase(Habbo user, CatalogItem catalogItem, string extraData, int amount)
+        public bool Purchase(Habbo user, CatalogOffer catalogItem, string extraData, int amount)
         {
             if (catalogItem == null)
             {
@@ -129,7 +129,7 @@ namespace Yupi.Controller
             return true;
         }
 
-        public void PurchaseGift(Habbo user, CatalogItem catalogItem, string extraData, UserInfo receiver)
+        public void PurchaseGift(Habbo user, CatalogOffer catalogItem, string extraData, UserInfo receiver)
         {
             if (!catalogItem.AllowGift)
             {

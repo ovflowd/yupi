@@ -22,6 +22,11 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
+using System.Linq;
+using System.Collections.Generic;
+using System.Reflection;
+
+
 namespace Yupi.Model
 {
     using System;
@@ -51,7 +56,7 @@ namespace Yupi.Model
 
             IPersistenceConfigurer db;
 
-            switch ((DatabaseType) DatabaseSettings.Type)
+            switch ((DatabaseType)DatabaseSettings.Type)
             {
                 case DatabaseType.MySQL:
                     db = GetMySql();
@@ -76,7 +81,7 @@ namespace Yupi.Model
                                 .IncludeBase<BaseItem>()
                                 .IncludeBase<FloorItem>()
                                 .IncludeBase<WallItem>()
-                        ))
+                ))
                 .ExposeConfiguration(BuildSchema)
                 .BuildSessionFactory();
         }
@@ -85,18 +90,19 @@ namespace Yupi.Model
         public static void Populate()
         {
             PopulateObject(
-                new UserInfo() {Name = "User"},
-                new UserInfo() {Name = "Admin", Rank = 9}
+                new UserInfo() { Name = "User" },
+                new UserInfo() { Name = "Admin", Rank = 9 }
             );
 
-            PopulateObject(
-                new OfficialNavigatorCategory() {Caption = "Test"}
-            );
 
-            PopulateObject(
-                new FlatNavigatorCategory() {Caption = "Test2"},
-                new FlatNavigatorCategory() {Caption = "Test1"}
-            );
+            IEnumerable<IPopulate> instances = typeof(ModelHelper).Assembly.GetTypes()
+                .Where(t => t.GetInterfaces().Contains(typeof(IPopulate)))
+                .Select(t => Activator.CreateInstance(t, true) as IPopulate);
+
+            foreach (IPopulate populate in instances)
+            {
+                populate.Populate();
+            }
         }
 
         private static void BuildSchema(Configuration config)
@@ -116,7 +122,7 @@ namespace Yupi.Model
                             .Username(DatabaseSettings.Username)
                             .Password(DatabaseSettings.Password)
                             .Database(DatabaseSettings.Name)
-                );
+            );
         }
 
         private static IPersistenceConfigurer GetSQLite()
@@ -132,7 +138,7 @@ namespace Yupi.Model
             }
         }
 
-        private static void PopulateObject<T>(params T[] data)
+        public static void PopulateObject<T>(params T[] data)
         {
             IRepository<T> Repository = DependencyFactory.Resolve<IRepository<T>>();
 

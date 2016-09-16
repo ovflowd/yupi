@@ -248,7 +248,6 @@
     <Compile Include="Domain\BaseItems\WiredTriggerBotReachedStuffBaseItem.cs" />
     <Compile Include="Domain\BaseItems\WiredUnseenBaseItem.cs" />
     <Compile Include="Domain\BaseItems\YoutubeTvBaseItem.cs" />
-    <Compile Include="Domain\Catalog\CatalogItem.cs" />
     <Compile Include="Domain\Catalog\CatalogPage.cs" />
     <Compile Include="Domain\Catalog\LimitedCatalogItem.cs" />
     <Compile Include="Domain\Catalog\TargetedOffer.cs" />
@@ -379,6 +378,8 @@
     <Compile Include="Domain\Rooms\Entity\Posture\WalkPosture.cs" />
     <Compile Include="Domain\Users\NewbieStatus.cs" />
     <Compile Include="Domain\Navigator\Components\PromoLink.cs" />
+    <Compile Include="IPopulate.cs" />
+    <Compile Include="Domain\Catalog\CatalogOffer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

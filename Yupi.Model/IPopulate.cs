@@ -1,5 +1,5 @@
 ﻿// ---------------------------------------------------------------------------------
-// <copyright file="LimitedCatalogItem.cs" company="https://github.com/sant0ro/Yupi">
+// <copyright file="IPopulate.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -22,39 +22,13 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-namespace Yupi.Model.Domain
+using System;
+
+namespace Yupi.Model
 {
-    using System;
-
-    public class LimitedCatalogItem : CatalogOffer
+    public interface IPopulate
     {
-        #region Properties
-
-        public virtual int LimitedSold
-        {
-            get; protected set;
-        }
-
-        public virtual int LimitedStack
-        {
-            get; protected set;
-        }
-
-        #endregion Properties
-
-        #region Methods
-
-        public override bool CanPurchase(Yupi.Model.Domain.Components.UserWallet wallet, int amount = 1)
-        {
-            return base.CanPurchase(wallet, amount) && LimitedSold < LimitedStack;
-        }
-
-        public override void Purchase(Yupi.Model.Domain.Components.UserWallet wallet, int amount = 1)
-        {
-            base.Purchase(wallet, amount);
-            LimitedSold++;
-        }
-
-        #endregion Methods
+        void Populate();
     }
 }
+

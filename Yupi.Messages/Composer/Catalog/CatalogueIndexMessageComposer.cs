@@ -35,57 +35,45 @@ namespace Yupi.Messages.Catalog
     {
         #region Methods
 
-        public override void Compose(Yupi.Protocol.ISender session, IList<CatalogPage> sortedPages, string type,
+        public override void Compose(Yupi.Protocol.ISender session, CatalogPage root, string type,
             int rank)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
             {
-                // TODO Refactor pages to TREE
-                message.AppendBool(true);
-                message.AppendInteger(0);
-                message.AppendInteger(-1);
-                message.AppendString("root");
-                message.AppendString(string.Empty);
-                message.AppendInteger(0);
-                message.AppendInteger(sortedPages.Count());
+                AppendPage(root, message, rank);
+                message.AppendBool(false); // TODO CATALOG_NEW_ITEMS_SHOW
 
-                foreach (CatalogPage cat in sortedPages)
-                {
-                    message.AppendBool(cat.Visible);
-                    message.AppendInteger(cat.IconImage);
-                    message.AppendInteger(cat.Id);
-                    message.AppendString(cat.CodeName);
-                    message.AppendString(cat.Caption);
-                    message.AppendInteger(cat.FlatOffers.Count);
-
-                    foreach (uint i in cat.FlatOffers.Keys)
-                        message.AppendInteger(i);
-
-                    IOrderedEnumerable<CatalogPage> sortedSubPages =
-                        cat.Children.Where(x => x.MinRank <= rank).OrderBy(x => x.OrderNum);
-
-                    message.AppendInteger(sortedSubPages.Count());
-
-                    foreach (CatalogPage subCat in sortedSubPages)
-                    {
-                        message.AppendBool(subCat.Visible);
-                        message.AppendInteger(subCat.IconImage);
-                        message.AppendInteger(subCat.Id);
-                        message.AppendString(subCat.CodeName);
-                        message.AppendString(subCat.Caption);
-                        message.AppendInteger(subCat.FlatOffers.Count);
-
-                        foreach (uint i2 in subCat.FlatOffers.Keys)
-                            message.AppendInteger(i2);
-
-                        message.AppendInteger(0);
-                    }
-                }
-
-                message.AppendBool(false);
+                /* TODO
+                 * Type:
+                 * public static const NORMAL:String = "NORMAL";
+                 * public static const BUILDER:String = "BUILDERS_CLUB";
+                 */
                 message.AppendString(type);
 
                 session.Send(message);
+            }
+        }
+
+        private void AppendPage(CatalogPage page, ServerMessage message, int rank) {
+            message.AppendBool(page.Visible);
+            message.AppendInteger(page.Icon);
+            message.AppendInteger(page.Id);
+            message.AppendString(page.CodeName);
+            message.AppendString(page.Caption);
+            message.AppendInteger(page.Items.Count);
+
+            foreach (CatalogOffer item in page.Items)
+            {
+                message.AppendInteger(item.Id);
+            }
+
+            IOrderedEnumerable<CatalogPage> sortedSubPages =
+                page.Children.Where(x => x.MinRank <= rank).OrderBy(x => x.OrderNum);
+
+            message.AppendInteger(sortedSubPages.Count());
+
+            foreach(CatalogPage child in sortedSubPages) {
+                AppendPage(child, message, rank);
             }
         }
 

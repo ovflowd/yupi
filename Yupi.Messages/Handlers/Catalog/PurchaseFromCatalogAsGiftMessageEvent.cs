@@ -72,7 +72,7 @@ namespace Yupi.Messages.Catalog
                 router.GetComposer<GiftErrorMessageComposer>().Compose(session, giftUser);
             }
 
-            CatalogItem item = CatalogController.GetById(pageId, itemId);
+            CatalogOffer item = CatalogController.GetById(pageId, itemId);
             CatalogController.PurchaseGift(session, item, extraData, info);
         }
 

@@ -27,7 +27,7 @@ namespace Yupi.Model.Domain
     using System;
     using System.Collections.Generic;
 
-    public class TargetedOffer : CatalogItem
+    public class TargetedOffer : CatalogOffer
     {
         #region Properties
 

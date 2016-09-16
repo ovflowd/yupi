@@ -28,136 +28,91 @@ namespace Yupi.Model.Domain
     using System.Collections.Specialized;
     using System.Linq;
 
-    public class CatalogPage
+    public class CatalogPage : IPopulate
     {
         #region Properties
 
-        public virtual string Caption
-        {
-            get; set;
-        }
+        public virtual string Caption { get; set; }
 
-        public virtual List<CatalogPage> Children
-        {
-            get; protected set;
-        }
+        public virtual IList<CatalogPage> Children { get; protected set; }
 
-        public virtual string CodeName
-        {
-            get; set;
-        }
-
-        public virtual bool ComingSoon
-        {
-            get; set;
-        }
+        public virtual string CodeName { get; set; }
 
         // TODO Isn't enabled the same as visible?
-        public virtual bool Enabled
-        {
-            get; set;
-        }
+        public virtual bool Enabled { get; set; }
 
-        public virtual Dictionary<uint, uint> FlatOffers
-        {
-            get; set;
-        }
+        public virtual int Icon { get; set; }
 
-        public virtual int IconImage
-        {
-            get; set;
-        }
+        public virtual int Id { get; protected set; }
 
-        public virtual int Id
-        {
-            get; protected set;
-        }
+        public virtual IList<CatalogOffer> Items { get; protected set; }
 
-        public virtual IList<CatalogItem> Items
-        {
-            get; protected set;
-        }
 
-        public virtual string Layout
-        {
-            get; set;
-        }
+        // TODO Extract to class
+        public virtual string Layout { get; set; }
 
-        public virtual string LayoutHeadline
-        {
-            get; set;
-        }
+        public virtual string LayoutHeadline { get; set; }
 
-        public virtual string LayoutSpecial
-        {
-            get; set;
-        }
+        public virtual string LayoutSpecial { get; set; }
 
-        public virtual string LayoutTeaser
-        {
-            get; set;
-        }
+        public virtual string LayoutTeaser { get; set; }
 
-        public virtual uint MinRank
-        {
-            get; set;
-        }
+        public virtual uint MinRank { get; set; }
 
-        public virtual int OrderNum
-        {
-            get; set;
-        }
+        public virtual int OrderNum { get; set; }
 
-        public virtual string PageLink
-        {
-            get; set;
-        }
+        public virtual string PageLink { get; set; }
 
-        public virtual string PageLinkTitle
-        {
-            get; set;
-        }
+        public virtual CatalogPage Parent { get; set; }
 
-        public virtual CatalogPage Parent
-        {
-            get; set;
-        }
+        public virtual string Text1 { get; set; }
 
-        public virtual string Text1
-        {
-            get; set;
-        }
+        public virtual string Text2 { get; set; }
 
-        public virtual string Text2
-        {
-            get; set;
-        }
+        public virtual string TextDetails { get; set; }
 
-        public virtual string TextDetails
-        {
-            get; set;
-        }
+        public virtual string TextTeaser { get; set; }
 
-        public virtual string TextTeaser
-        {
-            get; set;
-        }
-
-        public virtual bool Visible
-        {
-            get; set;
-        }
+        public virtual bool Visible { get; set; }
 
         #endregion Properties
 
         #region Constructors
 
-        public CatalogPage()
+        protected CatalogPage()
         {
-            Items = new List<CatalogItem>();
+            Items = new List<CatalogOffer>();
             Children = new List<CatalogPage>();
+            Caption = string.Empty;
+            Visible = true;
+        }
+
+        public CatalogPage(string codename) : this()
+        {
+            this.CodeName = codename;
         }
 
         #endregion Constructors
+
+        public virtual void Populate()
+        {
+            CatalogPage root = new CatalogPage("root");
+
+            root.Children.Add(new CatalogPage("frontpage")
+                {
+                    Layout = "frontpage",
+                    LayoutHeadline = "HEADLINE",
+                    LayoutTeaser = "TEASER",
+                    Text1 = "TEXT1",
+                    Text2 = "TEXT2",
+                    CodeName = "frontpage",
+                    Caption = "frontpage",
+                    Parent = root
+                });
+
+            ModelHelper.PopulateObject(
+                root
+            );
+        }
     }
 }

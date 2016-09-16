@@ -71,6 +71,11 @@ namespace Yupi.Model.Domain
             SubCategories = new List<NavigatorCategory>();
         }
 
+        protected NavigatorCategory (string caption) : this()
+        {
+            this.Caption = caption;
+        }
+
         #endregion Constructors
     }
 }

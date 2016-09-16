@@ -34,7 +34,7 @@ namespace Yupi.Messages.Catalog
     {
         #region Methods
 
-        public override void Compose(Yupi.Protocol.ISender session, CatalogItem itemCatalog,
+        public override void Compose(Yupi.Protocol.ISender session, CatalogOffer itemCatalog,
             IDictionary<BaseItem, int> items,
             int clubLevel = 1)
         {

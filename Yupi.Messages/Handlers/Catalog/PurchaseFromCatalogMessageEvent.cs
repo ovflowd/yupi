@@ -60,7 +60,7 @@ namespace Yupi.Messages.Catalog
             string extraData = message.GetString();
             int amount = message.GetInteger();
 
-            CatalogItem item = CatalogController.GetById(pageId, itemId);
+            CatalogOffer item = CatalogController.GetById(pageId, itemId);
             CatalogController.Purchase(session, item, extraData, amount);
         }
 

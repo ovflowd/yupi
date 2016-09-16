@@ -391,7 +391,7 @@ namespace Yupi.Messages.Catalog
 
                 message.AppendInteger(page.Items.Count);
 
-                foreach (CatalogItem item in page.Items)
+                foreach (CatalogOffer item in page.Items)
                     ComposeItem(item, message);
 
                 message.AppendInteger(-1);
@@ -401,7 +401,7 @@ namespace Yupi.Messages.Catalog
             }
         }
 
-        private void ComposeItem(CatalogItem item, ServerMessage messageBuffer)
+        private void ComposeItem(CatalogOffer item, ServerMessage messageBuffer)
         {
             messageBuffer.AppendInteger(item.Id);
             messageBuffer.AppendString(item.Name);

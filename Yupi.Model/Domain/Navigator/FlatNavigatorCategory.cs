@@ -26,7 +26,22 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class FlatNavigatorCategory : NavigatorCategory
+    public class FlatNavigatorCategory : NavigatorCategory, IPopulate
     {
+        protected FlatNavigatorCategory()
+        {
+        }
+        
+
+        public FlatNavigatorCategory(string caption) : base(caption)
+        {
+        }
+
+        public virtual void Populate ()
+        {
+            ModelHelper.PopulateObject(
+                new FlatNavigatorCategory() {Caption = "No category"}
+            );
+        }
     }
 }

@@ -26,7 +26,19 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class OfficialNavigatorCategory : NavigatorCategory
+    public class OfficialNavigatorCategory : NavigatorCategory, IPopulate
     {
+        protected OfficialNavigatorCategory()
+        {
+        }
+
+        public OfficialNavigatorCategory(string caption) : base(caption)
+        {
+        }
+
+        public virtual void Populate ()
+        {
+            // TODO Implement
+        }
     }
 }

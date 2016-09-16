@@ -33,7 +33,7 @@ namespace Yupi.Messages.Catalog
     {
         #region Methods
 
-        public override void Compose(Yupi.Protocol.ISender session, CatalogItem item)
+        public override void Compose(Yupi.Protocol.ISender session, CatalogOffer item)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
             {

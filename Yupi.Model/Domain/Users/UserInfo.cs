@@ -173,6 +173,7 @@ namespace Yupi.Model.Domain
             get; protected set;
         }
 
+        // TODO Enum
         public virtual int Rank
         {
             get; set;

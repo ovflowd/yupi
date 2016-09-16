@@ -26,16 +26,44 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class PromotionNavigatorCategory : NavigatorCategory
+    public class PromotionNavigatorCategory : NavigatorCategory, IPopulate
     {
         #region Properties
 
         // TODO Can this be moved up?
-        public virtual bool Visible
-        {
-            get; set;
-        }
+        public virtual bool Visible { get; set; }
 
         #endregion Properties
+
+        protected PromotionNavigatorCategory() : base()
+        {
+        }
+
+        public PromotionNavigatorCategory(string caption) : base(caption)
+        {
+        }
+
+
+        public virtual void Populate()
+        {
+            ModelHelper.PopulateObject(
+                new PromotionNavigatorCategory("${roomevent_type_0}"),
+                new PromotionNavigatorCategory("${roomevent_type_1}"),
+                new PromotionNavigatorCategory("${roomevent_type_2}"),
+                new PromotionNavigatorCategory("${roomevent_type_3}"),
+                new PromotionNavigatorCategory("${roomevent_type_4}"),
+                new PromotionNavigatorCategory("${roomevent_type_5}"),
+                new PromotionNavigatorCategory("${roomevent_type_6}"),
+                new PromotionNavigatorCategory("${roomevent_type_7}"),
+                new PromotionNavigatorCategory("${roomevent_type_8}"),
+                new PromotionNavigatorCategory("${roomevent_type_9}"),
+                new PromotionNavigatorCategory("${roomevent_type_10}"),
+                new PromotionNavigatorCategory("${roomevent_type_11}"),
+                new PromotionNavigatorCategory("Staffs")
+                {
+                    MinRank = 6 // TODO I don't like these hardcoded ranks
+                }
+            );
+        }
     }
 }
