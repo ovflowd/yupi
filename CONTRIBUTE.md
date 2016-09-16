@@ -20,13 +20,13 @@ Me [Claudio](https://github.com/sant0ro) and [Felix](https://github.com/TheDoct0
 and we will be really glad with your help. Want to help??
 _What are you waiting?_
 
-### Issues
+#### Issues
 Get started with the opened issues by clicking [here](https://github.com/sant0ro/yupi/issues)
 
-### Pull Requests
+#### Pull Requests
 You can do awesome pull requests by clicking [here](https://github.com/sant0ro/yupi/pulls)
 
-### API Documentation
+#### API Documentation
 Get started by contributin in our API Documentation.. Just click [here](https://github.com/sant0ro/yupi/wiki)
 
 -- <i>Claudio A. Santoro W.</i> 
