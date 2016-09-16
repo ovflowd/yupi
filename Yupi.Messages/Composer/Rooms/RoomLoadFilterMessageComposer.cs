@@ -33,7 +33,7 @@ namespace Yupi.Messages.Rooms
     {
         #region Methods
 
-        public override void Compose(Yupi.Protocol.ISender session, List<string> wordlist)
+        public override void Compose(Yupi.Protocol.ISender session, ISet<string> wordlist)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
             {

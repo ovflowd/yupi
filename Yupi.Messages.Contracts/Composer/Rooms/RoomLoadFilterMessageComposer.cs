@@ -28,11 +28,11 @@ namespace Yupi.Messages.Contracts
 
     using Yupi.Protocol.Buffers;
 
-    public abstract class RoomLoadFilterMessageComposer : AbstractComposer<List<string>>
+    public abstract class RoomLoadFilterMessageComposer : AbstractComposer<ISet<string>>
     {
         #region Methods
 
-        public override void Compose(Yupi.Protocol.ISender session, List<string> wordlist)
+        public override void Compose(Yupi.Protocol.ISender session, ISet<string> wordlist)
         {
             // Do nothing by default.
         }

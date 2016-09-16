@@ -280,7 +280,7 @@ namespace Yupi.Model.Domain
         ///     Room Private Black Words
         /// </summary>
         [OneToMany]
-        public virtual IList<string> WordFilter
+        public virtual ISet<string> WordFilter
         {
             get; protected set;
         }
@@ -302,7 +302,7 @@ namespace Yupi.Model.Domain
             HideWall = false;
             AllowRightsOverride = false;
             TradeState = TradingState.NotAllowed;
-            WordFilter = new List<string>();
+            WordFilter = new HashSet<string>();
             Rights = new List<UserInfo>();
             MutedEntities = new List<RoomMute>();
             Chat = new RoomChatSettings();

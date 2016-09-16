@@ -22,59 +22,52 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
+using Yupi.Model.Repository;
+using Yupi.Model.Domain;
+using Yupi.Model;
+
+
 namespace Yupi.Messages.Rooms
 {
     using System;
 
     public class RoomAlterFilterMessageEvent : AbstractHandler
     {
+        private IRepository<RoomData> RoomRepository;
+
+        public RoomAlterFilterMessageEvent()
+        {
+            RoomRepository = DependencyFactory.Resolve<IRepository<RoomData>>();
+        }
+
         #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
-            uint roomId = request.GetUInt32();
+            int roomId = request.GetInteger();
             bool shouldAdd = request.GetBool();
             string word = request.GetString();
 
-            /*
-            Room room = Yupi.GetGame().GetRoomManager().GetRoom(session.GetHabbo().CurrentRoomId);
+            RoomData room = RoomRepository.FindBy(roomId);
 
-            if (room == null || !room.CheckRights(session, true))
-                return;
-
-            if (!shouldAdd) {
-                if (!room.WordFilter.Contains (word))
-                    return;
-
-                room.WordFilter.Remove (word);
-
-                using (IQueryAdapter queryReactor = Yupi.GetDatabaseManager ().GetQueryReactor ()) {
-                    queryReactor.SetQuery ("DELETE FROM rooms_wordfilter WHERE room_id = @id AND word = @word");
-                    queryReactor.AddParameter ("id", roomId);
-                    queryReactor.AddParameter ("word", word);
-                    queryReactor.RunQuery ();
+            if (room != null && room.HasOwnerRights(session.Info))
+            {
+                bool hasChanged = false;
+                if (shouldAdd)
+                {
+                    hasChanged = room.WordFilter.Add (word);
                 }
-            } else {
-
-                if (room.WordFilter.Contains (word))
-                    return;
-
-                if (word.Contains ("+")) {
-                    session.SendNotif (Yupi.GetLanguage ().GetVar ("character_error_plus"));
-                    return;
+                else
+                {
+                    hasChanged = room.WordFilter.Remove (word);
                 }
 
-                room.WordFilter.Add (word);
-
-                using (IQueryAdapter queryreactor2 = Yupi.GetDatabaseManager ().GetQueryReactor ()) {
-                    queryreactor2.SetQuery ("INSERT INTO rooms_wordfilter (room_id, word) VALUES (@id, @word);");
-                    queryreactor2.AddParameter ("id", roomId);
-                    queryreactor2.AddParameter ("word", word);
-                    queryreactor2.RunQuery ();
+                if (hasChanged)
+                {
+                    RoomRepository.Save(room);
                 }
-            }*/
-            throw new NotImplementedException();
+            }
         }
 
         #endregion Methods
