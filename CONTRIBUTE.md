@@ -29,4 +29,4 @@ You can do awesome pull requests by clicking [here](https://github.com/sant0ro/y
 #### API Documentation
 Get started by contributin in our API Documentation.. Just click [here](https://github.com/sant0ro/yupi/wiki)
 
--- _Claudio Santoro_
+-- _Claudio_ and _Felix_
