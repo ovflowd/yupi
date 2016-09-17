@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="CatalogOfferMessageComposer.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,13 +24,14 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using Yupi.Messages.Encoders;
 
+#endregion Header
 
 namespace Yupi.Messages.Catalog
 {
     using System;
 
+    using Yupi.Messages.Encoders;
     using Yupi.Model.Domain;
     using Yupi.Protocol.Buffers;
 

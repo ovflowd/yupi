@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="InfoRentablesLayout.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,30 +24,63 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System;
+
+#endregion Header
 
 namespace Yupi.Model.Domain
 {
+    using System;
+
     public class InfoRentablesLayout : DefaultImageLayout
     {
-        public virtual string HeaderDescription { get; set; }
-        public virtual string Text1 { get; set; }
-        public virtual string Text2 { get; set; }
-        public virtual string Text3 { get; set; }
-        public virtual string Text4 { get; set; }
-        public virtual string Text5 { get; set; }
+        #region Properties
 
-                [Ignore]public override string[] Texts {
+        public virtual string HeaderDescription
+        {
+            get; set;
+        }
+
+        [Ignore]
+        public override string Name
+        {
+            get {
+                return "info_rentables";
+            }
+        }
+
+        public virtual string Text1
+        {
+            get; set;
+        }
+
+        public virtual string Text2
+        {
+            get; set;
+        }
+
+        public virtual string Text3
+        {
+            get; set;
+        }
+
+        public virtual string Text4
+        {
+            get; set;
+        }
+
+        public virtual string Text5
+        {
+            get; set;
+        }
+
+        [Ignore]
+        public override string[] Texts
+        {
             get {
                 return new string[] { HeaderDescription, Text1, Text2, Text3, Text4, Text5 };
             }
         }
 
-        [Ignore]public override string Name {
-            get {
-                return "info_rentables";
-            }
-        }
+        #endregion Properties
     }
 }
-

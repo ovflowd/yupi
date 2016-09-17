@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="CataloguePageMessageComposer.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,14 +24,15 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using Yupi.Model;
-using Yupi.Messages.Encoders;
 
+#endregion Header
 
 namespace Yupi.Messages.Catalog
 {
     using System;
 
+    using Yupi.Messages.Encoders;
+    using Yupi.Model;
     using Yupi.Model.Domain;
     using Yupi.Protocol.Buffers;
 
@@ -49,14 +52,14 @@ namespace Yupi.Messages.Catalog
 
                 foreach (string image in page.Layout.Images)
                 {
-                    message.AppendString(image); 
+                    message.AppendString(image);
                 }
 
                 message.AppendInteger(page.Layout.Texts.Length);
 
                 foreach (string text in page.Layout.Texts)
                 {
-                    message.AppendString(text); 
+                    message.AppendString(text);
                 }
 
                 message.AppendInteger(page.Offers.Count);

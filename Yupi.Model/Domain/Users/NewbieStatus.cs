@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="NewbieStatus.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,15 +24,21 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System;
+
+#endregion Header
 
 namespace Yupi.Model.Domain
 {
+    using System;
+
+    #region Enumerations
+
     public enum NewbieStatus
     {
         NORMAL = 0,
         NEWBIE = 1,
         NEWBIE_LOBBY = 2
     }
-}
 
+    #endregion Enumerations
+}

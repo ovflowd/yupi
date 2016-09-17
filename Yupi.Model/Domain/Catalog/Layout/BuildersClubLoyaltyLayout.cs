@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="BuildersClubLoyaltyLayout.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,17 +24,25 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System;
+
+#endregion Header
 
 namespace Yupi.Model.Domain
 {
+    using System;
+
     public class BuildersClubLoyaltyLayout : AbstractInfoLayout
     {
-        [Ignore]public override string Name {
+        #region Properties
+
+        [Ignore]
+        public override string Name
+        {
             get {
                 return "builders_club_loyalty";
             }
         }
+
+        #endregion Properties
     }
 }
-

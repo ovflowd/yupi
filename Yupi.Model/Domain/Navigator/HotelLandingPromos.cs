@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="HotelLandingPromos.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,12 +24,15 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using Yupi.Model.Domain.Components;
-using System;
 
+#endregion Header
 
 namespace Yupi.Model.Domain
 {
+    using System;
+
+    using Yupi.Model.Domain.Components;
+
     public class HotelLandingPromos
     {
         #region Properties
@@ -42,7 +47,7 @@ namespace Yupi.Model.Domain
             get; set;
         }
 
-        public virtual string Title
+        public virtual DateTime CreatedAt
         {
             get; set;
         }
@@ -56,19 +61,26 @@ namespace Yupi.Model.Domain
         {
             get; set;
         }
-            
+
         public virtual PromoLink Link
         {
             get; set;
         }
 
-        public virtual DateTime CreatedAt { get; set; }
+        public virtual string Title
+        {
+            get; set;
+        }
 
         #endregion Properties
+
+        #region Constructors
 
         public HotelLandingPromos()
         {
             CreatedAt = DateTime.Now;
         }
+
+        #endregion Constructors
     }
 }

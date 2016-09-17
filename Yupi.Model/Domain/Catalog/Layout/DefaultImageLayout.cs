@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="DefaultImageLayout.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,23 +24,50 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System;
+
+#endregion Header
 
 namespace Yupi.Model.Domain
 {
+    using System;
+
     public abstract class DefaultImageLayout : CatalogPageLayout
     {
-        public virtual string HeaderImage { get; set; }
-        public virtual string TeaserImage1 { get; set; }
-        public virtual string SpecialImage { get; set; }
-        public virtual string TeaserImage2 { get; set; }
-        public virtual string TeaserImage3 { get; set; }
+        #region Properties
 
-        [Ignore]public override string[] Images {
+        public virtual string HeaderImage
+        {
+            get; set;
+        }
+
+        [Ignore]
+        public override string[] Images
+        {
             get {
                 return new string[] { HeaderImage, TeaserImage1, SpecialImage, TeaserImage2, TeaserImage3 };
             }
         }
+
+        public virtual string SpecialImage
+        {
+            get; set;
+        }
+
+        public virtual string TeaserImage1
+        {
+            get; set;
+        }
+
+        public virtual string TeaserImage2
+        {
+            get; set;
+        }
+
+        public virtual string TeaserImage3
+        {
+            get; set;
+        }
+
+        #endregion Properties
     }
 }
-

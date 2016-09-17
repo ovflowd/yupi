@@ -83,7 +83,7 @@ namespace Yupi.Controller
             /*
              *  if (!session.Info.Subscription.IsValid())
                 return;
-             * 
+             *
             if (session.GetHabbo ().Achievements.ContainsKey ("ACH_VipHC")) {
                 UserAchievement clubAch = session.GetHabbo ().GetAchievementData ("ACH_VipHC");
 

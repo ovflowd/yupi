@@ -28,11 +28,15 @@ namespace Yupi.Messages.Contracts
 
     public abstract class CatalogPurchaseErrorMessageComposer : AbstractComposer<CatalogPurchaseErrorMessageComposer.ErrorCode>
     {
+        #region Enumerations
+
         public enum ErrorCode
         {
             Generic,
             Badge_Already_Owned
         }
+
+        #endregion Enumerations
 
         #region Methods
 

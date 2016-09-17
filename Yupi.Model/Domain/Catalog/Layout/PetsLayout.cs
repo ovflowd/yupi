@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="PetsLayout.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,28 +24,53 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System;
+
+#endregion Header
 
 namespace Yupi.Model.Domain
 {
+    using System;
+
     public class PetsLayout : DefaultImageLayout
     {
-        public virtual string HeaderDescription { get; set; }
-        public virtual string Text1 { get; set; }
-        public virtual string Text2 { get; set; }
-        public virtual string Text3 { get; set; }
+        #region Properties
 
-                [Ignore]public override string[] Texts {
+        public virtual string HeaderDescription
+        {
+            get; set;
+        }
+
+        [Ignore]
+        public override string Name
+        {
+            get {
+                return "pets";
+            }
+        }
+
+        public virtual string Text1
+        {
+            get; set;
+        }
+
+        public virtual string Text2
+        {
+            get; set;
+        }
+
+        public virtual string Text3
+        {
+            get; set;
+        }
+
+        [Ignore]
+        public override string[] Texts
+        {
             get {
                 return new string[] { HeaderDescription, Text1, Text2, Text3 };
             }
         }
 
-        [Ignore]public override string Name {
-            get {
-                return "pets";
-            }
-        }
+        #endregion Properties
     }
 }
-

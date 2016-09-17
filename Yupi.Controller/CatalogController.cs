@@ -90,7 +90,25 @@ namespace Yupi.Controller
             return false;
         }
 
-        private void DeliverOffer(Habbo user, CatalogOffer offer, string extraData) {
+        public void PurchaseGift(Habbo user, CatalogOffer catalogItem, string extraData, UserInfo receiver)
+        {
+            if (!catalogItem.AllowGift)
+            {
+                return;
+            }
+
+            if (Purchase(user, catalogItem, extraData, 1) && user.Info != receiver)
+            {
+                AchievementManager
+                    .ProgressUserAchievement(user, "ACH_GiftGiver", 1);
+
+                AchievementManager
+                    .ProgressUserAchievement(receiver, "ACH_GiftGiver", 1);
+            }
+        }
+
+        private void DeliverOffer(Habbo user, CatalogOffer offer, string extraData)
+        {
             ItemRepository.Save(offer);
 
             user.Router.GetComposer<CreditsBalanceMessageComposer>().Compose(user, user.Info.Wallet.Credits);
@@ -123,23 +141,6 @@ namespace Yupi.Controller
             {
                 user.Info.Badges.GiveBadge(offer.Badge);
                 UserRepository.Save(user.Info);
-            }
-        }
-
-        public void PurchaseGift(Habbo user, CatalogOffer catalogItem, string extraData, UserInfo receiver)
-        {
-            if (!catalogItem.AllowGift)
-            {
-                return;
-            }
-
-            if (Purchase(user, catalogItem, extraData, 1) && user.Info != receiver)
-            {
-                AchievementManager
-                    .ProgressUserAchievement(user, "ACH_GiftGiver", 1);
-
-                AchievementManager
-                    .ProgressUserAchievement(receiver, "ACH_GiftGiver", 1);
             }
         }
 

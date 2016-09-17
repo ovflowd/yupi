@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="AbstractInfoLayout.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,19 +24,30 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System;
+
+#endregion Header
 
 namespace Yupi.Model.Domain
 {
+    using System;
+
     public abstract class AbstractInfoLayout : DefaultImageLayout
     {
-        public virtual string Description { get; set; }
+        #region Properties
 
-        [Ignore]public override string[] Texts {
+        public virtual string Description
+        {
+            get; set;
+        }
+
+        [Ignore]
+        public override string[] Texts
+        {
             get {
                 return new string[] { this.Description };
             }
         }
+
+        #endregion Properties
     }
 }
-

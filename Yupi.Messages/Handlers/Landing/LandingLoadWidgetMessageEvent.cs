@@ -38,62 +38,61 @@ namespace Yupi.Messages.Landing
             /*
              * TODO Implement properly
              * Called, when landing.view.dynamic.slot.[1-6].widget=widgetcontainer
-             * 
+             *
              * text has value of landing.view.dynamic.slot.[1-6].conf
              */
-           
 
             router.GetComposer<LandingWidgetMessageComposer>().Compose(session, text);
 
             /*
              * TODO
              * Available containers are:
-             * 
+             *
              * (Resulting in different messages from client)
-             * 
+             *
              * public static const §_-32O§:String = "avatarimage";
-      
-      public static const §_-5cj§:String = "expiringcatalogpage";
-      
-      public static const §_-6Vs§:String = "expiringcatalogpagesmall";
-      
-      public static const §_-4yT§:String = "communitygoal";
-      
-      public static const §_-3tJ§:String = "communitygoalvsmode";
-      
-      public static const §_-4Rs§:String = "communitygoalvsmodevote";
-      
-      public static const §_-3Xy§:String = "catalogpromo";
-      
-      public static const §_-4VK§:String = "catalogpromosmall";
-      
-      public static const §_-44O§:String = "achievementcompetition_hall_of_fame";
-      
-      public static const §_-6SM§:String = "achievementcompetition_prizes";
-      
-      public static const §_-5C2§:String = "dailyquest";
-      
-      public static const §_-3bo§:String = "nextlimitedrarecountdown";
-      
-      public static const §_-4c1§:String = "habbomoderationpromo";
-      
-      public static const §_-5Fe§:String = "habbotalentspromo";
-      
-      public static const §_-5Yp§:String = "habbowaypromo";
-      
-      public static const §_-0Eo§:String = "fastfoodgamepromo";
-      
-      public static const §_-6Bh§:String = "roomhoppernetwork";
-      
-      public static const §_-2B8§:String = "safetyquizpromo";
-      
-      public static const §_-M6§:String = "generic";
-      
-      public static const §_-1Ci§:String = "widgetcontainer";
-      
-      public static const §_-46j§:String = "promoarticle";
-      
-      public static const §_-5mm§:String = "bonusrare";
+
+              public static const §_-5cj§:String = "expiringcatalogpage";
+
+              public static const §_-6Vs§:String = "expiringcatalogpagesmall";
+
+              public static const §_-4yT§:String = "communitygoal";
+
+              public static const §_-3tJ§:String = "communitygoalvsmode";
+
+              public static const §_-4Rs§:String = "communitygoalvsmodevote";
+
+              public static const §_-3Xy§:String = "catalogpromo";
+
+              public static const §_-4VK§:String = "catalogpromosmall";
+
+              public static const §_-44O§:String = "achievementcompetition_hall_of_fame";
+
+              public static const §_-6SM§:String = "achievementcompetition_prizes";
+
+              public static const §_-5C2§:String = "dailyquest";
+
+              public static const §_-3bo§:String = "nextlimitedrarecountdown";
+
+              public static const §_-4c1§:String = "habbomoderationpromo";
+
+              public static const §_-5Fe§:String = "habbotalentspromo";
+
+              public static const §_-5Yp§:String = "habbowaypromo";
+
+              public static const §_-0Eo§:String = "fastfoodgamepromo";
+
+              public static const §_-6Bh§:String = "roomhoppernetwork";
+
+              public static const §_-2B8§:String = "safetyquizpromo";
+
+              public static const §_-M6§:String = "generic";
+
+              public static const §_-1Ci§:String = "widgetcontainer";
+
+              public static const §_-46j§:String = "promoarticle";
+
+              public static const §_-5mm§:String = "bonusrare";
              */
         }
 

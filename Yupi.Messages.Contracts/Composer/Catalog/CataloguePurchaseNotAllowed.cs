@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="CataloguePurchaseNotAllowed.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,21 +24,31 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System;
+
+#endregion Header
 
 namespace Yupi.Messages.Contracts
 {
+    using System;
+
     public class CataloguePurchaseNotAllowed : AbstractComposer<CataloguePurchaseNotAllowed.ErrorCode>
     {
-        public enum ErrorCode {
+        #region Enumerations
+
+        public enum ErrorCode
+        {
             Unknown,
             Not_HC
         }
 
+        #endregion Enumerations
+
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, ErrorCode value)
         {
-            
         }
+
+        #endregion Methods
     }
 }
-

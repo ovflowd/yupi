@@ -61,7 +61,7 @@ namespace Yupi.Messages.Catalog
                 message.AppendString(offer.Icon);
 
                 // These are not necessarily catalog items. Can be anything (declared in productdata.xml)
-                message.AppendInteger(offer.Products.Count); 
+                message.AppendInteger(offer.Products.Count);
 
                 foreach (CatalogProduct product in offer.Products)
                 {

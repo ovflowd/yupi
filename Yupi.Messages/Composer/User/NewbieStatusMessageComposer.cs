@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="NewbieStatusMessageComposer.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,15 +24,20 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System;
-using Yupi.Protocol.Buffers;
+
+#endregion Header
 
 namespace Yupi.Messages.User
 {
+    using System;
+
     using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
 
     public class NewbieStatusMessageComposer : Contracts.NewbieStatusMessageComposer
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, NewbieStatus status)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -39,6 +46,7 @@ namespace Yupi.Messages.User
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }
-

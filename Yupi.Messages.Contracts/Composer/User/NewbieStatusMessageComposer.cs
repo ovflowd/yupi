@@ -22,17 +22,18 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-
 namespace Yupi.Messages.Contracts
 {
     using Yupi.Model.Domain;
 
     public class NewbieStatusMessageComposer : AbstractComposer<NewbieStatus>
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, NewbieStatus status)
         {
-            
         }
+
+        #endregion Methods
     }
 }
-

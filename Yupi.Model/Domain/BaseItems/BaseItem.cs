@@ -138,6 +138,15 @@ namespace Yupi.Model.Domain
             get { return ItemType.Floor; }
         }
 
+        [Ignore]
+        public virtual string Visualization
+        {
+            get {
+                // TODO Implement
+                return string.Empty;
+            }
+        }
+
         /// <summary>
         ///     The walkable
         /// </summary>
@@ -152,14 +161,6 @@ namespace Yupi.Model.Domain
         public virtual int Width
         {
             get; set;
-        }
-
-        [Ignore]
-        public virtual string Visualization {
-            get {
-                // TODO Implement
-                return string.Empty;
-            }
         }
 
         #endregion Properties

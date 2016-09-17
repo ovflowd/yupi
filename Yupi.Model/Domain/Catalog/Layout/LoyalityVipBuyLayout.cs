@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="LoyalityVipBuyLayout.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,17 +24,25 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System;
+
+#endregion Header
 
 namespace Yupi.Model.Domain
 {
+    using System;
+
     public class LoyalityVipBuyLayout : DefaultCatalogLayout
     {
-        [Ignore]public override string Name {
+        #region Properties
+
+        [Ignore]
+        public override string Name
+        {
             get {
                 return "loyalty_vip_buy";
             }
         }
+
+        #endregion Properties
     }
 }
-

@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="CatalogPageLayout.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,20 +24,41 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System;
+
+#endregion Header
 
 namespace Yupi.Model.Domain
 {
+    using System;
+
     [IsDiscriminated]
     public abstract class CatalogPageLayout
     {
-                public abstract string[] Texts { get; }
+        #region Properties
 
-                public abstract string[] Images { get; }
+        public virtual int Id
+        {
+            get; protected set;
+        }
 
-        public virtual int Id { get; protected set; }
+        [Ignore]
+        public abstract string[] Images
+        {
+            get;
+        }
 
-                public abstract string Name { get; }
+        [Ignore]
+        public abstract string Name
+        {
+            get;
+        }
+
+        [Ignore]
+        public abstract string[] Texts
+        {
+            get;
+        }
+
+        #endregion Properties
     }
 }
-

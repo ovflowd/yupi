@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="ItemType.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,23 +24,33 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using Headspring;
 
+#endregion Header
 
 namespace Yupi.Model.Domain
 {
     using System;
 
+    using Headspring;
+
     public class ItemType : Enumeration<ItemType>
     {
-        public static readonly ItemType Floor = new ItemType(1, "s");
-        public static readonly ItemType Wall = new ItemType(2, "i");
-        public static readonly ItemType Pet = new ItemType(3, "e");
-        public static readonly ItemType Bot = new ItemType(4, "b");
+        #region Fields
 
-        private ItemType(int value, string displayName) : base(value, displayName)
+        public static readonly ItemType Bot = new ItemType(4, "b");
+        public static readonly ItemType Floor = new ItemType(1, "s");
+        public static readonly ItemType Pet = new ItemType(3, "e");
+        public static readonly ItemType Wall = new ItemType(2, "i");
+
+        #endregion Fields
+
+        #region Constructors
+
+        private ItemType(int value, string displayName)
+            : base(value, displayName)
         {
         }
-        
+
+        #endregion Constructors
     }
 }

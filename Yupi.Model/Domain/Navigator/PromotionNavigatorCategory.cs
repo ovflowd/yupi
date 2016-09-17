@@ -31,18 +31,28 @@ namespace Yupi.Model.Domain
         #region Properties
 
         // TODO Can this be moved up?
-        public virtual bool Visible { get; set; }
+        public virtual bool Visible
+        {
+            get; set;
+        }
 
         #endregion Properties
 
-        protected PromotionNavigatorCategory() : base()
+        #region Constructors
+
+        public PromotionNavigatorCategory(string caption)
+            : base(caption)
         {
         }
 
-        public PromotionNavigatorCategory(string caption) : base(caption)
+        protected PromotionNavigatorCategory()
+            : base()
         {
         }
 
+        #endregion Constructors
+
+        #region Methods
 
         public virtual void Populate()
         {
@@ -65,5 +75,7 @@ namespace Yupi.Model.Domain
                 }
             );
         }
+
+        #endregion Methods
     }
 }

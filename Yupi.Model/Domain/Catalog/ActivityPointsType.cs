@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="ActivityPointsType.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,10 +24,15 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System;
+
+#endregion Header
 
 namespace Yupi.Model.Domain
 {
+    using System;
+
+    #region Enumerations
+
     public enum ActivityPointsType
     {
         Duckets = 0,
@@ -35,5 +42,6 @@ namespace Yupi.Model.Domain
         Horseshoes = 101,
         Stars = 103
     }
-}
 
+    #endregion Enumerations
+}

@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="CatalogPage.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,31 +24,80 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System.Diagnostics.Contracts;
 
+#endregion Header
 
 namespace Yupi.Model.Domain
 {
     using System.Collections.Generic;
     using System.Collections.Specialized;
+    using System.Diagnostics.Contracts;
     using System.Linq;
 
     public class CatalogPage : IPopulate
     {
         #region Properties
 
-        public virtual string Caption { get; set; }
+        public virtual string Caption
+        {
+            get;
+            set;
+        }
 
-        public virtual IList<CatalogPage> Children { get; protected set; }
+        public virtual IList<CatalogPage> Children
+        {
+            get;
+            protected set;
+        }
 
         // TODO Isn't enabled the same as visible?
-        public virtual bool Enabled { get; set; }
+        public virtual bool Enabled
+        {
+            get;
+            set;
+        }
 
-        public virtual int Icon { get; set; }
+        public virtual int Icon
+        {
+            get;
+            set;
+        }
 
-        public virtual int Id { get; protected set; }
+        public virtual int Id
+        {
+            get;
+            protected set;
+        }
 
-        public virtual IList<CatalogOffer> Offers { get; protected set; }
+        public virtual CatalogPageLayout Layout
+        {
+            get;
+            set;
+        }
+
+        public virtual uint MinRank
+        {
+            get;
+            set;
+        }
+
+        public virtual IList<CatalogOffer> Offers
+        {
+            get;
+            protected set;
+        }
+
+        public virtual int OrderNum
+        {
+            get;
+            set;
+        }
+
+        public virtual CatalogPage Parent
+        {
+            get;
+            set;
+        }
 
         public virtual CatalogOffer SelectedOffer
         {
@@ -54,17 +105,13 @@ namespace Yupi.Model.Domain
             set;
         }
 
-        public virtual CatalogPageLayout Layout { get; set; }
-
-        public virtual uint MinRank { get; set; }
-
-        public virtual int OrderNum { get; set; }
-
-        public virtual CatalogPage Parent { get; set; }
-
-        public virtual bool Visible { get; set; }
-
         public virtual CatalogType Type
+        {
+            get;
+            set;
+        }
+
+        public virtual bool Visible
         {
             get;
             set;
@@ -85,20 +132,32 @@ namespace Yupi.Model.Domain
 
         #endregion Constructors
 
+        #region Methods
+
         public virtual void Populate()
         {
             CatalogPage root = new CatalogPage()
             {
-                Caption = "root"
+                Caption = "root",
+                    Layout = new FrontpageFeaturedLayout()
+                {
+                    Text1 = "Text1",
+                    Text2 = "Text2",
+                    HeaderImage = "catalogue/catal_fp_header"
+                },
             };
 
             root.Children.Add(new CatalogPage()
                 {
-                    Layout = new FrontpageLayout() {
+                    Layout = new Default3x3Layout()
+                    {
                         Text1 = "Text1",
-                        Text2 = "Text2"
+                        Text2 = "Text2",
+                        Description = "Description",
+                        HeaderDescription = "HeaderDesc",
+                        SpecialText = "SpecialText",
                     },
-                    Caption = "frontpage",
+                    Caption = "Test",
                     Parent = root
                 });
 
@@ -106,5 +165,7 @@ namespace Yupi.Model.Domain
                 root
             );
         }
+
+        #endregion Methods
     }
 }

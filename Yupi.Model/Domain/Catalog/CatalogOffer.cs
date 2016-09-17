@@ -35,13 +35,16 @@ namespace Yupi.Model.Domain
     {
         #region Properties
 
+        public virtual ActivityPointsType ActivityPointsType
+        {
+            get; set;
+        }
+
         public virtual bool AllowGift
         {
             get;
             set;
         }
-
-        public virtual ActivityPointsType ActivityPointsType { get; set; }
 
         // TODO Arbitrary string..
         public virtual string Badge
@@ -50,19 +53,7 @@ namespace Yupi.Model.Domain
             set;
         }
 
-        public virtual IList<CatalogProduct> Products
-        {
-            get;
-            protected set;
-        }
-
         public virtual ClubLevel ClubLevel
-        {
-            get;
-            set;
-        }
-
-        public virtual int CostCredits
         {
             get;
             set;
@@ -74,16 +65,16 @@ namespace Yupi.Model.Domain
             set;
         }
 
+        public virtual int CostCredits
+        {
+            get;
+            set;
+        }
+
         public virtual int Id
         {
             get;
             protected set;
-        }
-
-        public virtual string Name
-        {
-            get;
-            set;
         }
 
         public virtual bool IsRentable
@@ -98,10 +89,22 @@ namespace Yupi.Model.Domain
             set;
         }
 
+        public virtual string Name
+        {
+            get;
+            set;
+        }
+
         public virtual CatalogPage Page
         {
             get;
             set;
+        }
+
+        public virtual IList<CatalogProduct> Products
+        {
+            get;
+            protected set;
         }
 
         #endregion Properties
@@ -120,6 +123,18 @@ namespace Yupi.Model.Domain
         #endregion Constructors
 
         #region Methods
+
+        public virtual PurchaseStatus Purchase(UserInfo user, int amount = 1)
+        {
+            PurchaseStatus status = CanPurchase(user, amount);
+
+            if (status == PurchaseStatus.Ok) {
+                user.Wallet.Credits -= this.CostCredits * amount;
+                user.Wallet.SubstractActivityPoints(this.ActivityPointsType, this.CostActivityPoints * amount);
+            }
+
+            return status;
+        }
 
         protected virtual PurchaseStatus CanPurchase(UserInfo info, int amount = 1)
         {
@@ -147,17 +162,6 @@ namespace Yupi.Model.Domain
             return PurchaseStatus.Ok;
         }
 
-        public virtual PurchaseStatus Purchase(UserInfo user, int amount = 1)
-        {
-            PurchaseStatus status = CanPurchase(user, amount);
-
-            if (status == PurchaseStatus.Ok) {
-                user.Wallet.Credits -= this.CostCredits * amount;
-                user.Wallet.SubstractActivityPoints(this.ActivityPointsType, this.CostActivityPoints * amount);
-            }
-
-            return status;
-        }
         #endregion Methods
     }
 }

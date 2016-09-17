@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="CatalogEncoder.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,16 +24,23 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System;
-using Yupi.Protocol.Buffers;
-using Yupi.Model.Domain;
-using Yupi.Model;
+
+#endregion Header
 
 namespace Yupi.Messages.Encoders
 {
+    using System;
+
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Protocol.Buffers;
+
     public static class CatalogEncoder
     {
-        public static void Append(this ServerMessage message, CatalogOffer offer) {
+        #region Methods
+
+        public static void Append(this ServerMessage message, CatalogOffer offer)
+        {
             message.AppendInteger(offer.Id);
             message.AppendString(offer.Name);
             message.AppendBool(offer.IsRentable);
@@ -50,7 +59,8 @@ namespace Yupi.Messages.Encoders
             message.AppendBool (offer.IsVisible);
         }
 
-        public static void Append(this ServerMessage message, CatalogProduct product) {
+        public static void Append(this ServerMessage message, CatalogProduct product)
+        {
             message.AppendString (product.Item.Type.DisplayName);
 
             if (product.Item.Type == ItemType.Bot)
@@ -74,6 +84,7 @@ namespace Yupi.Messages.Encoders
                 }
             }
         }
+
+        #endregion Methods
     }
 }
-

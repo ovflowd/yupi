@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="CataloguePurchaseNotAllowed.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,13 +24,19 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System;
-using Yupi.Protocol.Buffers;
+
+#endregion Header
 
 namespace Yupi.Messages.Catalog
 {
+    using System;
+
+    using Yupi.Protocol.Buffers;
+
     public class CataloguePurchaseNotAllowed : Contracts.CataloguePurchaseNotAllowed
     {
+        #region Methods
+
         public override void Compose(Yupi.Protocol.ISender session, ErrorCode value)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -37,6 +45,7 @@ namespace Yupi.Messages.Catalog
                 session.Send(message);
             }
         }
+
+        #endregion Methods
     }
 }
-

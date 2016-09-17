@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="PresentsPageLayout.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,26 +24,43 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System;
+
+#endregion Header
 
 namespace Yupi.Model.Domain
 {
+    using System;
+
     public class PresentsPageLayout : DefaultImageLayout
     {
-        public virtual string HeaderDescription { get; set; }
-        public virtual string Text { get; set; }
+        #region Properties
 
-                [Ignore]public override string[] Texts {
+        public virtual string HeaderDescription
+        {
+            get; set;
+        }
+
+        [Ignore]
+        public override string Name
+        {
+            get {
+                return "presents";
+            }
+        }
+
+        public virtual string Text
+        {
+            get; set;
+        }
+
+        [Ignore]
+        public override string[] Texts
+        {
             get {
                 return new string[] { HeaderDescription, Text };
             }
         }
 
-        [Ignore]public override string Name {
-            get {
-                return "presents";
-            }
-        }
+        #endregion Properties
     }
 }
-

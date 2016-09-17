@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="DefaultCatalogLayout.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,29 +24,58 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System;
+
+#endregion Header
 
 namespace Yupi.Model.Domain
 {
+    using System;
+
     public abstract class DefaultCatalogLayout : DefaultImageLayout
     {
-        public virtual string HeaderDescription { get; set; }
-        public virtual string Description { get; set; }
-        public virtual string SpecialText { get; set; }
-        public virtual string Text1 { get; set; }
-        public virtual string Text2 { get; set; }
+        #region Properties
 
-                [Ignore]public override string[] Texts {
+        public virtual string Description
+        {
+            get; set;
+        }
+
+        public virtual string HeaderDescription
+        {
+            get; set;
+        }
+
+        [Ignore]
+        public override string[] Images
+        {
+            get {
+                return new string[] { HeaderImage, TeaserImage1, SpecialImage, TeaserImage2, TeaserImage3 };
+            }
+        }
+
+        public virtual string SpecialText
+        {
+            get; set;
+        }
+
+        public virtual string Text1
+        {
+            get; set;
+        }
+
+        public virtual string Text2
+        {
+            get; set;
+        }
+
+        [Ignore]
+        public override string[] Texts
+        {
             get {
                 return new string[] { HeaderDescription, Description, SpecialText, Text1, Text2 };
             }
         }
 
-        [Ignore]public override string[] Images {
-            get {
-                return new string[] { HeaderImage, TeaserImage1, SpecialImage, TeaserImage2, TeaserImage3 };
-            }
-        }
+        #endregion Properties
     }
 }
-

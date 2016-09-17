@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="MarketplaceOwnItemsLayout.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,17 +24,25 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System;
+
+#endregion Header
 
 namespace Yupi.Model.Domain
 {
+    using System;
+
     public class MarketplaceOwnItemsLayout : DefaultCatalogLayout
     {
-        [Ignore]public override string Name {
+        #region Properties
+
+        [Ignore]
+        public override string Name
+        {
             get {
                 return "marketplace_own_items";
             }
         }
+
+        #endregion Properties
     }
 }
-

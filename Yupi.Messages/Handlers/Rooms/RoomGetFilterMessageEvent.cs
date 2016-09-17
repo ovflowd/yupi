@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="RoomGetFilterMessageEvent.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,23 +24,33 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using Yupi.Model.Domain;
-using Yupi.Model.Repository;
-using Yupi.Model;
 
+#endregion Header
 
 namespace Yupi.Messages.Rooms
 {
     using System;
 
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
+
     public class RoomGetFilterMessageEvent : AbstractHandler
     {
+        #region Fields
+
         private IRepository<RoomData> RoomRepository;
+
+        #endregion Fields
+
+        #region Constructors
 
         public RoomGetFilterMessageEvent()
         {
             RoomRepository = DependencyFactory.Resolve<IRepository<RoomData>>();
         }
+
+        #endregion Constructors
 
         #region Methods
 

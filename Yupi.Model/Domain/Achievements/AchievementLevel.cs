@@ -43,9 +43,12 @@ namespace Yupi.Model.Domain
             get; set;
         }
 
-        public virtual ActivityPointsType RewardActivityPointsType { get; set; }
-
         public virtual int RewardActivityPoints
+        {
+            get; set;
+        }
+
+        public virtual ActivityPointsType RewardActivityPointsType
         {
             get; set;
         }
@@ -57,9 +60,13 @@ namespace Yupi.Model.Domain
 
         #endregion Properties
 
+        #region Constructors
+
         public AchievementLevel()
         {
             RewardActivityPointsType = ActivityPointsType.Duckets;
         }
+
+        #endregion Constructors
     }
 }

@@ -78,9 +78,8 @@ namespace Yupi.Controller
 
         #region Methods
 
-        public abstract IDictionary<NavigatorCategory, IList<RoomData>> GetCategories(string query, UserInfo user);
-
-        public static NavigatorView[] GetSorted() {
+        public static NavigatorView[] GetSorted()
+        {
             if (NavigatorView.Sorted == null)
             {
                 NavigatorView.Sorted = GetAll().OrderBy(x => x.Value).ToArray();
@@ -88,6 +87,7 @@ namespace Yupi.Controller
             return NavigatorView.Sorted;
         }
 
+        public abstract IDictionary<NavigatorCategory, IList<RoomData>> GetCategories(string query, UserInfo user);
 
         #endregion Methods
     }

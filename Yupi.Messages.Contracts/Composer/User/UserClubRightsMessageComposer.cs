@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="UserClubRightsMessageComposer.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,11 +24,12 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using Yupi.Model.Domain;
 
+#endregion Header
 
 namespace Yupi.Messages.Contracts
 {
+    using Yupi.Model.Domain;
     using Yupi.Protocol.Buffers;
 
     public abstract class UserClubRightsMessageComposer : AbstractComposer<ClubLevel, int, bool>

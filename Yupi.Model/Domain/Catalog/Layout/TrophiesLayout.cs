@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="TrophiesLayout.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,26 +24,43 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System;
+
+#endregion Header
 
 namespace Yupi.Model.Domain
 {
+    using System;
+
     public class TrophiesLayout : DefaultImageLayout
     {
-        public virtual string Description { get; set; }
-        public virtual string Enscription { get; set; }
+        #region Properties
 
-        [Ignore]public override string[] Texts {
+        public virtual string Description
+        {
+            get; set;
+        }
+
+        public virtual string Enscription
+        {
+            get; set;
+        }
+
+        [Ignore]
+        public override string Name
+        {
+            get {
+                return "trophies";
+            }
+        }
+
+        [Ignore]
+        public override string[] Texts
+        {
             get {
                 return new string[] { Description, Enscription };
             }
         }
 
-        [Ignore]public override string Name {
-            get {
-                return "trophies";
-            }
-        }
+        #endregion Properties
     }
 }
-

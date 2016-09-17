@@ -54,7 +54,8 @@ namespace Yupi.Messages.Catalog
             }
         }
 
-        private void AppendPage(CatalogPage page, ServerMessage message, int rank) {
+        private void AppendPage(CatalogPage page, ServerMessage message, int rank)
+        {
             message.AppendBool(page.Visible);
             message.AppendInteger(page.Icon);
             message.AppendInteger(page.Id);

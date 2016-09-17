@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="PromoLink.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,20 +24,38 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System;
+
+#endregion Header
 
 namespace Yupi.Model.Domain.Components
 {
-    public enum PromoLinkType {
+    using System;
+
+    #region Enumerations
+
+    public enum PromoLinkType
+    {
         External = 0,
         Internal = 1,
         Disabled = 2
     }
 
+    #endregion Enumerations
+
     public class PromoLink
     {
-        public virtual PromoLinkType Type { get; set; }
-        public virtual string Url { get; set; }
+        #region Properties
+
+        public virtual PromoLinkType Type
+        {
+            get; set;
+        }
+
+        public virtual string Url
+        {
+            get; set;
+        }
+
+        #endregion Properties
     }
 }
-

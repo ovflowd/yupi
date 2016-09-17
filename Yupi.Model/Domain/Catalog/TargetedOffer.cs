@@ -29,7 +29,10 @@ namespace Yupi.Model.Domain
 
     public class TargetedOffer : CatalogOffer
     {
-        public enum TrackingStateCode {
+        #region Enumerations
+
+        public enum TrackingStateCode
+        {
             Default = 0,
             WantsToBuy = 1, // Not sure about this
             Rejected = 2,
@@ -39,9 +42,9 @@ namespace Yupi.Model.Domain
             Maximize2 = 6
         }
 
-        #region Properties
+        #endregion Enumerations
 
-        public virtual TrackingStateCode StateCode { get; set; }
+        #region Properties
 
         public virtual string Description
         {
@@ -68,6 +71,11 @@ namespace Yupi.Model.Domain
         }
 
         public virtual int PurchaseLimit
+        {
+            get; set;
+        }
+
+        public virtual TrackingStateCode StateCode
         {
             get; set;
         }

@@ -25,7 +25,7 @@
 namespace Yupi.Model.Domain
 {
     using System;
-   
+
     public class Subscription
     {
         #region Properties
@@ -45,12 +45,15 @@ namespace Yupi.Model.Domain
             get; protected set;
         }
 
-        protected virtual DateTime LastGiftTime
+        protected virtual ClubLevel ClubLevel
         {
             get; set;
         }
 
-        protected virtual ClubLevel ClubLevel { get; set; }
+        protected virtual DateTime LastGiftTime
+        {
+            get; set;
+        }
 
         #endregion Properties
 
@@ -64,7 +67,8 @@ namespace Yupi.Model.Domain
             this.ClubLevel = ClubLevel.Normal;
         }
 
-        public Subscription(ClubLevel level, DateTime expires) : this()
+        public Subscription(ClubLevel level, DateTime expires)
+            : this()
         {
             this.ExpireTime = expires;
             this.ClubLevel = level;
@@ -74,7 +78,8 @@ namespace Yupi.Model.Domain
 
         #region Methods
 
-        public virtual ClubLevel GetLevel() {
+        public virtual ClubLevel GetLevel()
+        {
             if (this.ExpireTime < DateTime.Now)
             {
                 // TODO Save?
@@ -83,7 +88,8 @@ namespace Yupi.Model.Domain
             return this.ClubLevel;
         }
 
-        public virtual bool HasLevel(ClubLevel level) {
+        public virtual bool HasLevel(ClubLevel level)
+        {
             return this.GetLevel() >= level;
         }
 

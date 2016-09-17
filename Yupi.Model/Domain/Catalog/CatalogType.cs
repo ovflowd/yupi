@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="CatalogType.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,19 +24,31 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System;
-using Headspring;
+
+#endregion Header
 
 namespace Yupi.Model.Domain
 {
+    using System;
+
+    using Headspring;
+
     public class CatalogType : Enumeration<CatalogType>
     {
-        public static readonly CatalogType Normal = new CatalogType(0, "NORMAL");
-        public static readonly CatalogType Builder = new CatalogType(1, "BUILDERS_CLUB");
+        #region Fields
 
-        private CatalogType(int value, string displayName) : base(value, displayName)
+        public static readonly CatalogType Builder = new CatalogType(1, "BUILDERS_CLUB");
+        public static readonly CatalogType Normal = new CatalogType(0, "NORMAL");
+
+        #endregion Fields
+
+        #region Constructors
+
+        private CatalogType(int value, string displayName)
+            : base(value, displayName)
         {
         }
+
+        #endregion Constructors
     }
 }
-

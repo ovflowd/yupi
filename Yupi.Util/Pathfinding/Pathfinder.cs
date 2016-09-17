@@ -41,7 +41,8 @@ namespace Yupi.Util.Pathfinding
         #region Constructors
 
         public Pathfinder(Func<Vector2, bool> isWalkable,
-                          Func<Vector2, ICollection> getNeighbours) : base(isWalkable, getNeighbours)
+            Func<Vector2, ICollection> getNeighbours)
+            : base(isWalkable, getNeighbours)
         {
         }
 

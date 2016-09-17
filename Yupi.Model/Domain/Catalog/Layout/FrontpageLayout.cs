@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="FrontpageLayout.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,21 +24,33 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System;
+
+#endregion Header
 
 namespace Yupi.Model.Domain
 {
+    using System;
+
     public class FrontpageLayout : CatalogPageLayout
     {
-        public virtual string Text1 { get; set; }
+        #region Properties
 
-        public virtual string Text2 { get; set; }
+        public virtual string HeaderImage
+        {
+            get; set;
+        }
 
-        public virtual string HeaderImage { get; set; }
+        [Ignore]
+        public override string[] Images
+        {
+            get
+            {
+                return new string[] { HeaderImage, TeaserImage };
+            }
+        }
 
-        public virtual string TeaserImage { get; set; }
-
-        [Ignore]public override string Name
+        [Ignore]
+        public override string Name
         {
             get
             {
@@ -44,7 +58,23 @@ namespace Yupi.Model.Domain
             }
         }
 
-        [Ignore]public override string[] Texts
+        public virtual string TeaserImage
+        {
+            get; set;
+        }
+
+        public virtual string Text1
+        {
+            get; set;
+        }
+
+        public virtual string Text2
+        {
+            get; set;
+        }
+
+        [Ignore]
+        public override string[] Texts
         {
             get
             {
@@ -52,13 +82,6 @@ namespace Yupi.Model.Domain
             }
         }
 
-        [Ignore]public override string[] Images
-        {
-            get
-            {
-                return new string[] { HeaderImage, TeaserImage };
-            }
-        }
+        #endregion Properties
     }
 }
-

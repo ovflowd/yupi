@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="ModelHelper.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,15 +24,16 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System.Linq;
-using System.Collections.Generic;
-using System.Reflection;
 
+#endregion Header
 
 namespace Yupi.Model
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
+    using System.Reflection;
 
     using FluentNHibernate.Automapping;
     using FluentNHibernate.Cfg;
@@ -95,7 +98,6 @@ namespace Yupi.Model
                 new UserInfo() { Name = "Admin", Rank = 9 }
             );
 
-
             IEnumerable<IPopulate> instances = typeof(ModelHelper).Assembly.GetTypes()
                 .Where(t => t.GetInterfaces().Contains(typeof(IPopulate)))
                 .Select(t => Activator.CreateInstance(t, true) as IPopulate);
@@ -103,6 +105,19 @@ namespace Yupi.Model
             foreach (IPopulate populate in instances)
             {
                 populate.Populate();
+            }
+        }
+
+        public static void PopulateObject<T>(params T[] data)
+        {
+            IRepository<T> Repository = DependencyFactory.Resolve<IRepository<T>>();
+
+            if (!Repository.All().Any())
+            {
+                foreach (T obj in data)
+                {
+                    Repository.Save(obj);
+                }
             }
         }
 
@@ -136,19 +151,6 @@ namespace Yupi.Model
             else
             {
                 return SQLiteConfiguration.Standard.UsingFile(DatabaseSettings.Name + ".sqlite").ShowSql();
-            }
-        }
-
-        public static void PopulateObject<T>(params T[] data)
-        {
-            IRepository<T> Repository = DependencyFactory.Resolve<IRepository<T>>();
-
-            if (!Repository.All().Any())
-            {
-                foreach (T obj in data)
-                {
-                    Repository.Save(obj);
-                }
             }
         }
 

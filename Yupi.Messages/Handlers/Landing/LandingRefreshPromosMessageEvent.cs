@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="LandingRefreshPromosMessageEvent.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,26 +24,37 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System.Collections.Generic;
-using Yupi.Model.Domain;
-using Yupi.Model.Repository;
-using Yupi.Model;
-using System.Linq;
 
+#endregion Header
 
 namespace Yupi.Messages.Landing
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Yupi.Model;
+    using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
 
     public class LandingRefreshPromosMessageEvent : AbstractHandler
     {
-        private IRepository<HotelLandingPromos> PromosRepository;
+        #region Fields
+
         private const int MAX_PROMOS = 10;
+
+        private IRepository<HotelLandingPromos> PromosRepository;
+
+        #endregion Fields
+
+        #region Constructors
 
         public LandingRefreshPromosMessageEvent()
         {
             PromosRepository = DependencyFactory.Resolve<IRepository<HotelLandingPromos>>();
         }
+
+        #endregion Constructors
 
         #region Methods
 

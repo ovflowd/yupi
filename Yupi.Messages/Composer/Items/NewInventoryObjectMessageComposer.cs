@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="NewInventoryObjectMessageComposer.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,14 +24,15 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using Yupi.Model;
 
+#endregion Header
 
 namespace Yupi.Messages.Items
 {
     using System;
     using System.Collections.Generic;
 
+    using Yupi.Model;
     using Yupi.Model.Domain;
     using Yupi.Protocol.Buffers;
 

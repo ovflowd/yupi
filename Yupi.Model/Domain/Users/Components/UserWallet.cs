@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="UserWallet.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,12 +24,13 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System.Collections.Generic;
 
+#endregion Header
 
 namespace Yupi.Model.Domain.Components
 {
     using System;
+    using System.Collections.Generic;
 
     public class UserWallet
     {
@@ -38,25 +41,31 @@ namespace Yupi.Model.Domain.Components
             get; set;
         }
 
-        public virtual int Credits
-        {
-            get; set;
-        }
-
         public virtual IDictionary<ActivityPointsType, int> ActivityPoints
         {
             get; protected set;
         }
 
-        #endregion Properties
-
-        public virtual int GetActivityPoints(ActivityPointsType type) {
-            int value = 0;
-            ActivityPoints.TryGetValue(type, out value);
-            return value;
+        public virtual int Credits
+        {
+            get; set;
         }
 
-        public virtual void AddActivityPoints(ActivityPointsType type, int value) {
+        #endregion Properties
+
+        #region Constructors
+
+        public UserWallet()
+        {
+            this.ActivityPoints = new Dictionary<ActivityPointsType, int>();
+        }
+
+        #endregion Constructors
+
+        #region Methods
+
+        public virtual void AddActivityPoints(ActivityPointsType type, int value)
+        {
             if (this.ActivityPoints.ContainsKey(type))
             {
                 ActivityPoints.Add(type, value);
@@ -67,7 +76,15 @@ namespace Yupi.Model.Domain.Components
             }
         }
 
-        public virtual void SubstractActivityPoints(ActivityPointsType type, int value) {
+        public virtual int GetActivityPoints(ActivityPointsType type)
+        {
+            int value = 0;
+            ActivityPoints.TryGetValue(type, out value);
+            return value;
+        }
+
+        public virtual void SubstractActivityPoints(ActivityPointsType type, int value)
+        {
             if (!this.ActivityPoints.ContainsKey(type))
             {
                 throw new InvalidOperationException("User has no activity points of this type!");
@@ -75,5 +92,7 @@ namespace Yupi.Model.Domain.Components
 
             ActivityPoints[type] -= value;
         }
+
+        #endregion Methods
     }
 }

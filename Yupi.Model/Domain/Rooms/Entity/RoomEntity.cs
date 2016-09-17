@@ -38,9 +38,8 @@ namespace Yupi.Model.Domain
 
         public int Id;
 
-        private Queue<Vector2> Steps;
-
         private Vector3? NextPosition;
+        private Queue<Vector2> Steps;
 
         #endregion Fields
 
@@ -53,33 +52,63 @@ namespace Yupi.Model.Domain
 
         #region Properties
 
-        public abstract BaseInfo BaseInfo { get; }
+        public abstract BaseInfo BaseInfo
+        {
+            get;
+        }
 
-        public bool IsAsleep { get; private set; }
+        public bool IsAsleep
+        {
+            get; private set;
+        }
 
-        public bool NeedsUpdate { get; private set; }
-
-        public OnSleepChange OnSleepChangeCB { get; set; }
-
-        public Vector3 Position { get; private set; }
-
-        public Room Room { get; private set; }
-
-        public int RotBody { get; private set; }
-
-        // TODO Use enum
-        public int RotHead { get; private set; }
-
-        public abstract EntityStatus Status { get; }
-
-        public abstract EntityType Type { get; }
-
-        public bool IsWalking {
+        public bool IsWalking
+        {
             get {
                 return this.Steps != null;
             }
         }
 
+        public bool NeedsUpdate
+        {
+            get; private set;
+        }
+
+        public OnSleepChange OnSleepChangeCB
+        {
+            get; set;
+        }
+
+        public Vector3 Position
+        {
+            get; private set;
+        }
+
+        public Room Room
+        {
+            get; private set;
+        }
+
+        public int RotBody
+        {
+            get; private set;
+        }
+
+        // TODO Use enum
+        public int RotHead
+        {
+            get; private set;
+        }
+
+        public abstract EntityStatus Status
+        {
+            get;
+        }
+
+        public abstract EntityType Type
+        {
+            get;
+        }
 
         #endregion Properties
 
@@ -103,7 +132,7 @@ namespace Yupi.Model.Domain
         }
 
         public virtual void HandleChatMessage(UserEntity user,
-                                              Action<Habbo> sendTo)
+            Action<Habbo> sendTo)
         {
             // TODO Implement Tent
             // TODO Implement Distance?

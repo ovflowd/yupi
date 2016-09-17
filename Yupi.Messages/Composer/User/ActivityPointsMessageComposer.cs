@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="ActivityPointsMessageComposer.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,14 +24,15 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System.Collections.Generic;
-using Yupi.Model.Domain;
 
+#endregion Header
 
 namespace Yupi.Messages.User
 {
     using System;
+    using System.Collections.Generic;
 
+    using Yupi.Model.Domain;
     using Yupi.Model.Domain.Components;
     using Yupi.Protocol.Buffers;
 
