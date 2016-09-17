@@ -22,6 +22,9 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
+using Yupi.Model;
+
+
 namespace Yupi.Messages.Items
 {
     using System;
@@ -30,35 +33,26 @@ namespace Yupi.Messages.Items
     using Yupi.Model.Domain;
     using Yupi.Protocol.Buffers;
 
-    // TODO Refactor
     public class NewInventoryObjectMessageComposer : Yupi.Messages.Contracts.NewInventoryObjectMessageComposer
     {
         #region Methods
 
-        // TODO Remove...
-        public override void Compose(Yupi.Protocol.ISender session, int itemId)
+        public override void Compose(Yupi.Protocol.ISender session, IDictionary<ItemType, ICollection<Item>> itemTypes)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
             {
-                message.AppendInteger(1);
-                message.AppendInteger(1);
-                message.AppendInteger(1);
-                message.AppendInteger(itemId);
-                session.Send(message);
-            }
-        }
+                message.AppendInteger(itemTypes.Count);
 
-        public override void Compose(Yupi.Protocol.ISender session, BaseItem item, List<Item> list)
-        {
-            using (ServerMessage message = Pool.GetMessageBuffer(Id))
-            {
-                message.AppendInteger(1); // TODO Hardcoded value
+                foreach (var itemType in itemTypes)
+                {
+                    message.AppendInteger(itemType.Key.Value);
+                    message.AppendInteger(itemType.Value.Count);
 
-                message.AppendInteger((int) item.Type);
-                message.AppendInteger(list.Count);
-
-                foreach (Item current in list)
-                    message.AppendInteger(current.Id);
+                    foreach (Item item in itemType.Value)
+                    {
+                        message.AppendInteger(item.Id);
+                    }
+                }
                 session.Send(message);
             }
         }

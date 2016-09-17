@@ -22,6 +22,10 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
+using System.Collections.Generic;
+using Yupi.Model.Domain;
+
+
 namespace Yupi.Messages.User
 {
     using System;
@@ -35,17 +39,15 @@ namespace Yupi.Messages.User
 
         public override void Compose(Yupi.Protocol.ISender session, UserWallet wallet)
         {
-            // TODO Can we send credits using this composer too?
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
             {
-                message.AppendInteger(3); // count
+                message.AppendInteger(wallet.ActivityPoints.Count);
 
-                message.AppendInteger(0); // type
-                message.AppendInteger(wallet.Duckets); // value
-                message.AppendInteger(5);
-                message.AppendInteger(wallet.Diamonds);
-                message.AppendInteger(105);
-                message.AppendInteger(wallet.Diamonds);
+                foreach (KeyValuePair<ActivityPointsType, int> points in wallet.ActivityPoints)
+                {
+                    message.AppendInteger((int)points.Key);
+                    message.AppendInteger(points.Value);
+                }
                 session.Send(message);
             }
         }

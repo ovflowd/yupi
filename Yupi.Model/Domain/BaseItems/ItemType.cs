@@ -22,19 +22,23 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-namespace Yupi.Model
+using Headspring;
+
+
+namespace Yupi.Model.Domain
 {
     using System;
 
-    #region Enumerations
-
-    public enum ItemType
+    public class ItemType : Enumeration<ItemType>
     {
-        Floor = 1,
-        Wall = 2,
-        Pet = 3,
-        Badge = 4
-    }
+        public static readonly ItemType Floor = new ItemType(1, "s");
+        public static readonly ItemType Wall = new ItemType(2, "i");
+        public static readonly ItemType Pet = new ItemType(3, "e");
+        public static readonly ItemType Bot = new ItemType(4, "b");
 
-    #endregion Enumerations
+        private ItemType(int value, string displayName) : base(value, displayName)
+        {
+        }
+        
+    }
 }

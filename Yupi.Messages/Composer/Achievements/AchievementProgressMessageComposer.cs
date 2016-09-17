@@ -43,7 +43,7 @@ namespace Yupi.Messages.Achievements
                 message.AppendString(userAchievement.Achievement.GroupName + userAchievement.Level.Level);
                 message.AppendInteger(userAchievement.Level.Requirement);
                 message.AppendInteger(userAchievement.Level.Requirement);
-                message.AppendInteger(userAchievement.Level.RewardPixels);
+                message.AppendInteger(userAchievement.Level.RewardActivityPoints);
                 message.AppendInteger(0);
                 message.AppendInteger(userAchievement.Progress);
                 message.AppendBool(userAchievement.Level.Level >= userAchievement.Achievement.GetMaxLevel());

@@ -544,7 +544,6 @@
     <Compile Include="Composer\Trade\TradeCloseMessageComposer.cs" />
     <Compile Include="Composer\Trade\TradeUpdateMessageComposer.cs" />
     <Compile Include="Composer\Catalog\PublishShopMessageComposer.cs" />
-    <Compile Include="Composer\Catalog\CatalogPurchaseNotAllowedMessageComposer.cs" />
     <Compile Include="Composer\Catalog\CatalogLimitedItemSoldOutMessageComposer.cs" />
     <Compile Include="Composer\Notification\UsersClassificationMessageComposer.cs" />
     <Compile Include="Composer\Other\UniqueMachineIDMessageComposer.cs" />
@@ -596,6 +595,9 @@
     <Compile Include="Handlers\Other\LagWarningLogEvent.cs" />
     <Compile Include="Encoders\ChatEncoder.cs" />
     <Compile Include="Composer\User\NewbieStatusMessageComposer.cs" />
+    <Compile Include="Encoders\CatalogEncoder.cs" />
+    <Compile Include="Composer\Catalog\CatalogPurchaseErrorMessageComposer.cs" />
+    <Compile Include="Composer\Catalog\CataloguePurchaseNotAllowed.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

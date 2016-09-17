@@ -58,75 +58,72 @@ namespace Yupi.Controller
 
         public CatalogOffer GetById(int pageId, int itemId)
         {
-            return ItemRepository.FindBy(x => x.Id == itemId && x.PageId.Id == pageId);
+            return ItemRepository.FindBy(x => x.Id == itemId && x.Page.Id == pageId);
         }
 
         // TODO Make extraData optional
-        public bool Purchase(Habbo user, CatalogOffer catalogItem, string extraData, int amount)
+        public bool Purchase(Habbo user, CatalogOffer offer, string extraData, int amount)
         {
-            if (catalogItem == null)
+            if (offer == null)
             {
                 return false;
             }
 
-            if (!catalogItem.CanPurchase(user.Info.Wallet, amount))
+            PurchaseStatus purchaseStatus = offer.Purchase(user.Info, amount);
+
+            switch (purchaseStatus)
             {
-                // TODO Should this really only be sent when the item is Limited? (no error on other items?)
-                if (catalogItem is LimitedCatalogItem)
-                {
+                case PurchaseStatus.Ok:
+                    DeliverOffer(user, offer, extraData);
+                    return true;
+                case PurchaseStatus.LimitedSoldOut:
                     user.Router.GetComposer<CatalogLimitedItemSoldOutMessageComposer>().Compose(user);
-                }
-                return false;
+                    break;
+                case PurchaseStatus.InvalidSubscription:
+                    user.Router.GetComposer<CataloguePurchaseNotAllowed>().Compose(user, CataloguePurchaseNotAllowed.ErrorCode.Not_HC);
+                    break;
+                case PurchaseStatus.NotEnoughCredits:
+                default:
+                    user.Router.GetComposer<CatalogPurchaseErrorMessageComposer>().Compose(user, CatalogPurchaseErrorMessageComposer.ErrorCode.Generic);
+                    break;
             }
+            return false;
+        }
 
-            // TODO Move to CanPurchase
-            if (catalogItem.ClubOnly && !user.Info.Subscription.IsValid())
-            {
-                user.Router.GetComposer<CatalogPurchaseNotAllowedMessageComposer>().Compose(user, true);
-                return false;
-            }
-
-            catalogItem.Purchase(user.Info.Wallet, amount);
-
-            ItemRepository.Save(catalogItem);
+        private void DeliverOffer(Habbo user, CatalogOffer offer, string extraData) {
+            ItemRepository.Save(offer);
 
             user.Router.GetComposer<CreditsBalanceMessageComposer>().Compose(user, user.Info.Wallet.Credits);
             user.Router.GetComposer<ActivityPointsMessageComposer>().Compose(user, user.Info.Wallet);
 
-            var items = new Dictionary<BaseItem, List<Item>>();
+            var items = new Dictionary<ItemType, ICollection<Item>>();
 
-            foreach (BaseItem baseItem in catalogItem.BaseItems.Keys)
+            foreach (CatalogProduct product in offer.Products)
             {
-                Item item = baseItem.CreateNew();
+                Item item = product.Item.CreateNew();
                 item.Owner = user.Info;
                 item.TryParseExtraData(extraData);
 
-                if (!items.ContainsKey(baseItem))
+                if (!items.ContainsKey(product.Item.Type))
                 {
-                    items.Add(baseItem, new List<Item>());
+                    items.Add(product.Item.Type, new List<Item>());
                 }
 
-                items[baseItem].Add(item);
+                items[product.Item.Type].Add(item);
 
                 user.Info.Inventory.Add(item);
             }
 
             user.Router.GetComposer<UpdateInventoryMessageComposer>().Compose(user);
-            user.Router.GetComposer<PurchaseOkComposer>().Compose(user, catalogItem, catalogItem.BaseItems);
+            user.Router.GetComposer<PurchaseOkComposer>().Compose(user, offer);
 
-            // TODO Can this be solved better?
-            foreach (var item in items)
-            {
-                user.Router.GetComposer<NewInventoryObjectMessageComposer>().Compose(user, item.Key, item.Value);
-            }
+            user.Router.GetComposer<NewInventoryObjectMessageComposer>().Compose(user, items);
 
-            if (catalogItem.Badge.Length > 0)
+            if (offer.Badge.Length > 0)
             {
-                user.Info.Badges.GiveBadge(catalogItem.Badge);
+                user.Info.Badges.GiveBadge(offer.Badge);
                 UserRepository.Save(user.Info);
             }
-
-            return true;
         }
 
         public void PurchaseGift(Habbo user, CatalogOffer catalogItem, string extraData, UserInfo receiver)
@@ -140,16 +137,10 @@ namespace Yupi.Controller
             {
                 AchievementManager
                     .ProgressUserAchievement(user, "ACH_GiftGiver", 1);
+
+                AchievementManager
+                    .ProgressUserAchievement(receiver, "ACH_GiftGiver", 1);
             }
-
-            throw new NotImplementedException();
-
-            /*
-             *
-             *  Yupi.GetGame()
-                                .GetAchievementManager()
-                                .ProgressUserAchievement(clientByUserId, "ACH_GiftReceiver", 1, true);
-            */
         }
 
         #endregion Methods

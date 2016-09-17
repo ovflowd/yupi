@@ -38,38 +38,34 @@ namespace Yupi.Messages.Catalog
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
             {
-                message.AppendInteger(offer.Id); // Something different, not sure what though
+                message.AppendInteger((int)offer.StateCode);
                 message.AppendInteger(offer.Id);
                 message.AppendString(offer.Id.ToString());
-                message.AppendString(offer.Id.ToString());
-                message.AppendInteger(offer.CreditsCost);
-
-                if (offer.DiamondsCost > 0)
-                {
-                    message.AppendInteger(offer.DiamondsCost);
-                    message.AppendInteger(105); // TODO Hardcoded (activityPointType)
-                }
-                else
-                {
-                    message.AppendInteger(offer.DucketsCost);
-                    message.AppendInteger(0);
-                }
-
+                message.AppendString(string.Empty); // unknown / unused
+                message.AppendInteger(offer.CostCredits);
+                message.AppendInteger(offer.CostActivityPoints);
+                message.AppendInteger((int)offer.ActivityPointsType);
                 message.AppendInteger(offer.PurchaseLimit);
 
-                int timeLeft = (int) (offer.ExpiresAt - DateTime.Now).TotalSeconds;
+                int timeLeft = 0;
+
+                if (offer.ExpiresAt.HasValue)
+                {
+                    timeLeft = (int)(offer.ExpiresAt.Value - DateTime.Now).TotalSeconds;
+                }
 
                 message.AppendInteger(timeLeft);
-                message.AppendString(offer.Title);
+                message.AppendString(offer.Name);
                 message.AppendString(offer.Description);
                 message.AppendString(offer.Image);
                 message.AppendString(offer.Icon);
 
-                message.AppendInteger(offer.Products.Count);
+                // These are not necessarily catalog items. Can be anything (declared in productdata.xml)
+                message.AppendInteger(offer.Products.Count); 
 
-                foreach (BaseItem product in offer.Products)
+                foreach (CatalogProduct product in offer.Products)
                 {
-                    message.AppendString(product.Name);
+                    message.AppendString(product.Item.Name); // Taken from productdata.xml
                 }
 
                 session.Send(message);

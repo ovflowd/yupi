@@ -22,6 +22,9 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
+using Yupi.Model.Domain;
+
+
 namespace Yupi.Messages.User
 {
     using System;
@@ -32,11 +35,11 @@ namespace Yupi.Messages.User
     {
         #region Methods
 
-        public override void Compose(Yupi.Protocol.ISender session, bool hasVIP, int rank, bool isAmbadassor = false)
+        public override void Compose(Yupi.Protocol.ISender session, ClubLevel clubLevel, int rank, bool isAmbadassor = false)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
             {
-                message.AppendInteger(hasVIP); // TODO Is enum
+                message.AppendInteger((int)clubLevel);
                 message.AppendInteger(rank);
                 message.AppendBool(isAmbadassor);
                 session.Send(message);

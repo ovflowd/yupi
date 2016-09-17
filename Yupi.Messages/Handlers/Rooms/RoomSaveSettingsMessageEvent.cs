@@ -126,7 +126,7 @@ namespace Yupi.Messages.Rooms
             int wallThickness = request.GetInteger();
             int floorThickness = request.GetInteger();
 
-            if (session.Info.Subscription.IsValid())
+            if (session.Info.Subscription.HasLevel(ClubLevel.HC))
             {
                 roomData.HideWall = hideWall;
                 roomData.WallThickness = wallThickness;

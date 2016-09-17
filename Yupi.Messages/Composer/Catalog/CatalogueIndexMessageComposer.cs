@@ -58,11 +58,11 @@ namespace Yupi.Messages.Catalog
             message.AppendBool(page.Visible);
             message.AppendInteger(page.Icon);
             message.AppendInteger(page.Id);
-            message.AppendString(page.CodeName);
+            message.AppendString(page.Layout.Name);
             message.AppendString(page.Caption);
-            message.AppendInteger(page.Items.Count);
+            message.AppendInteger(page.Offers.Count);
 
-            foreach (CatalogOffer item in page.Items)
+            foreach (CatalogOffer item in page.Offers)
             {
                 message.AppendInteger(item.Id);
             }

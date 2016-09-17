@@ -1,5 +1,5 @@
 ﻿// ---------------------------------------------------------------------------------
-// <copyright file="LimitedCatalogItem.cs" company="https://github.com/sant0ro/Yupi">
+// <copyright file="GuildCustomFurniLayout.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -22,39 +22,17 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
+using System;
+
 namespace Yupi.Model.Domain
 {
-    using System;
-
-    public class LimitedCatalogItem : CatalogOffer
+    public class GuildCustomFurniLayout : DefaultCatalogLayout
     {
-        #region Properties
-
-        public virtual int LimitedSold
-        {
-            get; protected set;
+        [Ignore]public override string Name {
+            get {
+                return "guild_custom_furni";
+            }
         }
-
-        public virtual int LimitedStack
-        {
-            get; protected set;
-        }
-
-        #endregion Properties
-
-        #region Methods
-
-        public override bool CanPurchase(Yupi.Model.Domain.Components.UserWallet wallet, int amount = 1)
-        {
-            return base.CanPurchase(wallet, amount) && LimitedSold < LimitedStack;
-        }
-
-        public override void Purchase(Yupi.Model.Domain.Components.UserWallet wallet, int amount = 1)
-        {
-            base.Purchase(wallet, amount);
-            LimitedSold++;
-        }
-
-        #endregion Methods
     }
 }
+

@@ -29,18 +29,34 @@ namespace Yupi.Model.Domain
 
     public class TargetedOffer : CatalogOffer
     {
+        public enum TrackingStateCode {
+            Default = 0,
+            WantsToBuy = 1, // Not sure about this
+            Rejected = 2,
+            Unknown = 3,
+            Minimize = 4,
+            Maximize1 = 5,
+            Maximize2 = 6
+        }
+
         #region Properties
+
+        public virtual TrackingStateCode StateCode { get; set; }
 
         public virtual string Description
         {
             get; set;
         }
 
-        public virtual DateTime ExpiresAt
+        public virtual DateTime? ExpiresAt
         {
             get; set;
         }
 
+        /// <summary>
+        /// Icon for minimized view
+        /// </summary>
+        /// <value>The relative url to the icon.</value>
         public virtual string Icon
         {
             get; set;
@@ -51,17 +67,7 @@ namespace Yupi.Model.Domain
             get; set;
         }
 
-        public virtual IList<BaseItem> Products
-        {
-            get; protected set;
-        }
-
         public virtual int PurchaseLimit
-        {
-            get; set;
-        }
-
-        public virtual string Title
         {
             get; set;
         }
@@ -72,7 +78,6 @@ namespace Yupi.Model.Domain
 
         public TargetedOffer()
         {
-            Products = new List<BaseItem>();
             Icon = string.Empty;
         }
 
@@ -80,10 +85,10 @@ namespace Yupi.Model.Domain
 
         #region Methods
 
-        public override bool CanPurchase(Yupi.Model.Domain.Components.UserWallet wallet, int amount = 1)
+        protected virtual PurchaseStatus CanPurchase(UserInfo user, int amount = 1)
         {
             // TODO Implement PurchaseLimit
-            return base.CanPurchase(wallet, amount);
+            return base.CanPurchase(user, amount);
         }
 
         #endregion Methods

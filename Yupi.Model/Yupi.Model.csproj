@@ -249,7 +249,6 @@
     <Compile Include="Domain\BaseItems\WiredUnseenBaseItem.cs" />
     <Compile Include="Domain\BaseItems\YoutubeTvBaseItem.cs" />
     <Compile Include="Domain\Catalog\CatalogPage.cs" />
-    <Compile Include="Domain\Catalog\LimitedCatalogItem.cs" />
     <Compile Include="Domain\Catalog\TargetedOffer.cs" />
     <Compile Include="Domain\Catalog\EcotronReward.cs" />
     <Compile Include="Domain\Items\PostItItem.cs" />
@@ -380,6 +379,49 @@
     <Compile Include="Domain\Navigator\Components\PromoLink.cs" />
     <Compile Include="IPopulate.cs" />
     <Compile Include="Domain\Catalog\CatalogOffer.cs" />
+    <Compile Include="Domain\Catalog\ActivityPointsType.cs" />
+    <Compile Include="Domain\Users\ClubLevel.cs" />
+    <Compile Include="Domain\Catalog\CatalogProduct.cs" />
+    <Compile Include="Domain\Catalog\LimitedCatalogProduct.cs" />
+    <Compile Include="Domain\Catalog\CatalogType.cs" />
+    <Compile Include="Domain\Catalog\PurchaseStatus.cs" />
+    <Compile Include="Domain\Catalog\Layout\CatalogPageLayout.cs" />
+    <Compile Include="Domain\Catalog\Layout\FrontpageLayout.cs" />
+    <Compile Include="Domain\Catalog\Layout\DefaultCatalogLayout.cs" />
+    <Compile Include="Domain\Catalog\Layout\CameraPageLayout.cs" />
+    <Compile Include="Domain\Catalog\Layout\DefaultImageLayout.cs" />
+    <Compile Include="Domain\Catalog\Layout\PresentsPageLayout.cs" />
+    <Compile Include="Domain\Catalog\Layout\PetsLayout.cs" />
+    <Compile Include="Domain\Catalog\Layout\Pets2Layout.cs" />
+    <Compile Include="Domain\Catalog\Layout\Pets3Layout.cs" />
+    <Compile Include="Domain\Catalog\Layout\InfoRentablesLayout.cs" />
+    <Compile Include="Domain\Catalog\Layout\InfoDucketsLayout.cs" />
+    <Compile Include="Domain\Catalog\Layout\AbstractInfoLayout.cs" />
+    <Compile Include="Domain\Catalog\Layout\LoyalityLayout.cs" />
+    <Compile Include="Domain\Catalog\Layout\BuildersClubFrontpageLayout.cs" />
+    <Compile Include="Domain\Catalog\Layout\BuildersClubAddonsLayout.cs" />
+    <Compile Include="Domain\Catalog\Layout\BuildersClubLoyaltyLayout.cs" />
+    <Compile Include="Domain\Catalog\Layout\TrophiesLayout.cs" />
+    <Compile Include="Domain\Catalog\Layout\ClubBuyLayout.cs" />
+    <Compile Include="Domain\Catalog\Layout\ClubGiftsLayout.cs" />
+    <Compile Include="Domain\Catalog\Layout\FrontpageFeaturedLayout.cs" />
+    <Compile Include="Domain\Catalog\Layout\Default3x3Layout.cs" />
+    <Compile Include="Domain\Catalog\Layout\GuildCustomFurniLayout.cs" />
+    <Compile Include="Domain\Catalog\Layout\GuildFrontpageLayout.cs" />
+    <Compile Include="Domain\Catalog\Layout\LoyalityVipBuyLayout.cs" />
+    <Compile Include="Domain\Catalog\Layout\MarketplaceLayout.cs" />
+    <Compile Include="Domain\Catalog\Layout\MarketplaceOwnItemsLayout.cs" />
+    <Compile Include="Domain\Catalog\Layout\MonkeyLayout.cs" />
+    <Compile Include="Domain\Catalog\Layout\PetCustomizationLayout.cs" />
+    <Compile Include="Domain\Catalog\Layout\RecyclerLayout.cs" />
+    <Compile Include="Domain\Catalog\Layout\RecyclerInfoLayout.cs" />
+    <Compile Include="Domain\Catalog\Layout\RecyclerPrizesLayout.cs" />
+    <Compile Include="Domain\Catalog\Layout\RoomAdsLayout.cs" />
+    <Compile Include="Domain\Catalog\Layout\SingleBundleLayout.cs" />
+    <Compile Include="Domain\Catalog\Layout\SoundmachineLayout.cs" />
+    <Compile Include="Domain\Catalog\Layout\SpacesLayout.cs" />
+    <Compile Include="Domain\Catalog\Layout\VipBuyLayout.cs" />
+    <Compile Include="Domain\Catalog\Layout\GuildForumLayout.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -392,6 +434,7 @@
     <Folder Include="Domain\Rooms\Entity\Human\" />
     <Folder Include="Domain\Rooms\Entity\Posture\" />
     <Folder Include="Domain\Navigator\Components\" />
+    <Folder Include="Domain\Catalog\Layout\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Yupi.Protocol\Yupi.Protocol.csproj">

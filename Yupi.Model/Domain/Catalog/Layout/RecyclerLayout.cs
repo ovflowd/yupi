@@ -1,5 +1,5 @@
 ﻿// ---------------------------------------------------------------------------------
-// <copyright file="CatalogPurchaseNotAllowedMessageComposer.cs" company="https://github.com/sant0ro/Yupi">
+// <copyright file="RecyclerLayout.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -22,19 +22,17 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-namespace Yupi.Messages.Contracts
+using System;
+
+namespace Yupi.Model.Domain
 {
-    using Yupi.Protocol.Buffers;
-
-    public abstract class CatalogPurchaseNotAllowedMessageComposer : AbstractComposer<bool>
+    public class RecyclerLayout : DefaultCatalogLayout
     {
-        #region Methods
-
-        public override void Compose(Yupi.Protocol.ISender session, bool isForbidden)
-        {
-            // Do nothing by default.
+        [Ignore]public override string Name {
+            get {
+                return "recycler";
+            }
         }
-
-        #endregion Methods
     }
 }
+

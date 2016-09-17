@@ -62,7 +62,6 @@
     <Compile Include="Composer\Camera\CameraStorageUrlMessageComposer.cs" />
     <Compile Include="Composer\Catalog\CatalogOfferMessageComposer.cs" />
     <Compile Include="Composer\Catalog\CatalogPromotionGetCategoriesMessageComposer.cs" />
-    <Compile Include="Composer\Catalog\CatalogPurchaseNotAllowedMessageComposer.cs" />
     <Compile Include="Composer\Catalog\CatalogueClubPageMessageComposer.cs" />
     <Compile Include="Composer\Catalog\CatalogueIndexMessageComposer.cs" />
     <Compile Include="Composer\Catalog\CatalogueOfferConfigMessageComposer.cs" />
@@ -317,6 +316,8 @@
     <Compile Include="Composer\Chat\ShoutMessageComposer.cs" />
     <Compile Include="Composer\Chat\WhisperMessageComposer.cs" />
     <Compile Include="Composer\User\NewbieStatusMessageComposer.cs" />
+    <Compile Include="Composer\Catalog\CatalogPurchaseErrorMessageComposer.cs" />
+    <Compile Include="Composer\Catalog\CataloguePurchaseNotAllowed.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

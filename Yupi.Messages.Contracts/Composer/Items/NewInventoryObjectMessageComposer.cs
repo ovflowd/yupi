@@ -29,16 +29,11 @@ namespace Yupi.Messages.Contracts
     using Yupi.Model.Domain;
     using Yupi.Protocol.Buffers;
 
-    public abstract class NewInventoryObjectMessageComposer : AbstractComposer<BaseItem, List<Item>>
+    public abstract class NewInventoryObjectMessageComposer : AbstractComposer<IDictionary<ItemType, ICollection<Item>>>
     {
         #region Methods
 
-        public virtual void Compose(Yupi.Protocol.ISender session, int itemId)
-        {
-            // TODO Remove?
-        }
-
-        public override void Compose(Yupi.Protocol.ISender session, BaseItem item, List<Item> list)
+        public override void Compose(Yupi.Protocol.ISender session, IDictionary<ItemType, ICollection<Item>> itemTypes)
         {
             // Do nothing by default.
         }

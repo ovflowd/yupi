@@ -22,6 +22,9 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
+using System.Collections.Generic;
+
+
 namespace Yupi.Model.Domain.Components
 {
     using System;
@@ -40,16 +43,37 @@ namespace Yupi.Model.Domain.Components
             get; set;
         }
 
-        public virtual int Diamonds
+        public virtual IDictionary<ActivityPointsType, int> ActivityPoints
         {
-            get; set;
-        }
-
-        public virtual int Duckets
-        {
-            get; set;
+            get; protected set;
         }
 
         #endregion Properties
+
+        public virtual int GetActivityPoints(ActivityPointsType type) {
+            int value = 0;
+            ActivityPoints.TryGetValue(type, out value);
+            return value;
+        }
+
+        public virtual void AddActivityPoints(ActivityPointsType type, int value) {
+            if (this.ActivityPoints.ContainsKey(type))
+            {
+                ActivityPoints.Add(type, value);
+            }
+            else
+            {
+                ActivityPoints[type] += value;
+            }
+        }
+
+        public virtual void SubstractActivityPoints(ActivityPointsType type, int value) {
+            if (!this.ActivityPoints.ContainsKey(type))
+            {
+                throw new InvalidOperationException("User has no activity points of this type!");
+            }
+
+            ActivityPoints[type] -= value;
+        }
     }
 }

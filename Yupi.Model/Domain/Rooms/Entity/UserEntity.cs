@@ -83,12 +83,10 @@ namespace Yupi.Model.Domain
 
         public override void SetDance(Dance dance)
         {
-            if (dance.ClubOnly && !this.User.Info.Subscription.IsValid())
+            if (this.User.Info.Subscription.HasLevel(dance.ClubLevel))
             {
-                return;
+                base.SetDance(dance);
             }
-
-            base.SetDance(dance);
         }
 
         #endregion Methods

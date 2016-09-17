@@ -163,7 +163,7 @@ Global
 		$0.CSharpFormattingPolicy = $2
 		$2.IndentSwitchBody = True
 		$2.IndentBlocksInsideExpressions = True
-		$2.AutoPropertyFormatting = ForceOneLine
+		$2.SimplePropertyFormatting = ForceNewLine
 		$2.AnonymousMethodBraceStyle = NextLine
 		$2.PropertyBraceStyle = NextLine
 		$2.PropertyGetBraceStyle = NextLine

@@ -40,7 +40,7 @@ namespace Yupi.Messages.User
             {
                 message.AppendString("club_habbo"); // product name
 
-                if (subscription != null && subscription.IsValid())
+                if (subscription.HasLevel(ClubLevel.HC))
                 {
                     int days = (subscription.ExpireTime - DateTime.Now).Days;
                     int activeFor = (DateTime.Now - subscription.ActivateTime).Days;
@@ -58,7 +58,6 @@ namespace Yupi.Messages.User
                 }
                 else
                 {
-                    // TODO Create Subscription.None
                     message.AppendInteger(0);
                     message.AppendInteger(0);
                     message.AppendInteger(0);

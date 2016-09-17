@@ -101,14 +101,6 @@ namespace Yupi.Model.Domain
         }
 
         /// <summary>
-        ///     The sprite identifier
-        /// </summary>
-        public virtual int SpriteId
-        {
-            get; set;
-        }
-
-        /// <summary>
         ///     The stackable
         /// </summary>
         public virtual bool Stackable
@@ -160,6 +152,14 @@ namespace Yupi.Model.Domain
         public virtual int Width
         {
             get; set;
+        }
+
+        [Ignore]
+        public virtual string Visualization {
+            get {
+                // TODO Implement
+                return string.Empty;
+            }
         }
 
         #endregion Properties

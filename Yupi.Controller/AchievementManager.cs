@@ -80,10 +80,10 @@ namespace Yupi.Controller
 
         public void TryProgressHabboClubAchievements(Habbo session)
         {
-            if (!session.Info.Subscription.IsValid())
-                return;
-
             /*
+             *  if (!session.Info.Subscription.IsValid())
+                return;
+             * 
             if (session.GetHabbo ().Achievements.ContainsKey ("ACH_VipHC")) {
                 UserAchievement clubAch = session.GetHabbo ().GetAchievementData ("ACH_VipHC");
 
@@ -216,8 +216,10 @@ namespace Yupi.Controller
 
                     // Give Reward Points
                     user.Wallet.AchievementPoints += userAchievement.Level.RewardPoints;
-                    user.Wallet.Duckets += userAchievement.Level.RewardPixels;
+                    user.Wallet.AddActivityPoints(userAchievement.Level.RewardActivityPointsType,
+                        userAchievement.Level.RewardActivityPoints);
 
+                    // TODO Don't really like this implementation
                     user.Badges.RemoveBadge(userAchievement.Achievement.GroupName + (userAchievement.Level.Level - 1));
 
                     // Give new Badge
@@ -230,7 +232,7 @@ namespace Yupi.Controller
                         // Send Unlocked Composer
                         session.Router.GetComposer<UnlockAchievementMessageComposer>().Compose(session,
                             achievement, userAchievement.Level.Level,
-                            userAchievement.Level.RewardPoints, userAchievement.Level.RewardPixels);
+                            userAchievement.Level.RewardPoints, userAchievement.Level.RewardActivityPoints);
 
                         // Send Score Composer
                         session.Router.GetComposer<AchievementPointsMessageComposer>()

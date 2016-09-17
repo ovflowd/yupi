@@ -81,6 +81,7 @@ namespace Yupi.Model
                                 .IncludeBase<BaseItem>()
                                 .IncludeBase<FloorItem>()
                                 .IncludeBase<WallItem>()
+                                .IncludeBase<CatalogPageLayout>()
                 ))
                 .ExposeConfiguration(BuildSchema)
                 .BuildSessionFactory();

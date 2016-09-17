@@ -34,8 +34,8 @@ namespace Yupi.Messages.User
             Yupi.Protocol.IRouter router)
         {
             router.GetComposer<SubscriptionStatusMessageComposer>().Compose(session, session.Info.Subscription);
-            // TODO Implement
-            router.GetComposer<UserClubRightsMessageComposer>().Compose(session, false, session.Info.Rank, false);
+            // TODO Implement Ambassador
+            router.GetComposer<UserClubRightsMessageComposer>().Compose(session, session.Info.Subscription.GetLevel(), session.Info.Rank, false);
         }
 
         #endregion Methods

@@ -136,7 +136,7 @@ namespace Yupi.Controller
                     session.Router.GetComposer<FavouriteRoomsMessageComposer>().Compose(session, user.FavoriteRooms);
 
                     session.Router.GetComposer<UserClubRightsMessageComposer>()
-                        .Compose(session, user.Subscription.IsValid(),
+                        .Compose(session, user.Subscription.GetLevel(),
                             user.Rank);
 
                     session.Router.GetComposer<EnableNotificationsMessageComposer>().Compose(session);

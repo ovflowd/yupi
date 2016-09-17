@@ -37,58 +37,71 @@ namespace Yupi.Model.Domain
 
         public virtual bool AllowGift
         {
-            get; set;
+            get;
+            set;
         }
 
+        public virtual ActivityPointsType ActivityPointsType { get; set; }
+
+        // TODO Arbitrary string..
         public virtual string Badge
         {
-            get; set;
+            get;
+            set;
         }
 
-        public virtual IDictionary<BaseItem, int> BaseItems
+        public virtual IList<CatalogProduct> Products
         {
-            get; protected set;
+            get;
+            protected set;
         }
 
-        public virtual bool ClubOnly
+        public virtual ClubLevel ClubLevel
         {
-            get; set;
+            get;
+            set;
         }
 
-        // TODO Rename to CostCredits?
-        public virtual int CreditsCost
+        public virtual int CostCredits
         {
-            get; set;
+            get;
+            set;
         }
 
-        public virtual int DiamondsCost
+        public virtual int CostActivityPoints
         {
-            get; set;
-        }
-
-        public virtual int DucketsCost
-        {
-            get; set;
-        }
-
-        public virtual bool HaveOffer
-        {
-            get; set;
+            get;
+            set;
         }
 
         public virtual int Id
         {
-            get; protected set;
+            get;
+            protected set;
         }
 
         public virtual string Name
         {
-            get; set;
+            get;
+            set;
         }
 
-        public virtual CatalogPage PageId
+        public virtual bool IsRentable
         {
-            get; set;
+            get;
+            set;
+        }
+
+        public virtual bool IsVisible
+        {
+            get;
+            set;
+        }
+
+        public virtual CatalogPage Page
+        {
+            get;
+            set;
         }
 
         #endregion Properties
@@ -97,32 +110,54 @@ namespace Yupi.Model.Domain
 
         public CatalogOffer()
         {
-            BaseItems = new Dictionary<BaseItem, int>();
+            this.Products = new List<CatalogProduct>();
+            this.IsRentable = false;
+            this.IsVisible = true;
+            this.ClubLevel = ClubLevel.Normal;
+            this.ActivityPointsType = ActivityPointsType.Duckets;
         }
 
         #endregion Constructors
 
         #region Methods
 
-        public virtual bool CanPurchase(UserWallet wallet, int amount = 1)
+        protected virtual PurchaseStatus CanPurchase(UserInfo info, int amount = 1)
         {
-            return (this.CreditsCost*amount <= wallet.Credits
-                    && this.DucketsCost*amount <= wallet.Duckets
-                    && this.DiamondsCost*amount <= wallet.Diamonds);
-        }
-
-        public virtual void Purchase(UserWallet wallet, int amount = 1)
-        {
-            if (!CanPurchase(wallet, amount))
+            if (this.CostCredits * amount > info.Wallet.Credits
+                && this.CostActivityPoints * amount > info.Wallet.GetActivityPoints(this.ActivityPointsType))
             {
-                throw new InvalidOperationException();
+                return PurchaseStatus.NotEnoughCredits;
+            }
+            else if (!info.Subscription.HasLevel(this.ClubLevel))
+            {
+                return PurchaseStatus.InvalidSubscription;
+            }
+            else
+            {
+                foreach (CatalogProduct product in this.Products)
+                {
+                    PurchaseStatus status = product.CanPurchase(amount);
+                    if (status != PurchaseStatus.Ok)
+                    {
+                        return status;
+                    }
+                }
             }
 
-            wallet.Credits -= this.CreditsCost*amount;
-            wallet.Duckets -= this.DucketsCost*amount;
-            wallet.Diamonds -= this.DiamondsCost*amount;
+            return PurchaseStatus.Ok;
         }
 
+        public virtual PurchaseStatus Purchase(UserInfo user, int amount = 1)
+        {
+            PurchaseStatus status = CanPurchase(user, amount);
+
+            if (status == PurchaseStatus.Ok) {
+                user.Wallet.Credits -= this.CostCredits * amount;
+                user.Wallet.SubstractActivityPoints(this.ActivityPointsType, this.CostActivityPoints * amount);
+            }
+
+            return status;
+        }
         #endregion Methods
     }
 }

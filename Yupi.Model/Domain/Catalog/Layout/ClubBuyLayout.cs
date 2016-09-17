@@ -1,5 +1,5 @@
 ﻿// ---------------------------------------------------------------------------------
-// <copyright file="CatalogPurchaseNotAllowedMessageComposer.cs" company="https://github.com/sant0ro/Yupi">
+// <copyright file="ClubBuyLayout.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -22,25 +22,17 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-namespace Yupi.Messages.Catalog
+using System;
+
+namespace Yupi.Model.Domain
 {
-    using System;
-
-    using Yupi.Protocol.Buffers;
-
-    public class CatalogPurchaseNotAllowedMessageComposer : Yupi.Messages.Contracts.CatalogPurchaseNotAllowedMessageComposer
+    public class ClubBuyLayout : DefaultCatalogLayout
     {
-        #region Methods
-
-        public override void Compose(Yupi.Protocol.ISender session, bool isForbidden)
-        {
-            using (ServerMessage message = Pool.GetMessageBuffer(Id))
-            {
-                message.AppendInteger(isForbidden);
-                session.Send(message);
+        [Ignore]public override string Name {
+            get {
+                return "club_buy";
             }
         }
-
-        #endregion Methods
     }
 }
+

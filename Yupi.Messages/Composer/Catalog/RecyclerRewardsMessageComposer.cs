@@ -48,12 +48,12 @@ namespace Yupi.Messages.Catalog
 
                     message.AppendInteger(current.Rewards.Count);
 
-                    foreach (EcotronReward current2 in current.Rewards)
+                    foreach (EcotronReward reward in current.Rewards)
                     {
-                        message.AppendString(current2.BaseItem.PublicName);
+                        message.AppendString(reward.BaseItem.PublicName);
                         message.AppendInteger(1);
-                        message.AppendString(current2.BaseItem.Type.ToString());
-                        message.AppendInteger(current2.BaseItem.SpriteId);
+                        message.AppendString(reward.BaseItem.Type.ToString());
+                        message.AppendInteger(reward.BaseItem.Id);
                     }
                 }
 

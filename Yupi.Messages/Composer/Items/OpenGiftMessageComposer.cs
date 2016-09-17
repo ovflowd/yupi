@@ -35,17 +35,21 @@ namespace Yupi.Messages.Items
 
         public override void Compose(Yupi.Protocol.ISender session, BaseItem item, string text)
         {
+            throw new NotImplementedException();
+            /*
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
             {
-                message.AppendString(item.Type.ToString());
-                message.AppendInteger(item.SpriteId);
-                message.AppendString(item.Name);
+                message.AppendString(item.Base.Type.ToString());
+                message.AppendInteger(item.Base.Id);
+                message.AppendString(item.Base.Name);
                 message.AppendInteger(item.Id);
-                message.AppendString(item.Type.ToString());
-                message.AppendBool(true);
+
+                message.AppendString(item.Inner.Type.ToString());
+                message.AppendBool(true); // TODO Hardcoded
                 message.AppendString(text);
                 session.Send(message);
             }
+            */
         }
 
         #endregion Methods
