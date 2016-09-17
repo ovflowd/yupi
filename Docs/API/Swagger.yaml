@@ -1,0 +1,12 @@
+swagger: '2.0'
+info:
+  title: Yupi API
+  description: Private HH Emulator for Cool Guys
+  version: "1.0.0"
+host: api.yupi-emu.xyz
+schemes:
+  - http
+basePath: /
+produces:
+  - application/json
+paths:
