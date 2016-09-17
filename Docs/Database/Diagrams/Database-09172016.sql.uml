@@ -1,0 +1,700 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>763411a7-dc63-407e-a38a-fd3fd90d62ba</OriginalElement>
+  <nodes>
+    <node x="2187.375" y="3102.5">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.rightstofavoriterooms</node>
+    <node x="6150.791666666667" y="2104.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.youtubevideo</node>
+    <node x="2644.236881023565" y="3540.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.petitem</node>
+    <node x="675.0" y="3082.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.pollquestion</node>
+    <node x="325.0" y="3961.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.groupsymbols</node>
+    <node x="4537.532088282089" y="508.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.group</node>
+    <node x="2434.375" y="3102.5">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.roomdatatouserinfo</node>
+    <node x="1847.375" y="3012.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.supportticket</node>
+    <node x="1662.375" y="548.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.navigatorcategory</node>
+    <node x="4475.532088282089" y="190.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.groupsymbolcolours</node>
+    <node x="5250.625" y="3530.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.achievementlevel</node>
+    <node x="4622.532088282089" y="190.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.groupbackgroundcolours</node>
+    <node x="6822.957489420805" y="3550.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.talentlevel</node>
+    <node x="4747.375" y="3510.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.groupforumpost</node>
+    <node x="5952.838441801758" y="2972.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.flooritem</node>
+    <node x="3511.375" y="3102.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.minimail</node>
+    <node x="6553.671775135092" y="2104.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.moodlightdata</node>
+    <node x="1631.375" y="3102.5">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.tags</node>
+    <node x="7412.122371991936" y="1156.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.limitedcatalogitem</node>
+    <node x="2681.375" y="3102.5">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.banneduserstoratedrooms</node>
+    <node x="6850.122371991936" y="1136.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.songdata</node>
+    <node x="3662.839673913044" y="1156.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.subscription</node>
+    <node x="7070.122371991936" y="1116.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.targetedoffer</node>
+    <node x="3831.375" y="3092.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.badge</node>
+    <node x="5933.806816020131" y="3788.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.usertalent</node>
+    <node x="5440.625" y="3042.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.groupforumthread</node>
+    <node x="324.3618810235648" y="3570.5">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.answers</node>
+    <node x="0.0" y="2872.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.petinfo</node>
+    <node x="6372.838441801758" y="3052.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.wallitem</node>
+    <node x="2929.375" y="3092.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.halloffameelement</node>
+    <node x="804.0051084684242" y="2074.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.poll</node>
+    <node x="7484.957489420805" y="3102.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.ecotronreward</node>
+    <node x="4471.375" y="3092.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.usersearchlog</node>
+    <node x="695.0" y="3961.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.groupbasecolours</node>
+    <node x="1451.375" y="3092.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.roommute</node>
+    <node x="7079.122371991936" y="528.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.catalogoffer</node>
+    <node x="537.0051084684242" y="2114.5">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.wordfilter</node>
+    <node x="875.0" y="3092.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.botinfo</node>
+    <node x="7003.957489420805" y="3480.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.hotellandingpromos</node>
+    <node x="1487.375" y="836.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.roomdata</node>
+    <node x="5667.791666666667" y="2094.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.roomcompetitionentry</node>
+    <node x="5013.625" y="3092.5">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.memberstousergroups</node>
+    <node x="7379.122371991936" y="528.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.catalogitem</node>
+    <node x="3243.2771739130435" y="1714.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo</node>
+    <node x="7035.789038658603" y="0.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.catalogpage</node>
+    <node x="7239.957489420805" y="3112.5">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.vendingids</node>
+    <node x="5757.791666666667" y="1176.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.roomcompetition</node>
+    <node x="6898.207489420805" y="3102.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.talent</node>
+    <node x="1442.375" y="578.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.roomevent</node>
+    <node x="3842.839673913044" y="1126.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.avatareffect</node>
+    <node x="4651.375" y="3092.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.friendrequest</node>
+    <node x="860.0" y="3961.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.useritem</node>
+    <node x="6713.671775135092" y="1924.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.baseitem</node>
+    <node x="7087.957489420805" y="3112.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.hotellandingmanager</node>
+    <node x="4843.375" y="3112.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.usercaution</node>
+    <node x="3310.375" y="3082.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.wardrobeitem</node>
+    <node x="510.0" y="3961.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.groupbases</node>
+    <node x="7539.957489420805" y="2124.5">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.ecotronlevel</node>
+    <node x="4231.375" y="3062.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.messengermessage</node>
+    <node x="4746.320214356898" y="3788.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userachievement</node>
+    <node x="5740.838441801758" y="3112.5">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfotogroup</node>
+    <node x="888.2368810235648" y="3540.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.link</node>
+    <node x="4011.375" y="3072.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userban</node>
+    <node x="0.0" y="3961.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.moderationtemplate</node>
+    <node x="1561.7368810235648" y="3570.5">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.reportedchats</node>
+    <node x="5477.291666666667" y="130.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.groupforum</node>
+    <node x="5280.625" y="3102.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.achievement</node>
+    <node x="6632.838441801758" y="3082.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.moodlightpreset</node>
+    <node x="3110.375" y="3082.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.relationship</node>
+    <node x="1211.375" y="3062.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.chatmessage</node>
+    <node x="3671.375" y="3102.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.tradelock</node>
+    <node x="330.6204930838089" y="1166.0">763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.baseinfo</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.group" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.groupbackgroundcolours">
+      <point x="0.0" y="-134.0" />
+      <point x="0.0" y="34.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.badge" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo">
+      <point x="0.0" y="-54.0" />
+      <point x="3911.375" y="2852.0" />
+      <point x="3762.570652173913" y="2852.0" />
+      <point x="31.793478260869506" y="434.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.achievementlevel" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.achievement">
+      <point x="0.0" y="-74.0" />
+      <point x="0.0" y="44.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.roomdata" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo">
+      <point x="307.6923076923076" y="374.0" />
+      <point x="2195.0673076923076" y="1614.0" />
+      <point x="3547.964673913044" y="1614.0" />
+      <point x="-182.81249999999955" y="-434.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.tags" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.roomdata">
+      <point x="-49.0" y="-43.5" />
+      <point x="1680.375" y="2622.0" />
+      <point x="1377.2551084684242" y="2622.0" />
+      <point x="1377.2551084684242" y="1694.0" />
+      <point x="1825.8365384615386" y="1694.0" />
+      <point x="-61.53846153846143" y="374.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.wordfilter" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.roomdata">
+      <point x="0.0" y="-33.5" />
+      <point x="630.5051084684242" y="1654.0" />
+      <point x="1579.6826923076924" y="1654.0" />
+      <point x="-307.6923076923076" y="374.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.catalogitem" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.catalogpage">
+      <point x="0.0" y="-114.0" />
+      <point x="7519.122371991936" y="488.0" />
+      <point x="7452.45570532527" y="488.0" />
+      <point x="166.66666666666697" y="224.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.hotellandingpromos" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.hotellandingmanager">
+      <point x="0.0" y="-124.0" />
+      <point x="0.0" y="34.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfotogroup" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.group">
+      <point x="48.0" y="-33.5" />
+      <point x="5884.838441801758" y="2852.0" />
+      <point x="5957.021101734417" y="2852.0" />
+      <point x="5957.021101734417" y="796.0" />
+      <point x="4834.674945424946" y="796.0" />
+      <point x="137.14285714285688" y="134.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.moodlightdata" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.moodlightpreset">
+      <point x="46.66666666666697" y="44.0" />
+      <point x="6670.338441801758" y="2822.0" />
+      <point x="6767.838441801758" y="2822.0" />
+      <point x="45.0" y="-64.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.petitem" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo">
+      <point x="22.5" y="-64.0" />
+      <point x="2756.736881023565" y="3450.0" />
+      <point x="3099.875" y="3450.0" />
+      <point x="3099.875" y="2802.0" />
+      <point x="3614.201086956522" y="2802.0" />
+      <point x="-116.57608695652152" y="434.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.baseitem" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.targetedoffer">
+      <point x="166.66666666666697" y="-224.0" />
+      <point x="7130.338441801758" y="1694.0" />
+      <point x="7228.122371991936" y="1694.0" />
+      <point x="0.0" y="94.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.group" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.groupsymbolcolours">
+      <point x="-106.66666666666697" y="-134.0" />
+      <point x="4590.865421615422" y="488.0" />
+      <point x="4539.032088282089" y="488.0" />
+      <point x="0.0" y="34.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.link" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.chatmessage">
+      <point x="0.0" y="-64.0" />
+      <point x="978.2368810235648" y="3460.0" />
+      <point x="1321.375" y="3460.0" />
+      <point x="0.0" y="84.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.roomdata">
+      <point x="-304.68749999999955" y="-434.0" />
+      <point x="3426.089673913044" y="1624.0" />
+      <point x="2133.528846153846" y="1624.0" />
+      <point x="246.1538461538462" y="374.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.moodlightpreset" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.moodlightdata">
+      <point x="-45.0" y="-64.0" />
+      <point x="6677.838441801758" y="2832.0" />
+      <point x="6623.671775135092" y="2832.0" />
+      <point x="0.0" y="44.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.halloffameelement" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo">
+      <point x="0.0" y="-54.0" />
+      <point x="3009.375" y="2792.0" />
+      <point x="3593.005434782609" y="2792.0" />
+      <point x="-137.77173913043453" y="434.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.talent" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.baseitem">
+      <point x="0.0" y="-44.0" />
+      <point x="6968.207489420805" y="2852.0" />
+      <point x="6963.671775135092" y="2852.0" />
+      <point x="0.0" y="224.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.vendingids" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.baseitem">
+      <point x="0.0" y="-33.5" />
+      <point x="7352.457489420805" y="2842.0" />
+      <point x="7106.528917992235" y="2842.0" />
+      <point x="142.85714285714312" y="224.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.botinfo" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.baseinfo">
+      <point x="-53.75" y="-54.0" />
+      <point x="928.75" y="2622.0" />
+      <point x="382.78715975047544" y="2622.0" />
+      <point x="382.78715975047544" y="1694.0" />
+      <point x="400.6204930838089" y="1694.0" />
+      <point x="0.0" y="44.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.chatmessage" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo">
+      <point x="55.0" y="-84.0" />
+      <point x="1376.375" y="2662.0" />
+      <point x="3317.461956521739" y="2662.0" />
+      <point x="-413.3152173913045" y="434.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.petitem" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.baseitem">
+      <point x="67.5" y="-64.0" />
+      <point x="2801.736881023565" y="3460.0" />
+      <point x="6883.791666666667" y="3460.0" />
+      <point x="6883.791666666667" y="2852.0" />
+      <point x="6892.243203706519" y="2852.0" />
+      <point x="-71.42857142857156" y="224.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.usertalent" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.talentlevel">
+      <point x="0.0" y="-64.0" />
+      <point x="6023.806816020131" y="3758.0" />
+      <point x="6902.957489420805" y="3758.0" />
+      <point x="0.0" y="54.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfotogroup" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo">
+      <point x="-48.0" y="-33.5" />
+      <point x="5788.838441801758" y="2692.0" />
+      <point x="4101.701086956521" y="2692.0" />
+      <point x="370.92391304347757" y="434.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.flooritem" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo">
+      <point x="0.0" y="-174.0" />
+      <point x="6152.838441801758" y="2662.0" />
+      <point x="4165.28804347826" y="2662.0" />
+      <point x="434.5108695652166" y="434.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.friendrequest" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo">
+      <point x="0.0" y="-54.0" />
+      <point x="4731.375" y="2792.0" />
+      <point x="3889.744565217391" y="2792.0" />
+      <point x="158.96739130434753" y="434.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.pollquestion" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.poll">
+      <point x="0.0" y="-64.0" />
+      <point x="765.0" y="2632.0" />
+      <point x="904.0051084684242" y="2632.0" />
+      <point x="0.0" y="74.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.groupforumpost" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.groupforumthread">
+      <point x="80.0" y="-94.0" />
+      <point x="4947.375" y="3450.0" />
+      <point x="5570.625" y="3450.0" />
+      <point x="0.0" y="104.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userachievement" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo">
+      <point x="-60.0" y="-64.0" />
+      <point x="4776.320214356898" y="3768.0" />
+      <point x="3500.875" y="3768.0" />
+      <point x="3500.875" y="2842.0" />
+      <point x="3698.983695652174" y="2842.0" />
+      <point x="-31.793478260869506" y="434.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.rightstofavoriterooms" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.roomdata">
+      <point x="-75.66666666666652" y="-43.5" />
+      <point x="2225.208333333333" y="1694.0" />
+      <point x="1948.913461538462" y="1694.0" />
+      <point x="61.53846153846189" y="374.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.flooritem" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.baseitem">
+      <point x="160.0" y="-174.0" />
+      <point x="6312.838441801758" y="2842.0" />
+      <point x="6749.386060849376" y="2842.0" />
+      <point x="-214.28571428571468" y="224.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.roomdata" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.group">
+      <point x="100.0" y="-374.0" />
+      <point x="1987.375" y="806.0" />
+      <point x="4560.389231139232" y="806.0" />
+      <point x="-137.14285714285688" y="134.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.avatareffect">
+      <point x="60.937500000000455" y="-434.0" />
+      <point x="3791.714673913044" y="1694.0" />
+      <point x="3897.839673913044" y="1694.0" />
+      <point x="-55.0" y="84.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.limitedcatalogitem" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.catalogitem">
+      <point x="59.0" y="-54.0" />
+      <point x="70.0" y="114.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userachievement" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.achievement">
+      <point x="0.0" y="-64.0" />
+      <point x="4836.320214356898" y="3758.0" />
+      <point x="5127.125" y="3758.0" />
+      <point x="5127.125" y="3440.0" />
+      <point x="5303.958333333333" y="3440.0" />
+      <point x="-46.66666666666697" y="44.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.group" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.roomdata">
+      <point x="-91.42857142857156" y="134.0" />
+      <point x="4606.103516853517" y="816.0" />
+      <point x="2187.375" y="816.0" />
+      <point x="300.0" y="-374.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.messengermessage" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo">
+      <point x="55.0" y="-84.0" />
+      <point x="4396.375" y="2822.0" />
+      <point x="3826.157608695652" y="2822.0" />
+      <point x="95.38043478260852" y="434.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.roomdatatouserinfo" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo">
+      <point x="0.0" y="-43.5" />
+      <point x="2547.875" y="2742.0" />
+      <point x="3487.0271739130435" y="2742.0" />
+      <point x="-243.75" y="434.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.roommute" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo">
+      <point x="40.0" y="-54.0" />
+      <point x="1571.375" y="2672.0" />
+      <point x="3338.657608695652" y="2672.0" />
+      <point x="-392.1195652173915" y="434.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.baseinfo">
+      <point x="-426.56249999999955" y="-434.0" />
+      <point x="3304.214673913044" y="1634.0" />
+      <point x="447.28715975047544" y="1634.0" />
+      <point x="46.66666666666663" y="44.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.usersearchlog" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo">
+      <point x="0.0" y="-54.0" />
+      <point x="4551.375" y="2812.0" />
+      <point x="3847.353260869565" y="2812.0" />
+      <point x="116.57608695652152" y="434.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.avatareffect" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo">
+      <point x="55.0" y="84.0" />
+      <point x="4007.839673913044" y="1694.0" />
+      <point x="3913.589673913044" y="1694.0" />
+      <point x="182.81250000000045" y="-434.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.petinfo" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.roomdata">
+      <point x="0.0" y="-274.0" />
+      <point x="327.5" y="2852.0" />
+      <point x="466.50510846842417" y="2852.0" />
+      <point x="466.50510846842417" y="1644.0" />
+      <point x="1518.1442307692305" y="1644.0" />
+      <point x="-369.2307692307695" y="374.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.wardrobeitem" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo">
+      <point x="0.0" y="-64.0" />
+      <point x="3400.375" y="2832.0" />
+      <point x="3677.788043478261" y="2832.0" />
+      <point x="-52.98913043478251" y="434.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.flooritem" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.youtubevideo">
+      <point x="80.0" y="-174.0" />
+      <point x="6232.838441801758" y="2852.0" />
+      <point x="6236.291666666667" y="2852.0" />
+      <point x="0.0" y="44.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.wallitem" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.moodlightdata">
+      <point x="30.0" y="-94.0" />
+      <point x="6522.838441801758" y="2832.0" />
+      <point x="6577.005108468424" y="2832.0" />
+      <point x="-46.66666666666697" y="44.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.wallitem" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo">
+      <point x="-30.0" y="-94.0" />
+      <point x="6462.838441801758" y="2642.0" />
+      <point x="4207.679347826086" y="2642.0" />
+      <point x="476.9021739130426" y="434.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userban" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo">
+      <point x="0.0" y="-74.0" />
+      <point x="4111.375" y="2842.0" />
+      <point x="3783.766304347826" y="2842.0" />
+      <point x="52.98913043478251" y="434.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.limitedcatalogitem" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.catalogoffer">
+      <point x="-59.0" y="-54.0" />
+      <point x="7471.122371991936" y="806.0" />
+      <point x="7289.122371991936" y="806.0" />
+      <point x="70.0" y="114.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.usertalent" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo">
+      <point x="-60.0" y="-64.0" />
+      <point x="5963.806816020131" y="3748.0" />
+      <point x="5003.125" y="3748.0" />
+      <point x="5003.125" y="2742.0" />
+      <point x="3995.722826086956" y="2742.0" />
+      <point x="264.94565217391255" y="434.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.groupforumthread" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo">
+      <point x="0.0" y="-104.0" />
+      <point x="5570.625" y="2702.0" />
+      <point x="4080.505434782608" y="2702.0" />
+      <point x="349.72826086956456" y="434.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.roomcompetitionentry" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.roomdata">
+      <point x="-40.0" y="-54.0" />
+      <point x="5707.791666666667" y="1604.0" />
+      <point x="2256.6057692307695" y="1604.0" />
+      <point x="369.2307692307695" y="374.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.usertalent" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.talent">
+      <point x="60.0" y="-64.0" />
+      <point x="6083.806816020131" y="3768.0" />
+      <point x="6993.457489420805" y="3768.0" />
+      <point x="6993.457489420805" y="3460.0" />
+      <point x="7003.207489420805" y="3460.0" />
+      <point x="35.0" y="44.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.subscription">
+      <point x="-60.937499999999545" y="-434.0" />
+      <point x="3669.839673913044" y="1694.0" />
+      <point x="3742.839673913044" y="1694.0" />
+      <point x="0.0" y="54.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.memberstousergroups" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.group">
+      <point x="92.625" y="-53.5" />
+      <point x="5229.75" y="2852.0" />
+      <point x="5259.562768401083" y="2852.0" />
+      <point x="5259.562768401083" y="806.0" />
+      <point x="4788.96065971066" y="806.0" />
+      <point x="91.42857142857156" y="134.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.ecotronreward" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.ecotronlevel">
+      <point x="35.0" y="-44.0" />
+      <point x="0.0" y="23.5" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.petinfo" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.baseinfo">
+      <point x="-218.33333333333348" y="-274.0" />
+      <point x="109.16666666666652" y="2852.0" />
+      <point x="268.4868810235648" y="2852.0" />
+      <point x="268.4868810235648" y="1694.0" />
+      <point x="353.9538264171424" y="1694.0" />
+      <point x="-46.666666666666515" y="44.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.hotellandingmanager" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.baseitem">
+      <point x="0.0" y="-34.0" />
+      <point x="7153.957489420805" y="2852.0" />
+      <point x="7035.100346563662" y="2852.0" />
+      <point x="71.42857142857156" y="224.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.roomdata" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.roomevent">
+      <point x="-300.0" y="-374.0" />
+      <point x="1587.375" y="816.0" />
+      <point x="1532.375" y="816.0" />
+      <point x="0.0" y="64.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.group" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.groupforum">
+      <point x="106.66666666666697" y="-134.0" />
+      <point x="4804.198754948756" y="488.0" />
+      <point x="5537.291666666667" y="488.0" />
+      <point x="-60.0" y="94.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.usercaution" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo">
+      <point x="0.0" y="-34.0" />
+      <point x="4903.375" y="2752.0" />
+      <point x="3974.527173913043" y="2752.0" />
+      <point x="243.74999999999955" y="434.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo">
+      <point x="-476.9021739130435" y="434.0" />
+      <point x="3253.875" y="2602.0" />
+      <point x="3223.2771739130435" y="2602.0" />
+      <point x="3223.2771739130435" y="2148.0" />
+      <point x="-487.5" y="-0.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.chatmessage" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.roomdata">
+      <point x="-55.0" y="-84.0" />
+      <point x="1266.375" y="2632.0" />
+      <point x="1159.2551084684242" y="2632.0" />
+      <point x="1159.2551084684242" y="1674.0" />
+      <point x="1702.7596153846152" y="1674.0" />
+      <point x="-184.61538461538476" y="374.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.talentlevel" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.talent">
+      <point x="40.0" y="-54.0" />
+      <point x="6942.957489420805" y="3460.0" />
+      <point x="6933.207489420805" y="3460.0" />
+      <point x="-35.0" y="44.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.minimail" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo">
+      <point x="0.0" y="-44.0" />
+      <point x="3581.375" y="2852.0" />
+      <point x="3720.179347826087" y="2852.0" />
+      <point x="-10.597826086956502" y="434.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.baseitem" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.songdata">
+      <point x="0.0" y="-224.0" />
+      <point x="6963.671775135092" y="1694.0" />
+      <point x="6950.122371991936" y="1694.0" />
+      <point x="0.0" y="74.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.roomcompetitionentry" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.roomcompetition">
+      <point x="40.0" y="-54.0" />
+      <point x="-30.0" y="34.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.poll" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.roomdata">
+      <point x="0.0" y="-74.0" />
+      <point x="904.0051084684242" y="1664.0" />
+      <point x="1641.2211538461538" y="1664.0" />
+      <point x="-246.1538461538462" y="374.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.group">
+      <point x="304.68750000000045" y="-434.0" />
+      <point x="4035.464673913044" y="1684.0" />
+      <point x="4669.174945424946" y="1684.0" />
+      <point x="4669.174945424946" y="816.0" />
+      <point x="4651.8178025678035" y="816.0" />
+      <point x="-45.714285714285325" y="134.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.tradelock" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo">
+      <point x="0.0" y="-44.0" />
+      <point x="10.597826086956502" y="434.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.wallitem" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.baseitem">
+      <point x="90.0" y="-94.0" />
+      <point x="6582.838441801758" y="2852.0" />
+      <point x="6820.8146322779485" y="2852.0" />
+      <point x="-142.85714285714312" y="224.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.tags" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo">
+      <point x="49.0" y="-43.5" />
+      <point x="1778.375" y="2682.0" />
+      <point x="3359.8532608695655" y="2682.0" />
+      <point x="-370.923913043478" y="434.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.groupforumpost" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo">
+      <point x="0.0" y="-94.0" />
+      <point x="4867.375" y="3450.0" />
+      <point x="4832.875" y="3450.0" />
+      <point x="4832.875" y="2762.0" />
+      <point x="3953.33152173913" y="2762.0" />
+      <point x="222.55434782608654" y="434.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userachievement" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.achievementlevel">
+      <point x="60.0" y="-64.0" />
+      <point x="4896.320214356898" y="3768.0" />
+      <point x="5350.625" y="3768.0" />
+      <point x="0.0" y="74.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.answers" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.pollquestion">
+      <point x="0.0" y="-33.5" />
+      <point x="421.8618810235648" y="3460.0" />
+      <point x="765.0" y="3460.0" />
+      <point x="0.0" y="64.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.reportedchats" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.supportticket">
+      <point x="0.0" y="-33.5" />
+      <point x="1664.2368810235648" y="3460.0" />
+      <point x="2007.375" y="3460.0" />
+      <point x="0.0" y="134.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.groupforumthread" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.groupforum">
+      <point x="86.66666666666697" y="-104.0" />
+      <point x="60.0" y="94.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.petitem" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.petinfo">
+      <point x="-67.5" y="-64.0" />
+      <point x="2666.736881023565" y="3450.0" />
+      <point x="327.5" y="3450.0" />
+      <point x="0.0" y="274.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.supportticket" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo">
+      <point x="120.0" y="-134.0" />
+      <point x="2127.375" y="2712.0" />
+      <point x="3423.4402173913045" y="2712.0" />
+      <point x="-307.336956521739" y="434.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.banneduserstoratedrooms" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo">
+      <point x="75.66666666666652" y="-43.5" />
+      <point x="2870.5416666666665" y="2772.0" />
+      <point x="3550.6141304347825" y="2772.0" />
+      <point x="-180.163043478261" y="434.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.memberstousergroups" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo">
+      <point x="-92.625" y="-53.5" />
+      <point x="5044.5" y="2732.0" />
+      <point x="4016.918478260869" y="2732.0" />
+      <point x="286.14130434782555" y="434.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.catalogpage" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.catalogpage">
+      <point x="-166.66666666666652" y="224.0" />
+      <point x="7119.122371991936" y="468.0" />
+      <point x="7015.789038658603" y="468.0" />
+      <point x="7015.789038658603" y="224.0" />
+      <point x="-250.0" y="-0.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.relationship" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo">
+      <point x="45.0" y="-64.0" />
+      <point x="3245.375" y="2822.0" />
+      <point x="3656.592391304348" y="2822.0" />
+      <point x="-74.18478260869551" y="434.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.supportticket" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.roomdata">
+      <point x="-120.0" y="-134.0" />
+      <point x="0.0" y="374.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.banneduserstoratedrooms" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.roomdata">
+      <point x="-75.66666666666652" y="-43.5" />
+      <point x="2719.208333333333" y="1674.0" />
+      <point x="2071.9903846153848" y="1674.0" />
+      <point x="184.61538461538476" y="374.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.rightstofavoriterooms" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo">
+      <point x="75.66666666666652" y="-43.5" />
+      <point x="2376.5416666666665" y="2732.0" />
+      <point x="3465.8315217391305" y="2732.0" />
+      <point x="-264.945652173913" y="434.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.roomdata" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.navigatorcategory">
+      <point x="-100.0" y="-374.0" />
+      <point x="1787.375" y="816.0" />
+      <point x="1842.375" y="816.0" />
+      <point x="60.0" y="94.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.petinfo" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo">
+      <point x="218.33333333333337" y="-274.0" />
+      <point x="545.8333333333335" y="2642.0" />
+      <point x="3275.070652173913" y="2642.0" />
+      <point x="-455.7065217391305" y="434.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.targetedoffer" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.catalogitem">
+      <point x="79.0" y="-94.0" />
+      <point x="7307.122371991936" y="816.0" />
+      <point x="7449.122371991936" y="816.0" />
+      <point x="-70.0" y="114.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.botinfo" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo">
+      <point x="53.75" y="-54.0" />
+      <point x="1036.25" y="2652.0" />
+      <point x="3296.266304347826" y="2652.0" />
+      <point x="-434.5108695652175" y="434.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.roomdatatouserinfo" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.roomdata">
+      <point x="-75.66666666666652" y="-43.5" />
+      <point x="2472.208333333333" y="1684.0" />
+      <point x="2010.4519230769229" y="1684.0" />
+      <point x="123.07692307692287" y="374.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.targetedoffer" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.catalogoffer">
+      <point x="-79.0" y="-94.0" />
+      <point x="-70.0" y="114.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.group" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.userinfo">
+      <point x="0.0" y="134.0" />
+      <point x="4697.532088282089" y="816.0" />
+      <point x="4680.174945424946" y="816.0" />
+      <point x="4680.174945424946" y="1694.0" />
+      <point x="4157.339673913044" y="1694.0" />
+      <point x="426.56250000000045" y="-434.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.talentlevel" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.achievement">
+      <point x="-40.0" y="-54.0" />
+      <point x="6862.957489420805" y="3440.0" />
+      <point x="5397.291666666667" y="3440.0" />
+      <point x="46.66666666666697" y="44.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.ecotronreward" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.baseitem">
+      <point x="-35.0" y="-44.0" />
+      <point x="7519.957489420805" y="2832.0" />
+      <point x="7177.957489420805" y="2832.0" />
+      <point x="214.28571428571468" y="224.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.baseitem" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.roomcompetition">
+      <point x="-166.66666666666697" y="-224.0" />
+      <point x="6797.005108468424" y="1694.0" />
+      <point x="5847.791666666667" y="1694.0" />
+      <point x="30.0" y="34.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.navigatorcategory" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.navigatorcategory">
+      <point x="-60.0" y="94.0" />
+      <point x="1722.375" y="756.0" />
+      <point x="1642.375" y="756.0" />
+      <point x="1642.375" y="642.0" />
+      <point x="-120.0" y="-0.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.catalogoffer" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.catalogpage">
+      <point x="0.0" y="-114.0" />
+      <point x="7219.122371991936" y="488.0" />
+      <point x="7285.789038658603" y="488.0" />
+      <point x="0.0" y="224.0" />
+    </edge>
+    <edge source="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.roommute" target="763411a7-dc63-407e-a38a-fd3fd90d62ba.TABLE:yupi.roomdata">
+      <point x="-40.0" y="-54.0" />
+      <point x="1491.375" y="2632.0" />
+      <point x="1277.2551084684242" y="2632.0" />
+      <point x="1277.2551084684242" y="1684.0" />
+      <point x="1764.2980769230771" y="1684.0" />
+      <point x="-123.07692307692287" y="374.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.1" x="3829.9999999999995" y="2094.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Key columns</Category>
+    <Category>Columns</Category>
+  </Categories>
+</Diagram>
+
