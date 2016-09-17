@@ -1,5 +1,5 @@
 ﻿// ---------------------------------------------------------------------------------
-// <copyright file="UserEffectComponent.cs" company="https://github.com/sant0ro/Yupi">
+// <copyright file="NullableAttribute.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -22,53 +22,13 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-namespace Yupi.Model.Domain.Components
+using System;
+
+namespace Yupi.Model
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
-    using Yupi.Util;
-
-    public class UserEffectComponent
+    public sealed class NullableAttribute : Attribute
     {
-        #region Properties
-
-        [Nullable]
-        public virtual AvatarEffect ActiveEffect
-        {
-            get; set;
-        }
-
-        public virtual IList<AvatarEffect> Effects
-        {
-            get; protected set;
-        }
-
-        #endregion Properties
-
-        #region Constructors
-
-        public UserEffectComponent()
-        {
-            Effects = new List<AvatarEffect>();
-        }
-
-        #endregion Constructors
-
-        #region Methods
-
-        // TODO Call this somewhere :D
-        public virtual void Cleanup()
-        {
-            Effects.RemoveAll((x) => x.HasExpired());
-        }
-            
-        public virtual bool HasEffect(int effectId)
-        {
-            return Effects.Any(x => x.EffectId == effectId);
-        }
-
-        #endregion Methods
+        
     }
 }
+

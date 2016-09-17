@@ -422,6 +422,8 @@
     <Compile Include="Domain\Catalog\Layout\SpacesLayout.cs" />
     <Compile Include="Domain\Catalog\Layout\VipBuyLayout.cs" />
     <Compile Include="Domain\Catalog\Layout\GuildForumLayout.cs" />
+    <Compile Include="NullableConvention.cs" />
+    <Compile Include="NullableAttribute.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

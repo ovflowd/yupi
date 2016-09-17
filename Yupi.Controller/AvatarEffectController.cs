@@ -52,21 +52,10 @@ namespace Yupi.Controller
 
         #region Methods
 
-        // TODO Remove
-        public void ActivateCustomEffect(int effectId, bool setAsCurrentEffect = true)
-        {
-            throw new NotImplementedException();
-        }
-
         public void ActivateEffect(UserEntity user, int effectId)
         {
             if (user.Room == null || !user.UserInfo.EffectComponent.HasEffect(effectId) || effectId < 1)
                 return;
-
-            if (user.UserInfo.EffectComponent.ActiveEffect != null)
-            {
-                StopEffect(user.User, user.UserInfo.EffectComponent.ActiveEffect);
-            }
 
             AvatarEffect avatarEffect = user.UserInfo.EffectComponent.Effects.Last(x => x.EffectId == effectId);
             avatarEffect.Activate();
@@ -74,7 +63,13 @@ namespace Yupi.Controller
 
             UserRepository.Save(user.UserInfo);
 
-            EnableInRoom(user, avatarEffect);
+            user.Room.EachUser(
+                (session) =>
+                {
+                    session.Router.GetComposer<ApplyEffectMessageComposer>()
+                        .Compose(session, user, avatarEffect);
+                }
+            );
         }
 
         // TODO Validate effectIDs !!!
@@ -116,24 +111,6 @@ namespace Yupi.Controller
             }
 
             user.Router.GetComposer<StopAvatarEffectMessageComposer>().Compose(user, effect);
-        }
-
-        private void EnableInRoom(UserEntity entity, AvatarEffect effect, bool setAsCurrentEffect = true)
-        {
-            Room userRoom = entity.Room;
-
-            if (setAsCurrentEffect)
-            {
-                entity.UserInfo.EffectComponent.ActiveEffect = effect;
-            }
-
-            userRoom.EachUser(
-                (session) =>
-                {
-                    session.Router.GetComposer<ApplyEffectMessageComposer>()
-                        .Compose(session, entity, effect);
-                }
-            );
         }
 
         #endregion Methods

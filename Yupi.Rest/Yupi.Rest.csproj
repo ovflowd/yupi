@@ -57,13 +57,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Yupi.Model\Yupi.Model.csproj">
-      <Project>{8B402ADE-66C4-4D92-9DA6-162860FC225E}</Project>
-      <Name>Yupi.Model</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Yupi.Controller\Yupi.Controller.csproj">
       <Project>{40F4057A-7752-4BA3-849B-FDEBCC238717}</Project>
       <Name>Yupi.Controller</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Yupi.Model\Yupi.Model.csproj">
+      <Project>{8B402ADE-66C4-4D92-9DA6-162860FC225E}</Project>
+      <Name>Yupi.Model</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

@@ -609,10 +609,6 @@
       <Project>{8D09AE29-53E7-405D-9F9E-CDDE1164851A}</Project>
       <Name>Yupi.Net</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Yupi.Model\Yupi.Model.csproj">
-      <Project>{8B402ADE-66C4-4D92-9DA6-162860FC225E}</Project>
-      <Name>Yupi.Model</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Yupi.Messages.Contracts\Yupi.Messages.Contracts.csproj">
       <Project>{686087B0-8FBC-48E3-A903-799A980F8D7D}</Project>
       <Name>Yupi.Messages.Contracts</Name>
@@ -624,6 +620,10 @@
     <ProjectReference Include="..\Yupi.Util\Yupi.Util.csproj">
       <Project>{6CC9871D-F8D6-4586-8681-E9AAECA60D60}</Project>
       <Name>Yupi.Util</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Yupi.Model\Yupi.Model.csproj">
+      <Project>{8B402ADE-66C4-4D92-9DA6-162860FC225E}</Project>
+      <Name>Yupi.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

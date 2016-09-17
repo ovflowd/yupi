@@ -74,10 +74,6 @@
       <Project>{6CC9871D-F8D6-4586-8681-E9AAECA60D60}</Project>
       <Name>Yupi.Util</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Yupi.Model\Yupi.Model.csproj">
-      <Project>{8B402ADE-66C4-4D92-9DA6-162860FC225E}</Project>
-      <Name>Yupi.Model</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Yupi.Protocol\Yupi.Protocol.csproj">
       <Project>{9AE3ADAB-A767-4123-BE78-34E1DFCF33FB}</Project>
       <Name>Yupi.Protocol</Name>
@@ -101,6 +97,10 @@
     <ProjectReference Include="..\Yupi.Rest\Yupi.Rest.csproj">
       <Project>{A323F1A6-8E91-430F-BCE8-F8AD306D4DED}</Project>
       <Name>Yupi.Rest</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Yupi.Model\Yupi.Model.csproj">
+      <Project>{8B402ADE-66C4-4D92-9DA6-162860FC225E}</Project>
+      <Name>Yupi.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

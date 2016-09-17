@@ -114,6 +114,7 @@ namespace Yupi.Controller
                 }
 
                 session.Info = user;
+                session.Info.LastIp = session.Session.RemoteAddress;
 
                 // TODO Log login attempts (with IP)
 

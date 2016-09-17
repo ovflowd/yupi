@@ -45,7 +45,6 @@ namespace Yupi.Util.Settings
         static DatabaseSettings()
         {
             Cfg.Configuration.UseIniFile(Settings.GetPath("database.ini"));
-            Cfg.Write(Type, DatabaseType.MySQL);
         }
 
         #endregion Constructors
