@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="Habbo.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,9 +24,13 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
+
+#endregion Header
+
 namespace Yupi.Model.Domain
 {
     using System;
+    using System.Globalization;
 
     using Yupi.Model.Domain;
     using Yupi.Net;
@@ -57,6 +63,14 @@ namespace Yupi.Model.Domain
         public bool IsRidingHorse
         {
             get; set;
+        }
+
+        public System.Globalization.CultureInfo Language
+        {
+            get {
+                // TODO Implement
+                return CultureInfo.GetCultureInfo("en");
+            }
         }
 
         // TODO Remove?

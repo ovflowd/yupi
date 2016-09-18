@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="CatalogueIndexMessageComposer.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,12 +24,16 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
+
+#endregion Header
+
 namespace Yupi.Messages.Catalog
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
+    using Yupi.Messages.Encoders;
     using Yupi.Model.Domain;
     using Yupi.Protocol.Buffers;
 
@@ -40,7 +46,7 @@ namespace Yupi.Messages.Catalog
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
             {
-                AppendPage(root, message, rank);
+                message.Append(root, rank, session.Language);
                 message.AppendBool(false); // TODO CATALOG_NEW_ITEMS_SHOW
 
                 /* TODO
@@ -51,30 +57,6 @@ namespace Yupi.Messages.Catalog
                 message.AppendString(type);
 
                 session.Send(message);
-            }
-        }
-
-        private void AppendPage(CatalogPage page, ServerMessage message, int rank)
-        {
-            message.AppendBool(page.Visible);
-            message.AppendInteger(page.Icon);
-            message.AppendInteger(page.Id);
-            message.AppendString(page.Layout.Name);
-            message.AppendString(page.Caption);
-            message.AppendInteger(page.Offers.Count);
-
-            foreach (CatalogOffer item in page.Offers)
-            {
-                message.AppendInteger(item.Id);
-            }
-
-            IOrderedEnumerable<CatalogPage> sortedSubPages =
-                page.Children.Where(x => x.MinRank <= rank).OrderBy(x => x.OrderNum);
-
-            message.AppendInteger(sortedSubPages.Count());
-
-            foreach(CatalogPage child in sortedSubPages) {
-                AppendPage(child, message, rank);
             }
         }
 

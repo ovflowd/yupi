@@ -51,7 +51,6 @@
     <Compile Include="Buffers\ServerMessage.cs" />
     <Compile Include="ServerMessagePool.cs" />
     <Compile Include="IRouter.cs" />
-    <Compile Include="Sender\StaffSender.cs" />
     <Compile Include="ISender.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

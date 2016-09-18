@@ -53,7 +53,7 @@ namespace Yupi.Model.Domain
         }
 
         [Ignore]
-        public abstract string[] Texts
+        public abstract TString[] Texts
         {
             get;
         }

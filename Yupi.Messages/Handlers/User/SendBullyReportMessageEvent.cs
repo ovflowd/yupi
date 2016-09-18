@@ -58,8 +58,12 @@ namespace Yupi.Messages.Handlers.User
             DependencyFactory.Resolve<ModerationTool>().Tickets.Add(ticket);
 
             router.GetComposer<BullyReportSentMessageComposer>().Compose(session);
+
+            /* TODO Implement
             router.GetComposer<ModerationToolIssueMessageComposer>()
                 .Compose(DependencyFactory.Resolve<StaffSender>(), ticket);
+                */
+            throw new NotImplementedException();
         }
 
         #endregion Methods

@@ -63,7 +63,7 @@ namespace Yupi.Model.Domain.Components
         {
             Effects.RemoveAll((x) => x.HasExpired());
         }
-            
+
         public virtual bool HasEffect(int effectId)
         {
             return Effects.Any(x => x.EffectId == effectId);

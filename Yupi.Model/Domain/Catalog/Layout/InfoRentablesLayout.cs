@@ -35,7 +35,7 @@ namespace Yupi.Model.Domain
     {
         #region Properties
 
-        public virtual string HeaderDescription
+        public virtual TString HeaderDescription
         {
             get; set;
         }
@@ -48,39 +48,53 @@ namespace Yupi.Model.Domain
             }
         }
 
-        public virtual string Text1
+        public virtual TString Text1
         {
             get; set;
         }
 
-        public virtual string Text2
+        public virtual TString Text2
         {
             get; set;
         }
 
-        public virtual string Text3
+        public virtual TString Text3
         {
             get; set;
         }
 
-        public virtual string Text4
+        public virtual TString Text4
         {
             get; set;
         }
 
-        public virtual string Text5
+        public virtual TString Text5
         {
             get; set;
         }
 
         [Ignore]
-        public override string[] Texts
+        public override TString[] Texts
         {
             get {
-                return new string[] { HeaderDescription, Text1, Text2, Text3, Text4, Text5 };
+                return new TString[] { HeaderDescription, Text1, Text2, Text3, Text4, Text5 };
             }
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public InfoRentablesLayout()
+        {
+            this.HeaderDescription = string.Empty;
+            this.Text1 = string.Empty;
+            this.Text2 = string.Empty;
+            this.Text3 = string.Empty;
+            this.Text4 = string.Empty;
+            this.Text5 = string.Empty;
+        }
+
+        #endregion Constructors
     }
 }

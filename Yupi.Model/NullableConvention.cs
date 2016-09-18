@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="NullableConvention.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,16 +24,22 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System;
-using FluentNHibernate.Conventions;
-using FluentNHibernate.Conventions.AcceptanceCriteria;
-using FluentNHibernate.Conventions.Inspections;
-using FluentNHibernate.Conventions.Instances;
+
+#endregion Header
 
 namespace Yupi.Model
 {
+    using System;
+
+    using FluentNHibernate.Conventions;
+    using FluentNHibernate.Conventions.AcceptanceCriteria;
+    using FluentNHibernate.Conventions.Inspections;
+    using FluentNHibernate.Conventions.Instances;
+
     public class NullableConvention : IPropertyConvention, IReferenceConvention
     {
+        #region Methods
+
         public void Apply(IPropertyInstance instance)
         {
             if (instance.Property.MemberInfo.IsDefined(typeof(NullableAttribute), false))
@@ -55,6 +63,7 @@ namespace Yupi.Model
                 instance.Not.Nullable();
             }
         }
+
+        #endregion Methods
     }
 }
-

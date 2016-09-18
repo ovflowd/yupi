@@ -425,6 +425,7 @@
     <Compile Include="NullableConvention.cs" />
     <Compile Include="NullableAttribute.cs" />
     <Compile Include="Domain\Catalog\Layout\RootLayout.cs" />
+    <Compile Include="Domain\Util\TString.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -35,6 +35,11 @@ namespace Yupi.Model.Domain
     {
         #region Properties
 
+        public virtual TString Content
+        {
+            get; protected set;
+        }
+
         public virtual string HeaderImage
         {
             get; set;
@@ -63,25 +68,39 @@ namespace Yupi.Model.Domain
             get; set;
         }
 
-        public virtual string Content
-        {
-            get; set;
-        }
-
-        public virtual string VoucherDescription
-        {
-            get; set;
-        }
-
         [Ignore]
-        public override string[] Texts
+        public override TString[] Texts
         {
             get
             {
-                return new string[] { Content, VoucherDescription };
+                return new TString[] { Content, VoucherDescription };
             }
         }
 
+        public virtual TString VoucherDescription
+        {
+            get; protected set;
+        }
+
         #endregion Properties
+
+        #region Constructors
+
+        public FrontpageLayout()
+        {
+            this.Content = string.Empty;
+            this.VoucherDescription = string.Empty;
+            this.TeaserImage = string.Empty;
+            this.HeaderImage = string.Empty;
+        }
+
+        public FrontpageLayout(TString content, TString voucherDescription)
+            : this()
+        {
+            this.Content = content;
+            this.VoucherDescription = voucherDescription;
+        }
+
+        #endregion Constructors
     }
 }

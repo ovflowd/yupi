@@ -35,19 +35,28 @@ namespace Yupi.Model.Domain
     {
         #region Properties
 
-        public virtual string Description
+        public virtual TString Description
         {
             get; set;
         }
 
         [Ignore]
-        public override string[] Texts
+        public override TString[] Texts
         {
             get {
-                return new string[] { this.Description };
+                return new TString[] { this.Description };
             }
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public AbstractInfoLayout()
+        {
+            this.Description = string.Empty;
+        }
+
+        #endregion Constructors
     }
 }

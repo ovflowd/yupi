@@ -35,7 +35,7 @@ namespace Yupi.Model.Domain
     {
         #region Properties
 
-        public virtual string HeaderDescription
+        public virtual TString HeaderDescription
         {
             get; set;
         }
@@ -48,19 +48,29 @@ namespace Yupi.Model.Domain
             }
         }
 
-        public virtual string Text
+        public virtual TString Text
         {
             get; set;
         }
 
         [Ignore]
-        public override string[] Texts
+        public override TString[] Texts
         {
             get {
-                return new string[] { HeaderDescription, Text };
+                return new TString[] { HeaderDescription, Text };
             }
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public CameraPageLayout()
+        {
+            this.HeaderDescription = string.Empty;
+            this.Text = string.Empty;
+        }
+
+        #endregion Constructors
     }
 }

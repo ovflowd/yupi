@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="RootLayout.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,29 +24,38 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System;
+
+#endregion Header
 
 namespace Yupi.Model.Domain
 {
+    using System;
+
     public class RootLayout : CatalogPageLayout
     {
-        public override string[] Images {
+        #region Properties
+
+        public override string[] Images
+        {
             get {
                 return new string[0];
             }
         }
 
-        public override string Name {
+        public override string Name
+        {
             get {
                 return string.Empty;
             }
         }
 
-        public override string[] Texts {
+        public override TString[] Texts
+        {
             get {
-                return new string[0];
+                return new TString[0];
             }
         }
+
+        #endregion Properties
     }
 }
-

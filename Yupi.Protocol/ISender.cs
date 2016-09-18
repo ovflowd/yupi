@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="ISender.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,14 +24,28 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
+
+#endregion Header
+
 namespace Yupi.Protocol
 {
     using System;
+    using System.Globalization;
 
     using Yupi.Protocol.Buffers;
 
     public interface ISender
     {
+        #region Properties
+
+        // TODO Should be moved to UserInfo
+        CultureInfo Language
+        {
+            get;
+        }
+
+        #endregion Properties
+
         #region Methods
 
         void Send(ServerMessage message);

@@ -57,9 +57,9 @@ namespace Yupi.Messages.Catalog
 
                 message.AppendInteger(page.Layout.Texts.Length);
 
-                foreach (string text in page.Layout.Texts)
+                foreach (TString text in page.Layout.Texts)
                 {
-                    message.AppendString(text);
+                    message.AppendString(text.Get(session.Language));
                 }
 
                 message.AppendInteger(page.Offers.Count);

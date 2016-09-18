@@ -38,7 +38,7 @@ namespace Yupi.Model.Domain
     {
         #region Properties
 
-        public virtual string Caption
+        public virtual TString Caption
         {
             get;
             set;
@@ -68,7 +68,7 @@ namespace Yupi.Model.Domain
             set;
         }
 
-        public virtual uint MinRank
+        public virtual int MinRank
         {
             get;
             set;
@@ -139,10 +139,8 @@ namespace Yupi.Model.Domain
 
             root.Children.Add(new CatalogPage()
                 {
-                    Layout = new FrontpageLayout()
+                    Layout = new FrontpageLayout("Text1", "Text2")
                     {
-                        Content = "Text1",
-                        VoucherDescription = "Text2",
                         HeaderImage = "catalogue/catal_fp_header",
                         TeaserImage = "catalogue/frontpage_teaser"
                     },
@@ -163,7 +161,7 @@ namespace Yupi.Model.Domain
                     Caption = "Test",
                     Parent = root
                 });
-            
+
             ModelHelper.PopulateObject(
                 root
             );

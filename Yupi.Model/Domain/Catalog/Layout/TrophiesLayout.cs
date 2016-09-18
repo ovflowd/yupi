@@ -35,12 +35,12 @@ namespace Yupi.Model.Domain
     {
         #region Properties
 
-        public virtual string Description
+        public virtual TString Description
         {
             get; set;
         }
 
-        public virtual string Enscription
+        public virtual TString Enscription
         {
             get; set;
         }
@@ -54,13 +54,23 @@ namespace Yupi.Model.Domain
         }
 
         [Ignore]
-        public override string[] Texts
+        public override TString[] Texts
         {
             get {
-                return new string[] { Description, Enscription };
+                return new TString[] { Description, Enscription };
             }
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public TrophiesLayout()
+        {
+            this.Description = string.Empty;
+            this.Enscription = string.Empty;
+        }
+
+        #endregion Constructors
     }
 }

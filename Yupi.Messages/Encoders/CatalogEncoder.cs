@@ -30,6 +30,8 @@
 namespace Yupi.Messages.Encoders
 {
     using System;
+    using System.Globalization;
+    using System.Linq;
 
     using Yupi.Model;
     using Yupi.Model.Domain;
@@ -38,6 +40,30 @@ namespace Yupi.Messages.Encoders
     public static class CatalogEncoder
     {
         #region Methods
+
+        public static void Append(this ServerMessage message, CatalogPage page, int rank, CultureInfo lang)
+        {
+            message.AppendBool(page.Visible);
+            message.AppendInteger(page.Icon);
+            message.AppendInteger(page.Id);
+            message.AppendString(page.Layout.Name);
+            message.AppendString(page.Caption.Get(lang));
+            message.AppendInteger(page.Offers.Count);
+
+            foreach (CatalogOffer item in page.Offers)
+            {
+                message.AppendInteger(item.Id);
+            }
+
+            IOrderedEnumerable<CatalogPage> sortedSubPages =
+                page.Children.Where(x => x.MinRank <= rank).OrderBy(x => x.OrderNum);
+
+            message.AppendInteger(sortedSubPages.Count());
+
+            foreach(CatalogPage child in sortedSubPages) {
+                message.Append(child, rank, lang);
+            }
+        }
 
         public static void Append(this ServerMessage message, CatalogOffer offer)
         {

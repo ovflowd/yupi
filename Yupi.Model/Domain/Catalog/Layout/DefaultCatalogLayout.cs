@@ -35,12 +35,12 @@ namespace Yupi.Model.Domain
     {
         #region Properties
 
-        public virtual string Description
+        public virtual TString Description
         {
             get; set;
         }
 
-        public virtual string HeaderDescription
+        public virtual TString HeaderDescription
         {
             get; set;
         }
@@ -53,30 +53,32 @@ namespace Yupi.Model.Domain
             }
         }
 
-        public virtual string SpecialText
+        public virtual TString SpecialText
         {
             get; set;
         }
 
-        public virtual string Text1
+        public virtual TString Text1
         {
             get; set;
         }
 
-        public virtual string Text2
+        public virtual TString Text2
         {
             get; set;
         }
 
         [Ignore]
-        public override string[] Texts
+        public override TString[] Texts
         {
             get {
-                return new string[] { HeaderDescription, Description, SpecialText, Text1, Text2 };
+                return new TString[] { HeaderDescription, Description, SpecialText, Text1, Text2 };
             }
         }
 
         #endregion Properties
+
+        #region Constructors
 
         public DefaultCatalogLayout()
         {
@@ -86,6 +88,7 @@ namespace Yupi.Model.Domain
             this.Text1 = string.Empty;
             this.Text2 = string.Empty;
         }
-        
+
+        #endregion Constructors
     }
 }
