@@ -424,6 +424,7 @@
     <Compile Include="Domain\Catalog\Layout\GuildForumLayout.cs" />
     <Compile Include="NullableConvention.cs" />
     <Compile Include="NullableAttribute.cs" />
+    <Compile Include="Domain\Catalog\Layout\RootLayout.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

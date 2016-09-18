@@ -50,13 +50,6 @@ namespace Yupi.Model.Domain
             protected set;
         }
 
-        // TODO Isn't enabled the same as visible?
-        public virtual bool Enabled
-        {
-            get;
-            set;
-        }
-
         public virtual int Icon
         {
             get;
@@ -93,12 +86,14 @@ namespace Yupi.Model.Domain
             set;
         }
 
+        [Nullable]
         public virtual CatalogPage Parent
         {
             get;
             set;
         }
 
+        [Nullable]
         public virtual CatalogOffer SelectedOffer
         {
             get;
@@ -139,13 +134,21 @@ namespace Yupi.Model.Domain
             CatalogPage root = new CatalogPage()
             {
                 Caption = "root",
-                    Layout = new FrontpageFeaturedLayout()
-                {
-                    Text1 = "Text1",
-                    Text2 = "Text2",
-                    HeaderImage = "catalogue/catal_fp_header"
-                },
+                Layout = new RootLayout()
             };
+
+            root.Children.Add(new CatalogPage()
+                {
+                    Layout = new FrontpageLayout()
+                    {
+                        Content = "Text1",
+                        VoucherDescription = "Text2",
+                        HeaderImage = "catalogue/catal_fp_header",
+                        TeaserImage = "catalogue/frontpage_teaser"
+                    },
+                    Caption = "Frontpage",
+                    Parent = root
+                });
 
             root.Children.Add(new CatalogPage()
                 {
@@ -160,7 +163,7 @@ namespace Yupi.Model.Domain
                     Caption = "Test",
                     Parent = root
                 });
-
+            
             ModelHelper.PopulateObject(
                 root
             );

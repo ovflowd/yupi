@@ -77,5 +77,15 @@ namespace Yupi.Model.Domain
         }
 
         #endregion Properties
+
+        public DefaultCatalogLayout()
+        {
+            this.Description = string.Empty;
+            this.HeaderDescription = string.Empty;
+            this.SpecialText = string.Empty;
+            this.Text1 = string.Empty;
+            this.Text2 = string.Empty;
+        }
+        
     }
 }

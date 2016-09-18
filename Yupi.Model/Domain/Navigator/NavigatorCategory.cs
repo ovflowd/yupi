@@ -26,8 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System.Collections.Generic;
 
-    [IsDiscriminated]
-    public class NavigatorCategory
+    public abstract class NavigatorCategory
     {
         #region Properties
 

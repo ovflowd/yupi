@@ -1,5 +1,5 @@
 ﻿// ---------------------------------------------------------------------------------
-// <copyright file="GetCatalogIndexMessageEvent.cs" company="https://github.com/sant0ro/Yupi">
+// <copyright file="RootLayout.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -22,51 +22,29 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-namespace Yupi.Messages.Catalog
+using System;
+
+namespace Yupi.Model.Domain
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
-    using Yupi.Model;
-    using Yupi.Model.Domain;
-    using Yupi.Model.Repository;
-
-    public class GetCatalogIndexMessageEvent : AbstractHandler
+    public class RootLayout : CatalogPageLayout
     {
-        #region Fields
-
-        private IRepository<CatalogPage> CatalogRepository;
-
-        #endregion Fields
-
-        #region Constructors
-
-        public GetCatalogIndexMessageEvent()
-        {
-            CatalogRepository = DependencyFactory.Resolve<IRepository<CatalogPage>>();
-        }
-
-        #endregion Constructors
-
-        #region Methods
-
-        public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message,
-            Yupi.Protocol.IRouter router)
-        {
-            CatalogPage root = CatalogRepository.FindBy(x => x.Parent == null);
-
-            if (root != null)
-            {
-
-                // TODO Type?!
-                string type = message.GetString().ToUpper();
-
-                router.GetComposer<CatalogueOfferConfigMessageComposer>().Compose(session);
-                router.GetComposer<CatalogueIndexMessageComposer>().Compose(session, root, type, session.Info.Rank);
+        public override string[] Images {
+            get {
+                return new string[0];
             }
         }
 
-        #endregion Methods
+        public override string Name {
+            get {
+                return string.Empty;
+            }
+        }
+
+        public override string[] Texts {
+            get {
+                return new string[0];
+            }
+        }
     }
 }
+

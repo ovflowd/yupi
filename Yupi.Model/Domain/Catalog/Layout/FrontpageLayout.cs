@@ -63,12 +63,12 @@ namespace Yupi.Model.Domain
             get; set;
         }
 
-        public virtual string Text1
+        public virtual string Content
         {
             get; set;
         }
 
-        public virtual string Text2
+        public virtual string VoucherDescription
         {
             get; set;
         }
@@ -78,7 +78,7 @@ namespace Yupi.Model.Domain
         {
             get
             {
-                return new string[] { Text1, Text2 };
+                return new string[] { Content, VoucherDescription };
             }
         }
 

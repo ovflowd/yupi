@@ -58,7 +58,7 @@ namespace Yupi.Messages.Catalog
 
             CatalogPage page = CatalogRepository.FindBy(pageId);
 
-            if (page == null || !page.Enabled || !page.Visible || page.MinRank > session.Info.Rank)
+            if (page == null || !page.Visible || page.MinRank > session.Info.Rank)
                 return;
 
             router.GetComposer<CataloguePageMessageComposer>().Compose(session, page);

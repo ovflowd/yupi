@@ -31,7 +31,6 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    [IsDiscriminated]
     public abstract class CatalogPageLayout
     {
         #region Properties

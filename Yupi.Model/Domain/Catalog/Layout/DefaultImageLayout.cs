@@ -69,5 +69,14 @@ namespace Yupi.Model.Domain
         }
 
         #endregion Properties
+
+        public DefaultImageLayout()
+        {
+            this.HeaderImage = string.Empty;
+            this.SpecialImage = string.Empty;
+            this.TeaserImage1 = string.Empty;
+            this.TeaserImage2 = string.Empty;
+            this.TeaserImage3 = string.Empty;
+        }
     }
 }
