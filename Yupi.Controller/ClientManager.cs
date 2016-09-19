@@ -35,6 +35,7 @@ namespace Yupi.Controller
     using Yupi.Net;
     using Yupi.Protocol;
     using Yupi.Util;
+    using Yupi.Crypto;
 
     public class ClientManager
     {
@@ -44,6 +45,8 @@ namespace Yupi.Controller
             (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private RoomManager RoomManager;
+
+        private Encryption Encryption;
 
         #endregion Fields
 
