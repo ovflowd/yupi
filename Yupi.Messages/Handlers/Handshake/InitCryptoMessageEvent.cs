@@ -1,5 +1,5 @@
 ﻿// ---------------------------------------------------------------------------------
-// <copyright file="AuthenticationOKMessageComposer.cs" company="https://github.com/sant0ro/Yupi">
+// <copyright file="InitCryptoMessageEvent.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -22,13 +22,29 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-namespace Yupi.Messages.Other
+namespace Yupi.Messages.Handshake
 {
     using System;
 
-    using Yupi.Protocol.Buffers;
-
-    public class AuthenticationOKMessageComposer : Contracts.AuthenticationOKMessageComposer
+    public class InitCryptoMessageEvent : AbstractHandler
     {
+        #region Properties
+
+        public override bool RequireUser
+        {
+            get { return false; }
+        }
+
+        #endregion Properties
+
+        #region Methods
+
+        public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
+            Yupi.Protocol.IRouter router)
+        {
+            router.GetComposer<InitCryptoMessageComposer>().Compose(session);
+        }
+
+        #endregion Methods
     }
 }

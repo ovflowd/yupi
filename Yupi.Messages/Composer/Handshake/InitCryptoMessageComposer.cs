@@ -1,5 +1,5 @@
 ﻿// ---------------------------------------------------------------------------------
-// <copyright file="SecretKeyMessageComposer.cs" company="https://github.com/sant0ro/Yupi">
+// <copyright file="InitCryptoMessageComposer.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -22,24 +22,23 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-namespace Yupi.Messages.Other
+namespace Yupi.Messages.Handshake
 {
     using System;
 
     using Yupi.Protocol.Buffers;
 
-    public class SecretKeyMessageComposer : Yupi.Messages.Contracts.SecretKeyMessageComposer
+    public class InitCryptoMessageComposer : Yupi.Messages.Contracts.InitCryptoMessageComposer
     {
         #region Methods
 
         public override void Compose(Yupi.Protocol.ISender session)
         {
-            // TODO Public networks???
-
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
             {
-                message.AppendString("Crypto disabled");
-                message.AppendBool(false);
+                // TODO What about public networks?
+                message.AppendString("Yupi");
+                message.AppendString("Disabled Crypto");
                 session.Send(message);
             }
         }

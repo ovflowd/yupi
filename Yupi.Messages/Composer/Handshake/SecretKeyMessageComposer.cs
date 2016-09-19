@@ -1,5 +1,5 @@
 ﻿// ---------------------------------------------------------------------------------
-// <copyright file="SSOTicketMessageEvent.cs" company="https://github.com/sant0ro/Yupi">
+// <copyright file="SecretKeyMessageComposer.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -22,47 +22,26 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-namespace Yupi.Messages.Other
+namespace Yupi.Messages.Handshake
 {
     using System;
 
-    using Yupi.Controller;
-    using Yupi.Model;
+    using Yupi.Protocol.Buffers;
 
-    public class SSOTicketMessageEvent : AbstractHandler
+    public class SecretKeyMessageComposer : Yupi.Messages.Contracts.SecretKeyMessageComposer
     {
-        #region Fields
-
-        private SSOManager SSOManager;
-
-        #endregion Fields
-
-        #region Properties
-
-        public override bool RequireUser
-        {
-            get { return false; }
-        }
-
-        #endregion Properties
-
-        #region Constructors
-
-        public SSOTicketMessageEvent()
-        {
-            SSOManager = DependencyFactory.Resolve<SSOManager>();
-        }
-
-        #endregion Constructors
-
         #region Methods
 
-        public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
-            Yupi.Protocol.IRouter router)
+        public override void Compose(Yupi.Protocol.ISender session)
         {
-            string ssoTicket = request.GetString();
+            // TODO Public networks???
 
-            SSOManager.TryLogin(session, ssoTicket);
+            using (ServerMessage message = Pool.GetMessageBuffer(Id))
+            {
+                message.AppendString("Crypto disabled");
+                message.AppendBool(false);
+                session.Send(message);
+            }
         }
 
         #endregion Methods

@@ -1,5 +1,5 @@
 ﻿// ---------------------------------------------------------------------------------
-// <copyright file="InitCryptoMessageEvent.cs" company="https://github.com/sant0ro/Yupi">
+// <copyright file="SSOTicketMessageEvent.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -22,12 +22,21 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-namespace Yupi.Messages.Other
+namespace Yupi.Messages.Handshake
 {
     using System;
 
-    public class InitCryptoMessageEvent : AbstractHandler
+    using Yupi.Controller;
+    using Yupi.Model;
+
+    public class SSOTicketMessageEvent : AbstractHandler
     {
+        #region Fields
+
+        private SSOManager SSOManager;
+
+        #endregion Fields
+
         #region Properties
 
         public override bool RequireUser
@@ -37,12 +46,23 @@ namespace Yupi.Messages.Other
 
         #endregion Properties
 
+        #region Constructors
+
+        public SSOTicketMessageEvent()
+        {
+            SSOManager = DependencyFactory.Resolve<SSOManager>();
+        }
+
+        #endregion Constructors
+
         #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
-            router.GetComposer<InitCryptoMessageComposer>().Compose(session);
+            string ssoTicket = request.GetString();
+
+            SSOManager.TryLogin(session, ssoTicket);
         }
 
         #endregion Methods

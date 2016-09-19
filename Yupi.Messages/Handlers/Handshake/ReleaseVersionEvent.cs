@@ -1,5 +1,5 @@
 ﻿// ---------------------------------------------------------------------------------
-// <copyright file="GenerateSecretKeyMessageEvent.cs" company="https://github.com/sant0ro/Yupi">
+// <copyright file="ReleaseVersionEvent.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -22,29 +22,21 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-namespace Yupi.Messages.Other
+namespace Yupi.Messages.Handshake
 {
     using System;
 
-    public class GenerateSecretKeyMessageEvent : AbstractHandler
+    public class ReleaseVersionEvent : AbstractHandler
     {
-        #region Properties
-
-        public override bool RequireUser
-        {
-            get { return false; }
-        }
-
-        #endregion Properties
-
         #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
-            request.GetString(); // TODO unused
-
-            router.GetComposer<SecretKeyMessageComposer>().Compose(session);
+            session.ReleaseName = request.GetString();
+            string unknown1 = request.GetString();
+            int unknown2 = request.GetInteger();
+            int unknown3 = request.GetInteger();
         }
 
         #endregion Methods

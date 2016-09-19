@@ -1,5 +1,5 @@
 ﻿// ---------------------------------------------------------------------------------
-// <copyright file="UniqueMachineIDMessageComposer.cs" company="https://github.com/sant0ro/Yupi">
+// <copyright file="UniqueIDMessageEvent.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -22,23 +22,30 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-namespace Yupi.Messages.Other
+namespace Yupi.Messages.Handshake
 {
     using System;
 
-    using Yupi.Protocol.Buffers;
-
-    public class UniqueMachineIDMessageComposer : Yupi.Messages.Contracts.UniqueMachineIDMessageComposer
+    public class UniqueIDMessageEvent : AbstractHandler
     {
+        #region Properties
+
+        public override bool RequireUser
+        {
+            get { return false; }
+        }
+
+        #endregion Properties
+
         #region Methods
 
-        public override void Compose(Yupi.Protocol.ISender session, string machineId)
+        public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
+            Yupi.Protocol.IRouter router)
         {
-            using (ServerMessage message = Pool.GetMessageBuffer(Id))
-            {
-                message.AppendString(machineId);
-                session.Send(message);
-            }
+            string tmp = request.GetString(); // TODO unused
+
+            // TODO Store in DB?
+            session.MachineId = request.GetString();
         }
 
         #endregion Methods
