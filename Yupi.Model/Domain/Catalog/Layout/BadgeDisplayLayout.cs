@@ -1,7 +1,7 @@
 ﻿#region Header
 
 // ---------------------------------------------------------------------------------
-// <copyright file="CatalogPageLayout.cs" company="https://github.com/sant0ro/Yupi">
+// <copyright file="BadgeDisplayLayout.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -30,34 +30,17 @@
 namespace Yupi.Model.Domain
 {
     using System;
-    using System.Runtime.Serialization;
 
-    [DataContract]
-    public abstract class CatalogPageLayout
+    public class BadgeDisplayLayout : DefaultCatalogLayout
     {
         #region Properties
 
-        public virtual int Id
-        {
-            get; protected set;
-        }
-
         [Ignore]
-        public abstract string[] Images
+        public override string Name
         {
-            get;
-        }
-
-        [Ignore]
-        public abstract string Name
-        {
-            get;
-        }
-
-        [Ignore]
-        public abstract TString[] Texts
-        {
-            get;
+            get {
+                return "badge_display";
+            }
         }
 
         #endregion Properties

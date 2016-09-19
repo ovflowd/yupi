@@ -76,6 +76,14 @@ namespace Yupi.Model.Domain
             get; protected set;
         }
 
+        [Ignore]
+        public virtual ItemSpecialType SpecialType
+        {
+            get {
+                return ItemSpecialType.Default;
+            }
+        }
+
         /// <summary>
         ///     The length
         /// </summary>

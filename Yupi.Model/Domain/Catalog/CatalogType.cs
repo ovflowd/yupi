@@ -30,9 +30,11 @@
 namespace Yupi.Model.Domain
 {
     using System;
+    using System.Runtime.Serialization;
 
     using Headspring;
 
+    [DataContract]
     public class CatalogType : Enumeration<CatalogType>
     {
         #region Fields

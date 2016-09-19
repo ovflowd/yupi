@@ -35,12 +35,19 @@ namespace Yupi.Model.Domain
 
     public enum ActivityPointsType
     {
+        // external texts: catalog.alert.notenough.activitypoints.title.
         Duckets = 0,
         Snowflakes = 1,
         Hearts = 2,
+        Gift = 3,
         Shells = 4,
-        Horseshoes = 101,
-        Stars = 103
+        // Not sure why there is another diamond value.
+        Diamonds2 = 5,
+        Seashells = 101,
+        Nuts = 102,
+        Stars = 103,
+        Clouds = 104,
+        Diamonds = 105
     }
 
     #endregion Enumerations

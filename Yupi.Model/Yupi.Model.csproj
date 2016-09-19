@@ -75,6 +75,7 @@
     <Reference Include="MySql.Data">
       <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -426,6 +427,8 @@
     <Compile Include="NullableAttribute.cs" />
     <Compile Include="Domain\Catalog\Layout\RootLayout.cs" />
     <Compile Include="Domain\Util\TString.cs" />
+    <Compile Include="Domain\Catalog\Layout\BadgeDisplayLayout.cs" />
+    <Compile Include="Domain\BaseItems\ItemSpecialType.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

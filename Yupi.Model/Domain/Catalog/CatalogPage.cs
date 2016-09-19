@@ -29,27 +29,33 @@
 
 namespace Yupi.Model.Domain
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.Diagnostics.Contracts;
     using System.Linq;
+    using System.Runtime.Serialization;
 
-    public class CatalogPage : IPopulate
+    [DataContract]
+    public class CatalogPage
     {
         #region Properties
 
+        [DataMember]
         public virtual TString Caption
         {
             get;
             set;
         }
 
+        [DataMember]
         public virtual IList<CatalogPage> Children
         {
             get;
             protected set;
         }
 
+        [DataMember]
         public virtual int Icon
         {
             get;
@@ -62,35 +68,32 @@ namespace Yupi.Model.Domain
             protected set;
         }
 
+        [DataMember]
+        public virtual bool IsRoot
+        {
+            get;
+            set;
+        }
+
+        [DataMember]
         public virtual CatalogPageLayout Layout
         {
             get;
             set;
         }
 
+        [DataMember]
         public virtual int MinRank
         {
             get;
             set;
         }
 
+        [DataMember]
         public virtual IList<CatalogOffer> Offers
         {
             get;
             protected set;
-        }
-
-        public virtual int OrderNum
-        {
-            get;
-            set;
-        }
-
-        [Nullable]
-        public virtual CatalogPage Parent
-        {
-            get;
-            set;
         }
 
         [Nullable]
@@ -100,12 +103,14 @@ namespace Yupi.Model.Domain
             set;
         }
 
+        [DataMember]
         public virtual CatalogType Type
         {
             get;
             set;
         }
 
+        [DataMember]
         public virtual bool Visible
         {
             get;
@@ -115,6 +120,15 @@ namespace Yupi.Model.Domain
         #endregion Properties
 
         #region Constructors
+
+        public CatalogPage(TString caption, int icon, int minRank, CatalogPageLayout layout)
+            : this()
+        {
+            this.Caption = caption;
+            this.Icon = icon;
+            this.Layout = layout;
+            this.MinRank = minRank;
+        }
 
         protected CatalogPage()
         {
@@ -129,42 +143,9 @@ namespace Yupi.Model.Domain
 
         #region Methods
 
-        public virtual void Populate()
+        public virtual void Add(CatalogPage child)
         {
-            CatalogPage root = new CatalogPage()
-            {
-                Caption = "root",
-                Layout = new RootLayout()
-            };
-
-            root.Children.Add(new CatalogPage()
-                {
-                    Layout = new FrontpageLayout("Text1", "Text2")
-                    {
-                        HeaderImage = "catalogue/catal_fp_header",
-                        TeaserImage = "catalogue/frontpage_teaser"
-                    },
-                    Caption = "Frontpage",
-                    Parent = root
-                });
-
-            root.Children.Add(new CatalogPage()
-                {
-                    Layout = new Default3x3Layout()
-                    {
-                        Text1 = "Text1",
-                        Text2 = "Text2",
-                        Description = "Description",
-                        HeaderDescription = "HeaderDesc",
-                        SpecialText = "SpecialText",
-                    },
-                    Caption = "Test",
-                    Parent = root
-                });
-
-            ModelHelper.PopulateObject(
-                root
-            );
+            this.Children.Add(child);
         }
 
         #endregion Methods

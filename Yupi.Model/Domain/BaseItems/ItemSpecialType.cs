@@ -1,7 +1,7 @@
 ﻿#region Header
 
 // ---------------------------------------------------------------------------------
-// <copyright file="CatalogPageLayout.cs" company="https://github.com/sant0ro/Yupi">
+// <copyright file="InteractionType.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -27,39 +27,51 @@
 
 #endregion Header
 
-namespace Yupi.Model.Domain
+namespace Yupi.Model
 {
     using System;
-    using System.Runtime.Serialization;
 
-    [DataContract]
-    public abstract class CatalogPageLayout
+    #region Enumerations
+
+    /// <summary>
+    /// These are the interaction types as listed in furnidata (specialtype)
+    /// </summary>
+    public enum ItemSpecialType
     {
-        #region Properties
+        Default = 1,
+        RoomWall = 2,
+        RoomFloor = 3,
+        RoomLandscape = 4,
+        PostIt = 5,
 
-        public virtual int Id
-        {
-            get; protected set;
-        }
+        // (external_texts: poster_" + _loc5_.§_-6AY§.getLegacyString() + "_name)
+        Poster = 6,
 
-        [Ignore]
-        public abstract string[] Images
-        {
-            get;
-        }
+        SoundSet = 7,
+        SongDisk = 8,
+        Present = 9,
+        EcotronBox = 10,
+        Trophy = 11,
 
-        [Ignore]
-        public abstract string Name
-        {
-            get;
-        }
+        // unused / CF_1200_ny16 ()
+        Unknown = 12,
 
-        [Ignore]
-        public abstract TString[] Texts
-        {
-            get;
-        }
+        // (<customparams>15 Blue</customparams>)
+        LegacyHorseDye = 13,
 
-        #endregion Properties
+        HorseHairstyle = 14,
+
+        //  (<customparams>15 2,3 53,53</customparams>)
+        HorseDye = 15,
+        HorseSaddle = 16,
+        GroupItem = 17,
+        SnowWar = 18,
+        MonsterplantSeed = 19,
+        MonsterplantRevive = 20,
+        MonsterplantReseed = 21,
+        MonsterplantFertilizer = 22,
+        Clothing = 23
     }
+
+    #endregion Enumerations
 }

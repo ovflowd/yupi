@@ -32,9 +32,17 @@ namespace Yupi.Model.Domain
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Runtime.Serialization;
 
+    [DataContract]
     public class TString : ICloneable
     {
+        #region Fields
+
+        private static readonly CultureInfo DefaultLang = CultureInfo.GetCultureInfo("en");
+
+        #endregion Fields
+
         #region Properties
 
         public virtual int Id
@@ -46,9 +54,10 @@ namespace Yupi.Model.Domain
         /// The dictionary mapping languages to localized strings.
         /// </summary>
         /// <value>The localized strings.</value>
-        protected virtual IDictionary<CultureInfo, string> Translations
+        [DataMember]
+        public virtual IDictionary<string, string> Translations
         {
-            get; set;
+            get; protected set;
         }
 
         #endregion Properties
@@ -70,7 +79,7 @@ namespace Yupi.Model.Domain
         /// </summary>
         public TString()
         {
-            this.Translations = new Dictionary<CultureInfo, string>();
+            this.Translations = new Dictionary<string, string>();
             this.Set(string.Empty);
         }
 
@@ -86,7 +95,7 @@ namespace Yupi.Model.Domain
         public virtual object Clone()
         {
             TString copy = new TString();
-            copy.Translations = new Dictionary<CultureInfo, string>(this.Translations);
+            copy.Translations = new Dictionary<string, string>(this.Translations);
             return copy;
         }
 
@@ -95,8 +104,7 @@ namespace Yupi.Model.Domain
         /// </summary>
         public virtual string Get()
         {
-            // English is forced to exist!
-            return this.Translations[CultureInfo.GetCultureInfo("en")];
+            return this.Get(DefaultLang);
         }
 
         /// <summary>
@@ -107,13 +115,14 @@ namespace Yupi.Model.Domain
         {
             string localized;
 
-            if (this.Translations.TryGetValue(culture, out localized))
+            if (this.Translations.TryGetValue(culture.TwoLetterISOLanguageName, out localized))
             {
                 return localized;
             }
             else
             {
-                return Get();
+                // English is forced to exist!
+                return this.Translations[DefaultLang.TwoLetterISOLanguageName];
             }
         }
 
@@ -129,14 +138,14 @@ namespace Yupi.Model.Domain
         /// <param name="culture">The culture to remove.</param>
         public virtual TString Remove(CultureInfo culture)
         {
-            if (culture.Equals(CultureInfo.GetCultureInfo("en")))
+            if (culture.Equals(DefaultLang))
             {
                 throw new InvalidOperationException("Deleting the english value is forbidden.");
             }
 
-            if (this.Translations.ContainsKey(culture))
+            if (this.Translations.ContainsKey(culture.TwoLetterISOLanguageName))
             {
-                this.Translations.Remove(culture);
+                this.Translations.Remove(culture.TwoLetterISOLanguageName);
             }
 
             return this;
@@ -148,7 +157,7 @@ namespace Yupi.Model.Domain
         /// <param name="value">English value</param>
         public virtual TString Set(string value)
         {
-            this.Set(CultureInfo.GetCultureInfo("en"), value);
+            this.Set(DefaultLang, value);
             return this;
         }
 
@@ -164,13 +173,13 @@ namespace Yupi.Model.Domain
                 throw new ArgumentNullException("value");
             }
 
-            if (this.Translations.ContainsKey(culture))
+            if (this.Translations.ContainsKey(culture.TwoLetterISOLanguageName))
             {
-                    this.Translations[culture] = value;
+                this.Translations[culture.TwoLetterISOLanguageName] = value;
             }
             else
             {
-                this.Translations.Add(culture, value);
+                this.Translations.Add(culture.TwoLetterISOLanguageName, value);
             }
 
             return this;

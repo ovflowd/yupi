@@ -56,7 +56,7 @@ namespace Yupi.Messages.Encoders
             }
 
             IOrderedEnumerable<CatalogPage> sortedSubPages =
-                page.Children.Where(x => x.MinRank <= rank).OrderBy(x => x.OrderNum);
+                page.Children.Where(x => x.MinRank <= rank).OrderBy(x => x.Id);
 
             message.AppendInteger(sortedSubPages.Count());
 
