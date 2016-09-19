@@ -43,6 +43,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cryptography\ARC4.cs" />
+    <Compile Include="Cryptography\DiffieHellman.cs" />
+    <Compile Include="Cryptography\RSACalculateDelegate.cs" />
+    <Compile Include="Cryptography\RSACParameters.cs" />
+    <Compile Include="Cryptography\RSACrypto.cs" />
     <Compile Include="Encryption.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\BigIntegerMethods.cs" />

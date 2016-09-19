@@ -43,15 +43,8 @@ namespace Yupi.Crypto.Utils
                 random = Randomizer.GetRandom();
             }
 
-            BigInteger copy = new BigInteger((int)source);
-            int bitLength = 0;
-            do
-            {
-                bitLength++;
-                copy /= 2;
-            } while (copy != 0);
-
-            byte[] bytes = new byte[(bitLength + 7) / 8];
+            
+            byte[] bytes = new byte[(source.BitLength() + 7) / 8];
             BigInteger a;
 
             for (int i = 0; i < certainty; i++)
