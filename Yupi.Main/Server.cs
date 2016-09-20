@@ -41,6 +41,9 @@ namespace Yupi.Main
     using Yupi.Protocol.Buffers;
     using Yupi.Rest;
     using Yupi.Util;
+    using Util.Settings;
+    using Crypto;
+    using System.Numerics;
 
     public class Server
     {
@@ -58,6 +61,9 @@ namespace Yupi.Main
         {
             SetupLogger();
 
+            if (CryptoSettings.Enabled)
+                Encryption.GetInstance(new Crypto.Cryptography.RSACParameters(BigInteger.Parse(CryptoSettings.RsaN, System.Globalization.NumberStyles.HexNumber), BigInteger.Parse(CryptoSettings.RsaE, System.Globalization.NumberStyles.HexNumber), BigInteger.Parse(CryptoSettings.RsaD, System.Globalization.NumberStyles.HexNumber)), CryptoSettings.DHKeysSize);
+
             // TODO Close Session & Multiple sessions!
             var factory = ModelHelper.CreateFactory();
             var dbSession = factory.OpenSession();
@@ -66,7 +72,7 @@ namespace Yupi.Main
 
             // TODO Don't run this if DB is not new!
             ModelHelper.Populate();
-            Router.Default = new Router("PRODUCTION-201510201205-42435347", "../../../Config/",
+            Router.Default = new Router(GameSettings.Release, "../../../Config/",
                 typeof(AchievementProgressMessageComposer).Assembly);
 
             ClientManager = DependencyFactory.Resolve<ClientManager>();
@@ -118,7 +124,7 @@ namespace Yupi.Main
 
         private void SetupTCP()
         {
-            TCPServer = ServerFactory<Habbo>.CreateServer(30000);
+            TCPServer = ServerFactory<Habbo>.CreateServer(GameSettings.GamePort);
 
             TCPServer.OnConnectionOpened += ClientManager.AddClient; // TODO Connection security!
             TCPServer.OnConnectionClosed += ClientManager.RemoveClient;
