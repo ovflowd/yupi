@@ -84,7 +84,7 @@ namespace Yupi.Crypto
             return this._dh.CalculateSharedKey(BigInteger.Parse(publicKey));
         }
 
-        public static ARC4 InitializeARC(BigInteger sharedKey)
+        public static ARC4 InitializeARC4(BigInteger sharedKey)
         {
             byte[] sharedKeyBytes = sharedKey.ToByteArray(false);
 

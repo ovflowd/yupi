@@ -123,7 +123,7 @@ namespace Yupi.Crypto.Cryptography
         {
             if (src.Length > this._parameters.ModulesBlockSize)
             {
-                throw new ArgumentException("Src is to long to encrypt.");
+                throw new ArgumentException("Src (" + src.Length + " is to long to encrypt (" + this._parameters.ModulesBlockSize + ").");
             }
 
             byte[] data = this.pkcs1pad(src);

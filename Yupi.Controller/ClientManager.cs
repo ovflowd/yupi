@@ -46,8 +46,6 @@ namespace Yupi.Controller
 
         private RoomManager RoomManager;
 
-        private Encryption Encryption;
-
         #endregion Fields
 
         #region Properties

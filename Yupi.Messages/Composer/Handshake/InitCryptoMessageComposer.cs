@@ -27,6 +27,8 @@ namespace Yupi.Messages.Handshake
     using System;
 
     using Yupi.Protocol.Buffers;
+    using Yupi.Util.Settings;
+    using Yupi.Crypto;
 
     public class InitCryptoMessageComposer : Yupi.Messages.Contracts.InitCryptoMessageComposer
     {
@@ -36,9 +38,19 @@ namespace Yupi.Messages.Handshake
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
             {
-                // TODO What about public networks?
-                message.AppendString("Yupi");
-                message.AppendString("Disabled Crypto");
+                if (CryptoSettings.Enabled)
+                {
+                    Console.WriteLine(Encryption.GetInstance().GetRSADiffieHellmanPKey());
+                    Console.WriteLine(Encryption.GetInstance().GetRSADiffieHellmanGKey());
+                    message.AppendString(Encryption.GetInstance().GetRSADiffieHellmanPKey());
+                    message.AppendString(Encryption.GetInstance().GetRSADiffieHellmanGKey());
+                }
+                else
+                {
+                    message.AppendString("Yupi");
+                    message.AppendString("Disabled Crypto");
+                }
+                
                 session.Send(message);
             }
         }

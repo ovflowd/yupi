@@ -104,7 +104,12 @@
     <None Include="supersocket.cmd" />
     <None Include="supersocket.sh" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Yupi.Crypto\Yupi.Crypto.csproj">
+      <Project>{81b025ac-b1ff-4e84-96ff-6f54859d0f1e}</Project>
+      <Name>Yupi.Crypto</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
       <Properties>

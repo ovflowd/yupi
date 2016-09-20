@@ -25,6 +25,10 @@
 namespace Yupi.Messages.Handshake
 {
     using System;
+    using Crypto;
+    using System.Numerics;
+    using Crypto.Cryptography;
+    using Util.Settings;
 
     public class GenerateSecretKeyMessageEvent : AbstractHandler
     {
@@ -42,7 +46,21 @@ namespace Yupi.Messages.Handshake
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
-            request.GetString(); // TODO unused
+            BigInteger sharedKey = Encryption.GetInstance().CalculateDiffieHellmanSharedKey(request.GetString());
+
+            if (sharedKey != 0)
+            {
+                session.Session.clientRC4 = Encryption.InitializeARC4(sharedKey);
+
+                if (CryptoSettings.ServerRC4)
+                {
+                    session.Session.serverRC4 = Encryption.InitializeARC4(sharedKey);
+                }
+            }
+            else
+            {
+                throw new Exception("Shared key exception.");
+            }
 
             router.GetComposer<SecretKeyMessageComposer>().Compose(session);
         }

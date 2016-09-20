@@ -26,6 +26,7 @@ namespace Yupi.Net
 {
     using System;
     using System.Net;
+    using Crypto.Cryptography;
 
     public interface ISession<T>
     {
@@ -37,6 +38,16 @@ namespace Yupi.Net
         }
 
         T UserData
+        {
+            get; set;
+        }
+
+        ARC4 serverRC4
+        {
+            get; set;
+        }
+
+        ARC4 clientRC4
         {
             get; set;
         }

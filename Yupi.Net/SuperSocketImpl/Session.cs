@@ -28,6 +28,7 @@ namespace Yupi.Net.SuperSocketImpl
 
     using SuperSocket.SocketBase;
     using SuperSocket.SocketBase.Protocol;
+    using Crypto.Cryptography;
 
     public class Session<T> : AppSession<Session<T>, RequestInfo>, ISession<T>
     {
@@ -39,6 +40,16 @@ namespace Yupi.Net.SuperSocketImpl
         }
 
         public T UserData
+        {
+            get; set;
+        }
+
+        public ARC4 serverRC4
+        {
+            get; set;
+        }
+
+        public ARC4 clientRC4
         {
             get; set;
         }

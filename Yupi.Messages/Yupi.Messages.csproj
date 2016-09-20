@@ -36,6 +36,7 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="UnixTimestamp">
       <HintPath>..\packages\UnixTimestamp.1.0\lib\UnixTimestamp.dll</HintPath>
@@ -601,6 +602,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <ProjectReference Include="..\Yupi.Crypto\Yupi.Crypto.csproj">
+      <Project>{81b025ac-b1ff-4e84-96ff-6f54859d0f1e}</Project>
+      <Name>Yupi.Crypto</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Yupi.Protocol\Yupi.Protocol.csproj">
       <Project>{9AE3ADAB-A767-4123-BE78-34E1DFCF33FB}</Project>
       <Name>Yupi.Protocol</Name>

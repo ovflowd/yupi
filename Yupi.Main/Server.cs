@@ -44,6 +44,7 @@ namespace Yupi.Main
     using Util.Settings;
     using Crypto;
     using System.Numerics;
+    using Crypto.Utils;
 
     public class Server
     {
@@ -62,7 +63,7 @@ namespace Yupi.Main
             SetupLogger();
 
             if (CryptoSettings.Enabled)
-                Encryption.GetInstance(new Crypto.Cryptography.RSACParameters(BigInteger.Parse(CryptoSettings.RsaN, System.Globalization.NumberStyles.HexNumber), BigInteger.Parse(CryptoSettings.RsaE, System.Globalization.NumberStyles.HexNumber), BigInteger.Parse(CryptoSettings.RsaD, System.Globalization.NumberStyles.HexNumber)), CryptoSettings.DHKeysSize);
+                Encryption.GetInstance(new Crypto.Cryptography.RSACParameters(RSACUtils.Base64ToBigInteger(CryptoSettings.RsaD), RSACUtils.Base64ToBigInteger(CryptoSettings.RsaN), RSACUtils.Base64ToBigInteger(CryptoSettings.RsaE)), CryptoSettings.DHKeysSize);
 
             // TODO Close Session & Multiple sessions!
             var factory = ModelHelper.CreateFactory();

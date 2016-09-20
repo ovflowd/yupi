@@ -27,6 +27,8 @@ namespace Yupi.Messages.Handshake
     using System;
 
     using Yupi.Protocol.Buffers;
+    using Yupi.Util.Settings;
+    using Yupi.Crypto;
 
     public class SecretKeyMessageComposer : Yupi.Messages.Contracts.SecretKeyMessageComposer
     {
@@ -34,12 +36,19 @@ namespace Yupi.Messages.Handshake
 
         public override void Compose(Yupi.Protocol.ISender session)
         {
-            // TODO Public networks???
-
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
             {
-                message.AppendString("Crypto disabled");
-                message.AppendBool(false);
+                if(CryptoSettings.Enabled)
+                {
+                    message.AppendString(Encryption.GetInstance().GetRSADiffieHellmanPublicKey());
+                    message.AppendBool(CryptoSettings.ServerRC4);
+                }
+                else
+                {
+                    message.AppendString("Crypto disabled");
+                    message.AppendBool(false);
+                }
+                
                 session.Send(message);
             }
         }

@@ -30,6 +30,7 @@ namespace Yupi.Net.DotNettyImpl
 
     using DotNetty.Buffers;
     using DotNetty.Transport.Channels;
+    using Crypto.Cryptography;
 
     public class MessageHandler<T> : ChannelHandlerAdapter, ISession<T>
     {
@@ -53,6 +54,16 @@ namespace Yupi.Net.DotNettyImpl
         }
 
         public T UserData
+        {
+            get; set;
+        }
+
+        public ARC4 serverRC4
+        {
+            get; set;
+        }
+
+        public ARC4 clientRC4
         {
             get; set;
         }
