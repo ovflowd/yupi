@@ -25,10 +25,16 @@
 namespace Yupi.Main
 {
     using System;
+    using System.Numerics;
+
+    using Crypto;
+    using Crypto.Utils;
 
     using log4net;
     using log4net.Appender;
     using log4net.Repository.Hierarchy;
+
+    using Util.Settings;
 
     using Yupi.Controller;
     using Yupi.Messages;
@@ -41,10 +47,6 @@ namespace Yupi.Main
     using Yupi.Protocol.Buffers;
     using Yupi.Rest;
     using Yupi.Util;
-    using Util.Settings;
-    using Crypto;
-    using System.Numerics;
-    using Crypto.Utils;
 
     public class Server
     {

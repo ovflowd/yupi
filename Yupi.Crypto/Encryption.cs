@@ -1,20 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-using Yupi.Crypto.Cryptography;
-using Yupi.Crypto.Utils;
-
-namespace Yupi.Crypto
+﻿namespace Yupi.Crypto
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Numerics;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    using Yupi.Crypto.Cryptography;
+    using Yupi.Crypto.Utils;
+
     public class Encryption
     {
-        private RSACrypto _rsa;
-        private DiffieHellman _dh;
+        #region Fields
 
         private static Encryption _instance;
+
+        private DiffieHellman _dh;
+        private RSACrypto _rsa;
+
+        #endregion Fields
+
+        #region Constructors
+
+        public Encryption(RSACParameters parameters, int dhBitLength)
+        {
+            this._rsa = new RSACrypto(parameters);
+            this._dh = DiffieHellman.CreateInstance(dhBitLength);
+        }
+
+        #endregion Constructors
+
+        #region Methods
 
         public static Encryption GetInstance()
         {
@@ -36,19 +53,36 @@ namespace Yupi.Crypto
             return GetInstance();
         }
 
-
-        public Encryption(RSACParameters parameters, int dhBitLength)
+        public static ARC4 InitializeARC4(BigInteger sharedKey)
         {
-            this._rsa = new RSACrypto(parameters);
-            this._dh = DiffieHellman.CreateInstance(dhBitLength);
+            byte[] sharedKeyBytes = sharedKey.ToByteArray(false);
+
+            return new ARC4(sharedKeyBytes);
         }
 
-        private string GetRSAEncryptedString(string data, bool usePrivate)
+        public BigInteger CalculateDiffieHellmanSharedKey(string publicKey)
         {
-            byte[] bytes = Encoding.UTF8.GetBytes(data);
-            byte[] encryptedBytes = this._rsa.Encrypt(bytes, usePrivate);
+            publicKey = this.GetRSADecryptedString(publicKey, false);
 
-            return Converter.BytesToHexString(bytes);
+            return this._dh.CalculateSharedKey(BigInteger.Parse(publicKey));
+        }
+
+        public string GetRSADiffieHellmanGKey()
+        {
+            string key = this._dh.G.ToString();
+            return this.GetRSAEncryptedString(key, true);
+        }
+
+        public string GetRSADiffieHellmanPKey()
+        {
+            string key = this._dh.P.ToString();
+            return this.GetRSAEncryptedString(key, true);
+        }
+
+        public string GetRSADiffieHellmanPublicKey()
+        {
+            string key = this._dh.PublicKey.ToString();
+            return this.GetRSAEncryptedString(key, true);
         }
 
         private string GetRSADecryptedString(string data, bool usePrivate)
@@ -59,36 +93,14 @@ namespace Yupi.Crypto
             return Encoding.UTF8.GetString(decryptedBytes);
         }
 
-        public string GetRSADiffieHellmanPKey()
+        private string GetRSAEncryptedString(string data, bool usePrivate)
         {
-            string key = this._dh.P.ToString();
-            return this.GetRSAEncryptedString(key, true);
+            byte[] bytes = Encoding.UTF8.GetBytes(data);
+            byte[] encryptedBytes = this._rsa.Encrypt(bytes, usePrivate);
+
+            return Converter.BytesToHexString(bytes);
         }
 
-        public string GetRSADiffieHellmanGKey()
-        {
-            string key = this._dh.G.ToString();
-            return this.GetRSAEncryptedString(key, true);
-        }
-
-        public string GetRSADiffieHellmanPublicKey()
-        {
-            string key = this._dh.PublicKey.ToString();
-            return this.GetRSAEncryptedString(key, true);
-        }
-
-        public BigInteger CalculateDiffieHellmanSharedKey(string publicKey)
-        {
-            publicKey = this.GetRSADecryptedString(publicKey, false);
-
-            return this._dh.CalculateSharedKey(BigInteger.Parse(publicKey));
-        }
-
-        public static ARC4 InitializeARC4(BigInteger sharedKey)
-        {
-            byte[] sharedKeyBytes = sharedKey.ToByteArray(false);
-
-            return new ARC4(sharedKeyBytes);
-        }
+        #endregion Methods
     }
 }

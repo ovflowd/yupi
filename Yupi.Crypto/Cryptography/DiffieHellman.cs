@@ -1,33 +1,30 @@
-﻿using System;
-using System.Numerics;
-using System.Security.Cryptography;
-using Yupi.Crypto.Utils;
-
-namespace Yupi.Crypto.Cryptography
+﻿namespace Yupi.Crypto.Cryptography
 {
+    using System;
+    using System.Numerics;
+    using System.Security.Cryptography;
+
+    using Yupi.Crypto.Utils;
+
     public class DiffieHellman
     {
+        #region Fields
+
         private int _bitLength;
-
-        private BigInteger _p;
         private BigInteger _g;
-
-        private BigInteger _publicKey;
+        private BigInteger _p;
         private BigInteger _privateKey;
+        private BigInteger _publicKey;
+
+        #endregion Fields
+
+        #region Properties
 
         public int BitLength
         {
             get
             {
                 return this._bitLength;
-            }
-        }
-
-        public BigInteger P
-        {
-            get
-            {
-                return this._p;
             }
         }
 
@@ -39,6 +36,14 @@ namespace Yupi.Crypto.Cryptography
             }
         }
 
+        public BigInteger P
+        {
+            get
+            {
+                return this._p;
+            }
+        }
+
         public BigInteger PublicKey
         {
             get
@@ -46,6 +51,10 @@ namespace Yupi.Crypto.Cryptography
                 return this._publicKey;
             }
         }
+
+        #endregion Properties
+
+        #region Constructors
 
         public DiffieHellman(int bitLength, BigInteger p, BigInteger g)
         {
@@ -56,6 +65,10 @@ namespace Yupi.Crypto.Cryptography
 
             this.GenerateKeys();
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public static DiffieHellman CreateInstance(int bitLength)
         {
@@ -78,6 +91,11 @@ namespace Yupi.Crypto.Cryptography
             return new DiffieHellman(dh._bitLength, dh._p, dh._g);
         }
 
+        public BigInteger CalculateSharedKey(BigInteger publicKey)
+        {
+            return BigInteger.ModPow(publicKey, this._privateKey, this._p);
+        }
+
         private void GenerateKeys()
         {
             this._publicKey = 0;
@@ -95,9 +113,6 @@ namespace Yupi.Crypto.Cryptography
             }
         }
 
-        public BigInteger CalculateSharedKey(BigInteger publicKey)
-        {
-            return BigInteger.ModPow(publicKey, this._privateKey, this._p);
-        }
+        #endregion Methods
     }
 }

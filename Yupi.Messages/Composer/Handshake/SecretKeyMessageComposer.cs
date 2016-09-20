@@ -26,9 +26,9 @@ namespace Yupi.Messages.Handshake
 {
     using System;
 
+    using Yupi.Crypto;
     using Yupi.Protocol.Buffers;
     using Yupi.Util.Settings;
-    using Yupi.Crypto;
 
     public class SecretKeyMessageComposer : Yupi.Messages.Contracts.SecretKeyMessageComposer
     {
@@ -48,7 +48,7 @@ namespace Yupi.Messages.Handshake
                     message.AppendString("Crypto disabled");
                     message.AppendBool(false);
                 }
-                
+
                 session.Send(message);
             }
         }

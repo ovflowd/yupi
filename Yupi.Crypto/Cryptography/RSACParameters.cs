@@ -1,15 +1,18 @@
-﻿using System;
-using System.IO;
-using System.Numerics;
-using System.Text;
-using System.Xml.Serialization;
-using Yupi.Crypto.Utils;
-
-namespace Yupi.Crypto.Cryptography
+﻿namespace Yupi.Crypto.Cryptography
 {
+    using System;
+    using System.IO;
+    using System.Numerics;
+    using System.Text;
+    using System.Xml.Serialization;
+
+    using Yupi.Crypto.Utils;
+
     [XmlRoot(ElementName = "RSAKeyPair")]
     public class RSACParameters
     {
+        #region Fields
+
         private BigInteger _d;
         private BigInteger _dp;
         private BigInteger _dq;
@@ -19,111 +22,16 @@ namespace Yupi.Crypto.Cryptography
         private BigInteger _p;
         private BigInteger _q;
 
+        #endregion Fields
+
+        #region Properties
+
         [XmlIgnore]
         public BigInteger D
         {
             get
             {
                 return this._d;
-            }
-        }
-
-        [XmlIgnore]
-        public BigInteger DP
-        {
-            get
-            {
-                return this._dp;
-            }
-        }
-
-        [XmlIgnore]
-        public BigInteger DQ
-        {
-            get
-            {
-                return this._dq;
-            }
-        }
-
-        [XmlIgnore]
-        public BigInteger Exponent
-        {
-            get
-            {
-                return this._exponent;
-            }
-        }
-
-        [XmlIgnore]
-        public BigInteger InverseQ
-        {
-            get
-            {
-                return this._inverseQ;
-            }
-        }
-
-        [XmlIgnore]
-        public BigInteger Modules
-        {
-            get
-            {
-                return this._modules;
-            }
-        }
-
-        [XmlIgnore]
-        public BigInteger P
-        {
-            get
-            {
-                return this._p;
-            }
-        }
-
-        [XmlIgnore]
-        public BigInteger Q
-        {
-            get
-            {
-                return this._q;
-            }
-        }
-
-        [XmlIgnore]
-        public int ModulesBlockSize
-        {
-            get
-            {
-                return (this._modules.BitLength() + 7) / 8;
-            }
-        }
-
-        [XmlIgnore]
-        public bool HasCertKeys
-        {
-            get
-            {
-                return this._dp != 0 && this._dq != 0 && this._inverseQ != 0 && this._p != 0 && this._q != 0 && this.HasPrivateKeys;
-            }
-        }
-
-        [XmlIgnore]
-        public bool HasPublicKeys
-        {
-            get
-            {
-                return this._modules != 0 && this._exponent != 0;
-            }
-        }
-
-        [XmlIgnore]
-        public bool HasPrivateKeys
-        {
-            get
-            {
-                return this._d != 0 && this.HasPublicKeys;
             }
         }
 
@@ -140,6 +48,15 @@ namespace Yupi.Crypto.Cryptography
             }
         }
 
+        [XmlIgnore]
+        public BigInteger DP
+        {
+            get
+            {
+                return this._dp;
+            }
+        }
+
         [XmlElement(ElementName = "DP")]
         public string DPB64
         {
@@ -150,6 +67,15 @@ namespace Yupi.Crypto.Cryptography
             set
             {
                 this._dp = RSACUtils.Base64ToBigInteger(value, true);
+            }
+        }
+
+        [XmlIgnore]
+        public BigInteger DQ
+        {
+            get
+            {
+                return this._dq;
             }
         }
 
@@ -166,6 +92,15 @@ namespace Yupi.Crypto.Cryptography
             }
         }
 
+        [XmlIgnore]
+        public BigInteger Exponent
+        {
+            get
+            {
+                return this._exponent;
+            }
+        }
+
         [XmlElement(ElementName = "Exponent")]
         public string ExponentB64
         {
@@ -176,6 +111,42 @@ namespace Yupi.Crypto.Cryptography
             set
             {
                 this._exponent = RSACUtils.Base64ToBigInteger(value, true);
+            }
+        }
+
+        [XmlIgnore]
+        public bool HasCertKeys
+        {
+            get
+            {
+                return this._dp != 0 && this._dq != 0 && this._inverseQ != 0 && this._p != 0 && this._q != 0 && this.HasPrivateKeys;
+            }
+        }
+
+        [XmlIgnore]
+        public bool HasPrivateKeys
+        {
+            get
+            {
+                return this._d != 0 && this.HasPublicKeys;
+            }
+        }
+
+        [XmlIgnore]
+        public bool HasPublicKeys
+        {
+            get
+            {
+                return this._modules != 0 && this._exponent != 0;
+            }
+        }
+
+        [XmlIgnore]
+        public BigInteger InverseQ
+        {
+            get
+            {
+                return this._inverseQ;
             }
         }
 
@@ -192,6 +163,15 @@ namespace Yupi.Crypto.Cryptography
             }
         }
 
+        [XmlIgnore]
+        public BigInteger Modules
+        {
+            get
+            {
+                return this._modules;
+            }
+        }
+
         [XmlElement(ElementName = "Modules")]
         public string ModulesB64
         {
@@ -202,6 +182,24 @@ namespace Yupi.Crypto.Cryptography
             set
             {
                 this._modules = RSACUtils.Base64ToBigInteger(value, true);
+            }
+        }
+
+        [XmlIgnore]
+        public int ModulesBlockSize
+        {
+            get
+            {
+                return (this._modules.BitLength() + 7) / 8;
+            }
+        }
+
+        [XmlIgnore]
+        public BigInteger P
+        {
+            get
+            {
+                return this._p;
             }
         }
 
@@ -218,6 +216,15 @@ namespace Yupi.Crypto.Cryptography
             }
         }
 
+        [XmlIgnore]
+        public BigInteger Q
+        {
+            get
+            {
+                return this._q;
+            }
+        }
+
         [XmlElement(ElementName = "Q")]
         public string QB64
         {
@@ -230,6 +237,10 @@ namespace Yupi.Crypto.Cryptography
                 this._q = RSACUtils.Base64ToBigInteger(value, true);
             }
         }
+
+        #endregion Properties
+
+        #region Constructors
 
         public RSACParameters(BigInteger d, BigInteger dp, BigInteger dq, BigInteger exponent, BigInteger inverseQ, BigInteger modules, BigInteger p, BigInteger q)
         {
@@ -245,16 +256,29 @@ namespace Yupi.Crypto.Cryptography
 
         public RSACParameters(BigInteger modules, BigInteger exponent)
             : this(0, modules, exponent)
-        { }
+        {
+        }
 
         public RSACParameters(BigInteger d, BigInteger modules, BigInteger exponent)
             : this(d, 0, 0, exponent, 0, modules, 0, 0)
-        { }
+        {
+        }
 
         public RSACParameters()
             : this(0, 0, 0, 0, 0, 0, 0, 0)
-        { }
+        {
+        }
 
+        #endregion Constructors
+
+        #region Methods
+
+        public static RSACParameters FromXmlFile(string xmlFile)
+        {
+            string xmlString = File.ReadAllText(xmlFile);
+
+            return FromXmlString(xmlString);
+        }
 
         public static RSACParameters FromXmlString(string xmlString)
         {
@@ -277,11 +301,11 @@ namespace Yupi.Crypto.Cryptography
             return result;
         }
 
-        public static RSACParameters FromXmlFile(string xmlFile)
+        public void ToXmlFile(string xmlFile)
         {
-            string xmlString = File.ReadAllText(xmlFile);
+            string xmlString = this.ToXmlString();
 
-            return FromXmlString(xmlString);
+            File.WriteAllText(xmlFile, xmlString);
         }
 
         public string ToXmlString()
@@ -299,11 +323,6 @@ namespace Yupi.Crypto.Cryptography
             return result.ToString();
         }
 
-        public void ToXmlFile(string xmlFile)
-        {
-            string xmlString = this.ToXmlString();
-
-            File.WriteAllText(xmlFile, xmlString);
-        }
+        #endregion Methods
     }
 }

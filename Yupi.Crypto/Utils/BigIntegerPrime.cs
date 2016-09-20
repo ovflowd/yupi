@@ -1,10 +1,12 @@
-﻿using System.Numerics;
-using System.Security.Cryptography;
-
-namespace Yupi.Crypto.Utils
+﻿namespace Yupi.Crypto.Utils
 {
+    using System.Numerics;
+    using System.Security.Cryptography;
+
     public static class BigIntegerPrime
     {
+        #region Methods
+
         public static BigInteger GeneratePseudoPrime(int bitLength, int certainty, RandomNumberGenerator random)
         {
             byte[] bytes = new byte[(bitLength + 7) / 8];
@@ -37,13 +39,11 @@ namespace Yupi.Crypto.Utils
                 s += 1;
             }
 
-
             if (random == null)
             {
                 random = Randomizer.GetRandom();
             }
 
-            
             byte[] bytes = new byte[(source.BitLength() + 7) / 8];
             BigInteger a;
 
@@ -76,5 +76,7 @@ namespace Yupi.Crypto.Utils
 
             return true;
         }
+
+        #endregion Methods
     }
 }

@@ -1,10 +1,12 @@
-﻿using System;
-using System.Numerics;
-
-namespace Yupi.Crypto.Utils
+﻿namespace Yupi.Crypto.Utils
 {
+    using System;
+    using System.Numerics;
+
     public static class BigIntegerMethods
     {
+        #region Methods
+
         public static int BitLength(this BigInteger scope)
         {
             if (scope <= 0)
@@ -62,5 +64,7 @@ namespace Yupi.Crypto.Utils
 
             return result;
         }
+
+        #endregion Methods
     }
 }

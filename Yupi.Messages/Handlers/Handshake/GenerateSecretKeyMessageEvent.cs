@@ -25,9 +25,11 @@
 namespace Yupi.Messages.Handshake
 {
     using System;
-    using Crypto;
     using System.Numerics;
+
+    using Crypto;
     using Crypto.Cryptography;
+
     using Util.Settings;
 
     public class GenerateSecretKeyMessageEvent : AbstractHandler

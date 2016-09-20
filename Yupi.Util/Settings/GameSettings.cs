@@ -32,20 +32,20 @@ namespace Yupi.Util.Settings
     {
         #region Fields
 
-        public static readonly Setting<bool> EnableCamera = new Setting<bool>("game.feature.camera", false);
-        public static readonly Setting<string> Release = new Setting<string>("RELEASE.Release", "PRODUCTION-201510201205-42435347");
-        public static readonly Setting<string> GameBind = new Setting<string>("Game.Bind", "127.0.0.1");
-        public static readonly Setting<int> GamePort = new Setting<int>("Game.Port", 3000);
-        public static readonly Setting<int> GameConLimit = new Setting<int>("Game.ConLimit", 5000);
-        public static readonly Setting<int> GameConLimitPerIp = new Setting<int>("Game.ConLimitPerIp", 10);
-        public static readonly Setting<string> RestBind = new Setting<string>("REST.Bind", "127.0.0.1");
-        public static readonly Setting<int> RestPort = new Setting<int>("Rest.Port", 8080);
-        public static readonly Setting<string> RestAuthKey = new Setting<string>("Rest.AuthKey", "");
-        public static readonly Setting<string> RestWhiteList = new Setting<string>("Rest.WhiteList", "127.0.0.1");
+        public static readonly Setting<bool> DebugConnections = new Setting<bool>("Debug.Connections", false);
         public static readonly Setting<bool> DebugDatabase = new Setting<bool>("Debug.Database", false);
         public static readonly Setting<bool> DebugPackets = new Setting<bool>("Debug.Packets", false);
-        public static readonly Setting<bool> DebugConnections = new Setting<bool>("Debug.Connections", false);
         public static readonly Setting<bool> DebugRooms = new Setting<bool>("Debug.Rooms", false);
+        public static readonly Setting<bool> EnableCamera = new Setting<bool>("game.feature.camera", false);
+        public static readonly Setting<string> GameBind = new Setting<string>("Game.Bind", "127.0.0.1");
+        public static readonly Setting<int> GameConLimit = new Setting<int>("Game.ConLimit", 5000);
+        public static readonly Setting<int> GameConLimitPerIp = new Setting<int>("Game.ConLimitPerIp", 10);
+        public static readonly Setting<int> GamePort = new Setting<int>("Game.Port", 3000);
+        public static readonly Setting<string> Release = new Setting<string>("RELEASE.Release", "PRODUCTION-201510201205-42435347");
+        public static readonly Setting<string> RestAuthKey = new Setting<string>("Rest.AuthKey", "");
+        public static readonly Setting<string> RestBind = new Setting<string>("REST.Bind", "127.0.0.1");
+        public static readonly Setting<int> RestPort = new Setting<int>("Rest.Port", 8080);
+        public static readonly Setting<string> RestWhiteList = new Setting<string>("Rest.WhiteList", "127.0.0.1");
 
         #endregion Fields
 

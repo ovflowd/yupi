@@ -26,20 +26,21 @@ namespace Yupi.Net
 {
     using System;
     using System.Net;
+
     using Crypto.Cryptography;
 
     public interface ISession<T>
     {
         #region Properties
 
+        ARC4 clientRC4
+        {
+            get; set;
+        }
+
         IPAddress RemoteAddress
         {
             get;
-        }
-
-        T UserData
-        {
-            get; set;
         }
 
         ARC4 serverRC4
@@ -47,7 +48,7 @@ namespace Yupi.Net
             get; set;
         }
 
-        ARC4 clientRC4
+        T UserData
         {
             get; set;
         }

@@ -1,18 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Yupi.Crypto.Cryptography
+﻿namespace Yupi.Crypto.Cryptography
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
     public class ARC4
     {
-        private int i;
-        private int j;
-        private byte[] bytes;
+        #region Fields
 
         public const int POOLSIZE = byte.MaxValue + 1;
+
+        private byte[] bytes;
+        private int i;
+        private int j;
+
+        #endregion Fields
+
+        #region Constructors
 
         public ARC4()
         {
@@ -24,6 +30,10 @@ namespace Yupi.Crypto.Cryptography
             bytes = new byte[POOLSIZE];
             this.Initialize(key);
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public void Initialize(byte[] key)
         {
@@ -45,13 +55,6 @@ namespace Yupi.Crypto.Cryptography
             this.j = 0;
         }
 
-        private void Swap(int a, int b)
-        {
-            byte t = this.bytes[a];
-            this.bytes[a] = this.bytes[b];
-            this.bytes[b] = t;
-        }
-
         public byte Next()
         {
             this.i = ++this.i & (POOLSIZE - 1);
@@ -67,5 +70,14 @@ namespace Yupi.Crypto.Cryptography
                 src[k] ^= this.Next();
             }
         }
+
+        private void Swap(int a, int b)
+        {
+            byte t = this.bytes[a];
+            this.bytes[a] = this.bytes[b];
+            this.bytes[b] = t;
+        }
+
+        #endregion Methods
     }
 }

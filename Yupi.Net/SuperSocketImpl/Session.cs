@@ -26,22 +26,23 @@ namespace Yupi.Net.SuperSocketImpl
 {
     using System;
 
+    using Crypto.Cryptography;
+
     using SuperSocket.SocketBase;
     using SuperSocket.SocketBase.Protocol;
-    using Crypto.Cryptography;
 
     public class Session<T> : AppSession<Session<T>, RequestInfo>, ISession<T>
     {
         #region Properties
 
+        public ARC4 clientRC4
+        {
+            get; set;
+        }
+
         public System.Net.IPAddress RemoteAddress
         {
             get { return RemoteEndPoint.Address; }
-        }
-
-        public T UserData
-        {
-            get; set;
         }
 
         public ARC4 serverRC4
@@ -49,7 +50,7 @@ namespace Yupi.Net.SuperSocketImpl
             get; set;
         }
 
-        public ARC4 clientRC4
+        public T UserData
         {
             get; set;
         }

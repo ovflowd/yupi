@@ -1,9 +1,11 @@
-﻿using System;
-
-namespace Yupi.Crypto.Utils
+﻿namespace Yupi.Crypto.Utils
 {
+    using System;
+
     public static class Converter
     {
+        #region Methods
+
         public static string BytesToHexString(byte[] bytes)
         {
             string hexstring = BitConverter.ToString(bytes);
@@ -20,5 +22,7 @@ namespace Yupi.Crypto.Utils
             }
             return bytes;
         }
+
+        #endregion Methods
     }
 }

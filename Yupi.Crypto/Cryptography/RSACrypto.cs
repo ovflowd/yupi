@@ -1,13 +1,20 @@
-﻿using System;
-using System.Numerics;
-using System.Security.Cryptography;
-using Yupi.Crypto.Utils;
-
-namespace Yupi.Crypto.Cryptography
+﻿namespace Yupi.Crypto.Cryptography
 {
+    using System;
+    using System.Numerics;
+    using System.Security.Cryptography;
+
+    using Yupi.Crypto.Utils;
+
     public class RSACrypto
     {
+        #region Fields
+
         private RSACParameters _parameters;
+
+        #endregion Fields
+
+        #region Properties
 
         public RSACParameters Parameters
         {
@@ -17,12 +24,21 @@ namespace Yupi.Crypto.Cryptography
             }
         }
 
+        #endregion Properties
+
+        #region Constructors
+
         public RSACrypto(RSACParameters parameters)
         {
             this._parameters = parameters;
         }
 
-        public static RSACrypto CreateInstance(int bitLength, BigInteger exponent) // DOES NOT WORK
+        #endregion Constructors
+
+        #region Methods
+
+        // DOES NOT WORK
+        public static RSACrypto CreateInstance(int bitLength, BigInteger exponent)
         {
             RandomNumberGenerator random = Randomizer.GetRandom();
 
@@ -78,21 +94,6 @@ namespace Yupi.Crypto.Cryptography
             return new RSACrypto(parameters);
         }
 
-        public byte[] Encrypt(byte[] src)
-        {
-            return this.Encrypt(src, false);
-        }
-
-        public byte[] Encrypt(byte[] src, bool usePrivate)
-        {
-            if (usePrivate)
-            {
-                return this.DoEncrypt(src, this.RSAPrivate);
-            }
-
-            return this.DoEncrypt(src, this.RSAPublic);
-        }
-
         public byte[] Decrypt(byte[] src)
         {
             return this.Decrypt(src, false);
@@ -108,15 +109,26 @@ namespace Yupi.Crypto.Cryptography
             return this.DoDecrypt(src, this.RSAPublic);
         }
 
-        private byte[] PerformCalculation(byte[] src, RSACalculateDelegate method)
+        public byte[] Encrypt(byte[] src)
         {
-            // Big integer requires little endian order!
-            Array.Reverse(src);
-            BigInteger data = new BigInteger(src);
+            return this.Encrypt(src, false);
+        }
 
-            data = method(data);
+        public byte[] Encrypt(byte[] src, bool usePrivate)
+        {
+            if (usePrivate)
+            {
+                return this.DoEncrypt(src, this.RSAPrivate);
+            }
 
-            return data.ToByteArray(false);
+            return this.DoEncrypt(src, this.RSAPublic);
+        }
+
+        private byte[] DoDecrypt(byte[] src, RSACalculateDelegate method)
+        {
+            byte[] data = this.PerformCalculation(src, method);
+
+            return this.pkcs1unpad(data);
         }
 
         private byte[] DoEncrypt(byte[] src, RSACalculateDelegate method)
@@ -131,21 +143,15 @@ namespace Yupi.Crypto.Cryptography
             return this.PerformCalculation(data, method);
         }
 
-        private byte[] DoDecrypt(byte[] src, RSACalculateDelegate method)
+        private byte[] PerformCalculation(byte[] src, RSACalculateDelegate method)
         {
-            byte[] data = this.PerformCalculation(src, method);
+            // Big integer requires little endian order!
+            Array.Reverse(src);
+            BigInteger data = new BigInteger(src);
 
-            return this.pkcs1unpad(data);
-        }
+            data = method(data);
 
-        private BigInteger RSAPublic(BigInteger data)
-        {
-            return BigInteger.ModPow(data, this._parameters.Exponent, this._parameters.Modules);
-        }
-
-        private BigInteger RSAPrivate(BigInteger data)
-        {
-            return BigInteger.ModPow(data, this._parameters.D, this._parameters.Modules);
+            return data.ToByteArray(false);
         }
 
         private byte[] pkcs1pad(byte[] src)
@@ -197,5 +203,17 @@ namespace Yupi.Crypto.Cryptography
                 throw new CryptographicException("PKCS v1.5 Decode Error");
             }
         }
+
+        private BigInteger RSAPrivate(BigInteger data)
+        {
+            return BigInteger.ModPow(data, this._parameters.D, this._parameters.Modules);
+        }
+
+        private BigInteger RSAPublic(BigInteger data)
+        {
+            return BigInteger.ModPow(data, this._parameters.Exponent, this._parameters.Modules);
+        }
+
+        #endregion Methods
     }
 }

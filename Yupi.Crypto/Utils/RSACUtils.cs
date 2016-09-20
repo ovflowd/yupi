@@ -1,10 +1,12 @@
-﻿using System;
-using System.Numerics;
-
-namespace Yupi.Crypto.Utils
+﻿namespace Yupi.Crypto.Utils
 {
+    using System;
+    using System.Numerics;
+
     public static class RSACUtils
     {
+        #region Methods
+
         public static BigInteger Base64ToBigInteger(string data, bool asLittleEndian)
         {
             if (data == null || data == "")
@@ -48,5 +50,7 @@ namespace Yupi.Crypto.Utils
         {
             return BigIntegerToBase64(data, true);
         }
+
+        #endregion Methods
     }
 }
