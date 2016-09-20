@@ -37,16 +37,15 @@ Me [Claudio](https://github.com/sant0ro) and [Felix](https://github.com/TheDoct0
 ## About
 
 #### What is?
-Yupi is an OSP Habbo Emulator, not created for production usages. Made for cool guys. Not for Production Usage and not intendend to make money with it. You're free to do what u want, breaching Copyrights is your responsability.
+Yupi is an Open Source HH Emulator, not created for production usages. Made for cool guys. Not for Production Usage and not intendend to make money with it. You're free to do what u want, breaching Copyrights is your responsability.
 
 #### Based in?
-Butterfly Emulator, originally created by Martinmine. Actually Based in a Butterfly's Edition called Azure Emulator.
-**Observation**: In other terms the code wasn't created from scratch by the collaborators, but based in Butterfly Emulator. So if you see crappie codes, calm down, it's planned to everything being rewrote here.
+The **Yupi Emulator** is made from scratch, using many libraries and tools to perform a good software. Yupi uses C# 5.0 and .NET Framework 4.5. It's _Mono_ compatible and uses MySQL to store Database's.
 
 ## Tools!
-Yupi has **amazing** (cof cof) tools that you can use with it. Check some of those:
+**Yupi** Emulator has some interesting tools developed and created by the RaGEZONE community, check out:
 + **Edison Osto's** Yupi Furniture SQL Generator! [Click Here](http://forum.ragezone.com/f353/sql-generator-yupi-emulator-1107144/)
-+ More tools later haha
++ More tools comming soon.
 
 ## Whoami
 
@@ -54,7 +53,7 @@ Yupi has **amazing** (cof cof) tools that you can use with it. Check some of tho
 You can Help us with Awesome Pull Requests! Or doing a beautifull Fork! You have the Powder!
 
 #### Old Yupi?
-Want a the Old Version from Yupi? Go to [NIO Branch](https://github.com/sant0ro/Yupi/tree/nio)
+Want a the Old Version from Yupi? Go to [NIO Branch](https://github.com/sant0ro/Yupi/tree/nio). The Old Yupi Emulator is based in Butterfly Emulator made by Martinmine. It's a stable version of the Emulator, but totally diferent of the actual Yupi version.
 
 ## BSOD!
 
@@ -69,21 +68,19 @@ Want a the Old Version from Yupi? Go to [NIO Branch](https://github.com/sant0ro/
 #### Talk more!
 Join in ou Gitter Chat [Here](https://gitter.im/sant0ro/Yupi) And talk a lot of ideas, issues, bitchies conquests, and more, be diversified talking like a bastard or not.
 
-#### Call death!
-Yupi is ``fullified`` with horny bugs. You will love it. Also the features are Awesome, but under development! Are bored to wait? **kill yourself**
-
 #### Features Lady?
-- ``C# 6`` we use ~~Marylin~~ Rosylin Monroe C Sharp!
+- ``C# 5`` we use ~~Marylin~~ Rosylin Monroe C Sharp!
 - ``NuGet`` we aread ready for continuos integration!
 - ``DotNetty`` we use reactive and NIO ready socket system!
 - ``SuperSocket`` we use advanced .NET socket system
-- ``NHibernate and FluentHibernate`` let's try to do decent, lady.
+- ``NHibernate and FluentHibernate`` ORM Models and more.
 - ``log4net`` we use asynchronous and fast logging system!
 - ``multi thread`` obviously we use threads!
 - ``MySQL`` using built-in MySQl ADO Adapter!
+- ``HHEncryption`` using Joopie's HH Encryption Tool
 - ``DataBase Factories`` we have a good pooling system based in asynchronous ADO.net, Database ready when you need.
-- ``Caching`` a ~~good~~ caching system, that uses ~~inference~~ for data ready as soon you need.
-- ``more!`` more features that i don't know!
+- ``Caching`` a caching system based on NHibernate Caching Module
+- ``more!`` we use a lot of other features.
 
 #### Are ready?
-Let's go! Run Lady Run!
+Let's download, build, run and have fun! So, run lady!
