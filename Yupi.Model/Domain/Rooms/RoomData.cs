@@ -84,6 +84,7 @@ namespace Yupi.Model.Domain
         }
 
         // TODO What are those exactly? (Format!)
+        [Nullable]
         public virtual string CCTs
         {
             get; set;
@@ -107,6 +108,7 @@ namespace Yupi.Model.Domain
             get; set;
         }
 
+        [Nullable]
         public virtual RoomEvent Event
         {
             get; set;
@@ -122,6 +124,7 @@ namespace Yupi.Model.Domain
             get; set;
         }
 
+        [Nullable]
         public virtual Group Group
         {
             get; set;
@@ -311,6 +314,8 @@ namespace Yupi.Model.Domain
             Chatlog = new List<ChatMessage>();
             ModerationSettings = new ModerationSettings(this);
             State = RoomState.Open;
+            NavigatorImage = String.Empty;
+            Password = String.Empty;
         }
 
         #endregion Constructors
