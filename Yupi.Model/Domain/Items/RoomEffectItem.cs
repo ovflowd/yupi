@@ -27,7 +27,7 @@ namespace Yupi.Model.Domain
     using System;
     using System.Globalization;
 
-    public class RoomEffectItem : FloorItem<RoomEffectBaseItem>
+    public class RoomEffectItem : WallItem<RoomEffectBaseItem>
     {
         #region Properties
 

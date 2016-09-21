@@ -1,7 +1,5 @@
-﻿#region Header
-
-// ---------------------------------------------------------------------------------
-// <copyright file="CatalogProduct.cs" company="https://github.com/sant0ro/Yupi">
+﻿// ---------------------------------------------------------------------------------
+// <copyright file="VendingBaseItem.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -24,50 +22,29 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System.Runtime.Serialization;
-
-#endregion Header
-
 namespace Yupi.Model.Domain
 {
     using System;
+    using System.Collections.Generic;
 
-    public class CatalogProduct
+    public class VendingMachineBaseItem : FloorBaseItem
     {
         #region Properties
 
-        public virtual int Amount
-        {
-            get; set;
-        }
-
-        public virtual int Id
+        public virtual IList<int> VendingIds
         {
             get; protected set;
         }
 
-        public virtual BaseItem Item
-        {
-            get; set;
-        }
-
         #endregion Properties
 
-        #region Methods
+        #region Constructors
 
-        public virtual PurchaseStatus CanPurchase(int amount)
+        public VendingMachineBaseItem()
         {
-            return PurchaseStatus.Ok;
+            VendingIds = new List<int>();
         }
 
-        public virtual void Purchase(int amount)
-        {
-            if (this.CanPurchase(amount) != PurchaseStatus.Ok)
-            {
-                throw new InvalidOperationException();
-            }
-        }
-
-        #endregion Methods
+        #endregion Constructors
     }
 }

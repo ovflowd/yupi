@@ -50,7 +50,7 @@ namespace Yupi.Messages.Catalog
 
                     foreach (EcotronReward reward in current.Rewards)
                     {
-                        message.AppendString(reward.BaseItem.PublicName);
+                        message.AppendString(reward.BaseItem.Name.Get(session.Language));
                         message.AppendInteger(1);
                         message.AppendString(reward.BaseItem.Type.ToString());
                         message.AppendInteger(reward.BaseItem.Id);

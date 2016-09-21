@@ -53,7 +53,7 @@ namespace Yupi.Messages.Rooms
 
                     foreach (BaseItem furni in competition.RequiredItems)
                     {
-                        message.AppendString(furni.Name);
+                        message.AppendString(furni.Classname);
                     }
 
                     if (room == null)

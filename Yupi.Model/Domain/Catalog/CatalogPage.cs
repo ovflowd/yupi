@@ -36,26 +36,22 @@ namespace Yupi.Model.Domain
     using System.Linq;
     using System.Runtime.Serialization;
 
-    [DataContract]
     public class CatalogPage
     {
         #region Properties
 
-        [DataMember]
         public virtual TString Caption
         {
             get;
             set;
         }
 
-        [DataMember]
         public virtual IList<CatalogPage> Children
         {
             get;
             protected set;
         }
 
-        [DataMember]
         public virtual int Icon
         {
             get;
@@ -68,28 +64,24 @@ namespace Yupi.Model.Domain
             protected set;
         }
 
-        [DataMember]
         public virtual bool IsRoot
         {
             get;
             set;
         }
 
-        [DataMember]
         public virtual CatalogPageLayout Layout
         {
             get;
             set;
         }
 
-        [DataMember]
         public virtual int MinRank
         {
             get;
             set;
         }
 
-        [DataMember]
         public virtual IList<CatalogOffer> Offers
         {
             get;
@@ -103,14 +95,12 @@ namespace Yupi.Model.Domain
             set;
         }
 
-        [DataMember]
         public virtual CatalogType Type
         {
             get;
             set;
         }
 
-        [DataMember]
         public virtual bool Visible
         {
             get;

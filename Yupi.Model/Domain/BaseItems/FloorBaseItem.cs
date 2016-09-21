@@ -22,6 +22,9 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
+using System.Drawing;
+
+
 namespace Yupi.Model.Domain
 {
     using System;
@@ -29,6 +32,38 @@ namespace Yupi.Model.Domain
     public class FloorBaseItem : BaseItem
     {
         #region Methods
+
+        // TODO Enum
+        public virtual int DefaultDir
+        {
+            get; set;
+        }
+
+        public virtual int[] InternalPartColors
+        {
+            get;
+            protected set;
+        }
+
+        [Ignore]
+        public virtual Color[] PartColors
+        {
+            get {
+                Color[] colors = new Color[InternalPartColors.Length];
+                for (int i = 0; i < InternalPartColors.Length; ++i)
+                {
+                    colors[i] = Color.FromArgb(InternalPartColors[i]);
+                }
+                return colors;
+            }
+            set {
+                InternalPartColors = new int[value.Length];
+                for (int i = 0; i < value.Length; ++i)
+                {
+                    InternalPartColors[i] = value[i].ToArgb();
+                }
+            }
+        }
 
         public override Item CreateNew()
         {

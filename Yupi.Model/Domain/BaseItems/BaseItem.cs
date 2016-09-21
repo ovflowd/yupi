@@ -22,6 +22,11 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
+using System.Drawing;
+using System;
+using System.Runtime.Serialization;
+
+
 namespace Yupi.Model.Domain
 {
     using System.Collections.Generic;
@@ -31,42 +36,22 @@ namespace Yupi.Model.Domain
     {
         #region Properties
 
-        /// <summary>
-        ///     The allow inventory stack
-        /// </summary>
         public virtual bool AllowInventoryStack
         {
             get; set;
         }
 
-        /// <summary>
-        ///     The allow marketplace sell
-        /// </summary>
         public virtual bool AllowMarketplaceSell
         {
             get; set;
         }
-
-        /// <summary>
-        ///     The allow recycle
-        /// </summary>
+            
         public virtual bool AllowRecycle
         {
             get; set;
         }
-
-        /// <summary>
-        ///     The allow trade
-        /// </summary>
+            
         public virtual bool AllowTrade
-        {
-            get; set;
-        }
-
-        /// <summary>
-        ///     The height
-        /// </summary>
-        public virtual double Height
         {
             get; set;
         }
@@ -84,58 +69,42 @@ namespace Yupi.Model.Domain
             }
         }
 
-        /// <summary>
-        ///     The length
-        /// </summary>
-        public virtual int Length
+        public virtual int DimensionX
+        {
+            get; set;
+        }
+            
+        public virtual int DimensionY
+        {
+            get; set;
+        }
+            
+        public virtual string AdUrl
+        {
+            get; set;
+        }
+            
+        public virtual string Classname
+        {
+            get; set;
+        }
+            
+        public virtual TString Name
         {
             get; set;
         }
 
-        /// <summary>
-        ///     The name
-        /// </summary>
-        public virtual string Name
+        public virtual TString Description
         {
             get; set;
         }
-
-        /// <summary>
-        ///     The public name
-        /// </summary>
-        public virtual string PublicName
-        {
-            get; set;
-        }
-
-        /// <summary>
-        ///     The stackable
-        /// </summary>
+            
         public virtual bool Stackable
         {
             get; set;
         }
-
-        /// <summary>
-        ///     The stack multipler
-        /// </summary>
-        public virtual bool StackMultipler
-        {
-            get; set;
-        }
-
-        /// <summary>
-        ///     The subscriber only
-        /// </summary>
-        public virtual bool SubscriberOnly
-        {
-            get; set;
-        }
-
-        /// <summary>
-        ///     The toggle height
-        /// </summary>
-        public virtual double[] ToggleHeight
+            
+        public virtual float Height
         {
             get; set;
         }
@@ -154,21 +123,49 @@ namespace Yupi.Model.Domain
                 return string.Empty;
             }
         }
+            
+        [Ignore]
+        public virtual bool CanWalkOn
+        {
+            get {
+                return false;
+            }
+        }
 
-        /// <summary>
-        ///     The walkable
-        /// </summary>
-        public virtual bool Walkable
+        [Ignore]
+        public virtual bool CanLayOn
+        {
+            get {
+                return false;
+            }
+        }
+
+        [Ignore]
+        public virtual bool CanSitOn
+        {
+            get {
+                return false;
+            }
+        }
+
+        public virtual int Revision
         {
             get; set;
         }
 
-        /// <summary>
-        ///     The width
-        /// </summary>
-        public virtual int Width
+
+        [Ignore]
+        public virtual bool ExcludeFromSearch
         {
-            get; set;
+            get {
+                return false;
+            }
+        }
+
+        public virtual string FurniLine
+        {
+            get;
+            set;
         }
 
         #endregion Properties

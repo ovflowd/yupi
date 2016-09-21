@@ -37,18 +37,15 @@ namespace Yupi.Model.Domain
 
     using Yupi.Model.Domain.Components;
 
-    [DataContract]
     public class CatalogOffer
     {
         #region Properties
 
-        [DataMember]
         public virtual ActivityPointsType ActivityPointsType
         {
             get; set;
         }
-
-        [DataMember]
+            
         public virtual bool AllowGift
         {
             get;
@@ -56,28 +53,24 @@ namespace Yupi.Model.Domain
         }
 
         // TODO Arbitrary string..
-        [DataMember]
         public virtual string Badge
         {
             get;
             set;
         }
 
-        [DataMember]
         public virtual ClubLevel ClubLevel
         {
             get;
             set;
         }
 
-        [DataMember]
         public virtual int CostActivityPoints
         {
             get;
             set;
         }
 
-        [DataMember]
         public virtual int CostCredits
         {
             get;
@@ -90,21 +83,18 @@ namespace Yupi.Model.Domain
             protected set;
         }
 
-        [DataMember]
         public virtual bool IsRentable
         {
             get;
             set;
         }
 
-        [DataMember]
         public virtual bool IsVisible
         {
             get;
             set;
         }
 
-        [DataMember]
         public virtual string Name
         {
             get;

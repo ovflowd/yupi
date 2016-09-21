@@ -1,7 +1,5 @@
-﻿#region Header
-
-// ---------------------------------------------------------------------------------
-// <copyright file="CatalogProduct.cs" company="https://github.com/sant0ro/Yupi">
+﻿// ---------------------------------------------------------------------------------
+// <copyright file="WiredActionGiveScoreTeamBaseItem.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -24,50 +22,15 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System.Runtime.Serialization;
-
-#endregion Header
+using System;
 
 namespace Yupi.Model.Domain
 {
-    using System;
-
-    public class CatalogProduct
+    public class WiredActionGiveScoreTeamBaseItem : WiredBaseItem
     {
-        #region Properties
-
-        public virtual int Amount
+        public WiredActionGiveScoreTeamBaseItem()
         {
-            get; set;
         }
-
-        public virtual int Id
-        {
-            get; protected set;
-        }
-
-        public virtual BaseItem Item
-        {
-            get; set;
-        }
-
-        #endregion Properties
-
-        #region Methods
-
-        public virtual PurchaseStatus CanPurchase(int amount)
-        {
-            return PurchaseStatus.Ok;
-        }
-
-        public virtual void Purchase(int amount)
-        {
-            if (this.CanPurchase(amount) != PurchaseStatus.Ok)
-            {
-                throw new InvalidOperationException();
-            }
-        }
-
-        #endregion Methods
     }
 }
+

@@ -65,7 +65,7 @@ namespace Yupi.Messages.Catalog
 
                 foreach (CatalogProduct product in offer.Products)
                 {
-                    message.AppendString(product.Item.Name); // Taken from productdata.xml
+                    message.AppendString(product.Item.Classname); // Taken from productdata.xml
                 }
 
                 session.Send(message);

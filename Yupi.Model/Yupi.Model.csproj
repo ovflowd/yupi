@@ -76,6 +76,7 @@
       <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -107,11 +108,9 @@
     <Compile Include="MonoSQLiteDriver.cs" />
     <Compile Include="MonoSQLiteConfiguration.cs" />
     <Compile Include="Domain\Soundmachine\SongData.cs" />
-    <Compile Include="Domain\BaseItems\AdsMpuBaseItem.cs" />
     <Compile Include="Domain\BaseItems\AlertBaseItem.cs" />
     <Compile Include="Domain\BaseItems\ArrowPlateBaseItem.cs" />
     <Compile Include="Domain\BaseItems\BadgeDisplayBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\BanzaiCounterBaseItem.cs" />
     <Compile Include="Domain\BaseItems\BanzaiFloorBaseItem.cs" />
     <Compile Include="Domain\BaseItems\BanzaiGateBaseItem.cs" />
     <Compile Include="Domain\BaseItems\BanzaiPuckBaseItem.cs" />
@@ -129,7 +128,6 @@
     <Compile Include="Domain\BaseItems\DimmerBaseItem.cs" />
     <Compile Include="Domain\BaseItems\FireworksBaseItem.cs" />
     <Compile Include="Domain\BaseItems\FloorBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\FloorSwitch.cs" />
     <Compile Include="Domain\BaseItems\FootballBaseItem.cs" />
     <Compile Include="Domain\BaseItems\FootballCounterBaseItem.cs" />
     <Compile Include="Domain\BaseItems\FootballGateBaseItem.cs" />
@@ -167,7 +165,6 @@
     <Compile Include="Domain\BaseItems\PetNestBaseItem.cs" />
     <Compile Include="Domain\BaseItems\PinataBaseItem.cs" />
     <Compile Include="Domain\BaseItems\PoolBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\PressurePadBaseItem.cs" />
     <Compile Include="Domain\BaseItems\PuzzleBoxBaseItem.cs" />
     <Compile Include="Domain\BaseItems\RentalBaseItem.cs" />
     <Compile Include="Domain\BaseItems\RollerBaseItem.cs" />
@@ -182,19 +179,9 @@
     <Compile Include="Domain\BaseItems\TentBaseItem.cs" />
     <Compile Include="Domain\BaseItems\TileStackMagicBaseItem.cs" />
     <Compile Include="Domain\BaseItems\TriggerCollisionBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\TriggerGameEndBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\TriggerGameStartBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\TriggerLongRepeaterBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\TriggerOnUserSayBaseItem.cs" />
     <Compile Include="Domain\BaseItems\TriggerRepeaterBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\TriggerRoomEnterBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\TriggerScoreAchievedBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\TriggerStateChangedBaseItem.cs" />
     <Compile Include="Domain\BaseItems\TriggerTimerBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\TriggerWalkOffFurniBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\TriggerWalkOnFurniBaseItem.cs" />
     <Compile Include="Domain\BaseItems\TrophyBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\VendingBaseItem.cs" />
     <Compile Include="Domain\BaseItems\WallBaseItem.cs" />
     <Compile Include="Domain\BaseItems\WiredActionBotClothesBaseItem.cs" />
     <Compile Include="Domain\BaseItems\WiredActionBotFollowAvatarBaseItem.cs" />
@@ -206,7 +193,6 @@
     <Compile Include="Domain\BaseItems\WiredActionCallStacksBaseItem.cs" />
     <Compile Include="Domain\BaseItems\WiredActionChaseBaseItem.cs" />
     <Compile Include="Domain\BaseItems\WiredActionEffectUserBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\WiredActionGiveScore.cs" />
     <Compile Include="Domain\BaseItems\WiredActionJoinTeamBaseItem.cs" />
     <Compile Include="Domain\BaseItems\WiredActionLeaveTeamBaseItem.cs" />
     <Compile Include="Domain\BaseItems\WiredConditionBaseItemsDontMatchItem.cs" />
@@ -228,26 +214,12 @@
     <Compile Include="Domain\BaseItems\WiredConditionTriggerOnFurniBaseItem.cs" />
     <Compile Include="Domain\BaseItems\WiredConditionTriggererNotOnFurniBaseItem.cs" />
     <Compile Include="Domain\BaseItems\WiredConditionUserHasFurniBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\WiredConditionUserHasHanditemBaseItem.cs" />
     <Compile Include="Domain\BaseItems\WiredConditionUserNotWearingBadgeBaseItem.cs" />
     <Compile Include="Domain\BaseItems\WiredConditionUserNotWearingEffectBaseItem.cs" />
     <Compile Include="Domain\BaseItems\WiredConditionUserWearingBadgeBaseItem.cs" />
     <Compile Include="Domain\BaseItems\WiredConditionUserWearingEffectBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\WiredGiveRewardBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\WiredHighscoreBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\WiredKickUserBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\WiredMoveRotateBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\WiredMoveToDirBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\WiredMuteUserBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\WiredPositionResetBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\WiredRandomBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\WiredResetTimerBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\WiredShowMessageBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\WiredTeleportToBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\WiredToggleStateBaseItem.cs" />
     <Compile Include="Domain\BaseItems\WiredTriggerBotReachedAvatarBaseItem.cs" />
     <Compile Include="Domain\BaseItems\WiredTriggerBotReachedStuffBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\WiredUnseenBaseItem.cs" />
     <Compile Include="Domain\BaseItems\YoutubeTvBaseItem.cs" />
     <Compile Include="Domain\Catalog\CatalogPage.cs" />
     <Compile Include="Domain\Catalog\TargetedOffer.cs" />
@@ -429,6 +401,56 @@
     <Compile Include="Domain\Util\TString.cs" />
     <Compile Include="Domain\Catalog\Layout\BadgeDisplayLayout.cs" />
     <Compile Include="Domain\BaseItems\ItemSpecialType.cs" />
+    <Compile Include="Domain\BaseItems\VendingMachineBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\AdsBgBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\BackgroundTonerBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\ClubHopperBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\RentableSpaceBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\HorseObstacleBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\SoundFxBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WaterBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WaterItemBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\BanzaiCounterBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\BanzaiTimerBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\CostumeHopperBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\IceTagPoleBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\SkatesBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\PressurePlateBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\FloorSwitchBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredTriggerStateChangedBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredTriggerWalksOnFurniBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredTriggerWalksOffFurniBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredTriggerScoreAchievedBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredActionTeleportToBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredTriggerOnUserSayBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\ClubGateBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredTriggerGameEndBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredTriggerGameStartBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredActionShowMessageBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredTriggerEnterRoomBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredConditionHasHanditemBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredActionMuteUserBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredActionMoveFurniToBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredActionMoveRotateBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredTriggerLongRepeaterBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredConditionNotInTeamBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredActionMoveToDirBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredActionGiveRewardBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredActionKickUserBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredActionPositionResetBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredActionResetTimerBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredActionFleeBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredConditionInTeamBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredTriggerCollisionBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredActionGiveScoreBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredActionGiveScoreTeamBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredConditionFurniMatchBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredTriggerPeriodicallyBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredHighscoreBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredTriggerAtGivenTimeBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredActionToggleStateBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredActionRandomToggleStateBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\MultiHeightBaseItem.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
