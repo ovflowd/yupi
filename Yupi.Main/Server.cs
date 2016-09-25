@@ -58,6 +58,9 @@ namespace Yupi.Main
 
         #region Constructors
 
+        /// <summary>
+        ///  Initializes the Yupi Emulator.
+        /// </summary>
         public Server()
         {
             SetupLogger();
@@ -91,12 +94,18 @@ namespace Yupi.Main
 
         #region Methods
 
+        /// <summary>
+        ///  To infinity and beyond!
+        /// </summary>
         public void Run()
         {
             TCPServer.Start();
             RestServer.Start();
         }
 
+        /// <summary>
+        ///  Setup the log4net and define appenders.
+        /// </summary>
         private void SetupLogger()
         {
             Hierarchy hierarchy = (Hierarchy) LogManager.GetRepository();
@@ -128,7 +137,10 @@ namespace Yupi.Main
             BasicConfigurator.Configure(consoleAppender);
             // BasicConfigurator.Configure(FileAppender);
         }
-
+        
+        /// <summary>
+        ///  Setup the TCP socket server.
+        /// </summary>
         private void SetupTCP()
         {
             TCPServer = ServerFactory<Habbo>.CreateServer(GameSettings.GamePort);
