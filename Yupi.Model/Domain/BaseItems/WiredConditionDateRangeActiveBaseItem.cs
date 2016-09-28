@@ -26,7 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class WiredConditionDateRangeActiveBaseItem : WiredBaseItem
+    [Serializable]public class WiredConditionDateRangeActiveBaseItem : WiredBaseItem
     {
         #region Constructors
 

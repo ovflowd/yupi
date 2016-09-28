@@ -26,7 +26,7 @@ using System;
 
 namespace Yupi.Model.Domain
 {
-    public class WiredActionTeleportToBaseItem : WiredBaseItem
+    [Serializable]public class WiredActionTeleportToBaseItem : WiredBaseItem
     {
         public WiredActionTeleportToBaseItem()
         {

@@ -26,7 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class WiredActionBotMoveBaseItem : WiredBaseItem
+    [Serializable]public class WiredActionBotMoveBaseItem : WiredBaseItem
     {
         #region Constructors
 

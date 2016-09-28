@@ -221,7 +221,9 @@
     <Compile Include="Domain\BaseItems\WiredTriggerBotReachedAvatarBaseItem.cs" />
     <Compile Include="Domain\BaseItems\WiredTriggerBotReachedStuffBaseItem.cs" />
     <Compile Include="Domain\BaseItems\YoutubeTvBaseItem.cs" />
-    <Compile Include="Domain\Catalog\CatalogPage.cs" />
+    <Compile Include="Domain\Catalog\CatalogPage.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Domain\Catalog\TargetedOffer.cs" />
     <Compile Include="Domain\Catalog\EcotronReward.cs" />
     <Compile Include="Domain\Items\PostItItem.cs" />
@@ -464,6 +466,7 @@
     <Folder Include="Domain\Rooms\Entity\Posture\" />
     <Folder Include="Domain\Navigator\Components\" />
     <Folder Include="Domain\Catalog\Layout\" />
+    <Folder Include="Import\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Yupi.Protocol\Yupi.Protocol.csproj">
@@ -484,6 +487,9 @@
     <None Include="App.config" />
     <None Include="packages.config" />
     <None Include="Headspring\LICENSE.txt" />
+    <None Include="Import\catalog.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.102.0\build\net45\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.102.0\build\net45\System.Data.SQLite.Core.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -26,7 +26,7 @@ using System;
 
 namespace Yupi.Model.Domain
 {
-    public class BackgroundTonerBaseItem : FloorBaseItem
+    [Serializable]public class BackgroundTonerBaseItem : FloorBaseItem
     {
         // TODO Must be implemented
     }

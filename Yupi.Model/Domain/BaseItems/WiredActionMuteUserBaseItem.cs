@@ -26,7 +26,7 @@ using System;
 
 namespace Yupi.Model.Domain
 {
-    public class WiredActionMuteUserBaseItem : WiredBaseItem
+    [Serializable]public class WiredActionMuteUserBaseItem : WiredBaseItem
     {
         
     }

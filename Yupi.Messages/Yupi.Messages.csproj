@@ -226,7 +226,9 @@
     <Compile Include="Handlers\Messenger\ConsoleInviteFriendsMessageEvent.cs" />
     <Compile Include="Composer\Messenger\ConsoleInvitationMessageComposer.cs" />
     <Compile Include="Handlers\Navigator\NavigatorGetFeaturedRoomsMessageEvent.cs" />
-    <Compile Include="Composer\Navigator\OfficialRoomsMessageComposer.cs" />
+    <Compile Include="Composer\Navigator\OfficialRoomsMessageComposer.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Handlers\Navigator\NewNavigatorMessageEvent.cs" />
     <Compile Include="Handlers\Navigator\SearchNewNavigatorEvent.cs" />
     <Compile Include="Composer\Navigator\SearchResultSetComposer.cs" />

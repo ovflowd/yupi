@@ -26,7 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class WiredTriggerLongRepeaterBaseItem : FloorBaseItem
+    [Serializable]public class WiredTriggerLongRepeaterBaseItem : FloorBaseItem
     {
         #region Constructors
 

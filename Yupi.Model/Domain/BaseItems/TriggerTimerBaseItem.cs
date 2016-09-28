@@ -26,7 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class TriggerTimerBaseItem : FloorBaseItem
+    [Serializable]public class TriggerTimerBaseItem : FloorBaseItem
     {
         #region Constructors
 

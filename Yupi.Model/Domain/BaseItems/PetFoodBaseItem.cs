@@ -26,7 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class PetFoodBaseItem : FloorBaseItem
+    [Serializable]public class PetFoodBaseItem : FloorBaseItem
     {
         #region Constructors
 

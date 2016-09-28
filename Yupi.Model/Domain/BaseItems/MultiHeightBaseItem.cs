@@ -26,7 +26,7 @@ using System;
 
 namespace Yupi.Model.Domain
 {
-    public class MultiHeightBaseItem : FloorBaseItem
+    [Serializable]public class MultiHeightBaseItem : FloorBaseItem
     {
         
     }

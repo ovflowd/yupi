@@ -22,11 +22,12 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
+using System;
+
+
 namespace Yupi.Model.Domain
 {
-    /// <summary>
-    ///     Class SongData.
-    /// </summary>
+    [Serializable]
     public class SongData
     {
         #region Properties

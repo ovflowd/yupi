@@ -26,7 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class PressurePlateBaseItem : FloorBaseItem
+    [Serializable]public class PressurePlateBaseItem : FloorBaseItem
     {
         #region Constructors
 

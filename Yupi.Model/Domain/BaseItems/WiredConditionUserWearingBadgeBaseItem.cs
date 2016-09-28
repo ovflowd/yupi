@@ -26,7 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class WiredConditionUserWearingBadgeBaseItem : WiredBaseItem
+    [Serializable]public class WiredConditionUserWearingBadgeBaseItem : WiredBaseItem
     {
         #region Constructors
 

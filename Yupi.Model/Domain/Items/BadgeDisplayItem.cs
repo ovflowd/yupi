@@ -26,7 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class BadgeDisplayItem : FloorItem<BadgeDisplayBaseItem>
+    [Serializable]public class BadgeDisplayItem : FloorItem<BadgeDisplayBaseItem>
     {
         #region Properties
 

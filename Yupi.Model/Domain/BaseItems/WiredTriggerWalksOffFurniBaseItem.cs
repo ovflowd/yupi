@@ -26,7 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class WiredTriggerWalksOffFurniBaseItem : FloorBaseItem
+    [Serializable]public class WiredTriggerWalksOffFurniBaseItem : FloorBaseItem
     {
         #region Constructors
 

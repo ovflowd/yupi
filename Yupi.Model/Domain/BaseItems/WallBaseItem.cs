@@ -26,7 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class WallBaseItem : BaseItem
+    [Serializable]public class WallBaseItem : BaseItem
     {
         #region Properties
 

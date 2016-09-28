@@ -26,7 +26,7 @@ using System;
 
 namespace Yupi.Model.Domain
 {
-    public class WiredTriggerPeriodicallyBaseItem : WiredBaseItem
+    [Serializable]public class WiredTriggerPeriodicallyBaseItem : WiredBaseItem
     {
         public WiredTriggerPeriodicallyBaseItem()
         {

@@ -24,6 +24,10 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
+using Yupi.Util.Settings;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using NHibernate;
 
 #endregion Header
 
@@ -32,11 +36,10 @@ namespace Yupi.Model.Domain
     using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
-    using System.Diagnostics.Contracts;
     using System.Linq;
-    using System.Runtime.Serialization;
 
-    public class CatalogPage
+    [Serializable]
+    public class CatalogPage : IPopulate
     {
         #region Properties
 
@@ -111,8 +114,10 @@ namespace Yupi.Model.Domain
 
         #region Constructors
 
-        public CatalogPage(TString caption, int icon, int minRank, CatalogPageLayout layout)
-            : this()
+        public CatalogPage(TString caption,
+                           int icon,
+                           int minRank,
+                           CatalogPageLayout layout) : this()
         {
             this.Caption = caption;
             this.Icon = icon;
@@ -120,7 +125,7 @@ namespace Yupi.Model.Domain
             this.MinRank = minRank;
         }
 
-        protected CatalogPage()
+        public CatalogPage()
         {
             this.Offers = new List<CatalogOffer>();
             this.Children = new List<CatalogPage>();
@@ -136,6 +141,34 @@ namespace Yupi.Model.Domain
         public virtual void Add(CatalogPage child)
         {
             this.Children.Add(child);
+        }
+
+
+        public virtual void Populate()
+        {
+            ISessionFactory sessionFactory = DependencyFactory.Resolve<ISessionFactory>();
+
+            string catalogFile = Path.Combine(Settings.AssemblyDir, "Import", "catalog.bin");
+           
+            CatalogPage root;
+
+            using (Stream stream = File.Open(catalogFile, FileMode.Open))
+            {
+                BinaryFormatter bin = new BinaryFormatter();
+                root = (CatalogPage)bin.Deserialize(stream);
+            }
+
+            using (ISession session = sessionFactory.OpenSession())
+            {
+                ITransaction tx = session.BeginTransaction();
+
+                if (session.QueryOver<CatalogPage>().RowCount() == 0)
+                {
+                    session.Save(root);
+                }
+
+                tx.Commit();
+            }
         }
 
         #endregion Methods

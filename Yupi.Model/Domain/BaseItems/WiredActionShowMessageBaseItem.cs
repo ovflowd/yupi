@@ -26,7 +26,7 @@ using System;
 
 namespace Yupi.Model.Domain
 {
-    public class WiredActionShowMessageBaseItem : WiredBaseItem
+    [Serializable]public class WiredActionShowMessageBaseItem : WiredBaseItem
     {
         public WiredActionShowMessageBaseItem()
         {

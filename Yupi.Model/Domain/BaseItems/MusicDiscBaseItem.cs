@@ -26,7 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class MusicDiscBaseItem : FloorBaseItem
+    [Serializable]public class MusicDiscBaseItem : FloorBaseItem
     {
         #region Properties
 

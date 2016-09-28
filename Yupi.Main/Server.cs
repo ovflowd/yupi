@@ -22,6 +22,9 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
+using NHibernate;
+
+
 namespace Yupi.Main
 {
     using System;
@@ -59,10 +62,11 @@ namespace Yupi.Main
             SetupLogger();
 
             // TODO Close Session & Multiple sessions!
-            var factory = ModelHelper.CreateFactory();
+            ISessionFactory factory = ModelHelper.CreateFactory();
             var dbSession = factory.OpenSession();
 
             DependencyFactory.RegisterInstance(dbSession);
+            DependencyFactory.RegisterInstance(factory);
 
             // TODO Don't run this if DB is not new!
             ModelHelper.Populate();

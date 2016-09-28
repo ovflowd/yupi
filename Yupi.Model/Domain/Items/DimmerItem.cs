@@ -26,7 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class DimmerItem : WallItem<DimmerBaseItem>
+    [Serializable]public class DimmerItem : WallItem<DimmerBaseItem>
     {
         #region Properties
 

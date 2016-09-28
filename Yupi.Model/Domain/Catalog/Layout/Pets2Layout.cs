@@ -31,6 +31,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
+    [Serializable]
     public class Pets2Layout : PetsLayout
     {
         #region Properties

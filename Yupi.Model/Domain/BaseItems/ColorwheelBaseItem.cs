@@ -26,7 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class ColorwheelBaseItem : WallBaseItem
+    [Serializable]public class ColorwheelBaseItem : WallBaseItem
     {
         #region Constructors
 

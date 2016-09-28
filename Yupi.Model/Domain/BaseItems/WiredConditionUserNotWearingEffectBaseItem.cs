@@ -26,7 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class WiredConditionUserNotWearingEffectBaseItem : WiredBaseItem
+    [Serializable]public class WiredConditionUserNotWearingEffectBaseItem : WiredBaseItem
     {
         #region Constructors
 

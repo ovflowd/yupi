@@ -29,7 +29,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class FloorBaseItem : BaseItem
+    [Serializable]public class FloorBaseItem : BaseItem
     {
         #region Methods
 
@@ -39,6 +39,7 @@ namespace Yupi.Model.Domain
             get; set;
         }
 
+        [Nullable]
         public virtual int[] InternalPartColors
         {
             get;

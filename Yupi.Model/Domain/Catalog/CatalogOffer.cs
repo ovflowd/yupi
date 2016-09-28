@@ -37,6 +37,7 @@ namespace Yupi.Model.Domain
 
     using Yupi.Model.Domain.Components;
 
+    [Serializable]
     public class CatalogOffer
     {
         #region Properties
@@ -53,6 +54,7 @@ namespace Yupi.Model.Domain
         }
 
         // TODO Arbitrary string..
+        [Nullable]
         public virtual string Badge
         {
             get;
@@ -96,12 +98,6 @@ namespace Yupi.Model.Domain
         }
 
         public virtual string Name
-        {
-            get;
-            set;
-        }
-
-        public virtual CatalogPage Page
         {
             get;
             set;

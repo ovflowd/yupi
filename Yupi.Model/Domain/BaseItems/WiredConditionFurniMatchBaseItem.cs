@@ -26,7 +26,7 @@ using System;
 
 namespace Yupi.Model.Domain
 {
-    public class WiredConditionFurniMatchBaseItem : WiredBaseItem
+    [Serializable]public class WiredConditionFurniMatchBaseItem : WiredBaseItem
     {
         public WiredConditionFurniMatchBaseItem()
         {

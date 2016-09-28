@@ -34,7 +34,7 @@ namespace Yupi.Model.Domain
     using System.Globalization;
     using System.Runtime.Serialization;
 
-    [DataContract]
+    [Serializable]
     public class TString : ICloneable
     {
         #region Fields
@@ -54,7 +54,6 @@ namespace Yupi.Model.Domain
         /// The dictionary mapping languages to localized strings.
         /// </summary>
         /// <value>The localized strings.</value>
-        [DataMember]
         public virtual IDictionary<string, string> Translations
         {
             get; protected set;

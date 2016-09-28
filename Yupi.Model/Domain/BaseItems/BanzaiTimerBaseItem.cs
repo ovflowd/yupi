@@ -26,7 +26,7 @@ using System;
 
 namespace Yupi.Model.Domain
 {
-    public class BanzaiTimerBaseItem : FloorBaseItem
+    [Serializable]public class BanzaiTimerBaseItem : FloorBaseItem
     {
         public BanzaiTimerBaseItem()
         {

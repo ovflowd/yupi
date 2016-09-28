@@ -26,7 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class FreezeCounterBaseItem : FloorBaseItem
+    [Serializable]public class FreezeCounterBaseItem : FloorBaseItem
     {
         #region Properties
 

@@ -26,7 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class TrophyItem : FloorItem<TrophyBaseItem>
+    [Serializable]public class TrophyItem : FloorItem<TrophyBaseItem>
     {
         #region Properties
 

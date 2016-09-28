@@ -26,7 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class OneWayGateBaseItem : FloorBaseItem
+    [Serializable]public class OneWayGateBaseItem : FloorBaseItem
     {
     }
 }

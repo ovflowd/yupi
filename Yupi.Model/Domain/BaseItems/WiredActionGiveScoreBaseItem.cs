@@ -26,7 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class WiredActionGiveScoreBaseItem : FloorBaseItem
+    [Serializable]public class WiredActionGiveScoreBaseItem : FloorBaseItem
     {
         #region Constructors
 

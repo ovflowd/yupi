@@ -26,7 +26,7 @@ using System;
 
 namespace Yupi.Model.Domain
 {
-    public class WiredActionMoveFurniToBaseItem : WiredBaseItem
+    [Serializable]public class WiredActionMoveFurniToBaseItem : WiredBaseItem
     {
         public WiredActionMoveFurniToBaseItem()
         {

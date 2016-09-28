@@ -26,7 +26,7 @@ using System;
 
 namespace Yupi.Model.Domain
 {
-    public class SkatesBaseItem : FloorBaseItem
+    [Serializable]public class SkatesBaseItem : FloorBaseItem
     {
         public SkatesBaseItem()
         {

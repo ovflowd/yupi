@@ -26,7 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class WiredConditionTimeLessThanBaseItem : WiredBaseItem
+    [Serializable]public class WiredConditionTimeLessThanBaseItem : WiredBaseItem
     {
         #region Constructors
 

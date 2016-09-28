@@ -26,7 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class FootballCounterBaseItem : FloorBaseItem
+    [Serializable]public class FootballCounterBaseItem : FloorBaseItem
     {
         #region Properties
 

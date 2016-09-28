@@ -26,7 +26,7 @@ using System;
 
 namespace Yupi.Model.Domain
 {
-    public class WiredConditionNotInTeamBaseItem : WiredBaseItem
+    [Serializable]public class WiredConditionNotInTeamBaseItem : WiredBaseItem
     {
         public WiredConditionNotInTeamBaseItem()
         {

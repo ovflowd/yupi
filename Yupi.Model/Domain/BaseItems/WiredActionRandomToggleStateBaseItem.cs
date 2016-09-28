@@ -26,7 +26,7 @@ using System;
 
 namespace Yupi.Model.Domain
 {
-    public class WiredActionRandomToggleStateBaseItem : WiredBaseItem
+    [Serializable]public class WiredActionRandomToggleStateBaseItem : WiredBaseItem
     {
         public WiredActionRandomToggleStateBaseItem()
         {

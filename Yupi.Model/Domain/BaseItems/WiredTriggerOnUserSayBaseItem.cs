@@ -26,7 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class WiredTriggerOnUserSayBaseItem : WiredBaseItem
+    [Serializable]public class WiredTriggerOnUserSayBaseItem : WiredBaseItem
     {
         #region Constructors
 

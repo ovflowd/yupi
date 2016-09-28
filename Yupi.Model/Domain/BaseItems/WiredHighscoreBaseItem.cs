@@ -26,7 +26,7 @@ using System;
 
 namespace Yupi.Model.Domain
 {
-    public class WiredHighscoreBaseItem : WiredBaseItem
+    [Serializable]public class WiredHighscoreBaseItem : WiredBaseItem
     {
         public WiredHighscoreBaseItem()
         {

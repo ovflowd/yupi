@@ -26,7 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class WiredConditionBaseItemsDontMatchBaseItem : WiredBaseItem
+    [Serializable]public class WiredConditionBaseItemsDontMatchBaseItem : WiredBaseItem
     {
         #region Constructors
 

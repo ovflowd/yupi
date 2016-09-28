@@ -26,7 +26,7 @@ using System;
 
 namespace Yupi.Model.Domain
 {
-    public class IceTagPoleBaseItem : FloorBaseItem
+    [Serializable]public class IceTagPoleBaseItem : FloorBaseItem
     {
         public IceTagPoleBaseItem()
         {

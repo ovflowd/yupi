@@ -26,7 +26,7 @@ using System;
 
 namespace Yupi.Model.Domain
 {
-    public class SoundFxBaseItem : FloorBaseItem
+    [Serializable]public class SoundFxBaseItem : FloorBaseItem
     {
         public SoundFxBaseItem()
         {

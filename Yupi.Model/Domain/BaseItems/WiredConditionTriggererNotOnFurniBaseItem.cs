@@ -26,7 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class WiredConditionTriggererNotOnFurniBaseItem : WiredBaseItem
+    [Serializable]public class WiredConditionTriggererNotOnFurniBaseItem : WiredBaseItem
     {
         #region Constructors
 

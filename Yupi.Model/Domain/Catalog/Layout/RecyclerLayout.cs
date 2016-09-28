@@ -31,6 +31,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
+    [Serializable]
     public class RecyclerLayout : DefaultCatalogLayout
     {
         #region Properties

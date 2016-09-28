@@ -26,7 +26,7 @@ using System;
 
 namespace Yupi.Model.Domain
 {
-    public class WiredActionMoveRotateBaseItem : WiredBaseItem
+    [Serializable]public class WiredActionMoveRotateBaseItem : WiredBaseItem
     {
 
     }

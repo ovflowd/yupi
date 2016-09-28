@@ -38,7 +38,8 @@ namespace Yupi.Controller
         #region Fields
 
         private AchievementManager AchievementManager;
-        private IRepository<CatalogOffer> ItemRepository;
+        private IRepository<CatalogPage> CatalogRepository;
+        private IRepository<CatalogOffer> OfferRepository;
         private IRepository<UserInfo> UserRepository;
 
         #endregion Fields
@@ -48,8 +49,9 @@ namespace Yupi.Controller
         public CatalogController()
         {
             UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>>();
-            ItemRepository = DependencyFactory.Resolve<IRepository<CatalogOffer>>();
+            CatalogRepository = DependencyFactory.Resolve<IRepository<CatalogPage>>();
             AchievementManager = DependencyFactory.Resolve<AchievementManager>();
+            OfferRepository = DependencyFactory.Resolve<IRepository<CatalogOffer>>();
         }
 
         #endregion Constructors
@@ -58,7 +60,7 @@ namespace Yupi.Controller
 
         public CatalogOffer GetById(int pageId, int itemId)
         {
-            return ItemRepository.FindBy(x => x.Id == itemId && x.Page.Id == pageId);
+            return CatalogRepository.FindBy(pageId)?.Offers.SingleOrDefault(x => x.Id == itemId);
         }
 
         // TODO Make extraData optional
@@ -109,7 +111,7 @@ namespace Yupi.Controller
 
         private void DeliverOffer(Habbo user, CatalogOffer offer, string extraData)
         {
-            ItemRepository.Save(offer);
+            OfferRepository.Save(offer);
 
             user.Router.GetComposer<CreditsBalanceMessageComposer>().Compose(user, user.Info.Wallet.Credits);
             user.Router.GetComposer<ActivityPointsMessageComposer>().Compose(user, user.Info.Wallet);
@@ -137,7 +139,7 @@ namespace Yupi.Controller
 
             user.Router.GetComposer<NewInventoryObjectMessageComposer>().Compose(user, items);
 
-            if (offer.Badge.Length > 0)
+            if (offer.Badge != null)
             {
                 user.Info.Badges.GiveBadge(offer.Badge);
                 UserRepository.Save(user.Info);

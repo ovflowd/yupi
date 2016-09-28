@@ -26,7 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class MonsterPlantSeedItem : FloorItem<MonsterPlantSeedBaseItem>
+    [Serializable]public class MonsterPlantSeedItem : FloorItem<MonsterPlantSeedBaseItem>
     {
         #region Fields
 

@@ -48,7 +48,7 @@ namespace Yupi.Model
             }
             else
             {
-                instance.Not.Nullable();
+               // instance.Not.Nullable();
             }
         }
 
@@ -60,7 +60,7 @@ namespace Yupi.Model
             }
             else
             {
-                instance.Not.Nullable();
+              //  instance.Not.Nullable();
             }
         }
 

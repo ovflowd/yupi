@@ -31,6 +31,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
+    [Serializable]
     public class BuildersClubAddonsLayout : AbstractInfoLayout
     {
         #region Properties

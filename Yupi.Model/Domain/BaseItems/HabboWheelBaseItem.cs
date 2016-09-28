@@ -26,7 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class HabboWheelBaseItem : WallBaseItem
+    [Serializable]public class HabboWheelBaseItem : WallBaseItem
     {
     }
 }

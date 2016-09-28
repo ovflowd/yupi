@@ -26,7 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class WiredActionChaseBaseItem : WiredBaseItem
+    [Serializable]public class WiredActionChaseBaseItem : WiredBaseItem
     {
         #region Constructors
 

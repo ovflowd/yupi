@@ -26,7 +26,7 @@ using System;
 
 namespace Yupi.Model.Domain
 {
-    public class WiredTriggerCollisionBaseItem : WiredBaseItem
+    [Serializable]public class WiredTriggerCollisionBaseItem : WiredBaseItem
     {
         public WiredTriggerCollisionBaseItem()
         {

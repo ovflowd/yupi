@@ -26,7 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class YoutubeTVItem : FloorItem<YoutubeTvBaseItem>
+    [Serializable]public class YoutubeTVItem : FloorItem<YoutubeTvBaseItem>
     {
         #region Properties
 

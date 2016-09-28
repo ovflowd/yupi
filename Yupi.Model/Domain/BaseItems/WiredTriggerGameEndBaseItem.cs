@@ -26,7 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class WiredTriggerGameEndBaseItem : FloorBaseItem
+    [Serializable]public class WiredTriggerGameEndBaseItem : FloorBaseItem
     {
         #region Constructors
 

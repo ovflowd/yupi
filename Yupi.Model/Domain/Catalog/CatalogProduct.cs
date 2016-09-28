@@ -32,6 +32,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
+    [Serializable]
     public class CatalogProduct
     {
         #region Properties

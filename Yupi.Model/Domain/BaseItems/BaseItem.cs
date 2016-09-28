@@ -32,6 +32,7 @@ namespace Yupi.Model.Domain
     using System.Collections.Generic;
 
     [IsDiscriminated]
+    [Serializable]
     public abstract class BaseItem
     {
         #region Properties
@@ -78,7 +79,8 @@ namespace Yupi.Model.Domain
         {
             get; set;
         }
-            
+
+        [Nullable]
         public virtual string AdUrl
         {
             get; set;
@@ -162,6 +164,7 @@ namespace Yupi.Model.Domain
             }
         }
 
+        [Nullable]
         public virtual string FurniLine
         {
             get;

@@ -26,7 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class FootballGateItem : FloorItem<FootballGateBaseItem>
+    [Serializable]public class FootballGateItem : FloorItem<FootballGateBaseItem>
     {
         #region Properties
 

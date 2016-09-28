@@ -26,7 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class FreezeExitBaseItem : FloorBaseItem
+    [Serializable]public class FreezeExitBaseItem : FloorBaseItem
     {
     }
 }

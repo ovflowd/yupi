@@ -32,7 +32,7 @@ namespace Yupi.Model.Domain
     using System;
     using System.Runtime.Serialization;
 
-    [DataContract]
+    [Serializable]
     public abstract class CatalogPageLayout
     {
         #region Properties

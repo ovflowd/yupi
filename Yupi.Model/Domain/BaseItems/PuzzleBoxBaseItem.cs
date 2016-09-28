@@ -26,7 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class PuzzleBoxBaseItem : FloorBaseItem
+    [Serializable]public class PuzzleBoxBaseItem : FloorBaseItem
     {
         #region Constructors
 

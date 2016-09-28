@@ -26,7 +26,7 @@ using System;
 
 namespace Yupi.Model.Domain
 {
-    public class WiredActionFleeBaseItem : WiredBaseItem
+    [Serializable]public class WiredActionFleeBaseItem : WiredBaseItem
     {
         public WiredActionFleeBaseItem()
         {
