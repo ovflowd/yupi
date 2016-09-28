@@ -28,6 +28,8 @@ namespace Yupi.Net.DotNettyImpl
     using System.Net;
     using System.Threading.Tasks;
 
+    using Crypto.Cryptography;
+
     using DotNetty.Buffers;
     using DotNetty.Transport.Channels;
 
@@ -47,9 +49,19 @@ namespace Yupi.Net.DotNettyImpl
 
         #region Properties
 
+        public ARC4 clientRC4
+        {
+            get; set;
+        }
+
         public IPAddress RemoteAddress
         {
             get { return ((IPEndPoint) Channel.RemoteAddress).Address; }
+        }
+
+        public ARC4 serverRC4
+        {
+            get; set;
         }
 
         public T UserData

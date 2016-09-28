@@ -1,5 +1,5 @@
 ﻿// ---------------------------------------------------------------------------------
-// <copyright file="Session.cs" company="https://github.com/sant0ro/Yupi">
+// <copyright file="InitCryptoMessageEvent.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -22,57 +22,27 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-namespace Yupi.Net.SuperSocketImpl
+namespace Yupi.Messages.Handshake
 {
     using System;
 
-    using Crypto.Cryptography;
-
-    using SuperSocket.SocketBase;
-    using SuperSocket.SocketBase.Protocol;
-
-    public class Session<T> : AppSession<Session<T>, RequestInfo>, ISession<T>
+    public class InitCryptoMessageEvent : AbstractHandler
     {
         #region Properties
 
-        public ARC4 clientRC4
+        public override bool RequireUser
         {
-            get; set;
-        }
-
-        public System.Net.IPAddress RemoteAddress
-        {
-            get { return RemoteEndPoint.Address; }
-        }
-
-        public ARC4 serverRC4
-        {
-            get; set;
-        }
-
-        public T UserData
-        {
-            get; set;
+            get { return false; }
         }
 
         #endregion Properties
 
         #region Methods
 
-        public void Disconnect()
+        public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
+            Yupi.Protocol.IRouter router)
         {
-            base.Close();
-        }
-
-        public void Send(byte[] data)
-        {
-            Send(new ArraySegment<byte>(data));
-        }
-
-        protected override void HandleException(Exception e)
-        {
-            Logger.Warn("A networking error occured", e);
-            Disconnect();
+            router.GetComposer<InitCryptoMessageComposer>().Compose(session);
         }
 
         #endregion Methods

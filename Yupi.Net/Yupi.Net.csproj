@@ -30,6 +30,10 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PommaLabs.Thrower, Version=3.0.0.0, Culture=neutral, PublicKeyToken=2f204b7110a52060, processorArchitecture=MSIL">
+      <HintPath>..\packages\Thrower.3.0.4\lib\net45\PommaLabs.Thrower.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
@@ -104,7 +108,12 @@
     <None Include="supersocket.cmd" />
     <None Include="supersocket.sh" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Yupi.Crypto\Yupi.Crypto.csproj">
+      <Project>{81b025ac-b1ff-4e84-96ff-6f54859d0f1e}</Project>
+      <Name>Yupi.Crypto</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
       <Properties>

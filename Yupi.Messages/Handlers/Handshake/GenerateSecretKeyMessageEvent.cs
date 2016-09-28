@@ -1,5 +1,5 @@
 ﻿// ---------------------------------------------------------------------------------
-// <copyright file="SSOTicketMessageEvent.cs" company="https://github.com/sant0ro/Yupi">
+// <copyright file="GenerateSecretKeyMessageEvent.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -22,21 +22,18 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-namespace Yupi.Messages.Other
+namespace Yupi.Messages.Handshake
 {
     using System;
+    using System.Numerics;
 
-    using Yupi.Controller;
-    using Yupi.Model;
+    using Crypto;
+    using Crypto.Cryptography;
 
-    public class SSOTicketMessageEvent : AbstractHandler
+    using Util.Settings;
+
+    public class GenerateSecretKeyMessageEvent : AbstractHandler
     {
-        #region Fields
-
-        private SSOManager SSOManager;
-
-        #endregion Fields
-
         #region Properties
 
         public override bool RequireUser
@@ -46,23 +43,28 @@ namespace Yupi.Messages.Other
 
         #endregion Properties
 
-        #region Constructors
-
-        public SSOTicketMessageEvent()
-        {
-            SSOManager = DependencyFactory.Resolve<SSOManager>();
-        }
-
-        #endregion Constructors
-
         #region Methods
 
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
             Yupi.Protocol.IRouter router)
         {
-            string ssoTicket = request.GetString();
+            BigInteger sharedKey = Encryption.GetInstance().CalculateDiffieHellmanSharedKey(request.GetString());
 
-            SSOManager.TryLogin(session, ssoTicket);
+            if (sharedKey != 0)
+            {
+                session.Session.clientRC4 = Encryption.InitializeARC4(sharedKey);
+
+                if (CryptoSettings.ServerRC4)
+                {
+                    session.Session.serverRC4 = Encryption.InitializeARC4(sharedKey);
+                }
+            }
+            else
+            {
+                throw new Exception("Shared key exception.");
+            }
+
+            router.GetComposer<SecretKeyMessageComposer>().Compose(session);
         }
 
         #endregion Methods

@@ -22,11 +22,13 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-namespace Yupi.Messages.Other
+namespace Yupi.Messages.Handshake
 {
     using System;
 
+    using Yupi.Crypto;
     using Yupi.Protocol.Buffers;
+    using Yupi.Util.Settings;
 
     public class SecretKeyMessageComposer : Yupi.Messages.Contracts.SecretKeyMessageComposer
     {
@@ -34,12 +36,19 @@ namespace Yupi.Messages.Other
 
         public override void Compose(Yupi.Protocol.ISender session)
         {
-            // TODO Public networks???
-
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
             {
-                message.AppendString("Crypto disabled");
-                message.AppendBool(false);
+                if(CryptoSettings.Enabled)
+                {
+                    message.AppendString(Encryption.GetInstance().GetRSADiffieHellmanPublicKey());
+                    message.AppendBool(CryptoSettings.ServerRC4);
+                }
+                else
+                {
+                    message.AppendString("Crypto disabled");
+                    message.AppendBool(false);
+                }
+
                 session.Send(message);
             }
         }

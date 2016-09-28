@@ -28,6 +28,7 @@ namespace Yupi.Controller
     using System.Collections.Generic;
     using System.Linq;
 
+    using Yupi.Crypto;
     using Yupi.Messages;
     using Yupi.Model;
     using Yupi.Model.Domain;

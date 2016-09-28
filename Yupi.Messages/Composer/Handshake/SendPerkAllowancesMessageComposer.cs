@@ -22,7 +22,7 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-namespace Yupi.Messages.Other
+namespace Yupi.Messages.Handshake
 {
     using System;
 

@@ -1,5 +1,5 @@
 ﻿// ---------------------------------------------------------------------------------
-// <copyright file="GenerateSecretKeyMessageEvent.cs" company="https://github.com/sant0ro/Yupi">
+// <copyright file="InitCryptoMessageComposer.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -22,29 +22,37 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-namespace Yupi.Messages.Other
+namespace Yupi.Messages.Handshake
 {
     using System;
 
-    public class GenerateSecretKeyMessageEvent : AbstractHandler
+    using Yupi.Crypto;
+    using Yupi.Protocol.Buffers;
+    using Yupi.Util.Settings;
+
+    public class InitCryptoMessageComposer : Yupi.Messages.Contracts.InitCryptoMessageComposer
     {
-        #region Properties
-
-        public override bool RequireUser
-        {
-            get { return false; }
-        }
-
-        #endregion Properties
-
         #region Methods
 
-        public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
-            Yupi.Protocol.IRouter router)
+        public override void Compose(Yupi.Protocol.ISender session)
         {
-            request.GetString(); // TODO unused
+            using (ServerMessage message = Pool.GetMessageBuffer(Id))
+            {
+                if (CryptoSettings.Enabled)
+                {
+                    Console.WriteLine(Encryption.GetInstance().GetRSADiffieHellmanPKey());
+                    Console.WriteLine(Encryption.GetInstance().GetRSADiffieHellmanGKey());
+                    message.AppendString(Encryption.GetInstance().GetRSADiffieHellmanPKey());
+                    message.AppendString(Encryption.GetInstance().GetRSADiffieHellmanGKey());
+                }
+                else
+                {
+                    message.AppendString("Yupi");
+                    message.AppendString("Disabled Crypto");
+                }
 
-            router.GetComposer<SecretKeyMessageComposer>().Compose(session);
+                session.Send(message);
+            }
         }
 
         #endregion Methods

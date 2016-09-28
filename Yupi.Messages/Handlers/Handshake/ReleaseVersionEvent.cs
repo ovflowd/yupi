@@ -1,5 +1,5 @@
 ﻿// ---------------------------------------------------------------------------------
-// <copyright file="AuthenticationOKMessageComposer.cs" company="https://github.com/sant0ro/Yupi">
+// <copyright file="ReleaseVersionEvent.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -22,13 +22,23 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-namespace Yupi.Messages.Other
+namespace Yupi.Messages.Handshake
 {
     using System;
 
-    using Yupi.Protocol.Buffers;
-
-    public class AuthenticationOKMessageComposer : Contracts.AuthenticationOKMessageComposer
+    public class ReleaseVersionEvent : AbstractHandler
     {
+        #region Methods
+
+        public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage request,
+            Yupi.Protocol.IRouter router)
+        {
+            session.ReleaseName = request.GetString();
+            string unknown1 = request.GetString();
+            int unknown2 = request.GetInteger();
+            int unknown3 = request.GetInteger();
+        }
+
+        #endregion Methods
     }
 }

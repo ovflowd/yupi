@@ -36,6 +36,7 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="UnixTimestamp">
       <HintPath>..\packages\UnixTimestamp.1.0\lib\UnixTimestamp.dll</HintPath>
@@ -241,16 +242,16 @@
     <Compile Include="Handlers\Other\PongMessageEvent.cs" />
     <Compile Include="Handlers\Other\OnDisconnectMessageEvent.cs" />
     <Compile Include="Handlers\Other\RequestLatencyTestMessageEvent.cs" />
-    <Compile Include="Handlers\Other\InitCryptoMessageEvent.cs" />
-    <Compile Include="Composer\Other\InitCryptoMessageComposer.cs" />
-    <Compile Include="Handlers\Other\GenerateSecretKeyMessageEvent.cs" />
-    <Compile Include="Composer\Other\SecretKeyMessageComposer.cs" />
-    <Compile Include="Handlers\Other\UniqueIDMessageEvent.cs" />
-    <Compile Include="Handlers\Other\SSOTicketMessageEvent.cs" />
-    <Compile Include="Handlers\Other\InfoRetrieveMessageEvent.cs" />
+    <Compile Include="Handlers\Handshake\InitCryptoMessageEvent.cs" />
+    <Compile Include="Composer\Handshake\InitCryptoMessageComposer.cs" />
+    <Compile Include="Handlers\Handshake\GenerateSecretKeyMessageEvent.cs" />
+    <Compile Include="Composer\Handshake\SecretKeyMessageComposer.cs" />
+    <Compile Include="Handlers\Handshake\UniqueIDMessageEvent.cs" />
+    <Compile Include="Handlers\Handshake\SSOTicketMessageEvent.cs" />
+    <Compile Include="Handlers\Handshake\InfoRetrieveMessageEvent.cs" />
     <Compile Include="Composer\User\UserObjectMessageComposer.cs" />
     <Compile Include="Composer\User\BuildersClubMembershipMessageComposer.cs" />
-    <Compile Include="Composer\Other\SendPerkAllowancesMessageComposer.cs" />
+    <Compile Include="Composer\Handshake\SendPerkAllowancesMessageComposer.cs" />
     <Compile Include="Composer\GameCenter\GameCenterGamesListMessageComposer.cs" />
     <Compile Include="Composer\User\AchievementPointsMessageComposer.cs" />
     <Compile Include="Composer\Other\FigureSetIdsMessageComposer.cs" />
@@ -548,8 +549,8 @@
     <Compile Include="Composer\Catalog\PublishShopMessageComposer.cs" />
     <Compile Include="Composer\Catalog\CatalogLimitedItemSoldOutMessageComposer.cs" />
     <Compile Include="Composer\Notification\UsersClassificationMessageComposer.cs" />
-    <Compile Include="Composer\Other\UniqueMachineIDMessageComposer.cs" />
-    <Compile Include="Composer\Other\AuthenticationOKMessageComposer.cs" />
+    <Compile Include="Composer\Handshake\UniqueMachineIDMessageComposer.cs" />
+    <Compile Include="Composer\Handshake\AuthenticationOKMessageComposer.cs" />
     <Compile Include="Composer\Notification\MinimailCountMessageComposer.cs" />
     <Compile Include="Composer\Rooms\FavouriteRoomsMessageComposer.cs" />
     <Compile Include="Composer\User\UserClubRightsMessageComposer.cs" />
@@ -588,7 +589,7 @@
     <Compile Include="Composer\Items\RemoveInventoryObjectMessageComposer.cs" />
     <Compile Include="Composer\Catalog\GiftErrorMessageComposer.cs" />
     <Compile Include="Composer\Messenger\NotAcceptingRequestsMessageComposer.cs" />
-    <Compile Include="Handlers\Other\ReleaseVersionEvent.cs" />
+    <Compile Include="Handlers\Handshake\ReleaseVersionEvent.cs" />
     <Compile Include="Encoders\RoomEncoder.cs" />
     <Compile Include="Encoders\ListEncoder.cs" />
     <Compile Include="Composer\Rooms\UpdateUserStatusMessageComposer.cs" />
@@ -603,6 +604,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <ProjectReference Include="..\Yupi.Crypto\Yupi.Crypto.csproj">
+      <Project>{81b025ac-b1ff-4e84-96ff-6f54859d0f1e}</Project>
+      <Name>Yupi.Crypto</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Yupi.Protocol\Yupi.Protocol.csproj">
       <Project>{9AE3ADAB-A767-4123-BE78-34E1DFCF33FB}</Project>
       <Name>Yupi.Protocol</Name>

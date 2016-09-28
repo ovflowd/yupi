@@ -30,6 +30,7 @@
     <Externalconsole>true</Externalconsole>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Config.Net, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d836a57afd299520" />
     <Reference Include="System" />
     <Reference Include="MadMilkman.Ini">
       <HintPath>..\packages\MadMilkman.Ini.1.0.6.0\lib\net20\MadMilkman.Ini.dll</HintPath>
@@ -61,6 +62,7 @@
     <Reference Include="System.Data.SQLite.Linq, Version=1.0.102.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139">
       <HintPath>..\packages\System.Data.SQLite.Linq.1.0.102.0\lib\net45\System.Data.SQLite.Linq.dll</HintPath>
     </Reference>
+    <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -70,6 +72,10 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\GitInfo.1.1.28\build\GitInfo.targets" Condition="Exists('..\packages\GitInfo.1.1.28\build\GitInfo.targets')" />
   <ItemGroup>
+    <ProjectReference Include="..\Yupi.Crypto\Yupi.Crypto.csproj">
+      <Project>{81b025ac-b1ff-4e84-96ff-6f54859d0f1e}</Project>
+      <Name>Yupi.Crypto</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Yupi.Util\Yupi.Util.csproj">
       <Project>{6CC9871D-F8D6-4586-8681-E9AAECA60D60}</Project>
       <Name>Yupi.Util</Name>

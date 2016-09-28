@@ -29,52 +29,67 @@ namespace Yupi.Main
 {
     using System;
 
-    using log4net;
-    using log4net.Appender;
-    using log4net.Repository.Hierarchy;
-
     using Yupi.Controller;
+    using Yupi.Crypto;
+    using Yupi.Crypto.Utils;
     using Yupi.Messages;
     using Yupi.Messages.Achievements;
-    using Yupi.Messages.User;
     using Yupi.Model;
     using Yupi.Model.Domain;
-    using Yupi.Model.Repository;
     using Yupi.Net;
     using Yupi.Protocol.Buffers;
     using Yupi.Rest;
     using Yupi.Util;
+    using Yupi.Util.Settings;
+
+    using log4net;
+    using log4net.Appender;
+    using log4net.Core;
+    using log4net.Layout;
+    using log4net.Config;
+    using log4net.Repository.Hierarchy;
 
     public class Server
     {
         #region Fields
 
         private ClientManager ClientManager;
-        private RestServer RestServer;
         private IServer<Habbo> TCPServer;
+        private RestServer RestServer;
 
         #endregion Fields
 
         #region Constructors
 
+        /// <summary>
+        ///  Initializes the Yupi Emulator.
+        /// </summary>
         public Server()
         {
             SetupLogger();
 
-            // TODO Close Session & Multiple sessions!
-            ISessionFactory factory = ModelHelper.CreateFactory();
+            if (CryptoSettings.Enabled)
+            {
+                Encryption.GetInstance(new Crypto.Cryptography.RSACParameters(RSACUtils.Base64ToBigInteger(CryptoSettings.RsaD), RSACUtils.Base64ToBigInteger(CryptoSettings.RsaN), RSACUtils.Base64ToBigInteger(CryptoSettings.RsaE)), CryptoSettings.DHKeysSize);
+            }
+
+            var factory = ModelHelper.CreateFactory();
+
+            // TODO: Close Session & Multiple sessions!
+
             var dbSession = factory.OpenSession();
 
             DependencyFactory.RegisterInstance(dbSession);
             DependencyFactory.RegisterInstance(factory);
 
-            // TODO Don't run this if DB is not new!
+            // TODO: Don't run this if DB is not new!
             ModelHelper.Populate();
-            Router.Default = new Router("PRODUCTION-201510201205-42435347", "../../../Config/",
-                typeof(AchievementProgressMessageComposer).Assembly);
+
+            Router.Default = new Router(GameSettings.Release, "../../../Config/",
+                typeof(AchievementProgressMessageComposer).Assembly
+            );
 
             ClientManager = DependencyFactory.Resolve<ClientManager>();
-
             RestServer = new RestServer();
 
             SetupTCP();
@@ -84,54 +99,66 @@ namespace Yupi.Main
 
         #region Methods
 
+        /// <summary>
+        ///  To infinity and beyond!
+        /// </summary>
         public void Run()
         {
             TCPServer.Start();
             RestServer.Start();
         }
 
+        /// <summary>
+        ///  Setup the log4net and define appenders.
+        /// </summary>
         private void SetupLogger()
         {
             Hierarchy hierarchy = (Hierarchy) LogManager.GetRepository();
-            hierarchy.Root.Level = log4net.Core.Level.Debug;
+            hierarchy.Root.Level = Level.Debug;
             hierarchy.RaiseConfigurationChanged(EventArgs.Empty);
 
-            AppenderSkeleton appender;
+            AppenderSkeleton consoleAppender, fileAppender;
+
             if (MonoUtil.IsRunningOnMono())
             {
-                appender = new log4net.Appender.ConsoleAppender();
+                consoleAppender = new ConsoleAppender();
             }
             else
             {
-                appender = new log4net.Appender.ColoredConsoleAppender();
+                consoleAppender = new ColoredConsoleAppender();
             }
-            // TODO Add File Appender
-            appender.Layout = new log4net.Layout.PatternLayout(@"%date [%c{2}] %-5level %message%newline");
-            appender.Threshold = log4net.Core.Level.Debug;
-            appender.ActivateOptions();
-            log4net.Config.BasicConfigurator.Configure(appender);
-            /*
-            var fileAppender = new log4net.Appender.FileAppender ();
-            fileAppender.AppendToFile = true;
-            fileAppender.Layout = new log4net.Layout.PatternLayout(@"%date %-5level %message%newline");
-            fileAppender.Threshold = log4net.Core.Level.Debug;
-            fileAppender.File = "log.txt";
-            fileAppender.ActivateOptions ();
-            log4net.Config.BasicConfigurator.Configure(fileAppender);*/
-        }
 
+            consoleAppender.Layout = new PatternLayout(@"[%date][%c][%level] %message %newline");
+            consoleAppender.Threshold = Level.Debug;
+            consoleAppender.ActivateOptions();
+
+            // fileAppender = new FileAppender();
+            // fileAppender.AppendToFile = true;
+            // fileAppender.Layout = new PatternLayout(@"[%date][%c][%level] %message %newline");
+            // fileAppender.Threshold = Level.Debug;
+            // fileAppender.File = "log.txt";
+            // fileAppender.ActivateOptions();
+
+            BasicConfigurator.Configure(consoleAppender);
+            // BasicConfigurator.Configure(FileAppender);
+        }
+        
+        /// <summary>
+        ///  Setup the TCP socket server.
+        /// </summary>
         private void SetupTCP()
         {
-            TCPServer = ServerFactory<Habbo>.CreateServer(30000);
+            TCPServer = ServerFactory<Habbo>.CreateServer(GameSettings.GamePort);
 
-            TCPServer.OnConnectionOpened += ClientManager.AddClient; // TODO Connection security!
+            TCPServer.OnConnectionOpened += ClientManager.AddClient; // TODO: Connection security!
             TCPServer.OnConnectionClosed += ClientManager.RemoveClient;
             TCPServer.OnMessageReceived += (ISession<Habbo> session, byte[] body) =>
             {
-                //using(global::Yupi.Emulator.Messages.Buffers.SimpleClientMessageBuffer message = ClientMessageFactory.GetClientMessage()) {
-                // TODO When using message pool the SimpleClientMessageBuffer becomes invalid (after several messages) -> DEBUG
+                // using(global::Yupi.Emulator.Messages.Buffers.SimpleClientMessageBuffer message = ClientMessageFactory.GetClientMessage()) {
+                // TODO: When using message pool the SimpleClientMessageBuffer becomes invalid (after several messages) -> DEBUG
                 ClientMessage message = new ClientMessage();
                 message.Setup(body);
+
                 Router.Default.Handle(session.UserData, message);
             };
         }

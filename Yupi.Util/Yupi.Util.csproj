@@ -30,6 +30,10 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PommaLabs.Thrower, Version=3.0.0.0, Culture=neutral, PublicKeyToken=2f204b7110a52060, processorArchitecture=MSIL">
+      <HintPath>..\packages\Thrower.3.0.4\lib\net45\PommaLabs.Thrower.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="NGettext">
       <HintPath>..\packages\NGettext.0.5.0\lib\net45\NGettext.dll</HintPath>
@@ -62,6 +66,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IListExt.cs" />
+    <Compile Include="Settings\CryptoSettings.cs" />
     <Compile Include="T.cs" />
     <Compile Include="DateTimeExt.cs" />
     <Compile Include="StringExt.cs" />
@@ -89,9 +94,5 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.102.0\build\net45\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.102.0\build\net45\System.Data.SQLite.Core.targets'))" />
   </Target>
-  <ItemGroup>
-    <Folder Include="Collections\" />
-    <Folder Include="Settings\" />
-    <Folder Include="Pathfinding\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

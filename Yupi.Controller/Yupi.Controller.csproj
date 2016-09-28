@@ -86,11 +86,13 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Items\" />
-    <Folder Include="Room\" />
-    <Folder Include="Room\Chat\" />
     <Folder Include="Room\Pathfinding\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Yupi.Crypto\Yupi.Crypto.csproj">
+      <Project>{81b025ac-b1ff-4e84-96ff-6f54859d0f1e}</Project>
+      <Name>Yupi.Crypto</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Yupi.Util\Yupi.Util.csproj">
       <Project>{6CC9871D-F8D6-4586-8681-E9AAECA60D60}</Project>
       <Name>Yupi.Util</Name>
@@ -115,5 +117,8 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
 </Project>
