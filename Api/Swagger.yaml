@@ -1,0 +1,83 @@
+---
+swagger: '2.0'
+
+################################################################################
+#                              API Information                                 #
+################################################################################
+info:
+  version: v1
+  title: Yupi Emulator REST API
+  description: |
+    Yupi Emulator is an open-source HH Emulator, being designed and writed in C#.
+    Yupi will have a new ultimate feature, the Emulator REST API.
+    You will know now for what this API is deserved and its intentions.
+
+    ## Reason
+    This API deserve to be a way of external commands communication with the Emulator.
+    The intention it's that the Emulator Database (SQL) will not be editable by the end-user, or the developer. Since the Emulator is totally controlled with reactive datas and using an ORM way of service providing. The main intention of this API it's the ability of serve native commands to change any database table content, with a MVC engine provided by the Emulator, with an interaction system, able to handle those commands and decide with action need to be taken. As an example, editing a room, will make that a specific controller handle it, after the alteration of the data and abling to the room being reloaded (packets). In other way this API will serve RCON commands, like "broadcast", and such other commands.
+    
+    Through the REST API you will be able to edit any data related to in-game things. Like Navigator, Catalogue, Furniture, Users, User Permissions, Groups, Bots, Pets and more. This API it's totally **experimental**, and being designed.
+
+  termsOfService: http://yupi-emu.xyz/
+
+################################################################################
+#                  Host, Base Path, Schemes and Content Types                  #
+################################################################################
+host: youremulator:8080
+basePath: /api
+schemes:
+  - http
+produces:
+  - application/json
+consumes:
+  - application/json
+
+
+################################################################################
+#                                   Parameters                                 #
+################################################################################
+parameters:
+  user-id:
+    name: user-id
+    in: path
+    description: The user identifier number
+    type: number
+    required: true
+
+################################################################################
+#                                           Paths                              #
+################################################################################
+paths:
+  /sso/{user-id}:
+    parameters:
+      - $ref: '#/parameters/user-id'
+    get:
+      tags:
+        - SSO Auth
+      description: Auth user in client to return SSO code
+      responses:
+        200:
+          description: The SSO object
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/definitions/SSO'
+################################################################################
+#                                 Definitions                                  #
+################################################################################
+definitions:
+  SSO:
+    type: object
+    properties:
+      sso:
+        type: string
+      #counts:
+      #  type: object
+      #  properties:
+      #    media:
+      #      type: integer
+      #    follows:
+      #      type: integer
+      #    follwed_by:
+      #      type: integer
