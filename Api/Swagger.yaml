@@ -43,6 +43,14 @@ parameters:
     description: The user identifier number
     type: number
     required: true
+  user-edit:
+    name: name
+    in: body
+    description: The user edit parameters
+    type: object
+    schema:
+      $ref: "#/definitions/UserEdit" 
+    required: false
 
 ################################################################################
 #                                           Paths                              #
@@ -61,12 +69,39 @@ paths:
           schema:
             type: object
             properties:
-              data:
-                $ref: '#/definitions/SSO'
+              sso:
+                type: string
+  /user/{user-id}:
+    parameters:
+      - $ref: '#/parameters/user-id'
+      - $ref: '#/parameters/user-edit'
+    put:
+      tags:
+        - Edit User
+      description: Edit user Data
+      responses:
+        200:
+          description: OK Response
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
 ################################################################################
 #                                 Definitions                                  #
 ################################################################################
 definitions:
+  UserEdit:
+    type: object
+    properties:
+      username:
+        type: string
+      mail:
+        type: string
+      look:
+        type: string
+      rank:
+        type: int
   SSO:
     type: object
     properties:
