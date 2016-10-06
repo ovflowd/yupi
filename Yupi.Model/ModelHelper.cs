@@ -97,6 +97,7 @@ namespace Yupi.Model
         // TODO Proper initial data
         public static void Populate()
         {
+            
             PopulateObject(
                 new UserInfo() { Name = "User" },
                 new UserInfo() { Name = "Admin", Rank = 9 }
@@ -110,6 +111,7 @@ namespace Yupi.Model
             {
                 populate.Populate();
             }
+            
         }
 
         public static void PopulateObject<T>(params T[] data)

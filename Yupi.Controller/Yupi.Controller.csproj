@@ -43,12 +43,6 @@
     <Reference Include="NHibernate">
       <HintPath>..\packages\NHibernate.4.0.4.4000\lib\net40\NHibernate.dll</HintPath>
     </Reference>
-    <Reference Include="Troschuetz.Random">
-      <HintPath>..\packages\Troschuetz.Random.4.0.3\lib\net45\Troschuetz.Random.dll</HintPath>
-    </Reference>
-    <Reference Include="Finsa.CodeServices.Common">
-      <HintPath>..\packages\Finsa.CodeServices.Common.4.1.1\lib\net45\Finsa.CodeServices.Common.dll</HintPath>
-    </Reference>
     <Reference Include="Priority Queue">
       <HintPath>..\packages\OptimizedPriorityQueue.3.0.0\lib\net45\Priority Queue.dll</HintPath>
     </Reference>
@@ -62,6 +56,12 @@
     <Reference Include="System.Numerics" />
     <Reference Include="PommaLabs.Thrower">
       <HintPath>..\packages\Thrower.2.2.1\lib\net46\PommaLabs.Thrower.dll</HintPath>
+    </Reference>
+    <Reference Include="Finsa.CodeServices.Common">
+      <HintPath>..\packages\Finsa.CodeServices.Common.4.1.1\lib\net46\Finsa.CodeServices.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Troschuetz.Random">
+      <HintPath>..\packages\Troschuetz.Random.4.0.3\lib\net46\Troschuetz.Random.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

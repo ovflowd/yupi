@@ -41,7 +41,7 @@ namespace Yupi.Tests
     {
         #region Methods
 
-        [Test]
+        //[Test] TODO This is not really a test
         public void Generate()
         {
             MigrationConfiguration config = new MigrationConfiguration ();
