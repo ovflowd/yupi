@@ -84,7 +84,7 @@ namespace Yupi.Model.Domain
         }
 
         // TODO What are those exactly? (Format!)
-        [Nullable]
+        [Required]
         public virtual string CCTs
         {
             get; set;
@@ -108,7 +108,7 @@ namespace Yupi.Model.Domain
             get; set;
         }
 
-        [Nullable]
+        [Required]
         public virtual RoomEvent Event
         {
             get; set;
@@ -124,7 +124,7 @@ namespace Yupi.Model.Domain
             get; set;
         }
 
-        [Nullable]
+        [Required]
         public virtual Group Group
         {
             get; set;

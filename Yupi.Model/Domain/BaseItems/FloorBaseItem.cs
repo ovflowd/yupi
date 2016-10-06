@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------
 // <copyright file="FloorBaseItem.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -39,7 +39,7 @@ namespace Yupi.Model.Domain
             get; set;
         }
 
-        [Nullable]
+        
         public virtual int[] InternalPartColors
         {
             get;

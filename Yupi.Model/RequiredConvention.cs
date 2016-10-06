@@ -1,7 +1,7 @@
 ﻿#region Header
 
 // ---------------------------------------------------------------------------------
-// <copyright file="NullableAttribute.cs" company="https://github.com/sant0ro/Yupi">
+// <copyright file="NullableConvention.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -31,7 +31,31 @@ namespace Yupi.Model
 {
     using System;
 
-    public sealed class NullableAttribute : Attribute
+    using FluentNHibernate.Conventions;
+    using FluentNHibernate.Conventions.Instances;
+
+    public class RequiredConvention : IPropertyConvention, IReferenceConvention
     {
+        #region Methods
+
+        public void Apply (IPropertyInstance instance)
+        {
+            if (instance.Property.MemberInfo.IsDefined (typeof (RequiredAttribute), false)) {
+                instance.Not.Nullable ();
+            } else {
+                instance.Nullable ();
+            }
+        }
+
+        public void Apply (IManyToOneInstance instance)
+        {
+            if (instance.Property.MemberInfo.IsDefined (typeof (RequiredAttribute), false)) {
+                instance.Not.Nullable ();
+            } else {
+                instance.Nullable ();
+            }
+        }
+
+        #endregion Methods
     }
 }

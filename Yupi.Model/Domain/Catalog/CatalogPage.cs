@@ -1,4 +1,4 @@
-﻿#region Header
+#region Header
 
 // ---------------------------------------------------------------------------------
 // <copyright file="CatalogPage.cs" company="https://github.com/sant0ro/Yupi">
@@ -91,7 +91,7 @@ namespace Yupi.Model.Domain
             protected set;
         }
 
-        [Nullable]
+        
         public virtual CatalogOffer SelectedOffer
         {
             get;

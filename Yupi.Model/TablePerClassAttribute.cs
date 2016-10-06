@@ -1,7 +1,5 @@
-﻿#region Header
-
-// ---------------------------------------------------------------------------------
-// <copyright file="NullableConvention.cs" company="https://github.com/sant0ro/Yupi">
+﻿// ---------------------------------------------------------------------------------
+// <copyright file="IsDiscriminatedAttribute.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -24,46 +22,11 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-
-#endregion Header
-
 namespace Yupi.Model
 {
     using System;
 
-    using FluentNHibernate.Conventions;
-    using FluentNHibernate.Conventions.AcceptanceCriteria;
-    using FluentNHibernate.Conventions.Inspections;
-    using FluentNHibernate.Conventions.Instances;
-
-    public class NullableConvention : IPropertyConvention, IReferenceConvention
+    public sealed class TablePerClassAttribute : Attribute
     {
-        #region Methods
-
-        public void Apply(IPropertyInstance instance)
-        {
-            if (instance.Property.MemberInfo.IsDefined(typeof(NullableAttribute), false))
-            {
-                instance.Nullable();
-            }
-            else
-            {
-               // instance.Not.Nullable();
-            }
-        }
-
-        public void Apply(IManyToOneInstance instance)
-        {
-            if (instance.Property.MemberInfo.IsDefined(typeof(NullableAttribute), false))
-            {
-                instance.Nullable();
-            }
-            else
-            {
-              //  instance.Not.Nullable();
-            }
-        }
-
-        #endregion Methods
     }
 }

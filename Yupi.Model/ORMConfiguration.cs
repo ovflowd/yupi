@@ -41,8 +41,7 @@ namespace Yupi.Model
 
         public override bool IsDiscriminated(Type type)
         {
-            var attribute = Attribute.GetCustomAttribute(type, typeof(IsDiscriminatedAttribute));
-            return attribute != null;
+            return !Attribute.IsDefined (type, typeof (TablePerClassAttribute));
         }
 
         public override bool ShouldMap(Type type)

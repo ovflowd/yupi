@@ -26,7 +26,6 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    [IsDiscriminated]
     public abstract class Item
     {
         #region Properties

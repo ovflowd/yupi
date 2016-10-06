@@ -1,4 +1,4 @@
-﻿#region Header
+#region Header
 
 // ---------------------------------------------------------------------------------
 // <copyright file="CatalogItem.cs" company="https://github.com/sant0ro/Yupi">
@@ -54,7 +54,7 @@ namespace Yupi.Model.Domain
         }
 
         // TODO Arbitrary string..
-        [Nullable]
+        
         public virtual string Badge
         {
             get;

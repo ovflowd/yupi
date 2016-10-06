@@ -1,5 +1,7 @@
-﻿// ---------------------------------------------------------------------------------
-// <copyright file="IsDiscriminatedAttribute.cs" company="https://github.com/sant0ro/Yupi">
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
+// <copyright file="NullableAttribute.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -22,11 +24,14 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
+
+#endregion Header
+
 namespace Yupi.Model
 {
     using System;
 
-    public sealed class IsDiscriminatedAttribute : Attribute
+    public sealed class RequiredAttribute : Attribute
     {
     }
 }

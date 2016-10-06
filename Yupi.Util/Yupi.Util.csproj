@@ -70,7 +70,6 @@
     <Compile Include="T.cs" />
     <Compile Include="DateTimeExt.cs" />
     <Compile Include="StringExt.cs" />
-    <Compile Include="YupiUpdatesManager.cs" />
     <Compile Include="MonoUtil.cs" />
     <Compile Include="ExpressionExt.cs" />
     <Compile Include="Cryptography.cs" />

@@ -73,8 +73,6 @@ namespace Yupi.Main
 
         static void ShowEnvironmentMessage()
         {
-            YupiUpdatesManager updateManager = new YupiUpdatesManager();
-
             Console.WriteLine();
             Console.WriteLine("                " + "██╗   ██╗██╗   ██╗██████╗ ██╗██╗");
             Console.WriteLine("                " + "╚██╗ ██╔╝██║   ██║██╔══██╗██║██║");
@@ -84,7 +82,7 @@ namespace Yupi.Main
             Console.WriteLine("                " + "   ╚═╝    ╚═════╝ ╚═╝     ╚═╝╚═╝");
             Console.WriteLine("                " + "                                ");
             Console.WriteLine();
-            Console.WriteLine("        " + "  BUILD " + updateManager.GithubVersionTag + " RELEASE R63 POST SHUFFLE");
+            Console.WriteLine("        " + "  BUILD " + typeof(MainClass).Assembly.GetName().Version + " RELEASE R63 POST SHUFFLE");
             Console.WriteLine("        " + "  .NET Framework " + Environment.Version + " C# 6 Roslyn");
             Console.WriteLine();
         }

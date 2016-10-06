@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------
 // <copyright file="BaseItem.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -31,7 +31,6 @@ namespace Yupi.Model.Domain
 {
     using System.Collections.Generic;
 
-    [IsDiscriminated]
     [Serializable]
     public abstract class BaseItem
     {
@@ -80,7 +79,7 @@ namespace Yupi.Model.Domain
             get; set;
         }
 
-        [Nullable]
+        
         public virtual string AdUrl
         {
             get; set;
@@ -164,7 +163,7 @@ namespace Yupi.Model.Domain
             }
         }
 
-        [Nullable]
+        
         public virtual string FurniLine
         {
             get;

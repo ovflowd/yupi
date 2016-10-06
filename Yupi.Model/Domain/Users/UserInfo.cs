@@ -100,7 +100,7 @@ namespace Yupi.Model.Domain
             get; protected set;
         }
 
-        [Nullable]
+        [Required]
         public virtual Group FavouriteGroup
         {
             get; set;
@@ -121,7 +121,7 @@ namespace Yupi.Model.Domain
             get; set;
         }
 
-        [Nullable]
+        [Required]
         public virtual RoomData HomeRoom
         {
             get; set;
@@ -133,7 +133,7 @@ namespace Yupi.Model.Domain
         }
 
         // TODO Move to log
-        [Nullable]
+        [Required]
         public virtual IPAddress LastIp
         {
             get; set;

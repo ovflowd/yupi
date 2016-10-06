@@ -104,7 +104,7 @@
     <Compile Include="ManyToManyAttribute.cs" />
     <Compile Include="Conventions.cs" />
     <Compile Include="ORMConfiguration.cs" />
-    <Compile Include="IsDiscriminatedAttribute.cs" />
+    <Compile Include="TablePerClassAttribute.cs" />
     <Compile Include="MonoSQLiteDriver.cs" />
     <Compile Include="MonoSQLiteConfiguration.cs" />
     <Compile Include="Domain\Soundmachine\SongData.cs" />
@@ -397,8 +397,8 @@
     <Compile Include="Domain\Catalog\Layout\SpacesLayout.cs" />
     <Compile Include="Domain\Catalog\Layout\VipBuyLayout.cs" />
     <Compile Include="Domain\Catalog\Layout\GuildForumLayout.cs" />
-    <Compile Include="NullableConvention.cs" />
-    <Compile Include="NullableAttribute.cs" />
+    <Compile Include="RequiredConvention.cs" />
+    <Compile Include="RequiredAttribute.cs" />
     <Compile Include="Domain\Catalog\Layout\RootLayout.cs" />
     <Compile Include="Domain\Util\TString.cs" />
     <Compile Include="Domain\Catalog\Layout\BadgeDisplayLayout.cs" />

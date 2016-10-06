@@ -81,7 +81,7 @@ namespace Yupi.Model
                                 .Conventions.Add<IPAddressConvention>()
                                 .Conventions.Add<VectorConvention>()
                                 .Conventions.Add<CascadeConvention>()
-                                .Conventions.Add<NullableConvention>()
+                                .Conventions.Add<RequiredConvention>()
                                 .IncludeBase<BaseItem>()
                                 .IncludeBase<FloorItem>()
                                 .IncludeBase<WallItem>()
