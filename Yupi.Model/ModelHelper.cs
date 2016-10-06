@@ -53,43 +53,56 @@ namespace Yupi.Model
     {
         #region Methods
 
-        public static ISessionFactory CreateFactory()
+        private static IPersistenceConfigurer GetDatabaseConfig ()
         {
-            var cfg = new ORMConfiguration();
-
-            IPersistenceConfigurer db;
-
-            switch ((DatabaseType)DatabaseSettings.Type)
-            {
-                case DatabaseType.MySQL:
-                    db = GetMySql();
-                    break;
-                case DatabaseType.SQLite:
-                    db = GetSQLite();
-                    break;
-                default:
-                    throw new InvalidDataException("Invalid database type");
+            switch ((DatabaseType)DatabaseSettings.Type) {
+            case DatabaseType.MySQL:
+                return GetMySql ();
+            case DatabaseType.SQLite:
+                return GetSQLite ();
+            default:
+                throw new InvalidDataException ("Invalid database type");
             }
+        }
 
-            return Fluently.Configure()
-                .Database(db)
-                .Mappings(m =>
-                    m.AutoMappings
-                        .Add(AutoMap.AssemblyOf<ORMConfiguration>(cfg)
-                                .Conventions.Add<ReferenceConventions>()
-                                .Conventions.Add<EnumTypeConvention>()
-                                .Conventions.Add<IPAddressConvention>()
-                                .Conventions.Add<VectorConvention>()
-                                .Conventions.Add<CascadeConvention>()
-                                .Conventions.Add<RequiredConvention>()
-                                .IncludeBase<BaseItem>()
-                                .IncludeBase<FloorItem>()
-                                .IncludeBase<WallItem>()
-                                .IncludeBase<CatalogPageLayout>()
-                                .IncludeBase<NavigatorCategory>()
-                ))
-                .ExposeConfiguration(BuildSchema)
-                .BuildSessionFactory();
+        public static Configuration GetConfig ()
+        {
+            return GetConfig (GetDatabaseConfig ());
+        }
+
+        public static Configuration GetConfig (IPersistenceConfigurer db)
+        {
+            var cfg = new ORMConfiguration ();
+
+            return Fluently.Configure ()
+                .Database (db)
+                .Mappings (m =>
+                     m.AutoMappings
+                         .Add (AutoMap.AssemblyOf<ORMConfiguration> (cfg)
+                                 .Conventions.Add<ReferenceConventions> ()
+                                 .Conventions.Add<EnumTypeConvention> ()
+                                 .Conventions.Add<IPAddressConvention> ()
+                                 .Conventions.Add<VectorConvention> ()
+                                 .Conventions.Add<CascadeConvention> ()
+                                 .Conventions.Add<RequiredConvention> ()
+                                 .IncludeBase<BaseItem> ()
+                                 .IncludeBase<FloorItem> ()
+                                 .IncludeBase<WallItem> ()
+                                 .IncludeBase<CatalogPageLayout> ()
+                                 .IncludeBase<NavigatorCategory> ()
+                              ))
+                           .ExposeConfiguration(BuildSchema)
+                           .BuildConfiguration();
+        }
+
+        public static ISessionFactory CreateFactory ()
+        {
+            return CreateFactory (GetConfig ());
+        }
+
+        public static ISessionFactory CreateFactory(Configuration config)
+        {
+            return config.BuildSessionFactory ();
         }
 
         // TODO Proper initial data
@@ -133,7 +146,7 @@ namespace Yupi.Model
         }
 
         private static IPersistenceConfigurer GetMySql()
-        {
+        { 
             return MySQLConfiguration.Standard
                 .ConnectionString(x =>
                         x.Server(DatabaseSettings.Host)

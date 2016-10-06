@@ -1,5 +1,5 @@
 ﻿// ---------------------------------------------------------------------------------
-// <copyright file="BaseInfo.cs" company="https://github.com/sant0ro/Yupi">
+// <copyright file="Migration.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -22,31 +22,28 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-namespace Yupi.Model.Domain
+using System;
+using System.IO;
+using NUnit.Framework;
+using Yupi.Model;
+
+namespace Yupi.Tests
 {
-    using System;
-
-    public class BaseInfo
+    [TestFixture]
+    public class Migration
     {
-        #region Properties
-
-        public virtual int Id
+        [Test]
+        public void Generate ()
         {
-            get; protected set;
-        }
+            MigrationConfiguration config = new MigrationConfiguration ();
 
-        // TODO Do pets have mottos?
-        public virtual string Motto
-        {
-            get; set;
-        }
+            string directory = "Migrations";
 
-        [Required]
-        public virtual string Name
-        {
-            get; set;
-        }
+            if (!Directory.Exists (directory)) {
+                Directory.CreateDirectory (directory);
+            }
 
-        #endregion Properties
+            config.Generate("Migrate", directory);
+        }
     }
 }

@@ -1,5 +1,5 @@
 ﻿// ---------------------------------------------------------------------------------
-// <copyright file="BaseInfo.cs" company="https://github.com/sant0ro/Yupi">
+// <copyright file="MigrationExt.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -22,31 +22,17 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-namespace Yupi.Model.Domain
+using System;
+using FluentMigrator.Builders;
+using FluentMigrator.Infrastructure;
+
+namespace Yupi.Model
 {
-    using System;
-
-    public class BaseInfo
+    public static class MigrationExt
     {
-        #region Properties
-
-        public virtual int Id
+        public static T AsSingle<T> (this IColumnTypeSyntax<T> column) where T : IFluentSyntax
         {
-            get; protected set;
+            return column.AsFloat ();
         }
-
-        // TODO Do pets have mottos?
-        public virtual string Motto
-        {
-            get; set;
-        }
-
-        [Required]
-        public virtual string Name
-        {
-            get; set;
-        }
-
-        #endregion Properties
     }
 }

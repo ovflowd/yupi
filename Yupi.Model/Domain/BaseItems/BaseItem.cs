@@ -105,7 +105,7 @@ namespace Yupi.Model.Domain
             get; set;
         }
             
-        public virtual float Height
+        public virtual decimal Height
         {
             get; set;
         }

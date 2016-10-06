@@ -32,7 +32,8 @@ namespace Yupi.Model.Domain
     {
         #region Properties
 
-        public virtual uint AdminOnlyDeco
+        // TODO Wrong type?
+        public virtual int AdminOnlyDeco
         {
             get; set;
         }
@@ -107,7 +108,7 @@ namespace Yupi.Model.Domain
         }
 
         // TODO ???
-        public virtual uint State
+        public virtual int State
         {
             get; set;
         }

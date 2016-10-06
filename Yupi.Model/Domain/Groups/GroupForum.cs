@@ -57,22 +57,22 @@ namespace Yupi.Model.Domain
         }
 
         // TODO Enum
-        public virtual uint WhoCanMod
+        public virtual int WhoCanMod
         {
             get; set;
         }
 
-        public virtual uint WhoCanPost
+        public virtual int WhoCanPost
         {
             get; set;
         }
 
-        public virtual uint WhoCanRead
+        public virtual int WhoCanRead
         {
             get; set;
         }
 
-        public virtual uint WhoCanThread
+        public virtual int WhoCanThread
         {
             get; set;
         }

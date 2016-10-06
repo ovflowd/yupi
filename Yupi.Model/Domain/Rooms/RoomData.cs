@@ -114,7 +114,7 @@ namespace Yupi.Model.Domain
             get; set;
         }
 
-        public virtual float Floor
+        public virtual decimal Floor
         {
             get; set;
         }
@@ -158,7 +158,7 @@ namespace Yupi.Model.Domain
             }
         }
 
-        public virtual float LandScape
+        public virtual decimal LandScape
         {
             get; set;
         }
@@ -268,7 +268,7 @@ namespace Yupi.Model.Domain
         }
 
         // TODO Determine proper type!
-        public virtual float WallPaper
+        public virtual decimal WallPaper
         {
             get; set;
         }

@@ -142,7 +142,7 @@ namespace Yupi.Model.Domain
             get { return string.Concat(RaceId, " ", Race, " ", Color); }
         }
 
-        public virtual uint Nutrition
+        public virtual int Nutrition
         {
             get; set;
         }
@@ -178,7 +178,7 @@ namespace Yupi.Model.Domain
             get; set;
         }
 
-        public virtual uint Respect
+        public virtual int Respect
         {
             get; set;
         }
@@ -193,7 +193,7 @@ namespace Yupi.Model.Domain
             get; set;
         }
 
-        public virtual uint WaitingForBreading
+        public virtual int WaitingForBreading
         {
             get; set;
         }
