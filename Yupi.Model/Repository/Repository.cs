@@ -30,9 +30,11 @@ namespace Yupi.Model.Repository
     using System.Linq.Expressions;
 
     using NHibernate;
+    using NHibernate.Criterion;
     using NHibernate.Linq;
+    using NHibernate.Transform;
 
-    public class Repository<T> : IRepository<T>
+    public class Repository<T> : IRepository<T> where T : class
     {
         #region Fields
 
@@ -78,10 +80,10 @@ namespace Yupi.Model.Repository
 
         public T Find(Expression<Func<T, bool>> expression)
         {
-            return FilterBy(expression).SingleOrDefault();
+            return FilterBy(expression).FirstOrDefault();
         }
 
-        public T Find(int id)
+        public T Find(object id)
         {
             return session.Get<T>(id);
         }

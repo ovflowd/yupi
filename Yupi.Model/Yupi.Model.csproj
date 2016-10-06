@@ -1,5 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -8,8 +7,7 @@
     <RootNamespace>Yupi.Model</RootNamespace>
     <AssemblyName>Yupi.Model</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <NuGetPackageImportStamp></NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -100,13 +98,6 @@
     <Compile Include="Domain\Rooms\RoomModel.cs" />
     <Compile Include="Domain\Users\Relationship.cs" />
     <Compile Include="Domain\Users\Components\UserPreferences.cs" />
-    <Compile Include="OneToManyAttribute.cs" />
-    <Compile Include="ManyToManyAttribute.cs" />
-    <Compile Include="Conventions.cs" />
-    <Compile Include="ORMConfiguration.cs" />
-    <Compile Include="TablePerClassAttribute.cs" />
-    <Compile Include="MonoSQLiteDriver.cs" />
-    <Compile Include="MonoSQLiteConfiguration.cs" />
     <Compile Include="Domain\Soundmachine\SongData.cs" />
     <Compile Include="Domain\BaseItems\AlertBaseItem.cs" />
     <Compile Include="Domain\BaseItems\ArrowPlateBaseItem.cs" />
@@ -229,7 +220,6 @@
     <Compile Include="Domain\Items\PostItItem.cs" />
     <Compile Include="Domain\Items\SongItem.cs" />
     <Compile Include="Domain\Items\Item.cs" />
-    <Compile Include="IgnoreAttribute.cs" />
     <Compile Include="Domain\Users\Inventory\UserItem.cs" />
     <Compile Include="Domain\BaseItems\ItemType.cs" />
     <Compile Include="Domain\Items\Moodlight\MoodlightPreset.cs" />
@@ -274,9 +264,6 @@
     <Compile Include="Domain\Users\WardrobeItem.cs" />
     <Compile Include="Domain\Users\Components\Inventory.cs" />
     <Compile Include="Domain\Achievements\TalentType.cs" />
-    <Compile Include="UserType.cs" />
-    <Compile Include="EnumAsInt32.cs" />
-    <Compile Include="EnumTypeConvention.cs" />
     <Compile Include="Domain\Navigator\HallOfFameElement.cs" />
     <Compile Include="Domain\Rooms\Components\SongMachineComponent.cs" />
     <Compile Include="Domain\Catalog\EcotronLevel.cs" />
@@ -293,8 +280,6 @@
     <Compile Include="Domain\Items\MonsterPlantSeedItem.cs" />
     <Compile Include="Domain\Support\UserCaution.cs" />
     <Compile Include="Domain\Support\UserBan.cs" />
-    <Compile Include="IpAddressAsString.cs" />
-    <Compile Include="IPAddressConvention.cs" />
     <Compile Include="Domain\Users\TradeLock.cs" />
     <Compile Include="Domain\Rooms\RoomCompetition.cs" />
     <Compile Include="Domain\Rooms\TradeUser.cs" />
@@ -313,9 +298,6 @@
     <Compile Include="Domain\Rooms\HeightMap.cs" />
     <Compile Include="Domain\Users\Minimail.cs" />
     <Compile Include="Test\ValidateModel.cs" />
-    <Compile Include="CascadeConvention.cs" />
-    <Compile Include="VectorConvention.cs" />
-    <Compile Include="Vector3UserType.cs" />
     <Compile Include="Util\Vector2Ext.cs" />
     <Compile Include="Domain\Rooms\Chat\ChatBubbleStyle.cs" />
     <Compile Include="Domain\Rooms\Chat\Link.cs" />
@@ -397,8 +379,6 @@
     <Compile Include="Domain\Catalog\Layout\SpacesLayout.cs" />
     <Compile Include="Domain\Catalog\Layout\VipBuyLayout.cs" />
     <Compile Include="Domain\Catalog\Layout\GuildForumLayout.cs" />
-    <Compile Include="RequiredConvention.cs" />
-    <Compile Include="RequiredAttribute.cs" />
     <Compile Include="Domain\Catalog\Layout\RootLayout.cs" />
     <Compile Include="Domain\Util\TString.cs" />
     <Compile Include="Domain\Catalog\Layout\BadgeDisplayLayout.cs" />
@@ -453,6 +433,26 @@
     <Compile Include="Domain\BaseItems\WiredActionToggleStateBaseItem.cs" />
     <Compile Include="Domain\BaseItems\WiredActionRandomToggleStateBaseItem.cs" />
     <Compile Include="Domain\BaseItems\MultiHeightBaseItem.cs" />
+    <Compile Include="Repository\QueryableExt.cs" />
+    <Compile Include="NHibernate\MonoSQLiteConfiguration.cs" />
+    <Compile Include="NHibernate\MonoSQLiteDriver.cs" />
+    <Compile Include="NHibernate\ORMConfiguration.cs" />
+    <Compile Include="NHibernate\Attributes\IgnoreAttribute.cs" />
+    <Compile Include="NHibernate\Attributes\ManyToManyAttribute.cs" />
+    <Compile Include="NHibernate\Attributes\RequiredAttribute.cs" />
+    <Compile Include="NHibernate\Attributes\TablePerClassAttribute.cs" />
+    <Compile Include="NHibernate\Conventions\CascadeConvention.cs" />
+    <Compile Include="NHibernate\Conventions\EnumTypeConvention.cs" />
+    <Compile Include="NHibernate\Conventions\IPAddressConvention.cs" />
+    <Compile Include="NHibernate\Conventions\ReferenceConventions.cs" />
+    <Compile Include="NHibernate\Conventions\RequiredConvention.cs" />
+    <Compile Include="NHibernate\Conventions\VectorConvention.cs" />
+    <Compile Include="NHibernate\UserType\EnumAsInt32.cs" />
+    <Compile Include="NHibernate\UserType\IpAddressAsString.cs" />
+    <Compile Include="NHibernate\UserType\UserType.cs" />
+    <Compile Include="NHibernate\UserType\Vector3UserType.cs" />
+    <Compile Include="NHibernate\Attributes\OneToManyAttribute.cs" />
+    <Compile Include="Domain\Util\Translation.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -467,6 +467,10 @@
     <Folder Include="Domain\Navigator\Components\" />
     <Folder Include="Domain\Catalog\Layout\" />
     <Folder Include="Import\" />
+    <Folder Include="NHibernate\" />
+    <Folder Include="NHibernate\Attributes\" />
+    <Folder Include="NHibernate\Conventions\" />
+    <Folder Include="NHibernate\UserType\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Yupi.Protocol\Yupi.Protocol.csproj">

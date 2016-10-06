@@ -76,7 +76,7 @@ namespace Yupi.Model
                 .Mappings(m =>
                     m.AutoMappings
                         .Add(AutoMap.AssemblyOf<ORMConfiguration>(cfg)
-                                .Conventions.Add<Conventions>()
+                                .Conventions.Add<ReferenceConventions>()
                                 .Conventions.Add<EnumTypeConvention>()
                                 .Conventions.Add<IPAddressConvention>()
                                 .Conventions.Add<VectorConvention>()
@@ -110,7 +110,7 @@ namespace Yupi.Model
             }
         }
 
-        public static void PopulateObject<T>(params T[] data)
+        public static void PopulateObject<T>(params T[] data) where T : class
         {
             IRepository<T> Repository = DependencyFactory.Resolve<IRepository<T>>();
 

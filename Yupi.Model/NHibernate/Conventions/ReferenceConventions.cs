@@ -31,7 +31,7 @@ namespace Yupi.Model
     using FluentNHibernate.Conventions.Inspections;
     using FluentNHibernate.Conventions.Instances;
 
-    public class Conventions : IHasManyConvention, IHasManyToManyConvention
+    public class ReferenceConventions : IHasManyConvention, IHasManyToManyConvention
     {
         #region Methods
 

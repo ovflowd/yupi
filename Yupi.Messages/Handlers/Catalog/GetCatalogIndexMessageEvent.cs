@@ -54,7 +54,10 @@ namespace Yupi.Messages.Catalog
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message,
             Yupi.Protocol.IRouter router)
         {
-            CatalogPage root = CatalogRepository.Find(x => x.IsRoot);
+            // Preload (avoid N+1 select)
+            CatalogRepository.All().Eager ((p) => p.Children).ToList ();
+
+            CatalogPage root = CatalogRepository.Find (x => x.IsRoot);
             
             if (root != null)
             {

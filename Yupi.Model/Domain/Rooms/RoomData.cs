@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------
 // <copyright file="RoomData.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -84,7 +84,7 @@ namespace Yupi.Model.Domain
         }
 
         // TODO What are those exactly? (Format!)
-        [Required]
+        
         public virtual string CCTs
         {
             get; set;
@@ -108,7 +108,7 @@ namespace Yupi.Model.Domain
             get; set;
         }
 
-        [Required]
+        
         public virtual RoomEvent Event
         {
             get; set;
@@ -124,7 +124,7 @@ namespace Yupi.Model.Domain
             get; set;
         }
 
-        [Required]
+        
         public virtual Group Group
         {
             get; set;

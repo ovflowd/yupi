@@ -32,16 +32,24 @@ namespace Yupi.Model.Domain
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
     using System.Runtime.Serialization;
 
     [Serializable]
     public class TString : ICloneable
     {
-        #region Fields
+        private class TranslationComparer : IEqualityComparer<Translation>
+        {
+            public bool Equals (Translation x, Translation y)
+            {
+                return x.Language == y.Language;
+            }
 
-        private static readonly CultureInfo DefaultLang = CultureInfo.GetCultureInfo("en");
-
-        #endregion Fields
+            public int GetHashCode (Translation obj)
+            {
+                return obj.Language.GetHashCode ();
+            }
+        }
 
         #region Properties
 
@@ -54,10 +62,13 @@ namespace Yupi.Model.Domain
         /// The dictionary mapping languages to localized strings.
         /// </summary>
         /// <value>The localized strings.</value>
-        public virtual IDictionary<string, string> Translations
+        public virtual ISet<Translation> Translations
         {
             get; protected set;
         }
+
+        [Required]
+        public virtual string Value { get; protected set; }
 
         #endregion Properties
 
@@ -70,16 +81,15 @@ namespace Yupi.Model.Domain
         public TString(string value)
             : this()
         {
-            this.Set(value);
+            this.Value = value;
         }
 
         /// <summary>
         /// Creates an empty string.
         /// </summary>
-        public TString()
+        protected TString()
         {
-            this.Translations = new Dictionary<string, string>();
-            this.Set(string.Empty);
+            this.Translations = new HashSet<Translation>(new TranslationComparer());
         }
 
         #endregion Constructors
@@ -94,7 +104,7 @@ namespace Yupi.Model.Domain
         public virtual object Clone()
         {
             TString copy = new TString();
-            copy.Translations = new Dictionary<string, string>(this.Translations);
+            copy.Translations = new HashSet<Translation>(this.Translations);
             return copy;
         }
 
@@ -103,7 +113,7 @@ namespace Yupi.Model.Domain
         /// </summary>
         public virtual string Get()
         {
-            return this.Get(DefaultLang);
+            return this.Value;
         }
 
         /// <summary>
@@ -112,16 +122,12 @@ namespace Yupi.Model.Domain
         /// <param name="culture">The language to get the string for.</param>
         public virtual string Get(CultureInfo culture)
         {
-            string localized;
+            Translation translation = this.Translations.FirstOrDefault (x => x.Language == culture);
 
-            if (this.Translations.TryGetValue(culture.TwoLetterISOLanguageName, out localized))
-            {
-                return localized;
-            }
-            else
-            {
-                // English is forced to exist!
-                return this.Translations[DefaultLang.TwoLetterISOLanguageName];
+            if (translation == null) {
+                return this.Value;
+            } else {
+                return translation.Value;
             }
         }
 
@@ -137,26 +143,13 @@ namespace Yupi.Model.Domain
         /// <param name="culture">The culture to remove.</param>
         public virtual TString Remove(CultureInfo culture)
         {
-            if (culture.Equals(DefaultLang))
+            Translation translation = this.Translations.FirstOrDefault (x => x.Language == culture);
+
+            if (translation != null)
             {
-                throw new InvalidOperationException("Deleting the english value is forbidden.");
+                this.Translations.Remove(translation);
             }
 
-            if (this.Translations.ContainsKey(culture.TwoLetterISOLanguageName))
-            {
-                this.Translations.Remove(culture.TwoLetterISOLanguageName);
-            }
-
-            return this;
-        }
-
-        /// <summary>
-        /// Set the english value
-        /// </summary>
-        /// <param name="value">English value</param>
-        public virtual TString Set(string value)
-        {
-            this.Set(DefaultLang, value);
             return this;
         }
 
@@ -169,18 +162,10 @@ namespace Yupi.Model.Domain
         {
             if (value == null)
             {
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException(nameof(value));
             }
 
-            if (this.Translations.ContainsKey(culture.TwoLetterISOLanguageName))
-            {
-                this.Translations[culture.TwoLetterISOLanguageName] = value;
-            }
-            else
-            {
-                this.Translations.Add(culture.TwoLetterISOLanguageName, value);
-            }
-
+            this.Translations.Add (new Translation (culture, value));
             return this;
         }
 

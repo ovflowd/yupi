@@ -1,5 +1,5 @@
 ﻿// ---------------------------------------------------------------------------------
-// <copyright file="IRepository.cs" company="https://github.com/sant0ro/Yupi">
+// <copyright file="QueryableExt.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -22,33 +22,19 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-namespace Yupi.Model.Repository
+using System;
+using System.Linq;
+using System.Linq.Expressions;
+using NHibernate;
+using NHibernate.Linq;
+
+namespace Yupi.Model
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Linq.Expressions;
-
-    public interface IRepository<T> where T : class
+    public static class QueryableExt
     {
-        #region Methods
-
-        IQueryable<T> All();
-
-        void Delete(T entity);
-
-        bool Exists(Expression<Func<T, bool>> expression);
-
-        IQueryable<T> FilterBy(Expression<Func<T, bool>> expression);
-
-        T Find(object id);
-
-        T Find(Expression<Func<T, bool>> expression);
-
-        void Save(T entity);
-
-        IList<T> ToList();
-
-        #endregion Methods
+        public static IQueryable<T> Eager<T, TRelated> (this IQueryable<T> query, Expression<Func<T, TRelated>> relatedObjectSelector)
+        {
+            return query.Fetch (relatedObjectSelector);
+        }
     }
 }
