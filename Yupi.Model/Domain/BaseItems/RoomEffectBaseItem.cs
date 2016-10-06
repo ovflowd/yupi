@@ -28,7 +28,8 @@ namespace Yupi.Model.Domain
 
     using Yupi.Model.Domain;
 
-    [Serializable]public class RoomEffectBaseItem : WallBaseItem
+    [Serializable]
+    public class RoomEffectBaseItem : WallBaseItem
     {
         #region Methods
 

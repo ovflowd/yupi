@@ -26,7 +26,8 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    [Serializable]public class WiredActionPositionResetBaseItem : WiredBaseItem
+    [Serializable]
+    public class WiredActionPositionResetBaseItem : WiredBaseItem
     {
         #region Constructors
 

@@ -29,7 +29,8 @@ namespace Yupi.Model.Repository
     using System.Linq;
     using System.Linq.Expressions;
 
-    public interface IRepository<T> where T : class
+    public interface IRepository<T>
+        where T : class
     {
         #region Methods
 

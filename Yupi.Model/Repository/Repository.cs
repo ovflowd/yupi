@@ -34,7 +34,8 @@ namespace Yupi.Model.Repository
     using NHibernate.Linq;
     using NHibernate.Transform;
 
-    public class Repository<T> : IRepository<T> where T : class
+    public class Repository<T> : IRepository<T>
+        where T : class
     {
         #region Fields
 

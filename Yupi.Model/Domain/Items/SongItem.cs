@@ -27,7 +27,8 @@ namespace Yupi.Model.Domain
     using System;
 
     // TODO SongItem vs MusicDiscItem
-    [Serializable]public class SongItem : FloorItem<MusicDiscBaseItem>
+    [Serializable]
+    public class SongItem : FloorItem<MusicDiscBaseItem>
     {
         #region Properties
 

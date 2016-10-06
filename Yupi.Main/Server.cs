@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="Server.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,12 +24,21 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using NHibernate;
 
+#endregion Header
 
 namespace Yupi.Main
 {
     using System;
+
+    using log4net;
+    using log4net.Appender;
+    using log4net.Config;
+    using log4net.Core;
+    using log4net.Layout;
+    using log4net.Repository.Hierarchy;
+
+    using NHibernate;
 
     using Yupi.Controller;
     using Yupi.Crypto;
@@ -42,20 +53,13 @@ namespace Yupi.Main
     using Yupi.Util;
     using Yupi.Util.Settings;
 
-    using log4net;
-    using log4net.Appender;
-    using log4net.Core;
-    using log4net.Layout;
-    using log4net.Config;
-    using log4net.Repository.Hierarchy;
-
     public class Server
     {
         #region Fields
 
         private ClientManager ClientManager;
-        private IServer<Habbo> TCPServer;
         private RestServer RestServer;
+        private IServer<Habbo> TCPServer;
 
         #endregion Fields
 
@@ -142,7 +146,7 @@ namespace Yupi.Main
             BasicConfigurator.Configure(consoleAppender);
             // BasicConfigurator.Configure(FileAppender);
         }
-        
+
         /// <summary>
         ///  Setup the TCP socket server.
         /// </summary>

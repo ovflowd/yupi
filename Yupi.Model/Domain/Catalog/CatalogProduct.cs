@@ -24,13 +24,13 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System.Runtime.Serialization;
 
 #endregion Header
 
 namespace Yupi.Model.Domain
 {
     using System;
+    using System.Runtime.Serialization;
 
     [Serializable]
     public class CatalogProduct

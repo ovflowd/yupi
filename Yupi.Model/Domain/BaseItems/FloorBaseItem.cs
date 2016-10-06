@@ -1,3 +1,5 @@
+﻿#region Header
+
 // ---------------------------------------------------------------------------------
 // <copyright file="FloorBaseItem.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
@@ -22,16 +24,18 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System.Drawing;
 
+#endregion Header
 
 namespace Yupi.Model.Domain
 {
     using System;
+    using System.Drawing;
 
-    [Serializable]public class FloorBaseItem : BaseItem
+    [Serializable]
+    public class FloorBaseItem : BaseItem
     {
-        #region Methods
+        #region Properties
 
         // TODO Enum
         public virtual int DefaultDir
@@ -39,7 +43,6 @@ namespace Yupi.Model.Domain
             get; set;
         }
 
-        
         public virtual int[] InternalPartColors
         {
             get;
@@ -65,6 +68,10 @@ namespace Yupi.Model.Domain
                 }
             }
         }
+
+        #endregion Properties
+
+        #region Methods
 
         public override Item CreateNew()
         {

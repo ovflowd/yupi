@@ -1,4 +1,4 @@
-// ---------------------------------------------------------------------------------
+﻿// ---------------------------------------------------------------------------------
 // <copyright file="UserInfo.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -100,7 +100,6 @@ namespace Yupi.Model.Domain
             get; protected set;
         }
 
-        
         public virtual Group FavouriteGroup
         {
             get; set;
@@ -121,7 +120,6 @@ namespace Yupi.Model.Domain
             get; set;
         }
 
-        
         public virtual RoomData HomeRoom
         {
             get; set;
@@ -133,7 +131,6 @@ namespace Yupi.Model.Domain
         }
 
         // TODO Move to log
-        
         public virtual IPAddress LastIp
         {
             get; set;

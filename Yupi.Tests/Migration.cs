@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="Migration.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,18 +24,25 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System;
-using System.IO;
-using NUnit.Framework;
-using Yupi.Model;
+
+#endregion Header
 
 namespace Yupi.Tests
 {
+    using System;
+    using System.IO;
+
+    using NUnit.Framework;
+
+    using Yupi.Model;
+
     [TestFixture]
     public class Migration
     {
+        #region Methods
+
         [Test]
-        public void Generate ()
+        public void Generate()
         {
             MigrationConfiguration config = new MigrationConfiguration ();
 
@@ -45,5 +54,7 @@ namespace Yupi.Tests
 
             config.Generate("Migrate", directory);
         }
+
+        #endregion Methods
     }
 }

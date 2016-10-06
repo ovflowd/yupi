@@ -26,7 +26,8 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    [Serializable]public class LovelockItem : FloorItem<LoveLockBaseItem>
+    [Serializable]
+    public class LovelockItem : FloorItem<LoveLockBaseItem>
     {
     }
 }

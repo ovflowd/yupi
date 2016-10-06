@@ -1,4 +1,4 @@
-#region Header
+﻿#region Header
 
 // ---------------------------------------------------------------------------------
 // <copyright file="CatalogPage.cs" company="https://github.com/sant0ro/Yupi">
@@ -24,10 +24,6 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using Yupi.Util.Settings;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using NHibernate;
 
 #endregion Header
 
@@ -36,7 +32,13 @@ namespace Yupi.Model.Domain
     using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
+    using System.IO;
     using System.Linq;
+    using System.Runtime.Serialization.Formatters.Binary;
+
+    using NHibernate;
+
+    using Yupi.Util.Settings;
 
     [Serializable]
     public class CatalogPage : IPopulate
@@ -91,7 +93,6 @@ namespace Yupi.Model.Domain
             protected set;
         }
 
-        
         public virtual CatalogOffer SelectedOffer
         {
             get;
@@ -115,9 +116,10 @@ namespace Yupi.Model.Domain
         #region Constructors
 
         public CatalogPage(TString caption,
-                           int icon,
-                           int minRank,
-                           CatalogPageLayout layout) : this()
+            int icon,
+            int minRank,
+            CatalogPageLayout layout)
+            : this()
         {
             this.Caption = caption;
             this.Icon = icon;
@@ -143,13 +145,12 @@ namespace Yupi.Model.Domain
             this.Children.Add(child);
         }
 
-
         public virtual void Populate()
         {
             ISessionFactory sessionFactory = DependencyFactory.Resolve<ISessionFactory>();
 
             string catalogFile = Path.Combine(Settings.AssemblyDir, "Import", "catalog.bin");
-           
+
             CatalogPage root;
 
             using (Stream stream = File.Open(catalogFile, FileMode.Open))

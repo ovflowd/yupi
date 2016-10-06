@@ -38,7 +38,7 @@ namespace Yupi.Model
     {
         #region Methods
 
-        public void Apply (IPropertyInstance instance)
+        public void Apply(IPropertyInstance instance)
         {
             if (instance.Property.MemberInfo.IsDefined (typeof (RequiredAttribute), false)) {
                 instance.Not.Nullable ();
@@ -47,7 +47,7 @@ namespace Yupi.Model
             }
         }
 
-        public void Apply (IManyToOneInstance instance)
+        public void Apply(IManyToOneInstance instance)
         {
             if (instance.Property.MemberInfo.IsDefined (typeof (RequiredAttribute), false)) {
                 instance.Not.Nullable ();

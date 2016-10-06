@@ -53,24 +53,22 @@ namespace Yupi.Model
     {
         #region Methods
 
-        private static IPersistenceConfigurer GetDatabaseConfig ()
+        public static ISessionFactory CreateFactory()
         {
-            switch ((DatabaseType)DatabaseSettings.Type) {
-            case DatabaseType.MySQL:
-                return GetMySql ();
-            case DatabaseType.SQLite:
-                return GetSQLite ();
-            default:
-                throw new InvalidDataException ("Invalid database type");
-            }
+            return CreateFactory (GetConfig ());
         }
 
-        public static Configuration GetConfig ()
+        public static ISessionFactory CreateFactory(Configuration config)
+        {
+            return config.BuildSessionFactory ();
+        }
+
+        public static Configuration GetConfig()
         {
             return GetConfig (GetDatabaseConfig ());
         }
 
-        public static Configuration GetConfig (IPersistenceConfigurer db)
+        public static Configuration GetConfig(IPersistenceConfigurer db)
         {
             var cfg = new ORMConfiguration ();
 
@@ -95,16 +93,6 @@ namespace Yupi.Model
                            .BuildConfiguration();
         }
 
-        public static ISessionFactory CreateFactory ()
-        {
-            return CreateFactory (GetConfig ());
-        }
-
-        public static ISessionFactory CreateFactory(Configuration config)
-        {
-            return config.BuildSessionFactory ();
-        }
-
         // TODO Proper initial data
         public static void Populate()
         {
@@ -123,7 +111,8 @@ namespace Yupi.Model
             }
         }
 
-        public static void PopulateObject<T>(params T[] data) where T : class
+        public static void PopulateObject<T>(params T[] data)
+            where T : class
         {
             IRepository<T> Repository = DependencyFactory.Resolve<IRepository<T>>();
 
@@ -145,8 +134,20 @@ namespace Yupi.Model
             new SchemaUpdate(config).Execute(false, true);
         }
 
+        private static IPersistenceConfigurer GetDatabaseConfig()
+        {
+            switch ((DatabaseType)DatabaseSettings.Type) {
+            case DatabaseType.MySQL:
+                return GetMySql ();
+            case DatabaseType.SQLite:
+                return GetSQLite ();
+            default:
+                throw new InvalidDataException ("Invalid database type");
+            }
+        }
+
         private static IPersistenceConfigurer GetMySql()
-        { 
+        {
             return MySQLConfiguration.Standard
                 .ConnectionString(x =>
                         x.Server(DatabaseSettings.Host)

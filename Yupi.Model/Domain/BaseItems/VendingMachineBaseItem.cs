@@ -27,7 +27,8 @@ namespace Yupi.Model.Domain
     using System;
     using System.Collections.Generic;
 
-    [Serializable]public class VendingMachineBaseItem : FloorBaseItem
+    [Serializable]
+    public class VendingMachineBaseItem : FloorBaseItem
     {
         #region Properties
 

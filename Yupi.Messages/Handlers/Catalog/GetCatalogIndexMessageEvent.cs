@@ -58,7 +58,7 @@ namespace Yupi.Messages.Catalog
             CatalogRepository.All().Eager ((p) => p.Children).ToList ();
 
             CatalogPage root = CatalogRepository.Find (x => x.IsRoot);
-            
+
             if (root != null)
             {
 

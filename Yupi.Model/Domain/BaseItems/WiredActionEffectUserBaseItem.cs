@@ -26,7 +26,8 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    [Serializable]public class WiredActionEffectUserBaseItem : WiredBaseItem
+    [Serializable]
+    public class WiredActionEffectUserBaseItem : WiredBaseItem
     {
         #region Constructors
 

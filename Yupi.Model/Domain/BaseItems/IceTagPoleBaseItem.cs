@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="IceTagBaseItem.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,15 +24,22 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System;
+
+#endregion Header
 
 namespace Yupi.Model.Domain
 {
-    [Serializable]public class IceTagPoleBaseItem : FloorBaseItem
+    using System;
+
+    [Serializable]
+    public class IceTagPoleBaseItem : FloorBaseItem
     {
+        #region Constructors
+
         public IceTagPoleBaseItem()
         {
         }
+
+        #endregion Constructors
     }
 }
-

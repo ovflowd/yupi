@@ -1,3 +1,5 @@
+﻿#region Header
+
 // ---------------------------------------------------------------------------------
 // <copyright file="BaseItem.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
@@ -22,19 +24,25 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System.Drawing;
-using System;
-using System.Runtime.Serialization;
 
+#endregion Header
 
 namespace Yupi.Model.Domain
 {
+    using System;
     using System.Collections.Generic;
+    using System.Drawing;
+    using System.Runtime.Serialization;
 
     [Serializable]
     public abstract class BaseItem
     {
         #region Properties
+
+        public virtual string AdUrl
+        {
+            get; set;
+        }
 
         public virtual bool AllowInventoryStack
         {
@@ -45,92 +53,15 @@ namespace Yupi.Model.Domain
         {
             get; set;
         }
-            
+
         public virtual bool AllowRecycle
         {
             get; set;
         }
-            
+
         public virtual bool AllowTrade
         {
             get; set;
-        }
-
-        public virtual int Id
-        {
-            get; protected set;
-        }
-
-        [Ignore]
-        public virtual ItemSpecialType SpecialType
-        {
-            get {
-                return ItemSpecialType.Default;
-            }
-        }
-
-        public virtual int DimensionX
-        {
-            get; set;
-        }
-            
-        public virtual int DimensionY
-        {
-            get; set;
-        }
-
-        
-        public virtual string AdUrl
-        {
-            get; set;
-        }
-            
-        public virtual string Classname
-        {
-            get; set;
-        }
-            
-        public virtual TString Name
-        {
-            get; set;
-        }
-
-        public virtual TString Description
-        {
-            get; set;
-        }
-            
-        public virtual bool Stackable
-        {
-            get; set;
-        }
-            
-        public virtual decimal Height
-        {
-            get; set;
-        }
-
-        [Ignore]
-        public virtual ItemType Type
-        {
-            get { return ItemType.Floor; }
-        }
-
-        [Ignore]
-        public virtual string Visualization
-        {
-            get {
-                // TODO Implement
-                return string.Empty;
-            }
-        }
-            
-        [Ignore]
-        public virtual bool CanWalkOn
-        {
-            get {
-                return false;
-            }
         }
 
         [Ignore]
@@ -149,11 +80,33 @@ namespace Yupi.Model.Domain
             }
         }
 
-        public virtual int Revision
+        [Ignore]
+        public virtual bool CanWalkOn
+        {
+            get {
+                return false;
+            }
+        }
+
+        public virtual string Classname
         {
             get; set;
         }
 
+        public virtual TString Description
+        {
+            get; set;
+        }
+
+        public virtual int DimensionX
+        {
+            get; set;
+        }
+
+        public virtual int DimensionY
+        {
+            get; set;
+        }
 
         [Ignore]
         public virtual bool ExcludeFromSearch
@@ -163,11 +116,58 @@ namespace Yupi.Model.Domain
             }
         }
 
-        
         public virtual string FurniLine
         {
             get;
             set;
+        }
+
+        public virtual decimal Height
+        {
+            get; set;
+        }
+
+        public virtual int Id
+        {
+            get; protected set;
+        }
+
+        public virtual TString Name
+        {
+            get; set;
+        }
+
+        public virtual int Revision
+        {
+            get; set;
+        }
+
+        [Ignore]
+        public virtual ItemSpecialType SpecialType
+        {
+            get {
+                return ItemSpecialType.Default;
+            }
+        }
+
+        public virtual bool Stackable
+        {
+            get; set;
+        }
+
+        [Ignore]
+        public virtual ItemType Type
+        {
+            get { return ItemType.Floor; }
+        }
+
+        [Ignore]
+        public virtual string Visualization
+        {
+            get {
+                // TODO Implement
+                return string.Empty;
+            }
         }
 
         #endregion Properties

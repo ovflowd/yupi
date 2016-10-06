@@ -26,7 +26,8 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    [Serializable]public class WiredConditionFurniHasFurniBaseItem : WiredBaseItem
+    [Serializable]
+    public class WiredConditionFurniHasFurniBaseItem : WiredBaseItem
     {
         #region Constructors
 

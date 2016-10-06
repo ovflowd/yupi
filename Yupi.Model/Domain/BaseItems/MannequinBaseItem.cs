@@ -26,7 +26,8 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    [Serializable]public class MannequinBaseItem : FloorBaseItem
+    [Serializable]
+    public class MannequinBaseItem : FloorBaseItem
     {
         #region Methods
 

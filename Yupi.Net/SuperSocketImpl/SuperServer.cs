@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="SuperServer.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,28 +24,47 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System;
-using SuperSocket.SocketBase;
-using SuperSocket.SocketBase.Config;
-using SuperSocket.SocketBase.Protocol;
-using DotNetty.Transport.Bootstrapping;
-using SuperSocket.SocketBase.Logging;
+
+#endregion Header
 
 namespace Yupi.Net.SuperSocketImpl
 {
+    using System;
+
+    using DotNetty.Transport.Bootstrapping;
+
+    using SuperSocket.SocketBase;
+    using SuperSocket.SocketBase.Config;
+    using SuperSocket.SocketBase.Logging;
+    using SuperSocket.SocketBase.Protocol;
+
     public class SuperServer<T> : AppServer<Session<T>, RequestInfo>, IServer<T>
     {
-        public event MessageReceived<T> OnMessageReceived = delegate { };
-
-        public event ConnectionOpened<T> OnConnectionOpened = delegate { };
-
-        public event ConnectionClosed<T> OnConnectionClosed = delegate { };
+        #region Fields
 
         private CrossDomainSettings FlashPolicy;
+
+        #endregion Fields
+
+        #region Events
+
+        public event ConnectionClosed<T> OnConnectionClosed;
+
+        public event ConnectionOpened<T> OnConnectionOpened;
+
+        public event MessageReceived<T> OnMessageReceived;
+
+        #endregion Events
+
+        #region Constructors
 
         public SuperServer(IServerSettings settings, CrossDomainSettings flashPolicy)
             : base(new DefaultReceiveFilterFactory<FlashReceiveFilter, RequestInfo>())
         {
+            OnConnectionClosed = delegate {};
+            OnConnectionOpened = delegate { };
+            OnMessageReceived = delegate { };
+
             FlashPolicy = flashPolicy;
 
             IRootConfig rootConfig = CreateRootConfig(settings);
@@ -59,31 +80,9 @@ namespace Yupi.Net.SuperSocketImpl
             base.SessionClosed += (Session<T> session, CloseReason value) => OnConnectionClosed(session);
         }
 
-        private void HandleRequest(Session<T> session, RequestInfo requestInfo)
-        {
-            if (requestInfo.IsFlashRequest)
-            {
-                session.Send(FlashPolicy.GetBytes());
-                session.Disconnect();
-            }
-            else
-            {
-                OnMessageReceived(session, requestInfo.Body);
-            }
-        }
+        #endregion Constructors
 
-        private IServerConfig CreateServerConfig(IServerSettings settings)
-        {
-            ServerConfig config = new ServerConfig();
-            config.Ip = settings.IP;
-            config.Port = settings.Port;
-            config.ReceiveBufferSize = settings.BufferSize;
-            config.SendBufferSize = settings.BufferSize;
-            config.ListenBacklog = settings.Backlog;
-            config.MaxConnectionNumber = settings.MaxConnections;
-
-            return config;
-        }
+        #region Methods
 
         private IRootConfig CreateRootConfig(IServerSettings settings)
         {
@@ -102,5 +101,33 @@ namespace Yupi.Net.SuperSocketImpl
 
             return rootConfig;
         }
+
+        private IServerConfig CreateServerConfig(IServerSettings settings)
+        {
+            ServerConfig config = new ServerConfig();
+            config.Ip = settings.IP;
+            config.Port = settings.Port;
+            config.ReceiveBufferSize = settings.BufferSize;
+            config.SendBufferSize = settings.BufferSize;
+            config.ListenBacklog = settings.Backlog;
+            config.MaxConnectionNumber = settings.MaxConnections;
+
+            return config;
+        }
+
+        private void HandleRequest(Session<T> session, RequestInfo requestInfo)
+        {
+            if (requestInfo.IsFlashRequest)
+            {
+                session.Send(FlashPolicy.GetBytes());
+                session.Disconnect();
+            }
+            else
+            {
+                OnMessageReceived(session, requestInfo.Body);
+            }
+        }
+
+        #endregion Methods
     }
 }

@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="WiredActionRandomToggleState.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,15 +24,22 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System;
+
+#endregion Header
 
 namespace Yupi.Model.Domain
 {
-    [Serializable]public class WiredActionRandomToggleStateBaseItem : WiredBaseItem
+    using System;
+
+    [Serializable]
+    public class WiredActionRandomToggleStateBaseItem : WiredBaseItem
     {
+        #region Constructors
+
         public WiredActionRandomToggleStateBaseItem()
         {
         }
+
+        #endregion Constructors
     }
 }
-

@@ -26,7 +26,8 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    [Serializable]public class BanzaiScoreBaseItem : FloorBaseItem
+    [Serializable]
+    public class BanzaiScoreBaseItem : FloorBaseItem
     {
         #region Properties
 

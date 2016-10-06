@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="BackgroundTonerBaseItem.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,13 +24,20 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System;
+
+#endregion Header
 
 namespace Yupi.Model.Domain
 {
-    [Serializable]public class BackgroundTonerBaseItem : FloorBaseItem
+    using System;
+
+    [Serializable]
+    public class BackgroundTonerBaseItem : FloorBaseItem
     {
+        #region Other
+
         // TODO Must be implemented
+
+        #endregion Other
     }
 }
-

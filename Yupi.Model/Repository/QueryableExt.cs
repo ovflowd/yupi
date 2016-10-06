@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="QueryableExt.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,19 +24,27 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System;
-using System.Linq;
-using System.Linq.Expressions;
-using NHibernate;
-using NHibernate.Linq;
+
+#endregion Header
 
 namespace Yupi.Model
 {
+    using System;
+    using System.Linq;
+    using System.Linq.Expressions;
+
+    using NHibernate;
+    using NHibernate.Linq;
+
     public static class QueryableExt
     {
-        public static IQueryable<T> Eager<T, TRelated> (this IQueryable<T> query, Expression<Func<T, TRelated>> relatedObjectSelector)
+        #region Methods
+
+        public static IQueryable<T> Eager<T, TRelated>(this IQueryable<T> query, Expression<Func<T, TRelated>> relatedObjectSelector)
         {
             return query.Fetch (relatedObjectSelector);
         }
+
+        #endregion Methods
     }
 }

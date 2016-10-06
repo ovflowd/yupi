@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="MigrationConfiguration.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,32 +24,44 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using FluentMigrator;
-using FluentMigrator.Expressions;
-using FluentMigrator.NHibernate;
-using FluentNHibernate.Cfg.Db;
-using NHibernate.Cfg;
+
+#endregion Header
 
 namespace Yupi.Model
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+
+    using FluentMigrator;
+    using FluentMigrator.Expressions;
+    using FluentMigrator.NHibernate;
+
+    using FluentNHibernate.Cfg.Db;
+
+    using NHibernate.Cfg;
+
     public class MigrationConfiguration : MigrationConfigurationBase
     {
-        public MigrationConfiguration ()
+        #region Constructors
+
+        public MigrationConfiguration()
         {
             MigrationAssembly = typeof (ORMConfiguration).Assembly;
             MigrationNamespace = "Yupi.Model.Db.Migrations";
         }
 
-        protected override Configuration GetConfiguration ()
+        #endregion Constructors
+
+        #region Methods
+
+        protected override Configuration GetConfiguration()
         {
             return ModelHelper.GetConfig ();
         }
 
-        protected override List<MigrationExpressionBase> GetFromExpressions ()
+        protected override List<MigrationExpressionBase> GetFromExpressions()
         {
             var lastMigration = MigrationAssembly.DefinedTypes.Where (t => t.BaseType == typeof (Migration))
                 .Where (s => HasConfigurationData (s))
@@ -62,17 +76,19 @@ namespace Yupi.Model
             return DeserializeConfiguration (data);
         }
 
-        private bool HasConfigurationData (Type type)
-        {
-            return type.GetField ("ConfigurationData", BindingFlags.Public | BindingFlags.Static) != null;
-        }
-
-        private long GetVersion (Type type)
+        private long GetVersion(Type type)
         {
             return type.GetCustomAttributes (false)
                 .OfType<MigrationAttribute> ()
                 .Select (x => x.Version)
                 .FirstOrDefault ();
         }
+
+        private bool HasConfigurationData(Type type)
+        {
+            return type.GetField ("ConfigurationData", BindingFlags.Public | BindingFlags.Static) != null;
+        }
+
+        #endregion Methods
     }
 }

@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="WiredConditionInTeam.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,15 +24,22 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-using System;
+
+#endregion Header
 
 namespace Yupi.Model.Domain
 {
-    [Serializable]public class WiredConditionInTeamBaseItem : WiredBaseItem
+    using System;
+
+    [Serializable]
+    public class WiredConditionInTeamBaseItem : WiredBaseItem
     {
+        #region Constructors
+
         public WiredConditionInTeamBaseItem()
         {
         }
+
+        #endregion Constructors
     }
 }
-

@@ -34,9 +34,9 @@ namespace Yupi.Util.Settings
     {
         #region Fields
 
-        private static readonly string ConfigDir;
-
         public static readonly string AssemblyDir;
+
+        private static readonly string ConfigDir;
 
         #endregion Fields
 

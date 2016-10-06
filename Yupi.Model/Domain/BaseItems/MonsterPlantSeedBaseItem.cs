@@ -26,7 +26,8 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    [Serializable]public class MonsterPlantSeedBaseItem : FloorBaseItem
+    [Serializable]
+    public class MonsterPlantSeedBaseItem : FloorBaseItem
     {
         #region Methods
 

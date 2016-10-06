@@ -38,19 +38,6 @@ namespace Yupi.Model.Domain
     [Serializable]
     public class TString : ICloneable
     {
-        private class TranslationComparer : IEqualityComparer<Translation>
-        {
-            public bool Equals (Translation x, Translation y)
-            {
-                return x.Language == y.Language;
-            }
-
-            public int GetHashCode (Translation obj)
-            {
-                return obj.Language.GetHashCode ();
-            }
-        }
-
         #region Properties
 
         public virtual int Id
@@ -68,7 +55,10 @@ namespace Yupi.Model.Domain
         }
 
         [Required]
-        public virtual string Value { get; protected set; }
+        public virtual string Value
+        {
+            get; protected set;
+        }
 
         #endregion Properties
 
@@ -175,5 +165,26 @@ namespace Yupi.Model.Domain
         }
 
         #endregion Methods
+
+        #region Nested Types
+
+        private class TranslationComparer : IEqualityComparer<Translation>
+        {
+            #region Methods
+
+            public bool Equals(Translation x, Translation y)
+            {
+                return x.Language == y.Language;
+            }
+
+            public int GetHashCode(Translation obj)
+            {
+                return obj.Language.GetHashCode ();
+            }
+
+            #endregion Methods
+        }
+
+        #endregion Nested Types
     }
 }

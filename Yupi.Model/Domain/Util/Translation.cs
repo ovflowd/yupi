@@ -6,10 +6,22 @@
 
     public class Translation
     {
-        public virtual int Id { get; set; }
+        #region Properties
+
+        public virtual int Id
+        {
+            get; set;
+        }
+
+        [Ignore]
+        public virtual CultureInfo Language
+        {
+            get; set;
+        }
 
         [Required]
-        public virtual int LanguageId {
+        public virtual int LanguageId
+        {
             get {
                 return Language.LCID;
             }
@@ -18,20 +30,26 @@
             }
         }
 
-        [Ignore]
-        public virtual CultureInfo Language { get; set; }
-
         [Required]
-        public virtual string Value { get; set; }
+        public virtual string Value
+        {
+            get; set;
+        }
 
-        public Translation (CultureInfo language, string value)
+        #endregion Properties
+
+        #region Constructors
+
+        public Translation(CultureInfo language, string value)
         {
             Language = language;
             Value = value;
         }
 
-        protected Translation ()
+        protected Translation()
         {
         }
+
+        #endregion Constructors
     }
 }

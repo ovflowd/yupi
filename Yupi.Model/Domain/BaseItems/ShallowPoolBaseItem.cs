@@ -27,7 +27,8 @@ namespace Yupi.Model.Domain
     using System;
 
     // TODO Renamed from LowPool
-    [Serializable]public class ShallowPoolBaseItem : PoolBaseItem
+    [Serializable]
+    public class ShallowPoolBaseItem : PoolBaseItem
     {
     }
 }

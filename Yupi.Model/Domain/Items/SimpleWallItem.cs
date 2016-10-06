@@ -26,7 +26,8 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    [Serializable]public class SimpleWallItem : WallItem<WallBaseItem>
+    [Serializable]
+    public class SimpleWallItem : WallItem<WallBaseItem>
     {
     }
 }

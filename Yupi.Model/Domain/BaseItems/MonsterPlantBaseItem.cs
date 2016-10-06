@@ -26,7 +26,8 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    [Serializable]public class MonsterPlantBaseItem : PetBaseItem
+    [Serializable]
+    public class MonsterPlantBaseItem : PetBaseItem
     {
     }
 }

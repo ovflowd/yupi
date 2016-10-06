@@ -26,7 +26,8 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    [Serializable]public class TileStackMagicBaseItem : FloorBaseItem
+    [Serializable]
+    public class TileStackMagicBaseItem : FloorBaseItem
     {
         #region Constructors
 
