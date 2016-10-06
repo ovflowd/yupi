@@ -32,19 +32,31 @@ namespace Yupi.Util.Settings
     {
         #region Fields
 
-        public static readonly Setting<string> Host = new Setting<string>("DB.Host", "localhost");
-        public static readonly Setting<string> Name = new Setting<string>("DB.Name", "yupi");
-        public static readonly Setting<string> Password = new Setting<string>("DB.Password", null);
-        public static readonly Setting<DatabaseType> Type = new Setting<DatabaseType>("DB.Type", DatabaseType.SQLite);
-        public static readonly Setting<string> Username = new Setting<string>("DB.Username", "yupi");
+        public static readonly Setting<string> Host = new Setting<string> ("DB.Host", "localhost");
+        public static readonly Setting<string> Name = new Setting<string> ("DB.Name", "yupi");
+        public static readonly Setting<string> Password = new Setting<string> ("DB.Password", null);
+        public static readonly Setting<DatabaseType> Type = new Setting<DatabaseType> ("DB.Type", DatabaseType.SQLite);
+        public static readonly Setting<string> Username = new Setting<string> ("DB.Username", "yupi");
 
         #endregion Fields
 
         #region Constructors
 
-        static DatabaseSettings()
+        static DatabaseSettings ()
         {
-            Cfg.Configuration.UseIniFile(Settings.GetPath("database.ini"));
+            Cfg.Configuration.UseIniFile (Settings.GetPath ("database.ini"));
+        }
+
+        public static string BuildConnectionString ()
+        {
+            switch ((DatabaseType)Type) {
+            case DatabaseType.MySQL:
+                return "Server = " + Host + "; Database = " + Name + "; Uid = " + Username + ";Pwd = " + Password;
+            case DatabaseType.SQLite:
+                return "Data Source="+Name+".sqlite;Version=3;";
+            default:
+                throw new InvalidOperationException ("Unsupported type");
+            }
         }
 
         #endregion Constructors

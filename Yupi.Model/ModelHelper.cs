@@ -34,7 +34,8 @@ namespace Yupi.Model
     using System.IO;
     using System.Linq;
     using System.Reflection;
-
+    using FluentMigrator.Runner.Announcers;
+    using FluentMigrator.Runner.Initialization;
     using FluentNHibernate.Automapping;
     using FluentNHibernate.Cfg;
     using FluentNHibernate.Cfg.Db;
@@ -127,11 +128,8 @@ namespace Yupi.Model
 
         private static void BuildSchema(Configuration config)
         {
-            // TODO Use https://github.com/schambers/fluentmigrator/
-            // @see http://stackoverflow.com/questions/5884359/fluent-nhibernate-create-database-schema-only-if-not-existing
-
             SchemaMetadataUpdater.QuoteTableAndColumns(config);
-            new SchemaUpdate(config).Execute(false, true);
+            RunMigrations ();
         }
 
         private static IPersistenceConfigurer GetDatabaseConfig()
@@ -168,6 +166,21 @@ namespace Yupi.Model
             {
                 return SQLiteConfiguration.Standard.UsingFile(DatabaseSettings.Name + ".sqlite").ShowSql();
             }
+        }
+
+        private static void RunMigrations ()
+        {
+            var announcer = new ConsoleAnnouncer () {
+                ShowSql = true
+            };
+            var runner = new RunnerContext (announcer) {
+                Connection = DatabaseSettings.BuildConnectionString (),
+                Database = Enum.GetName (typeof (DatabaseType), (DatabaseType)DatabaseSettings.Type).ToLower (),
+                Targets = new string [] { typeof(ModelHelper).Assembly.Location },
+
+            };
+
+            new TaskExecutor (runner).Execute ();
         }
 
         #endregion Methods

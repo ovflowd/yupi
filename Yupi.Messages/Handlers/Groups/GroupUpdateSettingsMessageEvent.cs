@@ -57,8 +57,8 @@ namespace Yupi.Messages.Groups
             Yupi.Protocol.IRouter router)
         {
             int groupId = request.GetInteger();
-            uint state = request.GetUInt32();
-            uint admindeco = request.GetUInt32();
+            int state = request.GetInteger();
+            int admindeco = request.GetInteger();
 
             Group group = GroupRepository.Find(groupId);
 

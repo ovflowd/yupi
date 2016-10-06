@@ -41,6 +41,7 @@ namespace Yupi.Model
     using FluentNHibernate.Cfg.Db;
 
     using NHibernate.Cfg;
+    using NHibernate.Mapping;
 
     public class MigrationConfiguration : MigrationConfigurationBase
     {
@@ -59,34 +60,6 @@ namespace Yupi.Model
         protected override Configuration GetConfiguration()
         {
             return ModelHelper.GetConfig ();
-        }
-
-        protected override List<MigrationExpressionBase> GetFromExpressions()
-        {
-            var lastMigration = MigrationAssembly.DefinedTypes.Where (t => t.BaseType == typeof (Migration))
-                .Where (s => HasConfigurationData (s))
-                .OrderBy (t => GetVersion (t))
-                .LastOrDefault ();
-
-            if (lastMigration == null) {
-                return new List<MigrationExpressionBase> ();
-            }
-            var f = lastMigration.GetField ("ConfigurationData", BindingFlags.Public | BindingFlags.Static);
-            var data = (string)f.GetValue (null);
-            return DeserializeConfiguration (data);
-        }
-
-        private long GetVersion(Type type)
-        {
-            return type.GetCustomAttributes (false)
-                .OfType<MigrationAttribute> ()
-                .Select (x => x.Version)
-                .FirstOrDefault ();
-        }
-
-        private bool HasConfigurationData(Type type)
-        {
-            return type.GetField ("ConfigurationData", BindingFlags.Public | BindingFlags.Static) != null;
         }
 
         #endregion Methods

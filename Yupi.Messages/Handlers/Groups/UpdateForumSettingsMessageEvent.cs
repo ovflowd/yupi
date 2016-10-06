@@ -53,10 +53,10 @@ namespace Yupi.Messages.Groups
             Yupi.Protocol.IRouter router)
         {
             int groupId = request.GetInteger();
-            uint whoCanRead = request.GetUInt32();
-            uint whoCanPost = request.GetUInt32();
-            uint whoCanThread = request.GetUInt32();
-            uint whoCanMod = request.GetUInt32();
+            int whoCanRead = request.GetInteger();
+            int whoCanPost = request.GetInteger();
+            int whoCanThread = request.GetInteger();
+            int whoCanMod = request.GetInteger();
 
             Group group = GroupRepository.Find(groupId);
 

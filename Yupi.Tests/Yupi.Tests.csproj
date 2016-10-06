@@ -55,12 +55,12 @@
     <Reference Include="NHibernate">
       <HintPath>..\packages\NHibernate.4.0.4.4000\lib\net40\NHibernate.dll</HintPath>
     </Reference>
-    <Reference Include="FluentMigrator.NHibernate">
-      <HintPath>..\packages\FluentMigrator.NHibernate.1.0.0.10\lib\net461\FluentMigrator.NHibernate.dll</HintPath>
-    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="MySql.Data">
       <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentMigrator.NHibernate">
+      <HintPath>..\packages\FluentMigrator.NHibernate.1.0.0.10\lib\net461\FluentMigrator.NHibernate.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

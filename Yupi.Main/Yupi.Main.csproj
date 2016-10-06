@@ -7,7 +7,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Yupi.Main</RootNamespace>
     <AssemblyName>Yupi.Main</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
@@ -50,9 +50,6 @@
     <Reference Include="Iesi.Collections">
       <HintPath>..\packages\Iesi.Collections.4.0.1.4000\lib\net40\Iesi.Collections.dll</HintPath>
     </Reference>
-    <Reference Include="PommaLabs.Thrower">
-      <HintPath>..\packages\Thrower.3.0.1\lib\net45\PommaLabs.Thrower.dll</HintPath>
-    </Reference>
     <Reference Include="CodeProject.ObjectPool">
       <HintPath>..\packages\CodeProject.ObjectPool.2.0.1\lib\net45\CodeProject.ObjectPool.dll</HintPath>
     </Reference>
@@ -63,6 +60,9 @@
       <HintPath>..\packages\System.Data.SQLite.Linq.1.0.102.0\lib\net45\System.Data.SQLite.Linq.dll</HintPath>
     </Reference>
     <Reference Include="System.Numerics" />
+    <Reference Include="PommaLabs.Thrower">
+      <HintPath>..\packages\Thrower.3.0.1\lib\net46\PommaLabs.Thrower.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainClass.cs" />
