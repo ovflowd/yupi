@@ -73,7 +73,7 @@ namespace Yupi.Messages.Messenger
             else
             {
                 int sender = request.GetInteger();
-                UserInfo user = UserRepository.FindBy(sender);
+                UserInfo user = UserRepository.Find(sender);
                 if (user != null)
                 {
                     toDelete.Add(user);

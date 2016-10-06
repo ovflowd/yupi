@@ -58,7 +58,7 @@ namespace Yupi.Messages.Groups
             uint whoCanThread = request.GetUInt32();
             uint whoCanMod = request.GetUInt32();
 
-            Group group = GroupRepository.FindBy(groupId);
+            Group group = GroupRepository.Find(groupId);
 
             if (group?.Creator != session.Info)
                 return;

@@ -60,7 +60,7 @@ namespace Yupi.Controller
 
         public CatalogOffer GetById(int pageId, int itemId)
         {
-            return CatalogRepository.FindBy(pageId)?.Offers.SingleOrDefault(x => x.Id == itemId);
+            return CatalogRepository.Find(pageId)?.Offers.SingleOrDefault(x => x.Id == itemId);
         }
 
         // TODO Make extraData optional

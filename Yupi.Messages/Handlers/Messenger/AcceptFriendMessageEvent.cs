@@ -63,7 +63,7 @@ namespace Yupi.Messages.Messenger
             {
                 int userId = request.GetInteger();
 
-                UserInfo friend = UserRepository.FindBy(userId);
+                UserInfo friend = UserRepository.Find(userId);
 
                 if (friend != null && friend.Relationships.HasSentRequestTo(session.Info))
                 {

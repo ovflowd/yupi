@@ -54,7 +54,7 @@ namespace Yupi.Messages.Music
         {
             string name = message.GetString();
 
-            SongData song = SongRepository.FindBy(x => x.CodeName == name);
+            SongData song = SongRepository.Find(x => x.CodeName == name);
 
             if (song != null)
             {

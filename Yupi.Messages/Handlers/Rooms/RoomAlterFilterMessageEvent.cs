@@ -61,7 +61,7 @@ namespace Yupi.Messages.Rooms
             bool shouldAdd = request.GetBool();
             string word = request.GetString();
 
-            RoomData room = RoomRepository.FindBy(roomId);
+            RoomData room = RoomRepository.Find(roomId);
 
             if (room != null && room.HasOwnerRights(session.Info))
             {

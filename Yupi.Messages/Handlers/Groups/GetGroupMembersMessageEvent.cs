@@ -57,7 +57,7 @@ namespace Yupi.Messages.Groups
             string searchVal = request.GetString();
             uint reqType = request.GetUInt32();
 
-            Group group = GroupRepository.FindBy(groupId);
+            Group group = GroupRepository.Find(groupId);
 
             if (group == null)
             {

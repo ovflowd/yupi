@@ -53,7 +53,7 @@ namespace Yupi.Messages.Groups
             Yupi.Protocol.IRouter router)
         {
             int groupId = request.GetInteger();
-            Group group = GroupRepository.FindBy(groupId);
+            Group group = GroupRepository.Find(groupId);
 
             if (group == null)
                 return;

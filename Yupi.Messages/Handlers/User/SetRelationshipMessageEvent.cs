@@ -65,7 +65,7 @@ namespace Yupi.Messages.User
             {
                 relationship = new Relationship()
                 {
-                    Friend = UserRepository.FindBy(targetId),
+                    Friend = UserRepository.Find(targetId),
                     Type = type
                 };
                 session.Info.Relationships.Relationships.Add(relationship);

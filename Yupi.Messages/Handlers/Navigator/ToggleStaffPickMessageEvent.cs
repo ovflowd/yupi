@@ -62,7 +62,7 @@ namespace Yupi.Messages.Navigator
 
             request.GetBool(); // TODO Unused
 
-            RoomData roomData = RoomRepository.FindBy(roomId);
+            RoomData roomData = RoomRepository.Find(roomId);
 
             if (roomData == null)
                 return;

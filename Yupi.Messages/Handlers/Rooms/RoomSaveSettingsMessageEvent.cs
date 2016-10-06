@@ -61,7 +61,7 @@ namespace Yupi.Messages.Rooms
         {
             int roomId = request.GetInteger();
 
-            RoomData roomData = RoomRepository.FindBy(roomId);
+            RoomData roomData = RoomRepository.Find(roomId);
 
             if (roomData == null || !roomData.HasOwnerRights(session.Info))
             {
@@ -94,7 +94,7 @@ namespace Yupi.Messages.Rooms
 
             int categoryId = request.GetInteger();
 
-            FlatNavigatorCategory category = NavigatorCategoryRepository.FindBy(categoryId);
+            FlatNavigatorCategory category = NavigatorCategoryRepository.Find(categoryId);
 
             if (category != null && category.MinRank <= session.Info.Rank)
             {

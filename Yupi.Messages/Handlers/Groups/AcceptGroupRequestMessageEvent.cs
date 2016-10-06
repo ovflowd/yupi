@@ -57,8 +57,8 @@ namespace Yupi.Messages.Groups
             int groupId = request.GetInteger();
             int userId = request.GetInteger();
 
-            Group group = GroupRepository.FindBy(groupId);
-            UserInfo user = UserRepository.FindBy(userId);
+            Group group = GroupRepository.Find(groupId);
+            UserInfo user = UserRepository.Find(userId);
 
             if (group == null || !group.Admins.Contains(session.Info) || !group.Requests.Contains(user))
             {

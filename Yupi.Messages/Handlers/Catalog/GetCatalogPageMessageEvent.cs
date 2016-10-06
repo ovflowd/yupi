@@ -56,7 +56,7 @@ namespace Yupi.Messages.Catalog
 
             message.GetInteger(); // TODO unused
 
-            CatalogPage page = CatalogRepository.FindBy(pageId);
+            CatalogPage page = CatalogRepository.Find(pageId);
 
             if (page == null || !page.Visible || page.MinRank > session.Info.Rank)
                 return;

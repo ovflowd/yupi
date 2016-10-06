@@ -60,7 +60,7 @@ namespace Yupi.Messages.Support
 
             int roomId = message.GetInteger();
 
-            RoomData room = RoomRepository.FindBy(roomId);
+            RoomData room = RoomRepository.Find(roomId);
 
             router.GetComposer<ModerationRoomToolMessageComposer>().Compose(session, room, RoomManager.isLoaded(room));
         }

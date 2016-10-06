@@ -76,12 +76,12 @@ namespace Yupi.Model.Repository
             return All().Where(expression).AsQueryable();
         }
 
-        public T FindBy(Expression<Func<T, bool>> expression)
+        public T Find(Expression<Func<T, bool>> expression)
         {
             return FilterBy(expression).SingleOrDefault();
         }
 
-        public T FindBy(int id)
+        public T Find(int id)
         {
             return session.Get<T>(id);
         }

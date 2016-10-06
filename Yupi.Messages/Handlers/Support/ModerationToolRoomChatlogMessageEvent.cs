@@ -60,7 +60,7 @@ namespace Yupi.Messages.Support
             message.GetInteger(); // TODO Unused
             int roomId = message.GetInteger();
 
-            RoomData room = RoomRepository.FindBy(roomId);
+            RoomData room = RoomRepository.Find(roomId);
             if (room != null)
             {
                 router.GetComposer<ModerationToolRoomChatlogMessageComposer>().Compose(session, room);

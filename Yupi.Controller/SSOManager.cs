@@ -66,7 +66,7 @@ namespace Yupi.Controller
 
         public string GenerateTicket(int userId)
         {
-            UserInfo user = UserRepository.FindBy(userId);
+            UserInfo user = UserRepository.Find(userId);
             return GenerateTicket(user);
         }
 

@@ -70,7 +70,7 @@ namespace Yupi.Messages.Support
             bool inappropriateRoom = message.GetIntegerAsBool();
             bool kickUsers = message.GetIntegerAsBool();
 
-            RoomData roomData = RoomRepository.FindBy(roomId);
+            RoomData roomData = RoomRepository.Find(roomId);
 
             if (roomData == null)
             {

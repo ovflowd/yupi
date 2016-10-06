@@ -55,7 +55,7 @@ namespace Yupi.Messages.Groups
             int groupId = request.GetInteger();
             int userId = request.GetInteger();
 
-            Group group = GroupRepository.FindBy(groupId);
+            Group group = GroupRepository.Find(groupId);
 
             if (group == null)
                 return;

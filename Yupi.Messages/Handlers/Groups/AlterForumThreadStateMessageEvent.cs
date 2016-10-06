@@ -58,7 +58,7 @@ namespace Yupi.Messages.Groups
             int threadId = request.GetInteger();
             int stateToSet = request.GetInteger();
 
-            Group theGroup = GroupRepository.FindBy(groupId);
+            Group theGroup = GroupRepository.Find(groupId);
 
             if (theGroup != null)
             {
