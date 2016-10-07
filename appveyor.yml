@@ -12,3 +12,6 @@ artifacts:
 - path: Yupi\Build
   name: Yupi.zip
   type: zip
+
+nuget:
+  project_feed: true
