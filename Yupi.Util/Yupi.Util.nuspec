@@ -4,8 +4,8 @@
     <id>$id$</id>
     <version>$version$</version>
     <title>$title$</title>
-    <authors>$author$</authors>
-    <owners>$author$</owners>
+    <authors>sant0ro, TheDoct0r11</authors>
+    <owners>sant0ro</owners>
     <licenseUrl>https://github.com/sant0ro/Yupi/blob/linux/LICENSE.md</licenseUrl>
     <projectUrl>https://github.com/sant0ro/Yupi</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
