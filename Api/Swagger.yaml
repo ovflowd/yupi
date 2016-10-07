@@ -43,15 +43,6 @@ parameters:
     description: The user identifier number
     type: number
     required: true
-  user-edit:
-    name: name
-    in: body
-    description: The user edit parameters
-    type: object
-    schema:
-      $ref: "#/definitions/UserEdit" 
-    required: false
-
 ################################################################################
 #                                           Paths                              #
 ################################################################################
@@ -74,8 +65,48 @@ paths:
   /user/{user-id}:
     parameters:
       - $ref: '#/parameters/user-id'
-      - $ref: '#/parameters/user-edit'
+    get:
+      tags:
+        - Gather user Data
+      description: Edit user Data
+      responses:
+        200:
+          description: User Daya
+          schema:
+            type: object
+            properties:
+              user-id:
+                type: number
+              user-name:
+                type: string
+              user-look:
+                type: string
+              user-rank:
+                type: number
+              user-sex:
+                type: string
     put:
+      parameters:
+      - name: user-name
+        in: query
+        description: The user name
+        type: string
+      - name: user-look
+        in: query
+        description: The user look
+        type: string
+      - name: user-rank
+        in: query
+        description: The user rank
+        type: number
+      - name: user-sex
+        in: body
+        description: The user sex parameter
+        schema:
+          type: string
+          enum:
+            - male
+            - female
       tags:
         - Edit User
       description: Edit user Data
@@ -90,23 +121,6 @@ paths:
 ################################################################################
 #                                 Definitions                                  #
 ################################################################################
-definitions:
-  UserEdit:
-    type: object
-    properties:
-      username:
-        type: string
-      mail:
-        type: string
-      look:
-        type: string
-      rank:
-        type: int
-  SSO:
-    type: object
-    properties:
-      sso:
-        type: string
       #counts:
       #  type: object
       #  properties:
