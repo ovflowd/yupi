@@ -26,7 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class PromotionNavigatorCategory : NavigatorCategory, IPopulate
+    public class PromotionNavigatorCategory : NavigatorCategory
     {
         #region Properties
 
@@ -51,31 +51,5 @@ namespace Yupi.Model.Domain
         }
 
         #endregion Constructors
-
-        #region Methods
-
-        public virtual void Populate()
-        {
-            ModelHelper.PopulateObject(
-                new PromotionNavigatorCategory("${roomevent_type_0}"),
-                new PromotionNavigatorCategory("${roomevent_type_1}"),
-                new PromotionNavigatorCategory("${roomevent_type_2}"),
-                new PromotionNavigatorCategory("${roomevent_type_3}"),
-                new PromotionNavigatorCategory("${roomevent_type_4}"),
-                new PromotionNavigatorCategory("${roomevent_type_5}"),
-                new PromotionNavigatorCategory("${roomevent_type_6}"),
-                new PromotionNavigatorCategory("${roomevent_type_7}"),
-                new PromotionNavigatorCategory("${roomevent_type_8}"),
-                new PromotionNavigatorCategory("${roomevent_type_9}"),
-                new PromotionNavigatorCategory("${roomevent_type_10}"),
-                new PromotionNavigatorCategory("${roomevent_type_11}"),
-                new PromotionNavigatorCategory("Staffs")
-                {
-                    MinRank = 6 // TODO I don't like these hardcoded ranks
-                }
-            );
-        }
-
-        #endregion Methods
     }
 }

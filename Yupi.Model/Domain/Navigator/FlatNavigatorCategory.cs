@@ -26,7 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class FlatNavigatorCategory : NavigatorCategory, IPopulate
+    public class FlatNavigatorCategory : NavigatorCategory
     {
         #region Constructors
 
@@ -40,16 +40,5 @@ namespace Yupi.Model.Domain
         }
 
         #endregion Constructors
-
-        #region Methods
-
-        public virtual void Populate()
-        {
-            ModelHelper.PopulateObject(
-                new FlatNavigatorCategory() {Caption = "No category"}
-            );
-        }
-
-        #endregion Methods
     }
 }

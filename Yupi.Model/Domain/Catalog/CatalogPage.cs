@@ -41,7 +41,7 @@ namespace Yupi.Model.Domain
     using Yupi.Util.Settings;
 
     [Serializable]
-    public class CatalogPage : IPopulate
+    public class CatalogPage
     {
         #region Properties
 
@@ -143,33 +143,6 @@ namespace Yupi.Model.Domain
         public virtual void Add(CatalogPage child)
         {
             this.Children.Add(child);
-        }
-
-        public virtual void Populate()
-        {
-            ISessionFactory sessionFactory = DependencyFactory.Resolve<ISessionFactory>();
-
-            string catalogFile = Path.Combine(Settings.AssemblyDir, "Import", "catalog.bin");
-
-            CatalogPage root;
-
-            using (Stream stream = File.Open(catalogFile, FileMode.Open))
-            {
-                BinaryFormatter bin = new BinaryFormatter();
-                root = (CatalogPage)bin.Deserialize(stream);
-            }
-
-            using (ISession session = sessionFactory.OpenSession())
-            {
-                ITransaction tx = session.BeginTransaction();
-
-                if (session.QueryOver<CatalogPage>().RowCount() == 0)
-                {
-                    session.Save(root);
-                }
-
-                tx.Commit();
-            }
         }
 
         #endregion Methods

@@ -94,7 +94,7 @@ namespace Yupi.Model.Domain
         public virtual object Clone()
         {
             TString copy = new TString();
-            copy.Translations = new HashSet<Translation>(this.Translations);
+            copy.Translations = new HashSet<Translation>(this.Translations, new TranslationComparer ());
             return copy;
         }
 

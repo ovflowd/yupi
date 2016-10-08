@@ -34,8 +34,10 @@ namespace Yupi.Model
     using System.IO;
     using System.Linq;
     using System.Reflection;
+
     using FluentMigrator.Runner.Announcers;
     using FluentMigrator.Runner.Initialization;
+
     using FluentNHibernate.Automapping;
     using FluentNHibernate.Cfg;
     using FluentNHibernate.Cfg.Db;
@@ -94,40 +96,6 @@ namespace Yupi.Model
                            .BuildConfiguration();
         }
 
-        // TODO Proper initial data
-        public static void Populate()
-        {
-            
-            PopulateObject(
-                new UserInfo() { Name = "User" },
-                new UserInfo() { Name = "Admin", Rank = 9 }
-            );
-
-            IEnumerable<IPopulate> instances = typeof(ModelHelper).Assembly.GetTypes()
-                .Where(t => t.GetInterfaces().Contains(typeof(IPopulate)))
-                .Select(t => Activator.CreateInstance(t, true) as IPopulate);
-
-            foreach (IPopulate populate in instances)
-            {
-                populate.Populate();
-            }
-            
-        }
-
-        public static void PopulateObject<T>(params T[] data)
-            where T : class
-        {
-            IRepository<T> Repository = DependencyFactory.Resolve<IRepository<T>>();
-
-            if (!Repository.All().Any())
-            {
-                foreach (T obj in data)
-                {
-                    Repository.Save(obj);
-                }
-            }
-        }
-
         private static void BuildSchema(Configuration config)
         {
             SchemaMetadataUpdater.QuoteTableAndColumns(config);
@@ -170,7 +138,7 @@ namespace Yupi.Model
             }
         }
 
-        private static void RunMigrations ()
+        private static void RunMigrations()
         {
             var announcer = new ConsoleAnnouncer () {
                 ShowSql = true

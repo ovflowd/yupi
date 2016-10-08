@@ -87,7 +87,7 @@
       <HintPath>..\packages\FluentMigrator.Runner.1.6.2\lib\40\FluentMigrator.Runner.dll</HintPath>
     </Reference>
     <Reference Include="FluentMigrator.NHibernate">
-      <HintPath>..\packages\FluentMigrator.NHibernate.1.0.0.10\lib\net461\FluentMigrator.NHibernate.dll</HintPath>
+      <HintPath>..\packages\FluentMigrator.NHibernate.99.0.1.0\lib\net461\FluentMigrator.NHibernate.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -348,7 +348,6 @@
     <Compile Include="Domain\Rooms\Entity\Posture\WalkPosture.cs" />
     <Compile Include="Domain\Users\NewbieStatus.cs" />
     <Compile Include="Domain\Navigator\Components\PromoLink.cs" />
-    <Compile Include="IPopulate.cs" />
     <Compile Include="Domain\Catalog\CatalogOffer.cs" />
     <Compile Include="Domain\Catalog\ActivityPointsType.cs" />
     <Compile Include="Domain\Users\ClubLevel.cs" />
@@ -468,6 +467,9 @@
     <Compile Include="NHibernate\Attributes\OneToManyAttribute.cs" />
     <Compile Include="Domain\Util\Translation.cs" />
     <Compile Include="NHibernate\MigrationConfiguration.cs" />
+    <Compile Include="Migrations\00000002_Navigator.cs" />
+    <Compile Include="Migrations\00000003_TestUser.cs" />
+    <Compile Include="Migrations\00000001_Initialize.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

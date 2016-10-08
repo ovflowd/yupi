@@ -41,7 +41,8 @@ namespace Yupi.Tests
     {
         #region Methods
 
-        //[Test] TODO This is not really a test
+        [Test]
+        [Explicit("Should only be run manually to generate migrations.")]
         public void Generate()
         {
             MigrationConfiguration config = new MigrationConfiguration ();

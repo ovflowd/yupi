@@ -26,7 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    public class OfficialNavigatorCategory : NavigatorCategory, IPopulate
+    public class OfficialNavigatorCategory : NavigatorCategory
     {
         #region Constructors
 
@@ -40,14 +40,5 @@ namespace Yupi.Model.Domain
         }
 
         #endregion Constructors
-
-        #region Methods
-
-        public virtual void Populate()
-        {
-            // TODO Implement
-        }
-
-        #endregion Methods
     }
 }

@@ -42,12 +42,16 @@ namespace Yupi.Util.Settings
 
         #region Constructors
 
-        static DatabaseSettings ()
+        static DatabaseSettings()
         {
             Cfg.Configuration.UseIniFile (Settings.GetPath ("database.ini"));
         }
 
-        public static string BuildConnectionString ()
+        #endregion Constructors
+
+        #region Methods
+
+        public static string BuildConnectionString()
         {
             switch ((DatabaseType)Type) {
             case DatabaseType.MySQL:
@@ -59,6 +63,6 @@ namespace Yupi.Util.Settings
             }
         }
 
-        #endregion Constructors
+        #endregion Methods
     }
 }

@@ -86,9 +86,6 @@ namespace Yupi.Main
             DependencyFactory.RegisterInstance(dbSession);
             DependencyFactory.RegisterInstance(factory);
 
-            // TODO: Don't run this if DB is not new!
-            ModelHelper.Populate();
-
             Router.Default = new Router(GameSettings.Release, "../../../Config/",
                 typeof(AchievementProgressMessageComposer).Assembly
             );

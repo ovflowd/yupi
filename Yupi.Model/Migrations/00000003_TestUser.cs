@@ -1,7 +1,5 @@
-﻿#region Header
-
-// ---------------------------------------------------------------------------------
-// <copyright file="IPopulate.cs" company="https://github.com/sant0ro/Yupi">
+﻿// ---------------------------------------------------------------------------------
+// <copyright file="00000003_TestUser.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -24,19 +22,26 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
+using System;
+using FluentMigrator;
 
-#endregion Header
-
-namespace Yupi.Model
+namespace Yupi.Model.Db.Migrations
 {
-    using System;
-
-    public interface IPopulate
+    [Migration (3)]
+    public class TestUser : Migration
     {
-        #region Methods
+        public override void Down ()
+        {
+            Delete.FromTable("UserInfo")
+                  .Row (new { Name = "User" })
+                  .Row (new { Name = "Admin" });
+        }
 
-        void Populate();
-
-        #endregion Methods
+        public override void Up ()
+        {
+            Insert.IntoTable ("UserInfo")
+                  .Row (new { Name = "User", Rank = 1 })
+                  .Row (new { Name = "Admin", Rank = 9 });
+        }
     }
 }

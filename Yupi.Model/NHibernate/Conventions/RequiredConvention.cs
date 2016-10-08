@@ -48,7 +48,7 @@ namespace Yupi.Model
         }
 
         public void Apply(IManyToOneInstance instance)
-        {
+        { 
             if (instance.Property.MemberInfo.IsDefined (typeof (RequiredAttribute), false)) {
                 instance.Not.Nullable ();
             } else {

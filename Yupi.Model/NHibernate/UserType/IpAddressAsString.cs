@@ -35,7 +35,7 @@ namespace Yupi.Model
     /// <summary>
     /// Stores System.Net.IPAddress as String
     /// </summary>
-    /// <see cref="http://t-code.pl/blog/2011/07/ipaddress-nvarchar-nhibernate-custom-mapping/"/>
+    /// <see href="http://t-code.pl/blog/2011/07/ipaddress-nvarchar-nhibernate-custom-mapping/"/>
     public class IpAddressAsString : UserType
     {
         #region Properties

@@ -60,7 +60,7 @@
       <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="FluentMigrator.NHibernate">
-      <HintPath>..\packages\FluentMigrator.NHibernate.1.0.0.10\lib\net461\FluentMigrator.NHibernate.dll</HintPath>
+      <HintPath>..\packages\FluentMigrator.NHibernate.99.0.1.0\lib\net461\FluentMigrator.NHibernate.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

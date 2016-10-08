@@ -49,7 +49,7 @@ namespace Yupi.Model
 
         public MigrationConfiguration()
         {
-            MigrationAssembly = typeof (ORMConfiguration).Assembly;
+            MigrationAssembly = typeof (object).Assembly;
             MigrationNamespace = "Yupi.Model.Db.Migrations";
         }
 
