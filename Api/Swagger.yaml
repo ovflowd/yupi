@@ -17,6 +17,20 @@ info:
     The intention it's that the Emulator Database (SQL) will not be editable by the end-user, or the developer. Since the Emulator is totally controlled with reactive datas and using an ORM way of service providing. The main intention of this API it's the ability of serve native commands to change any database table content, with a MVC engine provided by the Emulator, with an interaction system, able to handle those commands and decide with action need to be taken. As an example, editing a room, will make that a specific controller handle it, after the alteration of the data and abling to the room being reloaded (packets). In other way this API will serve RCON commands, like "broadcast", and such other commands.
     
     Through the REST API you will be able to edit any data related to in-game things. Like Navigator, Catalogue, Furniture, Users, User Permissions, Groups, Bots, Pets and more. This API it's totally **experimental**, and being designed.
+    
+    ## Server Facts
+    The HTTP Request will be handled by the REST Module of the Emulator. Every Actor of the system (Eg.: Users) will have a desired Controller module that will Handler a specific Interaction. In case of Users, the Handler will send a Composer to the Client updating user information. And send a message to REST Module like "Edited User Data Successfully" (converted to jSON with HTTP Codes). NHibernate will update the Models and send it back to Database through Transactions.
+    
+    #### HTTP Codes
+    The REST API will follow HTTP codes, like {200, 404, 500, and others} and also it owns Response Codes, in HTTP Header.
+    
+    ## Security
+    The server will be obrigatory using TLS connection. (HTTPS:// Wrapper). You can disable it in the Settings of the Emulator, but is not recommended. The Emulator will only answer Requests through a White List in the Emulator Settings. Also the Authentication will be made by a Token.
+    
+    #### Token
+    The token will be a BASE64 + MCRYPT 24 Bit Length Shared Key. The Key will be stored in the Application (Like CMS) and in the Emulator.
+    Futurely each application will have an own Token.
+    The connection will be secure by TLS 1.2 + RC4 Encryption
 
   termsOfService: http://yupi-emu.xyz/
 
@@ -43,12 +57,77 @@ parameters:
     description: The user identifier number
     type: number
     required: true
+  token:
+    name: token
+    in: query
+    description: The Session Token Identifier
+    type: string
+    required: true
+  auth-token:
+    name: auth-token
+    in: path
+    description: The Administractive Token
+    required: true
+    type: string
 ################################################################################
 #                                           Paths                              #
 ################################################################################
 paths:
+  /auth/{auth-token}:
+    parameters:
+      - $ref: '#/parameters/auth-token'
+    get:
+      tags:
+        - Check Token
+      description: Check if Token is Valid
+      responses:
+        200:
+          description: 200 OK Created Token
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              auth-code:
+                type: string
+        403:
+          description: Invalid Token
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+        404:
+          description: Token not Found
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+    post:
+      tags:
+        - Create Token
+      description: Create a new token providing Administrator Token
+      responses:
+        200:
+          description: 200 OK Created Token
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              auth-code:
+                type: string
+        403:
+          description: Invalid Token
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
   /sso/{user-id}:
     parameters:
+      - $ref: '#/parameters/token'
       - $ref: '#/parameters/user-id'
     get:
       tags:
@@ -64,14 +143,15 @@ paths:
                 type: string
   /user/{user-id}:
     parameters:
+      - $ref: '#/parameters/token'
       - $ref: '#/parameters/user-id'
     get:
       tags:
         - Gather user Data
-      description: Edit user Data
+      description: Get User Data
       responses:
         200:
-          description: User Daya
+          description: User Data
           schema:
             type: object
             properties:
@@ -84,6 +164,20 @@ paths:
               user-rank:
                 type: number
               user-sex:
+                type: string
+        403:
+          description: Not Allowed (Invalid or Expired Token)
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+        404:
+          description: Not Found (User not Found)
+          schema:
+            type: object
+            properties:
+              message:
                 type: string
     put:
       parameters:
@@ -99,6 +193,10 @@ paths:
         in: query
         description: The user rank
         type: number
+      - name: user-mail
+        in: query
+        description: The user Mail
+        type: string
       - name: user-sex
         in: body
         description: The user sex parameter
@@ -113,6 +211,78 @@ paths:
       responses:
         200:
           description: OK Response
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+        403:
+          description: Not Allowed (Invalid or Expired Token)
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+        404:
+          description: Not Found (User not Found)
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+    post:
+      parameters:
+      - name: user-name
+        in: query
+        description: The user name
+        type: string
+        required: true
+      - name: user-look
+        in: query
+        description: The user look
+        type: string
+        required: true
+      - name: user-rank
+        in: query
+        description: The user rank
+        type: number
+        required: true
+      - name: user-sex
+        in: body
+        description: The user sex parameter
+        required: true
+        schema:
+          type: string
+          enum:
+            - male
+            - female
+      - name: user-mail
+        in: query
+        description: The user Mail
+        type: string
+        required: true
+      tags:
+        - Create User
+      description: Create a new User
+      responses:
+        200:
+          description: OK Response
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              user-id:
+                type: number
+        403:
+          description: Not Allowed (Invalid or Expired Token)
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+        402:
+          description: User already exists
           schema:
             type: object
             properties:
