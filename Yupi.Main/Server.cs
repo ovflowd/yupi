@@ -80,7 +80,6 @@ namespace Yupi.Main
             var factory = ModelHelper.CreateFactory();
 
             // TODO: Close Session & Multiple sessions!
-
             var dbSession = factory.OpenSession();
 
             DependencyFactory.RegisterInstance(dbSession);
