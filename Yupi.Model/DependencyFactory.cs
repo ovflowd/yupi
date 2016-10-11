@@ -80,6 +80,11 @@ namespace Yupi.Model
 
         #region Methods
 
+        /// <summary>
+        /// RegisterType an instance with the container.
+        /// </summary>
+        /// <typeparam name="T">Type of instance to register</typeparam>
+        /// <param name="instance">Object to returned</param>
         public static void RegisterInstance<T>(T instance)
         {
             _container.RegisterInstance(instance);
