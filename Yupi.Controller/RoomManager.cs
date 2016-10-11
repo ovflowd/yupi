@@ -110,7 +110,7 @@ namespace Yupi.Controller
 
         public Room LoadOrGet(int roomId)
         {
-            RoomData data = RoomRepository.FindBy(roomId);
+            RoomData data = RoomRepository.Find(roomId);
             return LoadOrGet(data);
         }
 

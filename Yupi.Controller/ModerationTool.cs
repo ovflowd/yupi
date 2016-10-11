@@ -81,7 +81,7 @@ namespace Yupi.Controller
 
         public void BanUser(int userId, int hours, string reason)
         {
-            UserInfo user = UserRepository.FindBy(userId);
+            UserInfo user = UserRepository.Find(userId);
             BanUser(user, hours, reason);
         }
 
@@ -111,7 +111,7 @@ namespace Yupi.Controller
 
         public bool CanBan(UserInfo staff, int targetId)
         {
-            UserInfo target = UserRepository.FindBy(targetId);
+            UserInfo target = UserRepository.Find(targetId);
 
             if (target == null)
             {

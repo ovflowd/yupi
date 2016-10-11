@@ -29,11 +29,18 @@
 
 namespace Yupi.Model.Domain
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
-    using System.Diagnostics.Contracts;
+    using System.IO;
     using System.Linq;
+    using System.Runtime.Serialization.Formatters.Binary;
 
+    using NHibernate;
+
+    using Yupi.Util.Settings;
+
+    [Serializable]
     public class CatalogPage : IPopulate
     {
         #region Properties
@@ -62,6 +69,12 @@ namespace Yupi.Model.Domain
             protected set;
         }
 
+        public virtual bool IsRoot
+        {
+            get;
+            set;
+        }
+
         public virtual CatalogPageLayout Layout
         {
             get;
@@ -80,20 +93,6 @@ namespace Yupi.Model.Domain
             protected set;
         }
 
-        public virtual int OrderNum
-        {
-            get;
-            set;
-        }
-
-        [Nullable]
-        public virtual CatalogPage Parent
-        {
-            get;
-            set;
-        }
-
-        [Nullable]
         public virtual CatalogOffer SelectedOffer
         {
             get;
@@ -116,7 +115,19 @@ namespace Yupi.Model.Domain
 
         #region Constructors
 
-        protected CatalogPage()
+        public CatalogPage(TString caption,
+            int icon,
+            int minRank,
+            CatalogPageLayout layout)
+            : this()
+        {
+            this.Caption = caption;
+            this.Icon = icon;
+            this.Layout = layout;
+            this.MinRank = minRank;
+        }
+
+        public CatalogPage()
         {
             this.Offers = new List<CatalogOffer>();
             this.Children = new List<CatalogPage>();
@@ -129,42 +140,36 @@ namespace Yupi.Model.Domain
 
         #region Methods
 
+        public virtual void Add(CatalogPage child)
+        {
+            this.Children.Add(child);
+        }
+
         public virtual void Populate()
         {
-            CatalogPage root = new CatalogPage()
+            ISessionFactory sessionFactory = DependencyFactory.Resolve<ISessionFactory>();
+
+            string catalogFile = Path.Combine(Settings.AssemblyDir, "Import", "catalog.bin");
+
+            CatalogPage root;
+
+            using (Stream stream = File.Open(catalogFile, FileMode.Open))
             {
-                Caption = "root",
-                Layout = new RootLayout()
-            };
+                BinaryFormatter bin = new BinaryFormatter();
+                root = (CatalogPage)bin.Deserialize(stream);
+            }
 
-            root.Children.Add(new CatalogPage()
+            using (ISession session = sessionFactory.OpenSession())
+            {
+                ITransaction tx = session.BeginTransaction();
+
+                if (session.QueryOver<CatalogPage>().RowCount() == 0)
                 {
-                    Layout = new FrontpageLayout("Text1", "Text2")
-                    {
-                        HeaderImage = "catalogue/catal_fp_header",
-                        TeaserImage = "catalogue/frontpage_teaser"
-                    },
-                    Caption = "Frontpage",
-                    Parent = root
-                });
+                    session.Save(root);
+                }
 
-            root.Children.Add(new CatalogPage()
-                {
-                    Layout = new Default3x3Layout()
-                    {
-                        Text1 = "Text1",
-                        Text2 = "Text2",
-                        Description = "Description",
-                        HeaderDescription = "HeaderDesc",
-                        SpecialText = "SpecialText",
-                    },
-                    Caption = "Test",
-                    Parent = root
-                });
-
-            ModelHelper.PopulateObject(
-                root
-            );
+                tx.Commit();
+            }
         }
 
         #endregion Methods

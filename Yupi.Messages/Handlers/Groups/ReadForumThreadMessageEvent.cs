@@ -61,7 +61,7 @@ namespace Yupi.Messages.Groups
 
             request.GetInteger(); // TODO Unused
 
-            Group theGroup = GroupRepository.FindBy(groupId);
+            Group theGroup = GroupRepository.Find(groupId);
 
             if (theGroup == null)
             {

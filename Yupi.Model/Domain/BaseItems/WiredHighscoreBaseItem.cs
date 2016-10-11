@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="WiredHighscoreBaseItem.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,10 +24,14 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
+
+#endregion Header
+
 namespace Yupi.Model.Domain
 {
     using System;
 
+    [Serializable]
     public class WiredHighscoreBaseItem : WiredBaseItem
     {
         #region Constructors

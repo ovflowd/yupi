@@ -27,6 +27,7 @@ namespace Yupi.Model.Domain
     using System;
 
     // TODO Rename to soccer?
+    [Serializable]
     public class FootballBaseItem : FloorBaseItem
     {
     }

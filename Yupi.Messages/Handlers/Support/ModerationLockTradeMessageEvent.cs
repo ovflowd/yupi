@@ -63,7 +63,7 @@ namespace Yupi.Messages.Support
             string message = request.GetString();
             int hours = request.GetInteger();
 
-            UserInfo user = UserRepository.FindBy(userId);
+            UserInfo user = UserRepository.Find(userId);
 
             user.TradeLocks.Add(new TradeLock()
             {

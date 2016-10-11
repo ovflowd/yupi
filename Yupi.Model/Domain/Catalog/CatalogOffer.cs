@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="CatalogItem.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,15 +24,20 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
+
+#endregion Header
+
 namespace Yupi.Model.Domain
 {
     using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
+    using System.Runtime.Serialization;
 
     using Yupi.Model.Domain.Components;
 
+    [Serializable]
     public class CatalogOffer
     {
         #region Properties
@@ -90,12 +97,6 @@ namespace Yupi.Model.Domain
         }
 
         public virtual string Name
-        {
-            get;
-            set;
-        }
-
-        public virtual CatalogPage Page
         {
             get;
             set;

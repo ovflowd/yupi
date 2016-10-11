@@ -59,7 +59,7 @@ namespace Yupi.Messages.Support
             {
                 int userId = message.GetInteger();
 
-                UserInfo info = UserRepository.FindBy(userId);
+                UserInfo info = UserRepository.Find(userId);
                 var tickets = SupportRepository.FilterBy(x => x.Sender == session.Info);
 
                 router.GetComposer<ModerationToolUserToolMessageComposer>().Compose(session, info);

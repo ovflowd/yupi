@@ -34,6 +34,8 @@ namespace Yupi.Util.Settings
     {
         #region Fields
 
+        public static readonly string AssemblyDir;
+
         private static readonly string ConfigDir;
 
         #endregion Fields
@@ -43,10 +45,10 @@ namespace Yupi.Util.Settings
         static Settings()
         {
             string assemblyLocation = Assembly.GetExecutingAssembly().Location;
-            string assemblyDir = Directory.GetParent(assemblyLocation).FullName;
+            AssemblyDir = Directory.GetParent(assemblyLocation).FullName;
 
             // TODO Get the directory structure sorted!
-            assemblyDir = Directory.GetParent(assemblyDir).Parent.Parent.FullName;
+            string assemblyDir = Directory.GetParent(AssemblyDir).Parent.Parent.FullName;
 
             ConfigDir = Path.Combine(assemblyDir, "Config", "Settings");
 

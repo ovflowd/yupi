@@ -56,7 +56,7 @@ namespace Yupi.Messages.Groups
             int color1 = request.GetInteger();
             int color2 = request.GetInteger();
 
-            Group group = GroupRepository.FindBy(groupId);
+            Group group = GroupRepository.Find(groupId);
 
             if (group?.Creator != session.Info)
                 return;

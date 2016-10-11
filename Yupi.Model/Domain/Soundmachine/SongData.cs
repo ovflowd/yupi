@@ -1,4 +1,6 @@
-﻿// ---------------------------------------------------------------------------------
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
 // <copyright file="SongData.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -22,11 +24,14 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
+
+#endregion Header
+
 namespace Yupi.Model.Domain
 {
-    /// <summary>
-    ///     Class SongData.
-    /// </summary>
+    using System;
+
+    [Serializable]
     public class SongData
     {
         #region Properties

@@ -57,7 +57,7 @@ namespace Yupi.Messages.Groups
             string name = request.GetString();
             string description = request.GetString();
 
-            Group theGroup = GroupRepository.FindBy(groupId);
+            Group theGroup = GroupRepository.Find(groupId);
 
             if (theGroup?.Creator != session.Info)
                 return;

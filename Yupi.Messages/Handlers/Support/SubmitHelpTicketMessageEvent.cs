@@ -95,8 +95,8 @@ namespace Yupi.Messages.Support
             {
                 router.GetComposer<TicketUserAlertComposer>().Compose(session, TicketUserAlertComposer.Status.OK);
 
-                RoomData room = RoomRepository.FindBy(roomId);
-                UserInfo reportedUser = UserRepository.FindBy(reportedUserId);
+                RoomData room = RoomRepository.Find(roomId);
+                UserInfo reportedUser = UserRepository.Find(reportedUserId);
 
                 SupportTicket newTicket = new SupportTicket()
                 {

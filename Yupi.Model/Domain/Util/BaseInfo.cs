@@ -41,6 +41,7 @@ namespace Yupi.Model.Domain
             get; set;
         }
 
+        [Required]
         public virtual string Name
         {
             get; set;

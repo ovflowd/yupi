@@ -58,7 +58,7 @@ namespace Yupi.Messages.Other
             int offerId = request.GetInteger();
             int quantity = request.GetInteger();
 
-            TargetedOffer offer = OfferRepository.FindBy(offerId);
+            TargetedOffer offer = OfferRepository.Find(offerId);
 
             if (offer == null)
                 return;

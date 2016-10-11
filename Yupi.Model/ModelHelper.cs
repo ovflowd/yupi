@@ -34,7 +34,8 @@ namespace Yupi.Model
     using System.IO;
     using System.Linq;
     using System.Reflection;
-
+    using FluentMigrator.Runner.Announcers;
+    using FluentMigrator.Runner.Initialization;
     using FluentNHibernate.Automapping;
     using FluentNHibernate.Cfg;
     using FluentNHibernate.Cfg.Db;
@@ -55,46 +56,48 @@ namespace Yupi.Model
 
         public static ISessionFactory CreateFactory()
         {
-            var cfg = new ORMConfiguration();
+            return CreateFactory (GetConfig ());
+        }
 
-            IPersistenceConfigurer db;
+        public static ISessionFactory CreateFactory(Configuration config)
+        {
+            return config.BuildSessionFactory ();
+        }
 
-            switch ((DatabaseType)DatabaseSettings.Type)
-            {
-                case DatabaseType.MySQL:
-                    db = GetMySql();
-                    break;
-                case DatabaseType.SQLite:
-                    db = GetSQLite();
-                    break;
-                default:
-                    throw new InvalidDataException("Invalid database type");
-            }
+        public static Configuration GetConfig()
+        {
+            return GetConfig (GetDatabaseConfig ());
+        }
 
-            return Fluently.Configure()
-                .Database(db)
-                .Mappings(m =>
-                    m.AutoMappings
-                        .Add(AutoMap.AssemblyOf<ORMConfiguration>(cfg)
-                                .Conventions.Add<Conventions>()
-                                .Conventions.Add<EnumTypeConvention>()
-                                .Conventions.Add<IPAddressConvention>()
-                                .Conventions.Add<VectorConvention>()
-                                .Conventions.Add<CascadeConvention>()
-                                .Conventions.Add<NullableConvention>()
-                                .IncludeBase<BaseItem>()
-                                .IncludeBase<FloorItem>()
-                                .IncludeBase<WallItem>()
-                                .IncludeBase<CatalogPageLayout>()
-                                .IncludeBase<NavigatorCategory>()
-                ))
-                .ExposeConfiguration(BuildSchema)
-                .BuildSessionFactory();
+        public static Configuration GetConfig(IPersistenceConfigurer db)
+        {
+            var cfg = new ORMConfiguration ();
+
+            return Fluently.Configure ()
+                .Database (db)
+                .Mappings (m =>
+                     m.AutoMappings
+                         .Add (AutoMap.AssemblyOf<ORMConfiguration> (cfg)
+                                 .Conventions.Add<ReferenceConventions> ()
+                                 .Conventions.Add<EnumTypeConvention> ()
+                                 .Conventions.Add<IPAddressConvention> ()
+                                 .Conventions.Add<VectorConvention> ()
+                                 .Conventions.Add<CascadeConvention> ()
+                                 .Conventions.Add<RequiredConvention> ()
+                                 .IncludeBase<BaseItem> ()
+                                 .IncludeBase<FloorItem> ()
+                                 .IncludeBase<WallItem> ()
+                                 .IncludeBase<CatalogPageLayout> ()
+                                 .IncludeBase<NavigatorCategory> ()
+                              ))
+                           .ExposeConfiguration(BuildSchema)
+                           .BuildConfiguration();
         }
 
         // TODO Proper initial data
         public static void Populate()
         {
+            
             PopulateObject(
                 new UserInfo() { Name = "User" },
                 new UserInfo() { Name = "Admin", Rank = 9 }
@@ -108,9 +111,11 @@ namespace Yupi.Model
             {
                 populate.Populate();
             }
+            
         }
 
         public static void PopulateObject<T>(params T[] data)
+            where T : class
         {
             IRepository<T> Repository = DependencyFactory.Resolve<IRepository<T>>();
 
@@ -125,11 +130,20 @@ namespace Yupi.Model
 
         private static void BuildSchema(Configuration config)
         {
-            // TODO Use https://github.com/schambers/fluentmigrator/
-            // @see http://stackoverflow.com/questions/5884359/fluent-nhibernate-create-database-schema-only-if-not-existing
-
             SchemaMetadataUpdater.QuoteTableAndColumns(config);
-            new SchemaUpdate(config).Execute(false, true);
+            RunMigrations ();
+        }
+
+        private static IPersistenceConfigurer GetDatabaseConfig()
+        {
+            switch ((DatabaseType)DatabaseSettings.Type) {
+            case DatabaseType.MySQL:
+                return GetMySql ();
+            case DatabaseType.SQLite:
+                return GetSQLite ();
+            default:
+                throw new InvalidDataException ("Invalid database type");
+            }
         }
 
         private static IPersistenceConfigurer GetMySql()
@@ -154,6 +168,21 @@ namespace Yupi.Model
             {
                 return SQLiteConfiguration.Standard.UsingFile(DatabaseSettings.Name + ".sqlite").ShowSql();
             }
+        }
+
+        private static void RunMigrations ()
+        {
+            var announcer = new ConsoleAnnouncer () {
+                ShowSql = true
+            };
+            var runner = new RunnerContext (announcer) {
+                Connection = DatabaseSettings.BuildConnectionString (),
+                Database = Enum.GetName (typeof (DatabaseType), (DatabaseType)DatabaseSettings.Type).ToLower (),
+                Targets = new string [] { typeof(ModelHelper).Assembly.Location },
+
+            };
+
+            new TaskExecutor (runner).Execute ();
         }
 
         #endregion Methods

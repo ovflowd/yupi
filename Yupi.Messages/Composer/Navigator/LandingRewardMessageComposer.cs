@@ -37,7 +37,7 @@ namespace Yupi.Messages.Navigator
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
             {
-                message.AppendString(manager.FurniReward.Name);
+                message.AppendString(manager.FurniReward.Classname);
                 message.AppendInteger(manager.FurniReward.Id);
                 message.AppendInteger(120); // TODO Magic constant
                 message.AppendInteger(120 - user.Respect.Respect);

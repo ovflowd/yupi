@@ -1,5 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -7,9 +6,8 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Yupi.Model</RootNamespace>
     <AssemblyName>Yupi.Model</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <NuGetPackageImportStamp></NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -54,26 +52,42 @@
     <Reference Include="Iesi.Collections">
       <HintPath>..\packages\Iesi.Collections.4.0.1.4000\lib\net40\Iesi.Collections.dll</HintPath>
     </Reference>
-    <Reference Include="PommaLabs.Thrower">
-      <HintPath>..\packages\Thrower.3.0.1\lib\net45\PommaLabs.Thrower.dll</HintPath>
-    </Reference>
-    <Reference Include="CodeProject.ObjectPool">
-      <HintPath>..\packages\CodeProject.ObjectPool.2.0.1\lib\net45\CodeProject.ObjectPool.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data.SQLite, Version=1.0.102.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139">
-      <HintPath>..\packages\System.Data.SQLite.Core.1.0.102.0\lib\net45\System.Data.SQLite.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data.SQLite.Linq, Version=1.0.102.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139">
-      <HintPath>..\packages\System.Data.SQLite.Linq.1.0.102.0\lib\net45\System.Data.SQLite.Linq.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Numerics.Vectors">
-      <HintPath>..\packages\System.Numerics.Vectors.4.1.1\lib\portable-net45+win8+wp8+wpa81\System.Numerics.Vectors.dll</HintPath>
-    </Reference>
     <Reference Include="Config.Net">
       <HintPath>..\packages\Config.Net.1.3.0.244\lib\net45\Config.Net.dll</HintPath>
     </Reference>
     <Reference Include="MySql.Data">
       <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="FluentMigrator">
+      <HintPath>..\packages\FluentMigrator.1.6.2\lib\40\FluentMigrator.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PommaLabs.Thrower">
+      <HintPath>..\packages\Thrower.3.0.1\lib\net46\PommaLabs.Thrower.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics.Vectors">
+      <HintPath>..\packages\System.Numerics.Vectors.4.1.1\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="mscorlib" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Data.SQLite.Linq">
+      <HintPath>..\packages\System.Data.SQLite.Linq.1.0.102.0\lib\net46\System.Data.SQLite.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite">
+      <HintPath>..\packages\System.Data.SQLite.Core.1.0.102.0\lib\net46\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="CodeProject.ObjectPool">
+      <HintPath>..\packages\CodeProject.ObjectPool.2.0.1\lib\net46\CodeProject.ObjectPool.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentMigrator.Runner">
+      <HintPath>..\packages\FluentMigrator.Runner.1.6.2\lib\40\FluentMigrator.Runner.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentMigrator.NHibernate">
+      <HintPath>..\packages\FluentMigrator.NHibernate.1.0.0.10\lib\net461\FluentMigrator.NHibernate.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -98,19 +112,10 @@
     <Compile Include="Domain\Rooms\RoomModel.cs" />
     <Compile Include="Domain\Users\Relationship.cs" />
     <Compile Include="Domain\Users\Components\UserPreferences.cs" />
-    <Compile Include="OneToManyAttribute.cs" />
-    <Compile Include="ManyToManyAttribute.cs" />
-    <Compile Include="Conventions.cs" />
-    <Compile Include="ORMConfiguration.cs" />
-    <Compile Include="IsDiscriminatedAttribute.cs" />
-    <Compile Include="MonoSQLiteDriver.cs" />
-    <Compile Include="MonoSQLiteConfiguration.cs" />
     <Compile Include="Domain\Soundmachine\SongData.cs" />
-    <Compile Include="Domain\BaseItems\AdsMpuBaseItem.cs" />
     <Compile Include="Domain\BaseItems\AlertBaseItem.cs" />
     <Compile Include="Domain\BaseItems\ArrowPlateBaseItem.cs" />
     <Compile Include="Domain\BaseItems\BadgeDisplayBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\BanzaiCounterBaseItem.cs" />
     <Compile Include="Domain\BaseItems\BanzaiFloorBaseItem.cs" />
     <Compile Include="Domain\BaseItems\BanzaiGateBaseItem.cs" />
     <Compile Include="Domain\BaseItems\BanzaiPuckBaseItem.cs" />
@@ -128,7 +133,6 @@
     <Compile Include="Domain\BaseItems\DimmerBaseItem.cs" />
     <Compile Include="Domain\BaseItems\FireworksBaseItem.cs" />
     <Compile Include="Domain\BaseItems\FloorBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\FloorSwitch.cs" />
     <Compile Include="Domain\BaseItems\FootballBaseItem.cs" />
     <Compile Include="Domain\BaseItems\FootballCounterBaseItem.cs" />
     <Compile Include="Domain\BaseItems\FootballGateBaseItem.cs" />
@@ -166,7 +170,6 @@
     <Compile Include="Domain\BaseItems\PetNestBaseItem.cs" />
     <Compile Include="Domain\BaseItems\PinataBaseItem.cs" />
     <Compile Include="Domain\BaseItems\PoolBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\PressurePadBaseItem.cs" />
     <Compile Include="Domain\BaseItems\PuzzleBoxBaseItem.cs" />
     <Compile Include="Domain\BaseItems\RentalBaseItem.cs" />
     <Compile Include="Domain\BaseItems\RollerBaseItem.cs" />
@@ -181,19 +184,9 @@
     <Compile Include="Domain\BaseItems\TentBaseItem.cs" />
     <Compile Include="Domain\BaseItems\TileStackMagicBaseItem.cs" />
     <Compile Include="Domain\BaseItems\TriggerCollisionBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\TriggerGameEndBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\TriggerGameStartBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\TriggerLongRepeaterBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\TriggerOnUserSayBaseItem.cs" />
     <Compile Include="Domain\BaseItems\TriggerRepeaterBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\TriggerRoomEnterBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\TriggerScoreAchievedBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\TriggerStateChangedBaseItem.cs" />
     <Compile Include="Domain\BaseItems\TriggerTimerBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\TriggerWalkOffFurniBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\TriggerWalkOnFurniBaseItem.cs" />
     <Compile Include="Domain\BaseItems\TrophyBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\VendingBaseItem.cs" />
     <Compile Include="Domain\BaseItems\WallBaseItem.cs" />
     <Compile Include="Domain\BaseItems\WiredActionBotClothesBaseItem.cs" />
     <Compile Include="Domain\BaseItems\WiredActionBotFollowAvatarBaseItem.cs" />
@@ -205,7 +198,6 @@
     <Compile Include="Domain\BaseItems\WiredActionCallStacksBaseItem.cs" />
     <Compile Include="Domain\BaseItems\WiredActionChaseBaseItem.cs" />
     <Compile Include="Domain\BaseItems\WiredActionEffectUserBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\WiredActionGiveScore.cs" />
     <Compile Include="Domain\BaseItems\WiredActionJoinTeamBaseItem.cs" />
     <Compile Include="Domain\BaseItems\WiredActionLeaveTeamBaseItem.cs" />
     <Compile Include="Domain\BaseItems\WiredConditionBaseItemsDontMatchItem.cs" />
@@ -227,34 +219,21 @@
     <Compile Include="Domain\BaseItems\WiredConditionTriggerOnFurniBaseItem.cs" />
     <Compile Include="Domain\BaseItems\WiredConditionTriggererNotOnFurniBaseItem.cs" />
     <Compile Include="Domain\BaseItems\WiredConditionUserHasFurniBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\WiredConditionUserHasHanditemBaseItem.cs" />
     <Compile Include="Domain\BaseItems\WiredConditionUserNotWearingBadgeBaseItem.cs" />
     <Compile Include="Domain\BaseItems\WiredConditionUserNotWearingEffectBaseItem.cs" />
     <Compile Include="Domain\BaseItems\WiredConditionUserWearingBadgeBaseItem.cs" />
     <Compile Include="Domain\BaseItems\WiredConditionUserWearingEffectBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\WiredGiveRewardBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\WiredHighscoreBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\WiredKickUserBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\WiredMoveRotateBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\WiredMoveToDirBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\WiredMuteUserBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\WiredPositionResetBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\WiredRandomBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\WiredResetTimerBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\WiredShowMessageBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\WiredTeleportToBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\WiredToggleStateBaseItem.cs" />
     <Compile Include="Domain\BaseItems\WiredTriggerBotReachedAvatarBaseItem.cs" />
     <Compile Include="Domain\BaseItems\WiredTriggerBotReachedStuffBaseItem.cs" />
-    <Compile Include="Domain\BaseItems\WiredUnseenBaseItem.cs" />
     <Compile Include="Domain\BaseItems\YoutubeTvBaseItem.cs" />
-    <Compile Include="Domain\Catalog\CatalogPage.cs" />
+    <Compile Include="Domain\Catalog\CatalogPage.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Domain\Catalog\TargetedOffer.cs" />
     <Compile Include="Domain\Catalog\EcotronReward.cs" />
     <Compile Include="Domain\Items\PostItItem.cs" />
     <Compile Include="Domain\Items\SongItem.cs" />
     <Compile Include="Domain\Items\Item.cs" />
-    <Compile Include="IgnoreAttribute.cs" />
     <Compile Include="Domain\Users\Inventory\UserItem.cs" />
     <Compile Include="Domain\BaseItems\ItemType.cs" />
     <Compile Include="Domain\Items\Moodlight\MoodlightPreset.cs" />
@@ -299,9 +278,6 @@
     <Compile Include="Domain\Users\WardrobeItem.cs" />
     <Compile Include="Domain\Users\Components\Inventory.cs" />
     <Compile Include="Domain\Achievements\TalentType.cs" />
-    <Compile Include="UserType.cs" />
-    <Compile Include="EnumAsInt32.cs" />
-    <Compile Include="EnumTypeConvention.cs" />
     <Compile Include="Domain\Navigator\HallOfFameElement.cs" />
     <Compile Include="Domain\Rooms\Components\SongMachineComponent.cs" />
     <Compile Include="Domain\Catalog\EcotronLevel.cs" />
@@ -318,8 +294,6 @@
     <Compile Include="Domain\Items\MonsterPlantSeedItem.cs" />
     <Compile Include="Domain\Support\UserCaution.cs" />
     <Compile Include="Domain\Support\UserBan.cs" />
-    <Compile Include="IpAddressAsString.cs" />
-    <Compile Include="IPAddressConvention.cs" />
     <Compile Include="Domain\Users\TradeLock.cs" />
     <Compile Include="Domain\Rooms\RoomCompetition.cs" />
     <Compile Include="Domain\Rooms\TradeUser.cs" />
@@ -338,9 +312,6 @@
     <Compile Include="Domain\Rooms\HeightMap.cs" />
     <Compile Include="Domain\Users\Minimail.cs" />
     <Compile Include="Test\ValidateModel.cs" />
-    <Compile Include="CascadeConvention.cs" />
-    <Compile Include="VectorConvention.cs" />
-    <Compile Include="Vector3UserType.cs" />
     <Compile Include="Util\Vector2Ext.cs" />
     <Compile Include="Domain\Rooms\Chat\ChatBubbleStyle.cs" />
     <Compile Include="Domain\Rooms\Chat\Link.cs" />
@@ -422,10 +393,81 @@
     <Compile Include="Domain\Catalog\Layout\SpacesLayout.cs" />
     <Compile Include="Domain\Catalog\Layout\VipBuyLayout.cs" />
     <Compile Include="Domain\Catalog\Layout\GuildForumLayout.cs" />
-    <Compile Include="NullableConvention.cs" />
-    <Compile Include="NullableAttribute.cs" />
     <Compile Include="Domain\Catalog\Layout\RootLayout.cs" />
     <Compile Include="Domain\Util\TString.cs" />
+    <Compile Include="Domain\Catalog\Layout\BadgeDisplayLayout.cs" />
+    <Compile Include="Domain\BaseItems\ItemSpecialType.cs" />
+    <Compile Include="Domain\BaseItems\VendingMachineBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\AdsBgBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\BackgroundTonerBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\ClubHopperBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\RentableSpaceBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\HorseObstacleBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\SoundFxBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WaterBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WaterItemBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\BanzaiCounterBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\BanzaiTimerBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\CostumeHopperBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\IceTagPoleBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\SkatesBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\PressurePlateBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\FloorSwitchBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredTriggerStateChangedBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredTriggerWalksOnFurniBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredTriggerWalksOffFurniBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredTriggerScoreAchievedBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredActionTeleportToBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredTriggerOnUserSayBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\ClubGateBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredTriggerGameEndBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredTriggerGameStartBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredActionShowMessageBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredTriggerEnterRoomBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredConditionHasHanditemBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredActionMuteUserBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredActionMoveFurniToBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredActionMoveRotateBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredTriggerLongRepeaterBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredConditionNotInTeamBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredActionMoveToDirBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredActionGiveRewardBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredActionKickUserBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredActionPositionResetBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredActionResetTimerBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredActionFleeBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredConditionInTeamBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredTriggerCollisionBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredActionGiveScoreBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredActionGiveScoreTeamBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredConditionFurniMatchBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredTriggerPeriodicallyBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredHighscoreBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredTriggerAtGivenTimeBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredActionToggleStateBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\WiredActionRandomToggleStateBaseItem.cs" />
+    <Compile Include="Domain\BaseItems\MultiHeightBaseItem.cs" />
+    <Compile Include="Repository\QueryableExt.cs" />
+    <Compile Include="NHibernate\MonoSQLiteConfiguration.cs" />
+    <Compile Include="NHibernate\MonoSQLiteDriver.cs" />
+    <Compile Include="NHibernate\ORMConfiguration.cs" />
+    <Compile Include="NHibernate\Attributes\IgnoreAttribute.cs" />
+    <Compile Include="NHibernate\Attributes\ManyToManyAttribute.cs" />
+    <Compile Include="NHibernate\Attributes\RequiredAttribute.cs" />
+    <Compile Include="NHibernate\Attributes\TablePerClassAttribute.cs" />
+    <Compile Include="NHibernate\Conventions\CascadeConvention.cs" />
+    <Compile Include="NHibernate\Conventions\EnumTypeConvention.cs" />
+    <Compile Include="NHibernate\Conventions\IPAddressConvention.cs" />
+    <Compile Include="NHibernate\Conventions\ReferenceConventions.cs" />
+    <Compile Include="NHibernate\Conventions\RequiredConvention.cs" />
+    <Compile Include="NHibernate\Conventions\VectorConvention.cs" />
+    <Compile Include="NHibernate\UserType\EnumAsInt32.cs" />
+    <Compile Include="NHibernate\UserType\IpAddressAsString.cs" />
+    <Compile Include="NHibernate\UserType\UserType.cs" />
+    <Compile Include="NHibernate\UserType\Vector3UserType.cs" />
+    <Compile Include="NHibernate\Attributes\OneToManyAttribute.cs" />
+    <Compile Include="Domain\Util\Translation.cs" />
+    <Compile Include="NHibernate\MigrationConfiguration.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -439,6 +481,12 @@
     <Folder Include="Domain\Rooms\Entity\Posture\" />
     <Folder Include="Domain\Navigator\Components\" />
     <Folder Include="Domain\Catalog\Layout\" />
+    <Folder Include="Import\" />
+    <Folder Include="NHibernate\" />
+    <Folder Include="NHibernate\Attributes\" />
+    <Folder Include="NHibernate\Conventions\" />
+    <Folder Include="NHibernate\UserType\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Yupi.Protocol\Yupi.Protocol.csproj">
@@ -459,12 +507,9 @@
     <None Include="App.config" />
     <None Include="packages.config" />
     <None Include="Headspring\LICENSE.txt" />
+    <None Include="Import\catalog.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
-  <Import Project="..\packages\System.Data.SQLite.Core.1.0.102.0\build\net45\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.102.0\build\net45\System.Data.SQLite.Core.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.102.0\build\net45\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.102.0\build\net45\System.Data.SQLite.Core.targets'))" />
-  </Target>
+  <Import Project="..\packages\System.Data.SQLite.Core.1.0.102.0\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.102.0\build\net46\System.Data.SQLite.Core.targets')" />
 </Project>

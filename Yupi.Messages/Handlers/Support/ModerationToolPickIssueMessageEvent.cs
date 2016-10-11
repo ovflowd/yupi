@@ -62,7 +62,7 @@ namespace Yupi.Messages.Support
             message.GetInteger(); // TODO Unused
             int ticketId = message.GetInteger();
 
-            SupportTicket ticket = TicketRepository.FindBy(ticketId);
+            SupportTicket ticket = TicketRepository.Find(ticketId);
 
             if (ticket == null || ticket.Status != TicketStatus.Closed)
             {

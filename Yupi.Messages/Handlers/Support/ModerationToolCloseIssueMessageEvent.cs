@@ -67,7 +67,7 @@ namespace Yupi.Messages.Support
 
             int ticketId = message.GetInteger();
 
-            SupportTicket ticket = TicketRepository.FindBy(ticketId);
+            SupportTicket ticket = TicketRepository.Find(ticketId);
 
             TicketCloseReason reason;
 

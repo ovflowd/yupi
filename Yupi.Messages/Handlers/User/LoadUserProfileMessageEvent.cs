@@ -56,7 +56,7 @@ namespace Yupi.Messages.User
             int userId = message.GetInteger();
             message.GetBool(); // TODO Unused (never set to false in client?)
 
-            UserInfo user = UserRepository.FindBy(userId);
+            UserInfo user = UserRepository.Find(userId);
 
             if (user == null)
             {

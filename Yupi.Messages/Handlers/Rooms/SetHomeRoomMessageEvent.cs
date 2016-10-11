@@ -57,7 +57,7 @@ namespace Yupi.Messages.Rooms
         {
             int roomId = request.GetInteger();
 
-            RoomData room = RoomRepository.FindBy(roomId);
+            RoomData room = RoomRepository.Find(roomId);
 
             if (room != null)
             {

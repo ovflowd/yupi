@@ -56,7 +56,7 @@ namespace Yupi.Messages.Support
             {
                 int userId = message.GetInteger();
 
-                UserInfo info = UserRepository.FindBy(userId);
+                UserInfo info = UserRepository.Find(userId);
 
                 if (info != null)
                 {

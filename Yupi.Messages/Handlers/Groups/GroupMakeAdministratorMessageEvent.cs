@@ -56,7 +56,7 @@ namespace Yupi.Messages.Groups
             int groupId = request.GetInteger();
             int memberId = request.GetInteger();
             // TODO Rename variables
-            Group group = GroupRepository.FindBy(groupId);
+            Group group = GroupRepository.Find(groupId);
             throw new NotImplementedException();
             /*
             if (session.Info != group.Creator || !group.Members.ContainsKey(memberId) ||

@@ -54,7 +54,7 @@ namespace Yupi.Messages.Navigator
         {
             int roomId = request.GetInteger();
 
-            RoomData roomData = RoomRepository.FindBy(roomId);
+            RoomData roomData = RoomRepository.Find(roomId);
 
             if (roomData == null)
                 return;

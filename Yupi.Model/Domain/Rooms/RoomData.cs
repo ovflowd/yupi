@@ -84,7 +84,6 @@ namespace Yupi.Model.Domain
         }
 
         // TODO What are those exactly? (Format!)
-        [Nullable]
         public virtual string CCTs
         {
             get; set;
@@ -108,13 +107,12 @@ namespace Yupi.Model.Domain
             get; set;
         }
 
-        [Nullable]
         public virtual RoomEvent Event
         {
             get; set;
         }
 
-        public virtual float Floor
+        public virtual decimal Floor
         {
             get; set;
         }
@@ -124,7 +122,6 @@ namespace Yupi.Model.Domain
             get; set;
         }
 
-        [Nullable]
         public virtual Group Group
         {
             get; set;
@@ -158,7 +155,7 @@ namespace Yupi.Model.Domain
             }
         }
 
-        public virtual float LandScape
+        public virtual decimal LandScape
         {
             get; set;
         }
@@ -268,7 +265,7 @@ namespace Yupi.Model.Domain
         }
 
         // TODO Determine proper type!
-        public virtual float WallPaper
+        public virtual decimal WallPaper
         {
             get; set;
         }

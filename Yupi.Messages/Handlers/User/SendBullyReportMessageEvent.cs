@@ -46,7 +46,7 @@ namespace Yupi.Messages.Handlers.User
         {
             int reportedId = message.GetInteger();
 
-            UserInfo reportedUser = DependencyFactory.Resolve<IRepository<UserInfo>>().FindBy(reportedId);
+            UserInfo reportedUser = DependencyFactory.Resolve<IRepository<UserInfo>>().Find(reportedId);
 
             SupportTicket ticket = new SupportTicket()
             {

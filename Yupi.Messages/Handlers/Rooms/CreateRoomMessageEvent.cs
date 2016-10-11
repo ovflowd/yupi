@@ -71,7 +71,7 @@ namespace Yupi.Messages.Rooms
                 return;
             }
 
-            NavigatorCategory category = NavigatorRepository.FindBy(categoryId);
+            NavigatorCategory category = NavigatorRepository.Find(categoryId);
 
             if (category.MinRank > session.Info.Rank)
             {

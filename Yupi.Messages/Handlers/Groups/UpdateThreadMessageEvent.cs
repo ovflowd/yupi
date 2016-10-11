@@ -58,7 +58,7 @@ namespace Yupi.Messages.Groups
             bool pin = request.GetBool();
             bool Lock = request.GetBool();
 
-            Group theGroup = GroupRepository.FindBy(groupId);
+            Group theGroup = GroupRepository.Find(groupId);
 
             if (theGroup == null)
             {

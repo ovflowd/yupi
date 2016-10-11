@@ -30,6 +30,7 @@ namespace Yupi.Model.Repository
     using System.Linq.Expressions;
 
     public interface IRepository<T>
+        where T : class
     {
         #region Methods
 
@@ -41,9 +42,9 @@ namespace Yupi.Model.Repository
 
         IQueryable<T> FilterBy(Expression<Func<T, bool>> expression);
 
-        T FindBy(int id);
+        T Find(object id);
 
-        T FindBy(Expression<Func<T, bool>> expression);
+        T Find(Expression<Func<T, bool>> expression);
 
         void Save(T entity);
 

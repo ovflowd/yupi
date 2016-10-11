@@ -31,13 +31,14 @@ namespace Yupi.Model.Domain
 {
     using System;
 
+    [Serializable]
     public class FrontpageLayout : CatalogPageLayout
     {
         #region Properties
 
         public virtual TString Content
         {
-            get; protected set;
+            get; set;
         }
 
         public virtual string HeaderImage
@@ -79,7 +80,7 @@ namespace Yupi.Model.Domain
 
         public virtual TString VoucherDescription
         {
-            get; protected set;
+            get; set;
         }
 
         #endregion Properties

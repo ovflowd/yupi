@@ -93,7 +93,7 @@ namespace Yupi.Model.Domain
 
         #region Methods
 
-        protected virtual PurchaseStatus CanPurchase(UserInfo user, int amount = 1)
+        protected override PurchaseStatus CanPurchase(UserInfo user, int amount = 1)
         {
             // TODO Implement PurchaseLimit
             return base.CanPurchase(user, amount);

@@ -36,11 +36,11 @@ namespace Yupi.Net.DotNettyImpl
 {
     class ConnectionManager<T> : IServer<T>
     {
-        public event MessageReceived<T> OnMessageReceived = delegate { };
+        public event MessageReceived<T> OnMessageReceived;
 
-        public event ConnectionOpened<T> OnConnectionOpened = delegate { };
+        public event ConnectionOpened<T> OnConnectionOpened;
 
-        public event ConnectionClosed<T> OnConnectionClosed = delegate { };
+        public event ConnectionClosed<T> OnConnectionClosed;
 
         /// <summary>
         ///     Server Channel
@@ -63,6 +63,10 @@ namespace Yupi.Net.DotNettyImpl
 
         public ConnectionManager(IServerSettings settings, CrossDomainSettings flashPolicy)
         {
+            OnConnectionClosed = delegate { };
+            OnConnectionOpened = delegate { };
+            OnMessageReceived = delegate { };
+
             this.Settings = settings;
             this.FlashPolicy = flashPolicy;
         }

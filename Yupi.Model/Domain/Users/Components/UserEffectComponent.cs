@@ -34,7 +34,6 @@ namespace Yupi.Model.Domain.Components
     {
         #region Properties
 
-        [Nullable]
         public virtual AvatarEffect ActiveEffect
         {
             get; set;

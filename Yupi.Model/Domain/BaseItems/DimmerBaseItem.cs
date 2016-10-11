@@ -27,6 +27,7 @@ namespace Yupi.Model.Domain
     using System;
 
     // TODO Consistency: Moodlight vs Dimmer
+    [Serializable]
     public class DimmerBaseItem : WallBaseItem
     {
         #region Methods

@@ -46,13 +46,4 @@ using System.Runtime.CompilerServices;
 // The assembly version has the format "{Major}.{Minor}.{Build}.{Revision}".
 // The form "{Major}.{Minor}.*" will automatically update the build and revision,
 // and "{Major}.{Minor}.{Build}.*" will update just the revision.
-[assembly: System.Reflection.AssemblyVersion(
-        ThisAssembly.Git.SemVer.Major + "." + ThisAssembly.Git.SemVer.Minor + "." + ThisAssembly.Git.SemVer.Patch)]
-[assembly: System.Reflection.AssemblyFileVersion(
-        ThisAssembly.Git.SemVer.Major + "." + ThisAssembly.Git.SemVer.Minor + "." + ThisAssembly.Git.SemVer.Patch)]
-[assembly: System.Reflection.AssemblyInformationalVersion(
-               ThisAssembly.Git.SemVer.Major + "." +
-               ThisAssembly.Git.SemVer.Minor + "." +
-               ThisAssembly.Git.SemVer.Patch + "-" +
-               ThisAssembly.Git.Branch + "+" +
-               ThisAssembly.Git.Commit)]
+[assembly: System.Reflection.AssemblyVersion("0.0.*")]

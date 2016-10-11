@@ -57,7 +57,7 @@ namespace Yupi.Messages.Support
 
             int ticketId = message.GetInteger();
 
-            SupportTicket ticket = TicketRepository.FindBy(ticketId);
+            SupportTicket ticket = TicketRepository.Find(ticketId);
 
             if (ticket != null)
             {

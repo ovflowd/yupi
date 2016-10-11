@@ -7,8 +7,7 @@ before_build:
 
 build:
   verbosity: minimal
+  publish_nuget: true
 
-artifacts:
-- path: Yupi\Build
-  name: Yupi.zip
-  type: zip
+nuget:
+  project_feed: true
