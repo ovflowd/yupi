@@ -68,8 +68,8 @@ Want a the Old Version from Yupi? Go to [NIO Branch](https://github.com/sant0ro/
 #### Talk more!
 Join in ou Gitter Chat [Here](https://gitter.im/sant0ro/Yupi) And talk a lot of ideas, issues, bitchies conquests, and more, be diversified talking like a bastard or not.
 
-#### Features Lady?
-- ``C# 5`` we use ~~Marylin~~ Rosylin Monroe C Sharp!
+#### Features
+- ``C# 5`` we use Rosylin Monroe C Sharp!
 - ``NuGet`` we aread ready for continuos integration!
 - ``DotNetty`` we use reactive and NIO ready socket system!
 - ``SuperSocket`` we use advanced .NET socket system
@@ -83,4 +83,4 @@ Join in ou Gitter Chat [Here](https://gitter.im/sant0ro/Yupi) And talk a lot of 
 - ``more!`` we use a lot of other features.
 
 #### Are ready?
-Let's download, build, run and have fun! So, run lady!
+Let's download, build, run and have fun!
