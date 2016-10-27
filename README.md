@@ -1,4 +1,4 @@
-<h6>we need developers! contact us.</h6>
+<h6><i>we need developers! contact us.</i></h6>
 
 <sup>we're on [RaGEZONE](https://forum.ragezone.com/f331/yupi-6-rosylin-mysql-based-1087279/)</sup>
 
