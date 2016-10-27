@@ -1,4 +1,4 @@
-<sup><sup><i>we need developers! contact us.</i></sup></sup>
+<sub><sub><i>we need developers! <a href="mailto:claudio.santoro@redes.unb.br">contact us.</a></i></sub></sub>
 
 <sup>we're on [RaGEZONE](https://forum.ragezone.com/f331/yupi-6-rosylin-mysql-based-1087279/)</sup>
 
