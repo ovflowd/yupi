@@ -1,3 +1,5 @@
+<h6>we need developers! contact us.</h6>
+
 <sup>we're on [RaGEZONE](https://forum.ragezone.com/f331/yupi-6-rosylin-mysql-based-1087279/)</sup>
 
 <h1><img src="http://i.imgur.com/eiiDJbl.png"/><sup><sup><h6>Private HH Emulator for Good Guys! <sup>and for chocolate lovers</sup></h6></sup></sup></h1>
