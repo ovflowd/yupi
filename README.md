@@ -1,10 +1,11 @@
 
 <sup>we're on [RaGEZONE](https://forum.ragezone.com/f331/yupi-6-rosylin-mysql-based-1087279/)</sup>
-<center><img src="http://i.imgur.com/eiiDJbl.png"/></center>
+<center>
+ <img src="http://i.imgur.com/eiiDJbl.png"/>
+ <h5>Private HH Emulator for Good Guys! <sup>and for chocolate lovers</sup></h5>
+</center>
 
-<h5>Private HH Emulator for Good Guys!</h5>
-<sup>and for chocolate lovers</sup>
-
+<hr>
 
 | Branch  | Windows | Linux (Mono) | Artifacts |
 |---------|---------|--------------|-----------|
