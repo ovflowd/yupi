@@ -54,19 +54,20 @@ namespace Yupi.Messages.Catalog
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message,
             Yupi.Protocol.IRouter router)
         {
+            CatalogType type;
+
+            CatalogType.TryParse (message.GetString (), out type);
+
+            // TODO Cache
             // Preload (avoid N+1 select)
             CatalogRepository.All().Eager ((p) => p.Children).ToList ();
 
-            CatalogPage root = CatalogRepository.Find (x => x.IsRoot);
+            CatalogPage root = CatalogRepository.Find (x => x.IsRoot && x.Type == type);
 
             if (root != null)
             {
-
-                // TODO Type?!
-                string type = message.GetString().ToUpper();
-
                 router.GetComposer<CatalogueOfferConfigMessageComposer>().Compose(session);
-                router.GetComposer<CatalogueIndexMessageComposer>().Compose(session, root, type, session.Info.Rank);
+                router.GetComposer<CatalogueIndexMessageComposer>().Compose(session, root, session.Info.Rank);
             }
         }
 

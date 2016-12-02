@@ -28,11 +28,13 @@ namespace Yupi.Model.Domain
     {
         #region Properties
 
+        [Required]
         public virtual BaseItem BaseItem
         {
             get; protected set;
         }
 
+        [Key]
         public virtual int Id
         {
             get; protected set;

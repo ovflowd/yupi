@@ -64,7 +64,7 @@ namespace Yupi.Messages.Support
 
                         message.AppendInteger(chat.User.Id);
                         message.AppendString(chat.User.Name);
-                        message.AppendString(chat.Message);
+                        message.AppendString(chat.OriginalMessage);
                         message.AppendBool(false);
                     }
 

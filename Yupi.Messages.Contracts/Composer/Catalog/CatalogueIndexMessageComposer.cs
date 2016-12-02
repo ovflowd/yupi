@@ -30,12 +30,12 @@ namespace Yupi.Messages.Contracts
     using Yupi.Model.Domain;
     using Yupi.Protocol.Buffers;
 
-    public abstract class CatalogueIndexMessageComposer : AbstractComposer<CatalogPage, string, int>
+    public abstract class CatalogueIndexMessageComposer : AbstractComposer<CatalogPage, Rank>
     {
         #region Methods
 
-        public override void Compose(Yupi.Protocol.ISender session, CatalogPage sortedPages, string type,
-            int rank)
+        public override void Compose(Yupi.Protocol.ISender session, CatalogPage sortedPages,
+            Rank rank)
         {
             // Do nothing by default.
         }

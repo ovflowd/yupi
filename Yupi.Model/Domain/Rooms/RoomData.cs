@@ -37,177 +37,147 @@ namespace Yupi.Model.Domain
     {
         #region Properties
 
-        /// <summary>
-        ///     Allow Pets in Room
-        /// </summary>
-        public virtual bool AllowPets
-        {
+        [Required]
+        public virtual bool AllowPets {
             get; set;
-        }
+        } = true;
 
-        /// <summary>
-        ///     Allow Other Users Pets Eat in Room
-        /// </summary>
-        public virtual bool AllowPetsEating
-        {
+        [Required]
+        public virtual bool AllowPetsEating {
             get; set;
-        }
+        } = true;
 
-        /// <summary>
-        ///     Allow Override Room Rights
-        /// </summary>
-        public virtual bool AllowRightsOverride
-        {
+        [Required]
+        public virtual bool AllowWalkThrough {
             get; set;
-        }
-
-        /// <summary>
-        ///     Allow Users Walk Through Other Users
-        /// </summary>
-        public virtual bool AllowWalkThrough
-        {
-            get; set;
-        }
+        } = false;
 
         // TODO Implement bans with time & expire on server ticks?
-        public virtual IList<UserInfo> BannedUsers
-        {
+        [ManyToMany]
+        public virtual IList<UserInfo> BannedUsers {
             get; protected set;
-        }
+        } = new List<UserInfo> ();
 
         /// <summary>
         ///     Room Category
         /// </summary>
+        [Required]
         public virtual NavigatorCategory Category
         {
             get; set;
         }
 
         // TODO What are those exactly? (Format!)
-        public virtual string CCTs
-        {
+        [Required]
+        public virtual string CCTs {
             get; set;
-        }
+        } = string.Empty;
 
-        public virtual RoomChatSettings Chat
-        {
+        [Required]
+        public virtual RoomChatSettings Chat {
             get; protected set;
-        }
+        } = new RoomChatSettings ();
 
-        public virtual IList<ChatMessage> Chatlog
-        {
+        [OneToMany]
+        public virtual IList<ChatMessage> Chatlog {
             get; protected set;
-        }
+        } = new List<ChatMessage> ();
 
-        /// <summary>
-        ///     Room Description
-        /// </summary>
-        public virtual string Description
-        {
+        [Required]
+        [Length (100)]
+        public virtual string Description {
             get; set;
-        }
+        } = string.Empty;
 
         public virtual RoomEvent Event
         {
             get; set;
         }
 
-        public virtual decimal Floor
-        {
+        [Required]
+        public virtual float Floor {
             get; set;
-        }
+        } = 0;
 
-        public virtual int FloorThickness
-        {
+        // TODO Enum
+        [Required]
+        public virtual int FloorThickness {
             get; set;
-        }
+        } = 0;
 
         public virtual Group Group
         {
             get; set;
         }
 
-        /// <summary>
-        ///     Hide Wall in Room
-        /// </summary>
-        public virtual bool HideWall
-        {
+        [Required]
+        public virtual bool HideWall {
             get; set;
-        }
+        } = false;
 
+        [Key]
         public virtual int Id
         {
             get; protected set;
         }
 
-        public virtual bool IsMuted
-        {
+        [Required]
+        public virtual bool IsMuted {
             get; set;
-        }
+        } = false;
 
-        [Ignore]
-        public virtual bool IsPublic
-        {
-            get
-            {
-                // TODO Remove Type!
-                return Type != "private";
-            }
-        }
-
-        public virtual decimal LandScape
-        {
+        [Required]
+        public virtual bool IsPublic {
             get; set;
-        }
+        } = false;
 
-        public virtual RoomModel Model
-        {
+        // Enum?
+        [Required]
+        public virtual float LandScape {
             get; set;
-        }
+        } = 0;
 
-        public virtual ModerationSettings ModerationSettings
-        {
+        [Required]
+        public virtual RoomModel Model {
+            get; set;
+        } = RoomModel.Model_a;
+
+        [Required]
+        public virtual ModerationSettings ModerationSettings {
             get; protected set;
         }
 
-        public virtual IList<RoomMute> MutedEntities
-        {
+        [OneToMany]
+        public virtual IList<RoomMute> MutedEntities {
             get; protected set;
-        }
+        } = new List<RoomMute> ();
 
-        /// <summary>
-        ///     Room Name
-        /// </summary>
+        [Required]
+        [Length(30)]
         public virtual string Name
         {
             get; set;
         }
 
-        public virtual string NavigatorImage
-        {
+        [Required]
+        public virtual string NavigatorImage {
             get; set;
-        }
+        } = string.Empty;
 
-        /// <summary>
-        ///     Room Owner
-        /// </summary>
+        [Required]
         public virtual UserInfo Owner
         {
             get; set;
         }
 
-        /// <summary>
-        ///     Room Password
-        /// </summary>
-        public virtual string Password
-        {
+        [Required]
+        public virtual string Password {
             get; set;
-        }
+        } = string.Empty;
 
-        public virtual IList<UserInfo> Rights
-        {
+        public virtual IList<UserInfo> Rights {
             get; protected set;
-        }
+        } = new List<UserInfo> ();
 
         /// <summary>
         ///     Room Score
@@ -217,73 +187,54 @@ namespace Yupi.Model.Domain
             get; set;
         }
 
-        public virtual SongMachineComponent SongMachine
-        {
+        public virtual SongMachineComponent SongMachine {
             get; protected set;
-        }
+        } = new SongMachineComponent ();
 
         /// <summary>
         ///     Room Locked State
         /// </summary>
-        public virtual RoomState State
-        {
+        public virtual RoomState State {
             get; set;
-        }
+        } = RoomState.Open;
 
-        /// <summary>
-        ///     Room Tags
-        /// </summary>
         [OneToMany]
-        public virtual IList<string> Tags
+        public virtual IList<Tag> Tags
         {
             get; protected set;
-        }
+        } = new List<Tag>();
 
-        public virtual TradingState TradeState
-        {
+        [Required]
+        public virtual TradingState TradeState {
             get; set;
-        }
+        } = TradingState.NotAllowed;
 
-        // TODO Enum private/public
-        public virtual string Type
-        {
+        public virtual int UsersMax {
             get; set;
-        }
-
-        /// <summary>
-        ///     Max Amount of Users on Room
-        /// </summary>
-        public virtual int UsersMax
-        {
-            get; set;
-        }
+        } = 10;
 
         // TODO Isn't this part of the model?
-        public virtual int WallHeight
-        {
+        public virtual int WallHeight {
             get; set;
-        }
+        } = 0;
 
         // TODO Determine proper type!
-        public virtual decimal WallPaper
-        {
+        public virtual float WallPaper {
             get; set;
-        }
+        } = 0;
 
         // TODO Enum
-        public virtual int WallThickness
-        {
+        public virtual int WallThickness {
             get; set;
-        }
+        } = 0;
 
         /// <summary>
         ///     Room Private Black Words
         /// </summary>
         [OneToMany]
-        public virtual ISet<string> WordFilter
-        {
+        public virtual ISet<string> WordFilter {
             get; protected set;
-        }
+        } = new HashSet<string> ();
 
         #endregion Properties
 
@@ -291,28 +242,7 @@ namespace Yupi.Model.Domain
 
         public RoomData()
         {
-            // TODO Should be removed...
-            Name = "Unknown Room";
-            Description = string.Empty;
-            Type = "private";
-            Tags = new List<string>();
-            AllowPets = true;
-            AllowPetsEating = false;
-            AllowWalkThrough = true;
-            HideWall = false;
-            AllowRightsOverride = false;
-            TradeState = TradingState.NotAllowed;
-            WordFilter = new HashSet<string>();
-            Rights = new List<UserInfo>();
-            MutedEntities = new List<RoomMute>();
-            Chat = new RoomChatSettings();
-            BannedUsers = new List<UserInfo>();
-            WallHeight = -1;
-            Chatlog = new List<ChatMessage>();
             ModerationSettings = new ModerationSettings(this);
-            State = RoomState.Open;
-            NavigatorImage = String.Empty;
-            Password = String.Empty;
         }
 
         #endregion Constructors
@@ -338,7 +268,7 @@ namespace Yupi.Model.Domain
                 flag |= RoomFlags.Event;
             }
 
-            if (Type == "private")
+            if (!IsPublic)
             {
                 flag |= RoomFlags.Private;
             }
@@ -361,82 +291,6 @@ namespace Yupi.Model.Domain
         }
 
         #endregion Methods
-
-        #region Other
-
-        // TODO Remove when not used anymore
-        /*
-        /// <summary>
-        ///     Serializes the specified messageBuffer.
-        /// </summary>
-        /// <param name="messageBuffer">The messageBuffer.</param>
-        /// <param name="showEvents">if set to <c>true</c> [show events].</param>
-        /// <param name="enterRoom"></param>
-         public void Serialize(SimpleServerMessageBuffer messageBuffer, bool showEvents = false, bool enterRoom = false)
-        {
-            messageBuffer.AppendInteger(data.Id);
-            messageBuffer.AppendString(data.Name);
-            messageBuffer.AppendInteger(data.OwnerId);
-            messageBuffer.AppendString(data.Owner);
-            messageBuffer.AppendInteger(data.State);
-            messageBuffer.AppendInteger(data.UsersNow);
-            messageBuffer.AppendInteger(data.UsersMax);
-            messageBuffer.AppendString(data.Description);
-            messageBuffer.AppendInteger(data.TradeState);
-            messageBuffer.AppendInteger(data.Score);
-            messageBuffer.AppendInteger(0);
-            messageBuffer.AppendInteger(data.Category > 0 ? data.Category : 0);
-            messageBuffer.AppendInteger(data.TagCount);
-
-            foreach (string current in data.Tags.Where(current => current != null))
-                messageBuffer.AppendString(current);
-
-            string imageData = null;
-
-            int enumType = enterRoom ? 32 : 0;
-
-            PublicItem publicItem = Yupi.GetGame()?.GetNavigator()?.GetPublicRoom(data.Id);
-
-            if (!string.IsNullOrEmpty(publicItem?.Image))
-            {
-                imageData = publicItem.Image;
-
-                enumType += 1;
-            }
-
-            if (data.Group != null)
-                enumType += 2;
-
-            if (showEvents && data.Event != null)
-                enumType += 4;
-
-            if (data.Type == "private")
-                enumType += 8;
-
-            if (data.AllowPets)
-                enumType += 16;
-
-            messageBuffer.AppendInteger(enumType);
-
-            if (imageData != null)
-                messageBuffer.AppendString(imageData);
-
-            if (data.Group != null)
-            {
-                messageBuffer.AppendInteger(data.Group.Id);
-                messageBuffer.AppendString(data.Group.Name);
-                messageBuffer.AppendString(data.Group.Badge);
-            }
-
-            if (showEvents && data.Event != null)
-            {
-                messageBuffer.AppendString(data.Event.Name);
-                messageBuffer.AppendString(data.Event.Description);
-                messageBuffer.AppendInteger((int)Math.Floor((data.Event.Time - Yupi.GetUnixTimeStamp()) / 60.0));
-            }
-        }*/
-
-        #endregion Other
     }
 
     public class RoomState : Enumeration<RoomState>

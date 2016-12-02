@@ -30,16 +30,19 @@ namespace Yupi.Model.Domain
     {
         #region Properties
 
+        [Key]
         public virtual int Id
         {
             get; set;
         }
 
+        [Required]
         public virtual RoomData Room
         {
             get; set;
         }
 
+        [Required]
         public virtual int Votes
         {
             get; set;

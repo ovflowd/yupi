@@ -61,29 +61,20 @@ namespace Yupi.Messages.Messenger
 
             request.GetInteger(); // TODO Unused
 
-            List<UserInfo> toDelete = new List<UserInfo>();
+            IRepository<FriendRequest> requests = DependencyFactory.Resolve<IRepository<FriendRequest>> ();
 
             if (deleteAll)
             {
-                var requests = RequestRepository.
-                    FilterBy(x => x.To == session.Info)
-                    .Select(x => x.To);
-                toDelete.AddRange(requests.AsEnumerable());
+                requests.Delete (x => x.To == session.Info);
             }
             else
             {
-                int sender = request.GetInteger();
-                UserInfo user = UserRepository.Find(sender);
-                if (user != null)
-                {
-                    toDelete.Add(user);
-                }
-            }
+                int senderId = request.GetInteger();
 
-            foreach (UserInfo info in toDelete)
-            {
-                info.Relationships.SentRequests.RemoveAll(x => x.To == session.Info);
-                UserRepository.Save(info);
+                UserInfo sender = UserRepository.Find (senderId);
+                // TODO Refactor this. It should not be necessary to load the sender...
+                requests.Delete (x => x.To == session.Info && x.From == sender);
+
             }
         }
 

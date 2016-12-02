@@ -28,17 +28,20 @@ namespace Yupi.Model.Domain
     {
         #region Properties
 
+        [Key]
         public virtual int Id
         {
             get; protected set;
         }
 
         // TODO Rename
+        [Required]
         public virtual string Value1
         {
             get; set;
         }
 
+        [Required]
         public virtual string Value2
         {
             get; set;

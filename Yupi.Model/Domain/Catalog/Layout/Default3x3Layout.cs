@@ -1,4 +1,4 @@
-﻿#region Header
+#region Header
 
 // ---------------------------------------------------------------------------------
 // <copyright file="DefaultLayout.cs" company="https://github.com/sant0ro/Yupi">
@@ -31,7 +31,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    [Serializable]
+    
     public class Default3x3Layout : DefaultCatalogLayout
     {
         #region Properties

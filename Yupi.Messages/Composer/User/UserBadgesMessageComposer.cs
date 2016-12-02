@@ -44,10 +44,10 @@ namespace Yupi.Messages.User
 
                 message.AppendInteger(badges.Count);
 
-                foreach (Badge badge in badges)
+                foreach (UserBadge badge in badges)
                 {
                     message.AppendInteger(badge.Slot);
-                    message.AppendString(badge.Code);
+                    message.AppendString(badge.Badge.Code);
                 }
 
                 session.Send(message);

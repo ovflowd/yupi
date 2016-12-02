@@ -39,9 +39,6 @@ namespace Yupi.Controller
     {
         #region Fields
 
-        public IDictionary<string, Achievement> Achievements;
-
-        private IRepository<Achievement> AchievementRepository;
         private ClientManager ClientManager;
         private IRepository<UserInfo> UserRepository;
 
@@ -49,36 +46,29 @@ namespace Yupi.Controller
 
         #region Constructors
 
-        public AchievementManager()
+        public AchievementManager ()
         {
-            AchievementRepository = DependencyFactory.Resolve<IRepository<Achievement>>();
-            UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>>();
-            ClientManager = DependencyFactory.Resolve<ClientManager>();
-            LoadAchievements();
+            UserRepository = DependencyFactory.Resolve<IRepository<UserInfo>> ();
+            ClientManager = DependencyFactory.Resolve<ClientManager> ();
         }
 
         #endregion Constructors
 
         #region Methods
 
-        public Achievement GetAchievement(string achievementGroup)
+        public bool ProgressUserAchievement (UserInfo info, Achievement achievement)
         {
-            return Achievements[achievementGroup];
+            // TODO Remove progressAmount?
+            Habbo session = ClientManager.GetByInfo (info);
+            return ProgressUserAchievement (info, achievement, 1, session);
         }
 
-        // TODO Enum?
-        public bool ProgressUserAchievement(UserInfo info, string achievementGroup, int progressAmount)
+        public bool ProgressUserAchievement (Habbo user, Achievement achievement)
         {
-            Habbo session = ClientManager.GetByInfo(info);
-            return ProgressUserAchievement(info, achievementGroup, progressAmount, session);
+            return ProgressUserAchievement (user.Info, achievement, 1, user);
         }
 
-        public bool ProgressUserAchievement(Habbo user, string achievementGroup, int progressAmount)
-        {
-            return ProgressUserAchievement(user.Info, achievementGroup, progressAmount, user);
-        }
-
-        public void TryProgressHabboClubAchievements(Habbo session)
+        public void TryProgressHabboClubAchievements (Habbo session)
         {
             /*
              *  if (!session.Info.Subscription.IsValid())
@@ -130,7 +120,7 @@ namespace Yupi.Controller
             // FIXME
         }
 
-        public void TryProgressLoginAchievements(Habbo session)
+        public void TryProgressLoginAchievements (Habbo session)
         {
             // FIXME
             /*
@@ -147,7 +137,7 @@ namespace Yupi.Controller
             */
         }
 
-        public void TryProgressRegistrationAchievements(Habbo session)
+        public void TryProgressRegistrationAchievements (Habbo session)
         {
             // FIXME
 
@@ -182,77 +172,57 @@ namespace Yupi.Controller
             */
         }
 
-        private void LoadAchievements()
+        private bool ProgressUserAchievement (UserInfo user, Achievement achievement, int progressAmount, Habbo session)
         {
-            Achievements = AchievementRepository.All().ToDictionary((x) => x.GroupName);
-        }
 
-        private bool ProgressUserAchievement(UserInfo user, string achievementGroup, int progressAmount, Habbo session)
-        {
-            if (Achievements.ContainsKey(achievementGroup))
-            {
-                Achievement achievement = Achievements[achievementGroup];
+            UserAchievement userAchievement =
+                user.Achievements.FirstOrDefault (x => x.Achievement == achievement);
 
-                UserAchievement userAchievement =
-                    user.Achievements.Single(x => x.Achievement.GroupName == achievementGroup);
+            if (userAchievement == null) {
+                userAchievement = new UserAchievement (achievement);
 
-                if (userAchievement == null)
-                {
-                    userAchievement = new UserAchievement()
-                    {
-                        Achievement = achievement,
-                        Level = achievement.DefaultLevel()
-                    };
-
-                    user.Achievements.Add(userAchievement);
-                }
-
-                userAchievement.Progress += progressAmount;
-
-                // If is new Level
-                if (userAchievement.CanIncreaseLevel())
-                {
-                    userAchievement.IncreaseLevel();
-
-                    // Give Reward Points
-                    user.Wallet.AchievementPoints += userAchievement.Level.RewardPoints;
-                    user.Wallet.AddActivityPoints(userAchievement.Level.RewardActivityPointsType,
-                        userAchievement.Level.RewardActivityPoints);
-
-                    // TODO Don't really like this implementation
-                    user.Badges.RemoveBadge(userAchievement.Achievement.GroupName + (userAchievement.Level.Level - 1));
-
-                    // Give new Badge
-                    user.Badges.GiveBadge(achievementGroup + userAchievement.Level.Level);
-
-                    if (session != null)
-                    {
-                        session.Router.GetComposer<ActivityPointsMessageComposer>().Compose(session, user.Wallet);
-
-                        // Send Unlocked Composer
-                        session.Router.GetComposer<UnlockAchievementMessageComposer>().Compose(session,
-                            achievement, userAchievement.Level.Level,
-                            userAchievement.Level.RewardPoints, userAchievement.Level.RewardActivityPoints);
-
-                        // Send Score Composer
-                        session.Router.GetComposer<AchievementPointsMessageComposer>()
-                            .Compose(session, user.Wallet.AchievementPoints);
-                    }
-                    // TODO Reimplement talents properly
-                }
-
-                UserRepository.Save(user);
-
-                if (session != null)
-                {
-                    session.Router.GetComposer<AchievementProgressMessageComposer>().Compose(session, userAchievement);
-                    session.Router.GetComposer<UpdateUserDataMessageComposer>().Compose(session, user);
-                }
-
-                return true;
+                user.Achievements.Add (userAchievement);
             }
 
-            return false;
+            userAchievement.Progress += progressAmount;
+
+            // If is new Level
+            if (userAchievement.CanIncreaseLevel ()) {
+                Badge oldBadge = userAchievement.Badge;
+
+                userAchievement.IncreaseLevel ();
+
+                // Give Reward Points
+                user.Wallet.AchievementPoints += userAchievement.Level.RewardPoints;
+                user.Wallet.AddActivityPoints (userAchievement.Level.RewardActivityPointsType,
+                    userAchievement.Level.RewardActivityPoints);
+
+                user.Badges.RemoveBadge (oldBadge);
+                user.Badges.GiveBadge (userAchievement.Badge);
+
+                if (session != null) {
+                    session.Router.GetComposer<ActivityPointsMessageComposer> ().Compose (session, user.Wallet);
+
+                    // Send Unlocked Composer
+                    session.Router.GetComposer<UnlockAchievementMessageComposer> ().Compose (session,
+                        achievement, userAchievement.Level.Level,
+                        userAchievement.Level.RewardPoints, userAchievement.Level.RewardActivityPoints);
+
+                    // Send Score Composer
+                    session.Router.GetComposer<AchievementPointsMessageComposer> ()
+                        .Compose (session, user.Wallet.AchievementPoints);
+                }
+                // TODO Reimplement talents properly
+            }
+
+            UserRepository.Save (user);
+
+            if (session != null) {
+                session.Router.GetComposer<AchievementProgressMessageComposer> ().Compose (session, userAchievement);
+                session.Router.GetComposer<UpdateUserDataMessageComposer> ().Compose (session, user);
+            }
+
+            return true;
         }
 
         #endregion Methods

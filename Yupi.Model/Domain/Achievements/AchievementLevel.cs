@@ -24,49 +24,43 @@
 // ---------------------------------------------------------------------------------
 namespace Yupi.Model.Domain
 {
+    [Ignore]
     public class AchievementLevel
     {
         #region Properties
 
-        public virtual int Id
-        {
-            get; protected set;
-        }
+        public readonly int Level;
 
-        public virtual int Level
+        public int Requirement
         {
             get; set;
         }
 
-        public virtual int Requirement
+        public int RewardActivityPoints
         {
-            get; set;
+            get {
+                return Level * 5;
+            }
         }
 
-        public virtual int RewardActivityPoints
+        public ActivityPointsType RewardActivityPointsType
         {
             get; set;
-        }
+        } = ActivityPointsType.Duckets;
 
-        public virtual ActivityPointsType RewardActivityPointsType
+        public int RewardPoints
         {
-            get; set;
-        }
-
-        public virtual int RewardPoints
-        {
-            get; set;
+            get {
+                return (Level - 1) * 5;
+            }
         }
 
         #endregion Properties
 
-        #region Constructors
-
-        public AchievementLevel()
+        public AchievementLevel (int level, int requirement)
         {
-            RewardActivityPointsType = ActivityPointsType.Duckets;
+            this.Level = level;
+            Requirement = requirement;
         }
-
-        #endregion Constructors
     }
 }

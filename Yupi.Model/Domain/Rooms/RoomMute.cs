@@ -30,16 +30,19 @@ namespace Yupi.Model.Domain
     {
         #region Properties
 
+        [Required]
         public virtual UserInfo Entity
         {
             get; set;
         }
 
+        [Required]
         public virtual DateTime ExpiresAt
         {
             get; set;
         }
 
+        [Key]
         public virtual int Id
         {
             get; protected set;

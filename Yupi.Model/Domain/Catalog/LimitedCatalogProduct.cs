@@ -30,11 +30,13 @@ namespace Yupi.Model.Domain
     {
         #region Properties
 
+        [Required]
         public virtual int LimitedItemsLeft
         {
             get; protected set;
         }
 
+        [Required]
         public virtual int LimitedSeriesSize
         {
             get; protected set;

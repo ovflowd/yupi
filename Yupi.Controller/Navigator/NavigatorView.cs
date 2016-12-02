@@ -152,7 +152,7 @@ namespace Yupi.Controller
                 case "owner":
                     return predicate.AndAlso(x => x.Owner.Name == values[0]);
                 case "tag":
-                    return predicate.AndAlso(x => x.Tags.Any(tag => values.Contains(tag)));
+                return predicate.AndAlso(x => x.Tags.Any(y => y.Value.IsIn(values)));
                 case "roomname":
                 default:
                     return predicate.AndAlso(x => x.Name.IsIn(values));

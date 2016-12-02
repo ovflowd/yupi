@@ -34,6 +34,11 @@ namespace Yupi.Model
     {
         #region Methods
 
+        public override bool IsId (FluentNHibernate.Member member)
+        {
+            return base.IsId (member) || Attribute.IsDefined (member.MemberInfo, typeof (KeyAttribute));
+        }
+
         public override bool IsComponent(Type type)
         {
             return type != null && type.Namespace.EndsWith("Components") || type == typeof(Vector3UserType);

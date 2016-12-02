@@ -39,45 +39,30 @@ namespace Yupi.Model.Domain.Components
             }
         }
 
-        [Ignore]
-        public virtual IReadOnlyList<SongItem> SongItems
-        {
-            get { return _SongItems.AsReadOnly(); }
-        }
-
-        protected virtual List<SongItem> _SongItems
+        public virtual List<SongItem> SongItems
         {
             get; set;
-        }
+        } = new List<SongItem> ();
 
         #endregion Properties
-
-        #region Constructors
-
-        public SongMachineComponent()
-        {
-            _SongItems = new List<SongItem>();
-        }
-
-        #endregion Constructors
 
         #region Methods
 
         public virtual SongItem Find(int id)
         {
-            return _SongItems.SingleOrDefault(x => x.Id == id);
+            return SongItems.SingleOrDefault(x => x.Id == id);
         }
 
         public virtual void Remove(SongItem item)
         {
-            _SongItems.Remove(item);
+            SongItems.Remove(item);
         }
 
         public virtual bool TryAdd(SongItem item)
         {
-            if (_SongItems.Count < Capacity)
+            if (SongItems.Count < Capacity)
             {
-                _SongItems.Add(item);
+                SongItems.Add(item);
                 return true;
             }
             else

@@ -28,6 +28,7 @@ namespace Yupi.Messages.Guides
 
     using Yupi.Controller;
     using Yupi.Model;
+    using Yupi.Model.Domain;
 
     // TODO Rename
     public class CancellInviteGuide : AbstractHandler
@@ -52,9 +53,10 @@ namespace Yupi.Messages.Guides
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message,
             Yupi.Protocol.IRouter router)
         {
+            // TODO Hardcoded
             router.GetComposer<OnGuideSessionDetachedMessageComposer>().Compose(session, 2);
 
-            AchievementManager.ProgressUserAchievement(session, "ACH_GuideFeedbackGiver", 1);
+            AchievementManager.ProgressUserAchievement(session, ToolsAchievement.GuideFeedbackGiver);
         }
 
         #endregion Methods

@@ -106,9 +106,11 @@ namespace Yupi.Messages.Handshake
         {
             router.GetComposer<LoadFriendsCategoriesComposer>().Compose(session);
 
+            IRepository<FriendRequest> requests = DependencyFactory.Resolve<IRepository<FriendRequest>> ();
+
             router.GetComposer<LoadFriendsMessageComposer>().Compose(session, session.Info.Relationships.Relationships);
             router.GetComposer<FriendRequestsMessageComposer>()
-                .Compose(session, session.Info.Relationships.ReceivedRequests);
+                  .Compose(session, requests.FilterBy(x => x.To == session.Info).ToList());
 
             var messages = MessengerRepository.FilterBy(x => x.To == session.Info && !x.Read);
 

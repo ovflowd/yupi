@@ -158,7 +158,7 @@ namespace Yupi.Controller
                     }
 
                     session.Router.GetComposer<SendAchievementsRequirementsMessageComposer>()
-                        .Compose(session, AchievementManager.Achievements);
+                           .Compose(session, Achievement.GetAll());
                     session.Router.GetComposer<EffectsInventoryMessageComposer>()
                         .Compose(session, user.EffectComponent.Effects);
 

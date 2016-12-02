@@ -30,16 +30,19 @@ namespace Yupi.Model.Domain
     {
         #region Properties
 
+        [Required]
         public virtual Achievement Achievement
         {
             get; set;
         }
 
+        [Required]
         public virtual int Id
         {
             get; protected set;
         }
 
+        [Required]
         public virtual int Level
         {
             get; set;

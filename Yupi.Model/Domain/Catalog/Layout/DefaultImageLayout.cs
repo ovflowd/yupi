@@ -1,4 +1,4 @@
-﻿#region Header
+#region Header
 
 // ---------------------------------------------------------------------------------
 // <copyright file="DefaultImageLayout.cs" company="https://github.com/sant0ro/Yupi">
@@ -31,15 +31,14 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    [Serializable]
+    
     public abstract class DefaultImageLayout : CatalogPageLayout
     {
         #region Properties
 
-        public virtual string HeaderImage
-        {
+        public virtual string HeaderImage {
             get; set;
-        }
+        } = string.Empty;
 
         [Ignore]
         public override string[] Images
@@ -49,8 +48,7 @@ namespace Yupi.Model.Domain
             }
         }
 
-        public virtual string SpecialImage
-        {
+        public virtual string SpecialImage {
             get; set;
         }
 

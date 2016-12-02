@@ -102,10 +102,10 @@ namespace Yupi.Controller
             if (Purchase(user, catalogItem, extraData, 1) && user.Info != receiver)
             {
                 AchievementManager
-                    .ProgressUserAchievement(user, "ACH_GiftGiver", 1);
+                    .ProgressUserAchievement(user, SocialAchievement.GiftGiver);
 
                 AchievementManager
-                    .ProgressUserAchievement(receiver, "ACH_GiftGiver", 1);
+                    .ProgressUserAchievement(receiver, SocialAchievement.GiftReceiver);
             }
         }
 

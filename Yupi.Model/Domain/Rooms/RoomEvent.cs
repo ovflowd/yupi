@@ -26,46 +26,41 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    /// <summary>
-    ///     Class RoomEvent.
-    /// </summary>
     public class RoomEvent
     {
         #region Properties
 
+        // TODO What is the category? Foreing key!
         /// <summary>
         ///     The category
         /// </summary>
+        [Required]
         public virtual int Category
         {
             get; set;
         }
 
-        // TODO What is the category? Foreing key!
         /// <summary>
         ///     The description
         /// </summary>
-        public virtual string Description
-        {
+        [Required]
+        public virtual string Description {
             get; set;
-        }
+        } = string.Empty;
 
-        /// <summary>
-        ///     The time
-        /// </summary>
-        public virtual DateTime ExpiresAt
-        {
+        [Required]
+        public virtual DateTime ExpiresAt {
             get; set;
-        }
+        } = new DateTime ().AddHours (2);
 
+        [Key]
         public virtual int Id
         {
             get; protected set;
         }
 
-        /// <summary>
-        ///     The name
-        /// </summary>
+        [Required]
+        [Length(50)]
         public virtual string Name
         {
             get; set;
@@ -73,21 +68,8 @@ namespace Yupi.Model.Domain
 
         #endregion Properties
 
-        #region Constructors
-
-        public RoomEvent()
-        {
-            ExpiresAt = new DateTime().AddHours(2);
-        }
-
-        #endregion Constructors
-
         #region Methods
 
-        /// <summary>
-        ///     Gets a value indicating whether this instance has expired.
-        /// </summary>
-        /// <value><c>true</c> if this instance has expired; otherwise, <c>false</c>.</value>
         public virtual bool HasExpired()
         {
             return ExpiresAt < DateTime.Now;

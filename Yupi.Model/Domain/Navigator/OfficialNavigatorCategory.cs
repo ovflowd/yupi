@@ -31,8 +31,9 @@ namespace Yupi.Model.Domain
         #region Constructors
 
         public OfficialNavigatorCategory(string caption)
-            : base(caption)
+            : base()
         {
+            this.Caption = caption;
         }
 
         protected OfficialNavigatorCategory()

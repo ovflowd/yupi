@@ -1,5 +1,5 @@
 ﻿// ---------------------------------------------------------------------------------
-// <copyright file="BaseInfo.cs" company="https://github.com/sant0ro/Yupi">
+// <copyright file="Gener.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -22,32 +22,12 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
+using System;
 namespace Yupi.Model.Domain
 {
-    using System;
-
-    [TablePerClass]
-    public abstract class BaseInfo
+    public enum Gender
     {
-        #region Properties
-
-        public virtual int Id
-        {
-            get; protected set;
-        }
-
-        // TODO Do pets have mottos?
-        public virtual string Motto
-        {
-            get; set;
-        }
-
-        [Required]
-        public virtual string Name
-        {
-            get; set;
-        }
-
-        #endregion Properties
+        Male = 'M',
+        Female = 'F'
     }
 }

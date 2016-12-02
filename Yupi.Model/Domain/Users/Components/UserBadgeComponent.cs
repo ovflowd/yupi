@@ -35,7 +35,7 @@ namespace Yupi.Model.Domain.Components
         #region Properties
 
         [OneToMany]
-        public virtual IList<Badge> Badges
+        public virtual IList<UserBadge> Badges
         {
             get; protected set;
         }
@@ -44,21 +44,21 @@ namespace Yupi.Model.Domain.Components
 
         #region Methods
 
-        public virtual Badge GetBadge(string badgeCode)
+        public virtual UserBadge GetBadge(string badgeCode)
         {
-            return Badges.FirstOrDefault(x => x.Code == badgeCode);
+            return Badges.FirstOrDefault(x => x.Badge.Code == badgeCode);
         }
 
-        public virtual IList<Badge> GetVisible()
+        public virtual IList<UserBadge> GetVisible()
         {
             return Badges.Where(x => x.Slot > 0).ToList();
         }
 
-        public virtual void GiveBadge(string badeCode)
+        public virtual void GiveBadge(Badge badge)
         {
-            Badges.Add(new Badge()
+            Badges.Add(new UserBadge()
             {
-                Code = badeCode
+                Badge = badge
             });
 
             // TODO Update badges?!
@@ -66,17 +66,17 @@ namespace Yupi.Model.Domain.Components
 
         public virtual bool HasBadge(string badeCode)
         {
-            return Badges.Any(x => x.Code == badeCode);
+            return Badges.Any(x => x.Badge.Code == badeCode);
         }
 
-        public virtual bool RemoveBadge(string badeCode)
+        public virtual bool RemoveBadge(Badge badge)
         {
-            return Badges.RemoveAll((x) => x.Code == badeCode) > 0;
+            return Badges.RemoveAll((x) => x.Badge == badge) > 0;
         }
 
         public virtual void ResetSlots()
         {
-            foreach (Badge badge in Badges)
+            foreach (UserBadge badge in Badges)
             {
                 badge.Slot = 0;
             }

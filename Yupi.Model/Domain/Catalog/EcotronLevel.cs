@@ -31,6 +31,7 @@ namespace Yupi.Model.Domain
     {
         #region Properties
 
+        [Key]
         public virtual int Id
         {
             get; protected set;
@@ -39,17 +40,8 @@ namespace Yupi.Model.Domain
         public virtual IList<EcotronReward> Rewards
         {
             get; protected set;
-        }
+        } = new List<EcotronReward> ();
 
         #endregion Properties
-
-        #region Constructors
-
-        public EcotronLevel()
-        {
-            Rewards = new List<EcotronReward>();
-        }
-
-        #endregion Constructors
     }
 }

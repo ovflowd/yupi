@@ -28,7 +28,7 @@ namespace Yupi.Messages.Rooms
 
     using Yupi.Model.Domain;
     using Yupi.Protocol.Buffers;
-
+    // TODO USE IMPLEMENTATION :D
     public class PollQuestionsMessageComposer : Yupi.Messages.Contracts.PollQuestionsMessageComposer
     {
         #region Methods
@@ -57,11 +57,11 @@ namespace Yupi.Messages.Rooms
                         message.AppendInteger(1);
                         message.AppendInteger(question.Answers.Count);
 
-                        foreach (string awnser in question.Answers)
+                        foreach (PollAwnser awnser in question.Answers)
                         {
                             // TODO Why twice?
-                            message.AppendString(awnser);
-                            message.AppendString(awnser);
+                            message.AppendString(awnser.Text);
+                            message.AppendString(awnser.Text);
                         }
                     }
                 }

@@ -81,6 +81,7 @@
     <Compile Include="Settings\DatabaseType.cs" />
     <Compile Include="Pathfinding\AStar.cs" />
     <Compile Include="Pathfinding\Pathfinder.cs" />
+    <Compile Include="TypeExt.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

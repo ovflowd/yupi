@@ -97,7 +97,8 @@ namespace Yupi.Messages.Support
 
                 RoomData room = RoomRepository.Find(roomId);
                 UserInfo reportedUser = UserRepository.Find(reportedUserId);
-
+                throw new NotImplementedException ();
+                /*
                 SupportTicket newTicket = new SupportTicket()
                 {
                     Category = category,
@@ -115,7 +116,7 @@ namespace Yupi.Messages.Support
                 {
                     // TODO Create a controller for this...
                     staff.Router.GetComposer<ModerationToolIssueMessageComposer>().Compose(staff, newTicket);
-                }
+                }*/
             }
         }
 

@@ -30,26 +30,35 @@ namespace Yupi.Model.Domain.Components
     {
         #region Properties
 
-        public virtual int DailyCompetitionVotes
-        {
+        [Required]
+        public virtual int DailyCompetitionVotes {
             get; set;
-        }
+        } = 3;
 
-        public virtual int DailyPetRespectPoints
-        {
+        [Required]
+        public virtual int DailyPetRespectPoints {
             get; set;
-        }
+        } = 3;
 
-        public virtual int DailyRespectPoints
-        {
+        [Required]
+        public virtual int DailyRespectPoints {
             get; set;
-        }
+        } = 3;
 
+        [Required]
         public virtual int Respect
         {
             get; set;
         }
 
         #endregion Properties
+
+        public void Reset ()
+        {
+            // TODO Save & Call every 24h?
+            DailyCompetitionVotes = 3;
+            DailyPetRespectPoints = 3;
+            DailyRespectPoints = 3;
+        }
     }
 }

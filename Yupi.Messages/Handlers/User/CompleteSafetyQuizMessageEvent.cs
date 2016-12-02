@@ -28,6 +28,7 @@ namespace Yupi.Messages.User
 
     using Yupi.Controller;
     using Yupi.Model;
+    using Yupi.Model.Domain;
 
     public class CompleteSafetyQuizMessageEvent : AbstractHandler
     {
@@ -51,7 +52,8 @@ namespace Yupi.Messages.User
         public override void HandleMessage(Yupi.Model.Domain.Habbo session, Yupi.Protocol.Buffers.ClientMessage message,
             Yupi.Protocol.IRouter router)
         {
-            AchievementManager.ProgressUserAchievement(session, "ACH_SafetyQuizGraduate", 1);
+            // TODO is message really empty?
+            AchievementManager.ProgressUserAchievement(session, ProfileAchievement.SafetyQuizGraduate);
         }
 
         #endregion Methods

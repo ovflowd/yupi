@@ -31,97 +31,80 @@ namespace Yupi.Model.Domain.Components
     {
         #region Properties
 
-        public virtual ChatBubbleStyle ChatBubbleStyle
-        {
+        [Required]
+        public virtual ChatBubbleStyle ChatBubbleStyle {
             get; set;
-        }
+        } = ChatBubbleStyle.Normal;
 
-        /// <summary>
-        ///     Disable Room Camera
-        /// </summary>
-        public virtual bool DisableCameraFollow
-        {
+        [Required]
+        public virtual bool DisableCameraFollow {
             get; set;
-        }
+        } = false;
 
         /// <summary>
         ///     Ignore Room Invitations
         /// </summary>
-        public virtual bool IgnoreRoomInvite
-        {
+        [Required]
+        public virtual bool IgnoreRoomInvite {
             get; set;
-        }
+        } = false;
 
         /// <summary>
         ///     Navigator Height
         /// </summary>
-        public virtual int NavigatorHeight
-        {
+        [Required]
+        public virtual int NavigatorHeight {
             get; set;
-        }
+        } = 600;
 
         /// <summary>
         ///     Navigator Width
         /// </summary>
-        public virtual int NavigatorWidth
-        {
+        [Required]
+        public virtual int NavigatorWidth {
             get; set;
-        }
+        } = 580;
 
         /// <summary>
         ///     Navigator Position X
         /// </summary>
-        public virtual int NewnaviX
-        {
+        [Required]
+        public virtual int NewnaviX {
             get; set;
-        }
+        } = 0;
 
         /// <summary>
         ///     Navigator Position Y
         /// </summary>
-        public virtual int NewnaviY
-        {
+        [Required]
+        public virtual int NewnaviY {
             get; set;
-        }
+        } = 0;
 
         /// <summary>
         ///     User Prefers Old Chat
         /// </summary>
-        public virtual bool PreferOldChat
-        {
+        [Required]
+        public virtual bool PreferOldChat {
             get; set;
-        }
+        } = false;
 
-        // TODO What do the single values mean?
-        public virtual int Volume1
-        {
+        // TODO What do the single values mean? + Validation!
+        [Required]
+        public virtual int Volume1 {
             get; set;
-        }
+        } = 100;
 
-        public virtual int Volume2
-        {
+        [Required]
+        public virtual int Volume2 {
             get; set;
-        }
+        } = 100;
 
-        public virtual int Volume3
-        {
+        [Required]
+        public virtual int Volume3 {
             get; set;
-        }
+        } = 100;
 
         #endregion Properties
-
-        #region Constructors
-
-        public UserPreferences()
-        {
-            NavigatorHeight = 600;
-            NavigatorWidth = 580;
-            Volume1 = 100;
-            Volume2 = 100;
-            Volume3 = 100;
-            ChatBubbleStyle = ChatBubbleStyle.Normal;
-        }
-
-        #endregion Constructors
     }
 }

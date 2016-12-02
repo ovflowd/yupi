@@ -75,7 +75,7 @@ namespace Yupi.Messages.User
                 }
             );
 
-            AchievementManager.ProgressUserAchievement(session, "ACH_Motto", 1);
+            AchievementManager.ProgressUserAchievement(session, ProfileAchievement.Motto);
         }
 
         #endregion Methods

@@ -65,14 +65,18 @@ namespace Yupi.Messages.Messenger
 
                 UserInfo friend = UserRepository.Find(userId);
 
-                if (friend != null && friend.Relationships.HasSentRequestTo(session.Info))
+                if (friend != null)
                 {
+                    IRepository<FriendRequest> requestsRepository = DependencyFactory.Resolve<IRepository<FriendRequest>> ();
+                    FriendRequest friendRequest = requestsRepository.Find (x => x.To == session.Info && x.From == friend);
+
                     Relationship friendRelation = friend.Relationships.Add(session.Info);
                     Relationship userRelation = session.Info.Relationships.Add(friend);
 
-                    friend.Relationships.SentRequests.RemoveAll(x => x.To == session.Info);
+                    requestsRepository.Delete (friendRequest);
 
-                    AchievementManager.ProgressUserAchievement(session, "ACH_FriendListSize", 1);
+                    // TODO This doesn't work properly: When one adds a friend, removes the same and then readds one, that will be counted as having 2! friends, although there is only one actually!
+                    AchievementManager.ProgressUserAchievement(session, SocialAchievement.FriendListSize);
 
                     session.Router.GetComposer<FriendUpdateMessageComposer>().Compose(session, userRelation);
 

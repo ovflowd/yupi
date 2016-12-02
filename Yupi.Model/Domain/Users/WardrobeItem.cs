@@ -30,17 +30,12 @@ namespace Yupi.Model.Domain
     {
         #region Properties
 
-        public virtual string Gender
-        {
-            get; set;
-        }
-
         public virtual int Id
         {
             get; protected set;
         }
 
-        public virtual string Look
+        public virtual AvatarLook Look
         {
             get; set;
         }

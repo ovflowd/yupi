@@ -40,10 +40,11 @@ namespace Yupi.Model.Domain
 
         #region Properties
 
+        [Required]
         public virtual ChatBubbleStyle Bubble
         {
             get; set;
-        }
+        } = ChatBubbleStyle.Normal;
 
         [Ignore]
         public virtual RoomEntity Entity
@@ -51,6 +52,7 @@ namespace Yupi.Model.Domain
             get; set;
         }
 
+        [Key]
         public virtual int Id
         {
             get; set;
@@ -59,23 +61,26 @@ namespace Yupi.Model.Domain
         public virtual IList<Link> Links
         {
             get; protected set;
-        }
+        } = new List<Link> ();
 
-        public virtual string Message
+        [Required]
+        public virtual string OriginalMessage
         {
-            get; protected set;
+            get; set;
         }
 
-        public virtual DateTime Timestamp
-        {
+        [Required]
+        public virtual DateTime Timestamp {
             get; protected set;
-        }
+        } = DateTime.Now;
 
+        [Required]
         public virtual UserInfo User
         {
             get; set;
         }
 
+        [Required]
         public virtual bool Whisper
         {
             get; set;
@@ -130,19 +135,6 @@ namespace Yupi.Model.Domain
             };
         }
 
-        public ChatMessage(string message)
-            : this()
-        {
-            Message = message;
-        }
-
-        protected ChatMessage()
-        {
-            Links = new List<Link>();
-            Bubble = ChatBubbleStyle.Normal;
-            Timestamp = DateTime.Now;
-        }
-
         #endregion Constructors
 
         #region Methods
@@ -150,14 +142,14 @@ namespace Yupi.Model.Domain
         public virtual string FilteredMessage()
         {
             // TODO Filter
-            return Message.Trim();
+            return OriginalMessage.Trim();
         }
 
         public virtual Gesture GetEmotion()
         {
             // TODO Cache
             // Default is Gesture.None (because it has the value 0)
-            return Emotions.FirstOrDefault(x => Message.Contains(x.Key)).Value ?? Gesture.None;
+            return Emotions.FirstOrDefault(x => OriginalMessage.Contains(x.Key)).Value ?? Gesture.None;
         }
 
         #endregion Methods

@@ -45,7 +45,7 @@ namespace Yupi.Messages.Catalog
                 foreach (PromotionNavigatorCategory category in promotionCategories)
                 {
                     message.AppendInteger(category.Id);
-                    message.AppendString(category.Caption);
+                    message.AppendString(category.Caption.Get(session.Language));
                     message.AppendBool(category.Visible);
                 }
 

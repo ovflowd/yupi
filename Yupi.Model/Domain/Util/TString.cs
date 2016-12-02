@@ -1,4 +1,4 @@
-﻿#region Header
+#region Header
 
 // ---------------------------------------------------------------------------------
 // <copyright file="TString.cs" company="https://github.com/sant0ro/Yupi">
@@ -35,7 +35,7 @@ namespace Yupi.Model.Domain
     using System.Linq;
     using System.Runtime.Serialization;
 
-    [Serializable]
+    
     public class TString : ICloneable
     {
         #region Properties

@@ -1,4 +1,4 @@
-﻿#region Header
+#region Header
 
 // ---------------------------------------------------------------------------------
 // <copyright file="SongData.cs" company="https://github.com/sant0ro/Yupi">
@@ -31,38 +31,31 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    [Serializable]
+    
     public class SongData
     {
         #region Properties
 
-        /// <summary>
-        ///     Gets the artist.
-        /// </summary>
-        /// <value>The artist.</value>
+        [Required]
         public virtual string Artist
         {
             get; protected set;
         }
 
-        /// <summary>
-        ///     Gets the name of the code.
-        /// </summary>
-        /// <value>The name of the code.</value>
+        [Required]
         public virtual string CodeName
         {
             get; protected set;
         }
 
-        /// <summary>
-        ///     Gets the data.
-        /// </summary>
-        /// <value>The data.</value>
+        // TODO What data is this exactly?
+        [Required]
         public virtual string Data
         {
             get; protected set;
         }
 
+        [Key]
         public virtual int Id
         {
             get; protected set;
@@ -72,6 +65,7 @@ namespace Yupi.Model.Domain
         ///     The length in miliseconds.
         /// </summary>
         /// <value>The length miliseconds.</value>
+        [Required]
         public virtual int LengthMiliseconds
         {
             get; protected set;
@@ -83,10 +77,8 @@ namespace Yupi.Model.Domain
             get { return LengthMiliseconds/100d; }
         }
 
-        /// <summary>
-        ///     Gets the name.
-        /// </summary>
-        /// <value>The name.</value>
+        [Required]
+        [Length(20)]
         public virtual string Name
         {
             get; protected set;

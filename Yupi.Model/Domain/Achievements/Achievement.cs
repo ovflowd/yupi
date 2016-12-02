@@ -24,74 +24,91 @@
 // ---------------------------------------------------------------------------------
 namespace Yupi.Model.Domain
 {
+    using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
+    using System.Reflection;
+    using Headspring;
+    using Yupi.Util;
 
-    /// <summary>
-    ///     Class Achievement.
-    /// </summary>
-    public class Achievement
+    public abstract class Achievement : Enumeration<Achievement>
     {
+        private static Lazy<Achievement []> _Achievements = new Lazy<Achievement []> (GetEnumeration);
+
+        protected enum ValuePrefix
+        {
+            Explore,
+            Profile,
+            RoomBuilder,
+            Social,
+            Tools
+        }
+
+        protected Achievement (int value, string name, int [] requirements, ValuePrefix prefix, bool display = true) : base (((int)prefix)*100+value, name)
+        {
+            Display = display;
+            Levels = new AchievementLevel [requirements.Length];
+
+            for (int i = 0; i < requirements.Length; ++i) {
+                Levels [i] = new AchievementLevel (i + 1, requirements [i]);
+            }
+        }
+
+        public abstract string Category { get; }
+
         #region Properties
 
-        public virtual string Category
-        {
-            get; set;
-        }
-
-        public virtual string GroupName
-        {
-            get; set;
-        }
-
-        public virtual int Id
-        {
+        public AchievementLevel [] Levels {
             get; protected set;
         }
 
-        [OneToMany]
-        public virtual IList<AchievementLevel> Levels
-        {
-            get; protected set;
-        }
+        public readonly bool Display;
 
         #endregion Properties
 
-        #region Constructors
-
-        public Achievement()
-        {
-            Levels = new List<AchievementLevel>();
-        }
-
-        #endregion Constructors
-
         #region Methods
 
-        public virtual AchievementLevel DefaultLevel()
+        private static Achievement [] GetEnumeration ()
         {
-            if (Levels.Any())
-            {
-                return Levels[0];
+            var types = typeof (Achievement).GetAllDerivedTypes ();
+
+            IEnumerable<Achievement> enumeration = new List<Achievement> ();
+
+            foreach (var type in types) {
+                var achievements = type
+                    .GetFields (BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)
+                    .Where (info => typeof (Achievement).IsAssignableFrom (info.FieldType))
+                    .Select (info => info.GetValue (null))
+                    .Cast<Achievement> ()
+                    .Where (x => x.Display);
+                enumeration.Concat (achievements);
             }
-            else
-            {
-                return null;
-            }
+
+            return enumeration.ToArray ();
         }
 
-        public virtual int GetMaxLevel()
+        public static new IReadOnlyCollection<Achievement> GetAll ()
         {
-            return Levels.Count - 1;
+            return Array.AsReadOnly (_Achievements.Value);
         }
 
-        public virtual AchievementLevel NextLevel(AchievementLevel current)
+        public AchievementLevel DefaultLevel ()
         {
-            if (current.Level == GetMaxLevel())
-            {
+            return Levels [0];
+        }
+
+        public int GetMaxLevel ()
+        {
+            return Levels.Length - 1;
+        }
+
+        public AchievementLevel NextLevel (AchievementLevel current)
+        {
+            if (current.Level == GetMaxLevel ()) {
                 return current;
             }
-            return Levels.Single(x => x.Level == current.Level + 1);
+            return Levels.Single (x => x.Level == current.Level + 1);
         }
 
         #endregion Methods

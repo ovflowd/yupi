@@ -244,6 +244,12 @@ namespace Yupi.Protocol.Buffers
             AppendBytes(bytes, false);
         }
 
+        public void AppendChar (char c)
+        {
+            AppendShort (1);
+            AppendByte (c);
+        }
+
         /// <summary>
         ///     Appends the bytes.
         /// </summary>

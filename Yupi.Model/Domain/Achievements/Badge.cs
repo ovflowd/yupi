@@ -1,5 +1,5 @@
 ﻿// ---------------------------------------------------------------------------------
-// <copyright file="BotInfo.cs" company="https://github.com/sant0ro/Yupi">
+// <copyright file="Badge.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -22,29 +22,15 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
+using System;
 namespace Yupi.Model.Domain
 {
-    using System;
-
-    public class BotInfo : BaseInfo
+    public class Badge
     {
-        #region Properties
-
-        public virtual char Gender
-        {
+        [Key]
+        [Length(10)]
+        public virtual string Code {
             get; set;
         }
-
-        public virtual string Look
-        {
-            get; set;
-        }
-
-        public virtual UserInfo Owner
-        {
-            get; set;
-        }
-
-        #endregion Properties
     }
 }

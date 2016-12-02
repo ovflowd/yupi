@@ -1,4 +1,4 @@
-﻿#region Header
+#region Header
 
 // ---------------------------------------------------------------------------------
 // <copyright file="CameraLayout.cs" company="https://github.com/sant0ro/Yupi">
@@ -31,15 +31,15 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    [Serializable]
+    
     public class CameraPageLayout : DefaultImageLayout
     {
         #region Properties
 
-        public virtual TString HeaderDescription
-        {
+        [Required]
+        public virtual TString HeaderDescription {
             get; set;
-        }
+        } = string.Empty;
 
         [Ignore]
         public override string Name
@@ -49,10 +49,10 @@ namespace Yupi.Model.Domain
             }
         }
 
-        public virtual TString Text
-        {
+        [Required]
+        public virtual TString Text {
             get; set;
-        }
+        } = string.Empty;
 
         [Ignore]
         public override TString[] Texts
@@ -63,15 +63,5 @@ namespace Yupi.Model.Domain
         }
 
         #endregion Properties
-
-        #region Constructors
-
-        public CameraPageLayout()
-        {
-            this.HeaderDescription = string.Empty;
-            this.Text = string.Empty;
-        }
-
-        #endregion Constructors
     }
 }

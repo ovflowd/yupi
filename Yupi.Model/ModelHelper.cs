@@ -91,6 +91,7 @@ namespace Yupi.Model
                                  .IncludeBase<WallItem> ()
                                  .IncludeBase<CatalogPageLayout> ()
                                  .IncludeBase<NavigatorCategory> ()
+                               .UseOverridesFromAssemblyOf<ORMConfiguration>()
                               ))
                            .ExposeConfiguration(BuildSchema)
                            .BuildConfiguration();

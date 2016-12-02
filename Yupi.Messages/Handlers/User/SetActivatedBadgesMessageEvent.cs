@@ -59,9 +59,9 @@ namespace Yupi.Messages.User
                 int slot = message.GetInteger();
                 string code = message.GetString();
 
-                Badge badge = session.Info.Badges.GetBadge(code);
+                UserBadge badge = session.Info.Badges.GetBadge(code);
 
-                if (badge == default(Badge) || slot < 1 || slot > 5)
+                if (badge == default(UserBadge) || slot < 1 || slot > 5)
                 {
                     continue;
                 }

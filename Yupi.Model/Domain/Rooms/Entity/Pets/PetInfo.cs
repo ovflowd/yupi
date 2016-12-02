@@ -65,31 +65,30 @@ namespace Yupi.Model.Domain
             get { return (int) (DateTime.Now - CreatedAt).TotalDays; }
         }
 
-        public virtual bool AnyoneCanRide
-        {
-            get; set;
-        }
-
         public virtual Vector3 BreadingTile
         {
             get; set;
         }
 
+        [Required]
         public virtual string Color
         {
             get; set;
         }
 
+        [Required]
         public virtual DateTime CreatedAt
         {
             get; set;
         }
 
+        [Required]
         public virtual int Energy
         {
             get; set;
         }
 
+        [Required]
         public virtual int Experience
         {
             get; set;
@@ -101,21 +100,25 @@ namespace Yupi.Model.Domain
             get { return ExperienceLevels[Level - 1]; }
         }
 
+        [Required]
         public virtual int Hair
         {
             get; set;
         }
 
+        [Required]
         public virtual int HairDye
         {
             get; set;
         }
 
+        [Required]
         public virtual bool HaveSaddle
         {
             get; set;
         }
 
+        [Required]
         public virtual DateTime LastHealth
         {
             get; set;
@@ -139,20 +142,20 @@ namespace Yupi.Model.Domain
         [Ignore]
         public virtual string Look
         {
-            get { return string.Concat(RaceId, " ", Race, " ", Color); }
+            get {
+                throw new NotImplementedException ();
+                //return string.Concat(RaceId, " ", Race, " ", Color); 
+            }
         }
 
+        [Required]
         public virtual int Nutrition
         {
             get; set;
         }
 
+        [Required]
         public virtual UserInfo Owner
-        {
-            get; set;
-        }
-
-        public virtual bool PlacedInRoom
         {
             get; set;
         }
@@ -163,21 +166,19 @@ namespace Yupi.Model.Domain
         }
 
         // TODO seems to be the same...
+        [Required]
         public virtual int Race
         {
             get; set;
         }
 
-        public virtual int RaceId
-        {
-            get; set;
-        }
-
+        [Required]
         public virtual int Rarity
         {
             get; set;
         }
 
+        [Required]
         public virtual int Respect
         {
             get; set;
@@ -188,12 +189,8 @@ namespace Yupi.Model.Domain
             get; set;
         }
 
+        [Required]
         public virtual string Type
-        {
-            get; set;
-        }
-
-        public virtual int WaitingForBreading
         {
             get; set;
         }

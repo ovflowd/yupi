@@ -1,4 +1,4 @@
-﻿#region Header
+#region Header
 
 // ---------------------------------------------------------------------------------
 // <copyright file="CatalogPage.cs" company="https://github.com/sant0ro/Yupi">
@@ -40,11 +40,12 @@ namespace Yupi.Model.Domain
 
     using Yupi.Util.Settings;
 
-    [Serializable]
+    
     public class CatalogPage
     {
         #region Properties
 
+        [Required]
         public virtual TString Caption
         {
             get;
@@ -55,43 +56,47 @@ namespace Yupi.Model.Domain
         {
             get;
             protected set;
-        }
+        }= new List<CatalogPage> ();
 
+        [Required]
         public virtual int Icon
         {
             get;
             set;
         }
 
+        [Key]
         public virtual int Id
         {
             get;
             protected set;
         }
 
+        [Required]
         public virtual bool IsRoot
         {
             get;
             set;
         }
 
+        [Required]
         public virtual CatalogPageLayout Layout
         {
             get;
             set;
-        }
+        } = new Default3x3Layout ();
 
-        public virtual int MinRank
-        {
+        [Required]
+        public virtual Rank MinRank {
             get;
             set;
-        }
+        } = Rank.Normal;
 
         public virtual IList<CatalogOffer> Offers
         {
             get;
             protected set;
-        }
+        } = new List<CatalogOffer> ();
 
         public virtual CatalogOffer SelectedOffer
         {
@@ -99,44 +104,20 @@ namespace Yupi.Model.Domain
             set;
         }
 
+        [Required]
         public virtual CatalogType Type
         {
             get;
             set;
-        }
+        } = CatalogType.Normal;
 
-        public virtual bool Visible
-        {
+        [Required]
+        public virtual bool Visible {
             get;
             set;
-        }
+        } = true;
 
         #endregion Properties
-
-        #region Constructors
-
-        public CatalogPage(TString caption,
-            int icon,
-            int minRank,
-            CatalogPageLayout layout)
-            : this()
-        {
-            this.Caption = caption;
-            this.Icon = icon;
-            this.Layout = layout;
-            this.MinRank = minRank;
-        }
-
-        public CatalogPage()
-        {
-            this.Offers = new List<CatalogOffer>();
-            this.Children = new List<CatalogPage>();
-            this.Visible = true;
-            this.Type = CatalogType.Normal;
-            this.Layout = new Default3x3Layout();
-        }
-
-        #endregion Constructors
 
         #region Methods
 

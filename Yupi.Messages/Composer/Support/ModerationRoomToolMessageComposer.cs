@@ -67,8 +67,9 @@ namespace Yupi.Messages.Support
                 message.AppendString(data.Description);
                 message.AppendInteger(data.Tags.Count);
 
-                foreach (string current in data.Tags)
-                    message.AppendString(current);
+                foreach (Tag tag in data.Tags) {
+                    message.AppendString (tag.Value);
+                }
 
                 message.AppendBool(false);
 

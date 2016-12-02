@@ -144,12 +144,12 @@ namespace Yupi.Messages.Rooms
             messageBuffer.AppendInteger(bot.Id);
             messageBuffer.AppendString(bot.Info.Name);
             messageBuffer.AppendString(bot.Info.Motto);
-            messageBuffer.AppendString(bot.Info.Look.ToLower());
+            messageBuffer.AppendString(bot.Info.Look.Look);
             messageBuffer.AppendInteger(bot.Id);
             messageBuffer.Append(bot.Position);
             messageBuffer.AppendInteger(0);
             messageBuffer.AppendInteger((int) bot.Type);
-            messageBuffer.AppendString(bot.Info.Gender.ToString());
+            messageBuffer.AppendChar((char)bot.Info.Look.Gender);
             messageBuffer.AppendInteger(bot.Info.Owner.Id);
             messageBuffer.AppendString(bot.Info.Owner.Name);
             messageBuffer.AppendInteger(5);

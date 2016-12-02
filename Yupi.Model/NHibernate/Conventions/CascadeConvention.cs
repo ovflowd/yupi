@@ -35,7 +35,7 @@ namespace Yupi.Model
 
         public void Apply(IManyToOneInstance instance)
         {
-            instance.Cascade.All();
+            instance.Cascade.None();
         }
 
         public void Apply(IOneToManyCollectionInstance instance)
