@@ -11,3 +11,9 @@ build:
 
 nuget:
   project_feed: true
+
+after_test: 
+    - .\packages\OpenCover.4.6.519\OpenCover.Console.exe -register:user -target:"nunit-console" -targetargs:"--noresult" -filter:"+[Yupi*]*  -[Yupi*]Yupi*.Properties.*" -excludebyattribute:*.ExcludeFromCodeCoverage* -hideskipped:All -output:.\coverage.xml
+    - "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"
+    - pip install codecov
+    - codecov -f "coverage.xml"

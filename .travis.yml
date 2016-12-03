@@ -11,6 +11,3 @@ before_install:
 install:
   - mono .nuget/nuget.exe restore Yupi.sln -Verbosity detailed
 #  - mono .nuget/nuget.exe install NUnit.Runners -Version 3.2.1 -OutputDirectory ./src/packages
-
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
