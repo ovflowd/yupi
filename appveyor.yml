@@ -8,6 +8,8 @@ before_build:
 build:
   verbosity: minimal
   publish_nuget: true
+  project: Yupi.sln
+
 
 nuget:
   project_feed: true
