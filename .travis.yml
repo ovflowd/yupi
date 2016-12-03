@@ -3,13 +3,14 @@ solution: Yupi.sln
 
 # see https://github.com/travis-ci/travis-ci/issues/5932#issuecomment-215693171
 
-install:
-  - mono .nuget/nuget.exe restore Yupi.sln -Verbosity detailed
-#  - mono .nuget/nuget.exe install NUnit.Runners -Version 3.2.1 -OutputDirectory ./src/packages
 before_install:
   - mkdir -p .nuget
   - wget -O .nuget/nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
   - mono .nuget/nuget.exe # Output NuGet's version number
-  - pip install --user codecov
+
+install:
+  - mono .nuget/nuget.exe restore Yupi.sln -Verbosity detailed
+#  - mono .nuget/nuget.exe install NUnit.Runners -Version 3.2.1 -OutputDirectory ./src/packages
+
 after_success:
-  - codecov
+  - bash <(curl -s https://codecov.io/bash)
