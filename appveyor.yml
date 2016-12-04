@@ -15,7 +15,7 @@ nuget:
   project_feed: true
 
 after_test: 
-    - .\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:"nunit3-console" -targetargs:"Build/bin/Release/Yupi.Tests.dll --noresult" -filter:"+[Yupi*]*  -[Yupi*]Yupi*.Properties.*" -excludebyattribute:*.ExcludeFromCodeCoverage* -hideskipped:All -output:.\coverage.xml
+    - .\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:"nunit3-console.exe" -targetargs:"Build/bin/Release/Yupi.Tests.dll --noresult" -filter:"+[Yupi*]*  -[Yupi*]Yupi*.Properties.*" -excludebyattribute:*.ExcludeFromCodeCoverage* -hideskipped:All -output:.\coverage.xml
     - "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"
     - pip install codecov
     - codecov -f "coverage.xml"
