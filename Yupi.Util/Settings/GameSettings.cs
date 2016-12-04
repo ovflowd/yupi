@@ -28,34 +28,40 @@ namespace Yupi.Util.Settings
 
     using Config.Net;
 
-    public static class GameSettings
+    public class GameSettings : SettingsContainer
     {
+        private static readonly GameSettings instance = new GameSettings();
+
+        public static GameSettings Instance
+        {
+            get 
+            {
+                return instance; 
+            }
+        }
+
         #region Fields
 
-        public static readonly Setting<bool> DebugConnections = new Setting<bool>("Debug.Connections", false);
-        public static readonly Setting<bool> DebugDatabase = new Setting<bool>("Debug.Database", false);
-        public static readonly Setting<bool> DebugPackets = new Setting<bool>("Debug.Packets", false);
-        public static readonly Setting<bool> DebugRooms = new Setting<bool>("Debug.Rooms", false);
-        public static readonly Setting<bool> EnableCamera = new Setting<bool>("game.feature.camera", false);
-        public static readonly Setting<string> GameBind = new Setting<string>("Game.Bind", "127.0.0.1");
-        public static readonly Setting<int> GameConLimit = new Setting<int>("Game.ConLimit", 5000);
-        public static readonly Setting<int> GameConLimitPerIp = new Setting<int>("Game.ConLimitPerIp", 10);
-        public static readonly Setting<int> GamePort = new Setting<int>("Game.Port", 3000);
-        public static readonly Setting<string> Release = new Setting<string>("RELEASE.Release", "PRODUCTION-201510201205-42435347");
-        public static readonly Setting<string> RestAuthKey = new Setting<string>("Rest.AuthKey", "");
-        public static readonly Setting<string> RestBind = new Setting<string>("REST.Bind", "127.0.0.1");
-        public static readonly Setting<int> RestPort = new Setting<int>("Rest.Port", 8080);
-        public static readonly Setting<string> RestWhiteList = new Setting<string>("Rest.WhiteList", "127.0.0.1");
+        public readonly Option<bool> DebugConnections = new Option<bool>("Debug.Connections", false);
+        public readonly Option<bool> DebugDatabase = new Option<bool>("Debug.Database", false);
+        public readonly Option<bool> DebugPackets = new Option<bool>("Debug.Packets", false);
+        public readonly Option<bool> DebugRooms = new Option<bool>("Debug.Rooms", false);
+        public readonly Option<bool> EnableCamera = new Option<bool>("game.feature.camera", false);
+        public readonly Option<string> GameBind = new Option<string>("Game.Bind", "127.0.0.1");
+        public readonly Option<int> GameConLimit = new Option<int>("Game.ConLimit", 5000);
+        public readonly Option<int> GameConLimitPerIp = new Option<int>("Game.ConLimitPerIp", 10);
+        public readonly Option<int> GamePort = new Option<int>("Game.Port", 3000);
+        public readonly Option<string> Release = new Option<string>("RELEASE.Release", "PRODUCTION-201510201205-42435347");
+        public readonly Option<string> RestAuthKey = new Option<string>("Rest.AuthKey", "");
+        public readonly Option<string> RestBind = new Option<string>("REST.Bind", "127.0.0.1");
+        public readonly Option<int> RestPort = new Option<int>("Rest.Port", 8080);
+        public readonly Option<string> RestWhiteList = new Option<string>("Rest.WhiteList", "127.0.0.1");
 
         #endregion Fields
 
-        #region Constructors
-
-        static GameSettings()
+        protected override void OnConfigure(IConfigConfiguration configuration)
         {
-            Cfg.Configuration.UseIniFile(Settings.GetPath("game.ini"));
+            configuration.UseIniFile(Settings.GetPath("game.ini"));
         }
-
-        #endregion Constructors
     }
 }

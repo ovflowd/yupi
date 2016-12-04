@@ -105,7 +105,7 @@ namespace Yupi.Model
 
         private static IPersistenceConfigurer GetDatabaseConfig()
         {
-            switch ((DatabaseType)DatabaseSettings.Type) {
+            switch ((DatabaseType)DatabaseSettings.Instance.Type) {
             case DatabaseType.MySQL:
                 return GetMySql ();
             case DatabaseType.SQLite:
@@ -119,10 +119,10 @@ namespace Yupi.Model
         {
             return MySQLConfiguration.Standard
                 .ConnectionString(x =>
-                        x.Server(DatabaseSettings.Host)
-                            .Username(DatabaseSettings.Username)
-                            .Password(DatabaseSettings.Password)
-                            .Database(DatabaseSettings.Name)
+                        x.Server(DatabaseSettings.Instance.Host)
+                            .Username(DatabaseSettings.Instance.Username)
+                            .Password(DatabaseSettings.Instance.Password)
+                            .Database(DatabaseSettings.Instance.Name)
             );
         }
 
@@ -131,11 +131,11 @@ namespace Yupi.Model
             if (MonoUtil.IsRunningOnMono())
             {
                 return MonoSQLiteConfiguration.Standard
-                    .UsingFile(DatabaseSettings.Name + ".sqlite").ShowSql();
+                    .UsingFile(DatabaseSettings.Instance.Name + ".sqlite").ShowSql();
             }
             else
             {
-                return SQLiteConfiguration.Standard.UsingFile(DatabaseSettings.Name + ".sqlite").ShowSql();
+                return SQLiteConfiguration.Standard.UsingFile(DatabaseSettings.Instance.Name + ".sqlite").ShowSql();
             }
         }
 
@@ -145,8 +145,8 @@ namespace Yupi.Model
                 ShowSql = true
             };
             var runner = new RunnerContext (announcer) {
-                Connection = DatabaseSettings.BuildConnectionString (),
-                Database = Enum.GetName (typeof (DatabaseType), (DatabaseType)DatabaseSettings.Type).ToLower (),
+                Connection = DatabaseSettings.Instance.BuildConnectionString (),
+                Database = Enum.GetName (typeof (DatabaseType), (DatabaseType)DatabaseSettings.Instance.Type).ToLower (),
                 Targets = new string [] { typeof(ModelHelper).Assembly.Location },
 
             };

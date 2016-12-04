@@ -72,9 +72,9 @@ namespace Yupi.Main
         {
             SetupLogger();
 
-            if (CryptoSettings.Enabled)
+            if (CryptoSettings.Instance.Enabled)
             {
-                Encryption.GetInstance(new Crypto.Cryptography.RSACParameters(RSACUtils.Base64ToBigInteger(CryptoSettings.RsaD), RSACUtils.Base64ToBigInteger(CryptoSettings.RsaN), RSACUtils.Base64ToBigInteger(CryptoSettings.RsaE)), CryptoSettings.DHKeysSize);
+                Encryption.GetInstance(new Crypto.Cryptography.RSACParameters(RSACUtils.Base64ToBigInteger(CryptoSettings.Instance.RsaD), RSACUtils.Base64ToBigInteger(CryptoSettings.Instance.RsaN), RSACUtils.Base64ToBigInteger(CryptoSettings.Instance.RsaE)), CryptoSettings.Instance.DHKeysSize);
             }
 
             var factory = ModelHelper.CreateFactory();
@@ -86,7 +86,7 @@ namespace Yupi.Main
             DependencyFactory.RegisterInstance(dbSession);
             DependencyFactory.RegisterInstance(factory);
 
-            Router.Default = new Router(GameSettings.Release, "../../../Config/",
+            Router.Default = new Router(GameSettings.Instance.Release, "../../../Config/",
                 typeof(AchievementProgressMessageComposer).Assembly
             );
 
@@ -149,7 +149,7 @@ namespace Yupi.Main
         /// </summary>
         private void SetupTCP()
         {
-            TCPServer = ServerFactory<Habbo>.CreateServer(GameSettings.GamePort);
+            TCPServer = ServerFactory<Habbo>.CreateServer(GameSettings.Instance.GamePort);
 
             TCPServer.OnConnectionOpened += ClientManager.AddClient; // TODO: Connection security!
             TCPServer.OnConnectionClosed += ClientManager.RemoveClient;

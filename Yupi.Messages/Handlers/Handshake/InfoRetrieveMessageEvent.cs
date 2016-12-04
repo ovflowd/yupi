@@ -73,7 +73,7 @@ namespace Yupi.Messages.Handshake
             );
 
             router.GetComposer<SendPerkAllowancesMessageComposer>()
-                .Compose(session, session.Info, GameSettings.EnableCamera);
+                .Compose(session, session.Info, GameSettings.Instance.EnableCamera);
 
             InitMessenger(session, router);
 

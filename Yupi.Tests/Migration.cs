@@ -45,6 +45,8 @@ namespace Yupi.Tests
         [Explicit("Should only be run manually to generate migrations.")]
         public void Generate()
         {
+            // TODO Create seperate application for this.
+            /*
             MigrationConfiguration config = new MigrationConfiguration ();
 
             string directory = "Migrations";
@@ -53,7 +55,7 @@ namespace Yupi.Tests
                 Directory.CreateDirectory (directory);
             }
 
-            config.Generate("Migrate", directory);
+            config.Generate("Migrate", directory);*/
         }
 
         #endregion Methods
