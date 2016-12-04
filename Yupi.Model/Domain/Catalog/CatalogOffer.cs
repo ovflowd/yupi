@@ -1,4 +1,4 @@
-﻿#region Header
+#region Header
 
 // ---------------------------------------------------------------------------------
 // <copyright file="CatalogItem.cs" company="https://github.com/sant0ro/Yupi">
@@ -37,91 +37,83 @@ namespace Yupi.Model.Domain
 
     using Yupi.Model.Domain.Components;
 
-    [Serializable]
+    
     public class CatalogOffer
     {
         #region Properties
 
-        public virtual ActivityPointsType ActivityPointsType
-        {
+        [Required]
+        public virtual ActivityPointsType ActivityPointsType {
             get; set;
-        }
+        } = ActivityPointsType.Duckets;
 
-        public virtual bool AllowGift
+        [Required]
+        public virtual bool AllowGift {
+            get;
+            set;
+        } = false;
+
+        public virtual Badge Badge
         {
             get;
             set;
         }
 
-        // TODO Arbitrary string..
-        public virtual string Badge
-        {
-            get;
-            set;
-        }
-
+        [Required]
         public virtual ClubLevel ClubLevel
         {
             get;
             set;
-        }
+        } = ClubLevel.Normal;
 
+        [Required]
         public virtual int CostActivityPoints
         {
             get;
             set;
         }
 
+        [Required]
         public virtual int CostCredits
         {
             get;
             set;
         }
 
+        [Key]
         public virtual int Id
         {
             get;
             protected set;
         }
 
-        public virtual bool IsRentable
+        [Required]
+        public virtual bool IsRentable {
+            get;
+            set;
+        } = false;
+
+        [Required]
+        public virtual bool IsVisible {
+            get;
+            set;
+        } = true;
+
+        [Required]
+        public virtual TString Name
         {
             get;
             set;
         }
 
-        public virtual bool IsVisible
-        {
-            get;
-            set;
-        }
-
-        public virtual string Name
-        {
-            get;
-            set;
-        }
-
+        [ManyToMany]
         public virtual IList<CatalogProduct> Products
         {
             get;
             protected set;
-        }
+        } = new List<CatalogProduct> ();
 
         #endregion Properties
-
-        #region Constructors
-
-        public CatalogOffer()
-        {
-            this.Products = new List<CatalogProduct>();
-            this.IsRentable = false;
-            this.IsVisible = true;
-            this.ClubLevel = ClubLevel.Normal;
-            this.ActivityPointsType = ActivityPointsType.Duckets;
-        }
-
-        #endregion Constructors
 
         #region Methods
 

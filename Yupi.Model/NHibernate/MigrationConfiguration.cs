@@ -36,20 +36,20 @@ namespace Yupi.Model
 
     using FluentMigrator;
     using FluentMigrator.Expressions;
-    using FluentMigrator.NHibernate;
+   // using FluentMigrator.NHibernate;
 
     using FluentNHibernate.Cfg.Db;
 
     using NHibernate.Cfg;
     using NHibernate.Mapping;
 
-    public class MigrationConfiguration : MigrationConfigurationBase
+   /* public class MigrationConfiguration : MigrationConfigurationBase
     {
         #region Constructors
 
         public MigrationConfiguration()
         {
-            MigrationAssembly = typeof (ORMConfiguration).Assembly;
+            MigrationAssembly = typeof (object).Assembly;
             MigrationNamespace = "Yupi.Model.Db.Migrations";
         }
 
@@ -63,5 +63,5 @@ namespace Yupi.Model
         }
 
         #endregion Methods
-    }
+    }*/
 }

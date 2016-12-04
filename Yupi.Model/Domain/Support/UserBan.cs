@@ -29,13 +29,20 @@ namespace Yupi.Model.Domain
 
     public class UserBan
     {
+        /// <summary>
+        /// The duration of a permanent ban (100 Years) in hours.
+        /// </summary>
+        public const int PermaBanDuration = 876000;
+
         #region Properties
 
+        [Required]
         public virtual DateTime ExpiresAt
         {
             get; set;
         }
 
+        [Key]
         public virtual int Id
         {
             get; protected set;
@@ -46,16 +53,19 @@ namespace Yupi.Model.Domain
             get; set;
         }
 
+        [Required]
         public virtual string MachineId
         {
             get; set;
         }
 
+        [Required]
         public virtual string Reason
         {
             get; set;
         }
 
+        [Required]
         public virtual UserInfo User
         {
             get; set;

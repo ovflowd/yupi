@@ -1,4 +1,4 @@
-﻿#region Header
+#region Header
 
 // ---------------------------------------------------------------------------------
 // <copyright file="CatalogProduct.cs" company="https://github.com/sant0ro/Yupi">
@@ -32,21 +32,23 @@ namespace Yupi.Model.Domain
     using System;
     using System.Runtime.Serialization;
 
-    [Serializable]
+    
     public class CatalogProduct
     {
         #region Properties
 
-        public virtual int Amount
-        {
+        [Required]
+        public virtual int Amount {
             get; set;
-        }
+        } = 1;
 
+        [Key]
         public virtual int Id
         {
             get; protected set;
         }
 
+        [Required]
         public virtual BaseItem Item
         {
             get; set;

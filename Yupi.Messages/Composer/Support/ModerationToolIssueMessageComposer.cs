@@ -40,9 +40,9 @@ namespace Yupi.Messages.Support
                 message.AppendInteger(ticket.Id);
                 message.AppendInteger((int) ticket.Status);
                 message.AppendInteger(ticket.Type);
-                message.AppendInteger(ticket.Category);
+                message.AppendInteger(ticket.Category.Id);
                 message.AppendInteger((int) (DateTime.Now - ticket.CreatedAt).TotalMilliseconds);
-                message.AppendInteger(ticket.Score);
+                message.AppendInteger(ticket.Priority);
                 message.AppendInteger(1); // TODO magic constant
                 message.AppendInteger(ticket.Sender.Id);
                 message.AppendString(ticket.Sender.Name);
@@ -55,10 +55,10 @@ namespace Yupi.Messages.Support
 
                 message.AppendInteger(ticket.ReportedChats.Count);
 
-                foreach (string str in ticket.ReportedChats)
+                foreach (ChatMessage chatEntry in ticket.ReportedChats)
                 {
-                    message.AppendString(str);
-                    message.AppendInteger(-1);
+                    message.AppendString(chatEntry.FilteredMessage());
+                    message.AppendInteger(-1); // TODO implement
                     message.AppendInteger(-1);
                 }
 

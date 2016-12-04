@@ -31,21 +31,23 @@ namespace Yupi.Model.Domain
         #region Properties
 
         // TODO Competition should not be string?!
-        public virtual string Competition
-        {
+        public virtual string Competition {
             get; set;
         }
 
+        [Key]
         public virtual int Id
         {
             get; protected set;
         }
 
+        [Required]
         public virtual int Score
         {
             get; set;
         }
 
+        [Required]
         public virtual UserInfo User
         {
             get; set;

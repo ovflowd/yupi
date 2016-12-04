@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yupi.Tests", "Yupi.Tests\Yu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yupi.Crypto", "Yupi.Crypto\Yupi.Crypto.csproj", "{81B025AC-B1FF-4E84-96FF-6F54859D0F1E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yupi.Migration", "Yupi.Migration\Yupi.Migration.csproj", "{D063D355-65DD-4745-ACDE-48D748032428}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -167,6 +169,18 @@ Global
 		{81B025AC-B1FF-4E84-96FF-6F54859D0F1E}.Release|x64.Build.0 = Release|Any CPU
 		{81B025AC-B1FF-4E84-96FF-6F54859D0F1E}.Release|x86.ActiveCfg = Release|Any CPU
 		{81B025AC-B1FF-4E84-96FF-6F54859D0F1E}.Release|x86.Build.0 = Release|Any CPU
+		{D063D355-65DD-4745-ACDE-48D748032428}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D063D355-65DD-4745-ACDE-48D748032428}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D063D355-65DD-4745-ACDE-48D748032428}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D063D355-65DD-4745-ACDE-48D748032428}.Debug|x64.Build.0 = Debug|Any CPU
+		{D063D355-65DD-4745-ACDE-48D748032428}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D063D355-65DD-4745-ACDE-48D748032428}.Debug|x86.Build.0 = Debug|Any CPU
+		{D063D355-65DD-4745-ACDE-48D748032428}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D063D355-65DD-4745-ACDE-48D748032428}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D063D355-65DD-4745-ACDE-48D748032428}.Release|x64.ActiveCfg = Release|Any CPU
+		{D063D355-65DD-4745-ACDE-48D748032428}.Release|x64.Build.0 = Release|Any CPU
+		{D063D355-65DD-4745-ACDE-48D748032428}.Release|x86.ActiveCfg = Release|Any CPU
+		{D063D355-65DD-4745-ACDE-48D748032428}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

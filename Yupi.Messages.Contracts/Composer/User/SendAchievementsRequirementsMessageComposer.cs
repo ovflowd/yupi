@@ -29,11 +29,11 @@ namespace Yupi.Messages.Contracts
     using Yupi.Model.Domain;
     using Yupi.Protocol.Buffers;
 
-    public abstract class SendAchievementsRequirementsMessageComposer : AbstractComposer<IDictionary<string, Achievement>>
+    public abstract class SendAchievementsRequirementsMessageComposer : AbstractComposer<IReadOnlyCollection<Achievement>>
     {
         #region Methods
 
-        public override void Compose(Yupi.Protocol.ISender session, IDictionary<string, Achievement> achievements)
+        public override void Compose(Yupi.Protocol.ISender session, IReadOnlyCollection<Achievement> achievements)
         {
             // Do nothing by default.
         }

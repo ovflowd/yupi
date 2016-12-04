@@ -32,45 +32,32 @@ namespace Yupi.Model.Domain.Components
     {
         #region Properties
 
-        public virtual ChatBalloon Balloon
-        {
+        [Required]
+        public virtual ChatBalloon Balloon {
             get; set;
-        }
+        } = ChatBalloon.Normal;
 
-        public virtual FloodProtection FloodProtection
-        {
+        [Required]
+        public virtual FloodProtection FloodProtection {
             get; set;
-        }
+        } = FloodProtection.Standard;
 
-        public virtual int MaxDistance
-        {
+        [Required]
+        public virtual int MaxDistance {
             get; protected set;
-        }
+        } = 14;
 
-        public virtual ChatSpeed Speed
-        {
+        [Required]
+        public virtual ChatSpeed Speed {
             get; set;
-        }
+        } = ChatSpeed.Normal;
 
-        public virtual ChatType Type
-        {
+        [Required]
+        public virtual ChatType Type {
             get; set;
-        }
+        } = ChatType.FreeFlowMode;
 
         #endregion Properties
-
-        #region Constructors
-
-        public RoomChatSettings()
-        {
-            Balloon = ChatBalloon.Normal;
-            Speed = ChatSpeed.Normal;
-            MaxDistance = 14;
-            FloodProtection = FloodProtection.Standard;
-            Type = ChatType.FreeFlowMode;
-        }
-
-        #endregion Constructors
 
         #region Methods
 
@@ -83,7 +70,7 @@ namespace Yupi.Model.Domain.Components
         {
             if (!isValidDistance(distance))
             {
-                throw new ArgumentOutOfRangeException("distance");
+                throw new ArgumentOutOfRangeException(nameof (distance));
             }
 
             this.MaxDistance = distance;

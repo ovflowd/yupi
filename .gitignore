@@ -8,6 +8,10 @@
 *.sln.docstates
 *.userprefs
 
+coverageConfig.json
+coverageKnowns
+coverageResults.txt
+
 # Build results
 #[Dd]ebug/
 #[Dd]ebugPublic/

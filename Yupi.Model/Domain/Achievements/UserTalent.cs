@@ -28,21 +28,19 @@ namespace Yupi.Model.Domain
     {
         #region Properties
 
+        [Required]
         public virtual int Id
         {
             get; protected set;
         }
 
+        [Required]
         public virtual TalentLevel Level
         {
             get; set;
         }
 
-        public virtual int State
-        {
-            get; set;
-        }
-
+        [Required]
         public virtual Talent Talent
         {
             get; set;

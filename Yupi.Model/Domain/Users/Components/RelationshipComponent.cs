@@ -34,35 +34,13 @@ namespace Yupi.Model.Domain.Components
     {
         #region Properties
 
-        public virtual IList<FriendRequest> ReceivedRequests
-        {
-            get; protected set;
-        }
-
         [OneToMany]
-        public virtual IList<Relationship> Relationships
-        {
+        public virtual IList<Relationship> Relationships {
             get; protected set;
-        }
-
-        // TODO Not really happy with this implementation
-        public virtual IList<FriendRequest> SentRequests
-        {
-            get; protected set;
-        }
+        } = new List<Relationship> ();
 
         #endregion Properties
 
-        #region Constructors
-
-        public RelationshipComponent()
-        {
-            Relationships = new List<Relationship>();
-            SentRequests = new List<FriendRequest>();
-            ReceivedRequests = new List<FriendRequest>();
-        }
-
-        #endregion Constructors
 
         #region Methods
 
@@ -86,11 +64,6 @@ namespace Yupi.Model.Domain.Components
         public virtual Relationship FindByUser(int userId)
         {
             return Relationships.SingleOrDefault(x => x.Friend.Id == userId);
-        }
-
-        public virtual bool HasSentRequestTo(UserInfo user)
-        {
-            return SentRequests.Any(x => x.To == user);
         }
 
         public virtual bool IsFriendsWith(UserInfo user)

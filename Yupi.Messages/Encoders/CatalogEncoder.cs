@@ -41,7 +41,7 @@ namespace Yupi.Messages.Encoders
     {
         #region Methods
 
-        public static void Append(this ServerMessage message, CatalogPage page, int rank, CultureInfo lang)
+        public static void Append(this ServerMessage message, CatalogPage page, Rank rank, CultureInfo lang)
         {
             message.AppendBool(page.Visible);
             message.AppendInteger(page.Icon);
@@ -68,7 +68,7 @@ namespace Yupi.Messages.Encoders
         public static void Append(this ServerMessage message, CatalogOffer offer)
         {
             message.AppendInteger(offer.Id);
-            message.AppendString(offer.Name);
+            message.AppendString(offer.Name.Get()); // TODO Localize
             message.AppendBool(offer.IsRentable);
             message.AppendInteger(offer.CostCredits);
             message.AppendInteger(offer.CostActivityPoints);

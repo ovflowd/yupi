@@ -46,7 +46,7 @@ namespace Yupi.Messages.User
 
                     message.AppendInteger(achievement.Id);
                     message.AppendInteger(nextLevel.Level);
-                    message.AppendString(achievement.Achievement.GroupName + achievement.Level.Level);
+                    message.AppendString(achievement.Achievement.DisplayName + achievement.Level.Level);
                     message.AppendInteger(achievement.Level.Requirement);
                     message.AppendInteger(nextLevel.Requirement);
                     message.AppendInteger(nextLevel.RewardPoints);
@@ -54,7 +54,7 @@ namespace Yupi.Messages.User
                     message.AppendInteger(achievement.Progress);
                     message.AppendBool(achievement.Level.Level == achievement.Achievement.GetMaxLevel());
                     message.AppendString(achievement.Achievement.Category);
-                    message.AppendString(string.Empty);
+                    message.AppendString(string.Empty); // TODO Hardcoded
                     message.AppendInteger(achievement.Achievement.GetMaxLevel());
                     message.AppendInteger(0);
                 }

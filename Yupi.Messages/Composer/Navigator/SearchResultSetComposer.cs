@@ -54,7 +54,7 @@ namespace Yupi.Messages.Navigator
                 foreach (var result in results)
                 {
                     message.AppendString(staticId);
-                    message.AppendString(result.Key.Caption);
+                    message.AppendString(result.Key.Caption.Get(session.Language));
                     message.AppendInteger(1); // TODO actionAllowed ( 1 = Show More, 2 = Back)
                     message.AppendBool(!result.Key.IsOpened);
                     message.AppendInteger(result.Key.IsImage); // TODO ViewMode (Possible Values?)

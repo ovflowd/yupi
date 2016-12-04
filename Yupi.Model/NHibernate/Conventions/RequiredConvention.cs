@@ -40,7 +40,7 @@ namespace Yupi.Model
 
         public void Apply(IPropertyInstance instance)
         {
-            if (instance.Property.MemberInfo.IsDefined (typeof (RequiredAttribute), false)) {
+            if (instance.Property.MemberInfo.IsDefined (typeof (RequiredAttribute), true)) {
                 instance.Not.Nullable ();
             } else {
                 instance.Nullable ();
@@ -48,8 +48,8 @@ namespace Yupi.Model
         }
 
         public void Apply(IManyToOneInstance instance)
-        {
-            if (instance.Property.MemberInfo.IsDefined (typeof (RequiredAttribute), false)) {
+        { 
+            if (instance.Property.MemberInfo.IsDefined (typeof (RequiredAttribute), true)) {
                 instance.Not.Nullable ();
             } else {
                 instance.Nullable ();

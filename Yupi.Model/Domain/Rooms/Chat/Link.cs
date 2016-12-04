@@ -30,22 +30,25 @@ namespace Yupi.Model.Domain
     {
         #region Properties
 
+        [Key]
         public virtual int Id
         {
             get; protected set;
         }
 
         // Internal will open in window with id habboMain
-        public virtual bool IsInternal
-        {
+        [Required]
+        public virtual bool IsInternal {
             get; set;
-        }
+        } = false;
 
+        [Required]
         public virtual string Text
         {
             get; set;
         }
 
+        [Required]
         public virtual string URL
         {
             get; set;

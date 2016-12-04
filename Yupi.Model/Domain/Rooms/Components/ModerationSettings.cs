@@ -30,21 +30,25 @@ namespace Yupi.Model.Domain.Components
     {
         #region Properties
 
+        [Required]
         public virtual RoomModerationRight WhoCanBan
         {
             get; set;
-        }
+        } = RoomModerationRight.None;
 
+        [Required]
         public virtual RoomModerationRight WhoCanKick
         {
             get; set;
-        }
+        } = RoomModerationRight.None;
 
+        [Required]
         public virtual RoomModerationRight WhoCanMute
         {
             get; set;
-        }
+        } = RoomModerationRight.None;
 
+        [Required]
         protected virtual RoomData Room
         {
             get; set;
@@ -56,9 +60,6 @@ namespace Yupi.Model.Domain.Components
 
         public ModerationSettings(RoomData room)
         {
-            this.WhoCanMute = RoomModerationRight.None;
-            this.WhoCanKick = RoomModerationRight.None;
-            this.WhoCanBan = RoomModerationRight.None;
             this.Room = room;
         }
 

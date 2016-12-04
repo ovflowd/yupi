@@ -36,12 +36,6 @@ namespace Yupi.Model.Domain
 
     public class UserInfo : BaseInfo
     {
-        #region Fields
-
-        public static UserInfo None = new UserInfo() {Id = 0, Name = string.Empty};
-
-        #endregion Fields
-
         #region Properties
 
         public virtual IList<UserAchievement> Achievements
@@ -173,8 +167,7 @@ namespace Yupi.Model.Domain
             get; protected set;
         }
 
-        // TODO Enum
-        public virtual int Rank
+        public virtual Rank Rank
         {
             get; set;
         }
@@ -274,7 +267,7 @@ namespace Yupi.Model.Domain
             MutedUsers = new List<UserInfo>();
             Cautions = new List<UserCaution>();
             Bans = new List<UserBan>();
-            Rank = 1;
+            Rank = Rank.Normal;
             RatedRooms = new List<RoomData>();
             RecentlyVisitedRooms = new List<RoomData>();
             Relationships = new RelationshipComponent();

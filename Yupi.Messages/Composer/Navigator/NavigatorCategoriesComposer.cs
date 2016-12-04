@@ -42,7 +42,7 @@ namespace Yupi.Messages.Navigator
                 message.AppendInteger(categories.Count);
 
                 foreach (NavigatorCategory category in categories)
-                    message.AppendString(category.Caption);
+                    message.AppendString(category.Caption.Get(session.Language));
                 session.Send(message);
             }
         }

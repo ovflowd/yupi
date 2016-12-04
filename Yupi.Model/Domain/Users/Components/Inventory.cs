@@ -32,63 +32,45 @@ namespace Yupi.Model.Domain.Components
     {
         #region Properties
 
-        public virtual IList<FloorItem> FloorItems
-        {
+        [OneToMany]
+        public virtual IList<FloorItem> FloorItems {
             get; protected set;
-        }
-
-        public virtual IList<PetItem> Pets
-        {
-            get; protected set;
-        }
-
-        public virtual IList<WallItem> WallItems
-        {
-            get; protected set;
-        }
+        } = new List<FloorItem> ();
 
         [OneToMany]
-        public virtual IList<WardrobeItem> Wardrobe
-        {
+        public virtual IList<PetItem> Pets {
             get; protected set;
-        }
+        } = new List<PetItem> ();
+
+        [OneToMany]
+        public virtual IList<WallItem> WallItems {
+            get; protected set;
+        } = new List<WallItem> ();
+
+        [OneToMany]
+        public virtual IList<WardrobeItem> Wardrobe {
+            get; protected set;
+        } = new List<WardrobeItem> ();
 
         #endregion Properties
-
-        #region Constructors
-
-        public Inventory()
-        {
-            this.Wardrobe = new List<WardrobeItem>();
-            this.Pets = new List<PetItem>();
-            this.FloorItems = new List<FloorItem>();
-            this.WallItems = new List<WallItem>();
-        }
-
-        #endregion Constructors
 
         #region Methods
 
         // TODO Use visitor pattern to achieve this?
-        public virtual void Add(Item item)
+        public virtual void Add (Item item)
         {
-            if (item is FloorItem)
-            {
-                FloorItems.Add((FloorItem) item);
-            }
-            else if (item is WallItem)
-            {
-                WallItems.Add((WallItem) item);
-            }
-            else if (item is PetItem)
-            {
-                Pets.Add((PetItem) item);
+            if (item is FloorItem) {
+                FloorItems.Add ((FloorItem)item);
+            } else if (item is WallItem) {
+                WallItems.Add ((WallItem)item);
+            } else if (item is PetItem) {
+                Pets.Add ((PetItem)item);
             }
         }
 
-        public virtual FloorItem GetFloorItem(int id)
+        public virtual FloorItem GetFloorItem (int id)
         {
-            return FloorItems.SingleOrDefault(x => x.Id == id);
+            return FloorItems.SingleOrDefault (x => x.Id == id);
         }
 
         #endregion Methods

@@ -42,20 +42,20 @@ namespace Yupi.Messages.User
             {
                 message.AppendInteger(badges.Badges.Count);
 
-                foreach (Badge badge in badges.Badges)
+                foreach (UserBadge badge in badges.Badges)
                 {
                     message.AppendInteger(1); // TODO Magic constant
-                    message.AppendString(badge.Code);
+                    message.AppendString(badge.Badge.Code);
                 }
 
-                IList<Badge> visibleBadges = badges.GetVisible();
+                IList<UserBadge> visibleBadges = badges.GetVisible();
 
                 message.AppendInteger(visibleBadges.Count);
 
-                foreach (Badge badge in visibleBadges)
+                foreach (UserBadge badge in visibleBadges)
                 {
                     message.AppendInteger(badge.Slot);
-                    message.AppendString(badge.Code);
+                    message.AppendString(badge.Badge.Code);
                 }
 
                 session.Send(message);

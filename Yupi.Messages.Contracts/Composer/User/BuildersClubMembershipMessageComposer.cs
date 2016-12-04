@@ -24,13 +24,14 @@
 // ---------------------------------------------------------------------------------
 namespace Yupi.Messages.Contracts
 {
+    using System;
     using Yupi.Protocol.Buffers;
 
-    public abstract class BuildersClubMembershipMessageComposer : AbstractComposer<int, int>
+    public abstract class BuildersClubMembershipMessageComposer : AbstractComposer<DateTime, int>
     {
         #region Methods
 
-        public override void Compose(Yupi.Protocol.ISender session, int expire, int maxItems)
+        public override void Compose(Yupi.Protocol.ISender session, DateTime expire, int maxItems)
         {
             // Do nothing by default.
         }

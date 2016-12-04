@@ -31,8 +31,8 @@ namespace Yupi.Model.Domain
     {
         #region Properties
 
-        // TODO Use enum
-        public virtual int Category
+        [Required]
+        public virtual SupportCategory Category
         {
             get; set;
         }
@@ -42,26 +42,27 @@ namespace Yupi.Model.Domain
             get; protected set;
         }
 
-        public virtual DateTime CreatedAt
-        {
+        [Required]
+        public virtual DateTime CreatedAt {
             get; set;
-        }
+        } = DateTime.Now;
 
+        [Key]
         public virtual int Id
         {
             get; protected set;
         }
 
+        [Required]
         public virtual string Message
         {
             get; set;
         }
 
-        // TODO Should reference the chat directly!
-        public virtual IList<string> ReportedChats
-        {
+        [ManyToMany]
+        public virtual IList<ChatMessage> ReportedChats {
             get; set;
-        }
+        } = new List<ChatMessage> ();
 
         public virtual UserInfo ReportedUser
         {
@@ -73,11 +74,14 @@ namespace Yupi.Model.Domain
             get; set;
         }
 
-        public virtual int Score
+        // TODO What???
+        [Required]
+        public virtual int Priority
         {
             get; set;
         }
 
+        [Required]
         public virtual UserInfo Sender
         {
             get; set;
@@ -85,13 +89,13 @@ namespace Yupi.Model.Domain
 
         public virtual UserInfo Staff
         {
-            get; set;
-        }
-
-        public virtual TicketStatus Status
-        {
             get; protected set;
         }
+
+        [Required]
+        public virtual TicketStatus Status {
+            get; protected set;
+        } = TicketStatus.Open;
 
         // TODO Enum
         // type (3 or 4 for new style)
@@ -101,18 +105,6 @@ namespace Yupi.Model.Domain
         }
 
         #endregion Properties
-
-        #region Constructors
-
-        public SupportTicket()
-        {
-            Status = TicketStatus.Open;
-            ReportedChats = new List<string>();
-            Staff = UserInfo.None;
-            CreatedAt = DateTime.Now;
-        }
-
-        #endregion Constructors
 
         #region Methods
 
@@ -137,48 +129,9 @@ namespace Yupi.Model.Domain
         public virtual void Release()
         {
             Status = TicketStatus.Open;
+            Staff = null;
         }
 
         #endregion Methods
-
-        #region Other
-
-        /*
-                /// <summary>
-                ///     Serializes the specified messageBuffer.
-                /// </summary>
-                /// <param name="message">The messageBuffer.</param>
-                /// <returns>SimpleServerMessageBuffer.</returns>
-             public SimpleServerMessageBuffer Serialize(SimpleServerMessageBuffer messageBuffer)
-                {
-                    messageBuffer.AppendInteger(TicketId);
-                    messageBuffer.AppendInteger(Status);
-                    messageBuffer.AppendInteger(Type); // type (3 or 4 for new style)
-                    messageBuffer.AppendInteger(Category);
-                    messageBuffer.AppendInteger((Yupi.GetUnixTimeStamp() - (int) Timestamp)*1000);
-                    messageBuffer.AppendInteger(Score);
-                    messageBuffer.AppendInteger(1);
-                    messageBuffer.AppendInteger(SenderId);
-                    messageBuffer.AppendString(_senderName);
-                    messageBuffer.AppendInteger(ReportedId);
-                    messageBuffer.AppendString(_reportedName);
-                    messageBuffer.AppendInteger(Status == TicketStatus.Picked ? ModeratorId : 0);
-                    messageBuffer.AppendString(_modName);
-                    messageBuffer.AppendString(Message);
-                    messageBuffer.AppendInteger(0);
-
-                    messageBuffer.AppendInteger(ReportedChats.Count);
-
-                    foreach (string str in ReportedChats)
-                    {
-                        messageBuffer.AppendString(str);
-                        messageBuffer.AppendInteger(-1);
-                        messageBuffer.AppendInteger(-1);
-                    }
-
-                    return messageBuffer;
-                }*/
-
-        #endregion Other
     }
 }

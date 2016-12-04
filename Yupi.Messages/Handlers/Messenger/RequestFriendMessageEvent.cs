@@ -67,13 +67,13 @@ namespace Yupi.Messages.Messenger
                 }
                 else
                 {
-                    if (!session.Info.Relationships.HasSentRequestTo(friend))
+                    IRepository<FriendRequest> requests = DependencyFactory.Resolve<IRepository<FriendRequest>> ();
+
+                    if (!requests.Exists (x => x.To == friend && x.From == session.Info))
                     {
                         var friendRequest = new FriendRequest(session.Info, friend);
 
-                        session.Info.Relationships.SentRequests.Add(friendRequest);
-
-                        UserRepository.Save(session.Info);
+                        requests.Save(friendRequest);
 
                         var friendSession = ClientManager.GetByInfo(friend);
 

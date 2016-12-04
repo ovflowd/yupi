@@ -31,36 +31,53 @@ namespace Yupi.Model.Domain.Components
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     public class UserWallet
     {
         #region Properties
 
+        [Required]
         public virtual int AchievementPoints
         {
             get; set;
         }
 
+        public virtual IDictionary<int, int> InternalActivityPoints {
+            get {
+                var tmp = new Dictionary<int, int> (ActivityPoints.Count);
+
+                foreach (var point in ActivityPoints) {
+                    tmp.Add ((int)point.Key, point.Value);
+                }
+                return tmp;
+            }
+            set {
+                ActivityPoints = new Dictionary<ActivityPointsType, int> (value.Count);
+
+                foreach (var point in value) {
+                    if (Enum.IsDefined (typeof (ActivityPointsType), point.Value)) {
+                        ActivityPoints.Add ((ActivityPointsType)point.Key, point.Value);
+                    } else {
+                        throw new InvalidCastException ("Activity points type with id "+ point.Key +" does not exist!");
+                    }
+                }
+            }
+        }
+
+        [Ignore]
         public virtual IDictionary<ActivityPointsType, int> ActivityPoints
         {
             get; protected set;
-        }
+        } = new Dictionary<ActivityPointsType, int> ();
 
+        [Required]
         public virtual int Credits
         {
             get; set;
         }
 
         #endregion Properties
-
-        #region Constructors
-
-        public UserWallet()
-        {
-            this.ActivityPoints = new Dictionary<ActivityPointsType, int>();
-        }
-
-        #endregion Constructors
 
         #region Methods
 
@@ -92,6 +109,8 @@ namespace Yupi.Model.Domain.Components
 
             ActivityPoints[type] -= value;
         }
+
+
 
         #endregion Methods
     }

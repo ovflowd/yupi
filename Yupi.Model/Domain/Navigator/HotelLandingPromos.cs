@@ -37,50 +37,47 @@ namespace Yupi.Model.Domain
     {
         #region Properties
 
+        [Required]
         public virtual string Body
         {
             get; set;
         }
 
+        [Required]
         public virtual string Button
         {
             get; set;
         }
 
-        public virtual DateTime CreatedAt
-        {
+        [Required]
+        public virtual DateTime CreatedAt {
             get; set;
-        }
+        } = DateTime.Now;
 
+        [Key]
         public virtual int Id
         {
             get; protected set;
         }
 
+        [Required]
         public virtual string Image
         {
             get; set;
         }
 
+        [Required]
         public virtual PromoLink Link
         {
             get; set;
         }
 
+        [Required]
         public virtual string Title
         {
             get; set;
         }
 
         #endregion Properties
-
-        #region Constructors
-
-        public HotelLandingPromos()
-        {
-            CreatedAt = DateTime.Now;
-        }
-
-        #endregion Constructors
     }
 }

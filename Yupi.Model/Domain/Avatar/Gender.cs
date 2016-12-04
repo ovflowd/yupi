@@ -1,5 +1,5 @@
 ﻿// ---------------------------------------------------------------------------------
-// <copyright file="Badge.cs" company="https://github.com/sant0ro/Yupi">
+// <copyright file="Gener.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -22,29 +22,12 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
+using System;
 namespace Yupi.Model.Domain
 {
-    using System;
-
-    public class Badge
+    public enum Gender
     {
-        #region Properties
-
-        public virtual string Code
-        {
-            get; set;
-        }
-
-        public virtual int Id
-        {
-            get; protected set;
-        }
-
-        public virtual int Slot
-        {
-            get; set;
-        }
-
-        #endregion Properties
+        Male = 'M',
+        Female = 'F'
     }
 }

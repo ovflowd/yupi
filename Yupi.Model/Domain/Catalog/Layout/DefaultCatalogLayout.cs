@@ -1,4 +1,4 @@
-﻿#region Header
+#region Header
 
 // ---------------------------------------------------------------------------------
 // <copyright file="DefaultCatalogLayout.cs" company="https://github.com/sant0ro/Yupi">
@@ -31,20 +31,22 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    [Serializable]
+    
     public abstract class DefaultCatalogLayout : DefaultImageLayout
     {
         #region Properties
 
+        [Required]
         public virtual TString Description
         {
             get; set;
-        }
+        } = string.Empty;
 
+        [Required]
         public virtual TString HeaderDescription
         {
             get; set;
-        }
+        } = string.Empty;
 
         [Ignore]
         public override string[] Images
@@ -54,20 +56,22 @@ namespace Yupi.Model.Domain
             }
         }
 
+        [Required]
         public virtual TString SpecialText
         {
             get; set;
-        }
+        } = string.Empty;
 
+        [Required]
         public virtual TString Text1
         {
             get; set;
-        }
+        } = string.Empty;
 
-        public virtual TString Text2
-        {
+        [Required]
+        public virtual TString Text2 {
             get; set;
-        }
+        } = string.Empty;
 
         [Ignore]
         public override TString[] Texts
@@ -78,18 +82,5 @@ namespace Yupi.Model.Domain
         }
 
         #endregion Properties
-
-        #region Constructors
-
-        public DefaultCatalogLayout()
-        {
-            this.Description = string.Empty;
-            this.HeaderDescription = string.Empty;
-            this.SpecialText = string.Empty;
-            this.Text1 = string.Empty;
-            this.Text2 = string.Empty;
-        }
-
-        #endregion Constructors
     }
 }

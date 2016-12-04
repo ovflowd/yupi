@@ -28,9 +28,9 @@ namespace Yupi.Model.Domain
 
     public enum TicketStatus
     {
-        Closed = 0,
         Open = 1,
-        Picked = 2
+        Picked = 2,
+        Closed = 3
     }
 
     #endregion Enumerations

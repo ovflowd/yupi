@@ -38,9 +38,9 @@ namespace Yupi.Messages.Achievements
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
             {
-                message.AppendInteger(userAchievement.Achievement.Id);
+                message.AppendInteger(userAchievement.Achievement.Value);
                 message.AppendInteger(userAchievement.Level.Level);
-                message.AppendString(userAchievement.Achievement.GroupName + userAchievement.Level.Level);
+                message.AppendString(userAchievement.Achievement.DisplayName + userAchievement.Level.Level);
                 message.AppendInteger(userAchievement.Level.Requirement);
                 message.AppendInteger(userAchievement.Level.Requirement);
                 message.AppendInteger(userAchievement.Level.RewardActivityPoints);

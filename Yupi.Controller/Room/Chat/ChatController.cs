@@ -109,8 +109,9 @@ namespace Yupi.Controller
 
         private ChatMessage CreateMessage(Habbo session, string message, ChatBubbleStyle bubble)
         {
-            ChatMessage msg = new ChatMessage(message)
+            ChatMessage msg = new ChatMessage
             {
+                OriginalMessage = message,
                 Entity = session.RoomEntity,
                 Bubble = bubble,
                 User = session.Info

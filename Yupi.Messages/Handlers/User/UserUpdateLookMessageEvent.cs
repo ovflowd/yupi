@@ -66,7 +66,7 @@ namespace Yupi.Messages.User
             session.Info.Gender = gender;
             UserRepository.Save(session.Info);
 
-            AchievementManager.ProgressUserAchievement(session, "ACH_AvatarLooks", 1);
+            AchievementManager.ProgressUserAchievement(session, ProfileAchievement.AvatarLooks);
 
             if (session.Room == null)
                 return;

@@ -1,5 +1,5 @@
 ﻿// ---------------------------------------------------------------------------------
-// <copyright file="BaseInfo.cs" company="https://github.com/sant0ro/Yupi">
+// <copyright file="SocialAchievement.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -22,31 +22,40 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
+using System;
 namespace Yupi.Model.Domain
 {
-    using System;
-
-    public class BaseInfo
+    public class SocialAchievement : Achievement
     {
-        #region Properties
+        public static readonly Achievement GiftGiver = new SocialAchievement (0, "GiftGiver", new int [] {
+            1,6, 14, 26,46,86,146,236,366,566,816,1141,1541,2041,2591
+        });
 
-        public virtual int Id
-        {
-            get; protected set;
+        public static readonly Achievement GiftReceiver = new SocialAchievement (1, "GiftReceiver", new int [] {
+            1,6, 14, 26,46,86,146,236,366,566
+        });
+
+        public static readonly Achievement RespectGiven = new SocialAchievement (2, "RespectGiven", new int [] {
+           2,5,10,20,40,70,110,170,250,350,470,610,770,950,1150,1370,1610,1870,2150,2450
+        });
+
+        public static readonly Achievement RespectEarned = new SocialAchievement (3, "RespectEarned", new int [] {
+           1, 6, 16, 66, 166, 366, 566, 766, 966, 1166
+        });
+
+        public static readonly Achievement FriendListSize = new SocialAchievement (4, "FriendListSize", new int [] {
+           2, 10, 30, 85, 150,250,350,500,700,800,900,1000,1100
+        });
+
+
+        public override string Category {
+            get {
+                return "social";
+            }
         }
 
-        // TODO Do pets have mottos?
-        public virtual string Motto
+        private SocialAchievement (int value, string displayName, int [] requirements, bool display = true) : base (value, displayName, requirements, ValuePrefix.Social, display)
         {
-            get; set;
         }
-
-        [Required]
-        public virtual string Name
-        {
-            get; set;
-        }
-
-        #endregion Properties
     }
 }

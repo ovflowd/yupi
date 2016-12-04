@@ -38,12 +38,12 @@ namespace Yupi.Messages.User
     {
         #region Methods
 
-        public override void Compose(Yupi.Protocol.ISender session, ClubLevel clubLevel, int rank, bool isAmbadassor = false)
+        public override void Compose(Yupi.Protocol.ISender session, ClubLevel clubLevel, Rank rank, bool isAmbadassor = false)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
             {
                 message.AppendInteger((int)clubLevel);
-                message.AppendInteger(rank);
+                message.AppendInteger((int)rank);
                 message.AppendBool(isAmbadassor);
                 session.Send(message);
             }

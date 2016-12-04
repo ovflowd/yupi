@@ -1,4 +1,4 @@
-﻿#region Header
+#region Header
 
 // ---------------------------------------------------------------------------------
 // <copyright file="BaseItem.cs" company="https://github.com/sant0ro/Yupi">
@@ -34,7 +34,7 @@ namespace Yupi.Model.Domain
     using System.Drawing;
     using System.Runtime.Serialization;
 
-    [Serializable]
+    
     public abstract class BaseItem
     {
         #region Properties

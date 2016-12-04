@@ -30,111 +30,95 @@ namespace Yupi.Messages.Support
 
     using Yupi.Model;
     using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
     using Yupi.Protocol.Buffers;
 
     public class LoadModerationToolMessageComposer : Yupi.Messages.Contracts.LoadModerationToolMessageComposer
     {
         #region Methods
 
-        public override void Compose(Yupi.Protocol.ISender session, IList<SupportTicket> Tickets,
+        public override void Compose (Yupi.Protocol.ISender session, IList<SupportTicket> Tickets,
             IList<ModerationTemplate> Templates, IList<string> UserMessagePresets, IList<string> RoomMessagePresets,
             UserInfo user)
         {
-            using (ServerMessage message = Pool.GetMessageBuffer(Id))
-            {
-                message.AppendInteger(Tickets.Count);
+            using (ServerMessage message = Pool.GetMessageBuffer (Id)) {
+                message.AppendInteger (Tickets.Count);
 
-                foreach (SupportTicket current in Tickets)
-                {
-                    //SerializeTicket(message);
-                    throw new NotImplementedException();
+                foreach (SupportTicket ticket in Tickets) {
+                    SerializeTicket(message, ticket);
                 }
 
-                message.AppendInteger(UserMessagePresets.Count);
+                message.AppendInteger (UserMessagePresets.Count);
 
-                foreach (string text in UserMessagePresets)
-                {
-                    message.AppendString(text);
+                foreach (string text in UserMessagePresets) {
+                    message.AppendString (text);
                 }
 
-                // TODO Implement categories correctly... This is a mess...
-                IEnumerable<ModerationTemplate> enumerable =
-                    (from x in Templates where x.Category == -1 select x).ToArray();
+                IRepository<ModerationTemplateCategory> TemplateCategoriyRepository = DependencyFactory.Resolve<IRepository<ModerationTemplateCategory>> ();
 
-                message.AppendInteger(enumerable.Count());
-                using (IEnumerator<ModerationTemplate> enumerator3 = enumerable.GetEnumerator())
-                {
-                    bool first = true;
+                ModerationTemplateCategory [] TemplateCategories = TemplateCategoriyRepository.All ().ToArray ();
 
-                    while (enumerator3.MoveNext())
-                    {
-                        ModerationTemplate template = enumerator3.Current;
-                        IEnumerable<ModerationTemplate> enumerable2 =
-                            (from x in Templates where x.Category == (long) (ulong) template.Id select x)
-                                .ToArray();
-                        message.AppendString(template.CName);
-                        message.AppendBool(first);
-                        message.AppendInteger(enumerable2.Count());
+                message.AppendInteger (TemplateCategories.Length);
 
-                        foreach (ModerationTemplate current3 in enumerable2)
-                        {
-                            message.AppendString(current3.Caption);
-                            message.AppendString(current3.BanMessage);
-                            message.AppendInteger(current3.BanHours);
-                            message.AppendInteger(current3.AvatarBan);
-                            message.AppendInteger(current3.Mute);
-                            message.AppendInteger(current3.TradeLock);
-                            message.AppendString(current3.WarningMessage);
-                            message.AppendBool(true);
-                        }
+                foreach (var category in TemplateCategories) {
+                    message.AppendString (category.Name);
+                    message.AppendBool (false); // unused
+                    message.AppendInteger (category.Templates.Count);
 
-                        first = false;
+                    foreach (ModerationTemplate template in category.Templates) {
+                        message.AppendString (template.Caption);
+                        message.AppendString (template.BanMessage);
+                        message.AppendInteger (template.BanHours);
+                        message.AppendInteger (template.AvatarBanHours);
+                        message.AppendInteger (template.MuteHours);
+                        message.AppendInteger (template.TradeLockHours);
+                        message.AppendString (template.WarningMessage);
+                        message.AppendBool (template.ShowHabboWay);
                     }
                 }
 
                 // TODO Hardcoded
-                message.AppendBool(true); //ticket_queue_button
-                message.AppendBool(user.HasPermission("fuse_chatlogs")); //chatlog_button
-                message.AppendBool(user.HasPermission("fuse_alert")); //message_button
-                message.AppendBool(true); //modaction_but
-                message.AppendBool(user.HasPermission("fuse_ban")); //ban_button
-                message.AppendBool(true);
-                message.AppendBool(user.HasPermission("fuse_kick")); //kick_button
+                message.AppendBool (true); //ticket_queue_button
+                message.AppendBool (user.HasPermission ("fuse_chatlogs")); //chatlog_button
+                message.AppendBool (user.HasPermission ("fuse_alert")); //message_button
+                message.AppendBool (true); //modaction_but
+                message.AppendBool (user.HasPermission ("fuse_ban")); //ban_button
+                message.AppendBool (true);
+                message.AppendBool (user.HasPermission ("fuse_kick")); //kick_button
 
-                message.AppendInteger(RoomMessagePresets.Count);
+                message.AppendInteger (RoomMessagePresets.Count);
 
-                foreach (string current4 in RoomMessagePresets)
-                    message.AppendString(current4);
+                foreach (string roomMessage in RoomMessagePresets)
+                    message.AppendString (roomMessage);
 
-                session.Send(message);
+                session.Send (message);
             }
         }
 
-        private void SerializeTicket(ServerMessage message, SupportTicket ticket)
+        private void SerializeTicket (ServerMessage message, SupportTicket ticket)
         {
-            message.AppendInteger(ticket.Id);
-            message.AppendInteger((int) ticket.Status);
-            message.AppendInteger(ticket.Type);
-            message.AppendInteger(ticket.Category);
-            message.AppendInteger((int) (DateTime.Now - ticket.CreatedAt).TotalMilliseconds);
-            message.AppendInteger(ticket.Score);
-            message.AppendInteger(1);
-            message.AppendInteger(ticket.Sender.Id);
-            message.AppendString(ticket.Sender.Name);
-            message.AppendInteger(ticket.ReportedUser.Id);
-            message.AppendString(ticket.ReportedUser.Name);
-            message.AppendInteger(ticket.Staff.Id);
-            message.AppendString(ticket.Staff.Name);
-            message.AppendString(ticket.Message);
-            message.AppendInteger(0);
+            message.AppendInteger (ticket.Id);
+            message.AppendInteger ((int)ticket.Status);
+            message.AppendInteger (ticket.Type);
+            message.AppendInteger (ticket.Category.Id);
+            message.AppendInteger ((int)(DateTime.Now - ticket.CreatedAt).TotalMilliseconds);
+            message.AppendInteger (ticket.Priority);
+            message.AppendInteger (1); // TODO Implement 
+            message.AppendInteger (ticket.Sender.Id);
+            message.AppendString (ticket.Sender.Name);
+            message.AppendInteger (ticket.ReportedUser.Id);
+            message.AppendString (ticket.ReportedUser.Name);
+            message.AppendInteger (ticket.Staff?.Id ?? 0);
+            message.AppendString (ticket.Staff?.Name ?? string.Empty);
+            message.AppendString (ticket.Message);
+            message.AppendInteger (0); // unused?
 
-            message.AppendInteger(ticket.ReportedChats.Count);
-
-            foreach (string str in ticket.ReportedChats)
-            {
-                message.AppendString(str);
-                message.AppendInteger(-1);
-                message.AppendInteger(-1);
+            message.AppendInteger (ticket.ReportedChats.Count);
+            // TODO Implement properly
+            foreach (ChatMessage chatMsg in ticket.ReportedChats) {
+                message.AppendString (chatMsg.FilteredMessage()); // pattern
+                message.AppendInteger (-1); // start index
+                message.AppendInteger (-1); // endindex
             }
         }
 

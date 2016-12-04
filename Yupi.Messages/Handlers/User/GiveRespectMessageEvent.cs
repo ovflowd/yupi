@@ -71,8 +71,8 @@ namespace Yupi.Messages.User
             if (roomUserByHabbo == null)
                 return;
 
-            AchievementManager.ProgressUserAchievement(session, "ACH_RespectGiven", 1);
-            AchievementManager.ProgressUserAchievement(roomUserByHabbo.User, "ACH_RespectEarned", 1);
+            AchievementManager.ProgressUserAchievement(session, SocialAchievement.RespectGiven);
+            AchievementManager.ProgressUserAchievement(roomUserByHabbo.User, SocialAchievement.RespectEarned);
 
             session.Info.Respect.DailyRespectPoints--;
             roomUserByHabbo.User.Info.Respect.Respect++;

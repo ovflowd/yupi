@@ -28,26 +28,20 @@ namespace Yupi.Model.Domain
     using System.Collections.Generic;
     using System.Data;
 
-    /// <summary>
-    ///     Class HotelView.
-    /// </summary>
     public class HotelLandingManager
     {
         #region Properties
 
-        /// <summary>
-        ///     The furni reward identifier
-        /// </summary>
         public virtual BaseItem FurniReward
         {
             get; set;
         }
 
         // TODO What does this contain?
-        public virtual Dictionary<string, string> HotelViewBadges
+        public virtual IList<Badge> HotelViewBadges
         {
             get; set;
-        }
+        } = new List<Badge> ();
 
         /// <summary>
         ///     The hotel view promos indexers
@@ -55,7 +49,7 @@ namespace Yupi.Model.Domain
         public virtual IList<HotelLandingPromos> HotelViewPromosIndexers
         {
             get; set;
-        }
+        } = new List<HotelLandingPromos> ();
 
         public virtual int Id
         {
@@ -63,18 +57,5 @@ namespace Yupi.Model.Domain
         }
 
         #endregion Properties
-
-        #region Constructors
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="HotelLandingManager" /> class.
-        /// </summary>
-        public HotelLandingManager()
-        {
-            HotelViewPromosIndexers = new List<HotelLandingPromos>();
-            HotelViewBadges = new Dictionary<string, string>();
-        }
-
-        #endregion Constructors
     }
 }

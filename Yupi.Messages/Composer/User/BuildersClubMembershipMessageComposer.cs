@@ -32,13 +32,16 @@ namespace Yupi.Messages.User
     {
         #region Methods
 
-        public override void Compose(Yupi.Protocol.ISender session, int expire, int maxItems)
+        public override void Compose(Yupi.Protocol.ISender session, DateTime expire, int maxItems)
         {
+            int expiresIn = (int)(expire - DateTime.Now).TotalMilliseconds;
+
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
             {
-                message.AppendInteger(expire);
+                message.AppendInteger(expiresIn);
                 message.AppendInteger(maxItems);
-                message.AppendInteger(2); // TODO Hardcoded
+                message.AppendInteger(0); // unused in client
+                // message.AppendInteger (0); // TODO (optional) grace (builder.header.status.grace)
                 session.Send(message);
             }
         }

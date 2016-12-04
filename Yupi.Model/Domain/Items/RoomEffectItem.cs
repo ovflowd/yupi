@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------
 // <copyright file="RoomEffectItem.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -27,7 +27,7 @@ namespace Yupi.Model.Domain
     using System;
     using System.Globalization;
 
-    [Serializable]
+    
     public class RoomEffectItem : WallItem<RoomEffectBaseItem>
     {
         #region Properties

@@ -30,51 +30,35 @@ namespace Yupi.Model.Domain
     {
         #region Properties
 
-        public virtual int Id
-        {
+        [Key]
+        public virtual int Id {
             get; protected set;
         }
 
+        [Required]
         public virtual string Invitation
         {
             get; set;
         }
 
+        [Required]
         public virtual string PollName
         {
             get; set;
         }
 
-        public virtual string Prize
-        {
-            get; set;
-        }
-
+        [OneToMany]
         public virtual IList<PollQuestion> Questions
         {
             get; protected set;
-        }
+        } = new List<PollQuestion> ();
 
-        public virtual RoomData Room
-        {
-            get; set;
-        }
-
+        [Required]
         public virtual string Thanks
         {
             get; set;
         }
 
         #endregion Properties
-
-        #region Constructors
-
-        //public PollType Type{ get; set; }
-        public Poll()
-        {
-            Questions = new List<PollQuestion>();
-        }
-
-        #endregion Constructors
     }
 }

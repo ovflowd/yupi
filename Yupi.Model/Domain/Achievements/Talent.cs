@@ -30,6 +30,7 @@ namespace Yupi.Model.Domain
     {
         #region Properties
 
+        [Required]
         public virtual int Id
         {
             get; protected set;
@@ -46,6 +47,7 @@ namespace Yupi.Model.Domain
             get; set;
         }
 
+        [Required]
         public virtual TalentType Type
         {
             get; set;

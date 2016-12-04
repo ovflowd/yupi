@@ -41,10 +41,11 @@ namespace Yupi.Messages.Pets
                 message.AppendInteger(pet.Id);
                 message.AppendInteger(pet.Info.Id);
                 message.AppendString(pet.Info.Name);
-
+                throw new NotImplementedException ();
+                /*
                 message.AppendInteger(pet.Info.RaceId);
                 message.AppendInteger(pet.Info.Race);
-
+*/
                 /*
                 message.AppendString(pet.Type == "pet_monster" ? "ffffff" : pet.Info.Color);
                 message.AppendInteger(pet.Type == "pet_monster" ? 0u : pet.Info.RaceId);
@@ -61,8 +62,7 @@ namespace Yupi.Messages.Pets
 
                     return;
                 }*/
-                throw new NotImplementedException();
-
+               
                 message.AppendInteger(0);
                 message.AppendInteger(0);
                 session.Send(message);

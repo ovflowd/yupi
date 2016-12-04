@@ -32,11 +32,11 @@ namespace Yupi.Messages.Contracts
     using Yupi.Model.Domain;
     using Yupi.Protocol.Buffers;
 
-    public abstract class UserClubRightsMessageComposer : AbstractComposer<ClubLevel, int, bool>
+    public abstract class UserClubRightsMessageComposer : AbstractComposer<ClubLevel, Rank, bool>
     {
         #region Methods
 
-        public override void Compose(Yupi.Protocol.ISender session, ClubLevel clubLevel, int rank, bool isAmbadassor = false)
+        public override void Compose(Yupi.Protocol.ISender session, ClubLevel clubLevel, Rank rank, bool isAmbadassor = false)
         {
             // Do nothing by default.
         }

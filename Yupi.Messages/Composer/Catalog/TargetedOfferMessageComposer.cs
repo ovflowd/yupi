@@ -55,8 +55,8 @@ namespace Yupi.Messages.Catalog
                 }
 
                 message.AppendInteger(timeLeft);
-                message.AppendString(offer.Name);
-                message.AppendString(offer.Description);
+                message.AppendString(offer.Name.Get(session.Language));
+                message.AppendString(offer.Description.Get (session.Language));
                 message.AppendString(offer.Image);
                 message.AppendString(offer.Icon);
 

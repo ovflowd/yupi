@@ -57,12 +57,15 @@ namespace Yupi.Messages.User
         {
             string name = message.GetString();
 
+            /*
             if (!HotelView.HotelViewBadges.ContainsKey(name))
                 return;
 
-            string badge = HotelView.HotelViewBadges[name];
+            Badge badge = HotelView.HotelViewBadges[name];
             session.Info.Badges.GiveBadge(badge);
             UserRepository.Save(session.Info);
+            */
+            throw new NotImplementedException ();
         }
 
         #endregion Methods

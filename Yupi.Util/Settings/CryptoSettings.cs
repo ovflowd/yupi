@@ -28,26 +28,33 @@ namespace Yupi.Util.Settings
 
     using Config.Net;
 
-    public static class CryptoSettings
+    public class CryptoSettings : SettingsContainer
     {
+        private static readonly CryptoSettings instance = new CryptoSettings();
+
+        // TODO Replace singleton with Dependency Injection
+        public static CryptoSettings Instance
+        {
+            get 
+            {
+                return instance; 
+            }
+        }
+
         #region Fields
 
-        public static readonly Setting<int> DHKeysSize = new Setting<int>("Crypto.DHKeysSize", 128);
-        public static readonly Setting<bool> Enabled = new Setting<bool>("Crypto.Enabled", true);
-        public static readonly Setting<string> RsaD = new Setting<string>("Crypto.RsaD", "");
-        public static readonly Setting<string> RsaE = new Setting<string>("Crypto.RsaE", "");
-        public static readonly Setting<string> RsaN = new Setting<string>("Crypto.RsaN", "");
-        public static readonly Setting<bool> ServerRC4 = new Setting<bool>("Crypto.ServerRC4", true);
+        public readonly Option<int> DHKeysSize = new Option<int>("Crypto.DHKeysSize", 128);
+        public readonly Option<bool> Enabled = new Option<bool>("Crypto.Enabled", true);
+        public readonly Option<string> RsaD = new Option<string>("Crypto.RsaD", "");
+        public readonly Option<string> RsaE = new Option<string>("Crypto.RsaE", "");
+        public readonly Option<string> RsaN = new Option<string>("Crypto.RsaN", "");
+        public readonly Option<bool> ServerRC4 = new Option<bool>("Crypto.ServerRC4", true);
 
         #endregion Fields
 
-        #region Constructors
-
-        static CryptoSettings()
+        protected override void OnConfigure(IConfigConfiguration configuration)
         {
-            Cfg.Configuration.UseIniFile(Settings.GetPath("crypto.ini"));
+            configuration.UseIniFile(Settings.GetPath("crypto.ini"));
         }
-
-        #endregion Constructors
     }
 }

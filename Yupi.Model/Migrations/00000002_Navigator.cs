@@ -1,5 +1,5 @@
 ﻿// ---------------------------------------------------------------------------------
-// <copyright file="BotInfo.cs" company="https://github.com/sant0ro/Yupi">
+// <copyright file="00000001_Navigator.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -22,29 +22,46 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-namespace Yupi.Model.Domain
+using System;
+using FluentMigrator;
+using Yupi.Model.Domain;
+
+namespace Yupi.Model.Db.Migrations
 {
-    using System;
-
-    public class BotInfo : BaseInfo
+    [Migration (00000002)]
+    public class Navigator : Migration
     {
-        #region Properties
-
-        public virtual char Gender
+        public override void Down ()
         {
-            get; set;
+            for (int i = 0; i <= 11; ++i) {
+                Delete.FromTable ("NavigatorCategory").Row (new { Caption = "${roomevent_type_" + i + "}" });
+            }
+
+            Delete.FromTable ("NavigatorCategory").Row (new { Caption = "Staffs" });
+
+            Delete.FromTable ("NavigatorCategory").Row (new { Caption = "No category" });
         }
 
-        public virtual string Look
-        {
-            get; set;
+        public override void Up () {
+            for (int i = 0; i <= 11; ++i) {
+                InsertCategory<PromotionNavigatorCategory> ("${roomevent_type_" + i + "}");
+            }
+            // TODO Should be string in external_texts!
+            InsertCategory<PromotionNavigatorCategory> ("Staffs", 6);
+
+            InsertCategory<FlatNavigatorCategory> ("No category");
         }
 
-        public virtual UserInfo Owner
+        private void InsertCategory<T> (string caption, int minRank = 1) where T : NavigatorCategory
         {
-            get; set;
+            Insert.IntoTable ("NavigatorCategory").Row (new {
+                discriminator = typeof(T).FullName,
+                Caption = caption,
+                IsImage = false,
+                IsOpened = false,
+                MinRank = minRank,
+                Visible = 1,
+            });
         }
-
-        #endregion Properties
     }
 }

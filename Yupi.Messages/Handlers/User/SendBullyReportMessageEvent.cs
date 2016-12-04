@@ -47,7 +47,8 @@ namespace Yupi.Messages.Handlers.User
             int reportedId = message.GetInteger();
 
             UserInfo reportedUser = DependencyFactory.Resolve<IRepository<UserInfo>>().Find(reportedId);
-
+            throw new NotImplementedException ();
+            /*
             SupportTicket ticket = new SupportTicket()
             {
                 Category = 104,
@@ -56,7 +57,7 @@ namespace Yupi.Messages.Handlers.User
             };
 
             DependencyFactory.Resolve<ModerationTool>().Tickets.Add(ticket);
-
+*/
             router.GetComposer<BullyReportSentMessageComposer>().Compose(session);
 
             /* TODO Implement

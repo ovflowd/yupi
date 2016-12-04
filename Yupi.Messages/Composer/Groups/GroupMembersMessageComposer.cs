@@ -153,11 +153,13 @@ namespace Yupi.Messages.Groups
 
         private void AddGroupMemberIntoResponse(ServerMessage response, UserInfo member)
         {
+            throw new NotImplementedException ();
+            /*
             response.AppendInteger(member.Rank == 2 ? 0 : member.Rank == 1 ? 1 : 2);
             response.AppendInteger(member.Id);
             response.AppendString(member.Name);
             response.AppendString(member.Look);
-            throw new NotImplementedException();
+           */
             //response.AppendString(Yupi.GetGroupDateJoinString(member.DateJoin));
         }
 

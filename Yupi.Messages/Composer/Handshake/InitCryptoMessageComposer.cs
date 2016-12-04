@@ -38,7 +38,7 @@ namespace Yupi.Messages.Handshake
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
             {
-                if (CryptoSettings.Enabled)
+                if (CryptoSettings.Instance.Enabled)
                 {
                     Console.WriteLine(Encryption.GetInstance().GetRSADiffieHellmanPKey());
                     Console.WriteLine(Encryption.GetInstance().GetRSADiffieHellmanGKey());

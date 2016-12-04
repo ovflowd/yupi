@@ -32,35 +32,31 @@ namespace Yupi.Model.Domain
     {
         #region Properties
 
+        [OneToMany]
         public virtual IList<RoomCompetitionEntry> Entries
         {
             get; protected set;
         }
 
+        [Key]
         public virtual int Id
         {
             get; protected set;
         }
 
+        [Required]
+        [Length(20)]
         public virtual string Name
         {
             get; protected set;
         }
 
+        [ManyToMany]
         public virtual IList<BaseItem> RequiredItems
         {
             get; protected set;
-        }
+        } = new List<BaseItem> ();
 
         #endregion Properties
-
-        #region Constructors
-
-        public RoomCompetition()
-        {
-            RequiredItems = new List<BaseItem>();
-        }
-
-        #endregion Constructors
     }
 }

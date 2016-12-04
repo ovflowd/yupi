@@ -52,7 +52,7 @@ namespace Yupi.Messages.Other
             Yupi.Protocol.IRouter router)
         {
             // TODO Doesn't seem right here! Could easily be faked by wrong packets!
-            AchievementManager.ProgressUserAchievement(session, "ACH_AllTimeHotelPresence", 1);
+            //AchievementManager.ProgressUserAchievement(session, "ACH_AllTimeHotelPresence", 1);
 
             session.TimePingReceived = DateTime.Now;
         }

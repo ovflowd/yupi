@@ -47,8 +47,8 @@ namespace Yupi.Messages.Rooms
                 message.AppendInteger(0); // unused
                 message.AppendInteger(room.Tags.Count);
 
-                foreach (string s in room.Tags)
-                    message.AppendString(s);
+                foreach (Tag tag in room.Tags)
+                    message.AppendString(tag.Value);
 
                 message.AppendInteger(room.TradeState.Value);
                 message.AppendInteger(room.AllowPets);
