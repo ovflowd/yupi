@@ -63,7 +63,6 @@
   <ItemGroup>
     <Compile Include="AStarTest.cs" />
     <Compile Include="HeightmapTest.cs" />
-    <Compile Include="Migration.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

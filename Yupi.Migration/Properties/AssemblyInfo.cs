@@ -1,8 +1,6 @@
-﻿#region Header
-
-// ---------------------------------------------------------------------------------
-// <copyright file="Migration.cs" company="https://github.com/sant0ro/Yupi">
-//   Copyright (c) 2016 Claudio Santoro, TheDoctor
+﻿// ---------------------------------------------------------------------------------
+// <copyright file="AssemblyInfo.cs" company="https://github.com/sant0ro/Yupi">
+//   Copyright (c) 2016 ${CopyrightHolder}
 // </copyright>
 // <license>
 //   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,40 +22,29 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
+using System.Reflection;
+using System.Runtime.CompilerServices;
 
-#endregion Header
+// Information about this assembly is defined by the following attributes. 
+// Change them to the values specific to your project.
 
-namespace Yupi.Tests
-{
-    using System;
-    using System.IO;
+[assembly: AssemblyTitle ("Yupi.Migration")]
+[assembly: AssemblyDescription ("")]
+[assembly: AssemblyConfiguration ("")]
+[assembly: AssemblyCompany ("")]
+[assembly: AssemblyProduct ("")]
+[assembly: AssemblyCopyright ("${AuthorCopyright}")]
+[assembly: AssemblyTrademark ("")]
+[assembly: AssemblyCulture ("")]
 
-    using NUnit.Framework;
+// The assembly version has the format "{Major}.{Minor}.{Build}.{Revision}".
+// The form "{Major}.{Minor}.*" will automatically update the build and revision,
+// and "{Major}.{Minor}.{Build}.*" will update just the revision.
 
-    using Yupi.Model;
+[assembly: AssemblyVersion ("1.0.*")]
 
-    [TestFixture]
-    public class Migration
-    {
-        #region Methods
+// The following attributes are used to specify the signing key for the assembly, 
+// if desired. See the Mono documentation for more information about signing.
 
-        [Test]
-        [Explicit("Should only be run manually to generate migrations.")]
-        public void Generate()
-        {
-            // TODO Create seperate application for this.
-            /*
-            MigrationConfiguration config = new MigrationConfiguration ();
-
-            string directory = "Migrations";
-
-            if (!Directory.Exists (directory)) {
-                Directory.CreateDirectory (directory);
-            }
-
-            config.Generate("Migrate", directory);*/
-        }
-
-        #endregion Methods
-    }
-}
+//[assembly: AssemblyDelaySign(false)]
+//[assembly: AssemblyKeyFile("")]
