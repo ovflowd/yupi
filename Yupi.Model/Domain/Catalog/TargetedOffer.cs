@@ -46,7 +46,8 @@ namespace Yupi.Model.Domain
 
         #region Properties
 
-        public virtual string Description
+        [Required]
+        public virtual TString Description
         {
             get; set;
         }
@@ -60,36 +61,30 @@ namespace Yupi.Model.Domain
         /// Icon for minimized view
         /// </summary>
         /// <value>The relative url to the icon.</value>
-        public virtual string Icon
-        {
+        [Required]
+        public virtual string Icon {
             get; set;
-        }
+        } = string.Empty;
 
+        [Required]
         public virtual string Image
         {
             get; set;
         }
 
+        [Required]
         public virtual int PurchaseLimit
         {
             get; set;
         }
 
+        [Required]
         public virtual TrackingStateCode StateCode
         {
             get; set;
         }
 
         #endregion Properties
-
-        #region Constructors
-
-        public TargetedOffer()
-        {
-            Icon = string.Empty;
-        }
-
-        #endregion Constructors
 
         #region Methods
 

@@ -28,26 +28,36 @@ namespace Yupi.Util.Settings
 
     using Config.Net;
 
-    public static class DatabaseSettings
+    public class DatabaseSettings : SettingsContainer
     {
+        private static readonly DatabaseSettings instance = new DatabaseSettings();
+
+        public static DatabaseSettings Instance
+        {
+            get 
+            {
+                return instance; 
+            }
+        }
+
         #region Fields
 
-        public static readonly Setting<string> Host = new Setting<string> ("DB.Host", "localhost");
-        public static readonly Setting<string> Name = new Setting<string> ("DB.Name", "yupi");
-        public static readonly Setting<string> Password = new Setting<string> ("DB.Password", null);
-        public static readonly Setting<DatabaseType> Type = new Setting<DatabaseType> ("DB.Type", DatabaseType.SQLite);
-        public static readonly Setting<string> Username = new Setting<string> ("DB.Username", "yupi");
+        public readonly Option<string> Host = new Option<string> ("DB.Host", "localhost");
+        public readonly Option<string> Name = new Option<string> ("DB.Name", "yupi");
+        public readonly Option<string> Password = new Option<string> ("DB.Password", null);
+        public readonly Option<DatabaseType> Type = new Option<DatabaseType> ("DB.Type", DatabaseType.SQLite);
+        public readonly Option<string> Username = new Option<string> ("DB.Username", "yupi");
 
         #endregion Fields
 
-        #region Constructors
+        #region Methods
 
-        static DatabaseSettings ()
+        protected override void OnConfigure(IConfigConfiguration configuration)
         {
-            Cfg.Configuration.UseIniFile (Settings.GetPath ("database.ini"));
+            configuration.UseIniFile(Settings.GetPath("database.ini"));
         }
 
-        public static string BuildConnectionString ()
+        public string BuildConnectionString()
         {
             switch ((DatabaseType)Type) {
             case DatabaseType.MySQL:
@@ -59,6 +69,6 @@ namespace Yupi.Util.Settings
             }
         }
 
-        #endregion Constructors
+        #endregion Methods
     }
 }

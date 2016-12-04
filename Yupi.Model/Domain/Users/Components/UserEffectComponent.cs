@@ -39,21 +39,13 @@ namespace Yupi.Model.Domain.Components
             get; set;
         }
 
+        [OneToMany]
         public virtual IList<AvatarEffect> Effects
         {
             get; protected set;
-        }
+        } = new List<AvatarEffect> ();
 
         #endregion Properties
-
-        #region Constructors
-
-        public UserEffectComponent()
-        {
-            Effects = new List<AvatarEffect>();
-        }
-
-        #endregion Constructors
 
         #region Methods
 

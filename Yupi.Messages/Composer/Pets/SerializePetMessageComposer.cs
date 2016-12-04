@@ -37,6 +37,8 @@ namespace Yupi.Messages.Pets
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
             {
+                throw new NotImplementedException ();
+                /*
                 message.AppendInteger(pet.Id);
                 message.AppendInteger(pet.Info.Id);
                 message.AppendInteger(pet.Info.RaceId);
@@ -68,9 +70,9 @@ namespace Yupi.Messages.Pets
                     message.AppendInteger(pet.Info.HairDye);
                 }
                 message.AppendBool(pet.Info.HaveSaddle);
-                throw new NotImplementedException();
+               
                 //message.AppendBool(pet.RidingHorse);
-                room.Send(message);
+                room.Send(message);*/
             }
         }
 

@@ -36,6 +36,7 @@ namespace Yupi.Messages.Support
         #region Methods
 
         // TODO Refactor
+        // TODO Room might be null
         public override void Compose(Yupi.Protocol.ISender session, SupportTicket ticket)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
@@ -64,7 +65,7 @@ namespace Yupi.Messages.Support
                     message.AppendInteger((int) (DateTime.Now - entry.Timestamp).TotalMilliseconds);
                     message.AppendInteger(entry.User.Id);
                     message.AppendString(entry.User.Name);
-                    message.AppendString(entry.Message);
+                    message.AppendString(entry.OriginalMessage);
                     message.AppendBool(!entry.Whisper);
                 }
 

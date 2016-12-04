@@ -44,8 +44,8 @@ namespace Yupi.Messages.User
                 foreach (WardrobeItem item in wardrobe)
                 {
                     message.AppendInteger(item.Slot);
-                    message.AppendString(item.Look);
-                    message.AppendString(item.Gender.ToUpper());
+                    message.AppendString(item.Look.Look);
+                    message.AppendChar((char)item.Look.Gender);
                 }
 
                 session.Send(message);

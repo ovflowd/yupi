@@ -31,28 +31,32 @@ namespace Yupi.Model.Domain
     {
         #region Properties
 
-        public virtual IList<string> Answers
+        [OneToMany]
+        public virtual IList<PollAwnser> Answers
         {
             get; protected set;
-        }
+        } = new List<PollAwnser> ();
 
         // TODO Rename
+        [Required]
         public virtual PollAnswerType AnswerType
         {
             get; set;
         }
 
-        // TODO Use id?
-        public virtual string CorrectAnswer
+        [Required]
+        public virtual PollAwnser CorrectAnswer
         {
             get; set;
         }
 
+        [Key]
         public virtual int Id
         {
             get; protected set;
         }
 
+        [Required]
         public virtual string Question
         {
             get; set;
@@ -60,44 +64,5 @@ namespace Yupi.Model.Domain
 
         #endregion Properties
 
-        #region Constructors
-
-        public PollQuestion()
-        {
-            Answers = new List<string>();
-        }
-
-        #endregion Constructors
-
-        #region Other
-
-        /*
-        /// <summary>
-        ///     Serializes the specified messageBuffer.
-        /// </summary>
-        /// <param name="message">The messageBuffer.</param>
-        /// <param name="questionNumber">The question number.</param>
-        public void Serialize(SimpleServerMessageBuffer messageBuffer, int questionNumber)
-        {
-            messageBuffer.AppendInteger(Index);
-            messageBuffer.AppendInteger(questionNumber);
-            messageBuffer.AppendInteger((int) AType);
-            messageBuffer.AppendString(Question);
-
-            if (AType != PollAnswerType.Selection && AType != PollAnswerType.RadioSelection)
-                return;
-
-            messageBuffer.AppendInteger(1);
-            messageBuffer.AppendInteger(Answers.Count);
-
-            foreach (string current in Answers)
-            {
-                messageBuffer.AppendString(current);
-                messageBuffer.AppendString(current);
-            }
-        }
-           */
-
-        #endregion Other
     }
 }

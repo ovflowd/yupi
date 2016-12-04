@@ -41,20 +41,14 @@ namespace Yupi.Messages.Catalog
     {
         #region Methods
 
-        public override void Compose(Yupi.Protocol.ISender session, CatalogPage root, string type,
-            int rank)
+        public override void Compose(Yupi.Protocol.ISender session, CatalogPage root,
+            Rank rank)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
             {
                 message.Append(root, rank, session.Language);
                 message.AppendBool(false); // TODO CATALOG_NEW_ITEMS_SHOW
-
-                /* TODO
-                 * Type:
-                 * public static const NORMAL:String = "NORMAL";
-                 * public static const BUILDER:String = "BUILDERS_CLUB";
-                 */
-                message.AppendString(type);
+                message.AppendString(root.Type.DisplayName);
 
                 session.Send(message);
             }

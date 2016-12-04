@@ -30,6 +30,7 @@ namespace Yupi.Model.Domain
     {
         #region Properties
 
+        [Key]
         public virtual int Id
         {
             get; protected set;

@@ -33,27 +33,62 @@ namespace Yupi.Model.Domain
     {
         #region Properties
 
+        [Required]
         public virtual Achievement Achievement
         {
             get; set;
         }
 
+        [Required]
         public virtual int Id
         {
             get; protected set;
         }
 
-        public virtual AchievementLevel Level
-        {
-            get; set;
+        [Ignore]
+        public virtual AchievementLevel Level {
+            get; protected set;
         }
 
+        [Required]
+        public virtual int InternalLevel {
+            get {
+                return Level.Level;
+            }
+            protected set {
+                Level = Achievement.Levels [value];
+            }
+        }
+
+        [Required]
         public virtual int Progress
         {
             get; set;
         }
 
+        [Ignore]
+        public virtual Badge Badge {
+            get {
+                return new Badge {
+                    Code = "ACH_" + Achievement.DisplayName + Level.Level
+                };
+            }
+        }
+
         #endregion Properties
+
+        public UserAchievement (Achievement achievement)
+        {
+            #pragma warning disable RECS0021 // Warns about calls to virtual member functions occuring in the constructor
+            this.Achievement = achievement;
+            Level = achievement.DefaultLevel();
+            #pragma warning restore RECS0021 // Warns about calls to virtual member functions occuring in the constructor
+        }
+
+        protected UserAchievement ()
+        {
+
+        }
 
         #region Methods
 

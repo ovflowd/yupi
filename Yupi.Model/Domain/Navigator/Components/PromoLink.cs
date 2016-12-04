@@ -46,11 +46,13 @@ namespace Yupi.Model.Domain.Components
     {
         #region Properties
 
+        [Required]
         public virtual PromoLinkType Type
         {
             get; set;
         }
 
+        [Required]
         public virtual string Url
         {
             get; set;

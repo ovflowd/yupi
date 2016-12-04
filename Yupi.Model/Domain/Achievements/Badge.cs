@@ -1,7 +1,5 @@
-﻿#region Header
-
-// ---------------------------------------------------------------------------------
-// <copyright file="IPopulate.cs" company="https://github.com/sant0ro/Yupi">
+﻿// ---------------------------------------------------------------------------------
+// <copyright file="Badge.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -24,19 +22,15 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-
-#endregion Header
-
-namespace Yupi.Model
+using System;
+namespace Yupi.Model.Domain
 {
-    using System;
-
-    public interface IPopulate
+    public class Badge
     {
-        #region Methods
-
-        void Populate();
-
-        #endregion Methods
+        [Key]
+        [Length(10)]
+        public virtual string Code {
+            get; set;
+        }
     }
 }

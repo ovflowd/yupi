@@ -1,4 +1,4 @@
-﻿#region Header
+#region Header
 
 // ---------------------------------------------------------------------------------
 // <copyright file="CatalogPageLayout.cs" company="https://github.com/sant0ro/Yupi">
@@ -32,11 +32,12 @@ namespace Yupi.Model.Domain
     using System;
     using System.Runtime.Serialization;
 
-    [Serializable]
+    
     public abstract class CatalogPageLayout
     {
         #region Properties
 
+        [Required]
         public virtual int Id
         {
             get; protected set;

@@ -28,57 +28,63 @@ namespace Yupi.Model.Domain
     {
         #region Properties
 
-        public virtual bool AvatarBan
+        [Required]
+        public virtual bool ShowHabboWay { get; set; }
+
+        [Required]
+        public virtual int AvatarBanHours
         {
             get; set;
         }
 
-        public virtual short BanHours
+        [Required]
+        public virtual int BanHours
         {
             get; set;
         }
 
+        [Required]
         public virtual string BanMessage
         {
             get; set;
         }
 
+        [Required]
+        [Length(30)]
         public virtual string Caption
         {
             get; set;
         }
 
-        // TODO Move these to own class
-        public virtual short Category
-        {
-            get; set;
-        }
-
-        public virtual string CName
-        {
-            get; set;
-        }
-
+        [Key]
         public virtual int Id
         {
             get; protected set;
         }
 
-        public virtual bool Mute
+        [Required]
+        public virtual int MuteHours
         {
             get; set;
         }
 
-        public virtual bool TradeLock
+        [Required]
+        public virtual int TradeLockHours
         {
             get; set;
         }
 
+        [Required]
         public virtual string WarningMessage
         {
             get; set;
         }
 
         #endregion Properties
+
+        public virtual bool IsPermanentBan ()
+        {
+            return BanHours == UserBan.PermaBanDuration;
+        }
     }
 }

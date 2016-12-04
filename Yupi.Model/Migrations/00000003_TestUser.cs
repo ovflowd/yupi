@@ -1,7 +1,5 @@
-﻿#region Header
-
-// ---------------------------------------------------------------------------------
-// <copyright file="Migration.cs" company="https://github.com/sant0ro/Yupi">
+﻿// ---------------------------------------------------------------------------------
+// <copyright file="00000003_TestUser.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -24,37 +22,26 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
+using System;
+using FluentMigrator;
 
-#endregion Header
-
-namespace Yupi.Tests
+namespace Yupi.Model.Db.Migrations
 {
-    using System;
-    using System.IO;
-
-    using NUnit.Framework;
-
-    using Yupi.Model;
-
-    [TestFixture]
-    public class Migration
+    [Migration (3)]
+    public class TestUser : Migration
     {
-        #region Methods
-
-        //[Test] TODO This is not really a test
-        public void Generate()
+        public override void Down ()
         {
-            MigrationConfiguration config = new MigrationConfiguration ();
-
-            string directory = "Migrations";
-
-            if (!Directory.Exists (directory)) {
-                Directory.CreateDirectory (directory);
-            }
-
-            config.Generate("Migrate", directory);
+            Delete.FromTable("UserInfo")
+                  .Row (new { Name = "User" })
+                  .Row (new { Name = "Admin" });
         }
 
-        #endregion Methods
+        public override void Up ()
+        {
+            Insert.IntoTable ("UserInfo")
+                  .Row (new { Name = "User", Rank = 1 })
+                  .Row (new { Name = "Admin", Rank = 9 });
+        }
     }
 }

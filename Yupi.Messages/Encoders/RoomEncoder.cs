@@ -54,9 +54,9 @@ namespace Yupi.Messages.Encoders
             message.AppendInteger(data.Category.Id);
             message.AppendInteger(data.Tags.Count);
 
-            foreach (string tag in data.Tags)
+            foreach (Tag tag in data.Tags)
             {
-                message.AppendString(tag);
+                message.AppendString(tag.Value);
             }
 
             RoomFlags flags = data.GetFlags();

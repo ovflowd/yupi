@@ -34,25 +34,25 @@ namespace Yupi.Messages.User
     {
         #region Methods
 
-        public override void Compose(Yupi.Protocol.ISender session, IDictionary<string, Achievement> achievements)
+        public override void Compose(Yupi.Protocol.ISender session, IReadOnlyCollection<Achievement> achievements)
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
             {
                 message.AppendInteger(achievements.Count);
 
-                foreach (Achievement ach in achievements.Values)
+                foreach (Achievement ach in achievements)
                 {
-                    message.AppendString(ach.GroupName.Replace("ACH_", string.Empty));
-                    message.AppendInteger(ach.Levels.Count);
+                    message.AppendString(ach.DisplayName);
+                    message.AppendInteger(ach.Levels.Length);
 
-                    for (int i = 1; i < ach.Levels.Count + 1; i++)
+                    for (int i = 1; i <= ach.Levels.Length; ++i)
                     {
                         message.AppendInteger(i);
                         message.AppendInteger(ach.Levels[i].Requirement);
                     }
                 }
 
-                message.AppendInteger(0);
+                message.AppendInteger(0); // TODO Hardcoded
                 session.Send(message);
             }
         }

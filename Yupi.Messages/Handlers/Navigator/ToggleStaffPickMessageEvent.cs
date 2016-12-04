@@ -67,7 +67,8 @@ namespace Yupi.Messages.Navigator
             if (roomData == null)
                 return;
 
-            AchievementManager.ProgressUserAchievement(roomData.Owner, "ACH_Spr", 1);
+            // TODO TOGGLE?!
+            AchievementManager.ProgressUserAchievement(roomData.Owner, RoomBuilderAchievement.StaffPickedRooms);
 
             // TODO Add room to Staff Pick category!
             throw new NotImplementedException();

@@ -30,12 +30,12 @@ namespace Yupi.Messages.Contracts
     using Yupi.Model.Domain;
     using Yupi.Protocol.Buffers;
 
-    public abstract class FlatCategoriesMessageComposer : AbstractComposer<IList<FlatNavigatorCategory>, int>
+    public abstract class FlatCategoriesMessageComposer : AbstractComposer<IList<FlatNavigatorCategory>, Rank>
     {
         #region Methods
 
         public override void Compose(Yupi.Protocol.ISender session, IList<FlatNavigatorCategory> categories,
-            int userRank)
+            Rank userRank)
         {
             // Do nothing by default.
         }

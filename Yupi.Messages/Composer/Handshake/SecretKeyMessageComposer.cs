@@ -38,10 +38,10 @@ namespace Yupi.Messages.Handshake
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
             {
-                if(CryptoSettings.Enabled)
+                if(CryptoSettings.Instance.Enabled)
                 {
                     message.AppendString(Encryption.GetInstance().GetRSADiffieHellmanPublicKey());
-                    message.AppendBool(CryptoSettings.ServerRC4);
+                    message.AppendBool(CryptoSettings.Instance.ServerRC4);
                 }
                 else
                 {

@@ -59,6 +59,18 @@ namespace Yupi.Model.Repository
             return session.Query<T>();
         }
 
+        public void Delete (Expression<Func<T, bool>> expression)
+        {
+            /*
+             * It is necessary to load all elements to ensure the cascade delete will be applied.
+             * See also: https://weblogs.asp.net/ricardoperes/deleting-entities-in-nhibernate
+             */
+            var toDelete = FilterBy (expression);
+            foreach (T entry in toDelete) {
+                Delete (entry);
+            }
+        }
+
         public void Delete(T entity)
         {
             session.Delete(entity);

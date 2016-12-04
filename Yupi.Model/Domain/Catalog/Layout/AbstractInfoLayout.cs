@@ -1,4 +1,4 @@
-﻿#region Header
+#region Header
 
 // ---------------------------------------------------------------------------------
 // <copyright file="AbstractInfoLayout.cs" company="https://github.com/sant0ro/Yupi">
@@ -31,15 +31,15 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    [Serializable]
+    
     public abstract class AbstractInfoLayout : DefaultImageLayout
     {
         #region Properties
 
-        public virtual TString Description
-        {
+        [Required]
+        public virtual TString Description {
             get; set;
-        }
+        } = string.Empty;
 
         [Ignore]
         public override TString[] Texts
@@ -50,14 +50,5 @@ namespace Yupi.Model.Domain
         }
 
         #endregion Properties
-
-        #region Constructors
-
-        public AbstractInfoLayout()
-        {
-            this.Description = string.Empty;
-        }
-
-        #endregion Constructors
     }
 }

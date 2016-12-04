@@ -29,6 +29,7 @@ namespace Yupi.Messages.User
     using Yupi.Controller;
     using Yupi.Model;
     using Yupi.Model.Domain;
+    using Yupi.Model.Repository;
     using Yupi.Protocol.Buffers;
 
     public class UserProfileMessageComposer : Yupi.Messages.Contracts.UserProfileMessageComposer
@@ -54,6 +55,9 @@ namespace Yupi.Messages.User
         {
             using (ServerMessage message = Pool.GetMessageBuffer(Id))
             {
+                IRepository<FriendRequest> requests = DependencyFactory.Resolve<IRepository<FriendRequest>> ();
+                bool hasSentRequest = requests.Exists (x => x.To == user && x.From == requester);
+
                 message.AppendInteger(user.Id);
                 message.AppendString(user.Name);
                 message.AppendString(user.Look);
@@ -62,7 +66,7 @@ namespace Yupi.Messages.User
                 message.AppendInteger(user.Wallet.AchievementPoints);
                 message.AppendInteger(user.Relationships.Relationships.Count);
                 message.AppendBool(user.Relationships.IsFriendsWith(requester));
-                message.AppendBool(requester.Relationships.HasSentRequestTo(user));
+                message.AppendBool(hasSentRequest);
                 message.AppendBool(Manager.IsOnline(user));
 
                 message.AppendInteger(user.UserGroups.Count);

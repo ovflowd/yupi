@@ -107,8 +107,17 @@ namespace Yupi.Messages.Rooms
             {
                 roomData.Tags.Clear();
 
-                for (int i = 0; i < tagCount; i++)
-                    roomData.Tags.Add(request.GetString().ToLower());
+                IRepository<Tag> TagRepository = DependencyFactory.Resolve<IRepository<Tag>> ();
+                for (int i = 0; i < tagCount; i++) {
+                    string tagValue = request.GetString ().ToLower ();
+                    Tag tag = TagRepository.Find (tagValue);
+
+                    if (tag == null) {
+                        tag = new Tag (tagValue);
+                    }
+
+                    roomData.Tags.Add (tag);
+                }
             }
 
             TradingState tradeState;

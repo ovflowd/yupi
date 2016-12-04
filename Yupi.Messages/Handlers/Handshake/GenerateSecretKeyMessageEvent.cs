@@ -54,7 +54,7 @@ namespace Yupi.Messages.Handshake
             {
                 session.Session.clientRC4 = Encryption.InitializeARC4(sharedKey);
 
-                if (CryptoSettings.ServerRC4)
+                if (CryptoSettings.Instance.ServerRC4)
                 {
                     session.Session.serverRC4 = Encryption.InitializeARC4(sharedKey);
                 }

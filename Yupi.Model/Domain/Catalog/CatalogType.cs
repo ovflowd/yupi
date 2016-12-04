@@ -1,4 +1,4 @@
-﻿#region Header
+#region Header
 
 // ---------------------------------------------------------------------------------
 // <copyright file="CatalogType.cs" company="https://github.com/sant0ro/Yupi">
@@ -34,7 +34,7 @@ namespace Yupi.Model.Domain
 
     using Headspring;
 
-    [Serializable]
+    
     public class CatalogType : Enumeration<CatalogType>
     {
         #region Fields

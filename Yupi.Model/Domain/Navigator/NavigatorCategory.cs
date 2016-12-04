@@ -30,27 +30,32 @@ namespace Yupi.Model.Domain
     {
         #region Properties
 
-        public virtual string Caption
+        [Required]
+        public virtual TString Caption
         {
             get; set;
         }
 
+        [Key]
         public virtual int Id
         {
             get; protected set;
         }
 
+        [Required]
         public virtual bool IsImage
         {
             get; set;
         }
 
+        [Required]
         public virtual bool IsOpened
         {
             get; set;
         }
 
-        public virtual int MinRank
+        [Required]
+        public virtual Rank MinRank
         {
             get; set;
         }
@@ -59,23 +64,8 @@ namespace Yupi.Model.Domain
         public virtual IList<NavigatorCategory> SubCategories
         {
             get; protected set;
-        }
+        } = new List<NavigatorCategory> ();
 
         #endregion Properties
-
-        #region Constructors
-
-        protected NavigatorCategory()
-        {
-            SubCategories = new List<NavigatorCategory>();
-        }
-
-        protected NavigatorCategory(string caption)
-            : this()
-        {
-            this.Caption = caption;
-        }
-
-        #endregion Constructors
     }
 }

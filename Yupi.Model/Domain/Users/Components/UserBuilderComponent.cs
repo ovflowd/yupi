@@ -30,17 +30,14 @@ namespace Yupi.Model.Domain.Components
     {
         #region Properties
 
-        public virtual int BuildersExpire
+        [Required]
+        public virtual DateTime BuildersExpire
         {
             get; set;
         }
 
+        [Required]
         public virtual int BuildersItemsMax
-        {
-            get; set;
-        }
-
-        public virtual int BuildersItemsUsed
         {
             get; set;
         }

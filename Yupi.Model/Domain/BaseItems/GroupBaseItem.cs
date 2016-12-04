@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------
 // <copyright file="GroupBaseItem.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
@@ -26,7 +26,7 @@ namespace Yupi.Model.Domain
 {
     using System;
 
-    [Serializable]
+    
     public class GroupBaseItem : FloorBaseItem
     {
     }
