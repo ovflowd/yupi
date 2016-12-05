@@ -1,6 +1,6 @@
 ﻿// ---------------------------------------------------------------------------------
-// <copyright file="RestServer.cs" company="https://github.com/sant0ro/Yupi">
-//   Copyright (c) 2016 Claudio Santoro, TheDoctor
+// <copyright file="ConfigActionFilter.cs" company="https://github.com/sant0ro/Yupi">
+//   Copyright (c) 2016 ${CopyrightHolder}
 // </copyright>
 // <license>
 //   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,56 +22,18 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
+using System;
+using System.Web.Mvc;
+
 namespace Yupi.Web
 {
-    using System;
-    using Nancy;
-    using Nancy.Hosting.Self;
-
-    public class WebServer : IDisposable
+    public class ConfigActionFilter : ActionFilterAttribute
     {
-        #region Fields
-
-        private NancyHost Server;
-
-        #endregion Fields
-
-        #region Constructors
-
-        public WebServer()
+        public override void OnResultExecuting (ResultExecutingContext filterContext)
         {
-            // TODO Add to config
-            HostConfiguration config = new HostConfiguration()
-            {
-                RewriteLocalhost = true,
-                UrlReservations = new UrlReservations()
-                {
-                    CreateAutomatically = true
-                },
-            };
+            base.OnResultExecuting (filterContext);
 
-            #if DEBUG
-            StaticConfiguration.DisableErrorTraces = false;
-            #endif
-
-            Server = new NancyHost(new Bootstrapper(), config, new Uri("http://localhost:8080"));
+            filterContext.Controller.ViewBag.HotelName = "Yupi";
         }
-
-        #endregion Constructors
-
-        #region Methods
-
-        public void Dispose()
-        {
-            Server.Dispose();
-            Server = null;
-        }
-
-        public void Start()
-        {
-            Server.Start();
-        }
-
-        #endregion Methods
     }
 }

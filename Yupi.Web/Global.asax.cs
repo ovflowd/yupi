@@ -1,8 +1,6 @@
-﻿#region Header
-
-// ---------------------------------------------------------------------------------
-// <copyright file="AssemblyInfo.cs" company="https://github.com/sant0ro/Yupi">
-//   Copyright (c) 2016 Claudio Santoro, TheDoctor
+﻿// ---------------------------------------------------------------------------------
+// <copyright file="Global.asax.cs" company="https://github.com/sant0ro/Yupi">
+//   Copyright (c) 2016 ${CopyrightHolder}
 // </copyright>
 // <license>
 //   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,28 +22,21 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-// The following attributes are used to specify the signing key for the assembly,
-// if desired. See the Mono documentation for more information about signing.
-//[assembly: AssemblyDelaySign(false)]
-//[assembly: AssemblyKeyFile("")]
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Routing;
+using System.Web.Http;
 
-#endregion Header
-
-using System.Reflection;
-using System.Runtime.CompilerServices;
-
-// Information about this assembly is defined by the following attributes.
-// Change them to the values specific to your project.
-[assembly: AssemblyTitle("Yupi.Web")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("")]
-[assembly: AssemblyCopyright("felix")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
-
-// The assembly version has the format "{Major}.{Minor}.{Build}.{Revision}".
-// The form "{Major}.{Minor}.*" will automatically update the build and revision,
-// and "{Major}.{Minor}.{Build}.*" will update just the revision.
-[assembly: AssemblyVersion("1.0.*")]
+namespace Yupi.Web
+{
+    public class Global : HttpApplication
+    {
+        protected void Application_Start ()
+        {
+            AreaRegistration.RegisterAllAreas ();
+            GlobalConfiguration.Configure (WebApiConfig.Register);
+            RouteConfig.RegisterRoutes (RouteTable.Routes);
+            GlobalFilters.Filters.Add (new ConfigActionFilter (), 0);
+        }
+    }
+}
