@@ -35,7 +35,6 @@ namespace Yupi.Model.Domain
     using System.Linq;
     using System.Runtime.Serialization;
 
-    
     public class TString : ICloneable
     {
         #region Properties
