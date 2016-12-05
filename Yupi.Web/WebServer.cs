@@ -1,5 +1,5 @@
 ﻿// ---------------------------------------------------------------------------------
-// <copyright file="Bootstrapper.cs" company="https://github.com/sant0ro/Yupi">
+// <copyright file="RestServer.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -22,22 +22,54 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-namespace Yupi.Rest
+namespace Yupi.Web
 {
     using System;
-
     using Nancy;
-    using Nancy.TinyIoc;
+    using Nancy.Hosting.Self;
 
-    public class Bootstrapper : DefaultNancyBootstrapper
+    public class WebServer : IDisposable
     {
+        #region Fields
+
+        private NancyHost Server;
+
+        #endregion Fields
+
+        #region Constructors
+
+        public WebServer()
+        {
+            // TODO Add to config
+            HostConfiguration config = new HostConfiguration()
+            {
+                RewriteLocalhost = true,
+                UrlReservations = new UrlReservations()
+                {
+                    CreateAutomatically = true
+                },
+            };
+
+            #if DEBUG
+            StaticConfiguration.DisableErrorTraces = false;
+            #endif
+
+            Server = new NancyHost(new Bootstrapper(), config, new Uri("http://localhost:8080"));
+        }
+
+        #endregion Constructors
+
         #region Methods
 
-        protected override void ConfigureApplicationContainer(TinyIoCContainer container)
+        public void Dispose()
         {
-            // Register our app dependency as a normal singleton
-            // @see https://github.com/NancyFx/Nancy/wiki/Bootstrapping-nancy
-            // TODO Unify Microsoft.Practices.Unity and NancyFx TinyIoC
+            Server.Dispose();
+            Server = null;
+        }
+
+        public void Start()
+        {
+            Server.Start();
         }
 
         #endregion Methods

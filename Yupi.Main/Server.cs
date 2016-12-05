@@ -49,16 +49,16 @@ namespace Yupi.Main
     using Yupi.Model.Domain;
     using Yupi.Net;
     using Yupi.Protocol.Buffers;
-    using Yupi.Rest;
     using Yupi.Util;
     using Yupi.Util.Settings;
+    using Yupi.Web;
 
     public class Server
     {
         #region Fields
 
         private ClientManager ClientManager;
-        private RestServer RestServer;
+        private WebServer RestServer;
         private IServer<Habbo> TCPServer;
 
         #endregion Fields
@@ -91,7 +91,7 @@ namespace Yupi.Main
             );
 
             ClientManager = DependencyFactory.Resolve<ClientManager>();
-            RestServer = new RestServer();
+            RestServer = new WebServer();
 
             SetupTCP();
         }

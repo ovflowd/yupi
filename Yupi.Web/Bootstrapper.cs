@@ -1,5 +1,5 @@
 ﻿// ---------------------------------------------------------------------------------
-// <copyright file="SSOModule.cs" company="https://github.com/sant0ro/Yupi">
+// <copyright file="Bootstrapper.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -22,60 +22,24 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-namespace Yupi.Rest
+namespace Yupi.Web
 {
     using System;
 
     using Nancy;
+    using Nancy.TinyIoc;
 
-    using Yupi.Controller;
-    using Yupi.Model;
-
-    public class SSOModule : NancyModule
+    public class Bootstrapper : DefaultNancyBootstrapper
     {
-        #region Fields
+        #region Methods
 
-        private SSOManager SSOManager;
-
-        #endregion Fields
-
-        #region Constructors
-
-        public SSOModule()
-        {
-            SSOManager = DependencyFactory.Resolve<SSOManager>();
-            Post["/sso/{id:int}"] = parameters =>
-            {
-                string ticket = SSOManager.GenerateTicket(parameters.id);
-                return Response.AsJson(new SSOTicket(ticket));
-            };
+        protected override void ConfigureApplicationContainer(TinyIoCContainer container)
+        { 
+            // Register our app dependency as a normal singleton
+            // @see https://github.com/NancyFx/Nancy/wiki/Bootstrapping-nancy
+            // TODO Unify Microsoft.Practices.Unity and NancyFx TinyIoC
         }
 
-        #endregion Constructors
-
-        #region Nested Types
-
-        private class SSOTicket
-        {
-            #region Properties
-
-            public string Ticket
-            {
-                get; set;
-            }
-
-            #endregion Properties
-
-            #region Constructors
-
-            public SSOTicket(string ticket)
-            {
-                this.Ticket = ticket;
-            }
-
-            #endregion Constructors
-        }
-
-        #endregion Nested Types
+        #endregion Methods
     }
 }

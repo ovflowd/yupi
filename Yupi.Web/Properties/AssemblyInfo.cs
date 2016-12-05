@@ -1,5 +1,7 @@
-﻿// ---------------------------------------------------------------------------------
-// <copyright file="RestServer.cs" company="https://github.com/sant0ro/Yupi">
+﻿#region Header
+
+// ---------------------------------------------------------------------------------
+// <copyright file="AssemblyInfo.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -22,52 +24,28 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-namespace Yupi.Rest
-{
-    using System;
+// The following attributes are used to specify the signing key for the assembly,
+// if desired. See the Mono documentation for more information about signing.
+//[assembly: AssemblyDelaySign(false)]
+//[assembly: AssemblyKeyFile("")]
 
-    using Nancy.Hosting.Self;
+#endregion Header
 
-    public class RestServer : IDisposable
-    {
-        #region Fields
+using System.Reflection;
+using System.Runtime.CompilerServices;
 
-        private NancyHost Server;
+// Information about this assembly is defined by the following attributes.
+// Change them to the values specific to your project.
+[assembly: AssemblyTitle("Yupi.Web")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("")]
+[assembly: AssemblyCopyright("felix")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
 
-        #endregion Fields
-
-        #region Constructors
-
-        public RestServer()
-        {
-            // TODO Add to config
-            HostConfiguration config = new HostConfiguration()
-            {
-                RewriteLocalhost = true,
-                UrlReservations = new UrlReservations()
-                {
-                    CreateAutomatically = true
-                }
-            };
-
-            Server = new NancyHost(config, new Uri("http://localhost:8080"));
-        }
-
-        #endregion Constructors
-
-        #region Methods
-
-        public void Dispose()
-        {
-            Server.Dispose();
-            Server = null;
-        }
-
-        public void Start()
-        {
-            Server.Start();
-        }
-
-        #endregion Methods
-    }
-}
+// The assembly version has the format "{Major}.{Minor}.{Build}.{Revision}".
+// The form "{Major}.{Minor}.*" will automatically update the build and revision,
+// and "{Major}.{Minor}.{Build}.*" will update just the revision.
+[assembly: AssemblyVersion("1.0.*")]

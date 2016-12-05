@@ -1,7 +1,5 @@
-﻿#region Header
-
-// ---------------------------------------------------------------------------------
-// <copyright file="AssemblyInfo.cs" company="https://github.com/sant0ro/Yupi">
+﻿// ---------------------------------------------------------------------------------
+// <copyright file="SSOModule.cs" company="https://github.com/sant0ro/Yupi">
 //   Copyright (c) 2016 Claudio Santoro, TheDoctor
 // </copyright>
 // <license>
@@ -24,28 +22,60 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-// The following attributes are used to specify the signing key for the assembly,
-// if desired. See the Mono documentation for more information about signing.
-//[assembly: AssemblyDelaySign(false)]
-//[assembly: AssemblyKeyFile("")]
+namespace Yupi.Web
+{
+    using System;
 
-#endregion Header
+    using Nancy;
 
-using System.Reflection;
-using System.Runtime.CompilerServices;
+    using Yupi.Controller;
+    using Yupi.Model;
 
-// Information about this assembly is defined by the following attributes.
-// Change them to the values specific to your project.
-[assembly: AssemblyTitle("Yupi.Rest")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("")]
-[assembly: AssemblyCopyright("felix")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
+    public class SSOModule : NancyModule
+    {
+        #region Fields
 
-// The assembly version has the format "{Major}.{Minor}.{Build}.{Revision}".
-// The form "{Major}.{Minor}.*" will automatically update the build and revision,
-// and "{Major}.{Minor}.{Build}.*" will update just the revision.
-[assembly: AssemblyVersion("1.0.*")]
+        private SSOManager SSOManager;
+
+        #endregion Fields
+
+        #region Constructors
+
+        public SSOModule() : base("/api")
+        {
+            SSOManager = DependencyFactory.Resolve<SSOManager>();
+            Post["/sso/{id:int}"] = parameters =>
+            {
+                string ticket = SSOManager.GenerateTicket(parameters.id);
+                return Response.AsJson(new SSOTicket(ticket));
+            };
+        }
+
+        #endregion Constructors
+
+        #region Nested Types
+
+        private class SSOTicket
+        {
+            #region Properties
+
+            public string Ticket
+            {
+                get; set;
+            }
+
+            #endregion Properties
+
+            #region Constructors
+
+            public SSOTicket(string ticket)
+            {
+                this.Ticket = ticket;
+            }
+
+            #endregion Constructors
+        }
+
+        #endregion Nested Types
+    }
+}

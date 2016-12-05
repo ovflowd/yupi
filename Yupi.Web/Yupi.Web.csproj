@@ -5,8 +5,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{A323F1A6-8E91-430F-BCE8-F8AD306D4DED}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Yupi.Rest</RootNamespace>
-    <AssemblyName>Yupi.Rest</AssemblyName>
+    <RootNamespace>Yupi.Web</RootNamespace>
+    <AssemblyName>Yupi.Web</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -51,14 +51,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SSOModule.cs" />
-    <Compile Include="RestServer.cs" />
+    <Compile Include="WebServer.cs" />
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Api\SSOModule.cs" />
+    <Compile Include="Web\IndexModule.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="views\index.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="views\master.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Yupi.Controller\Yupi.Controller.csproj">
@@ -69,5 +76,10 @@
       <Project>{8B402ADE-66C4-4D92-9DA6-162860FC225E}</Project>
       <Name>Yupi.Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Api\" />
+    <Folder Include="views\" />
+    <Folder Include="Web\" />
   </ItemGroup>
 </Project>

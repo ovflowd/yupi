@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yupi.Messages.Contracts", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yupi.Main", "Yupi.Main\Yupi.Main.csproj", "{4776521A-52AD-4A62-85A0-AB992C9D8F2F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yupi.Rest", "Yupi.Rest\Yupi.Rest.csproj", "{A323F1A6-8E91-430F-BCE8-F8AD306D4DED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yupi.Web", "Yupi.Web\Yupi.Web.csproj", "{A323F1A6-8E91-430F-BCE8-F8AD306D4DED}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yupi.Tests", "Yupi.Tests\Yupi.Tests.csproj", "{A987D597-3ADC-456A-802D-0DDDBC611B9F}"
 EndProject
