@@ -48,7 +48,7 @@ namespace Yupi.Model.Domain
         /// The dictionary mapping languages to localized strings.
         /// </summary>
         /// <value>The localized strings.</value>
-        public virtual ISet<Translation> Translations
+        public virtual IDictionary<CultureInfo, string> Translations
         {
             get; protected set;
         }
@@ -78,7 +78,7 @@ namespace Yupi.Model.Domain
         /// </summary>
         protected TString()
         {
-            this.Translations = new HashSet<Translation>(new TranslationComparer());
+            this.Translations = new Dictionary<CultureInfo, string>();
         }
 
         #endregion Constructors
@@ -93,7 +93,7 @@ namespace Yupi.Model.Domain
         public virtual object Clone()
         {
             TString copy = new TString();
-            copy.Translations = new HashSet<Translation>(this.Translations, new TranslationComparer ());
+            copy.Translations = new Dictionary<CultureInfo, string> (this.Translations);
             return copy;
         }
 
@@ -111,12 +111,12 @@ namespace Yupi.Model.Domain
         /// <param name="culture">The language to get the string for.</param>
         public virtual string Get(CultureInfo culture)
         {
-            Translation translation = this.Translations.FirstOrDefault (x => x.Language == culture);
+            string value;
 
-            if (translation == null) {
-                return this.Value;
+            if (this.Translations.TryGetValue (culture, out value)) {
+                return value;
             } else {
-                return translation.Value;
+                return this.Value;
             }
         }
 
@@ -132,12 +132,7 @@ namespace Yupi.Model.Domain
         /// <param name="culture">The culture to remove.</param>
         public virtual TString Remove(CultureInfo culture)
         {
-            Translation translation = this.Translations.FirstOrDefault (x => x.Language == culture);
-
-            if (translation != null)
-            {
-                this.Translations.Remove(translation);
-            }
+            this.Translations.Remove (culture);
 
             return this;
         }
@@ -154,7 +149,7 @@ namespace Yupi.Model.Domain
                 throw new ArgumentNullException(nameof(value));
             }
 
-            this.Translations.Add (new Translation (culture, value));
+            this.Translations.Add (culture, value);
             return this;
         }
 
@@ -164,26 +159,5 @@ namespace Yupi.Model.Domain
         }
 
         #endregion Methods
-
-        #region Nested Types
-
-        private class TranslationComparer : IEqualityComparer<Translation>
-        {
-            #region Methods
-
-            public bool Equals(Translation x, Translation y)
-            {
-                return x.Language == y.Language;
-            }
-
-            public int GetHashCode(Translation obj)
-            {
-                return obj.Language.GetHashCode ();
-            }
-
-            #endregion Methods
-        }
-
-        #endregion Nested Types
     }
 }

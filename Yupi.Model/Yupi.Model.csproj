@@ -465,7 +465,6 @@
     <Compile Include="NHibernate\UserType\UserType.cs" />
     <Compile Include="NHibernate\UserType\Vector3UserType.cs" />
     <Compile Include="NHibernate\Attributes\OneToManyAttribute.cs" />
-    <Compile Include="Domain\Util\Translation.cs" />
     <Compile Include="Migrations\00000002_Navigator.cs" />
     <Compile Include="Migrations\00000003_TestUser.cs" />
     <Compile Include="Migrations\00000001_Initialize.cs" />
@@ -491,6 +490,7 @@
     <Compile Include="Domain\Support\SupportCategory.cs" />
     <Compile Include="Domain\Users\FriendRequestOverride.cs" />
     <Compile Include="Domain\Users\Components\UserWalletOverride.cs" />
+    <Compile Include="Domain\Util\TStringOverride.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
