@@ -13,7 +13,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
+    <OutputPath>..\Build\bin\Debug</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -21,7 +21,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
+    <OutputPath>..\Build\bin\Debug</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ExternalConsole>true</ExternalConsole>
@@ -40,10 +40,10 @@
     <Reference Include="NHibernate">
       <HintPath>..\packages\NHibernate.4.0.4.4000\lib\net40\NHibernate.dll</HintPath>
     </Reference>
-    <Reference Include="FluentMigrator.NHibernate">
-      <HintPath>..\packages\FluentMigrator.NHibernate.1.0.0.10\lib\net461\FluentMigrator.NHibernate.dll</HintPath>
-    </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="FluentMigrator.NHibernate">
+      <HintPath>..\..\..\..\prog\FluentMigrator.NHibernate\FluentMigrator.NHibernate\bin\Debug\net45\FluentMigrator.NHibernate.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />

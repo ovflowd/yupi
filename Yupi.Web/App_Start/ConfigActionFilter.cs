@@ -1,6 +1,6 @@
 ﻿// ---------------------------------------------------------------------------------
-// <copyright file="Bootstrapper.cs" company="https://github.com/sant0ro/Yupi">
-//   Copyright (c) 2016 Claudio Santoro, TheDoctor
+// <copyright file="ConfigActionFilter.cs" company="https://github.com/sant0ro/Yupi">
+//   Copyright (c) 2016 ${CopyrightHolder}
 // </copyright>
 // <license>
 //   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,24 +22,18 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
-namespace Yupi.Rest
+using System;
+using System.Web.Mvc;
+
+namespace Yupi.Web
 {
-    using System;
-
-    using Nancy;
-    using Nancy.TinyIoc;
-
-    public class Bootstrapper : DefaultNancyBootstrapper
+    public class ConfigActionFilter : ActionFilterAttribute
     {
-        #region Methods
-
-        protected override void ConfigureApplicationContainer(TinyIoCContainer container)
+        public override void OnResultExecuting (ResultExecutingContext filterContext)
         {
-            // Register our app dependency as a normal singleton
-            // @see https://github.com/NancyFx/Nancy/wiki/Bootstrapping-nancy
-            // TODO Unify Microsoft.Practices.Unity and NancyFx TinyIoC
-        }
+            base.OnResultExecuting (filterContext);
 
-        #endregion Methods
+            filterContext.Controller.ViewBag.HotelName = "Yupi";
+        }
     }
 }

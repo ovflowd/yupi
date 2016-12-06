@@ -35,7 +35,7 @@ namespace Yupi.Migration
 
         public MigrationConfiguration ()
         {
-            MigrationAssembly = typeof (object).Assembly;
+            MigrationAssembly = typeof (ModelHelper).Assembly;
             MigrationNamespace = "Yupi.Model.Db.Migrations";
         }
 

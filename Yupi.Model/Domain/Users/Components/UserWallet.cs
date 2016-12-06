@@ -43,28 +43,6 @@ namespace Yupi.Model.Domain.Components
             get; set;
         }
 
-        public virtual IDictionary<int, int> InternalActivityPoints {
-            get {
-                var tmp = new Dictionary<int, int> (ActivityPoints.Count);
-
-                foreach (var point in ActivityPoints) {
-                    tmp.Add ((int)point.Key, point.Value);
-                }
-                return tmp;
-            }
-            set {
-                ActivityPoints = new Dictionary<ActivityPointsType, int> (value.Count);
-
-                foreach (var point in value) {
-                    if (Enum.IsDefined (typeof (ActivityPointsType), point.Value)) {
-                        ActivityPoints.Add ((ActivityPointsType)point.Key, point.Value);
-                    } else {
-                        throw new InvalidCastException ("Activity points type with id "+ point.Key +" does not exist!");
-                    }
-                }
-            }
-        }
-
         [Ignore]
         public virtual IDictionary<ActivityPointsType, int> ActivityPoints
         {

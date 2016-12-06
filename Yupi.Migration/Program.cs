@@ -41,6 +41,8 @@ namespace Yupi.Migration
             }
 
             config.Generate ("Migrate", directory);
+
+            Console.WriteLine ("Wrote migrations to" + Path.GetFullPath (directory));
         }
     }
 }

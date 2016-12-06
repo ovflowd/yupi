@@ -12,6 +12,7 @@ Windows | Linux (Mono) | Artifacts |
 --------|--------------|-----------|
 [![Build status](https://ci.appveyor.com/api/projects/status/h32k23842s1xcqwe?svg=true)](https://ci.appveyor.com/project/TheDoct0r11/yupi) | [![Build Status](https://travis-ci.org/TheDoct0r11/Yupi.svg?branch=linux)](https://travis-ci.org/TheDoct0r11/Yupi) | [Artifacts](https://ci.appveyor.com/project/sant0ro/yupi-phd9a/branch/linux/artifacts) |
 
+[![codecov](https://codecov.io/gh/TheDoct0r11/Yupi/branch/dev/graph/badge.svg)](https://codecov.io/gh/TheDoct0r11/Yupi)
 
 
 #### Contribute

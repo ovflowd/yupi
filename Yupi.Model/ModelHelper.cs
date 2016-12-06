@@ -100,7 +100,13 @@ namespace Yupi.Model
         private static void BuildSchema(Configuration config)
         {
             SchemaMetadataUpdater.QuoteTableAndColumns(config);
-            RunMigrations ();
+
+            var update = new SchemaUpdate (config);
+            update.Execute (false, true);
+
+            // TODO Wait for FluentMigrator.NHibernate to become more stable 
+            // (or switch back to internal migrations entirely)
+            //RunMigrations ();
         }
 
         private static IPersistenceConfigurer GetDatabaseConfig()

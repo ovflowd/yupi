@@ -1,8 +1,6 @@
-﻿#region Header
-
-// ---------------------------------------------------------------------------------
-// <copyright file="MigrationConfiguration.cs" company="https://github.com/sant0ro/Yupi">
-//   Copyright (c) 2016 Claudio Santoro, TheDoctor
+﻿// ---------------------------------------------------------------------------------
+// <copyright file="TStringOverride.cs" company="https://github.com/sant0ro/Yupi">
+//   Copyright (c) 2016 ${CopyrightHolder}
 // </copyright>
 // <license>
 //   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,44 +22,20 @@
 //   THE SOFTWARE.
 // </license>
 // ---------------------------------------------------------------------------------
+using System;
+using System.Globalization;
+using FluentNHibernate.Automapping;
+using FluentNHibernate.Automapping.Alterations;
 
-#endregion Header
-
-namespace Yupi.Model
+namespace Yupi.Model.Domain
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
-
-    using FluentMigrator;
-    using FluentMigrator.Expressions;
-   // using FluentMigrator.NHibernate;
-
-    using FluentNHibernate.Cfg.Db;
-
-    using NHibernate.Cfg;
-    using NHibernate.Mapping;
-
-   /* public class MigrationConfiguration : MigrationConfigurationBase
+    public class TStringOverride : IAutoMappingOverride<TString>
     {
-        #region Constructors
-
-        public MigrationConfiguration()
+        public void Override (AutoMapping<TString> mapping)
         {
-            MigrationAssembly = typeof (object).Assembly;
-            MigrationNamespace = "Yupi.Model.Db.Migrations";
+            mapping.HasMany (x => x.Translations)
+                   .AsMap<CultureInfo> ("language")
+                   .Element ("translation");
         }
-
-        #endregion Constructors
-
-        #region Methods
-
-        protected override Configuration GetConfiguration()
-        {
-            return ModelHelper.GetConfig ();
-        }
-
-        #endregion Methods
-    }*/
+    }
 }

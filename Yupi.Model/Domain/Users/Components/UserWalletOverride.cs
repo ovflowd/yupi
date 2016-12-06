@@ -1,6 +1,6 @@
 ﻿// ---------------------------------------------------------------------------------
 // <copyright file="UserWalletOverride.cs" company="https://github.com/sant0ro/Yupi">
-//   Copyright (c) 2016 Claudio Santoro, TheDoctor
+//   Copyright (c) 2016 ${CopyrightHolder}
 // </copyright>
 // <license>
 //   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -33,7 +33,9 @@ namespace Yupi.Model.Domain
     {
         public void Override (AutoMapping<UserWallet> mapping)
         {
-            mapping.HasManyToMany(x => x.InternalActivityPoints).AsMap<int>((obj) => obj.Key);
+            mapping.HasMany (x => x.ActivityPoints)
+                   .AsMap<int> ("pointsType")
+                   .Element ("points");
         }
     }
 }

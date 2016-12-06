@@ -35,9 +35,6 @@
     <Reference Include="mscorlib" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="nunit.framework">
-      <Package>nunit</Package>
-    </Reference>
     <Reference Include="System.Numerics" />
     <Reference Include="PommaLabs.Thrower">
       <HintPath>..\packages\Thrower.3.0.4\lib\net45\PommaLabs.Thrower.dll</HintPath>
