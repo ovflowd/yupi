@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "Client";
+    Bundles.Reference("Scripts/swfobject.js");
+}
+
+<script type="text/javascript">
+		var flashvars = {
+			"external.texts.txt": "external_texts",
+			"connection.info.port": "30000",
+			"furnidata.load.url": "furnidata",
+			"external.variables.txt": "external_variables",
+			"client.allow.cross.domain": "1",
+			"url.prefix": "@Url.Content("~")",
+			"external.override.texts.txt": "external_override_texts",
+			"flash.client.origin": "popup",
+			"client.starting": "Please wait! @ViewBag.HotelName is starting up.",
+			"processlog.enabled": "1",
+			"has.identity": "1",
+			"avatareditor.promohabbos": "",
+			"productdata.load.url": "productdata",
+			"client.starting.revolving": "@ViewBag.LoadingText",
+			"external.override.variables.txt": "external_override_variables",
+			"connection.info.host": "localhost",
+			"sso.ticket": "DEBUG",
+			"client.notify.cross.domain": "1",
+			"account_id": "1",
+			"flash.client.url": "SWF_PREFIX",
+			"unique_habbo_id": "1"
+		};
+
+		var params = {
+			"base": "SWF_PREFIX",
+			"allowScriptAccess": "always",
+			"menu": "false",
+			"wmode": "opaque"
+		};
+
+		swfobject.embedSWF ('SWF_PREFIX/Game.swf', 'flash-container', '100%', '100%', '11.1.0', '@Url.Content("Content/Client/expressInstall.swf")', flashvars, params, null, null );
+</script>
+
+<div id="client-ui">
+	<div id="flash-wrapper">
+		<object id="flash-container" type="application/x-shockwave-flash"></object>
+	</div>
+	<div id="content" class="client-content"></div>
+
+</div>

@@ -42,7 +42,7 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="FluentMigrator.NHibernate">
-      <HintPath>..\..\..\..\prog\FluentMigrator.NHibernate\FluentMigrator.NHibernate\bin\Debug\net45\FluentMigrator.NHibernate.dll</HintPath>
+      <HintPath>..\packages\FluentMigrator.NHibernate.1.0.0.10\lib\net461\FluentMigrator.NHibernate.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
